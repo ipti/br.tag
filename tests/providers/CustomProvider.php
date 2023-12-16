@@ -150,8 +150,8 @@ class CustomProvider extends Base
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function generateRandomTime() {
-        $hour = str_pad(mt_rand(0, 23), 2, '0', STR_PAD_LEFT);
-        $minute = str_pad(mt_rand(0, 59), 2, '0', STR_PAD_LEFT);
+        $hour = str_pad(random_int(0, 23), 2, '0', STR_PAD_LEFT);
+        $minute = str_pad(random_int(0, 59), 2, '0', STR_PAD_LEFT);
 
         return "$hour:$minute";
     }

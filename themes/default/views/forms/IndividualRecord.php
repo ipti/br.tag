@@ -3,7 +3,7 @@
 /* @var $enrollment StudentEnrollment */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/IndividualReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/IndividualReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
@@ -104,9 +104,9 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
             <thead>
                 <tr>
                     <th scope="col" colspan="2" rowspan="2" style="text-align:center;vertical-align: middle;">Disciplinas</th>
-                    <th scope="col" colspan="3" style="text-align:center;vertical-align: middle;">1ª Unidade</th>
-                    <th scope="col" colspan="3" style="text-align:center;vertical-align: middle;">2ª Unidade</th>
-                    <th scope="col" colspan="3" style="text-align:center;vertical-align: middle;">3ª Unidade</th>
+                    <th scope="col" colspan="3" style="text-align:center;vertical-align: middle;">1ª Trimestre</th>
+                    <th scope="col" colspan="3" style="text-align:center;vertical-align: middle;">2ª Trimestre</th>
+                    <th scope="col" colspan="3" style="text-align:center;vertical-align: middle;">3ª Trimestre</th>
                     <th scope="col" rowspan="2" style="text-align:center;vertical-align: middle;">Total<br>de<br>Faltas</th>
                     <th scope="col" rowspan="2" style="text-align:center;vertical-align: middle;">Total<br>de<br>Aulas Dadas</th>
                     <th scope="col" rowspan="2" style="text-align:center;vertical-align: middle;">Média<br>Final</th>

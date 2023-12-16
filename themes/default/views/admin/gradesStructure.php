@@ -10,11 +10,11 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/grades-structure.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/grades-structure.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
 ?>
-<?php //echo $form->errorSummary($model); 
+<?php //echo $form->errorSummary($model);
 ?>
 
 <div class="main">

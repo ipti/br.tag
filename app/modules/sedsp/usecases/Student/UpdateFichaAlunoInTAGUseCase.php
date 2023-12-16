@@ -8,7 +8,7 @@ class UpdateFichaAlunoInTAGUseCase
         $response = $studentDatasource->exibirFichaAluno($inAluno);
 
         if (method_exists($response, "getOutErro") && $response->getOutErro() === "" && $response->getCode() === 401) {
-            
+
             $student = StudentIdentification::model()->findByAttributes(array("gov_id"=> $inAluno->inNumRA));
             $student->sedsp_sync = 0;
             $student->save();
@@ -49,7 +49,7 @@ class UpdateFichaAlunoInTAGUseCase
 
         if ($existingStudent) {
             $existingStudent->attributes = $studentIdentification->attributes;
-            
+
             if ($existingStudent->validate() && $existingStudent->save()) {
                 $existingStudent->sedsp_sync = 1;
                 return $existingStudent->save();
@@ -64,7 +64,7 @@ class UpdateFichaAlunoInTAGUseCase
     private function updateStudentDocsAndAddress($docsAndAddress, $studentId, $govId)
     {
         $studentDocument = StudentDocumentsAndAddress::model()->findByAttributes(array("student_fk" => $studentId));
-       
+
         if($studentDocument === null) {
             return $this->createStudentDocumentsAndAddress($docsAndAddress, $studentId, $govId);
         } else {
@@ -86,7 +86,7 @@ class UpdateFichaAlunoInTAGUseCase
                     ':classroom_fk' => $studentEnrollment->classroom_fk,
                 ),
             ));
-            
+
             if ($enrollment === null) {
                 $newEnrollment = new StudentEnrollment();
                 $newEnrollment->attributes = $studentEnrollment->attributes;
@@ -119,7 +119,7 @@ class UpdateFichaAlunoInTAGUseCase
         $aluno->attributes = $studentIdentification->attributes;
         $aluno->sedsp_sync = 0;
         $aluno->save();
-        
+
         $log = new LogError();
         $log->salvarDadosEmArquivo($e->getMessage());
     }
@@ -131,7 +131,7 @@ class UpdateFichaAlunoInTAGUseCase
         $studentDocumentsAndAddress->attributes = $attributes->getAttributes();
         $studentDocumentsAndAddress->edcenso_city_fk = $attributes->edcenso_city_fk;
         $studentDocumentsAndAddress->gov_id = $govId;
-        $studentDocumentsAndAddress->student_fk = $id;
+        $studentDocumentsAndAddress->id = $id;
 
         return $studentDocumentsAndAddress->save();
     }

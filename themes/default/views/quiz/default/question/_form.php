@@ -4,7 +4,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/quiz.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/quiz.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Question'));
 
 
@@ -48,7 +48,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <span class="t-tabs__numeration">1</span>
                         <?php echo Yii::t('default', 'Question') ?>
                     </a>
-                    
+
                 </li>
                 <?php if (!$question->isNewRecord &&  in_array($question->type, $question->getEnableOption())) : ?>
                     <li id="tab-option" class="t-tabs__item">
