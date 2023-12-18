@@ -40,14 +40,13 @@ class FoodMenuController extends Controller
                     'getTacoFoods',
                     'getPublicTarget',
                     'getMealType',
-                    'getFoodMeasurement',
-                    'viewLunch'),
+                    'getFoodMeasurement'),
 				'users'=>array('@'),
 			),
-            // array('allow',  // deny all users
-            //     'actions' => array('viewMeals'),
-            //     'users'=>array('*'),
-			// ),
+            array('allow',  // deny all users
+                'actions' => array('viewLunch'),
+                'users'=>array('*'),
+			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
