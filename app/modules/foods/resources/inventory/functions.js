@@ -27,8 +27,8 @@ function renderStockTable(foodsOnStock, id) {
     $('<th>').text('Item').appendTo(head);
     $('<th>').text('Quantidade').appendTo(head);
     $('<th>').text('Validade').appendTo(head);
-    $('<th>').text('Em falta').appendTo(head);
     $('<th>').text('Movimentações').appendTo(head);
+    $('<th>').text('Status').appendTo(head);
 
     table.append(head);
 
@@ -42,9 +42,14 @@ function renderStockTable(foodsOnStock, id) {
             $('<td>').text(foodDescription).appendTo(row);
             $('<td>').text(stock.amount + measurementUnit).appendTo(row);
             $('<td>').text(stock.expiration_date).appendTo(row);
-            let checkboxInput = $('<td>').html('<input type="checkbox" id="spent-checkbox" data-foodInventoryId="'+ stock.id +'" data-amount="'+ stock.amount +'" ' + (stock.spent ? 'checked disabled' : '') + '> Em falta');
-            $(checkboxInput).appendTo(row);
             $('<td>').html('<span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"></span>').appendTo(row);
+            let select = $('<select class="select-search-on t-field-select__input select2-container" id="foodInventoryStatus" name="foodInventoryStatus" data-foodInventoryId="' + stock.id + '" data-amount="'+ stock.amount +'">' +
+            '<option value="Disponivel">Disponível</option>'+
+            '<option value="Acabando">Acabando</option>'+
+            '<option value="Emfalta">Em falta</option>'+
+            '</select>');
+            select.val(stock.status)
+            $('<td>').html(select).appendTo(row);
 
             table.append(row);
         });
@@ -105,4 +110,15 @@ function renderMovementsTable(movements, foodName) {
 
         table.append(row);
     });
+}
+function getFoodInventory() {
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodInventory/getFoodInventory",
+        cache: false
+    }).success(function(response) {
+        food_inventory = JSON.parse(response);
+        food_inventory.sort((a, b) => b.amount - a.amount);
+        renderStockTable(food_inventory);
+    })
 }

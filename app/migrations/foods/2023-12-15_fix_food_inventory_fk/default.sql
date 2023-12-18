@@ -1,5 +1,6 @@
 -- Modificando as chaves estrangeiras de food_inventory
 ALTER TABLE food ADD PRIMARY KEY (id);
+ALTER TABLE food_inventory ADD status ENUM('Disponivel','Acabando','Emfalta') DEFAULT 'Disponivel';
 
 DROP INDEX food_inventory_school_fk_food_fk_key ON food_inventory;
 

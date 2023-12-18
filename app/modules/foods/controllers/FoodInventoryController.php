@@ -38,7 +38,8 @@ class FoodInventoryController extends Controller
 					'saveStockReceived',
 					'deleteStockSpent',
 					'checkFoodInventorySpent',
-					'getStockMovement'
+					'getStockMovement',
+                    'updateFoodInventoryStatus'
                 ),
                 'users' => array('@'),
             ),
@@ -71,8 +72,7 @@ class FoodInventoryController extends Controller
 		));
 	}
 
-    public function actionGetFoodAlias()
-    {
+    public function actionGetFoodAlias() {
         $criteria = new CDbCriteria();
         $criteria->select = 'id, description';
         $criteria->condition = 'alias_id = t.id';
@@ -151,6 +151,7 @@ class FoodInventoryController extends Controller
 		$existingFood = FoodInventory::model()->findByAttributes(array('id' => $foodInventoryId));
 
 		$existingFood->amount -= $amount;
+		$existingFood->status = 'Emfalta';
 		$existingFood->save();
 
 		$FoodInventorySpent = new FoodInventorySpent;
@@ -216,6 +217,7 @@ class FoodInventoryController extends Controller
                 'amount' => $stock->amount,
 				'measurementUnit' => $stock->measurementUnit,
                 'expiration_date' => ($stock->expiration_date != null) ? date('d/m/Y', strtotime($stock->expiration_date)) : "Não informada",
+                'status' => $stock->status,
 				'spent' => ($stock->amount > 0) ? false : true
             );
 		}
@@ -223,17 +225,14 @@ class FoodInventoryController extends Controller
         echo json_encode($values);
 	}
 
-	public function checkFoodInventorySpent($foodInventoryId) {
-		$criteria = new CDbCriteria();
-		$criteria->select = 'food_inventory_fk'; // Seleciona apenas a coluna food_inventory_fk
-		$criteria->condition = 'food_inventory_fk = :foodInventoryId';
-		$criteria->params = array(':foodInventoryId' => $foodInventoryId);
+    public function actionUpdateFoodInventoryStatus() {
+        $foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
+        $status = Yii::app()->request->getPost('status');
+        $foodInventory = FoodInventory::model()->findByAttributes(array('id' => $foodInventoryId));
 
-		// Verifica se há alguma entrada correspondente na tabela food_inventory_spent
-		$exists = FoodInventorySpent::model()->exists($criteria);
-
-		return $exists; // Retorna true se existe correspondência, false caso contrário
-	}
+        $foodInventory->status = $status;
+        $foodInventory->save();
+    }
 
 	/**
 	 * Creates a new model.

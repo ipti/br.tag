@@ -1,16 +1,9 @@
 let foodsOnStock = [];
+let table = $('#foodStockTable');
 
 $(document).ready(function() {
     let food_inventory;
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/foodInventory/getFoodInventory",
-        cache: false
-    }).success(function(response) {
-        food_inventory = JSON.parse(response);
-        food_inventory.sort((a, b) => b.amount - a.amount);
-        renderStockTable(food_inventory);
-    })
+    getFoodInventory();
     let foodSelect = $('#foodStockSelect');
     $.ajax({
         type: 'POST',
@@ -129,15 +122,7 @@ $(document).on("click", "#save-food", function () {
         $('.js-expiration-date').val('');
         $('.js-amount').val('');
         $('#info-alert').removeClass('hide').addClass('alert-success').html("Alimento(s) adicionado(s) ao estoque com sucesso.");
-        $.ajax({
-            type: 'POST',
-            url: "?r=foods/foodInventory/getFoodInventory",
-            cache: false
-        }).success(function(response) {
-            food_inventory = JSON.parse(response);
-            food_inventory.sort((a, b) => b.amount - a.amount);
-            renderStockTable(food_inventory);
-        })
+        getFoodInventory();
     }).fail(function(error) {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível adicionar o alimento no sistema.");
     })
@@ -157,15 +142,7 @@ $(document).on("click", "#spent-checkbox", function () {
                 amount: amount
             }
         }).success(function(response) {
-            $.ajax({
-                type: 'POST',
-                url: "?r=foods/foodInventory/getFoodInventory",
-                cache: false
-            }).success(function(response) {
-                food_inventory = JSON.parse(response);
-                food_inventory.sort((a, b) => b.amount - a.amount);
-                renderStockTable(food_inventory);
-            })
+            getFoodInventory();
             $('#spent-checkbox').prop('disabled', true);
             $('#info-alert').removeClass('hide').addClass('alert-success').html("Estoque de alimento retirado do sistema com sucesso.");
         }).fail(function(error) {
@@ -176,4 +153,40 @@ $(document).on("click", "#spent-checkbox", function () {
 
 
     }
+});
+
+table.on('change', '#foodInventoryStatus', function() {
+    let status = $(this).val();
+    let foodInventoryId =  $(this).attr('data-foodInventoryId');
+    let amount = $(this).attr('data-amount');
+    console.log(status);
+
+    if(status == 'Emfalta') {
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/foodInventory/saveStockSpent",
+            cache: false,
+            data: {
+                foodInventoryId: foodInventoryId,
+                amount: amount
+            }
+        }).success(function(response) {
+            getFoodInventory();
+            $('#info-alert').removeClass('hide').addClass('alert-success').html("Estoque de alimento retirado do sistema com sucesso.");
+        }).fail(function(error) {
+            $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível retirar o estoque do alimento do sistema.");
+
+        })
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/foodInventory/updateFoodInventoryStatus",
+            cache: false,
+            data: {
+                foodInventoryId: foodInventoryId,
+                status: status
+            }
+        })
+    }
+
 });
