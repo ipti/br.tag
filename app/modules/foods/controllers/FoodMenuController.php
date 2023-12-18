@@ -34,7 +34,7 @@ class FoodMenuController extends Controller
                     'index',
                     'view',
                     'create',
-                    // 'update',
+                    'update',
                     'plateAccordion',
                     'getFood',
                     'getTacoFoods',
