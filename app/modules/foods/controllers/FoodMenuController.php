@@ -76,6 +76,7 @@ class FoodMenuController extends Controller
             $this->render('create', array(
                 'model'=>$modelFoodMenu,
             ));
+            Yii::app()->end();
         }
 
         $allFieldsAreFilled =   isset($request["start_date"]) &&
@@ -154,10 +155,10 @@ class FoodMenuController extends Controller
              }
 
              // Convertendo objeto do cardápio em um JSON para enviar como resposta da requisição AJAX
-             $response = json_encode((array) $foodMenu);
+             $model = json_encode((array) $foodMenu);
 
              $this->render('update', array(
-                 'data'=>$response,
+                 'model'=>$model,
              ));
         }
         
@@ -367,16 +368,18 @@ class FoodMenuController extends Controller
      * Método que retorna os públicos alvos que podem estar relacionados a um cardápio
      */
     public function actionGetPublicTarget(){
-        $publicsTarget = FoodPublicTarget::model()->findAll();
-        $publicsTarget = CHtml::listData($publicsTarget, 'id', 'name');
-        $options = array();
-        foreach($publicsTarget as $value => $name){
-            array_push(
-                $options,
-                CHtml::tag('option', ['value' => $value],
-                CHtml::encode($name),TRUE));
+
+        $publicsTarget = FoodPublicTarget::model()->findAll(
+            array(
+                'select' => 'id, name'
+            )
+        );
+		$resultArray = array();
+		foreach ($publicsTarget as $publicTarget) {
+            $resultArray[$publicTarget->id] = $publicTarget->name;
         }
-        echo CJSON::encode($options);
+		echo json_encode($resultArray);
+
     }
     /**
      * Método que retorna os tipos de refeição
