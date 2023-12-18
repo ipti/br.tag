@@ -16,6 +16,10 @@ function initializeMealAccordion(id) {
       icons: false,
   });
 }
+function  initializeSelect2() {
+  $("select.js-initialize-select2").select2("destroy");
+  $('select.js-initialize-select2').select2();
+}
 /* DateComponent */
 
 $('.js-date').mask("99/99/9999");
@@ -149,7 +153,9 @@ const PlateComponent = function (plate) {
         
     }
     $(".js-meals-component").html('')
-      meals.map((e) => MealsComponent(e, day).actions.render())
+      meals.forEach((e) => {
+        MealsComponent(e, day).actions.render();
+      });
       $('.js-meals-component').accordion("destroy");
       $( ".js-meals-component" ).accordion({
         active: accordionActive,
@@ -228,8 +234,9 @@ const PlateComponent = function (plate) {
           
           const day = $('.js-day-tab.active').attr("data-day-of-week")
           $(".js-meals-component").html('')
-
-          meals.map((e) => MealsComponent(e, day).actions.render())
+          meals.forEach((e) => {
+            MealsComponent(e, day).actions.render();
+          });
           $('.js-meals-component').accordion("destroy");
           $( ".js-meals-component" ).accordion({
             active: accordionMeals,
@@ -480,7 +487,9 @@ const MealsComponent = function (meal, day) {
        })
        idplates++
        
-       meals.map((e) => MealsComponent(e, day).actions.render())
+       meals.forEach((e) => {
+        MealsComponent(e, day).actions.render();
+      });
        $('.js-meals-component').accordion("destroy");
        $( ".js-meals-component" ).accordion({
          active: meals.indexOf(meal),
@@ -516,7 +525,6 @@ const MealsComponent = function (meal, day) {
       icons: false,
     });
     $(".js-plate-accordion-header").off("keydown");
-
     initializeSelect2()
   }
  
@@ -550,7 +558,9 @@ $(document).on("click", ".js-add-meal", function () {
     plates: []
    })
    idMeals++
-   meals.map((e) => MealsComponent(e, day).actions.render())
+   meals.forEach((e) => {
+    MealsComponent(e, day).actions.render();
+  });
   initializeMealAccordion(meals.length)
 });
 
@@ -559,7 +569,9 @@ $(document).on("click", ".js-remove-meal", function () {
   let mealIdRemoved = $(this).attr("data-id-accordion")
   meals = meals.filter((e) => e.id != mealIdRemoved)
   $(".js-meals-component").html('')
-  meals.map((e) => MealsComponent(e, day).actions.render())
+  meals.forEach((e) => {
+    MealsComponent(e, day).actions.render();
+  });
   $('.js-meals-component').accordion("destroy");
     $( ".js-meals-component" ).accordion({
         active: false,
@@ -577,7 +589,9 @@ $(document).on("click", '.js-change-pagination', function () {
   let day = clicked.attr("data-day-of-week");
 
   $(".js-meals-component").html('')
-  meals.map((e) => MealsComponent(e, day).actions.render())
+  meals.forEach((e) => {
+    MealsComponent(e, day).actions.render();
+  });
   $('.js-meals-component').accordion("destroy");
       $( ".js-meals-component" ).accordion({
         active: false,

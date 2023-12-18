@@ -47,7 +47,13 @@ $this->menu = array(
 						'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
 						'columns' => array(
 							'id',
-							'description',
+							'description' => array(
+								
+								'type' => 'raw',
+								'value' => 'CHtml::link($data->description,Yii::app()->createUrl("foods/foodmenu/update",array("id"=>$data->id)))',
+								'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
+							)
+							,
 							'start_date',
 							'final_date',
 
