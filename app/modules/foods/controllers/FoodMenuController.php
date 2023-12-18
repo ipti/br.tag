@@ -34,7 +34,7 @@ class FoodMenuController extends Controller
                     'index',
                     'view',
                     'create',
-                    'update',
+                    // 'update',
                     'plateAccordion',
                     'getFood',
                     'getTacoFoods',
@@ -159,8 +159,9 @@ class FoodMenuController extends Controller
              $this->render('update', array(
                  'data'=>$response,
              ));
+             Yii::app()->end();
         }
-        
+
         // Trecho do código para excluir todos os registros associados ao cardápio
         $transaction = Yii::app()->db->beginTransaction();
         foreach($modelMenuMeals as $modelMenuMeal){
