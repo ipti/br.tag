@@ -62,20 +62,14 @@ $form = $this->beginWidget(
 </div>
 
 <div class="tag-inner">
-    <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)) : ?>
-        <div class="alert alert-success">
-            <?php echo Yii::app()->user->getFlash('success') ?>
-        </div>
-    <?php endif ?>
-
     <div class="widget widget-tabs border-bottom-none">
         <?php echo $form->errorSummary($modelClassroom); ?>
-        <?php if (TagUtils::isInstance("UBATUBA") && $disabledFields) : ?>
-            <div class="alert alert-warning">Alguns campos foram desabilitados porque a turma possui alunos matriculados
-                e o SEDSP não autoriza realizar edições em tais campos.
+        <?php if (Yii::app()->user->hasFlash('success') && (!$modelClassroom->isNewRecord)) { ?>
+            <div class="alert classroom-alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
         <?php } elseif (Yii::app()->user->hasFlash('error') && (!$modelClassroom->isNewRecord)) { ?>
-            <div class="alert  alert-error classroom-alert classroom-error no-show">
+            <div class="alert classroom-alert alert-error">
                 <?php echo Yii::app()->user->getFlash('error') ?>
             </div>
         <?php } elseif (Yii::app()->features->isEnable("FEAT_SEDSP") && $disabledFields) { ?>
@@ -1153,7 +1147,7 @@ $form = $this->beginWidget(
                                         <td class="center" colspan="<?= $columnCount ?>">Não há alunos matriculados.
                                         </td>
                                     </tr>
-                        
+
                                 <?php } ?>
                             </tbody>
                             <tfooter>
