@@ -9,6 +9,9 @@
  * @property string $idSchool;
  * @property integer $idClass;
  * @property integer $identifier;
+ * @property integer $idStudent;
+ * @property integer $inep_id;
+ * 
  */
 class ValidationSagresModel extends CActiveRecord
 {

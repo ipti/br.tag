@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints\Length;
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentsWithDisabilitiesRelationReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/StudentsWithDisabilitiesRelationReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
@@ -37,7 +37,7 @@ if(count($classrooms) == 0){
         echo "<b>C&oacute;digo da Turma: </b>" . $c['inep_id'] . "<br>";
         echo "<b>Etapa: </b>" . $c['stage'] . "<br>";
         echo "<b>Modalidade: </b>" . $c['modality'] . "<br>";
-        echo "<b>Turno: </b>" . ($c['turn'] == 'M' ? 'Matutino' : "") . ($c['turn'] == 'T' ? 'Vespertino' : "") . 
+        echo "<b>Turno: </b>" . ($c['turn'] == 'M' ? 'Matutino' : "") . ($c['turn'] == 'T' ? 'Vespertino' : "") .
             ($c['turn'] == 'N' ? 'Noturno' : "") . ($c['turn'] == 'I' ? 'Integral' : "") . "<br>";
         echo "<b>Hor&aacute;rio de Funcionamento: </b>" . $c['initial_hour'] . ":" . $c['initial_minute'] . "-" . $c['final_hour'] . ":" . $c['final_minute'] . "<br>";
         echo "<b>Dias da Semana: </b>" . ($c['week_days_sunday'] == 1 ? "Domingo - " : "") . ($c['week_days_monday'] == 1 ? "Segunda - " : "") .
@@ -165,10 +165,10 @@ if(count($classrooms) == 0){
             $html = "";
         }
         $html .= "<tr>"
-            . "<th><b>Total</b></th>" 
+            . "<th><b>Total</b></th>"
             . "<td colspan='5'>$total</td>"
             . "</tr>";
-            
+
         $html .= "</table></div>";
         echo $html;
     }

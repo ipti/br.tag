@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentNotification/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentNotification/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -11,7 +11,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 <div class="pageA4V">
     <?php $this->renderPartial('head'); ?>
-        
+
         <script type="text/javascript">
             /*<![CDATA[*/
             jQuery(function ($) {
@@ -33,7 +33,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <br><br>
                 <div style="font-size:14px;">
                 Comunicamos que
-                <?php 
+                <?php
                     if ($gender == '1'){
                         echo "o aluno";
                     } else {
@@ -41,11 +41,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     }
                 ?>
 
-                <span class="name" style="font-weight: bold"></span> 
-                matriculou-se no(a) 
-                <?php echo $school->name?>, 
-                no ano de 
-                <span class="enrollment_date"></span>, 
+                <span class="name" style="font-weight: bold"></span>
+                matriculou-se no(a)
+                <?php echo $school->name?>,
+                no ano de
+                <span class="enrollment_date"></span>,
                 no turno
                 <?php
                     if ($shift == 'M'){

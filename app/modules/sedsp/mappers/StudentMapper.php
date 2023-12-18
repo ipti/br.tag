@@ -351,6 +351,7 @@ class StudentMapper
         $studentDocumentsAndAddress->school_inep_id_fk = $inepId;
         $studentDocumentsAndAddress->gov_id = $numRA;
         $studentDocumentsAndAddress->student_fk = $studentIdentification->id;
+        $studentDocumentsAndAddress->id = $studentIdentification->id;
         $studentDocumentsAndAddress->cpf = $outDocumentos->getOutCpf();
         $studentDocumentsAndAddress->nis = $outDocumentos->getOutNumNis();
 

@@ -84,6 +84,9 @@ return array(
         'utils' => array(
             'class' => 'application.components.utils.TagUtils'
         ),
+        'features' => array(
+            'class' => 'application.components.FeaturesComponent'
+        ),
         'assetManager' => array(
             'forceCopy' => YII_DEBUG
         ),
@@ -118,6 +121,10 @@ return array(
                 'merenda-escolar/menu'                      => 'lunch/lunch/',
                 'merenda-escolar/menu/<action:\w+>'         => 'lunch/lunch/<action>',
                 'merenda-escolar/menu/<action:\w+>/<id:\d+>'=> 'lunch/lunch/<action>',
+
+                'merenda/'                                  => 'foods/',
+                'merenda/cardápio'                          => 'foods/foodMenu/',
+                'merenda/cardápio/<action:\w+>'             => 'foods/foodMenu/<action>',
 
                 'boletim-escolar/'                          => 'schoolreport/',
                 'boletim-escolar/'                          => 'schoolreport/default/select',

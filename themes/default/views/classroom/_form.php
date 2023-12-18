@@ -27,7 +27,7 @@ $form = $this->beginWidget(
 <div class="mobile-row ">
     <div class="column clearleft">
         <?php
-        if (!$modelClassroom->isNewRecord && TagUtils::isInstance("UBATUBA")) {
+        if (!$modelClassroom->isNewRecord && Yii::app()->features->isEnable("FEAT_SEDSP")) {
             $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
         ?>
             <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
@@ -74,8 +74,18 @@ $form = $this->beginWidget(
             <div class="alert alert-warning">Alguns campos foram desabilitados porque a turma possui alunos matriculados
                 e o SEDSP não autoriza realizar edições em tais campos.
             </div>
-        <?php endif; ?>
-        <div class="alert alert-error classroom-error no-show"></div>
+        <?php } elseif (Yii::app()->user->hasFlash('error') && (!$modelClassroom->isNewRecord)) { ?>
+            <div class="alert  alert-error classroom-alert classroom-error no-show">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+        <?php } elseif (Yii::app()->features->isEnable("FEAT_SEDSP") && $disabledFields) { ?>
+            <div class="alert classroom-alert alert-warning">
+                Alguns campos foram desabilitados porque a turma possui alunos matriculados e o SEDSP não autoriza
+                realizar edições em tais campos.
+            </div>
+        <?php } else { ?>
+            <div class="alert classroom-alert no-show"></div>
+        <?php } ?>
         <div class="t-tabs js-tab-control">
             <ul class="js-tab-classroom t-tabs__list">
                 <li id="tab-classroom" class="t-tabs__item active">
@@ -300,7 +310,7 @@ $form = $this->beginWidget(
                             <?php echo $form->error($modelClassroom, 'modality'); ?>
                         </div>
 
-                        <?php if (TagUtils::isInstance("UBATUBA")) : ?>
+                        <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                             Unidade Escolar
                             <div class="t-field-select" id="sedsp_school_unity_fk">
                                 <?php echo $form->labelEx($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
@@ -323,7 +333,7 @@ $form = $this->beginWidget(
                                 <?php echo $form->error($modelClassroom, 'sedsp_max_physical_capacity'); ?>
                             </div>
                         <?php endif; ?>
-                        <?php if (TagUtils::isInstance("UBATUBA")) { ?>
+                        <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")) { ?>
                             <!--Gov ID-->
                             <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->labelEx($modelClassroom, 'gov_id', array('class' => 't-field-text__label')); ?>
@@ -1001,7 +1011,7 @@ $form = $this->beginWidget(
                                     <?php echo Yii::t('default', 'Ata de Notas') ?>
                                 </a>
                             </div>
-                            <?php if (TagUtils::isInstance("UBATUBA") && count($modelEnrollments) > 0) : ?>
+                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP") && count($modelEnrollments) > 0): ?>
                                 <div class="reports_cards">
                                     <button class="t-button-primary sync-enrollments">
                                         <span class="t-icon-export"></span>
@@ -1083,9 +1093,8 @@ $form = $this->beginWidget(
                     </div>
                     <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                         <?php
-                        $enrollments = $modelClassroom->studentEnrollments;
-                        $columnCount = TagUtils::isInstance("UBATUBA") ? 6 : 5;
-                        // verificar se mantem
+                        //$enrollments = $modelClassroom->studentEnrollments;
+                        $columnCount = Yii::app()->features->isEnable("FEAT_SEDSP") ? 6 : 5;
                         ?>
                         <style type="text/css" media="print">
                             a[href]:after {
@@ -1099,7 +1108,7 @@ $form = $this->beginWidget(
                                     <th><?php echo Yii::t('default', 'Pedido') ?></th>
                                     <th><?php echo Yii::t('default', 'Enrollment') ?></th>
                                     <th><?php echo Yii::t('default', 'Name') ?></th>
-                                    <?= TagUtils::isInstance("UBATUBA") ? "<th>Sincronizado</th>" : "" ?>
+                                    <?= Yii::app()->features->isEnable("FEAT_SEDSP") ? "<th>Sincronizado</th>" : "" ?>
                                     <th><?php echo Yii::t('default', 'Print') ?></th>
                                 </tr>
 
@@ -1124,7 +1133,7 @@ $form = $this->beginWidget(
                                                         )) ?>"> <?= $enr->studentFk->name ?>
                                                 </a>
                                             </td>
-                                            <?php if (TagUtils::isInstance("UBATUBA")) : ?>
+                                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                                 <td class="sync-column">
                                                     <?php if ($enrollment["synced"]) { ?>
                                                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 21px;" alt="synced">
@@ -1134,37 +1143,17 @@ $form = $this->beginWidget(
                                                 </td>
                                             <?php endif ?>
                                             <td>
-                                                <!-- <a href="
-                                                        <?php echo @Yii::app()->createUrl(
-                                                            'forms/StudentFileForm',
-                                                            array(
-                                                                'type' => $type,
-                                                                'enrollment_id' => $enr->id
-                                                            )
-                                                        ); ?>" target="_blank">
-                                                    <i class="fa fa-eye" style="color:#3F45EA; "></i>
-                                                    Ficha de Matrícula
-                                                </a>
-                                                Verificar isso aqui
-                                                -->
-                                                <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollment["enrollmentId"])); ?>" target="_blank"> <i class="fa fa-eye" style="color:#3F45EA; "></i></a>
+                                                <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollment["enrollmentId"])); ?>" target="_blank"> <i class="fa fa-eye" style="color:#3F45EA; "></i> Ficha de Matrícula</a>
                                             </td>
                                         </tr>
                                     <?php $i++;
                                     }
                                     ?>
-                                    <!-- <tr>
-                                        <th id="">Total:</th>
-                                        <td colspan="4"><?= count($enrollments) ?></td>
-                                    </tr> -->
                                     <tr>
                                         <td class="center" colspan="<?= $columnCount ?>">Não há alunos matriculados.
                                         </td>
                                     </tr>
-                                <?php } else { ?>
-                                    <tr>
-                                        <th id="" colspan="5">Não há alunos matriculados.</th>
-                                    </tr>
+                        
                                 <?php } ?>
                             </tbody>
                             <tfooter>

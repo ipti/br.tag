@@ -6,7 +6,7 @@
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END );
-$cs->registerScriptFile($baseScriptUrl . '/functinos.js', CClientScript::POS_END );
+$cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END );
 $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::POS_END );
 ?>
 
@@ -20,7 +20,17 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
 )); ?>
-
+<div class="t-tabs row">
+	<div class="column">
+		<ul class="tab-instructor t-tabs__list ">
+			<li class="active t-tabs__item"><a data-toggle="tab" class="t-tabs__link">
+					<span class="t-tabs__numeration">1</span>
+					<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
 <div class="main form-content">
 		<div class="row">
 			<h3 class="column">
@@ -52,10 +62,18 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 				<?php echo $form->error($model,'start_date'); ?>
 			</div>
 			<div class="t-field-text column">
+				<?php echo $form->labelEx($model,'final_date',  array('class' => 't-field-text__label')); ?>
+				<?php echo $form->textField($model,'final_date', array('class'=>'t-field-text__input js-date date js-final-date', 'readonly' => 'readonly')); ?>
+				<?php echo $form->error($model,'final_date'); ?>
+			</div>
+		</div>
+		<div class="row">
+			<div class="t-field-text column">
 				<?php echo $form->labelEx($model,'observation', array('class' => 't-field-select__label')); ?>
-				<?php echo $form->textField($model,'observation', array('class'=>'t-field-select__input')); ?>
+				<?php echo $form->textField($model,'observation', array('class'=>'t-field-select__input js-observation')); ?>
 				<?php echo $form->error($model,'observation'); ?>
 			</div>
+			<div class="column"></div>
 		</div>
 		<div class="row">
 			<div class="column t-buttons-container">
@@ -65,8 +83,8 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 					</a>
 			</div>
 		</div>
-		<div class="t-tabs-secondary js-days-of-week-component">
-				
+		<div class="t-tabs-secondary js-days-of-week-component row">
+
 		</div>
 		<div class="row js-show-meals-header hide">
 			<div class="column t-accordeon--header">
@@ -79,7 +97,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 					</div>
 				</div>
 			</div>
-			
+
 		</div>
 		<div class="row">
 			<div class="column">
@@ -91,9 +109,9 @@ $cs->registerScriptFile($baseScriptUrl . '/mealComponents.js', CClientScript::PO
 	<div class="row buttons">
 		<a class="t-button-primary js-save-menu"><?= $model->isNewRecord ? 'Criar' : 'Salvar' ?></a>
 	</div>
-				
+
 <?php $this->endWidget(); ?>
-	
+
 </div><!-- form -->
 <style>
 	.date[readonly] {

@@ -3,7 +3,7 @@
 /* @var $student mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/MultiStageClassroomVerify/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/MultiStageClassroomVerify/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScript("vars",
     "var saveMultiStage = '" . $this->createUrl("saveMultiStage") . "'; ", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
@@ -15,8 +15,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <div class="buttons span9">
             	<span id="save" class='btn btn-icon btn-primary last glyphicons circle_ok'><?php echo Yii::t('default', 'Save') ?><i></i></span>
  		</div>
- 	</div> 
-</div> 			
+ 	</div>
+</div>
 
 
 <div class="innerLR">

@@ -3,10 +3,10 @@
     /* @var $report mixed */
     $baseUrl = Yii::app()->baseUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerScriptFile($baseUrl . '/js/reports/QuarterlyReport/_initialization.js', CClientScript::POS_END);
-    
+    $cs->registerScriptFile($baseUrl . '/js/reports/QuarterlyReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-    
+
     $turno =  $classroom->turn;
     if ($turno == 'M') {
         $turno = "Matutino";
@@ -17,7 +17,7 @@
     } else if ($turno == '' || $turno == null) {
         $turno = "______________________";
     }
-    
+
 ?>
 <div class="pageA4H page" style="height: auto;">
     <!-- CHERCHE IV -->
@@ -35,7 +35,7 @@
     </div>
     <div class="container-box header-container" style="margin-bottom: 200px;">
         <p>Unidade Escolar: <?php echo $school->name ?></p>
-        <?php 
+        <?php
             for ($i=1; $i <= 2; $i++) {
                 if($regentTeachers[$i-1]) {
                     echo "<p>Professor(a) Regente ".$i.": ".$regentTeachers[$i-1]['instructor_name']."</p>";

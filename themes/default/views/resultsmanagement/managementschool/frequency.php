@@ -14,11 +14,11 @@ $cs->registerScript("variables", '
     var $sid = "'.$school->inep_id.'";
 ',CClientScript::POS_END);
 
-$cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.min.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.pie.min.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.min.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.pie.min.js?v='.TAG_VERSION, CClientScript::POS_END);
 
-$cs->registerScriptFile($baseScriptUrl.'/common/js/frequency/iniChart.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/frequency/filter.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/frequency/iniChart.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/frequency/filter.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 ?>
 <div class="row">

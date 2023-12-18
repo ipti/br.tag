@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
@@ -37,7 +37,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <td><?= $r['responsable_name'] ?></td>
                     <td><?= $r['responsable_telephone'] ?></td>
                 </tr>
-            <?php } 
+            <?php }
             if($countTotal) {
             ?>
             <tr>

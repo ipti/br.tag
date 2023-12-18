@@ -181,11 +181,10 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 			$("#loading-popup").hide();
 					location.reload();
 		})
-			.fail(function() {
-				$("#loading-popup").hide();
-				$(".alert-error-export").append('Erro ao realizar o download do arquivo ');
-				$(".alert-error-export").show();
-			})
-
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			$("#loading-popup").hide();
+			$(".alert-error-export").append('Erro ao realizar o download do arquivo: ' + errorThrown);
+			$(".alert-error-export").show();
+		})
 	}
 </script>
