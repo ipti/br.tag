@@ -670,9 +670,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <thead>
                                 <tr>
                                     <th class='span1'><?php echo Yii::t('default', 'Mover/Cancelar') ?></th>
-                                    <th><?php echo Yii::t('default', 'Pedido') ?></th>
+                                    <th><?php echo Yii::t('default', 'Ordem') ?></th>
                                     <th><?php echo Yii::t('default', 'Enrollment') ?></th>
                                     <th><?php echo Yii::t('default', 'Name') ?></th>
+                                    <th><?php echo Yii::t('default', 'Status') ?></th>
                                     <th><?php echo Yii::t('default', 'Print') ?></th>
                                 </tr>
 
@@ -685,10 +686,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <tr>
                                             <td text-align="center"><input value="<?= $enr->id ?>" name="enrollments[]"
                                                                            type='checkbox'/></td>
-                                            <td width="30"><?= $i ?></td>
+                                            <td width="30"><?= $enr->daily_order ?? $i ?></td>
                                             <td><?php echo $enr->id ?></td>
                                             <td>
                                                 <a href="<?= Yii::app()->createUrl('student/update', array('id' => $enr->studentFk->id)) ?>"> <?= $enr->studentFk->name ?></a>
+                                            </td>
+                                            <td>
+                                                <?= $enr->getCurrentStatus() ?>
                                             </td>
                                             <td width="140">
                                                 <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enr->id)); ?>"

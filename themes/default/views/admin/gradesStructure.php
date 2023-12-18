@@ -42,14 +42,14 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         <?php endif ?>
         <div class="alert-media-fields no-show alert"></div>
         <div class="alert-required-fields no-show alert alert-error"></div>
-        <div class="row filter-bar margin-bottom-none">
-            <div>
-                <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label required', 'style' => 'width: 54px;')); ?>
+        <div class="row margin-bottom-none">
+            <div class="t-field-text">
+                <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 't-field-text__label required', 'style' => 'width: 54px;')); ?>
                 <div>
                     <?php
                     echo $form->dropDownList($gradeUnity, 'edcenso_stage_vs_modality_fk', CHtml::listData($stages, 'id', 'name'), array(
                         'key' => 'id',
-                        'class' => 'select-search-on control-input grades-structure-input',
+                        'class' => ' t-field-text__input select-search-on',
                         'prompt' => 'Selecione o estágio...',
                     )
                     );
@@ -60,10 +60,21 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
 
-        <div class="grades-rules-container js-grades-rules-container">
-            <div class="control-group form-inline">
-                <label class="control-label form-inline">Calculo da média final <span class="red">*</span></label>
-                <select class="calculation-final-media select-search-on control-input">
+        <div class="column js-grades-rules-container is-three-fifths" style="display: none;">
+            <h2>Regras de aprovação</h2>
+            <p class="subheading">
+                Configure as regras básicas para aprovação dos alunos
+            </p>
+            <div class="t-field-select">
+                <label class="t-field-select__label">Modelo de avalição <span class="red">*</span></label>
+                <select class="calculation-final-media select-search-on t-field-select__input">
+                    <option value="N">Númerico</option>
+                    <option value="C">Conceito</option>
+                </select>
+            </div>
+            <div class="t-field-select">
+                <label class="t-field-select__label">Calculo da média final <span class="red">*</span></label>
+                <select class="calculation-final-media select-search-on t-field-select__input">
                     <?php foreach ($formulas as $formula): ?>
                         <option value="<?= $formula->id ?>">
                             <?= $formula->name ?>
@@ -71,64 +82,106 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="control-group form-inline">
-                <label class="control-label">Média de Aprovação <span class="red">*</span></label>
-                <input type="text" class="approval-media">
+            <div class="t-field-text">
+                <label class="t-field-text__label">Média de Aprovação <span class="red">*</span></label>
+                <input type="text" class="approval-media t-field-text__input">
             </div>
-            <div class="control-group form-inline">
-                <label class="control-label">Média de Rec. Final <span class="red">*</span></label>
-                <input type="text" class="final-recover-media">
+            <div class="t-field-checkbox">
+                <input type="checkbox" class="t-field-checkbox__input js-has-final-recovery">
+                <label class="t-field-checkbox__label">Incluir recuperação final?</label>
             </div>
         </div>
-        <div class="grades-structure-container js-grades-structure-container">
+        <div class="column">
             <div class="row">
+                <h2>Definição das unidades</h2>
                 <a href="#new-unity" id="new-unity" class="js-new-unity t-button-primary">
                     <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Unidade
                 </a>
             </div>
+            <p class="subheading">
+                Gerencie a quantidade de unidades avaliativas, elas podem ser bimestres, semestres e outros
+            </p>
         </div>
-        <div class="save-unity-loading-gif">
-            <i class="fa fa-spin fa-spinner fa-3x"></i>
+        <div id="accordion"
+            class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion">
         </div>
-    </div>
-    <div class="formulas">
-        <?php foreach ($formulas as $formula): ?>
-            <option value="<?= $formula->id ?>">
-                <?= $formula->name ?>
-            </option>
-        <?php endforeach; ?>
-    </div>
-    <div class="modal fade modal-content" id="js-saveandreply-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
-                        style="vertical-align: -webkit-baseline-middle">
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Salvar e Replicar para</h4>
+        <div class="column js-recovery-form" style="display: none;">
+            <h2>Regras de recuperação</h2>
+            <p class="subheading">
+                Configure as regras básicas para aprovação dos alunos
+            </p>
+            <div class="t-field-text js-recovery-media-visibility">
+                <label class="t-field-text__label">Média de Rec. Final <span class="red">*</span></label>
+                <input type="text" class="final-recover-media t-field-text__input">
             </div>
-            <form method="post">
-                <div class="modal-body">
-                    <div class="radios-container">
-                        <div class="radio">
-                            <label><input type="radio" class="reply-option" name="reply-option" value="A"><span>Toda a
-                                    Matriz Curricular.</span></label>
-                        </div>
-                        <div class="radio">
-                            <label><input type="radio" class="reply-option" name="reply-option" value="S"><span>Todas as
-                                    etapas de <span class="stagemodalityname"></span>.</span></label>
-                        </div>
+            <input type='hidden' class="final-recovery-unity-id">
+            <input type="hidden" class="final-recovery-unity-operation" value="create">
+            <div class="t-field-text" style="margin-top: 16px">
+                <label class='t-field-text__label required'>Nome: <span class='red'>*</span></label>
+                <input type='text' class='t-field-text__input final-recovery-unity-name'
+                    placeholder='Recuperação Final'>
+            </div>
+            <div class="t-field-select">
+                <label class='t-field-select__label required'>Modelo: <span class='red'>*</span></label>
+                <select class='t-field-select__input' disabled>
+                    <option value='RF' selected>Recuperação final</option>
+                </select>
+            </div>
+            <div class="t-field-select js-calculation">
+                <label class='t-field-select__label required'>Forma de cálculo: <span class='red'>*</span></label>
+                <select class='t-field-select__input select-search-on final-recovery-unity-calculation'>
+                    <?php foreach ($formulas as $formula): ?>
+                        <option value="<?= $formula->id ?>">
+                            <?= $formula->name ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="save-unity-loading-gif">
+        <i class="fa fa-spin fa-spinner fa-3x"></i>
+    </div>
+</div>
+
+<div class="formulas">
+    <?php foreach ($formulas as $formula): ?>
+        <option value="<?= $formula->id ?>">
+            <?= $formula->name ?>
+        </option>
+    <?php endforeach; ?>
+</div>
+<div class="modal fade modal-content" id="js-saveandreply-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
+                    style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Salvar e Replicar para</h4>
+        </div>
+        <form method="post">
+            <div class="modal-body">
+                <div class="radios-container">
+                    <div class="radio">
+                        <label><input type="radio" class="reply-option" name="reply-option" value="A"><span>Toda a
+                                Matriz Curricular.</span></label>
                     </div>
-                    <div class="modal-footer" style="margin-top: 50px">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar
-                        </button>
-                        <button type="button" class="btn btn-primary js-save-and-reply-button" data-dismiss="modal">
-                            Salvar e Replicar
-                        </button>
+                    <div class="radio">
+                        <label><input type="radio" class="reply-option" name="reply-option" value="S"><span>Todas as
+                                etapas de <span class="stagemodalityname"></span>.</span></label>
                     </div>
                 </div>
-            </form>
-        </div>
+                <div class="modal-footer" style="margin-top: 50px">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary js-save-and-reply-button" data-dismiss="modal">
+                        Salvar e Replicar
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
-    <?php $this->endWidget(); ?>
+</div>
+<?php $this->endWidget(); ?>
 </div>

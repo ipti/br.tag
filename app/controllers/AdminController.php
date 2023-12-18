@@ -205,12 +205,19 @@ class AdminController extends Controller
 
         $result = [];
         $result["unities"] = [];
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = "gu";
+        $criteria->condition = "edcenso_stage_vs_modality_fk = :stage";
+        $criteria->addInCondition("gu.type", [GradeUnity::TYPE_UNITY, GradeUnity::TYPE_UNITY_BY_CONCEPT, GradeUnity::TYPE_UNITY_WITH_RECOVERY]);
+        $criteria->params = array_merge([":stage" => $stage], $criteria->params);
+        $criteria->order = "gu.id";
+
         $gradeUnities = GradeUnity::model()
             ->with("gradeUnityModalities")
-            ->findAll(
-                "edcenso_stage_vs_modality_fk = :stage",
-                [":stage" => $stage]
-            );
+            ->findAll($criteria);
+
+
 
         foreach ($gradeUnities as $gradeUnity) {
             $arr = $gradeUnity->attributes;
@@ -219,6 +226,18 @@ class AdminController extends Controller
                 array_push($arr["modalities"], $gradeUnityModality->attributes);
             }
             array_push($result["unities"], $arr);
+        }
+
+        $criteria->condition = "edcenso_stage_vs_modality_fk = :stage and gu.type = :type";
+        $criteria->params = [":stage" => $stage, ":type" => GradeUnity::TYPE_FINAL_RECOVERY];
+
+        $finalRecovery = GradeUnity::model()
+            ->with("gradeUnityModalities")
+            ->find($criteria);
+        $result["final_recovery"] = $finalRecovery->attributes;
+        $result["final_recovery"]["modalities"] = [];
+        foreach ($finalRecovery->gradeUnityModalities as $gradeUnityModality) {
+            array_push($result["final_recovery"]["modalities"], $gradeUnityModality->attributes);
         }
 
         $gradeRules = GradeRules::model()
@@ -230,7 +249,7 @@ class AdminController extends Controller
         $result["approvalMedia"] = $gradeRules->approvation_media;
         $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
 
-        echo json_encode($result);
+        echo CJSON::encode($result);
     }
 
     public function actionSaveUnities()
@@ -268,7 +287,8 @@ class AdminController extends Controller
         $this->render('activeDisableUser', ['users' => $users]);
     }
 
-    public function actionPHPConfig(){
+    public function actionPHPConfig()
+    {
 
         echo phpinfo();
 

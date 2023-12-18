@@ -32,19 +32,26 @@ $(document).on(
                         .children(".unity")
                         .remove();
                     $(".approval-media").val(data.approvalMedia);
+
                     $(".final-recover-media").val(data.finalRecoverMedia);
+                    $(".final-recovery-unity-id").val(data.final_recovery.id);
+                    $(".final-recovery-unity-name").val(data.final_recovery.name);
+                    $(".final-recovery-unity-calculation").select2("val", data.final_recovery.grade_calculation_fk);
+                    $(".final-recover-media").val(data.finalRecoverMedia);
+
                     if (Object.keys(data.unities).length) {
                         $.each(data.unities, function (e) {
                             $(".js-new-unity").trigger("click");
                             const unity = $(".unity").last();
                             unity.find(".unity-name").val(this.name);
+                            unity.find(".unity-title").html(this.name);
                             unity.find(".unity-id").val(this.id);
                             unity
-                                .find("select.type-select")
+                                .find("select.js-type-select")
                                 .val(this.type)
                                 .trigger("change");
                             unity
-                                .find("select.formula-select")
+                                .find("select.js-formula-select")
                                 .val(this.grade_calculation_fk)
                                 .trigger("change");
                             const unityType = this.type;
@@ -96,50 +103,69 @@ $(document).on(
                 ".js-grades-structure-container, .grades-buttons,  .js-grades-rules-container"
             ).hide();
         }
+        $("#accordion").accordion();
     }
 );
 
+$(document).on("keyup", ".unity-name", function (e) {
+    const unity = $(this).closest(".unity");
+    unity.find(".unity-title").html($(this).val());
+});
+
 $(document).on("click", ".js-new-unity", function (e) {
-    const unityHtml = `
-        <div class='unity form-group form-inline'>
-            <input type='hidden' class="unity-id">
-            <input type="hidden" class="unity-operation" value="create">
-            <label class='control-label required'>Nome: <span class='red'>*</span></label>
-            <input type='text' class='unity-name form-control' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
-            <i class='remove-unity fa fa-times-circle-o button-icon-close'></i>
-            <div class="unity-children">
-                <div class="unity-type form-group form-inline div-input-structure-units">
-                    <label class='control-label required label-input-structure-units'>Modelo: <span class='red'>*</span></label>
-                    <select class='type-select select-search-on control-input'>
+    const unities = $(".unity").length;
+    const unityHtml = template`
+        <div class='unity column is-three-fifths'>
+            <div class='row unity-heading ui-accordion-header'>
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collaps-${unities}">
+                    <h2 class="unity-title accordion-heading">Unidade: </h2>
+                </a>
+                <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor"></span>
+            </div>
+            <div id="collaps-${unities}"class=" collapse ${unities == 0 ? 'in': ''}">
+                <input type='hidden' class="unity-id">
+                <input type="hidden" class="unity-operation" value="create">
+                <div class="t-field-text" style="margin-top: 16px">
+                    <label class='t-field-text__label required'>Nome: <span class='red'>*</span></label>
+                    <input type='text' class='t-field-text__input unity-name' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
+                </div>
+                <div class="t-field-select">
+                    <label class='t-field-select__label required'>Modelo: <span class='red'>*</span></label>
+                    <select class='t-field-select__input js-type-select select-search-on control-input'>
                         <option value='U'>Unidade</option>
                         <option value='UR'>Unidade com recuperação</option>
                         <option value='UC'>Unidade por conceito</option>
-                        <option value='RS'>Recuperação semestral</option>
-                        <option value='RF'>Recuperação final</option>
+
                     </select>
                 </div>
-                <div class="calculation form-group form-inline div-input-structure-units">
-                    <label class='control-label required label-input-structure-units'>Fórmula:  <span class='red'>*</span></label>
-                    <select class='formula-select select-search-on control-input'>${
+                <div class="t-field-select js-calculation">
+                    <label class='t-field-select__label required'>Forma de cálculo:  <span class='red'>*</span></label>
+                    <select class='t-field-select__input js-formula-select select-search-on control-input'>${
                         $(".formulas")[0].innerHTML
                     }</select>
                 </div>
-                <div class="row">
-                    <a href="#new-modality" id="new-modality" class="js-new-modality t-button-primary">
-                        <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Modalidade
-                    </a>
+                <h4>Modalidades avaliativas: </h4>
+                <p class="subheading">
+                    Gerencie todas as formas de avalição que compõe as notas dessa unidade avaliativa
+                </p>
+                <div class="t-cards">
+                    <div class="row">
+                        <a href="#new-modality" id="new-modality" class="js-new-modality t-button-primary">
+                            <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Modalidade
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>`;
-    $(unityHtml).insertBefore($(this).parent());
-    $(".unity").last().find(".type-select, .formula-select").select2();
+    $(".js-grades-structure-container").append(unityHtml);
+    $(".unity").last().find(".js-type-select, .js-formula-select").select2();
 });
 
-$(document).on("change", ".type-select", function (e) {
+$(document).on("change", ".js-type-select", function (e) {
     var unity = $(this).closest(".unity");
     if ($(this).val() === "UR") {
         unity.find(".js-new-modality").trigger("click").show();
-        unity.find(".calculation").show();
+        unity.find(".js-calculation").show();
         unity.find(".modality[concept=1]").remove();
         unity
             .find(".modality")
@@ -160,8 +186,8 @@ $(document).on("change", ".type-select", function (e) {
     } else if ($(this).val() === "UC") {
         unity.find(".modality").remove();
         unity.find(".js-new-modality").trigger("click").hide();
-        unity.find(".formula-select").val("1").trigger("change");
-        unity.find(".calculation").hide();
+        unity.find(".js-formula-select").val("1").trigger("change");
+        unity.find(".js-calculation").hide();
         unity
             .find(".modality-name[modalitytype=R]")
             .closest(".modality")
@@ -174,7 +200,7 @@ $(document).on("change", ".type-select", function (e) {
             .remove();
     } else {
         unity.find(".js-new-modality").show();
-        unity.find(".calculation").show();
+        unity.find(".js-calculation").show();
         unity
             .find(".modality-name[modalitytype=R]")
             .closest(".modality")
@@ -183,9 +209,10 @@ $(document).on("change", ".type-select", function (e) {
     }
 });
 
-$(document).on("change", ".formula-select", function (e) {
+$(document).on("change", ".js-formula-select", function (e) {
     var unity = $(this).closest(".unity");
-    if ($(this).select2("data").text === "Peso") {
+    const selectedValue = $(this).select2("data").text;
+    if (selectedValue === "Peso") {
         unity
             .find(".modality-name[modalitytype=C]")
             .css("width", "calc(100% - 240px)");
@@ -223,38 +250,37 @@ $(document).on("click", ".js-new-modality", function (e) {
     e.preventDefault();
     let modalityHtml = "";
     const unityElement = $(this).closest(".unity");
-    const formula = unityElement.find(".formula-select").select2("data").text;
-    if (formula === "Peso") {
-        modalityHtml += `
-            <div class='modality form-group form-inline' concept='0'>
-                <input type="hidden" class="modality-id">
-                <input type="hidden" class="modality-operation" value="create">
-                <label class='control-label required'>Modalidade: <span class='red'>*</span></label>
-                <input type='text' class='modality-name form-control' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.' style='width: calc(100% - 222px);'>
-                <input type='text' class='weight form-control' placeholder='Peso'>
-                <i class='remove-modality fa fa-times-circle-o button-icon-close'></i>
-            </div>`;
-    } else {
-        modalityHtml += `
-            <div class='modality form-group form-inline' concept='0'>
-                <input type="hidden" class="modality-id">
-                <input type="hidden" class="modality-operation" value="create">
-                <label class='control-label required'>Modalidade: <span class='red'>*</span></label>
-                <input type='text' class='modality-name form-control' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.'>
-                <i class='remove-modality fa fa-times-circle-o button-icon-close'></i>
-            </div>`;
-    }
+    const formula = unityElement
+        .find(".js-formula-select")
+        .select2("data").text;
+    modalityHtml = template`
+        <div class='modality' concept='0'>
+            <input type="hidden" class="modality-id">
+            <input type="hidden" class="modality-operation" value="create">
+            <div class="row">
+                <div class="t-field-text">
+                    <label class='t-field-text__label required'>Nome da modalidade avaliativa: <span class='red'>*</span></label>
+                    <input type='text' class='modality-name t-field-text__input' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.' style='width: calc(100% - 222px);'>
+                    ${
+                        formula === "Peso"
+                            ? template`<input type='text' class='weight t-field-text__input' placeholder='Peso'>`
+                            : ""
+                    }
+                </div>
+                <span class="remove-modality remove-button t-button-icon-danger t-icon-trash"></span>
+            </div>
+        </div>`;
 
     $(modalityHtml).insertBefore(
-        unityElement.find("select.type-select").val() !== "UR" ||
+        unityElement.find("select.js-type-select").val() !== "UR" ||
             !unityElement.find(".modality").length
             ? $(this).parent()
             : unityElement.find(".modality").last()
     );
 });
 
-$(document).on("click", ".remove-unity", function (e) {
-    $(this).children(".modality").find(".modality-operation").val("remove")
+$(document).on("click", ".js-remove-unity", function (e) {
+    $(this).children(".modality").find(".modality-operation").val("remove");
     $(this).closest(".unity").find(".unity-operation").val("remove");
     $(this).closest(".unity").hide();
 });
@@ -283,6 +309,15 @@ $(document).on("click", ".js-save-and-reply-button", function (e) {
     saveUnities(true);
 });
 
+$(document).on("change", ".js-has-final-recovery", function (event) {
+    const isChecked = $(this).is(':checked');
+    if (isChecked) {
+        $(".js-recovery-form").show();
+    } else {
+        $(".js-recovery-form").hide();
+    }
+});
+
 function saveUnities(reply) {
     const unities = [];
     $(".unity").each(function () {
@@ -303,8 +338,8 @@ function saveUnities(reply) {
         unities.push({
             id: $(this).find(".unity-id").val(),
             name: $(this).find(".unity-name").val(),
-            type: $(this).find("select.type-select").val(),
-            formula: $(this).find("select.formula-select").val(),
+            type: $(this).find("select.js-type-select").val(),
+            formula: $(this).find("select.js-formula-select").val(),
             operation: $(this).find(".unity-operation").val(),
             modalities: modalities,
         });
@@ -411,10 +446,10 @@ function checkValidInputs() {
                             return false;
                         }
                     });
-                if ($(this).find("select.type-select").val() === "UC") {
+                if ($(this).find("select.js-type-select").val() === "UC") {
                     ucCount++;
                 }
-                if ($(this).find("select.type-select").val() === "UR") {
+                if ($(this).find("select.js-type-select").val() === "UR") {
                     if (
                         !$(this).find(".modality-name[modalitytype=C]").length
                     ) {
@@ -433,8 +468,8 @@ function checkValidInputs() {
                 }
                 if (
                     index === 0 &&
-                    ($(this).find("select.type-select").val() === "RF" ||
-                        $(this).find("select.type-select").val() === "RS")
+                    ($(this).find("select.js-type-select").val() === "RF" ||
+                        $(this).find("select.js-type-select").val() === "RS")
                 ) {
                     valid = false;
                     message =
@@ -444,14 +479,14 @@ function checkValidInputs() {
 
                 if (
                     rsCount === 2 &&
-                    $(this).find("select.type-select").val() !== "RF"
+                    $(this).find("select.js-type-select").val() !== "RF"
                 ) {
                     valid = false;
                     message =
                         "Não pode haver unidades após a 2ª recuperação semestral.";
                     return false;
                 }
-                if ($(this).find("select.type-select").val() === "RS") {
+                if ($(this).find("select.js-type-select").val() === "RS") {
                     rsCount++;
                     rsIndexes.push(index);
                 }

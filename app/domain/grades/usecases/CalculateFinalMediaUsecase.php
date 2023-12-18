@@ -28,9 +28,9 @@ class CalculateFinalMediaUsecase
             ]
         );
 
-        $countUnities= count($unities);
+        $finalRecovery = $this->getFinalRevovery($this->enrollmentId, $this->disciplineId);
 
-        $hasFinalMedia = array_search(GradeUnity::TYPE_FINAL_RECOVERY, array_column($unities, "type"));
+        $countUnities = count($unities);
 
         $grades = [];
         for ($i = 0; $i < $countUnities; $i++) {
@@ -38,14 +38,13 @@ class CalculateFinalMediaUsecase
         }
 
         $finalMedia = $this->applyStrategyComputeGradesByFormula($gradeRule->gradeCalculationFk, $grades);
+
+        if(isset($finalRecovery) && $gradesResult->rec_final != null && $finalMedia < $gradeRule->approvation_media) {
+            $finalMedia = $this->applyStrategyComputeGradesByFormula($finalRecovery->gradeCalculationFk, [$finalMedia, $gradesResult->rec_final]);
+        }
+
         $gradesResult->setAttribute("final_media", $finalMedia);
         $gradesResult->save();
-
-        if($hasFinalMedia !== false && $gradesResult->rec_final != null) {
-            $finalMedia = $this->applyStrategyComputeGradesByFormula($gradeRule->gradeCalculationFk, [$finalMedia, $gradesResult->rec_final]);
-            $gradesResult->setAttribute("final_media", $finalMedia);
-            $gradesResult->save();
-        }
     }
 
     private function getGradeUnitiesByDiscipline($enrollmentId, $discipline)
@@ -55,10 +54,23 @@ class CalculateFinalMediaUsecase
         $criteria->select = "distinct gu.id, gu.*";
         $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
         $criteria->join .= " join grade g on g.grade_unity_modality_fk = gum.id";
-        $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk";
-        $criteria->params = array(":discipline_fk" => $discipline, ":enrollment_fk" => $enrollmentId);
+        $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk and gu.type = :type";
+        $criteria->params = array(":discipline_fk" => $discipline, ":enrollment_fk" => $enrollmentId, ":type" => GradeUnity::TYPE_UNITY);
         $criteria->order = "gu.id";
         return GradeUnity::model()->findAll($criteria);
+    }
+
+    private function getFinalRevovery($enrollmentId, $discipline)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = "gu";
+        $criteria->select = "distinct gu.id, gu.*";
+        $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
+        $criteria->join .= " join grade g on g.grade_unity_modality_fk = gum.id";
+        $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk and gu.type = :type";
+        $criteria->params = array(":discipline_fk" => $discipline, ":enrollment_fk" => $enrollmentId, ":type" => GradeUnity::TYPE_FINAL_RECOVERY);
+        $criteria->order = "gu.id";
+        return GradeUnity::model()->find($criteria);
     }
 
 

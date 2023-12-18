@@ -84,20 +84,22 @@ function loadStudentsFromDiscipline(disciplineId) {
                 $(".js-grades-container").html(html);
 
                 // $(".grade-concept").select2();
+            },
+            error: function (xhr, status, error) {
+                debugger
+                $(".js-grades-container").html("<div></div>");
+                $(".js-grades-alert")
+                    .addClass("alert-error")
+                    .removeClass("alert-success")
+                    .text(decodeURIComponent(escape(error)))
+                    .show();
+            },
+            complete: function () {
                 $(".js-grades-loading").hide();
                 $(".js-grades-container, .grades-buttons")
                     .css("opacity", "1")
                     .css("pointer-events", "auto");
                 $(".js-grades-container, .grades-buttons").show();
-            },
-            error: function (e) {
-                $(".js-grades-alert")
-                    .addClass("alert-error")
-                    .removeClass("alert-success")
-                    .text(data.message)
-                    .show();
-            },
-            complete: function () {
                 initializeGradesMask();
             },
         });
@@ -143,9 +145,10 @@ function GradeTableBuilder(data) {
     }
 
     function buildUnities(unities, isUnityConcept, conceptOptions) {
-        const unitesGrade = unities.map((unity) => {
-            const unityRow = unity.grades.map((grade) => {
-                return template`
+        const unitesGrade = unities
+            .map((unity) => {
+                const unityRow = unity.grades.map((grade) => {
+                    return template`
                     <td class="grade-td">
                         ${buildInputOrSelect(
                             isUnityConcept,
@@ -153,19 +156,19 @@ function GradeTableBuilder(data) {
                             conceptOptions
                         )}
                     </td>`;
-            });
+                });
 
-            if (unity.grades.length > 1) {
-                const unityMedia = template`
+                if (unity.grades.length > 1) {
+                    const unityMedia = template`
                 <td>${unity.unityMedia ?? ""}</td>
             `;
 
-                unityRow.push(unityMedia);
+                    unityRow.push(unityMedia);
+                }
 
-            }
-
-            return unityRow.join("\n");
-        }).join("\n");
+                return unityRow.join("\n");
+            })
+            .join("\n");
 
         return unitesGrade;
     }
@@ -173,7 +176,9 @@ function GradeTableBuilder(data) {
     function buildInputOrSelect(isUnityConcept, grade, conceptOptions) {
         if (isUnityConcept) {
             return template`
-                <select class="grade-concept" gradeid="${grade.id}" modalityid="${grade.modalityId}">
+                <select class="grade-concept" gradeid="${
+                    grade.id
+                }" modalityid="${grade.modalityId}">
                     <option value=""></option>
                     ${Object.values(conceptOptions)
                         .map(
@@ -188,14 +193,16 @@ function GradeTableBuilder(data) {
                 </select>`;
         }
 
-        return template`<input type="text" gradeid="${grade.id}" class="grade" modalityid="${
+        return template`<input type="text" gradeid="${
+            grade.id
+        }" class="grade" modalityid="${
             grade.modalityId
         }" value="${secureParseFloat(grade.value)}"/>`;
     }
 
     function secureParseFloat(val) {
         const result = parseFloat(val).toFixed(1);
-        if(isNaN(result) || result == null){
+        if (isNaN(result) || result == null) {
             return "";
         }
         return result;
@@ -204,20 +211,34 @@ function GradeTableBuilder(data) {
     function build() {
         const spaceByColumnGrade = !data.isUnityConcept ? 3 : 2;
         const concept = data.isUnityConcept ? "1" : "0";
-        const modalityColumns = data.unityColumns.reduce(
-            (acc, e) => {
-                if(e.modalities.length > 1){
-                    return [...acc, ...e.modalities, "Média da Unidade"]
-                }
-                return [...acc, ...e.modalities]
-            },
-            []
-        );
+        const modalityColumns = data.unityColumns.reduce((acc, e) => {
+            if (e.modalities.length > 1) {
+                return [...acc, ...e.modalities, "Média da Unidade"];
+            }
+            return [...acc, ...e.modalities];
+        }, []);
         const numModalities = modalityColumns.length;
         const tableColspan = numModalities + spaceByColumnGrade;
 
         return template`
-            <table class="grades-table table table-bordered table-striped" concept="${concept}">
+            <table class="grades-table" concept="${concept}">
+            <colgroup>
+            </colgroup>
+            <colgroup>
+            ${data.unityColumns
+                .map(
+                    (element, index) =>
+                        `<col class="${index%2==0 ? "odd": "even"}" span='${
+                            element.colspan > 1
+                                ? parseInt(element.colspan) + 1
+                                : element.colspan
+                        }'/>`
+                )
+                .join("\n")}
+            </colgroup>
+            <colgroup>
+            <col span="2"/>
+            </colgroup>
                 <thead>
                     <tr>
                         <th colspan="${tableColspan}" class="table-title">
@@ -225,22 +246,30 @@ function GradeTableBuilder(data) {
                         </th>
                     </tr>
                     <tr>
-                        <th></th>
+                        <th style="min-width: 250px"></th>
                         ${data.unityColumns
                             .map(
-                                (element) => `<th colspan='${element.colspan > 1 ?  parseInt(element.colspan) + 1 : element.colspan}'>
+                                (element, index) => `<th colspan='${
+                                    element.colspan > 1
+                                        ? parseInt(element.colspan) + 1
+                                        : element.colspan
+                                }'>
                                    ${element.name}
                                 </th>`
-                            ).join("\n")}
-                        ${!data.isUnityConcept ? "<th></th>" : ""}
+                            )
+                            .join("\n")}
+                        ${!data.isUnityConcept ? `<thcolspan='2'></th>` : ""}
                     </tr>
                     <tr class="modality-row">
-                        <th></th>
+                        <th>Aluno(a)</th>
                         ${modalityColumns
-                            .map((element) => `<th>${element}</th>`)
+                            .map(
+                                (element) =>
+                                    `<th style="max-width: 50px;  font-size: 80%">${element}</th>`
+                            )
                             .join("\n")}
-                        ${!data.isUnityConcept ? "<th>Média Anual</th>" : ""}
-                        <th>Resultado</th>
+                        ${!data.isUnityConcept ? `<th style="font-size: 80%">Média Anual</th>` : ""}
+                        <th style="font-size: 80%">Resultado</th>
                     </tr>
                 </thead>
                 <tbody>

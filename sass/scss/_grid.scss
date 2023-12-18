@@ -5,6 +5,7 @@
 .row {
     display: flex;
     flex-direction: column;
+    gap: $spaceSmall;
 
     &.reverse {
         flex-direction: column-reverse;

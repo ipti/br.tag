@@ -19,7 +19,7 @@ class GetStudentGradesByDisciplineUsecase
         $unitiesByDiscipline = $this->getGradeUnitiesByDiscipline($classroom->edcenso_stage_vs_modality_fk);
 
         if ($studentEnrollments == null) {
-            throw new Exception("Não há estudantes matriculados na turma.", 1);
+            throw new Exception("Não há estudantes ativos matriculados na turma.", 1);
         }
 
         $classroomGrades = [];
@@ -47,8 +47,7 @@ class GetStudentGradesByDisciplineUsecase
             ->setUnityColumns($unityColumns)
             ->setConcepts([]);
 
-        echo json_encode($result->toArray());
-
+        return $result->toArray();
     }
 
     /**
@@ -62,7 +61,7 @@ class GetStudentGradesByDisciplineUsecase
         $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
         $criteria->condition = "edcenso_stage_vs_modality_fk = :stage";
         $criteria->params = array(":stage" => $stage);
-        $criteria->order = "gu.id";
+        $criteria->order = "gu.type desc, gu.id";
         $gradeUnitiesByDiscipline = GradeUnity::model()->findAll($criteria);
 
         return $gradeUnitiesByDiscipline;
@@ -117,7 +116,7 @@ class GetStudentGradesByDisciplineUsecase
                     $grade->enrollment_fk = $studentEnrollment->id;
                     $grade->discipline_fk = $discipline;
                     $grade->grade_unity_modality_fk = $modality->id;
-                    $grade->grade = "";
+                    $grade->grade = 0;
                     $grade->validate();
                     $grade->save();
                 }
