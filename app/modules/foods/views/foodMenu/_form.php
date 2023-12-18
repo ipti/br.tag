@@ -56,7 +56,7 @@ $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::P
 		<div class="row">
 			<div class="t-field-text column">
 				<label for="menu_start_date" class="t-field-text__label">Data Inicial</label>
-				<input type="text" id="menu_start_date" name="Data Inicial" 
+				<input type="text" id="menu_start_date" name="Data Inicial"
 						class="t-field-text__input js-date date js-start-date" required="required">
 			</div>
 			<div class="t-field-text column">

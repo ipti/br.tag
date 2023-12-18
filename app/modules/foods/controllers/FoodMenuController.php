@@ -76,6 +76,7 @@ class FoodMenuController extends Controller
             $this->render('create', array(
                 'model'=>$modelFoodMenu,
             ));
+            Yii::app()->end();
         }
 
         $allFieldsAreFilled =   isset($request["start_date"]) &&
