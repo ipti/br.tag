@@ -351,6 +351,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
 
+            if(Yii::app()->features->isEnable("FEAT_SEDSP")){
+                $modelStudentIdentification->scenario = "formSubmit";
+            }
+
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
 
