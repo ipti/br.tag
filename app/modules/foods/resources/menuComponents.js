@@ -329,7 +329,7 @@ const PlateComponent = function (plate) {
         option.setAttribute("data-value", obj.value);
       
       
-        select.append(option);
+        select.append(DOMPurify.sanitize((option)));
       });
       select.val(food.food_measure_unit_id).trigger('change')
       initializeSelect2()
