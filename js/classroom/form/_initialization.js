@@ -28,8 +28,8 @@ $(document).on("click", "#newTeacherDiscipline", function () {
     $("#addTeacherSchoolComponent").modal("show");
 });
 
-$(".update-classroom-to-sedsp").click(function() {
-    $("#importClassroomToSEDSP").modal("show");
+$(".update-classroom-from-sedsp").click(function() {
+    $("#importClassroomFromSEDSP").modal("show");
 });
 
 $(".import-classroom-button").click(function() {
