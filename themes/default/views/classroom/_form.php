@@ -304,8 +304,7 @@ $form = $this->beginWidget(
                             <?php echo $form->error($modelClassroom, 'modality'); ?>
                         </div>
 
-                        <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
-                            Unidade Escolar
+                        <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")) : ?>
                             <div class="t-field-select" id="sedsp_school_unity_fk">
                                 <?php echo $form->labelEx($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
                                 <?php echo $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(array('school_inep_id_fk' => yii::app()->user->school)), 'id', 'description'), array('prompt' => 'Selecione a unidade escolar', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%')); ?>
@@ -1005,7 +1004,7 @@ $form = $this->beginWidget(
                                     <?php echo Yii::t('default', 'Ata de Notas') ?>
                                 </a>
                             </div>
-                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP") && count($modelEnrollments) > 0): ?>
+                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP") && count($modelEnrollments) > 0) : ?>
                                 <div class="reports_cards">
                                     <button class="t-button-primary sync-enrollments">
                                         <span class="t-icon-export"></span>
@@ -1127,7 +1126,7 @@ $form = $this->beginWidget(
                                                         )) ?>"> <?= $enr->studentFk->name ?>
                                                 </a>
                                             </td>
-                                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
+                                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")) : ?>
                                                 <td class="sync-column">
                                                     <?php if ($enrollment["synced"]) { ?>
                                                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 21px;" alt="synced">

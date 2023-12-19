@@ -406,7 +406,7 @@ class Classroom extends AltActiveRecord
             'discipline_native_language' => Yii::t('default', 'Discipline Native Language'),
             'discipline_others' => Yii::t('default', 'Discipline Others'),
             'school_year' => Yii::t('default', 'School Year'),
-            'turn' => Yii::t('default', 'Turn'),
+            'turn' => Yii::t('default', 'Turn'). " *",
             'create_date' => Yii::t('default', 'Create Time'),
 
             // Support Labels
