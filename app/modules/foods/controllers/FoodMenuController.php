@@ -130,8 +130,7 @@ class FoodMenuController extends Controller
      */
     public function actionUpdate($id)
     {
-        $request = Yii::app()->request->getPost('foodMenu');//Yii::app()->request->getRawBody();
-        // $request = json_decode($request, true);
+        $request = Yii::app()->request->getPost('foodMenu');
         $modelFoodMenu = $this->loadModel($id);
         $modelMenuMeals = FoodMenuMeal::model()->findAllByAttributes(array('food_menuId' => $modelFoodMenu->id));
         if ($request == null) {
@@ -153,7 +152,6 @@ class FoodMenuController extends Controller
             }
 
             // Convertendo objeto do cardápio em um JSON para enviar como resposta da requisição AJAX
-            // $model = json_encode((array) $foodMenu);
 
             $this->render('update', array(
                 'model' => $foodMenu,
@@ -166,10 +164,8 @@ class FoodMenuController extends Controller
 
         if($modelFoodMenu != null)
         {
-            $startTimestamp = strtotime(str_replace('/', '-', $request["start_date"]));
-            $finalTimestamp = strtotime(str_replace('/', '-', $request["final_date"]));
-            $modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
-            $modelFoodMenu->final_date = date('Y-m-d', $finalTimestamp);
+            $modelFoodMenu->start_date = DateTime::createFromFormat('d/m/Y', $request["start_date"])->format("Y-m-d");
+            $modelFoodMenu->final_date = DateTime::createFromFormat('d/m/Y', $request["final_date"])->format("Y-m-d");
             $modelFoodMenu->observation = $request['observation'];
             $modelFoodMenu->description = $request['description'];
             $modelFoodMenu->save();
@@ -456,12 +452,10 @@ class FoodMenuObject
 
     public function setDateFormated($model)
     {
-        $inputStartDate = $model->start_date;
-        $inputFinalDate = $model->final_date;
-        $startDate = new DateTime($inputStartDate);
-        $finalDate = new DateTime($inputFinalDate);
-        $this->start_date = $startDate->format("m/d/Y");
-        $this->final_date = $finalDate->format("m/d/Y");
+        $startDate = DateTime::createFromFormat("Y-m-d", $model->start_date);
+        $finalDate = DateTime::createFromFormat("Y-m-d", $model->final_date);
+        $this->start_date = $startDate->format("d/m/Y");
+        $this->final_date = $finalDate->format("d/m/Y");
     }
 
     public function setDayMeals($day, $modelMeals)
