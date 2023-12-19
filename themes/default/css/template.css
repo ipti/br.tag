@@ -8498,10 +8498,6 @@ li.tlypageguide-active.tlypageguide_bottom:after {
     color: #fff;
 }
 
-/* .next {
-    float: right;
-} */
-
 .nextBar {
     width: 100%;
 }
@@ -8547,17 +8543,6 @@ li.tlypageguide-active.tlypageguide_bottom:after {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* .iptilogo {
-    padding: 16px 75px;
-    width: 110px;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    font-size: 10px;
-    line-height: 14px;
-    text-align: center;
-} */
-
 .deleteTeachingData {
     background: url("../img/Cancelar.png");
     display: block;
@@ -8598,33 +8583,8 @@ tr.filters td {
     padding: 4px 25px 4px 1px;
 }
 
-/*#frequency td.frequency-list {*/
-/*border-left: 0;*/
-/*}*/
 
-/*#frequency {*/
-/*border: 0;*/
-/*}*/
-/*#frequency tbody{*/
-/*overflow: auto;*/
-/*height: 300px;*/
-/*border-top: 1px solid #e5e5e5;*/
-/*}*/
-/*#frequency thead, #frequency tbody{*/
-/*display: block;*/
-/*}*/
-/*#frequency thead tr th:first-of-type {*/
-/*width: 42%;*/
-/*border-left: 0;*/
-/*}*/
-/*#frequency tbody tr:first-of-type td{*/
-/*border-top: 0;*/
-/*}*/
-/*#frequency tbody tr td:first-of-type {*/
-/*width: 42%;*/
-/*}*/
 .titulos{
-    /* margin-left:23px; */
     color: rgba(169, 173, 196, 1);
 }
 .titulos.required::after{
@@ -8635,7 +8595,6 @@ input[type="checkbox"] {
     height: 20px;
     width: 20px;
     margin: 0px 2px 0px;
-    /* Borda não funciona */
 }
 
 

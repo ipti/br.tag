@@ -928,7 +928,9 @@ $form = $this->beginWidget(
                         <row class="reports">
                             <?php if (TagUtils::isInstance("BUZIOS")) : ?>
                                 <div class="reports_cards">
-                                    <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('classroom/batchupdatenrollment', array('id' => $modelClassroom->id)); ?>">
+                                    <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('classroom/batchupdatenrollment', array(
+                                                                                                            'id' => $modelClassroom->id
+                                                                                                        )); ?>">
                                         <span class="t-icon-printer"></span>
                                         <?php echo Yii::t('default', 'Sinalizar rematricula') ?>
                                     </a>
@@ -1134,7 +1136,11 @@ $form = $this->beginWidget(
                                                 </td>
                                             <?php endif ?>
                                             <td>
-                                                <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollment["enrollmentId"])); ?>" target="_blank"> <i class="fa fa-eye" style="color:#3F45EA; "></i> Ficha de Matrícula</a>
+                                                <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array(
+                                                                'type' => $type,
+                                                                'enrollment_id' => $enrollment["enrollmentId"]
+                                                            ));
+                                                            ?>" target="_blank"> <i class="fa fa-eye" style="color:#3F45EA; "></i> Ficha de Matrícula</a>
                                             </td>
                                         </tr>
                                     <?php $i++;
