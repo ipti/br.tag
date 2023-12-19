@@ -67,7 +67,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             </p>
             <div class="t-field-select">
                 <label class="t-field-select__label">Modelo de avalição <span class="red">*</span></label>
-                <select class="calculation-final-media select-search-on t-field-select__input">
+                <select class="  select-search-on t-field-select__input">
                     <option value="N">Númerico</option>
                     <option value="C">Conceito</option>
                 </select>
@@ -87,8 +87,14 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <input type="text" class="approval-media t-field-text__input">
             </div>
             <div class="t-field-checkbox">
-                <input type="checkbox" class="t-field-checkbox__input js-has-final-recovery">
-                <label class="t-field-checkbox__label">Incluir recuperação final?</label>
+                <?php echo CHtml::checkbox(
+                    'has_final_recovery',
+                    false,
+                    array(
+                        'class' => 't-field-checkbox__input js-has-final-recovery'
+                    )
+                ) ?>
+                <?php echo CHtml::label("Incluir recuperação final?", 'has_final_recovery', array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
             </div>
         </div>
         <div class="column">
@@ -106,26 +112,21 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion">
         </div>
         <div class="column js-recovery-form" style="display: none;">
-            <h2>Regras de recuperação</h2>
+            <h2>Regras de recuperação final</h2>
             <p class="subheading">
                 Configure as regras básicas para aprovação dos alunos
             </p>
+            <input type='hidden' class="final-recovery-unity-id">
+            <input type='hidden' class="final-recovery-unity-type" value="RF">
+            <input type="hidden" class="final-recovery-unity-operation" value="create">
             <div class="t-field-text js-recovery-media-visibility">
                 <label class="t-field-text__label">Média de Rec. Final <span class="red">*</span></label>
                 <input type="text" class="final-recover-media t-field-text__input">
             </div>
-            <input type='hidden' class="final-recovery-unity-id">
-            <input type="hidden" class="final-recovery-unity-operation" value="create">
             <div class="t-field-text" style="margin-top: 16px">
                 <label class='t-field-text__label required'>Nome: <span class='red'>*</span></label>
                 <input type='text' class='t-field-text__input final-recovery-unity-name'
                     placeholder='Recuperação Final'>
-            </div>
-            <div class="t-field-select">
-                <label class='t-field-select__label required'>Modelo: <span class='red'>*</span></label>
-                <select class='t-field-select__input' disabled>
-                    <option value='RF' selected>Recuperação final</option>
-                </select>
             </div>
             <div class="t-field-select js-calculation">
                 <label class='t-field-select__label required'>Forma de cálculo: <span class='red'>*</span></label>

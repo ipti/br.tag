@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'grade_rules':
  * @property integer $id
  * @property integer $edcenso_stage_vs_modality_fk
+ * @property integer $has_final_recovery
  * @property double $approvation_media
  * @property double $final_recover_media
  * @property double $grade_calculation_fk
@@ -32,12 +33,12 @@ class GradeRules extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('edcenso_stage_vs_modality_fk, approvation_media, final_recover_media, grade_calculation_fk', 'required'),
-			array('edcenso_stage_vs_modality_fk, grade_calculation_fk', 'numerical', 'integerOnly'=>true),
+			array('edcenso_stage_vs_modality_fk, has_final_recovery, approvation_media, final_recover_media, grade_calculation_fk', 'required'),
+			array('edcenso_stage_vs_modality_fk, has_final_recovery, grade_calculation_fk', 'numerical', 'integerOnly'=>true),
 			array('approvation_media, final_recover_media', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, edcenso_stage_vs_modality_fk, approvation_media, final_recover_media, grade_calculation_fk', 'safe', 'on'=>'search'),
+			array('id, edcenso_stage_vs_modality_fk, has_final_recovery, approvation_media, final_recover_media, grade_calculation_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,6 +63,7 @@ class GradeRules extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'edcenso_stage_vs_modality_fk' => 'Edcenso Stage Vs Modality Fk',
+			'has_final_recovery' => 'Possui Final Recovery',
 			'approvation_media' => 'Approvation Media',
 			'final_recover_media' => 'Final Recover Media',
             'grade_calculation_fk' => 'Grade Calculation Fk',
@@ -88,6 +90,7 @@ class GradeRules extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
+		$criteria->compare('has_final_recovery',$this->has_final_recovery);
 		$criteria->compare('approvation_media',$this->approvation_media);
 		$criteria->compare('final_recover_media',$this->final_recover_media);
         $criteria->compare('grade_calculation_fk',$this->grade_calculation_fk);

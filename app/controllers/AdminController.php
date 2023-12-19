@@ -248,6 +248,7 @@ class AdminController extends Controller
 
         $result["approvalMedia"] = $gradeRules->approvation_media;
         $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
+        $result["hasFinalRecovery"] = (bool) $gradeRules->has_final_recovery;
 
         echo CJSON::encode($result);
     }

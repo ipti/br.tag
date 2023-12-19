@@ -32,12 +32,29 @@ $(document).on(
                         .children(".unity")
                         .remove();
                     $(".approval-media").val(data.approvalMedia);
-
+                    $("#has_final_recovery").prop(
+                        "checked",
+                        data.hasFinalRecovery
+                    );
                     $(".final-recover-media").val(data.finalRecoverMedia);
+                    $(".final-recovery-unity-operation").val(
+                        data.final_recovery !== null ? "update" : "create"
+                    );
                     $(".final-recovery-unity-id").val(data.final_recovery.id);
-                    $(".final-recovery-unity-name").val(data.final_recovery.name);
-                    $(".final-recovery-unity-calculation").select2("val", data.final_recovery.grade_calculation_fk);
+                    $(".final-recovery-unity-name").val(
+                        data.final_recovery.name
+                    );
+                    $(".final-recovery-unity-calculation").select2(
+                        "val",
+                        data.final_recovery.grade_calculation_fk
+                    );
                     $(".final-recover-media").val(data.finalRecoverMedia);
+
+                    if (data.hasFinalRecovery) {
+                        $(".js-recovery-form").show();
+                    } else {
+                        $(".js-recovery-form").hide();
+                    }
 
                     if (Object.keys(data.unities).length) {
                         $.each(data.unities, function (e) {
@@ -122,7 +139,9 @@ $(document).on("click", ".js-new-unity", function (e) {
                 </a>
                 <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor"></span>
             </div>
-            <div id="collaps-${unities}"class=" collapse ${unities == 0 ? 'in': ''}">
+            <div id="collaps-${unities}"class=" collapse ${
+        unities == 0 ? "in" : ""
+    }">
                 <input type='hidden' class="unity-id">
                 <input type="hidden" class="unity-operation" value="create">
                 <div class="t-field-text" style="margin-top: 16px">
@@ -310,11 +329,21 @@ $(document).on("click", ".js-save-and-reply-button", function (e) {
 });
 
 $(document).on("change", ".js-has-final-recovery", function (event) {
-    const isChecked = $(this).is(':checked');
+    const isChecked = $(this).is(":checked");
+    const isNew = $(".final-recovery-unity-id").val() === "";
     if (isChecked) {
         $(".js-recovery-form").show();
+        if(isNew){
+            $(".final-recovery-unity-operation").val("create");
+        }else{
+            $(".final-recovery-unity-operation").val("update");
+        }
     } else {
+        // debugger
         $(".js-recovery-form").hide();
+        if(!isNew){
+            $(".final-recovery-unity-operation").val("delete");
+        }
     }
 });
 
@@ -352,6 +381,12 @@ function saveUnities(reply) {
             stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
             unities: unities,
             approvalMedia: $(".approval-media").val(),
+            finalRecovery: {
+                id: $(".final-recovery-unity-id").val(),
+                name: $(".final-recovery-unity-name").val(),
+                type: $(".final-recovery-unity-type").val(),
+                grade_calculation_fk: $(".calculation-final-media").select2("val")
+            },
             finalRecoverMedia: $(".final-recover-media").val(),
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
