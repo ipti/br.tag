@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints\Length;
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentsWithDisabilitiesPerClassroom/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/StudentsWithDisabilitiesPerClassroom/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 
@@ -23,35 +23,35 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         </div>
     </div>
     <?php
-    
-        
+
+
         foreach ($classroom as $c) {
             echo "<div class='classroom-container'>";
-    
+
             echo "<b>Nome da turma: </b>" . $c['name'] . "<br>";
             echo "<b>C&oacute;digo da Turma: </b>" . $c['inep_id'] . "<br>";
-            echo "<b>Modalidade: </b>" . ($c['modality'] == '1' ? 'Ensino Regular' : "") . ($c['modality'] == '2' ? 'Educação Especial - Modalidade Substitutiva' : "") . 
+            echo "<b>Modalidade: </b>" . ($c['modality'] == '1' ? 'Ensino Regular' : "") . ($c['modality'] == '2' ? 'Educação Especial - Modalidade Substitutiva' : "") .
             ($c['modality'] == '3' ? 'Educação de Jovens e Adultos (EJA)' : "") . "<br>";
-            echo "<b>Turno: </b>" . ($c['turn'] == 'M' ? 'Matutino' : "") . ($c['turn'] == 'T' ? 'Vespertino' : "") . 
+            echo "<b>Turno: </b>" . ($c['turn'] == 'M' ? 'Matutino' : "") . ($c['turn'] == 'T' ? 'Vespertino' : "") .
                 ($c['turn'] == 'N' ? 'Noturno' : "") . ($c['turn'] == 'I' ? 'Integral' : "") . "<br>";
             echo "<b>Hor&aacute;rio de Funcionamento: </b>" . $c['initial_hour'] . ":" . $c['initial_minute'] . "-" . $c['final_hour'] . ":" . $c['final_minute'] . "<br>";
             echo "<b>Dias da Semana: </b>" . ($c['week_days_sunday'] == 1 ? "Domingo - " : "") . ($c['week_days_monday'] == 1 ? "Segunda - " : "") .
                 ($c['week_days_tuesday'] == 1 ? "Terca - " : "") . ($c['week_days_wednesday'] == 1 ? "Quarta - " : "") .
                 ($c['week_days_thursday'] == 1 ? "Quinta - " : "") . ($c['week_days_friday'] == 1 ? "Sexta - " : "") .
                 ($c['week_days_saturday'] == 1 ? "Sabado " : "") . "<br>";
-    
+
             if(count($students) == 0) {
                 echo "<br><span class='alert alert-primary'>Não existem alunos PCD cadastrados nessa turma</span><br>";
             } else {
-    
+
             $student_disabilities = array();
             $student_aid = array();
             $i = 0;
             $j = 0;
             $ordem = 1;
             $total = 0;
-    
-    
+
+
             $html = "";
             $html .= "<table class= 'table table-bordered table-striped'>";
             $html .= "<tr>"
@@ -64,10 +64,10 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 . "</tr>";
             echo $html;
             $html = "";
-    
+
             foreach ($students as $s) {
                 if ($s['classroom_fk'] == $c['id']) {
-    
+
                     if ($s['deficiency_type_blindness'] == 1) {
                         $student_disabilities[$i++] = "Cegueira";
                     } else if ($s['deficiency_type_low_vision'] == 1) {
@@ -95,7 +95,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     } else if ($s['deficiency_type_gifted'] == 1) {
                         $student_disabilities[$i++] = "Altas habilidades/Superdota&ccedil;&atilde;o";
                     }
-    
+
                     if ($s['resource_none'] == 1) {
                         $student_aid[0] = "N&atilde;o h&aacute; aux&iacute;lio";
                     }else if ($s['resource_none'] == null){
@@ -122,13 +122,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                             $student_aid[$j++] = 'Prova em Braille';
                         }
                     }
-    
+
                     $html .= "<tr>"
                         . "<td>" . $ordem . "</td>"
                         . "<td>" . $s['inep_id'] . "</td>"
                         . "<td>" . $s['birthday'] . "</td>"
                         . "<td>" . $s['name'] . "</td>";
-    
+
                     if (count($student_disabilities) == 1) {
                         $html .= "<td>" . $student_disabilities[0] . "</td>";
                     }
@@ -139,7 +139,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         }
                         $html .= "</td>";
                     }
-    
+
                     if (count($student_aid) == 1) {
                         $html .= "<td>" . $student_aid[0] . "</td>";
                     }
@@ -151,22 +151,22 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         $html .= "</td>";
                     }
                     $html .= "</tr>";
-    
+
                     echo $html;
-    
+
                     $i = 0;
                     $j = 0;
                     $total ++;
                     $ordem++;
-    
+
                 }
                 $html = "";
             }
             $html .= "<tr>"
-                . "<th><b>Total</b></th>" 
+                . "<th><b>Total</b></th>"
                 . "<td colspan='5'>$total</td>"
                 . "</tr>";
-                
+
             $html .= "</table></div>";
             echo $html;
             }

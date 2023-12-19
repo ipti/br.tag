@@ -19,3 +19,6 @@ $this->menu=array(
 <h1>Update FoodMenu <?php echo $model->id; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<script type="text/javascript">
+	 var menuUpdate =  <?php echo $model; ?>
+</script>

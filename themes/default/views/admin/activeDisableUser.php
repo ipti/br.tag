@@ -3,9 +3,9 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/activeDisableUser/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/activeDisableUser/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $themeUrl = Yii::app()->theme->baseUrl;
 
 ?>
@@ -16,7 +16,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
 ?>
     <div class="row-fluid hide-responsive" style="margin-bottom: 50px;">
         <div class="span12">
-            <h1><?php echo Yii::t('default', 'Users') ?></h1> 
+            <h1><?php echo Yii::t('default', 'Users') ?></h1>
         </div>
     </div>
     <div class="widget">
@@ -35,7 +35,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
                 <?php echo Yii::app()->user->getFlash('error') ?>
             </div>
             <br />
-        <?php endif ?>     
+        <?php endif ?>
         <div class="widget-body">
             <div class="grid-view">
                 <table class="js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs">
