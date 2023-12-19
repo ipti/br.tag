@@ -1546,12 +1546,12 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <?php
                         $error = $modelEnrollment->getErrors('enrollment_id');
-                        if (!empty($error)) {
+                        if (!empty($error)) :
                             ?>
                                 <div class="alert alert-error">
                                     <?php echo $error[0]; ?>
                                 </div>
-                        <?php } ?>
+                        <?php endif; ?>
                         <div id="enrollment" class="widget widget-scroll margin-bottom-none">
                             <div class="row">
                                 <h3>

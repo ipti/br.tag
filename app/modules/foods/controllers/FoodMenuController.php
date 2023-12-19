@@ -161,7 +161,7 @@ class FoodMenuController extends Controller
                  'model'=>$model,
              ));
         }
-        
+
         // Trecho do código para excluir todos os registros associados ao cardápio
         $transaction = Yii::app()->db->beginTransaction();
         foreach($modelMenuMeals as $modelMenuMeal){
