@@ -707,7 +707,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </label>
                             </div>
                         </div>
-                        <?php if (INSTANCE == "CLOC"): ?>
                                 <div class="column clearleft--on-mobile is-two-fifths">
                                     <label class="t-field-checkbox">
                                         <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'consent_form',
@@ -716,7 +715,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['consent_form']; ?>
                                     </label>
                                 </div>
-                        <?php endif; ?>
                     </div>
                     <div class="row">
                         <h3>
