@@ -1086,7 +1086,6 @@ $form = $this->beginWidget(
                     </div>
                     <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                         <?php
-                        //$enrollments = $modelClassroom->studentEnrollments;
                         $columnCount = Yii::app()->features->isEnable("FEAT_SEDSP") ? 6 : 5;
                         ?>
                         <style type="text/css" media="print">
@@ -1118,7 +1117,6 @@ $form = $this->beginWidget(
                                             <td><?= $i ?></td>
                                             <td><?php echo  $enr->id ?></td>
                                             <td enrollmentid="<?php echo $enrollment["enrollmentId"] ?>"><?php echo $enrollment["enrollmentId"] ?></td>
-                                            <!-- verificar isso aqui -->
                                             <td>
                                                 <a href="
                                                         <?= Yii::app()->createUrl('student/update', array(
@@ -1194,28 +1192,10 @@ $form = $this->beginWidget(
                             $i++;
                         }
                     }
-                    // if (isset($modelEnrollments)) {
-                    //     $i = 1;
-                    //     foreach ($modelEnrollments as $enrollment) {
-                    //
                     ?>
-                    <!--
-                             <li id="<?= $enrollment["enrollmentId"] ?>" class="ui-state-default">
-                                 <span class="t-icon-slip"></span>
-                                 <?= $enrollment["dailyOrder"] ?>
-                                 <span>
-                                     <?= $enrollment["studentName"] ?>
-                                 </span>
-                             </li> -->
                     <?php
-                    //         $i++;
-                    //     }
-
-                    // }
-
                     ?>
                 </ul>
-
             </div>
             <?php $this->endWidget(); ?>
         </div>

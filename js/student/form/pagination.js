@@ -1,9 +1,9 @@
-var simple = getUrlVars()['simple'];
+let simple = getUrllets()['simple'];
 if (simple == '1') {
-    var tabs = ['tab-student-identify','tab-student-affiliation', 'tab-student-address', 'tab-student-enrollment', 'tab-student-health'];
+    let tabs = ['tab-student-identify','tab-student-affiliation', 'tab-student-address', 'tab-student-enrollment', 'tab-student-health'];
     changeTabNumber();
 }else{
-    var tabs = ['tab-student-identify','tab-student-affiliation', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment', 'tab-student-health'];
+    let tabs = ['tab-student-identify','tab-student-affiliation', 'tab-student-documents', 'tab-student-address', 'tab-student-enrollment', 'tab-student-health'];
 }
 function changeTabNumber(){
     $('.js-change-number-2').html("2");
@@ -12,9 +12,9 @@ function changeTabNumber(){
     $('.js-change-number-5').html("5");
 }
 function changeTab(index){
-	var activeTab = $('.js-tab-control li.active');
-	var activePane = $('div .active');
-	var size = tabs.length -1;
+	let activeTab = $('.js-tab-control li.active');
+	let activePane = $('div .active');
+	let size = tabs.length -1;
 
     if(index == 0){
         $('.prev').hide();
@@ -44,25 +44,25 @@ function changeTab(index){
 }
 
 function change2nextTab(){
-	var activeTab = $('.js-tab-control li.active');
-    var tab = tabs.indexOf(activeTab.attr("id"));
+	let activeTab = $('.js-tab-control li.active');
+    let tab = tabs.indexOf(activeTab.attr("id"));
 	changeTab(tab+1);
 }
 
 function change2prevTab(){
-	var activeTab = $('.js-tab-control li.active');
-    var tab = tabs.indexOf(activeTab.attr("id"));
+	let activeTab = $('.js-tab-control li.active');
+    let tab = tabs.indexOf(activeTab.attr("id"));
 	changeTab(tab-1);
 }
 
 function change2clickedTab(clicked){
-	var clickedTab = clicked.attr('id');
-    var tab = tabs.indexOf(clickedTab);
+	let clickedTab = clicked.attr('id');
+    let tab = tabs.indexOf(clickedTab);
 	changeTab(tab);
 }
 
 $('.js-tab-control li a').click(function() {
-    var clickedTab = $(this).parent();
+    let clickedTab = $(this).parent();
     change2clickedTab(clickedTab);
 });
 

@@ -34,7 +34,6 @@ let removeInstructor = function (instructor) {
             teachingData.splice(i, 0);
 
         }
-        // console.log(teachingData.splice(i, 1));
         console.log(teachingData);
     }
     $("li[instructor = " + instructor + "]").remove();
