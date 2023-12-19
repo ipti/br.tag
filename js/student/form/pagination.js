@@ -35,7 +35,7 @@ function changeTab(index){
     activeTab.removeClass("active");
     activePane.removeClass("active");
 
-    newPane = newTab.substring(4).toString();
+    let newPane = newTab.substring(4).toString();
 
     $('#' + newTab).addClass("active");
     $('#' + newPane).addClass("active");

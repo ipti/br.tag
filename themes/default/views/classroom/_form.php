@@ -1248,7 +1248,10 @@ $form = $this->beginWidget(
                 </div>
                 <div class="t-field-select">
                     <label class="t-field-text__label">Componentes curriculares/eixos
-                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="right" data-original-title="Serão listadas apenas as componentes curriculares/eixos inseridos na matriz curricular desta etapa de ensino selecionada na turma.">
+                        <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark"
+                        data-toggle="tooltip"
+                        data-placement="right"
+                        data-original-title="Serão listadas apenas as componentes curriculares/eixos inseridos na matriz curricular desta etapa de ensino selecionada na turma.">
                         </span>
                     </label>
                     <select id="Disciplines" class="select-disciplines t-multiselect" multiple tabindex="-1"></select>
