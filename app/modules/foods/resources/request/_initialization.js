@@ -78,10 +78,6 @@ $(document).on("click", "#add-request", function () {
             $('#request-modal-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
         }
     }
-
-
-
-
 })
 
 $(document).on("click", "#request_button", function () {
@@ -119,31 +115,3 @@ $(document).on("click", "#save-request", function () {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível gerar a solicitação no sistema.");
     })
 });
-
-// $(document).on("click", "#delivery-checkbox", function () {
-//     let foodRequestId = $(this).attr('data-foodRequestId');
-//     if($(this).is(':checked')) {
-//         $.ajax({
-//             type: 'POST',
-//             url: "?r=foods/foodRequest/saveRequestDelivered",
-//             cache: false,
-//             data: {
-//                 foodRequestId: foodRequestId
-//             }
-//         }).success(function(response) {
-//             $('#info-alert').removeClass('hide').addClass('alert-success').html("Entrega confirmada e estoque atualizado");
-//             $.ajax({
-//                 type: 'POST',
-//                 url: "?r=foods/foodRequest/getFoodRequest",
-//                 cache: false
-//             }).success(function(response) {
-//                 food_request = JSON.parse(response);
-//                 food_request.sort((a, b) => (a.delivered === false && b.delivered === true) ? -1 : 1);
-//                 renderRequestTable(food_request);
-//             });
-//         })
-//         .fail(function(error) {
-//             $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível confirmar a entrega e atualizar o estoque");
-//         })
-//     }
-// });

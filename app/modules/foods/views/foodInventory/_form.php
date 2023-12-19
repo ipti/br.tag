@@ -83,11 +83,16 @@ $form=$this->beginWidget('CActiveForm', array(
             <form method="post">
                 <div class="t-modal__body">
                     <p>Selecione os itens e quantidades para adicionar ao estoque</p>
+                    <div class="row">
+                        <div class="column clearfix">
+                            <div id="stock-modal-alert" class="alert hide"></div>
+                        </div>
+                    </div>
                     <div class="tablet-row">
                         <div class="column is-two-fifths t-field-select clear-margin--bottom clearfix">
                             <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="food" name="food">
-                                <option>Selecione o Alimento</option>
+                                <option value="alimento">Selecione o Alimento</option>
                             </select>
                         </div>
                         <div class="column is-one-tenth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">

@@ -34,7 +34,6 @@ class FoodRequestController extends Controller
 					'getFoodAlias',
 					'saveRequest',
 					'getFoodRequest',
-					'saveRequestDelivered'
 				),
 				'users'=>array('*'),
 			),
@@ -96,54 +95,6 @@ class FoodRequestController extends Controller
         echo json_encode($values);
 	}
 
-	// public function actionSaveRequestDelivered() {
-	// 	$foodRequestId = Yii::app()->request->getPost('foodRequestId');
-
-	// 	$existingRequest = FoodRequest::model()->findByAttributes(array('id' => $foodRequestId));
-	// 	$existingRequest->delivered = 1;
-
-	// 	$existingFoodInventory = FoodInventory::model()->findByAttributes(array('food_fk' => $existingRequest->food_fk));
-	// 	var_dump($existingFoodInventory->amount);
-
-	// 	if($existingFoodInventory !== null) {
-	// 		var_dump($existingRequest->amount);
-	// 		$existingFoodInventory->amount += $existingRequest->amount;
-	// 		$existingFoodInventory->save();
-
-	// 		$FoodInventoryReceived = new FoodInventoryReceived;
-	// 		$FoodInventoryReceived->food_fk = $existingRequest->food_fk;
-	// 		$FoodInventoryReceived->food_inventory_fk = $existingFoodInventory->id;
-	// 		$FoodInventoryReceived->amount = $existingRequest->amount;
-
-	// 		if(!$FoodInventoryReceived->save()) {
-	// 			Yii::app()->request->sendStatusCode(400);
-	// 			$errors = $FoodInventoryReceived->getErrors();
-	// 			echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
-	// 		}
-	// 	} else {
-	// 		$FoodInventory = new FoodInventory;
-
-	// 		$FoodInventory->food_fk = $existingRequest->food_fk;
-	// 		$FoodInventory->school_fk = Yii::app()->user->school;
-	// 		$FoodInventory->amount = $existingRequest->amount;
-	// 		$FoodInventory->measurementUnit = $existingRequest->measurementUnit;
-
-	// 		if ($FoodInventory->save()) {
-	// 			$FoodInventoryReceived = new FoodInventoryReceived;
-	// 			$FoodInventoryReceived->food_fk = $existingRequest->food_fk;
-	// 			$FoodInventoryReceived->food_inventory_fk = $FoodInventory->id;
-	// 			$FoodInventoryReceived->amount = $existingRequest->amount;
-
-	// 			$FoodInventoryReceived->save();
-	// 		} else {
-	// 			Yii::app()->request->sendStatusCode(400);
-	// 			$errors = $FoodInventory->getErrors();
-	// 			echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
-	// 		}
-	// 	}
-
-	// 	$existingRequest->save();
-	// }
 
 	/**
 	 * Displays a particular model.

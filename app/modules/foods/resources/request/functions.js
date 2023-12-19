@@ -28,7 +28,6 @@ function renderRequestTable(foodRequests, id) {
     $('<th>').text('Quantidade').appendTo(head);
     $('<th>').text('Data de solicitação').appendTo(head);
     $('<th>').text('Descrição').appendTo(head);
-    // $('<th>').text('Confirmar Entrega').appendTo(head);
 
     table.append(head);
 
@@ -43,8 +42,6 @@ function renderRequestTable(foodRequests, id) {
             $('<td>').text(request.amount + measurementUnit).appendTo(row);
             $('<td>').text(request.date).appendTo(row);
             $('<td>').text(request.description).appendTo(row);
-            // let checkboxInput = $('<td>').html('<input type="checkbox" id="delivery-checkbox" data-foodRequestId="'+ request.id +'" ' + (request.delivered ? 'checked disabled' : '') + '>');
-            // $(checkboxInput).appendTo(row);
 
             table.append(row);
         });
@@ -62,8 +59,6 @@ function renderRequestTable(foodRequests, id) {
                 $('<td>').text(request.amount + measurementUnit).appendTo(row);
                 $('<td>').text(request.date).appendTo(row);
                 $('<td>').text(request.description).appendTo(row);
-                // let checkboxInput = $('<td>').html('<input type="checkbox" id="delivery-checkbox" data-foodRequestId="'+ request.id +'" ' + (request.delivered ? 'checked disabled' : '') + '>');
-                // $(checkboxInput).appendTo(row);
 
 
                 table.append(row);

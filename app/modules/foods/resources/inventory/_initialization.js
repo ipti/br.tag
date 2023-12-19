@@ -105,8 +105,18 @@ $(document).on("click", "#add-food", function () {
     let amount = $('.js-amount').val();
     let expiration_date = $('.js-expiration-date').val();
 
-    foodsOnStock.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit ,expiration_date: expiration_date});
-    renderSelectedFoods(foodsOnStock);
+    if(foodId == "alimento" || amount == "" || expiration_date == "") {
+        $('#stock-modal-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
+    } else {
+        if(amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
+            foodsOnStock.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit ,expiration_date: expiration_date});
+            renderSelectedFoods(foodsOnStock);
+        } else {
+            $('#stock-modal-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
+        }
+    }
+
+
 });
 
 $(document).on("click", "#stock_button", function () {
