@@ -9,6 +9,7 @@
  * @property mixed $approvalMedia
  * @property mixed $finalRecoverMedia
  * @property mixed $calculationFinalMedia
+ * @property bool $hasFinalRecovery
  */
 class UpdateGradeStructUsecase
 {
@@ -16,7 +17,7 @@ class UpdateGradeStructUsecase
     private const ALL_STAGES = "A";
     private const STAGES_FROM_SAME_MODALITY = "S";
 
-    public function __construct($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia)
+    public function __construct($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery)
     {
         $this->reply = $reply;
         $this->stage = $stage;
@@ -24,6 +25,7 @@ class UpdateGradeStructUsecase
         $this->approvalMedia = $approvalMedia;
         $this->finalRecoverMedia = $finalRecoverMedia;
         $this->calculationFinalMedia = $calculationFinalMedia;
+        $this->hasFinalRecovery = $hasFinalRecovery;
     }
 
     public function exec()
@@ -34,7 +36,8 @@ class UpdateGradeStructUsecase
                 $this->unities,
                 $this->approvalMedia,
                 $this->finalRecoverMedia,
-                $this->calculationFinalMedia
+                $this->calculationFinalMedia,
+                $this->hasFinalRecovery
             );
             $justOneUsecase->exec();
         } elseif ($this->reply === self::ALL_STAGES) {

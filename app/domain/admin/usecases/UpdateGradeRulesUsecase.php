@@ -9,15 +9,17 @@ declare(strict_types=1);
  * @property float $approvalMedia
  * @property float $finalRecoverMedia
  * @property int $calcFinalMedia
+ * @property bool  $hasFinalRecovery
  */
 class UpdateGradeRulesUsecase
 {
-    public function __construct($stage, $approvalMedia, $finalRecoverMedia, $calcFinalMedia)
+    public function __construct($stage, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery)
     {
         $this->stage = $stage;
         $this->approvalMedia = $approvalMedia;
         $this->finalRecoverMedia = $finalRecoverMedia;
         $this->calcFinalMedia = $calcFinalMedia;
+        $this->hasFinalRecovery = $hasFinalRecovery;
     }
 
     public function exec()
@@ -34,6 +36,7 @@ class UpdateGradeRulesUsecase
         $gradeRules->approvation_media = $this->approvalMedia;
         $gradeRules->final_recover_media = $this->finalRecoverMedia;
         $gradeRules->grade_calculation_fk = $this->calcFinalMedia;
+        $gradeRules->has_final_recovery = (int) $this->hasFinalRecovery;
 
         return $gradeRules->save();
     }

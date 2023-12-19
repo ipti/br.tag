@@ -36,6 +36,8 @@ $(document).on(
                         "checked",
                         data.hasFinalRecovery
                     );
+                    $(".calculation-final-media").select2("val", data.mediaCalculation);
+                    $(".rule-type").select2("val", data.ruleType);
                     $(".final-recover-media").val(data.finalRecoverMedia);
                     $(".final-recovery-unity-operation").val(
                         data.final_recovery !== null ? "update" : "create"
@@ -381,11 +383,13 @@ function saveUnities(reply) {
             stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
             unities: unities,
             approvalMedia: $(".approval-media").val(),
+            hasFinalRecovery: $("#has_final_recovery").is(":checked"),
             finalRecovery: {
                 id: $(".final-recovery-unity-id").val(),
                 name: $(".final-recovery-unity-name").val(),
                 type: $(".final-recovery-unity-type").val(),
-                grade_calculation_fk: $(".calculation-final-media").select2("val")
+                grade_calculation_fk: $(".calculation-final-media").select2("val"),
+                operation: $(".final-recovery-unity-operation").val()
             },
             finalRecoverMedia: $(".final-recover-media").val(),
             finalMediaCalculation: $(".calculation-final-media").select2("val"),

@@ -248,6 +248,8 @@ class AdminController extends Controller
 
         $result["approvalMedia"] = $gradeRules->approvation_media;
         $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
+        $result["mediaCalculation"] = $gradeRules->grade_calculation_fk;
+        $result["ruleType"] = $gradeRules->rule_type;
         $result["hasFinalRecovery"] = (bool) $gradeRules->has_final_recovery;
 
         echo CJSON::encode($result);
@@ -264,10 +266,38 @@ class AdminController extends Controller
         $approvalMedia = Yii::app()->request->getPost("approvalMedia");
         $finalRecoverMedia = Yii::app()->request->getPost("finalRecoverMedia");
         $calculationFinalMedia = Yii::app()->request->getPost("finalMediaCalculation");
+        $finalRecovery = Yii::app()->request->getPost("finalRecovery");
+        $hasFinalRecovery = Yii::app()->request->getPost("hasFinalRecovery") === "true";
 
         try {
-            $usecase = new UpdateGradeStructUsecase($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia);
+            $usecase = new UpdateGradeStructUsecase($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery);
             $usecase->exec();
+
+            if ($hasFinalRecovery === true) {
+
+                $recoveryUnity = GradeUnity::model()->find($finalRecovery["id"]);
+
+                if ($finalRecovery["operation"] === "delete") {
+                    $recoveryUnity->delete();
+                } else {
+
+                    if ($recoveryUnity === null) {
+                        $recoveryUnity = new GradeUnity();
+                    }
+
+                    $recoveryUnity->name = $finalRecovery["name"];
+                    $recoveryUnity->type = "RF";
+                    $recoveryUnity->grade_calculation_fk = $finalRecovery["grade_calculation_fk"];
+                    $recoveryUnity->edcenso_stage_vs_modality_fk = $stage;
+
+                    if ($recoveryUnity->validate()) {
+                        $recoveryUnity->save();
+                    } else {
+                        throw new Exception("Não foi possivel salvar dados da recuperação final", 1);
+                    }
+                }
+            }
+
             echo json_encode(["valid" => true]);
         } catch (\Throwable $th) {
             Yii::log($th->getMessage(), CLogger::LEVEL_ERROR);

@@ -67,7 +67,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             </p>
             <div class="t-field-select">
                 <label class="t-field-select__label">Modelo de avalição <span class="red">*</span></label>
-                <select class="  select-search-on t-field-select__input">
+                <select class="rule-type select-search-on t-field-select__input">
                     <option value="N">Númerico</option>
                     <option value="C">Conceito</option>
                 </select>
@@ -111,7 +111,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         <div id="accordion"
             class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion">
         </div>
-        <div class="column js-recovery-form" style="display: none;">
+        <div class="column js-recovery-form  is-three-fifths" style="display: none;">
             <h2>Regras de recuperação final</h2>
             <p class="subheading">
                 Configure as regras básicas para aprovação dos alunos
