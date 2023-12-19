@@ -313,7 +313,8 @@ class FoodMenuController extends Controller
         foreach($weekDays as $day){
             foreach($modelFoodMenus as $modelFoodMenu){
                 $modelMeals = FoodMenuMeal::model()->findAllByAttributes(array("food_menuId" => $modelFoodMenu->id));
-                $foodMenu->setDayMeals($day, $modelMeals);
+                $publicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk"=> $modelFoodMenu->id));
+                $foodMenu->setDayMeals($day, $modelMeals, $publicTarget->food_public_target_fk);
             }
         }
 
@@ -548,11 +549,11 @@ class FoodMenuObject {
         $this->final_date = $finalDate->format("m/d/Y");
     }
 
-    public function setDayMeals($day, $modelMeals){
+    public function setDayMeals($day, $modelMeals, $publicTarget){
         foreach($modelMeals as $modelMeal){
             if($modelMeal->$day){
                 $modelComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelMeal->id));
-                $meal = new MealObject($modelMeal);
+                $meal = new MealObject($modelMeal, $publicTarget);
                 $meal->setComponentMeal($modelComponents);
                 array_push($this->$day, (array) $meal);
             }
@@ -568,13 +569,15 @@ class MealObject
     public $sequence;
     public $turn;
     public $food_meal_type;
+    public $food_public_target;
     public $meals_component = [];
 
-    public function __construct($model){
+    public function __construct($model, $foodMenuPublicTarget){
         $this->time = $model->meal_time;
         $this->sequence = $model->sequence;
         $this->turn = $model->turn;
         $this->food_meal_type = $model->food_meal_type_fk;
+        $this->food_public_target = $foodMenuPublicTarget;
     }
 
     public function setComponentMeal($modelComponents){
