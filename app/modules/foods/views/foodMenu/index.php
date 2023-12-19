@@ -50,7 +50,6 @@ $this->menu = array(
 							'description',
 							'start_date',
 							'final_date',
-							
 						),
 					)
 				); ?>

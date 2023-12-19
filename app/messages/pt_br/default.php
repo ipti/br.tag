@@ -806,6 +806,7 @@ return array(
     'Student Identifications' => 'Alunos',
     'Instructor Identifications' => 'Professores',
     'Food Menus' => 'Cardápios',
+    'Lunch' => 'Merenda',
     'Reports' => 'Relatórios',
     'Out Of Town Students' => 'Alunos fora da cidade',
     'Professional Identifications' => 'Profissionais',

@@ -132,7 +132,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $columns[2] = 'birthday';
         $columns[3] = 'inep_id';
         $columns[4] = 'actions';
-        if (TagUtils::isInstance("UBATUBA")) {
+        if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
             $columns[5] = 'sedsp_sync';
         }
 
@@ -182,7 +182,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             id='student-delete' href='/?r=student/delete&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/deletar.svg' . "' alt='Excluir'></img>
                             </a>";
-            if (TagUtils::isInstance("UBATUBA")) {
+            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                 $sync = "<a style='cursor: pointer;display: inline-block' title='Sincronizar' id='student-sync' class='" . ($student->sedsp_sync ? "sync" : "unsync") . "' href='/?r=student/syncToSedsp&id=" . $student->id . "'>";
                 $sync .= $student->sedsp_sync
                     ? '<img src="' . Yii::app()->theme->baseUrl . '/img/SyncTrue.png" style="width: 25px;text-align: center">'
@@ -351,6 +351,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
 
+            if(Yii::app()->features->isEnable("FEAT_SEDSP")){
+                $modelStudentIdentification->scenario = "formSubmit";
+            }
+
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
 
@@ -394,7 +398,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                                 $flash = "success";
                                 $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
 
-                                if (TagUtils::isInstance("UBATUBA")) {
+                                if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                                     $this->authenticateSedToken();
                                     $syncResult = $modelStudentIdentification->syncStudentWithSED($modelStudentIdentification->id, $modelEnrollment, self::CREATE);
 
@@ -523,7 +527,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             $flash = "success";
                             $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
 
-                            if (TagUtils::isInstance("UBATUBA")) {
+                            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
 
                                 $this->authenticateSedToken();
                                 $syncResult = (object) $modelStudentIdentification->syncStudentWithSED($id, $modelEnrollment, self::UPDATE);
@@ -662,7 +666,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             }
 
             if ($delete) {
-                if (INSTANCE == "UBATUBA") {
+                if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                     $this->excluirMatriculaFromSED($classes, $inNumRA);
                 }
 
@@ -702,7 +706,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     /**
      * Lists all models.
      */
-    public function actionIndex($sid = null, $mer_id = null)
+    public function actionIndex($sid = null, $merId = null)
     {
         $filter = new StudentIdentification('search');
         $filter->unsetAttributes();  // clear any default values
@@ -724,15 +728,15 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         if ($sid != null) {
             $student = $this->loadModel($sid, $this->STUDENT_IDENTIFICATION);
             if (isset($student->studentEnrollments[0]->id)) {
-                $mer_id = $student->studentEnrollments[0]->id;
+                $enrollmentId = $student->studentEnrollments[0]->id;
                 @$stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
+                $type = 1;
                 if ($stage == 1) {
                     $type = 0;
                 } elseif ($stage == 6) {
                     $type = 3;
-                } else {
-                    $type = 1;
                 }
+
                 $buttons = CHtml::tag(
                     'a',
                     array(
@@ -748,7 +752,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'a',
                     array(
                         'target' => '_blank', 'href' => yii::app()->createUrl(
-                        '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $mer_id)
+                        '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollmentId)
                     ),
                         'class' => "btn btn-primary btn-icon glyphicons notes_2",
                         'style' => 'margin-top: 5px; width: 110px'

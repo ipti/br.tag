@@ -193,7 +193,6 @@ class CourseplanController extends Controller
     public function actionGetAbilitiesNextStructure()
     {
         $parentId = Yii::app()->request->getPost("id");
-
         $abilities = CourseClassAbilities::model()->findAll("parent_fk = :parent_fk", [":parent_fk" => $parentId]);
         $result = [];
         $result["options"] = [];

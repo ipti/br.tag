@@ -15,11 +15,11 @@ $cs->registerScript("variables", '
     var proficiencyDataUrl = "'.$this->createUrl("loadDataForProficiency").'";
     var evolutionDataUrl = "'.$this->createUrl("loadDataForEvolution").'";
 ',CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.min.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/iniPerformanceChart.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterPerformance.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterProficiency.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterEvolution.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/lib/js/plugins/charts/flot/jquery.flot.min.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/iniPerformanceChart.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterPerformance.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterProficiency.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/common/js/performance/filterEvolution.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 ?>
 <div class="row">
