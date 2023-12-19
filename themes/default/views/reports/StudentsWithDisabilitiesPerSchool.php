@@ -170,7 +170,7 @@
                 }
                 $html .= "<tr>"
                 . "<th><b>Total</b></th>"
-                . "<td colspan='5'>$total</td>"
+                . "<td colspan='7'>$total</td>"
                 . "</tr>";
 
                 $html .= "</table></div>";
