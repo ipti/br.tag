@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9fd9a0936e650983e3b729526eaad6b",
+    "content-hash": "dc8abe45fd8680edd8d1e8da8f5efcc5",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1812,16 +1812,16 @@
         },
         {
             "name": "yiisoft/yii",
-            "version": "1.1.27",
+            "version": "1.1.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii.git",
-                "reference": "8f9404aee8ffe8c869caad733a1ce1170cdc6ad4"
+                "reference": "f89b76ecca1d342e346ebb9bfc1e2c589f696345"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii/zipball/8f9404aee8ffe8c869caad733a1ce1170cdc6ad4",
-                "reference": "8f9404aee8ffe8c869caad733a1ce1170cdc6ad4",
+                "url": "https://api.github.com/repos/yiisoft/yii/zipball/f89b76ecca1d342e346ebb9bfc1e2c589f696345",
+                "reference": "f89b76ecca1d342e346ebb9bfc1e2c589f696345",
                 "shasum": ""
             },
             "require": {
@@ -1931,7 +1931,7 @@
             ],
             "support": {
                 "forum": "https://www.yiiframework.com/forum/",
-                "irc": "irc://irc.freenode.net/yii",
+                "irc": "ircs://irc.libera.chat:6697/yii",
                 "issues": "https://github.com/yiisoft/yii/issues?state=open",
                 "source": "https://github.com/yiisoft/yii",
                 "wiki": "https://www.yiiframework.com/wiki/"
@@ -1950,7 +1950,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-21T13:50:13+00:00"
+            "time": "2023-11-14T09:26:00+00:00"
         }
     ],
     "packages-dev": [
