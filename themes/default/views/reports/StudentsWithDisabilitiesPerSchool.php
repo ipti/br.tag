@@ -45,6 +45,8 @@
             $html .= "<tr>"
                 . "<th> <b>Ordem </b> </th>"
                 . "<th> <b>Identifica&ccedil;&atilde;o &Uacute;nica </b></th>"
+                . "<th> <b>Turma </b></th>"
+                . "<th> <b>Turno </b></th>"
                 . "<th> <b>Data de Nascimento </b></th>"
                 . "<th> <b>Nome Completo </b></th>"
                 . "<th> <b> Tipo de Defici&ecirc;ncia </b></th>"
@@ -110,9 +112,28 @@
                         }
                     }
 
+                    switch($s['turno']){
+                        case 'M':
+                            $turn = "Manhã";
+                            break;
+                        case 'T':
+                            $turn = "Tarde";
+                            break;
+                        case 'N':
+                            $turn = "Noite";
+                            break;
+                        case 'I':
+                            $turn = "Integral";
+                            break;
+                        default:
+                            $turn = "";
+                    }
+
                     $html .= "<tr>"
                         . "<td>" . $ordem . "</td>"
                         . "<td>" . $s['inep_id'] . "</td>"
+                        . "<td>" . $s['turma'] . "</td>"
+                        . "<td>" . $turn . "</td>"
                         . "<td>" . $s['birthday'] . "</td>"
                         . "<td>" . $s['name'] . "</td>";
 
