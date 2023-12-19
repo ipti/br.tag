@@ -47,9 +47,9 @@ class FoodMenuController extends Controller
                 'actions' => array('viewLunch'),
                 'users'=>array('*'),
 			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
+			// array('deny',  // deny all users
+			// 	'users'=>array('*'),
+			// ),
 		);
 	}
 
@@ -318,10 +318,10 @@ class FoodMenuController extends Controller
         }
 
         $response = json_encode((array) $foodMenu);
-
-        $this->render('viewLunch', array(
-            'data'=>$response,
-        ));
+        echo $response;
+        // $this->render('viewLunch', array(
+        //     'data'=>$response,
+        // ));
     }
 
 	/**
