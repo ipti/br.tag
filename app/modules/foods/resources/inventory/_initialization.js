@@ -3,7 +3,15 @@ let table = $('#foodStockTable');
 
 $(document).ready(function() {
     let food_inventory;
-    getFoodInventory();
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodInventory/getFoodInventory",
+        cache: false
+    }).success(function(response) {
+        food_inventory = JSON.parse(response);
+        food_inventory.sort((a, b) => b.amount - a.amount);
+        renderStockTable(food_inventory);
+    })
     let foodSelect = $('#foodStockSelect');
     $.ajax({
         type: 'POST',
@@ -186,6 +194,10 @@ table.on('change', '#foodInventoryStatus', function() {
                 foodInventoryId: foodInventoryId,
                 status: status
             }
+        }).success(function(response) {
+            $('#info-alert').removeClass('hide').addClass('alert-success').html("Status do alimento modificado com sucesso.");
+        }).fail(function(error) {
+            $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível modificar o status do alimento.");
         })
     }
 

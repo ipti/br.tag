@@ -123,10 +123,12 @@ class FoodInventoryController extends Controller
 					$FoodInventoryReceived->food_inventory_fk = $existingFood->id;
 					$FoodInventoryReceived->amount = $foodData['amount'];
 
+
 					$FoodInventoryReceived->save();
 
 					$existingFood->amount += $foodData['amount'];
 					$existingFood->expiration_date =  date('Y-m-d', $expiration_date_Timestamp);
+                    $existingFood->status = 'Disponivel';
 					$existingFood->save();
 				}
 			}

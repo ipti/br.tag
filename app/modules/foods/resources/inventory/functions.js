@@ -49,6 +49,9 @@ function renderStockTable(foodsOnStock, id) {
             '<option value="Emfalta">Em falta</option>'+
             '</select>');
             select.val(stock.status)
+            if (stock.status === 'Emfalta') {
+                select.prop('disabled', true);
+            }
             $('<td>').html(select).appendTo(row);
 
             table.append(row);
@@ -66,10 +69,17 @@ function renderStockTable(foodsOnStock, id) {
                 $('<td>').text(foodDescription).appendTo(row);
                 $('<td>').text(stock.amount + measurementUnit).appendTo(row);
                 $('<td>').text(stock.expiration_date).appendTo(row);
-                console.log(stock.spent);
-                let checkboxInput = $('<td>').html('<input type="checkbox" id="spent-checkbox" data-foodInventoryId="'+ stock.id +'" data-amount="'+ stock.amount +'" ' + (stock.spent ? 'checked disabled' : '') + '> Em falta');
-                $(checkboxInput).appendTo(row);
                 $('<td>').html('<span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"></span>').appendTo(row);
+                let select = $('<select class="select-search-on t-field-select__input select2-container" id="foodInventoryStatus" name="foodInventoryStatus" data-foodInventoryId="' + stock.id + '" data-amount="'+ stock.amount +'">' +
+                '<option value="Disponivel">Disponível</option>'+
+                '<option value="Acabando">Acabando</option>'+
+                '<option value="Emfalta">Em falta</option>'+
+                '</select>');
+                select.val(stock.status)
+                if (stock.status === 'Emfalta') {
+                    select.prop('disabled', true);
+                }
+                $('<td>').html(select).appendTo(row);
 
                 table.append(row);
             }
