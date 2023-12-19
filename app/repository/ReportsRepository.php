@@ -1249,9 +1249,11 @@ class ReportsRepository
      */
     public function getStudentsWithDisabilitiesPerSchool(): array
     {
-        $sql = "SELECT si.*
+        $sql = "SELECT si.*, c.name AS `turma`, c.turn AS `turno`
                 FROM student_identification si
-                WHERE si.deficiency = 1";
+                LEFT JOIN student_enrollment se ON si.id = se.student_fk
+                LEFT JOIN classroom c ON se.classroom_fk = c.id
+                WHERE si.deficiency = 1 AND se.status = 1";
 
         $students = Yii::app()->db->createCommand($sql)->queryAll();
 
@@ -1269,8 +1271,6 @@ class ReportsRepository
             'schools' => $schools,
             'report' => $result
         );
-
-
     }
 
     /**
