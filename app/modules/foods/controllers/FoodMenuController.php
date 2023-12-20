@@ -41,13 +41,17 @@ class FoodMenuController extends Controller
                     'getPublicTarget',
                     'getMealType',
                     'getFoodMeasurement'),
-                'users' => array('@'),
-            ),
-            array('deny',  // deny all users
-                'users' => array('*'),
-            ),
-        );
-    }
+				'users'=>array('@'),
+			),
+            array('allow',  // deny all users
+                'actions' => array('viewLunch'),
+                'users'=>array('*'),
+			),
+			// array('deny',  // deny all users
+			// 	'users'=>array('*'),
+			// ),
+		);
+	}
 
     /**
      * Displays a particular model.
@@ -148,7 +152,9 @@ class FoodMenuController extends Controller
             $foodMenu->setDateFormated($modelFoodMenu);
             // Atribuindo refeições associadas ao cardápio de acordo com o dia
             foreach ($weekDays as $day) {
-                $foodMenu->setDayMeals($day, $modelMenuMeals);
+                $publicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk"=> $modelFoodMenu->id));
+                $foodMenu->setDayMeals($day,  $modelMenuMeals, $publicTarget->food_public_target_fk);
+                // $foodMenu->setDayMeals($day, $modelMenuMeals);
             }
 
             // Convertendo objeto do cardápio em um JSON para enviar como resposta da requisição AJAX
@@ -216,21 +222,69 @@ class FoodMenuController extends Controller
         echo CJSON::encode($result);
     }
 
-    /**
-     * Deletes a particular model.
-     * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
-     */
-    public function actionDelete($id)
-    {
-        $this->loadModel($id)->delete();
-
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-
-        $returnUrl = isset($_POST['returnUrl']) ? $_POST['returnUrl'] : 'admin';
-        if (filter_var($returnUrl, FILTER_VALIDATE_URL)) {
-            $this->redirect($returnUrl);
+	/**
+	 * Deletes a particular model.
+	 * If deletion is successful, the browser will be redirected to the 'admin' page.
+	 * @param integer $id the ID of the model to be deleted
+	 */
+	public function actionDelete($id)
+	{
+		$modelFoodMenu = FoodMenu::model()->findByPk($id);
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $modelFoodMenuMeals = FoodMenuMeal::model()->findAllByAttributes(array('food_menuId' => $modelFoodMenu->id));
+            foreach($modelFoodMenuMeals as $modelFoodMenuMeal){
+                $modelFoodMealComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelFoodMenuMeal->id));
+                foreach($modelFoodMealComponents as $modelFoodMealComponent){
+                    $modelFoodIngredients = FoodIngredient::model()
+                    ->deleteAllByAttributes(array('food_menu_meal_componentId'=> $modelFoodMealComponent->id));
+                }
+                $modelFoodMenuMeal->delete();
+            }
+            $modelFoodMenu->delete();
+            $transaction->commit();
+            header('HTTP/1.1 200 OK');
+            Log::model()->saveAction("foodMenu", $id, "D", $modelFoodMenu->description);
+            // echo json_encode(["valid" => true, "message" => "Cardápio excluído com sucesso!"]);
+            Yii::app()->end();
+        }catch(Exception $e){
+            $transaction->rollback();
+            throw new CHttpException(500, $e->getMessage());
         }
+	}
+    /**
+     * Essa função deve retornar um objeto com todas as refeições em todos os cardápios
+     * cadastrados para cada um dos dias da semana, onde a semana será baseada no dia atual
+     */
+    public function actionViewLunch(){
+        // Get the current date
+        date_default_timezone_set('America/Bahia');
+        $date = date('Y-m-d', time());
+
+        // Create a filter to select foodMenus
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("start_date <= :date AND final_date >= :date");
+        $criteria->params = array(':date' => $date);
+
+        // Select in database filtered foodMenus and assign it to models
+        $modelFoodMenus = FoodMenu::model()->findAll($criteria);
+        $foodMenu = new FoodMenuObject();
+        // Iterate throw foodMenus selected and assign to response object
+        $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+        foreach($weekDays as $day){
+            foreach($modelFoodMenus as $modelFoodMenu){
+                $modelMeals = FoodMenuMeal::model()->findAllByAttributes(array("food_menuId" => $modelFoodMenu->id));
+                $publicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk"=> $modelFoodMenu->id));
+                $foodMenu->setDayMeals($day, $modelMeals, $publicTarget->food_public_target_fk);
+            }
+        }
+
+        $response = json_encode((array) $foodMenu);
+        // echo $response;
+        $this->render('viewLunch', array(
+            'data'=>$response,
+        ));
+        Yii::app()->end();
     }
 
     /**
@@ -444,10 +498,11 @@ class FoodMenuObject
     public $friday = [];
     public $saturday = [];
 
-    public function __construct($model, $foodPublicTarget)
-    {
-        $this->description = $model->description;
-        $this->food_public_target = $foodPublicTarget['id'];
+    public function __construct($model = null, $foodPublicTarget = null){
+        if($model !== null && $foodPublicTarget !== null){
+            $this->description = $model->description;
+            $this->food_public_target = $foodPublicTarget['id'];
+        }
     }
 
     public function setDateFormated($model)
@@ -458,12 +513,11 @@ class FoodMenuObject
         $this->final_date = $finalDate->format("d/m/Y");
     }
 
-    public function setDayMeals($day, $modelMeals)
-    {
-        foreach ($modelMeals as $modelMeal) {
-            if ($modelMeal->$day) {
+    public function setDayMeals($day, $modelMeals, $publicTarget){
+        foreach($modelMeals as $modelMeal){
+            if($modelMeal->$day){
                 $modelComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelMeal->id));
-                $meal = new MealObject($modelMeal);
+                $meal = new MealObject($modelMeal, $publicTarget);
                 $meal->setComponentMeal($modelComponents);
                 array_push($this->$day, (array) $meal);
             }
@@ -479,14 +533,15 @@ class MealObject
     public $sequence;
     public $turn;
     public $food_meal_type;
+    public $food_public_target;
     public $meals_component = [];
 
-    public function __construct($model)
-    {
+    public function __construct($model, $foodMenuPublicTarget){
         $this->time = $model->meal_time;
         $this->sequence = $model->sequence;
         $this->turn = $model->turn;
         $this->food_meal_type = $model->food_meal_type_fk;
+        $this->food_public_target = $foodMenuPublicTarget;
     }
 
     public function setComponentMeal($modelComponents)

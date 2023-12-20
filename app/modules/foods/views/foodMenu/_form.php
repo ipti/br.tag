@@ -94,7 +94,6 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 					</div>
 				</div>
 			</div>
-
 		</div>
 		<div class="row">
 			<div class="column">

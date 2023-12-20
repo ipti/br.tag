@@ -54,7 +54,7 @@ $(".js-save-menu").on("click", function () {
                     foodMenu: foodMenu
                 },
                 type: "POST",
-            }).success(function (response) {
+            }).done(function (response) {
                 window.location.href = "?r=foods/foodMenu/index";
             })
          } else 
@@ -65,7 +65,7 @@ $(".js-save-menu").on("click", function () {
                     foodMenu: foodMenu
                 },
                 type: "POST",
-            }).success(function (response) {
+            }).done(function (response) {
                 window.location.href = "?r=foods/foodMenu/index";
             })
         }

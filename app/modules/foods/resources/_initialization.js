@@ -11,7 +11,7 @@ $( "#js-accordion" ).accordion({
     $.ajax({
         url: "?r=foods/foodMenu/getPublicTarget",
         type: "GET",
-    }).success(function(response) {   
+    }).success(function(response) {
        const publicTarget = JSON.parse(response);
         const select = $(`select.js-public-target`)
         $.map(publicTarget, function (name, id) {
@@ -31,13 +31,13 @@ if(menuId)  {
     const finalDate = $('.js-final-date');
     const observation = $('.js-observation');
     name.val(menuUpdate.description);
-    debugger
+    // debugger
     startDate.val(menuUpdate.start_date);
     finalDate.val(menuUpdate.final_date);
     observation.val(menuUpdate.observation);
 
     //renderizando refeições
-    
+
     //segunda
     menuUpdate.monday.map((e) => {
         let plates = []
@@ -47,7 +47,7 @@ if(menuId)  {
                let food =  {
                 id: idIgredientes,
                 amount: foodIngredient.amount,
-                food_id_fk: foodIngredient.food_id_fk, 
+                food_id_fk: foodIngredient.food_id_fk,
                 food_measure_unit_id: foodIngredient.food_measure_unit_id
             }
             idIgredientes++
@@ -62,7 +62,7 @@ if(menuId)  {
         })
         meals.push({
             id: idMeals,
-            mealDay: 1, 
+            mealDay: 1,
             mealTime: e.time,
             mealTypeId: e.food_meal_type,
             mealType: 'Turno da refeição',
@@ -70,7 +70,7 @@ if(menuId)  {
             plates: plates
         })
         idMeals++
-       
+
     })
     //terça
     menuUpdate.tuesday.map((e) => {
