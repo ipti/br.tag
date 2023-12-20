@@ -1,63 +1,77 @@
 function  initializeSelect2() {
-    $("select.js-inicializate-select2").select2("destroy");
-    $('select.js-inicializate-select2').select2();
+    $("select.js-initialize-select2").select2("destroy");
+    $('select.js-initialize-select2').select2();
 }
 
 $(".js-save-menu").on("click", function () {
-    let foodMenu = {
-        "description": "",
-        "food_public_target": "",
-        "start_date": "",
-        "final_date": "",
-        "sunday" :{
-            "meals":[]
-        },
-        "monday" :{
-            "meals":[]
-        },
-        "tuesday" :{
-            "meals":[]
-        },
-        "wednesday" :{
-            "meals":[]
-        },
-        "thursday" :{
-            "meals":[]
-        },
-        "friday" :{
-            "meals":[]
-        },
-        "saturday" :{
-            "meals":[]
+    const form = $('#food-menu-form')
+    if(form[0].checkValidity()) {
+        let foodMenu = {
+            "description": "",
+            "food_public_target": "",
+            "start_date": "",
+            "final_date": "",
+            "sunday" :{
+                "meals":[]
+            },
+            "monday" :{
+                "meals":[]
+            },
+            "tuesday" :{
+                "meals":[]
+            },
+            "wednesday" :{
+                "meals":[]
+            },
+            "thursday" :{
+                "meals":[]
+            },
+            "friday" :{
+                "meals":[]
+            },
+            "saturday" :{
+                "meals":[]
+            }
         }
-    }
+        //get menu infos
+        foodMenu.description = $('.js-menu-name').val()
+        foodMenu.food_public_target = $('select.js-public-target').val()
+        foodMenu.start_date = $('.js-start-date').val()
+        foodMenu.final_date = $('.js-final-date').val()
+        foodMenu.observation = $('.js-observation').val()
 
-    //get menu infos
-    foodMenu.description = $('.js-menu-name').val()
-    foodMenu.food_public_target = $('select.js-public-target').val()
-    foodMenu.start_date = $('.js-start-date').val()
-    foodMenu.final_date = $('.js-final-date').val()
-    foodMenu.observation = $('.js-observation').val()
+        //get meals
+        foodMenu.sunday = getMealsByDay(0)
+        foodMenu.monday = getMealsByDay(1)
+        foodMenu.tuesday = getMealsByDay(2)
+        foodMenu.wednesday = getMealsByDay(3)
+        foodMenu.thursday = getMealsByDay(4)
+        foodMenu.friday = getMealsByDay(5)
+        foodMenu.saturday = getMealsByDay(6)
 
-    //get meals
-    foodMenu.sunday = getMealsByDay(0)
-    foodMenu.monday = getMealsByDay(1)
-    foodMenu.tuesday = getMealsByDay(2)
-    foodMenu.wednesday = getMealsByDay(3)
-    foodMenu.thursday = getMealsByDay(4)
-    foodMenu.friday = getMealsByDay(5)
-    foodMenu.saturday = getMealsByDay(6)
+        // console.log(foodMenu)
+        $.ajax({
+            url: "?r=foods/foodMenu/create",
+            data: {
+                foodMenu: foodMenu
+            },
+            type: "POST",
+        }).success(function (response) {
+            window.location.href = "?r=foods/foodMenu/index";
+        })
 
-    /* console.log(foodMenu) */
-    $.ajax({
-        url: "?r=foods/foodMenu/create",
-        data: {
-            foodMenu: foodMenu
-        },
-        type: "POST",
-      }).success(function (response) {
-            // window.location.href = "?r=foods/foodMenu/index";
-      })
+    } else {
+        const erros = []
+        form.find(':input[required]').each(function () {
+            if (!this.validity.valid) {
+                if(!erros.includes(this.name))
+                erros.push(this.name)
+            }
+        });
+         
+        showErros(erros)
+    } 
+
 
 });
 
@@ -75,8 +89,7 @@ function getMealsByDay(day) {
         meal.time = $(mealAccordion).find('.js-mealTime').val()
         meal.sequence = index
         meal.turn = $(mealAccordion).find('select.js-shift').val()
-        meal.food_meal_type = $(mealAccordion).find('select.js-food-meal-type').val()
-
+        meal.food_meal_type = $(mealAccordion).find('select.js-meal-type').val()
 
         // get meals components
 
@@ -112,4 +125,12 @@ function getFoodIngredients(idPlateAccordion) {
         foodIngredients.push(foodIngredient)
     })
     return foodIngredients
+}
+function showErros(erros) {
+    const menuError = $('.js-menu-error')
+    const message  = erros.reduce((accumulator, campo) => {
+        return accumulator + `O campo ${campo} é obrigatório<br>`;
+    }, '');
+    menuError.html(message)
+    menuError.removeClass('hide')
 }
