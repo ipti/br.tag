@@ -206,6 +206,7 @@ class CourseplanController extends Controller
         echo CJSON::encode($result);
     }
 
+
     /**
      * Sabe the Course Plan, and yours course classes.
      */
