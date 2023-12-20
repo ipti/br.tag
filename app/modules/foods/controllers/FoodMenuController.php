@@ -257,6 +257,10 @@ class FoodMenuController extends Controller
      * cadastrados para cada um dos dias da semana, onde a semana será baseada no dia atual
      */
     public function actionViewLunch(){
+        $this->render('viewLunch', array());
+        Yii::app()->end();
+    }
+    public function actionGetMealsOfWeek() {
         // Get the current date
         date_default_timezone_set('America/Bahia');
         $date = date('Y-m-d', time());
@@ -274,17 +278,14 @@ class FoodMenuController extends Controller
         foreach($weekDays as $day){
             foreach($modelFoodMenus as $modelFoodMenu){
                 $modelMeals = FoodMenuMeal::model()->findAllByAttributes(array("food_menuId" => $modelFoodMenu->id));
-                $publicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk"=> $modelFoodMenu->id));
-                $foodMenu->setDayMeals($day, $modelMeals, $publicTarget->food_public_target_fk);
+                $publicTargetFoodMenu = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk"=> $modelFoodMenu->id));
+                $publicTarget = FoodPublicTarget::model()->findByPk($publicTargetFoodMenu->food_public_target_fk);
+                $foodMenu->setDayMeals($day, $modelMeals, $publicTarget);
+
             }
         }
-
         $response = json_encode((array) $foodMenu);
-        // echo $response;
-        $this->render('viewLunch', array(
-            'data'=>$response,
-        ));
-        Yii::app()->end();
+        echo $response;
     }
 
     /**
@@ -517,7 +518,8 @@ class FoodMenuObject
         foreach($modelMeals as $modelMeal){
             if($modelMeal->$day){
                 $modelComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelMeal->id));
-                $meal = new MealObject($modelMeal, $publicTarget);
+                $modelMealType = FoodMealType::model()->findByPk($modelMeal->food_meal_type_fk);
+                $meal = new MealObject($modelMeal, $publicTarget, $modelMealType->description);
                 $meal->setComponentMeal($modelComponents);
                 array_push($this->$day, (array) $meal);
             }
@@ -533,15 +535,19 @@ class MealObject
     public $sequence;
     public $turn;
     public $food_meal_type;
-    public $food_public_target;
+
+    public $food_public_target_id;
+    public $food_public_target_name;
     public $meals_component = [];
 
-    public function __construct($model, $foodMenuPublicTarget){
+    public function __construct($model, $foodMenuPublicTarget, $mealDescription){
         $this->time = $model->meal_time;
         $this->sequence = $model->sequence;
         $this->turn = $model->turn;
         $this->food_meal_type = $model->food_meal_type_fk;
-        $this->food_public_target = $foodMenuPublicTarget;
+        $this->food_meal_type_description = $mealDescription;
+        $this->food_public_target_name = $foodMenuPublicTarget->name;
+        $this->food_public_target_id = $foodMenuPublicTarget->id;
     }
 
     public function setComponentMeal($modelComponents)
