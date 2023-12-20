@@ -40,16 +40,14 @@ class FoodMenuController extends Controller
                     'getTacoFoods',
                     'getPublicTarget',
                     'getMealType',
-                    'getFoodMeasurement'),
-				'users'=>array('@'),
+                    'getFoodMeasurement',
+                    'viewLunch'
+                ),
+				'users'=>array('*'),
 			),
-            array('allow',  // deny all users
-                'actions' => array('viewLunch'),
-                'users'=>array('*'),
+			array('deny',  // deny all users
+				'users'=>array('*'),
 			),
-			// array('deny',  // deny all users
-			// 	'users'=>array('*'),
-			// ),
 		);
 	}
 
@@ -72,6 +70,7 @@ class FoodMenuController extends Controller
 	{
         $modelFoodMenu = new FoodMenu;
         $request = Yii::app()->request->getPost('foodMenu');
+        // $request = json_decode(Yii::app()->request->getRawBody(), true);
         $transaction = Yii::app()->db->beginTransaction();
         // Verifica se há dados na requisição enviada
         // Caso negativo, renderiza o formulário
@@ -135,12 +134,12 @@ class FoodMenuController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-        $request = Yii::app()->request->getRawBody();
-        $request = json_decode($request, true);
+        $request = Yii::app()->request->getPost('foodMenu');
+        // $request = json_decode($request, true);
         $modelFoodMenu=$this->loadModel($id);
         $modelMenuMeals = FoodMenuMeal::model()->findAllByAttributes(array('food_menuId'=>$modelFoodMenu->id));
 
-        if($request == null){
+        if($request === null){
              // Bloco de código para identificar qual o público alvo do cardápio
              $publicTargetSql = "
              SELECT fpt.id, fpt.name FROM food_public_target fpt
@@ -155,14 +154,15 @@ class FoodMenuController extends Controller
              $foodMenu->setDateFormated($modelFoodMenu);
              // Atribuindo refeições associadas ao cardápio de acordo com o dia
              foreach($weekDays as $day){
-                 $foodMenu->setDayMeals($day, $modelMenuMeals);
+                $publicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk"=> $modelFoodMenu->id));
+                $foodMenu->setDayMeals($day, $modelMenuMeals, $publicTarget->food_public_target_fk);
              }
 
              // Convertendo objeto do cardápio em um JSON para enviar como resposta da requisição AJAX
              $response = json_encode((array) $foodMenu);
 
              $this->render('update', array(
-                 'data'=>$response,
+                 'model'=>$response,
              ));
              Yii::app()->end();
         }
@@ -264,7 +264,8 @@ class FoodMenuController extends Controller
         foreach($weekDays as $day){
             foreach($modelFoodMenus as $modelFoodMenu){
                 $modelMeals = FoodMenuMeal::model()->findAllByAttributes(array("food_menuId" => $modelFoodMenu->id));
-                $publicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk"=> $modelFoodMenu->id));
+                $foodVsPT = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk" => $modelFoodMenu->id));
+                $publicTarget = FoodPublicTarget::model()->findByAttributes(array("id" => $foodVsPT->food_public_target_fk));
                 $foodMenu->setDayMeals($day, $modelMeals, $publicTarget->food_public_target_fk);
             }
         }
@@ -500,11 +501,11 @@ class FoodMenuObject {
         $this->final_date = $finalDate->format("m/d/Y");
     }
 
-    public function setDayMeals($day, $modelMeals, $publicTarget){
+    public function setDayMeals($day, $modelMeals, $modelPublicTarget){
         foreach($modelMeals as $modelMeal){
             if($modelMeal->$day){
                 $modelComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelMeal->id));
-                $meal = new MealObject($modelMeal, $publicTarget);
+                $meal = new MealObject($modelMeal, $modelPublicTarget);
                 $meal->setComponentMeal($modelComponents);
                 array_push($this->$day, (array) $meal);
             }
@@ -520,7 +521,8 @@ class MealObject
     public $sequence;
     public $turn;
     public $food_meal_type;
-    public $food_public_target;
+    public $publicTargetId;
+    public $publicTargetName;
     public $meals_component = [];
 
     public function __construct($model, $foodMenuPublicTarget){
@@ -528,7 +530,8 @@ class MealObject
         $this->sequence = $model->sequence;
         $this->turn = $model->turn;
         $this->food_meal_type = $model->food_meal_type_fk;
-        $this->food_public_target = $foodMenuPublicTarget;
+        $this->$publicTargetId = $foodMenuPublicTarget->id;
+        $this->publicTargetName = $foodMenuPublicTarget->name;
     }
 
     public function setComponentMeal($modelComponents){
