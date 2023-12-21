@@ -48,7 +48,8 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', "updatedependencies",
                     'delete', 'getmodalities', 'grades', 'getGrades', 'saveGrades', 'CheckEnrollmentDelete',
-                    'getDisciplines', 'calculateFinalMedia', 'reportCard', 'getReportCardGrades', 'saveGradesReportCard'),
+                    'getDisciplines', 'calculateFinalMedia', 'reportCard', 'getReportCardGrades', 'saveGradesReportCard',
+                    'gradesRelease'),
                 'users' => array('@'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -383,6 +384,31 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         }
 
         $this->render('reportCard', ['classrooms' => $classroom]);
+    }
+
+    public function actionGradesRelease()
+    {
+        $year = Yii::app()->user->year;
+        $school = Yii::app()->user->school;
+
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $criteria = new CDbCriteria;
+            $criteria->alias = "c";
+            $criteria->join = ""
+                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
+                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
+            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+            $criteria->order = "name";
+            $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
+
+            $classroom = Classroom::model()->findAll($criteria);
+            $classroom = CHtml::listData($classroom, 'id', 'name');
+        } else {
+            $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
+            $classroom = CHtml::listData($classroom, 'id', 'name');
+        }
+
+        $this->render('gradesRelease', ['classrooms' => $classroom]);
     }
 
     /**
