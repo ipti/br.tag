@@ -9,13 +9,15 @@ class FoodsModule extends CWebModule
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
 		$this->baseUrl = Yii::app()->createUrl("foods");
-		
+
 		$this->baseScriptUrl = Yii::app()->getAssetManager()
 			->publish(Yii::getPathOfAlias('application.modules.foods.resources'));
 		// import the module-level models and components
 		$this->setImport(array(
 			'foods.models.*',
 			'foods.components.*',
+            'foods.controllers.*',
+            'foods.controllers.FoodMenuController'
 		));
 	}
 
