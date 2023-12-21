@@ -68,6 +68,22 @@ $this->menu = array(
 								'value' => 'DateTime::createFromFormat("Y-m-d",$data->final_date)->format("d/m/Y")',
 								'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
 							),
+							array(
+								'header' => 'Ações',
+								'class' => 'CButtonColumn',
+								'template' => '{update}{delete}',
+								'buttons' => array(
+									'update' => array(
+										'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+									),
+									'delete' => array(
+										'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+									)
+								),
+								'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
+								'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
+								'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+							)
 						),
 					)
 				); ?>

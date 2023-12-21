@@ -29,10 +29,16 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
 
 <div id="mainPage" class="main container-instructor">
     <div class="row">
+        <div class="t-badge-info">
+            <span class="t-info_positive"></span>
+            <?php echo $students ?>  Alunos Presentes
+        </div>
+    </div>
+    <div class="row">
         <a class="t-button-primary" href="<?php echo yii::app()->createUrl('foods/foodmenu/') ?>"> 
             Preparar Cardápio
         </a>
-        <a class="t-button-secondary">
+        <a class="t-button-secondary" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
             Estoque
         </a>
     </div>

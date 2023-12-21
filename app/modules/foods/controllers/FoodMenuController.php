@@ -241,11 +241,17 @@ class FoodMenuController extends Controller
                 }
                 $modelFoodMenuMeal->delete();
             }
+            $modelFoodMenuVsPublicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array('food_menu_fk' => $modelFoodMenu->id));
+            $modelFoodMenuVsPublicTarget->delete();
             $modelFoodMenu->delete();
             $transaction->commit();
             header('HTTP/1.1 200 OK');
             Log::model()->saveAction("foodMenu", $id, "D", $modelFoodMenu->description);
             // echo json_encode(["valid" => true, "message" => "Cardápio excluído com sucesso!"]);
+            $dataProvider = new CActiveDataProvider('FoodMenu');
+            $this->render('index', array(
+            'dataProvider' => $dataProvider,
+        ));
             Yii::app()->end();
         }catch(Exception $e){
             $transaction->rollback();
@@ -257,7 +263,20 @@ class FoodMenuController extends Controller
      * cadastrados para cada um dos dias da semana, onde a semana será baseada no dia atual
      */
     public function actionViewLunch(){
-        $this->render('viewLunch', array());
+        $criteria = new CDbCriteria();
+
+        // Adiciona condição para os valores específicos e NULL
+        $criteria->addInCondition('status', array(1, 6, 7, 8, 9, 10));
+        $criteria->addCondition('status is null', "OR");
+        $criteria->compare('classroomFk.school_year', Yii::app()->user->year);
+        $criteria->compare('school_inep_id_fk', Yii::app()->user->school);
+
+        // Executa a contagem
+        $count = StudentEnrollment::model()->with("classroomFk")->count($criteria);
+
+        $this->render('viewLunch', array(
+            "students" => $count
+        ));
         Yii::app()->end();
     }
     public function actionGetMealsOfWeek() {
@@ -576,7 +595,8 @@ class MealComponentObject
     public function setComponentIngredients($modelIngredients)
     {
         foreach ($modelIngredients as $modelIngredient) {
-            $ingredient = new IngredientObject($modelIngredient);
+            $foodModel = Food::model()->findByPk($modelIngredient->food_id_fk);
+            $ingredient = new IngredientObject($modelIngredient, $foodModel);
             array_push($this->ingredients, (array) $ingredient);
         }
     }
@@ -587,12 +607,14 @@ class MealComponentObject
 class IngredientObject
 {
     public $food_id_fk;
+    public $food_name;
     public $amount;
     public $food_measure_unit_id;
 
-    public function __construct($model)
+    public function __construct($model, $foodModel)
     {
         $this->food_id_fk = $model->food_id_fk;
+        $this->food_name = $foodModel->description;
         $this->amount = $model->amount;
         $this->food_measure_unit_id = $model->food_measurement_fk;
     }

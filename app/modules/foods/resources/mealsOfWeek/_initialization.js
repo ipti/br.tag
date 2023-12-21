@@ -21,22 +21,22 @@ $(document).on("click", '.js-change-pagination', function () {
     renderMeals(mealsOfWeekFiltered)
 })
 $(document).on("change", '.js-filter-turns, .js-filter-public-target', function (e) {
-    const filter1 = $(".js-filter-turns").select2("val");
-    const filter2 = $(".js-filter-public-target").select2("val");
+    const turnFilter = $(".js-filter-turns").select2("val");
+    const publicTargetFilter = $(".js-filter-public-target").select2("val");
     mealsOfWeekFiltered = JSON.parse(JSON.stringify(mealsOfWeek));
 
     const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
     days.forEach((day) => {
-        if (filter1.length > 0) {
+        if (turnFilter.length > 0) {
             mealsOfWeekFiltered[day] = mealsOfWeekFiltered[day].filter((item) => {
-                return filter1.some((i) => i === item.turn);
+                return turnFilter.some((i) => i === item.turn);
             });
         }
 
-        if (filter2.length > 0) {
+        if (publicTargetFilter.length > 0) {
             mealsOfWeekFiltered[day] = mealsOfWeekFiltered[day].filter((item) => {
-                return filter2.some((i) => i === item.food_public_target_id);
+                return publicTargetFilter.some((i) => i === item.food_public_target_id);
             });
         }
     });
@@ -103,7 +103,9 @@ function createCard(meal_component, meal, dayMeal) {
         default:
             turn = ""
     }
-
+    igredients = meal_component.ingredients.map((item) => {
+        return  item.amount + ' ' + item.food_name.replace(/,/g, '');
+    })
     return `<div class="t-cards ${dayMeal != day ? "hide" : ""}" data-public-target="${meal.food_public_target_id}" data-turn="${turn}">
                 <div class="t-cards-content">
                     <div class="row">
@@ -119,7 +121,7 @@ function createCard(meal_component, meal, dayMeal) {
                         </div>
                     </div>
                     <div class="t-cards-title">${meal_component.description}</div>
-                    <div class="t-cards-text clear-margin--left">Ingredientes 12 Leite, 15 fubá, 17 canela</div>
+                    <div class="t-cards-text clear-margin--left">Ingredientes: ${igredients.join(', ')} </div>
                 </div>
             </div>`
 }
