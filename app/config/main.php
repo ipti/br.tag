@@ -124,8 +124,8 @@ return array(
                 'merenda-escolar/menu/<action:\w+>/<id:\d+>'=> 'lunch/lunch/<action>',
 
                 'merenda/'                                  => 'foods/',
-                'merenda/cardápio'                          => 'foods/foodMenu/',
-                'merenda/cardápio/<action:\w+>'             => 'foods/foodMenu/<action>',
+                'merenda/cardapio'                          => 'foods/foodMenu/',
+                'merenda/cardapio/<action:\w+>'             => 'foods/foodMenu/<action>',
 
                 'boletim-escolar/'                          => 'schoolreport/',
                 'boletim-escolar/'                          => 'schoolreport/default/select',

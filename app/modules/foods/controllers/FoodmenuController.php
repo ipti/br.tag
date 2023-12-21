@@ -1,6 +1,6 @@
 <?php
 
-class FoodMenuController extends Controller
+class FoodmenuController extends Controller
 {
 
     public $MODEL_FOOD_MENU = 'FoodMenu';
