@@ -77,8 +77,8 @@ return array(
         'sedsp',
         'classdiary',
         'curricularcomponents',
-        'foods',
-        'stages'
+        'stages',
+        'foods'
     ),
     // application components
     'components' => array(

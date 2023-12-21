@@ -14,7 +14,7 @@ $domain = array_shift($host_array);
 
 $newdb = $domain.'.tag.ong.br';
 
-if($domain == "localhost" || $domain == "taghomolog.tag.ong.br"){
+if($domain == "localhost" || $domain == "taghomolog.azurewebsites.net"){
     $newdb = 'demo.tag.ong.br';
 }
 
