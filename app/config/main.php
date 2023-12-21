@@ -11,13 +11,13 @@ $log_config = array(
     'routes' => array(
         array(
             'class' => 'CFileLogRoute',
-            'levels' => 'error, warning, info',
-            'categories'=> 'application.*',
+            // 'levels' => 'error, warning, info',
+            // 'categories'=> 'application.*',
         ),
     ),
 );
 
-if(!YII_DEBUG){
+if(YII_DEBUG){
     array_push($log_config['routes'], array(
         'class'=>'CWebLogRoute',
       )

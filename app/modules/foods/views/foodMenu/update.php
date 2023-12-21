@@ -1,6 +1,7 @@
 <?php
 /* @var $this FoodMenuController */
 /* @var $model FoodMenu */
+/** @var FoodMenu $model */
 
 $this->breadcrumbs=array(
 	'Food Menus'=>array('index'),
@@ -15,10 +16,14 @@ $this->menu=array(
 	array('label'=>'Manage FoodMenu', 'url'=>array('admin')),
 );
 ?>
+<div class="row main">
+	<div class="column">
+		<h1> <?= $model->description ?></h1>
+	</div>
+</div>
 
-<h1>Update FoodMenu <?php echo $model->id; ?></h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>
 <script type="text/javascript">
-	 var menuUpdate =  <?php echo $model; ?>
+	 var menuUpdate = <?php echo CJSON::encode($model); ?>
 </script>

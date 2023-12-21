@@ -17,10 +17,13 @@ $this->menu = array(
 
 	<div class="row-fluid">
 		<div class="span12">
-			<h1><?php echo Yii::t('default', 'Food Menus') ?></h1>
+			<h1>
+				<?php echo Yii::t('default', 'Food Menus') ?>
+			</h1>
 			<div class="t-buttons-container">
-				<a class="t-button-primary"
-					href="<?= Yii::app()->createUrl('foods/foodMenu/create') ?>"><?= Yii::t('default', 'Add') ?></a>
+				<a class="t-button-primary" href="<?= Yii::app()->createUrl('foods/foodMenu/create') ?>">
+					<?= Yii::t('default', 'Add') ?>
+				</a>
 			</div>
 		</div>
 	</div>
@@ -47,9 +50,40 @@ $this->menu = array(
 						'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
 						'columns' => array(
 							'id',
-							'description',
-							'start_date',
-							'final_date',
+							'description' => array(
+								'header' => 'Nome',
+								'type' => 'raw',
+								'value' => 'CHtml::link($data->description,Yii::app()->createUrl("foods/foodmenu/update",array("id"=>$data->id)))',
+								'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
+							),
+							'start_date' => array(
+								'header' => 'Início',
+								'type' => 'raw',
+								'value' => 'DateTime::createFromFormat("Y-m-d",$data->start_date)->format("d/m/Y")',
+								'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
+							),
+							'final_date' => array(
+								'header' => 'Fim',
+								'type' => 'raw',
+								'value' => 'DateTime::createFromFormat("Y-m-d",$data->final_date)->format("d/m/Y")',
+								'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
+							),
+							array(
+								'header' => 'Ações',
+								'class' => 'CButtonColumn',
+								'template' => '{update}{delete}',
+								'buttons' => array(
+									'update' => array(
+										'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+									),
+									'delete' => array(
+										'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+									)
+								),
+								'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
+								'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
+								'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+							)
 						),
 					)
 				); ?>
