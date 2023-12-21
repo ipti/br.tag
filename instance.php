@@ -14,7 +14,7 @@ $domain = array_shift($host_array);
 
 $newdb = $domain.'.tag.ong.br';
 
-if($domain == "localhost"){
+if($domain == "localhost" || $domain == "taghomolog.tag.ong.br"){
     $newdb = 'demo.tag.ong.br';
 }
 
