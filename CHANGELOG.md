@@ -1,3 +1,6 @@
+## [Versão 3.65.101]
+- Criação da tela de lançamento de notas
+
 ## [Versão 3.64.101]
 - Criada a tela de gestão de estoque e de solicitações no modulo de merenda
 
