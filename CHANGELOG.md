@@ -1,3 +1,6 @@
+## [Versão 3.64.101]
+- Criação da tela de lançamento de notas
+
 ## [Versão 3.63.101]
 - Corrigido o estilo e padronização das caixas de texto na tela de cadastrar e atualizar usuário
 
