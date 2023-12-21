@@ -1,6 +1,6 @@
 <?php
 
-class FoodRequestController extends Controller
+class FoodrequestController extends Controller
 {
 
     public function actionSaveRequest()

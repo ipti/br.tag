@@ -35,7 +35,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
         </div>
     </div>
     <div class="row">
-        <a class="t-button-primary" href="<?php echo yii::app()->createUrl('foods/foodmenu/') ?>"> 
+        <a class="t-button-primary" href="<?php echo yii::app()->createUrl('foods/foodmenu/create') ?>">
             Preparar Cardápio
         </a>
         <a class="t-button-secondary" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
@@ -80,6 +80,6 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
         </div>
     </div>
     <div class="js-cards-meals">
-        
+
     </div>
 </div>

@@ -4,15 +4,7 @@ class FoodmenuController extends Controller
 {
 
     public $MODEL_FOOD_MENU = 'FoodMenu';
-
-    /**
-     * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
-     */
-    public function actionView($id)
-    {
-        echo phpinfo();
-    }
+    public $defaultAction = "viewlunch";
 
     /**
      * Creates a new model.
