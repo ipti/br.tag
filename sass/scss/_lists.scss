@@ -1,0 +1,11 @@
+@import '_tokens.scss';
+@import '_functions.scss';
+
+.t-list-content {
+    display: flex;
+    background-color: $colorsBaseProductLighter;
+    margin-top: $SizeXXSmall;
+    margin-bottom: $SizeXXSmall;
+    padding: $SizeXXSmall;
+    border-radius: $borderRadiusNormal;
+};
