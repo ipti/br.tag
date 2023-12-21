@@ -5,7 +5,7 @@ $.ajax({
     url: "?r=foods/foodMenu/GetMealsOfWeek",
     type: "POST",
 }).success(function (response) {
-    mealsOfWeek = JSON.parse(response)
+    mealsOfWeek = JSON.parse(DOMPurify.sanitize(response))
     mealsOfWeekFiltered = mealsOfWeek;
     containerCards.html('')
     renderMeals(mealsOfWeek)
