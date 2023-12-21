@@ -87,8 +87,7 @@ $('#discipline').change(function (e, triggerEvent) {
                                 <th rowspan='2' style='width:10%;'>Nome</th>
                         `;
                     $.each(data.unities, function (index) {
-                        data.unities[index].name
-                        html += `<th colspan='2' style='width:20%;'>` + data.unities[index].name + `</th>`
+                        html += `<th colspan='2' style='width:20%;'>` + this.name + `</th>`
                     });
                     html += `
                                 <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
