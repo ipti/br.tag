@@ -380,7 +380,7 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
             <p>Resultado: <?= $reprovado ? "Reprovado" : "Aprovado"?></p>
         </div>
         <p class="footer-container">
-        Observações:<br>
+        Observações:<textarea style="width: 767px; height: 227px; border: 1px solid transparent;"></textarea>
         <?php if ($segment) {?>
         * Processo de avaliação das disciplinas de Educação Física e Arte e Cultura do Ensino Fundamental é feito<br>
         através de relatório trimestral, segundo o Regimento Escolar.<br>
