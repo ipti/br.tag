@@ -11,6 +11,7 @@
  * @property mixed $finalRecoverMedia
  * @property mixed $calculationFinalMedia
  * @property bool $hasFinalRecovery
+ * @property string $ruleType
  */
 class UpdateGradeJustOneStructUsecase
 {
@@ -18,7 +19,7 @@ class UpdateGradeJustOneStructUsecase
     private const OP_UPDATE = "update";
     private const OP_REMOVE = "remove";
 
-    public function __construct($stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery)
+    public function __construct($stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $ruleType)
     {
         $this->stage = $stage;
         $this->unities = $unities;
@@ -26,6 +27,7 @@ class UpdateGradeJustOneStructUsecase
         $this->finalRecoverMedia = $finalRecoverMedia;
         $this->calculationFinalMedia = $calculationFinalMedia;
         $this->hasFinalRecovery = $hasFinalRecovery;
+        $this->ruleType = $ruleType;
     }
 
     public function exec()
@@ -40,7 +42,8 @@ class UpdateGradeJustOneStructUsecase
             $this->approvalMedia,
             $this->finalRecoverMedia,
             $this->calculationFinalMedia,
-            $this->hasFinalRecovery
+            $this->hasFinalRecovery,
+            $this->ruleType
         );
         $rulesUseCase->exec();
 

@@ -68,7 +68,7 @@ class CalculateNumericGradeUsecase
     private function calculateCommonUnity($gradeResult, $studentEnrollment, $discipline, $unity, $index)
     {
         $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $unity);
-        $gradeResult["grade_" . ($index + 1)] = is_nan($unityMedia) ? "" : $unityMedia;
+        $gradeResult["grade_" . ($index + 1)] = is_nan($unityMedia) ? "" : round($unityMedia, 1) ;
         return $gradeResult;
     }
 
@@ -121,6 +121,7 @@ class CalculateNumericGradeUsecase
         $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
         $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
         $criteria->condition = "c.id = :classroom";
+        $criteria->order = "gu.type desc";
         $criteria->params = array(":classroom" => $classroom);
 
         return GradeUnity::model()->findAll($criteria);

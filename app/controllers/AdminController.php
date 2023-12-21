@@ -267,10 +267,19 @@ class AdminController extends Controller
         $finalRecoverMedia = Yii::app()->request->getPost("finalRecoverMedia");
         $calculationFinalMedia = Yii::app()->request->getPost("finalMediaCalculation");
         $finalRecovery = Yii::app()->request->getPost("finalRecovery");
+        $ruleType = Yii::app()->request->getPost("ruleType");
         $hasFinalRecovery = Yii::app()->request->getPost("hasFinalRecovery") === "true";
 
         try {
-            $usecase = new UpdateGradeStructUsecase($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery);
+            $usecase = new UpdateGradeStructUsecase(
+                $reply,
+                $stage,
+                $unities,
+                $approvalMedia,
+                $finalRecoverMedia,
+                $calculationFinalMedia,
+                $hasFinalRecovery,
+                $ruleType);
             $usecase->exec();
 
             if ($hasFinalRecovery === true) {

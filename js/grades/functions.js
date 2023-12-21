@@ -258,7 +258,7 @@ function GradeTableBuilder(data) {
                                 </th>`
                             )
                             .join("\n")}
-                        ${!data.isUnityConcept ? `<thcolspan='2'></th>` : ""}
+                        ${!data.isUnityConcept ? `<th colspan='2'></th>` : ""}
                     </tr>
                     <tr class="modality-row">
                         <th>Aluno(a)</th>

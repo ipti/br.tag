@@ -36,7 +36,10 @@ $(document).on(
                         "checked",
                         data.hasFinalRecovery
                     );
-                    $(".calculation-final-media").select2("val", data.mediaCalculation);
+                    $(".calculation-final-media").select2(
+                        "val",
+                        data.mediaCalculation
+                    );
                     $(".rule-type").select2("val", data.ruleType);
                     $(".final-recover-media").val(data.finalRecoverMedia);
                     $(".final-recovery-unity-operation").val(
@@ -115,6 +118,8 @@ $(document).on(
                     $(".js-grades-structure-container")
                         .css("pointer-events", "auto")
                         .css("opacity", "1");
+
+                    initRuleType(data.ruleType);
                 },
             });
         } else {
@@ -156,7 +161,6 @@ $(document).on("click", ".js-new-unity", function (e) {
                         <option value='U'>Unidade</option>
                         <option value='UR'>Unidade com recuperação</option>
                         <option value='UC'>Unidade por conceito</option>
-
                     </select>
                 </div>
                 <div class="t-field-select js-calculation">
@@ -169,7 +173,7 @@ $(document).on("click", ".js-new-unity", function (e) {
                 <p class="subheading">
                     Gerencie todas as formas de avalição que compõe as notas dessa unidade avaliativa
                 </p>
-                <div class="t-cards">
+                <div class="t-cards js-modality-container">
                     <div class="row">
                         <a href="#new-modality" id="new-modality" class="js-new-modality t-button-primary">
                             <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Modalidade
@@ -188,33 +192,29 @@ $(document).on("change", ".js-type-select", function (e) {
         unity.find(".js-new-modality").trigger("click").show();
         unity.find(".js-calculation").show();
         unity.find(".modality[concept=1]").remove();
-        unity
-            .find(".modality")
+        unity.find(".modality")
             .last()
             .children("label")
             .html("Recuperação: " + '<span class="red">*</span>');
-        unity
-            .find(".modality")
+        unity.find(".modality")
             .last()
             .find(".modality-name")
             .attr("modalitytype", "R")
             .css("width", "calc(100% - 140px)");
-        unity
-            .find(".modality")
+        unity.find(".modality")
             .last()
             .find(".remove-modality, .weight")
             .remove();
+
     } else if ($(this).val() === "UC") {
         unity.find(".modality").remove();
         unity.find(".js-new-modality").trigger("click").hide();
         unity.find(".js-formula-select").val("1").trigger("change");
         unity.find(".js-calculation").hide();
-        unity
-            .find(".modality-name[modalitytype=R]")
+        unity.find(".modality-name[modalitytype=R]")
             .closest(".modality")
             .remove();
-        unity
-            .find(".modality")
+        unity.find(".modality")
             .last()
             .attr("concept", "1")
             .find(".remove-modality")
@@ -228,6 +228,10 @@ $(document).on("change", ".js-type-select", function (e) {
             .remove();
         unity.find(".modality[concept=1]").remove();
     }
+});
+
+$(document).on("change", ".rule-type", function (e) {
+    initRuleType(e.target.value);
 });
 
 $(document).on("change", ".js-formula-select", function (e) {
@@ -292,12 +296,7 @@ $(document).on("click", ".js-new-modality", function (e) {
             </div>
         </div>`;
 
-    $(modalityHtml).insertBefore(
-        unityElement.find("select.js-type-select").val() !== "UR" ||
-            !unityElement.find(".modality").length
-            ? $(this).parent()
-            : unityElement.find(".modality").last()
-    );
+    $(modalityHtml).appendTo(unityElement.find(".js-modality-container"));
 });
 
 $(document).on("click", ".js-remove-unity", function (e) {
@@ -335,19 +334,38 @@ $(document).on("change", ".js-has-final-recovery", function (event) {
     const isNew = $(".final-recovery-unity-id").val() === "";
     if (isChecked) {
         $(".js-recovery-form").show();
-        if(isNew){
+        if (isNew) {
             $(".final-recovery-unity-operation").val("create");
-        }else{
+        } else {
             $(".final-recovery-unity-operation").val("update");
         }
     } else {
         // debugger
         $(".js-recovery-form").hide();
-        if(!isNew){
+        if (!isNew) {
             $(".final-recovery-unity-operation").val("delete");
         }
     }
 });
+
+function initRuleType(ruleType) {
+    if (ruleType === "C") {
+        $(".numeric-fields").hide();
+        $(".js-recovery-form").hide();
+        $(".final-recovery-unity-operation").val("delete");
+        $("select.js-type-select").html(
+            `<option value='UC' selected>Unidade por conceito</option>`
+        );
+        $(".js-calculation").hide();
+    } else if (ruleType === "N") {
+        $(".numeric-fields").show();
+        $(".js-has-final-recovery").trigger("change");
+        $("select.js-type-select").html(` <option value='U'>Unidade</option>
+        <option value='UR'>Unidade com recuperação</option>`);
+    }
+
+    $("select.js-type-select").select2();
+}
 
 function saveUnities(reply) {
     const unities = [];
@@ -388,12 +406,15 @@ function saveUnities(reply) {
                 id: $(".final-recovery-unity-id").val(),
                 name: $(".final-recovery-unity-name").val(),
                 type: $(".final-recovery-unity-type").val(),
-                grade_calculation_fk: $(".calculation-final-media").select2("val"),
-                operation: $(".final-recovery-unity-operation").val()
+                grade_calculation_fk: $(".calculation-final-media").select2(
+                    "val"
+                ),
+                operation: $(".final-recovery-unity-operation").val(),
             },
             finalRecoverMedia: $(".final-recover-media").val(),
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
+            ruleType: $(".rule-type").select2("val"),
         },
         beforeSend: function (e) {
             $(".alert-media-fields")

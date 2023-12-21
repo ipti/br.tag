@@ -72,7 +72,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                     <option value="C">Conceito</option>
                 </select>
             </div>
-            <div class="t-field-select">
+            <div class="numeric-fields t-field-select">
                 <label class="t-field-select__label">Calculo da média final <span class="red">*</span></label>
                 <select class="calculation-final-media select-search-on t-field-select__input">
                     <?php foreach ($formulas as $formula): ?>
@@ -82,11 +82,11 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="t-field-text">
+            <div class="numeric-fields t-field-text">
                 <label class="t-field-text__label">Média de Aprovação <span class="red">*</span></label>
                 <input type="text" class="approval-media t-field-text__input">
             </div>
-            <div class="t-field-checkbox">
+            <div class="numeric-fields t-field-checkbox">
                 <?php echo CHtml::checkbox(
                     'has_final_recovery',
                     false,
@@ -97,7 +97,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <?php echo CHtml::label("Incluir recuperação final?", 'has_final_recovery', array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
             </div>
         </div>
-        <div class="column">
+        <div class="column js-grades-rules-container" style="display: none;">
             <div class="row">
                 <h2>Definição das unidades</h2>
                 <a href="#new-unity" id="new-unity" class="js-new-unity t-button-primary">
@@ -108,8 +108,8 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 Gerencie a quantidade de unidades avaliativas, elas podem ser bimestres, semestres e outros
             </p>
         </div>
-        <div id="accordion"
-            class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion">
+        <div id="accordion js-grades-rules-container"
+            class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion" style="display: none;">
         </div>
         <div class="column js-recovery-form  is-three-fifths" style="display: none;">
             <h2>Regras de recuperação final</h2>
@@ -125,8 +125,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             </div>
             <div class="t-field-text" style="margin-top: 16px">
                 <label class='t-field-text__label required'>Nome: <span class='red'>*</span></label>
-                <input type='text' class='t-field-text__input final-recovery-unity-name'
-                    placeholder='Recuperação Final'>
+                <input type='text' class='t-field-text__input final-recovery-unity-name' placeholder='Recuperação Final'>
             </div>
             <div class="t-field-select js-calculation">
                 <label class='t-field-select__label required'>Forma de cálculo: <span class='red'>*</span></label>
