@@ -11,6 +11,7 @@ $(document).ready(function() {
         food_inventory = JSON.parse(response);
         food_inventory.sort((a, b) => b.amount - a.amount);
         renderStockTable(food_inventory);
+        renderStockList(food_inventory);
     })
     let foodSelect = $('#foodStockSelect');
     $.ajax({
@@ -34,8 +35,10 @@ $(document).ready(function() {
 
         if(foodId == "total") {
             renderStockTable(food_inventory);
+            renderStockList(food_inventory);
         } else {
             renderStockTable(food_inventory, foodId);
+            renderStockList(food_inventory, foodId);
         }
     });
 });
@@ -170,6 +173,45 @@ $(document).on("click", "#spent-checkbox", function () {
         })
 
 
+    }
+});
+
+$(document).on("change", "#foodInventorySelectStatus", function () {
+    let status = $(this).val();
+    let foodInventoryId =  $(this).attr('data-foodInventoryId');
+    let amount = $(this).attr('data-amount');
+    console.log(status);
+
+    if(status == 'Emfalta') {
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/foodInventory/saveStockSpent",
+            cache: false,
+            data: {
+                foodInventoryId: foodInventoryId,
+                amount: amount
+            }
+        }).success(function(response) {
+            getFoodInventory();
+            $('#info-alert').removeClass('hide').addClass('alert-success').html("Estoque de alimento retirado do sistema com sucesso.");
+        }).fail(function(error) {
+            $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível retirar o estoque do alimento do sistema.");
+
+        })
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/foodInventory/updateFoodInventoryStatus",
+            cache: false,
+            data: {
+                foodInventoryId: foodInventoryId,
+                status: status
+            }
+        }).success(function(response) {
+            $('#info-alert').removeClass('hide').addClass('alert-success').html("Status do alimento modificado com sucesso.");
+        }).fail(function(error) {
+            $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível modificar o status do alimento.");
+        })
     }
 });
 
