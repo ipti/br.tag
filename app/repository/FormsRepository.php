@@ -155,14 +155,15 @@ class FormsRepository {
         return $response;
     }
 
-    private function calculateFrequency($diasLetivos, $totalFaltas) : float
+    private function calculateFrequency($diasLetivos, $totalFaltas): int
     {
         if ($diasLetivos === 0) {
             return 0; // Evitar divisão por zero
         }
 
         $frequencia = (($diasLetivos - $totalFaltas) / $diasLetivos) * 100;
-        return number_format($frequencia, 2);
+
+        return round($frequencia);
     }
 
     /**

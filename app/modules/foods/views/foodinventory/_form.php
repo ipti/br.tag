@@ -28,13 +28,13 @@ $form=$this->beginWidget('CActiveForm', array(
 	<?php echo $form->errorSummary($model); ?>
 
     <div class="row">
-        <div class="column clearleft">
+        <div class="column clearfix">
             <div id="info-alert" class="alert hide"></div>
         </div>
     </div>
 
-    <div class="row">
-        <button class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</button>
+    <div class="row t-buttons-container">
+        <a class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</a>
         <a class="t-button-primary" href="?r=foods/foodRequest/create">Solicitações</a>
         <a class="t-button-secondary"><span class="t-icon-printer"></span>Relatório de Estoque</a>
     </div>
@@ -45,12 +45,13 @@ $form=$this->beginWidget('CActiveForm', array(
             </select>
         </div>
     </div>
-    <div class="row">
+    <div class="row show--tabletDesktop">
         <div class="column is-four-fifths clearfix">
             <table id="foodStockTable" class="tag-table-secondary align-start">
-
             </table>
         </div>
+    </div>
+    <div id="foodStockList" class="row show--mobile">
     </div>
 
     <div class="modal fade t-modal-container" id="js-movements-modal" tabindex="-1" role="dialog">
@@ -88,7 +89,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div id="stock-modal-alert" class="alert hide"></div>
                         </div>
                     </div>
-                    <div class="tablet-row">
+                    <div class="tablet-row bottom-margin">
                         <div class="column is-two-fifths t-field-select clear-margin--bottom clearfix">
                             <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="food" name="food">
@@ -117,7 +118,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             <?php echo $form->error($model,'expiration_date'); ?>
                         </div>
                         <div class="column is-one-fifth clearleft--on-mobile t-buttons-container clear-padding--bottom clear-margin--bottom clearfix">
-                            <button class="t-button-secondary clear-margin--all full--width align-self--end" id="add-food" type="button">Adicionar</button>
+                            <button class="t-button-secondary mobile-margin-top clear-margin--all full--width align-self--end" id="add-food" type="button">Adicionar</button>
                         </div>
                     </div>
 

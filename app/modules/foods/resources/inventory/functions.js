@@ -4,7 +4,7 @@ function renderSelectedFoods(foodsOnStock) {
 
     foodsOnStock.forEach(function(food, index) {
         let stock = `
-        <div class="mobile-row t-list-content" id="food_stock_${index}">
+        <div class="mobile-row t-list-content show--tabletDesktop" id="food_stock_${index}">
             <div class="column is-two-fifths clearfix">${food.foodDescription}</div>
             <div class="column is-one-tenth clearleft--on-mobile clearfix">${food.amount}</div>
             <div class="column is-one-fifth clearleft--on-mobile clearfix">${food.measurementUnit}</div>
@@ -12,6 +12,16 @@ function renderSelectedFoods(foodsOnStock) {
             <div class="column is-one-fifth clearleft--on-mobile clearfix justify-content--end">
                 <span class="t-icon-close t-icon" id="stock_button" data-buttonId="${index}"></span>
             </div>
+        </div>
+
+        <div class="row t-list-content show--mobile" id="food_stock_${index}">
+            <div class="column is-one-fifth clearleft--on-mobile clearfix justify-content--end">
+                <span class="t-icon-close t-icon" id="stock_button" data-buttonId="${index}"></span>
+            </div>
+            <div class="mobile-row"><label>Item:</label>${food.foodDescription}</div>
+            <div class="mobile-row"><label>Quantidade:</label>${food.amount}</div>
+            <div class="mobile-row"><label>Unidade:</label>${food.measurementUnit}</div>
+            <div class="mobile-row"><label>Validade:</label>${food.expiration_date}</div>
         </div>
         `;
 
@@ -95,7 +105,8 @@ function renderStockTable(foodsOnStock, id) {
     }
 
 
-}
+};
+
 function renderMovementsTable(movements, foodName) {
     let table = $('#movementsTable');
     table.empty();
@@ -120,7 +131,8 @@ function renderMovementsTable(movements, foodName) {
 
         table.append(row);
     });
-}
+};
+
 function getFoodInventory() {
     $.ajax({
         type: 'POST',
@@ -130,5 +142,121 @@ function getFoodInventory() {
         food_inventory = JSON.parse(response);
         food_inventory.sort((a, b) => b.amount - a.amount);
         renderStockTable(food_inventory);
+        renderStockList(food_inventory);
     })
+};
+
+function renderStockList(foodsOnStock, id) {
+    let foodStockList = document.getElementById("foodStockList");
+    foodStockList.innerHTML = '';
+
+    if (typeof id === 'undefined') {
+        $.each(foodsOnStock, function(index, stock) {
+            let foodDescription = stock.description;
+            foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+            let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
+
+            let isEmptyStatus = stock.status == "Emfalta" ? "disabled" : "";
+            let isDisabled = stock.status == "Disponivel" ? "selected" : "";
+            let isEnding = stock.status == "Acabando" ? "selected" : "";
+            let isEmpty = stock.status == "Emfalta" ? "selected" : "";
+
+            let foodStock = `
+            <div class="row t-list-primary">
+                <div class="row">
+                    <div class="column clearfix">
+                        <label>Item:</label>
+                        ${foodDescription}
+                    </div>
+                </div>
+                <div class="mobile-row">
+                    <div class="column is-half clearfix">
+                        <label>Quantidade:</label>
+                        ${stock.amount + measurementUnit}
+                    </div>
+                    <div class="column is-half">
+                        <label>Validade:</label>
+                        ${stock.expiration_date}
+                    </div>
+                </div>
+                <div class="mobile-row">
+                    <div class="js-select-status column is-half clearfix">
+                        <label>Status:</label>
+                        <select class="select-search-on t-field-select__input select2-container" id="foodInventorySelectStatus" name="foodInventoryStatus" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}" ${isEmptyStatus}>' +
+                        '<option value="Disponivel" ${isDisabled}>Disponível</option>'+
+                        '<option value="Acabando" ${isEnding}>Acabando</option>'+
+                        '<option value="Emfalta" ${isEmpty}>Em falta</option>'+
+                        '</select>
+                    </div>
+                    <div class="column is-half">
+                        <label>Movimentações:</label>
+                        <span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryFoodId="${stock.foodId}" data-foodInventoryFoodName="${foodDescription}"></span>
+                    </div>
+                </div>
+            </div>
+            `;
+
+            foodStockList.innerHTML += foodStock;
+        });
+    } else {
+        let found = false;
+
+        $.each(foodsOnStock, function(index, stock) {
+            if (stock.foodId == id) {
+                found = true;
+                let foodDescription = stock.description;
+                foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+                let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
+
+                let isEmptyStatus = stock.status == "Emfalta" ? "disabled" : "";
+                let isDisabled = stock.status == "Disponivel" ? "selected" : "";
+                let isEnding = stock.status == "Acabando" ? "selected" : "";
+                let isEmpty = stock.status == "Emfalta" ? "selected" : "";
+
+                let foodStock = `
+                <div class="row t-list-primary">
+                    <div class="row">
+                        <div class="column clearfix">
+                            <label>Item:</label>
+                            ${foodDescription}
+                        </div>
+                    </div>
+                    <div class="mobile-row">
+                        <div class="column is-half clearfix">
+                            <label>Quantidade:</label>
+                            ${stock.amount + measurementUnit}
+                        </div>
+                        <div class="column is-half">
+                            <label>Validade:</label>
+                            ${stock.expiration_date}
+                        </div>
+                    </div>
+                    <div class="mobile-row">
+                        <div class="column is-half clearfix">
+                            <label>Status:</label>
+                            <select class="select-search-on t-field-select__input select2-container" id="foodInventorySelectStatus" name="foodInventoryStatus" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}" ${isEmptyStatus}>' +
+                            '<option value="Disponivel" ${isDisabled}>Disponível</option>'+
+                            '<option value="Acabando" ${isEnding}>Acabando</option>'+
+                            '<option value="Emfalta" ${isEmpty}>Em falta</option>'+
+                            '</select>
+                        </div>
+                        <div class="column is-half">
+                            <label>Movimentações:</label>
+                            <span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryFoodId="${stock.foodId}" data-foodInventoryFoodName="${foodDescription}"></span>
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                foodStockList.innerHTML += foodStock;
+            }
+
+        });
+        if (!found) {
+
+            let foodStock = '<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>';
+            foodStockList.innerHTML += foodStock;
+        }
+    }
+
 }
