@@ -106,17 +106,17 @@ function createCard(meal_component, meal, dayMeal) {
     igredients = meal_component.ingredients.map((item) => {
         return  item.amount + ' ' + item.food_name.replace(/,/g, '');
     })
-    return `<div class="t-cards ${dayMeal != day ? "hide" : ""}" data-public-target="${meal.food_public_target_id}" data-turn="${turn}">
+    return `<div class="t-cards ${dayMeal != day ? "hide" : ""}"  style=" max-width: none;" data-public-target="${meal.food_public_target_id}" data-turn="${turn}">
                 <div class="t-cards-content">
-                    <div class="row">
-                        <div class="t-tag-primary clear-margin--left">
+                    <div class="mobile-row wrap">
+                        <div style="margin:5px;" class="t-tag-primary clear-margin--left">
                             ${meal.food_meal_type_description}
                         </div>
-                        <div class="t-tag-secundary">
+                        <div style="margin:5px;" class="t-tag-secundary">
                             ${turn
         }
                         </div>
-                        <div class="t-tag-secundary">
+                        <div style="margin:5px;" class="t-tag-secundary">
                             ${meal.food_public_target_name}
                         </div>
                     </div>

@@ -34,8 +34,8 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             <?php echo $students ?>  Alunos Presentes
         </div>
     </div>
-    <div class="row">
-        <a class="t-button-primary" href="<?php echo yii::app()->createUrl('foods/foodmenu/create') ?>">
+    <div class="mobile-row">
+        <a class="t-button-primary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodmenu/create') ?>">
             Preparar Cardápio
         </a>
         <a class="t-button-secondary" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
@@ -43,7 +43,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
         </a>
     </div>
     <div class="row">
-        <div class="t-field-select column t-multiselect">
+        <div class="t-field-select column clearleft--on-mobile t-multiselect">
             <label class="t-field-select__label--required">Mostrar turnos</label>
             <select class="select-search-on t-field-select__input js-filter-turns multiselect" multiple="multiple" name='Turno' required='required'>
                 <option value="M">Manhã</option>
@@ -51,7 +51,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
                 <option value="N">Noite</option>
             </select>
 		</div>
-        <div class="t-field-select column t-multiselect">
+        <div class="t-field-select column clearleft--on-mobile t-multiselect">
             <label class="t-field-select__label--required">Filtrar tipo de aluno</label>
             <?= CHtml::dropDownList("stages", [], CHtml::listData(FoodPublicTarget::model()->findAll(), "id", "name"), [
                 "multiple" => "multiple", "class" => "select-search-on control-input multiselect js-filter-public-target select3-choices"
@@ -79,7 +79,9 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             </ul>
         </div>
     </div>
-    <div class="js-cards-meals">
+    <div class="row">
+        <div class="js-cards-meals  column is-half">
 
+        </div>
     </div>
 </div>
