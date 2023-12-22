@@ -4,7 +4,7 @@ function renderSelectedRequests(foodRequests) {
 
     foodRequests.forEach(function(request, index) {
         let list = `
-        <div class="mobile-row t-list-content" id="request_list_${index}">
+        <div class="mobile-row t-list-content show--tabletDesktop" id="request_list_${index}">
             <div class="column is-third clearfix">${request.foodDescription}</div>
             <div class="column is-one-tenth clearleft--on-mobile clearfix">${request.amount}</div>
             <div class="column is-one-tenth clearleft--on-mobile clearfix">${request.measurementUnit}</div>
@@ -12,6 +12,16 @@ function renderSelectedRequests(foodRequests) {
             <div class="column is-one-tenth clearleft--on-mobile clearfix justify-content--end">
                 <span class="t-icon-close t-icon" id="request_button" data-buttonId="${index}"></span>
             </div>
+        </div>
+        <div class="row t-list-content show--mobile" id="request_list_${index}">
+            <div class="column is-one-tenth clearleft--on-mobile clearfix justify-content--end">
+                <span class="t-icon-close t-icon" id="request_button" data-buttonId="${index}"></span>
+            </div>
+            <div class="mobile-row"><label>Item:</label>${request.foodDescription}</div>
+            <div class="mobile-row"><label>Quantidade:</label>${request.amount}</div>
+            <div class="mobile-row"><label>Unidade:</label>${request.measurementUnit}</div>
+            <div class="mobile-row"><label>Descrição:</label>${request.description}</div>
+
         </div>
         `;
 
