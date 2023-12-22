@@ -4200,11 +4200,11 @@ textarea {
   }
   .table-responsive.block {
     /* Force table to not be like tables anymore */
-  
+
     /* Hide table headers (but not display: none;, for accessibility) */
-  
+
     /* Label the data */
-  
+
   }
   .table-responsive.block table,
   .table-responsive.block thead,
@@ -4224,7 +4224,7 @@ textarea {
   }
   .table-responsive.block td {
     /* Behave  like a "row" */
-  
+
     border: none;
     border-bottom: 1px solid #e5e5e5;
     position: relative;
@@ -4234,10 +4234,10 @@ textarea {
   }
   .table-responsive.block td:before {
     /* Now like a table header */
-  
+
     position: absolute;
     /* Top/left values mimic padding */
-  
+
     vertical-align: middle;
     left: 6px;
     width: 45%;
@@ -4550,7 +4550,7 @@ textarea {
 			padding: 0;
 			margin: 0;
 			opacity: 1;
-			filter: alpha(opacity=100); 
+			filter: alpha(opacity=100);
 		}
 	}*/
 
@@ -4617,8 +4617,8 @@ textarea {
   color: #7399b9;
 }
 .alert.alert-success {
-  border-color: #609450;
-  background: #609450;
+  border-color: #3f45ea;
+  background: #3f45ea;
   color: #fff;
 }
 .alert.alert-success .close,
