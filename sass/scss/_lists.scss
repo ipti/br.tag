@@ -9,3 +9,9 @@
     padding: $SizeXXSmall;
     border-radius: $borderRadiusNormal;
 };
+
+.t-list-primary {
+    @extend .t-list-content;
+
+    background-color: $colorsBaseCloudNormal;
+}

@@ -22,13 +22,13 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
     </div>
     <div class="row">
-        <div class="column clearleft">
+        <div class="column clearfix">
             <div id="info-alert" class="alert hide"></div>
         </div>
     </div>
 
-	<div class="row">
-        <button class="t-button-primary" id="js-entry-request-button" type="button">Gerar Solicitação</button>
+	<div class="row  t-buttons-container">
+        <a class="t-button-primary" id="js-entry-request-button" type="button">Gerar Solicitação</a>
     </div>
 
 	<div class="row">
@@ -63,7 +63,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             <div id="request-modal-alert" class="alert hide"></div>
                         </div>
                     </div>
-                    <div class="tablet-row">
+                    <div class="tablet-row bottom-margin">
 						<div class="column is-third t-field-select clear-margin--bottom clearfix">
 							<?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
 							<select class="select-search-on t-field-select__input select2-container clear-margin--all" id="food" name="food">
@@ -92,7 +92,7 @@ $form=$this->beginWidget('CActiveForm', array(
 							<?php echo $form->error($model,'description'); ?>
 						</div>
 						<div class="column is-one-tenth clearleft--on-mobile t-buttons-container clear-padding--bottom clear-margin--bottom clearfix">
-							<button class="t-button-secondary clear-margin--all full--width align-self--end" id="add-request" type="button">Adicionar</button>
+							<button class="t-button-secondary mobile-margin-top clear-margin--all full--width align-self--end" id="add-request" type="button">Adicionar</button>
 						</div>
                     </div>
 

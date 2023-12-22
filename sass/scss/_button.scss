@@ -36,6 +36,10 @@
     &.mobile-margin {
         margin-right: $spaceMedium;
     }
+
+    &.mobile-margin-top {
+        margin-top: $spaceMedium !important;
+    }
     &.nofloat{
         float: unset !important;
     }
