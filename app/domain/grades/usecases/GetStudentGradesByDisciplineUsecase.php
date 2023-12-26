@@ -37,7 +37,8 @@ class GetStudentGradesByDisciplineUsecase
             $unityColumns[] = [
                 "name" => $unity->name,
                 "colspan" => $unity->countGradeUnityModalities + ($unity->type === GradeUnity::TYPE_UNITY_WITH_RECOVERY ? 1 : 0),
-                "modalities" => array_column($unity->gradeUnityModalities, 'name')
+                "modalities" => array_column($unity->gradeUnityModalities, 'name'),
+                "calculationName" => $unity->gradeCalculationFk->name
             ];
         }
 
@@ -67,6 +68,13 @@ class GetStudentGradesByDisciplineUsecase
         return $gradeUnitiesByDiscipline;
     }
 
+    /**
+     * Get Student grades by discipline
+     *
+     * @var GradeUnity $unitiesByDiscipline
+     *
+     * @return Grade[]
+     */
     private function getStudentGradeByDicipline($studentEnrollment, $discipline, $unitiesByDiscipline)
     {
         $studentGradeResult = new StudentGradesResult($studentEnrollment->studentFk->name, $studentEnrollment->id);
@@ -89,8 +97,9 @@ class GetStudentGradesByDisciplineUsecase
         $studentGradeResult->setFinalMedia($gradeResult->final_media);
 
         foreach ($unitiesByDiscipline as $key => $unity) {
+            /** @var GradeUnity $unit */
             $unityGrades = $this->getStudentGradesFromUnity($studentEnrollment->id, $discipline, $unity->id);
-            $unityResult = new GradeUnityResult($unity->name);
+            $unityResult = new GradeUnityResult($unity->name, $unity->gradeCalculationFk->name);
             if ($gradeResult != null) {
                 if ($unity->type == GradeUnity::TYPE_UNITY || $unity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
                     $unityResult->setUnityMedia($gradeResult["grade_" . ($key + 1)]);
@@ -334,10 +343,12 @@ class GradeUnityResult
     private $unityName;
     private $grades;
     private $unityMedia;
+    private $calculationName;
 
-    public function __construct($unityName = null)
+    public function __construct($unityName = null,  $calculationName)
     {
         $this->unityName = $unityName;
+        $this->calculationName =  $calculationName;
     }
 
     public function setUnityMedia($unityMedia)
@@ -355,6 +366,7 @@ class GradeUnityResult
     {
         return [
             'unityName' => $this->unityName,
+            'calculationName' => $this->calculationName,
             'grades' => array_map(function (GradeByModalityResult $grade) {
                 return $grade->toArray();
             }, $this->grades),

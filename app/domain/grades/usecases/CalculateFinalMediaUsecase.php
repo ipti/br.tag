@@ -28,7 +28,7 @@ class CalculateFinalMediaUsecase
             ]
         );
 
-        $finalRecovery = $this->getFinalRevovery($this->enrollmentId, $this->disciplineId);
+
 
         $countUnities = count($unities);
 
@@ -39,7 +39,8 @@ class CalculateFinalMediaUsecase
 
         $finalMedia = $this->applyStrategyComputeGradesByFormula($gradeRule->gradeCalculationFk, $grades);
 
-        if(isset($finalRecovery) && $gradesResult->rec_final != null && $finalMedia < $gradeRule->approvation_media) {
+        if(isset($gradeRule->has_final_recovery) && $gradeRule->has_final_recovery) {
+            $finalRecovery = $this->getFinalRevovery($this->enrollmentId, $this->disciplineId);
             $finalMedia = $this->applyStrategyComputeGradesByFormula($finalRecovery->gradeCalculationFk, [$finalMedia, $gradesResult->rec_final]);
         }
 

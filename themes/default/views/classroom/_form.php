@@ -709,22 +709,24 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </thead>
                                 <tbody>
                                 <?php
-                                if (count($modelEnrollments) > 0) {
+                                if (count($modelEnrollments) > 0) :
                                     $i = 1;
-                                    foreach ($modelEnrollments as $enrollment) { ?>
+                                    foreach ($modelEnrollments as $enrollment) : ?>
                                         <tr>
-                                            <td text-align="center"><input value="<?= $enrollment["enrollmentId"] ?>"
-                                                                           name="enrollments[]"
-                                                                           type='checkbox'/></td>
-                                            <td width="30"><?= $enr->daily_order ?? $i ?></td>
-                                            <td><?php echo $enr->id ?></td>
-                                            <td width="30"><?= $i ?></td>
-                                            <td enrollmentid="<?php echo $enrollment["enrollmentId"] ?>"><?php echo $enrollment["enrollmentId"] ?></td>
+                                            <td text-align="center">
+                                                <input value="<?= $enrollment["enrollmentId"] ?>" name="enrollments[]" type='checkbox'/>
+                                            </td>
+                                            <td width="30">
+                                                <?= $enrollment["daily_order"] ?? $i ?>
+                                            </td>
+                                            <td enrollmentid="<?php echo $enrollment["enrollmentId"] ?>">
+                                                <?php echo $enrollment["enrollmentId"] ?>
+                                            </td>
                                             <td>
                                                 <a href="<?= Yii::app()->createUrl('student/update', array('id' => $enrollment["studentId"])) ?>"> <?= $enrollment["studentName"] ?></a>
                                             </td>
                                             <td>
-                                                <?= $enr->getCurrentStatus() ?>
+                                                <?= $enrollment["status"] ?>
                                             </td>
                                             <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                                 <td class="sync-column">
@@ -744,15 +746,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 </a>
                                             </td>
                                         </tr>
-                                        <?php $i++;
-                                    }
-                                    ?>
-                                <?php } else { ?>
+                                        <?php
+                                        $i++;
+                                            endforeach;
+                                        ?>
+                                <?php  else : ?>
                                     <tr>
                                         <td class="center" colspan="<?= $columnCount ?>">Não há alunos matriculados.
                                         </td>
                                     </tr>
-                                <?php } ?>
+                                <?php endif; ?>
                                 </tbody>
                                 <tfooter>
                                     <?php

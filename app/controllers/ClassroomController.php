@@ -600,6 +600,7 @@ class ClassroomController extends Controller
             $array["studentId"] = $studentEnrollment->studentFk->id;
             $array["studentName"] = $studentEnrollment->studentFk->name;
             $array["dailyOrder"] = $studentEnrollment->daily_order;
+            $array["status"] = $studentEnrollment->getCurrentStatus();
 
             if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                 $array["synced"] = $studentEnrollment->studentFk->sedsp_sync && $studentEnrollment->sedsp_sync;

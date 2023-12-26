@@ -24,12 +24,9 @@
 
    <rule ref="rulesets/cleancode.xml">
         <exclude name="MissingImport" />
+        <exclude name="StaticAccess" />
     </rule>
-    <rule ref="rulesets/cleancode.xml/MissingImport">
-        <properties>
-            <property name="ignore-global" value="true"/>
-        </properties>
-    </rule>
+
 
     <!-- CODE SIZE RULES -->
 

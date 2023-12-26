@@ -192,29 +192,33 @@ $(document).on("change", ".js-type-select", function (e) {
         unity.find(".js-new-modality").trigger("click").show();
         unity.find(".js-calculation").show();
         unity.find(".modality[concept=1]").remove();
-        unity.find(".modality")
+        unity
+            .find(".modality")
             .last()
             .children("label")
             .html("Recuperação: " + '<span class="red">*</span>');
-        unity.find(".modality")
+        unity
+            .find(".modality")
             .last()
             .find(".modality-name")
             .attr("modalitytype", "R")
             .css("width", "calc(100% - 140px)");
-        unity.find(".modality")
+        unity
+            .find(".modality")
             .last()
             .find(".remove-modality, .weight")
             .remove();
-
     } else if ($(this).val() === "UC") {
         unity.find(".modality").remove();
         unity.find(".js-new-modality").trigger("click").hide();
         unity.find(".js-formula-select").val("1").trigger("change");
         unity.find(".js-calculation").hide();
-        unity.find(".modality-name[modalitytype=R]")
+        unity
+            .find(".modality-name[modalitytype=R]")
             .closest(".modality")
             .remove();
-        unity.find(".modality")
+        unity
+            .find(".modality")
             .last()
             .attr("concept", "1")
             .find(".remove-modality")
@@ -441,15 +445,21 @@ function saveUnities(reply) {
                     .removeClass("alert-error")
                     .text("Estrutura de notas cadastrada com sucesso!")
                     .show();
-            } else {
-                $(".alert-required-fields")
-                    .addClass("alert-error")
-                    .removeClass("alert-success")
-                    .text(
-                        "Não se pode alterar a estrutura quando já existe nota preechida em alguma turma desta etapa e disciplina."
-                    )
-                    .show();
             }
+        },
+        error: function (request) {
+            let message =
+                "Um erro inesperado aconteceu no servidor, não foi possível completar operação";
+            if (request.status == 400) {
+                message = request.responseText;
+            }
+            $(".alert-required-fields")
+                .addClass("alert-error")
+                .removeClass("alert-success")
+                .text(message)
+                .show();
+        },
+        complete: function () {
             $(".alert-media-fields")
                 .removeClass("alert-warning")
                 .addClass("alert-success")

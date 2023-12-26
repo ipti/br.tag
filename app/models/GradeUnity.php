@@ -38,6 +38,7 @@ class GradeUnity extends CActiveRecord
 	 */
 	public function rules()
 	{
+
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
@@ -74,7 +75,7 @@ class GradeUnity extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'edcenso_stage_vs_modality_fk' => 'Edcenso Stage Vs Modality Fk',
-			'name' => 'Name',
+			'name' => 'Unity Name',
 			'type' => 'Type',
 			'grade_calculation_fk' => 'Grade Calculation Fk',
 		);

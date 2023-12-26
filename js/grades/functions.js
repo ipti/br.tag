@@ -213,7 +213,7 @@ function GradeTableBuilder(data) {
         const concept = data.isUnityConcept ? "1" : "0";
         const modalityColumns = data.unityColumns.reduce((acc, e) => {
             if (e.modalities.length > 1) {
-                return [...acc, ...e.modalities, "Média da Unidade"];
+                return [...acc, ...e.modalities, `Média da Unidade (${e.calculationName})`];
             }
             return [...acc, ...e.modalities];
         }, []);

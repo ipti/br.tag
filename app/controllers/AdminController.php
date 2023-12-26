@@ -105,9 +105,9 @@ class AdminController extends Controller
             $importModel->saveSchoolStructureDB($dataDecoded['school_structure']);
             $importModel->saveClassroomsDB($dataDecoded['classrooms']);
 
-            $importModel->saveInstructorDataDB( $dataDecoded['instructor_identification'],
-                                                $dataDecoded['instructor_documents_and_address'],
-                                                $dataDecoded['instructor_variable_data']);
+            $importModel->saveInstructorDataDB($dataDecoded['instructor_identification'],
+                $dataDecoded['instructor_documents_and_address'],
+                $dataDecoded['instructor_variable_data']);
             $importModel->saveInstructorsTeachingDataDB($dataDecoded['instructor_teaching_data']);
             $importModel->saveTeachingMatrixes($dataDecoded['teaching_matrixes']);
 
@@ -172,8 +172,8 @@ class AdminController extends Controller
                 $this->redirect(['index']);
             }
         }
-        $instructors = InstructorIdentification::model()->findAllByAttributes(  ['users_fk' => null],
-                                                                                ['select' => 'id, name']);
+        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk' => null],
+            ['select' => 'id, name']);
         $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
             return $carry;
@@ -291,29 +291,33 @@ class AdminController extends Controller
 
                 if ($finalRecovery["operation"] === "delete") {
                     $recoveryUnity->delete();
-                } else {
-
-                    if ($recoveryUnity === null) {
-                        $recoveryUnity = new GradeUnity();
-                    }
-
-                    $recoveryUnity->name = $finalRecovery["name"];
-                    $recoveryUnity->type = "RF";
-                    $recoveryUnity->grade_calculation_fk = $finalRecovery["grade_calculation_fk"];
-                    $recoveryUnity->edcenso_stage_vs_modality_fk = $stage;
-
-                    if ($recoveryUnity->validate()) {
-                        $recoveryUnity->save();
-                    } else {
-                        throw new Exception("Não foi possivel salvar dados da recuperação final", 1);
-                    }
+                    echo json_encode(["valid" => true]);
+                    Yii::app()->end();
                 }
+
+                if ($recoveryUnity === null) {
+                    $recoveryUnity = new GradeUnity();
+                }
+
+                $recoveryUnity->name = $finalRecovery["name"];
+                $recoveryUnity->type = "RF";
+                $recoveryUnity->grade_calculation_fk = $finalRecovery["grade_calculation_fk"];
+                $recoveryUnity->edcenso_stage_vs_modality_fk = $stage;
+
+                if (!$recoveryUnity->validate()) {
+                    $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnity);
+                    throw new CHttpException(400, "Não foi possivel salvar dados da recuperação final: \n" . $validationMessage, 1);
+                }
+
+                $recoveryUnity->save();
             }
 
             echo json_encode(["valid" => true]);
         } catch (\Throwable $th) {
             Yii::log($th->getMessage(), CLogger::LEVEL_ERROR);
-            echo json_encode(["valid" => false]);
+            Yii::log($th->getTraceAsString(), CLogger::LEVEL_ERROR);
+
+            throw $th;
         }
 
     }

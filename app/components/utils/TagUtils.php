@@ -54,6 +54,22 @@ class TagUtils extends CApplicationComponent {
 
         return strtoupper(INSTANCE) === strtoupper($instance);
     }
+
+    /**
+     * @var CActiveRecord $record
+     */
+    public static function stringfyValidationErrors($record){
+        $errors = $record->getErrors();
+        $result = array_map(function($key, $messages) use ($record) {
+            $message = Yii::t("default", $record->getAttributeLabel($key)) .": \n";
+            foreach ($messages as $value) {
+                $message .= "- ".$value."\n";
+            }
+            return $message;
+        }, array_keys($errors), array_values($errors));
+
+        return  implode("\n", $result);
+    }
 }
 
 ?>

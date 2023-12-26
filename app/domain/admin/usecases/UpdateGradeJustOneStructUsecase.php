@@ -64,11 +64,12 @@ class UpdateGradeJustOneStructUsecase
                 $unityModel->name = $unity["name"];
                 $unityModel->type = $unity["type"];
                 $unityModel->grade_calculation_fk = $unity["formula"];
-                $isUnitySaved = $unityModel->save();
 
-                if (!$isUnitySaved) {
+                if (!$unityModel->validate()) {
                     throw new CantSaveGradeUnityException($unityModel);
                 }
+
+                $unityModel->save();
 
                 $this->buildAvaliationModalities($unityModel, $unity["modalities"]);
             } elseif ($unity["operation"] === self::OP_REMOVE) {
@@ -81,7 +82,7 @@ class UpdateGradeJustOneStructUsecase
     {
         foreach ($modalities as $m) {
 
-            if($unity != GradeUnity::TYPE_UNITY_WITH_RECOVERY  && $m->type == GradeUnityModality::TYPE_RECOVERY){
+            if ($unity != GradeUnity::TYPE_UNITY_WITH_RECOVERY && $m->type == GradeUnityModality::TYPE_RECOVERY) {
                 $m["operation"] = self::OP_REMOVE;
             }
 
@@ -94,10 +95,13 @@ class UpdateGradeJustOneStructUsecase
                 $modalityModel->type = $m["type"];
                 $modalityModel->weight = $m["weight"];
                 $modalityModel->grade_unity_fk = $unity->id;
-                $isUnitySaved = $modalityModel->save();
-                if (!$isUnitySaved) {
-                    throw new CantSaveGradeUnityModalityException();
+
+                if (!$modalityModel->validate()) {
+                    throw new CantSaveGradeUnityModalityException($modalityModel);
                 }
+
+                $modalityModel->save();
+
             } elseif ($m["operation"] === self::OP_REMOVE) {
                 GradeUnityModality::model()->deleteByPk($m["id"]);
             }
