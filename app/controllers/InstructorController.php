@@ -220,7 +220,7 @@ class InstructorController extends Controller
             $modelInstructorVariableData = new InstructorVariableData();
         }
         // Uncomment the following line if AJAX validation is needed
-        //			 $this->performAjaxValidation($modelInstructorIdentification);
+//			 $this->performAjaxValidation($modelInstructorIdentification);
 
         $saveInstructor = FALSE;
         $saveDocumentsAndAddress = FALSE;
@@ -348,10 +348,10 @@ preenchidos";
 
         $delete = TRUE;
 
-        if (isset($modelInstructorDocumentsAndAddress)) {
+        if(isset($modelInstructorDocumentsAndAddress)) {
             $modelInstructorDocumentsAndAddress->delete();
         }
-        if (isset($modelInstructorVariableData)) {
+        if(isset($modelInstructorVariableData)) {
             $modelInstructorVariableData->delete();
             foreach ($modelInstructorTeachingData as $td) {
                 $delete = $delete && $td->delete();
@@ -399,15 +399,7 @@ preenchidos";
 
         $options = array();
         foreach ($data as $value => $name) {
-            array_push($options, CHtml::tag(
-                'option',
-                [
-                    'value' => $value,
-                    'selected' => $value == $current_city
-                ],
-                CHtml::encode($name),
-                true
-            ));
+            array_push($options, CHtml::tag('option', ['value' => $value, 'selected' => $value == $current_city], CHtml::encode($name), TRUE));
         }
 
         echo json_encode($options);
@@ -421,10 +413,8 @@ preenchidos";
         if (!empty($cep)) {
             $data = EdcensoCity::model()->find('cep_initial <= ' . $cep . ' and cep_final >= ' . $cep);
         }
-
         $result = ($data == NULL) ? ['UF' => NULL, 'City' => NULL] : [
             'UF' => $data->edcenso_uf_fk, 'City' => $data->id
-
         ];
         echo json_encode($result);
     }
@@ -667,21 +657,17 @@ preenchidos";
         }
     }
 
-<<<<<<< HEAD
-    public function actionGetFrequencyClassroom()
-=======
     public function actionGetFrequencyClassroom ()
->>>>>>> dev
     {
         $instructor = htmlspecialchars($_POST["instructor"]);
         $classrooms = Yii::app()->db->createCommand("SELECT c.id, c.name FROM classroom c
                 JOIN instructor_teaching_data itd ON(c.id = itd.classroom_id_fk)
                 WHERE itd.instructor_fk = :instructor")
-            ->bindParam(":instructor", $instructor)
-            ->queryAll();
-        echo "<option value>" . Yii::t('default', 'Select Classrom') . "</option>";
+                ->bindParam(":instructor", $instructor)
+                ->queryAll();
+        echo "<option value>".Yii::t('default', 'Select Classrom')."</option>";
         foreach ($classrooms as $classroom) {
-            echo "<option value=" . $classroom['id'] . ">" . $classroom['name'] . "</option>";
+            echo "<option value=".$classroom['id'].">".$classroom['name']."</option>";
         }
     }
 
@@ -690,19 +676,18 @@ preenchidos";
         $instructor = htmlspecialchars($_POST["instructor"]);
         $classroom = htmlspecialchars($_POST["classroom"]);
         $disciplines = Yii::app()->db->createCommand(
-            "SELECT ed.id, ed.name FROM classroom c
+                "SELECT ed.id, ed.name FROM classroom c
                 JOIN instructor_teaching_data itd ON(c.id = itd.classroom_id_fk)
                 JOIN teaching_matrixes tm ON(itd.id = tm.teaching_data_fk)
                 JOIN curricular_matrix cm ON(tm.curricular_matrix_fk = cm.id)
                 JOIN edcenso_discipline ed ON(ed.id = cm.discipline_fk)
-                WHERE itd.instructor_fk = :instructor AND c.id = :classroom"
-        )
-            ->bindParam(":instructor", $instructor)
-            ->bindParam(":classroom", $classroom)
-            ->queryAll();
-        echo "<option value>" . Yii::t('default', 'Select Discipline') . "</option>";
+                WHERE itd.instructor_fk = :instructor AND c.id = :classroom")
+                ->bindParam(":instructor", $instructor)
+                ->bindParam(":classroom", $classroom)
+                ->queryAll();
+        echo "<option value>".Yii::t('default', 'Select Discipline')."</option>";
         foreach ($disciplines as $discipline) {
-            echo "<option value=" . $discipline['id'] . ">" . $discipline['name'] . "</option>";
+            echo "<option value=".$discipline['id'].">".$discipline['name']."</option>";
         }
     }
 
@@ -727,4 +712,5 @@ preenchidos";
         $instructorFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
         $instructorFault->save();
     }
+
 }
