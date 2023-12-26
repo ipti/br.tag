@@ -35,41 +35,14 @@ function updateCep(data) {
 }
 
 $("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
-    $.ajax({
-        type: "POST",
-        url: "?r=instructor/getCity",
-        data: {
-            edcenso_uf_fk: $(this).val(),
-            current_city: $("#InstructorIdentification_edcenso_city_fk").val()
-        },
-        success: function (response) {
-            const optionsList = JSON.parse(response);
-            const options = optionsList.join("");
-            $("#InstructorIdentification_edcenso_city_fk").html(options);
-            $("#InstructorIdentification_edcenso_city_fk").select2();
-        }
-    });
+    loadCitiesTo(this, "#InstructorIdentification_edcenso_city_fk");
 });
 
 $("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
-
-
     $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
-    $.ajax({
-        type: "POST",
-        url: "?r=instructor/getCity",
-        data: {
-            edcenso_uf_fk: $(this).val(),
-            current_city: $("#InstructorDocumentsAndAddress_edcenso_city_fk").val()
-        },
-        success: function (response) {
-            const optionsList = JSON.parse(response);
-            const options = optionsList.join("");
-            $("#InstructorDocumentsAndAddress_edcenso_city_fk").html(options);
-            $("#InstructorDocumentsAndAddress_edcenso_city_fk").select2();
-        }
-    });
+    loadCitiesTo(this,"#InstructorDocumentsAndAddress_edcenso_city_fk");
 });
+
 $("#IES").on("change", function () {
     loadIES("#IES", "#InstructorVariableData_high_education_institution_code_1_fk");
 });
@@ -78,6 +51,24 @@ $(function () {
     const currentIES = $("#InstructorVariableData_high_education_institution_code_1_fk").val();
     loadIES("#IES", "#InstructorVariableData_high_education_institution_code_1_fk", currentIES);
 });
+
+
+function loadCitiesTo(emmiter , citySelector){
+    $.ajax({
+        type: "POST",
+        url: "?r=instructor/getCity",
+        data: {
+            edcenso_uf_fk: $(emmiter).val(),
+            current_city: $(citySelector).val()
+        },
+        success: function (response) {
+            const optionsList = JSON.parse(response);
+            const options = optionsList.join("");
+            $(citySelector).html(options);
+            $(citySelector).select2();
+        }
+    });
+}
 
 
 function loadIES(iesUfDropDown, iesDropDownPath, currentIES) {

@@ -667,11 +667,7 @@ preenchidos";
         }
     }
 
-<<<<<<< HEAD
-    public function actionGetFrequencyClassroom()
-=======
     public function actionGetFrequencyClassroom ()
->>>>>>> dev
     {
         $instructor = htmlspecialchars($_POST["instructor"]);
         $classrooms = Yii::app()->db->createCommand("SELECT c.id, c.name FROM classroom c
