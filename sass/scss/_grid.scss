@@ -19,7 +19,7 @@
     }
     &.margin-large {
         &--bottom {
-            margin-bottom: $spaceXLarge / 2;
+            margin-bottom: calc($spaceXLarge / 2);
         }
         &--top {
             margin-top: $spaceNormal;
@@ -56,8 +56,8 @@
 .column {
     flex: 1;
     flex-basis: 0;
-    margin-left: $spaceXLarge / 2;
-    margin-right: $spaceXLarge / 2;
+    margin-left: calc($spaceXLarge / 2);
+    margin-right: calc($spaceXLarge / 2);
 
     &.flex {
         display: flex;
@@ -74,7 +74,7 @@
             margin-left: 0;
 
             @include device(tablet) {
-                margin-left: $spaceXLarge / 2;
+                margin-left: calc($spaceXLarge / 2);
             }
         }
 
@@ -82,7 +82,7 @@
             margin-left: 0;
 
             @include device(mobile) {
-                margin-left: $spaceXLarge/2;
+                margin-left: calc($spaceXLarge/2);
             }
         }
     }
