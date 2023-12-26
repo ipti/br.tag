@@ -1,5 +1,5 @@
 <?php
-require 'app/vendor/autoload.php';
+require_once 'app/vendor/autoload.php';
 
 use GuzzleHttp\Client;
 
@@ -22,5 +22,4 @@ abstract class SedDataSource {
             'timeout'  => 10.0,
         ]);
     }
-
 }

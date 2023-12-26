@@ -1,3 +1,36 @@
+## [Versão 3.65.101]
+- Criação da tela de lançamento de notas
+
+## [Versão 3.64.101]
+- Criada a tela de gestão de estoque e de solicitações no modulo de merenda
+
+## [Versão 3.63.101]
+- Corrigido o estilo e padronização das caixas de texto na tela de cadastrar e atualizar usuário
+
+## [Versão 3.63.100]
+- Corrigido a questão das notas sumirem quando eram salvas
+
+## [Versão 3.63.99]
+- Corrigido a visibilidade de aulas datas em lançamentos de notas
+
+## [Versão 3.62.99]
+- Funcionalidade de remover matrícula de aluno em turma atualizada
+
+## [Versão 3.62.98]
+- Criada migration que adiciona os campos de aulas dadas na tabela referente a lançamento de notas
+
+## [Versão 3.62.98]
+- Criada migration que adiciona os campos de aulas dadas na tabela referente a lançamento de notas
+
+## [Versão 3.61.98]
+- Criados os testes de aceitação do formulário de gerenciar etapas
+
+## [Versão 3.60.98]
+- Adicionando o campo de aulas dadas na tela de lançamento de notas
+
+## [Versão 3.59.98]
+- Adicionada coluna de aulas dadas no relatório de ficha individual do aluno
+- Adicionada a coluna de ficha individual em lançamento de notas
 
 ## [Versão 3.58.98]
 - Corrigido os icones do acordeão na aba de matrícula do formulário de aluno

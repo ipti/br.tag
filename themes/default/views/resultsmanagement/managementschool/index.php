@@ -9,7 +9,7 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 //$cs->registerScript("variables",
 //    "var URLGetMapInfos = '".$this->createUrl("GetGMapInfo")."';", CClientScript::POS_BEGIN);
-//$cs->registerScriptFile('/themes/default/common/js/loadMap.js', CClientScript::POS_END);
+//$cs->registerScriptFile('/themes/default/common/js/loadMap.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerCssFile($baseScriptUrl.'/common/css/resultsmanagement.css');
 ?>
 <div class="row">

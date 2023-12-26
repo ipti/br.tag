@@ -12,7 +12,7 @@ $cs->registerCssFile($baseUrl . '/css/responsive.min.css');
 $cs->registerCssFile($baseUrl . '/css/template.css?v=1.0');
 $cs->registerCssFile($baseUrl . '/css/template2.css');
 $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
-$cs->registerScriptFile(Yii::app()->baseUrl . '/js/site/login.js', CClientScript::POS_END);
+$cs->registerScriptFile(Yii::app()->baseUrl . '/js/site/login.js?v='.TAG_VERSION, CClientScript::POS_END);
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'login-form',
     'enableClientValidation' => true,
@@ -43,7 +43,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <?php echo $form->textField($model, 'username', array('class' => 'input-block-level', 'placeholder' => 'Digite o usuário')); ?>
                     <?php echo $form->error($model, 'username'); ?>
                     <label>Senha</label>
-                    <span class="t-icon-eye" id="showPassword" style="position:absolute;right:15px;margin-top:10px;cursor:pointer;font-size:20px;"></span>
+                    <span class="t-icon-eye" id="showPassword" style="position:absolute;right:6px;margin-top:10px;cursor:pointer;font-size:20px;"></span>
                     <?php echo $form->passwordField($model, 'password', array('class' => 'input-block-level', 'placeholder' => 'Digite sua senha')); ?>
                     <?php echo $form->error($model, 'password'); ?>
                     <label>Ano Letivo</label>
@@ -72,7 +72,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     for ($i = $year; $i >= 2014; $i--) {
                         $years[$i] = $i;
                     }
-                    echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off'));
+                    echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off', 'style' => 'height: 44px'));
                     // @done S1 - Alinhar o checkbox com os inputs
                     ?>
                     <div class="uniformjs"><label class="checkbox text-input"><input type="checkbox" style="margin: 0px 6px 20px 0" value="remember-me">Mantenha-me conectado</label></div>

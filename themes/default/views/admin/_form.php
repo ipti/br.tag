@@ -1,16 +1,16 @@
 <?php
 /**
  * @var AdminController $this UsersController
- * @var $model Users
+ * @var CModel $model Users
  * @var $form CActiveForm
  */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/form/_functions.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/form/_functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
@@ -24,32 +24,29 @@ $form = $this->beginWidget('CActiveForm', array(
  */
 
 ?>
-<div class="row">
-    <div class="column" style="height: 70px;">
+<div class="mobile-row">
+    <div class="column clearleft">
         <h1><?php echo $title; ?></h1>
-        <span class="subtitle"> <?php echo Yii::t('default', 'Fields with * are required.') ?>
-            <div class="buttons">
-                <div class="buttons">
-                    <div class="buttons">
-                        <?php echo CHtml::htmlButton(
-                            '<i></i>' . ($model->isNewRecord
-                                ? Yii::t('default', 'Create')
-                                : Yii::t('default', 'Save')),
-                            array('type' => 'submit', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok')
-                        );
-                        ?>
-                    </div>
-                </div>
-            </div>
+    </div>
+    <div class="column clearfix align-items--center justify-content--end show--desktop">
+        <div id="createUser">
+            <?php echo CHtml::htmlButton(($model->isNewRecord
+                    ? Yii::t('default', 'Create')
+                    : Yii::t('default', 'Save')),
+                array('type' => 'submit', 'class' => 't-button-primary last')
+            );
+            ?>
+        </div>
     </div>
 </div>
+
 <div class="form">
     <div class="tag-inner">
         <div class="widget widget-tabs border-bottom-none">
             <div class="t-tabs">
                 <ul class="t-tabs__list tab-classroom">
                     <li id="tab-classroom" class="t-tabs__item active">
-                        <a class="t-tabs__link" >
+                        <a class="t-tabs__link first">
                             <span class="t-tabs__numeration">1</span>
                             <?php echo Yii::t('default', 'User') ?>
                         </a>
@@ -61,18 +58,14 @@ $form = $this->beginWidget('CActiveForm', array(
             <div class="alert alert-error no-show"></div>
 
             <div class="widget-body form-horizontal">
-                <div class="tab-content form-content">
-
+                <div class="tab-content">
                     <!-- Tab content -->
                     <div class="tab-pane active" id="User">
                         <div class="row">
-                            <div class="column">
-                                <h3>Dados Básicos</h3>
-                            </div>
+                            <h3>Dados Básicos</h3>
                         </div>
-
                         <div class="row">
-                            <div class="column">
+                            <div class="column is-two-fifths clearleft">
                                 <div class="t-field-select">
                                         <?php echo CHtml::label(Yii::t('default', 'Role'), 's2id_Role', array('class' => 't-field-select__label required', 'required' => true)); ?>
                                         <?php
@@ -85,8 +78,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             $actual_role,
                                             $roles,
                                             array(
-                                                'class' => 'select-search-off t-field-select__input js-show-instructor-input',
-                                                'style' => 'width: 100%'
+                                                'class' => 'select-search-off t-field-select__input select2-container js-show-instructor-input'
                                             )
                                         ); ?>
                                 </div>
@@ -110,8 +102,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?php echo $form->error($model, 'name'); ?>
                                 </div>
                             </div>
-                            <div class="separator"></div>
-                            <div class="column">
+                            <div class="column clearleft--on-mobile is-two-fifths">
                                 <div class="t-field-select">
                                         <?php echo CHtml::label(Yii::t('default', 'Schools'), 'schools', array('class' => 't-field-select__label')); ?>
                                         <?php
@@ -132,32 +123,37 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                         <div class="row">
-                            <div class="column">
-                                <h3>Dados de login</h3>
-                            </div>
+                            <h3>Dados de login</h3>
                         </div>
                         <div class="row">
-                            <div class="column">
-
+                            <div class="column is-two-fifths clearleft">
                                 <div class="t-field-text">
                                     <?php echo $form->labelEx($model, 'username', array('class' => 't-field-text__label')); ?>
                                     <?php echo $form->textField($model, 'username', array('class' => 't-field-text__input')); ?>
                                     <?php echo $form->error($model, 'username'); ?>
                                 </div>
-
                                 <div class="t-field-text password-container">
                                     <?php echo $form->labelEx($model, 'password', array('class' => 't-field-text__label')); ?>
                                     <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input')); ?>
                                     <span class="t-icon-eye show-password-icon" id="showPassword"></span>
                                     <?php echo $form->error($model, 'password'); ?>
                                 </div>
-                                <div class='column'></div>
                             </div>
-                            <div class="column"></div>
                         </div>
                     </div>
 
                     <?php $this->endWidget(); ?>
+                </div>
+                <div class="row show--tablet">
+                    <div class="t-buttons-container">
+                        <div class="column clearfix">
+                            <div id="createUser">
+                                <a class="t-button-primary last save-school-button" type="submit">
+                                    <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -178,10 +174,6 @@ $form = $this->beginWidget('CActiveForm', array(
 
     .select2-container .select2-choices {
         max-height: 500px !important;
-    }
-
-    .select2-drop {
-        width:428px !important;
     }
 
     #s2id_schools .select2-choices {

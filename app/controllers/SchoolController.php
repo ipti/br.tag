@@ -112,7 +112,7 @@ class SchoolController extends Controller
         }
         $uf = $Uf == null ? $school->edcenso_uf_fk : $Uf;
 
-        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int) $school->edcenso_uf_fk));
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int)$school->edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
 
         $result = CHtml::tag('option', array('value' => ""), 'Selecione a cidade', true);
@@ -150,9 +150,9 @@ class SchoolController extends Controller
     public function actionView($id)
     {
         $this->render('view', array(
-            'modelSchoolIdentification' => $this->loadModel($id, $this->SCHOOL_IDENTIFICATION),
-            'modelSchoolStructure' => $this->loadModel($id, $this->SCHOOL_STRUCTURE),
-        )
+                'modelSchoolIdentification' => $this->loadModel($id, $this->SCHOOL_IDENTIFICATION),
+                'modelSchoolStructure' => $this->loadModel($id, $this->SCHOOL_STRUCTURE),
+            )
         );
     }
 
@@ -206,7 +206,6 @@ class SchoolController extends Controller
             $modelManagerIdentification->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
 
-
             $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
 
             /*
@@ -237,10 +236,10 @@ class SchoolController extends Controller
         }
 
         $this->render('create', array(
-            'modelSchoolIdentification' => $modelSchoolIdentification,
-            'modelSchoolStructure' => $modelSchoolStructure,
-            'modelManagerIdentification' => $modelManagerIdentification
-        )
+                'modelSchoolIdentification' => $modelSchoolIdentification,
+                'modelSchoolStructure' => $modelSchoolStructure,
+                'modelManagerIdentification' => $modelManagerIdentification
+            )
         );
     }
 
@@ -254,6 +253,8 @@ class SchoolController extends Controller
         $modelSchoolIdentification = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
         $modelSchoolStructure = $this->loadModel($id, $this->SCHOOL_STRUCTURE);
         $modelManagerIdentification = $this->loadModel($id, $this->MANAGER_IDENTIFICATION);
+
+        $disableFieldWhenItsUBATUBA = Yii::app()->features->isEnable("FEAT_SEDSP");
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);
@@ -336,9 +337,10 @@ class SchoolController extends Controller
         }
 
         $this->render('update', array(
-            'modelSchoolIdentification' => $modelSchoolIdentification,
-            'modelSchoolStructure' => $modelSchoolStructure,
-            'modelManagerIdentification' => $modelManagerIdentification
+                'modelSchoolIdentification' => $modelSchoolIdentification,
+                'modelSchoolStructure' => $modelSchoolStructure,
+                'modelManagerIdentification' => $modelManagerIdentification,
+                'disabledFields' => $disableFieldWhenItsUBATUBA
         )
         );
     }
@@ -370,9 +372,9 @@ class SchoolController extends Controller
         }
         $dataProvider = new CActiveDataProvider($this->SCHOOL_IDENTIFICATION, array('pagination' => false));
         $this->render('index', array(
-            'dataProvider' => $dataProvider,
-            'filter' => $filter
-        )
+                'dataProvider' => $dataProvider,
+                'filter' => $filter
+            )
         );
     }
 
@@ -392,9 +394,9 @@ class SchoolController extends Controller
         }
 
         $this->render('admin', array(
-            'modelSchoolIdentification' => $modelSchoolIdentification,
-            'modelSchoolStructure' => $modelSchoolStructure,
-        )
+                'modelSchoolIdentification' => $modelSchoolIdentification,
+                'modelSchoolStructure' => $modelSchoolStructure,
+            )
         );
     }
 
@@ -410,23 +412,23 @@ class SchoolController extends Controller
         } elseif ($model == $this->SCHOOL_STRUCTURE) {
             return $this->loadSchoolStruct($id);
         } elseif ($model == $this->MANAGER_IDENTIFICATION) {
-            return  $this->loadManagerIdentification($id);
+            return $this->loadManagerIdentification($id);
         }
     }
 
     /**
      * Summary of loadSchoolIdentification
      * @param string $id
-     * 
+     *
      * @throws \CHttpException
-     * 
+     *
      * @return SchoolIdentification
      */
     private function loadSchoolIdentification($id)
     {
         $school = SchoolIdentification::model()->findByPk($id);
-        
-        if(!isset($school)){
+
+        if (!isset($school)) {
             throw new CHttpException(404, 'A escola requisitada não existe.');
         }
 
@@ -513,8 +515,8 @@ class SchoolController extends Controller
         $this->layout = "reports";
         $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
         $this->render('MonthlySummary', array(
-            'model' => $model
-        )
+                'model' => $model
+            )
         );
     }
 
@@ -538,10 +540,10 @@ class SchoolController extends Controller
         }
 
         $this->render('MonthlyTransaction', array(
-            'model' => $model,
-            'type' => $type,
-            'title' => $title
-        )
+                'model' => $model,
+                'type' => $type,
+                'title' => $title
+            )
         );
     }
 
@@ -562,10 +564,10 @@ class SchoolController extends Controller
         }
 
         $this->render('Record', array(
-            'model' => $model,
-            'type' => $type,
-            'title' => $title
-        )
+                'model' => $model,
+                'type' => $type,
+                'title' => $title
+            )
         );
     }
 
