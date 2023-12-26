@@ -2550,7 +2550,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     "3" => "Parda",
                                     "4" => "Amarela",
                                     "5" => "Indígena"
-                                ), array('class' => 'select-search-off t-field-select__input select2-container'));
+                                ), array('class' => 'select-search-off t-field-select__input select2-container', 'id' => 'color_race'));
                                 ?>
                                 <?php echo $form->error($modelManagerIdentification, 'color_race'); ?>
                             </div>
