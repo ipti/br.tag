@@ -68,6 +68,12 @@ services:
     networks:
       - tag-v3-network
 
+  sass:
+    image: michalklempa/dart-sass
+    volumes:
+      - ./sass/scss:/sass
+      - ./sass/css:/css
+    entrypoint: ["/opt/dart-sass/sass", "--watch", "--no-source-map" ,"--style=compressed", "/sass:/css"]
 networks:
   tag-v3-network:
 
