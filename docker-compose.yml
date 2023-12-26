@@ -54,7 +54,7 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     volumes:
-      - ./docker/mysql/dbfiles:/var/lib/mysql
+      - ./db:/var/lib/mysql
       # - .\dump.sql:/docker-entrypoint-initdb.d/dump.sql
       # - ./dump-data.sql:/docker-entrypoint-initdb.d/dump-data.sql
     networks:
