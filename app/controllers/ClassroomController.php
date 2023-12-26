@@ -1,18 +1,23 @@
 <?php
 
 require_once 'app/vendor/autoload.php';
-Yii::import('application.modules.sedsp.models.*');
 Yii::import('application.modules.sedsp.models.Classroom.*');
+Yii::import('application.modules.sedsp.models.Enrollment.*');
 Yii::import('application.modules.sedsp.models.Student.*');
 Yii::import('application.modules.sedsp.datasources.sed.Classroom.*');
 Yii::import('application.modules.sedsp.datasources.sed.ClassStudentsRelation.*');
+Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
+Yii::import('application.modules.sedsp.datasources.sed.Student.*');
 Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.*');
+Yii::import('application.modules.sedsp.usecases.Enrollment.*');
 
 //-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
 {
 
+    const CREATE = 'create';
+    const UPDATE = 'update';
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -45,7 +50,7 @@ class ClassroomController extends Controller
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'batchupdatenrollment',
                     'getcomplementaryactivitytype', 'delete',
-                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines', 'syncToSedsp'
+                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines', 'syncToSedsp', 'syncUnsyncedStudents'
                 ),
                 'users' => array('@'),
             ),
@@ -329,43 +334,43 @@ class ClassroomController extends Controller
     {
         $disciplines = array();
 
-        if (isset($instructor->discipline_1_fk)){
+        if (isset($instructor->discipline_1_fk)) {
             array_push($disciplines, $instructor->discipline1Fk);
         }
-        if (isset($instructor->discipline_2_fk)){
+        if (isset($instructor->discipline_2_fk)) {
             array_push($disciplines, $instructor->discipline2Fk);
         }
-        if (isset($instructor->discipline_3_fk)){
+        if (isset($instructor->discipline_3_fk)) {
             array_push($disciplines, $instructor->discipline3Fk);
         }
-        if (isset($instructor->discipline_4_fk)){
+        if (isset($instructor->discipline_4_fk)) {
             array_push($disciplines, $instructor->discipline4Fk);
         }
-        if (isset($instructor->discipline_5_fk)){
+        if (isset($instructor->discipline_5_fk)) {
             array_push($disciplines, $instructor->discipline5Fk);
         }
-        if (isset($instructor->discipline_6_fk)){
+        if (isset($instructor->discipline_6_fk)) {
             array_push($disciplines, $instructor->discipline6Fk);
         }
-        if (isset($instructor->discipline_7_fk)){
+        if (isset($instructor->discipline_7_fk)) {
             array_push($disciplines, $instructor->discipline7Fk);
         }
-        if (isset($instructor->discipline_8_fk)){
+        if (isset($instructor->discipline_8_fk)) {
             array_push($disciplines, $instructor->discipline8Fk);
         }
-        if (isset($instructor->discipline_9_fk)){
+        if (isset($instructor->discipline_9_fk)) {
             array_push($disciplines, $instructor->discipline9Fk);
         }
-        if (isset($instructor->discipline_10_fk)){
+        if (isset($instructor->discipline_10_fk)) {
             array_push($disciplines, $instructor->discipline10Fk);
         }
-        if (isset($instructor->discipline_11_fk)){
+        if (isset($instructor->discipline_11_fk)) {
             array_push($disciplines, $instructor->discipline11Fk);
         }
-        if (isset($instructor->discipline_12_fk)){
+        if (isset($instructor->discipline_12_fk)) {
             array_push($disciplines, $instructor->discipline12Fk);
         }
-        if (isset($instructor->discipline_13_fk)){
+        if (isset($instructor->discipline_13_fk)) {
             array_push($disciplines, $instructor->discipline13Fk);
         }
 
@@ -458,6 +463,7 @@ class ClassroomController extends Controller
             'modelClassroom' => $modelClassroom,
         ));
     }
+
     public function actionBatchupdatEnrollment($id)
     {
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
@@ -553,11 +559,11 @@ class ClassroomController extends Controller
                         }
                         if ($saved) {
 
-                            if (TagUtils::isInstance("UBATUBA")) {
+                            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                                 $loginUseCase = new LoginUseCase();
                                 $loginUseCase->checkSEDToken();
 
-                                $result = $this->classroomSyncToSEDSP($modelClassroom, "create", "create", null);
+                                $result = $modelClassroom->syncToSEDSP("create", "create");
                             } else {
                                 $result = ["flash" => "success", "message" => "Turma adicionada com sucesso!"];
                             }
@@ -578,6 +584,7 @@ class ClassroomController extends Controller
             'modelClassroom' => $modelClassroom,
             'complementary_activities' => array(),
             'modelTeachingData' => $modelTeachingData,
+            'modelEnrollments' => [],
         ));
     }
 
@@ -585,9 +592,25 @@ class ClassroomController extends Controller
     {
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
         $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+        $studentsEnrollments = $modelClassroom->studentEnrollments;
+        $modelEnrollments = [];
+        foreach ($studentsEnrollments as $studentEnrollment) {
+            $array = [];
+            $array["enrollmentId"] = $studentEnrollment->id;
+            $array["studentId"] = $studentEnrollment->studentFk->id;
+            $array["studentName"] = $studentEnrollment->studentFk->name;
+            $array["dailyOrder"] = $studentEnrollment->daily_order;
+
+            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                $array["synced"] = $studentEnrollment->studentFk->sedsp_sync && $studentEnrollment->sedsp_sync;
+            }
+
+            array_push($modelEnrollments, $array);
+        }
+
 
         $disableFieldsWhenItsUBATUBA = false;
-        if (TagUtils::isInstance("UBATUBA") && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
+        if (Yii::app()->features->isEnable("FEAT_SEDSP") && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
             $disableFieldsWhenItsUBATUBA = true;
         }
 
@@ -614,17 +637,17 @@ class ClassroomController extends Controller
                     $frequencyByExam = FrequencyByExam::model()
                         ->findAllByAttributes(array('enrollment_fk' => $studentEnrollment->id));
 
-                    foreach ($gradeResults as $gradeResult){
+                    foreach ($gradeResults as $gradeResult) {
                         $gradeResult->delete();
                     }
-                    foreach ($frequencyAndMean as $eachFrequencyAndMean){
+                    foreach ($frequencyAndMean as $eachFrequencyAndMean) {
                         $eachFrequencyAndMean->delete();
                     }
-                    foreach ($frequencyByExam as $frequencyExam){
+                    foreach ($frequencyByExam as $frequencyExam) {
                         $frequencyExam->delete();
                     }
                     $studentEnrollment->delete();
-                    Yii::app()->user->setFlash('success','Matrículas de alunos excluídas com sucesso');
+                    Yii::app()->user->setFlash('success', 'Matrículas de alunos excluídas com sucesso');
                 }
             }
             $this->redirect(array('index'));
@@ -652,9 +675,10 @@ class ClassroomController extends Controller
             $modelClassroom->attributes = $_POST['Classroom'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
-            if (TagUtils::isInstance("UBATUBA") && !$disableFieldsWhenItsUBATUBA) {
+            if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$disableFieldsWhenItsUBATUBA) {
 
-                if ($beforeChangeClassroom->turn != $modelClassroom->turn ||
+                if (
+                    $beforeChangeClassroom->turn != $modelClassroom->turn ||
                     $beforeChangeClassroom->sedsp_acronym != $modelClassroom->sedsp_acronym ||
                     $beforeChangeClassroom->sedsp_classnumber != $modelClassroom->sedsp_classnumber ||
                     $beforeChangeClassroom->sedsp_max_physical_capacity != $modelClassroom->sedsp_max_physical_capacity ||
@@ -667,7 +691,8 @@ class ClassroomController extends Controller
                     $beforeChangeClassroom->week_days_wednesday != $modelClassroom->week_days_wednesday ||
                     $beforeChangeClassroom->week_days_thursday != $modelClassroom->week_days_thursday ||
                     $beforeChangeClassroom->week_days_friday != $modelClassroom->week_days_friday ||
-                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday) {
+                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday
+                ) {
 
                     $modelClassroom->sedsp_sync = 0;
                 }
@@ -675,70 +700,82 @@ class ClassroomController extends Controller
 
             $disciplines = json_decode($_POST['disciplines'], true);
             $this->setDisciplines($modelClassroom, $disciplines);
+            $hasWeekDaySelected = $modelClassroom->week_days_sunday ||
+                $modelClassroom->week_days_monday ||
+                $modelClassroom->week_days_tuesday ||
+                $modelClassroom->week_days_wednesday ||
+                $modelClassroom->week_days_thursday ||
+                $modelClassroom->week_days_friday ||
+                $modelClassroom->week_days_saturday;
 
-            if ($modelClassroom->week_days_sunday || $modelClassroom->week_days_monday || $modelClassroom->week_days_tuesday || $modelClassroom->week_days_wednesday || $modelClassroom->week_days_thursday || $modelClassroom->week_days_friday || $modelClassroom->week_days_saturday) {
+            if (!$hasWeekDaySelected) {
+                $modelClassroom->addError('week_days_sunday', Yii::t('default', 'Week Days') . ' ' . Yii::t('default', 'cannot be blank'));
+            }
 
-                if ($modelClassroom->validate() && $modelClassroom->save()) {
-                    $saved = true;
-                    $teachingDataValidated = true;
+            if ($hasWeekDaySelected && $modelClassroom->validate() && $modelClassroom->save()) {
+                $saved = true;
+                $teachingDataValidated = true;
 
-                    $teachingData = json_decode($_POST['teachingData']);
+                $teachingData = json_decode($_POST['teachingData']);
 
-                    foreach ($teachingData as $key => $td) {
-                        $modelTeachingData[$key] = new InstructorTeachingData;
-                        $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
-                        $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
-                        $modelTeachingData[$key]->instructor_fk = $td->Instructor;
-                        $modelTeachingData[$key]->role = $td->Role;
-                        $modelTeachingData[$key]->contract_type = $td->ContractType;
-                        $modelTeachingData[$key]->regent = $td->RegentTeacher;
-                        $modelTeachingData[$key]->disciplines = $td->Disciplines;
-                        $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
-                    }
+                foreach ($teachingData as $key => $td) {
+                    $modelTeachingData[$key] = new InstructorTeachingData;
+                    $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
+                    $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
+                    $modelTeachingData[$key]->instructor_fk = $td->Instructor;
+                    $modelTeachingData[$key]->role = $td->Role;
+                    $modelTeachingData[$key]->contract_type = $td->ContractType;
+                    $modelTeachingData[$key]->regent = $td->RegentTeacher;
+                    $modelTeachingData[$key]->disciplines = $td->Disciplines;
+                    $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
+                }
 
-                    if ($teachingDataValidated) {
-                        foreach ($modelTeachingData as $key => $td) {
-                            if ($saved) {
-                                $saved = $modelTeachingData[$key]->save();
-                                foreach ($td->disciplines as $discipline) {
-                                    $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline, "year" => Yii::app()->user->year]);
-                                    $teachingMatrixes = new TeachingMatrixes();
-                                    $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
-                                    $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
-                                    $teachingMatrixes->save();
-                                }
-                            }
-                        }
+                if ($teachingDataValidated) {
+                    foreach ($modelTeachingData as $key => $td) {
                         if ($saved) {
-
-                            if (TagUtils::isInstance("UBATUBA") && !$modelClassroom->sedsp_sync) {
-                                $loginUseCase = new LoginUseCase();
-                                $loginUseCase->checkSEDToken();
-
-                                $inConsultaTurmaClasse = new InConsultaTurmaClasse(
-                                    Yii::app()->user->year,
-                                    $modelClassroom->gov_id
+                            $saved = $modelTeachingData[$key]->save();
+                            foreach ($td->disciplines as $discipline) {
+                                $curricularMatrix = CurricularMatrix::model()->find(
+                                    "stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year",
+                                    [
+                                        "stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk,
+                                        "discipline_fk" => $discipline,
+                                        "year" => Yii::app()->user->year
+                                    ]
                                 );
-                                $dataSource = new ClassroomSEDDataSource();
-                                $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
-
-                                if (!property_exists($outConsultaTurmaClasse, "outErro")) {
-                                    $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
-                                } else {
-                                    $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
-                                }
-                            } else {
-                                $result = ["flash" => "success", "message" => "Turma atualizada com sucesso!"];
+                                $teachingMatrixes = new TeachingMatrixes();
+                                $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
+                                $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
+                                $teachingMatrixes->save();
                             }
-
-                            Log::model()->saveAction("classroom", $modelClassroom->id, "U", $modelClassroom->name);
-                            Yii::app()->user->setFlash($result["flash"], $result["message"]);
-                            $this->redirect(array('index'));
                         }
+                    }
+                    if ($saved) {
+                        if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$modelClassroom->sedsp_sync) {
+                            $loginUseCase = new LoginUseCase();
+                            $loginUseCase->checkSEDToken();
+
+                            $inConsultaTurmaClasse = new InConsultaTurmaClasse(
+                                Yii::app()->user->year,
+                                $modelClassroom->gov_id
+                            );
+                            $dataSource = new ClassroomSEDDataSource();
+                            $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
+
+                            if (!property_exists($outConsultaTurmaClasse, "outErro")) {
+                                $result = $modelClassroom->syncToSEDSP("edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
+                            } else {
+                                $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
+                            }
+                        } else {
+                            $result = ["flash" => "success", "message" => "Turma atualizada com sucesso!"];
+                        }
+
+                        Log::model()->saveAction("classroom", $modelClassroom->id, "U", $modelClassroom->name);
+                        Yii::app()->user->setFlash($result["flash"], $result["message"]);
+                        $this->redirect(array('index'));
                     }
                 }
-            } else {
-                $modelClassroom->addError('week_days_sunday', Yii::t('default', 'Week Days') . ' ' . Yii::t('default', 'cannot be blank'));
             }
         }
 
@@ -746,100 +783,9 @@ class ClassroomController extends Controller
         $this->render('update', array(
             'modelClassroom' => $modelClassroom,
             'modelTeachingData' => $modelTeachingData,
+            'modelEnrollments' => $modelEnrollments,
             'disabledFields' => $disableFieldsWhenItsUBATUBA
         ));
-    }
-
-    private function classroomSyncToSEDSP($modelClassroom, $tagAction, $sedspAction)
-    {
-        $inDiasDaSemana = new InDiasDaSemana(
-            $modelClassroom->week_days_monday,
-            ($modelClassroom->week_days_monday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_monday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_tuesday,
-            ($modelClassroom->week_days_tuesday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_tuesday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_wednesday,
-            ($modelClassroom->week_days_wednesday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_wednesday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_thursday,
-            ($modelClassroom->week_days_thursday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_thursday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_friday,
-            ($modelClassroom->week_days_friday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_friday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null),
-            $modelClassroom->week_days_saturday,
-            ($modelClassroom->week_days_saturday ? $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute : null),
-            ($modelClassroom->week_days_saturday ? $modelClassroom->final_hour . ":" . $modelClassroom->final_minute : null)
-        );
-
-        $calendarFirstDay = Yii::app()->db->createCommand("select DATE(ce.start_date) as start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id  where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk = 1000;")->bindParam(":stage", $modelClassroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryRow();
-        $calendarLastDay = Yii::app()->db->createCommand("select DATE(ce.end_date) as end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk  = 1001;")->bindParam(":stage", $modelClassroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryRow();
-
-        $firstDay = date("d/m/Y", $calendarFirstDay == null ? strtotime("first monday of January " . Yii::app()->user->year) : strtotime($calendarFirstDay["start_date"]));
-        $lastDay = date("d/m/Y", $calendarLastDay == null ? strtotime("last friday of December " . Yii::app()->user->year) : strtotime($calendarLastDay["end_date"]));
-
-        if ($sedspAction == "create") {
-            $tipoEnsinoAndStage = ClassroomMapper::convertStageToTipoEnsino($modelClassroom->edcenso_stage_vs_modality_fk);
-
-            $inIncluirTurmaClasse = new InIncluirTurmaClasse(
-                Yii::app()->user->year,
-                substr(Yii::app()->user->school, 2),
-                $modelClassroom->sedspSchoolUnityFk->code,
-                $tipoEnsinoAndStage["tipoEnsino"],
-                $tipoEnsinoAndStage["serieAno"],
-                0,
-                ClassroomMapper::revertCodTurno($modelClassroom->turn),
-                0,
-                $modelClassroom->sedsp_acronym,
-                $modelClassroom->sedsp_classnumber,
-                $modelClassroom->sedsp_max_physical_capacity,
-                $firstDay,
-                $lastDay,
-                $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute,
-                $modelClassroom->final_hour . ":" . $modelClassroom->final_minute,
-                null,
-                null,
-                $inDiasDaSemana
-            );
-
-            $dataSource = new ClassroomSEDDataSource();
-            $result = $dataSource->incluirTurmaClasse($inIncluirTurmaClasse);
-        } else {
-            $inManutencaoTurmaClasse = new InManutencaoTurmaClasse(
-                Yii::app()->user->year,
-                $modelClassroom->gov_id,
-                0,
-                ClassroomMapper::revertCodTurno($modelClassroom->turn),
-                $modelClassroom->sedsp_acronym,
-                $modelClassroom->sedsp_max_physical_capacity,
-                $firstDay,
-                $lastDay,
-                $modelClassroom->initial_hour . ":" . $modelClassroom->initial_minute,
-                $modelClassroom->final_hour . ":" . $modelClassroom->final_minute,
-                0,
-                null,
-                null,
-                $modelClassroom->sedsp_classnumber,
-                $inDiasDaSemana
-            );
-
-            $dataSource = new ClassroomSEDDataSource();
-            $result = $dataSource->manutencaoTurmaClasse($inManutencaoTurmaClasse);
-        }
-
-        $flash = "success";
-        if ($result->outErro !== null) {
-            $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . "  no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: " . $result->outErro;
-            $flash = "error";
-        } else {
-            $modelClassroom->sedsp_sync = 1;
-            $modelClassroom->gov_id = $sedspAction == "create" ? $result->outSucesso : $modelClassroom->gov_id;
-            $modelClassroom->save();
-            $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . " com sucesso!";
-        }
-
-        return ["flash" => $flash, "message" => $message];
     }
 
     /**
@@ -854,7 +800,7 @@ class ClassroomController extends Controller
         $teachingDatas = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
 
         $ableToDelete = true;
-        if (TagUtils::isInstance("UBATUBA")) {
+        if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
             if ($classroom->gov_id !== null) {
                 $loginUseCase = new LoginUseCase();
                 $loginUseCase->checkSEDToken();
@@ -886,15 +832,13 @@ class ClassroomController extends Controller
                 }
                 if ($classroom->delete()) {
                     Log::model()->saveAction("classroom", $id, "D", $classroom->name);
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Turma excluída com sucesso!'));
-                    $this->redirect(array('index'));
+                    echo json_encode(["valid" => true, "message" => "Turma excluída com sucesso!"]);
                 }
             } catch (Exception $e) {
-                throw new CHttpException(901, "Não se pode remover turma com professores vinculados.");
+                echo json_encode(["valid" => false, "message" => "Não se pode remover turma com professores vinculados."]);
             }
         } else {
-            Yii::app()->user->setFlash('error', "Não foi possível remover a turma no SEDSP. Motivo:" . $erro);
-            $this->redirect(array('index'));
+            echo json_encode(["valid" => false, "message" => "Não foi possível remover a turma no SEDSP. Motivo: " . $erro]);
         }
     }
 
@@ -913,7 +857,7 @@ class ClassroomController extends Controller
         $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
         if (!property_exists($outConsultaTurmaClasse, "outErro")) {
-            $result = $this->classroomSyncToSEDSP($modelClassroom, "edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
+            $result = $modelClassroom->syncToSEDSP("edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
         } else {
             $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
         }
@@ -941,7 +885,7 @@ class ClassroomController extends Controller
     {
         $model = new Classroom('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['Classroom'])){
+        if (isset($_GET['Classroom'])) {
             $model->attributes = $_GET['Classroom'];
         }
 
@@ -1060,7 +1004,8 @@ class ClassroomController extends Controller
         foreach ($enrollments as $i => $enrollment) {
             $enrollment->daily_order = $i + 1;
             $enrollment->save();
-        };
+        }
+        ;
         $result = array_map(function ($enrollment) {
             return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name,
                 "daily_order" => $enrollment->daily_order];
@@ -1070,4 +1015,33 @@ class ClassroomController extends Controller
         /* Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order')); */
     }
 
+    public function actionSyncUnsyncedStudents()
+    {
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
+
+        $classroom = Classroom::model()->findByPk($_POST["classroomId"]);
+        $result = [];
+        foreach ($classroom->studentEnrollments as $studentEnrollment) {
+            $studentIdentification = $studentEnrollment->studentFk;
+            if (!$studentIdentification->sedsp_sync || !$studentEnrollment->sedsp_sync) {
+                $response = $studentIdentification->syncStudentWithSED($studentIdentification->id, $studentEnrollment, self::UPDATE);
+                if ($response["identification"]->outErro !== null || $response["enrollment"]->outErro !== null) {
+                    array_push($result, [
+                        "enrollmentId" => $studentEnrollment->id,
+                        "valid" => false,
+                        "studentName" => $studentIdentification->name,
+                        "identificationMessage" => $response["identification"] != null ? $response["identification"]->outErro : null,
+                        "enrollmentMessage" => $response["enrollment"] != null ? $response["enrollment"]->outErro : null
+                    ]);
+                } else {
+                    array_push($result, [
+                        "enrollmentId" => $studentEnrollment->id,
+                        "valid" => true
+                    ]);
+                }
+            }
+        }
+        echo json_encode($result);
+    }
 }

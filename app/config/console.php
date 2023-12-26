@@ -3,13 +3,13 @@
 define("DBNAME","demo.tag.ong.br");
 $HOST = "mysql";
 $USER = "root";
-$PWD = "root";
+$SECRET = "root";
 
 define ("DBCONFIG", serialize (array(
     'connectionString' => "mysql:host=$HOST;dbname=demo.tag.ong.br",
     'emulatePrepare' => true,
     'username' => $USER,
-    'password' => $PWD,
+    'password' => $SECRET,
     'charset' => 'utf8',
 )));
 

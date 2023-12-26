@@ -12,79 +12,53 @@ class GetExibirFichaAlunoFromSEDUseCase
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
 
-        $name = $response->getOutDadosPessoais()->getOutNomeAluno();
-        $filiation_1 = $response->getOutDadosPessoais()->getOutNomeMae();
+        $mapper = (object)StudentMapper::parseToTAGExibirFichaAluno($response);
+        $studentIdentification = $mapper->StudentIdentification;
 
-        $studentExists = $this->checkIfStudentExists($name, $filiation_1);
-        
-		if($studentExists){
-            return false;
-        }
-        
         try {
-            $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
-            $documents =  (object) $mapper->StudentDocumentsAndAddress->getAttributes();
-
-            $studentIdentification = $this->createAndSaveStudentIdentification($mapper->StudentIdentification);
-            $studentDocumentsAndAddress = $this->createAndSaveStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $studentIdentification, $documents->gov_id);
+            $studentIdentification = $this->createAndSaveStudentIdentification($studentIdentification);
+            $this->createAndSaveStudentDocumentsAndAddress($mapper->StudentDocumentsAndAddress, $studentIdentification);
 
             return $studentIdentification;
-            
+
         } catch (Exception $e) {
             $log = new LogError();
             $log->salvarDadosEmArquivo($e->getMessage());
         }
 
         throw new SedspException("Não foi possivel cadastrar aluno", 1);
-        
+
     }
 
 
-    public function createAndSaveStudentDocumentsAndAddress($attributes, $studentIdentification, $gov_id)
+    public function createAndSaveStudentDocumentsAndAddress($studentDocumentsAndAddress, $studentIdentification)
     {
-        $studentDocumentsAndAddress = new StudentDocumentsAndAddress();
-        $studentDocumentsAndAddress->attributes = $attributes->getAttributes();
-        $studentDocumentsAndAddress->edcenso_city_fk = $attributes->edcenso_city_fk;
-        $studentDocumentsAndAddress->gov_id = $gov_id;
-        $studentDocumentsAndAddress->id = $studentIdentification->id;
+        $documentos = StudentDocumentsAndAddress::model()->find('id = :studentFk', [':studentFk' => $studentIdentification->id]);
 
-        $sucess = $studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save();
-        
-        if($sucess){
-            return true;
+        if($documentos === null) {
+            if ($studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save()) {
+                return $studentDocumentsAndAddress;
+            } else {
+                $log = new LogError();
+                $log->salvarDadosEmArquivo($studentDocumentsAndAddress->getErrors());
+            }
+        } else {
+            if ($documentos->validate() && $documentos->save()) {
+                return $studentDocumentsAndAddress;
+            } else {
+                $log = new LogError();
+                $log->salvarDadosEmArquivo($documentos->getErrors());
+            }
         }
     }
 
-    public function createAndSaveStudentIdentification($attributes)
+    public function createAndSaveStudentIdentification($studentIdentification)
     {
-        
-        $studentIdentification = new StudentIdentification();
-        $studentIdentification->attributes = $attributes->getAttributes();
-        $studentIdentification->gov_id = $attributes->gov_id;
-
-        $sucess = $studentIdentification->validate() && $studentIdentification->save();
-        
-        if($sucess){
-            return true;
+        if ($studentIdentification->validate() && $studentIdentification->save()) {
+            return $studentIdentification;
+        } else {
+            $log = new LogError();
+            $log->salvarDadosEmArquivo($studentIdentification->getErrors());
         }
-    }
-
-    /**
-     * Summary of checkIfStudentIsEnrolled
-     * @param string $cpf
-     * @param string $name
-     * @return array | false
-     */
-    public function checkIfStudentExists($name, $filiation_1)
-    {
-        $studentIdentification = StudentIdentification::model()->find('name = :name and filiation_1 = :filiation_1', [':name' => $name, 'filiation_1' => $filiation_1]);   
-        $parseResult = [];
-        if($studentIdentification){
-            $parseResult["StudentIdentification"] = $studentIdentification;
-            $parseResult["StudentDocumentsAndAddress"] = $studentIdentification->documentsFk;
-            return $parseResult;
-        }
-
-        return false;
     }
 }

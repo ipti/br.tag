@@ -797,7 +797,7 @@ return array(
     //Selects de Dorpdowns
     'Select School' => 'Selecione a escola',
     'Select Discipline' => 'Selecione um Componente curricular/eixo',
-    
+
 
     //Titulos
     'School Identifications' => 'Escolas',
@@ -806,6 +806,8 @@ return array(
     'Student Enrollments' => 'Matrículas dos Alunos',
     'Student Identifications' => 'Alunos',
     'Instructor Identifications' => 'Professores',
+    'Food Menus' => 'Cardápios',
+    'Lunch' => 'Merenda',
     'Reports' => 'Relatórios',
     'Out Of Town Students' => 'Alunos fora da cidade',
     'Professional Identifications' => 'Profissionais',

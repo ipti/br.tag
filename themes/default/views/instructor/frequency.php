@@ -6,7 +6,7 @@
     $baseUrl = Yii::app()->baseUrl;
 	$themeUrl = Yii::app()->theme->baseUrl;
 	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/instructor/frequency.js', CClientScript::POS_END);
+	$cs->registerScriptFile($baseUrl . '/js/instructor/frequency.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 	$this->setPageTitle('TAG - ' . Yii::t('default', 'Instructor frequency'));
     ?>
@@ -62,7 +62,7 @@
 
             <!-- disciplina -->
             <div class="disciplines-container" style="display: none">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required','style' => 'width: 88px;')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label required','style' => 'width: 185px;')); ?>
                 <?php
                 echo CHtml::dropDownList('disciplines', '', array(), array(
                     'key' => 'id',

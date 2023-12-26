@@ -57,7 +57,7 @@ class ClassroomMapper
         $listStudents = [];
         $students = $outFormacaoClasse->getOutAlunos();
         foreach ($students as $student) {
-            if ($student->getOutDescSitMatricula() === 'ATIVO') {
+            #if ($student->getOutDescSitMatricula() === 'ATIVO') {
                 $studentIdentification = new StudentIdentification();
                 $studentIdentification->gov_id = $student->getOutNumRa();
                 $studentIdentification->name = $student->getOutNomeAluno();
@@ -72,7 +72,8 @@ class ClassroomMapper
                 }
 
                 $studentIdentification->sex = $outExibirFichaAluno->getOutCodSexo();
-                $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca();
+
+                $studentIdentification->color_race = $outExibirFichaAluno->getOutCorRaca() === '6' ? '0' : $outExibirFichaAluno->getOutCorRaca();
                 $studentIdentification->filiation = 1;
                 $studentIdentification->filiation_1 = $outExibirFichaAluno->getOutNomeMae();
                 $studentIdentification->filiation_2 = $outExibirFichaAluno->getOutNomePai();
@@ -96,7 +97,7 @@ class ClassroomMapper
                 $studentIdentification->scholarity = $student->getOutSerieNivel();
 
                 $listStudents[] = $studentIdentification;
-            }
+            #}
         }
 
         $parseResult = [];
@@ -153,7 +154,7 @@ class ClassroomMapper
             $classroom->sedsp_sync = 1;
 
             $arrayClasses[] = $classroom;
-                    }
+        }
 
         $parseResult = [];
         $parseResult["Classrooms"] = $arrayClasses;
@@ -233,7 +234,7 @@ class ClassroomMapper
      * @throws \Exception
      * @return int
      */
-    private static function convertTipoEnsinoToStage($codTipoEnsino, $codSerieAno)
+    public static function convertTipoEnsinoToStage($codTipoEnsino, $codSerieAno)
     {
         $mapperTipoEnsino = [
             "3" => [
