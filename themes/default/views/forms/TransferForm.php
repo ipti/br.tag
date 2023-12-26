@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/TransferForm/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/TransferForm/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -12,7 +12,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
-        
+
         <script type="text/javascript">
             /*<![CDATA[*/
             jQuery(function ($) {
@@ -67,7 +67,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <span class="birth_state"></span>
                     </td>
                     <td style="text-align: center">
-                        <?php 
+                        <?php
                             switch ($nationality) {
                                 case '1':
                                     echo "BRASILEIRA";
@@ -93,11 +93,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td colspan="2" style="border-right: none; border-left: none">
                         <span style="font-weight: bold">DATA DE EXPEDIÇÃO: </span>
                         <span class="rg_date"></span>
-                    </td>    
+                    </td>
                     <td colspan="2" style="border-right: none; border-left: none">
                         <span style="font-weight: bold">ORGÃO EXPEDIDOR: </span>
                         <span class="rg_emitter"></span>
-                    </td>    
+                    </td>
                     <td colspan="1" style="border-left: none">
                         <span style="font-weight: bold">ESTADO: </span>
                         <span class="rg_uf"></span>
@@ -108,19 +108,19 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <span style="font-weight: bold">CERTIDÃO DE NASCIMENTO Nº: </span>
                         <span class="civil_certification"></span>
                     </td>
-                    <td colspan="1" style="border-right: none; border-left: none">    
+                    <td colspan="1" style="border-right: none; border-left: none">
                         <span style="font-weight: bold">FLS: </span>
                         <span class="civil_certification_sheet"></span>
-                    </td>    
-                    <td colspan="1" style="border-right: none; border-left: none">    
+                    </td>
+                    <td colspan="1" style="border-right: none; border-left: none">
                         <span style="font-weight: bold">LIVRO: </span>
                         <span class="civil_certification_book"></span>
-                    </td>    
-                    <td colspan="2" style="border-right: none; border-left: none">    
+                    </td>
+                    <td colspan="2" style="border-right: none; border-left: none">
                         <span style="font-weight: bold">DISTRITO/MUNICÍPIO: </span>
                         <span class="civil_certification_city"></span>
                     </td>
-                    <td colspan="1" style="border-left: none">    
+                    <td colspan="1" style="border-left: none">
                         <span style="font-weight: bold">ESTADO: </span>
                         <span class="civil_certification_uf"></span>
                     </td>
@@ -128,15 +128,15 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <tr>
                     <td colspan="8">
                         <span style="font-weight: bold">NOME DA FILIAÇÃO: </span>
-                        <span class="filiation_2"></span> / 
+                        <span class="filiation_2"></span> /
                         <span class="filiation_1"></span></td>
                 </tr>
-            
-            
+
+
                 <tr>
                     <td colspan="8" style="text-align: center; font-weight: bold">RESULTADO DE ESTUDOS REALIZADOS NO ENSINO FUNDAMENTAL
                         <br>LEI FEDERAL 9394/96 - LEI MUNICIPAL: 523/2006
-                    </td>                    
+                    </td>
                 </tr>
                 <tr>
                     <td rowspan="10" style="text-align: center; font-weight: bold">
@@ -154,13 +154,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td colspan="2" style="text-align: center; font-weight: bold">CORREÇÃO DE FLUXO</td>
                 </tr>
                 <tr>
-                    <td colspan="3">LÍNGUA PORTUGUESA</td>                
+                    <td colspan="3">LÍNGUA PORTUGUESA</td>
                     <td rowspan="11" colspan="2">
                         (&nbsp;&nbsp;&nbsp;&nbsp;) PROMOVIDO<br><br>
                         (&nbsp;&nbsp;&nbsp;&nbsp;) EVADIDO<br><br>
                         (&nbsp;&nbsp;&nbsp;&nbsp;) TRANSFERIDO NO<br>
                         DECORRER DO ANO LETIVO
-                    </td>                                
+                    </td>
                     <td rowspan="11" colspan="2">
                         (&nbsp;&nbsp;&nbsp;&nbsp;) PROMOVIDO PARA<br>
                         ____________________________<br><br><br>
@@ -285,7 +285,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td></td>
                 </tr>
             </table>
-            
+
             <!--
                 *****************************************************************
                 **                                                             **
@@ -294,14 +294,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 *****************************************************************
             -->
             <div style="display: none">
-                
-                
-                
-                
-                
-                
+
+
+
+
+
+
             <div class="page-break"></div>
-            
+
             <div style="width: 100%; text-align: center;">TRANSFERÊNCIA DURANTE O PERÍODO LETIVO</div>
             <table style="text-align: center">
                 <tr>
@@ -618,19 +618,19 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <td>&nbsp;</td>
                 </tr>
             </table>
-            
+
             <br>
             <table>
                 <tr><td>ESPAÇO DESTINADO À UNIDADE ESCOLAR</td></tr>
                 <tr><td>OBSERVAÇÕES<br><br><br><br><br></td></tr>
             </table>
-            
+
             <br>
             <table>
                 <tr><td>ESPAÇO DESTINADO À DIVISÃO DE INSPEÇÃO DA SECRETARIA DE EDUCAÇÃO DE <?=strtoupper($school->edcensoCityFk->name)?></td></tr>
                 <tr><td>OBSERVAÇÕES<br><br><br><br><br></td></tr>
             </table>
-            
+
             <br>
             <table>
                 <tr><td>****O(a) aluno(a)**** tem o direito a matrícula no ano do ****1º ciclo organizado em 9 anos**** / ****(&nbsp;&nbsp;&nbsp;) na correção de fluxo****, correspondido ao ****________ ano**** escolar.</td></tr>
@@ -642,7 +642,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <span style="margin-right: 50px">I - Insatisfatório</span>
                             <span style="margin-right: 50px">S - Satisfatório</span>
                             <span>MS - Muito Satisfatório</span>
-                        </p>                        
+                        </p>
                         2 - O parecer conclusivo, resultante da análise de aproveitamento global ****do(a) aluno(a)**** nas diferentes áreas do conhecimento no fim do ano escolar, expresso da seguinte forma:<br>
                         <p style="text-indent: 50px">
                             <span style="margin-right: 100px">Pr - Promovido</span>
@@ -651,7 +651,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </td>
                 </tr>
             </table>
-            
+
             <br><br><br>
             <span class="pull-right"><?=$school->edcensoCityFk->name?>/<?=$school->edcensoUfFk->acronym?>, <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "."; ?></span>
             <br><br><br>
@@ -659,18 +659,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <span>______________________________________________________________________</span>
                 <br>
                 <span>Secretário(a) da Escola</span>
-                
-            </div>            
+
+            </div>
             <div class="pull-right" style="text-align: center">
                 <span>______________________________________________________________________</span>
                 <br>
                 <span>Diretor(a)</span>
             </div>
-            
-            
-            
-            
-            
+
+
+
+
+
             <!--
                 ****************************
                 **                        **
@@ -679,10 +679,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 ****************************
             -->
             </div>
-            
-            
-            
-            
+
+
+
+
         </div>
         <?php $this->renderPartial('footer'); ?>
     </div>

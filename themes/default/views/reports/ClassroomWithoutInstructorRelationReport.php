@@ -8,7 +8,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/ClassroomWithoutInstructorRelationReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/ClassroomWithoutInstructorRelationReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
@@ -41,26 +41,26 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <?php
 
             $ordem = 1;
-        
+
             $classroom_number = count($classroom);
 
             // Laço para percorrer o vetor $classroom e preencher a tabela
             // Nesse caso, as duas tabelas já estão obedecendo a uma mesma ordem, portanto há a garantia
             // de que as linhas estão de acordo para as duas consultas $classroom e $disciplinas
             for ($i = 0; $i < $classroom_number; $i++) {
-                
+
                 // Colunas que serão apresentadas na tabela
                 // $classroom[linha]['name'];
                 // $classroom[linha]['stage'];
                 // $disciplina[linha]['discipline'];
-                
+
                 // Criando tabela que será adicionada ao HTML na página
                 $html = "";
                 $html .= "<tr>"
                     . "<td>" . $ordem . "</td>"
                     . "<td>" . $classroom[$i]['name'] . "</td>"
                     . "<td>" . $classroom[$i]['stage'] . "</td>";
-                    
+
                 // Verificando caso em que não há componentes curriculares cadastradas na matriz curricular da etapa de ensino
                 if($disciplina[$i]['Disciplina'] == null){
                     $html .= "<td>Não há componentes curriculares cadastradas na matriz curricular para essa etapa de ensino </td>";
@@ -70,15 +70,15 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
                 $html .= "</tr>";
                 $ordem++;
-                
+
                 echo $html;
-            } 
+            }
 
             ?>
         </table>
-    <?php 
-        }; // Fechando o else 
-        $this->renderPartial('footer'); 
+    <?php
+        }; // Fechando o else
+        $this->renderPartial('footer');
     ?>
 </div>
 

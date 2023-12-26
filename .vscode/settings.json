@@ -8,5 +8,6 @@
         ".idea/": true,
         ".vscode/": true,
         "db": true
-    }
+    },
+    "phpmd.rules": "ruleset.xml"
 }

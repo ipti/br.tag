@@ -4,7 +4,7 @@
 /* @var $school SchoolIdentification*/
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentsDeclarationReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/StudentsDeclarationReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -14,11 +14,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <?php $this->renderPartial('head'); ?>
         <p style="margin: 0 auto; text-align: justify; width:600px; font-size: 14px">Declaro para os devidos fins de direito, que o(a) aluno(a): <b><?php echo $report['name'] ?></b>,
             nascido(a) em:  <b><?php echo $report['birthday'] ?></b>, na cidade de: <b><?php echo $report['birth_city'] ?></b>, UF: <b><?php echo $report['birth_uf'] ?></b>,
-            Registro Civil nº: 
+            Registro Civil nº:
             <?php if ($report['cc'] == 1): ?><b><?php echo $report['cc_number'] ?></b>, Livro: <b><?php echo $report['cc_book'] ?></b>, Folhas: <b><?php echo $report['cc_sheet'] ?></b>
             <?php else: ?><b><?php echo $report['cc_new'] ?></b><?php endif; ?>
-            filho(a) do Sr. <b><?php echo $report['father'] ?></b> e da Srª. <b><?php echo $report['mother'] ?></b>, 
-            matriculado(a) no <b><?php echo $report['stage'] ?></b>, turma "<b><?php echo $report['classroom'] ?></b>" turno 
+            filho(a) do Sr. <b><?php echo $report['father'] ?></b> e da Srª. <b><?php echo $report['mother'] ?></b>,
+            matriculado(a) no <b><?php echo $report['stage'] ?></b>, turma "<b><?php echo $report['classroom'] ?></b>" turno
             <b><?php echo (($report['turn'] == 'M') ? 'Matutino' : (($report['turn'] == 'T') ? 'Vespertino' : (($report['turn'] == 'N') ? 'Noturno' : '________')));?></b>
             no ano de <b><?php echo $report['year'] ?></b>.
             <br><br>

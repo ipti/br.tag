@@ -46,8 +46,7 @@ class LoginUseCase
                 $this->exec("SME701", "zyd780mhz1s5");
             }
         } catch (\Throwable $th) {
-            Yii::app()->user->setFlash('error', Yii::t('default', $this->ERROR_CONNECTION));
-            $this->redirect(array('index'));
+           return $th->getMessage();
         }
     }
 }

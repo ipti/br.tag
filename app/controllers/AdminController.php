@@ -105,7 +105,9 @@ class AdminController extends Controller
             $importModel->saveSchoolStructureDB($dataDecoded['school_structure']);
             $importModel->saveClassroomsDB($dataDecoded['classrooms']);
 
-            $importModel->saveInstructorDataDB($dataDecoded['instructor_identification'], $dataDecoded['instructor_documents_and_address'], $dataDecoded['instructor_variable_data']);
+            $importModel->saveInstructorDataDB( $dataDecoded['instructor_identification'],
+                                                $dataDecoded['instructor_documents_and_address'],
+                                                $dataDecoded['instructor_variable_data']);
             $importModel->saveInstructorsTeachingDataDB($dataDecoded['instructor_teaching_data']);
             $importModel->saveTeachingMatrixes($dataDecoded['teaching_matrixes']);
 
@@ -170,7 +172,8 @@ class AdminController extends Controller
                 $this->redirect(['index']);
             }
         }
-        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk' => null], ['select' => 'id, name']);
+        $instructors = InstructorIdentification::model()->findAllByAttributes(  ['users_fk' => null],
+                                                                                ['select' => 'id, name']);
         $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
             return $carry;

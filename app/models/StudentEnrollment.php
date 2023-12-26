@@ -56,6 +56,7 @@
  * @property string $transfer_date
  * @property integer $stage
  * @property integer $reenrollment
+ * @property integer $sedsp_sync
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -82,6 +83,7 @@ class StudentEnrollment extends AltActiveRecord
     public const STATUS_DEATH = "OBITO";
 
     public $school_year;
+    public $sedsp_sync;
 
     /**
      * Returns the static model of the specified AR class.

@@ -17,7 +17,7 @@ return array(
     'October' => 'Outubro',
     'November' => 'Novembro',
     'December' => 'Dezembro',
-    
+
     //Botões
     'Create' => 'Criar',
     'Save' => 'Salvar',
@@ -31,7 +31,7 @@ return array(
     'Cancel' => 'Cancelar',
     'Search' => 'Pesquisar',
     'Print' => 'Imprimir',
-    
+
     //Mensagens
     'Forgotten Password?' => 'Esqueceu a senha?',
     'Fields with * are required.' => 'Campos com * são obrigatórios.',
@@ -39,7 +39,7 @@ return array(
     'No matches found' => 'nenhuma referência encontrada',
     'Incorrect username or password.'=>'Usuário ou senha incorretos',
     'cannot be blank'=> 'não pode ficar em branco',
-    
+
     //Campos das tabelas
 
     //School Identification
@@ -346,7 +346,7 @@ return array(
     'Provide Potable Water' => 'Para Consumo Humano',
     'Student Repose Room' => 'Sala de Repouso para Alunos',
     'Stages Concept Grades' => 'Etapas para Notas por Conceito',
-    
+
     //Classroom
     'School Inep Fk' => 'Escola',
     'School Year' => 'Ano Letivo',
@@ -432,7 +432,7 @@ return array(
     'Differentiated Operating Place' => 'Local de Funcionamento Diferenciado',
     'Complementary Activity' => 'Atividade Complementar',
     'AEE' => 'Atendimento Educacional Especializado (AEE)',
-    
+
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',
     'Birthday' => 'Data de Nascimento',
@@ -499,7 +499,7 @@ return array(
     "Responsible's Telephone" => 'Telefone do Responsável',
     'BF Participator' => 'Participante do Bolsa Família',
     'Food Restrictions' => 'Restrição Alimentar / Alergia',
-    
+
     //Student Documents And Address
     'Student Fk' => 'Aluno',
     'Rg Number' => 'Nº da identidade',
@@ -539,7 +539,7 @@ return array(
     'Justice Restriction' => 'Restrição na Justiça',
     'Student Diff Location' => 'Localização Diferenciada',
     'Consent Form' => 'Termo de Consentimento',
-    
+
     //Student Enrollment
     'Student Inep' => 'Inep do aluno',
     'Student Fk' => 'Aluno',
@@ -588,13 +588,13 @@ return array(
     'Aee Optical Nonoptical' => 'Ensino de uso de recursos ópticos e não ópticos',
     'Observation' => 'Observação',
     'daily_order' => 'Ordem no Diário',
-    'Transfer Date' => 'Data da Transferência', 
+    'Transfer Date' => 'Data da Transferência',
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',
-    
 
-    
+
+
     //InstructorIdentification
     'Nis' => 'Nº de Identificação Social (NIS)',
     'Birthday Date' => 'Data de Nascimento',
@@ -623,7 +623,7 @@ return array(
     'Deficiency Type Autism' => 'Transtorno do Espectro Autista',
     'Deficiency Type Gifted' => 'Altas Habilidades / Super Dotação',
     'Diff Location' => 'Localização Diferenciada',
-    
+
     //Instructor-DocumentsAndAddress
     'Area Of Residence' => 'Localização / Zona de residência',
     'Complement' => 'Complemento',
@@ -634,7 +634,7 @@ return array(
     'Received NIS'=>'Comprovante NIS',
     'Received Responsable`s RG'=>'Cópia RG(Responsável)',
     'Received Responsable`s CPF'=>'Cópia CPF(Responsável)',
-    
+
     // Instructor-VariableData
     'Scholarity' => 'Escolaridade',
     'High Education Situation 1' => 'Situação do Curso Superior 1',
@@ -681,7 +681,7 @@ return array(
     'Other Courses Ethnic Education' => 'Educação para as relações etnicorraciais e História e cultura Afro-Brasileira e Africana',
     'Other Courses Other' => 'Outros',
     'Other Courses None' => 'Nenhum',
-    
+
     // Instructor-TeachingData
     'Instructor' => 'Professor',
     'Instructors' => 'Professores',
@@ -711,7 +711,7 @@ return array(
 
     //Instructor frequency
     'Instructor frequency' => "Frequência do professor",
-    
+
     //Classboards
     'Insert class' => 'Inserir aula',
     'Update class' => 'Atualizar aula',
@@ -722,7 +722,7 @@ return array(
     'Given Classes' =>'Aulas Dadas',
     'Replaced Classes' =>'Aulas Repostas',
     'Generate classes' => 'Gerar aulas',
-    
+
     //Classes
     'Frequency' => 'Frequência',
     'Class Contents' => 'Aulas ministradas',
@@ -733,12 +733,12 @@ return array(
     'Description' => 'Descrição',
     'Classes' => 'Aulas',
     'Report Card' => 'Lançamento de Notas',
-    
+
     //Grades
     'Grades' => 'Notas',
     'Grades saved successfully!' => 'Notas salvas com sucesso!',
     'We have got an error saving grades!' => 'Ocorreu um erro ao salvar as notas!',
-    
+
     //Course Plan
     'Course Plan' => 'Plano de aula',
     'Create Plan' => 'Criar plano',
@@ -748,7 +748,7 @@ return array(
     'Content' => 'Conteúdo',
     'Type' => 'Tipo',
     'Resource' => 'Recurso',
-    
+
     //Labels
     'User' => 'Usuário',
     'Password' => 'Senha',
@@ -756,7 +756,7 @@ return array(
     'Username' => 'Usuário',
     'Active' => 'Ativo',
     'Month' => 'Mês',
-    
+
     //Abas
     'Affiliation' => 'Filiação',
     'Identification' => 'Identificação',
@@ -776,10 +776,10 @@ return array(
     'Students' => 'Alunos',
     'Instructors' => 'Professores',
     'Declaration' => 'Declaração',
-    
+
     //
     'Area' => 'Área de Atuação',
-    
+
     //Labels de Grupos
     'Operation Location' => 'Local de Funcionamento',
     'Water Supply' => 'Suprimento de Água',
@@ -793,11 +793,11 @@ return array(
     'Stage' => 'Etapa',
     'Schools' => 'Escolas',
     'Role' => 'Cargo',
-    
+
     //Selects de Dorpdowns
     'Select School' => 'Selecione a escola',
     'Select Discipline' => 'Selecione um Componente curricular/eixo',
-    
+
     //Titulos
     'School Identifications' => 'Escolas',
     'Classrooms' => 'Turmas',
@@ -805,6 +805,8 @@ return array(
     'Student Enrollments' => 'Matrículas dos Alunos',
     'Student Identifications' => 'Alunos',
     'Instructor Identifications' => 'Professores',
+    'Food Menus' => 'Cardápios',
+    'Lunch' => 'Merenda',
     'Reports' => 'Relatórios',
     'Out Of Town Students' => 'Alunos fora da cidade',
     'Professional Identifications' => 'Profissionais',
@@ -817,10 +819,10 @@ return array(
     'Teachers By Stage' => 'Professores por Etapa',
     'Statistical Data' => 'Dados Estatísticos',
     'Changelog' => 'Atualizações',
-    
+
     //Relatórios
     'Result Board' => 'Quadro de Rendimento',
-    
+
     //Novo
     'Add New Teacher' => 'Adicionar Professor',
     'Add New Student' => 'Adicionar Aluno',
@@ -832,7 +834,7 @@ return array(
     'Create a new InstructorIdentification' => 'Adicionar Professor',
     'Create a new StudentIdentification' => 'Adicionar Aluno',
     'Create a new User' => 'Cadastrar Usuário',
-    
+
     //Atualizar
     'Update Classroom' => 'Atualizar Turma',
     'Update StudentEnrollment' => 'Atualizar Matrícula',
@@ -842,35 +844,35 @@ return array(
     'Update User' => 'Atualizar Usuário',
     'Update Professional' => 'Atualizar Profissional',
     'Update Management Unit' => 'Atualizar Unidade Gestora',
-    
+
     //Transferir
     'Transfer Student' => 'Transferir Aluno(a)',
     'transferred enrollment' => 'Matrícula transferida com sucesso!',
     //Erros
     'already enrolled in this classroom.' =>'já matriculado na turma.',
     'already have in this student enrolled.' =>'já possui o aluno matriculado.',
-    
+
     //Autenticação
     'Users' => 'Usuários',
     'manager' => 'Gestor Escolar',
     'instructor' => 'Professor',
     'admin' => 'Administrador',
     'Edit Password' => 'Alterar Senha',
-    
+
     'Administration' => 'Administração',
     'Conflicts' => 'Conflitos',
     'Confirm' => "Confirme a Senha",
-    
+
     //Import
     'Import File' => "Arquivo de Importação",
     'Import File Dialog' => 'Importar Informações do EducaCenso',
     'Import' => 'Importar',
-    
+
     //Sync
     'Import Sync File Dialog' => 'Importar Informações do TAG-Offline',
-    
+
     'Send' => 'Enviar em '.(date('Y')+1),
-    
+
     'Ata School Performance of ' => 'Ata de Desempenho Escolar de ',
     'Enrollment per Classroom' => 'Matrículas por Turma',
     'Enrollment Resume'=>'Resumo de Matrícula',
@@ -944,5 +946,5 @@ return array(
     "End of the School Year" => "Fim do Ano Escolar",
     // setflas
     'dayli order' => 'Ordem do diario alterado com sucesso!',
-    )   
+    )
 ?>

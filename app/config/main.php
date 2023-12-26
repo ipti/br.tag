@@ -81,12 +81,16 @@ return array(
         'sedsp',
         'classdiary',
         'curricularcomponents',
-        'stages'
+        'stages',
+        'foods'
     ),
     // application components
     'components' => array(
         'utils' => array(
             'class' => 'application.components.utils.TagUtils'
+        ),
+        'features' => array(
+            'class' => 'application.components.FeaturesComponent'
         ),
         'assetManager' => array(
             'forceCopy' => YII_DEBUG
@@ -122,6 +126,10 @@ return array(
                 'merenda-escolar/menu'                      => 'lunch/lunch/',
                 'merenda-escolar/menu/<action:\w+>'         => 'lunch/lunch/<action>',
                 'merenda-escolar/menu/<action:\w+>/<id:\d+>'=> 'lunch/lunch/<action>',
+
+                'merenda/'                                  => 'foods/',
+                'merenda/cardapio'                          => 'foods/foodMenu/',
+                'merenda/cardapio/<action:\w+>'             => 'foods/foodMenu/<action>',
 
                 'boletim-escolar/'                          => 'schoolreport/',
                 'boletim-escolar/'                          => 'schoolreport/default/select',

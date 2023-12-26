@@ -1,6 +1,6 @@
 <?php
 
-/** 
+/**
  * @var ClassesController $this ClassesController
  * @var CActiveDataProvider $dataProvider CActiveDataProvider
  */
@@ -8,7 +8,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization_instructor.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization_instructor.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
 
 
