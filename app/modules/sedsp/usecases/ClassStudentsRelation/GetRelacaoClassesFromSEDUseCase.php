@@ -1,4 +1,5 @@
 <?php
+
 class GetRelacaoClassesFromSEDUseCase
 {
     /**
@@ -11,39 +12,21 @@ class GetRelacaoClassesFromSEDUseCase
             $classes = new ClassStudentsRelationSEDDataSource();
             $response = $classes->getRelacaoClasses($inRelacaoClasses);
 
-            $mapper = (object) ClassroomMapper::parseToTAGRelacaoClasses($response);
-            $schoolInepFk = SchoolMapper::mapToTAGInepId($inRelacaoClasses->getInCodEscola());
-
-            //Aramazena as classes da escola de código $schoolInepFk
-            $indexedByClasses = [];
-            $allClasses = (object) Classroom::model()->findAll(
-                'school_inep_fk = :schoolInepFk', [':schoolInepFk' => $schoolInepFk]
-            );
-            foreach ($allClasses as $value) {
-                $indexedByClasses[$value['gov_id']] = $value['gov_id'];
-            }
-
-            $status = false;
+            $mapper = (object)ClassroomMapper::parseToTAGRelacaoClasses($response);
             $classrooms = $mapper->Classrooms;
 
-            if(empty($classrooms)){
+            if (empty($classrooms)) {
                 $log = new LogError();
                 $log->salvarDadosEmArquivo($response->getOutErro());
                 return 2;
             }
 
-            foreach($classrooms as $classroom) {
-                $classroomGovId = $classroom->gov_id;
+            $status = false;
+            foreach ($classrooms as $classroom) {
+                $createdClass = $this->createAndSaveNewClass($classroom);
 
-                if($indexedByClasses[$classroomGovId] !== null){ //Verifica se a Classe já existe no TAG
+                if ($createdClass) {
                     $status = true;
-                } else {
-                    $attributes = $classroom->getAttributes();
-                    $createdClass = $this->createAndSaveNewClass($attributes, $classroom->gov_id);
-                 
-                    if ($createdClass) {
-                        $status = true;
-                    }
                 }
             }
 
@@ -55,17 +38,13 @@ class GetRelacaoClassesFromSEDUseCase
     }
 
 
-    public function createAndSaveNewClass($attributes, $govId)
+    public function createAndSaveNewClass($classroom)
     {
-        $class = new Classroom();
-        $class->attributes = $attributes;
-        $class->gov_id = $govId;
-
-        if($class->validate() && $class->save()) {
+        if ($classroom->validate() && $classroom->save()) {
             return true;
         } else {
             $log = new LogError();
-            $log->salvarDadosEmArquivo($class->getErrors());
+            $log->salvarDadosEmArquivo($classroom->getErrors());
         }
     }
 

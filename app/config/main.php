@@ -11,8 +11,8 @@ $log_config = array(
     'routes' => array(
         array(
             'class' => 'CFileLogRoute',
-            'levels' => 'error, warning, info',
-            'categories'=> 'application.*',
+            // 'levels' => 'error, warning, info',
+            // 'categories'=> 'application.*',
         ),
     ),
 );
@@ -20,6 +20,7 @@ $log_config = array(
 if(YII_DEBUG){
     array_push($log_config['routes'], array(
         'class'=>'CWebLogRoute',
+        'showInFireBug'=>true
       )
     );
 }
@@ -48,7 +49,8 @@ return array(
         'application.modules.quiz.models.*',
         'application.modules.sedsp.datasources.sed.*',
         'application.modules.sagres.soap.src.sagresEdu.*',
-        'application.components.utils.TagUtils'
+        'application.components.utils.TagUtils',
+        'ext.bncc-import.BNCCImport'
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
@@ -74,12 +76,17 @@ return array(
         'professional',
         'sedsp',
         'classdiary',
-        'curricularcomponents'
+        'curricularcomponents',
+        'stages',
+        'foods'
     ),
     // application components
     'components' => array(
         'utils' => array(
             'class' => 'application.components.utils.TagUtils'
+        ),
+        'features' => array(
+            'class' => 'application.components.FeaturesComponent'
         ),
         'assetManager' => array(
             'forceCopy' => YII_DEBUG
@@ -88,7 +95,7 @@ return array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
         ),
-        'cache'=>array( 
+        'cache'=>array(
             'class'=>'system.caching.CDbCache'
         ),
         // uncomment the following to enable URLs in path-format
@@ -115,6 +122,10 @@ return array(
                 'merenda-escolar/menu'                      => 'lunch/lunch/',
                 'merenda-escolar/menu/<action:\w+>'         => 'lunch/lunch/<action>',
                 'merenda-escolar/menu/<action:\w+>/<id:\d+>'=> 'lunch/lunch/<action>',
+
+                'merenda/'                                  => 'foods/',
+                'merenda/cardapio'                          => 'foods/foodMenu/',
+                'merenda/cardapio/<action:\w+>'             => 'foods/foodMenu/<action>',
 
                 'boletim-escolar/'                          => 'schoolreport/',
                 'boletim-escolar/'                          => 'schoolreport/default/select',
@@ -155,7 +166,7 @@ return array(
             'itemTable' => 'auth_item',
             'assignmentTable' => 'auth_assignment',
             'itemChildTable' => 'auth_item_child',
-        ),   
+        ),
         'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',

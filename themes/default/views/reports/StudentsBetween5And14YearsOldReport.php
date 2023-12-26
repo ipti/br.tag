@@ -4,7 +4,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentsBetween5And14YearsOldReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/StudentsBetween5And14YearsOldReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
@@ -95,7 +95,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 <style>
     @media print {
         .hidden-print {
-            display: none;  
+            display: none;
         }
         @page {
             size: landscape;

@@ -47,11 +47,49 @@ class ClassroomSEDDataSource extends SedDataSource
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
-    public function addIncluirTurmaClasse($inIncluirTurmaClasse)
+    public function incluirTurmaClasse(InIncluirTurmaClasse $inIncluirTurmaClasse)
     {
         try {
-            $url = '/ncaapi/api/TurmaClasse/IncluirTurmaClasse';
+            $url = 'ncaapi/api/TurmaClasse/IncluirTurmaClasse';
             $response = $this->getApiResponse('POST', $url, $inIncluirTurmaClasse);
+            return OutHandleApiResult::fromJson($response);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    /**
+     * Summary of manutencaoTurmaClassePOST
+     * @param InManutencaoTurmaClasse $inManutencaoTurmaClasse
+     * @return OutHandleApiResult|OutErro
+     * @throws Exception
+     */
+    public function manutencaoTurmaClasse(InManutencaoTurmaClasse $inManutencaoTurmaClasse)
+    {
+        try {
+            $url = 'ncaapi/api/TurmaClasse/ManutencaoTurmaClasse';
+            $response = $this->getApiResponse('POST', $url, $inManutencaoTurmaClasse);
+            return OutHandleApiResult::fromJson($response);
+        } catch (ClientException $e) {
+            return new OutErro($e);
+        } catch (Exception $exception) {
+            throw $exception;
+        }
+    }
+
+    /**
+     * Summary of excluirTurmaClassePOST
+     * @param InExcluirTurmaClasse $inExcluirTurmaClasse
+     * @return OutHandleApiResult|OutErro
+     * @throws Exception
+     */
+    public function excluirTurmaClasse(InExcluirTurmaClasse $inExcluirTurmaClasse)
+    {
+        try {
+            $url = 'ncaapi/api/TurmaClasse/ExcluirTurmaClasse';
+            $response = $this->getApiResponse('POST', $url, $inExcluirTurmaClasse);
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);

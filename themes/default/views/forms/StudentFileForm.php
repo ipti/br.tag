@@ -1,12 +1,12 @@
 <?php
 
 /**
-* @var FormsController $this FormsController 
-* @var $report mixed 
+* @var FormsController $this FormsController
+* @var $report mixed
 */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
@@ -256,8 +256,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <div class="span4"><b>Série: </b><span><?= $enrollment->edcensoStageVsModalityFk->name ?></span></div>
                     <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
                     <div class="span9"><b>Situação do aluno: </b><span>
-                        <?php 
-                           echo $enrollment->getCurrentStatus();                    
+                        <?php
+                           echo $enrollment->getCurrentStatus();
                         ?>
                     </span></div>
                     <div class="span3"><b>Turno: </b><span> <?php echo $turns[$enrollment->classroomFk->turn]; ?></span></div>
@@ -359,6 +359,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 </div>
             </td>
         </tr>
+        <tr><td>
+                <div class="span12"><b>24 - Autorização do Termo de Consentimento? </b></div>
+                <br>
+                <div class="span2"><b>☐</b> Sim</div>
+                <div class="span2"><b>☐</b> Não</div>
+            </td>
+        </tr>
     </table>
 </div>
 
@@ -399,18 +406,18 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     .contentEditable {
         padding: 5px;
     }
-    
+
 
     .titleBig {
         font-size: 15px;
         line-height: 25px;
         font-weight: bold;
     }
-    
+
     .text-uppercase {
         text-transform: uppercase;
     }
-    
+
     .table-border, .table-border th, .table-border td {
        border: 1px solid black;
         border-collapse: collapse;
@@ -419,8 +426,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     .table-border td, .table-border th {
         padding: 8px;
     }
-    
-    .table-border { 
+
+    .table-border {
         width: 100%;
         page-break-inside:auto
     }

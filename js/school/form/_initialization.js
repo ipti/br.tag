@@ -11,7 +11,9 @@ $(document).ready(function() {
     $(window).load(function() {
 
         initial_date = stringToDate($(formIdentification+'initial_date').val());
-        final_date = stringToDate($(formIdentification+'final_date').val());
+        if($(formIdentification+'final_date').val()){
+            final_date = stringToDate($(formIdentification+'final_date').val());
+        }
     });
 
     // MARCAÇÃO

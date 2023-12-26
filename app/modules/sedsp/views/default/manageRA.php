@@ -43,7 +43,7 @@ $cs->registerScriptFile($baseScriptUrl . '/common/js/functions.js?v=1.1', CClien
                                         e.preventDefault();
                                         return false;
                                     }",
-                                    'url' => 'Yii::app()->controller->createUrl("GenRA",array("id"=>$data->primaryKey))',
+                                    'url' => 'Yii::app()->controller->createUrl("GenerateRA",array("id"=>$data->primaryKey))',
                                 ),
                             ),
                             'deleteButtonOptions' => array('style' => 'cursor: pointer;'),

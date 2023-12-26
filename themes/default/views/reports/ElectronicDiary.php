@@ -1,6 +1,6 @@
 <div class="main">
     <?php
-    
+
     /**
      * Created by PhpStorm.
      * User: Paulo Roberto
@@ -11,7 +11,7 @@
     $baseUrl = Yii::app()->baseUrl;
     $cs = Yii::app()->getClientScript();
     $cs->registerCssFile($baseUrl . '/css/reports/electronic-diary.css');
-    $cs->registerScriptFile($baseUrl . '/js/reports/ElectronicDiary/index.js?v=1.0', CClientScript::POS_END);
+    $cs->registerScriptFile($baseUrl . '/js/reports/ElectronicDiary/index.js?v='.TAG_VERSION, CClientScript::POS_END);
 
     $this->setPageTitle('TAG - Diário Eletrônico');
 
@@ -47,7 +47,7 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-            </div> 
+            </div>
             <div class="students-container" style="display:none;">
                     <?php echo CHtml::label("Aluno *", 'student', array('class' => 'control-label required electronic-diary-label')); ?>
                     <?php

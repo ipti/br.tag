@@ -15,6 +15,7 @@ $(document).ready(function() {
     //         $(form+"assistance_type").val(val).trigger('change');
     //     }});
     $( function() {
+
         $( "#js-t-sortable" ).sortable();
       } );
     if ($("#Classroom_complementary_activity").is(":checked")) {
@@ -37,3 +38,17 @@ $('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypres
 });
 
 $('.heading-buttons').css('width', $('#content').width());
+
+$(".update-classroom-from-sedsp").click(function() {
+    $("#importClassroomFromSEDSP").modal("show");
+});
+
+$(".import-classroom-button").click(function() {
+    $("#importClassroomFromSEDSP").find("form").submit();
+});
+
+$('#copy-gov-id').click(function() {
+    let govId = $('#Classroom_gov_id').val();
+    navigator.clipboard.writeText(govId);
+    $('#copy-message').text('Copiado!').fadeIn().delay(1000).fadeOut();
+});

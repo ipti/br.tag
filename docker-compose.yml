@@ -15,12 +15,18 @@ services:
       HOST_DB_TAG: 'mysql'
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
-      YII_DEBUG: false
+      YII_DEBUG: 1
       PHP_ENABLE_XDEBUG: 1
       SEDSP_URL: "https://homologacaointegracaosed.educacao.sp.gov.br"
     volumes:
       - .:/app
       - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - /app/docker/mysql
+      - /app/vendor
+      - /app/app/vendor
+      - /app/assets
+      - /app/db
+      - /app/.git
       # - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
     extra_hosts:
       - host.docker.internal:host-gateway
@@ -53,7 +59,7 @@ services:
       # - ./dump-data.sql:/docker-entrypoint-initdb.d/dump-data.sql
     networks:
       - tag-v3-network
-  
+
   adminer:
     image: adminer
     restart: always
@@ -62,6 +68,12 @@ services:
     networks:
       - tag-v3-network
 
+  sass:
+    image: michalklempa/dart-sass
+    volumes:
+      - ./sass/scss:/sass
+      - ./sass/css:/css
+    entrypoint: ["/opt/dart-sass/sass", "--watch", "--no-source-map" ,"--style=compressed", "/sass:/css"]
 networks:
   tag-v3-network:
 

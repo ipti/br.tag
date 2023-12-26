@@ -21,24 +21,25 @@ $diretor_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/DiretorTTyp
 $cabecalho_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/CabecalhoTType.php';
 
 
-require_once($sagres);
-require_once($aluno_t);
-require_once($atendimento_t);
-require_once($cabecalho_t);
-require_once($cardapio_t);
-require_once($diretor_t);
-require_once($educacao_t);
-require_once($escola_t);
-require_once($horario_t);
-require_once($matricula_t);
-require_once($profissional_t);
-require_once($serie_t);
-require_once($turma_t);
+require_once $sagres;
+require_once $aluno_t;
+require_once $atendimento_t;
+require_once $cabecalho_t;
+require_once $cardapio_t;
+require_once $diretor_t;
+require_once $educacao_t;
+require_once $escola_t;
+require_once $horario_t;
+require_once $matricula_t;
+require_once $profissional_t;
+require_once $serie_t;
+require_once $turma_t;
 
-require_once($yii);
-require_once($configtag);
-require_once($instance);
+require_once $yii;
+require_once $configtag;
+require_once $instance;
 
+require_once dirname(__FILE__).'/app/components/FeaturesComponent.php';
 
 
 Yii::createWebApplication($config)->run();

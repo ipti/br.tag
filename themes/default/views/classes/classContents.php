@@ -9,8 +9,8 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v=1.0', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 
@@ -34,29 +34,41 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <?php echo Yii::t('default', 'Print') ?>
             </a>
         </div>
-        <a id="save" class='t-button-primary'><?php echo Yii::t('default', 'Save') ?></a>
+        <a id="save" class='t-button-primary hide'><?php echo Yii::t('default', 'Save') ?></a>
     </div>
-    <table class="table table-bordered table-striped visible-print">
+    <table class="table table-bordered table-striped visible-print" summary="Tabela relacionada a informações da escola">
         <tr>
-            <th>Escola:</th>
+            <th scope="school">Escola:</th>
             <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
         <tr>
         <tr>
-            <th>Estado:</th>
+            <th scope="uf">Estado:</th>
             <td colspan="1"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
-            <th>Municipio:</th>
+            <th scope="city">Municipio:</th>
             <td colspan="1"><?php echo $school->edcensoCityFk->name ?></td>
-            <th>Endereço:</th>
+            <th scope="address">Endereço:</th>
             <td colspan="1"><?php echo $school->address ?></td>
         <tr>
         <tr>
-            <th>Localização:</th>
-            <td colspan="1"><?php echo ($school->location == 1 ? "URBANA" : "RURAL") ?></td>
-            <th>Dependência Administrativa:</th>
+            <th scope="location">Localização:</th>
+            <td colspan="1"><?php echo $school->location == 1 ? "URBANA" : "RURAL" ?></td>
+            <th scope="Administrative Dependence">Dependência Administrativa:</th>
             <td colspan="3"><?php
                             $ad = $school->administrative_dependence;
-                            echo ($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                                "PRIVADA")));
+                            switch ($ad) {
+                                case 1:
+                                    echo "FEDERAL";
+                                    break;
+                                case 2:
+                                    echo "ESTADUAL";
+                                    break;
+                                case 3:
+                                    echo "MUNICIPAL";
+                                    break;
+                                default:
+                                    echo "PRIVADA";
+                                    break;
+                            }
                             ?></td>
         <tr>
     </table>

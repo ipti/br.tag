@@ -1,5 +1,10 @@
 <?php
 
+Yii::import('application.modules.sedsp.models.Classroom.*');
+Yii::import('application.modules.sedsp.mappers.*');
+Yii::import('application.modules.sedsp.datasources.sed.Classroom.*');
+Yii::import('application.modules.sedsp.usecases.*');
+
 class ConfigurationController extends Controller
 {
 
@@ -35,6 +40,7 @@ class ConfigurationController extends Controller
             $Classrooms_ids = $_POST['Classrooms'];
             $year = Yii::app()->user->year;
             $logYear = "";
+            $errors = [];
             foreach ($Classrooms_ids as $id) {
                 $classroom = Classroom::model()->findByPk($id);
                 $logYear = $classroom->school_year;
@@ -46,9 +52,10 @@ class ConfigurationController extends Controller
                 $newClassroom->school_year = $year;
                 $newClassroom->id = null;
                 $newClassroom->inep_id = null;
+                $newClassroom->gov_id = null;
+                $newClassroom->sedsp_sync = 0;
                 $save = $newClassroom->save();
                 if ($save) {
-                    $save = true;
                     foreach ($class_board as $cb) {
                         $newClassBorad = new ClassBoard();
                         $newClassBorad->attributes = $cb->attributes;
@@ -65,12 +72,32 @@ class ConfigurationController extends Controller
                         $newTeachingData->classroom_inep_id = null;
                         $save = $save && $newTeachingData->save();
                     }
+
+                    //Sincronizar com o SEDSP
+                    if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                        $loginUseCase = new LoginUseCase();
+                        $loginUseCase->checkSEDToken();
+
+                        $syncResult = $newClassroom->syncToSEDSP("create", "create");
+                        if($syncResult['flash'] == 'error') {
+                            array_push($errors, $classroom->name . ': ' . $syncResult['message']);
+                        }
+                    }
                 }
             }
             if ($save) {
 
                 Log::model()->saveAction("wizard_classroom", $logYear, "C", $logYear);
-                Yii::app()->user->setFlash('success', Yii::t('default', 'Turmas reutilizadas com sucesso!'));
+
+                if(Yii::app()->features->isEnable("FEAT_SEDSP") && !empty($errors)) {
+                    $errorMessage = 'Turmas reutilizadas no TAG, com falha na sincronização com o SEDSP na(s) seguinte(s) turma(s): <br><br>';
+                    foreach ($errors as $error) {
+                        $errorMessage .= $error . '<br>';
+                    }
+                    Yii::app()->user->setFlash('error', Yii::t('default', $errorMessage));
+                } else {
+                    Yii::app()->user->setFlash('success', Yii::t('default', 'Turmas reutilizadas com sucesso!'));
+                }
                 $this->redirect('?r=classroom');
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro na reutilização das Turmas.'));
