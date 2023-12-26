@@ -71,7 +71,9 @@ $("#save").on("click", function (e) {
             $(".js-grades-loading").css("display", "inline-block");
             $(".js-grades-container, .grades-buttons")
                 .css("opacity", "0.4")
+                .css("overflow", "auto")
                 .css("pointer-events", "none");
+
         },
         success: function (data) {
             $("#discipline").trigger("change", ["saveGrades"]);
@@ -93,6 +95,7 @@ $("#close-grades-diary").on("click", function (e) {
             $(".js-grades-loading").css("display", "inline-block");
             $(".js-grades-container, .grades-buttons")
                 .css("opacity", "0.4")
+                .css("overflow", "auto")
                 .css("pointer-events", "none");
         },
         success: function (data) {

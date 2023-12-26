@@ -29,7 +29,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         <div class="span12">
             <h1>Estrutura de Unidades e Avaliações</h1>
             <div class="buttons row grades-buttons">
-                <a class='t-button-primary save-and-reply'>Salvar e Replicar</a>
+                <!-- <a class='t-button-primary save-and-reply'>Salvar e Replicar</a> -->
                 <a class='t-button-primary save'>Salvar</a>
             </div>
         </div>

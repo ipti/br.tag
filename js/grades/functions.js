@@ -76,6 +76,7 @@ function loadStudentsFromDiscipline(disciplineId) {
                 $(".js-grades-loading").css("display", "inline-block");
                 $(".js-grades-container, .grades-buttons")
                     .css("opacity", "0.4")
+                    .css("overflow", "auto")
                     .css("pointer-events", "none");
             },
             success: function (data) {
@@ -98,6 +99,7 @@ function loadStudentsFromDiscipline(disciplineId) {
                 $(".js-grades-loading").hide();
                 $(".js-grades-container, .grades-buttons")
                     .css("opacity", "1")
+                    .css("overflow", "auto")
                     .css("pointer-events", "auto");
                 $(".js-grades-container, .grades-buttons").show();
                 initializeGradesMask();

@@ -39,7 +39,7 @@ $('#discipline').change(function (e, triggerEvent) {
             },
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");
-                $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
+                $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("overflow", "auto").css("pointer-events", "none");
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -162,7 +162,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     $(".js-grades-alert").addClass("alert-error").removeClass("alert-success").text(data.message).show();
                 }
                 $(".js-grades-loading").hide();
-                $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
+                $(".js-grades-container, .grades-buttons").css("overflow", "auto").css("opacity", "1").css("pointer-events", "auto");
             },
         });
     } else {
@@ -201,7 +201,7 @@ $("#save").on("click", function (e) {
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");
-            $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
+            $(".js-grades-container, .grades-buttons").css("overflow", "auto").css("opacity", "0.4").css("pointer-events", "none");
         },
         success: function (data) {
             $("#discipline").trigger("change", ["saveGrades"]);

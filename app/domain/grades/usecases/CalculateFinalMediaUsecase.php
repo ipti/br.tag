@@ -39,7 +39,7 @@ class CalculateFinalMediaUsecase
 
         $finalMedia = $this->applyStrategyComputeGradesByFormula($gradeRule->gradeCalculationFk, $grades);
 
-        if(isset($gradeRule->has_final_recovery) && $gradeRule->has_final_recovery) {
+        if(isset($gradeRule->has_final_recovery) && $gradeRule->has_final_recovery &&  $finalMedia < (double)$gradeRule->approvation_media) {
             $finalRecovery = $this->getFinalRevovery($this->enrollmentId, $this->disciplineId);
             $finalMedia = $this->applyStrategyComputeGradesByFormula($finalRecovery->gradeCalculationFk, [$finalMedia, $gradesResult->rec_final]);
         }
