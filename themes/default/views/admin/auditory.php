@@ -9,7 +9,7 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . 'css/admin.css');
-$cs->registerScriptFile($baseUrl . '/js/admin/auditory.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/auditory.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - Auditoria');
 ?>

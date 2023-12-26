@@ -11,15 +11,16 @@ $log_config = array(
     'routes' => array(
         array(
             'class' => 'CFileLogRoute',
-            'levels' => 'error, warning, info',
-            'categories'=> 'application.*',
+            // 'levels' => 'error, warning, info',
+            // 'categories'=> 'application.*',
         ),
     ),
 );
 
-if(!YII_DEBUG){
+if(YII_DEBUG){
     array_push($log_config['routes'], array(
         'class'=>'CWebLogRoute',
+        'showInFireBug'=>true
       )
     );
 }
@@ -76,12 +77,16 @@ return array(
         'sedsp',
         'classdiary',
         'curricularcomponents',
-        'stages'
+        'stages',
+        'foods'
     ),
     // application components
     'components' => array(
         'utils' => array(
             'class' => 'application.components.utils.TagUtils'
+        ),
+        'features' => array(
+            'class' => 'application.components.FeaturesComponent'
         ),
         'assetManager' => array(
             'forceCopy' => YII_DEBUG
@@ -117,6 +122,10 @@ return array(
                 'merenda-escolar/menu'                      => 'lunch/lunch/',
                 'merenda-escolar/menu/<action:\w+>'         => 'lunch/lunch/<action>',
                 'merenda-escolar/menu/<action:\w+>/<id:\d+>'=> 'lunch/lunch/<action>',
+
+                'merenda/'                                  => 'foods/',
+                'merenda/cardapio'                          => 'foods/foodMenu/',
+                'merenda/cardapio/<action:\w+>'             => 'foods/foodMenu/<action>',
 
                 'boletim-escolar/'                          => 'schoolreport/',
                 'boletim-escolar/'                          => 'schoolreport/default/select',

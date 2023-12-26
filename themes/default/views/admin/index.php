@@ -3,8 +3,8 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl . '/css/admin.css');
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');

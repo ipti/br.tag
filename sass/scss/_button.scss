@@ -36,6 +36,10 @@
     &.mobile-margin {
         margin-right: $spaceMedium;
     }
+
+    &.mobile-margin-top {
+        margin-top: $spaceMedium !important;
+    }
     &.nofloat{
         float: unset !important;
     }
@@ -198,7 +202,8 @@
     }
     &-danger {
         cursor: pointer;
-        color: $colorsTextError;
+        color: $colorsTextError !important;
+        margin-top: $SizeNormal;
     }
 }
 .t-link-button {

@@ -1,0 +1,10 @@
+.t-expansive-panel {
+    overflow-y: hidden;
+    height: 0;
+    transition: height 0.5s;
+
+    &.expanded {
+        height: 500px;
+        transition: height 0.5s;
+    }
+}
