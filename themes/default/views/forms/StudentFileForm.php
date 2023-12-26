@@ -359,6 +359,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 </div>
             </td>
         </tr>
+        <tr><td>
+                <div class="span12"><b>24 - Autorização do Termo de Consentimento? </b></div>
+                <br>
+                <div class="span2"><b>☐</b> Sim</div>
+                <div class="span2"><b>☐</b> Não</div>
+            </td>
+        </tr>
     </table>
 </div>
 

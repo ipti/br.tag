@@ -21,8 +21,10 @@ function load() {
                 var data = JSON.parse(response);
                 if (data.valid) {
                     var html = "";
-                    html += 
-                        `<table class='table-frequency table table-bordered table-striped table-hover'> 
+                    html +=
+                        `
+                        <div class='container-frequency-over'>
+                        <table class='table-frequency table table-bordered table-striped table-hover'>
                         <thead class='t-accordion__head'>
                         <tr>
                         </tr>`;
@@ -35,8 +37,8 @@ function load() {
 
                         checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classroom").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "' fundamentalMaior='" + fundamentalMaior + "'></th>";
                     });
-                    html += "<tr class='day-row'><th></th>" + dayRow + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
-                    html += "</thead><tbody class='t-accordion__body'>";
+                    html += "<tr class='day-row sticky'><th></th>" + dayRow + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
+                    html += "</thead></div><tbody class='t-accordion__body'>";
                     $.each(data.students, function (indexStudent, student) {
                         html += "<tr><td class='student-name'>" + student.studentName + "</td>";
                         $.each(student.schedules, function (indexSchedule, schedule) {
@@ -106,7 +108,7 @@ $("#classroom").on("change", function () {
         } else {
             $(".disciplines-container").hide();
             load();
-            
+
         }
     } else {
         $(".disciplines-container").hide();

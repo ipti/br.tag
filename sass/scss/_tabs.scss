@@ -120,8 +120,11 @@
         .t-tabs__item {
             padding: $SizeXSmall;
             font-weight: $fontWeightSemiBold;
-            font-size: $FontSizeTextNormal;
+            font-size: 52%;
             cursor: pointer;
+            @include device(mobile) {
+                font-size: $FontSizeTextNormal; 
+            }
             .text-primary {
                 color: $colorsBaseInkNormal;
             }
