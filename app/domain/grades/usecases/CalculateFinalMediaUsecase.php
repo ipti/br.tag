@@ -28,8 +28,6 @@ class CalculateFinalMediaUsecase
             ]
         );
 
-
-
         $countUnities = count($unities);
 
         $grades = [];

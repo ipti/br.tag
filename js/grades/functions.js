@@ -79,15 +79,17 @@ function loadStudentsFromDiscipline(disciplineId) {
                     .css("overflow", "auto")
                     .css("pointer-events", "none");
             },
-            success: function (data) {
+            success: function (data){
                 data = JSON.parse(data);
                 const html = GradeTableBuilder(data).build();
                 $(".js-grades-container").html(html);
-
-                // $(".grade-concept").select2();
+                if(data.isUnityConcept){
+                    $("#close-grades-diary").hide();
+                } else {
+                    $("#close-grades-diary").css("display", "flex");
+                }
             },
             error: function (xhr, status, error) {
-                debugger
                 $(".js-grades-container").html("<div></div>");
                 $(".js-grades-alert")
                     .addClass("alert-error")
@@ -101,7 +103,9 @@ function loadStudentsFromDiscipline(disciplineId) {
                     .css("opacity", "1")
                     .css("overflow", "auto")
                     .css("pointer-events", "auto");
-                $(".js-grades-container, .grades-buttons").show();
+                $(".js-grades-container").show();
+                $(".grades-buttons").css("display", "flex");
+
                 initializeGradesMask();
             },
         });
@@ -177,16 +181,18 @@ function GradeTableBuilder(data) {
 
     function buildInputOrSelect(isUnityConcept, grade, conceptOptions) {
         if (isUnityConcept) {
+            const optionsValues = Object.values(conceptOptions);
+            const optionsKeys = Object.keys(conceptOptions);
             return template`
                 <select class="grade-concept" gradeid="${
                     grade.id
                 }" modalityid="${grade.modalityId}">
                     <option value=""></option>
-                    ${Object.values(conceptOptions)
+                    ${optionsValues
                         .map(
                             (conceptOption, index) => template`
-                        <option value="${index + 1}" ${
-                                index + 1 == grade.concept ? "selected" : ""
+                        <option value="${optionsKeys[index]}" ${
+                                optionsKeys[index] == grade.concept ? "selected" : ""
                             }>
                             ${conceptOption}
                         </option>`
@@ -215,7 +221,11 @@ function GradeTableBuilder(data) {
         const concept = data.isUnityConcept ? "1" : "0";
         const modalityColumns = data.unityColumns.reduce((acc, e) => {
             if (e.modalities.length > 1) {
-                return [...acc, ...e.modalities, `Média da Unidade (${e.calculationName})`];
+                return [
+                    ...acc,
+                    ...e.modalities,
+                    `Média da Unidade (${e.calculationName})`,
+                ];
             }
             return [...acc, ...e.modalities];
         }, []);
@@ -230,7 +240,9 @@ function GradeTableBuilder(data) {
             ${data.unityColumns
                 .map(
                     (element, index) =>
-                        `<col class="${index%2==0 ? "odd": "even"}" span='${
+                        `<col class="${
+                            index % 2 == 0 ? "odd" : "even"
+                        }" span='${
                             element.colspan > 1
                                 ? parseInt(element.colspan) + 1
                                 : element.colspan
@@ -270,7 +282,11 @@ function GradeTableBuilder(data) {
                                     `<th style="max-width: 50px;  font-size: 80%">${element}</th>`
                             )
                             .join("\n")}
-                        ${!data.isUnityConcept ? `<th style="font-size: 80%">Média Anual</th>` : ""}
+                        ${
+                            !data.isUnityConcept
+                                ? `<th style="font-size: 80%">Média Anual</th>`
+                                : ""
+                        }
                         <th style="font-size: 80%">Resultado</th>
                     </tr>
                 </thead>
@@ -278,7 +294,7 @@ function GradeTableBuilder(data) {
                     ${buildStundentsRows(
                         data.students,
                         data.isUnityConcept,
-                        data.conceptOptions
+                        data.concepts
                     )}
                 </tbody>
             </table>`;

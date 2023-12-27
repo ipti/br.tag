@@ -15,6 +15,9 @@ class GetStudentGradesByDisciplineUsecase
     {
         /** @var Classroom $classroom */
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
+        $rules = GradeRules::model()->findByAttributes([
+            "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
+        ]);
         $studentEnrollments = $classroom->activeStudentEnrollments;
         $unitiesByDiscipline = $this->getGradeUnitiesByDiscipline($classroom->edcenso_stage_vs_modality_fk);
 
@@ -45,8 +48,13 @@ class GetStudentGradesByDisciplineUsecase
         $result = new StructClassromGradeResult();
         $result->setStudents($classroomGrades)
             ->setIsUnityConcept(false)
-            ->setUnityColumns($unityColumns)
-            ->setConcepts([]);
+            ->setUnityColumns($unityColumns);
+
+        if ($rules->rule_type === "C") {
+            $concepts = GradeConcept::model()->findAll();
+            $result->setIsUnityConcept(true)
+                ->setConcepts(CHtml::listData($concepts, 'id', 'name'));
+        }
 
         return $result->toArray();
     }
@@ -95,6 +103,8 @@ class GetStudentGradesByDisciplineUsecase
         }
 
         $studentGradeResult->setFinalMedia($gradeResult->final_media);
+        $studentGradeResult->setSituation($gradeResult->situation);
+
 
         foreach ($unitiesByDiscipline as $key => $unity) {
             /** @var GradeUnity $unit */
@@ -134,6 +144,7 @@ class GetStudentGradesByDisciplineUsecase
                 $gradeByModality->setValue($grade->grade);
                 $gradeByModality->setModalityId($modality->id);
                 $gradeByModality->setGradeId($grade->id);
+                $gradeByModality->setConcept($grade->grade_concept_fk);
                 $unityResult->addGrade($gradeByModality);
             }
 
@@ -285,6 +296,7 @@ class StructClassromGradeResult
  * @property string $studentName
  * @property int $enrollmentId
  * @property string $finalMedia
+ * @property string $situation
  * @property GradeUnityResult[] $unities
  */
 class StudentGradesResult
@@ -292,6 +304,7 @@ class StudentGradesResult
     private $studentName;
     private $enrollmentId;
     private $finalMedia;
+    private $situation;
     private $unities;
 
     public function __construct($studentName, $enrollmentId)
@@ -311,6 +324,13 @@ class StudentGradesResult
         return $this;
     }
 
+    public function setSituation($situation)
+    {
+        $this->situation = $situation;
+
+        return $this;
+    }
+
     public function getUnities()
     {
         return $this->unities;
@@ -326,6 +346,7 @@ class StudentGradesResult
             'studentName' => $this->studentName,
             'enrollmentId' => $this->enrollmentId,
             'finalMedia' => $this->finalMedia,
+            'situation' => $this->situation,
             'unities' => array_map(function (GradeUnityResult $unity) {
                 return $unity->toArray();
             }, $this->unities),
@@ -344,11 +365,12 @@ class GradeUnityResult
     private $grades;
     private $unityMedia;
     private $calculationName;
+    private $situation;
 
-    public function __construct($unityName = null,  $calculationName)
+    public function __construct($unityName = null, $calculationName)
     {
         $this->unityName = $unityName;
-        $this->calculationName =  $calculationName;
+        $this->calculationName = $calculationName;
     }
 
     public function setUnityMedia($unityMedia)
@@ -366,6 +388,7 @@ class GradeUnityResult
     {
         return [
             'unityName' => $this->unityName,
+            'calculationName' => $this->calculationName,
             'calculationName' => $this->calculationName,
             'grades' => array_map(function (GradeByModalityResult $grade) {
                 return $grade->toArray();
@@ -416,7 +439,7 @@ class GradeByModalityResult
         return $this;
     }
 
-    public function setConcept(string $concept): self
+    public function setConcept($concept): self
     {
         $this->concept = $concept;
         return $this;

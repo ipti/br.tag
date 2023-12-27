@@ -33,7 +33,7 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
                 <?php echo Yii::t('default', 'Grades'); ?>
             </h1>
             <div class="buttons row grades-buttons">
-                <button type="button" id="close-grades-diary" class='t-button-secondary calculate-media'>Fechar diário</button>
+                <button type="button" id="close-grades-diary" class='t-button-secondary calculate-media'>Calc. média anual</button>
                 <button id="save" class='t-button-primary  hidden-print no-show'>
                     <?php echo Yii::t('default', 'Save') ?>
                 </button>
@@ -47,29 +47,28 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
         </div>
     <?php endif ?>
     <div class="js-grades-alert alert"></div>
-    <div class="filter-bar margin-bottom-none">
-        <div>
-            <?php echo CHtml::label(yii::t('default', 'Classroom')." *", 'classroom', array('class' => 'small-label control-label required', 'style' => 'width: 53px;')); ?>
+    <div class="row">
+        <div class="t-field-select">
+            <?php echo CHtml::label(yii::t('default', 'Classroom')." *", 'classroom', array('class' => 't-field-select__label required', 'style' => 'width: 53px;')); ?>
             <?php
             echo CHtml::dropDownList('classroom', '', $classrooms, array(
                 'key' => 'id',
-                'class' => 'select-search-on control-input classroom-input',
+                'class' => 'select-search-on t-field-select__input',
                 'prompt' => 'Selecione...',
             ));
             ?>
         </div>
-        <div>
-            <?php echo CHtml::label(yii::t('default', 'Discipline')." *", 'discipline', array('class' => 'control-label required', 'style' => 'width: 100%;')); ?>
+        <div class="t-field-select">
+            <?php echo CHtml::label(yii::t('default', 'Discipline')." *", 'discipline', array('class' => 't-field-select__label required', 'style' => 'width: 100%;')); ?>
             <?php
             echo CHtml::dropDownList('discipline', '', array(), array(
                 'key' => 'id',
-                'class' => 'select-search-on control-input discipline-input',
+                'class' => 'select-search-on t-field-select__input',
                 'prompt' => 'Selecione...',
             ));
             ?>
         </div>
-        <img class="js-grades-loading" style="display:none;margin: 10px 20px;overflow-y: auto;" height="30px"
-            width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+        <img class="js-grades-loading" style="display:none; overflow-y: auto; object-fit: contain;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
     </div>
     <br>
     <div class="js-grades-container"></div>

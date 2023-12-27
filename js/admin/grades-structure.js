@@ -61,6 +61,10 @@ $(document).on(
                         $(".js-recovery-form").hide();
                     }
 
+                    $(
+                        ".js-grades-structure-container, .js-grades-rules-container"
+                    ).show();
+
                     if (Object.keys(data.unities).length) {
                         $.each(data.unities, function (e) {
                             $(".js-new-unity").trigger("click");
@@ -76,36 +80,13 @@ $(document).on(
                                 .find("select.js-formula-select")
                                 .val(this.grade_calculation_fk)
                                 .trigger("change");
-                            const unityType = this.type;
+                            let modality = unity.find(".modality").remove();
                             $.each(this.modalities, function (e) {
-                                let modality;
-                                if (unityType === "UR") {
-                                    if (this.type === "C") {
-                                        unity
-                                            .find(".js-new-modality")
-                                            .trigger("click");
-                                        modality = unity
-                                            .find(".modality")
-                                            .last()
-                                            .prev();
-                                    } else {
-                                        modality = unity
-                                            .find(".modality")
-                                            .last();
-                                    }
-                                } else if (unityType === "UC") {
-                                    modality = unity.find(".modality").last();
-                                } else {
-                                    unity
-                                        .find(".js-new-modality")
-                                        .trigger("click");
-                                    modality = unity.find(".modality").last();
-                                }
+                                unity.find(".js-new-modality").trigger("click");
+                                let modality = unity.find(".modality").last();
                                 modality.find(".modality-id").val(this.id);
                                 modality.find(".modality-name").val(this.name);
-                                modality
-                                    .find(".modality-operation")
-                                    .val("update");
+                                modality.find(".modality-operation").val("update");
                                 modality.find(".weight").val(this.weight);
                             });
                         });
@@ -277,12 +258,9 @@ $(document).on("keyup", ".weight", function (e) {
 
 $(document).on("click", ".js-new-modality", function (e) {
     e.preventDefault();
-    let modalityHtml = "";
     const unityElement = $(this).closest(".unity");
-    const formula = unityElement
-        .find(".js-formula-select")
-        .select2("data").text;
-    modalityHtml = template`
+    const formula = unityElement.find(".js-formula-select").select2("data").text;
+    const modalityHtml = template`
         <div class='modality' concept='0'>
             <input type="hidden" class="modality-id">
             <input type="hidden" class="modality-operation" value="create">

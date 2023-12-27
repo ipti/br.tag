@@ -414,6 +414,13 @@ table.dataTable.no-footer {
     border: none;
 }
 
+.grades-buttons{
+	align-items: end;
+	justify-content: end;
+	width: 300px;
+}
+
+
 .main .grades-buttons,
 .js-new-unity,
 .formulas {
