@@ -12,7 +12,7 @@ class DefaultController extends Controller
 	}
 
 	public function actionCreateOrUpdate()
-	{		   		
+	{
 		$sagresConsultModel = new SagresConsultModel;
 		$managementUnitCode = $sagresConsultModel->getManagementId();
 
@@ -61,7 +61,7 @@ class DefaultController extends Controller
 			ini_set('memory_limit', '2048M');
 
 			$sagres = new SagresConsultModel;
-
+            $sagres->cleanInconsistences();
 			$sagresEduData = $sagres->getSagresEdu($year, $month, $finalClass);
 			$sagresEduXML = $sagres->generatesSagresEduXML($sagresEduData);
 			$sagres->actionExportSagresXML($sagresEduXML);
@@ -78,7 +78,7 @@ class DefaultController extends Controller
 
 	public function actionDownload(){
 
-		
+
 		$fileDir = "./app/export/SagresEdu/Educacao.zip";
         if (file_exists($fileDir)) {
             header('Content-Description: File Transfer');
@@ -88,7 +88,7 @@ class DefaultController extends Controller
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
             header('Content-Length: ' . filesize($fileDir));
-            readfile($fileDir);			
+            readfile($fileDir);
 			unlink($fileDir);
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
