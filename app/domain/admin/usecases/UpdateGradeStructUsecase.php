@@ -8,7 +8,7 @@
  * @property [] $unities
  * @property mixed $approvalMedia
  * @property mixed $finalRecoverMedia
- * @property mixed $calculationFinalMedia
+ * @property mixed $calcFinalMedia
  * @property bool $hasFinalRecovery
  * @property string $ruleType
  */
@@ -18,14 +18,14 @@ class UpdateGradeStructUsecase
     private const ALL_STAGES = "A";
     private const STAGES_FROM_SAME_MODALITY = "S";
 
-    public function __construct($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $ruleType)
+    public function __construct($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType)
     {
         $this->reply = $reply;
         $this->stage = $stage;
         $this->unities = $unities;
         $this->approvalMedia = $approvalMedia;
         $this->finalRecoverMedia = $finalRecoverMedia;
-        $this->calculationFinalMedia = $calculationFinalMedia;
+        $this->calculationFinalMedia = $calcFinalMedia;
         $this->hasFinalRecovery = $hasFinalRecovery;
         $this->ruleType = $ruleType;
     }
@@ -46,22 +46,25 @@ class UpdateGradeStructUsecase
         } elseif ($this->reply === self::ALL_STAGES) {
             // A = Toda a Matriz Curricular
             $matrixes = $this->getAllMatrixes();
-            $this->saveAndReplayForSimliarStages($matrixes, $this->unities, $this->approvalMedia, $this->finalRecoverMedia);
+            $this->saveAndReplayForSimliarStages($matrixes, $this->unities, $this->approvalMedia, $this->finalRecoverMedia, $this->calculationFinalMedia, $this->hasFinalRecovery, $this->ruleType);
         } elseif ($this->reply === self::STAGES_FROM_SAME_MODALITY) {
             // S = Todas as etapas de a modalidade selecionada.
             $stages = $this->getMatrixesForAllModalities($this->stage);
-            $this->saveAndReplayForSimliarStages($stages, $this->unities, $this->approvalMedia, $this->finalRecoverMedia);
+            $this->saveAndReplayForSimliarStages($stages, $this->unities, $this->approvalMedia, $this->finalRecoverMedia, $this->calculationFinalMedia, $this->hasFinalRecovery, $this->ruleType);
         }
     }
 
-    private function saveAndReplayForSimliarStages($stages, $unities, $approvalMedia, $finalRecoverMedia)
+    private function saveAndReplayForSimliarStages($stages, $unities, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType)
     {
         foreach ($stages as $stage) {
             $justOneUsecase = new UpdateGradeJustOneStructUsecase(
                 $stage["id"],
                 $unities,
                 $approvalMedia,
-                $finalRecoverMedia
+                $finalRecoverMedia,
+                $calcFinalMedia,
+                $hasFinalRecovery,
+                $ruleType
             );
             $justOneUsecase->exec();
         }
@@ -91,48 +94,4 @@ class UpdateGradeStructUsecase
             ->select("id")
             ->queryAll();
     }
-
-    private function getStages()
-    {
-        return Yii::app()->db->createCommand("
-            select
-                esvm.id
-            from grade g
-                join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
-                join grade_unity gu on gu.id = gum.grade_unity_fk
-                join edcenso_stage_vs_modality esvm on esvm.id = gu.edcenso_stage_vs_modality_fk
-            GROUP BY esvm.id
-            HAVING COUNT(1) > 0"
-        )
-            ->queryAll();
-    }
-
-    private function refreshResults($stage)
-    {
-        try {
-            $classrooms = Classroom::model()->findAll(
-                "edcenso_stage_vs_modality_fk = :stage and school_year = :year",
-                [
-                    "stage" => $stage,
-                    "year" => Yii::app()->user->year
-                ]
-            );
-
-            $curricularMatrixes = CurricularMatrix::model()->findAll(
-                "stage_fk = :stage",
-                [
-                    "stage" => $stage
-                ]
-            );
-
-            foreach ($classrooms as $classroom) {
-                foreach ($curricularMatrixes as $curricularMatrix) {
-                    // EnrollmentController::saveGradeResults($classroom->id, $curricularMatrix->discipline_fk);
-                }
-            }
-        } catch (\Throwable $e) {
-            throw new CantSaveGradeResultsException();
-        }
-    }
-
 }

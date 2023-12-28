@@ -24,75 +24,6 @@ class CalculateConceptGradeUsecase
     }
 
 
-
-
-    private function getUnitiesByClassroom($classroom)
-    {
-
-        $criteria = new CDbCriteria();
-        $criteria->alias = "gu";
-        $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->condition = "c.id = :classroom";
-        $criteria->params = array(":classroom" => $classroom);
-
-        return GradeUnity::model()->findAll($criteria);
-    }
-
-    // private function calculateConceptGrades($studentEnrollment, $discipline, $unitiesByDiscipline)
-    // {
-    //     $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $discipline);
-    //     foreach ($unitiesByDiscipline as $index => $gradeUnity) {
-    //         if ($gradeUnity->type !== GradeUnity::TYPE_UNITY_BY_CONCEPT) {
-    //             throw new Exception("Unidades por conceito não tem recuperação", 1);
-    //         }
-    //         $gradeResult = $this->calculateConceptUnity($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
-    //     }
-
-    //     $gradeResult->save();
-
-    //     return $gradeResult;
-    // }
-
-    private function calculateConceptUnity($gradeResult, $studentEnrollment, $discipline, $unity, $index)
-    {
-        $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $unity);
-        $gradeResult["grade_" . ($index + 1)] = is_nan($unityMedia) ? "" : round($unityMedia, 1);
-        return $gradeResult;
-    }
-
-
-    private function getRecoveryGradeFromUnity($enrollmentId, $discipline, $unityId)
-    {
-
-        $gradesIds = array_column(Yii::app()->db->createCommand(
-            "SELECT
-                g.id
-            FROM grade g
-                join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
-                join grade_unity gu on gu.id = gum.grade_unity_fk
-            WHERE g.enrollment_fk = :enrollment_id
-                and g.discipline_fk = :discipline_id
-                and gu.id = :unity_id
-                and gum.type = '" . GradeUnityModality::TYPE_RECOVERY . "'"
-        )->bindParam(":enrollment_id", $enrollmentId)
-            ->bindParam(":discipline_id", $discipline)
-            ->bindParam(":unity_id", $unityId)->queryAll(), "id");
-
-        if ($gradesIds == null) {
-            return [];
-        }
-
-        $grades = Grade::model()->find(
-            array(
-                'condition' => 'id =  :id',
-                'params' => [":id" => $gradesIds[0]]
-            )
-        );
-
-        return $grades;
-    }
-
     private function getGradeUnitiesByClassroomStage($classroom)
     {
 
@@ -194,13 +125,11 @@ class CalculateConceptGradeUsecase
             return [];
         }
 
-        $grades = Grade::model()->findAll(
+        return  Grade::model()->findAll(
             array(
                 'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
             )
         );
-
-        return $grades;
     }
 
 }
