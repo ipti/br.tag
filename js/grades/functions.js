@@ -11,12 +11,10 @@ function initializeGradesMask() {
         let val = this.value;
         if (!$.isNumeric(val)) {
             val = val === "" ? "" : lastValidValue;
-        } else {
-
-            if (val.match(gradePattern) === null) {
-                val = lastValidValue;
-            }
+        } else if (val.match(gradePattern) === null) {
+            val = lastValidValue;
         }
+
         lastValidValue = val;
         this.value = val;
     });
@@ -80,11 +78,11 @@ function loadStudentsFromDiscipline(disciplineId) {
                     .css("overflow", "auto")
                     .css("pointer-events", "none");
             },
-            success: function (data){
+            success: function (data) {
                 data = JSON.parse(data);
                 const html = GradeTableBuilder(data).build();
                 $(".js-grades-container").html(html);
-                if(data.isUnityConcept){
+                if (data.isUnityConcept) {
                     $("#close-grades-diary").hide();
                 } else {
                     $("#close-grades-diary").css("display", "flex");
@@ -95,7 +93,7 @@ function loadStudentsFromDiscipline(disciplineId) {
                 $(".js-grades-alert")
                     .addClass("alert-error")
                     .removeClass("alert-success")
-                    .text(decodeURIComponent(escape(error)))
+                    .text(xhr.responseText)
                     .show();
             },
             complete: function () {
@@ -116,7 +114,6 @@ function loadStudentsFromDiscipline(disciplineId) {
 }
 
 function GradeTableBuilder(data) {
-    // TODO: alterar Builder para construir por unidade e assim ter o calculo por unidade nessa tabela
     function buildStundentsRows(students, isUnityConcept, conceptOptions) {
         return students
             .map(
@@ -193,7 +190,9 @@ function GradeTableBuilder(data) {
                         .map(
                             (conceptOption, index) => template`
                         <option value="${optionsKeys[index]}" ${
-                                optionsKeys[index] == grade.concept ? "selected" : ""
+                                optionsKeys[index] == grade.concept
+                                    ? "selected"
+                                    : ""
                             }>
                             ${conceptOption}
                         </option>`

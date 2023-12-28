@@ -65,7 +65,6 @@ and open the template in the editor.
 .grades-table .even {
     background-color: #F5F7F9;
     border: 1px solid #a6b6c8;
-    /* border-color: #e5e5e5; */
 }
 
 .grade-student-name {

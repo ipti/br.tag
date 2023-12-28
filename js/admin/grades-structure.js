@@ -508,7 +508,6 @@ function checkValidInputs() {
 }
 
 function loadStructure() {
-    // $(".alert-required-fields, .alert-media-fields").hide();
     if ($("#GradeUnity_edcenso_stage_vs_modality_fk").val() !== "") {
         $.ajax({
             type: "POST",
@@ -617,8 +616,8 @@ $(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
         e.preventDefault();
         val = "";
     } else {
-        const grade = /^(100|\d{1,2}(\.\d)?)$|^\d(\.(\d)?)?$/;
-        const isMatch = val?.match(grade);
+        const gradePattern = /^(100|\d{1,2}(\.\d)?)$|^\d(\.(\d)?)?$/;
+        const isMatch = val?.match(gradePattern);
         if (isMatch === null) {
             val = "";
         } else if (!isMatch && val > 10) {
