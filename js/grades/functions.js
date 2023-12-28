@@ -93,7 +93,7 @@ function loadStudentsFromDiscipline(disciplineId) {
                 $(".js-grades-alert")
                     .addClass("alert-error")
                     .removeClass("alert-success")
-                    .text(xhr.responseText)
+                    .text(xhr.responseJSON.message)
                     .show();
             },
             complete: function () {

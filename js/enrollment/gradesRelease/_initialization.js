@@ -49,7 +49,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     let totalGivenClasses = 0;
                     let html = `
                     <h3>Aulas Dadas</h3>
-                    <div class="mobile-row">
+                    <div class="row">
                     `;
                     for (let i = 0; i < unitiesLength; i++) {
                         let order = i + 1;

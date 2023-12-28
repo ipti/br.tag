@@ -55,7 +55,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
         </div>
     <?php endif ?>
     <div class="js-grades-alert alert"></div>
-    <div class="mobile-row">
+    <div class="row">
         <div class="column is-one-fifth clearleft ">
             <div class="t-field-select">
                 <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>

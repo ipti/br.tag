@@ -500,11 +500,10 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
 
-
-                $mediaFinal += floatval($gradeResult->attributes["grade_" . $index] * ($index == 3 ? 2 : 1));
+                $mediaFinal += floatval($gradeResult->attributes["grade_" . $index]);
             }
 
-            $gradeResult->final_media = number_format($mediaFinal / 4, 1);
+            $gradeResult->final_media = round($mediaFinal / $index, 1);
             if (!$gradeResult->validate()) {
                 die(print_r($gradeResult->getErrors()));
             }
@@ -570,9 +569,12 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                     $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk;
 
                 $unities = GradeUnity::model()->findAll(
-                    "edcenso_stage_vs_modality_fk = :stageId",
+                    "edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)",
                     [
-                        "stageId" => $stage,
+                        ":stageId" => $stage,
+                        ":type" => GradeUnity::TYPE_UNITY,
+                        ":type2" => GradeUnity::TYPE_UNITY_WITH_RECOVERY,
+                        ":type3" => GradeUnity::TYPE_UNITY_BY_CONCEPT,
                     ]
                 );
 
