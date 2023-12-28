@@ -4,12 +4,15 @@
 .t-field-text {
     margin-bottom: $SizeNormal;
     &__label{
-        
+
         display: flex;
         align-items: center;
         &--required {
             font-weight: bold;
-            
+            &::after {
+                content: " *";
+                color: red;
+            }
         }
     }
     &__input, input[type="text"], input[type="number"], input[type="email"], input[type="tel"]{
@@ -25,7 +28,7 @@
         resize: none;
     }
     .show-password-icon {
-        
+
         cursor: pointer;
         position: absolute;
         right: 0;

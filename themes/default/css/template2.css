@@ -17,24 +17,6 @@
 /*
     butões
 */
-.tag-button,
-.tag-button:hover {
-    background-color: #3F45EA;
-    text-decoration: none;
-    text-align: center;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    margin-right: 10px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.tag-button:hover {
-    background-color: #272B96;
-}
-
 .tag-button-light,
 .tag-button-light:hover {
     background-color: #EFF2F5;
@@ -432,6 +414,13 @@ table.dataTable.no-footer {
     border: none;
 }
 
+.grades-buttons{
+	align-items: end;
+	justify-content: end;
+	width: 300px;
+}
+
+
 .main .grades-buttons,
 .js-new-unity,
 .formulas {
@@ -445,95 +434,14 @@ table.dataTable.no-footer {
     margin-top: 1px;
 }
 
-.grades-rules-container {
-    margin-top: 40px;
-    display: none;
+.unity .remove-button {
+	font-size: 20px;
+	align-self: center;
+	cursor: pointer;
 }
 
-.grades-rules-container label {
-    width: 140px;
-}
-
-.approval-media, .final-recover-media {
-    width: 25px;
-    margin-left: 5px;
-}
-
-.grades-structure-container {
-    margin-top: 40px;
-    display: none;
-    width: 50%;
-    position: relative;
-}
-
-.grades-structure-container .unity-name {
-    width: calc(100% - 140px);
-}
-
-.grades-structure-container .modality-name {
-    width: calc(100% - 140px);
-}
-
-.grades-structure-container .formula-select,
-.grades-structure-container .type-select {
-    width: calc(100% - 107px);
-}
-
-.grades-structure-container .select2-choice {
-    width: calc(100% - 10px) !important;
-}
-
-.grades-structure-container .unity label {
-    margin: 0px 10px 0px 0px;
-    width: 96px;
-}
-
-.grades-structure-container .unity-children {
-    margin: 20px 0 0 105px;
-}
-
-.grades-structure-container .unity {
-    margin-bottom: 40px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid #ccc;
-    position: relative;
-}
-
-.grades-structure-container .unity-type {
-    margin-bottom: 5px;
-}
-
-.grades-structure-container .calculation {
-    margin-bottom: 20px;
-}
-
-.grades-structure-container .modality {
-    margin-top: 5px;
-    position: relative;
-}
-
-.grades-structure-container .js-new-modality {
-    margin-top: 15px;
-}
-
-.grades-structure-container .remove-unity,
-.grades-structure-container .remove-modality {
-    position: absolute;
-    top: 0;
-    right: 0;
-    color: darkred;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.grades-structure-container .remove-unity:hover,
-.grades-structure-container .remove-modality:hover {
-    color: #333;
-}
-
-.grades-structure-container .weight {
-    width: 78px;
-    margin-left: 5px;
+.unity h3 {
+	color: #3f45ea;
 }
 
 .save-unity-loading-gif {
@@ -711,25 +619,30 @@ li[instructor]:hover {
     text-shadow: none !important;
     border: none !important;
 }
-.button-icon-close{
-    display:flex;
+
+.button-icon-close {
+    display: flex;
     margin: 7px -4px 0px 0px;
 }
-.div-input-structure-units{
+
+.div-input-structure-units {
     margin-right: 14px;
 }
-.label-input-structure-units{
+
+.label-input-structure-units {
     margin-right: 10px;
 }
 
 
-.widget > .widget-head {
+.widget>.widget-head {
     background: #ffffff;
 
 }
+
 #menu-integrations ul {
     width: 100%;
 }
+
 .widthfull {
     width: 100% !important;
 }
@@ -739,13 +652,13 @@ li[instructor]:hover {
     margin: 10px;
 }
 
-.dataTables_length label{
+.dataTables_length label {
     display: flex;
     align-content: center;
     align-items: baseline;
     gap: 10px;
 }
 
-.dataTables_length select{
-   max-width: 50px;
+.dataTables_length select {
+    max-width: 50px;
 }

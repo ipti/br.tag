@@ -71,7 +71,7 @@ $form=$this->beginWidget('CActiveForm', array(
 							</select>
 						</div>
 						<div class="column is-one-tenth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
-							<?php echo $form->labelEx($model,'amount', array('class' => 't-field-text__label--required')); ?>
+							<?php echo $form->label($model,'amount', array('class' => 't-field-text__label--required')); ?>
 							<?php echo $form->textField($model,'amount', array('class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
 							<?php echo $form->error($model,'amount'); ?>
 						</div>
@@ -87,7 +87,7 @@ $form=$this->beginWidget('CActiveForm', array(
 							</select>
 						</div>
 						<div class="column t-field-text clearleft--on-mobile clear-margin--bottom is-two-fifths clearfix">
-							<?php echo $form->labelEx($model,'description', array('class' => 't-field-text__label--required')); ?>
+							<?php echo $form->label($model,'description', array('class' => 't-field-text__label--required')); ?>
 							<?php echo $form->textField($model,'description', array('class' => 't-field-text__input js-description clear-margin--all', 'placeholder' => 'Informe')); ?>
 							<?php echo $form->error($model,'description'); ?>
 						</div>

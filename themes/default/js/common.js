@@ -191,3 +191,6 @@ $("*").keypress(function (e) {
     e.preventDefault();
   }
 });
+
+
+const template = (strings, ...values) => String.raw({ raw: strings }, ...values);

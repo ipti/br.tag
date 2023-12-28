@@ -52,11 +52,13 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                     'gradesRelease'),
                 'users' => array('@'),
             ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+            array(
+                'allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('admin'),
                 'users' => array('admin'),
             ),
-            array('deny', // deny all users
+            array(
+                'deny', // deny all users
                 'users' => array('*'),
             ),
         );
@@ -70,7 +72,8 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     {
         $this->render('view', array(
             'model' => $this->loadModel($id),
-        ));
+        )
+        );
     }
 
     public function actionCheckEnrollmentDelete($enrollmentId)
@@ -169,7 +172,8 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         $this->render('create', array(
             'model' => $model,
             'classrooms' => $classrooms,
-        ));
+        )
+        );
     }
 
     /**
@@ -296,7 +300,8 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             'model' => $model,
             'modelStudentIdentification' => $modelStudentIdentification,
             'classrooms' => $classrooms
-        ));
+        )
+        );
     }
 
     /**
@@ -318,7 +323,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             throw new CHttpException(404, 'The requested page does not exist.');
         }
 
-//		if(Yii::app()->request->isPostRequest)
+        //		if(Yii::app()->request->isPostRequest)
 //		{
 //
 //			// we only allow deletion via POST request
@@ -353,12 +358,14 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             'pagination' => array(
                 'pageSize' => count($query),
             ),
-        ));
+        )
+        );
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
             'model' => $model
-        ));
+        )
+        );
     }
 
     public function actionReportCard()

@@ -92,6 +92,7 @@
  * @property InstructorTeachingData[] $instructorTeachingDatas
  * @property Schedule[] $schedules
  * @property StudentEnrollment[] $studentEnrollments
+ * @property StudentEnrollment[] $activeStudentEnrollments
  */
 class Classroom extends AltActiveRecord
 {

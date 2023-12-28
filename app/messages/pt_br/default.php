@@ -946,5 +946,8 @@ return array(
     "End of the School Year" => "Fim do Ano Escolar",
     // setflas
     'dayli order' => 'Ordem do diario alterado com sucesso!',
+    // Unidades
+    'Unity Name' => "Nome da unidade"
     )
+
 ?>

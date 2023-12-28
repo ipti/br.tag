@@ -11,8 +11,8 @@ $log_config = array(
     'routes' => array(
         array(
             'class' => 'CFileLogRoute',
-            // 'levels' => 'error, warning, info',
-            // 'categories'=> 'application.*',
+            'levels' => 'error, warning, info',
+            'categories'=> 'application',
         ),
     ),
 );
@@ -20,7 +20,7 @@ $log_config = array(
 if(YII_DEBUG){
     array_push($log_config['routes'], array(
         'class'=>'CWebLogRoute',
-        'showInFireBug'=>true
+        'showInFireBug'=>true,
       )
     );
 }
@@ -37,6 +37,10 @@ return array(
     'preload' => array('log'),
     // autoloading model and component classes
     'import' => array(
+        'application.domain.admin.exceptions.*',
+        'application.domain.admin.usecases.*',
+        'application.domain.grades.exceptions.*',
+        'application.domain.grades.usecases.*',
         'application.models.*',
         'application.controllers.*',
         'application.components.*',

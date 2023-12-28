@@ -15,8 +15,9 @@ and open the template in the editor.
     margin-top: 1px;
 }
 
-#save, .calculate-media {
-    display: inline-block !important;
+#save,
+.calculate-media {
+    display: inline-block;
 }
 
 .js-grades-alert {
@@ -30,8 +31,40 @@ and open the template in the editor.
     background: #3F45EA;
 }
 
+.table td {
+    border: 1px solid #465567;
+}
+
 .grades-table thead th {
     text-align: center;
+}
+
+.grades-table {
+    width: 100%;
+}
+
+.grades-table td {
+	border: 1px #a6b6c8 solid;
+	text-align: center;
+	padding: 8px;
+}
+
+.grades-table th {
+	border: 1px #a6b6c8 solid;
+}
+
+.grades-table tr:hover {
+	background-color: lightyellow;
+  }
+
+.grades-table .odd {
+    background-color: #EAEAF8;
+    border: 1px solid #a6b6c8;
+}
+
+.grades-table .even {
+    background-color: #F5F7F9;
+    border: 1px solid #a6b6c8;
 }
 
 .grade-student-name {
@@ -40,6 +73,7 @@ and open the template in the editor.
     width: 1px;
     padding-right: 8px !important;
     font-style: italic;
+	text-align: left !important;
 }
 
 .grade-td {
