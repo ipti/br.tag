@@ -22,7 +22,7 @@ class GetStudentGradesByDisciplineUsecase
         $unitiesByDiscipline = $this->getGradeUnitiesByDiscipline($classroom->edcenso_stage_vs_modality_fk);
 
         if ($studentEnrollments == null) {
-            throw new Exception("Não há estudantes ativos matriculados na turma.", 1);
+            throw new NoActiveStudentsException();
         }
 
         $classroomGrades = [];
@@ -71,9 +71,7 @@ class GetStudentGradesByDisciplineUsecase
         $criteria->condition = "edcenso_stage_vs_modality_fk = :stage";
         $criteria->params = array(":stage" => $stage);
         $criteria->order = "gu.type desc, gu.id";
-        $gradeUnitiesByDiscipline = GradeUnity::model()->findAll($criteria);
-
-        return $gradeUnitiesByDiscipline;
+        return GradeUnity::model()->findAll($criteria);
     }
 
     /**
@@ -81,7 +79,7 @@ class GetStudentGradesByDisciplineUsecase
      *
      * @var GradeUnity $unitiesByDiscipline
      *
-     * @return Grade[]
+     * @return StudentGradesResult
      */
     private function getStudentGradeByDicipline($studentEnrollment, $discipline, $unitiesByDiscipline)
     {
@@ -105,25 +103,19 @@ class GetStudentGradesByDisciplineUsecase
         $studentGradeResult->setFinalMedia($gradeResult->final_media);
         $studentGradeResult->setSituation($gradeResult->situation);
 
-
         foreach ($unitiesByDiscipline as $key => $unity) {
             /** @var GradeUnity $unit */
             $unityGrades = $this->getStudentGradesFromUnity($studentEnrollment->id, $discipline, $unity->id);
             $unityResult = new GradeUnityResult($unity->name, $unity->gradeCalculationFk->name);
-            if ($gradeResult != null) {
-                if ($unity->type == GradeUnity::TYPE_UNITY || $unity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
-                    $unityResult->setUnityMedia($gradeResult["grade_" . ($key + 1)]);
-                } elseif ($unity->type == GradeUnity::TYPE_FINAL_RECOVERY) {
-                    $unityResult->setUnityMedia($gradeResult["rec_final"]);
-                } elseif ($unity->type == GradeUnity::TYPE_UNITY_BY_CONCEPT) {
-                    $unityResult->setUnityMedia($gradeResult["grade_concept_" . ($key + 1)]);
-                }
-            } else {
-                $gradesResult = new GradeResults;
-                $gradesResult->enrollment_fk = $studentEnrollment->id;
-                $gradesResult->discipline_fk = $discipline;
-                $gradesResult->save();
+
+            if ($unity->type == GradeUnity::TYPE_UNITY || $unity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
+                $unityResult->setUnityMedia($gradeResult["grade_" . ($key + 1)]);
+            } elseif ($unity->type == GradeUnity::TYPE_FINAL_RECOVERY) {
+                $unityResult->setUnityMedia($gradeResult["rec_final"]);
+            } elseif ($unity->type == GradeUnity::TYPE_UNITY_BY_CONCEPT) {
+                $unityResult->setUnityMedia($gradeResult["grade_concept_" . ($key + 1)]);
             }
+
 
             foreach ($unity->gradeUnityModalities as $modality) {
                 $grade;
@@ -365,9 +357,8 @@ class GradeUnityResult
     private $grades;
     private $unityMedia;
     private $calculationName;
-    private $situation;
 
-    public function __construct($unityName = null, $calculationName)
+    public function __construct($unityName = null, $calculationName = null)
     {
         $this->unityName = $unityName;
         $this->calculationName = $calculationName;
@@ -375,7 +366,6 @@ class GradeUnityResult
 
     public function setUnityMedia($unityMedia)
     {
-        ;
         $this->unityMedia = $unityMedia;
     }
 
@@ -389,7 +379,6 @@ class GradeUnityResult
         return [
             'unityName' => $this->unityName,
             'calculationName' => $this->calculationName,
-            'calculationName' => $this->calculationName,
             'grades' => array_map(function (GradeByModalityResult $grade) {
                 return $grade->toArray();
             }, $this->grades),
@@ -397,8 +386,6 @@ class GradeUnityResult
         ];
     }
 }
-
-
 
 /**
  * @property int $id
