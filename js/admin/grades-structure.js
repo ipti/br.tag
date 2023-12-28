@@ -1,114 +1,9 @@
 $(document).on(
     "change",
     "#GradeUnity_edcenso_stage_vs_modality_fk",
-    function (e) {
+    function () {
         $(".alert-required-fields, .alert-media-fields").hide();
-        if ($(this).val() !== "") {
-            $.ajax({
-                type: "POST",
-                url: "?r=admin/getUnities",
-                cache: false,
-                data: {
-                    stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
-                },
-                beforeSend: function (e) {
-                    $(".js-grades-structure-loading").css(
-                        "display",
-                        "inline-block"
-                    );
-                    $(".js-grades-structure-container")
-                        .css("pointer-events", "none")
-                        .css("opacity", "0.4");
-                },
-                success: function (data) {
-                    data = JSON.parse(data);
-                    $(".stagemodalityname").text(data.stageName);
-                    $(".stagename").text(
-                        $("#GradeUnity_edcenso_stage_vs_modality_fk").select2(
-                            "data"
-                        ).text
-                    );
-                    $(".js-grades-structure-container")
-                        .children(".unity")
-                        .remove();
-                    $(".approval-media").val(data.approvalMedia);
-                    $("#has_final_recovery").prop(
-                        "checked",
-                        data.hasFinalRecovery
-                    );
-                    $(".calculation-final-media").select2(
-                        "val",
-                        data.mediaCalculation
-                    );
-                    $(".rule-type").select2("val", data.ruleType);
-                    $(".final-recover-media").val(data.finalRecoverMedia);
-                    $(".final-recovery-unity-operation").val(
-                        data.final_recovery !== null ? "update" : "create"
-                    );
-                    $(".final-recovery-unity-id").val(data.final_recovery.id);
-                    $(".final-recovery-unity-name").val(
-                        data.final_recovery.name
-                    );
-                    $(".final-recovery-unity-calculation").select2(
-                        "val",
-                        data.final_recovery.grade_calculation_fk
-                    );
-                    $(".final-recover-media").val(data.finalRecoverMedia);
-
-                    if (data.hasFinalRecovery) {
-                        $(".js-recovery-form").show();
-                    } else {
-                        $(".js-recovery-form").hide();
-                    }
-
-                    $(
-                        ".js-grades-structure-container, .js-grades-rules-container"
-                    ).show();
-
-                    if (Object.keys(data.unities).length) {
-                        $.each(data.unities, function (e) {
-                            $(".js-new-unity").trigger("click");
-                            const unity = $(".unity").last();
-                            unity.find(".unity-name").val(this.name);
-                            unity.find(".unity-title").html(this.name);
-                            unity.find(".unity-id").val(this.id);
-                            unity
-                                .find("select.js-type-select")
-                                .val(this.type)
-                                .trigger("change");
-                            unity
-                                .find("select.js-formula-select")
-                                .val(this.grade_calculation_fk)
-                                .trigger("change");
-                            let modality = unity.find(".modality").remove();
-                            $.each(this.modalities, function (e) {
-                                unity.find(".js-new-modality").trigger("click");
-                                let modality = unity.find(".modality").last();
-                                modality.find(".modality-id").val(this.id);
-                                modality.find(".modality-name").val(this.name);
-                                modality.find(".modality-operation").val("update");
-                                modality.find(".weight").val(this.weight);
-                            });
-                        });
-                    }
-                    $(".grades-buttons").css("display", "flex");
-                    $(
-                        ".js-grades-structure-container, .js-grades-rules-container"
-                    ).show();
-                    $(".js-grades-structure-loading").hide();
-                    $(".js-grades-structure-container")
-                        .css("pointer-events", "auto")
-                        .css("opacity", "1");
-
-                    initRuleType(data.ruleType);
-                },
-            });
-        } else {
-            $(
-                ".js-grades-structure-container, .grades-buttons,  .js-grades-rules-container"
-            ).hide();
-        }
-        $("#accordion").accordion();
+        loadStructure();
     }
 );
 
@@ -119,6 +14,7 @@ $(document).on("keyup", ".unity-name", function (e) {
 
 $(document).on("click", ".js-new-unity", function (e) {
     const unities = $(".unity").length;
+    const isUnityConcept = $(".rule-type").select2("val") === "C";
     const unityHtml = template`
         <div class='unity column is-three-fifths'>
             <div class='row unity-heading ui-accordion-header'>
@@ -133,37 +29,48 @@ $(document).on("click", ".js-new-unity", function (e) {
                 <input type='hidden' class="unity-id">
                 <input type="hidden" class="unity-operation" value="create">
                 <div class="t-field-text" style="margin-top: 16px">
-                    <label class='t-field-text__label required'>Nome: <span class='red'>*</span></label>
+                    <label class='t-field-text__label--required'>Nome: </label>
                     <input type='text' class='t-field-text__input unity-name' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
                 </div>
                 <div class="t-field-select">
-                    <label class='t-field-select__label required'>Modelo: <span class='red'>*</span></label>
+                    <label class='t-field-select__label--required'>Modelo: </label>
                     <select class='t-field-select__input js-type-select select-search-on control-input'>
-                        <option value='U'>Unidade</option>
-                        <option value='UR'>Unidade com recuperação</option>
-                        <option value='UC'>Unidade por conceito</option>
+                        ${
+                            isUnityConcept
+                                ? `<option value='UC'>Unidade por conceito</option>`
+                                : `<option value='U'>Unidade</option>
+                                   <option value='UR'>Unidade com recuperação</option>`
+                        }
                     </select>
                 </div>
-                <div class="t-field-select js-calculation">
-                    <label class='t-field-select__label required'>Forma de cálculo:  <span class='red'>*</span></label>
+                <div class="t-field-select js-calculation ${
+                    isUnityConcept ? "hide" : "show"
+                }" >
+                    <label class='t-field-select__label--required'>Forma de cálculo:  </label>
                     <select class='t-field-select__input js-formula-select select-search-on control-input'>${
                         $(".formulas")[0].innerHTML
                     }</select>
                 </div>
-                <h4>Modalidades avaliativas: </h4>
-                <p class="subheading">
-                    Gerencie todas as formas de avalição que compõe as notas dessa unidade avaliativa
-                </p>
-                <div class="t-cards js-modality-container">
-                    <div class="row">
-                        <a href="#new-modality" id="new-modality" class="js-new-modality t-button-primary">
-                            <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Modalidade
-                        </a>
+                <div class="row">
+                    <div class="column">
+                        <h4>Modalidades avaliativas: </h4>
+                        <p class="subheading">
+                        Gerencie todas as formas de avalição que compõe as notas dessa unidade avaliativa
+                        </p>
                     </div>
+                    <a href="#new-modality" id="new-modality" class="js-new-modality t-button-primary">
+                        <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Modalidade
+                    </a>
                 </div>
+                <div class="t-cards js-modality-container"></div>
             </div>
         </div>`;
+
     $(".js-grades-structure-container").append(unityHtml);
+    if ($(".rule-type").select2("val") === "C") {
+        $(".js-new-modality").last().trigger("click").hide();
+        $(".remove-modality").last().hide();
+    }
     $(".unity").last().find(".js-type-select, .js-formula-select").select2();
 });
 
@@ -194,6 +101,7 @@ $(document).on("change", ".js-type-select", function (e) {
         unity.find(".js-new-modality").trigger("click").hide();
         unity.find(".js-formula-select").val("1").trigger("change");
         unity.find(".js-calculation").hide();
+        unity.find(".remove-modality").hide();
         unity
             .find(".modality-name[modalitytype=R]")
             .closest(".modality")
@@ -259,14 +167,16 @@ $(document).on("keyup", ".weight", function (e) {
 $(document).on("click", ".js-new-modality", function (e) {
     e.preventDefault();
     const unityElement = $(this).closest(".unity");
-    const formula = unityElement.find(".js-formula-select").select2("data").text;
+    const formula = unityElement
+        .find(".js-formula-select")
+        .select2("data").text;
     const modalityHtml = template`
         <div class='modality' concept='0'>
             <input type="hidden" class="modality-id">
             <input type="hidden" class="modality-operation" value="create">
             <div class="row">
                 <div class="t-field-text">
-                    <label class='t-field-text__label required'>Nome da modalidade avaliativa: <span class='red'>*</span></label>
+                    <label class='t-field-text__label--required'>Nome da modalidade avaliativa: </label>
                     <input type='text' class='modality-name t-field-text__input' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.' style='width: calc(100% - 222px);'>
                     ${
                         formula === "Peso"
@@ -282,14 +192,34 @@ $(document).on("click", ".js-new-modality", function (e) {
 });
 
 $(document).on("click", ".js-remove-unity", function (e) {
-    $(this).children(".modality").find(".modality-operation").val("remove");
-    $(this).closest(".unity").find(".unity-operation").val("remove");
-    $(this).closest(".unity").hide();
+    const unity = $(this).closest(".unity");
+    const isNew = unity.find(".unity-id").val() === "";
+
+    if (isNew) {
+        unity.remove();
+    } else {
+        const response = confirm(
+            "Ao remover um unidade, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
+        );
+        if (response) {
+            $(this)
+                .children(".modality")
+                .find(".modality-operation")
+                .val("remove");
+            unity.find(".unity-operation").val("remove");
+            unity.hide();
+        }
+    }
 });
 
 $(document).on("click", ".remove-modality", function (e) {
-    $(this).closest(".modality").find(".modality-operation").val("remove");
-    $(this).closest(".modality").hide();
+    const modality = $(this).closest(".modality");
+    const isNew = modality.find(".modality-id").val() === "";
+    modality.find(".modality-operation").val("remove");
+    modality.hide();
+    if (isNew) {
+        modality.remove();
+    }
 });
 
 $(document).on("click", ".save", function (e) {
@@ -339,11 +269,15 @@ function initRuleType(ruleType) {
             `<option value='UC' selected>Unidade por conceito</option>`
         );
         $(".js-calculation").hide();
+        $(".remove-modality").hide();
     } else if (ruleType === "N") {
         $(".numeric-fields").show();
         $(".js-has-final-recovery").trigger("change");
         $("select.js-type-select").html(` <option value='U'>Unidade</option>
         <option value='UR'>Unidade com recuperação</option>`);
+        $(".js-calculation").show();
+        $(".js-new-modality").show();
+        $(".remove-modality").show();
     }
 
     $("select.js-type-select").select2();
@@ -423,6 +357,7 @@ function saveUnities(reply) {
                     .removeClass("alert-error")
                     .text("Estrutura de notas cadastrada com sucesso!")
                     .show();
+                loadStructure();
             }
         },
         error: function (request) {
@@ -571,13 +506,117 @@ function checkValidInputs() {
     return valid;
 }
 
+function loadStructure() {
+    // $(".alert-required-fields, .alert-media-fields").hide();
+    if ($("#GradeUnity_edcenso_stage_vs_modality_fk").val() !== "") {
+        $.ajax({
+            type: "POST",
+            url: "?r=admin/getUnities",
+            cache: false,
+            data: {
+                stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
+            },
+            beforeSend: function (e) {
+                $(".js-grades-structure-loading").css(
+                    "display",
+                    "inline-block"
+                );
+                $(".js-grades-structure-container")
+                    .css("pointer-events", "none")
+                    .css("opacity", "0.4");
+            },
+            success: function (data) {
+                data = JSON.parse(data);
+                $(".stagemodalityname").text(data.stageName);
+                $(".stagename").text(
+                    $("#GradeUnity_edcenso_stage_vs_modality_fk").select2(
+                        "data"
+                    ).text
+                );
+                $(".js-grades-structure-container").children(".unity").remove();
+                $(".approval-media").val(data.approvalMedia);
+                $("#has_final_recovery").prop("checked", data.hasFinalRecovery);
+                $(".calculation-final-media").select2(
+                    "val",
+                    data.mediaCalculation
+                );
+                $(".rule-type").select2("val", data.ruleType);
+                $(".final-recover-media").val(data.finalRecoverMedia);
+                $(".final-recovery-unity-operation").val(
+                    data.final_recovery !== null ? "update" : "create"
+                );
+                $(".final-recovery-unity-id").val(data.final_recovery.id);
+                $(".final-recovery-unity-name").val(data.final_recovery.name);
+                $(".final-recovery-unity-calculation").select2(
+                    "val",
+                    data.final_recovery.grade_calculation_fk
+                );
+                $(".final-recover-media").val(data.finalRecoverMedia);
+
+                if (data.hasFinalRecovery) {
+                    $(".js-recovery-form").show();
+                } else {
+                    $(".js-recovery-form").hide();
+                }
+
+                $(
+                    ".js-grades-structure-container, .js-grades-rules-container"
+                ).show();
+
+                if (Object.keys(data.unities).length) {
+                    $.each(data.unities, function (e) {
+                        $(".js-new-unity").trigger("click");
+                        const unity = $(".unity").last();
+                        unity.find(".unity-name").val(this.name);
+                        unity.find(".unity-title").html(this.name);
+                        unity.find(".unity-id").val(this.id);
+                        unity
+                            .find("select.js-type-select")
+                            .val(this.type)
+                            .trigger("change");
+                        unity
+                            .find("select.js-formula-select")
+                            .val(this.grade_calculation_fk)
+                            .trigger("change");
+
+                        unity.find(".modality").remove();
+                        $.each(this.modalities, function (e) {
+                            unity.find(".js-new-modality").trigger("click");
+                            let modality = unity.find(".modality").last();
+                            modality.find(".modality-id").val(this.id);
+                            modality.find(".modality-name").val(this.name);
+                            modality.find(".modality-operation").val("update");
+                            modality.find(".weight").val(this.weight);
+                        });
+                    });
+                }
+                $(".grades-buttons").css("display", "flex");
+                $(
+                    ".js-grades-structure-container, .js-grades-rules-container"
+                ).show();
+                $(".js-grades-structure-loading").hide();
+                $(".js-grades-structure-container")
+                    .css("pointer-events", "auto")
+                    .css("opacity", "1");
+
+                initRuleType(data.ruleType);
+            },
+        });
+    } else {
+        $(
+            ".js-grades-structure-container, .grades-buttons,  .js-grades-rules-container"
+        ).hide();
+    }
+    $("#accordion").accordion();
+}
+
 $(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
     let val = this.value;
     if (!$.isNumeric(val)) {
         e.preventDefault();
         val = "";
     } else {
-        const grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
+        const grade = /^(100|\d{1,2}(\.\d)?)$|^\d(\.(\d)?)?$/;
         const isMatch = val?.match(grade);
         if (isMatch === null) {
             val = "";

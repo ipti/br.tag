@@ -97,7 +97,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             </select>
                         </div>
                         <div class="column is-one-tenth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
-                            <?php echo $form->labelEx($model,'amount', array('class' => 't-field-text__label--required')); ?>
+                            <?php echo $form->label($model,'amount', array('class' => 't-field-text__label--required')); ?>
                             <?php echo $form->textField($model,'amount', array('class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
                             <?php echo $form->error($model,'amount'); ?>
                         </div>
@@ -113,7 +113,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             </select>
                         </div>
                         <div class="column is-one-tenth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
-                            <?php echo $form->labelEx($model,'expiration_date',  array('class' => 't-field-text__label')); ?>
+                            <?php echo $form->label($model,'expiration_date',  array('class' => 't-field-text__label')); ?>
                             <?php echo $form->textField($model,'expiration_date', array('class'=>'t-field-text__input js-date clear-margin--all js-expiration-date', 'placeholder' => 'Selecione')); ?>
                             <?php echo $form->error($model,'expiration_date'); ?>
                         </div>

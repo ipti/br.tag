@@ -130,31 +130,31 @@ $form = $this->beginWidget('CActiveForm', array(
                             ?>
                             <!-- Nome -->
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelClassroom, 'name', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'name', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelClassroom, 'name', array('size' => 60, 'maxlength' => 80, 'class' => 't-field-text__input', 'placeholder' => ' Nome completo')); ?>
                                 <?php echo $form->error($modelClassroom, 'name'); ?>
                             </div>
                             <!-- Tipo de Mediação Didático-Pedagógica -->
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelClassroom, 'pedagogical_mediation_type', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'pedagogical_mediation_type', array('class' => 't-field-select__label--required')); ?>
                                 <?php echo $form->DropDownList($modelClassroom, 'pedagogical_mediation_type', array(null => 'Selecione o tipo', "1" => "Presencial", "3" => "Educação a Distância - EAD"), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
                                 <?php echo $form->error($modelClassroom, 'pedagogical_mediation_type'); ?>
                             </div>
                             <!-- Código Curso Educação Profissional -->
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelClassroom, 'edcenso_professional_education_course_fk', array('class' => 't-field-select__label')); ?>
+                                <?php echo $form->label($modelClassroom, 'edcenso_professional_education_course_fk', array('class' => 't-field-select__label')); ?>
                                 <?php echo $form->DropDownList($modelClassroom, 'edcenso_professional_education_course_fk', CHtml::listData(EdcensoProfessionalEducationCourse::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o curso', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
                                 <?php echo $form->error($modelClassroom, 'edcenso_professional_education_course_fk'); ?>
                             </div>
                             <!-- Local de Funcionamento Diferenciado -->
                             <div class="t-field-select" id="diff_location_container">
-                                <?php echo $form->labelEx($modelClassroom, 'diff_location', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'diff_location', array('class' => 't-field-select__label--required')); ?>
                                 <?php echo $form->DropDownList($modelClassroom, 'diff_location', array(null => 'Selecione a localização', 0 => 'A turma não está em local de funcionamento diferenciado', 1 => 'Sala anexa', 2 => 'Unidade de atendimento socioeducativo', 3 => 'Unidade prisional'), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
                                 <?php echo $form->error($modelClassroom, 'diff_location'); ?>
                             </div>
                             <!-- Modalidade -->
                             <div class="t-field-select" id="modality">
-                                <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'modality', array('class' => 't-field-select__label--required')); ?>
                                 <?php
                                 echo $form->DropDownList($modelClassroom, 'modality', array(
                                     '1' => 'Ensino Regular',
@@ -168,7 +168,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")) { ?>
                                 <!--Gov ID-->
                                 <div class="t-field-text js-hide-not-required">
-                                    <?php echo $form->labelEx($modelClassroom, 'gov_id', array('class' => 't-field-text__label')); ?>
+                                    <?php echo $form->label($modelClassroom, 'gov_id', array('class' => 't-field-text__label')); ?>
                                     <?php echo $form->textField($modelClassroom, 'gov_id', array('size' => 60, 'maxlength' => 12,
                                         'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled')); ?>
                                     <button type="button" id="copy-gov-id" class="t-button-icon">
@@ -183,7 +183,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <!-- Etapa de Ensino -->
                             <div class="t-field-select" id="stage_vs_modality">
-                                <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
                                 <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
                                 <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 <img class="loading-disciplines" style="display:none;position: fixed;margin: 5px 20px;"
@@ -195,22 +195,22 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                 <!-- Unidade Escolar -->
                                 <div class="t-field-select" id="sedsp_school_unity_fk">
-                                    <?php echo $form->labelEx($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
                                     <?php echo $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(array('school_inep_id_fk' => yii::app()->user->school)), 'id', 'description'), array('prompt' => 'Selecione a unidade escolar', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%')); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_school_unity_fk'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx($modelClassroom, "Turma *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Turma *", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->textField($modelClassroom, 'sedsp_acronym', array('size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'placeholder' => 'Ex: A, B, 1, A1, B1...', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_acronym'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx($modelClassroom, "Sala de Aula *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Sala de Aula *", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->numberField($modelClassroom, 'sedsp_classnumber', array('min' => 1, 'max' => 99, 'size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_classnumber'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx($modelClassroom, "Capacidade Fisica Maxima *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Capacidade Fisica Maxima *", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->numberField($modelClassroom, 'sedsp_max_physical_capacity', array('size' => 2, 'min' => 1, 'max' => 99, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_max_physical_capacity'); ?>
                                 </div>
@@ -224,7 +224,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <!-- hora inicial -->
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelClassroom, 'initial_hour', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'initial_hour', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->hiddenField($modelClassroom, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
                                 <?php echo $form->hiddenField($modelClassroom, 'initial_minute', array('size' => 2, 'maxlength' => 2)); ?>
                                 <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . '' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', "disabled" => $disabledFields)); ?>
@@ -234,7 +234,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- turno -->
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelClassroom, 'turn', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'turn', array('class' => 't-field-select__label--required')); ?>
                                 <?php
                                 echo $form->DropDownList($modelClassroom, 'turn', array(
                                     null => 'Selecione o turno',
@@ -262,7 +262,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <!-- hora final -->
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelClassroom, 'final_hour', array('class' => 't-field-text__label--required', 'placeholder' => 'Somente números')); ?>
+                                <?php echo $form->label($modelClassroom, 'final_hour', array('class' => 't-field-text__label--required', 'placeholder' => 'Somente números')); ?>
                                 <?php echo $form->hiddenField($modelClassroom, 'final_hour', array('size' => 2, 'maxlength' => 2)); ?>
                                 <?php echo $form->hiddenField($modelClassroom, 'final_minute', array('size' => 2, 'maxlength' => 2)); ?>
                                 <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . '' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', 'disabled' => $disabledFields)); ?>
@@ -276,7 +276,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div>
                                     <label class="t-field-text__label--required">
                                         <?php echo Yii::t('default', 'Week Days'); ?>
-                                        *
                                     </label>
                                 </div>
                                 <div class="uniformjs" id="Classroom_week_days">
@@ -319,7 +318,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group hidden">
                                 <label for=""></label>
                                 <div class="">
-                                    <?php echo $form->labelEx($modelClassroom, 'school_year', array('class' => 't-field-text__label')); ?>
+                                    <?php echo $form->label($modelClassroom, 'school_year', array('class' => 't-field-text__label')); ?>
                                 </div>
                                 <div class="">
                                     <?php echo $form->textField($modelClassroom, 'school_year', array('value' => isset($modelClassroom->school_year) ? $modelClassroom->school_year : Yii::app()->user->year, 'size' => 5, 'maxlength' => 5)); ?>
@@ -330,7 +329,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <!-- <div class="control-group">
-                                <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->label($modelClassroom, 'assistance_type', array('class' => 't-field-text__label')); ?>
                                 <div class="">
                                     <?php
                             echo $form->DropDownList($modelClassroom, 'assistance_type', $assistance_types, array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off'));
@@ -341,7 +340,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- Tipo de Atendimento* -->
                             <div class="t-field-checkbox-group js-assistance-types-container" id="assistance_type">
                                 <label class="t-field-checkbox__label--required">
-                                    <?php echo Yii::t('default', 'Assistence Types'); ?>*
+                                    <?php echo Yii::t('default', 'Assistence Types'); ?>
                                 </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'schooling', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
@@ -370,13 +369,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox" id="some">
                                     <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator', array('class' => 't-field-checkbox__input', 'id' => 'Classroom[mais_educacao_participator]')); ?>
                                     <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
-                                    <?php echo $form->labelEx($modelClassroom, 'mais_educacao_participator', array('class' => 't-field-checkbox__label', 'for' => 'Classroom[mais_educacao_participator]')); ?>
+                                    <?php echo $form->label($modelClassroom, 'mais_educacao_participator', array('class' => 't-field-checkbox__label', 'for' => 'Classroom[mais_educacao_participator]')); ?>
 
                                 </div>
                             </div>
                             <div class="control-group" id="complementary_activity">
                                 <div class="">
-                                    <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, 'complementary_activity_type_1', array('class' => 't-field-text__label--required')); ?>
                                 </div>
                                 <div class="">
                                     <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-search-on control-input', 'key' => 'id')); ?>

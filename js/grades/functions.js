@@ -11,7 +11,7 @@ function initializeGradesMask() {
         if (!$.isNumeric(val)) {
             val = val === "" ? "" : lastValidValue;
         } else {
-            grade = /^(10|\d)(?:(\.|\,)\d{0,1}){0,1}$/;
+            grade = /^(100|\d{1,2}(\.\d)?)$|^\d(\.(\d)?)?$/;
             if (val.match(grade) === null) {
                 val = lastValidValue;
             }

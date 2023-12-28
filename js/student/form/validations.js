@@ -288,14 +288,14 @@ $(formIdentification + "nationality").change(function () {
                 .show()
                 .find("label")
                 .addClass("required")
-                .html("Estado *");
+                .html("Estado");
             $(formIdentification + "edcenso_city_fk")
                 .removeAttr("disabled")
                 .closest(".js-change-required")
                 .show()
                 .find("label")
                 .addClass("required")
-                .html("Cidade *");
+                .html("Cidade");
         } else {
             $(formIdentification + "edcenso_uf_fk")
                 .val("")

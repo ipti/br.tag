@@ -9,6 +9,7 @@ $(function () {
 
 $("#classroom").change(function (e) {
     const disciplineId = urlParams.get("discipline_id");
+    $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     loadDisciplinesFromClassroom(e.target.value, disciplineId);
 });
 

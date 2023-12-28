@@ -5,17 +5,25 @@
 .t-field-select {
     width: 100%;
     margin-bottom: $SizeNormal;
-    &__label{
-        
+
+    &__label {
+
         &--required {
-            
             font-weight: bold;
+
+            &::after {
+                content: " *";
+                color: red;
+            }
         }
     }
+
     &__input {
         width: 100% !important;
-        &.select2-container{
+
+        &.select2-container {
             width: 100% !important;
+
             .select2-choice {
                 width: 100% !important;
                 box-sizing: border-box;
@@ -24,10 +32,12 @@
             }
         }
     }
-    &__helper{
+
+    &__helper {
         max-width: 50% !important;
     }
-    &__helper2{
+
+    &__helper2 {
         max-width: 65% !important;
     }
 

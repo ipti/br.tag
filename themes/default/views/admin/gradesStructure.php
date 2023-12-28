@@ -10,7 +10,7 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/grades-structure.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/grades-structure.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
 ?>
@@ -19,22 +19,23 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
 
 <div class="main">
     <?php
-    $form = $this->beginWidget('CActiveForm', array(
-        'id' => 'classes-form',
-        'enableAjaxValidation' => false,
-    )
+    $form = $this->beginWidget(
+        'CActiveForm',
+        array(
+            'id' => 'classes-form',
+            'enableAjaxValidation' => false,
+        )
     );
     ?>
-    <div class="row-fluid">
-        <div class="span12">
+
+    <div class="column">
+        <div class="row">
             <h1>Estrutura de Unidades e Avaliações</h1>
             <div class="buttons row grades-buttons">
                 <!-- <a class='t-button-primary save-and-reply'>Salvar e Replicar</a> -->
                 <a class='t-button-primary save'>Salvar</a>
             </div>
         </div>
-    </div>
-    <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')): ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
@@ -42,38 +43,43 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         <?php endif ?>
         <div class="alert-media-fields no-show alert"></div>
         <div class="alert-required-fields no-show alert alert-error"></div>
-        <div class="row margin-bottom-none">
-            <div class="t-field-text">
-                <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 't-field-text__label required', 'style' => 'width: 54px;')); ?>
-                <div>
-                    <?php
-                    echo $form->dropDownList($gradeUnity, 'edcenso_stage_vs_modality_fk', CHtml::listData($stages, 'id', 'name'), array(
-                        'key' => 'id',
-                        'class' => ' t-field-text__input select-search-on',
-                        'prompt' => 'Selecione o estágio...',
-                    )
-                    );
-                    ?>
+        <div class="column">
+            <div class="row margin-bottom-none">
+                <div class="t-field-select">
+                    <?php echo CHtml::label(yii::t('default', 'Stage'), 'modality_fk', array('class' => 't-field-select__label--required', 'style' => 'width: 54px;')); ?>
+                    <div>
+                        <?php
+                        echo $form->dropDownList(
+                            $gradeUnity,
+                            'edcenso_stage_vs_modality_fk',
+                            CHtml::listData($stages, 'id', 'name'),
+                            array(
+                                'key' => 'id',
+                                'class' => ' t-field-select__input select-search-on',
+                                'prompt' => 'Selecione o estágio...',
+                            )
+                        );
+                        ?>
+                    </div>
                 </div>
+                <img class="js-grades-structure-loading" style="display:none;margin: 10px 20px;" height="30px"
+                    width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
-            <img class="js-grades-structure-loading" style="display:none;margin: 10px 20px;" height="30px" width="30px"
-                src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
-
         <div class="column js-grades-rules-container is-three-fifths" style="display: none;">
             <h2>Regras de aprovação</h2>
             <p class="subheading">
                 Configure as regras básicas para aprovação dos alunos
             </p>
             <div class="t-field-select">
-                <label class="t-field-select__label">Modelo de avalição <span class="red">*</span></label>
+                <label class="t-field-select__label--required">Modelo de avalição</span></label>
                 <select class="rule-type select-search-on t-field-select__input">
                     <option value="N">Númerico</option>
                     <option value="C">Conceito</option>
                 </select>
             </div>
             <div class="numeric-fields t-field-select">
-                <label class="t-field-select__label">Calculo da média final <span class="red">*</span></label>
+                <label class="t-field-select__label--required">Calculo da média final</span></label>
                 <select class="calculation-final-media select-search-on t-field-select__input">
                     <?php foreach ($formulas as $formula): ?>
                         <option value="<?= $formula->id ?>">
@@ -83,7 +89,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 </select>
             </div>
             <div class="numeric-fields t-field-text">
-                <label class="t-field-text__label">Média de Aprovação <span class="red">*</span></label>
+                <label class="t-field-text__label--required">Média de Aprovação</span></label>
                 <input type="text" class="approval-media t-field-text__input">
             </div>
             <div class="numeric-fields t-field-checkbox">
@@ -109,7 +115,8 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             </p>
         </div>
         <div id="accordion js-grades-rules-container"
-            class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion" style="display: none;">
+            class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion"
+            style="display: none;">
         </div>
         <div class="column js-recovery-form  is-three-fifths" style="display: none;">
             <h2>Regras de recuperação final</h2>
@@ -120,15 +127,16 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <input type='hidden' class="final-recovery-unity-type" value="RF">
             <input type="hidden" class="final-recovery-unity-operation" value="create">
             <div class="t-field-text js-recovery-media-visibility">
-                <label class="t-field-text__label">Média de Rec. Final <span class="red">*</span></label>
+                <label class="t-field-text__label--required">Média de Rec. Final</span></label>
                 <input type="text" class="final-recover-media t-field-text__input">
             </div>
             <div class="t-field-text" style="margin-top: 16px">
-                <label class='t-field-text__label required'>Nome: <span class='red'>*</span></label>
-                <input type='text' class='t-field-text__input final-recovery-unity-name' placeholder='Recuperação Final'>
+                <label class='t-field-text__label--required'>Nome:</span></label>
+                <input type='text' class='t-field-text__input final-recovery-unity-name'
+                    placeholder='Recuperação Final'>
             </div>
             <div class="t-field-select js-calculation">
-                <label class='t-field-select__label required'>Forma de cálculo: <span class='red'>*</span></label>
+                <label class='t-field-select__label--required'>Forma de cálculo:</span></label>
                 <select class='t-field-select__input select-search-on final-recovery-unity-calculation'>
                     <?php foreach ($formulas as $formula): ?>
                         <option value="<?= $formula->id ?>">
