@@ -23,22 +23,6 @@ class CalculateNumericGradeUsecase
         }
     }
 
-
-
-
-    private function getUnitiesByClassroom($classroom)
-    {
-
-        $criteria = new CDbCriteria();
-        $criteria->alias = "gu";
-        $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->condition = "c.id = :classroom";
-        $criteria->params = array(":classroom" => $classroom);
-
-        return GradeUnity::model()->findAll($criteria);
-    }
-
     private function calculateNumericGrades($studentEnrollment, $discipline, $unitiesByDiscipline)
     {
         $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $discipline);
@@ -68,7 +52,7 @@ class CalculateNumericGradeUsecase
     private function calculateCommonUnity($gradeResult, $studentEnrollment, $discipline, $unity, $index)
     {
         $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $unity);
-        $gradeResult["grade_" . ($index + 1)] = is_nan($unityMedia) ? "" : round($unityMedia, 1) ;
+        $gradeResult["grade_" . ($index + 1)] = is_nan($unityMedia) ? "" : round($unityMedia, 1);
         return $gradeResult;
     }
 
@@ -103,14 +87,12 @@ class CalculateNumericGradeUsecase
             return [];
         }
 
-        $grades = Grade::model()->find(
+        return Grade::model()->find(
             array(
                 'condition' => 'id =  :id',
                 'params' => [":id" => $gradesIds[0]]
             )
         );
-
-        return $grades;
     }
 
     private function getGradeUnitiesByClassroomStage($classroom)
@@ -155,29 +137,6 @@ class CalculateNumericGradeUsecase
         return $gradeResult;
     }
 
-    // private function calculateConceptGrades($studentEnrollment, $gradeUnities, $discipline)
-    // {
-    //     //notas por conceito
-    //     $index = 0;
-    //     foreach ($gradeUnities as $gradeUnity) {
-    //         foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
-    //             $enrollmentId = $studentEnrollment->id;
-    //             $studentGrades = array_filter(
-    //                 $gradeUnityModality->grades,
-    //                 function ($grade) use ($enrollmentId, $discipline) {
-    //                     return $grade->enrollment_fk === $enrollmentId && $grade->discipline_fk === $discipline;
-    //                 }
-    //             );
-    //             foreach ($studentGrades as $grade) {
-    //                 $gradeResult["grade_concept_" . ($index + 1)] = $grade->gradeConceptFk->acronym;
-    //                 $index++;
-    //             }
-    //         }
-    //     }
-    //     $gradeResult->situation = "Aprovado";
-    //     $gradeResult->save();
-    // }
-
     /**
      * @param StudentEnrollment $enrollment
      * @param int $discipline
@@ -204,26 +163,30 @@ class CalculateNumericGradeUsecase
      */
     private function applyStrategyComputeGradesByFormula($unity, $grades)
     {
-
+        $result = 0;
         switch ($unity->gradeCalculationFk->name) {
             default:
             case 'Soma':
-                return array_reduce($grades, function ($acc, $grade) {
+                $result = array_reduce($grades, function ($acc, $grade) {
                     /** @var Grade $grade */
                     $acc += floatval($grade);
                     return $acc;
                 });
+                break;
             case 'Média':
                 $finalGrade = array_reduce($grades, function ($acc, $grade) {
                     /** @var Grade $grade */
                     $acc += floatval($grade);
                     return $acc;
                 });
-                return round($finalGrade / sizeof($grades), 2);
+                $result = round($finalGrade / sizeof($grades), 2);
+                break;
             case 'Maior':
-                return max($grades);
+                $result = max($grades);
+                break;
             case 'Menor':
-                return min($grades);
+                $result = min($grades);
+                break;
             case 'Peso':
                 $acc = [0, 0];
                 $modalities = $unity->gradeUnityModalities;
@@ -233,8 +196,11 @@ class CalculateNumericGradeUsecase
                     $acc[1] += $modalities[$key]->weight;
                 }
 
-                return $acc[0] / $acc[1];
+                $result = $acc[0] / $acc[1];
+                break;
         }
+
+        return $result;
     }
 
 
@@ -263,13 +229,12 @@ class CalculateNumericGradeUsecase
             return [];
         }
 
-        $grades = Grade::model()->findAll(
+        return Grade::model()->findAll(
             array(
                 'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
             )
         );
 
-        return $grades;
     }
 
 }

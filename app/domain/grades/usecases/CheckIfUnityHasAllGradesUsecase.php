@@ -6,15 +6,18 @@
  * @property int $enrollmentId
  * @property int $disciplineId
  */
-class CheckIfUnityHasAllGradesUsecase {
+class CheckIfUnityHasAllGradesUsecase
+{
 
 
-    public function __construct($unity, $enrollmentId, $disciplineId) {
+    public function __construct($unity, $enrollmentId, $disciplineId)
+    {
         $this->unity = $unity;
         $this->enrollmentId = $enrollmentId;
         $this->disciplineId = $disciplineId;
     }
-    public function exec() {
+    public function exec()
+    {
 
         $grades = $this->getStudentGradesFromUnity(
             $this->enrollmentId,
@@ -31,7 +34,8 @@ class CheckIfUnityHasAllGradesUsecase {
         return $countModalities == $countGrades;
     }
 
-    private function getStudentGradesFromUnity($enrollmentId, $discipline, $unityId) {
+    private function getStudentGradesFromUnity($enrollmentId, $discipline, $unityId)
+    {
 
         $gradesIds = array_column(Yii::app()->db->createCommand(
             "SELECT
@@ -44,17 +48,15 @@ class CheckIfUnityHasAllGradesUsecase {
             ->bindParam(":discipline_id", $discipline)
             ->bindParam(":unity_id", $unityId)->queryAll(), "id");
 
-        if($gradesIds == null) {
+        if ($gradesIds == null) {
             return [];
         }
 
-        $grades = Grade::model()->findAll(
+        return Grade::model()->findAll(
             array(
-                'condition' => 'id IN ('.implode(',', $gradesIds).')',
+                'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
             )
         );
-
-        return $grades;
     }
 }
 

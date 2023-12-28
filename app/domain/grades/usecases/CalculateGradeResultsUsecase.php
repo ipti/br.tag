@@ -25,19 +25,7 @@ class CalculateGradeResultsUsecase {
             return;
         }
 
-        throw new Exception("Modelo de regras não definido para realização do calculo de notas", 1);
+        throw new UndefinedRuleTypeException();
 
-    }
-
-    private function getUnitiesByClassroom($classroom) {
-
-        $criteria = new CDbCriteria();
-        $criteria->alias = "gu";
-        $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->condition = "c.id = :classroom";
-        $criteria->params = array(":classroom" => $classroom);
-
-        return GradeUnity::model()->findAll($criteria);
     }
 }
