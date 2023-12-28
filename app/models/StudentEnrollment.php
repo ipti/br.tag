@@ -629,6 +629,6 @@ class StudentEnrollment extends AltActiveRecord
              StudentEnrollment::STATUS_DEATH => "11" ,
         ];
 
-        return $statusList[$this->status];
+        return $statusList[$status];
     }
 }
