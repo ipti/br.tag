@@ -19,7 +19,7 @@ class CalculateGradeResultsUsecase {
             $usercase = new CalculateNumericGradeUsecase($this->classroomId, $this->discipline);
             $usercase->exec();
             return;
-        } else if ($gradeRules->rule_type === "C"){
+        } elseif ($gradeRules->rule_type === "C"){
             $usercase = new CalculateConceptGradeUsecase($this->classroomId, $this->discipline);
             $usercase->exec();
             return;

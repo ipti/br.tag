@@ -1,4 +1,4 @@
-var lastValidValue = "";
+let lastValidValue = "";
 
 function initializeGradesMask() {
     $(document).on("focus", "input.grade", function (e) {
@@ -7,12 +7,13 @@ function initializeGradesMask() {
 
     $("input.grade").on("input", function (e) {
         e.preventDefault();
-        var val = this.value;
+        const gradePattern = /^(100|\d{1,2}(\.\d)?)$|^\d(\.(\d)?)?$/;
+        let val = this.value;
         if (!$.isNumeric(val)) {
             val = val === "" ? "" : lastValidValue;
         } else {
-            grade = /^(100|\d{1,2}(\.\d)?)$|^\d(\.(\d)?)?$/;
-            if (val.match(grade) === null) {
+
+            if (val.match(gradePattern) === null) {
                 val = lastValidValue;
             }
         }

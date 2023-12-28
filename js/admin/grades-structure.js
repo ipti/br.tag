@@ -157,8 +157,9 @@ $(document).on("keyup", ".weight", function (e) {
         var weight = /[1-9]|10/;
         if (val?.match(weight) === null) {
             val = "";
-        } else {
-            if (val > 10) val = 10;
+        }
+        if (val > 10) {
+            val = 10;
         }
     }
     this.value = val;

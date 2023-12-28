@@ -245,7 +245,7 @@ class GradesController extends Controller
         foreach ($students as $student) {
             foreach ($student["grades"] as $grade) {
 
-                $gradeObject = Grade::model()->find('id = :id', [":id"=> $grade->id]);
+                $gradeObject = Grade::model()->find('id = :id', [":id" => $grade->id]);
 
                 if ($gradeObject == null) {
                     $gradeObject = new Grade();
@@ -418,20 +418,7 @@ class GradesController extends Controller
                 $rfFilled = true;
                 foreach ($arr["grades"] as $grade) {
                     switch ($grade["gradeUnityType"]) {
-                        case "U":
-                            if ($grade["unityGrade"] != "") {
-                                $sums += $grade["unityGrade"];
-                            } else {
-                                $allNormalUnitiesFilled = false;
-                            }
-                            $sumsCount++;
 
-                            $resultGradeResult = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
-
-                            $gradeResult["grade_" . ($gradeIndex + 1)] = $resultGradeResult <= 10.0 ? $resultGradeResult : 10.0;
-
-                            $gradeIndex++;
-                            break;
                         case "UR":
                             if ($grade["unityGrade"] != "" || $grade["unityRecoverGrade"] != "") {
                                 $sums += $grade["unityRecoverGrade"] > $grade["unityGrade"] ? $grade["unityRecoverGrade"] : $grade["unityGrade"];
@@ -481,6 +468,21 @@ class GradesController extends Controller
 
                             $gradeResult["rec_final"] = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
                             break;
+                        case "U":
+                        default:
+                            if ($grade["unityGrade"] != "") {
+                                $sums += $grade["unityGrade"];
+                            } else {
+                                $allNormalUnitiesFilled = false;
+                            }
+                            $sumsCount++;
+
+                            $resultGradeResult = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
+
+                            $gradeResult["grade_" . ($gradeIndex + 1)] = $resultGradeResult <= 10.0 ? $resultGradeResult : 10.0;
+
+                            $gradeIndex++;
+                            break;
                     }
                 }
                 if (!$hasRF) {
@@ -508,7 +510,7 @@ class GradesController extends Controller
                             } else {
                                 $situation = "Recuperação";
                             }
-                        } else if ($recSemIndex > 0) {
+                        } elseif ($recSemIndex > 0) {
                             if ($lastRSFilledGrade !== "") {
                                 $situation = "Reprovado";
                             } else {
@@ -528,15 +530,15 @@ class GradesController extends Controller
                 $index = 0;
                 foreach ($gradeUnitiesByClassroom as $gradeUnity) {
                     foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
-                        $enrollment_id = $studentEnrollment->id;
-                        $discipline_id = $discipline;
-                        $student_grades = array_filter(
+                        $enrollmentId = $studentEnrollment->id;
+                        $disciplineId = $discipline;
+                        $studentGrades = array_filter(
                             $gradeUnityModality->grades,
-                            function ($grade) use ($enrollment_id, $discipline_id) {
-                                return $grade->enrollment_fk === $enrollment_id && $grade->discipline_fk === $discipline_id;
+                            function ($grade) use ($enrollmentId, $disciplineId) {
+                                return $grade->enrollment_fk === $enrollmentId && $grade->discipline_fk === $disciplineId;
                             }
                         );
-                        foreach ($student_grades as $grade) {
+                        foreach ($studentGrades as $grade) {
                             $gradeResult["grade_concept_" . ($index + 1)] = $grade->gradeConceptFk->acronym;
                             $index++;
                         }
@@ -555,17 +557,17 @@ class GradesController extends Controller
                 foreach ($studentEnrollment->gradeResults as $gradeResult) {
                     if ($gradeResult->situation == null) {
                         $allGradesFilled = false;
-                    } else if ($gradeResult->situation == "Reprovado") {
+                    } elseif ($gradeResult->situation == "Reprovado") {
                         $situation = "Reprovado";
                         break;
-                    } else if ($gradeResult->situation == "Recuperação") {
+                    } elseif ($gradeResult->situation == "Recuperação") {
                         $situation = "Matriculado";
                         break;
                     }
                 }
                 if ($allGradesFilled && $situation == "Aprovado") {
                     $studentEnrollment->status = 6;
-                } else if ($situation == "Reprovado") {
+                } elseif ($situation == "Reprovado") {
                     $studentEnrollment->status = 8;
                 } else {
                     $studentEnrollment->status = 1;
@@ -576,7 +578,7 @@ class GradesController extends Controller
         }
     }
 
-    public static function getUnidadeValues($gradeUnity, $enrollment_id, $discipline)
+    public static function getUnidadeValues($gradeUnity, $enrollmentId, $discipline)
     {
         $unityGrade = "";
         $unityRecoverGrade = "";
@@ -590,14 +592,14 @@ class GradesController extends Controller
                 $weightsSum += $gradeUnityModality->weight;
             }
 
-            $student_grades = array_filter(
+            $studentGrades = array_filter(
                 $gradeUnityModality->grades,
-                function ($grade) use ($enrollment_id, $discipline) {
-                    return $grade->enrollment_fk === $enrollment_id && $grade->discipline_fk === $discipline;
+                function ($grade) use ($enrollmentId, $discipline) {
+                    return $grade->enrollment_fk === $enrollmentId && $grade->discipline_fk === $discipline;
                 }
             );
 
-            foreach ($student_grades as $grade) {
+            foreach ($studentGrades as $grade) {
                 if ($gradeUnityModality->type == "C") {
                     if (!$turnedEmptyToZero) {
                         $unityGrade = 0;
@@ -614,7 +616,7 @@ class GradesController extends Controller
         if ($unityGrade !== "") {
             if ($gradeUnity->gradeCalculationFk->name === "Média") {
                 $unityGrade = number_format($unityGrade / $commonModalitiesCount, 2);
-            } else if ($gradeUnity->gradeCalculationFk->name === "Peso") {
+            } elseif ($gradeUnity->gradeCalculationFk->name === "Peso") {
                 $unityGrade = number_format($unityGrade / $weightsSum, 2);
             }
         }
