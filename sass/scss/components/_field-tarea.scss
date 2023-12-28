@@ -3,17 +3,26 @@
 
 .t-field-tarea {
     margin-bottom: $SizeLarge;
-    &__label{
-        
+
+    &__label {
+
         &--required {
-            
+
             font-weight: bold;
+
+            &::after {
+                content: " *";
+                color: red;
+            }
         }
     }
-    &__input, textarea {
+
+    &__input,
+    textarea {
         width: 100%;
         padding: $SizeXXXSmall;
         box-sizing: border-box;
+
         &.large {
             height: 100%;
             min-height: 100px;

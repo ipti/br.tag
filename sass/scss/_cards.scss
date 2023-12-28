@@ -11,7 +11,6 @@
     width: 100%;
     min-width: 300px;
     box-sizing: border-box;
-    max-width: 50%;
 
     .t-cards-content {
         display: flex;
@@ -24,13 +23,13 @@
             font-size: $FontSizeHeadingTitle2;
             font-family: 'Inter', sans-serif;
             font-weight: 700;
-         
-    
+
+
             img {
                 margin-right: $SizeXSmall;
             }
         }
-        
+
         .t-cards-text {
             color: $colorsBaseInkLightActive;
             margin-left: $SizeXLarge;
@@ -41,8 +40,8 @@
                 }
             }
         }
-      
-    
+
+
         span{
             margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
             font-size: $FontSizeHeadingTitle1;

@@ -10,7 +10,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/gradesRelease/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
-$script = "var getGradesUrl = '" . Yii::app()->createUrl('enrollment/getGrades') . "';";
+$script = "var getGradesUrl = '" . Yii::app()->createUrl('grades/getGrades') . "';";
 
 $cs->registerScript('variables', $script, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl . '/css/grades.css');
@@ -55,7 +55,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
         </div>
     <?php endif ?>
     <div class="js-grades-alert alert"></div>
-    <div class="mobile-row">
+    <div class="row">
         <div class="column is-one-fifth clearleft ">
             <div class="t-field-select">
                 <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>
