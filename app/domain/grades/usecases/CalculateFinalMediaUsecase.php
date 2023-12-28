@@ -37,7 +37,7 @@ class CalculateFinalMediaUsecase
 
         $finalMedia = $this->applyStrategyComputeGradesByFormula($gradeRule->gradeCalculationFk, $grades);
 
-        if(isset($gradeRule->has_final_recovery) && $gradeRule->has_final_recovery &&  $finalMedia < (double)$gradeRule->approvation_media) {
+        if (isset($gradeRule->has_final_recovery) && $gradeRule->has_final_recovery && $finalMedia < (double) $gradeRule->approvation_media) {
             $finalRecovery = $this->getFinalRevovery($this->enrollmentId, $this->disciplineId);
             $finalMedia = $this->applyStrategyComputeGradesByFormula($finalRecovery->gradeCalculationFk, [$finalMedia, $gradesResult->rec_final]);
         }
@@ -73,34 +73,6 @@ class CalculateFinalMediaUsecase
     }
 
 
-    /**
-     * @param int $studentEnrollmentId
-     * @param int $disciplineId
-     *
-     * @return GradeResults
-     */
-    private function getGradesResultForStudent($studentEnrollmentId, $disciplineId)
-    {
-        $gradeResult = GradeResults::model()->find(
-            "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
-            [
-                "enrollment_fk" => $studentEnrollmentId,
-                "discipline_fk" => $disciplineId
-            ]
-        );
-
-        $isNewGradeResult = $gradeResult == null;
-
-        if ($isNewGradeResult) {
-            $gradeResult = new GradeResults();
-            $gradeResult->enrollment_fk = $studentEnrollmentId;
-            $gradeResult->discipline_fk = $disciplineId;
-        }
-
-        return $gradeResult;
-    }
-
-
 
     /**
      * @param GradeCalculation $calculation
@@ -109,25 +81,30 @@ class CalculateFinalMediaUsecase
      */
     private function applyStrategyComputeGradesByFormula($calculation, $grades, $weights = [])
     {
+        $result = 0;
         switch ($calculation->id) {
             default:
             case GradeCalculation::OP_SUM:
-                return array_reduce($grades, function ($acc, $grade) {
+                $result = array_reduce($grades, function ($acc, $grade) {
                     /** @var Grade $grade */
                     $acc += floatval($grade);
                     return $acc;
                 });
+                break;
             case GradeCalculation::OP_MAX:
-                return max($grades);
+                $result = max($grades);
+                break;
             case GradeCalculation::OP_MIN:
-                return min($grades);
+                $result = min($grades);
+                break;
             case GradeCalculation::OP_MEDIA:
                 $finalGrade = array_reduce($grades, function ($acc, $grade) {
                     /** @var Grade $grade */
                     $acc += floatval($grade);
                     return $acc;
                 });
-                return round($finalGrade / sizeof($grades), 2);
+                $result = round($finalGrade / sizeof($grades), 2);
+                break;
             case GradeCalculation::OP_MEDIA_BY_WEIGTH:
                 $acc = [0, 0];
                 foreach ($grades as $key => $value) {
@@ -135,39 +112,11 @@ class CalculateFinalMediaUsecase
                     $acc[1] += $weights[$key];
                 }
 
-                return $acc[0] / $acc[1];
+                $result = $acc[0] / $acc[1];
+                break;
         }
-    }
 
-    /**
-     * @param int $enrollmentId
-     * @param int $discipline
-     * @param int $unityId
-     *
-     * @return Grade[]
-     */
-    private function getStudentGradesFromUnity($enrollmentId, $discipline, $unityId)
-    {
-
-        $gradesIds = array_column(Yii::app()->db->createCommand(
-            "SELECT
-                g.id
-                FROM grade g
-                join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
-                join grade_unity gu on gu.id= gum.grade_unity_fk
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gu.id = :unity_id"
-        )->bindParam(":enrollment_id", $enrollmentId)
-            ->bindParam(":discipline_id", $discipline)
-            ->bindParam(":unity_id", $unityId)->queryAll(), "id");
-
-
-        $grades = Grade::model()->findAll(
-            array(
-                'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
-            )
-        );
-
-        return $grades;
+        return $result;
     }
 
 }

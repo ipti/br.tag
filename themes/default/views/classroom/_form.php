@@ -363,7 +363,12 @@ $form = $this->beginWidget(
                                 <?php echo $form->label($modelClassroom, 'assistance_type', array('class' => 't-field-text__label')); ?>
                                 <div class="">
                                     <?php
-                                    echo $form->DropDownList($modelClassroom, 'assistance_type', $assistance_types, array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off'));
+                                    echo $form->DropDownList(
+                                        $modelClassroom,
+                                        'assistance_type',
+                                        $assistance_types,
+                                        array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off')
+                                    );
                                     ?>
                                     <?php echo $form->error($modelClassroom, 'assistance_type'); ?>
                                 </div>

@@ -444,25 +444,6 @@ table.dataTable.no-footer {
 	color: #3f45ea;
 }
 
-/* .unity {
-    border-radius: 10px 10px 0 0;
-}
-
-
-.unity .unity-heading {
-	background-color: #3f45ea;
-	border-radius: 8px;
-    padding: 8px
-}
-
-.unity .accordion-body {
-    border-left: 1px #3f45ea solid;
-    border-right: 1px #3f45ea solid;
-    background-color: #fff;
-    padding: 0 16px;
-	border-radius:0;
-} */
-
 .save-unity-loading-gif {
     position: absolute;
     left: calc(50% - 20px);
