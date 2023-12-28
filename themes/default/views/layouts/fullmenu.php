@@ -2,15 +2,16 @@
 
 $baseUrl = Yii::app()->theme->baseUrl;
 
+if (Yii::app()->user->isGuest) {
+    $this->redirect(yii::app()->createUrl('site/login'));
+}
+
 $school_logo = $baseUrl . "/img/emblema-escola.svg";
 $url_school_logo = '/?r=school/displayLogo&id=' . Yii::app()->user->school;
 $schoolurl = yii::app()->createUrl('school');
 
 $select_school = '';
 
-if (Yii::app()->user->isGuest) {
-    $this->redirect(yii::app()->createUrl('site/login'));
-}
 
 if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
     $select_school = CHtml::activeDropDownList(
