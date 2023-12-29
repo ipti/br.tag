@@ -154,9 +154,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
 
 <div class="formulas">
     <?php foreach ($formulas as $formula): ?>
-        <option value="<?= $formula->id ?>">
-            <?= $formula->name ?>
-        </option>
+        <option value="<?= $formula->id ?>"><?= $formula->name ?></option>
     <?php endforeach; ?>
 </div>
 <div class="modal fade modal-content" id="js-saveandreply-modal" tabindex="-1" role="dialog">

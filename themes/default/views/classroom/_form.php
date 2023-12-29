@@ -15,8 +15,6 @@ $cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js?v=' . TAG_VE
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/classroom/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
-$cs->registerCssFile($baseUrl . 'sass/css/main.css');
-
 $form = $this->beginWidget(
     'CActiveForm',
     array(
@@ -233,18 +231,8 @@ $form = $this->beginWidget(
                     <div>
                         <h3>Horário de funcionamento</h3>
                     </div>
-                    <div class="row">
+                    <div class="row t-padding-small--bottom">
                         <div class="column">
-                            <!-- hora inicial -->
-                            <div class="t-field-text">
-                                <?php echo $form->label($modelClassroom, 'initial_hour', array('class' => 't-field-text__label--required')); ?>
-                                <?php echo $form->hiddenField($modelClassroom, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
-                                <?php echo $form->hiddenField($modelClassroom, 'initial_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . '' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', "disabled" => $disabledFields)); ?>
-                                <!-- <?php echo Yii::t('help', 'Time'); ?> -->
-                                <?php echo $form->error($modelClassroom, 'initial_hour'); ?>
-                                <?php echo $form->error($modelClassroom, 'initial_minute'); ?>
-                            </div>
                             <!-- turno -->
                             <div class="t-field-select">
                                 <?php echo $form->label($modelClassroom, 'turn', array('class' => 't-field-select__label--required')); ?>
@@ -277,16 +265,6 @@ $form = $this->beginWidget(
                             </div>
                         </div>
                         <div class="column">
-                            <!-- hora final -->
-                            <div class="t-field-text">
-                                <?php echo $form->label($modelClassroom, 'final_hour', array('class' => 't-field-text__label--required', 'placeholder' => 'Somente números')); ?>
-                                <?php echo $form->hiddenField($modelClassroom, 'final_hour', array('size' => 2, 'maxlength' => 2)); ?>
-                                <?php echo $form->hiddenField($modelClassroom, 'final_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . '' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', 'disabled' => $disabledFields)); ?>
-                                <!-- <?php echo Yii::t('help', 'Time'); ?> -->
-                                <?php echo $form->error($modelClassroom, 'final_hour'); ?>
-                                <?php echo $form->error($modelClassroom, 'final_minute'); ?>
-                            </div>
 
                             <!-- Dias da semana -->
                             <div class="control-group">
@@ -340,6 +318,34 @@ $form = $this->beginWidget(
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="column">
+                            <!-- hora inicial -->
+                            <div class="t-field-text">
+                                <?php echo $form->label($modelClassroom, 'initial_hour', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->hiddenField($modelClassroom, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
+                                <?php echo $form->hiddenField($modelClassroom, 'initial_minute', array('size' => 2, 'maxlength' => 2)); ?>
+                                <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . '' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', "disabled" => $disabledFields)); ?>
+                                <!-- <?php echo Yii::t('help', 'Time'); ?> -->
+                                <?php echo $form->error($modelClassroom, 'initial_hour'); ?>
+                                <?php echo $form->error($modelClassroom, 'initial_minute'); ?>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <!-- hora final -->
+                            <div class="t-field-text">
+                                <?php echo $form->label($modelClassroom, 'final_hour', array('class' => 't-field-text__label--required', 'placeholder' => 'Somente números')); ?>
+                                <?php echo $form->hiddenField($modelClassroom, 'final_hour', array('size' => 2, 'maxlength' => 2)); ?>
+                                <?php echo $form->hiddenField($modelClassroom, 'final_minute', array('size' => 2, 'maxlength' => 2)); ?>
+                                <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . '' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', 'disabled' => $disabledFields)); ?>
+                                <!-- <?php echo Yii::t('help', 'Time'); ?> -->
+                                <?php echo $form->error($modelClassroom, 'final_hour'); ?>
+                                <?php echo $form->error($modelClassroom, 'final_minute'); ?>
+                            </div>
+
+                        </div>
+                    </div>
+
                     <div>
                         <h3>Atendimento</h3>
                     </div>

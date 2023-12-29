@@ -47,9 +47,9 @@ $(document).on("click", ".js-new-unity", function (e) {
                     isUnityConcept ? "hide" : "show"
                 }" >
                     <label class='t-field-select__label--required'>Forma de cálculo:  </label>
-                    <select class='t-field-select__input js-formula-select select-search-on control-input'>${
-                        $(".formulas")[0].innerHTML
-                    }</select>
+                    <select class='t-field-select__input js-formula-select select-search-on control-input'>
+                        ${$(".formulas")[0].innerHTML}
+                    </select>
                 </div>
                 <div class="row">
                     <div class="column">
@@ -138,7 +138,12 @@ $(document).on("change", ".js-formula-select", function (e) {
             .find(".modality-name[modalitytype=C]")
             .parent()
             .append(
-                "<input type='text' class='weight form-control' placeholder='Peso'>"
+                template`
+                    <div class="t-field-text">
+                        <label class='t-field-text__label--required'>Peso:</span></label>
+                        <input type='text' class='t-field-text__input weight' placeholder='Peso'>
+                    </div>
+                `
             );
     } else {
         unity.find(".weight").remove();
@@ -181,7 +186,11 @@ $(document).on("click", ".js-new-modality", function (e) {
                     <input type='text' class='modality-name t-field-text__input' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.' style='width: calc(100% - 222px);'>
                     ${
                         formula === "Peso"
-                            ? template`<input type='text' class='weight t-field-text__input' placeholder='Peso'>`
+                            ? template`
+                                <div class="t-field-text">
+                                    <label class='t-field-text__label--required'>Peso:</span></label>
+                                    <input type='text' class='t-field-text__input weight form-control' placeholder='Peso'>
+                                </div>`
                             : ""
                     }
                 </div>

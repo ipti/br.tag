@@ -1,21 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 
-
 /*
-    ajustes na responsividade
-*/
-.tag-row {
-    width: 100%;
-    flex-wrap: wrap;
-
-}
-.modal-container-buttons {
-    display: flex;
-    justify-content: end;
-}
-
-/*
-    butões
+    botões
 */
 .tag-button-light,
 .tag-button-light:hover {
@@ -178,30 +164,7 @@ table.dataTable {
     margin-top: -1px;
 }
 
-/*
-    notas
-*/
-.row-grades .center {
-    width: 100%;
-}
 
-.row-grades .center .select2-container {
-    width: 100%;
-}
-
-.row-grades .center .school-days-group1,
-.row-grades .center .frequency-fields,
-.row-grades .center .frequency-percentage {
-    margin-right: 10px;
-}
-
-/*
-    modais
-*/
-
-#teachingdata-dialog-form .select2-container .select2-choice {
-    width: 361px;
-}
 
 /*
     home-page
@@ -214,12 +177,6 @@ table.dataTable {
     margin-bottom: 4px;
     border-radius: 4px;
 
-}
-
-.home-page-table-header h5 {
-    color: #ffffff;
-    font-weight: 500;
-    margin: 0px 0px 0px 18px;
 }
 
 .home-page-table-item {
@@ -662,3 +619,13 @@ li[instructor]:hover {
 .dataTables_length select {
     max-width: 50px;
 }
+
+.container-frequency-over {
+    overflow-y: auto;
+    height: 400px;
+}
+
+.container-frequency-over::-webkit-scrollbar {
+    display: none;
+}
+

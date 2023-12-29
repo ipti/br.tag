@@ -2,6 +2,10 @@
 
 @import '_tokens.scss';
 
+.wrap {
+    flex-wrap: wrap;
+}
+
 .row {
     display: flex;
     flex-direction: column;
