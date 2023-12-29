@@ -90,8 +90,10 @@ $('#discipline').change(function (e, triggerEvent) {
                         html += `<th colspan='2' style='width:20%;'>` + this.name + `</th>`
                     });
                     html += `
+                                <th rowspan='2' style='width:10%;vertical-align:middle;'>Recuperação Final</th>
                                 <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
                                 <th rowspan='2' style='width:2%;'>Frequência</th>
+                                <th rowspan='2'>Situação</th>
                             </tr>
                             <tr>
                     `;
@@ -148,8 +150,12 @@ $('#discipline').change(function (e, triggerEvent) {
                         }
 
                         html += `
+                            <td class='grade-td rec-final-td'>
+                                <input type='text' class='rec-final' value='${this.recFinal}'>
+                            </td>
                             <td style='font-weight: bold;font-size: 16px;' class='final-media'> ${this.finalMedia }</td>
                             <td class="final-media">${frequency}%</td>
+                            <td class="situation">${this.situation}</td>
                         </tr>`;
                     });
                     html += "</tbody></table>";
@@ -186,7 +192,8 @@ $("#save").on("click", function (e) {
         });
         students.push({
             enrollmentId: $(this).find(".enrollment-id").val(),
-            grades: grades
+            grades: grades,
+            recFinal:  $(this).find(".rec-final").val()
         });
     });
 
@@ -218,7 +225,7 @@ $(document).on("keyup", "input.faults", function (e) {
     this.value = val;
 })
 
-$(document).on("keyup", "input.grade", function (e) {
+$(document).on("keyup", "input.grade, input.rec-final", function (e) {
     let val = this.value;
     if (!$.isNumeric(val)) {
         e.preventDefault();
@@ -232,4 +239,28 @@ $(document).on("keyup", "input.grade", function (e) {
         }
     }
     this.value = val;
+});
+
+
+$("#close-grades-diary").on("click", function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "?r=enrollment/calculateFinalMedia",
+        cache: false,
+        data: {
+            classroomId: $("#classroom").val(),
+            disciplineId: $("#discipline").val(),
+        },
+        beforeSend: function () {
+            $(".js-grades-loading").css("display", "inline-block");
+            $(".js-grades-container, .grades-buttons")
+                .css("opacity", "0.4")
+                .css("overflow", "auto")
+                .css("pointer-events", "none");
+        },
+        success: function (data) {
+            $("#discipline").trigger("change", ["saveGrades"]);
+        },
+    });
 });

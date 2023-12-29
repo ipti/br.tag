@@ -44,18 +44,18 @@ and open the template in the editor.
 }
 
 .grades-table td {
-	border: 1px #a6b6c8 solid;
-	text-align: center;
-	padding: 8px;
+    border: 1px #a6b6c8 solid;
+    text-align: center;
+    padding: 8px;
 }
 
 .grades-table th {
-	border: 1px #a6b6c8 solid;
+    border: 1px #a6b6c8 solid;
 }
 
 .grades-table tr:hover {
-	background-color: lightyellow;
-  }
+    background-color: lightyellow;
+}
 
 .grades-table .odd {
     background-color: #EAEAF8;
@@ -73,7 +73,7 @@ and open the template in the editor.
     width: 1px;
     padding-right: 8px !important;
     font-style: italic;
-	text-align: left !important;
+    text-align: left !important;
 }
 
 .grade-td {
@@ -86,6 +86,12 @@ and open the template in the editor.
 
 .grade-td .select2-container .select2-choice {
     width: 100px !important;
+}
+
+.rec-final {
+    margin-bottom: 0 !important;
+    width: 50px !important;
+    text-align: center;
 }
 
 .grade {

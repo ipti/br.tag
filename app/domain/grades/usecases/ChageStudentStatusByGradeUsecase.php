@@ -1,7 +1,8 @@
 <?php
 
 /**
- * @property StudentEnrollment $studentEnrollment
+ * @property integer $studentEnrollmentId
+ * @property integer $disciplineId
  */
 class ChageStudentStatusByGradeUsecase
 {
@@ -10,27 +11,58 @@ class ChageStudentStatusByGradeUsecase
     private const SITUATION_RECOVERY = "Recuperação";
 
 
-    public function __construct($studentEnrollment)
+    public function __construct($studentEnrollmentId, $disciplineId)
     {
-        $this->studentEnrollment = $studentEnrollment;
+        $this->studentEnrollmentId = $studentEnrollmentId;
+        $this->disciplineId = $disciplineId;
     }
 
     public function exec()
     {
+        $enrollment = StudentEnrollment::model()->find($this->studentEnrollmentId);
 
         if (
-            $this->studentEnrollment->status == StudentEnrollment::STATUS_ACTIVE ||
-            $this->studentEnrollment->status == StudentEnrollment::STATUS_APPROVED ||
-            $this->studentEnrollment->status == StudentEnrollment::STATUS_DISAPPROVED
+            $enrollment->status === null ||
+            $enrollment->status === StudentEnrollment::STATUS_ACTIVE ||
+            $enrollment->status === StudentEnrollment::STATUS_APPROVED ||
+            $enrollment->status === StudentEnrollment::STATUS_DISAPPROVED
         ) {
+            $gradeResult = $this->getGradesResultForStudent($this->studentEnrollmentId, $this->disciplineId);
 
-            $this->changeEnrollmentStatus($this->studentEnrollment);
+            /** @var GradeRules  $gradeRule */
+            $gradeRule = GradeRules::model()->find(
+                "edcenso_stage_vs_modality_fk = :stage",
+                [
+                    ":stage" => $gradeResult->enrollmentFk->classroomFk->edcenso_stage_vs_modality_fk
+                ]
+            );
+
+            if ($gradeResult->final_media === null || $gradeResult->final_media === "") {
+                throw new Exception("Aluno não tem média final", 1);
+            }
+
+
+            if ($gradeResult->final_media >= $gradeRule->approvation_media) {
+                $gradeResult->situation = self::SITUATION_APPROVED;
+            } else {
+                if ($gradeRule->has_final_recovery) {
+                    if ($gradeResult->rec_final >= $gradeRule->final_recover_media) {
+                        $gradeResult->situation = self::SITUATION_APPROVED;
+                    } else {
+                        $gradeResult->situation = self::SITUATION_RECOVERY;
+                    }
+                }
+            }
+
+
+
+            $gradeResult->save();
         }
     }
 
     /**
-     * @param int $studentEnrollmentId
-     * @param int $studentEnrollmentId
+     * @param integer $studentEnrollmentId
+     * @param integer $disciplineId
      *
      * @return GradeResults
      */
@@ -50,36 +82,9 @@ class ChageStudentStatusByGradeUsecase
             $gradeResult = new GradeResults();
             $gradeResult->enrollment_fk = $studentEnrollmentId;
             $gradeResult->discipline_fk = $disciplineId;
+            $gradeResult->save();
         }
 
         return $gradeResult;
     }
-
-    private function changeEnrollmentStatus($studentEnrollment)
-    {
-        $allGradesFilled = true;
-        $situation = self::SITUATION_APPROVED;
-        $gradeResult = $this->getGradesResultForStudent();
-        foreach ($studentEnrollment->gradeResults as $gradeResult) {
-            if ($gradeResult->situation == null) {
-                $allGradesFilled = false;
-            } elseif ($gradeResult->situation == self::SITUATION_DISPPROVED) {
-                $situation = self::SITUATION_DISPPROVED;
-                break;
-            } elseif ($gradeResult->situation == self::SITUATION_RECOVERY) {
-                $situation = "Matriculado";
-                break;
-            }
-        }
-
-        if ($allGradesFilled && $situation == self::SITUATION_APPROVED) {
-            $studentEnrollment->status = StudentEnrollment::getStatusId(StudentEnrollment::STATUS_APPROVED);
-        } elseif ($situation == self::SITUATION_DISPPROVED) {
-            $studentEnrollment->status = StudentEnrollment::getStatusId(StudentEnrollment::STATUS_DISAPPROVED);
-        } else {
-            $studentEnrollment->status = StudentEnrollment::getStatusId(StudentEnrollment::STATUS_ACTIVE);
-        }
-        $studentEnrollment->save();
-    }
-
 }
