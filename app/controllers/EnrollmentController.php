@@ -557,19 +557,15 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             $gradeResult->discipline_fk = $discipline;
             $gradeResult->rec_final = $std["recFinal"];
 
+            $hasAllValues = true;
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
                 $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
                 $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
                 $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
-
-                $mediaFinal += floatval($gradeResult->attributes["grade_" . $index]);
             }
 
-            if ($hasAllValues) {
-                $gradeResult->final_media = round($mediaFinal / $index, 1);
-            }
 
             if (!$gradeResult->validate()) {
                 throw new CHttpException(
@@ -579,6 +575,23 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             }
 
             $gradeResult->save();
+
+            if ($hasAllValues) {
+                $usecaseFinalMedia = new CalculateFinalMediaUsecase(
+                    $gradeResult->enrollment_fk,
+                    $discipline
+                );
+                $usecaseFinalMedia->exec();
+
+                 if ($gradeResult->enrollmentFk->isActive()) {
+                $usecase = new ChageStudentStatusByGradeUsecase(
+                    $std['enrollmentId'],
+                    $discipline,
+                    (int) count($std['grades'])
+                );
+                $usecase->exec();
+            }
+            }
         }
         echo CJSON::encode(["valid" => true]);
     }
