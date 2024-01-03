@@ -451,16 +451,31 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
         $classroom = Classroom::model()->with("activeStudentEnrollments")->findByPk($classroomId);
 
+
+        $numUnities = GradeUnity::model()->count(
+            "edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)",
+            [
+                ":stageId" => $classroom->edcenso_stage_vs_modality_fk,
+                ":type" => GradeUnity::TYPE_UNITY,
+                ":type2" => GradeUnity::TYPE_UNITY_WITH_RECOVERY,
+                ":type3" => GradeUnity::TYPE_UNITY_BY_CONCEPT,
+            ]
+        );
+
         foreach ($classroom->activeStudentEnrollments as $enrollment) {
-            $usecase = new ChageStudentStatusByGradeUsecase(
-                $enrollment->id,
-                $disciplineId
-            );
-            $usecase->exec();
+            if ($enrollment->isActive()) {
+                $usecase = new ChageStudentStatusByGradeUsecase(
+                    $enrollment->id,
+                    $disciplineId,
+                    (int) $numUnities
+                );
+                $usecase->exec();
+            }
         }
 
 
-        echo json_encode(["valid" => true]);
+
+        echo CJSON::encode(["valid" => true]);
     }
 
     /**
@@ -544,6 +559,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
+                $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
                 $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
                 $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
@@ -551,13 +567,20 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 $mediaFinal += floatval($gradeResult->attributes["grade_" . $index]);
             }
 
-            $gradeResult->final_media = round($mediaFinal / $index, 1);
-            if (!$gradeResult->validate()) {
-                die(print_r($gradeResult->getErrors()));
+            if ($hasAllValues) {
+                $gradeResult->final_media = round($mediaFinal / $index, 1);
             }
+
+            if (!$gradeResult->validate()) {
+                throw new CHttpException(
+                    "400",
+                    "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult->getErrors())
+                );
+            }
+
             $gradeResult->save();
         }
-        echo json_encode(["valid" => true]);
+        echo CJSON::encode(["valid" => true]);
     }
 
     public function actionSaveGrades()
@@ -611,14 +634,15 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             $result["students"] = [];
             foreach ($studentEnrollments as $studentEnrollment) {
 
-                $stage = isset($studentEnrollment->edcenso_stage_vs_modality_fk)
-                    ? $studentEnrollment->edcenso_stage_vs_modality_fk :
-                    $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk;
+                // TODO: Mudar lógica de criação de tabela para turmas multiseriadas
+                // $stage = isset($studentEnrollment->edcenso_stage_vs_modality_fk)
+                //     ? $studentEnrollment->edcenso_stage_vs_modality_fk :
+                //     $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk;
 
                 $unities = GradeUnity::model()->findAll(
                     "edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)",
                     [
-                        ":stageId" => $stage,
+                        ":stageId" => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk,
                         ":type" => GradeUnity::TYPE_UNITY,
                         ":type2" => GradeUnity::TYPE_UNITY_WITH_RECOVERY,
                         ":type3" => GradeUnity::TYPE_UNITY_BY_CONCEPT,
@@ -646,8 +670,13 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 }
 
                 $arr["finalMedia"] = $gradeResult->final_media ?? "";
-                $arr["recFinal"] =  $gradeResult->rec_final ?? "";
-                $arr["situation"] = $gradeResult->situation ?? $studentEnrollment->getCurrentStatus();
+                $arr["recFinal"] = $gradeResult->rec_final ?? "";
+
+                $arr["situation"] = $studentEnrollment->getCurrentStatus();
+                if ($studentEnrollment->isActive()) {
+                    $arr["situation"] = $gradeResult->situation;
+                }
+
 
 
                 $result["unities"] = $unities;

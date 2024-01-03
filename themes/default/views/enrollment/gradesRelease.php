@@ -22,8 +22,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
     <?php
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'classes-form',
-        'enableAjaxValidation' => false,
-        'action' => CHtml::normalizeUrl(array('enrollment/saveGrades')),
+        'enableAjaxValidation' => false
     )
     );
     ?>
@@ -35,7 +34,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
             <div class="buttons row">
-                <button id="close-grades-diary" class='t-button-secondary  hidden-print no-show'>
+                <button id="close-grades-diary" type="button" class='t-button-secondary  hidden-print no-show'>
                     Fechar diário
                 </button>
                 <button id="save" class='t-button-primary  hidden-print no-show'>

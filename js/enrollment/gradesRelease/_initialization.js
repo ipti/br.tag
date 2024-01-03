@@ -155,7 +155,7 @@ $('#discipline').change(function (e, triggerEvent) {
                             </td>
                             <td style='font-weight: bold;font-size: 16px;' class='final-media'> ${this.finalMedia }</td>
                             <td class="final-media">${frequency}%</td>
-                            <td class="situation">${this.situation}</td>
+                            <td class="situation">${ this.situation }</td>
                         </tr>`;
                     });
                     html += "</tbody></table>";

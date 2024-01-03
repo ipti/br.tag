@@ -3,23 +3,25 @@
 /**
  * @property integer $studentEnrollmentId
  * @property integer $disciplineId
+ * @property integer $numUnities
  */
 class ChageStudentStatusByGradeUsecase
 {
-    private const SITUATION_APPROVED = "Aprovado";
-    private const SITUATION_DISPPROVED = "Reprovado";
-    private const SITUATION_RECOVERY = "Recuperação";
+    private const SITUATION_APPROVED = "APROVADO";
+    private const SITUATION_DISPPROVED = "REPROVADO";
+    private const SITUATION_RECOVERY = "RECUPERAÇÃO";
 
 
-    public function __construct($studentEnrollmentId, $disciplineId)
+    public function __construct($studentEnrollmentId, $disciplineId, $numUnities)
     {
         $this->studentEnrollmentId = $studentEnrollmentId;
         $this->disciplineId = $disciplineId;
+        $this->numUnities = $numUnities;
     }
 
     public function exec()
     {
-        $enrollment = StudentEnrollment::model()->find($this->studentEnrollmentId);
+        $enrollment = StudentEnrollment::model()->with("classroomFk")->find($this->studentEnrollmentId);
 
         if (
             $enrollment->status === null ||
@@ -37,24 +39,33 @@ class ChageStudentStatusByGradeUsecase
                 ]
             );
 
+            $hasAllValues = true;
+            for ($i=1; $i <= $this->numUnities; $i++) {
+                $hasAllValues = $hasAllValues && (isset($gradeResult["grade_". $i]) && $gradeResult["grade_". $i] != "");
+            }
+
             if ($gradeResult->final_media === null || $gradeResult->final_media === "") {
                 throw new Exception("Aluno não tem média final", 1);
             }
 
+            if(!$hasAllValues){
+                $gradeResult->situation = null;
+                $gradeResult->save();
+                return;
+            }
 
+            $gradeResult->situation = self::SITUATION_DISPPROVED;
             if ($gradeResult->final_media >= $gradeRule->approvation_media) {
                 $gradeResult->situation = self::SITUATION_APPROVED;
             } else {
-                if ($gradeRule->has_final_recovery) {
+                if ($gradeRule->has_final_recovery && isset($gradeResult->rec_final)) {
                     if ($gradeResult->rec_final >= $gradeRule->final_recover_media) {
                         $gradeResult->situation = self::SITUATION_APPROVED;
-                    } else {
-                        $gradeResult->situation = self::SITUATION_RECOVERY;
                     }
+                } elseif ($gradeRule->has_final_recovery){
+                    $gradeResult->situation = self::SITUATION_RECOVERY;
                 }
             }
-
-
 
             $gradeResult->save();
         }

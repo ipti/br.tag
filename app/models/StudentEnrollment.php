@@ -614,6 +614,15 @@ class StudentEnrollment extends AltActiveRecord
         return $status[$this->status];
     }
 
+
+    public function isActive(){
+        $refActiveStatus = [
+            "1", "8", "10", "6", "5", null
+        ];
+        $stages = new CList($refActiveStatus, true);
+        return $stages->contains($this->status);
+    }
+
     public static function getStatusId($status){
         $statusList  = [
              StudentEnrollment::STATUS_ACTIVE => "1" ,
