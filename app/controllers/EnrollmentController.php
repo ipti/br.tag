@@ -544,15 +544,18 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     public function actionSaveGradesReportCard()
     {
         $discipline = $_POST['discipline'];
+        $classroomId = $_POST['classroom'];
         $students = $_POST['students'];
 
-        foreach ($students as $std) {
-            $mediaFinal = 0;
-            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $std['enrollmentId'], "discipline_fk" => $discipline]);
-            if (!isset($gradeResult)) {
-                $gradeResult = new GradeResults;
-            }
+        $classroom = Classroom::model()->findByPk($classroomId);
 
+        $gradeRules = GradeRules::model()->findByAttributes([
+            "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
+        ]);
+
+        foreach ($students as $std) {
+            $start = microtime(true);
+            $gradeResult = (new GetStudentGradesResultUsecase($std['enrollmentId'], $discipline))->exec();
             $gradeResult->enrollment_fk = $std['enrollmentId'];
             $gradeResult->discipline_fk = $discipline;
             $gradeResult->rec_final = $std["recFinal"];
@@ -578,21 +581,26 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
             if ($hasAllValues) {
                 $usecaseFinalMedia = new CalculateFinalMediaUsecase(
-                    $gradeResult->enrollment_fk,
-                    $discipline
+                    $gradeResult,
+                    $gradeRules,
+                    count($std['grades'])
                 );
                 $usecaseFinalMedia->exec();
 
-                 if ($gradeResult->enrollmentFk->isActive()) {
-                $usecase = new ChageStudentStatusByGradeUsecase(
-                    $std['enrollmentId'],
-                    $discipline,
-                    (int) count($std['grades'])
-                );
-                $usecase->exec();
+                if ($gradeResult->enrollmentFk->isActive()) {
+                    $usecase = new ChageStudentStatusByGradeUsecase(
+                        $gradeResult,
+                        $gradeRules,
+                        count($std['grades'])
+                    );
+                    $usecase->exec();
+                }
             }
-            }
+
+            $time_elapsed_secs = microtime(true) - $start;
+            Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
         }
+
         echo CJSON::encode(["valid" => true]);
     }
 

@@ -1,62 +1,49 @@
 <?php
 
 /**
- * @property int $enrollmentId
- * @property int $disciplineId
+ * @property GradeResults $gradesResult
+ * @property GradeRules $gradeRule
+ * @property int $countUnities
  */
 class CalculateFinalMediaUsecase
 {
-    public function __construct($enrollmentId, $disciplineId)
+    public function __construct($gradesResult, $gradeRule, $countUnities)
     {
-        $this->enrollmentId = $enrollmentId;
-        $this->disciplineId = $disciplineId;
+        $this->gradesResult = $gradesResult;
+        $this->gradeRule = $gradeRule;
+        $this->countUnities = $countUnities;
     }
 
     public function exec()
     {
+        $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
+        $finalMedia = $this->applyCalculation($this->gradeRule->gradeCalculationFk, $grades);
 
-        $unities = $this->getGradeUnitiesByDiscipline($this->enrollmentId, $this->disciplineId);
-
-        /** @var GradeResults  $gradesResult */
-        $gradesResult = GradeResults::model()->findByAttributes(array('enrollment_fk' => $this->enrollmentId, 'discipline_fk' => $this->disciplineId));
-
-        /** @var GradeRules  $gradeRule */
-        $gradeRule = GradeRules::model()->find(
-            "edcenso_stage_vs_modality_fk = :stage",
-            [
-                ":stage" => $gradesResult->enrollmentFk->classroomFk->edcenso_stage_vs_modality_fk
-            ]
-        );
-
-        $countUnities = count($unities);
-
-        $grades = [];
-        for ($i = 0; $i < $countUnities; $i++) {
-            array_push($grades, $gradesResult->attributes["grade_" . ($i + 1)]);
+        if ($this->shouldApplyFinalRecovery($this->gradesResult, $finalMedia)) {
+            $this->applyFinalRecovery($this->gradesResult, $finalMedia);
         }
 
-        $finalMedia = $this->applyStrategyComputeGradesByFormula($gradeRule->gradeCalculationFk, $grades);
+        $this->saveFinalMedia($this->gradesResult, $finalMedia);
+    }
 
-        if (isset($gradeRule->has_final_recovery) && $gradeRule->has_final_recovery && $finalMedia < (double) $gradeRule->approvation_media) {
-            $finalRecovery = $this->getFinalRevovery($this->enrollmentId, $this->disciplineId);
-            $finalMedia = $this->applyStrategyComputeGradesByFormula($finalRecovery->gradeCalculationFk, [$finalMedia, $gradesResult->rec_final]);
-        }
-
+    private function saveFinalMedia($gradesResult, $finalMedia)
+    {
         $gradesResult->setAttribute("final_media", $finalMedia);
         $gradesResult->save();
     }
 
-    private function getGradeUnitiesByDiscipline($enrollmentId, $discipline)
+    private function shouldApplyFinalRecovery($gradeRule, $finalMedia)
     {
-        $criteria = new CDbCriteria();
-        $criteria->alias = "gu";
-        $criteria->select = "distinct gu.id, gu.*";
-        $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
-        $criteria->join .= " join grade g on g.grade_unity_modality_fk = gum.id";
-        $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk and gu.type = :type";
-        $criteria->params = array(":discipline_fk" => $discipline, ":enrollment_fk" => $enrollmentId, ":type" => GradeUnity::TYPE_UNITY);
-        $criteria->order = "gu.id";
-        return GradeUnity::model()->findAll($criteria);
+        return isset($gradeRule->has_final_recovery)
+            && $gradeRule->has_final_recovery
+            && $finalMedia < (double) $gradeRule->approvation_media;
+
+    }
+
+    private function applyFinalRecovery($gradesResult, $finalMedia)
+    {
+        $finalRecovery = $this->getFinalRevovery($gradesResult->enrollment_fk, $gradesResult->discipline_fk);
+        return $this->applyCalculation($finalRecovery->gradeCalculationFk, [$finalMedia, $gradesResult->rec_final]);
     }
 
     private function getFinalRevovery($enrollmentId, $discipline)
@@ -72,51 +59,28 @@ class CalculateFinalMediaUsecase
         return GradeUnity::model()->find($criteria);
     }
 
-
-
-    /**
-     * @param GradeCalculation $calculation
-     * @param float[] $grades
-     * @param int[] $weights
-     */
-    private function applyStrategyComputeGradesByFormula($calculation, $grades, $weights = [])
+    private function applyCalculation($calculation, $grades)
     {
-        $result = 0;
-        switch ($calculation->id) {
-            default:
-            case GradeCalculation::OP_SUM:
-                $result = array_reduce($grades, function ($acc, $grade) {
-                    /** @var Grade $grade */
-                    $acc += floatval($grade);
-                    return $acc;
-                });
-                break;
-            case GradeCalculation::OP_MAX:
-                $result = max($grades);
-                break;
-            case GradeCalculation::OP_MIN:
-                $result = min($grades);
-                break;
-            case GradeCalculation::OP_MEDIA:
-                $finalGrade = array_reduce($grades, function ($acc, $grade) {
-                    /** @var Grade $grade */
-                    $acc += floatval($grade);
-                    return $acc;
-                });
-                $result = round($finalGrade / sizeof($grades), 2);
-                break;
-            case GradeCalculation::OP_MEDIA_BY_WEIGTH:
-                $acc = [0, 0];
-                foreach ($grades as $key => $value) {
-                    $acc[0] += $value * $weights[$key];
-                    $acc[1] += $weights[$key];
-                }
-
-                $result = $acc[0] / $acc[1];
-                break;
-        }
-
-        return $result;
+        return (new ApplyFormulaOnGradesUsecase($calculation))
+            ->setGrades($grades)
+            ->exec();
     }
 
+    private function extractGrades($gradesResult, $countUnities)
+    {
+        $grades = [];
+        for ($i = 0; $i < $countUnities; $i++) {
+            array_push($grades, $gradesResult->attributes["grade_" . ($i + 1)]);
+        }
+        return $grades;
+    }
+
+    private function getUnitiesCount()
+    {
+        return (
+            new GetGradeUnitiesByDisciplineUsecase(
+                $this->gradeRule->edcenso_stage_vs_modality_fk
+            )
+        )->execCount();
+    }
 }

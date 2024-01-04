@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @property integer $studentEnrollmentId
- * @property integer $disciplineId
+ * @property GradeResults $gradeResult
+ * @property GradeRules $gradeRule
  * @property integer $numUnities
  */
 class ChageStudentStatusByGradeUsecase
@@ -12,90 +12,98 @@ class ChageStudentStatusByGradeUsecase
     private const SITUATION_RECOVERY = "RECUPERAÇÃO";
 
 
-    public function __construct($studentEnrollmentId, $disciplineId, $numUnities)
+    public function __construct($gradeResult, $gradeRule, $numUnities)
     {
-        $this->studentEnrollmentId = $studentEnrollmentId;
-        $this->disciplineId = $disciplineId;
+        $this->gradeResult = $gradeResult;
+        $this->gradeRule = $gradeRule;
         $this->numUnities = $numUnities;
     }
 
     public function exec()
     {
-        $enrollment = StudentEnrollment::model()->with("classroomFk")->find($this->studentEnrollmentId);
+        $enrollment = $this->getStudentEnrollment($this->gradeResult->enrollment_fk);
 
-        if (
-            $enrollment->status === null ||
-            $enrollment->status === StudentEnrollment::STATUS_ACTIVE ||
-            $enrollment->status === StudentEnrollment::STATUS_APPROVED ||
-            $enrollment->status === StudentEnrollment::STATUS_DISAPPROVED
-        ) {
-            $gradeResult = $this->getGradesResultForStudent($this->studentEnrollmentId, $this->disciplineId);
-
-            /** @var GradeRules  $gradeRule */
-            $gradeRule = GradeRules::model()->find(
-                "edcenso_stage_vs_modality_fk = :stage",
-                [
-                    ":stage" => $gradeResult->enrollmentFk->classroomFk->edcenso_stage_vs_modality_fk
-                ]
-            );
-
-            $hasAllValues = true;
-            for ($i=1; $i <= $this->numUnities; $i++) {
-                $hasAllValues = $hasAllValues && (isset($gradeResult["grade_". $i]) && $gradeResult["grade_". $i] != "");
-            }
-
-            if ($gradeResult->final_media === null || $gradeResult->final_media === "") {
-                throw new Exception("Aluno não tem média final", 1);
-            }
-
-            if(!$hasAllValues){
-                $gradeResult->situation = null;
-                $gradeResult->save();
-                return;
-            }
-
-            $gradeResult->situation = self::SITUATION_DISPPROVED;
-            if ($gradeResult->final_media >= $gradeRule->approvation_media) {
-                $gradeResult->situation = self::SITUATION_APPROVED;
-            } else {
-                if ($gradeRule->has_final_recovery && isset($gradeResult->rec_final)) {
-                    if ($gradeResult->rec_final >= $gradeRule->final_recover_media) {
-                        $gradeResult->situation = self::SITUATION_APPROVED;
-                    }
-                } elseif ($gradeRule->has_final_recovery){
-                    $gradeResult->situation = self::SITUATION_RECOVERY;
-                }
-            }
-
-            $gradeResult->save();
+        if (!$this->isEnrollmentStatusAllowed($enrollment)) {
+            $this->gradeResult->situation = $enrollment->getCurrentStatus();
+            $this->gradeResult->save();
+            return;
         }
+
+        if (!$this->hasAllGrades()) {
+            $this->gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
+            $this->gradeResult->save();
+            return;
+        }
+
+        $this->updateStudentSituation();
+    }
+
+    private function getStudentEnrollment($enrollmentId)
+    {
+        return StudentEnrollment::model()->find($enrollmentId);
     }
 
     /**
-     * @param integer $studentEnrollmentId
-     * @param integer $disciplineId
-     *
-     * @return GradeResults
+     * Verifica se a inscrição do aluno tem um status permitido.
      */
-    private function getGradesResultForStudent($studentEnrollmentId, $disciplineId)
+    private function isEnrollmentStatusAllowed($enrollment)
     {
-        $gradeResult = GradeResults::model()->find(
-            "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
-            [
-                "enrollment_fk" => $studentEnrollmentId,
-                "discipline_fk" => $disciplineId
-            ]
-        );
+        $allowedStatus = [
+            null,
+            StudentEnrollment::STATUS_ACTIVE,
+            StudentEnrollment::STATUS_APPROVED,
+            StudentEnrollment::STATUS_DISAPPROVED
+        ];
+        return in_array($enrollment->status, $allowedStatus);
+    }
 
-        $isNewGradeResult = $gradeResult == null;
+    /**
+     * Verifica se todas as notas estão preenchidas.
+     */
+    private function hasAllGrades()
+    {
+        for ($i = 1; $i <= $this->numUnities; $i++) {
+            if (!isset($this->gradeResult["grade_" . $i]) || $this->gradeResult["grade_" . $i] === "") {
+                return false;
+            }
+        }
+        return true;
+    }
 
-        if ($isNewGradeResult) {
-            $gradeResult = new GradeResults();
-            $gradeResult->enrollment_fk = $studentEnrollmentId;
-            $gradeResult->discipline_fk = $disciplineId;
-            $gradeResult->save();
+    /**
+     * Atualiza a situação do aluno com base nas regras definidas.
+     */
+    private function updateStudentSituation()
+    {
+        if ($this->gradeResult->final_media === null || $this->gradeResult->final_media === "") {
+            throw new Exception("Aluno não tem média final", 1);
         }
 
-        return $gradeResult;
+        $approvedSituation = self::SITUATION_APPROVED;
+        $disapprovedSituation = self::SITUATION_DISPPROVED;
+        $recoverySituation = self::SITUATION_RECOVERY;
+
+        $finalMedia = $this->gradeResult->final_media;
+        $approvationMedia = $this->gradeRule->approvation_media;
+
+        $this->gradeResult->situation = $disapprovedSituation;
+
+        if ($finalMedia >= $approvationMedia) {
+            $this->gradeResult->situation = $approvedSituation;
+        } elseif ($this->gradeRule->has_final_recovery) {
+            $recoveryMedia = $this->gradeResult->rec_final;
+            $finalRecoveryMedia = $this->gradeRule->final_recover_media;
+
+            $hasRecoveryGrade = isset($recoveryMedia) && $recoveryMedia !== "";
+            if(!$hasRecoveryGrade){
+                $this->gradeResult->situation = $recoverySituation;
+            } elseif ($recoveryMedia >= $finalRecoveryMedia) {
+                $this->gradeResult->situation = $approvedSituation;
+            }
+
+        }
+
+        $this->gradeResult->save();
     }
+
 }

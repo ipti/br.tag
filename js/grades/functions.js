@@ -89,11 +89,12 @@ function loadStudentsFromDiscipline(disciplineId) {
                 }
             },
             error: function (xhr, status, error) {
+                const response = JSON.parse(xhr.responseText);
                 $(".js-grades-container").html("<div></div>");
                 $(".js-grades-alert")
                     .addClass("alert-error")
                     .removeClass("alert-success")
-                    .text(xhr.responseJSON.message)
+                    .text(response.message || "Não foi possível listar o diário de notas dos alunos dessa turma, verifique se exsitem alunos ativos nessa turma")
                     .show();
             },
             complete: function () {
@@ -279,15 +280,15 @@ function GradeTableBuilder(data) {
                         ${modalityColumns
                             .map(
                                 (element) =>
-                                    `<th style="max-width: 50px;  font-size: 80%">${element}</th>`
+                                    `<th style="min-width: 50px;  font-size: 80%">${element}</th>`
                             )
                             .join("\n")}
                         ${
                             !data.isUnityConcept
-                                ? `<th style="font-size: 80%">Média Anual</th>`
+                                ? `<th style="font-size: 80%; font-weight: bold;">Média Anual</th>`
                                 : ""
                         }
-                        <th style="font-size: 80%">Resultado</th>
+                        <th style="font-size: 80%; font-weight: bold;">Resultado</th>
                     </tr>
                 </thead>
                 <tbody>

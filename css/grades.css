@@ -37,6 +37,8 @@ and open the template in the editor.
 
 .grades-table thead th {
     text-align: center;
+	min-width: 80px;
+	min-height: 80px;
 }
 
 .grades-table {
@@ -76,8 +78,9 @@ and open the template in the editor.
     text-align: left !important;
 }
 
-.grade-td {
+td.grade-td {
     text-align: center !important;
+	vertical-align: middle !important;
 }
 
 .grade-td .select2-chosen {
@@ -100,7 +103,7 @@ and open the template in the editor.
 }
 
 .modality-row th {
-    font-weight: lighter !important;
+    font-weight: lighter;
 }
 
 .final-media {

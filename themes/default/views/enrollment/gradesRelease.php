@@ -33,11 +33,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
             </h1>
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
-            <div class="buttons row">
-                <button id="close-grades-diary" type="button" class='t-button-secondary  hidden-print no-show'>
-                    Fechar diário
-                </button>
-                <button id="save" class='t-button-primary  hidden-print no-show'>
+            <div class="row justify-content--end">
+                <button id="save" class='t-button-primary  hidden-print no-show '>
                     <?php echo Yii::t('default', 'Save') ?>
                 </button>
             </div>

@@ -297,12 +297,19 @@ class GradesController extends Controller
 
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($classroomId);
 
+        $gradeRules = GradeRules::model()->findByAttributes([
+            "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
+        ]);
+
+
         foreach ($classroom->activeStudentEnrollments as $enrollment) {
-            $usecaseFinalMedia = new CalculateFinalMediaUsecase(
-                $enrollment->id,
-                $disciplineId
-            );
-            $usecaseFinalMedia->exec();
+            $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);
+            $countUnities = $gradeUnities->execCount();
+
+            $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
+            (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities))->exec();
+            (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities))->exec();
+
         }
 
     }

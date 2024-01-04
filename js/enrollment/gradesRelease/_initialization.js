@@ -77,14 +77,14 @@ $('#discipline').change(function (e, triggerEvent) {
                     `</div>`;
 
                     html += `
-                    <table class='grades-table table table-bordered table-striped'>
+                    <table class='grades-table table table-bordered'>
                         <thead>
                             <tr>
                                 <th colspan=14' class='table-title'>Lançamento de Notas</th>
                             </tr>
                             <tr>
-                                <th rowspan='2' style='width:2%;'>Ordem</th>
-                                <th rowspan='2' style='width:10%;'>Nome</th>
+                                <th rowspan='2' style='width:2%;vertical-align:middle;'>Ordem</th>
+                                <th rowspan='2' style='min-width:250px;vertical-align:middle;'>Nome</th>
                         `;
                     $.each(data.unities, function (index) {
                         html += `<th colspan='2' style='width:20%;'>` + this.name + `</th>`
@@ -92,8 +92,8 @@ $('#discipline').change(function (e, triggerEvent) {
                     html += `
                                 <th rowspan='2' style='width:10%;vertical-align:middle;'>Recuperação Final</th>
                                 <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
-                                <th rowspan='2' style='width:2%;'>Frequência</th>
-                                <th rowspan='2'>Situação</th>
+                                <th rowspan='2' style='width:2%;vertical-align:middle;'>Frequência</th>
+                                <th rowspan='2' style='width:10%;vertical-align:middle;'>Situação</th>
                             </tr>
                             <tr>
                     `;
@@ -113,7 +113,7 @@ $('#discipline').change(function (e, triggerEvent) {
                             <td class='grade-student-order final-media'>
                             ${order}
                             </td>
-                            <td class='grade-student-name final-media'><input type='hidden' class='enrollment-id' value='${this.enrollmentId}'>
+                            <td class='grade-student-name'><input type='hidden' class='enrollment-id' value='${this.enrollmentId}'>
                             ${ $.trim(this.studentName) }
                             </td>
                         `;
@@ -155,7 +155,7 @@ $('#discipline').change(function (e, triggerEvent) {
                             </td>
                             <td style='font-weight: bold;font-size: 16px;' class='final-media'> ${this.finalMedia }</td>
                             <td class="final-media">${frequency}%</td>
-                            <td class="situation">${ this.situation }</td>
+                            <td class="grade-td situation">${ this.situation }</td>
                         </tr>`;
                     });
                     html += "</tbody></table>";

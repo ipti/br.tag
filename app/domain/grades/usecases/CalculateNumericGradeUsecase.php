@@ -36,6 +36,7 @@ class CalculateNumericGradeUsecase
             }
         }
         $gradeResult->setAttribute("final_media", null);
+        $gradeResult->setAttribute("situation", null);
         $gradeResult->save();
 
         return $gradeResult;
@@ -146,7 +147,6 @@ class CalculateNumericGradeUsecase
      */
     private function calculateUnityMedia($enrollment, $disciplineId, $unity)
     {
-
 
         $grades = $this->getStudentGradesFromUnity(
             $enrollment->id,

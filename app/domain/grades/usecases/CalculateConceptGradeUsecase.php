@@ -88,7 +88,7 @@ class CalculateConceptGradeUsecase
             }
         }
 
-        $gradeResult->situation = null;
+        $gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
 
         if ($hasAllGrades) {
             $gradeResult->situation = StudentEnrollment::STATUS_APPROVED;
