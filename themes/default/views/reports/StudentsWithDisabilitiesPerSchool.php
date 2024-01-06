@@ -6,7 +6,7 @@
 
     $baseUrl = Yii::app()->baseUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerScriptFile($baseUrl . '/js/reports/StudentsWithDisabilitiesPerSchool/_initialization.js', CClientScript::POS_END);
+    $cs->registerScriptFile($baseUrl . '/js/reports/StudentsWithDisabilitiesPerSchool/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 <div class="pageA4H">
@@ -38,19 +38,21 @@
             $j = 0;
             $ordem = 1;
             $total = 0;
-    
-    
+
+
             $html = "";
             $html .= "<table class= 'table table-bordered table-striped'>";
             $html .= "<tr>"
                 . "<th> <b>Ordem </b> </th>"
                 . "<th> <b>Identifica&ccedil;&atilde;o &Uacute;nica </b></th>"
+                . "<th> <b>Turma </b></th>"
+                . "<th> <b>Turno </b></th>"
                 . "<th> <b>Data de Nascimento </b></th>"
                 . "<th> <b>Nome Completo </b></th>"
                 . "<th> <b> Tipo de Defici&ecirc;ncia </b></th>"
                 . "<th> <b> Recursos/aux&iacute;lios </b></th>"
                 . "</tr>";
-            
+
             if (count($r["students"]) == 0) {
                 echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; alunos com deficiência nessa escola.</span><br>";
             } else {
@@ -82,7 +84,7 @@
                     } else if ($s['deficiency_type_gifted'] == 1) {
                         $student_disabilities[$i++] = "Altas habilidades/Superdota&ccedil;&atilde;o";
                     }
-    
+
                     if ($s['resource_none'] == 1) {
                         $student_aid[0] = "N&atilde;o h&aacute; aux&iacute;lio";
                     }else if ($s['resource_none'] == null){
@@ -109,13 +111,32 @@
                             $student_aid[$j++] = 'Prova em Braille';
                         }
                     }
-    
+
+                    switch($s['turno']){
+                        case 'M':
+                            $turn = "Manhã";
+                            break;
+                        case 'T':
+                            $turn = "Tarde";
+                            break;
+                        case 'N':
+                            $turn = "Noite";
+                            break;
+                        case 'I':
+                            $turn = "Integral";
+                            break;
+                        default:
+                            $turn = "";
+                    }
+
                     $html .= "<tr>"
                         . "<td>" . $ordem . "</td>"
                         . "<td>" . $s['inep_id'] . "</td>"
+                        . "<td>" . $s['turma'] . "</td>"
+                        . "<td>" . $turn . "</td>"
                         . "<td>" . $s['birthday'] . "</td>"
                         . "<td>" . $s['name'] . "</td>";
-    
+
                     if (count($student_disabilities) == 1) {
                         $html .= "<td>" . $student_disabilities[0] . "</td>";
                     }
@@ -126,7 +147,7 @@
                         }
                         $html .= "</td>";
                     }
-    
+
                     if (count($student_aid) == 1) {
                         $html .= "<td>" . $student_aid[0] . "</td>";
                     }
@@ -138,9 +159,9 @@
                         $html .= "</td>";
                     }
                     $html .= "</tr>";
-    
+
                     echo $html;
-    
+
                     $i = 0;
                     $j = 0;
                     $total ++;
@@ -148,10 +169,10 @@
                     $html = "";
                 }
                 $html .= "<tr>"
-                . "<th><b>Total</b></th>" 
-                . "<td colspan='5'>$total</td>"
+                . "<th><b>Total</b></th>"
+                . "<td colspan='7'>$total</td>"
                 . "</tr>";
-                
+
                 $html .= "</table></div>";
                 echo $html;
                 $html = "";

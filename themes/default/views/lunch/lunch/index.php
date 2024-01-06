@@ -9,7 +9,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $cs->registerCssFile($baseUrl . '/css/lunch.css');
 ?>

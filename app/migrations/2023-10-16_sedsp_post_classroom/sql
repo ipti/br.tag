@@ -1,0 +1,37 @@
+ALTER TABLE `classroom`
+ADD `sedsp_sync` int(11);
+
+ALTER TABLE `classroom`
+ADD `acronym` varchar(2);
+
+ALTER TABLE `classroom`
+CHANGE `acronym` `sedsp_acronym` varchar(2) COLLATE 'utf8_unicode_ci' NULL AFTER `course`,
+ADD `sedsp_dependence` varchar(2) COLLATE 'utf8_unicode_ci' NULL AFTER `sedsp_acronym`,
+CHANGE `sedsp_sync` `sedsp_sync` int(11) NULL AFTER `sedsp_dependence`;
+
+ALTER TABLE `classroom`
+CHANGE `sedsp_dependence` `sedsp_dependence` varchar(3) COLLATE 'utf8_unicode_ci' NULL AFTER `sedsp_acronym`;
+
+ALTER TABLE `classroom`
+CHANGE `sedsp_dependence` `sedsp_classnumber` varchar(3) COLLATE 'utf8_unicode_ci' NULL AFTER `sedsp_acronym`;
+
+update classroom set sedsp_sync = 0 where sedsp_sync is null;
+
+ALTER TABLE `classroom`
+ADD `sedsp_max_physical_capacity` int(11) NULL,
+ADD `sedsp_room` int(11) NULL AFTER `sedsp_max_physical_capacity`;
+
+ALTER TABLE `classroom`
+DROP `sedsp_room`;
+
+CREATE TABLE `sedsp_school_unities` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `code` int NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `school_inep_id_fk` varchar(8) COLLATE 'utf8_unicode_ci' NOT NULL,
+  FOREIGN KEY (`school_inep_id_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE
+) ENGINE='InnoDB' COLLATE 'utf8_unicode_ci';
+
+ALTER TABLE `classroom`
+ADD `sedsp_school_unity_fk` int(11) NULL AFTER `sedsp_acronym`,
+ADD FOREIGN KEY (`sedsp_school_unity_fk`) REFERENCES `sedsp_school_unities` (`id`) ON DELETE CASCADE;

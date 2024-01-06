@@ -12,6 +12,8 @@
         'complementaryActivities' => $complementary_activities,
         'modelTeachingData' => $modelTeachingData,
         'edcensoStageVsModalities' => $edcensoStageVsModalities,
+        'modelEnrollments' => $modelEnrollments,
+        'disabledFields' => false,
         'title' => $title));
     ?>
 </div>

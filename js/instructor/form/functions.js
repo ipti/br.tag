@@ -1,60 +1,48 @@
-/** 
+/**
  * Pega as informações do CEP e atualiza os campos necessários.
- * 
+ *
  * @param {structure} array(UF, City)
- * @returns {void}     
+ * @returns {void}
  * */
 
 function updateCep(data) {
-    data = jQuery.parseJSON(data);
-    if (data.UF == null)
+    data = JSON.parse(data);
+    if (data.UF == null) {
         $(formDocumentsAndAddress + 'cep').val('').trigger('focusout');
+    }
     $(formDocumentsAndAddress + 'edcenso_uf_fk')
-        .val(data['UF'])
-        .trigger('change')
-        .select2('readonly', data.UF != null);
-    setTimeout(function () {
-        $(formDocumentsAndAddress + 'edcenso_city_fk')
-            .val(data['City'])
-            .trigger('change')
-            .select2('readonly', data.City != null);
-    }, 500);
+        .val(data.UF)
+        .select2('val', data.UF)
+        .select2('readonly', data.UF != null)
 
-}
-
-$("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
-    $.ajax({
-        type: "POST",
-        url: "?r=instructor/getCity",
-        data: {
-            edcenso_uf_fk: $(this).val(),
-            current_city: $("#InstructorIdentification_edcenso_city_fk").val()
-        },
-        success: function (response) {
-            const optionsList = JSON.parse(response);
-            const options = optionsList.join("");
-            $("#InstructorIdentification_edcenso_city_fk").html(options);
-            $("#InstructorIdentification_edcenso_city_fk").select2();
-        }
-    });
-});
-
-$("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
     $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
     $.ajax({
         type: "POST",
         url: "?r=instructor/getCity",
         data: {
-            edcenso_uf_fk: $(this).val(),
+            edcenso_uf_fk: data.UF,
             current_city: $("#InstructorDocumentsAndAddress_edcenso_city_fk").val()
         },
         success: function (response) {
-            $.each(JSON.parse(response), function (id, option) {
-                $("#InstructorDocumentsAndAddress_edcenso_city_fk").append(option);
-            })
+            const optionsList = JSON.parse(response);
+            const options = optionsList.join("");
+            $("#InstructorDocumentsAndAddress_edcenso_city_fk").html(options)
+                .val(data.City)
+                .select2('val', data.City)
+                .select2('readonly', data.City != null);
         }
     });
+}
+
+$("#InstructorIdentification_edcenso_uf_fk").on("change", function () {
+    loadCitiesTo(this, "#InstructorIdentification_edcenso_city_fk");
 });
+
+$("#InstructorDocumentsAndAddress_edcenso_uf_fk").on("change", function () {
+    $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
+    loadCitiesTo(this,"#InstructorDocumentsAndAddress_edcenso_city_fk");
+});
+
 $("#IES").on("change", function () {
     loadIES("#IES", "#InstructorVariableData_high_education_institution_code_1_fk");
 });
@@ -63,6 +51,24 @@ $(function () {
     const currentIES = $("#InstructorVariableData_high_education_institution_code_1_fk").val();
     loadIES("#IES", "#InstructorVariableData_high_education_institution_code_1_fk", currentIES);
 });
+
+
+function loadCitiesTo(emmiter , citySelector){
+    $.ajax({
+        type: "POST",
+        url: "?r=instructor/getCity",
+        data: {
+            edcenso_uf_fk: $(emmiter).val(),
+            current_city: $(citySelector).val()
+        },
+        success: function (response) {
+            const optionsList = JSON.parse(response);
+            const options = optionsList.join("");
+            $(citySelector).html(options);
+            $(citySelector).select2();
+        }
+    });
+}
 
 
 function loadIES(iesUfDropDown, iesDropDownPath, currentIES) {

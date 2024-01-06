@@ -14,7 +14,7 @@ $cs = Yii::app()->getClientScript();
             <h1><?php echo Yii::t('default', 'Course Plan') ?></h1>
             <div class="t-buttons-container">
                 <a href="<?php echo Yii::app()->createUrl('courseplan/create') ?>"
-                   class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>
+                    class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>
             </div>
         </div>
     </div>

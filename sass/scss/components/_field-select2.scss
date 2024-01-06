@@ -5,28 +5,41 @@
 .t-field-select {
     width: 100%;
     margin-bottom: $SizeNormal;
-    &__label{
+
+    &__label {
+
         &--required {
             font-weight: bold;
+
+            &::after {
+                content: " *";
+                color: red;
+            }
         }
     }
+
     &__input {
-        &.select2-container{
+        width: 100% !important;
+
+        &.select2-container {
             width: 100% !important;
+
             .select2-choice {
-                width: 100%;
+                width: 100% !important;
                 box-sizing: border-box;
                 word-wrap: break-word;
                 text-overflow: ellipsis;
             }
-        }    
-    }
-    &__helper{
-        max-width: 50% !important;
-    }
-    &__helper2{
-        max-width: 65% !important; 
+        }
     }
 
-    
+    &__helper {
+        max-width: 50% !important;
+    }
+
+    &__helper2 {
+        max-width: 65% !important;
+    }
+
+
 }

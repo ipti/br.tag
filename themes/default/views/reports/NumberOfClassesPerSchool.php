@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
@@ -34,9 +34,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <th>TURNO</th>
             </thead>
             <tbody>
-                <?php 
+                <?php
                 $ordem = 1;
-                foreach($r["classrooms"] as $classroom) { 
+                foreach($r["classrooms"] as $classroom) {
                     $ordemStr = $ordem < 10 ? "0".$ordem : $ordem;
                     if($classroom->turn == "M") $turn = "Matutino";
                     else if ($classroom->turn == "T") $turn = "Vespertino";
@@ -49,7 +49,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         <td><?= $classroom->edcensoStageVsModalityFk->name ?></td>
                         <td><?= $turn ?></td>
                     </tr>
-                <?php 
+                <?php
                     $ordem++;
                 }
                 ?>

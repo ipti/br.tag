@@ -1,6 +1,17 @@
 <?php
+require_once 'app/vendor/autoload.php';
+Yii::import('application.modules.sedsp.models.Student.*');
+Yii::import('application.modules.sedsp.datasources.sed.Student.*');
+Yii::import('application.modules.sedsp.mappers.*');
+Yii::import('application.modules.sedsp.usecases.Enrollment.*');
+Yii::import('application.modules.sedsp.models.Enrollment.*');
+Yii::import('application.modules.sedsp.usecases.*');
+Yii::import('application.modules.sedsp.usecases.Student.*');
+Yii::import('application.modules.sedsp.interfaces.*');
+Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
 
-class StudentController extends Controller
+
+class StudentController extends Controller implements AuthenticateSEDTokenInterface
 {
     //@done s1 - validação de todos os campos - Colocar uma ? para explicar as regras de cada campo(em todas as telas)
     //@done s1 - Recuperar endereço pelo CEP
@@ -9,7 +20,8 @@ class StudentController extends Controller
     //@done s1 - Campo TIpo de Certidão Civil (Add as opções)
     //@done s1 - atualizar dependencia de select2
     //@done s1 - corrigir o deletar
-
+    const CREATE = 'create';
+    const UPDATE = 'update';
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -19,6 +31,12 @@ class StudentController extends Controller
     private $STUDENT_DOCUMENTS_AND_ADDRESS = 'StudentDocumentsAndAddress';
     private $STUDENT_ENROLLMENT = 'StudentEnrollment';
     private $STUDENT_RESTRICTIONS = 'StudentRestrictions';
+
+    public function authenticateSedToken()
+    {
+        $loginUseCase = new LoginUseCase();
+        $loginUseCase->checkSEDToken();
+    }
 
     /**
      * @return array action filters
@@ -40,7 +58,23 @@ class StudentController extends Controller
         return array(
             array(
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'comparestudentname', 'getstudentajax','getclassrooms', 'comparestudentcpf', 'comparestudentcivilregisterenrollmentnumber', 'comparestudentcertificate', 'create', 'update', 'transfer', 'getcities', 'getnotaryoffice', 'getnations', 'delete'),
+                'actions' => array(
+                    'index',
+                    'view',
+                    'comparestudentname',
+                    'getstudentajax',
+                    'syncToSedsp',
+                    'getclassrooms',
+                    'comparestudentcpf',
+                    'comparestudentcivilregisterenrollmentnumber',
+                    'comparestudentcertificate',
+                    'create',
+                    'update',
+                    'transfer',
+                    'getcities',
+                    'getnotaryoffice',
+                    'getnations',
+                    'delete'),
                 'users' => array('@'),
             ),
             array(
@@ -70,11 +104,11 @@ class StudentController extends Controller
             $student = new StudentIdentification();
             $student->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $uf = (int)$student->edcenso_uf_fk;
-        } else if ($register_type == 1) {
+        } elseif ($register_type == 1) {
             $student = new StudentDocumentsAndAddress();
             $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             $uf = (int)$student->notary_office_uf_fk;
-        } else if ($register_type == 2) {
+        } elseif ($register_type == 2) {
             $student = new StudentDocumentsAndAddress();
             $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             $uf = (int)$student->edcenso_uf_fk;
@@ -93,28 +127,31 @@ class StudentController extends Controller
     {
         $requestData = $_POST;
 
-        $columns = array(
-            0 => 'name',
-            1 => 'filiation_1',
-            2 => 'birthday',
-            3 => 'inep_id',
-            4 => 'actions'
-        );
-        
+        $columns[0] = 'name';
+        $columns[1] = 'filiation_1';
+        $columns[2] = 'birthday';
+        $columns[3] = 'cpf';
+        $columns[4] = 'inep_id';
+        $columns[5] = 'actions';
+        if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+            $columns[5] = 'sedsp_sync';
+        }
+
         $criteria = new CDbCriteria();
 
-        
+
         // Filtrar a pesquisa
         if (!empty($requestData['search']['value'])) {
             $criteria->condition = "name LIKE '%" . $requestData['search']['value'] . "%' OR " .
                 "filiation_1 LIKE '%" . $requestData['search']['value'] . "%' OR " .
                 "birthday LIKE '%" . $requestData['search']['value'] . "%' OR " .
+                "documentsFk.cpf LIKE '%" . $requestData['search']['value'] . "%' OR " .
                 "inep_id LIKE '%" . $requestData['search']['value'] . "%'";
         }
 
         // Obter o número total de registros
-        $totalData = StudentIdentification::model()->count();
-        $totalFiltered = StudentIdentification::model()->count($criteria);
+        $totalData = StudentIdentification::model()->with("documentsFk")->count();
+        $totalFiltered = StudentIdentification::model()->with("documentsFk")->count($criteria);
 
         // Paginação
         $start = $requestData['start'];
@@ -126,28 +163,36 @@ class StudentController extends Controller
         // Ordem
         $sortColumn = $columns[$requestData['order'][0]['column']];
         $sortDirection = $requestData['order'][0]['dir'];
-        $criteria->order = $sortColumn ." ". $sortDirection;
+        $criteria->order = $sortColumn . " " . $sortDirection;
 
 
-     
-
-        $students = StudentIdentification::model()->findAll($criteria);
+        $students = StudentIdentification::model()->with("documentsFk")->findAll($criteria);
 
 
         // Formatar os dados de saída
         $data = array();
         foreach ($students as $student) {
             $nestedData = array();
-            $nestedData[] = "<a href='/?r=student/update&id=".$student->id."' cursor: pointer;>".$student->name."</a>";
+            $nestedData[] = "<a href='/?r=student/update&id=" . $student->id . "' cursor: pointer;>" . $student->name . "</a>";
             $nestedData[] = $student->filiation_1;
             $nestedData[] = $student->birthday;
+            $nestedData[] = $student->documentsFk->cpf;
             $nestedData[] = $student->inep_id;
-            $nestedData[] = "<a style='cursor: pointer;' title='Editar'  href='/?r=student/update&id=".$student->id."'>
+            $nestedData[] = "<a style='cursor: pointer;' title='Editar' id='student-edit'  href='/?r=student/update&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
                             </a>&nbsp;"
-                            ."<a style='cursor: pointer;' title='Excluir' id='student-delete' href='/?r=student/delete&id=".$student->id."'>
+                . "<a style='cursor: pointer;' title='Excluir'
+                            id='student-delete' href='/?r=student/delete&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/deletar.svg' . "' alt='Excluir'></img>
                             </a>";
+            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                $sync = "<a style='cursor: pointer;display: inline-block' title='Sincronizar' id='student-sync' class='" . ($student->sedsp_sync ? "sync" : "unsync") . "' href='/?r=student/syncToSedsp&id=" . $student->id . "'>";
+                $sync .= $student->sedsp_sync
+                    ? '<img src="' . Yii::app()->theme->baseUrl . '/img/SyncTrue.png" style="width: 25px;text-align: center">'
+                    : '<img src="' . Yii::app()->theme->baseUrl . '/img/notSync.png" style="width: 25px;text-align: center">';
+                $sync .= "</a>&nbsp;";
+                $nestedData[] = $sync;
+            }
             $data[] = $nestedData;
         }
 
@@ -162,12 +207,33 @@ class StudentController extends Controller
         echo json_encode($json_data);
     }
 
+    public function actionSyncToSedsp($id)
+    {
+        $modelStudentIdentification = new StudentIdentification();
+
+        $this->authenticateSedToken();
+        $syncResult = (object) $modelStudentIdentification->syncStudentWithSED($id, new StudentEnrollment(), self::UPDATE);
+
+        if ($syncResult->identification->outErro !== null) {
+            $flash = "error";
+            $msg = 'Não foi possível sincronizar o aluno ' . $modelStudentIdentification->name . '. Motivo: ' . $syncResult->identification->outErro;
+        } else {
+            $flash = "success";
+            $msg = "Sincronização realizada com sucesso!";
+        }
+
+        Yii::app()->user->setFlash($flash, $msg);
+        $this->redirect(array('index'));
+    }
+
     public function actionGetNotaryOffice()
     {
         $student = new StudentDocumentsAndAddress();
         $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
 
-        $data = EdcensoNotaryOffice::model()->findAllByAttributes(array('city' => (int)$student->notary_office_city_fk), array('order' => 'name'));
+        $data = EdcensoNotaryOffice::model()->findAllByAttributes(
+            array('city' => (int)$student->notary_office_city_fk), array('order' => 'name')
+        );
         $data = CHtml::listData($data, 'cod', 'name');
 
         echo CHtml::tag('option', array('value' => null), 'Selecione um cartório', true);
@@ -287,10 +353,14 @@ class StudentController extends Controller
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
-            
+
+            if(Yii::app()->features->isEnable("FEAT_SEDSP")){
+                $modelStudentIdentification->scenario = "formSubmit";
+            }
+
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
-                
+
                 if ($modelStudentIdentification->save()) {
                     $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
                     $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
@@ -312,7 +382,6 @@ class StudentController extends Controller
                                 if ($modelEnrollment->validate()) {
                                     $saved = $modelEnrollment->save();
                                 }
-                                //$modelEnrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
                             }
 
                             if (isset($_POST['Vaccine']['vaccine_id'])) {
@@ -329,10 +398,30 @@ class StudentController extends Controller
                             }
 
                             if ($saved) {
-                                Log::model()->saveAction("student", $modelStudentIdentification->id, "C", $modelStudentIdentification->name);
+                                $flash = "success";
                                 $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi criado com sucesso!';
 
-                                Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+                                if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                                    $this->authenticateSedToken();
+                                    $syncResult = $modelStudentIdentification->syncStudentWithSED($modelStudentIdentification->id, $modelEnrollment, self::CREATE);
+
+                                    if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null || $syncResult === false) {
+                                        $flash = "error";
+                                        $msg = '<span style="color: white;background: #23b923; padding:10px;border-radius: 4px;">Cadastro do aluno ' . $modelStudentIdentification->name .
+                                            '  criado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
+                                        if ($syncResult->identification->outErro) {
+                                            $msg .= "<br>Ficha do Aluno: " . $syncResult->identification->outErro;
+                                        }
+                                        if ($syncResult->enrollment->outErro) {
+                                            $msg .= "<br>Matrícula: " . $syncResult->enrollment->outErro;
+                                        }
+                                    }
+                                }
+
+                                Log::model()->saveAction(
+                                    "student", $modelStudentIdentification->id, "C", $modelStudentIdentification->name
+                                );
+                                Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
 
                                 $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));
                             }
@@ -355,7 +444,7 @@ class StudentController extends Controller
     }
 
 
-    /** 
+    /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id the ID of the model to be updated
@@ -385,13 +474,14 @@ class StudentController extends Controller
             //Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
-            $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
+            $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->id;
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
                     $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
+                    $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
                     if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save()) {
                         $saved = true;
                         if (
@@ -415,7 +505,9 @@ class StudentController extends Controller
                             }
 
                             if ($hasDuplicate) {
-                                Yii::app()->user->setFlash('error', Yii::t('default', 'Aluno já está matriculado nessa turma.'));
+                                Yii::app()->user->setFlash(
+                                    'error', Yii::t('default', 'Aluno já está matriculado nessa turma.')
+                                );
                             }
                         }
 
@@ -435,10 +527,41 @@ class StudentController extends Controller
                         }
 
                         if ($saved) {
-                            Log::model()->saveAction("student", $modelStudentIdentification->id, "U", $modelStudentIdentification->name);
+                            $flash = "success";
                             $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
-                            Yii::app()->user->setFlash('success', Yii::t('default', $msg));
-                            $this->redirect(array('index', 'sid' => $modelStudentIdentification->id));
+
+                            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+
+                                $this->authenticateSedToken();
+                                $syncResult = (object) $modelStudentIdentification->syncStudentWithSED($id, $modelEnrollment, self::UPDATE);
+
+                                if ($syncResult->identification->outErro !== null || $syncResult->enrollment->outErro !== null) {
+                                    $flash = "error";
+                                    $msg = '<span style="color: white;background: #23b923;
+                                    padding:10px;border-radius: 4px;">Cadastro do aluno ' . $modelStudentIdentification->name .
+                                        '  alterado com sucesso no TAG, mas não foi possível sincronizá-lo com a SEDSP. Motivo: </span>';
+                                    if ($syncResult->identification->outErro) {
+                                        $msg .= "<br>Ficha do Aluno: " . $syncResult->identification->outErro;
+                                    }
+                                    if ($syncResult->enrollment->outErro) {
+                                        $msg .= "<br>Matrícula: " . $syncResult->enrollment->outErro;
+                                    }
+                                }
+                            }
+
+                            Log::model()->saveAction(
+                                "student", $modelStudentIdentification->id,
+                                "U", $modelStudentIdentification->name
+                            );
+
+                            Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
+                            $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
+                        } else {
+                            $msg = 'Não foi possível realizar as modificações do aluno: ' .
+                                $modelStudentIdentification->name;
+
+                            Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+                            $this->redirect(array('index', 'id' => $modelStudentIdentification->id));
                         }
                     }
                 }
@@ -454,7 +577,7 @@ class StudentController extends Controller
             'studentVaccinesSaves' => $studentVaccinesSaves
         ));
     }
-    //
+
     public function actionTransfer($id)
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
@@ -463,9 +586,14 @@ class StudentController extends Controller
             $currentEnrollment = StudentEnrollment::model()->findByPk($modelStudentIdentification->lastEnrollment->id);
             if ($currentEnrollment->validate()) {
                 $currentEnrollment->status = 2;
-                $currentEnrollment->transfer_date = date_create_from_format('d/m/Y', $_POST['StudentEnrollment']['transfer_date'])->format('Y-m-d');
+                $currentEnrollment->transfer_date = date_create_from_format(
+                    'd/m/Y', $_POST['StudentEnrollment']['transfer_date']
+                )->format('Y-m-d');
                 if ($currentEnrollment->save()) {
-                    Log::model()->saveAction("enrollment", $currentEnrollment->id, "U", $currentEnrollment->studentFk->name . "|" . $currentEnrollment->classroomFk->name);
+                    Log::model()->saveAction(
+                        "enrollment", $currentEnrollment->id,
+                        "U", $currentEnrollment->studentFk->name . "|" . $currentEnrollment->classroomFk->name
+                    );
                 }
             }
             $modelEnrollment->school_inep_id_fk = $_POST['StudentEnrollment']['school_inep_id_fk'];
@@ -480,10 +608,10 @@ class StudentController extends Controller
             $hasDuplicate = $modelEnrollment->alreadyExists();
 
             if ($modelEnrollment->validate() && !$hasDuplicate) {
-                    $saved = $modelEnrollment->save();
+                $modelEnrollment->save();
             }
             Yii::app()->user->setFlash('success', Yii::t('default', 'transferred enrollment'));
-            $this->redirect(array('student/update&id='.$modelStudentIdentification->id));
+            $this->redirect(array('student/update&id=' . $modelStudentIdentification->id));
         } else {
             $this->render('transfer', array(
                 'modelStudentIdentification' => $modelStudentIdentification,
@@ -491,17 +619,18 @@ class StudentController extends Controller
             ));
         }
     }
-    public function actionGetClassrooms() {
+
+    public function actionGetClassrooms()
+    {
         $school_inep_id = $_POST["inep_id"];
         $school = SchoolIdentification::model()->findByPk($school_inep_id);
         $classrooms = $school->classrooms;
         foreach ($classrooms as $class) {
             if ($class->school_year == Yii::app()->user->year) {
-                echo "<option value='".htmlspecialchars($class->id)."'>".htmlspecialchars($class->name)."</option>";
+                echo "<option value='" . htmlspecialchars($class->id) . "'>" . htmlspecialchars($class->name) . "</option>";
             }
         }
     }
-    //
 
 
     /**
@@ -511,6 +640,12 @@ class StudentController extends Controller
      */
     public function actionDelete($id)
     {
+
+        $classes = Yii::app()->db->createCommand()
+            ->select('classroom_inep_id')
+            ->from('student_enrollment')
+            ->where('student_fk = :id', array(':id' => $id))
+            ->queryColumn();
 
         try {
             $enrollment = $this->loadModel($id, $this->STUDENT_ENROLLMENT);
@@ -527,19 +662,46 @@ class StudentController extends Controller
             }
 
             $identification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
+            $inNumRA = $identification->gov_id;
+
             if (isset($identification->id) && $identification->id > 0) {
                 $identification->delete();
             }
 
             if ($delete) {
+                if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                    $this->excluirMatriculaFromSED($classes, $inNumRA);
+                }
+
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
                 $this->redirect(array('index'));
             } else {
                 throw new CHttpException(404, 'The requested page does not exist.');
             }
         } catch (\Throwable $th) {
-            Yii::app()->user->setFlash('error', Yii::t('default', 'Esse aluno não pode ser excluído, pois existem dados de frequência, notas ou matrículadas vinculadas a ele!'));
+            Yii::app()->user->setFlash(
+                'error', Yii::t(
+                'default', 'Esse aluno não pode ser excluído,
+                    pois existem dados de frequência, notas ou matrículadas vinculadas a ele!'
+            )
+            );
             $this->redirect('?r=student');
+        }
+    }
+
+    public function excluirMatriculaFromSED($classes, $inNumRA)
+    {
+        if (count($classes) != '0') {
+            $excluirMatriculaFromSEDUseCase = new ExcluirMatriculaFromSEDUseCase();
+
+            foreach ($classes as $classe) {
+                $statusDelete = $excluirMatriculaFromSEDUseCase->exec(
+                    new InExcluirMatricula(new InAluno($inNumRA, null, 'SP'), $classe)
+                );
+                if ($statusDelete->outErro !== null) {
+                    $erros[] = $statusDelete->outErro;
+                }
+            }
         }
     }
 
@@ -547,7 +709,7 @@ class StudentController extends Controller
     /**
      * Lists all models.
      */
-    public function actionIndex($sid = null, $mer_id = null)
+    public function actionIndex($sid = null, $merId = null)
     {
         $filter = new StudentIdentification('search');
         $filter->unsetAttributes();  // clear any default values
@@ -569,15 +731,15 @@ class StudentController extends Controller
         if ($sid != null) {
             $student = $this->loadModel($sid, $this->STUDENT_IDENTIFICATION);
             if (isset($student->studentEnrollments[0]->id)) {
-                $mer_id = $student->studentEnrollments[0]->id;
+                $enrollmentId = $student->studentEnrollments[0]->id;
                 @$stage = $student->studentEnrollments[0]->classroomFk->edcensoStageVsModalityFk->stage;
+                $type = 1;
                 if ($stage == 1) {
                     $type = 0;
-                } else if ($stage == 6) {
+                } elseif ($stage == 6) {
                     $type = 3;
-                } else {
-                    $type = 1;
                 }
+
                 $buttons = CHtml::tag(
                     'a',
                     array(
@@ -592,7 +754,9 @@ class StudentController extends Controller
                 $buttons .= CHtml::tag(
                     'a',
                     array(
-                        'target' => '_blank', 'href' => yii::app()->createUrl('/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $mer_id)),
+                        'target' => '_blank', 'href' => yii::app()->createUrl(
+                        '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollmentId)
+                    ),
                         'class' => "btn btn-primary btn-icon glyphicons notes_2",
                         'style' => 'margin-top: 5px; width: 110px'
                     ),
@@ -630,23 +794,21 @@ class StudentController extends Controller
 
         if ($model == $this->STUDENT_IDENTIFICATION) {
             $return = StudentIdentification::model()->findByPk($id);
-        } else if ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
+        } elseif ($model == $this->STUDENT_DOCUMENTS_AND_ADDRESS) {
             $return = StudentDocumentsAndAddress::model()->findByAttributes(array('id' => $id));
             if ($return === null) {
                 $return = new StudentDocumentsAndAddress;
             }
-        } else if ($model == $this->STUDENT_ENROLLMENT) {
+        } elseif ($model == $this->STUDENT_ENROLLMENT) {
             $return = StudentEnrollment::model()->findAllByAttributes(array('student_fk' => $id));
             array_push($return, new StudentEnrollment);
-        } else if ($model == $this->STUDENT_RESTRICTIONS) {
+        } elseif ($model == $this->STUDENT_RESTRICTIONS) {
             $return = StudentRestrictions::model()->findByAttributes(array('student_fk' => $id));
             if ($return === null) {
                 $return = new StudentRestrictions;
             }
         }
-        if ($return === null) {
-            //throw new CHttpException(404, 'The requested page does not exist.');
-        }
+
         return $return;
     }
 

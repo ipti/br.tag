@@ -4,16 +4,21 @@
 .t-field-text {
     margin-bottom: $SizeNormal;
     &__label{
+
         display: flex;
         align-items: center;
         &--required {
             font-weight: bold;
+            &::after {
+                content: " *";
+                color: red;
+            }
         }
     }
-    &__input, input[type="text"], input[type="number"], input[type="email"]{
+    &__input, input[type="text"], input[type="number"], input[type="email"], input[type="tel"]{
         box-sizing: border-box;
         width: 100% !important;
-        margin-bottom: 0px;
+        margin-bottom: 0px !important;
         resize: none;
     }
     &__input, input[type="password"]{
@@ -23,7 +28,7 @@
         resize: none;
     }
     .show-password-icon {
-        font-size: $FontSizeFormLabel;
+
         cursor: pointer;
         position: absolute;
         right: 0;

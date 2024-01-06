@@ -16,6 +16,7 @@
         'modelSchoolIdentification' => $modelSchoolIdentification,
         'modelSchoolStructure' => $modelSchoolStructure,
         'modelManagerIdentification' => $modelManagerIdentification,
+        'disabledFields' => false,
         'title' => $title,
     ));
     ?> 

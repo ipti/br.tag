@@ -10,10 +10,10 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.2');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/curricularmatrix.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScript("vars", "var addMatrix = '" . $this->createUrl("addMatrix") . "';", CClientScript::POS_HEAD);
 $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricular Matrix'));
-// 
+//
 ?>
 
 
@@ -47,7 +47,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row clear-margin--left">
                             <div class="column">
                                 <div class="t-field-number">
@@ -159,7 +159,7 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="tag-button-light btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Confirmar</button>
+                    <button type="button" class="btn btn-primary confirm-matrix-reuse" data-dismiss="modal">Confirmar</button>
                 </div>
             </div>
         </form>

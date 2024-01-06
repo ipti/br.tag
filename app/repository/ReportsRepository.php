@@ -17,17 +17,23 @@ class ReportsRepository
 
     public function getIndexData(): array
     {
-        $classrooms = Classroom::model()->findAll(
-            array(
-                'condition' => 'school_inep_fk=' . $this->currentSchool . ' && school_year = ' . $this->currentYear,
-                'order' => 'name'
-            )
-        );
+        $classrooms = Classroom::model()->findAll(array(
+            'condition' => 'school_inep_fk = :school_id and school_year = :year',
+            'order' => 'name',
+            'params' =>  array(
+                ':school_id'=> $this->currentSchool,
+                ':year'=>  $this->currentYear,
+            ),
+        ));
 
         $students = StudentIdentification::model()->findAll(
             array(
-                'condition' => 'school_inep_id_fk = ' . $this->currentSchool . ' && send_year = ' . $this->currentYear,
-                'order' => 'name'
+                'condition' => 'school_inep_id_fk = :school_id and send_year = :year',
+                'order' => 'name',
+                'params' =>  array(
+                    ':school_id'=> $this->currentSchool,
+                    ':year'=>  $this->currentYear,
+                ),
             )
         );
 
@@ -452,7 +458,7 @@ class ReportsRepository
                     c.school_year = :year AND
                     c.school_inep_fk = :school_inep_id AND
                     c.id = :classroom
-                ORDER BY c.id, se.daily_order";
+                ORDER BY se.daily_order, c.name";
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(":year", $year)
             ->bindParam(":school_inep_id", $schoolInepId)
@@ -1109,7 +1115,7 @@ class ReportsRepository
                 c.school_year = :year AND
                 c.school_inep_fk = :school_inep_id AND
                 c.id = :classroom_id
-            ORDER BY se.daily_order";
+            ORDER BY se.daily_order, s.name";
 
         $classrooms = Yii::app()->db->createCommand($sql)
             ->bindParam(":year", $year)
@@ -1243,11 +1249,15 @@ class ReportsRepository
      */
     public function getStudentsWithDisabilitiesPerSchool(): array
     {
-        $sql = "SELECT si.*
-                FROM student_identification si
-                WHERE si.deficiency = 1";
+        $year = Yii::app()->user->year;
 
-        $students = Yii::app()->db->createCommand($sql)->queryAll();
+        $sql = "SELECT si.*, c.name AS `turma`, c.turn AS `turno`
+                FROM student_identification si
+                LEFT JOIN student_enrollment se ON si.id = se.student_fk
+                LEFT JOIN classroom c ON se.classroom_fk = c.id
+                WHERE si.deficiency = 1 AND se.status = 1 AND c.school_year = :syear";
+
+        $students = Yii::app()->db->createCommand($sql)->bindParam(':syear', $year)->queryAll();
 
         $schools = SchoolIdentification::model()->findAll();
         $result = [];
@@ -1263,8 +1273,6 @@ class ReportsRepository
             'schools' => $schools,
             'report' => $result
         );
-
-
     }
 
     /**
@@ -1346,9 +1354,9 @@ class ReportsRepository
     public function getEnrollmentPerClassroomReport($classroomId): array
     {
         $sql = "SELECT * FROM classroom_enrollment
-                WHERE `year`  = :school_year AND
+                WHERE `year` = :school_year AND
                 classroom_id = :classroom_id
-                ORDER BY daily_order;";
+                ORDER BY daily_order, name;";
 
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(':school_year', $this->currentYear)
@@ -1397,7 +1405,7 @@ class ReportsRepository
                     WHERE `year`  = :year AND
                     classroom_id = :classroom_id AND
                     ((`status` IN (1, 6, 7, 8, 9, 10) or `status` is null))
-                ORDER BY name;";
+                ORDER BY daily_order, name;";
 
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(':year', $this->currentYear)
@@ -1758,7 +1766,11 @@ class ReportsRepository
                     JOIN classroom AS c ON i.classroom_id_fk = c.id
                     WHERE c.id = :id AND (i.role = 8 OR i.role = 2)
                     ORDER BY id.name";
-            $classroom["professors"] = Yii::app()->db->createCommand($sql)->bindParam(":id", $classroom["id"])->queryAll();
+            $classroom["professors"] =  Yii::app()
+                                        ->db
+                                        ->createCommand($sql)
+                                        ->bindParam(":id", $classroom["id"])
+                                        ->queryAll();
         }
         unset($classroom);
 
@@ -1774,7 +1786,7 @@ class ReportsRepository
     {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
 
-        $sql_classrooms =
+        $sqlClassrooms =
             "SELECT c.name, esvm.name stage
             FROM classroom c
             LEFT JOIN instructor_teaching_data itd ON itd.classroom_id_fk = c.id
@@ -1784,13 +1796,13 @@ class ReportsRepository
             HAVING count(itd.id) = 0
             ORDER BY c.id";
 
-        $classroom = Yii::app()->db->createCommand($sql_classrooms)
-            ->bindParam(":school_year", $this->currentYear)
-            ->bindParam(":school_id", $this->currentSchool)
-            ->queryAll();
+        $classroom = Yii::app()->db->createCommand($sqlClassrooms)
+                    ->bindParam(":school_year", $this->currentYear)
+                    ->bindParam(":school_id", $this->currentSchool)
+                    ->queryAll();
 
-        $sql_discipline =
-            "SELECT
+        $sqlDiscipline =
+                "SELECT
                     GROUP_CONCAT(ed.name) `Disciplina`
                 FROM classroom c
                 LEFT JOIN instructor_teaching_data itd ON itd.classroom_id_fk = c.id
@@ -1801,10 +1813,10 @@ class ReportsRepository
                 HAVING count(itd.id) = 0
                 ORDER BY c.id";
 
-        $disciplina = Yii::app()->db->createCommand($sql_discipline)
-            ->bindParam(":school_year", $this->currentYear)
-            ->bindParam(":school_id", $school->inep_id)
-            ->queryAll();
+        $disciplina = Yii::app()->db->createCommand($sqlDiscipline)
+                        ->bindParam(":school_year", $this->currentYear)
+                        ->bindParam(":school_id", $school->inep_id)
+                        ->queryAll();
 
         return array('school' => $school, 'classroom' => $classroom, 'disciplina' => $disciplina);
 
@@ -2192,19 +2204,25 @@ class ReportsRepository
             $criteria->alias = "c";
             $criteria->join = ""
                 . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
-                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
-            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+                . " join instructor_identification on"
+                ." instructor_teaching_data.instructor_fk = instructor_identification.id ";
+            // Adicionando condição de busca
+            $criteria->condition =  "c.school_year = :school_year"
+                                    ."and c.school_inep_fk = :school_inep_fk"
+                                    ." and instructor_identification.users_fk = :users_fk";
             $criteria->order = "name";
-            $criteria->params = array(':school_year' => $this->currentYear, ':school_inep_fk' => $this->currentSchool, ':users_fk' => Yii::app()->user->loginInfos->id);
+            $criteria->params = array(' :school_year' => $this->currentYear,
+                                        ':school_inep_fk' => $this->currentSchool,
+                                        ':users_fk' => Yii::app()->user->loginInfos->id);
 
             $classrooms = Classroom::model()->findAll($criteria);
         } else {
             $classrooms = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $this->currentYear, 'school_inep_fk' => $this->currentSchool]);
         }
 
-        return array('classrooms' => $classrooms, 'schoolyear' => $this->currentYear);
+        $response = array('classrooms' => $classrooms,'schoolyear' => $this->currentYear);
 
-
+        return $response;
     }
 
     /**
@@ -2310,13 +2328,18 @@ class ReportsRepository
     /**
      * Carregar a caixa de seleção com os alunos matriculados pelo id da turma
      */
-    public function getStudentClassroomsOptions($id): void
+    public function getStudentClassroomsOptions($id)
     {
-        $classroom = Classroom::model()->findByPk($id);
+        $classroom = Classroom::model()->with("studentEnrollments.studentFk")->findByPk($id);
         $enrollments = $classroom->studentEnrollments;
+        $students = array();
         foreach ($enrollments as $enrollment) {
-            echo htmlspecialchars(CHtml::tag('option', array('value' => $enrollment->studentFk->id), $enrollment->studentFk->name, true));
+            array_push($students, [
+                "id" => $enrollment->studentFk->id,
+                "name" => $enrollment->studentFk->name
+            ]);
         }
+        return $students;
     }
 
     /**

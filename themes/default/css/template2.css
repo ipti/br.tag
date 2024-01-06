@@ -1,45 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 
-
 /*
-    ajustes na responsividade
+    botões
 */
-.tag-row {
-    width: 100%;
-    flex-wrap: wrap;
-
-}
-
-/* .innerLR .tag-row {
-    display: flex;
-    justify-content: space-between;
-} */
-.modal-container-buttons {
-    display: flex;
-    justify-content: end;
-}
-
-/*
-    butões
-*/
-.tag-button,
-.tag-button:hover {
-    background-color: #3F45EA;
-    text-decoration: none;
-    text-align: center;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    margin-right: 10px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.tag-button:hover {
-    background-color: #272B96;
-}
-
 .tag-button-light,
 .tag-button-light:hover {
     background-color: #EFF2F5;
@@ -95,7 +58,6 @@
     listagens
 */
 .tag-table td {
-    /* background: #eaeaf8; */
     background: #EAEDFC;
 }
 
@@ -104,20 +66,11 @@ table.dataTable {
     border-spacing: 0 5px !important;
 }
 
-/* .tag-table tr td:first-child {
-    border-radius: 4px 0 0 4px;
-}
-
-.tag-table tr td:last-child {
-    border-radius: 0 4px 4px 0;
-} */
-
 .tag-table.table-striped tbody>tr:nth-child(odd)>td {
     background-color: #eaeaf8;
 }
 
 .grid-view .filters input {
-    /* width: 413px; */
     border: 1px solid #ccc;
     margin: 0px 0px 2px 12px;
 }
@@ -211,30 +164,7 @@ table.dataTable {
     margin-top: -1px;
 }
 
-/*
-    notas
-*/
-.row-grades .center {
-    width: 100%;
-}
 
-.row-grades .center .select2-container {
-    width: 100%;
-}
-
-.row-grades .center .school-days-group1,
-.row-grades .center .frequency-fields,
-.row-grades .center .frequency-percentage {
-    margin-right: 10px;
-}
-
-/*
-    modais
-*/
-
-#teachingdata-dialog-form .select2-container .select2-choice {
-    width: 361px;
-}
 
 /*
     home-page
@@ -247,12 +177,6 @@ table.dataTable {
     margin-bottom: 4px;
     border-radius: 4px;
 
-}
-
-.home-page-table-header h5 {
-    color: #ffffff;
-    font-weight: 500;
-    margin: 0px 0px 0px 18px;
 }
 
 .home-page-table-item {
@@ -274,13 +198,11 @@ table.dataTable {
 }
 
 .home-page-table-item.gray {
-    /* background-color: #ECECEC; */
     background-color: #eaeaf8;
 }
 
 .home-page-table-item.blue {
     background-color: #eaeaf8;
-    /* background-color: #EAEDFC; */
 }
 
 .home-page-table-button.load-more {
@@ -295,7 +217,6 @@ table.dataTable {
 /*
     fullmenu-toggle-button
 */
-
 
 .logo-container {
     display: flex;
@@ -333,7 +254,7 @@ table.dataTable {
     content: ' *';
 }
 
-.element::webkit-scrollbar {
+.element::-webkit-scrollbar {
     width: 0 ! important
 }
 
@@ -439,7 +360,7 @@ table.dataTable.no-footer {
 
 @font-face {
     font-family: 'icone-tag';
-    src: url('/themes/default/fonts/IconsTag_V16.ttf');
+    src: url('/themes/default/fonts/IconsTag_V17.ttf');
 }
 
 .icones {
@@ -449,6 +370,13 @@ table.dataTable.no-footer {
 .t-button-primary {
     border: none;
 }
+
+.grades-buttons{
+	align-items: end;
+	justify-content: end;
+	width: 300px;
+}
+
 
 .main .grades-buttons,
 .js-new-unity,
@@ -463,97 +391,14 @@ table.dataTable.no-footer {
     margin-top: 1px;
 }
 
-.grades-rules-container {
-    margin-top: 40px;
-    display: none;
+.unity .remove-button {
+	font-size: 20px;
+	align-self: center;
+	cursor: pointer;
 }
 
-.grades-rules-container label {
-    width: 140px;
-}
-
-.approval-media, .final-recover-media {
-    width: 25px;
-    margin-left: 5px;
-}
-
-.grades-structure-container {
-    margin-top: 40px;
-    display: none;
-    width: 50%;
-    position: relative;
-}
-
-.grades-structure-container .unity-name {
-    width: calc(100% - 140px);
-}
-
-.grades-structure-container .modality-name {
-    width: calc(100% - 140px);
-    /* margin: 0px 9px 0px 0px; */
-}
-
-.grades-structure-container .formula-select,
-.grades-structure-container .type-select {
-    width: calc(100% - 107px);
-}
-
-.grades-structure-container .select2-choice {
-    width: calc(100% - 10px) !important;
-}
-
-.grades-structure-container .unity label {
-    /* width: 105px; */
-    margin: 0px 10px 0px 0px;
-    width: 96px;
-}
-
-.grades-structure-container .unity-children {
-    margin: 20px 0 0 105px;
-}
-
-.grades-structure-container .unity {
-    margin-bottom: 40px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid #ccc;
-    position: relative;
-}
-
-.grades-structure-container .unity-type {
-    margin-bottom: 5px;
-}
-
-.grades-structure-container .calculation {
-    margin-bottom: 20px;
-}
-
-.grades-structure-container .modality {
-    margin-top: 5px;
-    position: relative;
-}
-
-.grades-structure-container .js-new-modality {
-    margin-top: 15px;
-}
-
-.grades-structure-container .remove-unity,
-.grades-structure-container .remove-modality {
-    position: absolute;
-    top: 0;
-    right: 0;
-    color: darkred;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.grades-structure-container .remove-unity:hover,
-.grades-structure-container .remove-modality:hover {
-    color: #333;
-}
-
-.grades-structure-container .weight {
-    width: 78px;
-    margin-left: 5px;
+.unity h3 {
+	color: #3f45ea;
 }
 
 .save-unity-loading-gif {
@@ -731,25 +576,30 @@ li[instructor]:hover {
     text-shadow: none !important;
     border: none !important;
 }
-.button-icon-close{
-    display:flex;
+
+.button-icon-close {
+    display: flex;
     margin: 7px -4px 0px 0px;
 }
-.div-input-structure-units{
+
+.div-input-structure-units {
     margin-right: 14px;
 }
-.label-input-structure-units{
+
+.label-input-structure-units {
     margin-right: 10px;
 }
 
 
-.widget > .widget-head {
+.widget>.widget-head {
     background: #ffffff;
 
 }
+
 #menu-integrations ul {
     width: 100%;
 }
+
 .widthfull {
     width: 100% !important;
 }
@@ -759,13 +609,23 @@ li[instructor]:hover {
     margin: 10px;
 }
 
-.dataTables_length label{
+.dataTables_length label {
     display: flex;
     align-content: center;
     align-items: baseline;
     gap: 10px;
 }
 
-.dataTables_length select{
-   max-width: 50px;
+.dataTables_length select {
+    max-width: 50px;
 }
+
+.container-frequency-over {
+    overflow-y: auto;
+    height: 400px;
+}
+
+.container-frequency-over::-webkit-scrollbar {
+    display: none;
+}
+

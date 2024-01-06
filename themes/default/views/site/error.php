@@ -13,8 +13,8 @@
 	$baseUrl = Yii::app()->baseUrl;
 	$themeUrl = Yii::app()->theme->baseUrl;
 	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js', CClientScript::POS_END);
-	 
+	$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+
 
 ?>
 
@@ -36,7 +36,12 @@
 			<?php $error = Yii::app()->errorHandler->getError(); ?>
 			<button type="button" class="close" data-dismiss="alert">×</button>
 			<strong>Atenção!</strong><br>
-			Entre em contato conosco no telefone: (79) 3027-6866 ou (79) 99113-5230 e informe o código de erro:
+			Acesse o link para entrar em contato com nosso suporte:
+			<a style="text-decoration: underline;" target="_blank"
+				href="https://tagbr.atlassian.net/servicedesk/customer/portal/3">
+				Central de Atendimento TAG
+			</a>
+			 e informe o código de erro:
 			<strong><?php echo $error['code'] ?></strong>
 			<br/>
 
@@ -53,5 +58,6 @@
 		</div>
 	</div>
 </div>
+
 
 

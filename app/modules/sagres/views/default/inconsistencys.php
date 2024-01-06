@@ -30,29 +30,32 @@
                     <tbody>
                         <?php
 
-                        if ((Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id))) 
+                        if ((Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id))) {
                             $models = ValidationSagresModel::model()->findAll();
-                        elseif ((Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id))) 
+                        }elseif ((Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id))) 
                             $models = ValidationSagresModel::model()->findAllByAttributes(array('inep_id' => Yii::app()->user->school));
                         
-                        foreach ($models as $model) {
+                        foreach ($models as $model): ?>
+                            <?php
+
+                                $map = [
+                                    '2' => '?r=professional/default/update&id=' . $model->idProfessional,
+                                    '3' => '?r=professional/default/update&id=' . $model->idProfessional,
+                                    '4' => '?r=school/update&id=' . $model->idSchool,
+                                    '9' => '?r=student/update&id=' . $model->idStudent,
+                                    '10' => '?r=classroom/update&id=' . $model->idClass
+                                ];
+                            
+                                $link = $map[$model->identifier];
                             ?>
-                            <tr>
-                                <td>
-                                    <?php echo $model->enrollment ?>
-                                </td>
-                                <td>
-                                    <?php echo $model->school ?>
-                                </td>
-                                <td>
-                                    <?php echo $model->description ?>
-                                </td>
-                                <td>
-                                    <?php echo $model->action ?>
-                                </td>
+                            
+                            <tr onclick="location.href='<?php echo $link; ?>'" style="cursor: pointer;">
+                                <td><?php echo $model->enrollment ?></td>
+                                <td><?php echo $model->school ?></td>
+                                <td><?php echo $model->description ?></td>
+                                <td><?php echo $model->action ?></td>
                             </tr>
-                        <?php }
-                        ?>
+                        <?php endforeach;?>
                     </tbody>
                 </table>
             </div>

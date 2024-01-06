@@ -3,7 +3,7 @@
 /* @var $enrollment StudentEnrollment */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentGradesReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentGradesReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -359,7 +359,7 @@ $frequencyTotal = number_format($frequencyTotal, 2, ',', '');
         text-align: center;
     }
 
-    
+
 
     .right-top{
         max-width: 85px;
@@ -411,7 +411,7 @@ $frequencyTotal = number_format($frequencyTotal, 2, ',', '');
             line-height: 13px;
             margin: 0 10px 0 0;
             transform-origin: bottom left;
-            
+
         }
 
         #notas{
@@ -423,7 +423,7 @@ $frequencyTotal = number_format($frequencyTotal, 2, ',', '');
         }
 
         table {
-            
+
         }
     }
 </style>

@@ -3,7 +3,7 @@
 
 	$baseUrl = Yii::app()->baseUrl;
 	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js', CClientScript::POS_END);
+	$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 	$this->pageTitle = 'TAG - ' . Yii::t('default', 'Conflicts');
 

@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentDeclarationReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentDeclarationReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -472,6 +472,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             text-transform: uppercase;
 
         }
-        
+
     }
 </style>

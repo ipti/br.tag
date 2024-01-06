@@ -8,10 +8,10 @@ class InMatricularAluno implements JsonSerializable
 	public $inNivelEnsino;
 
 	public function __construct(
-		?string $inAnoLetivo,
-		?InAluno $inAluno,
-		?InMatricula $inMatricula,
-		?InNivelEnsino $inNivelEnsino
+		?string $inAnoLetivo = null,
+		?InAluno $inAluno  = null,
+		?InMatricula $inMatricula  = null,
+		?InNivelEnsino $inNivelEnsino  = null
 	) {
 		$this->inAnoLetivo = $inAnoLetivo;
 		$this->inAluno = $inAluno;
@@ -73,7 +73,7 @@ class InMatricularAluno implements JsonSerializable
 		);
 	}
 
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return get_object_vars($this);
     }

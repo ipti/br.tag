@@ -117,7 +117,7 @@ class InCertidaoAntiga implements JsonSerializable
 			$data['inDataEmissaoCertidao'] ?? null
 		);
 	}
-	function jsonSerialize()
+	public function jsonSerialize()
 	{
 		return get_object_vars($this);
 	}

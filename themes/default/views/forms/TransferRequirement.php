@@ -3,14 +3,14 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/TransferRequirement/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/TransferRequirement/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 <div class="pageA4V">
     <?php $this->renderPartial('head'); ?>
-        
+
         <script type="text/javascript">
             /*<![CDATA[*/
             jQuery(function ($) {
@@ -27,7 +27,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             );
             /*]]>*/
         </script>
-        
+
         <br>
         <div id="report" style="font-size: 12px">
 
@@ -37,9 +37,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <span style="font-size: 16px; font-weight: bold">REQUERIMENTO Nº __________</span>
                 </div>
                 <br>
-                
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Venho requerer da Divisão de Inspeção Escolar o documento de transferência de 
-                <span class="name" style="font-weight: bold"></span>, 
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Venho requerer da Divisão de Inspeção Escolar o documento de transferência de
+                <span class="name" style="font-weight: bold"></span>,
                 <?php
                     if ($gender == '1'){
                         echo "filho de ";
@@ -48,8 +48,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     }
                 ?>
                 <span class="mother"></span>
-                e 
-                <span class="father"></span>, 
+                e
+                <span class="father"></span>,
                 <?php
                     if ($gender == '1'){
                         echo "nascido em ";
@@ -57,7 +57,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         echo "nascida em ";
                     }
                 ?>
-                <span class="birthday"></span>, 
+                <span class="birthday"></span>,
                 <?php
                     if ($gender == '1'){
                         echo "matriculado no ano de ";
@@ -66,9 +66,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     }
                 ?>
                 <span class="enrollment_date"></span>
-                no(a) 
-                <?php echo $school->name . ', ' ?> 
-                <span class="city"></span>-<span class="state"></span>, 
+                no(a)
+                <?php echo $school->name . ', ' ?>
+                <span class="city"></span> - <span class="state"></span>,
                 <?php
                     $c;
                     switch ($class) {
@@ -146,7 +146,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     }
                     echo 'no '. $c. ' Ano. ';
                 ?>
-                No ensejo, informo que 
+                No ensejo, informo que
                 <?php
                     if ($gender == '1'){
                         echo "o aluno ";
@@ -158,7 +158,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 Requerente: ___________________________.<br>
                 RG: ___________________________.<br>
                 Motivo da transferência: ___________________________.
-                
+
                 <br><br><br><br>
                 <span class="pull-right">
                     <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>

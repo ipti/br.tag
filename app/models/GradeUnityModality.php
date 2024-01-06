@@ -16,6 +16,11 @@
  */
 class GradeUnityModality extends CActiveRecord
 {
+
+    public const TYPE_COMMON = "C";
+    public const TYPE_RECOVERY = "R";
+
+
 	/**
 	 * @return string the associated database table name
 	 */

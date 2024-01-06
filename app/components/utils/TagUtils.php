@@ -3,6 +3,10 @@
 class TagUtils extends CApplicationComponent {
 
 
+    public static function isInstructor(){
+        return (bool)Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
+    }
+
     public static function isStageMinorEducation($stage){
         $refMinorStages = [
             '1', '2', '3', '4', '5', '6', '7', '8', '14', '15', '16', '17', '18'
@@ -49,6 +53,22 @@ class TagUtils extends CApplicationComponent {
         }
 
         return strtoupper(INSTANCE) === strtoupper($instance);
+    }
+
+    /**
+     * @var CActiveRecord $record
+     */
+    public static function stringfyValidationErrors($record){
+        $errors = $record->getErrors();
+        $result = array_map(function($key, $messages) use ($record) {
+            $message = Yii::t("default", $record->getAttributeLabel($key)) .": \n";
+            foreach ($messages as $value) {
+                $message .= "- ".$value."\n";
+            }
+            return $message;
+        }, array_keys($errors), array_values($errors));
+
+        return  implode("\n", $result);
     }
 }
 

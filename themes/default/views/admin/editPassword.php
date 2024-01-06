@@ -16,8 +16,8 @@
 
     $baseUrl = Yii::app()->baseUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js', CClientScript::POS_END);
-    $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js', CClientScript::POS_END);
+    $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+    $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'users-createUser-form',
@@ -32,7 +32,7 @@
             <h1><?php echo $title; ?><span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h1>
             <div class="buttons">
                 <div class="buttons">
-                    <div class="buttons">
+                    <div class="buttons" id="save">
                         <?php echo CHtml::htmlButton(
                             '<i></i>' . ($model->isNewRecord
                                 ? Yii::t('default', 'Create')
