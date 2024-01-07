@@ -587,8 +587,8 @@ class ClassroomController extends Controller
             'modelClassroom' => $modelClassroom,
             'complementary_activities' => array(),
             'modelTeachingData' => $modelTeachingData,
-            'edcensoStageVsModalities' => $edcensoStageVsModalities
-            'modelEnrollments' => [],
+            'edcensoStageVsModalities' => $edcensoStageVsModalities,
+            'modelEnrollments' => []
         ));
     }
 
@@ -612,6 +612,8 @@ class ClassroomController extends Controller
 
             array_push($modelEnrollments, $array);
         }
+
+        $edcensoStageVsModalities = $this->getSchoolStagesModels();
 
 
         $disableFieldsWhenItsUBATUBA = false;
@@ -789,6 +791,7 @@ class ClassroomController extends Controller
             'modelClassroom' => $modelClassroom,
             'modelTeachingData' => $modelTeachingData,
             'modelEnrollments' => $modelEnrollments,
+            'edcensoStageVsModalities' => $edcensoStageVsModalities,
             'disabledFields' => $disableFieldsWhenItsUBATUBA
         ));
     }
