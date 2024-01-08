@@ -482,6 +482,7 @@ const MealsComponent = function (meal, day) {
     wrapper.find('.js-add-plate').on("click", (e) => {
       const day = $('.js-day-tab.active').attr("data-day-of-week")
       $(".js-meals-component").html('')
+      debugger;
       meal.plates.push({
         description: "",
         id: idplates,

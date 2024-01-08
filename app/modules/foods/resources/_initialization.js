@@ -53,6 +53,7 @@ if(menuId)  {
             idIgredientes++
             return food
             })
+            debugger
             plates.push({
                     description: mealComponent.description,
                     id: idplates,
