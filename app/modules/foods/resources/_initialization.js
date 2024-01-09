@@ -31,7 +31,7 @@ if(menuId)  {
     const finalDate = $('.js-final-date');
     const observation = $('.js-observation');
     name.val(menuUpdate.description);
-    // debugger
+
     startDate.val(menuUpdate.start_date);
     finalDate.val(menuUpdate.final_date);
     observation.val(menuUpdate.observation);
@@ -42,8 +42,8 @@ if(menuId)  {
     menuUpdate.monday.map((e) => {
         let plates = []
         e.meals_component.forEach((mealComponent)=>{
-             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => { 
-                
+             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
+
                let food =  {
                 id: idIgredientes,
                 amount: foodIngredient.amount,
@@ -53,7 +53,6 @@ if(menuId)  {
             idIgredientes++
             return food
             })
-            debugger
             plates.push({
                     description: mealComponent.description,
                     id: idplates,
@@ -77,12 +76,12 @@ if(menuId)  {
     menuUpdate.tuesday.map((e) => {
         let plates = []
         e.meals_component.forEach((mealComponent)=>{
-             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => { 
-                
+             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
+
                let food =  {
                 id: idIgredientes,
                 amount: foodIngredient.amount,
-                food_id_fk: foodIngredient.food_id_fk, 
+                food_id_fk: foodIngredient.food_id_fk,
                 food_measure_unit_id: foodIngredient.food_measure_unit_id
             }
             idIgredientes++
@@ -97,7 +96,7 @@ if(menuId)  {
         })
         meals.push({
             id: idMeals,
-            mealDay: 2, 
+            mealDay: 2,
             mealTime: e.time,
             mealTypeId: e.food_meal_type,
             mealType: 'Turno da refeição',
@@ -105,18 +104,18 @@ if(menuId)  {
             plates: plates
         })
         idMeals++
-       
+
     })
     //Quarta
     menuUpdate.wednesday.map((e) => {
         let plates = []
         e.meals_component.forEach((mealComponent)=>{
-             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => { 
-                
+             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
+
                let food =  {
                 id: idIgredientes,
                 amount: foodIngredient.amount,
-                food_id_fk: foodIngredient.food_id_fk, 
+                food_id_fk: foodIngredient.food_id_fk,
                 food_measure_unit_id: foodIngredient.food_measure_unit_id
             }
             idIgredientes++
@@ -131,7 +130,7 @@ if(menuId)  {
         })
         meals.push({
             id: idMeals,
-            mealDay: 3, 
+            mealDay: 3,
             mealTime: e.time,
             mealTypeId: e.food_meal_type,
             mealType: 'Turno da refeição',
@@ -139,18 +138,18 @@ if(menuId)  {
             plates: plates
         })
         idMeals++
-       
+
     })
     //Quinta
     menuUpdate.thursday.map((e) => {
         let plates = []
         e.meals_component.forEach((mealComponent)=>{
-             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => { 
-                
+             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
+
                let food =  {
                 id: idIgredientes,
                 amount: foodIngredient.amount,
-                food_id_fk: foodIngredient.food_id_fk, 
+                food_id_fk: foodIngredient.food_id_fk,
                 food_measure_unit_id: foodIngredient.food_measure_unit_id
             }
             idIgredientes++
@@ -165,7 +164,7 @@ if(menuId)  {
         })
         meals.push({
             id: idMeals,
-            mealDay: 4, 
+            mealDay: 4,
             mealTime: e.time,
             mealTypeId: e.food_meal_type,
             mealType: 'Turno da refeição',
@@ -173,18 +172,18 @@ if(menuId)  {
             plates: plates
         })
         idMeals++
-       
+
     })
     //Sexta
     menuUpdate.friday.map((e) => {
         let plates = []
         e.meals_component.forEach((mealComponent)=>{
-             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => { 
-                
+             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
+
                let food =  {
                 id: idIgredientes,
                 amount: foodIngredient.amount,
-                food_id_fk: foodIngredient.food_id_fk, 
+                food_id_fk: foodIngredient.food_id_fk,
                 food_measure_unit_id: foodIngredient.food_measure_unit_id
             }
             idIgredientes++
@@ -199,7 +198,7 @@ if(menuId)  {
         })
         meals.push({
             id: idMeals,
-            mealDay: 5, 
+            mealDay: 5,
             mealTime: e.time,
             mealTypeId: e.food_meal_type,
             mealType: 'Turno da refeição',
@@ -207,7 +206,7 @@ if(menuId)  {
             plates: plates
         })
         idMeals++
-       
+
     })
     const day = $('.js-day-tab.active').attr("data-day-of-week")
     meals.map((e) => MealsComponent(e, day).actions.render())
