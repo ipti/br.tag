@@ -409,11 +409,11 @@ const MealsComponent = function (meal, day) {
     <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
       <div class="row">
         <div class="t-field-text column">
-          <label class="t-field-text__label--required">Hora da Refeição *</label>
+          <label class="t-field-text__label--required">Hora da Refeição</label>
           <input type='text' class='t-field-text__input js-mealTime' required='required' value="${meal.mealTime}" name='Hora da Refeição' />
         </div>
         <div class="t-field-select column">
-            <label class='t-field-select__label--required'>Refeição *</label>
+            <label class='t-field-select__label--required'>Refeição</label>
             <select required='required' name='Refeição'
                     class="js-initialize-select2 select-search-on t-field-select__input js-meal-type">
               <option value="">Selecione a refeição</option>
@@ -422,7 +422,7 @@ const MealsComponent = function (meal, day) {
       </div>
       <div class="row">
 					<div class="t-field-select column">
-            <label class="t-field-select__label--required">Turno *</label>
+            <label class="t-field-select__label--required">Turno</label>
             <select class="js-initialize-select2 select-search-on t-field-select__input js-shift" name='Turno' required='required'>
                 <option value="">Selecione o turno</option>
                 <option value="M">Manhã</option>
