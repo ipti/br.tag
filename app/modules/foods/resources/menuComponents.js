@@ -190,7 +190,18 @@ const PlateComponent = function (plate) {
   }
   function addRowToTable(selectFoods, table) {
     selectFoods.on('change', (e) => {
-      table.find('tbody > :not(:first-child)').html('')
+      table.find('tbody').html('')
+      table.find('tbody').append(`<tr>
+            <th>Nome</th>
+            <th>unidade</th>
+            <th>Medida</th>
+            <th>Quantidade</th>
+            <th>PT</th>
+            <th>LIP</th>
+            <th>CHO</th>
+            <th>KCAL</th>
+            <th></th>
+        </tr>`)
       plate.food_ingredients.push({
         id: idIgredientes,
         food_id_fk: selectFoods.val(),
@@ -218,7 +229,7 @@ const PlateComponent = function (plate) {
       response = JSON.parse(DOMPurify.sanitize(response))
       let line = createMealComponent(response, food);
       const wrapper = parseDOM(line);
-      wrapper.find(".js-unit").on("change", (e) => { food.amount = e.target.value });
+      wrapper.find(".js-unit input").on("input", (e) => {food.amount = e.target.value});
       wrapper.find('.js-remove-taco-food').on('click', (e) => {
 
         let accordionPlateActive = $(e.target).attr("data-id-plate")
@@ -396,7 +407,7 @@ const MealsComponent = function (meal, day) {
   function render() {
     const container = $(".js-meals-component");
     let template = `
-    
+
     <div class="ui-accordion-header js-meals-accordion-header row ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
       <div class="column justify-content--start js-meal-name">
         ${meal.mealType == "Selecione a refeição" ? "Turno da refeição" : meal.mealType}
@@ -428,7 +439,7 @@ const MealsComponent = function (meal, day) {
                 <option value="M">Manhã</option>
                 <option value="T">Tarde</option>
                 <option value="N">Noite</option>
-            </select>          
+            </select>
 					</div>
 					<div class="column"></div>
 			</div>
@@ -456,7 +467,7 @@ const MealsComponent = function (meal, day) {
         <div class="js-plate-accordion column">
         </div>
       </div>
-    </div>     
+    </div>
           `;
 
     const wrapper = parseDOM(template);
@@ -482,7 +493,6 @@ const MealsComponent = function (meal, day) {
     wrapper.find('.js-add-plate').on("click", (e) => {
       const day = $('.js-day-tab.active').attr("data-day-of-week")
       $(".js-meals-component").html('')
-      debugger;
       meal.plates.push({
         description: "",
         id: idplates,
