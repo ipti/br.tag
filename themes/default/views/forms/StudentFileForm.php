@@ -304,18 +304,19 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <td>
                 <div class="span10"><b>19 - Situação do Aluno no ano Anterior: </b></div>
                 <br><div class="span3 padding-5" style="margin-right: -20px;">
-                    <b>☐</b> Não Frequentou
-                    <br><b>☐</b> Reprovado
+                    <b><?= ($enrollment->previous_stage_situation == 0) ? '☑' : '☐' ?></b> Não Frequentou
+                    <br><b><?= ($enrollment->previous_stage_situation == 1) ? '☑' : '☐' ?></b> Reprovado
                 </div>
                 <div class="span4 padding-5" style="margin-right: -20px;">
-                    <b>☐</b> Afastado por transferência
-                    <br><b>☐</b> Matricula final em Educação Infantil
+                    <b><?= ($enrollment->previous_stage_situation == 2) ? '☑' : '☐' ?></b> Afastado por transferência
+                    <br><b><?= ($enrollment->previous_stage_situation == 4) ? '☑' : '☐' ?></b> Matrícula final em Educação Infantil
                 </div>
                 <div class="span3 padding-5">
-                    <b>☐</b> Afastado por abandono
+                    <b><?= ($enrollment->previous_stage_situation == 3) ? '☑' : '☐' ?></b> Afastado por abandono
                 </div>
             </td>
         </tr>
+
         <!--<tr>
             <td>
                 <div class="span10"><b>17 - Situação do aluno no ano anterior: </b>
@@ -328,16 +329,16 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <tr><td>
                 <div class="span12"><b>20 - Portador de Necessidades Especiais? </b></div>
                 <br>
-                <div class="span2"><b>☐</b> Sim</div>
-                <div class="span2"><b>☐</b> Não</div>
-                <div class="span8" style="margin-bottom:8px;"><b>Tipo: </b><span>__________________________________________________________</span></div>
+                <div class="span2"><b><?= !empty($data['deficiency']) ? '☑' : '☐'?></b> Sim</div>
+                <div class="span2"><b><?= empty($data['deficiency']) ? '☑' : '☐'?></b> Não</div>
+                <div class="span8" style="margin-bottom:8px;"><b>Tipo: </b><span><?= $data['deficiency'] ?></div>
             </td>
         </tr>
         <tr>
             <td>
                 <div class="span12"><b>21 - Participa do Programa Bolsa Família? </b></div>
                 <!-- <br><span class="bf_participator"><?= $data['bf_participator'] ?></span> -->
-                <div class="span4"><b>☐</b> Bolsa Família</div>
+                <div class="span4"><b><?= ($data['bf_participator'] == 'Sim') ? '☑' : '☐'?></b> Bolsa Família</div>
                 <div class="span4"><b>☐</b> PETI</div>
                 <div class="span4"><b>☐</b> Pro Jovem</div>
                 <br>
