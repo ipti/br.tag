@@ -695,7 +695,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
                 $arr["situation"] = $studentEnrollment->getCurrentStatus();
                 if ($studentEnrollment->isActive()) {
-                    $arr["situation"] = $gradeResult->situation;
+                    $arr["situation"] = ($gradeResult->situation == null) ? "" : $gradeResult->situation;
                 }
 
 

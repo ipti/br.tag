@@ -36,7 +36,8 @@ class GradesController extends Controller
                     'calculateFinalMedia',
                     'reportCard',
                     'getReportCardGrades',
-                    'saveGradesReportCard'
+                    'saveGradesReportCard',
+                    'saveGradesRelease'
                 ),
                 'users' => array('@'),
             ),
@@ -185,6 +186,69 @@ class GradesController extends Controller
         }
 
         echo json_encode(["valid" => true]);
+    }
+
+    public function actionSaveGradesRelease()
+    {
+        $discipline = $_POST['discipline'];
+        $classroomId = $_POST['classroom'];
+        $students = $_POST['students'];
+
+        $classroom = Classroom::model()->findByPk($classroomId);
+
+        $gradeRules = GradeRules::model()->findByAttributes([
+            "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
+        ]);
+
+        foreach ($students as $std) {
+            $start = microtime(true);
+            $gradeResult = (new GetStudentGradesResultUsecase($std['enrollmentId'], $discipline))->exec();
+            $gradeResult->enrollment_fk = $std['enrollmentId'];
+            $gradeResult->discipline_fk = $discipline;
+            $gradeResult->rec_final = $std["recFinal"];
+
+            $hasAllValues = true;
+            foreach ($std['grades'] as $key => $value) {
+                $index = $key + 1;
+                $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
+                $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
+                $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
+                $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
+            }
+
+
+            if (!$gradeResult->validate()) {
+                throw new CHttpException(
+                    "400",
+                    "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult->getErrors())
+                );
+            }
+
+            $gradeResult->save();
+
+            if ($hasAllValues) {
+                $usecaseFinalMedia = new CalculateFinalMediaUsecase(
+                    $gradeResult,
+                    $gradeRules,
+                    count($std['grades'])
+                );
+                $usecaseFinalMedia->exec();
+
+                if ($gradeResult->enrollmentFk->isActive()) {
+                    $usecase = new ChageStudentStatusByGradeUsecase(
+                        $gradeResult,
+                        $gradeRules,
+                        count($std['grades'])
+                    );
+                    $usecase->exec();
+                }
+            }
+
+            $time_elapsed_secs = microtime(true) - $start;
+            Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
+        }
+
+        echo CJSON::encode(["valid" => true]);
     }
 
     public function actionGetReportCardGrades()

@@ -20,7 +20,7 @@ $form=$this->beginWidget('CActiveForm', array(
 <div class="form">
     <div class="mobile-row">
         <div class="column clearleft">
-            <h1 class="clear-padding--bottom"><?php echo $model->isNewRecord ? 'Estoque' : '' ?></h1>
+            <h1 class="t-padding-none--bottom"><?php echo $model->isNewRecord ? 'Estoque' : '' ?></h1>
             <p>Cardápio semanal da sua escola</p>
         </div>
     </div>
@@ -117,7 +117,7 @@ $form=$this->beginWidget('CActiveForm', array(
                             <?php echo $form->textField($model,'expiration_date', array('class'=>'t-field-text__input js-date clear-margin--all js-expiration-date', 'placeholder' => 'Selecione')); ?>
                             <?php echo $form->error($model,'expiration_date'); ?>
                         </div>
-                        <div class="column is-one-fifth clearleft--on-mobile t-buttons-container clear-padding--bottom clear-margin--bottom clearfix">
+                        <div class="column is-one-fifth clearleft--on-mobile t-buttons-container t-padding-none--bottom clear-margin--bottom clearfix">
                             <button class="t-button-secondary mobile-margin-top clear-margin--all full--width align-self--end" id="add-food" type="button">Adicionar</button>
                         </div>
                     </div>

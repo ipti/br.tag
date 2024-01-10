@@ -40,6 +40,7 @@ $('#discipline').change(function (e, triggerEvent) {
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");
                 $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("overflow", "auto").css("pointer-events", "none");
+                $("#grades-save-button").removeClass("hide");
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -199,7 +200,7 @@ $("#save").on("click", function (e) {
 
     $.ajax({
         type: "POST",
-        url: "?r=enrollment/saveGradesReportCard",
+        url: "?r=grades/saveGradesRelease",
         cache: false,
         data: {
             classroom: $("#classroom").val(),

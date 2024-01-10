@@ -27,12 +27,14 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
         'action' => CHtml::normalizeUrl(array('grades/saveGrades')),
     ));
     ?>
-    <div class="row-fluid hidden-print">
-        <div class="span12">
+    <div class="row">
+        <div class="column clearleft">
             <h1>
                 <?php echo Yii::t('default', 'Grades'); ?>
             </h1>
-            <div class="buttons row grades-buttons">
+        </div>
+        <div class="column clearfix align-items--center justify-content--end">
+            <div class="row justify-content--end">
                 <button type="button" id="close-grades-diary" class='t-button-secondary calculate-media'>Calc. média anual</button>
                 <button id="save" class='t-button-primary  hidden-print no-show'>
                     <?php echo Yii::t('default', 'Save') ?>
@@ -48,31 +50,38 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
     <?php endif ?>
     <div class="js-grades-alert alert"></div>
     <div class="row">
-        <div class="t-field-select">
-            <?php echo CHtml::label(yii::t('default', 'Classroom')." *", 'classroom', array('class' => 't-field-select__label required', 'style' => 'width: 53px;')); ?>
-            <?php
-            echo CHtml::dropDownList('classroom', '', $classrooms, array(
-                'key' => 'id',
-                'class' => 'select-search-on t-field-select__input',
-                'prompt' => 'Selecione...',
-            ));
-            ?>
+        <div class="column is-one-fifth clearleft ">
+            <div class="t-field-select">
+                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 't-field-select__label--required')); ?>
+                <?php
+                echo CHtml::dropDownList('classroom', '', $classrooms, array(
+                    'key' => 'id',
+                    'class' => 'select-search-on t-field-select__input select2-container',
+                    'prompt' => 'Selecione...',
+                )
+                );
+                ?>
+            </div>
         </div>
-        <div class="t-field-select">
-            <?php echo CHtml::label(yii::t('default', 'Discipline')." *", 'discipline', array('class' => 't-field-select__label required', 'style' => 'width: 100%;')); ?>
-            <?php
-            echo CHtml::dropDownList('discipline', '', array(), array(
-                'key' => 'id',
-                'class' => 'select-search-on t-field-select__input',
-                'prompt' => 'Selecione...',
-            ));
-            ?>
+        <div class="column is-one-fifth">
+            <div class="t-field-select">
+                <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 't-field-select__label--required')); ?>
+                <?php
+                echo CHtml::dropDownList('discipline', '', array(), array(
+                    'key' => 'id',
+                    'class' => 'select-search-on t-field-select__input select2-container',
+                    'prompt' => 'Selecione...',
+                )
+                );
+                ?>
+            </div>
         </div>
-        <img class="js-grades-loading"
-            style="display:none; overflow-y: auto; object-fit: contain;"
-            height="30px" width="30px" s
-            rc="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
-            alt="TAG Loading">
+        <div class="column is-one-tenth">
+            <img class="js-grades-loading" style="display:none;margin: 10px 20px;" height="30px" width="30px"
+                src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+        </div>
+
+
     </div>
     <br>
     <div class="js-grades-container"></div>
