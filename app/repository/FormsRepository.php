@@ -509,7 +509,8 @@ class FormsRepository {
                 si.id AS student_id,
                 ed.name AS discipline_name,
                 ed.id AS discipline_id,
-                gr.final_media
+                gr.final_media,
+                gr.situation
                     FROM classroom c
                 JOIN curricular_matrix cm ON c.edcenso_stage_vs_modality_fk = cm.stage_fk
                 JOIN student_enrollment se ON se.classroom_fk = c.id
@@ -520,8 +521,8 @@ class FormsRepository {
                 ORDER BY discipline_name;";
 
         $result = Yii::app()->db->createCommand($sql)
-                ->bindParam(':classroom_id', $classroomId)
-                ->queryAll();
+            ->bindParam(':classroom_id', $classroomId)
+            ->queryAll();
 
         setlocale(LC_ALL, NULL);
         setlocale(LC_ALL, "pt_BR.utf8", "pt_BR", "ptb", "ptb.utf8");
@@ -538,34 +539,45 @@ class FormsRepository {
                 ORDER BY ed.name";
 
         $disciplines = Yii::app()->db->createCommand($sql)
-                    ->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)
-                    ->bindParam(":year", $this->currentYear)
-                    ->queryAll();
+            ->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)
+            ->bindParam(":year", $this->currentYear)
+            ->queryAll();
 
-        $students = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom->id));
+        $studentEnrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom->id));
 
         $grades = [];
 
-        foreach ($result as $r) {
+        foreach ($studentEnrollments as $s) {
+            $finalSituation = '';
             foreach ($disciplines as $d) {
-                if($r['discipline_id'] == $d['discipline_id']) {
-                    array_push($grades, array(
-                            "discipline_id" => $d['discipline_id'],
-                            "discipline_name" => $d['discipline_name'],
-                            "student_name" => $r['student_name'],
-                            "student_id" => $r['student_id'],
-                            "final_media" => $r['final_media']
-                        )
-                    );
-                    break;
+                $finalMedia = '';
+                foreach ($result as $r) {
+                    if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
+                        $finalMedia = $r['final_media'];
+                        if ($r['situation'] == 'REPROVADO') {
+                            $finalSituation = 'REPROVADO';
+                        } else if ($r['situation'] != null && $finalSituation != 'REPROVADO') {
+                            $finalSituation = 'APROVADO';
+                        }
+                        break;
+                    }
                 }
+                array_push($grades, array(
+                        "discipline_id" => $d['discipline_id'],
+                        "discipline_name" => $d['discipline_name'],
+                        "student_name" => $s['studentFk']['name'],
+                        "student_id" => $s['student_fk'],
+                        "final_media" => $finalMedia,
+                        "situation" => $finalSituation
+                    )
+                );
             }
         }
 
         $response = array(
             'report' => $result,
             'classroom' => $classroom,
-            'students' => $students,
+            'students' => $studentEnrollments,
             'disciplines' => $disciplines,
             'grades' => $grades
         );
