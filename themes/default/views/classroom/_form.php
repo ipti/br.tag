@@ -206,22 +206,22 @@ $form = $this->beginWidget(
                             <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                 <!-- Unidade Escolar -->
                                 <div class="t-field-select" id="sedsp_school_unity_fk">
-                                    <?php echo $form->label($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, 'Unidade Escolar', array('class' => 't-field-select__label--required')); ?>
                                     <?php echo $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(array('school_inep_id_fk' => yii::app()->user->school)), 'id', 'description'), array('prompt' => 'Selecione a unidade escolar', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%')); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_school_unity_fk'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->label($modelClassroom, "Turma *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Turma", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->textField($modelClassroom, 'sedsp_acronym', array('size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'placeholder' => 'Ex: A, B, 1, A1, B1...', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_acronym'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->label($modelClassroom, "Sala de Aula *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Sala de Aula", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->numberField($modelClassroom, 'sedsp_classnumber', array('min' => 1, 'max' => 99, 'size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_classnumber'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->label($modelClassroom, "Capacidade Fisica Maxima *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Capacidade Fisica Maxima", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->numberField($modelClassroom, 'sedsp_max_physical_capacity', array('size' => 2, 'min' => 1, 'max' => 99, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_max_physical_capacity'); ?>
                                 </div>

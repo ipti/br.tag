@@ -49,7 +49,7 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
     <div class="js-grades-alert alert"></div>
     <div class="row">
         <div class="t-field-select">
-            <?php echo CHtml::label(yii::t('default', 'Classroom')." *", 'classroom', array('class' => 't-field-select__label required', 'style' => 'width: 53px;')); ?>
+            <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 't-field-select__label required', 'style' => 'width: 53px;')); ?>
             <?php
             echo CHtml::dropDownList('classroom', '', $classrooms, array(
                 'key' => 'id',
@@ -59,7 +59,7 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
             ?>
         </div>
         <div class="t-field-select">
-            <?php echo CHtml::label(yii::t('default', 'Discipline')." *", 'discipline', array('class' => 't-field-select__label required', 'style' => 'width: 100%;')); ?>
+            <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 't-field-select__label required', 'style' => 'width: 100%;')); ?>
             <?php
             echo CHtml::dropDownList('discipline', '', array(), array(
                 'key' => 'id',

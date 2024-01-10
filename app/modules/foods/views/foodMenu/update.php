@@ -15,15 +15,11 @@ $this->menu=array(
 	array('label'=>'View FoodMenu', 'url'=>array('view', 'id'=>$model->id)),
 	array('label'=>'Manage FoodMenu', 'url'=>array('admin')),
 );
+$title = $model->description
 ?>
-<div class="row main">
-	<div class="column">
-		<h1> <?= $model->description ?></h1>
-	</div>
-</div>
 
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'title' => $title)); ?>
 <script type="text/javascript">
 	 var menuUpdate = <?php echo CJSON::encode($model); ?>
 </script>
