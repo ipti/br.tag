@@ -75,11 +75,10 @@ class DefaultController extends Controller
 		}
 	}
 
-
 	public function actionDownload(){
 
-		
-		$fileDir = "./app/export/SagresEdu/Educacao.zip";
+		$inst = "Edu" . INSTANCE . "/";
+		$fileDir = "./app/export/SagresEdu/" . $inst . "Educacao.zip";
         if (file_exists($fileDir)) {
             header('Content-Description: File Transfer');
             header('Content-type: application/zip');

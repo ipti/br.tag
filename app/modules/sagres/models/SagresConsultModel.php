@@ -1133,19 +1133,23 @@ class SagresConsultModel
     public function actionExportSagresXML($xml)
     {       
         $fileName = "Educacao.xml";
-        $fileDir = "./app/export/SagresEdu/" . $fileName;
 
+        $inst = "File_" . INSTANCE . "/";
+        $path = "./app/export/SagresEdu/" . $inst;
+
+        if(!file_exists($path)){
+            mkdir($path);
+        }
+       
+        $fileDir = "./app/export/SagresEdu/". $inst . $fileName;
         Yii::import('ext.FileManager.fileManager');
         $fm = new fileManager();
         $result = $fm->write($fileDir, $xml);
-        
-        if ($result == false) {                    
+        if ($result == false) {
             throw new ErrorException("Ocorreu um erro ao exportar o arquivo XML.");
         }
-        
         $content = file_get_contents($fileDir);
-        
-        $zipName = './app/export/SagresEdu/Educacao.zip';
+        $zipName = './app/export/SagresEdu/' . $inst . 'Educacao.zip';
         $tempArchiveZip = new ZipArchive;
         $tempArchiveZip->open($zipName, ZipArchive::CREATE);
         $tempArchiveZip->addFromString(pathinfo ($fileDir, PATHINFO_BASENAME), $content);
