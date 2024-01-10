@@ -11,6 +11,7 @@ function parseDOM(htmlString) {
 function initializeMealAccordion(id) {
   $('.js-meals-component').accordion("destroy");
   $(".js-meals-component").accordion({
+    heightStyle: "content",
     active: id,
     collapsible: true,
     icons: false,
@@ -160,6 +161,7 @@ const PlateComponent = function (plate) {
       });
       $('.js-meals-component').accordion("destroy");
       $(".js-meals-component").accordion({
+        heightStyle: "content",
         active: accordionActive,
         collapsible: true,
         icons: false,
@@ -252,6 +254,7 @@ const PlateComponent = function (plate) {
         });
         $('.js-meals-component').accordion("destroy");
         $(".js-meals-component").accordion({
+          heightStyle: "content",
           active: accordionMeals,
           collapsible: true,
           icons: false,
@@ -505,20 +508,11 @@ const MealsComponent = function (meal, day) {
       });
       $('.js-meals-component').accordion("destroy");
       $(".js-meals-component").accordion({
+        heightStyle: "content",
         active: meals.indexOf(meal),
         collapsible: true,
         icons: false,
       });
-
-      if (platesContainer.data('ui-accordion')) {
-        $(platesContainer).accordion("destroy");
-      }
-      platesContainer.accordion({
-        active: meal.plates.length,
-        collapsible: true,
-        icons: false,
-      });
-
 
       $(".js-plate-accordion-header").off("keydown");
 
@@ -533,10 +527,11 @@ const MealsComponent = function (meal, day) {
     const renderPlates = meal.plates.reduce((acc, plate) => acc.concat(PlateComponent(plate).actions.render()), []);
     platesContainer.html(renderPlates)
     platesContainer.accordion({
+      heightStyle: "content",
       active: false,
       collapsible: true,
       icons: false,
-    });
+  });
     $(".js-plate-accordion-header").off("keydown");
     initializeSelect2()
   }
@@ -587,6 +582,7 @@ $(document).on("click", ".js-remove-meal", function () {
   });
   $('.js-meals-component').accordion("destroy");
   $(".js-meals-component").accordion({
+    heightStyle: "content",
     active: false,
     collapsible: true,
     icons: false,
@@ -607,6 +603,7 @@ $(document).on("click", '.js-change-pagination', function () {
   });
   $('.js-meals-component').accordion("destroy");
   $(".js-meals-component").accordion({
+    heightStyle: "content",
     active: false,
     collapsible: true,
     icons: false,
