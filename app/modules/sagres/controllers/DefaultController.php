@@ -77,7 +77,7 @@ class DefaultController extends Controller
 
 	public function actionDownload(){
 
-		$inst = "Edu" . INSTANCE . "/";
+		$inst = "File_" . INSTANCE . "/";
 		$fileDir = "./app/export/SagresEdu/" . $inst . "Educacao.zip";
         if (file_exists($fileDir)) {
             header('Content-Description: File Transfer');
