@@ -290,10 +290,14 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         if ($_REQUEST['type'] == '0'){ ?>
                             <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>
                             <?php
-                        }else{?>
-                            <div class="padding-5"><b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)</div>
-                            <div class="padding-5"><b>☐</b> Promovido na série/etapa anterior do mesmo curso (nível e/ou modalidade de ensino)</div>
-                            <div class="padding-5"> <b>☐</b> Repetente</div>
+                        }else{
+                            $firstRegistration = "Primeira matrícula no curso (nível e/ou modalidade de ensino)";
+                            $promoted = "Promovido na série anterior do mesmo curso (nível e/ou modalidade de ensino)";
+                            $repeatStudent = "Repetente";
+                        ?>
+                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $firstRegistration) ? '☑ ' : '☐ ' ?></b> <?php echo $firstRegistration ?></div>
+                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $promoted) ? '☑ ' : '☐ ' ?></b> <?php echo $promoted ?></div>
+                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $repeatStudent) ? '☑ ' : '☐ ' ?></b> <?php echo $repeatStudent ?></div>
                         <?php } ?>
 
                     </div>
@@ -356,6 +360,35 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <tr>
             <td>
                 <div class="span10"><b>23 - Restrição alimentar ou alergia a: </b>
+                    <?php
+                    if ($data['celiac'] == '1') {
+                        echo 'Doença celíaca';
+                    }
+                    if ($data['diabetes'] == '1') {
+                        echo 'Diabetes';
+                    }
+                    if ($data['hypertension'] == '1') {
+                        echo 'Hipertensão';
+                    }
+                    if ($data['iron_deficiency_anemia'] == '1') {
+                        echo 'Anemia ferropriva';
+                    }
+                    if ($data['sickle_cell_anemia'] == '1') {
+                        echo 'Anemia falciforme';
+                    }
+                    if ($data['lactose_intolerance'] == '1') {
+                        echo 'Intolerância à lactose';
+                    }
+                    if ($data['malnutrition'] == '1') {
+                        echo 'Desnutrição';
+                    }
+                    if ($data['obesity'] == '1') {
+                        echo 'Obesidade';
+                    }
+                    if (!empty($data['others'])) {
+                        echo $data['others'];
+                    }
+                    ?>
                     <br><span class="food_restrictions"><?= $data['food_restrictions'] ?></span>
                 </div>
             </td>
@@ -363,8 +396,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <tr><td>
                 <div class="span12"><b>24 - Autorização do Termo de Consentimento? </b></div>
                 <br>
-                <div class="span2"><b>☐</b> Sim</div>
-                <div class="span2"><b>☐</b> Não</div>
+                <div class="span2"><b><?= ($data['consent_form'] == '1') ? '☑' : '☐'?></b> Sim</div>
+                <div class="span2"><b><?= ($data['consent_form'] == '0') ? '☑' : '☐'?></b> Não</div>
             </td>
         </tr>
     </table>
