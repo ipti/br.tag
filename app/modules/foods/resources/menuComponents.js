@@ -8,7 +8,7 @@ function parseDOM(htmlString) {
   wrapper.append(htmlString);
   return wrapper;
 }
-function initializeMealAccordion(id) {
+function initializeMealAccordion(id = false) {
   $('.js-meals-component').accordion("destroy");
   $(".js-meals-component").accordion({
     heightStyle: "content",
@@ -159,13 +159,7 @@ const PlateComponent = function (plate) {
       meals.forEach((e) => {
         MealsComponent(e, day).actions.render();
       });
-      $('.js-meals-component').accordion("destroy");
-      $(".js-meals-component").accordion({
-        heightStyle: "content",
-        active: accordionActive,
-        collapsible: true,
-        icons: false,
-      });
+      initializeMealAccordion(accordionActive)
     })
     const selectFoods = wrapper.find('.js-taco-foods')
     addRowToTable(selectFoods, table)
@@ -252,13 +246,7 @@ const PlateComponent = function (plate) {
         meals.forEach((e) => {
           MealsComponent(e, day).actions.render();
         });
-        $('.js-meals-component').accordion("destroy");
-        $(".js-meals-component").accordion({
-          heightStyle: "content",
-          active: accordionMeals,
-          collapsible: true,
-          icons: false,
-        });
+        initializeMealAccordion(accordionMeals)
 
       })
       table.find('.js-total').remove()
@@ -506,13 +494,7 @@ const MealsComponent = function (meal, day) {
       meals.forEach((e) => {
         MealsComponent(e, day).actions.render();
       });
-      $('.js-meals-component').accordion("destroy");
-      $(".js-meals-component").accordion({
-        heightStyle: "content",
-        active: meals.indexOf(meal),
-        collapsible: true,
-        icons: false,
-      });
+      initializeMealAccordion(meals.indexOf(meal))
 
       $(".js-plate-accordion-header").off("keydown");
 
@@ -580,13 +562,7 @@ $(document).on("click", ".js-remove-meal", function () {
   meals.forEach((e) => {
     MealsComponent(e, day).actions.render();
   });
-  $('.js-meals-component').accordion("destroy");
-  $(".js-meals-component").accordion({
-    heightStyle: "content",
-    active: false,
-    collapsible: true,
-    icons: false,
-  });
+  initializeMealAccordion()
 });
 
 $(document).on("click", '.js-change-pagination', function () {
@@ -601,13 +577,5 @@ $(document).on("click", '.js-change-pagination', function () {
   meals.forEach((e) => {
     MealsComponent(e, day).actions.render();
   });
-  $('.js-meals-component').accordion("destroy");
-  $(".js-meals-component").accordion({
-    heightStyle: "content",
-    active: false,
-    collapsible: true,
-    icons: false,
-  });
+  initializeMealAccordion()
 })
-
-

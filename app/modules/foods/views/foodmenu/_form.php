@@ -47,13 +47,13 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		</div>
 		<div class="row">
 			<div class="t-field-text column">
-				<label for="menu_description" class="t-field-text__label--required">Nome </label>
+				<label for="menu_description" class="t-field-text__label--required">Nome</label>
 				<input type="text" id="menu_description" name="Nome" class="t-field-text__input js-menu-name"
 					required="required">
 
 			</div>
 			<div class="clear-margin--top column">
-				<label for="public_target" class="t-field-select__label--required">Publico Alvo </label>
+				<label for="public_target" class="t-field-select__label--required">Publico Alvo</label>
 				<select id="public_target" name="Público Alvo"
 					class="select-search-on t-field-select__input js-public-target js-initialize-select2"
 					required="required" placeholder="Select Classrom">
@@ -63,12 +63,12 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		</div>
 		<div class="row">
 			<div class="t-field-text column">
-				<label for="menu_start_date" class="t-field-text__label">Data Inicial</label>
+				<label for="menu_start_date" class="t-field-text__label--required">Data Inicial</label>
 				<input type="text" id="menu_start_date" name="Data Inicial"
 					class="t-field-text__input js-date date js-start-date" required="required">
 			</div>
 			<div class="t-field-text column">
-				<label for="menu_final_date" class="t-field-text__label">Data Final</label>
+				<label for="menu_final_date" class="t-field-text__label--required">Data Final</label>
 				<input type="text" id="menu_final_date" name="Data Final"
 					class="t-field-text__input js-date date js-final-date" required="required" />
 			</div>
