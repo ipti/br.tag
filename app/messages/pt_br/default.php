@@ -538,7 +538,7 @@ return array(
     'History' => 'Histórico',
     'Justice Restriction' => 'Restrição na Justiça',
     'Student Diff Location' => 'Localização Diferenciada',
-    'Consent Form' => 'Termo de Consentimento',
+    'Consent Form' => 'Termo de Consentimento da Imagem',
 
     //Student Enrollment
     'Student Inep' => 'Inep do aluno',
