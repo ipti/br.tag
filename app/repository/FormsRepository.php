@@ -175,7 +175,13 @@ class FormsRepository {
         $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
         $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]); // medias do aluno na turma
         $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
-        $schedules = Schedule::model()->findAllByAttributes(["classroom_fk" => $enrollment->classroom_fk]);
+        $scheduleSql = "SELECT `month`, `day`c
+        FROM schedule s
+        join classroom c on c.id = s.classroom_fk
+        WHERE c.school_year = :year AND c.id = :classroom
+        group by s.`month`, s.`day`";
+        $scheduleParams = array(':year' => 2023, ':classroom' => $enrollment->classroom_fk);
+        $schedules = Schedule::model()->findAllBySql($scheduleSql, $scheduleParams);
         $gradeRules = GradeRules::model()->findByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcensoStageVsModalityFk->id]);
         $portuguese = array();
         $history = array();
