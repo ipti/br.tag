@@ -330,6 +330,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                 </div>
                 <div class="span3 padding-5">
                     <b><?= ($enrollment->previous_stage_situation == 3) ? '☑' : '☐' ?></b> Afastado por abandono
+                    <br><b><?= ($enrollment->previous_stage_situation == 5) ? '☑' : '☐' ?></b> Promovido
                 </div>
             </td>
         </tr>
@@ -367,7 +368,9 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <tr>
             <td>
                 <div class="span10"><b>22 - Utiliza transporte escolar? </b>
-                    <br><span class="public_transport"><?= $data['public_transport'] ?></span>
+                    <span class="public_transport">
+                        <?= ($enrollment->public_transport == '0') ? 'Não' : 'Sim' ?>
+                    </span>
                 </div>
             </td>
         </tr>
