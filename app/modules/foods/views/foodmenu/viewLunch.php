@@ -30,15 +30,20 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             <?php echo $students ?>  Alunos Presentes
         </div>
     </div>
-    <div class="mobile-row t-margin-small--top">
-        <a class="t-button-primary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
+    <div class="t-buttons-container">
+        <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
             Preparar Cardápio
         </a>
-        <a class="t-button-secondary" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
-            Estoque
-        </a>
+        <div class="mobile-row">
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
+                Estoque
+            </a>
+            <a class="t-button-secondary js-expansive-panel show--mobile">
+                Filtros
+            </a>
+        </div>
     </div>
-    <div class="row">
+    <div class="row t-expansive-panel expanded">
         <div class="t-field-select column clearleft--on-mobile t-multiselect">
             <label class="t-field-select__label">Mostrar turnos</label>
             <select class="select-search-on t-field-select__input js-filter-turns multiselect" multiple="multiple" name='Turno' required='required'>
