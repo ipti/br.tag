@@ -18,7 +18,7 @@ $form=$this->beginWidget('CActiveForm', array(
 <div class="form">
     <div class="mobile-row">
         <div class="column clearleft">
-            <h1 class="clear-padding--bottom"><?php echo $model->isNewRecord ? 'Solicitações' : '' ?></h1>
+            <h1 class="t-padding-none--bottom"><?php echo $model->isNewRecord ? 'Solicitações' : '' ?></h1>
         </div>
     </div>
     <div class="row">
@@ -86,7 +86,7 @@ $form=$this->beginWidget('CActiveForm', array(
 							<?php echo $form->textField($model,'description', array('class' => 't-field-text__input js-description clear-margin--all', 'placeholder' => 'Informe')); ?>
 							<?php echo $form->error($model,'description'); ?>
 						</div>
-						<div class="column is-one-tenth clearleft--on-mobile t-buttons-container t-margin-none--bottom clear-margin--bottom clearfix">
+						<div class="column is-one-tenth clearleft--on-mobile t-buttons-container t-margin-none--bottom clearfix">
 							<button class="t-button-secondary mobile-margin-top t-margin-none--bottom full--width align-self--end" id="add-request" type="button">Adicionar</button>
 						</div>
                     </div>

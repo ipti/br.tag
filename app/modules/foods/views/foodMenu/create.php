@@ -11,11 +11,9 @@ $this->menu=array(
 	array('label'=>'List FoodMenu', 'url'=>array('index')),
 	array('label'=>'Manage FoodMenu', 'url'=>array('admin')),
 );
+$title = "Criar Cardápio";
 ?>
-<div class="row main">
-	<div class="column">
-		<h1>Criar Cardápio</h1>
-	</div>
-</div>
 
-<?php $this->renderPartial('_form', array('model'=>$model,'stages'=>$stages)); ?>
+
+
+<?php $this->renderPartial('_form', array('model'=>$model,'stages'=>$stages, 'title' => $title)); ?>

@@ -47,7 +47,6 @@ $(".js-save-menu").on("click", function () {
         // console.log(foodMenu)
         if(menuId)
         {
-            console.log(foodMenu)
             $.ajax({
                 url: `?r=foods/foodMenu/update&id=${menuId}`,
                 data: {
@@ -57,7 +56,7 @@ $(".js-save-menu").on("click", function () {
             }).done(function (response) {
                 window.location.href = "?r=foods/foodMenu/index";
             })
-         } else 
+         } else
         {
             $.ajax({
                 url: "?r=foods/foodMenu/create",
@@ -78,9 +77,9 @@ $(".js-save-menu").on("click", function () {
                 erros.push(this.name)
             }
         });
-         
+
         showErros(erros)
-    } 
+    }
 
 
 });

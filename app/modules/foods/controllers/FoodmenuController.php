@@ -117,6 +117,12 @@ class FoodmenuController extends Controller
             $modelFoodMenu->observation = $request['observation'];
             $modelFoodMenu->description = $request['description'];
             $modelFoodMenu->save();
+
+            //atualiza FoodMenuvVsPublicTarget
+            $foodMenuVsPublicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array('food_menu_fk' => $modelFoodMenu->id));
+            $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
+            $foodMenuVsPublicTarget->food_public_target_fk = $publicTarget->id;
+            $foodMenuVsPublicTarget->save();
         }
 
         foreach ($modelMenuMeals as $modelMenuMeal) {
@@ -380,6 +386,11 @@ class FoodmenuController extends Controller
             $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measure_unit_id"]);
             $foodIngredient->food_measurement_fk = $foodMeasurement->id;
             $saveIngredientResult = $foodIngredient->save();
+            // $foodIngredient->validate();
+
+
+            //  CVarDumper::dump($ingredient, 10, true);
+
             if ($saveIngredientResult === false) {
                 // Caso de erro: Falha quando ocorre um erro ao tentar salvar um ingrediente de um prato
                 $message = 'Ocorreu um erro ao salvar um ingrediente! Verifique as informações e tente novamente';

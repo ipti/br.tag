@@ -190,7 +190,18 @@ const PlateComponent = function (plate) {
   }
   function addRowToTable(selectFoods, table) {
     selectFoods.on('change', (e) => {
-      table.find('tbody > :not(:first-child)').html('')
+      table.find('tbody').html('')
+      table.find('tbody').append(`<tr>
+            <th>Nome</th>
+            <th>unidade</th>
+            <th>Medida</th>
+            <th>Quantidade</th>
+            <th>PT</th>
+            <th>LIP</th>
+            <th>CHO</th>
+            <th>KCAL</th>
+            <th></th>
+        </tr>`)
       plate.food_ingredients.push({
         id: idIgredientes,
         food_id_fk: selectFoods.val(),
@@ -218,7 +229,7 @@ const PlateComponent = function (plate) {
       response = JSON.parse(DOMPurify.sanitize(response))
       let line = createMealComponent(response, food);
       const wrapper = parseDOM(line);
-      wrapper.find(".js-unit").on("change", (e) => { food.amount = e.target.value });
+      wrapper.find(".js-unit input").on("input", (e) => {food.amount = e.target.value});
       wrapper.find('.js-remove-taco-food').on('click', (e) => {
 
         let accordionPlateActive = $(e.target).attr("data-id-plate")
@@ -396,7 +407,7 @@ const MealsComponent = function (meal, day) {
   function render() {
     const container = $(".js-meals-component");
     let template = `
-    
+
     <div class="ui-accordion-header js-meals-accordion-header row ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
       <div class="column justify-content--start js-meal-name">
         ${meal.mealType == "Selecione a refeição" ? "Turno da refeição" : meal.mealType}
@@ -409,11 +420,11 @@ const MealsComponent = function (meal, day) {
     <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
       <div class="row">
         <div class="t-field-text column">
-          <label class="t-field-text__label--required">Hora da Refeição *</label>
+          <label class="t-field-text__label--required">Hora da Refeição</label>
           <input type='text' class='t-field-text__input js-mealTime' required='required' value="${meal.mealTime}" name='Hora da Refeição' />
         </div>
         <div class="t-field-select column">
-            <label class='t-field-select__label--required'>Refeição *</label>
+            <label class='t-field-select__label--required'>Refeição</label>
             <select required='required' name='Refeição'
                     class="js-initialize-select2 select-search-on t-field-select__input js-meal-type">
               <option value="">Selecione a refeição</option>
@@ -422,13 +433,13 @@ const MealsComponent = function (meal, day) {
       </div>
       <div class="row">
 					<div class="t-field-select column">
-            <label class="t-field-select__label--required">Turno *</label>
+            <label class="t-field-select__label--required">Turno</label>
             <select class="js-initialize-select2 select-search-on t-field-select__input js-shift" name='Turno' required='required'>
                 <option value="">Selecione o turno</option>
                 <option value="M">Manhã</option>
                 <option value="T">Tarde</option>
                 <option value="N">Noite</option>
-            </select>          
+            </select>
 					</div>
 					<div class="column"></div>
 			</div>
@@ -456,7 +467,7 @@ const MealsComponent = function (meal, day) {
         <div class="js-plate-accordion column">
         </div>
       </div>
-    </div>     
+    </div>
           `;
 
     const wrapper = parseDOM(template);

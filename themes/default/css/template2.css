@@ -241,13 +241,11 @@ table.dataTable {
 .control-label.required {
     width: 352px;
     text-align: left;
-    font-weight: bold;
 }
 
 .control-label.required.small-label {
     width: auto;
     text-align: left;
-    font-weight: bold;
 }
 
 .control-label.required.indicator::after {

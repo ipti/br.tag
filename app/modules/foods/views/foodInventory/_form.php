@@ -20,7 +20,7 @@ $form=$this->beginWidget('CActiveForm', array(
 <div class="form">
     <div class="mobile-row">
         <div class="column clearleft">
-            <h1 class="clear-padding--bottom"><?php echo $model->isNewRecord ? 'Estoque' : '' ?></h1>
+            <h1 class="t-padding-none--bottom"><?php echo $model->isNewRecord ? 'Estoque' : '' ?></h1>
             <p>Cardápio semanal da sua escola</p>
         </div>
     </div>
