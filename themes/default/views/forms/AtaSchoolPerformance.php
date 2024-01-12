@@ -255,12 +255,12 @@ if ($turno == 'M') {
                     ."<td>".$label_id."</td>"
                     ."<td>".$s->studentFk->inep_id."</td>"
                     ."<td>".$s->studentFk->name."</td>";
-                $finalSituation;
+                $finalSituation = '';
                 foreach ($grades as $grade) {
                     if($grade['student_id'] == $s->studentFk->id) {
                         echo "<td>".$grade['final_media']."</td>";
+                        $finalSituation = $grade['situation'];
                     }
-                    $finalSituation = $grade['situation'];
                 }
                 echo "<td>".$finalSituation."</td>";
                 echo "</tr>";

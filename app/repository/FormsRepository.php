@@ -556,7 +556,9 @@ class FormsRepository {
                         $finalMedia = $r['final_media'];
                         if ($r['situation'] == 'REPROVADO') {
                             $finalSituation = 'REPROVADO';
-                        } else if ($r['situation'] != null && $finalSituation != 'REPROVADO') {
+                        } else if ($r['situation'] == 'RECUPERAÇÃO' && $finalSituation != 'REPROVADO') {
+                            $finalSituation = 'RECUPERAÇÃO';
+                        } else if ($r['situation'] == 'APROVADO' && $finalSituation != 'REPROVADO' && $finalSituation != 'RECUPERAÇÃO') {
                             $finalSituation = 'APROVADO';
                         }
                         break;
