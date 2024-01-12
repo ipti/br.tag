@@ -361,33 +361,46 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <td>
                 <div class="span10"><b>23 - Restrição alimentar ou alergia a: </b>
                     <?php
+                    $result = '';
+
                     if ($data['celiac'] == '1') {
-                        echo 'Doença celíaca';
+                        $result .= 'Doença celíaca';
                     }
+
                     if ($data['diabetes'] == '1') {
-                        echo 'Diabetes';
+                        $result .= ($result ? ', ' : '') . 'Diabetes';
                     }
+
                     if ($data['hypertension'] == '1') {
-                        echo 'Hipertensão';
+                        $result .= ($result ? ', ' : '') . 'Hipertensão';
                     }
+
                     if ($data['iron_deficiency_anemia'] == '1') {
-                        echo 'Anemia ferropriva';
+                        $result .= ($result ? ', ' : '') . 'Anemia ferropriva';
                     }
+
                     if ($data['sickle_cell_anemia'] == '1') {
-                        echo 'Anemia falciforme';
+                        $result .= ($result ? ', ' : '') . 'Anemia falciforme';
                     }
+
                     if ($data['lactose_intolerance'] == '1') {
-                        echo 'Intolerância à lactose';
+                        $result .= ($result ? ', ' : '') . 'Intolerância à lactose';
                     }
+
                     if ($data['malnutrition'] == '1') {
-                        echo 'Desnutrição';
+                        $result .= ($result ? ', ' : '') . 'Desnutrição';
                     }
+
                     if ($data['obesity'] == '1') {
-                        echo 'Obesidade';
+                        $result .= ($result ? ', ' : '') . 'Obesidade';
                     }
+
                     if (!empty($data['others'])) {
-                        echo $data['others'];
+                        $result .= ($result ? ', ' : '') . $data['others'];
                     }
+
+                    echo $result;
+
                     ?>
                     <br><span class="food_restrictions"><?= $data['food_restrictions'] ?></span>
                 </div>
