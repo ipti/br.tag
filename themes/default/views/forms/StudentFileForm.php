@@ -414,9 +414,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     }
 
                     echo $result;
-
                     ?>
-                    <br><span class="food_restrictions"><?= $data['food_restrictions'] ?></span>
                 </div>
             </td>
         </tr>
