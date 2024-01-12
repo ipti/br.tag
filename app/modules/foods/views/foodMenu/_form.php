@@ -46,7 +46,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 			</h3>
 		</div>
 		<?php if(!$model->isNewRecord): ?>
-			<div class="row t-margin-medium--bottom">
+			<div class="row t-margin-medium--bottom hide">
 					<a class="t-button-secondary" target="_blank" href="<?php echo Yii::app()->createUrl('reports/FoodMenu', array()) ?>">
 						<span class="t-icon-printer"></span>imprimir cardápio
 					</a>
