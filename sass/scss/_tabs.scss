@@ -5,8 +5,8 @@
     
     display: flex;
     list-style: none;
-    margin: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
-    padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+    margin: $spaceEmpty;
+    padding: $spaceEmpty;
     overflow-x: scroll;
     overflow-y: hidden;
     -ms-overflow-style: none;  /* IE and Edge */
@@ -119,7 +119,7 @@
         text-align: center;
         .t-tabs__item {
             padding: $SizeXSmall;
-            font-weight: $fontWeightSemiBold;
+            font-weight: $fontWeightRegular;
             font-size: 52%;
             cursor: pointer;
             @include device(mobile) {
@@ -134,6 +134,7 @@
             }
             &.active {
                 border-bottom: $borderWidthInputFocus #222C64  solid;
+                font-weight: $fontWeightSemiBold;
             }
         }
         
