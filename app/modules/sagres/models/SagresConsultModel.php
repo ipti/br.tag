@@ -688,6 +688,8 @@ class SagresConsultModel
     {
         $menuList = [];
         $strlen = 4;
+        $maxLen = 1000;
+
         $query = "SELECT 
                     lm.date AS data,
                     lm.turn AS turno,
@@ -736,6 +738,16 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'DESCRIÇÃO PARA MERENDA MENOR QUE 5 CARACTERES';
                 $inconsistencyModel->action = 'INFORMAR UMA DESCRIÇÃO PARA MERENDA MAIOR QUE 4 CARACTERES';
+                $inconsistencyModel->idSchool = $schoolId;
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($menuType->getDescricaoMerenda()) > $maxLen) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'CARDÁPIO';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'DESCRIÇÃO PARA A MERENDA MAIOR QUE 1000 CARACTERES';
+                $inconsistencyModel->action = 'INFORMAR UMA DESCRIÇÃO PARA A MERENDA MENOR QUE 1000 CARACTERES';
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
