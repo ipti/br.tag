@@ -83,7 +83,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                    class="table table-bordered report-table-empty">
                 <thead>
                     <tr>
-                        <th colspan="<?= $rows+4 ?>" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
+                        <th colspan="<?= $rows+4 ?>" style="text-align: center">FICHA DE NOTAS</th>
                     </tr>
                     <tr>
                         <td style="text-align: center; min-width: 90px !important;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
@@ -142,7 +142,13 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                                 $workload += $result[$j]['workload'];
                                 $faults += $result[$j]['faults'];
                                 ?>
-                                <td style="text-align: center;"><?= $result[$j]['grades'][$i-1]->grade ?></td>
+                                <?php if ($unities[$i-1]->type == 'RF') { ?>
+                                    <td style="text-align: center;"><?= $result[$j]['grade_result']["rec_final"] ?></td>
+                                <?php } else if ($result[$j]['grade_result']["grade_".$i] < $result[$j]['grade_result']["rec_bim_".$i]) { ?>
+                                    <td style="text-align: center;"><?= $result[$j]['grade_result']["rec_bim_".$i] ?></td>
+                                <?php } else { ?>
+                                    <td style="text-align: center;"><?= $result[$j]['grade_result']["grade_".$i] ?></td>
+                                <?php } ?>
                             <?php }?>
                             <td style="text-align: center;"><?= $school_days?></td>
                             <td style="text-align: center;"><?= $workload?></td>

@@ -53,7 +53,7 @@ class FormsRepository {
     }
 
     /**
-     * Rendimento Escolar por Atividades
+     * Ficha de Notas
      */
     public function getEnrollmentGrades($enrollmentId) : array
     {
@@ -66,6 +66,12 @@ class FormsRepository {
         $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
         $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
         $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]); // unidades da turma
+
+        // Ajusta ordem das unidades se houver rec. Final
+        $recFinalIndex = array_search('RF', array_column($unities, 'type'));
+        $recFinalObject = $unities[$recFinalIndex];
+        array_splice($unities, $recFinalIndex, 1);
+        array_push($unities, $recFinalObject);
 
         // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho
         foreach ($curricularMatrix as $matrix) {
@@ -100,15 +106,13 @@ class FormsRepository {
                 return $fault->scheduleFk->discipline_fk == $discipline && $fault->scheduleFk->classroom_fk == $enrollment->classroom_fk;
             }));
 
-            foreach ($gradesResult as $finalMedia) {
+            foreach ($gradesResult as $gradeResult) {
                 // se existe notas para essa disciplina
-                if($finalMedia->disciplineFk->id == $discipline) {
+                if($gradeResult->disciplineFk->id == $discipline) {
                     array_push($result, [
-                        "discipline_id" => $finalMedia->disciplineFk->id,
-                        "final_media" => $finalMedia->final_media,
-                        "grades" => array_values(array_filter($grades, function ($grade) use ($finalMedia) {
-                            return $this->compareGradeAndResult($grade, $finalMedia);
-                        })),
+                        "discipline_id" => $gradeResult->disciplineFk->id,
+                        "final_media" => $gradeResult->final_media,
+                        "grade_result" => $gradeResult,
                         "faults" => $faults,
                         "workload" => $disciplineMatrix[0]->workload,
                         "total_number_of_classes" => $totaNumberOfClasses,
@@ -123,7 +127,7 @@ class FormsRepository {
                 array_push($result, [
                     "discipline_id" => $discipline,
                     "final_media" => null,
-                    "grades" => null,
+                    "grade_result" => null,
                     "faults" => $faults,
                     "workload" => $disciplineMatrix[0]->workload,
                     "total_number_of_classes" => $totaNumberOfClasses,
@@ -153,6 +157,12 @@ class FormsRepository {
         );
 
         return $response;
+    }
+
+    private function setGradeResultOnUnities($unities, $greadeResult) {
+        $gradesOnOrder;
+        if ($unities)
+        return $gradesOnOrder;
     }
 
     private function calculateFrequency($diasLetivos, $totalFaltas): int
