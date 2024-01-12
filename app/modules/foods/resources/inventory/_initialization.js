@@ -22,7 +22,7 @@ $(document).ready(function() {
         foods_description = JSON.parse(response);
 
         Object.entries(foods_description).forEach(function([id, value]) {
-            value = value.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+            value = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
             foodSelect.append($('<option>', {
                 value: id,
                 text: value
@@ -92,10 +92,11 @@ $(document).on("click", "#js-entry-stock-button", function () {
         foods_description = JSON.parse(response);
 
         Object.entries(foods_description).forEach(function([id, value]) {
-            value = value.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+            description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+            value = id + ',' + value.measurementUnit;
             foodSelect.append($('<option>', {
-                value: id,
-                text: value
+                value: value,
+                text: description
             }));
         });
     })
@@ -104,7 +105,7 @@ $(document).on("click", "#js-entry-stock-button", function () {
 $(document).on("click", "#add-food", function () {
     let food = $('#food').find('option:selected').text();
     let measurementUnit = $('#measurementUnit').find('option:selected').text();
-    let foodId = $('#food').val();
+    let foodId = $('#food').val().split(',')[0];
     let amount = $('.js-amount').val();
     let expiration_date = $('.js-expiration-date').val();
 
@@ -129,24 +130,29 @@ $(document).on("click", "#stock_button", function () {
 });
 
 $(document).on("click", "#save-food", function () {
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/foodInventory/saveStock",
-        cache: false,
-        data: {
-            foodsOnStock: foodsOnStock
-        }
-    }).success(function(response) {
-        foodsOnStock.splice(0, foodsOnStock.length);
-        let foodsStockDiv = document.getElementById("foods_stock");
-        foodsStockDiv.innerHTML = '';
-        $('.js-expiration-date').val('');
-        $('.js-amount').val('');
-        $('#info-alert').removeClass('hide').addClass('alert-success').html("Alimento(s) adicionado(s) ao estoque com sucesso.");
-        getFoodInventory();
-    }).fail(function(error) {
-        $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível adicionar o alimento no sistema.");
-    })
+    if (foodsOnStock != 0){
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/foodInventory/saveStock",
+            cache: false,
+            data: {
+                foodsOnStock: foodsOnStock
+            }
+        }).success(function(response) {
+            foodsOnStock.splice(0, foodsOnStock.length);
+            let foodsStockDiv = document.getElementById("foods_stock");
+            foodsStockDiv.innerHTML = '';
+            $('#js-entry-stock-modal').modal('hide');
+            $('.js-expiration-date').val('');
+            $('.js-amount').val('');
+            $('#info-alert').removeClass('hide').addClass('alert-success').html("Alimento(s) adicionado(s) ao estoque com sucesso.");
+            getFoodInventory();
+        }).fail(function(error) {
+            $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível adicionar o alimento no sistema.");
+        })
+    } else {
+        $('#stock-modal-alert').removeClass('hide').addClass('alert-error').html("Para adicionar ao estoque é necessário adicionar um alimento");
+    }
 });
 
 $(document).on("click", "#spent-checkbox", function () {
@@ -253,4 +259,19 @@ table.on('change', '#foodInventoryStatus', function() {
         })
     }
 
+});
+
+$(document).on("change", "#food", function () {
+    let measurementUnit = this.value.split(',')[1];
+    let measurementUnitSelect = $('#measurementUnit');
+    measurementUnitSelect.empty();
+    if(measurementUnit == "g") {
+        measurementUnitSelect.append($('<option>g</option><option>Kg</option>'));
+    } else if (measurementUnit == "u") {
+        measurementUnitSelect.append($('<option>unidade</option><option>g</option><option>Kg</option>'));
+    }else {
+        measurementUnitSelect.append($('<option>L</option>'));
+    }
+    measurementUnitSelect.val('');
+    measurementUnitSelect.trigger("change");
 });

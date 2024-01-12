@@ -64,35 +64,30 @@ $form=$this->beginWidget('CActiveForm', array(
                         </div>
                     </div>
                     <div class="tablet-row bottom-margin">
-						<div class="column is-third t-field-select clear-margin--bottom clearfix">
+						<div class="column is-third t-field-select t-margin-none--bottom clearfix">
 							<?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
 							<select class="select-search-on t-field-select__input select2-container clear-margin--all" id="food" name="food">
 								<option value="alimento">Selecione o Alimento</option>
 							</select>
 						</div>
-						<div class="column is-one-tenth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
+						<div class="column is-one-tenth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
 							<?php echo $form->label($model,'amount', array('class' => 't-field-text__label--required')); ?>
 							<?php echo $form->textField($model,'amount', array('class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
 							<?php echo $form->error($model,'amount'); ?>
 						</div>
-						<div class="column is-one-tenth clearleft--on-mobile t-field-text clear-margin--bottom clearfix">
+						<div class="column is-one-tenth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
 							<?php echo CHtml::label('Unidade', 'measurementUnit', array('class' => 't-field-select__label--required')); ?>
 							<select class="select-search-on t-field-select__input select2-container clear-margin--all" id="measurementUnit" name="measurementUnit">
-								<option>Selecione</option>
-								<option>g</option>
-								<option>Kg</option>
-								<option>L</option>
-								<option>Pacote</option>
-								<option>Unidade</option>
+
 							</select>
 						</div>
-						<div class="column t-field-text clearleft--on-mobile clear-margin--bottom is-two-fifths clearfix">
+						<div class="column t-field-text clearleft--on-mobile t-margin-none--bottom is-two-fifths clearfix">
 							<?php echo $form->label($model,'description', array('class' => 't-field-text__label--required')); ?>
 							<?php echo $form->textField($model,'description', array('class' => 't-field-text__input js-description clear-margin--all', 'placeholder' => 'Informe')); ?>
 							<?php echo $form->error($model,'description'); ?>
 						</div>
-						<div class="column is-one-tenth clearleft--on-mobile t-buttons-container clear-padding--bottom clear-margin--bottom clearfix">
-							<button class="t-button-secondary mobile-margin-top clear-margin--all full--width align-self--end" id="add-request" type="button">Adicionar</button>
+						<div class="column is-one-tenth clearleft--on-mobile t-buttons-container t-margin-none--bottom clear-margin--bottom clearfix">
+							<button class="t-button-secondary mobile-margin-top t-margin-none--bottom full--width align-self--end" id="add-request" type="button">Adicionar</button>
 						</div>
                     </div>
 

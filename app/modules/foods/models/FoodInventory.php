@@ -29,7 +29,7 @@ class FoodInventory extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_fk, food_fk, amount', 'required'),
+            array('school_fk, food_fk, amount, expiration_date', 'required'),
             array('food_fk', 'numerical', 'integerOnly'=>true),
             array('amount', 'numerical'),
             array('school_fk', 'length', 'max'=>8),

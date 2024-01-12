@@ -75,14 +75,17 @@ class FoodinventoryController extends Controller
     public function actionGetFoodAlias()
     {
         $criteria = new CDbCriteria();
-        $criteria->select = 'id, description';
+        $criteria->select = 'id, description, measurementUnit';
         $criteria->condition = 'alias_id = t.id';
 
         $foods_description = Food::model()->findAll($criteria);
 
         $values = [];
         foreach ($foods_description as $food) {
-            $values[$food->id] = $food->description;
+            $values[$food->id] = (object) [
+                'description' => $food->description,
+                'measurementUnit' => $food->measurementUnit
+            ];
         }
 
         echo json_encode($values);
@@ -128,7 +131,13 @@ class FoodinventoryController extends Controller
 
                     $FoodInventoryReceived->save();
 
-                    $existingFood->amount += $foodData['amount'];
+                    if($existingFood->measurementUnit == "Kg" && $foodData['measurementUnit'] == "g") {
+                        $existingFood->amount += $foodData['amount']/1000;
+                    } else if ($existingFood->measurementUnit == "g" && $foodData['measurementUnit'] == "Kg") {
+                        $existingFood->amount += $foodData['amount'] * 1000;
+                    } else {
+                        $existingFood->amount += $foodData['amount'];
+                    }
                     $existingFood->expiration_date = date('Y-m-d', $expiration_date_Timestamp);
                     $existingFood->status = 'Disponivel';
                     $existingFood->save();

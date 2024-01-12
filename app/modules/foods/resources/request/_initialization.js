@@ -21,7 +21,7 @@ $(document).ready(function() {
         foods_description = JSON.parse(response);
 
         Object.entries(foods_description).forEach(function([id, value]) {
-            value = value.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+            value = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
             foodSelect.append($('<option>', {
                 value: id,
                 text: value
@@ -51,10 +51,11 @@ $(document).on("click", "#js-entry-request-button", function () {
         foods_description = JSON.parse(response);
 
         Object.entries(foods_description).forEach(function([id, value]) {
-            value = value.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+            description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+            value = id + ',' + value.measurementUnit;
             foodSelect.append($('<option>', {
-                value: id,
-                text: value
+                value: value,
+                text: description
             }));
         });
     })
@@ -64,7 +65,7 @@ $(document).on("click", "#add-request", function () {
     let amount = $('.js-amount').val();
     let food = $('#food').find('option:selected').text();
     let measurementUnit = $('#measurementUnit').find('option:selected').text();
-    let foodId = $('#food').val();
+    let foodId = $('#food').val().split(',')[0];
     let description = $('.js-description').val();
     let requestDate = $('.js-date').val();
 
@@ -114,4 +115,18 @@ $(document).on("click", "#save-request", function () {
     }).fail(function(error) {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível gerar a solicitação no sistema.");
     })
+});
+$(document).on("change", "#food", function () {
+    let measurementUnit = this.value.split(',')[1];
+    let measurementUnitSelect = $('#measurementUnit');
+    measurementUnitSelect.empty();
+    if(measurementUnit == "g") {
+        measurementUnitSelect.append($('<option>g</option><option>Kg</option>'));
+    } else if (measurementUnit == "u") {
+        measurementUnitSelect.append($('<option>unidade</option><option>g</option><option>Kg</option>'));
+    }else {
+        measurementUnitSelect.append($('<option>L</option>'));
+    }
+    measurementUnitSelect.val('');
+    measurementUnitSelect.trigger("change");
 });
