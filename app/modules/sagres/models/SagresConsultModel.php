@@ -452,13 +452,14 @@ class SagresConsultModel
                     $inconsistencyModel->insert();
                 }
     
-                /* [1, 2, 3, 4]
-                 * 1 - Educação Infantil -->
-                 * 2 - Ensino Fundamental -->
-                 * 3 - Ensino Médio -->				
-                 * 4 - Educação de Jovens e Adultos -->
+                /*
+                 * 1 - Educação Infantil
+                 * 2 - Ensino Fundamental
+                 * 3 - Ensino Médio
+                 * 4 - Educação de Jovens e Adultos
+                 * 5 - Atendimento Educacional Especializado
                  */
-                if (!in_array($serieType->getModalidade(), [1, 2, 3, 4])) {
+                if (!in_array($serieType->getModalidade(), [1, 2, 3, 4, 5])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'SÉRIE';
                     $inconsistencyModel->school = '';
