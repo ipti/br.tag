@@ -265,12 +265,17 @@ $(document).on("change", "#food", function () {
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');
     measurementUnitSelect.empty();
-    if(measurementUnit == "g") {
-        measurementUnitSelect.append($('<option>g</option><option>Kg</option>'));
-    } else if (measurementUnit == "u") {
-        measurementUnitSelect.append($('<option>unidade</option><option>g</option><option>Kg</option>'));
-    }else {
-        measurementUnitSelect.append($('<option>L</option>'));
+    console.log(measurementUnit);
+    switch (measurementUnit) {
+        case "g":
+            measurementUnitSelect.append($('<option value="g" selected>g</option><option value="Kg">Kg</option>'));
+            break;
+        case "u":
+            measurementUnitSelect.append($('<option value="unidade" selected>Unidade</option><option value="g">g</option><option value="Kg">Kg</option>'));
+            break;
+        case "l":
+            measurementUnitSelect.append($('<option value="l" selected>L</option>'));
+            break;
     }
     measurementUnitSelect.val('');
     measurementUnitSelect.trigger("change");

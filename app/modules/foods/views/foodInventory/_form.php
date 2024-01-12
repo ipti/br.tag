@@ -104,6 +104,7 @@ $form=$this->beginWidget('CActiveForm', array(
                         <div class="column is-one-fifth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
                             <?php echo CHtml::label('Unidade', 'measurementUnit', array('class' => 't-field-select__label--required')); ?>
                             <select class="select-search-on t-field-select__input select2-container" id="measurementUnit" name="measurementUnit">
+                                <option value="selecione">Selecione</option>
                             </select>
                         </div>
                         <div class="column is-one-tenth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
