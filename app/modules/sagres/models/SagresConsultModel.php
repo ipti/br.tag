@@ -482,8 +482,8 @@ class SagresConsultModel
     public function getSchedules($classId, $month)
     {
         $scheduleList = [];
-        $strlen = 5;
-        $maxLength = 50;
+        $strlen = 3;
+        $maxLength = 100;
 
         $query = "SELECT DISTINCT 
                     s.schedule AS schedule,
