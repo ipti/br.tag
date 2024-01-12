@@ -45,6 +45,13 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 				Informações do Cardápio
 			</h3>
 		</div>
+		<?php if(!$model->isNewRecord): ?>
+			<div class="row t-margin-medium--bottom">
+					<a class="t-button-secondary" target="_blank" href="<?php echo Yii::app()->createUrl('reports/FoodMenu', array()) ?>">
+						<span class="t-icon-printer"></span>imprimir cardápio
+					</a>
+			</div>
+		<?php endif; ?>
 		<div class="row">
 			<div class="t-field-text column">
 				<label for="menu_description" class="t-field-text__label--required">Nome</label>
