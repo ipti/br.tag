@@ -138,13 +138,9 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                             if ($unities[$i-1]->type == 'UC') {
                                 $conceptUnities = true;
                             }
-                            $school_days = 0;
-                            $workload = 0;
                             $faults = 0;
                             for($j=0; $j < $rows; $j++) {
 
-                                $school_days += $result[$j]['school_days'];
-                                $workload += $result[$j]['workload'];
                                 $faults += $result[$j]['faults'];
                                 ?>
                                 <?php if ($unities[$i-1]->type == 'RF') { ?>
@@ -158,8 +154,8 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                                 <?php } ?>
                             <?php }?>
                             <?php if ($unities[$i-1]->type != 'RF') { ?>
-                                <td style="text-align: center;"><?= $school_days?></td>
-                                <td style="text-align: center;"><?= $workload?></td>
+                                <td style="text-align: center;"><?= $school_days[$i-1]?></td>
+                                <td style="text-align: center;"><?= $workload[$i-1]?></td>
                                 <td style="text-align: center;"><?= $faults?></td>
                             <?php } else { ?>
                                 <td style="text-align: center;"></td>
