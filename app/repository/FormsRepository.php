@@ -61,7 +61,6 @@ class FormsRepository {
         $baseDisciplines = array(); // disciplinas da BNCC
         $diversifiedDisciplines = array(); //disciplinas diversas
         $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
-        $grades = Grade::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]); // notas do aluno na turma
         $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]); // medias do aluno na turma
         $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
         $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
@@ -564,6 +563,7 @@ class FormsRepository {
                 foreach ($result as $r) {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
                         $finalMedia = $r['final_media'];
+                        $r['situation'] = mb_strtoupper($r['situation']);
                         if ($r['situation'] == 'REPROVADO') {
                             $finalSituation = 'REPROVADO';
                         } else if ($r['situation'] == 'RECUPERAÇÃO' && $finalSituation != 'REPROVADO') {

@@ -130,29 +130,42 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                 </thead>
                 <tbody>
                     <?php
+                    $conceptUnities = false;
                     for($i=1;$i<=count($unities);$i++) {?>
                         <tr>
                             <td><?= strtoupper($unities[$i-1]->name) ?></td>
                             <?php
+                            if ($unities[$i-1]->type == 'UC') {
+                                $conceptUnities = true;
+                            }
                             $school_days = 0;
                             $workload = 0;
                             $faults = 0;
                             for($j=0; $j < $rows; $j++) {
+
                                 $school_days += $result[$j]['school_days'];
                                 $workload += $result[$j]['workload'];
                                 $faults += $result[$j]['faults'];
                                 ?>
                                 <?php if ($unities[$i-1]->type == 'RF') { ?>
                                     <td style="text-align: center;"><?= $result[$j]['grade_result']["rec_final"] ?></td>
+                                <?php } else if ($unities[$i-1]->type == 'UC') { ?>
+                                    <td style="text-align: center;"><?= $result[$j]['grade_result']["grade_concept_".$i] ?></td>
                                 <?php } else if ($result[$j]['grade_result']["grade_".$i] < $result[$j]['grade_result']["rec_bim_".$i]) { ?>
                                     <td style="text-align: center;"><?= $result[$j]['grade_result']["rec_bim_".$i] ?></td>
                                 <?php } else { ?>
                                     <td style="text-align: center;"><?= $result[$j]['grade_result']["grade_".$i] ?></td>
                                 <?php } ?>
                             <?php }?>
-                            <td style="text-align: center;"><?= $school_days?></td>
-                            <td style="text-align: center;"><?= $workload?></td>
-                            <td style="text-align: center;"><?= $faults?></td>
+                            <?php if ($unities[$i-1]->type != 'RF') { ?>
+                                <td style="text-align: center;"><?= $school_days?></td>
+                                <td style="text-align: center;"><?= $workload?></td>
+                                <td style="text-align: center;"><?= $faults?></td>
+                            <?php } else { ?>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                            <?php } ?>
                         </tr>
                     <?php }?>
                 </tbody>
@@ -178,7 +191,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                 <tr>
                     <td colspan="1">MÉDIA FINAL</td>
                     <?php for ($i=0; $i < $rows; $i++) { ?>
-                        <td style="text-align: center;font-weight:bold;"><?= $result[$i]['final_media']?></td>
+                        <td style="text-align: center;font-weight:bold;"><?= ($conceptUnities ? '' : $result[$i]['final_media']) ?></td>
                     <?php }?>
                     <td></td>
                     <td></td>
