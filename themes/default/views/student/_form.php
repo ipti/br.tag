@@ -1702,7 +1702,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                            href="<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport'
                                                                , array('enrollment_id' => $me->id)) ?>">
                                                             <span class="t-icon-printer"></span>
-                                                            Rendimento Escolar Por Atividades
+                                                            Ficha de Notas
                                                         </a>
                                                         <a class="t-button-secondary" rel="noopener" target="_blank"
                                                            href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
