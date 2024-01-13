@@ -29,36 +29,34 @@ class FormsRepository {
         if ($totalContents == 0) {
             //Caso não haja preenchimento em gradeResults ou seja 0
             if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
-                $schedulesWithContent = Schedule::model()->findAll(array(
-                    'alias' => "s",
-                    'join' => 'JOIN class_contents cc ON cc.schedule_fk = s.id',
-                    'condition' => 'classroom_fk = :classroomId',
-                    'params' => array(
-                        ':classroomId' => $classroom->id,
-                    ),
-                ));
-                foreach($schedulesWithContent as $scheduleWithContent) {
-                    $schedules = Schedule::model()->findAll(array(
-                        'condition' => 'classroom_fk = :classroomId AND discipline_fk = :disciplineId and day = :day and month = :month',
-                        'params' => array(
-                            ':day' => $scheduleWithContent->day,
-                            ':month' => $scheduleWithContent->month,
-                            ':classroomId' => $classroom->id,
-                            ':disciplineId' => $disciplineId,
-                        ),
-                    ));
-                    $totalContents += count($schedules);
-                }
+                $condition = 'classroom_fk = :classroomId';
+                $params = array(
+                    ':classroomId' => $classroom->id,
+                );
             } else {
-                $classContents = ClassContents::model()->findAll(array(
-                    'join' => 'JOIN schedule s ON s.id = schedule_fk',
-                    'condition' => 's.classroom_fk = :classroomId AND s.discipline_fk = :disciplineId',
+                $condition = 'classroom_fk = :classroomId AND discipline_fk = :disciplineId';
+                $params = array(
+                    ':classroomId' => $classroom->id,
+                    ':disciplineId' => $disciplineId,
+                );
+            }
+            $schedulesWithContent = Schedule::model()->findAll(array(
+                'alias' => "s",
+                'join' => 'JOIN class_contents cc ON cc.schedule_fk = s.id',
+                'condition' => $condition,
+                'params' => $params,
+            ));
+            foreach($schedulesWithContent as $scheduleWithContent) {
+                $schedules = Schedule::model()->findAll(array(
+                    'condition' => 'classroom_fk = :classroomId AND discipline_fk = :disciplineId and day = :day and month = :month',
                     'params' => array(
+                        ':day' => $scheduleWithContent->day,
+                        ':month' => $scheduleWithContent->month,
                         ':classroomId' => $classroom->id,
                         ':disciplineId' => $disciplineId,
                     ),
                 ));
-                $totalContents = count($classContents);
+                $totalContents += count($schedules);
             }
         }
 

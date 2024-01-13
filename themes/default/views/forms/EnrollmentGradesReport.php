@@ -214,7 +214,7 @@ $diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines)
                 <tr>
                     <td style="text-align:right;" colspan="1">FREQUÊNCIAS %</td>
                     <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) {?>
-                        <td style="text-align: center;"><?= is_nan($result[$i]['frequency_percentage']) ? "" : $result[$i]['frequency_percentage'] . "%" ?></td>
+                        <td style="text-align: center;"><?= is_nan($result[$i]['frequency_percentage']) || $result[$i]['frequency_percentage'] < 0 ? "" : ceil($result[$i]['frequency_percentage']) . "%" ?></td>
                     <?php }?>
                     <td></td>
                     <td></td>
