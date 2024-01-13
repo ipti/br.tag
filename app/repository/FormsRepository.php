@@ -11,43 +11,77 @@ class FormsRepository {
         $this->currentYear = Yii::app()->user->year;
     }
 
-    private function compareGradeAndResult($grade, $gradesResult) : bool
-    {
-        // faz o casamento entre o grade_result e o grade para ter mais garantia do resultado
-        return $grade->discipline_fk == $gradesResult->discipline_fk && $grade->enrollment_fk == $gradesResult->enrollment_fk;
-    }
-
-    private function contentsPerDisciplineCalculate($classroomId, $disciplineId) {
+    private function contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollmentId) {
         // calculando o total de aulas ministradas naquela turma na disciplina específica
-        $classContents = ClassContents::model()->findAll(array(
-            'join' => 'JOIN schedule s ON (s.id = schedule_fk)',
-            'condition' => 's.classroom_fk = :classroomId AND s.discipline_fk = :disciplineId',
-            'params' => array(
-                ':classroomId' => $classroomId,
-                ':disciplineId' => $disciplineId,
-            ),
-        ));
-        var_dump($classContents);exit;
-        return count($classContents);
+        $totalContents = 0;
+
+        //Prioriza o que está preenchido em gradeResults
+        $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", [
+            ":enrollment_fk" => $enrollmentId,
+            ":discipline_fk" => $disciplineId
+        ]);
+        if ($gradeResult != null) {
+            for ( $i = 1; $i <= 8; $i++ ) {
+                $totalContents += $gradeResult['given_classes_'.$i];
+            }
+        }
+
+        if ($totalContents == 0) {
+            //Caso não haja preenchimento em gradeResults ou seja 0
+            if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
+                $schedulesWithContent = Schedule::model()->findAll(array(
+                    'alias' => "s",
+                    'join' => 'JOIN class_contents cc ON cc.schedule_fk = s.id',
+                    'condition' => 'classroom_fk = :classroomId',
+                    'params' => array(
+                        ':classroomId' => $classroom->id,
+                    ),
+                ));
+                foreach($schedulesWithContent as $scheduleWithContent) {
+                    $schedules = Schedule::model()->findAll(array(
+                        'condition' => 'classroom_fk = :classroomId AND discipline_fk = :disciplineId and day = :day and month = :month',
+                        'params' => array(
+                            ':day' => $scheduleWithContent->day,
+                            ':month' => $scheduleWithContent->month,
+                            ':classroomId' => $classroom->id,
+                            ':disciplineId' => $disciplineId,
+                        ),
+                    ));
+                    $totalContents += count($schedules);
+                }
+            } else {
+                $classContents = ClassContents::model()->findAll(array(
+                    'join' => 'JOIN schedule s ON s.id = schedule_fk',
+                    'condition' => 's.classroom_fk = :classroomId AND s.discipline_fk = :disciplineId',
+                    'params' => array(
+                        ':classroomId' => $classroom->id,
+                        ':disciplineId' => $disciplineId,
+                    ),
+                ));
+                $totalContents = count($classContents);
+            }
+        }
+
+        return $totalContents;
     }
 
     private function faultsPerDisciplineCalculate($schedulesPerUnityPeriods, $disciplineId, $classFaults, $enrollmentId) {
         // calculando o total de faltas na disciplina específica
         $totalFaults = 0;
 
-        //Verifica primeiro em gradeResults
+        //Prioriza o que está preenchido em gradeResults
         $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", [
             ":enrollment_fk" => $enrollmentId,
             ":discipline_fk" => $disciplineId
         ]);
-
         if ($gradeResult != null) {
             for ( $i = 1; $i <= 8; $i++ ) {
                 $totalFaults += $gradeResult['grade_faults_'.$i];
             }
         }
+
         if ($totalFaults == 0) {
-            //Se não houver dados em gradeResults
+            //Caso não haja preenchimento em gradeResults ou seja 0
             foreach ($schedulesPerUnityPeriods as $schedules) {
                 foreach ($schedules as $schedule) {
                     foreach ($classFaults as $classFault) {
@@ -218,7 +252,7 @@ class FormsRepository {
             $mediaExists = false;
 
             // cálculo de aulas dadas
-            $totalContentsPerDiscipline = $this->contentsPerDisciplineCalculate($enrollment->classroomFk->id, $discipline);
+            $totalContentsPerDiscipline = $this->contentsPerDisciplineCalculate($enrollment->classroomFk, $discipline, $enrollment->id);
 
             $totalFaultsPerDicipline = $this->faultsPerDisciplineCalculate($schedulesPerUnityPeriods, $discipline, $classFaults, $enrollment->id);
 
@@ -230,7 +264,8 @@ class FormsRepository {
                         "final_media" => $gradeResult->final_media,
                         "grade_result" => $gradeResult,
                         "total_number_of_classes" => $totalContentsPerDiscipline,
-                        "total_faults" => $totalFaultsPerDicipline
+                        "total_faults" => $totalFaultsPerDicipline,
+                        "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
                     ]);
                     $mediaExists = true;
                     break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
@@ -243,7 +278,8 @@ class FormsRepository {
                     "final_media" => null,
                     "grade_result" => null,
                     "total_number_of_classes" => $totalContentsPerDiscipline,
-                    "total_faults" => $totalFaultsPerDicipline
+                    "total_faults" => $totalFaultsPerDicipline,
+                    "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
                 ]);
             }
         }

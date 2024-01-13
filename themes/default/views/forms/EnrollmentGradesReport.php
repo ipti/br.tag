@@ -213,13 +213,8 @@ $diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines)
                 </tr>
                 <tr>
                     <td style="text-align:right;" colspan="1">FREQUÊNCIAS %</td>
-                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) {
-                        $totalDiasAula = $result[$i]['school_days'];
-                        $quantidadeFaltas = $result[$i]['faults'];
-                        $frequencia = (($totalDiasAula - $quantidadeFaltas) / $totalDiasAula) * 100;
-                        $verifyCalc = is_nan($frequencia);
-                        ?>
-                        <td style="text-align: center;"><?= !$verifyCalc ? strval(number_format($frequencia, 2))."%" : "" ?></td>
+                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) {?>
+                        <td style="text-align: center;"><?= is_nan($result[$i]['frequency_percentage']) ? "" : $result[$i]['frequency_percentage'] . "%" ?></td>
                     <?php }?>
                     <td></td>
                     <td></td>
