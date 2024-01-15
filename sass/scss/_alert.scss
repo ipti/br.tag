@@ -1,0 +1,25 @@
+.t-alert {
+
+    margin-bottom: $SizeXSmall;
+    border-color: $colorsBaseCloudLight;
+    background: $colorsBaseCloudLight;
+    color: $colorsBaseInkNormal;
+    font-size: $FontSizeTextNormal;
+    padding: $SizeXSmall $SizeXLarge $SizeXSmall $SizeNormal;
+    border-radius: 4px;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    font-family: $FontFamilyTextNormal;
+}
+.t-alert-icon-sucess{
+    color: $colorsTextSuccess;
+}
+.t-alert-icon-info{
+    color: $colorsTextInfo;
+}
+.t-alert-icon-Warning{
+    color: $colorsTextWarning;
+}
+.t-alert-icon-critical{
+    color: $colorsTextError;
+}
+
