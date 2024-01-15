@@ -40,7 +40,7 @@ class Meal extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('restrictions', 'required'),
-			array('restrictions', 'length', 'max'=>100),
+			array('restrictions', 'length', 'max'=>1000),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, restrictions', 'safe', 'on'=>'search'),
