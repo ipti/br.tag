@@ -1,3 +1,9 @@
+## [Versão 3.65.103]
+- Corrigindo inconsistências na tela de lançamento de notas de búzios, abilitando as telas relacionadas a notas
+
+## [Versão 3.65.102]
+- Adicionando filtros nas unidades de medida a depender da comida selecionada na tela de estoque
+
 ## [Versão 3.65.101]
 - Criação da tela de lançamento de notas
 
