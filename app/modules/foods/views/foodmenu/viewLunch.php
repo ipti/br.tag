@@ -1,4 +1,4 @@
-<?php
+w<?php
 
 // $baseUrl = Yii::app()->baseUrl;
 // $cs = Yii::app()->getClientScript();

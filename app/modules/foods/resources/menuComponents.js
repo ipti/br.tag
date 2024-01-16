@@ -62,7 +62,6 @@ const DateComponent = function () {
         return html; // Não adiciona <li> para sábado e domingo
       }
     }, `<ul class="t-tabs__list column">`);
-
     container.html(template);
   }
 
@@ -504,7 +503,6 @@ const MealsComponent = function (meal, day) {
 
     // adiciona máscara no input de hora
     wrapper.find(".js-mealTime").mask("99:99")
-
     container.append(wrapper.children())
     const renderPlates = meal.plates.reduce((acc, plate) => acc.concat(PlateComponent(plate).actions.render()), []);
     platesContainer.html(renderPlates)
