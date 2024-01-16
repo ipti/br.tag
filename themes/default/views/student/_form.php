@@ -708,7 +708,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                             <div class="column clearleft--on-mobile is-two-fifths">
-                                <label class="t-field-checkbox">
+                                <label class="t-field-checkbox" style="align-items: center">
                                     <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'consent_form',
                                         array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0,
                                             'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->consent_form)); ?>
