@@ -12,8 +12,6 @@ $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js?v='.TAG_VERSIO
 $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/admin/form/_functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
-$cs->registerCssFile($baseUrl . 'sass/css/main.css');
-
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'users-createUser-form',
     'enableAjaxValidation' => false,

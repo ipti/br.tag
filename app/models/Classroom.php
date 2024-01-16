@@ -92,6 +92,7 @@
  * @property InstructorTeachingData[] $instructorTeachingDatas
  * @property Schedule[] $schedules
  * @property StudentEnrollment[] $studentEnrollments
+ * @property StudentEnrollment[] $activeStudentEnrollments
  */
 class Classroom extends AltActiveRecord
 {
@@ -211,7 +212,7 @@ class Classroom extends AltActiveRecord
             'week_days_saturday' => Yii::t('default', 'Week Days Saturday'),
             'assistance_type' => Yii::t('default', 'Differentiated Operating Place'),
             'mais_educacao_participator' => Yii::t('default', 'Mais Educacao Participator'),
-            'complementary_activity_type_1' => Yii::t('default', 'Complementary Activity Type 1') . " *",
+            'complementary_activity_type_1' => Yii::t('default', 'Complementary Activity Type 1'),
             'complementary_activity_type_2' => Yii::t('default', 'Complementary Activity Type 2'),
             'complementary_activity_type_3' => Yii::t('default', 'Complementary Activity Type 3'),
             'complementary_activity_type_4' => Yii::t('default', 'Complementary Activity Type 4'),
@@ -265,7 +266,7 @@ class Classroom extends AltActiveRecord
             'classroom_days' => Yii::t('default', 'Classsrom Days'),
             'stage' => Yii::t('default', 'Stage'),
             'schooling' => Yii::t('default', 'Schooling'),
-            'diff_location' => Yii::t('default', 'Classroom Diff Location') . " *",
+            'diff_location' => Yii::t('default', 'Classroom Diff Location') ,
             'course' => Yii::t('default', 'Course'),
             'complementary_activity' => Yii::t('default', 'Complementary Activity'),
             'aee' => Yii::t('default', 'AEE'),
@@ -290,7 +291,7 @@ class Classroom extends AltActiveRecord
      * @return CActiveDataProvider the data provider that can return the models
      * based on the search/filter conditions.
      */
-    public function search($is_default_theme = true)
+    public function search($isDefaultTheme = true)
     {
         //  Please modify the following code to remove attributes that should not be searched.
 
@@ -298,7 +299,7 @@ class Classroom extends AltActiveRecord
 
         $criteria->compare('register_type', $this->register_type, true);
         //$criteria->with = array('edcensoStageVsModalityFk');
-        if ($is_default_theme == true) {
+        if ($isDefaultTheme == true) {
             $criteria->compare('school_inep_fk', Yii::app()->user->school);
         }
         $criteria->compare('inep_id', $this->inep_id, true);

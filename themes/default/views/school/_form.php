@@ -104,7 +104,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'name',
                                     array('class' => 't-field-text__label--required')
@@ -128,7 +128,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'inep_id',
                                     array('class' => 't-field-text__label--required')
@@ -167,7 +167,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'administrative_dependence',
                                     array('class' => 't-field-select__label--required')
@@ -195,7 +195,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'situation',
                                     array('class' => 't-field-select__label')
@@ -220,7 +220,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-tarea">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'act_of_acknowledgement',
                                     array('class' => 't-field-tarea__label')
@@ -241,7 +241,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'initial_date',
                                     array('class' => 't-field-text__label')
@@ -266,7 +266,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row reverse">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'logo_file_content',
                                     array('class' => 't-field-text__label')
@@ -288,7 +288,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'regulation',
                                     array('class' => 't-field-select__label--required')
@@ -399,7 +399,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'private_school_organization_civil_society',
                                     array('class' => 't-field-select__label')
@@ -418,7 +418,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'ies_code',
                                     array('class' => 't-field-text__label')
@@ -438,7 +438,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'inep_head_school',
                                     array('class' => 't-field-text__label')
@@ -463,7 +463,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'cep',
                                     array('class' => 't-field-text__label')
@@ -496,7 +496,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'address',
                                     array('class' => 't-field-text__label')
@@ -520,7 +520,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'edcenso_uf_fk',
                                     array('class' => 't-field-select__label--required')
@@ -552,7 +552,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'address_number',
                                     array('class' => 't-field-text__label')
@@ -577,7 +577,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'address_neighborhood',
                                     array('class' => 't-field-text__label')
@@ -599,7 +599,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'edcenso_city_fk',
                                     array('class' => 't-field-select__label--required')
@@ -633,7 +633,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'address_complement',
                                     array('class' => 't-field-text__label')
@@ -656,7 +656,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'location',
                                     array('class' => 't-field-select__label--required')
@@ -678,7 +678,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'edcenso_district_fk',
                                     array('class' => 't-field-select__label--required')
@@ -703,7 +703,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'id_difflocation',
                                     array('class' => 't-field-select__label--required')
@@ -730,7 +730,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'latitude',
                                     array('class' => 't-field-text__label')
@@ -752,7 +752,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'longitude',
                                     array('class' => 't-field-text__label')
@@ -775,7 +775,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select">
                                 <?php //@done s1 - Tem que filtrar de acordo com o estado e cidade, no momento está listando todos
                                 ?>
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'edcenso_regional_education_organ_fk',
                                     array('class' => 't-field-select__label')
@@ -800,7 +800,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'offer_or_linked_unity',
                                     array('class' => 't-field-select__label--required')
@@ -829,7 +829,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'ddd', array(
+                                <?php echo $form->label($modelSchoolIdentification, 'ddd', array(
                                     'class' => 't-field-text__label'
                                 )); ?>
                                 <?php echo $form->textField($modelSchoolIdentification, 'ddd', array(
@@ -841,7 +841,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelSchoolIdentification, 'phone_number', array(
+                                <?php echo $form->label($modelSchoolIdentification, 'phone_number', array(
                                     'class' => 't-field-text__label'
                                 )); ?>
                                 <?php echo $form->textField($modelSchoolIdentification, 'phone_number', array(
@@ -855,7 +855,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'email',
                                     array('class' => 't-field-text__label')
@@ -876,7 +876,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolIdentification,
                                     'other_phone_number',
                                     array('class' => 't-field-text__label')
@@ -906,7 +906,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'classroom_count',
                                     array('class' => 't-field-text__label--required')
@@ -927,7 +927,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'used_classroom_count',
                                     array(
@@ -952,7 +952,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'dependencies_climate_roomspublic',
                                     array(
@@ -975,7 +975,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'dependencies_outside_roomspublic',
                                     array(
@@ -997,7 +997,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'dependencies_acessibility_roomspublic',
                                     array(
@@ -1027,7 +1027,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'employees_count',
                                     array('class' => 't-field-text__label')
@@ -1048,7 +1048,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_librarian',
                                     array(
@@ -1073,7 +1073,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_administrative_assistant',
                                     array('class' => 't-field-text__label')
@@ -1094,7 +1094,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_firefighter',
                                     array(
@@ -1119,7 +1119,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_service_assistant',
                                     array(
@@ -1142,7 +1142,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_speech_therapist',
                                     array('class' => 't-field-text__label')
@@ -1165,7 +1165,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_coordinator_shift',
                                     array('class' => 't-field-text__label')
@@ -1186,7 +1186,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_psychologist',
                                     array('class' => 't-field-text__label')
@@ -1209,7 +1209,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_nutritionist',
                                     array('class' => 't-field-text__label')
@@ -1230,7 +1230,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_cooker',
                                     array('class' => 't-field-text__label')
@@ -1253,7 +1253,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_school_secretary',
                                     array('class' => 't-field-text__label')
@@ -1274,7 +1274,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_support_professionals',
                                     array('class' => 't-field-text__label')
@@ -1297,7 +1297,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_security_guards',
                                     array('class' => 't-field-text__label')
@@ -1318,7 +1318,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'workers_monitors',
                                     array('class' => 't-field-text__label')
@@ -1408,7 +1408,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'building_occupation_situation',
                                     array(
@@ -1450,7 +1450,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </label>
                             </div>
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'shared_school_inep_id_1',
                                     array('class' => 't-field-select__label')
@@ -1943,7 +1943,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </label>
                             </div>
                             <div class="t-field-select--required">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'feeding',
                                     array('class' => 't-field-select__label--required')
@@ -2022,7 +2022,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array('value' => 1, 'uncheckValue' => 0)
                                 ); ?>
                                 <label class="t-field-checkbox__label">
-                                    <!-- <?php echo $form->labelEx($modelSchoolStructure, 'ppp_updated', array('class' => 'control-label')); ?> -->
+                                    <!-- <?php echo $form->label($modelSchoolStructure, 'ppp_updated', array('class' => 'control-label')); ?> -->
                                     <?php echo SchoolStructure::model()->attributeLabels()['ppp_updated']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'ppp_updated'); ?>
                                 </label>
@@ -2034,7 +2034,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array('value' => 1, 'uncheckValue' => 0)
                                 ); ?>
                                 <label class="t-field-checkbox__label">
-                                    <!-- <?php echo $form->labelEx($modelSchoolStructure, 'website', array('class' => 'control-label')); ?> -->
+                                    <!-- <?php echo $form->label($modelSchoolStructure, 'website', array('class' => 'control-label')); ?> -->
                                     <?php echo SchoolStructure::model()->attributeLabels()['website']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'website'); ?>
                                 </label>
@@ -2099,7 +2099,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array('value' => 1, 'uncheckValue' => 0)
                                 ); ?>
                                 <label class="t-field-checkbox__label">
-                                    <!-- <?php echo $form->labelEx(
+                                    <!-- <?php echo $form->label(
                                                 $modelSchoolStructure,
                                                 'space_schoolenviroment',
                                                 array('class' => 'control-label')
@@ -2118,7 +2118,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array('value' => 1, 'uncheckValue' => 0)
                                 ); ?>
                                 <label class="t-field-checkbox__label">
-                                    <!-- <?php echo $form->labelEx(
+                                    <!-- <?php echo $form->label(
                                                 $modelSchoolStructure,
                                                 'community_integration',
                                                 array('class' => 'control-label')
@@ -2406,7 +2406,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="span5">
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelSchoolStructure,
                                         'ppp_updated',
                                         array('class' => 'control-label')
@@ -2426,7 +2426,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group hide-responsive">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelSchoolStructure,
                                         'website',
                                         array('class' => 'control-label')
@@ -2448,7 +2448,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="span7">
                             <div class="control-group hide-responsive">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'space_schoolenviroment', array('class' => 'control-label')); ?>
+                                    <?php echo $form->label($modelSchoolStructure, 'space_schoolenviroment', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'space_schoolenviroment', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -2457,7 +2457,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group hide-responsive">
                                 <div class="controls">
-                                    <?php echo $form->labelEx($modelSchoolStructure, 'community_integration', array('class' => 'control-label')); ?>
+                                    <?php echo $form->label($modelSchoolStructure, 'community_integration', array('class' => 'control-label')); ?>
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->checkBox($modelSchoolStructure, 'community_integration', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -2474,7 +2474,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelManagerIdentification,
                                     'name',
                                     array('class' => 't-field-text__label--required')
@@ -2497,7 +2497,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelManagerIdentification,
                                     'cpf',
                                     array('class' => 't-field-text__label')
@@ -2522,7 +2522,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelManagerIdentification,
                                     'birthday_date',
                                     array('class' => 't-field-text__label--required')
@@ -2540,7 +2540,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelManagerIdentification, 'color_race', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->label($modelManagerIdentification, 'color_race', array('class' => 't-field-select__label--required')); ?>
                                 <?php
                                 echo $form->DropDownList($modelManagerIdentification, 'color_race', array(
                                     null => "Selecione a cor/raça",
@@ -2550,7 +2550,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     "3" => "Parda",
                                     "4" => "Amarela",
                                     "5" => "Indígena"
-                                ), array('class' => 'select-search-off t-field-select__input select2-container'));
+                                ), array('class' => 'select-search-off t-field-select__input select2-container', 'id' => 'color_race'));
                                 ?>
                                 <?php echo $form->error($modelManagerIdentification, 'color_race'); ?>
                             </div>
@@ -2559,7 +2559,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelManagerIdentification,
                                     'sex',
                                     array('class' => 't-field-select__label--required')
@@ -2578,7 +2578,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelManagerIdentification,
                                     'email',
                                     array('class' => 't-field-text__label')
@@ -2603,7 +2603,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelManagerIdentification, 'nationality', array(
+                                <?php echo $form->label($modelManagerIdentification, 'nationality', array(
                                     'class' => 't-field-select__label--required'
                                 )); ?>
                                 <?php
@@ -2701,7 +2701,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelManagerIdentification,
                                     'number_ato',
                                     array('class' => 't-field-text__label')
@@ -2719,7 +2719,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelManagerIdentification,
                                     'contract_type',
                                     array('class' => 't-field-select__label')
@@ -2745,7 +2745,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelManagerIdentification,
                                     'filiation',
                                     array('class' => 't-field-select__label--required')
@@ -2771,7 +2771,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="row">
                             <div class="column is-two-fifths clearleft">
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelManagerIdentification,
                                         'filiation_1',
                                         array('class' => 't-field-text__label')
@@ -2794,7 +2794,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="column clearleft--on-mobile is-two-fifths">
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelManagerIdentification,
                                         'filiation_2',
                                         array('class' => 't-field-text__label')
@@ -2819,7 +2819,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="row">
                             <div class="column is-two-fifths clearleft">
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelManagerIdentification,
                                         'filiation_1_cpf',
                                         array('class' => 't-field-text__label')
@@ -2842,7 +2842,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="column clearleft--on-mobile is-two-fifths">
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelManagerIdentification,
                                         'filiation_2_cpf',
                                         array('class' => 't-field-text__label')
@@ -2867,7 +2867,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="row">
                             <div class="column is-two-fifths clearleft">
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelManagerIdentification,
                                         'filiation_1_rg',
                                         array('class' => 't-field-text__label')
@@ -2889,7 +2889,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="column clearleft--on-mobile is-two-fifths">
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelManagerIdentification,
                                         'filiation_2_rg',
                                         array('class' => 't-field-text__label')
@@ -2914,7 +2914,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="column is-two-fifths clearleft">
                                 <div class="t-field-select">
                                     <?php
-                                    echo $form->labelEx(
+                                    echo $form->label(
                                         $modelManagerIdentification,
                                         'filiation_1_scholarity',
                                         array('class' => 't-field-select__label')
@@ -2944,7 +2944,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="column clearleft--on-mobile is-two-fifths">
                                 <div class="t-field-select">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelManagerIdentification,
                                         'filiation_2_scholarity',
                                         array('class' => 't-field-select__label')
@@ -2977,7 +2977,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="row">
                             <div class="column is-two-fifths clearleft">
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelManagerIdentification,
                                         'filiation_1_job',
                                         array('class' => 't-field-text__label')
@@ -3000,7 +3000,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="column clearleft--on-mobile is-two-fifths">
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelManagerIdentification,
                                         'filiation_2_job',
                                         array('class' => 't-field-text__label')
@@ -3025,7 +3025,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelManagerIdentification,
                                     'residence_zone',
                                     array('class' => 't-field-select__label--required')
@@ -3051,7 +3051,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_dvd',
                                     array('class' => 't-field-text__label')
@@ -3073,7 +3073,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_vcr',
                                     array('class' => 't-field-text__label')
@@ -3097,7 +3097,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_stereo_system',
                                     array('class' => 't-field-text__label')
@@ -3119,7 +3119,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_data_show',
                                     array('class' => 't-field-text__label')
@@ -3143,7 +3143,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_tv',
                                     array('class' => 't-field-text__label')
@@ -3165,7 +3165,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_fax',
                                     array('class' => 't-field-text__label')
@@ -3189,7 +3189,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_qtd_blackboard',
                                     array('class' => 't-field-text__label')
@@ -3212,7 +3212,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_camera',
                                     array('class' => 't-field-text__label')
@@ -3237,7 +3237,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_overhead_projector',
                                     array('class' => 't-field-text__label')
@@ -3259,7 +3259,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'administrative_computers_count',
                                     array('class' => 't-field-text__label')
@@ -3280,7 +3280,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_qtd_desktop',
                                     array('class' => 't-field-text__label')
@@ -3302,7 +3302,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'student_computers_count',
                                     array('class' => 't-field-text__label')
@@ -3326,7 +3326,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_qtd_tabletstudent',
                                     array('class' => 't-field-text__label')
@@ -3348,7 +3348,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'equipments_qtd_notebookstudent',
                                     array('class' => 't-field-text__label')
@@ -3375,7 +3375,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-checkbox-group equipments-container">
                                 <label class="t-field-checkbox-group__label--required">
-                                    <?php echo Yii::t('default', 'Existing equipment at the school for technical and administrative use'); ?>*
+                                    <?php echo Yii::t('default', 'Existing equipment at the school for technical and administrative use'); ?>
                                 </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
@@ -3462,8 +3462,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </label>
                             </div>
 
-                            <label class="control-label required">
-                                <?php echo Yii::t('default', 'Internet Access'); ?> *
+                            <label class="t-field-checkbox__label--required">
+                                <?php echo Yii::t('default', 'Internet Access'); ?> 
                             </label>
                             <div class="t-field-checkbox-group internet-access-container">
                                 <div class="t-field-checkbox">
@@ -3523,7 +3523,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-checkbox-group equipments-material-container">
-                                <label class="t-field-checkbox-group__label--required"><?php echo Yii::t('default', 'Material, sociocultural and/or pedagogical instruments in use at school for the development of teaching and learning activities'); ?> *</label>
+                                <label class="t-field-checkbox-group__label--required"><?php echo Yii::t('default', 'Material, sociocultural and/or pedagogical instruments in use at school for the development of teaching and learning activities'); ?> </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
@@ -3703,7 +3703,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox-group internet-access-local-container">
                                 <label class="t-field-checkbox-group__label--required">
                                     <?php echo Yii::t('default', 'Internet Access Local'); ?>
-                                    *</label>
+                                    </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
@@ -3746,7 +3746,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'aee',
                                     array('class' => 't-field-select__label')
@@ -3768,7 +3768,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'complementary_activities',
                                     array('class' => 't-field-select__label')
@@ -3801,7 +3801,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </label>
                             </div>
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'different_location',
                                     array('class' => 't-field-select__label')
@@ -3865,7 +3865,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array('value' => 1, 'uncheckValue' => 0)
                                 ); ?>
                                 <label class="t-field-checkbox__label">
-                                    <!-- <?php echo $form->labelEx(
+                                    <!-- <?php echo $form->label(
                                                 $modelSchoolStructure,
                                                 'native_education',
                                                 array('class' => 'control-label')
@@ -3916,7 +3916,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'edcenso_native_languages_fk',
                                     array('class' => 't-field-select__label')
@@ -3939,7 +3939,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'edcenso_native_languages_fk2',
                                     array('class' => 't-field-select__label')
@@ -3960,7 +3960,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'edcenso_native_languages_fk3',
                                     array('class' => 't-field-select__label')
@@ -3985,7 +3985,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array('value' => 1, 'uncheckValue' => 0)
                                 ); ?>
                                 <label class="t-field-checkbox__label">
-                                    <!-- <?php echo $form->labelEx(
+                                    <!-- <?php echo $form->label(
                                                 $modelSchoolStructure,
                                                 'brazil_literate',
                                                 array('class' => 'control-label')
@@ -4219,7 +4219,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="t-field-select">
-                                <?php echo $form->labelEx(
+                                <?php echo $form->label(
                                     $modelSchoolStructure,
                                     'stages_concept_grades',
                                     array('class' => 't-field-select__label')

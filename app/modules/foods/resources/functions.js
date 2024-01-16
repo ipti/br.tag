@@ -1,8 +1,3 @@
-function  initializeSelect2() {
-    $("select.js-initialize-select2").select2("destroy");
-    $('select.js-initialize-select2').select2();
-}
-
 $(".js-save-menu").on("click", function () {
     const form = $('#food-menu-form')
     if(form[0].checkValidity()) {
@@ -50,15 +45,29 @@ $(".js-save-menu").on("click", function () {
         foodMenu.saturday = getMealsByDay(6)
 
         // console.log(foodMenu)
-        $.ajax({
-            url: "?r=foods/foodMenu/create",
-            data: {
-                foodMenu: foodMenu
-            },
-            type: "POST",
-        }).success(function (response) {
-            window.location.href = "?r=foods/foodMenu/index";
-        })
+        if(menuId)
+        {
+            $.ajax({
+                url: `?r=foods/foodMenu/update&id=${menuId}`,
+                data: {
+                    foodMenu: foodMenu
+                },
+                type: "POST",
+            }).done(function (response) {
+                window.location.href = "?r=foods/foodMenu/index";
+            })
+         } else
+        {
+            $.ajax({
+                url: "?r=foods/foodMenu/create",
+                data: {
+                    foodMenu: foodMenu
+                },
+                type: "POST",
+            }).done(function (response) {
+                window.location.href = "?r=foods/foodMenu/index";
+            })
+        }
 
     } else {
         const erros = []
@@ -68,9 +77,9 @@ $(".js-save-menu").on("click", function () {
                 erros.push(this.name)
             }
         });
-         
+
         showErros(erros)
-    } 
+    }
 
 
 });

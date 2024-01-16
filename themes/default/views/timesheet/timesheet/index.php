@@ -211,7 +211,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                 </div>
             </form>
 
-            <div class="modal-footer modal-container-buttons">
+            <div class="modal-footer justify-content--end">
                 <button type="button" class="tag-button-light small-button" data-dismiss="modal">
                     <?= yii::t("timesheetModule.instructors", "Cancel") ?>
                 </button>

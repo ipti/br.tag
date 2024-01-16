@@ -72,8 +72,8 @@
                     array_push($columns,
                         array(
                             'name' => 'enrollmentsCount',
-                            'header' => 'Mat. Ativas',
-                            'value' => '$data->activeEnrollmentsCount',
+                            'header' => 'Mat. Ativas / Total',
+                            'value' => '$data->activeEnrollmentsCount ."/". $data->enrollmentsCount',
                         )
                     );
                     array_push($columns,

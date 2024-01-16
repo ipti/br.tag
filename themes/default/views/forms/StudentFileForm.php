@@ -423,7 +423,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>24 - Autorização do Termo de Consentimento? </b></div>
+                <div class="span12"><b>24 - Autorização do Termo de Consentimento da Imagem? </b></div>
                 <br>
                 <div class="span2"><b><?= ($data['consent_form'] == '1') ? '☑' : '☐' ?></b> Sim</div>
                 <div class="span2"><b><?= ($data['consent_form'] == '0') ? '☑' : '☐' ?></b> Não</div>

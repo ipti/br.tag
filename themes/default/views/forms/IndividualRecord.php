@@ -354,7 +354,13 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                         <td><?= $d['faults1'] + $d['faults2'] + $d['faults3']?></td>
                         <td><?= $d['givenClasses1'] + $d['givenClasses2'] + $d['givenClasses3']?></td>
                         <?php $totalGivenClasses += $d['givenClasses1'] + $d['givenClasses2'] + $d['givenClasses3'] ?>
-                        <td><?= $d['final_media']?></td>
+                        <td>
+                            <?php
+                                if (isset($d['final_media']) && !empty($disciplines[0]['grade3'])){
+                                    echo $d['final_media'];
+                                }
+                            ?>
+                        </td>
                         <?php
                         if($d['final_media'] < $gradeRules->approvation_media) {
                             $reprovado = true;
@@ -377,10 +383,16 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
         <div class="footer-container" style="display: flex; justify-content:space-between; margin-bottom: 10px">
             <p>Total de aulas dadas: <?= $totalGivenClasses ?></p>
             <p>Frequência: <?= $frequency."%"?></p>
-            <p>Resultado: <?= $reprovado ? "Reprovado" : "Aprovado"?></p>
+            <?php
+                if ($reprovado && !empty($disciplines[0]['grade3'])){
+                    echo "<p>Resultado: Reprovado</p>";
+                }elseif (!empty($disciplines[0]['grade3'])){
+                    echo "<p>Resultado: Aprovado</p>";
+                }
+            ?>
         </div>
         <p class="footer-container">
-        Observações:<br>
+        Observações:<textarea style="width: 767px; height: 227px; border: 1px solid transparent;"></textarea>
         <?php if ($segment) {?>
         * Processo de avaliação das disciplinas de Educação Física e Arte e Cultura do Ensino Fundamental é feito<br>
         através de relatório trimestral, segundo o Regimento Escolar.<br>
