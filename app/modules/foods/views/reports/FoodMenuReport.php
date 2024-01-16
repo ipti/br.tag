@@ -48,7 +48,8 @@
                         <br>
                         <b>ZONA RURAL/ PERÍODO PARCIAL</b>
                         <br>
-                        <b>4ª SEMANA - CARDÁPIO 2024</b>
+                        <b><?= $foodMenu->description ?></b>
+                        <!-- <b>4ª SEMANA - CARDÁPIO 2024</b> -->
                     </th>
                 </tr>
             </thead>

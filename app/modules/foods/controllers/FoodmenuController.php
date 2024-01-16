@@ -459,6 +459,7 @@ class FoodmenuController extends Controller
  */
 class FoodMenuObject
 {
+    public $id;
     public $description;
     public $observation;
     public $food_public_target;
@@ -474,6 +475,7 @@ class FoodMenuObject
 
     public function __construct($model = null, $foodPublicTarget = null){
         if($model !== null && $foodPublicTarget !== null){
+            $this->id = $model->id;
             $this->description = $model->description;
             $this->observation = $model->observation;
             $this->food_public_target = $foodPublicTarget['id'];
