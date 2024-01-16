@@ -1950,6 +1950,7 @@
 			<xsd:enumeration value="28037332"/>	<!-- 28037332 - CENTRO DE EDUCAÇÃO INFANTIL E INCLUSÃO - AQUIDABÃ -->
 			<xsd:enumeration value="28035143"/>	<!-- 28035143 - CRECHE DRª ZILDA ARNS NEUMANN -->
 			<xsd:enumeration value="28037626"/>	<!-- 28037626 - ESCOLA DE EDUCAÇÃO INFANTIL MARIA TEREZINHA FREIRE SILVA -->
+			<xsd:enumeration value="28037561"/>	<!-- 28037561 - EMEI DULCILENE TEIXEIRA ALMEIDA -->
 		</xsd:restriction>
 	</xsd:simpleType>			
 								
@@ -1974,7 +1975,7 @@
 		
 	<xsd:complexType name="aluno_t">
 	  <xsd:sequence>
-		<xsd:element name="cpfAluno" type="edu:cpf_t" minOccurs="0" />		
+		<xsd:element name="cpfAluno" type="edu:cpf_t" minOccurs="1" />		
 		<xsd:element name="data_nascimento">		
 			<xsd:simpleType>
 				<xsd:restriction base="xsd:date">    
