@@ -10,7 +10,7 @@ $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/reportCard/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
-$script = "var getGradesUrl = '" . Yii::app()->createUrl('enrollment/getGrades') . "';";
+$script = "var getGradesUrl = '" . Yii::app()->createUrl('grades/getGrades') . "';";
 
 $cs->registerScript('variables', $script, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl . '/css/grades.css');
@@ -23,7 +23,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'classes-form',
             'enableAjaxValidation' => false,
-            'action' => CHtml::normalizeUrl(array('enrollment/saveGrades')),
+            'action' => CHtml::normalizeUrl(array('grades/saveGrades')),
         ));
     ?>
     <div class="row-fluid hidden-print">

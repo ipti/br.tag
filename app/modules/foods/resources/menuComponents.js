@@ -8,19 +8,26 @@ function parseDOM(htmlString) {
   wrapper.append(htmlString);
   return wrapper;
 }
-function initializeMealAccordion(id) {
+function initializeMealAccordion(id = false) {
   $('.js-meals-component').accordion("destroy");
-  $( ".js-meals-component" ).accordion({
-      active: id,
-      collapsible: true,
-      icons: false,
+  $(".js-meals-component").accordion({
+    heightStyle: "content",
+    active: id,
+    collapsible: true,
+    icons: false,
   });
+}
+function initializeSelect2() {
+  $("select.js-initialize-select2").select2("destroy");
+  $('select.js-initialize-select2').select2();
 }
 /* DateComponent */
 
 $('.js-date').mask("99/99/9999");
+
+
 $(".js-date").datepicker({
-  locate: "pt-BR",
+  language: "pt-BR",
   format: "dd/mm/yyyy",
   autoclose: true,
   todayHighlight: true,
@@ -31,21 +38,21 @@ $(".js-date").datepicker({
   clearBtn: true,
   maxViewMode: 2,
   showClearButton: false
-})
+});
 
 const DateComponent = function () {
 
   const daysOfWeek = ["Domingo", "Segunda-freia", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
 
-  function getLastDay(){
-    return days[days.length-1].date
+  function getLastDay() {
+    return days[days.length - 1].date
   }
   function render() {
-      const container = $(".js-days-of-week-component");
-      const template = daysOfWeek.reduce((html, day, index) => {
+    const container = $(".js-days-of-week-component");
+    const template = daysOfWeek.reduce((html, day, index) => {
       const isActive = index === 1 ? "active" : ""; // Adiciona a classe "active" à segunda-feira
       const isWeekend = index === 0 || index === 6; // Verifica se é sábado ou domingo
-    
+
       if (!isWeekend) {
         return html +
           `<li class="t-tabs__item js-day-tab js-change-pagination ${isActive}" data-day-of-week=${index} >
@@ -55,7 +62,6 @@ const DateComponent = function () {
         return html; // Não adiciona <li> para sábado e domingo
       }
     }, `<ul class="t-tabs__list column">`);
-    
     container.html(template);
   }
 
@@ -128,123 +134,127 @@ const PlateComponent = function (plate) {
     `
     const wrapper = parseDOM(template);
 
-    wrapper.find(".js-plate-name").on("change", (e) =>  { plate.description = e.target.value });
+    wrapper.find(".js-plate-name").on("change", (e) => { plate.description = e.target.value });
     getFoodList(wrapper.find(".js-taco-foods"))
     const table = wrapper.find('table.js-meal-component-table')
     plate.food_ingredients.map((e) => {
       getFood(e, table)
     })
-    wrapper.find(".js-remove-plate").on("click", (e) =>{
+    wrapper.find(".js-remove-plate").on("click", (e) => {
       const plateIdToRemove = $(e.target).attr("data-id-plate");
       const day = $('.js-day-tab.active').attr("data-day-of-week")
-      
+
       let accordionActive = 0
       for (let i = 0; i < meals.length; i++) {
         const meal = meals[i];
         const plateIndex = meal.plates.findIndex(plate => plate.id == plateIdToRemove);
         if (plateIndex !== -1) {
-            accordionActive = i
-            meal.plates.splice(plateIndex, 1);
+          accordionActive = i
+          meal.plates.splice(plateIndex, 1);
         }
-        
-    }
-    $(".js-meals-component").html('')
-      meals.map((e) => MealsComponent(e, day).actions.render())
-      $('.js-meals-component').accordion("destroy");
-      $( ".js-meals-component" ).accordion({
-        active: accordionActive,
-        collapsible: true,
-        icons: false,
+
+      }
+      $(".js-meals-component").html('')
+      meals.forEach((e) => {
+        MealsComponent(e, day).actions.render();
       });
+      initializeMealAccordion(accordionActive)
     })
     const selectFoods = wrapper.find('.js-taco-foods')
     addRowToTable(selectFoods, table)
     return wrapper.children()
-    
+
   }
 
-  function getFoodList (select){
-  
-      $.ajax({
-          url: "?r=foods/foodMenu/getTacoFoods",
-          type: "GET",
-      }).success(function(response) {
-          let foods = JSON.parse(response);
-          $.map(foods, function (name, id) {
-            select.append($('<option>', {
-                value: id,
-                text: name
-            }));
-         });
-      })
-      
-  
+  function getFoodList(select) {
+
+    $.ajax({
+      url: "?r=foods/foodMenu/getTacoFoods",
+      type: "GET",
+    }).success(function (response) {
+      let foods = JSON.parse(response);
+      $.map(foods, function (name, id) {
+        select.append($('<option>', {
+          value: id,
+          text: name
+        }));
+      });
+    })
+
+
   }
   function addRowToTable(selectFoods, table) {
     selectFoods.on('change', (e) => {
-        table.find('tbody > :not(:first-child)').html('')
-        plate.food_ingredients.push({
-            id: idIgredientes,
-            food_id_fk: selectFoods.val(),
-            food_measure_unit_id: "",
-            amount: "",
-        })
-        idIgredientes++
-        plate.food_ingredients.map((e) => {
-          getFood(e, table)
-        })
+      table.find('tbody').html('')
+      table.find('tbody').append(`<tr>
+            <th>Nome</th>
+            <th>unidade</th>
+            <th>Medida</th>
+            <th>Quantidade</th>
+            <th>PT</th>
+            <th>LIP</th>
+            <th>CHO</th>
+            <th>KCAL</th>
+            <th></th>
+        </tr>`)
+      plate.food_ingredients.push({
+        id: idIgredientes,
+        food_id_fk: selectFoods.val(),
+        food_measure_unit_id: "",
+        amount: "",
+      })
+      idIgredientes++
+      plate.food_ingredients.map((e) => {
+        getFood(e, table)
+      })
 
-        $(selectFoods).val('');
-        initializeSelect2();
+      $(selectFoods).val('');
+      initializeSelect2();
     })
   }
-  function getFood (food, table){
-    
+  function getFood(food, table) {
+
     $.ajax({
       url: "?r=foods/foodMenu/getFood",
       data: {
-          idFood: food.food_id_fk
+        idFood: food.food_id_fk
       },
       type: "GET",
     }).success(function (response) {
-        response = JSON.parse(DOMPurify.sanitize(response))
-        let line = createMealComponent(response, food);
-        const wrapper = parseDOM(line);
-        wrapper.find(".js-unit").on("change", (e) =>  { food.amount = e.target.value });
-        wrapper.find('.js-remove-taco-food').on('click', (e)=> {
-          
-          let accordionPlateActive = $(e.target).attr("data-id-plate")
-          let ingredientId = $(e.target).attr("data-id-food-ingredients")
-          let accordionMeals = 0
-          for (let i = 0; i < meals.length; i++) {
-            let meal = meals[i];
-            let plateIndex = meal.plates.findIndex(plate => plate.id == accordionPlateActive);
-            
-            if (plateIndex !== -1) {
-              meal.plates[plateIndex].food_ingredients = meal.plates[plateIndex].food_ingredients.filter(foodIngredient =>  foodIngredient.id != ingredientId);
-              accordionMeals = i;
-            }
-          }
-          
-          const day = $('.js-day-tab.active').attr("data-day-of-week")
-          $(".js-meals-component").html('')
+      response = JSON.parse(DOMPurify.sanitize(response))
+      let line = createMealComponent(response, food);
+      const wrapper = parseDOM(line);
+      wrapper.find(".js-unit input").on("input", (e) => {food.amount = e.target.value});
+      wrapper.find('.js-remove-taco-food').on('click', (e) => {
 
-          meals.map((e) => MealsComponent(e, day).actions.render())
-          $('.js-meals-component').accordion("destroy");
-          $( ".js-meals-component" ).accordion({
-            active: accordionMeals,
-            collapsible: true,
-            icons: false,
-          });
-          
-        })
-        table.find('.js-total').remove()
-        addFoodMeasurement(line, food)
-        addUnitMask(line)
-        changeAmount(line, food)
-        addIngrendientsName(line.find('.js-food-name').text())
-        table.append(line)
-        calculateNutritionalValue(table) 
+        let accordionPlateActive = $(e.target).attr("data-id-plate")
+        let ingredientId = $(e.target).attr("data-id-food-ingredients")
+        let accordionMeals = 0
+        for (let i = 0; i < meals.length; i++) {
+          let meal = meals[i];
+          let plateIndex = meal.plates.findIndex(plate => plate.id == accordionPlateActive);
+
+          if (plateIndex !== -1) {
+            meal.plates[plateIndex].food_ingredients = meal.plates[plateIndex].food_ingredients.filter(foodIngredient => foodIngredient.id != ingredientId);
+            accordionMeals = i;
+          }
+        }
+
+        const day = $('.js-day-tab.active').attr("data-day-of-week")
+        $(".js-meals-component").html('')
+        meals.forEach((e) => {
+          MealsComponent(e, day).actions.render();
+        });
+        initializeMealAccordion(accordionMeals)
+
+      })
+      table.find('.js-total').remove()
+      addFoodMeasurement(line, food)
+      addUnitMask(line)
+      changeAmount(line, food)
+      addIngrendientsName(line.find('.js-food-name').text())
+      table.append(line)
+      calculateNutritionalValue(table)
     })
   }
   function changeAmount(line, food) {
@@ -253,7 +263,7 @@ const PlateComponent = function (plate) {
     const td = line.find('.js-amount')
     input.on('input', function (event) {
       let newAmount = calculateAmount(
-        select.find('option:selected').attr('data-value'), 
+        select.find('option:selected').attr('data-value'),
         select.find('option:selected').attr('data-measure'), input.val())
       td.text(newAmount)
     })
@@ -261,118 +271,118 @@ const PlateComponent = function (plate) {
       food.food_measure_unit_id = select.val()
       let newAmount = calculateAmount(
         select.find('option:selected').attr('data-value')
-      , select.find('option:selected').attr('data-measure'), input.val())
+        , select.find('option:selected').attr('data-measure'), input.val())
       td.text(newAmount)
     })
   }
   function calculateAmount(value, measure, amount) {
-      amount = amount == "" ? 0 : amount
-      return (Number(amount) * Number(value)).toFixed(2) + measure
+    amount = amount == "" ? 0 : amount
+    return (Number(amount) * Number(value)).toFixed(2) + measure
   }
   function calculateNutritionalValue(table) {
     let total_pt = total_lip = total_cho = total_kcal = 0;
-    table.find('.js-pt').each((_,pt)=>{
+    table.find('.js-pt').each((_, pt) => {
       total_pt += Number(pt.innerHTML) ? Number(pt.innerHTML) : 0
     })
-    table.find('.js-lip').each((_,lip)=>{
+    table.find('.js-lip').each((_, lip) => {
       total_lip += Number(lip.innerHTML) ? Number(lip.innerHTML) : 0
     })
-    table.find('.js-cho').each((_,cho)=>{
+    table.find('.js-cho').each((_, cho) => {
       total_cho += Number(cho.innerHTML) ? Number(cho.innerHTML) : 0
     })
-    table.find('.js-kcal').each((_,kcal)=>{
+    table.find('.js-kcal').each((_, kcal) => {
       total_kcal += Number(kcal.innerHTML) ? Number(kcal.innerHTML) : 0
     })
 
     const lineTotal = $(`<tr class='js-total'></tr>`)
-        .append(`<td>Total</td>`)
-        .append(`<td></td>`)
-        .append(`<td></td>`)
-        .append(`<td></td>`)
-        .append(`<td>${total_pt.toFixed(2)}</td>`)
-        .append(`<td>${total_lip.toFixed(2)}</td>`)
-        .append(`<td>${total_cho.toFixed(2)}</td>`)
-        .append(`<td>${total_kcal.toFixed(2)}</td>`)
-        .append(`<td></td>`)
+      .append(`<td>Total</td>`)
+      .append(`<td></td>`)
+      .append(`<td></td>`)
+      .append(`<td></td>`)
+      .append(`<td>${total_pt.toFixed(2)}</td>`)
+      .append(`<td>${total_lip.toFixed(2)}</td>`)
+      .append(`<td>${total_cho.toFixed(2)}</td>`)
+      .append(`<td>${total_kcal.toFixed(2)}</td>`)
+      .append(`<td></td>`)
     table.append(lineTotal)
   }
-  function createMealComponent({id, name, pt, lip, cho, kcal}, food) {
-    const line =  $(`<tr class='js-food-ingredient' data-idTaco='${id}'></tr>`)
-        .append(`<td class='js-food-name'>${name}</td>`)
-        .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important' required='required' name='Unidade' value='${food.amount}'></td>`)
-        .append(`<td class='js-measure'>
+  function createMealComponent({ id, name, pt, lip, cho, kcal }, food) {
+    const line = $(`<tr class='js-food-ingredient' data-idTaco='${id}'></tr>`)
+      .append(`<td class='js-food-name'>${name}</td>`)
+      .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important' required='required' name='Unidade' value='${food.amount}'></td>`)
+      .append(`<td class='js-measure'>
                 <select class="js-initialize-select2 t-field-select__input js-food-measurement" style='width:100px' required='required'>
                 </select>
             </td>`)
-        .append(`<td class='js-amount'></td>`)
-        .append(`<td class='js-pt'>${pt}</td>`)
-        .append(`<td class='js-lip'>${lip}</td>`)
-        .append(`<td class='js-cho'>${cho}</td>`)
-        .append(`<td class='js-kcal'>${kcal}</td>`)
-        .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon' data-id-plate='${plate.id}' data-id-food-ingredients="${food.id}"><span></td>`)
+      .append(`<td class='js-amount'></td>`)
+      .append(`<td class='js-pt'>${pt}</td>`)
+      .append(`<td class='js-lip'>${lip}</td>`)
+      .append(`<td class='js-cho'>${cho}</td>`)
+      .append(`<td class='js-kcal'>${kcal}</td>`)
+      .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon' data-id-plate='${plate.id}' data-id-food-ingredients="${food.id}"><span></td>`)
 
-        return line;
+    return line;
   }
   function addFoodMeasurement(line, food) {
-      $.ajax({
-          url: "?r=foods/foodMenu/getFoodMeasurement",
-          type: "GET",
-      }).success(function(response) {
-        const measurements =  JSON.parse(response)
-        const select = line.find('.js-food-measurement')
-        measurements.forEach(obj => {
+    $.ajax({
+      url: "?r=foods/foodMenu/getFoodMeasurement",
+      type: "GET",
+    }).success(function (response) {
+      const measurements = JSON.parse(response)
+      const select = line.find('.js-food-measurement')
+      measurements.forEach(obj => {
         const option = document.createElement("option");
         option.text = obj.unit;
         option.value = obj.id;
-      
+
         option.setAttribute("data-measure", obj.measure);
         option.setAttribute("data-value", obj.value);
-      
-      
+
+
         select.append(DOMPurify.sanitize((option)));
       });
       select.val(food.food_measure_unit_id).trigger('change')
       initializeSelect2()
-      })
+    })
   }
   function addUnitMask(line) {
     const input = line.find('.js-unit input')
-    $(input).mask('999.99', {reverse: true}); 
+    $(input).mask('999.99', { reverse: true });
   }
   function addIngrendientsName(name) {
 
-      let oldIngrendientsName =  $(`.js-plate-accordion-header[data-id-accordion="${plate.id}"]  .js-ingredients-names`)
-      let ingredientsList = oldIngrendientsName.text().trim().split(', ')
-      let firstNameNewIngredient = name.split(', ')[0]
-      
-      if(ingredientsList.indexOf(firstNameNewIngredient) === -1){
-          ingredientsList[0] == "" ?  ingredientsList[0] = firstNameNewIngredient: ingredientsList.push(firstNameNewIngredient)
-      }
+    let oldIngrendientsName = $(`.js-plate-accordion-header[data-id-accordion="${plate.id}"]  .js-ingredients-names`)
+    let ingredientsList = oldIngrendientsName.text().trim().split(', ')
+    let firstNameNewIngredient = name.split(', ')[0]
 
-      let newIngredientsName = ingredientsList.join(", ");
-      oldIngrendientsName.html(newIngredientsName)
+    if (ingredientsList.indexOf(firstNameNewIngredient) === -1) {
+      ingredientsList[0] == "" ? ingredientsList[0] = firstNameNewIngredient : ingredientsList.push(firstNameNewIngredient)
+    }
+
+    let newIngredientsName = ingredientsList.join(", ");
+    oldIngrendientsName.html(newIngredientsName)
 
   }
-  function removeIngrendientsName(idAccordion, name){
+  function removeIngrendientsName(idAccordion, name) {
 
-    let allSelectedIngredients = [] 
+    let allSelectedIngredients = []
 
-     let tdElements = $(`.js-plate-accordion-content[data-id-accordion="${idAccordion}"] .js-meal-component-table tr.js-food-ingredient td.js-food-name`) 
+    let tdElements = $(`.js-plate-accordion-content[data-id-accordion="${idAccordion}"] .js-meal-component-table tr.js-food-ingredient td.js-food-name`)
     tdElements.each(function () {
-        allSelectedIngredients.push($(this).text());
-      });
+      allSelectedIngredients.push($(this).text());
+    });
     let firstNameIngredient = name.split(', ')[0];
     let count = allSelectedIngredients.reduce(function (acc, element) {
-        return acc + (element.split(', ')[0] === firstNameIngredient);
-      }, 0);
+      return acc + (element.split(', ')[0] === firstNameIngredient);
+    }, 0);
 
-    if(count == 1){
-        let oldIngrendientsName =  $(`.js-plate-accordion-header[data-id-accordion="${idAccordion}"]  .js-ingredients-names`)
-        let ingredientsList = oldIngrendientsName.text().trim().split(', ')
-        let newIngredientsName = ingredientsList.filter((ingredient) => ingredient != firstNameIngredient)
-        oldIngrendientsName.html(newIngredientsName)
+    if (count == 1) {
+      let oldIngrendientsName = $(`.js-plate-accordion-header[data-id-accordion="${idAccordion}"]  .js-ingredients-names`)
+      let ingredientsList = oldIngrendientsName.text().trim().split(', ')
+      let newIngredientsName = ingredientsList.filter((ingredient) => ingredient != firstNameIngredient)
+      oldIngrendientsName.html(newIngredientsName)
     }
-}
+  }
   return {
     actions: {
       render: render,
@@ -387,8 +397,8 @@ const MealsComponent = function (meal, day) {
   function render() {
     const container = $(".js-meals-component");
     let template = `
-    
-    <div class="ui-accordion-header js-meals-accordion-header row ${meal.mealDay != day ? 'hide' : '' }" data-day-of-week="${meal.mealDay}">
+
+    <div class="ui-accordion-header js-meals-accordion-header row ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
       <div class="column justify-content--start js-meal-name">
         ${meal.mealType == "Selecione a refeição" ? "Turno da refeição" : meal.mealType}
       </div>
@@ -397,14 +407,14 @@ const MealsComponent = function (meal, day) {
         <span class="t-icon-trash js-remove-meal" data-id-accordion="${meal.id}" ></span>
       </div>
     </div>
-    <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : '' }" data-day-of-week="${meal.mealDay}">
+    <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
       <div class="row">
         <div class="t-field-text column">
-          <label class="t-field-text__label--required">Hora da Refeição *</label>
+          <label class="t-field-text__label--required">Hora da Refeição</label>
           <input type='text' class='t-field-text__input js-mealTime' required='required' value="${meal.mealTime}" name='Hora da Refeição' />
         </div>
         <div class="t-field-select column">
-            <label class='t-field-select__label--required'>Refeição *</label>
+            <label class='t-field-select__label--required'>Refeição</label>
             <select required='required' name='Refeição'
                     class="js-initialize-select2 select-search-on t-field-select__input js-meal-type">
               <option value="">Selecione a refeição</option>
@@ -413,13 +423,13 @@ const MealsComponent = function (meal, day) {
       </div>
       <div class="row">
 					<div class="t-field-select column">
-            <label class="t-field-select__label--required">Turno *</label>
+            <label class="t-field-select__label--required">Turno</label>
             <select class="js-initialize-select2 select-search-on t-field-select__input js-shift" name='Turno' required='required'>
                 <option value="">Selecione o turno</option>
                 <option value="M">Manhã</option>
                 <option value="T">Tarde</option>
                 <option value="N">Noite</option>
-            </select>          
+            </select>
 					</div>
 					<div class="column"></div>
 			</div>
@@ -447,26 +457,26 @@ const MealsComponent = function (meal, day) {
         <div class="js-plate-accordion column">
         </div>
       </div>
-    </div>     
+    </div>
           `;
 
     const wrapper = parseDOM(template);
 
-    wrapper.find(".js-mealTime").on("change", (e) =>  { meal.mealTime = e.target.value });
+    wrapper.find(".js-mealTime").on("change", (e) => { meal.mealTime = e.target.value });
 
     const title = wrapper.find('.js-meal-name')
-    wrapper.find("select.js-meal-type").on("change", (e) =>  { 
+    wrapper.find("select.js-meal-type").on("change", (e) => {
 
       meal.mealType = $(e.target).find(":selected").text();
       meal.mealTypeId = e.target.value
-      
-      if(meal.mealTypeId != "") {
+
+      if (meal.mealTypeId != "") {
         title.text(meal.mealType);
       }
-     
-     });
-     wrapper.find("select.js-shift").on("change", (e) => { meal.shift = e.target.value })
-     wrapper.find("select.js-shift").val(meal.shift).trigger("change")
+
+    });
+    wrapper.find("select.js-shift").on("change", (e) => { meal.shift = e.target.value })
+    wrapper.find("select.js-shift").val(meal.shift).trigger("change")
 
     //adiciona prato à refeição
     const platesContainer = wrapper.find('.js-plate-accordion')
@@ -477,26 +487,13 @@ const MealsComponent = function (meal, day) {
         description: "",
         id: idplates,
         food_ingredients: []
-       })
-       idplates++
-       
-       meals.map((e) => MealsComponent(e, day).actions.render())
-       $('.js-meals-component').accordion("destroy");
-       $( ".js-meals-component" ).accordion({
-         active: meals.indexOf(meal),
-         collapsible: true,
-         icons: false,
-       });
-        
-       if(platesContainer.data('ui-accordion')) {
-        $(platesContainer).accordion("destroy");
-      }
-      platesContainer.accordion({
-        active: meal.plates.length,
-        collapsible: true,
-        icons: false,
-      });
+      })
+      idplates++
 
+      meals.forEach((e) => {
+        MealsComponent(e, day).actions.render();
+      });
+      initializeMealAccordion(meals.indexOf(meal))
 
       $(".js-plate-accordion-header").off("keydown");
 
@@ -506,28 +503,27 @@ const MealsComponent = function (meal, day) {
 
     // adiciona máscara no input de hora
     wrapper.find(".js-mealTime").mask("99:99")
-    
     container.append(wrapper.children())
     const renderPlates = meal.plates.reduce((acc, plate) => acc.concat(PlateComponent(plate).actions.render()), []);
     platesContainer.html(renderPlates)
     platesContainer.accordion({
+      heightStyle: "content",
       active: false,
       collapsible: true,
       icons: false,
-    });
+  });
     $(".js-plate-accordion-header").off("keydown");
-
     initializeSelect2()
   }
- 
-  function getMealTypeList (select){
-      $.ajax({
-          url: "?r=foods/foodMenu/getMealType",
-          type: "GET",
-      }).success(function(response) {
-          select.append(DOMPurify.sanitize(JSON.parse(response)));
-          select.val(meal.mealTypeId).trigger('change')
-      })
+
+  function getMealTypeList(select) {
+    $.ajax({
+      url: "?r=foods/foodMenu/getMealType",
+      type: "GET",
+    }).success(function (response) {
+      select.append(DOMPurify.sanitize(JSON.parse(response)));
+      select.val(meal.mealTypeId).trigger('change')
+    })
   }
   return {
     actions: {
@@ -540,17 +536,19 @@ const MealsComponent = function (meal, day) {
 $(document).on("click", ".js-add-meal", function () {
   const day = $('.js-day-tab.active').attr("data-day-of-week")
   $(".js-meals-component").html('')
-   meals.push({
-    id:idMeals,
-    mealDay: day, 
+  meals.push({
+    id: idMeals,
+    mealDay: day,
     mealTime: '',
     mealTypeId: '',
     mealType: 'Turno da refeição',
     shift: '',
     plates: []
-   })
-   idMeals++
-   meals.map((e) => MealsComponent(e, day).actions.render())
+  })
+  idMeals++
+  meals.forEach((e) => {
+    MealsComponent(e, day).actions.render();
+  });
   initializeMealAccordion(meals.length)
 });
 
@@ -559,13 +557,10 @@ $(document).on("click", ".js-remove-meal", function () {
   let mealIdRemoved = $(this).attr("data-id-accordion")
   meals = meals.filter((e) => e.id != mealIdRemoved)
   $(".js-meals-component").html('')
-  meals.map((e) => MealsComponent(e, day).actions.render())
-  $('.js-meals-component').accordion("destroy");
-    $( ".js-meals-component" ).accordion({
-        active: false,
-        collapsible: true,
-        icons: false,
-    });
+  meals.forEach((e) => {
+    MealsComponent(e, day).actions.render();
+  });
+  initializeMealAccordion()
 });
 
 $(document).on("click", '.js-change-pagination', function () {
@@ -577,13 +572,8 @@ $(document).on("click", '.js-change-pagination', function () {
   let day = clicked.attr("data-day-of-week");
 
   $(".js-meals-component").html('')
-  meals.map((e) => MealsComponent(e, day).actions.render())
-  $('.js-meals-component').accordion("destroy");
-      $( ".js-meals-component" ).accordion({
-        active: false,
-        collapsible: true,
-        icons: false,
-      });
+  meals.forEach((e) => {
+    MealsComponent(e, day).actions.render();
+  });
+  initializeMealAccordion()
 })
-
-

@@ -58,6 +58,7 @@
                             <th>Nome</th>
                             <th>Filiação Principal</th>
                             <th>Data de Nascimento</th>
+                            <th>CPF</th>
                             <th>ID INEP</th>
                             <th style="width: 104px;text-align: center;">Ações</th>
                             <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
