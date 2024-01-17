@@ -17,23 +17,9 @@ class AdminController extends Controller
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-                    'import',
-                    'export',
-                    'update',
-                    'manageUsers',
-                    'clearDB',
-                    'acl',
-                    'backup',
-                    'data',
-                    'exportStudentIdentify',
-                    'syncExport',
-                    'syncImport',
-                    'exportToMaster',
-                    'clearMaster',
-                    'importFromMaster',
-                    'gradesStructure'
-                ],
-                'users' => ['@'],
+                    'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure', 'instanceConfig', 'editInstanceConfigs'
+                ], 'users' => ['@'],
             ],
         ];
     }
@@ -649,6 +635,27 @@ class AdminController extends Controller
         $this->render('changelog');
     }
 
+    public function actionInstanceConfig()
+    {
+        $configs = InstanceConfig::model()->findAll();
+        $this->render('instanceConfig', [
+            "configs" => $configs
+        ]);
+    }
+
+    public function actionEditInstanceConfigs()
+    {
+        $changed = false;
+        foreach ($_POST["configs"] as $config) {
+            $instanceConfig = InstanceConfig::model()->findByPk($config["id"]);
+            if ($instanceConfig->value != $config["value"]) {
+                $instanceConfig->value = $config["value"];
+                $instanceConfig->save();
+                $changed = true;
+            }
+        }
+        echo json_encode(["valid" => $changed, "text" => "Configurações alteradas com sucesso.</br>"]);
+    }
     public function actionAuditory()
     {
         $schools = Yii::app()->db->createCommand("select inep_id, `name` from school_identification order by `name`")->queryAll();
