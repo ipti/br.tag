@@ -317,6 +317,8 @@ class AdminController extends Controller
             Yii::log($th->getMessage(), CLogger::LEVEL_ERROR);
             Yii::log($th->getTraceAsString(), CLogger::LEVEL_ERROR);
 
+            echo CJSON::encode(["valid" => false, "error" => $th->getMessage()]);
+
             throw $th;
         }
 
