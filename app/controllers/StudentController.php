@@ -582,6 +582,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelEnrollment = new StudentEnrollment;
+        $modelSchool = SchoolIdentification::model()->findAll();
         if (isset($_POST['StudentEnrollment'])) {
             $currentEnrollment = StudentEnrollment::model()->findByPk($modelStudentIdentification->lastEnrollment->id);
             if ($currentEnrollment->validate()) {
@@ -615,7 +616,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         } else {
             $this->render('transfer', array(
                 'modelStudentIdentification' => $modelStudentIdentification,
-                'modelEnrollment' => $modelEnrollment
+                'modelEnrollment' => $modelEnrollment,
+                'modelSchool' => $modelSchool,
             ));
         }
     }
