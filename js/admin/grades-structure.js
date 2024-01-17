@@ -418,8 +418,7 @@ function checkValidInputs() {
         $(".approval-media").val() < $(".final-recover-media").val()
     ) {
         valid = false;
-        message =
-            "A média de recuperação final não pode ser superior à de aprovação.";
+        message = "A média de recuperação final não pode ser superior à de aprovação.";
     }
 
     if (valid) {
