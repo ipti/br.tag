@@ -14,7 +14,7 @@ $(document).on("keyup", ".unity-name", function (e) {
 
 $(document).on("click", ".js-new-unity", function (e) {
     const unities = $(".unity").length;
-    const isUnityConcept = $(".rule-type").select2("val") === "C";
+    const isUnityConcept = $(".js-rule-type").select2("val") === "C";
     const unityHtml = template`
         <div class='unity column is-three-fifths'>
             <div class='row unity-heading ui-accordion-header'>
@@ -67,7 +67,7 @@ $(document).on("click", ".js-new-unity", function (e) {
         </div>`;
 
     $(".js-grades-structure-container").append(unityHtml);
-    if ($(".rule-type").select2("val") === "C") {
+    if ($(".js-rule-type").select2("val") === "C") {
         $(".js-new-modality").last().trigger("click").hide();
         $(".remove-modality").last().hide();
     }
@@ -123,7 +123,7 @@ $(document).on("change", ".js-type-select", function (e) {
     }
 });
 
-$(document).on("change", ".rule-type", function (e) {
+$(document).on("change", ".js-rule-type", function (e) {
     initRuleType(e.target.value);
 });
 
@@ -340,7 +340,7 @@ function saveUnities(reply) {
             finalRecoverMedia: $(".final-recover-media").val(),
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
-            ruleType: $(".rule-type").select2("val"),
+            ruleType: $(".js-rule-type").select2("val"),
         },
         beforeSend: function (e) {
             $(".alert-media-fields")
@@ -403,16 +403,25 @@ function checkValidInputs() {
     $(".alert-required-fields, .alert-media-fields").hide();
     let valid = true;
     let message = "";
+
     if (
-        $(".approval-media").val() === "" ||
-        ($(".js-has-final-recovery").is(":checked") && $(".final-recover-media").val() === "")
+        $(".js-rule-type").select2("val") === "N" &&
+        ($(".approval-media").val() === "" ||
+            ($(".js-has-final-recovery").is(":checked") &&
+                $(".final-recover-media").val() === ""))
     ) {
         valid = false;
         message = "Os campos de média são obrigatórios.";
-    } else if ($(".js-has-final-recovery").is(":checked") && $(".approval-media").val() < $(".final-recover-media").val()) {
+    } else if (
+        $(".js-rule-type").select2("val") === "N" &&
+        $(".js-has-final-recovery").is(":checked") &&
+        $(".approval-media").val() < $(".final-recover-media").val()
+    ) {
         valid = false;
-        message = "A média de recuperação final não pode ser superior à de aprovação.";
+        message =
+            "A média de recuperação final não pode ser superior à de aprovação.";
     }
+
     if (valid) {
         if ($(".unity").length) {
             let ucCount = 0;
@@ -548,7 +557,7 @@ function loadStructure() {
                     "val",
                     data.mediaCalculation
                 );
-                $(".rule-type").select2("val", data.ruleType);
+                $(".js-rule-type").select2("val", data.ruleType);
                 $(".final-recover-media").val(data.finalRecoverMedia);
                 $(".final-recovery-unity-operation").val(
                     data.final_recovery !== null ? "update" : "create"
