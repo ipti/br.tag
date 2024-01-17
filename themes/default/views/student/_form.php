@@ -1775,7 +1775,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div id="StudentIdentification_deficiencies"
                                  class="t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
                                 <label class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Deficiency Type'); ?>
-                                    *</label>
+                                    </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
                                     <label class="t-field-checkbox">
