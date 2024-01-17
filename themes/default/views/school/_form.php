@@ -3375,7 +3375,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-checkbox-group equipments-container">
                                 <label class="t-field-checkbox-group__label--required">
-                                    <?php echo Yii::t('default', 'Existing equipment at the school for technical and administrative use'); ?>*
+                                    <?php echo Yii::t('default', 'Existing equipment at the school for technical and administrative use'); ?>
                                 </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
@@ -3462,8 +3462,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </label>
                             </div>
 
-                            <label class="control-label required">
-                                <?php echo Yii::t('default', 'Internet Access'); ?> *
+                            <label class="t-field-checkbox__label--required">
+                                <?php echo Yii::t('default', 'Internet Access'); ?> 
                             </label>
                             <div class="t-field-checkbox-group internet-access-container">
                                 <div class="t-field-checkbox">
@@ -3523,7 +3523,7 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-checkbox-group equipments-material-container">
-                                <label class="t-field-checkbox-group__label--required"><?php echo Yii::t('default', 'Material, sociocultural and/or pedagogical instruments in use at school for the development of teaching and learning activities'); ?> *</label>
+                                <label class="t-field-checkbox-group__label--required"><?php echo Yii::t('default', 'Material, sociocultural and/or pedagogical instruments in use at school for the development of teaching and learning activities'); ?> </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
@@ -3703,7 +3703,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox-group internet-access-local-container">
                                 <label class="t-field-checkbox-group__label--required">
                                     <?php echo Yii::t('default', 'Internet Access Local'); ?>
-                                    *</label>
+                                    </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,

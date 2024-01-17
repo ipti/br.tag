@@ -9,11 +9,12 @@
     &__label {
 
         &--required {
-            font-weight: bold;
 
             &::after {
                 content: " *";
-                color: red;
+                font-weight: $fontWeightRegular;
+                font-size: $FontSizeTextNormal;
+                color: $colorsAlertCrucialIcon;
             }
         }
     }

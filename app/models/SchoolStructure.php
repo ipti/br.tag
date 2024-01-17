@@ -402,7 +402,7 @@ class SchoolStructure extends AltActiveRecord
             'operation_location_socioeducative_unity' => Yii::t('default', 'Operation Location Socioeducative Unity'),
             'operation_location_prison_unity' => Yii::t('default', 'Operation Location Prison Unity'),
             'operation_location_other' => Yii::t('default', 'Operation Location Other'),
-            'building_occupation_situation' => Yii::t('default', 'Building Occupation Situation') ." *",
+            'building_occupation_situation' => Yii::t('default', 'Building Occupation Situation'),
             'shared_building_with_school' => Yii::t('default', 'Shared Building With School'),
             'shared_school_inep_id_1' => Yii::t('default', 'Shared School Inep Id 1'),
             'shared_school_inep_id_2' => Yii::t('default', 'Shared School Inep Id 2'),
