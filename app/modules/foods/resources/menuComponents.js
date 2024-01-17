@@ -188,7 +188,11 @@ const PlateComponent = function (plate) {
       table.find('tbody').html('')
       table.find('tbody').append(`<tr>
             <th>Nome</th>
+<<<<<<< HEAD
             <th>Unidade</th>
+=======
+            <th>unidade</th>
+>>>>>>> main
             <th>Medida</th>
             <th>Quantidade</th>
             <th>PT</th>
@@ -398,7 +402,11 @@ const MealsComponent = function (meal, day) {
     const container = $(".js-meals-component");
     let template = `
 
+<<<<<<< HEAD
     <div class="ui-accordion-header js-meals-accordion-header mobile-row ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
+=======
+    <div class="ui-accordion-header js-meals-accordion-header row ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
+>>>>>>> main
       <div class="column justify-content--start js-meal-name">
         ${meal.mealType == "Selecione a refeição" ? "Turno da refeição" : meal.mealType}
       </div>
@@ -409,11 +417,19 @@ const MealsComponent = function (meal, day) {
     </div>
     <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
       <div class="row">
+<<<<<<< HEAD
         <div class="t-field-text column clearleft--on-mobile">
           <label class="t-field-text__label--required">Hora da Refeição</label>
           <input type='text' class='t-field-text__input js-mealTime' required='required' value="${meal.mealTime}" name='Hora da Refeição' />
         </div>
         <div class="t-field-select column clearleft--on-mobile">
+=======
+        <div class="t-field-text column">
+          <label class="t-field-text__label--required">Hora da Refeição</label>
+          <input type='text' class='t-field-text__input js-mealTime' required='required' value="${meal.mealTime}" name='Hora da Refeição' />
+        </div>
+        <div class="t-field-select column">
+>>>>>>> main
             <label class='t-field-select__label--required'>Refeição</label>
             <select required='required' name='Refeição'
                     class="js-initialize-select2 select-search-on t-field-select__input js-meal-type">
@@ -422,7 +438,11 @@ const MealsComponent = function (meal, day) {
         </div>
       </div>
       <div class="row">
+<<<<<<< HEAD
 					<div class="t-field-select column clearleft--on-mobile">
+=======
+					<div class="t-field-select column">
+>>>>>>> main
             <label class="t-field-select__label--required">Turno</label>
             <select class="js-initialize-select2 select-search-on t-field-select__input js-shift" name='Turno' required='required'>
                 <option value="">Selecione o turno</option>
