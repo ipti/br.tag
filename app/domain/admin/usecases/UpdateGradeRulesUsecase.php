@@ -41,6 +41,11 @@ class UpdateGradeRulesUsecase
         $gradeRules->has_final_recovery = (int) $this->hasFinalRecovery;
         $gradeRules->rule_type = $this->ruleType;
 
+        if(!$gradeRules->validate()){
+            Yii::log(TagUtils::stringfyValidationErrors($gradeRules), CLogger::LEVEL_ERROR);
+            throw new CantSaveGradeRulesException();
+        }
+
         return $gradeRules->save();
     }
 }
