@@ -405,14 +405,13 @@ function checkValidInputs() {
     let message = "";
     if (
         $(".approval-media").val() === "" ||
-        $(".final-recover-media").val() === ""
+        ($(".js-has-final-recovery").is(":checked") && $(".final-recover-media").val() === "")
     ) {
         valid = false;
         message = "Os campos de média são obrigatórios.";
-    } else if ($(".approval-media").val() < $(".final-recover-media").val()) {
+    } else if ($(".js-has-final-recovery").is(":checked") && $(".approval-media").val() < $(".final-recover-media").val()) {
         valid = false;
-        message =
-            "A média de recuperação final não pode ser superior à de aprovação.";
+        message = "A média de recuperação final não pode ser superior à de aprovação.";
     }
     if (valid) {
         if ($(".unity").length) {
