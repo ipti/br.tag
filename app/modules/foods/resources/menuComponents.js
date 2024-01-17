@@ -83,7 +83,7 @@ const PlateComponent = function (plate) {
   function render() {
 
     let template = `
-      <div class="ui-accordion-header js-plate-accordion-header row" data-id-accordion="${plate.id}">
+      <div class="ui-accordion-header js-plate-accordion-header mobile-row" data-id-accordion="${plate.id}">
         <div class='column flex-direction--row align-items--baseline'>
           <input type="text" class="t-accordion-input-header js-plate-name" autofocus="true" value='${plate.description}' name='Nome do Prato' placeholder="Digite o nome do prato" required='required' />
           <label>
@@ -91,11 +91,11 @@ const PlateComponent = function (plate) {
           </label>
         </div>
         <div class="column justify-content--space-between  border-left">
-        <span class="js-ingredients-names"></span>
-        <span class="t-icon-down_arrow arrow" ></span>
+            <span class="js-ingredients-names"></span>
+            <span class="t-icon-down_arrow arrow" ></span>
         </div>
       </div>
-      <div class="ui-accordion-content js-plate-accordion-content"  data-id-accordion="${plate.id}">
+      <div class="ui-accordion-content accordion-overflow js-plate-accordion-content"  data-id-accordion="${plate.id}">
         <div class="row">
           <div class="t-field-select column clearfix">
             <select class="t-field-select__input js-initialize-select2 js-taco-foods">
@@ -106,7 +106,7 @@ const PlateComponent = function (plate) {
         <table class="tag-table-secondary centralize js-meal-component-table">
           <tr>
             <th>Nome</th>
-            <th>unidade</th>
+            <th>Unidade</th>
             <th>Medida</th>
             <th>Quantidade</th>
             <th>PT</th>
@@ -127,7 +127,7 @@ const PlateComponent = function (plate) {
           <th></th>
         </tr>
         </table>
-        <div class="row">
+        <div class="row t-margin-medium--bottom">
             <a class="t-button-icon-danger js-remove-plate" data-id-plate="${plate.id}">Remover Prato</a>
         </div>
       </div>
@@ -188,7 +188,7 @@ const PlateComponent = function (plate) {
       table.find('tbody').html('')
       table.find('tbody').append(`<tr>
             <th>Nome</th>
-            <th>unidade</th>
+            <th>Unidade</th>
             <th>Medida</th>
             <th>Quantidade</th>
             <th>PT</th>
@@ -398,7 +398,7 @@ const MealsComponent = function (meal, day) {
     const container = $(".js-meals-component");
     let template = `
 
-    <div class="ui-accordion-header js-meals-accordion-header row ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
+    <div class="ui-accordion-header js-meals-accordion-header mobile-row ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
       <div class="column justify-content--start js-meal-name">
         ${meal.mealType == "Selecione a refeição" ? "Turno da refeição" : meal.mealType}
       </div>
@@ -409,11 +409,11 @@ const MealsComponent = function (meal, day) {
     </div>
     <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
       <div class="row">
-        <div class="t-field-text column">
+        <div class="t-field-text column clearleft--on-mobile">
           <label class="t-field-text__label--required">Hora da Refeição</label>
           <input type='text' class='t-field-text__input js-mealTime' required='required' value="${meal.mealTime}" name='Hora da Refeição' />
         </div>
-        <div class="t-field-select column">
+        <div class="t-field-select column clearleft--on-mobile">
             <label class='t-field-select__label--required'>Refeição</label>
             <select required='required' name='Refeição'
                     class="js-initialize-select2 select-search-on t-field-select__input js-meal-type">
@@ -422,7 +422,7 @@ const MealsComponent = function (meal, day) {
         </div>
       </div>
       <div class="row">
-					<div class="t-field-select column">
+					<div class="t-field-select column clearleft--on-mobile">
             <label class="t-field-select__label--required">Turno</label>
             <select class="js-initialize-select2 select-search-on t-field-select__input js-shift" name='Turno' required='required'>
                 <option value="">Selecione o turno</option>
@@ -431,10 +431,10 @@ const MealsComponent = function (meal, day) {
                 <option value="N">Noite</option>
             </select>
 					</div>
-					<div class="column"></div>
+					<div class="column "></div>
 			</div>
       <div class"row">
-        <div class="column t-buttons-container">
+        <div class="column clearleft--on-mobile t-buttons-container">
           <a class="t-button-secondary js-add-plate">
             <span class="t-icon-start"></span>
             Adicionar Prato
@@ -443,7 +443,7 @@ const MealsComponent = function (meal, day) {
       </div>
       <div class="row">
         <div class="column t-accordeon--header">
-          <div class="row">
+          <div class="mobile-row">
             <div class="column">
               Prato
             </div>
