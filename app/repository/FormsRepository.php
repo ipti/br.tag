@@ -98,7 +98,7 @@ class FormsRepository {
         $schedulesPerUnityPeriods = [];
         $unityDates = [];
         foreach($unities as $unity) {
-            $unityPeriods = GradeUnityPeriods::model()->find("school_year = :year 
+            $unityPeriods = GradeUnityPeriods::model()->find("school_year = :year
                 and grade_unity_fk = :grade_unity_fk", [
                 ":year" => $classroomFk->school_year,
                 ":grade_unity_fk" => $unity->id
@@ -110,9 +110,9 @@ class FormsRepository {
 
         for ($i = 0; $i < count($unityDates); $i++) {
             if ($i < count($unityDates) - 1) {
-                $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk 
+                $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk
                 and unavailable = 0
-                and concat(:year,'-', LPAD(month, 2, '0'), '-', LPAD(day, 2, '0')) >= :initial_date 
+                and concat(:year,'-', LPAD(month, 2, '0'), '-', LPAD(day, 2, '0')) >= :initial_date
                 and concat(:year,'-', LPAD(month, 2, '0'), '-', LPAD(day, 2, '0')) < :final_date", [
                     ":year" => $classroomFk->school_year,
                     ":classroom_fk" => $classroomFk->id,
@@ -120,7 +120,7 @@ class FormsRepository {
                     ":final_date" => $unityDates[$i+1]
                 ]);
             } else {
-                $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk 
+                $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk
                 and unavailable = 0
                 and concat(:year,'-', LPAD(month, 2, '0'), '-', LPAD(day, 2, '0')) >= :initial_date", [
                     ":year" => $classroomFk->school_year,
@@ -308,11 +308,6 @@ class FormsRepository {
         return $response;
     }
 
-    private function setGradeResultOnUnities($unities, $greadeResult) {
-        $gradesOnOrder;
-        if ($unities)
-        return $gradesOnOrder;
-    }
 
     private function calculateFrequency($diasLetivos, $totalFaltas): int
     {
