@@ -95,7 +95,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 				</a>
 			</div>
 		</div>
-		<div class="t-tabs-secondary js-days-of-week-component row">
+		<div class="t-tabs-secondary js-days-of-week-component row show t-margin-large--top">
 
 		</div>
 		<div class="row">
