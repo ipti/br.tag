@@ -125,3 +125,7 @@ function createCard(meal_component, meal, dayMeal) {
                 </div>
             </div>`
 }
+$(".js-expansive-panel").on("click", function () {
+    console.log($(".t-expansive-panel"))
+    $(".t-expansive-panel").toggle("expanded");
+})

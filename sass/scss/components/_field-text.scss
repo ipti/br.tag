@@ -8,10 +8,11 @@
         display: flex;
         align-items: center;
         &--required {
-            font-weight: bold;
             &::after {
-                content: " *";
-                color: red;
+                content: "*";
+                font-weight: $fontWeightRegular;
+                font-size: $FontSizeTextNormal;
+                color: $colorsAlertCrucialIcon;
             }
         }
     }

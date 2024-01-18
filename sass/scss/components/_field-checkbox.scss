@@ -14,11 +14,11 @@
 
         &--required {
 
-            font-weight: bold;
-
             &::after {
-                content: " *";
-                color: red;
+                content: "*";
+                font-weight: $fontWeightRegular;
+                font-size: $FontSizeTextNormal;
+                color: $colorsAlertCrucialIcon;
             }
         }
     }
@@ -58,7 +58,12 @@
         padding-top: 0 !important;
 
         &--required {
-            font-weight: bold;
+            &::after {
+                content: "*";
+                font-weight: $fontWeightRegular;
+                font-size: $FontSizeTextNormal;
+                color: $colorsAlertCrucialIcon;
+            }
         }
     }
 

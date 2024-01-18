@@ -58,7 +58,6 @@ $(form + 'password').focusout(function () {
    console.log( $(this).attr("id"))
     var id = '#' + $(this).attr("id");
     if (!validatePassword($(id).val())) {
-        $(id).attr('value', '');
         addError(id, "O campo deve possuir no mínimo 6 caracteres.");
     } else {
         removeError(id);

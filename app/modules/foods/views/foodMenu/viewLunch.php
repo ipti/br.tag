@@ -1,4 +1,4 @@
-<?php
+w<?php
 
 // $baseUrl = Yii::app()->baseUrl;
 // $cs = Yii::app()->getClientScript();
@@ -16,35 +16,36 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CClientScript::POS_END);
 
 ?>
-
-<div id="viewMealsPage" class="main container-instructor">
-    <div class="row-fluid">
-        <div class="span12">
+<div id="mainPage" class="main">
+    <div class="row">
+        <div class="column clearfix">
             <h1>
                 <?php echo Yii::t('default', 'Lunch') ?>
             </h1>
         </div>
     </div>
-</div>
-
-<div id="mainPage" class="main container-instructor">
     <div class="row">
-        <div class="t-badge-info">
+        <div class="t-badge-info t-margin-none--left">
             <span class="t-info_positive"></span>
             <?php echo $students ?>  Alunos Presentes
         </div>
     </div>
-    <div class="mobile-row">
-        <a class="t-button-primary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodmenu/create') ?>">
+    <div class="t-buttons-container">
+        <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
             Preparar Cardápio
         </a>
-        <a class="t-button-secondary" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
-            Estoque
-        </a>
+        <div class="mobile-row">
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
+                Estoque
+            </a>
+            <a class="t-button-secondary js-expansive-panel show--mobile">
+                Filtros
+            </a>
+        </div>
     </div>
-    <div class="row">
+    <div class="row t-expansive-panel expanded">
         <div class="t-field-select column clearleft--on-mobile t-multiselect">
-            <label class="t-field-select__label--required">Mostrar turnos</label>
+            <label class="t-field-select__label">Mostrar turnos</label>
             <select class="select-search-on t-field-select__input js-filter-turns multiselect" multiple="multiple" name='Turno' required='required'>
                 <option value="M">Manhã</option>
                 <option value="T">Tarde</option>
@@ -52,11 +53,12 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             </select>
 		</div>
         <div class="t-field-select column clearleft--on-mobile t-multiselect">
-            <label class="t-field-select__label--required">Filtrar tipo de aluno</label>
+            <label class="t-field-select__label">Filtrar tipo de aluno</label>
             <?= CHtml::dropDownList("stages", [], CHtml::listData(FoodPublicTarget::model()->findAll(), "id", "name"), [
                 "multiple" => "multiple", "class" => "select-search-on control-input multiselect js-filter-public-target select3-choices"
             ]) ?>
 		</div>
+        <div Class="column show--desktop"></div>
     </div>
     <div class="row days-of-week row">
         <div class="t-tabs-secondary">
