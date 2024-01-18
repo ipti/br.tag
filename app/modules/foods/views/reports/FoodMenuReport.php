@@ -67,6 +67,7 @@
             </tbody>
         </table>
     </div>
+    <?php  CVarDumper::dump($foodMenu->monday, 12, true)?>
 </div>
 
 <script>
