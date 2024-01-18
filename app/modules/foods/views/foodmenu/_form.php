@@ -88,19 +88,19 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 			<div class="column"></div>
 		</div>
 		<div class="row">
-			<div class="column t-buttons-container">
+			<div class="column clearleft--on-mobile t-buttons-container">
 				<a class="t-button-primary js-add-meal">
 					<span class="t-icon-start"></span>
 					Adicionar Refeição
 				</a>
 			</div>
 		</div>
-		<div class="t-tabs-secondary js-days-of-week-component row">
+		<div class="t-tabs-secondary js-days-of-week-component row show t-margin-large--top">
 
 		</div>
 		<div class="row">
 			<div class="column t-accordeon--header">
-				<div class="row">
+				<div class="mobile-row">
 					<div class="column">
 						Refeição
 					</div>
@@ -117,8 +117,13 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		</div>
 	</div>
 	<div class="row buttons">
-		<a class="t-button-primary js-save-menu">
-			<?= $model->isNewRecord ? 'Criar' : 'Salvar' ?>
+		<a class="t-button-primary js-save-menu show--desktop">
+			<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
+		</a>
+	</div>
+	<div class="row t-buttons-container t-margin-large--top">
+		<a class="t-button-primary column  t-margin-large--left t-margin-large--right js-save-menu show--tablet">
+			<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
 		</a>
 	</div>
 

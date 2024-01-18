@@ -295,28 +295,27 @@ class ClassesController extends Controller
 
     public function actionSaveClassContents()
     {
-        $isMinorStage = $_POST["fundamentalMaior"];
+        $isMajorStage = $_POST["fundamentalMaior"];
         $classContents = $_POST["classContents"];
         $classroom = $_POST["classroom"];
         $month = $_POST["month"];
         $discipline = $_POST["discipline"];
 
-        $schedules = $this->loadScheduleByStage($isMinorStage, $classroom, $month, $discipline);
+        $schedules = $this->loadSchedulesByStage($isMajorStage, $classroom, $month, $discipline);
 
         foreach ($classContents as $classContent) {
             $scheduleKey = array_search($classContent["day"], array_column($schedules, 'day'));
             if ($scheduleKey !== false) {
-                CVarDumper::dump($scheduleKey);
                 $this->saveSchedule($schedules[$scheduleKey], $classContent);
             }
         }
     }
 
-    private function loadScheduleByStage($isMinorStage, $classroom, $month, $discipline)
+    private function loadSchedulesByStage($isMajorStage, $classroom, $month, $discipline)
     {
-        if ($isMinorStage != "1") {
+        if ($isMajorStage) {
             return Schedule::model()->findAll(
-                "classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk group by day order by day, schedule",
+                "classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
                 [
                     "classroom_fk" => $classroom,
                     "month" => $month,
@@ -326,7 +325,7 @@ class ClassesController extends Controller
         }
 
         return Schedule::model()->findAll(
-            "classroom_fk = :classroom_fk and month = :month group by day order by day, schedule",
+            "classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule",
             [
                 "classroom_fk" => $classroom,
                 "month" => $month

@@ -333,14 +333,14 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 </a>
                             </li>
                             <?php if(Yii::app()->features->isEnable("FEAT_FOOD")): ?>
-                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=foods") ? 'active' : '' ?> hide-responsive">
+                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=foods") ? 'active' : '' ?>">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('foods') ?> ">
                                         <span class="t-icon-apple t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Merenda Escolar</span>
                                     </a>
                                 </li>
                             <?php else: ?>
-                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
+                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?>">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('lunch') ?> ">
                                         <span class="t-icon-apple t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Merenda Escolar</span>
@@ -394,20 +394,20 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                         </li>
                         <?php if(Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)): ?>
                             <?php if(Yii::app()->features->isEnable("FEAT_FOOD")): ?>
-                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=foods") ? 'active' : '' ?> hide-responsive">
+                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=foods") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('foods') ?> ">
                                             <span class="t-icon-apple t-menu-item__icon"></span>
                                             <span class="t-menu-item__text">Merenda Escolar</span>
                                         </a>
                                     </li>
                                 <?php else: ?>
-                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?> hide-responsive">
+                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=lunch") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('lunch') ?> ">
                                             <span class="t-icon-apple t-menu-item__icon"></span>
                                             <span class="t-menu-item__text">Merenda Escolar</span>
                                         </a>
                                     </li>
-                                <?php endif; 
+                                <?php endif;
                                 endif;
                                 ?>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>

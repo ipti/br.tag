@@ -180,7 +180,6 @@ class SchoolController extends Controller
         $modelSchoolIdentification = new SchoolIdentification;
         $modelSchoolStructure = new SchoolStructure;
         $modelManagerIdentification = new ManagerIdentification;
-        $modelSchoolStructure->stages_concept_grades = [14, 15, 16];
 
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($modelSchoolIdentification);
@@ -219,11 +218,11 @@ class SchoolController extends Controller
             if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate() && $modelManagerIdentification->validate()) {
                 if ($modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_temple || $modelSchoolStructure->operation_location_businness_room || $modelSchoolStructure->operation_location_instructor_house || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other) {
                     if ($modelSchoolIdentification->save() && $modelSchoolStructure->save() && $modelManagerIdentification->save()) {
-                        foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
-                            $schoolStagesConceptGrades = new SchoolStagesConceptGrades();
-                            $schoolStagesConceptGrades->school_fk = $modelSchoolIdentification->inep_id;
-                            $schoolStagesConceptGrades->edcenso_stage_vs_modality_fk = $stage_concept_grade;
-                            $schoolStagesConceptGrades->save();
+                        foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages"] as $stage) {
+                            $schoolStages = new SchoolStages();
+                            $schoolStages->school_fk = $modelSchoolIdentification->inep_id;
+                            $schoolStages->edcenso_stage_vs_modality_fk = $stage;
+                            $schoolStages->save();
                         }
                         Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "C", $modelSchoolIdentification->name);
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Escola adicionada com sucesso!'));
@@ -308,22 +307,22 @@ class SchoolController extends Controller
                             ':school_fk' => $modelSchoolIdentification->inep_id,
                         );
 
-                        if ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] != "") {
+                        if ($_POST[$this->SCHOOL_STRUCTURE]["stages"] != "") {
 
-                            $criteriaStages->addNotInCondition('edcenso_stage_vs_modality_fk', $_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"]);
-                            SchoolStagesConceptGrades::model()->deleteAll($criteriaStages);
+                            $criteriaStages->addNotInCondition('edcenso_stage_vs_modality_fk', $_POST[$this->SCHOOL_STRUCTURE]["stages"]);
+                            SchoolStages::model()->deleteAll($criteriaStages);
 
-                            foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages_concept_grades"] as $stage_concept_grade) {
-                                $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => $modelSchoolIdentification->inep_id, ":edcenso_stage_vs_modality_fk" => $stage_concept_grade]);
-                                if ($schoolStagesConceptGrades == null) {
-                                    $schoolStagesConceptGrades = new SchoolStagesConceptGrades();
-                                    $schoolStagesConceptGrades->school_fk = $modelSchoolIdentification->inep_id;
-                                    $schoolStagesConceptGrades->edcenso_stage_vs_modality_fk = $stage_concept_grade;
-                                    $schoolStagesConceptGrades->save();
+                            foreach ($_POST[$this->SCHOOL_STRUCTURE]["stages"] as $stage) {
+                                $schoolStages = SchoolStages::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => $modelSchoolIdentification->inep_id, ":edcenso_stage_vs_modality_fk" => $stage]);
+                                if ($schoolStages == null) {
+                                    $schoolStages = new SchoolStages();
+                                    $schoolStages->school_fk = $modelSchoolIdentification->inep_id;
+                                    $schoolStages->edcenso_stage_vs_modality_fk = $stage;
+                                    $schoolStages->save();
                                 }
                             }
                         } else {
-                            SchoolStagesConceptGrades::model()->deleteAll($criteriaStages);
+                            SchoolStages::model()->deleteAll($criteriaStages);
                         }
 
                         Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "U", $modelSchoolIdentification->name);
@@ -440,14 +439,13 @@ class SchoolController extends Controller
         $schoolStruct = SchoolStructure::model()->findByPk($id);
         if (!isset($schoolStruct)) {
             $schoolStruct = new SchoolStructure;
-            $schoolStruct->stages_concept_grades = [14, 15, 16];
         }
-        $stagesConceptGradesArray = [];
-        $schoolStagesConceptGrades = SchoolStagesConceptGrades::model()->findAll("school_fk = :school_fk", ["school_fk" => $id]);
-        foreach ($schoolStagesConceptGrades as $schoolStageConceptGrade) {
-            array_push($stagesConceptGradesArray, $schoolStageConceptGrade->edcenso_stage_vs_modality_fk);
+        $stagesArray = [];
+        $schoolStages = SchoolStages::model()->findAll("school_fk = :school_fk", ["school_fk" => $id]);
+        foreach ($schoolStages as $stage) {
+            array_push($stagesArray, $stage->edcenso_stage_vs_modality_fk);
         }
-        $schoolStruct->stages_concept_grades = $stagesConceptGradesArray;
+        $schoolStruct->stages = $stagesArray;
         $sharedSchoolInedIdArray = [];
         if ($schoolStruct->shared_school_inep_id_1 != null) {
             array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_1);

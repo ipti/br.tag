@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation\XmlElement;
 /**
  * Class representing AlunoTType
  *
- * 
+ *
  * XSD Type: aluno_t
  */
 class AlunoTType
@@ -89,7 +89,7 @@ class AlunoTType
      * @param \DateTime $dataNascimento
      * @return self
      */
-    public function setDataNascimento(\DateTime $dataNascimento)
+    public function setDataNascimento($dataNascimento)
     {
         $this->dataNascimento = $dataNascimento;
         return $this;

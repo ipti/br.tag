@@ -73,7 +73,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             </p>
             <div class="t-field-select">
                 <label class="t-field-select__label--required">Modelo de avalição</span></label>
-                <select class="rule-type select-search-on t-field-select__input">
+                <select class="js-rule-type select-search-on t-field-select__input">
                     <option value="N">Númerico</option>
                     <option value="C">Conceito</option>
                 </select>
