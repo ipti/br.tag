@@ -254,3 +254,5 @@ $(document).on("change", ".board-organ-container input[type=checkbox]", function
         $(".board-organ-container input[type=checkbox]").not("#SchoolStructure_board_organ_inexistent").prop("checked", false);
     }
 });
+
+$()

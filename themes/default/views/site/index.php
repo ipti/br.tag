@@ -34,16 +34,10 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 	<div class="row-fluid">
 		<div class="span12">
 			<h1>Bem vindo ao Tag
-				<!-- <img class="tag-logo"  alt="tag logo" style="width:65px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_navbar.svg" /></h1> -->
 		</div>
 	</div>
 	<div class="tag-inner eggs">
 		<div class="board-msg" version="<?php echo TAG_VERSION; ?>"><?php echo BOARD_MSG; ?></div>
-
-        <div class="t-alert">
-            <span class="t-icon-sucess t-alert-icon-sucess"></span>
-            <a><?php echo BOARD_MSG; ?></a>
-        </div>
 		<div class="row-fluid">
 			<div class="span12">
 				<div class="widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false" total="<?= $logCount ?>">

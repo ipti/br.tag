@@ -7,10 +7,10 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/school/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/school/form/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/school/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school',
@@ -37,7 +37,34 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php echo $form->errorSummary($modelSchoolIdentification); ?>
         <?php echo $form->errorSummary($modelSchoolStructure); ?>
         <?php echo $form->errorSummary($modelManagerIdentification); ?>
-        <div class="alert alert-error school-error no-show"></div>
+
+        <div class="alert alert-error school-error no-show">
+
+        </div>
+        <div class="t-alert">
+            <span class="t-info_positive t-alert-icon-Warning">
+            </span>
+            <div class="school-error"></div>
+        </div>
+        <div class="t-alert">
+            <span class="t-info_positive t-alert-icon-sucess">
+            </span>
+            <div class="school-error"></div>
+        </div>
+        <div class="t-alert">
+            <span class="t-info_positive t-alert-icon-info">
+            </span>
+            <div class="school-error"></div>
+        </div>
+        <div class="t-alert">
+            <span class="t-info_positive t-alert-icon-critical">
+            </span>
+            <div class="school-error"></div>
+        </div>
+
+
+
+
         <div class="t-tabs">
             <ul class="js-tab-school t-tabs__list">
                 <li id="tab-school-indentify" class="active t-tabs__item">
