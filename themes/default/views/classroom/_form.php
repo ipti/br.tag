@@ -125,7 +125,11 @@ $form = $this->beginWidget(
                     <div class="row">
                         <div class="column">
                             <?php
-                            echo $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school));
+                            echo
+                            $modelClassroom->isNewRecord ?
+                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school)) :
+                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => $modelClassroom->school_inep_fk))
+                            ;
                             echo CHtml::hiddenField("teachingData", '', array('id' => 'teachingData'));
                             echo CHtml::hiddenField("disciplines", '', array('id' => 'disciplines'));
                             echo CHtml::hiddenField("events", '', array('id' => 'events'));
