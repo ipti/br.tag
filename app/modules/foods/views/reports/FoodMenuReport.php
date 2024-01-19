@@ -64,10 +64,26 @@
                     <td>5ª FEIRA</td>
                     <td>6ª FEIRA</td>
                 </tr>
+                <?php foreach ($mealTypes as $mealType): ?>
+                    <tr  style="background-color: lightgray; font-weight: bold;">
+                            <td>
+                            <?= $mealType["description"] ?><br/>
+                            <?= $mealType["turn"] ?><br/>
+                            <?= $mealType["meal_time"] ?> 
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>`;
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <?php  CVarDumper::dump($foodMenu->monday, 12, true)?>
+    <?php  //CVarDumper::dump($mealTypes, 12, true)?>
 </div>
 
 <script>
