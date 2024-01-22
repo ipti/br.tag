@@ -17,15 +17,15 @@ class FoodMenuService
     }
     public function getMealType($id)
     {
-        $sql = "SELECT fmm.meal_time, fmt.description,
+        $sql = "SELECT fmt.id as food_meal_type, fmm.meal_time, fmt.description,
         CASE
             WHEN fmm.turn = 'M' THEN 'Manhã'
             WHEN fmm.turn = 'T' THEN 'Tarde'
             WHEN fmm.turn = 'N' THEN 'Noite'
-            ELSE 'aaaa'
+            ELSE ''
         END AS turn
-        FROM food_menu_meal fmm 
-            INNER JOIN food_meal_type fmt ON fmm.food_meal_type_fk = fmt.id 
+        FROM food_menu_meal fmm
+            INNER JOIN food_meal_type fmt ON fmm.food_meal_type_fk = fmt.id
         WHERE fmm.food_menuId = :id
         GROUP BY fmt.description";
 

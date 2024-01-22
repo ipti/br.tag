@@ -2,6 +2,8 @@
     $baseUrl = Yii::app()->baseUrl;
     $cs = Yii::app()->getClientScript();
     $cs->registerCssFile($baseUrl . '/sass/css/main.css');
+
+    $days  = ["monday", "tuesday", "wednesday", "thursday", "friday"]
 ?>
 <style>
     th, td {
@@ -65,25 +67,40 @@
                     <td>6ª FEIRA</td>
                 </tr>
                 <?php foreach ($mealTypes as $mealType): ?>
-                    <tr  style="background-color: lightgray; font-weight: bold;">
-                            <td>
+                    <tr>
+                            <td style="font-weight: bold;">
                             <?= $mealType["description"] ?><br/>
                             <?= $mealType["turn"] ?><br/>
-                            <?= $mealType["meal_time"] ?> 
+                            <?= $mealType["meal_time"] ?>
                             </td>
-                            <td>
-                                &nbsp;
+                            <?php foreach ($days as $day): ?>
+                                <td>
+                                <?php foreach ($foodMenu->$day as $meal): ?>
+                                    <?php if($meal["food_meal_type"] == $mealType["food_meal_type"]): ?>
+                                        <div>
+                                            <?php
+                                                $descriptions =  array_reduce($meal["meals_component"], function($carry, $item) {
+                                                    // Adiciona a descrição do item ao resultado acumulado
+                                                    $carry[] = $item['description'];
+                                                    return $carry;
+                                                });
+                                                echo implode(', ', $descriptions);
+                                                //CVarDumper::dump($meal["meals_component"], 12, true)
+                                            ?>
+                                            </div>
+                                            <div class="t-margin-medium--top" style="font-weight: bold;">Princpais Ingredientes:</div>
+                                            <?php ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
                             </td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
-                        </tr>`;
+                            <?php endforeach; ?>
+                        </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
     <?php  //CVarDumper::dump($mealTypes, 12, true)?>
+    <?php  //CVarDumper::dump($foodMenu->monday[0]["meals_component"], 12, true)?>
 </div>
 
 <script>
