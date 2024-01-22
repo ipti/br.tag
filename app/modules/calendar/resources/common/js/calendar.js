@@ -9,7 +9,8 @@ $(document).on("click", ".new-calendar-button", function () {
 
 $(document).on("click", ".create-calendar", function () {
     var form = $(this).closest("form");
-    if (form.find(".create-calendar-title").val() === "" || form.find("#stages").val() === null) {
+    if (form.find(".create-calendar-title").val() === "" || form.find("#stages").val() === null
+        || form.find("#create-calendar-start-date").val() === "" || form.find("#create-calendar-end-date").val() === "") {
         form.find(".alert").html("Campos com * são obrigatórios.").show();
     } else {
         form.find(".alert").hide();
@@ -18,6 +19,8 @@ $(document).on("click", ".create-calendar", function () {
             type: "POST",
             data: {
                 title: $(".create-calendar-title").val(),
+                startDate: $("#create-calendar-start-date").val(),
+                endDate: $("#create-calendar-end-date").val(),
                 stages: $("#stages").val(),
                 copyFrom: $("#copy").val()
             },
@@ -57,6 +60,8 @@ $(document).on("click", ".edit-calendar", function (e) {
         data = JSON.parse(data);
         $("#edit-calendar-modal").find("#Calendar_id").val(data.id);
         $("#edit-calendar-modal").find("#Calendar_title").val(data.title);
+        $("#edit-calendar-modal").find("#Calendar_start_date").val(data.startDate);
+        $("#edit-calendar-modal").find("#Calendar_end_date").val(data.endDate);
         var selectedStages = [];
         $.each(data.stages, function () {
             selectedStages.push(this);
@@ -73,37 +78,48 @@ $(document).on("click", ".edit-calendar", function (e) {
 
 $(document).on("click", ".edit-calendar-button", function () {
     if ($("#edit-calendar-modal").find("#Calendar_title").val() === "" || $("#edit-calendar-modal").find("#stages").val() === null) {
-        $("#edit-calendar-modal").find(".alert").html("Preencha os campos abaixo.").show();
+        $("#edit-calendar-modal").find(".alert").removeClass("alert-primary").addClass("alert-error").html("Campos com * são obrigatórios.").show();
     } else {
-        $("#edit-calendar-modal").find(".alert").hide();
-        $.ajax({
-            url: "?r=calendar/default/editCalendar",
-            type: "POST",
-            data: {
-                id: $("#edit-calendar-modal").find("#Calendar_id").val(),
-                title: $("#edit-calendar-modal").find("#Calendar_title").val(),
-                stages: $("#edit-calendar-modal").find("#stages").val()
-            },
-            beforeSend: function () {
-                $("#edit-calendar-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
-                $("#edit-calendar-modal").find("button").attr("disabled", "disabled");
-                $("#edit-calendar-modal").find(".centered-loading-gif").show();
-            },
-        }).success(function (data) {
-            data = JSON.parse(data);
-            if (data.valid) {
-                $(".calendar-container[data-id=" + $("#edit-calendar-modal").find("#Calendar_id").val() + "]").closest(".accordion-group").find(".accordion-title").text($("#edit-calendar-modal").find("#Calendar_title").val());
-                $("#edit-calendar-modal").modal("hide");
-            } else {
-                $("#edit-calendar-modal").find(".alert").html(DOMPurify.sanitize(data.error)).show();
-            }
-        }).complete(function () {
-            $("#edit-calendar-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
-            $("#edit-calendar-modal").find("button").removeAttr("disabled");
-            $("#edit-calendar-modal").find(".centered-loading-gif").hide();
-        });
+        editCalendar(false);
     }
 });
+
+$(document).on("click", ".confirm-edit-calendar-event", function() {
+    editCalendar(true);
+});
+
+function editCalendar(confirm) {
+    $("#edit-calendar-modal").find(".alert").hide();
+    $.ajax({
+        url: "?r=calendar/default/editCalendar",
+        type: "POST",
+        data: {
+            id: $("#edit-calendar-modal").find("#Calendar_id").val(),
+            title: $("#edit-calendar-modal").find("#Calendar_title").val(),
+            startDate: $("#edit-calendar-modal").find("#Calendar_start_date").val(),
+            endDate: $("#edit-calendar-modal").find("#Calendar_end_date").val(),
+            stages: $("#edit-calendar-modal").find("#stages").val(),
+            confirm: confirm
+        },
+        beforeSend: function () {
+            $("#edit-calendar-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
+            $("#edit-calendar-modal").find("button").attr("disabled", "disabled");
+            $("#edit-calendar-modal").find(".centered-loading-gif").show();
+        },
+    }).success(function (data) {
+        data = JSON.parse(data);
+        if (data.valid) {
+            $(".calendar-container[data-id=" + $("#edit-calendar-modal").find("#Calendar_id").val() + "]").closest(".accordion-group").find(".accordion-title").text($("#edit-calendar-modal").find("#Calendar_title").val());
+            $("#edit-calendar-modal").modal("hide");
+        } else {
+            $("#edit-calendar-modal").find(".alert").removeClass("alert-error").addClass("alert-" + DOMPurify.sanitize(data.alert)).html(DOMPurify.sanitize(data.message)).show();
+        }
+    }).complete(function () {
+        $("#edit-calendar-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
+        $("#edit-calendar-modal").find("button").removeAttr("disabled");
+        $("#edit-calendar-modal").find(".centered-loading-gif").hide();
+    });
+}
 
 $(document).on("click", ".manage-unity-periods", function (e) {
     dismissPeriods();

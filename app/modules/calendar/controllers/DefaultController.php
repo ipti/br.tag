@@ -47,63 +47,45 @@ class DefaultController extends Controller
 
     public function actionCreate()
     {
-        $error = "";
+        $calendar = new Calendar();
+        $calendar->title = $_POST["title"];
+        $calendar->start_date = $_POST["startDate"];
+        $calendar->end_date = $_POST["endDate"];
+        $calendar->available = 0;
+        $calendar->school_year = Yii::app()->user->year;
+
+        $calendar->save();
         foreach ($_POST["stages"] as $stage) {
-            $calendar = Yii::app()->db->createCommand("select calendar.title from calendar_stages inner join calendar on calendar_stages.calendar_fk = calendar.id where YEAR(calendar.start_date) = :year and stage_fk = :stage")
-                ->bindParam(":year", Yii::app()->user->year)
-                ->bindParam(":stage", $stage)
-                ->queryRow();
-            if ($calendar != null) {
-                if ($error == "") {
-                    $error .= "Já existe Calendário para a(s) seguinte(s) etapa(s) selecionada(s):<br><br>";
-                }
-                $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($stage);
-                $error .= "• <b>" . $edcensoStageVsModality->name . "</b> no Calendário <b>" . $calendar["title"] . "</b><br>";
+            $calendarStage = new CalendarStages();
+            $calendarStage->calendar_fk = $calendar->id;
+            $calendarStage->stage_fk = $stage;
+            $calendarStage->save();
+        }
+        if ($_POST["copyFrom"] != "") {
+            /** @var $calendarBase Calendar */
+            $calendarBase = Calendar::model()->findByPk($_POST["copyFrom"]);
+            $events = $calendarBase->getCopyableEvents();
+            foreach ($events as $event) {
+                $calendarStart = new DateTime($calendar->start_date);
+                $eventStart = new DateTime($event->start_date);
+                $eventEnd = new DateTime($event->end_date);
+
+                $newStart = new DateTime(date("d-m-Y", mktime(0, 0, 0, $eventStart->format('m'), $eventStart->format('d'), $calendarStart->format('Y'))));
+                $newEnd = new DateTime(date("d-m-Y", mktime(0, 0, 0, $eventEnd->format('m'), $eventEnd->format('d'), $calendarStart->format('Y'))));
+
+                $e = new CalendarEvent();
+                $e->attributes = $event->attributes;
+
+                $e->start_date = $newStart->format("Y-m-d");
+                $e->end_date = $newEnd->format("Y-m-d");
+
+                $e->calendar_fk = $calendar->id;
+                $e->id = NULL;
+                $e->save();
             }
         }
-        if ($error == "") {
-            $calendar = new Calendar();
-            $calendar->title = $_POST["title"];
-            $calendar->start_date = Yii::app()->user->year . "-01-01";
-            $calendar->end_date = Yii::app()->user->year . "-12-31";
-            $calendar->available = 0;
-            $calendar->school_year = Yii::app()->user->year;
-
-            $calendar->save();
-            foreach ($_POST["stages"] as $stage) {
-                $calendarStage = new CalendarStages();
-                $calendarStage->calendar_fk = $calendar->id;
-                $calendarStage->stage_fk = $stage;
-                $calendarStage->save();
-            }
-            if ($_POST["copyFrom"] != "") {
-                /** @var $calendarBase Calendar */
-                $calendarBase = Calendar::model()->findByPk($_POST["copyFrom"]);
-                $events = $calendarBase->getCopyableEvents();
-                foreach ($events as $event) {
-                    $calendarStart = new DateTime($calendar->start_date);
-                    $eventStart = new DateTime($event->start_date);
-                    $eventEnd = new DateTime($event->end_date);
-
-                    $newStart = new DateTime(date("d-m-Y", mktime(0, 0, 0, $eventStart->format('m'), $eventStart->format('d'), $calendarStart->format('Y'))));
-                    $newEnd = new DateTime(date("d-m-Y", mktime(0, 0, 0, $eventEnd->format('m'), $eventEnd->format('d'), $calendarStart->format('Y'))));
-
-                    $e = new CalendarEvent();
-                    $e->attributes = $event->attributes;
-
-                    $e->start_date = $newStart->format("Y-m-d");
-                    $e->end_date = $newEnd->format("Y-m-d");
-
-                    $e->calendar_fk = $calendar->id;
-                    $e->id = NULL;
-                    $e->save();
-                }
-            }
-            Log::model()->saveAction("calendar", $calendar->id, "C", $calendar->title);
-            echo json_encode(["valid" => true]);
-        } else {
-            echo json_encode(["valid" => false, "error" => $error]);
-        }
+        Log::model()->saveAction("calendar", $calendar->id, "C", $calendar->title);
+        echo json_encode(["valid" => true]);
     }
 
     public function actionEvent()
@@ -122,7 +104,7 @@ class DefaultController extends Controller
             join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
             join calendar c on cs.calendar_fk = c.id
             where c.id = :id")->bindParam(":id", $_POST["calendarFk"])->queryRow();
-            $isHardUnavailableEvent = $_POST["eventTypeFk"] == 1000 || $_POST["eventTypeFk"] == 1001 || $_POST["eventTypeFk"] == 102;
+            $isHardUnavailableEvent = $_POST["eventTypeFk"] == 102;
             $isSoftUnavailableEvent = $_POST["eventTypeFk"] == 101 || $_POST["eventTypeFk"] == 104;
             $isPreviousDate = strtotime($_POST["startDate"]) < strtotime('now');
 
@@ -130,12 +112,12 @@ class DefaultController extends Controller
                 $event = new CalendarEvent();
                 $event->school_fk = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ? null : Yii::app()->user->school;
             } else {
-                $isHardUnavailableEvent = !$isHardUnavailableEvent ? $event->calendar_event_type_fk == 1000 || $event->calendar_event_type_fk == 1001 || $event->calendar_event_type_fk == 102 : $isHardUnavailableEvent;
+                $isHardUnavailableEvent = !$isHardUnavailableEvent ? $event->calendar_event_type_fk == 102 : $isHardUnavailableEvent;
                 $isSoftUnavailableEvent = !$isSoftUnavailableEvent ? $event->calendar_event_type_fk == 101 || $event->calendar_event_type_fk == 104 : $isSoftUnavailableEvent;
                 $isPreviousDate = !$isPreviousDate ? strtotime($event->start_date) < strtotime('now') : $isPreviousDate;
             }
             if (!$_POST["confirm"] && (int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
-                echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: adicionar ou modificar eventos de <b>férias</b>, <b>início</b> ou <b>fim de ano escolar</b>, poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-save-event'>aqui</span> para confirmar."]);
+                echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: adicionar ou modificar eventos de <b>férias</b> poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-save-event'>aqui</span> para confirmar."]);
             } else if (!$_POST["confirm"] && (int)$result["qtd"] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
                 echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: adicionar ou modificar eventos de <b>feriados</b> com <b>datas anteriores à atual</b> poderá refletir nas aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-save-event'>aqui</span> para confirmar."]);
             } else {
@@ -168,18 +150,6 @@ class DefaultController extends Controller
                 }
 
                 if ($isHardUnavailableEvent || $isSoftUnavailableEvent) {
-                    if ($event->calendar_event_type_fk == 1000) {
-                        $start = new DateTime(Yii::app()->user->year . "-01-01 00:00:00");
-                        $end = new DateTime($event->end_date);
-                    } else if ($event->calendar_event_type_fk == 1001) {
-                        $start = new DateTime($event->start_date);
-                        $start->modify('+1 day');
-                        $end = new DateTime(Yii::app()->user->year . "-12-31 23:59:59");
-                    } else {
-                        $start = new DateTime($event->start_date);
-                        $end = new DateTime($event->end_date);
-                        $end->modify('+1 day');
-                    }
                     $interval = DateInterval::createFromDateString('1 day');
                     $period = new DatePeriod($start, $interval, $end);
                     foreach ($period as $dt) {
@@ -230,11 +200,11 @@ class DefaultController extends Controller
             join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
             join calendar c on cs.calendar_fk = c.id
             where c.id = :id")->bindParam(":id", $_POST["calendarId"])->queryRow();
-            $isHardUnavailableEvent = $event->calendar_event_type_fk == 1000 || $event->calendar_event_type_fk == 1001 || $event->calendar_event_type_fk == 102;
+            $isHardUnavailableEvent = $event->calendar_event_type_fk == 102;
             $isSoftUnavailableEvent = $event->calendar_event_type_fk == 101 || $event->calendar_event_type_fk == 104;
             $isPreviousDate = strtotime($event->start_date) < strtotime('now');
             if (!$_POST["confirm"] && (int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
-                echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: remover eventos de <b>férias</b>, <b>início</b> ou <b>fim de ano escolar</b>, poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-delete-event'>aqui</span> para confirmar."]);
+                echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: remover eventos de <b>férias</b> poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-delete-event'>aqui</span> para confirmar."]);
             } else if (!$_POST["confirm"] && (int)$result["qtd"] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
                 echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: remover eventos de <b>feriado</b> ou <b>ponto facultativo</b> com <b>datas anteriores à atual</b> poderá refletir nas aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-delete-event'>aqui</span> para confirmar."]);
             } else {
@@ -302,81 +272,57 @@ class DefaultController extends Controller
 
     public function actionEditCalendar()
     {
-        $error = "";
-        $stagesToRemove = [];
-        $stagesToInsert = [];
-        if (empty($_POST["stages"])) {
-            $error .= "Calendário deve conter etapas.";
-        } else {
-            //Valida stages que estão sendo usados em outros calendários
-            foreach ($_POST["stages"] as $stage) {
-                $calendar = Yii::app()->db->createCommand("select c.title from calendar_stages cs inner join calendar c on (cs.calendar_fk = c.id) where YEAR(c.start_date) = :year and c.id != :calendarId and stage_fk = :stage")
-                    ->bindParam(":year", Yii::app()->user->year)
-                    ->bindParam(":calendarId", $_POST["id"])
-                    ->bindParam(":stage", $stage)
-                    ->queryRow();
-                if ($calendar != null) {
-                    if ($error == "") {
-                        $error .= "Já existe outro calendário com a(s) seguinte(s) etapa(s) selecionada(s):<br><br>";
-                    }
-                    $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($stage);
-                    $error .= "• <b>" . $edcensoStageVsModality->name . "</b> no Calendário <b>" . $calendar["title"] . "</b><br>";
+        if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
+            $alertUser = false;
+            $calendar = Calendar::model()->findByPk($_POST["id"]);
+            if (!$_POST["confirm"] && ($calendar->start_date != $_POST["startDate"] || $calendar->end_date != $_POST["endDate"])) {
+                $result = Yii::app()->db->createCommand("
+                    select count(s.id) as qtd from schedule s 
+                    join classroom cr on s.classroom_fk = cr.id 
+                    join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
+                    join calendar c on cs.calendar_fk = c.id
+                    where c.id = :id")->bindParam(":id", $_POST["calendarId"])->queryRow();
+                if (!$_POST["confirm"] && (int)$result["qtd"] > 0) {
+                    $alertUser = true;
                 }
             }
 
-            //Recupera stages previamente no calendario
-            $stagesResult = Yii::app()->db->createCommand("select cs.* from calendar_stages cs inner join calendar c on (cs.calendar_fk = c.id) left join edcenso_stage_vs_modality esvm on (esvm.id = cs.stage_fk) where YEAR(c.start_date) = :year and c.id = :calendarId")
-                ->bindParam(":year", Yii::app()->user->year)
-                ->bindParam(":calendarId", $_POST["id"])
-                ->queryAll();
-            if ($error == "") {
-                //Lista stages que estão sendo removidos
-                foreach ($stagesResult as $rowStage) {
-                    if (!in_array($rowStage["stage_fk"], $_POST["stages"])) {
-                        $result = Yii::app()->db->createCommand("select count(*) qtd from schedule s join classroom cr on s.classroom_fk = cr.id join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk where cs.stage_fk = :stage")
-                            ->bindParam(":stage", $rowStage["stage_fk"])
-                            ->queryRow();
-                        if ((int)$result["qtd"] == 0) {
-                            array_push($stagesToRemove, $rowStage["stage_fk"]);
-                        } else {
-                            $error .= "Etapa(s) com quadro de horário preenchido não pode(m) ser removido(s):<br><br>";
-                            $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($rowStage["stage_fk"]);
-                            $error .= "• <b>" . $edcensoStageVsModality->name . "</b><br>";
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        if ($error == "") {
-            //Lista stages que estão sendo adicionados
-            foreach ($_POST["stages"] as $selectedStage) {
-                if (array_search($selectedStage, array_column($stagesResult, 'stage_fk')) === false) {
-                    array_push($stagesToInsert, $selectedStage);
-                }
-            }
-            if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
-                $calendar = Calendar::model()->findByPk($_POST["id"]);
+            if (!$alertUser) {
                 Log::model()->saveAction("calendar", $calendar->id, "U", $calendar->title);
                 $calendar->title = $_POST["title"];
+                $calendar->start_date = $_POST["startDate"];
+                $calendar->end_date = $_POST["endDate"];
                 $calendar->save();
-                foreach ($stagesToRemove as $stage) {
-                    $calendarStage = CalendarStages::model()->findByAttributes(['stage_fk' => $stage]);
-                    Log::model()->saveAction("calendarStages", $calendarStage->id, "D", $calendarStage->stageFk->name);
-                    $calendarStage->delete();
+                $criteria = new CDbCriteria();
+                $criteria->addCondition("calendar_fk = " . $calendar->id);
+                $criteria->addNotInCondition("stage_fk", $_POST["stages"]);
+                CalendarStages::model()->deleteAll($criteria);
+                foreach ($_POST["stages"] as $stageId) {
+                    $calendarStage = CalendarStages::model()->find("calendar_fk = :calendar_fk and stage_fk = :stage_fk", ["calendar_fk" => $calendar->id, "stage_fk" => $stageId]);
+                    if ($calendarStage == null) {
+                        $calendarStage = new CalendarStages();
+                        $calendarStage->stage_fk = $stageId;
+                        $calendarStage->calendar_fk = $calendar->id;
+                        $calendarStage->save();
+                    }
                 }
-                foreach ($stagesToInsert as $stage) {
-                    $calendarStage = new CalendarStages();
-                    $calendarStage->calendar_fk = $calendar->id;
-                    $calendarStage->stage_fk = $stage;
-                    $calendarStage->save();
+
+                $schedulesToAdjust = Yii::app()->db->createCommand("
+                            select s.id from schedule s 
+                            join classroom cr on s.classroom_fk = cr.id 
+                            join calendar_stages cs on cs.stage_fk = cr.edcenso_stage_vs_modality_fk
+                            join calendar c on cs.calendar_fk = c.id
+                            where c.id = :id and s.day = :day and s.month = :month")->bindParam(":id", $_POST["calendarFk"])->bindParam(":day", $dt->format("j"))->bindParam(":month", $dt->format("n"))->queryAll();
+
+                foreach ($schedulesToAdjust as $scheduleToAdjust) {
+                    Schedule::model()->deleteAll("id = :id", [":id" => $scheduleToAdjust["id"]]);
                 }
                 echo json_encode(["valid" => true]);
             } else {
-                echo json_encode(["valid" => false, "error" => "Apenas administradores podem editar título de calendários."]);
+                echo json_encode(["valid" => false, "alert" => "primary", "message" => "ATENÇÃO: alterar datas de início ou encerramento poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-edit-calendar-event'>aqui</span> para confirmar."]);
             }
         } else {
-            echo json_encode(["valid" => false, "error" => $error]);
+            echo json_encode(["valid" => false, "alert" => "error", "message" => "Apenas administradores podem editar calendários."]);
         }
     }
 
@@ -407,6 +353,8 @@ class DefaultController extends Controller
         $calendar = Calendar::model()->findByPk($_POST["id"]);
         $result["id"] = $calendar->id;
         $result["title"] = $calendar->title;
+        $result["startDate"] = $calendar->start_date;
+        $result["endDate"] = $calendar->end_date;
         $result["stages"] = [];
         foreach ($calendar->calendarStages as $calendarStage) {
             array_push($result["stages"], $calendarStage->stage_fk);

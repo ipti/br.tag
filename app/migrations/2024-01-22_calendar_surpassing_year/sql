@@ -1,0 +1,13 @@
+update calendar cal set
+
+cal.start_date = ifnull((select ce.start_date from calendar_event ce
+join calendar_event_type cet on cet.id = ce.calendar_event_type_fk
+where cet.id = 1000 and ce.calendar_fk = cal.id), cal.start_date),
+
+cal.end_date = ifnull((select ce.end_date from calendar_event ce
+join calendar_event_type cet on cet.id = ce.calendar_event_type_fk
+where cet.id = 1001 and ce.calendar_fk = cal.id), cal.end_date);
+
+
+DELETE FROM `calendar_event_type`
+WHERE ((`id` = '1000') OR (`id` = '1001'));

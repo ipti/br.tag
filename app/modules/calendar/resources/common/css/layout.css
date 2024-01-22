@@ -271,7 +271,7 @@ form {
     text-align: justify;
 }
 
-.confirm-save-event, .confirm-delete-event {
+.confirm-save-event, .confirm-delete-event, .confirm-edit-calendar-event {
     text-decoration: underline;
     cursor: pointer;
 }

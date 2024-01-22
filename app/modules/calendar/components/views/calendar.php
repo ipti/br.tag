@@ -67,10 +67,9 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
         $end = new DateTime($calendar->end_date);
 
         $interval = $start->diff($end);
+        $rowsCount = (($interval->m + ($interval->y * 12)) + 1) / 4;
 
-        $total = $interval->m;
         $date = new DateTime($start->format("Y-m-d"));
-
         $events = [];
         for ($i = 1; $i <= 12; $i++) $events[$i] = [];
         foreach ($calendar->calendarEvents as $event) {
@@ -123,7 +122,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                     </div>
                     <div class="row-fluid">
                         <div class="span12 calendar-container" data-id="<?= $calendar->id ?>">
-                            <?php for ($i = 0; $i < 3; $i++): ?>
+                            <?php for ($i = 0; $i < $rowsCount; $i++): ?>
                                 <div class="row-fluid calendar"
                                      data-year="<?= date('Y', strtotime($calendar->start_date)) ?>"
                                      data-id="<?= $calendar->id ?>">
@@ -138,7 +137,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
 
                                                 <div class="row-fluid">
                                                     <div class="span12 center">
-                                                        <h4><?= yii::t('calendarModule.labels', $month) ?></h4>
+                                                        <h4><?= yii::t('calendarModule.labels', $month) . "/" . $y ?></h4>
                                                     </div>
                                                 </div>
                                                 <div class="row-fluid">
@@ -276,6 +275,26 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                         </div>
                     </div>
                 </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="form-control">
+                            <div class="row-fluid">
+                                <div class="span6">
+                                    <?= chtml::label(yii::t("calendarModule.labels", "Start Date"), "title", array('class' => 'control-label required')); ?>
+                                    <div class="form-control">
+                                        <input type="date" id="create-calendar-start-date" class="span12">
+                                    </div>
+                                </div>
+                                <div class="span6">
+                                    <?= chtml::label(yii::t("calendarModule.labels", "End Date"), "title", array('class' => 'control-label required')); ?>
+                                    <div class="form-control">
+                                        <input type="date" id="create-calendar-end-date" class="span12">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row-fluid stages-container">
                     <div class="span12">
                         <?= chtml::label(yii::t("calendarModule.labels", "Stages"), "stages", array('class' => 'control-label required')); ?>
@@ -352,7 +371,26 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                         </div>
                     </div>
                 </div>
-
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="form-control">
+                            <div class="row-fluid">
+                                <div class="span6">
+                                    <?= chtml::label(yii::t("calendarModule.labels", "Start Date"), "title", array('class' => 'control-label required')); ?>
+                                    <div class="form-control">
+                                        <?= $form->dateField($editCalendar, "start_date", ['class' => 'span12', 'placeholder' => '']) ?>
+                                    </div>
+                                </div>
+                                <div class="span6">
+                                    <?= chtml::label(yii::t("calendarModule.labels", "End Date"), "title", array('class' => 'control-label required')); ?>
+                                    <div class="form-control">
+                                        <?= $form->dateField($editCalendar, "end_date", ['class' => 'span12', 'placeholder' => '']) ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row-fluid stages-container">
                     <div class="span12">
                         <?= chtml::label(yii::t("calendarModule.labels", "Stages"), "stages", array('class' => 'control-label required')); ?>
