@@ -41,29 +41,26 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="alert alert-error school-error no-show">
 
         </div>
-        <div class="t-alert">
+        <div class="t-alert no-show">
             <span class="t-info_positive t-alert-icon-Warning">
             </span>
             <div class="school-error"></div>
         </div>
-        <div class="t-alert">
+        <div class="t-alert no-show">
             <span class="t-info_positive t-alert-icon-sucess">
             </span>
             <div class="school-error"></div>
         </div>
-        <div class="t-alert">
+        <div class="t-alert no-show">
             <span class="t-info_positive t-alert-icon-info">
             </span>
             <div class="school-error"></div>
         </div>
-        <div class="t-alert">
+        <div class="t-alert no-show">
             <span class="t-info_positive t-alert-icon-critical">
             </span>
             <div class="school-error"></div>
         </div>
-
-
-
 
         <div class="t-tabs">
             <ul class="js-tab-school t-tabs__list">
@@ -3490,7 +3487,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <label class="t-field-checkbox__label--required">
-                                <?php echo Yii::t('default', 'Internet Access'); ?> 
+                                <?php echo Yii::t('default', 'Internet Access'); ?>
                             </label>
                             <div class="t-field-checkbox-group internet-access-container">
                                 <div class="t-field-checkbox">
