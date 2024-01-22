@@ -18,6 +18,8 @@ class FoodsModule extends CWebModule
         $this->setImport(array(
             'foods.models.*',
             'foods.components.*',
+			'foods.services.*',
+			'foods.usecases.*',
         ));
     }
 
