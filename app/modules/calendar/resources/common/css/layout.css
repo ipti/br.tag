@@ -324,9 +324,9 @@ form {
 }
 
 .start-date {
-    border: 1px solid #26cb24;
+    border: 2px solid #26cb24;
 }
 
 .end-date {
-    border: 1px solid red;
+    border: 2px solid red;
 }

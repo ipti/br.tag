@@ -73,6 +73,7 @@ function generateTimesheet() {
 function getTimesheet(data) {
     data = DOMPurify.sanitize(data);
     data = JSON.parse(data);
+
     $(".loading-alert").addClass("display-hide");
     $(".schedule-info").removeClass("display-hide");
     $("#turn").hide();
@@ -81,93 +82,137 @@ function getTimesheet(data) {
         $(".schedule-info").addClass("display-hide");
     } else if (!data.valid) {
         if (data.error === "curricularMatrix") {
-            $(".loading-alert").removeClass("display-hide").html("Para exibir o quadro de horário, é necessário cadastrar uma <b>matriz curricular</b> com a mesma etapa da turma selecionada.");
+            $(".loading-alert").removeClass("display-hide").html("A Turma está sem matriz curricular.");
             $(".schedule-info").addClass("display-hide");
             $(".table-container").hide();
         } else if (data.error === "calendar") {
-            $(".loading-alert").removeClass("display-hide").html("Para exibir o quadro de horário, É necessário disponibilizar um <b>calendário</b> contemplando a etapa da turma selecionada e com os eventos de início e fim de ano escolar.");
+            $(".loading-alert").removeClass("display-hide").html("A Turma está sem Calendário Escolar vinculado.");
             $(".schedule-info").addClass("display-hide");
             $(".table-container").hide();
         } else if (data.error === "frequencyOrClassContentFilled") {
-            $(".loading-alert").removeClass("display-hide").html("Não se pode mais gerar um novo quadro de horário, visto que já existe preenchimento de frequência ou aula ministrada.");
+            $(".loading-alert").removeClass("display-hide").html("Permissão negada: a turma já está com frequencia ou aula ministrada preenchida.");
             $("#turn").show();
         }
     } else {
+        buildTimesheetStructure(data);
         $(".tables-timesheet tbody").children().remove();
         $(".calendar-icons th").children().remove();
         var turn = "";
         var lastMonthWeek = 1;
         $.each(data.calendarEvents, function () {
-            $(".calendar-icons th[icon-month=" + this.month + "][icon-day=" + this.day + "]").append(
+            $(".calendar-icons th[icon-year=" + this.year + "][icon-month=" + this.month + "][icon-day=" + this.day + "]").append(
                 '<div class="calendar-timesheet-icon calendar-' + this.color + '">' +
                 '<i data-toggle="tooltip" data-placement="bottom" data-original-title="' + this.name + '" class="fa ' + this.icon + '"></i>' +
                 '</div>'
             );
         });
-        for (var month = 1; month <= 12; month++) {
-            var html = "";
+        $.each(data.daysPerMonth, function (year, yearResult) {
+            $.each(yearResult, function (month) {
+                var html = "";
 
-            for (var schedule = 1; schedule <= 10; schedule++) {
-                var weekDayCount = Number($(".table-month[month=" + month + "]").attr("first-day-weekday"));
-                var week = lastMonthWeek;
-                html += "<tr schedule='" + schedule + "'><th>" + schedule + "º</th>";
+                for (var schedule = 1; schedule <= 10; schedule++) {
+                    var weekDayCount = Number($(".table-month[year=" + year + "][month=" + month + "]").attr("first-day-weekday"));
+                    var week = lastMonthWeek;
+                    html += "<tr schedule='" + schedule + "'><th>" + schedule + "º</th>";
 
-                for (var day = 1; day <= Number($(".table-month[month=" + month + "]").attr("days-count")); day++) {
-                    var hardUnavailableDay = data.hardUnavailableDays[month] !== undefined && $.inArray(day.toString(), data.hardUnavailableDays[month]) !== -1;
-                    var softUnavailableDay = data.softUnavailableDays[month] !== undefined && $.inArray(day.toString(), data.softUnavailableDays[month]) !== -1;
+                    for (var day = 1; day <= Number($(".table-month[year=" + year + "][month=" + month + "]").attr("days-count")); day++) {
+                        var hardUnavailableDay = data.hardUnavailableDays[year] !== undefined && data.hardUnavailableDays[year][month] !== undefined && $.inArray(day.toString(), data.hardUnavailableDays[year][month]) !== -1;
+                        var softUnavailableDay = data.softUnavailableDays[year] !== undefined && data.softUnavailableDays[year][month] !== undefined && $.inArray(day.toString(), data.softUnavailableDays[year][month]) !== -1;
 
-                    var frequencyUnavailableDay = data.frequencyUnavailableLastDay !== undefined
-                        && (month < Number(data.frequencyUnavailableLastDay.month) || (month === Number(data.frequencyUnavailableLastDay.month) && day <= Number(data.frequencyUnavailableLastDay.day)));
-                    var classContentUnavailableDay = data.classContentUnavailableLastDay !== undefined
-                        && (month < Number(data.classContentUnavailableLastDay.month) || (month === Number(data.classContentUnavailableLastDay.month) && day <= Number(data.classContentUnavailableLastDay.day)));
+                        var iterationDate = new Date(year + "-" + pad(month, 2) + "-" + pad(day, 2));
+                        var isFrequencyUnavailableDay = data.frequencyUnavailableLastDay !== undefined
+                            && iterationDate <= new Date(data.frequencyUnavailableLastDay.year + "-" + pad(data.frequencyUnavailableLastDay.month, 2) + "-" + pad(data.frequencyUnavailableLastDay.day, 2));
+                        var isClassContentUnavailableDay = data.classContentUnavailableLastDay !== undefined
+                            && iterationDate <= new Date(data.classContentUnavailableLastDay.year + "-" + pad(data.classContentUnavailableLastDay.month, 2) + "-" + pad(data.classContentUnavailableLastDay.day, 2));
 
-                    var tdClass = "";
-                    if (hardUnavailableDay) {
-                        tdClass += "hard-unavailable" + (frequencyUnavailableDay || classContentUnavailableDay ? " hard-unavailable-unfillable" : " hard-unavailable-fillable");
-                    } else if (frequencyUnavailableDay || classContentUnavailableDay) {
-                        tdClass += "frequency-or-classcontent-unavailable";
-                    } else if (softUnavailableDay) {
-                        tdClass += "soft-unavailable";
-                    }
-
-                    if (data.schedules[month] !== undefined && data.schedules[month][schedule] !== undefined && data.schedules[month][schedule][day] !== undefined) {
-                        if (turn === "") {
-                            if (data.schedules[month][schedule][day].turn === "0") turn = "Manhã";
-                            if (data.schedules[month][schedule][day].turn === "1") turn = "Tarde";
-                            if (data.schedules[month][schedule][day].turn === "2") turn = "Noite";
+                        var tdClass = "";
+                        if (hardUnavailableDay) {
+                            tdClass += "hard-unavailable" + (isFrequencyUnavailableDay || isClassContentUnavailableDay ? " hard-unavailable-unfillable" : " hard-unavailable-fillable");
+                        } else if (isFrequencyUnavailableDay || isClassContentUnavailableDay) {
+                            tdClass += "frequency-or-classcontent-unavailable";
+                        } else if (softUnavailableDay) {
+                            tdClass += "soft-unavailable";
                         }
-                        var discipline = changeNameLength(data.schedules[month][schedule][day].disciplineName, 30);
 
-                        html += "" +
-                            "<td class='" + tdClass + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "' " + (frequencyUnavailableDay || classContentUnavailableDay ? 'data-toggle="tooltip" data-placement="bottom" data-original-title="Não se pode mais editar esse horário, visto que já existe preenchimento de frequência ou aula ministrada neste ou após esse dia."' : "") + ">" +
-                            "<div schedule='" + data.schedules[month][schedule][day].id + "' discipline_id='" + data.schedules[month][schedule][day].disciplineId + "'class='schedule-block'>" +
-                            "<p class='discipline-name' title='" + data.schedules[month][schedule][day].disciplineName + "'>" + discipline + "</p>" +
-                            ((hardUnavailableDay || softUnavailableDay) && (!frequencyUnavailableDay && !classContentUnavailableDay) ? "<div class='availability-schedule' data-toggle='tooltip' data-placement='top' data-original-title='Alterar Estado da Aula '><i class='fa " + (Number(data.schedules[month][schedule][day].unavailable) ? "fa-user-times" : "fa-user-plus") + "'></i></div>" : "") +
-                            "</div>" +
-                            "</td>";
-                    } else {
-                        html += "<td class='" + tdClass + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "' " + (frequencyUnavailableDay || classContentUnavailableDay ? 'data-toggle="tooltip" data-placement="bottom" data-original-title="Não se pode mais editar esse horário, visto que já existe preenchimento de frequência ou aula ministrada neste ou após esse dia."' : "") + "></td>";
-                    }
+                        if (data.schedules[year] !== undefined && data.schedules[year][month] !== undefined && data.schedules[year][month][schedule] !== undefined && data.schedules[year][month][schedule][day] !== undefined) {
+                            if (turn === "") {
+                                if (data.schedules[year][month][schedule][day].turn === "0") turn = "Manhã";
+                                if (data.schedules[year][month][schedule][day].turn === "1") turn = "Tarde";
+                                if (data.schedules[year][month][schedule][day].turn === "2") turn = "Noite";
+                            }
+                            var discipline = changeNameLength(data.schedules[year][month][schedule][day].disciplineName, 30);
 
-                    if (weekDayCount === 6) {
-                        weekDayCount = 0;
-                        week++;
-                    } else {
-                        weekDayCount++;
+                            html += "" +
+                                "<td class='" + tdClass + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "' " + (isFrequencyUnavailableDay || isClassContentUnavailableDay ? 'data-toggle="tooltip" data-placement="bottom" data-original-title="Não se pode mais editar esse horário, visto que já existe preenchimento de frequência ou aula ministrada neste ou após esse dia."' : "") + ">" +
+                                "<div schedule='" + data.schedules[year][month][schedule][day].id + "' discipline_id='" + data.schedules[year][month][schedule][day].disciplineId + "'class='schedule-block'>" +
+                                "<p class='discipline-name' title='" + data.schedules[year][month][schedule][day].disciplineName + "'>" + discipline + "</p>" +
+                                ((hardUnavailableDay || softUnavailableDay) && (!isFrequencyUnavailableDay && !isClassContentUnavailableDay) ? "<div class='availability-schedule' data-toggle='tooltip' data-placement='top' data-original-title='Alterar Estado da Aula '><i class='fa " + (Number(data.schedules[year][month][schedule][day].unavailable) ? "fa-user-times" : "fa-user-plus") + "'></i></div>" : "") +
+                                "</div>" +
+                                "</td>";
+                        } else {
+                            html += "<td class='" + tdClass + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "' " + (isFrequencyUnavailableDay || isClassContentUnavailableDay ? 'data-toggle="tooltip" data-placement="bottom" data-original-title="Não se pode mais editar esse horário, visto que já existe preenchimento de frequência ou aula ministrada neste ou após esse dia."' : "") + "></td>";
+                        }
+
+                        if (weekDayCount === 6) {
+                            weekDayCount = 0;
+                            week++;
+                        } else {
+                            weekDayCount++;
+                        }
+                        if (day === Number($(".table-month[year=" + year + "][month=" + month + "]").attr("days-count")) && schedule === 10) {
+                            lastMonthWeek = week;
+                        }
                     }
-                    if (day === Number($(".table-month[month=" + month + "]").attr("days-count")) && schedule === 10) {
-                        lastMonthWeek = week;
-                    }
+                    html += "</tr>";
                 }
-                html += "</tr>";
-            }
-            $(".tables-timesheet table[month=" + month + "] tbody").html(html);
-            $('[data-toggle="tooltip"]').tooltip({container: "body"});
-        }
+                $(".tables-timesheet table[year=" + year + "][month=" + month + "] tbody").html(html);
+                $('[data-toggle="tooltip"]').tooltip({container: "body"});
+            });
+        });
         calculateWorkload(data.disciplines, false);
         $("#turn").text(turn).show();
         $(".table-container").show();
     }
+}
+
+function buildTimesheetStructure(data) {
+    var dayNameFirstLetter = ["D", "S", "T", "Q", "Q", "S", "S"];
+    var timesheetStructureHtml = "";
+    $.each(data.daysPerMonth, function (year, yearResult) {
+        $.each(yearResult, function (month, monthResult) {
+            timesheetStructureHtml += '<div class="table-responsive">';
+            timesheetStructureHtml += '<table year="' + year + '" month="' + month + '" days-count="' + monthResult.daysCount + '" first-day-weekday="' + monthResult.weekDayOfTheFirstDay + '" class="table-timesheet table-month table table-bordered table-striped table-hover">';
+            timesheetStructureHtml += '<thead>';
+            timesheetStructureHtml += '<tr>';
+            timesheetStructureHtml += '<th class="table-title" colspan="' + (Number(monthResult.daysCount) + 1) + '">' + translateMonthName(monthResult.monthName) + '/' + year + '</th>';
+            timesheetStructureHtml += '</tr>';
+            timesheetStructureHtml += '<tr class="calendar-icons">';
+            timesheetStructureHtml += '<th></th>';
+            for (var day = 1; day <= monthResult.daysCount; day++) {
+                timesheetStructureHtml += '<th icon-year="' + year + '" icon-month="' + month + '" icon-day="' + day + '"></th>';
+            }
+            timesheetStructureHtml += '</tr>';
+            timesheetStructureHtml += '<tr class="dayname-row">';
+            timesheetStructureHtml += '<th></th>';
+            var weekDayCount = monthResult.weekDayOfTheFirstDay;
+            for (var day = 1; day <= monthResult.daysCount; day++) {
+                timesheetStructureHtml += '<th>' + dayNameFirstLetter[weekDayCount] + '</th>';
+                weekDayCount = weekDayCount == 6 ? 0 : ++weekDayCount;
+            }
+            timesheetStructureHtml += '</tr>';
+            timesheetStructureHtml += '<tr class="day-row">';
+            timesheetStructureHtml += '<th class="schedule">Horário</th>';
+            for (var day = 1; day <= monthResult.daysCount; day++) {
+                timesheetStructureHtml += '<th>' + day + '</th>';
+            }
+            timesheetStructureHtml += '</tr>';
+            timesheetStructureHtml += '</thead>';
+            timesheetStructureHtml += '<tbody></tbody>';
+            timesheetStructureHtml += '</table>';
+            timesheetStructureHtml += '</div>';
+        });
+    });
+    $(".tables-timesheet").html(timesheetStructureHtml);
 }
 
 function calculateWorkload(disciplines, increment) {
@@ -313,6 +358,7 @@ $(document).on("click", ".schedule-add", function (e) {
         : $(".modal-replicate-actions-container").show();
     $(".add-schedule-alert").addClass("no-show");
     $(".modal-replicate-actions").prop("checked", $(".replicate-actions").is(":checked"));
+    $(".add-schedule-year").val($(this).closest("table").attr("year"));
     $(".add-schedule-month").val($(this).closest("table").attr("month"));
     $(".add-schedule-day").val($(this).closest("td").attr("day"));
     $(".add-schedule-weekday").val($(this).closest("td").attr("week_day"));
@@ -343,6 +389,7 @@ $(document).on("click", ".btn-add-schedule", function () {
                 classroomId: $("select.classroom-id").val(),
                 disciplineId: $("select.modal-add-schedule-discipline").val(),
                 schedule: {
+                    year: $(".add-schedule-year").val(),
                     month: $(".add-schedule-month").val(),
                     day: $(".add-schedule-day").val(),
                     week_day: $(".add-schedule-weekday").val(),
@@ -485,3 +532,38 @@ $(document).on("click", ".availability-schedule", function (e) {
         });
     }
 });
+
+function translateMonthName(monthName) {
+    switch (monthName) {
+        case "January":
+            return "Janeiro";
+        case "February":
+            return "Fevereiro";
+        case "March":
+            return "Março";
+        case "April":
+            return "Abril";
+        case "May":
+            return "Maio";
+        case "June":
+            return "Junho";
+        case "July":
+            return "Julho";
+        case "August":
+            return "Agosto";
+        case "September":
+            return "Setembro";
+        case "October":
+            return "Outubro";
+        case "November":
+            return "Novembro";
+        case "December":
+            return "Dezembro";
+    }
+}
+
+function pad(num, size) {
+    num = num.toString();
+    while (num.length < size) num = "0" + num;
+    return num;
+}

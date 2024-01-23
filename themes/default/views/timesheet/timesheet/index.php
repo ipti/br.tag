@@ -87,42 +87,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                     </div>
                 </div>
                 <div class="clear"></div>
-                <div class="tables-timesheet">
-                    <?php $lastMonthWeek = 1; ?>
-                    <?php for ($month = 1; $month <= 12; $month++) : ?>
-                        <div class="table-responsive">
-                            <table month="<?= $month ?>" days-count="<?= $daysPerMonth[$month]["daysCount"] ?>" first-day-weekday="<?= $daysPerMonth[$month]["weekDayOfTheFirstDay"] ?>" class="table-timesheet table-month table table-bordered table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th class="table-title" colspan="<?= $daysPerMonth[$month]["daysCount"] + 1 ?>"><?= yii::t('timesheetModule.index', $daysPerMonth[$month]["monthName"]) ?></th>
-                                    </tr>
-                                    <tr class="calendar-icons">
-                                        <th></th>
-                                        <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++) : ?>
-                                            <th icon-month="<?= $month ?>" icon-day="<?= $day ?>"></th>
-                                        <?php endfor; ?>
-                                    </tr>
-                                    <tr class="dayname-row">
-                                        <th></th>
-                                        <?php $weekDayCount = $daysPerMonth[$month]["weekDayOfTheFirstDay"]; ?>
-                                        <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++) : ?>
-                                            <th><?= $dayNameFirstLetter[$weekDayCount] ?></th>
-                                            <?php $weekDayCount = $weekDayCount == 6 ? 0 : ++$weekDayCount; ?>
-                                        <?php endfor; ?>
-                                    </tr>
-                                    <tr class="day-row">
-                                        <th class="schedule"><?= yii::t('timesheetModule.instructors', "Schedule"); ?></th>
-                                        <?php for ($day = 1; $day <= $daysPerMonth[$month]["daysCount"]; $day++) : ?>
-                                            <th><?= $day ?></th>
-                                        <?php endfor; ?>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                    <?php endfor; ?>
-                </div>
+                <div class="tables-timesheet"></div>
             </div>
         </div>
         <br />
@@ -295,6 +260,7 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         <form method="post">
             <div class="modal-body">
                 <div class="add-schedule-alert alert alert-error">Selecione um componente curricular/eixo.</div>
+                <input type="hidden" class="add-schedule-year">
                 <input type="hidden" class="add-schedule-month">
                 <input type="hidden" class="add-schedule-day">
                 <input type="hidden" class="add-schedule-weekday">

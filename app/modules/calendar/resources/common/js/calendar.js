@@ -426,8 +426,6 @@ $(document).on("click", ".save-event", function (e, confirm = 0) {
         form.find(".alert").addClass("alert-error").removeClass(".alert-primary").html("Campos com * são obrigatórios.").show();
     } else if (form.find("#CalendarEvent_end_date").val() < form.find("#CalendarEvent_start_date").val()) {
         form.find(".alert").addClass("alert-error").removeClass(".alert-primary").html("A Data de Encerramento não deve ser anterior à Data de Início.").show();
-    } else if (form.find("#CalendarEvent_start_date").val().split("-")[0] !== form.find(".selected-calendar-current-year").val() || form.find("#CalendarEvent_end_date").val().split("-")[0] !== form.find(".selected-calendar-current-year").val()) {
-        form.find(".alert").addClass("alert-error").removeClass(".alert-primary").html("O intervalo de datas deve atender o ano do calendário.").show();
     } else {
         form.find(".alert").hide();
         $.ajax({
