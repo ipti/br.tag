@@ -95,15 +95,9 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                                 <i class="fa fa-remove"></i>
                             </span>
                     <span class="text-right pull-right edit-calendar" data-toggle="tooltip" data-placement="top"
-                          data-original-title="<?= yii::t('index', 'Editar do Calendário') ?>"
+                          data-original-title="<?= yii::t('index', 'Editar Calendário') ?>"
                           data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-edit"></i>
-                            </span>
-                    <span class="text-right pull-right change-calendar-status" data-toggle="tooltip"
-                          data-placement="top"
-                          data-original-title="<?= $calendar->available ? "Indisponibilizar Calendário" : "Disponibilizar Calendário" ?>"
-                          data-id="<?= $calendar->id ?>">
-                                <i class="fa fa-eye<?= $calendar->available ? "" : "-slash" ?>"></i>
                             </span>
                     <span class="text-right pull-right manage-unity-periods" data-toggle="tooltip" data-placement="top"d
                           data-original-title="Gerenciar Vigência das Unidades" data-id="<?= $calendar->id ?>">
@@ -572,40 +566,6 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                                 data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
                         <button type="button"
                                 class="btn btn-primary remove-calendar-button"><?= yii::t("calendarModule.index", "Confirm") ?></button>
-                    </div>
-                </div>
-            </form>
-    </div>
-</div>
-
-<div class="modal fade modal-content" id="changeCalendarStatus" tabindex="-1" role="dialog"
-     aria-labelledby="Change Calendar Status">
-    <div class="modal-dialog" role="document">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
-                </button>
-                <h4 class="modal-title"
-                    id="myModalLabel"></h4>
-            </div>
-            <form method="post">
-                <div class="centered-loading-gif">
-                    <i class="fa fa-spin fa-spinner"></i>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-error no-show"></div>
-                    <div class="row-fluid">
-                        <?= yii::t("calendarModule.index", "Are you sure?") ?>
-                        <input type="hidden" name="calendar-change-status-id" id="calendar-change-status-id"
-                               value=""/>
-                    </div>
-                
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
-                        <button type="button"
-                                class="btn btn-primary change-calendar-status-button"><?= yii::t("calendarModule.index", "Confirm") ?></button>
                     </div>
                 </div>
             </form>

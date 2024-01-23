@@ -562,46 +562,6 @@ function dismissPeriods() {
     $(".calendar-container").find(".calendar-icon").removeClass("calendar-icon-hide");
 }
 
-$(document).on("click", ".change-calendar-status", function (e) {
-    e.stopPropagation();
-    $("#changeCalendarStatus").find(".alert").hide();
-    $("#changeCalendarStatus").find(".modal-title").text($(this).find("i").hasClass("fa-eye") ? "Indisponibilizar Calendário" : "Disponibilizar Calendário");
-    $("#changeCalendarStatus").find("#calendar-change-status-id").val($(this).data('id'));
-    $("#changeCalendarStatus").modal("show");
-});
-
-$(document).on("click", ".change-calendar-status-button", function () {
-    $("#changeCalendarStatus").find(".alert").hide();
-    $.ajax({
-        url: "?r=calendar/default/changeCalendarStatus",
-        type: "POST",
-        data: {
-            id: $("#calendar-change-status-id").val(),
-        },
-        beforeSend: function () {
-            $("#changeCalendarStatus .centered-loading-gif").show();
-            $("#changeCalendarStatus .modal-body").css("opacity", 0.3).css("pointer-events", "none");
-            $("#changeCalendarStatus button").attr("disabled", "disabled");
-        },
-    }).success(function (data) {
-        data = JSON.parse(data);
-        if (data.valid) {
-            var icon = $(".change-calendar-status[data-id=" + $("#calendar-change-status-id").val() + "]");
-            data.available
-                ? icon.attr("data-original-title", "Indisponibilizar Calendário").find("i").removeClass("fa-eye-slash").addClass("fa-eye")
-                : icon.attr("data-original-title", "Disponibilizar Calendário").find("i").removeClass("fa-eye").addClass("fa-eye-slash");
-            $(icon).tooltip({container: "body"});
-            $("#changeCalendarStatus").modal("hide");
-        } else {
-            $("#changeCalendarStatus").find(".alert").html(DOMPurify.sanitize(data.error)).show();
-        }
-    }).complete(function () {
-        $("#changeCalendarStatus .centered-loading-gif").hide();
-        $("#changeCalendarStatus .modal-body").css("opacity", 1).css("pointer-events", "auto");
-        $("#changeCalendarStatus button").removeAttr("disabled");
-    });
-});
-
 $(document).on("click", ".add-fundamental-menor", function () {
     $(this).closest(".stages-container").find("#stages option[value=14]").prop("selected", true);
     $(this).closest(".stages-container").find("#stages option[value=15]").prop("selected", true);

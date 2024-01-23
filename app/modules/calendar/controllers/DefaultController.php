@@ -27,7 +27,7 @@ class DefaultController extends Controller
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => ['create', 'createEvent', 'update', 'event', 'changeEvent', 'others', 'SetActual',
-                    'RemoveCalendar', 'DeleteEvent', 'editCalendar', 'ShowStages', 'changeCalendarStatus', 'loadCalendarData',
+                    'RemoveCalendar', 'DeleteEvent', 'editCalendar', 'ShowStages', 'loadCalendarData',
                     'loadUnityPeriods', 'editUnityPeriods', 'viewPeriods'],
                 'users' => ['@'],
             ], [
@@ -357,29 +357,6 @@ class DefaultController extends Controller
             array_push($result["stages"], $calendarStage->stage_fk);
         }
         echo json_encode($result);
-    }
-
-    public function actionChangeCalendarStatus()
-    {
-        if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
-            $result = Yii::app()->db->createCommand("
-            select count(s.id) as qtd from schedule s 
-            join classroom cr on s.classroom_fk = cr.id 
-            join calendar c on cr.calendar_fk = c.id
-            where c.id = :id")->bindParam(":id", $_POST["id"])->queryRow();
-
-            $calendar = Calendar::model()->findByPk($_POST["id"]);
-
-            if (!$calendar->available || (int)$result["qtd"] == 0) {
-                $calendar->available = intVal($calendar->available) == 0 ? 1 : 0;
-                $calendar->save();
-                echo json_encode(["valid" => true, "available" => $calendar->available]);
-            } else {
-                echo json_encode(["valid" => false, "error" => "Permissão negada. O calendário está sendo utilizando por alguma turma com quadro de horário preenchido."]);
-            }
-        } else {
-            echo json_encode(["valid" => false, "error" => "Apenas administradores podem disponibilizar ou indisponibilizar calendários."]);
-        }
     }
 
     public function actionLoadUnityPeriods()
