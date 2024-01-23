@@ -284,12 +284,14 @@ $(document).on("click", ".tables-timesheet td", function () {
                 $(".schedule-remove, .schedule-add").remove();
             } else {
                 var firstSchedule = {
+                    year: firstSelected.closest("table").attr("year"),
                     month: firstSelected.closest("table").attr("month"),
                     day: firstSelected.attr("day"),
                     week_day: firstSelected.attr("week_day"),
                     schedule: firstSelected.closest("tr").attr("schedule")
                 };
                 var secondSchedule = {
+                    year: secondSelected.closest("table").attr("year"),
                     month: secondSelected.closest("table").attr("month"),
                     day: secondSelected.attr("day"),
                     week_day: secondSelected.attr("week_day"),
@@ -313,6 +315,7 @@ $(document).on("click", ".tables-timesheet td", function () {
 $(document).on("click", ".schedule-remove", function (e) {
     e.stopPropagation();
     var schedule = {
+        year: $(this).closest("table").attr("year"),
         month: $(this).closest("table").attr("month"),
         day: $(this).closest("td").attr("day"),
         week_day: $(this).closest("td").attr("week_day"),
@@ -336,7 +339,7 @@ $(document).on("click", ".schedule-remove", function (e) {
         data = JSON.parse(data);
         if (data.valid) {
             $.each(data.removes, function () {
-                $("table[month=" + this.month + "] tr[schedule=" + this.schedule + "] td[day=" + this.day + "]").children().remove();
+                $("table[year=" + this.year + "][month=" + this.month + "] tr[schedule=" + this.schedule + "] td[day=" + this.day + "]").children().remove();
             });
             calculateWorkload(data.disciplines, true);
         }
@@ -408,10 +411,10 @@ $(document).on("click", ".btn-add-schedule", function () {
             if (data.valid) {
                 $.each(data.adds, function () {
                     var discipline = changeNameLength(this.disciplineName, 30);
-                    $(".table-month[month=" + this.month + "] tbody").find("tr[schedule=" + this.schedule + "]").find("td[day=" + this.day + "]").html("" +
+                    $(".table-month[year=" + this.year + "][month=" + this.month + "] tbody").find("tr[schedule=" + this.schedule + "]").find("td[day=" + this.day + "]").html("" +
                         "<div schedule='" + this.id + "' discipline_id='" + this.disciplineId + "' class='schedule-block'>" +
                         "<p class='discipline-name' title='" + this.disciplineName + "'>" + discipline + "</p>" +
-                        ($(".add-schedule-hard-unavailable-day").val() || this.unavailable ? "<div class='availability-schedule' data-toggle='tooltip' data-placement='top' data-original-title='Alterar Estado da Aula '><i class='fa " + (this.unavailable ? "fa-user-times" : "fa-user-plus") + "'></i></div>" : "") +
+                        ($(".add-schedule-hard-unavailable-day").val() === "1" || this.unavailable ? "<div class='availability-schedule' data-toggle='tooltip' data-placement='top' data-original-title='Alterar Estado da Aula '><i class='fa " + (this.unavailable ? "fa-user-times" : "fa-user-plus") + "'></i></div>" : "") +
                         "</div>"
                     );
                 });
@@ -457,12 +460,12 @@ function swapSchedule(firstSchedule, secondSchedule) {
         data = JSON.parse(data);
         if (data.valid) {
             $.each(data.changes, function () {
-                var firstScheduleBlock = $("table[month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]").children();
-                var secondScheduleBlock = $("table[month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").children();
-                $("table[month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]").html(secondScheduleBlock);
-                $("table[month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").html(firstScheduleBlock);
+                var firstScheduleBlock = $("table[year=" + this.firstSchedule.year + "][month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]").children();
+                var secondScheduleBlock = $("table[year=" + this.secondSchedule.year + "][month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").children();
+                $("table[year=" + this.firstSchedule.year + "][month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]").html(secondScheduleBlock);
+                $("table[year=" + this.secondSchedule.year + "][month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]").html(firstScheduleBlock);
 
-                var firstScheduleTd = $("table[month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]");
+                var firstScheduleTd = $("table[year=" + this.firstSchedule.year + "][month=" + this.firstSchedule.month + "] tr[schedule=" + this.firstSchedule.schedule + "] td[day=" + this.firstSchedule.day + "]");
                 if (!firstScheduleTd.hasClass("hard-unavailable")) {
                     firstScheduleTd.find(".availability-schedule").remove();
                     if (firstScheduleTd.hasClass("soft-unavailable")) {
@@ -472,7 +475,7 @@ function swapSchedule(firstSchedule, secondSchedule) {
                     firstScheduleTd.children().remove();
                 }
 
-                var secondScheduleTd = $("table[month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]");
+                var secondScheduleTd = $("table[year=" + this.secondSchedule.year + "][month=" + this.secondSchedule.month + "] tr[schedule=" + this.secondSchedule.schedule + "] td[day=" + this.secondSchedule.day + "]");
                 if (!secondScheduleTd.hasClass("hard-unavailable")) {
                     secondScheduleTd.find(".availability-schedule").remove();
                     if (secondScheduleTd.hasClass("soft-unavailable")) {
