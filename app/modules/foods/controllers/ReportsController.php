@@ -20,8 +20,10 @@ class ReportsController extends Controller
         $getMealTypes = new GetMealType();
         $mealTypes  = $getMealTypes->exec($id);
 
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school)->location;
+        
 		$this->layout = 'webroot.themes.default.views.layouts.reportsclean';
-        $this->render('FoodMenuReport', array("foodMenu" => $foodMenu, "mealTypes" => $mealTypes));
+        $this->render('FoodMenuReport', array("foodMenu" => $foodMenu, "mealTypes" => $mealTypes, "publicTarget" => $publicTarget, "school" => $school));
     }
     
 }
