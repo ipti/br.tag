@@ -8,8 +8,12 @@
  * @property integer $edcenso_stage_vs_modality_fk
  * @property double $approvation_media
  * @property double $final_recover_media
+ * @property integer $grade_calculation_fk
+ * @property integer $has_final_recovery
+ * @property string $rule_type
  *
  * The followings are the available model relations:
+ * @property GradeCalculation $gradeCalculationFk
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
  */
 class GradeRules extends CActiveRecord
@@ -30,12 +34,14 @@ class GradeRules extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('edcenso_stage_vs_modality_fk, approvation_media, final_recover_media', 'required'),
-			array('edcenso_stage_vs_modality_fk', 'numerical', 'integerOnly'=>true),
+			array('edcenso_stage_vs_modality_fk', 'required'),
+			array('approvation_media', 'required', 'on' => "numericGrade"),
+			array('edcenso_stage_vs_modality_fk, grade_calculation_fk, has_final_recovery', 'numerical', 'integerOnly'=>true),
 			array('approvation_media, final_recover_media', 'numerical'),
+			array('rule_type', 'length', 'max'=>1),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, edcenso_stage_vs_modality_fk, approvation_media, final_recover_media', 'safe', 'on'=>'search'),
+			array('id, edcenso_stage_vs_modality_fk, approvation_media, final_recover_media, grade_calculation_fk, has_final_recovery, rule_type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,6 +53,7 @@ class GradeRules extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'gradeCalculationFk' => array(self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'),
 			'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
 		);
 	}
@@ -61,6 +68,9 @@ class GradeRules extends CActiveRecord
 			'edcenso_stage_vs_modality_fk' => 'Edcenso Stage Vs Modality Fk',
 			'approvation_media' => 'Approvation Media',
 			'final_recover_media' => 'Final Recover Media',
+			'grade_calculation_fk' => 'Grade Calculation Fk',
+			'has_final_recovery' => 'Has Final Recovery',
+			'rule_type' => 'Rule Type',
 		);
 	}
 
@@ -86,6 +96,9 @@ class GradeRules extends CActiveRecord
 		$criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
 		$criteria->compare('approvation_media',$this->approvation_media);
 		$criteria->compare('final_recover_media',$this->final_recover_media);
+		$criteria->compare('grade_calculation_fk',$this->grade_calculation_fk);
+		$criteria->compare('has_final_recovery',$this->has_final_recovery);
+		$criteria->compare('rule_type',$this->rule_type,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

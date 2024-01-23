@@ -153,4 +153,12 @@ $('#copy-gov-id').click(function() {
 
 $("#StudentEnrollment_public_transport").trigger("change");
 
+$(".update-student-from-sedsp").click(function() {
+    $("#importStudentFromSEDSP").modal("show");
+});
+
+$(".import-student-button").click(function() {
+    $("#importStudentFromSEDSP").find("form").submit();
+});
+
 

@@ -11,10 +11,12 @@
     ?>
 
     <div class="twoColumn">
-        <div class="columnone" style="padding-right: 1em">
+        <div class="columnone">
             <?php
             echo $this->renderPartial('_form', array('modelClassroom' => $modelClassroom,
                 'modelTeachingData' => $modelTeachingData,
+                'edcensoStageVsModalities' => $edcensoStageVsModalities,
+                'modelEnrollments' => $modelEnrollments,
                 'disabledFields' => $disabledFields,
                 'title' => $title,
                 'complementaryActivities' => $complementaryActivities));

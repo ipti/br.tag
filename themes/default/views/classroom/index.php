@@ -8,7 +8,7 @@
     );
 
     $cs = Yii::app()->getClientScript();
-    $cs->registerScriptFile($baseUrl . '/js/classroom/index/functions.js?v=1.0', CClientScript::POS_END);
+    $cs->registerScriptFile($baseUrl . '/js/classroom/index/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
     ?>
 
@@ -50,14 +50,13 @@
                 <div class="alert alert-success">
                     <?php echo Yii::app()->user->getFlash('success') ?>
                 </div>
-                <br/>
-            <?php endif ?>
-            <?php if (Yii::app()->user->hasFlash('error')): ?>
+            <?php elseif (Yii::app()->user->hasFlash('error')): ?>
                 <div class="alert alert-error">
                     <?php echo Yii::app()->user->getFlash('error') ?>
                 </div>
-                <br/>
-            <?php endif ?>
+            <?php else: ?>
+                <div class="alert no-show"></div>
+            <?php endif; ?>
             <div class="widget clearmargin">
                 <div class="widget-body">
                     <?php
@@ -73,8 +72,8 @@
                     array_push($columns,
                         array(
                             'name' => 'enrollmentsCount',
-                            'header' => 'Mat. Ativas',
-                            'value' => '$data->activeEnrollmentsCount',
+                            'header' => 'Mat. Ativas / Total',
+                            'value' => '$data->activeEnrollmentsCount ."/". $data->enrollmentsCount',
                         )
                     );
                     array_push($columns,
@@ -101,17 +100,23 @@
                             'buttons' => array(
                                 'update' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
+
                                 ),
                                 'delete' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
                                 )
                             ),
                             'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
-                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
-                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+                            'afterDelete' => 'function(link, success, data){
+                                data = JSON.parse(data);
+                                data.valid
+                                    ? $(".alert").addClass("alert-success").removeClass("alert-error").removeClass("no-show").text(data.message)
+                                    : $(".alert").removeClass("alert-success").addClass("alert-error").removeClass("no-show").text(data.message);
+                            }',
+                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center;'),
                         )
                     );
-                    if (TagUtils::isInstance("UBATUBA")) {
+                    if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                         array_push($columns,
                             array(
                                 'header' => 'Sincronizado',
@@ -119,15 +124,15 @@
                                 'template' => '{sync}{unsync}',
                                 'buttons' => array(
                                     'sync' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/activeUser.svg',
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/SyncTrue.png',
                                         'visible' => '$data->sedsp_sync',
-                                        'options' => array('class' => 'sync', 'style' => "width: 100px; display: inline-block")
+                                        'options' => array('class' => 'sync', 'style' => "width: 25px; display: inline-block")
                                     ),
                                     'unsync' => array(
                                         'url' => 'Yii::app()->createUrl("classroom/syncToSedsp",array("id"=>$data->id))',
-                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/error-icon.svg',
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/notSync.png',
                                         'visible' => '!$data->sedsp_sync',
-                                        'options' => array('class' => 'unsync', 'style' => "width: 100px; display: inline-block")
+                                        'options' => array('class' => 'unsync', 'style' => "width: 25px; display: inline-block")
                                     ),
                                 ),
                                 'htmlOptions' => array('style' => 'text-align: center'),
@@ -141,6 +146,7 @@
                         'enableSorting' => false,
                         'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed
                         table-striped table-hover table-primary table-vertical-center checkboxs',
+                        // 'afterAjaxUpdate' => 'function(id, data){initDatatable()}', // TODO: essa linha está causando erro quando SEDSP desabiitado
                         'columns' => $columns,
                     ));
                     ?>

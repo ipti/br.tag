@@ -1,0 +1,7 @@
+.t-expansive-panel {
+    height: 0;
+    &.expanded {
+        height: auto;
+        padding: 20px 0;
+    }
+}

@@ -9,8 +9,8 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v=1.0', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v=1.0', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 
@@ -107,7 +107,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <select class="select-search-on t-field-select__input " id="classroom" name="classroom">
                             <option>Selecione a turma</option>
                             <?php foreach ($classrooms as $classroom) : ?>
-                                <option value="<?= $classroom->id ?>" fundamentalmaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ?>"><?= $classroom->name ?></option>
+                                <option value="<?= $classroom->id ?>" fundamentalmaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ? "1" : "0" ?>"><?= $classroom->name ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

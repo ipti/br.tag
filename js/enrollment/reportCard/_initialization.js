@@ -2,7 +2,7 @@ $('#classroom').change(function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getDisciplines",
+            url: "?r=grades/getDisciplines",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -65,7 +65,7 @@ $('#discipline').change(function (e, triggerEvent) {
                         html += `
                         <div class="column is-one-tenth clearleft">
                             <div class="t-field-text">
-                                <label class='t-field-text__label'>${order}° Bimestre</label>
+                                <label class='t-field-text__label'>${order}° Trimestre</label>
                                 <input type='text' class='givenClasses${i} t-field-text__input' value='${ givenClasses }'>
                             </div>
                         </div>`;
@@ -83,9 +83,9 @@ $('#discipline').change(function (e, triggerEvent) {
                                 <th rowspan='2' style='width:2%;'>Ordem</th>
                                 <th rowspan='2' style='width:2%;'>Ficha individual</th>
                                 <th rowspan='2' style='width:10%;'>Nome</th>
-                                <th colspan='2' style='width:20%;'>1° Bimestre</th>
-                                <th colspan='2' style='width:20%;'>2° Bimestre</th>
-                                <th colspan='2' style='width:20%;'>3° Bimestre</th>
+                                <th colspan='2' style='width:20%;'>1° Trimestre</th>
+                                <th colspan='2' style='width:20%;'>2° Trimestre</th>
+                                <th colspan='2' style='width:20%;'>3° Trimestre</th>
                                 <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
                             </tr>
                             <tr>
@@ -110,20 +110,23 @@ $('#discipline').change(function (e, triggerEvent) {
                             ${ $.trim(this.studentName) }
                             </td>
                         `;
-                        $.each(this.grades, function (index, value) {
+
+                        for (let index = 0; index < 3; index++) {
+                            const element = index <= this.grades.length ? this.grades[index] : null;
+
                             let valueGrade;
-                            if (this.value == "" || this.value == null) {
+                            if (element?.value == "" || element?.value == null) {
                                 valueGrade = "";
                             } else {
-                                valueGrade = parseFloat(this.value).toFixed(1);
+                                valueGrade = parseFloat(element.value).toFixed(1);
                             }
 
                             let faults;
 
-                            if(this.faults == null) {
-                                faults = ""
+                            if (element?.faults == null) {
+                                faults = "";
                             } else {
-                                faults = this.faults
+                                faults = element?.faults;
                             }
 
                             html += `
@@ -131,13 +134,10 @@ $('#discipline').change(function (e, triggerEvent) {
                                     <input type='text' class='grade' value='${valueGrade}'>
                                 </td>
                                 <td class='grade-td'>
-                                    <input type='text' class='faults' style='width:50px;text-align:center;' value='${ faults }'>
+                                    <input type='text' class='faults' style='width:50px;text-align:center;' value='${faults}'>
                                 </td>
                             `;
-                            if(index == 2) {
-                                return false;
-                            }
-                        });
+                        }
 
                         html += `
                             <td style='font-weight: bold;font-size: 16px;' class='final-media'> ${this.finalMedia }</td>
@@ -183,7 +183,7 @@ $("#save").on("click", function (e) {
 
     $.ajax({
         type: "POST",
-        url: "?r=enrollment/saveGradesReportCard",
+        url: "?r=grades/saveGradesReportCard",
         cache: false,
         data: {
             classroom: $("#classroom").val(),
@@ -218,9 +218,8 @@ $(document).on("keyup", "input.grade", function (e) {
         let grade = /^(10|\d)([.,]\d?)?$/;
         if (val?.match(grade) === null) {
             val = "";
-        } else {
-            if (val > 10)
-                val = 10;
+        } else if (val > 10) {
+            val = 10;
         }
     }
     this.value = val;

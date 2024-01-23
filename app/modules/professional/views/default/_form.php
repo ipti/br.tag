@@ -10,7 +10,7 @@
 	$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 	$themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    
+
 	$cs->registerScriptFile($baseScriptUrl . '/common/js/professional.js?v=1.1', CClientScript::POS_END);
 
 	$form = $this->beginWidget(
@@ -54,7 +54,7 @@
 								<div class="separator">
 									<div class="control-group">
 										<div class="controls">
-											<?php echo $form->labelEx($modelProfessional, 'name', array('class' => 'control-label')); ?>
+											<?php echo $form->label($modelProfessional, 'name', array('class' => 'control-label')); ?>
 										</div>
 										<div class="controls">
 											<?php echo $form->textField($modelProfessional, 'name', array('size' => 60, 'maxlength' => 100)); ?>
@@ -63,7 +63,7 @@
 									</div>
 									<div class="control-group">
 										<div class="controls">
-											<?php echo $form->labelEx($modelProfessional, 'cpf_professional', array('class' => 'control-label')); ?>
+											<?php echo $form->label($modelProfessional, 'cpf_professional', array('class' => 'control-label')); ?>
 										</div>
 										<div class="controls">
 											<?php echo $form->textField($modelProfessional, 'cpf_professional', array('size' => 60, 'maxlength' => 100, 'class' => 'cpf-input')); ?>
@@ -72,7 +72,7 @@
 									</div>
 									<div class="control-group">
 										<div class="controls">
-											<?php echo $form->labelEx($modelProfessional, 'speciality', array('class' => 'control-label')); ?>
+											<?php echo $form->label($modelProfessional, 'speciality', array('class' => 'control-label')); ?>
 										</div>
 										<div class="controls">
 											<?php echo $form->textField($modelProfessional, 'speciality', array('size' => 100)); ?>
@@ -81,7 +81,7 @@
 									</div>
 									<div class="control-group">
 										<div class="controls">
-											<?php echo $form->labelEx($modelProfessional, 'fundeb', array('class' => 'control-label', 'style' => 'width: 70px;')); ?>
+											<?php echo $form->label($modelProfessional, 'fundeb', array('class' => 'control-label', 'style' => 'width: 70px;')); ?>
 											<?php echo $form->checkBox($modelProfessional, 'fundeb', array('value' => 1, 'uncheckValue' => 0)); ?>
 										</div>
 										<div class="controls">
@@ -102,7 +102,7 @@
 										</div>
 										<div class="control-group">
 											<div class="controls">
-												<?php echo $form->labelEx($modelAttendance, 'date', array('class' => 'control-label')); ?>
+												<?php echo $form->label($modelAttendance, 'date', array('class' => 'control-label')); ?>
 											</div>
 											<div class="controls">
 												<?php echo $form->dateField($modelAttendance, 'date', array('size' => 60, 'maxlength' => 100)); ?>
@@ -111,7 +111,7 @@
 										</div>
 										<div class="control-group">
 											<div class="controls">
-												<?php echo $form->labelEx($modelAttendance, 'local', array('class' => 'control-label')); ?>
+												<?php echo $form->label($modelAttendance, 'local', array('class' => 'control-label')); ?>
 											</div>
 											<div class="controls">
 												<?php echo $form->textField($modelAttendance, 'local', array('size' => 60, 'maxlength' => 100)); ?>
@@ -133,7 +133,7 @@
 													</tr>
 												</thead>
 												<tbody>
-													<?php 
+													<?php
 													foreach ($modelAttendances as $attendance) {
 													?>
 														<tr>
@@ -148,7 +148,7 @@
 										</div>
 									</div>
 								</div>
-							</div>				
+							</div>
 						</div>
 						<?php }?>
 					</div>
@@ -165,42 +165,42 @@
         $('.cpf-input').mask('999.999.999-99', {placeholder: '___.___.___-__'});
         $('.cpf-input').blur(function(){
             var cpf = $(this).val().replace(/[^0-9]+/g,'');
-            
+
             if(cpf.length == 11){
                 var v = [];
                 var sum = 0;
-                
+
                 // Validar CPF
                 for (var i = 1; i <= 9; i++) {
                     sum += parseInt(cpf.substring(i-1, i)) * (11 - i);
                 }
-                
+
                 var remainder = (sum * 10) % 11;
-                
+
                 if ((remainder === 10) || (remainder === 11)) {
                     remainder = 0;
                 }
-                
+
                 if (remainder !== parseInt(cpf.substring(9, 10))) {
                     v.push(false);
                 }
-                
+
                 sum = 0;
-                
+
                 for (var i = 1; i <= 10; i++) {
                     sum += parseInt(cpf.substring(i-1, i)) * (12 - i);
                 }
-                
+
                 remainder = (sum * 10) % 11;
-                
+
                 if ((remainder === 10) || (remainder === 11)) {
                     remainder = 0;
                 }
-                
+
                 if (remainder !== parseInt(cpf.substring(10, 11))) {
                     v.push(false);
                 }
-                
+
                 if(v.length === 0){
                     // CPF válido
 					$(".save-professional").removeAttr('disabled');

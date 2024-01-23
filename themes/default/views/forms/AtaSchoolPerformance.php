@@ -5,7 +5,7 @@
 /* @var $students StudentEnrollment[]*/
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/AtaSchoolPerformance/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/AtaSchoolPerformance/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk)->name;
@@ -96,7 +96,7 @@ $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_
         if ($discipline_id == 10041)  $label = "Pluralidade Cultural";
         if ($discipline_id == 10042)  $label = "Estudo Dirigido: Atividade de Lingua Portuguesa e de Matmática";
         if ($discipline_id == 10043)  $label = "Atividades Esportivas e Motoras";
-        
+
         return $label;
     }
 
@@ -122,20 +122,20 @@ if ($turno == 'M') {
         border-top-color: black;
     }
     div.hrline{
-        margin-right:20px; 
-        float:left; 
-        display:block; 
+        margin-right:20px;
+        float:left;
+        display:block;
         width:30%;
     }
     div.hrline, div.hrlastline{
-        text-align: center; 
+        text-align: center;
     }
     div.divlines{
         width:100%; margin:0 auto;
     }
     div.hrline span{
         font-size: 10px;
-    }    
+    }
     th{
         vertical-align: middle !IMPORTANT;
         text-align: center !IMPORTANT;
@@ -159,7 +159,7 @@ if ($turno == 'M') {
     .text-center{
         text-align: center;
     }
-    
+
     @media print{
         @page {
             size: landscape;
@@ -177,7 +177,7 @@ if ($turno == 'M') {
 
 <div class="row-fluid hidden-print">
     <div class="span12">
-        <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Ata School Performance of ').$this->year; ?></h3>  
+        <h3 class="heading-mosaic hidden-print"><?php echo Yii::t('default', 'Ata School Performance of ').$this->year; ?></h3>
         <div class="buttons">
             <a id="print" class='btn btn-icon glyphicons print hidden-print'><?php echo Yii::t('default', 'Print') ?><i></i></a>
         </div>
@@ -188,7 +188,7 @@ if ($turno == 'M') {
 <div class="innerLR">
     <div>
         <?php $this->renderPartial('head'); ?>
-        
+
         <br><br>
         <div class="divlines">
             <div class="hrline">
@@ -206,77 +206,69 @@ if ($turno == 'M') {
         </div>
         <br>
         <br>
-        <p style="text-align: justify;"><?php echo $actual_day?> do mês de <b><?php echo Yii::t('default', $actual_mounth) ?></b> do ano de <b><?php echo $actual_year?></b>. 
+        <p style="text-align: justify;"><?php echo $actual_day?> do mês de <b><?php echo Yii::t('default', $actual_mounth) ?></b> do ano de <b><?php echo $actual_year?></b>.
             Realizou-se o processo de apuração do rendimento escolar dos alunos da série de <b><?php echo $report["serie"]?></b>, turma <b><?php echo $classroom->name?></b>,
-            turno <b><?php echo $turno?></b> do <b><?php echo $classroom->edcensoStageVsModalityFk->name?></b> deste estabelecimento, com a Carga Horária anual de _________ horas 
+            turno <b><?php echo $turno?></b> do <b><?php echo $classroom->edcensoStageVsModalityFk->name?></b> deste estabelecimento, com a Carga Horária anual de _________ horas
         e um total de _________ dias letivos, conforme os resultados abaixo.</p>
-        
-        <?php 
-            //$disciplines = explode('|',$report['disciplines']); 
+
+        <?php
+            //$disciplines = explode('|',$report['disciplines']);
             $qtde = count($disciplines);
         ?>
         <br>
         <table class="table table-bordered table-striped">
             <thead>
-                <tr>
-                    <th scope="col" rowspan="4" class='vertical-text'><div>Ordem</div></th>
-                    <th scope="col" rowspan="4" class='vertical-text'><div>ID INEP</div></th>
-                    <th scope="col" rowspan="4" style="width: 300px;">Nome do Aluno</th>
-                    <th scope="col" colspan="25">Componentes Curriculares</th></tr>
-                <tr>
-                    <th scope="col" colspan="25">Rendimento Escolar</th>
-                </tr>
-                <tr>
-                    <th scope="col" colspan="<?php echo $qtde?>">Disciplinas</th>
-                    <th scope="col" colspan="3">Resultado Final</th>
-                    <th scope="col" colspan="2">Dependência</th>
-                </tr>
-                <tr>
-                    <?php foreach($disciplines as $discipline) {
-                        $discipline = classroomDisciplineLabelResumeArray($discipline['discipline_id']);
-                        if (strlen($discipline) <= 20) {
-                            echo "<th scope='col' class='vertical-text'><div>".$discipline."</div></th>";
-                        }else {
-                            echo "<th scope='col' class='vertical-text'>".$discipline."</th>";
-                        }
+            <tr>
+                <th scope="col" rowspan="4" class='vertical-text'><div>Ordem</div></th>
+                <th scope="col" rowspan="4" class='vertical-text'><div>ID INEP</div></th>
+                <th scope="col" rowspan="4" style="width: 300px;">Nome do Aluno</th>
+                <th scope="col" colspan="<?php echo $qtde + 1?>">Componentes Curriculares</th></tr>
+            <tr>
+                <th scope="col" colspan="<?php echo $qtde + 1?>">Rendimento Escolar</th>
+            </tr>
+            <tr>
+                <th scope="col" colspan="<?php echo $qtde?>">Disciplinas</th>
+                <th scope="col" rowspan="2">Resultado Final</th>
+            </tr>
+            <tr>
+                <?php foreach($disciplines as $discipline) {
+                    $discipline = classroomDisciplineLabelResumeArray($discipline['discipline_id']);
+                    if (strlen($discipline) <= 20) {
+                        echo "<th scope='col' class='vertical-text'><div>".$discipline."</div></th>";
+                    }else {
+                        echo "<th scope='col' class='vertical-text'>".$discipline."</th>";
                     }
-                    ?>
-                    <th scope="col" class='vertical-text'><div>Aprovado</div></th>
-                    <th scope="col" class='vertical-text'><div>Prom.&nbsp;com Dependência</div></th>
-                    <th scope="col" class='vertical-text'><div>Reprovado</div></th>
-                    <th scope="col" class='vertical-text'><div>Disciplina</div></th>
-                    <th scope="col" class='vertical-text'><div>Nota</div></th>
-                </tr>
+                }
+                ?>
+            </tr>
             </thead>
             <tbody>
-                <?php
-                $count = 1;
-                foreach($students as $s) {
-                    if ($count < 10) {
-                        $label_id = "0".$count;
-                    }else {
-                        $label_id = $count;
-                    }
-                    echo "<tr>"
+            <?php
+            $count = 1;
+            foreach($students as $s) {
+                if ($count < 10) {
+                    $label_id = "0".$count;
+                }else {
+                    $label_id = $count;
+                }
+                echo "<tr>"
                     ."<td>".$label_id."</td>"
                     ."<td>".$s->studentFk->inep_id."</td>"
                     ."<td>".$s->studentFk->name."</td>";
-                    foreach ($grades as $grade) {
-                        if($grade['student_id'] == $s->studentFk->id) {
-                            echo "<td>".$grade['final_media']."</td>";
-                        }
+                $finalSituation = '';
+                foreach ($grades as $grade) {
+                    if($grade['student_id'] == $s->studentFk->id) {
+                        echo "<td>".$grade['final_media']."</td>";
+                        $finalSituation = $grade['situation'];
                     }
-                    echo "<td></td>".
-                    "<td></td>".
-                    "<td></td>".
-                    "<td></td>".
-                    "<td></td>";
-                    echo "</tr>";
-                    $count++;
                 }
-                ?>
+                echo "<td>".$finalSituation."</td>";
+                echo "</tr>";
+                $count++;
+            }
+            ?>
             </tbody>
-        </table>        
+        </table>
         <br>
         <div class="divlines">
             <div class="hrline" style="width:100%;text-align:left;">
@@ -288,7 +280,7 @@ if ($turno == 'M') {
             </div>
         </div>
         <p style="text-align: justify;">
-            E, para contar, eu ___________________________________________________________________ lavrei a presente ata que vai por mim 
+            E, para contar, eu ___________________________________________________________________ lavrei a presente ata que vai por mim
             assinada e pelo(a) do estabelecimento.
         </p>
         <p style="text-align: right;">

@@ -252,7 +252,7 @@ table.table-timesheet td {
 }
 
 .dayname-row th {
-    font-weight: lighter !important;
+    font-weight: lighter;
 }
 
 .schedule-remove {
@@ -332,7 +332,7 @@ table.table-timesheet td {
     border: 1px solid;
     border-radius: 15px;
     display: none;
-    
+
 }
 
 .workloads-activator:hover {
@@ -355,8 +355,8 @@ table.table-timesheet td {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     overflow-x: hidden;
     overflow-y: auto;
-    
-    
+
+
 }
 
 .workloads-title {

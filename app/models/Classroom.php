@@ -92,6 +92,7 @@
  * @property InstructorTeachingData[] $instructorTeachingDatas
  * @property Schedule[] $schedules
  * @property StudentEnrollment[] $studentEnrollments
+ * @property StudentEnrollment[] $activeStudentEnrollments
  */
 class Classroom extends AltActiveRecord
 {
@@ -211,7 +212,7 @@ class Classroom extends AltActiveRecord
             'week_days_saturday' => Yii::t('default', 'Week Days Saturday'),
             'assistance_type' => Yii::t('default', 'Differentiated Operating Place'),
             'mais_educacao_participator' => Yii::t('default', 'Mais Educacao Participator'),
-            'complementary_activity_type_1' => Yii::t('default', 'Complementary Activity Type 1') . " *",
+            'complementary_activity_type_1' => Yii::t('default', 'Complementary Activity Type 1'),
             'complementary_activity_type_2' => Yii::t('default', 'Complementary Activity Type 2'),
             'complementary_activity_type_3' => Yii::t('default', 'Complementary Activity Type 3'),
             'complementary_activity_type_4' => Yii::t('default', 'Complementary Activity Type 4'),
@@ -265,7 +266,7 @@ class Classroom extends AltActiveRecord
             'classroom_days' => Yii::t('default', 'Classsrom Days'),
             'stage' => Yii::t('default', 'Stage'),
             'schooling' => Yii::t('default', 'Schooling'),
-            'diff_location' => Yii::t('default', 'Classroom Diff Location') . " *",
+            'diff_location' => Yii::t('default', 'Classroom Diff Location') ,
             'course' => Yii::t('default', 'Course'),
             'complementary_activity' => Yii::t('default', 'Complementary Activity'),
             'aee' => Yii::t('default', 'AEE'),
@@ -273,7 +274,8 @@ class Classroom extends AltActiveRecord
             'sedsp_acronym' => 'Sedsp Acronym',
             'sedsp_school_unity_fk' => 'Sedsp School Unity Fk',
             'sedsp_classnumber' => 'Sedsp Classnumber',
-            'sedsp_max_physical_capacity' => "Sedsp Max Physical Capacity"
+            'sedsp_max_physical_capacity' => "Sedsp Max Physical Capacity",
+            'gov_id' => "GOV ID"
         );
     }
 
@@ -289,7 +291,7 @@ class Classroom extends AltActiveRecord
      * @return CActiveDataProvider the data provider that can return the models
      * based on the search/filter conditions.
      */
-    public function search($is_default_theme = true)
+    public function search($isDefaultTheme = true)
     {
         //  Please modify the following code to remove attributes that should not be searched.
 
@@ -297,7 +299,7 @@ class Classroom extends AltActiveRecord
 
         $criteria->compare('register_type', $this->register_type, true);
         //$criteria->with = array('edcensoStageVsModalityFk');
-        if ($is_default_theme == true) {
+        if ($isDefaultTheme == true) {
             $criteria->compare('school_inep_fk', Yii::app()->user->school);
         }
         $criteria->compare('inep_id', $this->inep_id, true);
@@ -426,6 +428,98 @@ class Classroom extends AltActiveRecord
         /* @var $schoolConfiguration SchoolConfiguration */
         $model = WorkByDiscipline::model()->find('classroom_fk=:classroom_fk AND discipline_fk=:discipline_fk', array(':classroom_fk' => $this->id, ':discipline_fk' => $discipline));
         return $model->school_days;
+    }
+
+    public function syncToSEDSP($tagAction, $sedspAction)
+    {
+        $inDiasDaSemana = new InDiasDaSemana(
+            $this->week_days_monday,
+            ($this->week_days_monday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_monday ? $this->final_hour . ":" . $this->final_minute : null),
+            $this->week_days_tuesday,
+            ($this->week_days_tuesday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_tuesday ? $this->final_hour . ":" . $this->final_minute : null),
+            $this->week_days_wednesday,
+            ($this->week_days_wednesday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_wednesday ? $this->final_hour . ":" . $this->final_minute : null),
+            $this->week_days_thursday,
+            ($this->week_days_thursday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_thursday ? $this->final_hour . ":" . $this->final_minute : null),
+            $this->week_days_friday,
+            ($this->week_days_friday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_friday ? $this->final_hour . ":" . $this->final_minute : null),
+            $this->week_days_saturday,
+            ($this->week_days_saturday ? $this->initial_hour . ":" . $this->initial_minute : null),
+            ($this->week_days_saturday ? $this->final_hour . ":" . $this->final_minute : null)
+        );
+
+        $calendarFirstDay = Yii::app()->db->createCommand("select DATE(ce.start_date) as start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id  where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk = 1000;")->bindParam(":stage", $this->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryRow();
+        $calendarLastDay = Yii::app()->db->createCommand("select DATE(ce.end_date) as end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk  = 1001;")->bindParam(":stage", $this->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryRow();
+
+        $firstDay = date("d/m/Y", $calendarFirstDay == null ? strtotime("first monday of January " . Yii::app()->user->year) : strtotime($calendarFirstDay["start_date"]));
+        $lastDay = date("d/m/Y", $calendarLastDay == null ? strtotime("last friday of December " . Yii::app()->user->year) : strtotime($calendarLastDay["end_date"]));
+
+        if ($sedspAction == "create") {
+            $tipoEnsinoAndStage = ClassroomMapper::convertStageToTipoEnsino($this->edcenso_stage_vs_modality_fk);
+
+            $inIncluirTurmaClasse = new InIncluirTurmaClasse(
+                Yii::app()->user->year,
+                substr(Yii::app()->user->school, 2),
+                $this->sedspSchoolUnityFk->code,
+                $tipoEnsinoAndStage["tipoEnsino"],
+                $tipoEnsinoAndStage["serieAno"],
+                0,
+                ClassroomMapper::revertCodTurno($this->turn),
+                0,
+                $this->sedsp_acronym,
+                $this->sedsp_classnumber,
+                $this->sedsp_max_physical_capacity,
+                $firstDay,
+                $lastDay,
+                $this->initial_hour . ":" . $this->initial_minute,
+                $this->final_hour . ":" . $this->final_minute,
+                null,
+                null,
+                $inDiasDaSemana
+            );
+
+            $dataSource = new ClassroomSEDDataSource();
+            $result = $dataSource->incluirTurmaClasse($inIncluirTurmaClasse);
+        } else {
+            $inManutencaoTurmaClasse = new InManutencaoTurmaClasse(
+                Yii::app()->user->year,
+                $this->gov_id,
+                0,
+                ClassroomMapper::revertCodTurno($this->turn),
+                $this->sedsp_acronym,
+                $this->sedsp_max_physical_capacity,
+                $firstDay,
+                $lastDay,
+                $this->initial_hour . ":" . $this->initial_minute,
+                $this->final_hour . ":" . $this->final_minute,
+                0,
+                null,
+                null,
+                $this->sedsp_classnumber,
+                $inDiasDaSemana
+            );
+
+            $dataSource = new ClassroomSEDDataSource();
+            $result = $dataSource->manutencaoTurmaClasse($inManutencaoTurmaClasse);
+        }
+
+        $flash = "success";
+        if ($result->outErro !== null) {
+            $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . "  no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: " . $result->outErro;
+            $flash = "error";
+        } else {
+            $this->sedsp_sync = 1;
+            $this->gov_id = $sedspAction == "create" ? $result->outSucesso : $this->gov_id;
+            $this->save();
+            $message = "Turma " . ($tagAction == "create" ? "adicionada" : "atualizada") . " com sucesso!";
+        }
+
+        return ["flash" => $flash, "message" => $message];
     }
 
     /**

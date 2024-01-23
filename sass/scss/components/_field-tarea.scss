@@ -3,15 +3,27 @@
 
 .t-field-tarea {
     margin-bottom: $SizeLarge;
-    &__label{
+
+    &__label {
+
         &--required {
-            font-weight: bold;
+
+            &::after {
+                content: "*";
+                font-weight: $fontWeightRegular;
+                font-size: $FontSizeTextNormal;
+                color: $colorsAlertCrucialIcon;
+            }
         }
     }
-    &__input, textarea {
+
+    &__input,
+    textarea {
         width: 100%;
         padding: $SizeXXXSmall;
         box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+
         &.large {
             height: 100%;
             min-height: 100px;

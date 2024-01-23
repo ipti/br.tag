@@ -11,7 +11,6 @@ use fileManager;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\SerializerBuilder;
 
-use PDO;
 use PDOException;
 
 use Symfony\Component\Validator\Validation;
@@ -20,7 +19,6 @@ use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 
 use ValidationSagresModel;
-use SagresEdu\SagresValidations;
 
 use Yii;
 use ZipArchive;
@@ -37,11 +35,29 @@ class SagresConsultModel
         $this->dbCommand = Yii::app()->db->createCommand();
     }
 
+    public function cleanInconsistences()
+    {
+        $connection = Yii::app()->db;
+        $transaction = $connection->beginTransaction();
+
+        try {
+            $deleteQuery = "DELETE FROM inconsistency_sagres";
+            $connection->createCommand($deleteQuery)->execute();
+
+            $resetQuery = "ALTER TABLE inconsistency_sagres AUTO_INCREMENT = 1";
+            $connection->createCommand($resetQuery)->execute();
+
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
+    }
+
     public function getSagresEdu($referenceYear, $month, $finalClass): EducacaoTType
     {
         $education = new EducacaoTType();
         $managementUnitId = $this->getManagementId();
-        $validationSagres = new \SagresValidations();
 
         try {
             $education
@@ -50,23 +66,6 @@ class SagresConsultModel
                 ->setProfissional($this->getProfessionals($referenceYear, $month));
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
-        }
-
-        $inconsistencyList = $validationSagres->validator($education, $finalClass);
-        
-        foreach ($inconsistencyList as $value) {
-            $inconsistencyModel = new ValidationSagresModel();
-            $inconsistencyModel->enrollment = $value["enrollment"];
-            $inconsistencyModel->school =  $value["school"] ." - ".$this->getNameSchool($value["school"]);
-            $inconsistencyModel->description = $value["description"];
-            $inconsistencyModel->action = $value["action"];
-            $inconsistencyModel->inep_id = $value['school'];
-            $inconsistencyModel->idClass = $value['idClass'];
-            $inconsistencyModel->idSchool = $value["school"];
-            $inconsistencyModel->identifier = $value["id"];
-            $inconsistencyModel->idStudent = $value["idStudent"];
-            $inconsistencyModel->idProfessional = $value["idProfessional"];
-            $inconsistencyModel->insert();
         }
 
         return $education;
@@ -78,15 +77,15 @@ class SagresConsultModel
         $finalDay = date('t', strtotime("$referenceYear-$month-01"));
 
         try {
-            $query = "SELECT 
+            $query = "SELECT
                         pa.id AS managementUnitId,
                         pa.cod_unidade_gestora AS managementUnitCode,
                         pa.name_unidade_gestora AS managementUnitName,
                         pa.cpf_responsavel AS responsibleCpf,
                         pa.cpf_gestor AS managerCpf
-                    FROM 
+                    FROM
                         provision_accounts pa
-                    WHERE 
+                    WHERE
                         pa.id = :managementUnitId";
 
             $managementUnit = Yii::app()->db->createCommand($query)
@@ -106,6 +105,42 @@ class SagresConsultModel
                 ->setDiaInicPresContas((int) 01)
                 ->setDiaFinaPresContas((int) $finalDay);
 
+            if (empty($managementUnit['managementUnitCode'])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'UNIDADE GESTORA: ' . $managementUnit['managementUnitName'];
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'CÓDIGO DA UNIDADE GESTORA NÃO INFORMADO';
+                $inconsistencyModel->action = 'POR FAVOR, INFORME O CÓDIGO DE IDENTIFICAÇÃO DA UNIDADE GESTORA';
+                $inconsistencyModel->insert();
+            }
+
+            if (empty($managementUnit['managementUnitName'])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'UNIDADE GESTORA';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'NOME DA UNIDADE GESTORA NÃO INFORMADO';
+                $inconsistencyModel->action = 'POR FAVOR, INFORME UM NOME PARA A UNIDADE GESTORA';
+                $inconsistencyModel->insert();
+            }
+
+            if (empty($managementUnit['responsibleCpf'])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'UNIDADE GESTORA: ' . $managementUnit['managementUnitName'];
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'CPF DO RESPONSÁVEL NÃO INFORMADO';
+                $inconsistencyModel->action = 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O RESPONSÁVEL';
+                $inconsistencyModel->insert();
+            }
+
+            if (empty($managementUnit['managerCpf'])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'UNIDADE GESTORA: ' . $managementUnit['managementUnitName'];
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'CPF DO GESTOR NÃO INFORMADO';
+                $inconsistencyModel->action = 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O GESTOR';
+                $inconsistencyModel->insert();
+            }
+
             return $headerType;
         } catch (Exception $e) {
             throw new Exception("Ocorreu um erro ao buscar a unidade gestora");
@@ -122,7 +157,7 @@ class SagresConsultModel
         $query = "SELECT id, cod_unidade_gestora FROM provision_accounts";
 
         try {
-            $managementUnitCode = Yii::app()->db->createCommand($query)->queryRow(PDO::PARAM_INT);
+            $managementUnitCode = Yii::app()->db->createCommand($query)->queryRow();
         } catch (PDOException $e) {
             throw new Exception('Erro ao buscar o código da unidade gestora: ' . $e->getMessage());
         }
@@ -144,7 +179,6 @@ class SagresConsultModel
 
         $query = "SELECT inep_id FROM school_identification";
         $schools = Yii::app()->db->createCommand($query)->queryAll();
-        $validationSagres = new \SagresValidations();
 
         foreach ($schools as $school) {
             $schoolType = new EscolaTType();
@@ -155,6 +189,69 @@ class SagresConsultModel
                 ->setCardapio($this->getMenuList($school['inep_id'], $referenceYear, $month));
 
             $schoolList[] = $schoolType;
+
+            $strMaxLength = 100;
+            $diretor = $schoolType->getDiretor();
+            $inconsistencies = [];
+
+            $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
+            $params = array(':inepId' => $school['inep_id']);
+            $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
+
+            if ($diretor->getNrAto() == null) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'DIRETOR';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'NÚMERO DO ATO DE NOMEAÇÃO NÃO PODE SER VAZIO';
+                $inconsistencyModel->action = 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO PARA O DIRETOR';
+                $inconsistencyModel->identifier = '4';
+                $inconsistencyModel->idSchool = $school['inep_id'];
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($diretor->getNrAto()) > $strMaxLength) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'DIRETOR';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'NÚMERO DO ATO DE NOMEAÇÃO COM MAIS DE 100 CARACTERES';
+                $inconsistencyModel->action = 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO COM ATÉ 100 CARACTERES';
+                $inconsistencyModel->identifier = '4';
+                $inconsistencyModel->idSchool = $school['inep_id'];
+                $inconsistencyModel->insert();
+            }
+
+            if ($diretor->getCpfDiretor() === null || !preg_match('/^[0-9]{11}$/', $diretor->getCpfDiretor())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'DIRETOR';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'CPF NÃO CADASTRADO OU CPF NO FORMATO INVÁLIDO PARA O DIRETOR';
+                $inconsistencyModel->action = 'INFORMAR UM CPF VÁLIDO PARA O DIRETOR';
+                $inconsistencyModel->identifier = '4';
+                $inconsistencyModel->idSchool = $school['inep_id'];
+                $inconsistencyModel->insert();
+            }
+
+            if (!$this->validaCPF($diretor->getCpfDiretor())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'DIRETOR';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'CPF DO DIRETOR INVÁLIDO';
+                $inconsistencyModel->action = 'INFORMAR UM CPF VÁLIDO PARA O DIRETOR';
+                $inconsistencyModel->identifier = '4';
+                $inconsistencyModel->idSchool = $school['inep_id'];
+                $inconsistencyModel->insert();
+            }
+
+            if (is_null($inconsistencies)) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'DIRETOR';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'NÃO EXISTE DIRETOR CADASTRADO PARA A ESCOLA';
+                $inconsistencyModel->action = 'ADICIONE UM DIRETOR PARA A ESCOLA';
+                $inconsistencyModel->identifier = '4';
+                $inconsistencyModel->idSchool = $school['inep_id'];
+                $inconsistencyModel->insert();
+            }
         }
 
         return $schoolList;
@@ -180,17 +277,19 @@ class SagresConsultModel
     public function getClasses($inepId, $referenceYear, $month, $finalClass)
     {
         $classList = [];
+        $strMaxLength = 50;
+        $strlen = 2;
 
-        $query = "SELECt
+        $query = "SELECT
                     c.initial_hour AS initialHour,
                     c.school_inep_fk AS schoolInepFk,
                     c.id AS classroomId,
                     c.name AS classroomName,
                     c.turn AS classroomTurn
-                FROM 
+                FROM
                     classroom c
-                WHERE 
-                    c.school_inep_fk = :schoolInepFk 
+                WHERE
+                    c.school_inep_fk = :schoolInepFk
                     AND c.school_year = :referenceYear";
 
         $params = [
@@ -214,10 +313,83 @@ class SagresConsultModel
                 ->setMatricula($this->getEnrollments($classId, $referenceYear, $month, $finalClass))
                 ->setHorario($this->getSchedules($classId, $month))
                 ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN));
-            
+
 
             if (!is_null($classType->getHorario()) && !is_null($classType->getMatricula())) {
                 $classList[] = $classType;
+            }
+
+            $query = "SELECT id FROM classroom WHERE name = :descript AND school_inep_fk = :school_inep_fk";
+            $idClassroom = Yii::app()->db->createCommand($query)
+                ->bindValue(':descript', $turma["classroomName"])
+                ->bindValue(':school_inep_fk', $inepId)
+                ->queryScalar();
+
+            $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
+            $params = array(':inepId' => $inepId);
+            $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
+
+            /*
+             *  [0 : Anual], [1 : 1°], [2 : 2º] Semestre
+             */
+            if (!in_array($classType->getPeriodo(), [0, 1, 2])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'TURMA';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'VALOR INVÁLIDO PARA O PERÍODO';
+                $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O PERÍODO DA TURMA: ' . $classType->getDescricao();
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($classType->getDescricao()) <= $strlen && !is_null($classType->getDescricao())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'TURMA';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'DESCRIÇÃO PARA A TURMA MENOR QUE 3 CARACTERES';
+                $inconsistencyModel->action = 'ADICIONE UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($classType->getDescricao()) > $strMaxLength) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'TURMA';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'DESCRIÇÃO PARA A TURMA COM MAIS DE 50 CARACTERES';
+                $inconsistencyModel->action = 'ADICIONE UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!in_array($classType->getTurno(), [1, 2, 3, 4])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'TURMA';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'VALOR INVÁLIDO PARA O TURNO DA TURMA';
+                $inconsistencyModel->action = 'SELECIONE UM TURNO VÁLIDO PARA O HORÁRIO DE FUNCIONAMENTO';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!is_bool($classType->getFinalTurma())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'TURMA';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'VALOR INVÁLIDO PARA O FINAL TURMA';
+                $inconsistencyModel->action = 'SELECIONE UM VALOR VÁLIDO PARA O ENCERRAMENTO DO PERÍODO';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
             }
         }
 
@@ -231,13 +403,15 @@ class SagresConsultModel
     public function getSeries($classId)
     {
         $seriesList = [];
+        $strlen = 2;
+        $strMaxLength = 50;
 
-        $query = "SELECT 
-                    c.name AS serieDescription, 
+        $query = "SELECT
+                    c.name AS serieDescription,
                     c.modality AS serieModality
-                FROM 
+                FROM
                     classroom c
-                WHERE 
+                WHERE
                     c.id = :id;";
 
         $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
@@ -247,6 +421,56 @@ class SagresConsultModel
             $serieType
                 ->setDescricao($serie['serieDescription'])
                 ->setModalidade($serie['serieModality']);
+
+            if (empty($serieType)) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'SÉRIE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'NÃO HÁ SÉRIE PARA A ESCOLA: ';
+                $inconsistencyModel->action = 'ADICIONE UMA SÉRIE PARA A TURMA: ';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($serieType->getDescricao()) <= $strlen) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'SÉRIE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'DESCRIÇÃO PARA A SÉRIE: ' . $serieType->getDescricao() . ' MENOR QUE 3 CARACTERES';
+                $inconsistencyModel->action = 'FORNEÇA UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($serieType->getDescricao()) > $strMaxLength) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'SÉRIE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'DESCRIÇÃO PARA A SÉRIE: ' . $serieType->getDescricao() . ' COM MAIS DE 50 CARACTERES';
+                $inconsistencyModel->action = 'FORNEÇA UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+            /* [1, 2, 3, 4]
+             * 1 - Educação Infantil -->
+             * 2 - Ensino Fundamental -->
+             * 3 - Ensino Médio -->
+             * 4 - Educação de Jovens e Adultos -->
+             */
+            if (!in_array($serieType->getModalidade(), [1, 2, 3, 4])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'SÉRIE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'MODALIDADE INVÁLIDA';
+                $inconsistencyModel->action = 'SELECIONE UMA MODALIDADE VÁLIDA PARA A SÉRIE';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
 
             $seriesList[] = $serieType;
         }
@@ -261,24 +485,26 @@ class SagresConsultModel
     public function getSchedules($classId, $month)
     {
         $scheduleList = [];
+        $strlen = 5;
+        $maxLength = 50;
 
-        $query = "SELECT DISTINCT 
+        $query = "SELECT DISTINCT
                     s.schedule AS schedule,
-                    s.week_day AS weekDay, 
+                    s.week_day AS weekDay,
                     ed.name AS disciplineName,
                     c.turn AS turn,
                     idaa.cpf AS cpfInstructor
-                FROM instructor_teaching_data itd 
+                FROM instructor_teaching_data itd
                     JOIN teaching_matrixes tm on itd.id = tm.teaching_data_fk
-                    JOIN curricular_matrix cm on tm.curricular_matrix_fk = cm.id 
-                    JOIN schedule s on s.discipline_fk = cm.discipline_fk and s.classroom_fk = itd.classroom_id_fk  
-                    JOIN instructor_documents_and_address idaa on itd.instructor_fk = idaa.id 
-                    JOIN edcenso_discipline ed ON ed.id = cm.discipline_fk 
-                    JOIN classroom c on c.id = itd.classroom_id_fk 
-                WHERE 
-                    c.id = :classId and 
+                    JOIN curricular_matrix cm on tm.curricular_matrix_fk = cm.id
+                    JOIN schedule s on s.discipline_fk = cm.discipline_fk and s.classroom_fk = itd.classroom_id_fk
+                    JOIN instructor_documents_and_address idaa on itd.instructor_fk = idaa.id
+                    JOIN edcenso_discipline ed ON ed.id = cm.discipline_fk
+                    JOIN classroom c on c.id = itd.classroom_id_fk
+                WHERE
+                    c.id = :classId and
                     s.month <= :referenceMonth
-                ORDER BY 
+                ORDER BY
                     c.create_date DESC";
 
         $params = [
@@ -292,14 +518,14 @@ class SagresConsultModel
         foreach ($schedules as $schedule) {
             $scheduleType = new HorarioTType();
 
-            $queryGetDuration = "SELECT 
+            $queryGetDuration = "SELECT
                             ROUND( (t.credits / COUNT(*))) AS duration
                         FROM (
                             SELECT ed.name AS disciplineName, cm.credits AS credits
-                                FROM schedule s 
-                                JOIN edcenso_discipline ed ON ed.id = s.discipline_fk 
-                                JOIN classroom c ON c.id = s.classroom_fk 
-                                JOIN curricular_matrix cm ON cm.discipline_fk = ed.id 
+                                FROM schedule s
+                                JOIN edcenso_discipline ed ON ed.id = s.discipline_fk
+                                JOIN classroom c ON c.id = s.classroom_fk
+                                JOIN curricular_matrix cm ON cm.discipline_fk = ed.id
                             WHERE s.classroom_fk = $classId and s.month <= $month
                             GROUP BY s.week_day
                         ) t
@@ -308,13 +534,87 @@ class SagresConsultModel
             $duration = Yii::app()->db->createCommand($queryGetDuration)->queryRow();
 
             $scheduleType
-                ->setDiaSemana(((int)$schedule['weekDay']) + 1)
+                ->setDiaSemana(((int) $schedule['weekDay']) + 1)
                 ->setDuracao(2)
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDisciplina(substr($schedule['disciplineName'], 0, 50))
                 ->setCpfProfessor([str_replace([".", "-"], "", $schedule['cpfInstructor'])]);
 
+            if (empty($scheduleType)) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'HORÁRIO';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'NÃO HÁ UM PROFESSOR, HORÁRIOS OU COMPONETES CURRICULARES PARA A TURMA: ';
+                $inconsistencyModel->action = 'ADICIONE UM PROFESSOR OU COMPONENTES CURRICULARES À TURMA';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!in_array($scheduleType->getDiaSemana(), [1, 2, 3, 4, 5, 6, 7])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'HORÁRIO';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'DIA DA SEMANA INVÁLIDO: ' . $scheduleType->getDiaSemana();
+                $inconsistencyModel->action = 'ADICIONE UM DIA DA SEMANA VÁLIDO PARA A DISCIPLINA';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!is_int($scheduleType->getDuracao())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'HORÁRIO';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'DURAÇÃO INVÁLIDA';
+                $inconsistencyModel->action = 'ADICIONE UM DIA DA SEMANA VÁLIDO PARA A DISCIPLINA';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
+            $cpfInstructor = $scheduleType->getCpfProfessor();
+            if (!$this->validaCPF($cpfInstructor[0])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'HORÁRIO';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'CPF DO PROFESSOR É INVÁLIDO, VINCULADO A TURMA: ';
+                $inconsistencyModel->action = 'INFORMAR UM CPF VÁLIDO PARA O PROFESSOR';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($scheduleType->getDisciplina()) < $strlen) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'HORÁRIO';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'NOME DA DISCIPLINA MUITO CURTA';
+                $inconsistencyModel->action = 'ADICIONE UM NOME PARA A DISCIPLINA COM PELO MENOS 5 CARACTERES';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($scheduleType->getDisciplina()) > $maxLength) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'HORÁRIO';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'NOME DA DISCIPLINA COM MAIS DE 50 CARACTERES - ' . $scheduleType->getDisciplina();
+                $inconsistencyModel->action = 'ADICIONE UM NOME PARA A DISCIPLINA COM ATÉ 50 CARACTERES';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
             $scheduleList[] = $scheduleType;
+
         }
 
         return $scheduleList;
@@ -383,84 +683,20 @@ class SagresConsultModel
     }
 
     /**
-     * Summary of EscolaTType
-     * @return AtendimentoTType[]
-     */
-    public function getAttendances($professionalId, $month)
-    {
-        $attendanceList = [];
-
-        $query = "SELECT
-                    date AS attendanceDate,
-                    local AS attendanceLocation
-                FROM 
-                    attendance
-                WHERE 
-                    professional_fk = :professionalId 
-                    and MONTH(`date`) = ".$month.";";
-
-        $attendances = Yii::app()->db->createCommand($query)->bindValue(":professionalId", $professionalId)->queryAll();
-
-        foreach ($attendances as $attendance) {
-            $attendanceType = new AtendimentoTType();
-            $attendanceType
-                ->setData(new DateTime($attendance['attendanceDate']))
-                ->setLocal($attendance['attendanceLocation']);
-
-            $attendanceList[] = $attendanceType;
-        }
-
-        return $attendanceList;
-    }
-
-    public function getStudents($studentFk, $year): AlunoTType
-    {
-        $query = "SELECT
-                    si2.responsable_cpf AS cpfStudent,
-                    si2.birthday AS birthdate,
-                    si2.name AS name,
-                    ifnull(si2.deficiency, 0) AS deficiency,
-                    si2.sex AS gender
-                FROM 
-                    student_identification si2
-                WHERE 
-                    si2.id = :studentFk AND 
-                    si2.send_year = :year";
-
-        $params = [
-            ':studentFk' => $studentFk,
-            ':year' => $year
-        ];
-
-        $student = Yii::app()->db->createCommand($query)->bindValues($params)->queryRow();
-
-        $studentType = new AlunoTType();
-        $studentType
-            ->setNome($student['name'])
-            ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $student['birthdate']))
-            ->setCpfAluno(!empty($student['cpfStudent']) ? $student['cpfStudent'] : null)
-            ->setPcd($student['deficiency'])
-            ->setSexo($student['gender']);
-
-        return $studentType;
-    }
-
-
-    /**
      * Summary of CardapioTType
      * @return CardapioTType[]
      */
     public function getMenuList($schoolId, $year, $month)
     {
         $menuList = [];
-
-        $query = "SELECT 
+        $strlen = 4;
+        $query = "SELECT
                     lm.date AS data,
                     lm.turn AS turno,
-                    lm2.restrictions  AS descricaoMerenda, 
-                    lm.adjusted AS ajustado 
-                FROM lunch_menu lm 
-                    JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk   
+                    lm2.restrictions  AS descricaoMerenda,
+                    lm.adjusted AS ajustado
+                FROM lunch_menu lm
+                    JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk
                     JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
                 WHERE lm.school_fk =  :schoolId AND YEAR(lm.date) = :year AND MONTH(lm.date) <= :month";
 
@@ -478,60 +714,67 @@ class SagresConsultModel
                 ->setData(new DateTime($menu['data']))
                 ->setTurno($this->convertTurn($menu['turno']))
                 ->setDescricaoMerenda(str_replace("ª", "", $menu['descricaoMerenda']))
-                ->setAjustado(isset($menu['ajustado'])? $menu['ajustado']: false);
+                ->setAjustado(isset($menu['ajustado']) ? $menu['ajustado'] : false);
 
             $menuList[] = $menuType;
+
+            $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
+            $params = array(':inepId' => $schoolId);
+            $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
+
+            if (!in_array($menuType->getTurno(), [1, 2, 3, 4])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'CARDÁPIO';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'TURNO INVÁLIDO';
+                $inconsistencyModel->action = 'INFORMAR UM TURNO VÁLIDO PARA O TURNO';
+                $inconsistencyModel->idSchool = $schoolId;
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($menuType->getDescricaoMerenda()) <= $strlen) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'CARDÁPIO';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'DESCRIÇÃO PARA MERENDA MENOR QUE 5 CARACTERES';
+                $inconsistencyModel->action = 'INFORMAR UMA DESCRIÇÃO PARA MERENDA MAIOR QUE 4 CARACTERES';
+                $inconsistencyModel->idSchool = $schoolId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!in_array($menuType->getAjustado(), [0, 1])) { # 0: Not, 1: True
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'CARDÁPIO';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'VALOR INVÁLIDO PARA O CAMPO AJUSTADO';
+                $inconsistencyModel->action = 'MARQUE OU DESMARQUE O CHECKBOX PARA O CAMPO AJUSTADO';
+                $inconsistencyModel->idSchool = $schoolId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!$this->validateDate($menuType->getData())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'CARDÁPIO';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO';
+                $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDA';
+                $inconsistencyModel->idSchool = $schoolId;
+                $inconsistencyModel->insert();
+            }
         }
 
         return $menuList;
     }
 
-
-    public function getSchoolMenu($schoolId, $selectedYear)
-    {
-        $cardapioList = [];
-        $query = "SELECT 
-                    lm.date AS data,
-                    lm.turn AS turno,
-                    lm2.restrictions  AS descricaoMerenda, 
-                    lm.adjusted AS ajustado 
-                FROM lunch_menu lm 
-                    JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk   
-                    JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
-                WHERE lm.school_fk = :schoolId and YEAR(lm.date) = :selectedYear
-                GROUP BY lm.date DESC
-                LIMIT 1";
-
-        $params = [
-            ':schoolId' => $schoolId,
-            ':selectedYear' => $selectedYear
-        ];
-
-        $cardapios = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
-
-        foreach ($cardapios as $cardapio) {
-            $cardapioType = new CardapioTType();
-            $cardapioType
-                ->setData(new DateTime($cardapio['data']))
-                ->setTurno($this->convertTurn($cardapio['turno']))
-                ->setDescricaoMerenda($cardapio['descricaoMerenda'])
-                ->setAjustado(isset($cardapio['ajustado']) ? $cardapio['ajustado'] :  0);
-
-            $cardapioList[] = $cardapioType;
-        }
-
-        return $cardapioList;
-    }
-
     public function getDirectorSchool($idSchool): DiretorTType
     {
 
-        $query = "SELECT 
-                    cpf AS cpfDiretor, 
-                    number_ato AS nrAto 
-                FROM 
-                    manager_identification 
-                WHERE 
+        $query = "SELECT
+                    cpf AS cpfDiretor,
+                    number_ato AS nrAto
+                FROM
+                    manager_identification
+                WHERE
                     school_inep_id_fk = :idSchool;";
 
         $director = Yii::app()->db->createCommand($query)
@@ -554,15 +797,15 @@ class SagresConsultModel
     public function getProfessionals($referenceYear, $month)
     {
         $professionalList = [];
-        $query = "SELECT 
-                    p.id_professional AS id_professional, 
-                    p.cpf_professional  AS cpfProfissional, 
-                    p.speciality  AS especialidade, 
-                    p.inep_id_fk AS idEscola, 
-                    fundeb 
+        $query = "SELECT DISTINCT
+                    p.id_professional AS id_professional,
+                    p.cpf_professional  AS cpfProfissional,
+                    p.speciality  AS especialidade,
+                    p.inep_id_fk AS idEscola,
+                    fundeb
                 FROM professional p
                     JOIN attendance a ON p.id_professional  = a.professional_fk  and MONTH(a.date) <= :currentMonth
-                WHERE 
+                WHERE
                     YEAR(a.date) = :reference_year";
 
         $command = Yii::app()->db->createCommand($query);
@@ -572,6 +815,7 @@ class SagresConsultModel
         ]);
 
         $professionals = $command->queryAll();
+        $strMaxLength = 50;
 
         foreach ($professionals as $professional) {
             $professionalType = new ProfissionalTType();
@@ -583,9 +827,65 @@ class SagresConsultModel
                 ->setAtendimento($this->getAttendances($professional['id_professional'], $month));
 
             $professionalList[] = $professionalType;
+
+            $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
+            $params = array(':inepId' => $professional['idEscola']);
+            $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
+
+            if (!$this->validaCPF($professionalType->getCpfProfissional())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'PROFISSIONAL';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'CPF INVÁLIDO: ' . $professional['cpfProfissional'];
+                $inconsistencyModel->action = 'INFORMAR UM CPF VÁLIDO';
+                $inconsistencyModel->identifier = '2';
+                $inconsistencyModel->idProfessional = $professional['id_professional'];
+                $inconsistencyModel->idSchool = $professional['idEscola'];
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($professionalType->getEspecialidade()) > $strMaxLength) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'PROFISSIONAL';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'ESPECIALIDADE COM MAIS DE 50 CARACTERES';
+                $inconsistencyModel->action = 'INFORMAR UMA DESCRIÇÃO PARA A ESPECIALIDADE COM ATÉ 50 CARACTERES';
+                $inconsistencyModel->identifier = '2';
+                $inconsistencyModel->idProfessional = $professional['id_professional'];
+                $inconsistencyModel->idSchool = $professional['idEscola'];
+                $inconsistencyModel->insert();
+
+            }
         }
 
         return $professionalList;
+    }
+
+    public function getAttendances($professionalId, $month)
+    {
+        $attendanceList = [];
+
+        $query = "SELECT
+                    date AS attendanceDate,
+                    local AS attendanceLocation
+                FROM
+                    attendance
+                WHERE
+                    professional_fk = :professionalId
+                    and MONTH(`date`) = " . $month . ";";
+
+        $attendances = Yii::app()->db->createCommand($query)->bindValue(":professionalId", $professionalId)->queryAll();
+
+        foreach ($attendances as $attendance) {
+            $attendanceType = new AtendimentoTType();
+            $attendanceType
+                ->setData(new DateTime($attendance['attendanceDate']))
+                ->setLocal($attendance['attendanceLocation']);
+
+            $attendanceList[] = $attendanceType;
+        }
+
+        return $attendanceList;
     }
 
     /**
@@ -596,11 +896,13 @@ class SagresConsultModel
     public function getEnrollments($classId, $referenceYear, $month, $finalClass)
     {
         $enrollmentList = [];
+        $strMaxLength = 200;
+        $strlen = 5;
 
-        $query = "SELECT 
-                        se.id as numero, 
+        $query = "SELECT
+                        se.id as numero,
                         se.student_fk,
-                        se.create_date AS data_matricula, 
+                        se.create_date AS data_matricula,
                         se.date_cancellation_enrollment AS data_cancelamento,
                         se.status AS situation,
                         si.responsable_cpf AS cpfStudent,
@@ -609,14 +911,14 @@ class SagresConsultModel
                         ifnull(si.deficiency, 0) AS deficiency,
                         si.sex AS gender,
                         SUM(IF(cf.id is null, 0, 1)) AS faults
-                  FROM 
+                  FROM
                         student_enrollment se
                         join classroom c on se.classroom_fk = c.id
-                        join student_identification si on si.id = se.student_fk 
+                        join student_identification si on si.id = se.student_fk
                         left join class_faults cf on cf.student_fk = si.id
                         left join schedule s on cf.schedule_fk = s.id
-                  WHERE 
-                        se.classroom_fk  =  :classId AND 
+                  WHERE
+                        se.classroom_fk  =  :classId AND
                         c.school_year = :referenceYear
                   GROUP BY se.id;
                 ";
@@ -630,6 +932,19 @@ class SagresConsultModel
         $enrollments = $command->queryAll();
 
         foreach ($enrollments as $enrollment) {
+
+            if (DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']) === false) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'ESTUDANTE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'DATA DE NASCIMENTO INVÁLIDA';
+                $inconsistencyModel->action = 'ALTERE O FORMATO DE DATA PARA DD/MM/AAAA';
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+                continue;
+            }
+
             $studentType = new AlunoTType();
             $studentType
                 ->setNome($enrollment['name'])
@@ -637,6 +952,90 @@ class SagresConsultModel
                 ->setCpfAluno(!empty($enrollment['cpfenrollment']) ? $enrollment['cpfenrollment'] : null)
                 ->setPcd($enrollment['deficiency'])
                 ->setSexo($enrollment['gender']);
+
+
+            if (!is_null($studentType->getCpfAluno())) {
+                if (!$this->validaCPF($studentType->getCpfAluno())) {
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = 'ESTUDANTE';
+                    $inconsistencyModel->school = '';
+                    $inconsistencyModel->description = 'CPF DO ESTUDANTE É INVÁLIDO';
+                    $inconsistencyModel->action = 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: ' . $enrollment['name'];
+                    $inconsistencyModel->identifier = '9';
+                    $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->insert();
+                }
+            }
+
+            if (!$this->validateDate($studentType->getDataNascimento())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'ESTUDANTE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO: ' . $enrollment['birthdate'];
+                $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDA';
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+
+            if (strlen($studentType->getNome()) < $strlen) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'ESTUDANTE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MENOS DE 5 CARACTERES';
+                $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES';
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+            if ($studentType->getNome() > $strMaxLength) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'ESTUDANTE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MAIS DE 200 CARACTERES';
+                $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM ATÉ 200 CARACTERES';
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!is_bool(boolval($studentType->getPcd()))) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'ESTUDANTE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'CÓDIGO PCD É INVÁLIDO';
+                $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O PCD';
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+            if ($studentType->getDataNascimento() === false) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'ESTUDANTE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'DATA DE NASCIMENTO INVÁLIDA';
+                $inconsistencyModel->action = 'ALTERE O FORMATO DE DATA PARA DD/MM/AAAA';
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!in_array($studentType->getSexo(), [1, 2, 3])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'ESTUDANTE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'SEXO NÃO É VÁLIDO';
+                $inconsistencyModel->action = 'ADICIONE UM SEXO VÁLIDO PARA O ESTUDANTE';
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+
+
 
             $enrollmentType = new MatriculaTType();
             $enrollmentType
@@ -646,8 +1045,60 @@ class SagresConsultModel
                 ->setNumeroFaltas((int) $enrollment['faults'])
                 ->setAluno($studentType);
 
-            if(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
+            if (is_null($studentType)) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'ESTUDANTE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'ESTUDANTE NÃO EXISTE PARA A MATRÍCULA DA TURMA: ';
+                $inconsistencyModel->action = 'ADICIONE UM ESTUDANTE À TURMA DA ESCOLA';
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+            if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
                 $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
+            }
+
+            if (empty($enrollmentType)) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'MATRÍCULA';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'NÃO HÁ MATRÍCULA PARA A TURMA';
+                $inconsistencyModel->action = 'ADICIONE UMA MATRÍCULA PARA A TURMA';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!$this->validateDate($enrollmentType->getDataMatricula())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'MATRÍCULA';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO';
+                $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDO';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
+            if (!is_int($enrollmentType->getNumeroFaltas())) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'MATRÍCULA';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'O VALOR PARA O NÚMERO DE FALTAS É INVÁLIDO';
+                $inconsistencyModel->action = 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+            if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
+                if (!is_bool($enrollmentType->getAprovado())) {
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = 'MATRÍCULA';
+                    $inconsistencyModel->school = '';
+                    $inconsistencyModel->description = 'VALOR INVÁLIDO PARA O STATUS APROVADO';
+                    $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO: ' . $studentType->getNome();
+                    $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->insert();
+                }
             }
 
             $enrollmentList[] = $enrollmentType;
@@ -674,14 +1125,14 @@ class SagresConsultModel
 
     public function returnNumberFaults($studentId, $referenceYear)
     {
-        $sql = "SELECT 
-                    COUNT(*) 
-                FROM 
-                    class_faults cf 
-                    JOIN schedule s ON s.id = cf.schedule_fk 
-                    JOIN classroom c on c.id = s.classroom_fk 
-                WHERE 
-                    cf.student_fk = :studentId AND 
+        $sql = "SELECT
+                    COUNT(*)
+                FROM
+                    class_faults cf
+                    JOIN schedule s ON s.id = cf.schedule_fk
+                    JOIN classroom c on c.id = s.classroom_fk
+                WHERE
+                    cf.student_fk = :studentId AND
                     c.school_year = :referenceYear;";
 
         $numberFaults = Yii::app()->db->createCommand($sql)
@@ -709,27 +1160,31 @@ class SagresConsultModel
     }
 
     public function actionExportSagresXML($xml)
-    {       
+    {
         $fileName = "Educacao.xml";
-        $fileDir = "./app/export/SagresEdu/" . $fileName;
 
+        $inst = "File_" . INSTANCE . "/";
+        $path = "./app/export/SagresEdu/" . $inst;
+
+        if(!file_exists($path)){
+            mkdir($path);
+        }
+
+        $fileDir = "./app/export/SagresEdu/". $inst . $fileName;
         Yii::import('ext.FileManager.fileManager');
         $fm = new fileManager();
         $result = $fm->write($fileDir, $xml);
-        
-        if ($result == false) {                    
+        if ($result === false) {
             throw new ErrorException("Ocorreu um erro ao exportar o arquivo XML.");
         }
-        
         $content = file_get_contents($fileDir);
-        
-        $zipName = './app/export/SagresEdu/Educacao.zip';
+        $zipName = './app/export/SagresEdu/' . $inst . 'Educacao.zip';
         $tempArchiveZip = new ZipArchive;
         $tempArchiveZip->open($zipName, ZipArchive::CREATE);
-        $tempArchiveZip->addFromString(pathinfo ($fileDir, PATHINFO_BASENAME), $content);
+        $tempArchiveZip->addFromString(pathinfo($fileDir, PATHINFO_BASENAME), $content);
         $tempArchiveZip->close();
         $content = null;
-          
+
     }
 
 
@@ -772,5 +1227,46 @@ class SagresConsultModel
         } else {
             return 0;
         }
+    }
+
+    public function validateDate($date, $format = 'Y-m-d')
+    {
+
+        if ($date instanceof Datetime) {
+            $dat = $date->format('Y-m-d');
+        } else {
+            $dt = new DateTime($date);
+            $dat = $dt->format('Y-m-d');
+        }
+
+        $d = DateTime::createFromFormat($format, $dat);
+        if (intval($d->format('Y')) <= 1900)
+            return false;
+
+        return $d && $d->format($format) == $dat;
+    }
+
+    public function validaCPF($cpf)
+    {
+        $cpf = preg_replace('/[^0-9]/is', '', $cpf);
+
+        if (strlen($cpf) != 11) {
+            return false;
+        }
+
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+            return false;
+        }
+
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) {
+                return false;
+            }
+        }
+        return true;
     }
 }

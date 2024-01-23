@@ -3,8 +3,8 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl . '/css/admin.css');
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
@@ -122,6 +122,18 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                                 <div class="pull-left">
                                     <span class="title">Ativar/Desativar usuário</span><br>
                                     <span class="subtitle">Torne um usuário ativo ou inativo</span>
+                                </div>
+                            </button>
+                        </a>
+
+                        <a href="<?php echo Yii::app()->createUrl('admin/instanceConfig') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <span class="t-icon-settings t-reports_icons"></span>
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Configurações do Municipio</span><br>
+                                    <span class="subtitle">Defina as configurações gerais do município</span>
                                 </div>
                             </button>
                         </a>

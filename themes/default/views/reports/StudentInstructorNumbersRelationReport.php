@@ -5,7 +5,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentInstructorNumbersRelationReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/StudentInstructorNumbersRelationReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
@@ -85,8 +85,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     . "<td>" . $cargos[2] . "</td>"
                     . "<td>" . $cargos[3] . "</td>"
                     . "</tr>";
-                    
-                    
+
+
                     $ordem++;
                 }
                 echo $html;

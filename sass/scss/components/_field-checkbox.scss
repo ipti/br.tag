@@ -13,15 +13,22 @@
         padding-top: 0 !important;
 
         &--required {
-            font-weight: bold;
+
+            &::after {
+                content: "*";
+                font-weight: $fontWeightRegular;
+                font-size: $FontSizeTextNormal;
+                color: $colorsAlertCrucialIcon;
+            }
         }
     }
+
     &__input,
     input[type="checkbox"] {
         background: $colorsBaseWhiteNormal;
         height: 20px;
         width: 20px;
-        margin: 0 $SizeNormal 0 0 !important;
+        margin: 0 $SizeNormal 0 0;
     }
 
     &.helper {
@@ -29,15 +36,34 @@
         margin-bottom: 10px;
         margin-left: -18px;
     }
+
+    &--vertical {
+        margin-right: $SizeNormal;
+
+        .t-field-checkbox__label {
+            text-align: center;
+        }
+
+        .t-field-checkbox__input {
+            margin: 0;
+        }
+    }
 }
+
 .t-field-checkbox-group {
     margin-bottom: $SizeXXSmall;
     margin-top: $SizeLarge;
+
     &__label {
         padding-top: 0 !important;
 
         &--required {
-            font-weight: bold;
+            &::after {
+                content: "*";
+                font-weight: $fontWeightRegular;
+                font-size: $FontSizeTextNormal;
+                color: $colorsAlertCrucialIcon;
+            }
         }
     }
 

@@ -1,3 +1,18 @@
+## [Versão 3.65.102]
+- Adicionando filtros nas unidades de medida a depender da comida selecionada na tela de estoque
+
+## [Versão 3.65.101]
+- Criação da tela de lançamento de notas
+
+## [Versão 3.64.101]
+- Criada a tela de gestão de estoque e de solicitações no modulo de merenda
+
+## [Versão 3.63.101]
+- Corrigido o estilo e padronização das caixas de texto na tela de cadastrar e atualizar usuário
+
+## [Versão 3.63.100]
+- Corrigido a questão das notas sumirem quando eram salvas
+
 ## [Versão 3.63.99]
 - Corrigido a visibilidade de aulas datas em lançamentos de notas
 

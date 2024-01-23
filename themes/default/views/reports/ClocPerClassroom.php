@@ -4,7 +4,7 @@
 /* @var $classroom Classroom*/
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
@@ -131,7 +131,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                 <td>DATA: </td>
             </tr>
             <tr>
-                
+
             </tr>
         </table>
     </div>
@@ -155,7 +155,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
             </tr>
             <?php
                 $rows = "";
-                
+
                 foreach ($report as $key=>$r){
                     $rows .= "<tr>"
                             . "<td style='text-align: center;'>" . ($key + 1) . "</td>"
@@ -165,7 +165,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk)
                             . "<td style='text-align: center;'>" . $r['mother'] . "</td>"
                             . "<td style='text-align: center;'>" . $r['neighborhood'] . "</td>"
                             . "<td style='text-align: center; width:300px'>
-                            
+
                             </td>";
                             $rows .= "</tr>";
                 }

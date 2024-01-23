@@ -1,11 +1,13 @@
 FROM ipti/yii2:7.4-fpm
 COPY . /app
 WORKDIR /app/app
+
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 RUN composer update
 RUN composer update with the "--no-plugins"
 RUN composer install
 WORKDIR /app
+RUN sass --no-source-map --style=compressed sass/scss:sass/css
 RUN composer update
 RUN composer update with the "--no-plugins"
 RUN composer install

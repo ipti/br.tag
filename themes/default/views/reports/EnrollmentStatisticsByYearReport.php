@@ -7,7 +7,7 @@
 Yii::app()->clientScript->registerCoreScript('jquery');
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentStatisticsByYearReport/functions.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentStatisticsByYearReport/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 
@@ -34,8 +34,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     <div class="row-fluid hidden-print">
         <div class="span12">
             <div class="buttons">
-                <a id="print" onclick="imprimirPagina()" class='btn btn-icon glyphicons print hidden-print' style="padding: 10px;">
-                    <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="print hidden-print" />
+                <a  id="print"
+                        onclick="imprimirPagina()"
+                        class='btn btn-icon glyphicons print hidden-print'
+                        style="padding: 10px;">
+                    <img    alt="impressora"
+                            src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg"
+                            class="print hidden-print"/>
                     <?php echo Yii::t('default', 'Print') ?>
                     <i></i>
                 </a>
@@ -49,7 +54,10 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <tr>
                     <th scope="col" colspan="2">ANO LETIVO DE <?= Yii::app()->user->year ?></th>
                     <?php foreach($stageNumberGroups as $stageNumberGroupName => $stageNumberGroup): ?>
-                            <th scope="col" colspan="<?=$stageNumberGroup["colspan"]?>"><?=$stageNumberGroup["colname"]?></th>
+                            <th scope="col"
+                                colspan="<?=$stageNumberGroup["colspan"]?>">
+                                    <?=$stageNumberGroup["colname"]?>
+                            </th>
                     <?php endforeach; ?>
                     <th scope="col"></th>
                 </tr>
@@ -78,7 +86,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         <?php $stageGroupIndex = 0; ?>
                         <?php foreach($schoolNameValue as $stageNumberIndex => $stageNumberValue): ?>
                             <?php foreach($stageNumberValue as $stageName => $enrollmentsCount): ?>
-                                <td class="stage-enrollment stage-<?= $stageGroupIndex ?>"><?= ($enrollmentsCount == 0 ? "" : $enrollmentsCount) ?></td>
+                                <td class="stage-enrollment stage-<?= $stageGroupIndex ?>">
+                                    <?= ($enrollmentsCount == 0 ? "" : $enrollmentsCount) ?>
+                                </td>
                             <?php endforeach; ?>
                             <?php $stageGroupIndex++; ?>
                         <?php endforeach; ?>

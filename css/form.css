@@ -55,7 +55,7 @@ div.form fieldset
 
 div.form label
 {
-	font-weight: bold;
+	/* font-weight: bold; */
 	font-size: 0.9em;
 	display: block;
 }

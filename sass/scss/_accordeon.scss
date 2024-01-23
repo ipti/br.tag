@@ -2,7 +2,8 @@
 
     .ui-accordion-header {
         display: flex !important;
-        background: $colorsBaseCloudLight ;
+        align-items: center;
+        background: $colorsBaseCloudLight;
         cursor: pointer;
         padding: $SizeXXXSmall $SizeSmall !important;
         border-radius: 0;
@@ -14,6 +15,36 @@
             font-weight: $fontWeightRegular;
             color: $colorsTextPrimary;
         }
+        .t-accordion-input-header {
+            border: none;
+            background: none;
+            box-shadow: none;
+            margin-bottom: 0;
+            padding: 0;
+        }
+
+        &.hide {
+            display: none !important;
+        }
+        span {
+            font-weight: $fontWeightRegular;
+        }
+    }
+
+    .ui-accordion-content {
+        overflow-x: hidden !important;
+        &.accordion-overflow{
+            overflow-x: scroll !important;
+        }
+        padding: $SizeXXXSmall $SizeSmall !important;
+        &.hide {
+            display: none !important;
+        }
+    }
+    &--header {
+       font-weight: $fontWeightBold;
+       border-bottom: $borderWidthCard solid $colorsBaseInkLighter;
+       padding: $SizeXXXSmall $SizeSmall;
     }
 }
 
@@ -42,20 +73,21 @@
     @extend .t-accordeon;
 
     .ui-accordion-header {
-        padding: 0 0 !important;
-        background: $colorsBaseCloudDark;
+        background: $colorsBaseCloudLight;
         color: $colorsBaseInkLight;
-
-        .t-title {
-            margin: 0 $SizeXSmall;
-            font-weight: $fontWeightRegular;
-            color: $colorsTextPrimary;
+        .border-left {
+            border-left: solid 1px $colorsBaseCloudLightHover;
         }
+        .arrow {
+            font-size: $FontSizeTextNormal;
+        }
+        &.even {
+            background: #EAEDFC;
+        }
+
     }
     .ui-accordion-content {
-        height: auto !important;
         background-color: $colorsBaseWhiteNormal;
-        padding: $spaceEmpty !important;
     }
     .ui-widget-content{
         background: none !important;
@@ -103,7 +135,7 @@
         padding-left: $SizeXSmall !important;
         padding-right: $SizeXSmall !important;
         background: $colorsBaseWhiteNormal;
-        border-radius: $borderRadiusNormal;
+        border-radius: $borderRadiusLarge;
         box-shadow: 0px 0px 6px 0px rgba(196, 196, 196, 0.50);
 
         .accordion-arrow-icon {
@@ -133,7 +165,7 @@
         background: none !important;
         padding-left: $SizeXSmall !important;
         padding-right: $SizeXSmall !important;
-        border-radius: $borderRadiusNormal;
+        border-radius: $borderRadiusLarge;
         height: auto;
         box-shadow: 0px 0px 6px 0px rgba(196, 196, 196, 0.50);
         font-size: $FontSizeTextNormal;

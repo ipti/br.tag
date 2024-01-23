@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
@@ -33,8 +33,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     </div>
     <div class="container-section" style="padding: 0;width: 95.6%;">
         <div class="container-info-title">
-            1- Principais ações do professor desenvolvidas no Ambiente Escolar 
-            (Participação nos encontros pedagógicos, 
+            1- Principais ações do professor desenvolvidas no Ambiente Escolar
+            (Participação nos encontros pedagógicos,
             construção de currículo coletivo, em reuniões de responsáveis e nos COC).
         </div>
         <div class="container-info-text"></div>
@@ -161,10 +161,10 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 _________________________________________________________________________________________________________________________________________________________________________________
             </p>
         </div>
-        <p> 
-            Segundo os artigos 82º, 112º e 114º, parágrafo 3º, o processo de avaliação dos 
-            componentes curriculares de Arte e Cultura e Educação Física 
-            será através de um relatório trimestral da turma, elaborado pelo professor com observações individuais, 
+        <p>
+            Segundo os artigos 82º, 112º e 114º, parágrafo 3º, o processo de avaliação dos
+            componentes curriculares de Arte e Cultura e Educação Física
+            será através de um relatório trimestral da turma, elaborado pelo professor com observações individuais,
             em formulário específico enviado pela Secretaria Municipal de Educação, Ciência e Tecnologia.
         </p>
         <div class="container-box signatures-container">

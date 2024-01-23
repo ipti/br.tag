@@ -31,7 +31,7 @@ class ReportsController extends Controller
                     'NumberOfStudentsEnrolledPerPeriodPerSchool', 'NumberOfStudentsEnrolledPerPeriodAllSchools',
                     'AllSchoolsReportOfStudentsBenefitingFromTheBF','AllClassroomsReportOfStudentsBenefitingFromTheBF',
                     'ReportOfStudentsBenefitingFromTheBFPerClassroom', 'TeachersByStage', 'TeachersBySchool', 'StatisticalData',
-                    'NumberOfClassesPerSchool', 'NumberOfClassesPerSchool', 'StudentCpfRgNisPerClassroom',),
+                    'NumberOfClassesPerSchool', 'NumberOfClassesPerSchool', 'StudentCpfRgNisPerClassroom','FoodMenu'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -400,7 +400,9 @@ class ReportsController extends Controller
         $query = $repository->getNumberStudentsPerClassroom();
         $this->render('NumberStudentsPerClassroomReport', $query);
     }
-
+    public function actionFoodMenu() {
+        $this->render('FoodMenu', array());
+    }
     public function actionEnrollmentStatisticsByYearReport()
     {
         // Construíndo condicionais e definindo ordenação para a consulta
@@ -417,9 +419,12 @@ class ReportsController extends Controller
             if (!in_array($schools, $classroom->schoolInepFk->name)) {
                 array_push($schools, $classroom->schoolInepFk->name);
             }
-            //Coloca em um array todos o stage number e nome dos estágios que já não estão no mesmo (através da lista de classes)
+            //Coloca em um array todos o stage number e nome dos estágios que
+            // já não estão no mesmo (através da lista de classes)
             if (array_search($classroom->edcensoStageVsModalityFk->name, array_column($stages, 'name')) === false) {
-                array_push($stages, ["stageNumber" => $classroom->edcensoStageVsModalityFk->stage, "name" => $classroom->edcensoStageVsModalityFk->name, "alias" => $classroom->edcensoStageVsModalityFk->alias]);
+                array_push($stages, ["stageNumber" => $classroom->edcensoStageVsModalityFk->stage,
+                                    "name" => $classroom->edcensoStageVsModalityFk->name,
+                                    "alias" => $classroom->edcensoStageVsModalityFk->alias]);
             }
         }
         //Cria a primeira linha da tabela com o grupo de estágios
@@ -534,7 +539,10 @@ class ReportsController extends Controller
     public function actionGetStudentClassrooms($id)
     {
         $repository = new ReportsRepository;
-        $repository->getStudentClassroomsOptions($id);
+        $students = $repository->getStudentClassroomsOptions($id);
+        foreach ($students as $student) {
+            echo CHtml::tag('option', array('value' => $student["id"]), $student["name"], true);
+        }
     }
 
     public function actionGetDisciplines()

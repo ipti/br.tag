@@ -1,0 +1,9 @@
+CREATE TABLE `grade_unity_periods` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `initial_date` date NOT NULL,
+  `grade_unity_fk` int NOT NULL,
+  `school_year` int NOT NULL
+);
+
+ALTER TABLE `grade_unity_periods`
+ADD FOREIGN KEY (`grade_unity_fk`) REFERENCES `grade_unity` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
