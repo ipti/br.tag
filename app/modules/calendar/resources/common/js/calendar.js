@@ -109,8 +109,7 @@ function editCalendar(confirm) {
     }).success(function (data) {
         data = JSON.parse(data);
         if (data.valid) {
-            $(".calendar-container[data-id=" + $("#edit-calendar-modal").find("#Calendar_id").val() + "]").closest(".accordion-group").find(".accordion-title").text($("#edit-calendar-modal").find("#Calendar_title").val());
-            $("#edit-calendar-modal").modal("hide");
+            window.location.href = window.location.href;
         } else {
             $("#edit-calendar-modal").find(".alert").removeClass("alert-error").addClass("alert-" + DOMPurify.sanitize(data.alert)).html(DOMPurify.sanitize(data.message)).show();
         }

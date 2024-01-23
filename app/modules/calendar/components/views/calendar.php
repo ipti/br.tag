@@ -194,6 +194,14 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                                                             $class .= "sunday ";
                                                         }
                                                         $class .= "span1-7 ";
+
+                                                        if ($start->format("Ymd") == ($y . $date->format("m") . $content)) {
+                                                            $class .= "start-date ";
+                                                        }
+                                                        if ($end->format("Ymd") == ($y . $date->format("m") . $content)) {
+                                                            $class .= "end-date ";
+                                                        }
+
                                                         $html .= "<div class='$class'>$beforeContent<div class='calendar-text '>$content</div>$afterContent</div>";
 
                                                     }

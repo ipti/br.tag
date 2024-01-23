@@ -322,3 +322,11 @@ form {
     display: none;
     margin-left: 5px;
 }
+
+.start-date {
+    border: 1px solid #26cb24;
+}
+
+.end-date {
+    border: 1px solid red;
+}
