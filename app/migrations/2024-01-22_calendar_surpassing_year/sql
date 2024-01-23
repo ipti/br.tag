@@ -24,3 +24,19 @@ update classroom cr set cr.calendar_fk = (select cs.calendar_fk
 	join edcenso_stage_vs_modality esvm on (esvm.id = cs.stage_fk)
 	where cr.edcenso_stage_vs_modality_fk = cs.stage_fk
 	and cr.school_year = c.school_year);
+
+ALTER TABLE `grade_unity_periods`
+ADD `calendar_fk` int NOT NULL AFTER `grade_unity_fk`;
+
+update grade_unity_periods gup set calendar_fk = (
+select c.id from calendar c
+join calendar_stages cs on cs.calendar_fk = c.id
+join grade_unity gu on gu.edcenso_stage_vs_modality_fk = cs.stage_fk
+where gu.id = gup.grade_unity_fk and c.school_year = gup.school_year
+);
+
+ALTER TABLE `grade_unity_periods`
+ADD FOREIGN KEY (`calendar_fk`) REFERENCES `calendar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `grade_unity_periods`
+DROP `school_year`;

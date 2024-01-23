@@ -243,12 +243,11 @@ class DefaultController extends Controller
     {
         if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
             $result = Yii::app()->db->createCommand("
-            select count(s.id) as qtd from schedule s 
-            join classroom cr on s.classroom_fk = cr.id 
+            select count(cr.id) as qtd from classroom cr
             join calendar c on cr.calendar_fk = c.id
             where c.id = :id")->bindParam(":id", $_POST["calendar_removal_id"])->queryRow();
             if ((int)$result["qtd"] > 0) {
-                echo json_encode(["valid" => false, "error" => "Permissão negada. O calendário está sendo utilizando por alguma turma com quadro de horário preenchido"]);
+                echo json_encode(["valid" => false, "error" => "Permissão negada. O calendário está sendo utilizando por alguma turma."]);
             } else {
                 $calendar = Calendar::model()->findByPk($_POST['calendar_removal_id']);
                 Log::model()->saveAction("calendar", $calendar->id, "D", $calendar->title);
@@ -336,8 +335,8 @@ class DefaultController extends Controller
             select count(*) as qtd
             from grade_unity_periods
             inner join grade_unity on grade_unity_periods.grade_unity_fk = grade_unity.id
-            where grade_unity.edcenso_stage_vs_modality_fk = :stage and grade_unity_periods.school_year = :year"
-            )->bindParam(":stage", $stage["id"])->bindParam(":year", Yii::app()->user->year)->queryRow();
+            where grade_unity.edcenso_stage_vs_modality_fk = :stage and grade_unity_periods.calendar_fk = :calendar_fk"
+            )->bindParam(":stage", $stage["id"])->bindParam(":calendar_fk", $_POST["id"])->queryRow();
             $stage["hasPeriod"] = (int)$periods["qtd"] > 0;
         }
 
@@ -386,8 +385,8 @@ class DefaultController extends Controller
                 if ($index == 0) {
                     $unity["initial_date"] = $calendarInitialDate;
                 } else {
-                    $unity["initial_date"] = $gradeUnity->gradeUnityPeriods == null ? "" : date("d/m/Y", strtotime($gradeUnity->gradeUnityPeriods[0]->initial_date));
-
+                    $gradeUnityPeriod = GradeUnityPeriods::model()->find("grade_unity_fk = :grade_unity_fk and calendar_fk = :calendar_fk", [":grade_unity_fk" => $gradeUnity->id, ":calendar_fk" => $calendar->id]);
+                    $unity["initial_date"] = $gradeUnityPeriod == null ? "" : date("d/m/Y", strtotime($gradeUnityPeriod->initial_date));
                 }
                 array_push($stageArray["unities"], $unity);
             }
@@ -405,13 +404,12 @@ class DefaultController extends Controller
             if (empty($_POST["gradeUnities"])) {
                 $error .= "Unidades não foram preenchidas.";
             } else {
-                $ano = Yii::app()->user->year;
                 foreach ($_POST['gradeUnities'] as $gup) {
-                    $gradeUnityPeriod = GradeUnityPeriods::model()->find('grade_unity_fk = :gradeUnityFk and school_year = :year', [':gradeUnityFk' => $gup["gradeUnityFk"], ':year' => $ano]);
+                    $gradeUnityPeriod = GradeUnityPeriods::model()->find('grade_unity_fk = :gradeUnityFk and calendar_fk = :calendar_fk', [':gradeUnityFk' => $gup["gradeUnityFk"], ':calendar_fk' => $_POST["calendarFk"]]);
                     if ($gradeUnityPeriod == null) {
                         $gradeUnityPeriod = new GradeUnityPeriods();
                         $gradeUnityPeriod->grade_unity_fk = $gup["gradeUnityFk"];
-                        $gradeUnityPeriod->school_year = $ano;
+                        $gradeUnityPeriod->calendar_fk = $_POST["calendarFk"];
                     }
                     $gradeUnityPeriod->initial_date = implode('-', array_reverse(explode('/', $gup["initialDate"])));
                     $gradeUnityPeriod->save();
@@ -424,7 +422,7 @@ class DefaultController extends Controller
                 echo json_encode(["valid" => true]);
             }
         } else {
-            echo json_encode(["valid" => false, "error" => "Apenas administradores podem editar título de calendários."]);
+            echo json_encode(["valid" => false, "error" => "Apenas administradores podem editar a vigência das unidades."]);
         }
     }
 
@@ -437,9 +435,9 @@ class DefaultController extends Controller
             select gup.initial_date, gu.name 
             from grade_unity_periods gup 
             inner join grade_unity gu on gup.grade_unity_fk = gu.id 
-            where gu.edcenso_stage_vs_modality_fk = :stageId 
+            where gu.edcenso_stage_vs_modality_fk = :stageId and calendar_fk = :calendar_fk
             order by initial_date"
-        )->bindParam(":stageId", $_POST["stageId"])->queryAll();
+        )->bindParam(":stageId", $_POST["stageId"])->bindParam(":calendar_fk", $_POST["calendarId"])->queryAll();
 
         $calendar = Calendar::model()->findByPk($_POST["calendarId"]);
         $start = new DateTime($calendar->start_date);

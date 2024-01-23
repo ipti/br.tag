@@ -138,6 +138,7 @@ $(document).on("click", ".manage-unity-periods", function (e) {
         data = JSON.parse(data);
         if (data.valid) {
             var html = "";
+            html += "<input class='calendar-id' type='hidden' value='" + $(icon).attr("data-id") + "'>";
             html += "<input class='calendar-end-date' type='hidden' value='" + data.result.calendarFinalDate + "'>";
             for (var i = 0; i < Object.keys(data.result.stages).length; i++) {
                 html += "<div class='grade-unity-stage-tab " + (i === 0 ? "active" : "") + "'>" + (i + 1) + "ª Etapa</div>";
@@ -257,6 +258,7 @@ $(document).on("click", ".manage-unity-periods-button", function () {
             url: "?r=calendar/default/editUnityPeriods",
             type: "POST",
             data: {
+                calendarFk: $("#unity-periods-modal").find(".calendar-id").val(),
                 gradeUnities: gradeUnities,
             },
             beforeSend: function () {
