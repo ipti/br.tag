@@ -51,7 +51,6 @@ class DefaultController extends Controller
         $calendar->title = $_POST["title"];
         $calendar->start_date = $_POST["startDate"];
         $calendar->end_date = $_POST["endDate"];
-        $calendar->available = 0;
         $calendar->school_year = Yii::app()->user->year;
 
         $calendar->save();
