@@ -28,7 +28,7 @@ class DefaultController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','create','update', 'delete'),
+				'actions'=>array('index','create','update', 'delete', 'deleteAttendance'),
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -82,7 +82,7 @@ class DefaultController extends Controller
 			if($modelAttendance->validate()) {
 				if($modelAttendance->save()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Atendimento adicionado com sucesso!'));
-					$this->redirect(array('index'));	
+					$this->redirect(array('index'));
 				}
 			}
 		}
@@ -90,7 +90,7 @@ class DefaultController extends Controller
 		if(isset($_POST['Professional']))
 		{
 			$modelProfessional->attributes = $_POST['Professional'];
-			
+
 			if($modelProfessional->save()){
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional atualizado com sucesso!'));
 				$this->redirect(array('index'));
@@ -145,4 +145,13 @@ class DefaultController extends Controller
 			'dataProvider'=>$dataProvider,
 		));
 	}
+
+    public function actionDeleteAttendance($id)
+    {
+        // $attendaceId = Yii::app()->getPost('id');
+        $model = Attendance::model()->findByPk($id);
+        $model->delete();
+        header('HTTP/1.1 200 OK');
+        $this->redirect('?r=professional/default/update&id='. $id);
+    }
 }

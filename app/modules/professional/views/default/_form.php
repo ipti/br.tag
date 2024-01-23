@@ -43,56 +43,57 @@
 		<div class="widget widget-tabs border-bottom-none">
 			<?php echo $form->errorSummary($modelProfessional); ?>
 			<div class="alert alert-error professional-error no-show"></div>
-			<div class="widget-body form-horizontal">
+			<div class="widget-body">
 				<div class="tab-content">
 					<div class="tab-pane active" id="professional-identify">
 						<div>
 							<h3>Dados Básicos</h3>
 						</div>
-						<div class="row-fluid">
-							<div class="span6">
-								<div class="separator">
-									<div class="control-group">
+						<div class="full">
+							<div class="span6 full">
+								<div class="separator row">
+									<div class="control-group column">
 										<div class="controls">
 											<?php echo $form->label($modelProfessional, 'name', array('class' => 'control-label')); ?>
 										</div>
 										<div class="controls">
-											<?php echo $form->textField($modelProfessional, 'name', array('size' => 60, 'maxlength' => 100)); ?>
+											<?php echo $form->textField($modelProfessional, 'name', array('size' => 100, 'maxlength' => 100)); ?>
 											<?php echo $form->error($modelProfessional, 'name'); ?>
 										</div>
 									</div>
-									<div class="control-group">
+									<div class="control-group column">
 										<div class="controls">
 											<?php echo $form->label($modelProfessional, 'cpf_professional', array('class' => 'control-label')); ?>
 										</div>
 										<div class="controls">
-											<?php echo $form->textField($modelProfessional, 'cpf_professional', array('size' => 60, 'maxlength' => 100, 'class' => 'cpf-input')); ?>
+											<?php echo $form->textField($modelProfessional, 'cpf_professional', array('size' => 100, 'maxlength' => 100, 'class' => 'cpf-input')); ?>
 											<?php echo $form->error($modelProfessional, 'cpf_professional'); ?>
 										</div>
 									</div>
-									<div class="control-group">
-										<div class="controls">
-											<?php echo $form->label($modelProfessional, 'speciality', array('class' => 'control-label')); ?>
-										</div>
-										<div class="controls">
-											<?php echo $form->textField($modelProfessional, 'speciality', array('size' => 100)); ?>
-											<?php echo $form->error($modelProfessional, 'speciality'); ?>
-										</div>
-									</div>
-									<div class="control-group">
-										<div class="controls">
-											<?php echo $form->label($modelProfessional, 'fundeb', array('class' => 'control-label', 'style' => 'width: 70px;')); ?>
-											<?php echo $form->checkBox($modelProfessional, 'fundeb', array('value' => 1, 'uncheckValue' => 0)); ?>
-										</div>
-										<div class="controls">
-											<?php echo $form->error($modelProfessional, 'fundeb'); ?>
-										</div>
-									</div>
-								</div>
+                                </div>
+                                <div class="control-group column">
+                                    <div class="controls">
+                                        <?php echo $form->label($modelProfessional, 'speciality', array('class' => 'control-label')); ?>
+                                    </div>
+                                    <div class="controls">
+                                        <?php echo $form->textField($modelProfessional, 'speciality', array('size' => 100)); ?>
+                                        <?php echo $form->error($modelProfessional, 'speciality'); ?>
+                                    </div>
+                                </div>
+                                <div class="control-group column">
+                                    <div class="controls">
+                                        <?php echo $form->label($modelProfessional, 'fundeb', array('class' => 'control-label', 'style' => 'width: 70px;')); ?>
+                                        <?php echo $form->checkBox($modelProfessional, 'fundeb', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    </div>
+                                    <div class="controls">
+                                        <?php echo $form->error($modelProfessional, 'fundeb'); ?>
+                                    </div>
+                                </div>
+                            </div>
 							</div>
 							<?php if(!$modelProfessional->isNewRecord) {?>
-							<div class="span6">
-								<div class="row">
+							<div class="span6 column">
+								<div class="">
 									<a href="#" class="t-button-primary new-attendance-button" id="new-attendance-button">Adicionar Atendimento</a>
 								</div>
 								<div class="attendance-container">
@@ -123,13 +124,14 @@
 										<h3>
 											Atendimentos
 										</h3>
-										<div style="max-height: 300px; overflow-y: scroll;">
-											<table class="tag-table-primary table-bordered table-striped"
+										<div style="" class="full">
+											<table class="tag-table table-bordered table-striped"
 												aria-describedby="tabela de atendimentos">
 												<thead>
 													<tr>
 														<th style="text-align: center; min-width: 200px;">Data</th>
 														<th style="text-align: center; min-width: 200px;">Local</th>
+                                                        <th style="text-align: right; min-width: 200px;"></th>
 													</tr>
 												</thead>
 												<tbody>
@@ -139,6 +141,11 @@
 														<tr>
 															<td style="text-align: center;"><?php echo date("d/m/Y", strtotime($attendance->date)) ?></td>
 															<td style="text-align: center;"><?php echo $attendance->local?></td>
+                                                            <td style="text-align: center">
+                                                                <a href="<?= Yii::app()->createUrl('professional/default/deleteAttendance', array('id'=>$attendance->id_attendance)); ?>">
+                                                                    <i class="t-icon-trash"></i>
+                                                                </a>
+                                                            </td>
 														</tr>
 													<?php
 													}
