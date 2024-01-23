@@ -439,11 +439,18 @@ $(".save-school-button").click(function () {
     }
     if (error) {
         $("html, body").animate({ scrollTop: 0 }, "fast");
-        $(this).closest("form").find(".school-error").html(message).show();
+
+        var alertDiv = $(this).closest("form").find(".alert-school-error");
+        alertDiv.find(".alert-school-error-mensage").append(message);
+        alertDiv.show();
     } else {
-        $(this).closest("form").find(".school-error").hide();
+        var alertDiv = $(this).closest("form").find(".alert-school-error");
+        alertDiv.hide();
+        alertDiv.find(".alert-school-error-mensage").html(""); 
+
         $("#school input").removeAttr("disabled");
         $("#school select").removeAttr("disabled").trigger("change.select2");
         $(this).closest("form").submit();
     }
+
 });

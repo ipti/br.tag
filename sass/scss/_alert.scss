@@ -1,5 +1,5 @@
 .t-alert {
-    width: auto;
+    width: fit-content;
     margin-bottom: $SizeXSmall;
     border-color: $colorsBaseCloudLight;
     background: $colorsBaseCloudLight;
@@ -9,17 +9,26 @@
     border-radius: 4px;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
     font-family: $FontFamilyTextNormal;
+    .t-alert-informacao{
+        padding: $SizeXSmall $SizeXLarge $SizeXSmall $SizeNormal;
+        display: flex;
+        flex-direction: row;
+    }
 }
 .t-alert-icon-sucess{
     color: $colorsTextSuccess;
+    padding-right: $SizeXXXSmall;
 }
 .t-alert-icon-info{
     color: $colorsTextInfo;
+    padding-right: $SizeXXXSmall;
 }
 .t-alert-icon-Warning{
     color: $colorsTextWarning;
+    padding-right: $SizeXXXSmall;
 }
 .t-alert-icon-critical{
     color: $colorsTextError;
+    padding-right: $SizeXXXSmall;
 }
 

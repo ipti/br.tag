@@ -80,6 +80,16 @@ $form = $this->beginWidget(
             </div>
         <?php } else { ?>
             <div class="alert classroom-alert no-show"></div>
+
+            <div class="t-alert classroom-alert no-show">
+            <div class="t-alert-informacao">
+                <div class="alert-school-error-mensage">
+                    <span class="t-info_positive t-alert-icon-Warning  alert-school-error">
+                    </span>
+                </div>
+            </div>
+        </div>
+
         <?php } ?>
         <div class="t-tabs">
             <ul class="tab-classroom t-tabs__list">

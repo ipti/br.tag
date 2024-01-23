@@ -143,15 +143,32 @@ $(".save-classroom").click(function () {
         error = true;
         message += "Campo <b>Capacidade Física Máxima</b> é obrigatório, com limite máximo de 99.<br>";
     }
+    // if (error) {
+    //     $("html, body").animate({scrollTop: 0}, "fast");
+    //     $(this).closest("form").find(".classroom-alert").addClass("alert-error").removeClass("alert-warning").removeClass("alert-success").html(message).show();
+    // } else {
+    //     $(this).closest("form").find(".classroom-alert").hide();
+    //     $('#teachingData').val(JSON.stringify(teachingData));
+    //     $('#disciplines').val(JSON.stringify(disciplines));
+    //     $("#classroom input").removeAttr("disabled");
+    //     $("#classroom select").removeAttr("disabled").trigger("change.select2");
+    //     $(this).closest('form').submit();
+    // }
     if (error) {
-        $("html, body").animate({scrollTop: 0}, "fast");
-        $(this).closest("form").find(".classroom-alert").addClass("alert-error").removeClass("alert-warning").removeClass("alert-success").html(message).show();
+        $("html, body").animate({ scrollTop: 0 }, "fast");
+
+        var alertDiv = $(this).closest("form").find(".classroom-alert");
+        alertDiv.addClass("alert-error").removeClass("alert-warning").removeClass("alert-success").html(message).show();
     } else {
-        $(this).closest("form").find(".classroom-alert").hide();
+        var alertDiv = $(this).closest("form").find(".classroom-alert");
+        alertDiv.hide();
+        alertDiv.html(""); // Limpar o conteúdo, se necessário
+
         $('#teachingData').val(JSON.stringify(teachingData));
         $('#disciplines').val(JSON.stringify(disciplines));
         $("#classroom input").removeAttr("disabled");
         $("#classroom select").removeAttr("disabled").trigger("change.select2");
         $(this).closest('form').submit();
     }
+
 });
