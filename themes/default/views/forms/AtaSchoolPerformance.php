@@ -218,63 +218,55 @@ if ($turno == 'M') {
         <br>
         <table class="table table-bordered table-striped">
             <thead>
-                <tr>
-                    <th scope="col" rowspan="4" class='vertical-text'><div>Ordem</div></th>
-                    <th scope="col" rowspan="4" class='vertical-text'><div>ID INEP</div></th>
-                    <th scope="col" rowspan="4" style="width: 300px;">Nome do Aluno</th>
-                    <th scope="col" colspan="25">Componentes Curriculares</th></tr>
-                <tr>
-                    <th scope="col" colspan="25">Rendimento Escolar</th>
-                </tr>
-                <tr>
-                    <th scope="col" colspan="<?php echo $qtde?>">Disciplinas</th>
-                    <th scope="col" colspan="3">Resultado Final</th>
-                    <th scope="col" colspan="2">Dependência</th>
-                </tr>
-                <tr>
-                    <?php foreach($disciplines as $discipline) {
-                        $discipline = classroomDisciplineLabelResumeArray($discipline['discipline_id']);
-                        if (strlen($discipline) <= 20) {
-                            echo "<th scope='col' class='vertical-text'><div>".$discipline."</div></th>";
-                        }else {
-                            echo "<th scope='col' class='vertical-text'>".$discipline."</th>";
-                        }
+            <tr>
+                <th scope="col" rowspan="4" class='vertical-text'><div>Ordem</div></th>
+                <th scope="col" rowspan="4" class='vertical-text'><div>ID INEP</div></th>
+                <th scope="col" rowspan="4" style="width: 300px;">Nome do Aluno</th>
+                <th scope="col" colspan="<?php echo $qtde + 1?>">Componentes Curriculares</th></tr>
+            <tr>
+                <th scope="col" colspan="<?php echo $qtde + 1?>">Rendimento Escolar</th>
+            </tr>
+            <tr>
+                <th scope="col" colspan="<?php echo $qtde?>">Disciplinas</th>
+                <th scope="col" rowspan="2">Resultado Final</th>
+            </tr>
+            <tr>
+                <?php foreach($disciplines as $discipline) {
+                    $discipline = classroomDisciplineLabelResumeArray($discipline['discipline_id']);
+                    if (strlen($discipline) <= 20) {
+                        echo "<th scope='col' class='vertical-text'><div>".$discipline."</div></th>";
+                    }else {
+                        echo "<th scope='col' class='vertical-text'>".$discipline."</th>";
                     }
-                    ?>
-                    <th scope="col" class='vertical-text'><div>Aprovado</div></th>
-                    <th scope="col" class='vertical-text'><div>Prom.&nbsp;com Dependência</div></th>
-                    <th scope="col" class='vertical-text'><div>Reprovado</div></th>
-                    <th scope="col" class='vertical-text'><div>Disciplina</div></th>
-                    <th scope="col" class='vertical-text'><div>Nota</div></th>
-                </tr>
+                }
+                ?>
+            </tr>
             </thead>
             <tbody>
-                <?php
-                $count = 1;
-                foreach($students as $s) {
-                    if ($count < 10) {
-                        $label_id = "0".$count;
-                    }else {
-                        $label_id = $count;
-                    }
-                    echo "<tr>"
+            <?php
+            $count = 1;
+            foreach($students as $s) {
+                if ($count < 10) {
+                    $label_id = "0".$count;
+                }else {
+                    $label_id = $count;
+                }
+                echo "<tr>"
                     ."<td>".$label_id."</td>"
                     ."<td>".$s->studentFk->inep_id."</td>"
                     ."<td>".$s->studentFk->name."</td>";
-                    foreach ($grades as $grade) {
-                        if($grade['student_id'] == $s->studentFk->id) {
-                            echo "<td>".$grade['final_media']."</td>";
-                        }
+                $finalSituation = '';
+                foreach ($grades as $grade) {
+                    if($grade['student_id'] == $s->studentFk->id) {
+                        echo "<td>".$grade['final_media']."</td>";
+                        $finalSituation = $grade['situation'];
                     }
-                    echo "<td></td>".
-                    "<td></td>".
-                    "<td></td>".
-                    "<td></td>".
-                    "<td></td>";
-                    echo "</tr>";
-                    $count++;
                 }
-                ?>
+                echo "<td>".$finalSituation."</td>";
+                echo "</tr>";
+                $count++;
+            }
+            ?>
             </tbody>
         </table>
         <br>
