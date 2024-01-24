@@ -52,6 +52,10 @@
 						<div class="full">
 							<div class="span6 full">
 								<div class="separator row">
+                                    <div
+                                        class="hide"
+                                        id="id-professional"><?php echo $modelProfessional->id_professional ?>
+                                    </div>
 									<div class="control-group column">
 										<div class="controls">
 											<?php echo $form->label($modelProfessional, 'name', array('class' => 'control-label')); ?>
@@ -142,9 +146,11 @@
 															<td style="text-align: center;"><?php echo date("d/m/Y", strtotime($attendance->date)) ?></td>
 															<td style="text-align: center;"><?php echo $attendance->local?></td>
                                                             <td style="text-align: center">
-                                                                <a href="<?= Yii::app()->createUrl('professional/default/deleteAttendance', array('id'=>$attendance->id_attendance)); ?>">
+                                                                <button
+                                                                    class="delete-attendance-bt t-button-content"
+                                                                    value="<?php echo $attendance->id_attendance?>">
                                                                     <i class="t-icon-trash"></i>
-                                                                </a>
+                                                                </button>
                                                             </td>
 														</tr>
 													<?php

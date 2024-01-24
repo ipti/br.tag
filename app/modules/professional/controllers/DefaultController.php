@@ -146,12 +146,18 @@ class DefaultController extends Controller
 		));
 	}
 
-    public function actionDeleteAttendance($id)
+    public function actionDeleteAttendance()
     {
-        // $attendaceId = Yii::app()->getPost('id');
-        $model = Attendance::model()->findByPk($id);
+        $attendanceId = Yii::app()->getPost('idAttendance');
+        $professionalId = Yii::app()->getPost('idProfessional');
+
+        $model = Attendance::model()->findByPk($attendanceId);
         $model->delete();
         header('HTTP/1.1 200 OK');
-        $this->redirect('?r=professional/default/update&id='. $id);
+		// Usando createUrl para criar a URL
+		$url = $this->createUrl('default/update', array('id' => $professionalId));
+
+		// Redirecionando para a URL criada
+		// $this->redirect($url);
     }
 }
