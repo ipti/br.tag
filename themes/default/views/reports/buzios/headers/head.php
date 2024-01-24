@@ -21,7 +21,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             echo '<img style="" id="logo" src="data:'.
             $school->logo_file_type . ';base64,'.
             base64_encode($school->logo_file_content).'">';
-        };
+        }
         ?>
         <h4>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name ?></h4>
         <h4>Secretaria Municipal de Educação</h4>
