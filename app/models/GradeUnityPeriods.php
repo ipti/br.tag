@@ -1,36 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "users".
+ * This is the model class for table "grade_unity_periods".
  *
- * The followings are the available columns in table 'users':
- *
+ * The followings are the available columns in table 'grade_unity_periods':
  * @property integer $id
- * @property string $name
- * @property string $username
- * @property string $password
- * @property integer $active
- * @property integer $hash
+ * @property string $initial_date
+ * @property integer $grade_unity_fk
+ * @property integer $school_year
  *
  * The followings are the available model relations:
- * @property AuthItem[] $authItems
- * @property CoursePlan[] $coursePlans
- * @property InstructorIdentification[] $instructorIdentifications
- * @property UsersSchool[] $usersSchools
- *
+ * @property GradeUnity $gradeUnityFk
  */
-
-class Users extends AltActiveRecord
+class GradeUnityPeriods extends CActiveRecord
 {
-
-	public $hash;
-
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'users';
+		return 'grade_unity_periods';
 	}
 
 	/**
@@ -41,15 +30,11 @@ class Users extends AltActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, username, password', 'required'),
-			array('active', 'numerical', 'integerOnly'=>true),
-			array('hash', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>150),
-			array('username', 'length', 'max'=>32),
-			array('password', 'length', 'min' => 6, 'max'=>45, 'tooShort' => 'A senha deve ter pelo menos 6 caracteres.'),
+			array('initial_date, grade_unity_fk, school_year', 'required'),
+			array('grade_unity_fk, school_year', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, username, password, active', 'safe', 'on'=>'search'),
+			array('id, initial_date, grade_unity_fk, school_year', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,10 +46,7 @@ class Users extends AltActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'authItems' => array(self::MANY_MANY, 'auth_item', 'auth_assignment(userid, itemname)'),
-            'coursePlans' => array(self::HAS_MANY, 'CoursePlan', 'users_fk'),
-            'instructorIdentifications' => array(self::HAS_MANY, 'InstructorIdentification', 'users_fk'),
-			'usersSchools' => array(self::HAS_MANY, 'UsersSchool', 'user_fk'),
+			'gradeUnityFk' => array(self::BELONGS_TO, 'GradeUnity', 'grade_unity_fk'),
 		);
 	}
 
@@ -75,11 +57,9 @@ class Users extends AltActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => Yii::t('default', 'Name'),
-			'username' => Yii::t('default', 'Username'),
-			'password' => Yii::t('default', 'Password'),
-			'active' => Yii::t('default', 'Active'),
-			'hash' => Yii::t('default', 'Hash')
+			'initial_date' => 'Initial Date',
+			'grade_unity_fk' => 'Grade Unity Fk',
+			'school_year' => 'School Year',
 		);
 	}
 
@@ -100,11 +80,11 @@ class Users extends AltActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->condition = "username != 'admin'";
+
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('password',$this->password,true);
+		$criteria->compare('initial_date',$this->initial_date,true);
+		$criteria->compare('grade_unity_fk',$this->grade_unity_fk);
+		$criteria->compare('school_year',$this->school_year);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -115,27 +95,10 @@ class Users extends AltActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Users the static model class
+	 * @return GradeUnityPeriods the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
-	}
-
-	public function getRole()
-	{
-
-        $role = Yii::app()->db->createCommand()
-
-		->select('itemname')
-
-		->from('auth_assignment')
-
-		->where('userid=:id', array(':id'=>$this->id))
-
-		->queryScalar();
-
-
-		return $role;
 	}
 }
