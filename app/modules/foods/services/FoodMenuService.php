@@ -13,7 +13,6 @@ class FoodMenuService
             $foodMenu->setDayMeals($day, $modelMenuMeals, $publicTarget->food_public_target_fk);
         }
         return $foodMenu;
-
     }
     public function getMealType($id)
     {
@@ -33,6 +32,21 @@ class FoodMenuService
 
 
         return $mealtype;
+    }
+    public function getNutritionalValue($id)
+    {
+        $sql = '
+            select f.id, f.description, f.energy_kcal, f.protein_g, f.carbohydrate_g, f.lipidius_g from food as f
+            inner join food_ingredient as fi  on fi.food_id_fk= f.id
+            inner join food_menu_meal_component as  fmmc on fmmc.id = fi.food_menu_meal_componentId
+            inner join  food_menu_meal as fmm on fmm.id = fmmc.food_menu_mealId
+            inner join food_menu as fm  on fm.id = food_menuId
+            where fm.id = :id
+        ';
+        $nutritionalValue = Yii::app()->db->createCommand($sql)->bindParam(':id', $id)->queryAll();
+        /* CVardumper::dump($nutritionalValue,12,true);
+        exit(); */
+        return $nutritionalValue;
     }
     public function getMelsOfWeek()
     {
@@ -56,7 +70,6 @@ class FoodMenuService
                 $publicTargetFoodMenu = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk" => $modelFoodMenu->id));
                 $publicTarget = FoodPublicTarget::model()->findByPk($publicTargetFoodMenu->food_public_target_fk);
                 $foodMenu->setDayMeals($day, $modelMeals, $publicTarget);
-
             }
         }
         return $foodMenu;
@@ -257,7 +270,6 @@ class MealComponentObject
             array_push($this->ingredients, (array) $ingredient);
         }
     }
-
 }
 /**
  * Classe that represents an ingredient from a component to be loaded in JSON response
