@@ -52,10 +52,7 @@
 						<div class="full">
 							<div class="span6 full">
 								<div class="separator row">
-                                    <div
-                                        class="hide"
-                                        id="id-professional"><?php echo $modelProfessional->id_professional ?>
-                                    </div>
+                                    <div class="hide" id="id_professional"><?php echo $modelProfessional->id_professional;?></div>
 									<div class="control-group column">
 										<div class="controls">
 											<?php echo $form->label($modelProfessional, 'name', array('class' => 'control-label')); ?>
@@ -147,9 +144,11 @@
 															<td style="text-align: center;"><?php echo $attendance->local?></td>
                                                             <td style="text-align: center">
                                                                 <button
+                                                                    type="button"
                                                                     class="delete-attendance-bt t-button-content"
-                                                                    value="<?php echo $attendance->id_attendance?>">
-                                                                    <i class="t-icon-trash"></i>
+                                                                    value="<?php echo $attendance->id_attendance?>"
+                                                                    onclick="deleteAttendance(this)">
+                                                                        <i class="t-icon-trash"></i>
                                                                 </button>
                                                             </td>
 														</tr>
@@ -158,6 +157,9 @@
 													?>
 												</tbody>
 											</table>
+                                            <div>
+                                                <p>Atendimentos encontrados: <?php echo count($modelAttendances); ?></p>
+                                            </div>
 										</div>
 									</div>
 								</div>

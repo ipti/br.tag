@@ -148,16 +148,11 @@ class DefaultController extends Controller
 
     public function actionDeleteAttendance()
     {
-        $attendanceId = Yii::app()->getPost('idAttendance');
-        $professionalId = Yii::app()->getPost('idProfessional');
+        $attendanceId = Yii::app()->request->getPost('attendance');
+        $professionalId = Yii::app()->request->getPost('professional');
 
         $model = Attendance::model()->findByPk($attendanceId);
         $model->delete();
         header('HTTP/1.1 200 OK');
-		// Usando createUrl para criar a URL
-		$url = $this->createUrl('default/update', array('id' => $professionalId));
-
-		// Redirecionando para a URL criada
-		// $this->redirect($url);
     }
 }
