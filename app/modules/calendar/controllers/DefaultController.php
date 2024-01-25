@@ -277,8 +277,8 @@ class DefaultController extends Controller
                     select count(s.id) as qtd from schedule s 
                     join classroom cr on s.classroom_fk = cr.id 
                     join calendar c on cr.calendar_fk = c.id
-                    where c.id = :id")->bindParam(":id", $_POST["calendarId"])->queryRow();
-                if (!$_POST["confirm"] && (int)$result["qtd"] > 0) {
+                    where c.id = :id")->bindParam(":id", $calendar->id)->queryRow();
+                if ((int)$result["qtd"] > 0) {
                     $alertUser = true;
                 }
             }
@@ -314,7 +314,7 @@ class DefaultController extends Controller
 
                 echo json_encode(["valid" => true]);
             } else {
-                echo json_encode(["valid" => false, "alert" => "primary", "message" => "ATENÇÃO: alterar datas de início ou encerramento poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-edit-calendar-event'>aqui</span> para confirmar."]);
+                echo json_encode(["valid" => false, "alert" => "primary", "message" => "ATENÇÃO: alterar datas poderá refletir no QUADRO DE HORÁRIO, AULAS MINISTRADAS e FREQUÊNCIA de turmas.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-edit-calendar-event'>aqui</span> para confirmar."]);
             }
         } else {
             echo json_encode(["valid" => false, "alert" => "error", "message" => "Apenas administradores podem editar calendários."]);
