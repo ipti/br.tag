@@ -1,4 +1,7 @@
 ## [Versão 3.65.102]
+- Adicionada funcionalidade de excluir atendimento de professional individualmente e atualização do layout do formulário
+
+## [Versão 3.65.102]
 - Correção da funcionalidade de atualizar turma, que estava transferindo as turmas entre as escolas
 
 ## [Versão 3.65.102]
