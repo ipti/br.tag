@@ -162,8 +162,9 @@ class TimesheetController extends Controller
                     $calendar = $classroom->calendarFk;
 
                     $begin = new Datetime($calendar->start_date);
+                    $begin->modify("first day of this month");
                     $end = new Datetime($calendar->end_date);
-                    $end = $end->modify('+1 month');
+                    $end->modify("first day of next month");
                     $interval = DateInterval::createFromDateString('1 month');
                     $period = new DatePeriod($begin, $interval, $end);
                     $daysPerMonth = [];
@@ -172,7 +173,6 @@ class TimesheetController extends Controller
                         $daysPerMonth[$dt->format("Y")][$dt->format("n")]["monthName"] = $dt->format("F");
                         $daysPerMonth[$dt->format("Y")][$dt->format("n")]["weekDayOfTheFirstDay"] = $dt->format("w");
                     }
-
                     $response["daysPerMonth"] = $daysPerMonth;
 
                     $response["valid"] = TRUE;
@@ -213,9 +213,11 @@ class TimesheetController extends Controller
             $begin = new Datetime($firstDay->format("Y-m") . "-01");
             $end = new Datetime($lastDay->format("Y-m-d"));
             $end->modify('last day of this month');
-
-            for ($date = $begin; $date <= $end; $date->modify('+1 day')) {
-                if ($date < $firstDay || $date > $lastDay || in_array($date->format("Y-m-d"), $unavailableEventsArray)) {
+            $end->modify('+1 day');
+            $interval = DateInterval::createFromDateString('1 day');
+            $period = new DatePeriod($begin, $interval, $end);
+            foreach ($period as $date) {
+                if ($date->format("Ymd") < $firstDay->format("Ymd") || $date->format("Ymd") > $lastDay->format("Ymd") || in_array($date->format("Y-m-d"), $unavailableEventsArray)) {
                     if ($fullDate) {
                         if (!in_array($date->format("Y-m-d"), $unavailableDays)) {
                             array_push($unavailableDays, $date->format("Y-m-d"));
@@ -509,7 +511,7 @@ class TimesheetController extends Controller
         }
         $schedulesToCheckHardUnavailability = [];
         $softUnavailableDays = $this->getUnavailableDays($_POST["classroomId"], true, "soft");
-        while($firstScheduleDate <= $finalDate || $secondScheduleDate <= $finalDate) {
+        while ($firstScheduleDate <= $finalDate || $secondScheduleDate <= $finalDate) {
             $firstSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'year' => $firstScheduleDate->format("Y"), 'month' => $firstScheduleDate->format("n"), 'day' => $firstScheduleDate->format("j"), 'schedule' => $_POST["firstSchedule"]["schedule"]));
             $secondSchedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'year' => $secondScheduleDate->format("Y"), 'month' => $secondScheduleDate->format("n"), 'day' => $secondScheduleDate->format("j"), 'schedule' => $_POST["secondSchedule"]["schedule"]));
             if ($firstSchedule != null && $secondSchedule != null) {
