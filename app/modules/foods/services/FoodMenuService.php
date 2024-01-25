@@ -35,6 +35,7 @@ class FoodMenuService
     }
     public function getNutritionalValue($id)
     {
+        $nutritionalValue = array();
         $sql = '
             select f.id, f.description, f.energy_kcal, f.protein_g, f.carbohydrate_g, f.lipidius_g from food as f
             inner join food_ingredient as fi  on fi.food_id_fk= f.id
@@ -44,9 +45,42 @@ class FoodMenuService
             where fm.id = :id
         ';
         $nutritionalValue = Yii::app()->db->createCommand($sql)->bindParam(':id', $id)->queryAll();
-        /* CVardumper::dump($nutritionalValue,12,true);
-        exit(); */
-        return $nutritionalValue;
+        
+        $kcal = 0;
+        $calTotal = 0;
+        $ptnTotal = 0;
+        $lpdTotal = 0;
+        $daysOFWeek = 5;
+        foreach($nutritionalValue as $item){
+            $kcal += $item["energy_kcal"];
+            $calTotal += $item["carbohydrate_g"];
+            $ptnTotal += $item["protein_g"];
+            $lpdTotal += $item["lipidius_g"];
+        }
+        $kcalAverage =  $kcal/$daysOFWeek;
+
+        $calAverage = $calTotal/$daysOFWeek;
+        $calpct = (($calAverage*4)*100)/$kcalAverage;
+
+        $ptnAvarage = $ptnTotal/$daysOFWeek;
+        $ptnpct = (($ptnAvarage*4)*100)/$kcalAverage;
+
+        $lpdAvarage = $lpdTotal/$daysOFWeek;
+        $lpdpct = (($lpdAvarage*9)*100)/$kcalAverage;
+
+        $result["kcalAverage"] = round($kcalAverage);
+
+        $result["calAverage"] = round($calAverage);
+        $result["calpct"] = round($calpct);
+        
+        $result["ptnAvarage"] = round($ptnAvarage);
+        $result["ptnpct"] = round($ptnpct);
+
+        $result["lpdAvarage"] = round($lpdAvarage);
+        $result["lpdpct"] = round($lpdpct);
+
+        
+        return $result;
     }
     public function getMelsOfWeek()
     {

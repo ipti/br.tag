@@ -148,7 +148,7 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                         (Kcal)
                     </td>
                     <td>
-                        CHO(g)
+                        CAR(g)
                     </td>
                     <td>
                         PTN(g)
@@ -158,27 +158,38 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                     </td>
                 </tr>
                 <tr class="font-bold">
-                    <td>55% a %65 do VET</td>
-                    <td>10% a 15% do VET</td>
-                    <td>15% a 30% do VET</td>
+                    <td class="nowrap">55% a %65 do VET</td>
+                    <td class="nowrap">10% a 15% do VET</td>
+                    <td class="nowrap">15% a 30% do VET</td>
                 </tr>
                 <tr>
-                    <td rowspan="2"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td rowspan="2">
+                        <?= $nutritionalValue["kcalAverage"] ?>
+                    </td>
+                    <td>
+                        <?= $nutritionalValue["calpct"]."%" ?>
+                    </td>
+                    <td>
+                        <?= $nutritionalValue["ptnpct"]."%" ?>
+                    </td>
+                    <td>
+                        <?= $nutritionalValue["lpdpct"]."%" ?>
+                    </td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>
+                        <?= $nutritionalValue["calAverage"]."g" ?>
+                    </td>
+                    <td>
+                        <?= $nutritionalValue["ptnAvarage"]."g" ?>
+                    </td>
+                    <td>
+                        <?= $nutritionalValue["lpdAvarage"]."g" ?>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <?php  //CVarDumper::dump($mealTypes, 12, true)
-    ?>
-    <?php CVarDumper::dump($foodMenu->monday[0]["meals_component"], 12, true) ?>
 </div>
 
 <script>
