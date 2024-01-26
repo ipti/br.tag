@@ -1300,25 +1300,45 @@ $(".save-student").click(function () {
         message +=
             "Informe um <b>Nº de matrícula (Registro Civil - Certidão nova)</b> válido.";
     }
+    // if (error) {
+    //     $("html, body").animate({ scrollTop: 0 }, "fast");
+    //     $(this)
+    //         .closest("form")
+    //         .find(".student-alert")
+    //         .addClass("alert-error")
+    //         .removeClass("alert-warning")
+    //         .removeClass("alert-success")
+    //         .html(message)
+    //         .show();
+    // } else {
+    //     $(this).closest("form").find(".student-alert").hide();
+    //     $(formIdentification + "responsable_telephone").unmask();
+    //     $(formIdentification + "responsable_cpf").unmask();
+    //     $(formIdentification + "filiation_1_cpf").unmask();
+    //     $(formIdentification + "filiation_2_cpf").unmask();
+    //     $(
+    //         formDocumentsAndAddress + "civil_register_enrollment_number"
+    //     ).unmask();
+    //     $(formDocumentsAndAddress + "cpf").unmask();
+    //     $(formDocumentsAndAddress + "cep").unmask();
+    //     $("#student input").removeAttr("disabled");
+    //     $("#student select").removeAttr("disabled").trigger("change.select2");
+    //     $(this).closest("form").submit();
+    // }
     if (error) {
         $("html, body").animate({ scrollTop: 0 }, "fast");
-        $(this)
-            .closest("form")
-            .find(".student-alert")
-            .addClass("alert-error")
-            .removeClass("alert-warning")
-            .removeClass("alert-success")
-            .html(message)
-            .show();
+        var alertDiv = $(this).closest("form").find(".alert-student-error");
+        alertDiv.find(".alert-student-error-mensage").append(message);
+        alertDiv.show();
     } else {
-        $(this).closest("form").find(".student-alert").hide();
+        var alertDiv = $(this).closest("form").find(".alert-student-error");
+        alertDiv.hide();
+        alertDiv.find(".alert-student-error-mensage").html("");
         $(formIdentification + "responsable_telephone").unmask();
         $(formIdentification + "responsable_cpf").unmask();
         $(formIdentification + "filiation_1_cpf").unmask();
         $(formIdentification + "filiation_2_cpf").unmask();
-        $(
-            formDocumentsAndAddress + "civil_register_enrollment_number"
-        ).unmask();
+        $(formDocumentsAndAddress + "civil_register_enrollment_number").unmask();
         $(formDocumentsAndAddress + "cpf").unmask();
         $(formDocumentsAndAddress + "cep").unmask();
         $("#student input").removeAttr("disabled");

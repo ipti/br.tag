@@ -677,9 +677,13 @@ $(".save-instructor").click(function () {
     }
     if (error) {
         $("html, body").animate({scrollTop: 0}, "fast");
-        $(this).closest("form").find(".instructor-error").html(message).show();
+        var alertDiv = $(this).closest("form").find(".alert-instructor-error");
+        alertDiv.find(".alert-instructor-error-mensage").append(message);
+        alertDiv.show();
     } else {
-        $(this).closest("form").find(".instructor-error").hide();
+        var alertDiv = $(this).closest("form").find(".alert-instructor-error");
+        alertDiv.hide();
+        alertDiv.find(".alert-instructor-error-mensage").html("");
         $(formDocumentsAndAddress + "cpf").unmask();
         $("#instructor-form input").removeAttr("disabled");
         $("#instructor-form select").removeAttr("disabled").trigger("change.select2");

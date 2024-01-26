@@ -30,11 +30,25 @@ $colorsTextInfo: #0172CB;
 $colorsTextSuccess: #28a138;
 $colorsTextWarning: #e98305;
 /* Alert1 */
-$colorsAlertCrucialIcon: #D21C1C;
+$colorsAlertSuccessIcon: #28a138;
+$colorsAlertSuccessText: #2B7336;
+$colorsAlertSuccessBackground: #EBF4EC;
+$colorsAlertSuccessBorder: #d7ead9;
+/* Alert2 */
 $colorsAlertInfoIcon: #0172CB;
 $colorsAlertInfoText: #004680;
 $colorsAlertInfoBackground: #B4DBF8;
 $colorsAlertInfoBorder: #d0e9fb;
+/* Alert3 */
+$colorsAlertWarningIcon: #e98305;
+$colorsAlertWarningText: #a25100;
+$colorsAlertWarningBackground: #fdf0e3;
+$colorsAlertWarningBorder: #fae2c7;
+/* Alert4 */
+$colorsAlertCrucialIcon: #D21C1C;
+$colorsAlertCrucialText: #970C0C;
+$colorsAlertCrucialBackground: #faeaea;
+$colorsAlertCrucialBorder: #f4d2d2;
 /* Cloud */
 $colorsBaseCloudDark: #e8edf1;
 $colorsBaseCloudNormalActive: #cad4de;
@@ -47,18 +61,6 @@ $colorsBaseCloudLight: #F5F7F9;
 $colorsBaseWhiteNormalActive: #e7ecf1;
 $colorsBaseWhiteNormalHover: #f1f4f7;
 $colorsBaseWhiteNormal: #FFFFFF;
-/* Alert2 */
-$colorsAlertSuccessIcon: #28a138;
-$colorsAlertSuccessText: #2B7336;
-$colorsAlertSuccessBackground: #EBF4EC;
-$colorsAlertSuccessBorder: #d7ead9;
-/* Alert3 */
-$colorsAlertWarningIcon: #e98305;
-$colorsAlertWarningText: #a25100;
-$colorsAlertWarningBackground: #fdf0e3;
-$colorsAlertWarningBorder: #fae2c7;
-
-
 /* Space */
 $spaceEmpty: 0.0em;
 $spaceXXSmall: 0.375em;

@@ -74,7 +74,15 @@ $isModel = isset($modelInstructorIdentification->id);
         echo $form->errorSummary($modelInstructorVariableData);
         echo isset($error['variableData']) ? $error['variableData'] : '';
         ?>
-        <div class="alert alert-error instructor-error no-show"></div>
+        <div class="t-alert t-alert--critical alert-instructor-error no-show">
+            <div class="t-alert-informacao">
+                <div class="alert-instructor-error-mensage">
+                    <span class="t-info_positive t-alert__icon alert-instructor-error">
+                    </span>
+
+                </div>
+            </div>
+        </div>
         <div class="t-tabs">
             <ul class="tab-instructor t-tabs__list">
                 <li id="tab-instructor-identify" class="active t-tabs__item"><a href="#instructor-identify" data-toggle="tab" class="t-tabs__link">

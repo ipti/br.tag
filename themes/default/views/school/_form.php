@@ -39,32 +39,15 @@ $form = $this->beginWidget('CActiveForm', array(
         <?php echo $form->errorSummary($modelManagerIdentification); ?>
 
 
-        <div class="t-alert alert-school-error no-show">
+        <div class=" t-alert t-alert--critical alert-school-error no-show">
             <div class="t-alert-informacao">
                 <div class="alert-school-error-mensage">
-                    <span class="t-info_positive t-alert-icon-Warning  alert-school-error">
+                    <span class="t-info_positive t-alert__icon alert-school-error">
                     </span>
 
                 </div>
             </div>
         </div>
-
-        <!-- <div class="t-alert school-error no-show">
-            <span class="t-info_positive t-alert-icon-sucess">
-            </span>
-            <div class="school-error"></div>
-        </div>
-        <div class="t-alert school-error no-show">
-            <span class="t-info_positive t-alert-icon-info">
-            </span>
-            <div class="school-error"></div>
-        </div>
-        <div class="t-alert school-error no-show">
-            <span class="t-info_positive t-alert-icon-critical">
-            </span>
-            <div class="school-error"></div>
-        </div> -->
-
         <div class="t-tabs">
             <ul class="js-tab-school t-tabs__list">
                 <li id="tab-school-indentify" class="active t-tabs__item">

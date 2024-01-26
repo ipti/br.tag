@@ -1,5 +1,5 @@
 $(document).on("click", ".new-calendar-button", function () {
-    $(".error-calendar-event").hide();
+    $(".alert-calendar-error").hide();
     $(".create-calendar-title, #copy").val("");
     $("#stages").val(null).trigger("change.select2");
     $("#myNewCalendar").modal("show");
@@ -231,13 +231,19 @@ $(document).on("click", ".manage-unity-periods-button", function () {
     });
 
     if (errorUnsequenced) {
-        $("#unity-periods-modal").find(".error-calendar-event").html("As datas estão fora de sequência.").show();
+        var alertDiv = $("#unity-periods-modal").find(".alert-calendar-error");
+        alertDiv.find(".alert-calendar-error-mensage").append(message);
+        alertDiv.show();
+
     } else if (errorUnfilled) {
-        $("#unity-periods-modal").find(".error-calendar-event").html("Preencha todas as datas.").show();
+        
+        var alertDiv = $("#unity-periods-modal").find(".alert-calendar-error")
+        alertDiv.find(".alert-calendar-error-mensage").append("Preencha todas as datas.");
+alertDiv.show();
     } else if (errorDateAfterCalendarEnd) {
-        $("#unity-periods-modal").find(".error-calendar-event").html("As datas selecionadas não podem ser superiores à data de fim do ano letivo (" + $(".calendar-end-date").val() + ").").show();
+        $("#unity-periods-modal").find(".alert-calendar-error").html("As datas selecionadas não podem ser superiores à data de fim do ano letivo (" + $(".calendar-end-date").val() + ").").show();
     } else {
-        $("#unity-periods-modal").find(".error-calendar-event").hide();
+        $("#unity-periods-modal").find(".alert-calendar-error").hide();
         $.ajax({
             url: "?r=calendar/default/editUnityPeriods",
             type: "POST",
@@ -360,7 +366,7 @@ $(document).on("click", ".change-event", function () {
     dismissPeriods();
     var event = this;
     $("#myChangeEvent").find(".selected-calendar-current-year").val($(event).closest(".calendar").data("year"));
-    $(".error-calendar-event").hide();
+    $(".alert-calendar-error").hide();
     if ($(event).attr('data-id') !== "-1") {
         $(".remove-event-button").show();
         $.ajax({
@@ -406,13 +412,13 @@ $(document).on("click", ".change-event", function () {
 $(document).on("click", ".save-event", function (e, confirm = 0) {
     var form = $(this).closest("form");
     if (form.find("#CalendarEvent_name").val() === "" || form.find("#CalendarEvent_start_date").val() === "" || form.find("#CalendarEvent_end_date").val() === "" || form.find("#CalendarEvent_calendar_event_type_fk").val() === "") {
-        form.find(".alert").addClass("alert-error").removeClass(".alert-primary").html("Campos com * são obrigatórios.").show();
+        form.find(".t-alert").addClass("t-alert t-alert--critical").removeClass(".alert-primary").html("Campos com * são obrigatórios.").show();
     } else if (form.find("#CalendarEvent_end_date").val() < form.find("#CalendarEvent_start_date").val()) {
-        form.find(".alert").addClass("alert-error").removeClass(".alert-primary").html("A Data de Encerramento não deve ser anterior à Data de Início.").show();
+        form.find(".t-alert").addClass("t-alert t-alert--critical").removeClass(".alert-primary").html("A Data de Encerramento não deve ser anterior à Data de Início.").show();
     } else if (form.find("#CalendarEvent_start_date").val().split("-")[0] !== form.find(".selected-calendar-current-year").val() || form.find("#CalendarEvent_end_date").val().split("-")[0] !== form.find(".selected-calendar-current-year").val()) {
-        form.find(".alert").addClass("alert-error").removeClass(".alert-primary").html("O intervalo de datas deve atender o ano do calendário.").show();
+        form.find(".t-alert").addClass("t-alert t-alert--critical").removeClass(".alert-primary").html("O intervalo de datas deve atender o ano do calendário.").show();
     } else {
-        form.find(".alert").hide();
+        form.find(".t-alert").hide();
         $.ajax({
             url: "?r=calendar/default/changeEvent",
             type: "POST",
