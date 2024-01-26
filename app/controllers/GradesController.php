@@ -174,11 +174,11 @@ class GradesController extends Controller
                 $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
 
-
                 $mediaFinal += floatval($gradeResult->attributes["grade_" . $index] * ($index == 3 ? 2 : 1));
             }
 
-            $gradeResult->final_media = number_format($mediaFinal / 4, 1);
+            $gradeResult->final_media = floor(($mediaFinal/4) * 10) / 10;
+
             if (!$gradeResult->validate()) {
                 die(print_r($gradeResult->getErrors()));
             }
@@ -193,6 +193,7 @@ class GradesController extends Controller
         $discipline = $_POST['discipline'];
         $classroomId = $_POST['classroom'];
         $students = $_POST['students'];
+        $rule = $_POST['rule'];
 
         $classroom = Classroom::model()->findByPk($classroomId);
 
@@ -206,12 +207,18 @@ class GradesController extends Controller
             $gradeResult->enrollment_fk = $std['enrollmentId'];
             $gradeResult->discipline_fk = $discipline;
             $gradeResult->rec_final = $std["recFinal"];
+            $gradeResult->final_concept = $std["finalConcept"];
 
             $hasAllValues = true;
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
-                $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
-                $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
+                if($rule == "C") {
+                    $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
+                    $hasAllValues = $hasAllValues && (isset($gradeResult["grade_concept_" . $index]) && $gradeResult["grade_concept_" . $index] != "");
+                } else {
+                    $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
+                    $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
+                }
                 $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
             }
@@ -242,7 +249,14 @@ class GradesController extends Controller
                     );
                     $usecase->exec();
                 }
+            } else {
+                $gradeResult->situation = "MATRICULADO";
             }
+
+            if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
+                $gradeResult->situation = "APROVADO";
+            }
+            $gradeResult->save();
 
             $time_elapsed_secs = microtime(true) - $start;
             Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
@@ -290,6 +304,7 @@ class GradesController extends Controller
                     );
                 }
 
+                $arr["finalConcept"] = $gradeResult->final_concept;
                 $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
                 array_push($result["students"], $arr);
             }
