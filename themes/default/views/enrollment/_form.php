@@ -73,7 +73,12 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'unified_class', array('class' => 't-field-select__label')); ?>
-                                    <?php echo $form->DropDownList($model, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off t-field-select__input', 'style' => 'width:100%')); ?>
+                                    <?php echo $form->DropDownList($model, 'unified_class', array(
+                                        null => "Selecione o tipo de turma infantil",
+                                        "0" => "NÃO POSSUI TURMA UNIFICADA",
+                                        "1" => "CRECHE",
+                                        "2" => "PRÉ-ESCOLA"),
+                                        array('class' => 'select-search-off t-field-select__input', 'style' => 'width:100%')); ?>
                                     <?php echo $form->error($model, 'unified_class'); ?>
                             </div>
 
@@ -83,7 +88,10 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select">
                                 <?php echo CHtml::label("Etapa", 'Stage', array('class' => 't-field-select__label')); ?>
 
-                                    <?php echo CHtml::dropDownList("Stage", null, array(
+                                <?php echo CHtml::dropDownList(
+                                    "StudentEnrollment[stage]",
+                                    $model->edcensoStageVsModalityFk->stage,
+                                    array(
                                         "0" => "Selecione a Modalidade",
                                         "1" => "Infantil",
                                         "2" => "Fundamental Menor",
@@ -92,7 +100,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         "5" => "Profissional",
                                         "6" => "EJA",
                                         "7" => "Outros",
-                                    ), array(
+                                    ),
+                                    array(
                                         'class' => 'select-search-off t-field-select__input',
                                         'ajax' => array(
                                             'type' => 'POST',
@@ -102,7 +111,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                             }'
                                         ),
                                         'style' => 'width:100%'
-                                    )); ?>
+                                    )
+                                ); ?>
                             </div>
 
                             <div class="t-field-select">

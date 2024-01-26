@@ -137,8 +137,8 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
     public function actionGetModalities()
     {
-        $stage = $_POST['Stage'];
-        $where = ($stage == "0") ? "" : "stage = $stage";
+        $stage = $_POST['StudentEnrollment']['stage'];
+        $where = ($stage == "0") ? "" : "stage = " . $stage;
         $data = EdcensoStageVsModality::model()->findAll($where);
         $data = CHtml::listData($data, 'id', 'name');
 
@@ -269,7 +269,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
                             $trocarAlunoEntreClassesUseCase = new TrocarAlunoEntreClassesUseCase;
                             $result = $trocarAlunoEntreClassesUseCase->exec($inTrocarAlunoEntreClasses);
-
                         } elseif ($model->status === '3' || $model->status === '11') {
                             //excluirmatricula
                             $class = Classroom::model()->findByPk($model->classroom_fk);
@@ -346,17 +345,17 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         }
 
         //		if(Yii::app()->request->isPostRequest)
-//		{
-//
-//			// we only allow deletion via POST request
-//			$this->loadModel($id)->delete();
-//
-//			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-//			if(!isset($_GET['ajax']))
-//				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-//		}
-//		else
-//			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+        //		{
+        //
+        //			// we only allow deletion via POST request
+        //			$this->loadModel($id)->delete();
+        //
+        //			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        //			if(!isset($_GET['ajax']))
+        //				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        //		}
+        //		else
+        //			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
     }
 
     /**
@@ -598,7 +597,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             }
 
             $time_elapsed_secs = microtime(true) - $start;
-            Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
+            Yii::log($std['enrollmentId'] . " - " . $time_elapsed_secs / 60, CLogger::LEVEL_INFO);
         }
 
         echo CJSON::encode(["valid" => true]);
@@ -634,7 +633,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                     );
                 }
             }
-
         }
         self::saveGradeResults($_POST["classroom"], $_POST["discipline"]);
         echo json_encode(["valid" => true]);
@@ -816,5 +814,4 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             Yii::app()->end();
         }
     }
-
 }
