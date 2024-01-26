@@ -204,6 +204,7 @@ class FoodMenuService
 class FoodMenuObject
 {
     public $id;
+    public $week;
     public $description;
     public $observation;
     public $food_public_target;
@@ -221,6 +222,7 @@ class FoodMenuObject
     {
         if ($model !== null && $foodPublicTarget !== null) {
             $this->id = $model->id;
+            $this->week = $model->week;
             $this->description = $model->description;
             $this->observation = $model->observation;
             $this->food_public_target = $foodPublicTarget['id'];

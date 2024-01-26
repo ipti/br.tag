@@ -112,7 +112,7 @@ const PlateComponent = function (plate) {
             <th>Quantidade</th>
             <th>PT</th>
             <th>LIP</th>
-            <th>CHO</th>
+            <th>CAL</th>
             <th>KCAL</th>
             <th></th>
           </tr>
@@ -194,7 +194,7 @@ const PlateComponent = function (plate) {
             <th>Quantidade</th>
             <th>PT</th>
             <th>LIP</th>
-            <th>CHO</th>
+            <th>CAL</th>
             <th>KCAL</th>
             <th></th>
         </tr>`)
@@ -281,15 +281,15 @@ const PlateComponent = function (plate) {
     return (Number(amount) * Number(value)).toFixed(2) + measure
   }
   function calculateNutritionalValue(table) {
-    let total_pt = total_lip = total_cho = total_kcal = 0;
+    let total_pt = total_lip = total_cal = total_kcal = 0;
     table.find('.js-pt').each((_, pt) => {
       total_pt += Number(pt.innerHTML) ? Number(pt.innerHTML) : 0
     })
     table.find('.js-lip').each((_, lip) => {
       total_lip += Number(lip.innerHTML) ? Number(lip.innerHTML) : 0
     })
-    table.find('.js-cho').each((_, cho) => {
-      total_cho += Number(cho.innerHTML) ? Number(cho.innerHTML) : 0
+    table.find('.js-cal').each((_, cal) => {
+      total_cal+= Number(cal.innerHTML) ? Number(cal.innerHTML) : 0
     })
     table.find('.js-kcal').each((_, kcal) => {
       total_kcal += Number(kcal.innerHTML) ? Number(kcal.innerHTML) : 0
@@ -302,12 +302,12 @@ const PlateComponent = function (plate) {
       .append(`<td></td>`)
       .append(`<td>${total_pt.toFixed(2)}</td>`)
       .append(`<td>${total_lip.toFixed(2)}</td>`)
-      .append(`<td>${total_cho.toFixed(2)}</td>`)
+      .append(`<td>${total_cal.toFixed(2)}</td>`)
       .append(`<td>${total_kcal.toFixed(2)}</td>`)
       .append(`<td></td>`)
     table.append(lineTotal)
   }
-  function createMealComponent({ id, name, pt, lip, cho, kcal }, food) {
+  function createMealComponent({ id, name, pt, lip, cal, kcal }, food) {
     const line = $(`<tr class='js-food-ingredient' data-idTaco='${id}'></tr>`)
       .append(`<td class='js-food-name'>${name}</td>`)
       .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important' required='required' name='Unidade' value='${food.amount}'></td>`)
@@ -318,7 +318,7 @@ const PlateComponent = function (plate) {
       .append(`<td class='js-amount'></td>`)
       .append(`<td class='js-pt'>${pt}</td>`)
       .append(`<td class='js-lip'>${lip}</td>`)
-      .append(`<td class='js-cho'>${cho}</td>`)
+      .append(`<td class='js-cal'>${cal}</td>`)
       .append(`<td class='js-kcal'>${kcal}</td>`)
       .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon' data-id-plate='${plate.id}' data-id-food-ingredients="${food.id}"><span></td>`)
 

@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'food_menu':
  * @property integer $id
  * @property string $description
+ * @property string $week
  * @property string $observation
  * @property string $start_date
  * @property string $final_date
@@ -34,7 +35,7 @@ class FoodMenu extends CActiveRecord
 		return array(
 			array('description', 'required'),
 			array('description, observation', 'length', 'max'=>100),
-			array('start_date, final_date', 'safe'),
+			array('start_date, final_date, week', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, description, observation, start_date, final_date', 'safe', 'on'=>'search'),
@@ -65,6 +66,7 @@ class FoodMenu extends CActiveRecord
 	        'observation'  => 'Observação',
 	        'start_date'  => 'Data inicial',
 	        'final_date'  =>'Data Final',
+	        'week'  => 'Semana',
 	        'stage_fk'  => 'Publico',
 		);
 	}
@@ -88,6 +90,7 @@ class FoodMenu extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		$criteria->compare('week',$this->week,true);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('observation',$this->observation,true);
 		$criteria->compare('start_date',$this->start_date,true);

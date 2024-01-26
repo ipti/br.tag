@@ -81,11 +81,21 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 			</div>
 		</div>
 		<div class="row">
+			<div class="column">
+			<label for="week" class="t-field-select__label">Semana</label>
+				<select id="week" name="Semana"
+					class="select-search-on t-field-select__input js-week js-initialize-select2">
+					<option value="">Selecione a semana</option>
+					<option value="1">1° semana</option>
+					<option value="2">2° semana</option>
+					<option value="3">3° semana</option>
+					<option value="4">4° semana </option>
+				</select>
+			</div>
 			<div class="t-field-text column">
 				<label for="menu_observation" class="t-field-select__label">Observação</label>
 				<input type="text" id="menu_observation" name="Observação" class="t-field-select__input js-observation">
 			</div>
-			<div class="column"></div>
 		</div>
 		<div class="row">
 			<div class="column t-buttons-container">

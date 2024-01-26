@@ -4,7 +4,7 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/sass/css/main.css');
 
 $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
-?>
+    ?>
 <style>
     th,
     td {
@@ -36,11 +36,22 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
         white-space: nowrap;
     }
 
+    .pageA4H {
+        width: 1122px;
+        height: 555px;
+        margin: 0 auto;
+    }
+
     /* Hidden the print button */
     @media print {
         #print {
             display: none;
         }
+        .background-dark {
+        background-color: lightgray;
+        -webkit-print-color-adjust:exact !important;
+        print-color-adjust:exact !important;
+    }
     }
 </style>
 <div class="row buttons">
@@ -49,13 +60,18 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
     </a>
 </div>
 <div class="pageA4H">
-    <h2>DEPARTAMENTO DA ALIMENTAÇÃO ESCOLAR - DAE</h2>
+    <h2>
+        SECRETARIA MUNICIPAL DE EDUCAÇÃO <br>
+        DEPARTAMENTO DA ALIMENTAÇÃO ESCOLAR - DAE
+    </h2>
     <div class="row t-margin-medium--top">
         <table class="column table table-bordered">
             <thead class="background-dark font-bold">
                 <tr>
                     <th colspan="6" class="text-align--center" style="background: none !important;">
-                        <div>SECRETARIA MUNICIPAL DE EDUCAÇÃO SANTA LUZIA DO ITANHI</div>
+                        <div>SECRETARIA MUNICIPAL DE
+                            <?= $schoolCity ?>
+                        </div>
                         <br />
                         <div>PROGRAMA NACIONAL DE ALIMENTAÇÃO ESCOLAR - PNAE</div>
                     </th>
@@ -67,20 +83,40 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                         </div>
                         <br>
                         <div>
-                            <?php switch ($school) {
+                            <?php switch ($schoolLocation) {
                                 case 1:
-                                    $localizacao = 'Urbano';
+                                    $localizacao = 'URBANO';
                                     break;
                                 case 2:
-                                    $localizacao = 'Rural';
+                                    $localizacao = 'RURAL';
                                     break;
                                 default:
-                                    $localizacao = 'Desconhecido';
+                                    $localizacao = 'DESCONHECIDO';
                                     break;
                             }
                             echo $localizacao;
                             ?>
                         </div>
+                        <?php
+                        switch ($foodMenu->week) {
+                            case 1:
+                                $week = '1° SEMANA';
+                                break;
+                            case 2:
+                                $week = '2° SEMANA';
+                                break;
+                            case 3:
+                                $week = '3° SEMANA';
+                                break;
+                            case 4:
+                                $week = '4° SEMANA';
+                                break;
+                            default:
+                                $week = '';
+                                break;
+                        }
+                        echo $week;
+                        ?>
                         <br>
                     </th>
                 </tr>
@@ -96,22 +132,22 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                     <td>5ª FEIRA</td>
                     <td>6ª FEIRA</td>
                 </tr>
-                <?php foreach ($mealTypes as $mealType) : ?>
+                <?php foreach ($mealTypes as $mealType): ?>
                     <tr>
                         <td class="background-dark font-bold nowrap">
                             <?= $mealType["description"] ?><br />
                             <?= $mealType["turn"] ?><br />
                             <?= $mealType["meal_time"] ?>
                         </td>
-                        <?php foreach ($days as $day) : ?>
+                        <?php foreach ($days as $day): ?>
                             <td>
-                                <?php foreach ($foodMenu->$day as $meal) : ?>
-                                    <?php if ($meal["food_meal_type"] == $mealType["food_meal_type"]) : ?>
+                                <?php foreach ($foodMenu->$day as $meal): ?>
+                                    <?php if ($meal["food_meal_type"] == $mealType["food_meal_type"]): ?>
                                         <div>
                                             <?php
                                             $descriptions = array_reduce($meal["meals_component"], function ($carry, $item) {
                                                 // Adiciona a descrição do item ao resultado acumulado
-                                                $carry[] =  $item['description'];
+                                                $carry[] = $item['description'];
                                                 return $carry;
                                             });
                                             echo implode(', ', $descriptions);
@@ -160,31 +196,36 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                 <tr class="font-bold">
                     <td class="nowrap">55% a %65 do VET</td>
                     <td class="nowrap">10% a 15% do VET</td>
-                    <td class="nowrap">15% a 30% do VET</td>
+                    <?php if($publicTarget["id"] != 7):?>
+                        <td class="nowrap">25% a 35% do VET</td>
+                    <?php else:?>
+                        <td class="nowrap">15% a 30% do VET</td>
+                    <?php endif;?>
+                 
                 </tr>
                 <tr>
                     <td rowspan="2">
-                        <?= $nutritionalValue["kcalAverage"] ?>
+                        <?= $nutritionalValue["kcalAverage"] . 'kcal' ?>
                     </td>
                     <td>
-                        <?= $nutritionalValue["calpct"]."%" ?>
+                        <?= $nutritionalValue["calpct"] . "%" ?>
                     </td>
                     <td>
-                        <?= $nutritionalValue["ptnpct"]."%" ?>
+                        <?= $nutritionalValue["ptnpct"] . "%" ?>
                     </td>
                     <td>
-                        <?= $nutritionalValue["lpdpct"]."%" ?>
+                        <?= $nutritionalValue["lpdpct"] . "%" ?>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <?= $nutritionalValue["calAverage"]."g" ?>
+                        <?= $nutritionalValue["calAverage"] . "g" ?>
                     </td>
                     <td>
-                        <?= $nutritionalValue["ptnAvarage"]."g" ?>
+                        <?= $nutritionalValue["ptnAvarage"] . "g" ?>
                     </td>
                     <td>
-                        <?= $nutritionalValue["lpdAvarage"]."g" ?>
+                        <?= $nutritionalValue["lpdAvarage"] . "g" ?>
                     </td>
                 </tr>
             </tbody>

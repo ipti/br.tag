@@ -20,8 +20,9 @@ class ReportsController extends Controller
         $getMealTypes = new GetMealType();
         $mealTypes  = $getMealTypes->exec($id);
 
-        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school)->location;
-
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+        $schoolLocation =  $school->location;
+        $schoolCity =  EdcensoCity::model()->findByPk($school->edcenso_city_fk)->name;
         $getNutritionalValue = new GetNutritionalValue();
         $nutritionalValue = $getNutritionalValue->exec($id);
 
@@ -29,6 +30,6 @@ class ReportsController extends Controller
 
 		$this->layout = 'webroot.themes.default.views.layouts.reportsclean';
         $this->render('FoodMenuReport', array("foodMenu" => $foodMenu, "mealTypes" => $mealTypes,
-         "publicTarget" => $publicTarget, "school" => $school, "nutritionalValue" => $nutritionalValue));
+         "publicTarget" => $publicTarget, "schoolLocation" => $schoolLocation, "schoolCity" => $schoolCity , "nutritionalValue" => $nutritionalValue));
     }
 }

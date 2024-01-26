@@ -41,6 +41,7 @@ class FoodmenuController extends Controller
         $finalTimestamp = strtotime(str_replace('/', '-', $request["final_date"]));
         $modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
         $modelFoodMenu->final_date = date('Y-m-d', $finalTimestamp);
+        $modelFoodMenu->week = $request['week'];
         $modelFoodMenu->observation = $request['observation'];
         $modelFoodMenu->description = $request['description'];
 
@@ -106,6 +107,7 @@ class FoodmenuController extends Controller
         {
             $modelFoodMenu->start_date = DateTime::createFromFormat('d/m/Y', $request["start_date"])->format("Y-m-d");
             $modelFoodMenu->final_date = DateTime::createFromFormat('d/m/Y', $request["final_date"])->format("Y-m-d");
+            $modelFoodMenu->week = $request['week'];
             $modelFoodMenu->observation = $request['observation'];
             $modelFoodMenu->description = $request['description'];
             $modelFoodMenu->save();
@@ -158,7 +160,7 @@ class FoodmenuController extends Controller
         $result["kcal"] = is_numeric($food->energy_kcal) ? round($food->energy_kcal, 2) : $food->energy_kcal;
         $result["pt"] = is_numeric($food->protein_g) ? round($food->protein_g, 2) : $food->protein_g;
         $result["lip"] = is_numeric($food->lipidius_g) ? round($food->lipidius_g, 2) : $food->lipidius_g;
-        $result["cho"] = is_numeric($food->cholesterol_mg) ? round($food->cholesterol_mg, 2) : $food->cholesterol_mg;
+        $result["cal"] = is_numeric($food->carbohydrate_g) ? round($food->carbohydrate_g, 2) : $food->carbohydrate_g;
 
         echo CJSON::encode($result);
     }

@@ -29,11 +29,13 @@ if(menuId)  {
     const name = $('.js-menu-name');
     const startDate = $('.js-start-date');
     const finalDate = $('.js-final-date');
+    const week = $('.js-week');
     const observation = $('.js-observation');
     name.val(menuUpdate.description);
 
     startDate.val(menuUpdate.start_date);
     finalDate.val(menuUpdate.final_date);
+    week.val(menuUpdate.week);
     observation.val(menuUpdate.observation);
 
     //renderizando refeições
