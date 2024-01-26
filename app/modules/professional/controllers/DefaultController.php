@@ -82,7 +82,7 @@ class DefaultController extends Controller
 			if($modelAttendance->validate()) {
 				if($modelAttendance->save()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Atendimento adicionado com sucesso!'));
-					$this->redirect(array('index'));
+                    $this->redirect(Yii::app()->request->getUrl());
 				}
 			}
 		}

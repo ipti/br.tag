@@ -50,10 +50,10 @@
 							<h3>Dados Básicos</h3>
 						</div>
 						<div class="full">
-							<div class="span6 full">
+							<div>
 								<div class="separator row">
                                     <div class="hide" id="id_professional"><?php echo $modelProfessional->id_professional;?></div>
-									<div class="control-group column">
+									<div class="control-group column clearleft">
 										<div class="controls">
 											<?php echo $form->label($modelProfessional, 'name', array('class' => 'control-label')); ?>
 										</div>
@@ -62,7 +62,7 @@
 											<?php echo $form->error($modelProfessional, 'name'); ?>
 										</div>
 									</div>
-									<div class="control-group column">
+									<div class="control-group column clearleft">
 										<div class="controls">
 											<?php echo $form->label($modelProfessional, 'cpf_professional', array('class' => 'control-label')); ?>
 										</div>
@@ -72,7 +72,7 @@
 										</div>
 									</div>
                                 </div>
-                                <div class="control-group column">
+                                <div class="control-group column clearleft">
                                     <div class="controls">
                                         <?php echo $form->label($modelProfessional, 'speciality', array('class' => 'control-label')); ?>
                                     </div>
@@ -81,7 +81,7 @@
                                         <?php echo $form->error($modelProfessional, 'speciality'); ?>
                                     </div>
                                 </div>
-                                <div class="control-group column">
+                                <div class="control-group column clearleft">
                                     <div class="controls">
                                         <?php echo $form->label($modelProfessional, 'fundeb', array('class' => 'control-label', 'style' => 'width: 70px;')); ?>
                                         <?php echo $form->checkBox($modelProfessional, 'fundeb', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -93,8 +93,8 @@
                             </div>
 							</div>
 							<?php if(!$modelProfessional->isNewRecord) {?>
-							<div class="span6 column">
-								<div class="">
+							<div class="span6 column clearleft">
+								<div class="control-group column clearleft">
 									<a href="#" class="t-button-primary new-attendance-button" id="new-attendance-button">Adicionar Atendimento</a>
 								</div>
 								<div class="attendance-container">
@@ -126,29 +126,30 @@
 											Atendimentos
 										</h3>
 										<div style="" class="full">
-											<table class="tag-table table-bordered table-striped"
+											<table class="tag-table-secondary table-bordered table-striped align-start"
 												aria-describedby="tabela de atendimentos">
 												<thead>
 													<tr>
-														<th style="text-align: center; min-width: 200px;">Data</th>
-														<th style="text-align: center; min-width: 200px;">Local</th>
-                                                        <th style="text-align: right; min-width: 200px;"></th>
-													</tr>
-												</thead>
+														<th style="min-width: 200px;border: none">Data</th>
+														<th style="min-width: 200px;border: none">Local</th>
+                                                        <th style="text-align: right; min-width: 200px;border: none"></th>
+													</thead>
 												<tbody>
 													<?php
 													foreach ($modelAttendances as $attendance) {
 													?>
 														<tr>
-															<td style="text-align: center;"><?php echo date("d/m/Y", strtotime($attendance->date)) ?></td>
-															<td style="text-align: center;"><?php echo $attendance->local?></td>
-                                                            <td style="text-align: center">
+															<td style="border: none"><?php echo date("d/m/Y", strtotime($attendance->date)) ?></td>
+															<td style="border: none"><?php echo $attendance->local?></td>
+                                                            <td style="border: none">
                                                                 <button
                                                                     type="button"
                                                                     class="delete-attendance-bt t-button-content"
+                                                                    style="float:right; margin-right: 14px"
                                                                     value="<?php echo $attendance->id_attendance?>"
                                                                     onclick="deleteAttendance(this)">
-                                                                        <i class="t-icon-trash"></i>
+                                                                        <!-- <div class="t-icon-trash"></div> -->
+                                                                        <img src="<?php echo Yii::app()->theme->baseUrl . '/img/deletar.svg';?>" alt='Excluir'></img>
                                                                 </button>
                                                             </td>
 														</tr>
