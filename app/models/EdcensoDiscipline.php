@@ -42,7 +42,7 @@ class EdcensoDiscipline extends CActiveRecord
 		return array(
 			array('name, edcenso_base_discipline_fk', 'required'),
 			array('edcenso_base_discipline_fk', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>100),
+			array('name', 'length', 'max'=>200),
 			array('abbreviation', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.

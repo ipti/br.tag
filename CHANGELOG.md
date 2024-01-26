@@ -2,6 +2,9 @@
 - Corrigindo inconsistências na tela de lançamento de notas de búzios, abilitando as telas relacionadas a notas
 
 ## [Versão 3.65.102]
+- Correção da funcionalidade de atualizar turma, que estava transferindo as turmas entre as escolas
+
+## [Versão 3.65.102]
 - Adicionando filtros nas unidades de medida a depender da comida selecionada na tela de estoque
 
 ## [Versão 3.65.101]

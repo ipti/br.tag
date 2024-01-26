@@ -126,7 +126,11 @@ $form = $this->beginWidget(
                     <div class="row">
                         <div class="column">
                             <?php
-                            echo $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school));
+                            echo
+                            $modelClassroom->isNewRecord ?
+                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school)) :
+                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => $modelClassroom->school_inep_fk))
+                            ;
                             echo CHtml::hiddenField("teachingData", '', array('id' => 'teachingData'));
                             echo CHtml::hiddenField("disciplines", '', array('id' => 'disciplines'));
                             echo CHtml::hiddenField("events", '', array('id' => 'events'));
@@ -163,8 +167,7 @@ $form = $this->beginWidget(
                                     '1' => 'Ensino Regular',
                                     '2' => 'Educação Especial - Modalidade Substitutiva',
                                     '3' => 'Educação de Jovens e Adultos (EJA)',
-                                    '4' => 'Não se aplica',
-                                    '5' => 'Atendimento Educacional Especializado'
+                                    '4' => 'Não se aplica'
                                 ), array('prompt' => 'Selecione a Modalidade', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
                                 ?>
                                 <?php echo $form->error($modelClassroom, 'modality'); ?>

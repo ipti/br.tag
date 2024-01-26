@@ -1,11 +1,11 @@
-<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.tce.se.gov.br/sagres2024/xml/sagresEdu" version="1.0" xml:lang="pt-BR"
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu" version="1.0" xml:lang="pt-BR"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	xmlns:edu="http://www.tce.se.gov.br/sagres2024/xml/sagresEdu"
-	xmlns:gen="http://www.tce.se.gov.br/sagres2024/xml/genericos"
-	xmlns:tab="http://www.tce.se.gov.br/sagres2024/xml/tabelasInternas">
+	xmlns:edu="http://www.tce.se.gov.br/sagres2023/xml/sagresEdu"
+	xmlns:gen="http://www.tce.se.gov.br/sagres2023/xml/genericos"
+	xmlns:tab="http://www.tce.se.gov.br/sagres2023/xml/tabelasInternas">
 	
-	<xsd:import namespace = "http://www.tce.se.gov.br/sagres2024/xml/genericos" schemaLocation="genericos.xsd"/>
-	<xsd:import namespace = "http://www.tce.se.gov.br/sagres2024/xml/tabelasInternas" schemaLocation="tabelasInternas.xsd"/>
+	<xsd:import namespace = "http://www.tce.se.gov.br/sagres2023/xml/genericos" schemaLocation="genericos.xsd"/>
+	<xsd:import namespace = "http://www.tce.se.gov.br/sagres2023/xml/tabelasInternas" schemaLocation="tabelasInternas.xsd"/>
 	
 	<xsd:simpleType name="turno_t">
 		<xsd:restriction base="xsd:integer">
@@ -67,47 +67,6 @@
 			<xsd:enumeration value="28005538"/>	<!-- 28005538 - ESCOLA MUNICIPAL PROFESSORA ANTONIA MARTINS DO ROSARIO -->
 			<xsd:enumeration value="28005546"/>	<!-- 28005546 - ESCOLA MUNICIPAL MANOEL FRANCO FREIRE -->
 			<xsd:enumeration value="28086406"/>	<!-- 28086406 - ESCOLA MUNICIPAL EURICO DE SOUZA FILHO -->
-			<xsd:enumeration value="28075404"/>	<!-- 28075404 - ESCOLA MUN DE ENSINO FUNDAMENTAL PROFA NUBIA MARQUES -->
-			<xsd:enumeration value="28106431"/>	<!-- 28106431 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL DR FERNANDO GUEDES -->
-			<xsd:enumeration value="28021746"/>	<!-- 28021746 - ESCOLA ESTADUAL COELHO NETO -->
-			<xsd:enumeration value="28026446"/>	<!-- 28026446 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL PROFESSOR LAONTE GAMA DA SILVA -->
-			<xsd:enumeration value="28026551"/>	<!-- 28026551 - ESC MUL ENSINO FUND JOAO TELES MENEZES -->
-			<xsd:enumeration value="28026527"/>	<!-- 28026527 - ESC MUN DE ENS FUND PROF Mª CARLOTA DE MELO -->
-			<xsd:enumeration value="28026730"/>	<!-- 28026730 - CENTRO ESTADUAL DE EDUCACAO PROFISSIONAL JOSE FIGUEIREDO BARRETO -->
-			<xsd:enumeration value="28026845"/>	<!-- 28026845 - ESCOLA ESTADUAL MINISTRO GERALDO BARRETO SOBRAL -->
-			<xsd:enumeration value="28027795"/>	<!-- 28027795 - ESC ESTADUAL DOM JOSE VICENTE TAVORA -->
-			<xsd:enumeration value="28027817"/>	<!-- 28027817 - ESCOLA ESTADUAL MESTRE EUCLIDES -->
-			<xsd:enumeration value="28027825"/>	<!-- 28027825 - ESC MUL DE ENS FUND M GERALDO BARRETO SOBRAL -->
-			<xsd:enumeration value="28027850"/>	<!-- 28027850 - ESC MUL DE ED INF PROFª JOANA MARIA DA SILVA -->
-			<xsd:enumeration value="28027868"/>	<!-- 28027868 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL BERENICE CAMPOS -->
-			<xsd:enumeration value="28027876"/>	<!-- 28027876 - PRE ESCOLAR E CRECHE NEUZICE BARRETO -->
-			<xsd:enumeration value="28027930"/>	<!-- 28027930 - ESCOLA FREI ESMERALDO SILVA DE MENEZES -->
-			<xsd:enumeration value="28028210"/>	<!-- 28028210 - CENTRO SOCIAL SAO FRANCISCO -->
-			<xsd:enumeration value="28028783"/>	<!-- 28028783 - COLEGIO ESTADUAL GOV DJENAL TAVARES DE QUEIROZ -->
-			<xsd:enumeration value="28029011"/>	<!-- 28029011 - CENTRO INFANTIL SEU OSCAR -->
-			<xsd:enumeration value="28029399"/>	<!-- 28029399 - ESC MUL DE ENS FUND PROF NUNES MENDONCA -->
-			<xsd:enumeration value="28029402"/>	<!-- 28029402 - ESC DE ENSINO FUNDAMENTAL ZALDA GAMA -->
-			<xsd:enumeration value="28030125"/>	<!-- 28030125 - CENTRO DE APOIO PEDAGOGICO PARA ATENDIMENTO AS PESSOAS COM DEFICIENCIA VISUAL -->
-			<xsd:enumeration value="28030087"/>	<!-- 28030087 - CENTRO EDUCACIONAL AGAPE -->
-			<xsd:enumeration value="28031113"/>	<!-- 28031113 - ESC MUN DE ED INFANTIL JULIO PRADO VASCONCELOS -->
-			<xsd:enumeration value="28031121"/>	<!-- 28031121 - ESC MUN DE ENS FUNDAMENTAL DEPUTADO JAIME ARAUJO -->
-			<xsd:enumeration value="28031407"/>	<!-- 28031407 - INSTITUTO EDUCACIONAL SANTA TEREZINHA DO MENINO JESUS -->
-			<xsd:enumeration value="28031601"/>	<!-- 28031601 - EMEI DOM JOSE BRANDAO DE CASTRO -->
-			<xsd:enumeration value="28031660"/>	<!-- 28031660 - EMEI ARTHUR BISPO DO ROSARIO -->
-			<xsd:enumeration value="28031679"/>	<!-- 28031679 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL MARIA CLARA MACHADO -->
-			<xsd:enumeration value="28031687"/>	<!-- 28031687 - EMEF PROF DIOMEDES SANTOS SILVA -->
-			<xsd:enumeration value="28031911"/>	<!-- 28031911 - COLEGIO ESTADUAL GOVERNADOR ALBANO FRANCO -->
-			<xsd:enumeration value="28031954"/>	<!-- 28031954 - ESCOLA MUN DE ENS FUND OVIEDO TEIXEIRA -->
-			<xsd:enumeration value="28031962"/>	<!-- 28031962 - EMEI JOVINO PINTO -->
-			<xsd:enumeration value="28032403"/>	<!-- 28032403 - ESC MUNICIPAL DE EDUCACAO INFANTIL IRENE ROMAO DE BRITO -->
-			<xsd:enumeration value="28032438"/>	<!-- 28032438 - ESC MUL DE EDUC INFANTIL PIERRE AVERAN -->
-			<xsd:enumeration value="28032551"/>	<!-- 28032551 - ESC MUL DE EDUC INFANTIL PROFª NEUZICE BARRETO -->
-			<xsd:enumeration value="28032560"/>	<!-- 28032560 - ESC MUNICIPAL DE EDUC INF PROF JOAO BATISTA DOUGLAS DE SOUZA -->
-			<xsd:enumeration value="28032578"/>	<!-- 28032578 - COLEGIO EST SEN JOSE ALVES DO NASCIMENTO -->
-			<xsd:enumeration value="28032705"/>	<!-- 28032705 - CONSERVATORIO DE MUSICA DE SERGIPE -->
-			<xsd:enumeration value="28033477"/>	<!-- 28033477 - COLEGIO ESTADUAL VITORIA DE SANTA MARIA -->
-			<xsd:enumeration value="28033744"/>	<!-- 28033744 - EMEF PAPA JOAO PAULO II -->
-			<xsd:enumeration value="28033752"/>	<!-- 28033752 - EMEI PROFª ETELVINA AMALIA DE SIQUEIRA -->
 			<xsd:enumeration value="28017137"/>	<!-- 28017137 - EMEI ANTONIO VALENCA ROLLEMBERG -->
 			<xsd:enumeration value="28017145"/>	<!-- 28017145 - ESC MUL DE EDUC INF BENJAMIN ALVES DE CARVALHO -->
 			<xsd:enumeration value="28017153"/>	<!-- 28017153 - ESC MUL DE EDUCACAO INF MONS JOAO MOREIRA LIMA -->
@@ -227,6 +186,47 @@
 			<xsd:enumeration value="28020260"/>	<!-- 28020260 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL BEBE TIUBA -->
 			<xsd:enumeration value="28021096"/>	<!-- 28021096 - ESCOLA ESTADUAL PROFESSOR ANDRE MESQUITA MEDEIROS -->
 			<xsd:enumeration value="28021380"/>	<!-- 28021380 - ESC MUL DE ENS FUND JOSE CARLOS TEIXEIRA -->
+			<xsd:enumeration value="28021746"/>	<!-- 28021746 - ESCOLA ESTADUAL COELHO NETO -->
+			<xsd:enumeration value="28026446"/>	<!-- 28026446 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL PROFESSOR LAONTE GAMA DA SILVA -->
+			<xsd:enumeration value="28026527"/>	<!-- 28026527 - ESC MUN DE ENS FUND PROF Mª CARLOTA DE MELO -->
+			<xsd:enumeration value="28026551"/>	<!-- 28026551 - ESC MUL ENSINO FUND JOAO TELES MENEZES -->
+			<xsd:enumeration value="28026730"/>	<!-- 28026730 - CENTRO ESTADUAL DE EDUCACAO PROFISSIONAL JOSE FIGUEIREDO BARRETO -->
+			<xsd:enumeration value="28026845"/>	<!-- 28026845 - ESCOLA ESTADUAL MINISTRO GERALDO BARRETO SOBRAL -->
+			<xsd:enumeration value="28027795"/>	<!-- 28027795 - ESC ESTADUAL DOM JOSE VICENTE TAVORA -->
+			<xsd:enumeration value="28027817"/>	<!-- 28027817 - ESCOLA ESTADUAL MESTRE EUCLIDES -->
+			<xsd:enumeration value="28027825"/>	<!-- 28027825 - ESC MUL DE ENS FUND M GERALDO BARRETO SOBRAL -->
+			<xsd:enumeration value="28027850"/>	<!-- 28027850 - ESC MUL DE ED INF PROFª JOANA MARIA DA SILVA -->
+			<xsd:enumeration value="28027868"/>	<!-- 28027868 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL BERENICE CAMPOS -->
+			<xsd:enumeration value="28027876"/>	<!-- 28027876 - PRE ESCOLAR E CRECHE NEUZICE BARRETO -->
+			<xsd:enumeration value="28027930"/>	<!-- 28027930 - ESCOLA FREI ESMERALDO SILVA DE MENEZES -->
+			<xsd:enumeration value="28028210"/>	<!-- 28028210 - CENTRO SOCIAL SAO FRANCISCO -->
+			<xsd:enumeration value="28028783"/>	<!-- 28028783 - COLEGIO ESTADUAL GOV DJENAL TAVARES DE QUEIROZ -->
+			<xsd:enumeration value="28029011"/>	<!-- 28029011 - CENTRO INFANTIL SEU OSCAR -->
+			<xsd:enumeration value="28029399"/>	<!-- 28029399 - ESC MUL DE ENS FUND PROF NUNES MENDONCA -->
+			<xsd:enumeration value="28029402"/>	<!-- 28029402 - ESC DE ENSINO FUNDAMENTAL ZALDA GAMA -->
+			<xsd:enumeration value="28030087"/>	<!-- 28030087 - CENTRO EDUCACIONAL AGAPE -->
+			<xsd:enumeration value="28030125"/>	<!-- 28030125 - CENTRO DE APOIO PEDAGOGICO PARA ATENDIMENTO AS PESSOAS COM DEFICIENCIA VISUAL -->
+			<xsd:enumeration value="28031113"/>	<!-- 28031113 - ESC MUN DE ED INFANTIL JULIO PRADO VASCONCELOS -->
+			<xsd:enumeration value="28031121"/>	<!-- 28031121 - ESC MUN DE ENS FUNDAMENTAL DEPUTADO JAIME ARAUJO -->
+			<xsd:enumeration value="28031407"/>	<!-- 28031407 - INSTITUTO EDUCACIONAL SANTA TEREZINHA DO MENINO JESUS -->
+			<xsd:enumeration value="28031601"/>	<!-- 28031601 - EMEI DOM JOSE BRANDAO DE CASTRO -->
+			<xsd:enumeration value="28031660"/>	<!-- 28031660 - EMEI ARTHUR BISPO DO ROSARIO -->
+			<xsd:enumeration value="28031679"/>	<!-- 28031679 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL MARIA CLARA MACHADO -->
+			<xsd:enumeration value="28031687"/>	<!-- 28031687 - EMEF PROF DIOMEDES SANTOS SILVA -->
+			<xsd:enumeration value="28031911"/>	<!-- 28031911 - COLEGIO ESTADUAL GOVERNADOR ALBANO FRANCO -->
+			<xsd:enumeration value="28031954"/>	<!-- 28031954 - ESCOLA MUN DE ENS FUND OVIEDO TEIXEIRA -->
+			<xsd:enumeration value="28031962"/>	<!-- 28031962 - EMEI JOVINO PINTO -->
+			<xsd:enumeration value="28032403"/>	<!-- 28032403 - ESC MUNICIPAL DE EDUCACAO INFANTIL IRENE ROMAO DE BRITO -->
+			<xsd:enumeration value="28032438"/>	<!-- 28032438 - ESC MUL DE EDUC INFANTIL PIERRE AVERAN -->
+			<xsd:enumeration value="28032551"/>	<!-- 28032551 - ESC MUL DE EDUC INFANTIL PROFª NEUZICE BARRETO -->
+			<xsd:enumeration value="28032560"/>	<!-- 28032560 - ESC MUNICIPAL DE EDUC INF PROF JOAO BATISTA DOUGLAS DE SOUZA -->
+			<xsd:enumeration value="28032578"/>	<!-- 28032578 - COLEGIO EST SEN JOSE ALVES DO NASCIMENTO -->
+			<xsd:enumeration value="28032705"/>	<!-- 28032705 - CONSERVATORIO DE MUSICA DE SERGIPE -->
+			<xsd:enumeration value="28033477"/>	<!-- 28033477 - COLEGIO ESTADUAL VITORIA DE SANTA MARIA -->
+			<xsd:enumeration value="28033744"/>	<!-- 28033744 - EMEF PAPA JOAO PAULO II -->
+			<xsd:enumeration value="28033752"/>	<!-- 28033752 - EMEI PROFª ETELVINA AMALIA DE SIQUEIRA -->
+			<xsd:enumeration value="28075404"/>	<!-- 28075404 - ESCOLA MUN DE ENSINO FUNDAMENTAL PROFA NUBIA MARQUES -->
+			<xsd:enumeration value="28106431"/>	<!-- 28106431 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL DR FERNANDO GUEDES -->
 			<xsd:enumeration value="28021797"/>	<!-- 28021797 - COLEGIO ESTADUAL MANUEL BOMFIM -->
 			<xsd:enumeration value="28021800"/>	<!-- 28021800 - ESC MUL DE 1º E 2º G LAURA NASC COSTA -->
 			<xsd:enumeration value="28021819"/>	<!-- 28021819 - ESC MUL ANTIPAS COSTA E SILVA -->
@@ -246,14 +246,8 @@
 			<xsd:enumeration value="28021975"/>	<!-- 28021975 - ESC MUL SEBASTIAO COSTA CARVALHO -->
 			<xsd:enumeration value="28021983"/>	<!-- 28021983 - ESC MUN DR ERONILDES FERREIRA CARVALHO -->
 			<xsd:enumeration value="28021991"/>	<!-- 28021991 - ESCOLA MUL ZULIVIA ALVES NASCIMENTO -->
-			<xsd:enumeration value="28031938"/>	<!-- 28031938 - ESC ESTADUAL JOALDO COSTA CARVALHO -->
 			<xsd:enumeration value="28026985"/>	<!-- 28026985 - ESC MUL DE 1º GRAU PAULO FERREIRA DIAS -->
-			<xsd:enumeration value="28027167"/>	<!-- 28027167 - UNIDADE MUL DE EDUCACAO PRE ESCOLAR VOVO MENININHA -->
-			<xsd:enumeration value="28028589"/>	<!-- 28028589 - ESCOLA MUNICIPAL DE 1º GRAU MARIA VANIRA RODRIGUES PEREIRA -->
-			<xsd:enumeration value="28030850"/>	<!-- 28030850 - CRECHE MUNICIPAL MARIA RODRIGUES DE SOUZA -->
-			<xsd:enumeration value="28030869"/>	<!-- 28030869 - CRECHE MUNICIPAL CONSOLO DO BABY -->
-			<xsd:enumeration value="28030885"/>	<!-- 28030885 - CRECHE MUNICIPAL MARIA RIBEIRO FRANCO -->
-			<xsd:enumeration value="28034120"/>	<!-- 28034120 - ESCOLA MUNICIPAL PROFESSORA JOSEFA INOCENCIA DOS SANTOS -->
+			<xsd:enumeration value="28031938"/>	<!-- 28031938 - ESC ESTADUAL JOALDO COSTA CARVALHO -->
 			<xsd:enumeration value="28006542"/>	<!-- 28006542 - COLEGIO ESTADUAL GOVERNADOR JOAO ALVES FILHO -->
 			<xsd:enumeration value="28006569"/>	<!-- 28006569 - ESCOLA ESTADUAL PEDRO DINIZ GONCALVES -->
 			<xsd:enumeration value="28006577"/>	<!-- 28006577 - ESCOLA MUNICIPAL ANTONIO LOURENCO DA SILVA -->
@@ -269,25 +263,27 @@
 			<xsd:enumeration value="28006674"/>	<!-- 28006674 - ESCOLA MUNICIPAL RUFINO JOSE DE SANTANA -->
 			<xsd:enumeration value="28006682"/>	<!-- 28006682 - ESCOLA MUNICIPAL MANOEL FRANCISCO GOMES -->
 			<xsd:enumeration value="28006690"/>	<!-- 28006690 - ESCOLA MUNICIPAL SAO JOSE -->
+			<xsd:enumeration value="28027167"/>	<!-- 28027167 - UNIDADE MUL DE EDUCACAO PRE ESCOLAR VOVO MENININHA -->
+			<xsd:enumeration value="28028589"/>	<!-- 28028589 - ESCOLA MUNICIPAL DE 1º GRAU MARIA VANIRA RODRIGUES PEREIRA -->
+			<xsd:enumeration value="28030850"/>	<!-- 28030850 - CRECHE MUNICIPAL MARIA RODRIGUES DE SOUZA -->
+			<xsd:enumeration value="28030869"/>	<!-- 28030869 - CRECHE MUNICIPAL CONSOLO DO BABY -->
+			<xsd:enumeration value="28030885"/>	<!-- 28030885 - CRECHE MUNICIPAL MARIA RIBEIRO FRANCO -->
+			<xsd:enumeration value="28034120"/>	<!-- 28034120 - ESCOLA MUNICIPAL PROFESSORA JOSEFA INOCENCIA DOS SANTOS -->
 			<xsd:enumeration value="28020278"/>	<!-- 28020278 - EMEF PROFESSORA CREUZA GOMES DOS SANTOS -->
 			<xsd:enumeration value="28020308"/>	<!-- 28020308 - COLEGIO ESTADUAL DR CARLOS FIRPO -->
-			<xsd:enumeration value="28020324"/>	<!-- 28020324 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL FRANCISCO DOMINGOS DE MOURA -->
+			<xsd:enumeration value="28020324"/>	<!-- 28020324 - ESC MUL FRANCISCO DOMINGOS DE MOURA -->
 			<xsd:enumeration value="28020332"/>	<!-- 28020332 - ESCOLA MUNICIPAL PREFEITO JOSE MOTA MACEDO -->
 			<xsd:enumeration value="28020340"/>	<!-- 28020340 - ESCOLA ESTADUAL PROFESSOR JOSE FRANKLIN -->
-			<xsd:enumeration value="28020359"/>	<!-- 28020359 - ESCOLA MUNICIPAL DEOCLIDES JOSE PEREIRA -->
+			<xsd:enumeration value="28020359"/>	<!-- 28020359 - ESCOLA MUNICIPAL DIOCLIDES JOSE PEREIRA -->
 			<xsd:enumeration value="28020367"/>	<!-- 28020367 - ESCOLAS REUNIDAS COELHO NETO -->
-			<xsd:enumeration value="28020375"/>	<!-- 28020375 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL PROFESSORA MARIA DO CEU SALES DE ANDRADE -->
-			<xsd:enumeration value="28020383"/>	<!-- 28020383 - ESCOLA MUNICIPAL PROFESSORA GELVÂNIA MOURA DA SILVA -->
-			<xsd:enumeration value="28020391"/>	<!-- 28020391 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL PROFESSORA DELZUITA DA COSTA DANTAS SANTOS -->
-			<xsd:enumeration value="28035437"/>	<!-- 28035437 - ESCOLA MUNICIPAL PROFESSORA MARIA LIGIA DOS SANTOS MOURA -->
-			<xsd:enumeration value="28036018"/>	<!-- 28036018 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL ESTER MARTINS -->
-			<xsd:enumeration value="28037448"/>	<!-- 28037448 - ESCOLA MUNICIPAL PROFESSORA ANA THEREZA VIANA RIBEIRO -->
-			<xsd:enumeration value="28090403"/>	<!-- 28090403 - CRECHE MUNICIPAL JORGE PRADO DE OLIVEIRA -->
+			<xsd:enumeration value="28020375"/>	<!-- 28020375 - ESCOLINHA TOM E JERRY -->
+			<xsd:enumeration value="28020383"/>	<!-- 28020383 - ESC MUL DE ENSINO FUND MARIA DE LOURDES SANTOS OLIVEIRA -->
+			<xsd:enumeration value="28020391"/>	<!-- 28020391 - PRE ESCOLAR O PEQUENO APRENDIZ -->
+			<xsd:enumeration value="28026365"/>	<!-- 28026365 - PRE ESC SAO FRANCISCO DE ASSIS -->
+			<xsd:enumeration value="28030281"/>	<!-- 28030281 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL MARIA TEREZINHA DOS ANJOS SANTOS -->
 			<xsd:enumeration value="28030710"/>	<!-- 28030710 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL JOAO CRUZ -->
-			<xsd:enumeration value="28030281"/>	<!-- 28030281 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL PROFESSORA MARILI MOURA DE LIMA -->
-			<xsd:enumeration value="28026365"/>	<!-- 28026365 - ESCOLA MUNICIPAL MARIA RAIMUNDA DE OLIVEIRA REZENDE -->
-			<xsd:enumeration value="28032373"/>	<!-- 28032373 - CRECHE LAURINETE BARBOSA SILVA -->
-			<xsd:enumeration value="28070402"/>	<!-- 28070402 - ESCOLA MUNICIPAL DEPUTADO JOALDO BARBOSA -->
+			<xsd:enumeration value="28031490"/>	<!-- 28031490 - ESCOLA MUL DR JOSE AUGUSTO CRUZ SANTANA -->
+			<xsd:enumeration value="28090403"/>	<!-- 28090403 - CRECHE MUNICIPAL JORGE PRADO DE OLIVEIRA -->
 			<xsd:enumeration value="28022025"/>	<!-- 28022025 - COLEGIO ESTADUAL SEVERIANO CARDOSO -->
 			<xsd:enumeration value="28022033"/>	<!-- 28022033 - COLEGIO ESTADUAL CLEONICE SOARES FONSECA -->
 			<xsd:enumeration value="28022041"/>	<!-- 28022041 - ESCOLA MUNICIPAL EX- INTENDENTE MANOEL CANDIDO FERREIRA -->
@@ -307,6 +303,8 @@
 			<xsd:enumeration value="28022360"/>	<!-- 28022360 - ESCOLA MUL CONEGO JOAO BATISTA LIMA -->
 			<xsd:enumeration value="28022378"/>	<!-- 28022378 - ESCOLA ESTADUAL PADRE JOSE GUMERCINDO DOS SANTOS -->
 			<xsd:enumeration value="28022386"/>	<!-- 28022386 - ESCOLA MUNICIPAL DEPUTADO LOURIVAL BAPTISTA -->
+			<xsd:enumeration value="28032373"/>	<!-- 28032373 - CRECHE LAURINETE BARBOSA SILVA -->
+			<xsd:enumeration value="28070402"/>	<!-- 28070402 - ESCOLA MUNICIPAL DEPUTADO JOALDO BARBOSA -->
 			<xsd:enumeration value="28012720"/>	<!-- 28012720 - COLEGIO ESTADUAL DR LUIZ GARCIA -->
 			<xsd:enumeration value="28012739"/>	<!-- 28012739 - COLEGIO ESTADUAL AMELIA MARIA L MACHADO -->
 			<xsd:enumeration value="28012747"/>	<!-- 28012747 - ESCOLA MUNICIPAL JOSE MOACIR MENDONCA -->
@@ -318,10 +316,6 @@
 			<xsd:enumeration value="28012810"/>	<!-- 28012810 - ESCOLA MUNICIPAL JOSE MACHADO MARTINS DOS SANTOS -->
 			<xsd:enumeration value="28012828"/>	<!-- 28012828 - JARDIM DE INFANCIA HILDETE FALCAO BAPTISTA -->
 			<xsd:enumeration value="28032446"/>	<!-- 28032446 - ESCOLA MUNICIPAL ELENILSON FERREIRA -->
-			<xsd:enumeration value="28032268"/>	<!-- 28032268 - ESCOLA MUNICIPAL LUCIA MARIA BEZERRA SANTOS DE ANDRADE CRUZ -->
-			<xsd:enumeration value="28033000"/>	<!-- 28033000 - ESCOLA MARIA DE ANDRADE DA CRUZ -->
-			<xsd:enumeration value="28030753"/>	<!-- 28030753 - ESCOLA ESTADUAL DEPUTADO FRANCISCO PAIXAO -->
-			<xsd:enumeration value="28027108"/>	<!-- 28027108 - ESC MUNICIPAL MARIA D C DE OLIVEIRA -->
 			<xsd:enumeration value="28006712"/>	<!-- 28006712 - ESCOLA MUNICIPAL PADRE FREIRE DE MENEZES -->
 			<xsd:enumeration value="28006720"/>	<!-- 28006720 - COLEGIO ESTADUAL GUILHERME CAMPOS -->
 			<xsd:enumeration value="28006739"/>	<!-- 28006739 - COLEGIO ESTADUAL ROQUE JOSE DE SOUZA -->
@@ -341,6 +335,10 @@
 			<xsd:enumeration value="28006909"/>	<!-- 28006909 - ESC MUL ROQUE JOSE DE SOUZA -->
 			<xsd:enumeration value="28006925"/>	<!-- 28006925 - ESC MUN PE EVERALDO LIMA VIANA -->
 			<xsd:enumeration value="28006933"/>	<!-- 28006933 - ESCOLA MUL BENTO BENEDIGNO BEZERRA -->
+			<xsd:enumeration value="28027108"/>	<!-- 28027108 - ESC MUNICIPAL MARIA D C DE OLIVEIRA -->
+			<xsd:enumeration value="28030753"/>	<!-- 28030753 - ESCOLA ESTADUAL DEPUTADO FRANCISCO PAIXAO -->
+			<xsd:enumeration value="28032268"/>	<!-- 28032268 - ESCOLA MUNICIPAL LUCIA MARIA BEZERRA SANTOS DE ANDRADE CRUZ -->
+			<xsd:enumeration value="28033000"/>	<!-- 28033000 - ESCOLA MARIA DE ANDRADE DA CRUZ -->
 			<xsd:enumeration value="28012836"/>	<!-- 28012836 - COLEGIO ESTADUAL SAO FRANCISCO DE ASSIS -->
 			<xsd:enumeration value="28012860"/>	<!-- 28012860 - ESC MUL ARQUIBALDO DE SOUZA TORRES -->
 			<xsd:enumeration value="28012879"/>	<!-- 28012879 - ESC MUL BELMIRO HONORIO -->
@@ -352,18 +350,6 @@
 			<xsd:enumeration value="28012976"/>	<!-- 28012976 - ESCOLA MUNICIPAL VALDEMAR DE SOUZA PORTO -->
 			<xsd:enumeration value="28012984"/>	<!-- 28012984 - ESC ESTADUAL DR ERONIDES DE CARVALHO -->
 			<xsd:enumeration value="28027469"/>	<!-- 28027469 - CRECHE MUNICIPAL PROFESSORA MARIA AUXILIADORA TORRES REZENDE -->
-			<xsd:enumeration value="28027434"/>	<!-- 28027434 - COLEGIO ESTADUAL DELMIRO DE MIRANDA BRITTO -->
-			<xsd:enumeration value="28026616"/>	<!-- 28026616 - ESCOLA MUNICIPAL DOMINGAS MARIA DA CONCEICAO -->
-			<xsd:enumeration value="28026624"/>	<!-- 28026624 - ESCOLA MUL ANTONIO ALEXANDRE DOS SANTOS -->
-			<xsd:enumeration value="28026632"/>	<!-- 28026632 - ESCOLA MUNICIPAL JARDIM DAS CRIANCAS -->
-			<xsd:enumeration value="28026640"/>	<!-- 28026640 - ESCOLA MUNICIPAL MANOEL GOMES FEITOSA -->
-			<xsd:enumeration value="28029968"/>	<!-- 28029968 - ESC MUL ARTHUR EDGARD DA MOTTA -->
-			<xsd:enumeration value="28029453"/>	<!-- 28029453 - ESCOLA MUNICIPAL ANTONIO DUARTE DUTRA -->
-			<xsd:enumeration value="28029526"/>	<!-- 28029526 - ESCOLA MUNIC ESCRAVA ANASTACIA -->
-			<xsd:enumeration value="28030370"/>	<!-- 28030370 - ESCOLA MUNICIPAL MARIA PRETA -->
-			<xsd:enumeration value="28032918"/>	<!-- 28032918 - ESCOLA MUNICIPAL PROFESSORA PALMIRA LISBOA DOS SANTOS -->
-			<xsd:enumeration value="28032179"/>	<!-- 28032179 - ESC MUL MARIA DO CARMO DO NASCIMENTO ALVES -->
-			<xsd:enumeration value="28040406"/>	<!-- 28040406 - ESCOLA MUNICIPAL ESTUDANTE EDNA MARIA APOLONIO NETA -->
 			<xsd:enumeration value="28000013"/>	<!-- 28000013 - ESCOLA ESTADUAL DOM JUVENCIO DE BRITTO -->
 			<xsd:enumeration value="28000030"/>	<!-- 28000030 - ESCOLA MUNICIPAL ANTONIO JOSE DOS SANTOS -->
 			<xsd:enumeration value="28000056"/>	<!-- 28000056 - ESC MUL DELFINA FERNANDES DOS SANTOS -->
@@ -376,6 +362,18 @@
 			<xsd:enumeration value="28000226"/>	<!-- 28000226 - ESCOLA MUNICIPAL BELO HORIZONTE -->
 			<xsd:enumeration value="28000269"/>	<!-- 28000269 - ESCOLA MUNICIPAL CACILDA DAMASCENO FREITAS -->
 			<xsd:enumeration value="28000293"/>	<!-- 28000293 - ESCOLA MUN JOSE GUILHERME DA SILVA -->
+			<xsd:enumeration value="28026616"/>	<!-- 28026616 - ESCOLA MUNICIPAL DOMINGAS MARIA DA CONCEICAO -->
+			<xsd:enumeration value="28026624"/>	<!-- 28026624 - ESCOLA MUL ANTONIO ALEXANDRE DOS SANTOS -->
+			<xsd:enumeration value="28026632"/>	<!-- 28026632 - ESCOLA MUNICIPAL JARDIM DAS CRIANCAS -->
+			<xsd:enumeration value="28026640"/>	<!-- 28026640 - ESCOLA MUNICIPAL MANOEL GOMES FEITOSA -->
+			<xsd:enumeration value="28027434"/>	<!-- 28027434 - COLEGIO ESTADUAL DELMIRO DE MIRANDA BRITTO -->
+			<xsd:enumeration value="28029453"/>	<!-- 28029453 - ESCOLA MUNICIPAL ANTONIO DUARTE DUTRA -->
+			<xsd:enumeration value="28029526"/>	<!-- 28029526 - ESCOLA MUNIC ESCRAVA ANASTACIA -->
+			<xsd:enumeration value="28029968"/>	<!-- 28029968 - ESC MUL ARTHUR EDGARD DA MOTTA -->
+			<xsd:enumeration value="28030370"/>	<!-- 28030370 - ESCOLA MUNICIPAL MARIA PRETA -->
+			<xsd:enumeration value="28032179"/>	<!-- 28032179 - ESC MUL MARIA DO CARMO DO NASCIMENTO ALVES -->
+			<xsd:enumeration value="28032918"/>	<!-- 28032918 - ESCOLA MUNICIPAL PROFESSORA PALMIRA LISBOA DOS SANTOS -->
+			<xsd:enumeration value="28040406"/>	<!-- 28040406 - ESCOLA MUNICIPAL ESTUDANTE EDNA MARIA APOLONIO NETA -->
 			<xsd:enumeration value="28014081"/>	<!-- 28014081 - ESCOLA ESTADUAL MONSENHOR ERALDO BARBOSA DE ALMEIDA -->
 			<xsd:enumeration value="28014120"/>	<!-- 28014120 - CRECHE TIA MARIA DO CARMO NASC ALVES -->
 			<xsd:enumeration value="28014138"/>	<!-- 28014138 - COLEGIO ESTADUAL IRMA MARIA CLEMENCIA -->
@@ -410,9 +408,6 @@
 			<xsd:enumeration value="28014626"/>	<!-- 28014626 - ESC RURAL LUIZ ALMEIDA MENDONCA -->
 			<xsd:enumeration value="28014642"/>	<!-- 28014642 - ESC MUN MARIA DA CONCEICAO BARRETO ALVES SOUZA -->
 			<xsd:enumeration value="28032632"/>	<!-- 28032632 - CRECHE REI DAVI -->
-			<xsd:enumeration value="28032586"/>	<!-- 28032586 - ESCOLA ESTADUAL ANTONIO DUTRA SOBRINHO -->
-			<xsd:enumeration value="28031164"/>	<!-- 28031164 - ESCOLA MUNICIPAL LUIZ CARLOS PRESTES -->
-			<xsd:enumeration value="28028031"/>	<!-- 28028031 - EDUCACAO DE JOVENS E ADULTOS DO ENSINO FUNDAMENTAL -->
 			<xsd:enumeration value="28003551"/>	<!-- 28003551 - COLEGIO ESTADUAL PROFESSOR ARTUR FORTES -->
 			<xsd:enumeration value="28003560"/>	<!-- 28003560 - ESCOLA MUL PROFA ILDA ALMEIDA DUTRA -->
 			<xsd:enumeration value="28003578"/>	<!-- 28003578 - ESC MUL AROALDO CHAGAS -->
@@ -449,6 +444,9 @@
 			<xsd:enumeration value="28003969"/>	<!-- 28003969 - ESCOLA MUNICIPAL PROFª ALDICE MARIA DOS SANTOS SILVA -->
 			<xsd:enumeration value="28003977"/>	<!-- 28003977 - ESCOLA MUNICIPAL MARIA NEUZA MACHADO DA SILVA -->
 			<xsd:enumeration value="28004000"/>	<!-- 28004000 - ESCOLA MUNICIPAL GILBERTO AMADO -->
+			<xsd:enumeration value="28028031"/>	<!-- 28028031 - EDUCACAO DE JOVENS E ADULTOS DO ENSINO FUNDAMENTAL -->
+			<xsd:enumeration value="28031164"/>	<!-- 28031164 - ESCOLA MUNICIPAL LUIZ CARLOS PRESTES -->
+			<xsd:enumeration value="28032586"/>	<!-- 28032586 - ESCOLA ESTADUAL ANTONIO DUTRA SOBRINHO -->
 			<xsd:enumeration value="28016165"/>	<!-- 28016165 - COLEGIO ESTADUAL POETA JOSE SAMPAIO -->
 			<xsd:enumeration value="28016173"/>	<!-- 28016173 - ESCOLA MUNICIPAL D PEDRO I -->
 			<xsd:enumeration value="28016203"/>	<!-- 28016203 - ESCOLA MUNICIPAL PROFª MARIA JALVA DE SOUSA -->
@@ -488,13 +486,13 @@
 			<xsd:enumeration value="28022599"/>	<!-- 28022599 - ESC MUL DE ENS FUND ANTONIO DIONIZIO DA SILVEIRA -->
 			<xsd:enumeration value="28022602"/>	<!-- 28022602 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL LOURIVAL ALVES DA COSTA -->
 			<xsd:enumeration value="28022610"/>	<!-- 28022610 - EMEI PREFEITO LEONIDAS DE OLIVEIRA SANTOS -->
+			<xsd:enumeration value="28026357"/>	<!-- 28026357 - ESC MUL PROF E JORNALISTA LUIZ A BARRETO -->
+			<xsd:enumeration value="28031210"/>	<!-- 28031210 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL SAO FRANCISCO DE ASSIS -->
+			<xsd:enumeration value="28031768"/>	<!-- 28031768 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL PREFEITO ELIZEU SANTOS -->
+			<xsd:enumeration value="28032381"/>	<!-- 28032381 - CRECHE MUNICIPAL JOSEFA MARIA DOS SANTOS -->
+			<xsd:enumeration value="28033280"/>	<!-- 28033280 - ESCOLINHA DAS CRIANCAS DE EMILIANA -->
 			<xsd:enumeration value="28034295"/>	<!-- 28034295 - CRECHE PROFª MARINA CARDOSO AMORIM SANTOS -->
 			<xsd:enumeration value="28034481"/>	<!-- 28034481 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL BERNARDINO JOSE DE SOUZA -->
-			<xsd:enumeration value="28033280"/>	<!-- 28033280 - ESCOLINHA DAS CRIANCAS DE EMILIANA -->
-			<xsd:enumeration value="28032381"/>	<!-- 28032381 - CRECHE MUNICIPAL JOSEFA MARIA DOS SANTOS -->
-			<xsd:enumeration value="28031768"/>	<!-- 28031768 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL PREFEITO ELIZEU SANTOS -->
-			<xsd:enumeration value="28031210"/>	<!-- 28031210 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL SAO FRANCISCO DE ASSIS -->
-			<xsd:enumeration value="28026357"/>	<!-- 28026357 - ESC MUL PROF E JORNALISTA LUIZ A BARRETO -->
 			<xsd:enumeration value="28005635"/>	<!-- 28005635 - ESCOLA MUNICIPAL PRESIDENTE CASTELO BRANCO -->
 			<xsd:enumeration value="28005643"/>	<!-- 28005643 - ESCOLA MUNICIPAL PRESIDENTE TANCREDO NEVES -->
 			<xsd:enumeration value="28005651"/>	<!-- 28005651 - COLEGIO ESTADUAL ALCEBIADES PAES -->
@@ -505,21 +503,10 @@
 			<xsd:enumeration value="28014693"/>	<!-- 28014693 - COL ESTADUAL DR JOAO DE MELO PRADO -->
 			<xsd:enumeration value="28014715"/>	<!-- 28014715 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL ANTONIO DANTAS DO PRADO -->
 			<xsd:enumeration value="28014723"/>	<!-- 28014723 - ESCOLA MUL DE EDUC INFANTIL DINA SANTOS COSTA -->
-			<xsd:enumeration value="28031598"/>	<!-- 28031598 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL PROFª MARIA IZABEL SIQUEIRA SANTOS -->
 			<xsd:enumeration value="28030761"/>	<!-- 28030761 - CRECHE MUNICIPAL VILA SONIA -->
 			<xsd:enumeration value="28030770"/>	<!-- 28030770 - ESCOLA MUNICIPAL FAUSTO DE AGUIAR CARDOSO -->
-			<xsd:enumeration value="28032020"/>	<!-- 28032020 - ESCOLA MUNICIPAL DE EDUCAÇÃO INFANTIL MARIA DE LOURDES CARDOSO COSTA -->
-			<xsd:enumeration value="28032047"/>	<!-- 28032047 - CRECHE MIN LUIS CARLOS FONTES DE ALENCAR -->
-			<xsd:enumeration value="28032810"/>	<!-- 28032810 - CRECHE SENADORA MARIA DO CARMO NASCIMENTO ALVES -->
-			<xsd:enumeration value="28031148"/>	<!-- 28031148 - ESCOLA MARIA IZABEL CARVALHO NABUCO DAVILA -->
-			<xsd:enumeration value="28031733"/>	<!-- 28031733 - ESCOLA MUL DE ENS FUND PROF NILSON B SOCORRO -->
-			<xsd:enumeration value="28031784"/>	<!-- 28031784 - ESCOLA MUNICIPAL ZARRIA GABRIEL JASMIM -->
-			<xsd:enumeration value="28026233"/>	<!-- 28026233 - PRE ESC DAISY DE OLIVEIRA GARCIA -->
-			<xsd:enumeration value="28026896"/>	<!-- 28026896 - CRECHE MARIA DE OLIVEIRA LIMA -->
-			<xsd:enumeration value="28027000"/>	<!-- 28027000 - ESCOLA MANOEL FERREIRA -->
-			<xsd:enumeration value="28028090"/>	<!-- 28028090 - CRECHE CARMEM DO PRADO LEITE -->
-			<xsd:enumeration value="28027531"/>	<!-- 28027531 - CRECHE VIRGINIA COSTA VIEIRA -->
-			<xsd:enumeration value="28028201"/>	<!-- 28028201 - CRECHE MARIA VIRGINIA LEITE FRANCO -->
+			<xsd:enumeration value="28031598"/>	<!-- 28031598 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL PROFª MARIA IZABEL SIQUEIRA SANTOS -->
+			<xsd:enumeration value="28032020"/>	<!-- 28032020 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL MARIA JOSE SANTOS -->
 			<xsd:enumeration value="28024419"/>	<!-- 28024419 - CENTRO DE REFERENCIA DE EDUCACAO DE JOVENS E ADULTOS JORGE AMADO -->
 			<xsd:enumeration value="28024451"/>	<!-- 28024451 - ESCOLA MUNICIPAL SENADOR JULIO CESAR LEITE -->
 			<xsd:enumeration value="28024478"/>	<!-- 28024478 - ESC AGL DE 1 GR GOV ANTONIO C VALADARES -->
@@ -558,6 +545,17 @@
 			<xsd:enumeration value="28025083"/>	<!-- 28025083 - JARDIM DE INFANCIA PROFA MAROCAS MONTEIRO -->
 			<xsd:enumeration value="28025121"/>	<!-- 28025121 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL PICA PAU AMARELO -->
 			<xsd:enumeration value="28025148"/>	<!-- 28025148 - ESCOLA DE EDUCACAO INFANTIL PROFESSOR JOSE DIAS DE OLIVEIRA -->
+			<xsd:enumeration value="28026233"/>	<!-- 28026233 - PRE ESC DAISY DE OLIVEIRA GARCIA -->
+			<xsd:enumeration value="28026896"/>	<!-- 28026896 - CRECHE MARIA DE OLIVEIRA LIMA -->
+			<xsd:enumeration value="28027000"/>	<!-- 28027000 - ESCOLA MANOEL FERREIRA -->
+			<xsd:enumeration value="28027531"/>	<!-- 28027531 - CRECHE VIRGINIA COSTA VIEIRA -->
+			<xsd:enumeration value="28028090"/>	<!-- 28028090 - CRECHE CARMEM DO PRADO LEITE -->
+			<xsd:enumeration value="28028201"/>	<!-- 28028201 - CRECHE MARIA VIRGINIA LEITE FRANCO -->
+			<xsd:enumeration value="28031148"/>	<!-- 28031148 - ESCOLA MARIA IZABEL CARVALHO NABUCO DAVILA -->
+			<xsd:enumeration value="28031733"/>	<!-- 28031733 - ESCOLA MUL DE ENS FUND PROF NILSON B SOCORRO -->
+			<xsd:enumeration value="28031784"/>	<!-- 28031784 - ESCOLA MUNICIPAL ZARRIA GABRIEL JASMIM -->
+			<xsd:enumeration value="28032047"/>	<!-- 28032047 - CRECHE MIN LUIS CARLOS FONTES DE ALENCAR -->
+			<xsd:enumeration value="28032810"/>	<!-- 28032810 - CRECHE SENADORA MARIA DO CARMO NASCIMENTO ALVES -->
 			<xsd:enumeration value="28000315"/>	<!-- 28000315 - COLEGIO ESTADUAL MARIA MONTESSORI -->
 			<xsd:enumeration value="28000331"/>	<!-- 28000331 - ESC MUL ANTONIO ALVES DA MOTA -->
 			<xsd:enumeration value="28000358"/>	<!-- 28000358 - ESC MUL GOV DJENAL TAVARES DE QUEIROZ -->
@@ -569,10 +567,6 @@
 			<xsd:enumeration value="28000412"/>	<!-- 28000412 - ESC MUL RURAL LAGOA DOS POCOS -->
 			<xsd:enumeration value="28027370"/>	<!-- 28027370 - ESC MUL DERNIVAL JOAQUIM DOS SANTOS -->
 			<xsd:enumeration value="28034929"/>	<!-- 28034929 - ESCOLA MUNICIPAL ERINALDO FRANCISCO DOS SANTOS -->
-			<xsd:enumeration value="28035267"/>	<!-- 28035267 - ESCOLA MUNICIPAL PROFESSORA BERNADETE DOS SANTOS -->
-			<xsd:enumeration value="28035518"/>	<!-- 28035518 - ESCOLA MUNICIPAL JOSE ISRAEL DE ALMEIDA -->
-			<xsd:enumeration value="28084403"/>	<!-- 28084403 - ESCOLA MUNICIPAL ALICE OLIVEIRA -->
-			<xsd:enumeration value="28029801"/>	<!-- 28029801 - CRECHE MUNICIPAL MARIA RITA MODESTO DE OLIVEIRA -->
 			<xsd:enumeration value="28004035"/>	<!-- 28004035 - ESCOLA MUNICIPAL PROFESSORA JUVINA MOREIRA -->
 			<xsd:enumeration value="28004060"/>	<!-- 28004060 - COLEGIO ESTADUAL PROFESSOR GENTIL TAVARES DA MOTA -->
 			<xsd:enumeration value="28004078"/>	<!-- 28004078 - ESCOLA MUNICIPAL ANTONIO DANTAS NUNES -->
@@ -589,6 +583,8 @@
 			<xsd:enumeration value="28004221"/>	<!-- 28004221 - ESCOLA MUNICIPAL MANOEL BERNARDO DOS SANTOS -->
 			<xsd:enumeration value="28004248"/>	<!-- 28004248 - ESCOLAS REUNIDAS DR FRANCISCO LEITE NETO -->
 			<xsd:enumeration value="28004256"/>	<!-- 28004256 - ESCOLA ESTADUAL MARTINHO GARCEZ -->
+			<xsd:enumeration value="28029801"/>	<!-- 28029801 - CRECHE MUNICIPAL MARIA RITA MODESTO DE OLIVEIRA -->
+			<xsd:enumeration value="28084403"/>	<!-- 28084403 - ESCOLA MUNICIPAL ALICE OLIVEIRA -->
 			<xsd:enumeration value="28000471"/>	<!-- 28000471 - ESC MUL ANA MARIA DE REZENDE -->
 			<xsd:enumeration value="28000480"/>	<!-- 28000480 - ESC MUL ANTONIO FREITAS MELO -->
 			<xsd:enumeration value="28000498"/>	<!-- 28000498 - ESC MUL ANTONIO MANOEL CASTOR DE MELO -->
@@ -614,11 +610,11 @@
 			<xsd:enumeration value="28029046"/>	<!-- 28029046 - ESCOLA MUL MARIA SALVELINA LIMA -->
 			<xsd:enumeration value="28029054"/>	<!-- 28029054 - ESCOLA MUNICIPAL LUIZ MOTA -->
 			<xsd:enumeration value="28030974"/>	<!-- 28030974 - ESCOLA MUNICIPAL ASSENTAMENTO II -->
-			<xsd:enumeration value="28027264"/>	<!-- 28027264 - CRECHE MUNCIPAL GILZETE FEITOSA DIAS -->
 			<xsd:enumeration value="28016254"/>	<!-- 28016254 - ESCOLA MUNICIPAL ERNESTO MUNIZ BARRETO -->
 			<xsd:enumeration value="28016262"/>	<!-- 28016262 - ESC MUL ANTONIO CARDOSO DANTAS -->
 			<xsd:enumeration value="28016270"/>	<!-- 28016270 - ESC MUL JOSE MACIEL SANTOS -->
 			<xsd:enumeration value="28016300"/>	<!-- 28016300 - COL EST PROFESSORA MARIA CONCEICAO DE SANTANA -->
+			<xsd:enumeration value="28027264"/>	<!-- 28027264 - CRECHE MUNCIPAL GILZETE FEITOSA DIAS -->
 			<xsd:enumeration value="28000951"/>	<!-- 28000951 - COLEGIO ESTADUAL MANOEL ALCINO DO NASCIMENTO -->
 			<xsd:enumeration value="28000986"/>	<!-- 28000986 - ESC MUL JOSE EUNAPIO DOS SANTOS -->
 			<xsd:enumeration value="28000994"/>	<!-- 28000994 - ESC MUL FRANCISCO SALES FERREIRA -->
@@ -634,7 +630,6 @@
 			<xsd:enumeration value="28001125"/>	<!-- 28001125 - ESC MUL DR LOURIVAL BATISTA -->
 			<xsd:enumeration value="28001133"/>	<!-- 28001133 - JD DE INFANCIA ADNAN GARCIA -->
 			<xsd:enumeration value="28026349"/>	<!-- 28026349 - ESCOLA MUL BOA VISTA -->
-			<xsd:enumeration value="28027426"/>	<!-- 28027426 - ESCOLA MUL MANOEL DA SILVA -->
 			<xsd:enumeration value="28013093"/>	<!-- 28013093 - COLEGIO ESTADUAL DR JESSE TRINDADE -->
 			<xsd:enumeration value="28013107"/>	<!-- 28013107 - ESCOLA FORMOSA MUNICIPAL -->
 			<xsd:enumeration value="28013115"/>	<!-- 28013115 - ESCOLA MUNICIPAL DR LOURIVAL BATISTA -->
@@ -644,6 +639,7 @@
 			<xsd:enumeration value="28013174"/>	<!-- 28013174 - ESCOLA MUNICIPAL 13 DE MAIO -->
 			<xsd:enumeration value="28013212"/>	<!-- 28013212 - ESCOLA ESTADUAL MANOEL ANTONIO PEREIRA -->
 			<xsd:enumeration value="28013220"/>	<!-- 28013220 - JD DE INFANCIA PROF MA LEOPOLDINA LINS -->
+			<xsd:enumeration value="28027426"/>	<!-- 28027426 - ESCOLA MUL MANOEL DA SILVA -->
 			<xsd:enumeration value="28025164"/>	<!-- 28025164 - ESCOLA MUL PROFESSOR BENEDITO OLIVEIRA -->
 			<xsd:enumeration value="28025172"/>	<!-- 28025172 - COLEGIO MUNICIPAL ANTONIO CARLOS VALADARES -->
 			<xsd:enumeration value="28025180"/>	<!-- 28025180 - ESCOLA ESTADUAL DIONIZIO MACHADO -->
@@ -667,23 +663,6 @@
 			<xsd:enumeration value="28027116"/>	<!-- 28027116 - UNIDADE ESPECIFICA DE EDUCACAO INFANTIL PROFº LUIZ ANTONIO BARRETO -->
 			<xsd:enumeration value="28028481"/>	<!-- 28028481 - ESCOLA MUL JOSE GOMES DA SILVA -->
 			<xsd:enumeration value="28030133"/>	<!-- 28030133 - ESCOLA MUNICIPAL PROFESSORA IAIA -->
-			<xsd:enumeration value="28027205"/>	<!-- 28027205 - ESCOLA TECNICA AGRICOLA PREFEITO JOAO ALVES SANTOS -->
-			<xsd:enumeration value="28031067"/>	<!-- 28031067 - CENTRO EDUCACIONAL VOVO NININHA -->
-			<xsd:enumeration value="28031075"/>	<!-- 28031075 - CENTRO EDUCACIONAL VICENTE MACHADO MENESES -->
-			<xsd:enumeration value="28030460"/>	<!-- 28030460 - ESCOLA MUNICIPAL VICE GOV BENEDITO FIGUEIREDO -->
-			<xsd:enumeration value="28030478"/>	<!-- 28030478 - ESCOLA MUNICIPAL POETA JOSE CRISPIM DE SOUZA -->
-			<xsd:enumeration value="28031512"/>	<!-- 28031512 - ESCOLA MUL LIBERATO MENEZES -->
-			<xsd:enumeration value="28031520"/>	<!-- 28031520 - CENTRO EDUCACIONAL MARIA NUNES PEIXOTO -->
-			<xsd:enumeration value="28031539"/>	<!-- 28031539 - CENTRO EDUCACIONAL SAO FRANCISCO DE ASSIS -->
-			<xsd:enumeration value="28031547"/>	<!-- 28031547 - ESCOLA MUL PROFª HERMELINA DA COSTA LIMA -->			
-			<xsd:enumeration value="28033221"/>	<!-- 28033221 - ESCOLA MUL PROF CLARA MEIRELES TELES -->
-			<xsd:enumeration value="28035747"/>	<!-- 28035747 - ESCOLA MUNICIPAL GENÁRIO OLIVEIRA -->
-			<xsd:enumeration value="28035755"/>	<!-- 28035755 - CENTRO EDUCACIONAL JUDITE DANTAS DE ANDRADE -->
-			<xsd:enumeration value="28035780"/>	<!-- 28035780 - ESCOLA MUNICIPAL PROFESSORA VERA CANDIDA COSTA SANTANA -->
-			<xsd:enumeration value="28036565"/>	<!-- 28036565 - CENTRO EDUCACIONAL PROFESSORA MARIA EUNICE DE GOIS -->
-			<xsd:enumeration value="28036590"/>	<!-- 28036590 - CENTRO EDUCACIONAL PROFESSORA CLAUDIA JEANI ANDRADE CARNEIRO -->
-			<xsd:enumeration value="28035399"/>	<!-- 28035399 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL JOHN LENO CUNHA DA MOTA -->
-			<xsd:enumeration value="28034546"/>	<!-- 28034546 - ESCOLA MUNICIPAL IANA MONTEIRO DE CARVALHO -->
 			<xsd:enumeration value="28006950"/>	<!-- 28006950 - ESCOLA ESTADUAL VICENTE MACHADO MENEZES -->
 			<xsd:enumeration value="28007000"/>	<!-- 28007000 - COL EST MURILO BRAGA -->
 			<xsd:enumeration value="28007085"/>	<!-- 28007085 - ESCOLA MUNICIPAL PROFESSORA NIVALDA LIMA FIGUEIREDO -->
@@ -732,6 +711,7 @@
 			<xsd:enumeration value="28007620"/>	<!-- 28007620 - ESCOLA MUNICIPAL PROFº LIMA JUNIOR -->
 			<xsd:enumeration value="28007638"/>	<!-- 28007638 - ESC MUL PROFª MARIA VIEIRA DE MENDONCA -->
 			<xsd:enumeration value="28007654"/>	<!-- 28007654 - ESC MUL PROF GABRIEL ANDRADE -->
+			<xsd:enumeration value="28007662"/>	<!-- 28007662 - ESCOLA MUNICIPAL MANOEL FRANCISCO DA COSTA -->
 			<xsd:enumeration value="28007670"/>	<!-- 28007670 - ESC MUL TOBIAS BARRETO -->
 			<xsd:enumeration value="28007700"/>	<!-- 28007700 - ESCOLA MUL JOAO FRANCISCO DE MENEZES -->
 			<xsd:enumeration value="28007719"/>	<!-- 28007719 - ESCOLA MUNICIPAL DR JOAO ALVES FILHO -->
@@ -742,7 +722,18 @@
 			<xsd:enumeration value="28007816"/>	<!-- 28007816 - COLEGIO ESTADUAL EDUARDO SILVEIRA -->
 			<xsd:enumeration value="28007832"/>	<!-- 28007832 - ESCOLA ESTADUAL ELIEZER PORTO -->
 			<xsd:enumeration value="28007840"/>	<!-- 28007840 - ESCOLA ESTADUAL PROFESSORA LENITA PORTO -->
-			<xsd:enumeration value="28007859"/>	<!-- 28007859 - ESCOLA MUNICIPAL PROFº JÚLIO MARTINS DA CONCEIÇÃO -->
+			<xsd:enumeration value="28007859"/>	<!-- 28007859 - PRE ESCOLAR SO BABY -->
+			<xsd:enumeration value="28027205"/>	<!-- 28027205 - ESCOLA TECNICA AGRICOLA PREFEITO JOAO ALVES SANTOS -->
+			<xsd:enumeration value="28030460"/>	<!-- 28030460 - ESCOLA MUNICIPAL VICE GOV BENEDITO FIGUEIREDO -->
+			<xsd:enumeration value="28030478"/>	<!-- 28030478 - ESCOLA MUNICIPAL POETA JOSE CRISPIM DE SOUZA -->
+			<xsd:enumeration value="28031067"/>	<!-- 28031067 - CENTRO EDUCACIONAL VOVO NININHA -->
+			<xsd:enumeration value="28031075"/>	<!-- 28031075 - CENTRO EDUCACIONAL VICENTE MACHADO MENESES -->
+			<xsd:enumeration value="28031512"/>	<!-- 28031512 - ESCOLA MUL LIBERATO MENEZES -->
+			<xsd:enumeration value="28031520"/>	<!-- 28031520 - CENTRO EDUCACIONAL MARIA NUNES PEIXOTO -->
+			<xsd:enumeration value="28031539"/>	<!-- 28031539 - CENTRO EDUCACIONAL SAO FRANCISCO DE ASSIS -->
+			<xsd:enumeration value="28031547"/>	<!-- 28031547 - ESCOLA MUL PROFª HERMELINA DA COSTA LIMA -->
+			<xsd:enumeration value="28033221"/>	<!-- 28033221 - ESCOLA MUL PROF CLARA MEIRELES TELES -->
+			<xsd:enumeration value="28034546"/>	<!-- 28034546 - ESCOLA MUNICIPAL IANA MONTEIRO DE CARVALHO -->
 			<xsd:enumeration value="28022637"/>	<!-- 28022637 - ESCOLA MUNICIPAL OSEAS CAVALCANTI BATISTA -->
 			<xsd:enumeration value="28022645"/>	<!-- 28022645 - COLEGIO ESTADUAL MONSENHOR OLIMPIO CAMPOS -->
 			<xsd:enumeration value="28022653"/>	<!-- 28022653 - ESC MUL JOAO BENJAMIM DE OLIVEIRA -->
@@ -778,24 +769,22 @@
 			<xsd:enumeration value="28023099"/>	<!-- 28023099 - ESC MUL EDNEY CAVALCANTE BATISTA -->
 			<xsd:enumeration value="28023102"/>	<!-- 28023102 - ESCOLA MUL JOAQUIM COSTA -->
 			<xsd:enumeration value="28023137"/>	<!-- 28023137 - ESCOLA MUNICIPAL PASSOS PORTO -->
-			<xsd:enumeration value="28032691"/>	<!-- 28032691 - ESCOLA MUNICIPAL FRANCISCO MOREIRA DOS SANTOS -->
-			<xsd:enumeration value="28032365"/>	<!-- 28032365 - ESCOLA MUL JOSE EVANGELISTA DE SANTANA -->
-			<xsd:enumeration value="28031792"/>	<!-- 28031792 - ESCOLA MUL JOSE CARLOS DE OLIVEIRA -->
-			<xsd:enumeration value="28031776"/>	<!-- 28031776 - ESCOLA MUNICIPAL JOSE LIMA DE CARVALHO -->
-			<xsd:enumeration value="28031741"/>	<!-- 28031741 - ESCOLA MUNICIPAL JOAO BERNADO DOS SANTOS -->
-			<xsd:enumeration value="28030630"/>	<!-- 28030630 - ESCOLA MUNICIPAL MANUEL BENJAMIN COSTA -->
-			<xsd:enumeration value="28030648"/>	<!-- 28030648 - ESCOLA MUNICIPAL FRANCISCO DOMINGOS -->
-			<xsd:enumeration value="28030443"/>	<!-- 28030443 - ESC MUL JOSE PABLO NASCIMENTO COSTA -->
-			<xsd:enumeration value="28027124"/>	<!-- 28027124 - UNIDADE DE ED INFANTIL PEDRO EMANOEL FARO GUIMARAES -->
 			<xsd:enumeration value="28026918"/>	<!-- 28026918 - ESCOLA MUNICIPAL PADRE ARNALDO DE MATOS CONCEICAO -->
 			<xsd:enumeration value="28026926"/>	<!-- 28026926 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL SANTA JOANA D ARC -->
 			<xsd:enumeration value="28026934"/>	<!-- 28026934 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL LIRIO DOS VALES -->
 			<xsd:enumeration value="28026942"/>	<!-- 28026942 - ESC MUL MARIA FRANCISCA SANTANA -->
+			<xsd:enumeration value="28027124"/>	<!-- 28027124 - UNIDADE DE ED INFANTIL PEDRO EMANOEL FARO GUIMARAES -->
 			<xsd:enumeration value="28029577"/>	<!-- 28029577 - COL EST DEPUTADO RAIMUNDO LIMA VIEIRA -->
 			<xsd:enumeration value="28029674"/>	<!-- 28029674 - ESCOLA MUL JOAO ANASTACIO DOS SANTOS -->
 			<xsd:enumeration value="28029682"/>	<!-- 28029682 - ESCOLA MUNICIPAL JAIME DA SILVEIRA CARVALHO -->
-			<xsd:enumeration value="28027442"/>	<!-- 28027442 - ESC MUNICIPAL LAGOA DO BOI -->
-			<xsd:enumeration value="28032462"/>	<!-- 28032462 - CRECHE MUL MARIA DA CONCEICAO MORAIS MENEZES -->
+			<xsd:enumeration value="28030443"/>	<!-- 28030443 - ESC MUL JOSE PABLO NASCIMENTO COSTA -->
+			<xsd:enumeration value="28030630"/>	<!-- 28030630 - ESCOLA MUNICIPAL MANUEL BENJAMIN COSTA -->
+			<xsd:enumeration value="28030648"/>	<!-- 28030648 - ESCOLA MUNICIPAL FRANCISCO DOMINGOS -->
+			<xsd:enumeration value="28031741"/>	<!-- 28031741 - ESCOLA MUNICIPAL JOAO BERNADO DOS SANTOS -->
+			<xsd:enumeration value="28031776"/>	<!-- 28031776 - ESCOLA MUNICIPAL JOSE LIMA DE CARVALHO -->
+			<xsd:enumeration value="28031792"/>	<!-- 28031792 - ESCOLA MUL JOSE CARLOS DE OLIVEIRA -->
+			<xsd:enumeration value="28032365"/>	<!-- 28032365 - ESCOLA MUL JOSE EVANGELISTA DE SANTANA -->
+			<xsd:enumeration value="28032691"/>	<!-- 28032691 - ESCOLA MUNICIPAL FRANCISCO MOREIRA DOS SANTOS -->
 			<xsd:enumeration value="28001150"/>	<!-- 28001150 - COLEGIO ESTADUAL PROFESSORA MARIA DAS GRACAS MENEZES MOURA -->
 			<xsd:enumeration value="28001168"/>	<!-- 28001168 - ESC MUL ANTONIO BATISTA DE MELO -->
 			<xsd:enumeration value="28001184"/>	<!-- 28001184 - ESC MUL ARNALDO GARCEZ -->
@@ -808,6 +797,8 @@
 			<xsd:enumeration value="28001311"/>	<!-- 28001311 - ESCOLA MUL PROFª MARIANA M DE SANTANA -->
 			<xsd:enumeration value="28001346"/>	<!-- 28001346 - PRE ESCOLAR BOA HORA -->
 			<xsd:enumeration value="28001354"/>	<!-- 28001354 - ESCOLA MUL MANOEL CONDE SOBRAL -->
+			<xsd:enumeration value="28027442"/>	<!-- 28027442 - ESC MUNICIPAL LAGOA DO BOI -->
+			<xsd:enumeration value="28032462"/>	<!-- 28032462 - CRECHE MUL MARIA DA CONCEICAO MORAIS MENEZES -->
 			<xsd:enumeration value="28025423"/>	<!-- 28025423 - COLEGIO ESTADUAL FELISBELO FREIRE -->
 			<xsd:enumeration value="28025431"/>	<!-- 28025431 - ESC MUNICIPAL JOSE AUGUSTINHO DE OLIVEIRA -->
 			<xsd:enumeration value="28025440"/>	<!-- 28025440 - ESC MUN ARNALDO ROLLEMBERG GARCEZ -->
@@ -848,26 +839,20 @@
 			<xsd:enumeration value="28025857"/>	<!-- 28025857 - ESCOLA MUNICIPAL JOAO BATISTA SOBRAL -->
 			<xsd:enumeration value="28025873"/>	<!-- 28025873 - ESCOLA ESTADUAL JOSE SOBRAL GARCEZ -->
 			<xsd:enumeration value="28025890"/>	<!-- 28025890 - JARDIM DE INFANCIA DOUTOR PEDRO RUBENS DA COSTA BARROS -->
-			<xsd:enumeration value="28032330"/>	<!-- 28032330 - ESCOLA MUNICIPAL VICE-GOVERNADORA MARILIA MANDARINO -->
-			<xsd:enumeration value="28033027"/>	<!-- 28033027 - ESCOLA MUNICIPAL TABELIAO JOSE HENRIQUE FILHO -->
-			<xsd:enumeration value="28033051"/>	<!-- 28033051 - ESCOLA MUNICIPAL PREFEITA MARIA DAS GRACAS SOUZA GARCEZ -->
-			<xsd:enumeration value="28031326"/>	<!-- 28031326 - ESCOLA MUNICIPAL PROFESSORA ANIZIA DANTAS LIMA -->
-			<xsd:enumeration value="28029330"/>	<!-- 28029330 - ESCOLA MUNICIPAL PADRE EVERALDO LIMA -->
-			<xsd:enumeration value="28030214"/>	<!-- 28030214 - ESCOLA MUNICIPAL PROFESSORA MARIA ANTONINA SANTOS SILVA -->
-			<xsd:enumeration value="28030222"/>	<!-- 28030222 - ESCOLA MUNICIPAL VEREADOR GENESIO SANTANA -->
-			<xsd:enumeration value="28029879"/>	<!-- 28029879 - ESCOLA MUNICPAL PROFESSORA ANTONIETA GAMBARDELLA -->
-			<xsd:enumeration value="28029887"/>	<!-- 28029887 - ESC MUL ANTONIO FRANCISCO SOBRAL GARCEZ -->
 			<xsd:enumeration value="28028317"/>	<!-- 28028317 - COLEGIO ESTADUAL HELIO WANDERLEY SOBRAL CARVALHO -->
 			<xsd:enumeration value="28028325"/>	<!-- 28028325 - CRECHE LAURINDA CONDE SOBRAL -->
 			<xsd:enumeration value="28028368"/>	<!-- 28028368 - ESCOLA MUNICIPAL MARIA AUGUSTA GARCEZ -->
+			<xsd:enumeration value="28029330"/>	<!-- 28029330 - ESCOLA MUNICIPAL PADRE EVERALDO LIMA -->
+			<xsd:enumeration value="28029879"/>	<!-- 28029879 - ESCOLA MUNICPAL PROFESSORA ANTONIETA GAMBARDELLA -->
+			<xsd:enumeration value="28029887"/>	<!-- 28029887 - ESC MUL ANTONIO FRANCISCO SOBRAL GARCEZ -->
+			<xsd:enumeration value="28030214"/>	<!-- 28030214 - ESCOLA MUNICIPAL PROFESSORA MARIA ANTONINA SANTOS SILVA -->
+			<xsd:enumeration value="28030222"/>	<!-- 28030222 - ESCOLA MUNICIPAL VEREADOR GENESIO SANTANA -->
+			<xsd:enumeration value="28031326"/>	<!-- 28031326 - ESCOLA MUNICIPAL PROFESSORA ANIZIA DANTAS LIMA -->
+			<xsd:enumeration value="28032330"/>	<!-- 28032330 - ESCOLA MUNICIPAL VICE-GOVERNADORA MARILIA MANDARINO -->
+			<xsd:enumeration value="28033027"/>	<!-- 28033027 - ESCOLA MUNICIPAL TABELIAO JOSE HENRIQUE FILHO -->
+			<xsd:enumeration value="28033051"/>	<!-- 28033051 - ESCOLA MUNICIPAL PREFEITA MARIA DAS GRACAS SOUZA GARCEZ -->
 			<xsd:enumeration value="28033493"/>	<!-- 28033493 - ESCOLA MUNICIPAL GERSON RAMOS -->
 			<xsd:enumeration value="28072405"/>	<!-- 28072405 - ESCOLA MUNICIPAL VEREADOR OTAVIO SILVEIRA SOBRAL -->
-			<xsd:enumeration value="28033582"/>	<!-- 28033582 - CRECHE DONA ELZA CARVALHO DE OLIVEIRA -->
-			<xsd:enumeration value="28033590"/>	<!-- 28033590 - CRECHE DONA CENIRA DO NASCIMENTO SANTOS -->
-			<xsd:enumeration value="28029569"/>	<!-- 28029569 - COLEGIO ESTADUAL JOSE DE MATOS TELES -->
-			<xsd:enumeration value="28027558"/>	<!-- 28027558 - JARDIM DE INFANCIA CELUTA DOS SANTOS -->
-			<xsd:enumeration value="28026713"/>	<!-- 28026713 - ESC MUL JOAO CARVALHO DE OLIVEIRA -->
-			<xsd:enumeration value="28026721"/>	<!-- 28026721 - JARDIM DE INFANCIA TIO PATINHAS -->
 			<xsd:enumeration value="28014987"/>	<!-- 28014987 - ESC MUL PROF EMILIANO N DE MOURA -->
 			<xsd:enumeration value="28015002"/>	<!-- 28015002 - ESCOLA ESTADUAL SENADOR GONCALO ROLLEMBERG -->
 			<xsd:enumeration value="28015037"/>	<!-- 28015037 - ESCOLA MUNICIPAL DESEMBARGADOR LUIZ RABELO LEITE -->
@@ -894,6 +879,12 @@
 			<xsd:enumeration value="28015304"/>	<!-- 28015304 - CENTRO EDUCACIONAL PEQUENO POLEGAR -->
 			<xsd:enumeration value="28015312"/>	<!-- 28015312 - JARDIM DE INFANCIA FRANCISCO PEREIRA -->
 			<xsd:enumeration value="28015320"/>	<!-- 28015320 - JD DE INFANCIA SOSSEGO DA MAMAE -->
+			<xsd:enumeration value="28026713"/>	<!-- 28026713 - ESC MUL JOAO CARVALHO DE OLIVEIRA -->
+			<xsd:enumeration value="28026721"/>	<!-- 28026721 - JARDIM DE INFANCIA TIO PATINHAS -->
+			<xsd:enumeration value="28027558"/>	<!-- 28027558 - JARDIM DE INFANCIA CELUTA DOS SANTOS -->
+			<xsd:enumeration value="28029569"/>	<!-- 28029569 - COLEGIO ESTADUAL JOSE DE MATOS TELES -->
+			<xsd:enumeration value="28033582"/>	<!-- 28033582 - CRECHE DONA ELZA CARVALHO DE OLIVEIRA -->
+			<xsd:enumeration value="28033590"/>	<!-- 28033590 - CRECHE DONA CENIRA DO NASCIMENTO SANTOS -->
 			<xsd:enumeration value="28015355"/>	<!-- 28015355 - COLEGIO ESTADUAL JOSINO MENEZES -->
 			<xsd:enumeration value="28015371"/>	<!-- 28015371 - ESC MUN DEP JOAO MACHADO R MENDONCA -->
 			<xsd:enumeration value="28015398"/>	<!-- 28015398 - ESC MUN DR JOSE ROLLEMBERG LEITE -->
@@ -914,20 +905,6 @@
 			<xsd:enumeration value="28026268"/>	<!-- 28026268 - AS MANT ESC FAM AGRIC LADEIRINHAS -->
 			<xsd:enumeration value="28032195"/>	<!-- 28032195 - ANEXO DO COLEGIO ESTADUAL JOSINO MENEZES -->
 			<xsd:enumeration value="28056400"/>	<!-- 28056400 - ESCOLA MUNICIPAL PROF ELIETE DE MELO GUIMARAES -->
-			<xsd:enumeration value="28081404"/>	<!-- 28081404 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL PROFESSORA MARIA VALDEREZ FREIRE PRATA - CRIANCA FELIZ -->
-			<xsd:enumeration value="28032209"/>	<!-- 28032209 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL ESTEFANIA RODRIGUES DO NASCIMENTO -->
-			<xsd:enumeration value="28032225"/>	<!-- 28032225 - COL EST SEN MARIA DO CARMO NASCIMENTO ALVES -->
-			<xsd:enumeration value="28032713"/>	<!-- 28032713 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL JOSE MARIA DE ALMEIDA -->
-			<xsd:enumeration value="28032950"/>	<!-- 28032950 - ESCOLA MUL JOSE ANTONIO DOS SANTOS -->
-			<xsd:enumeration value="28031695"/>	<!-- 28031695 - ESCOLA MUL SANTIAGO BISPO -->
-			<xsd:enumeration value="28031709"/>	<!-- 28031709 - ESCOLA MUL LUIZA PEREIRA DO NASCIMENTO RODRIGUES -->
-			<xsd:enumeration value="28031717"/>	<!-- 28031717 - ESCOLA MUL ADELINA MARIA DE SANTANA SOUZA -->
-			<xsd:enumeration value="28026667"/>	<!-- 28026667 - ESCOLA ESTADUAL DOM MARIO RINO SIVIERI -->
-			<xsd:enumeration value="28026764"/>	<!-- 28026764 - ESCOLA MUL CANDIDO BARRETO MACHADO -->
-			<xsd:enumeration value="28026969"/>	<!-- 28026969 - ESCOLA ESTADUAL MARIA AUGUSTA CARVALHO RIBEIRO -->
-			<xsd:enumeration value="28030257"/>	<!-- 28030257 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL ADALBERTO FONSECA -->
-			<xsd:enumeration value="28028740"/>	<!-- 28028740 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL VOVO MARCIONILIA -->
-			<xsd:enumeration value="28028759"/>	<!-- 28028759 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL VOVO ARACY FERREIRA -->
 			<xsd:enumeration value="28010914"/>	<!-- 28010914 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL FELICIA MARIA DA PIEDADE -->
 			<xsd:enumeration value="28010930"/>	<!-- 28010930 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL RAIMUNDA REIS -->
 			<xsd:enumeration value="28010965"/>	<!-- 28010965 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL SOSSEGO DA MAMAE -->
@@ -1003,6 +980,20 @@
 			<xsd:enumeration value="28012062"/>	<!-- 28012062 - ESCOLA ESTADUAL NOSSA SRA DA PIEDADE -->
 			<xsd:enumeration value="28012100"/>	<!-- 28012100 - ESCOLA ESTADUAL MONSENHOR MARINHO -->
 			<xsd:enumeration value="28012119"/>	<!-- 28012119 - ESCOLA ESTADUAL SENADOR LEITE NETO -->
+			<xsd:enumeration value="28026667"/>	<!-- 28026667 - ESCOLA ESTADUAL DOM MARIO RINO SIVIERI -->
+			<xsd:enumeration value="28026764"/>	<!-- 28026764 - ESCOLA MUL CANDIDO BARRETO MACHADO -->
+			<xsd:enumeration value="28026969"/>	<!-- 28026969 - ESCOLA ESTADUAL MARIA AUGUSTA CARVALHO RIBEIRO -->
+			<xsd:enumeration value="28028740"/>	<!-- 28028740 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL VOVO MARCIONILIA -->
+			<xsd:enumeration value="28028759"/>	<!-- 28028759 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL VOVO ARACY FERREIRA -->
+			<xsd:enumeration value="28030257"/>	<!-- 28030257 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL ADALBERTO FONSECA -->
+			<xsd:enumeration value="28031695"/>	<!-- 28031695 - ESCOLA MUL SANTIAGO BISPO -->
+			<xsd:enumeration value="28031709"/>	<!-- 28031709 - ESCOLA MUL LUIZA PEREIRA DO NASCIMENTO RODRIGUES -->
+			<xsd:enumeration value="28031717"/>	<!-- 28031717 - ESCOLA MUL ADELINA MARIA DE SANTANA SOUZA -->
+			<xsd:enumeration value="28032209"/>	<!-- 28032209 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL ESTEFANIA RODRIGUES DO NASCIMENTO -->
+			<xsd:enumeration value="28032225"/>	<!-- 28032225 - COL EST SEN MARIA DO CARMO NASCIMENTO ALVES -->
+			<xsd:enumeration value="28032713"/>	<!-- 28032713 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL JOSE MARIA DE ALMEIDA -->
+			<xsd:enumeration value="28032950"/>	<!-- 28032950 - ESCOLA MUL JOSE ANTONIO DOS SANTOS -->
+			<xsd:enumeration value="28081404"/>	<!-- 28081404 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL PROFESSORA MARIA VALDEREZ FREIRE PRATA - CRIANCA FELIZ -->
 			<xsd:enumeration value="28016319"/>	<!-- 28016319 - COLEGIO ESTADUAL PROF ZIZINHA GUIMARAES -->
 			<xsd:enumeration value="28016327"/>	<!-- 28016327 - ESCOLA MUNICIPAL ALCINO MANOEL PRUDENTE -->
 			<xsd:enumeration value="28016335"/>	<!-- 28016335 - ESC ESTADUAL JOAO RIBEIRO -->
@@ -1023,12 +1014,11 @@
 			<xsd:enumeration value="28016564"/>	<!-- 28016564 - ESCOLA MUNICIPAL RIO BRANCO -->
 			<xsd:enumeration value="28016572"/>	<!-- 28016572 - ESCOLA MUNICIPAL MANOEL SIZINO FRANCO -->
 			<xsd:enumeration value="28016580"/>	<!-- 28016580 - ESCOLA MUNICIPAL MARIA VIRGINIA LEITE FRANCO -->
+			<xsd:enumeration value="28030699"/>	<!-- 28030699 - CRECHE E PRE-ESCOLAR MARIA DE LOURDES MONTEIRO SOBRAL -->
 			<xsd:enumeration value="28031369"/>	<!-- 28031369 - CRECHE ADELIA DO PRADO FRANCO -->
 			<xsd:enumeration value="28031377"/>	<!-- 28031377 - CRECHE TEREZA AUGUSTA MIRANDA FRANCO -->
 			<xsd:enumeration value="28031385"/>	<!-- 28031385 - CRECHE MARIA CARMITA FERNANDES -->
-			<xsd:enumeration value="28030699"/>	<!-- 28030699 - CRECHE E PRE-ESCOLAR MARIA DE LOURDES MONTEIRO SOBRAL -->
 			<xsd:enumeration value="28032012"/>	<!-- 28032012 - CRECHE BRUNA HAGENBECK -->
-			<xsd:enumeration value="28027140"/>	<!-- 28027140 - ESCOLA MUNICIPAL CECILIO EUGENIO ALVES -->
 			<xsd:enumeration value="28007867"/>	<!-- 28007867 - COLEGIO ESTADUAL MARCOLINO CRUZ SANTOS -->
 			<xsd:enumeration value="28007905"/>	<!-- 28007905 - CENTRO MUL DE EDUCACAO INFANTIL SAO FRANCISCO DE ASSIS -->
 			<xsd:enumeration value="28007913"/>	<!-- 28007913 - ESCOLA MUNICIPAL FRANCISCO NASCIMENTO SOUZA -->
@@ -1039,6 +1029,7 @@
 			<xsd:enumeration value="28007964"/>	<!-- 28007964 - ESC MUL MARIA DA CONCEICAO SOUZA -->
 			<xsd:enumeration value="28007972"/>	<!-- 28007972 - ESC MUL MANUEL FRANCISCO DOS SANTOS -->
 			<xsd:enumeration value="28007980"/>	<!-- 28007980 - ESC MUL MARIA ISABEL DOS SANTOS -->
+			<xsd:enumeration value="28027140"/>	<!-- 28027140 - ESCOLA MUNICIPAL CECILIO EUGENIO ALVES -->
 			<xsd:enumeration value="28005759"/>	<!-- 28005759 - COLEGIO ESTADUAL EMILIANO GUIMARAES -->
 			<xsd:enumeration value="28005767"/>	<!-- 28005767 - ESCOLA MUNICIPAL GETULIO VARGAS -->
 			<xsd:enumeration value="28005775"/>	<!-- 28005775 - ESCOLA MUNICIPAL SANTA MARIA -->
@@ -1046,8 +1037,6 @@
 			<xsd:enumeration value="28005813"/>	<!-- 28005813 - ESCOLA MUNICIPAL MENINO JESUS -->
 			<xsd:enumeration value="28005821"/>	<!-- 28005821 - ESCOLA MUNICIPAL ROMEU DE AGUIAR FIGUEIREDO -->
 			<xsd:enumeration value="28034287"/>	<!-- 28034287 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL MARIA HERMINIA DE AGUIAR OLIVEIRA -->
-			<xsd:enumeration value="28027159"/>	<!-- 28027159 - ESCOLINHA INFANTIL CHAPEUZINHO VERMELHO -->
-			<xsd:enumeration value="28032110"/>	<!-- 28032110 - ESCOLA MUNICIPAL PINGO DE GENTE -->
 			<xsd:enumeration value="28008049"/>	<!-- 28008049 - ESCOLA MUL CLOTILDES DE JESUS SILVA -->
 			<xsd:enumeration value="28008057"/>	<!-- 28008057 - COLEGIO ESTADUAL SAO JOSE -->
 			<xsd:enumeration value="28008073"/>	<!-- 28008073 - ESCOLA MUNICIPAL FINLANDIA -->
@@ -1063,6 +1052,8 @@
 			<xsd:enumeration value="28008189"/>	<!-- 28008189 - ESCOLA RURAL PALMEIRAS -->
 			<xsd:enumeration value="28008197"/>	<!-- 28008197 - ESCOLA MUN MARTINS ANDRELINO DOS REIS -->
 			<xsd:enumeration value="28008227"/>	<!-- 28008227 - COLEGIO ESTADUAL JOSE JOAQUIM CARDOSO -->
+			<xsd:enumeration value="28027159"/>	<!-- 28027159 - ESCOLINHA INFANTIL CHAPEUZINHO VERMELHO -->
+			<xsd:enumeration value="28032110"/>	<!-- 28032110 - ESCOLA MUNICIPAL PINGO DE GENTE -->
 			<xsd:enumeration value="28016629"/>	<!-- 28016629 - ESC MUN DE ENSINO FUND CEL SABINO RIBEIRO -->
 			<xsd:enumeration value="28016637"/>	<!-- 28016637 - COLEGIO ESTADUAL DR ALCIDES PEREIRA -->
 			<xsd:enumeration value="28016645"/>	<!-- 28016645 - ESCOLA MUNICIPAL JOSIAS VIEIRA DANTAS -->
@@ -1074,11 +1065,10 @@
 			<xsd:enumeration value="28016718"/>	<!-- 28016718 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL ANTONIO LEAO BRASIL -->
 			<xsd:enumeration value="28016726"/>	<!-- 28016726 - ESC MUL DE ENSINO FUND ARISTIDES BITTENCOURT -->
 			<xsd:enumeration value="28016734"/>	<!-- 28016734 - ESC MUL DE ENSINO FUND ULISSES TELES DE MENEZES -->
-			<xsd:enumeration value="28031652"/>	<!-- 28031652 - CENTRO DE EDUC INFANTIL ABDIAS BATISTA E SILVA -->
 			<xsd:enumeration value="28026810"/>	<!-- 28026810 - ESCOLA MUNICIPAL PROF MARIA FIDELIS COSTA -->
 			<xsd:enumeration value="28026829"/>	<!-- 28026829 - ESC MUL DE ENSINO FUND PROF ANA LOBAO -->
 			<xsd:enumeration value="28029275"/>	<!-- 28029275 - COLEGIO ESTADUAL FELIPE TIAGO GOMES -->
-			<xsd:enumeration value="28028600"/>	<!-- 28028600 - ESC R PROF Mª MERIVANDA DA R PEIXOTO -->
+			<xsd:enumeration value="28031652"/>	<!-- 28031652 - CENTRO DE EDUC INFANTIL ABDIAS BATISTA E SILVA -->
 			<xsd:enumeration value="28008235"/>	<!-- 28008235 - COLEGIO ESTADUAL DJENAL TAVARES DE QUEIROZ -->
 			<xsd:enumeration value="28008243"/>	<!-- 28008243 - ESCOLA ESTADUAL ENGENHEIRO ELIAS ANDRADE -->
 			<xsd:enumeration value="28008251"/>	<!-- 28008251 - ESCOLA RURAL AUSTRIA -->
@@ -1092,6 +1082,7 @@
 			<xsd:enumeration value="28008375"/>	<!-- 28008375 - ESC RURAL GUILHERMINO BARBOSA -->
 			<xsd:enumeration value="28008383"/>	<!-- 28008383 - ESC RURAL JOAO EVANGELISTA DA COSTA -->
 			<xsd:enumeration value="28008405"/>	<!-- 28008405 - ESCOLA RURAL FRANCISCO CORTES -->
+			<xsd:enumeration value="28028600"/>	<!-- 28028600 - ESC R PROF Mª MERIVANDA DA R PEIXOTO -->
 			<xsd:enumeration value="28001389"/>	<!-- 28001389 - ESCOLA MUL DR PASSOS PORTO -->
 			<xsd:enumeration value="28001400"/>	<!-- 28001400 - COLEGIO ESTADUAL 28 DE JANEIRO -->
 			<xsd:enumeration value="28001443"/>	<!-- 28001443 - ESC MUL DR LUIZ GARCIA -->
@@ -1105,7 +1096,6 @@
 			<xsd:enumeration value="28029151"/>	<!-- 28029151 - ESCOLA MUNICIPAL PEDRO VIEIRA DE OLIVEIRA -->
 			<xsd:enumeration value="28030664"/>	<!-- 28030664 - ESCOLA MUNICIPAL ANDRE CORREIA DANTAS -->
 			<xsd:enumeration value="28030672"/>	<!-- 28030672 - ESCOLA MUNICIPAL MANOEL PEREIRA DE BARROS -->
-			<xsd:enumeration value="28030680"/>	<!-- 28030680 - ESCOLA MUL MANOEL ROZENDO -->
 			<xsd:enumeration value="28005848"/>	<!-- 28005848 - COLEGIO ESTADUAL ALMIRANTE BARROSO -->
 			<xsd:enumeration value="28005856"/>	<!-- 28005856 - ESC MUL BENJAMIN HONORIO BEZERRA -->
 			<xsd:enumeration value="28005864"/>	<!-- 28005864 - ESC MUL CAMILO FRANCISCO DE JESUS -->
@@ -1118,6 +1108,7 @@
 			<xsd:enumeration value="28005961"/>	<!-- 28005961 - ESCOLA MUNICIPAL MANOEL JONAS DA SILVA -->
 			<xsd:enumeration value="28005970"/>	<!-- 28005970 - ESCOLA MUNICIPAL JOAO FIGUEREDO -->
 			<xsd:enumeration value="28005988"/>	<!-- 28005988 - ESCOLA MUNICIPAL SEN WALTER FRANCO -->
+			<xsd:enumeration value="28030680"/>	<!-- 28030680 - ESCOLA MUL MANOEL ROZENDO -->
 			<xsd:enumeration value="28013239"/>	<!-- 28013239 - CENTRO EDUC MUL TIRADENTES -->
 			<xsd:enumeration value="28013247"/>	<!-- 28013247 - COLEGIO ESTADUAL CALDAS JUNIOR -->
 			<xsd:enumeration value="28013298"/>	<!-- 28013298 - COLEGIO ESTADUAL MAL PEREIRA LOBO -->
@@ -1143,9 +1134,6 @@
 			<xsd:enumeration value="28030931"/>	<!-- 28030931 - CRECHE BEATRIZ MACHADO BARRETO LIMA -->
 			<xsd:enumeration value="28030940"/>	<!-- 28030940 - ESC ESTADUAL AMINTHAS DINIZ DE AGUIAR DANTAS -->
 			<xsd:enumeration value="28041801"/>	<!-- 28041801 - CENTRO ESTADUAL DE EDUCACAO PROFISSIONAL AGONALTO PACHECO DA SILVA -->
-			<xsd:enumeration value="28033485"/>	<!-- 28033485 - ESC MUL PROFª LAUDICEIA MARIA DE ANDRADE SILVA -->
-			<xsd:enumeration value="28029291"/>	<!-- 28029291 - ESC MUL PROFª JOSEFA MARIA DA COSTA -->
-			<xsd:enumeration value="28027248"/>	<!-- 28027248 - ESC MUL MANOEL PERCILIANO DOS SANTOS -->
 			<xsd:enumeration value="28004264"/>	<!-- 28004264 - COLEGIO ESTADUAL JOAO SALONIO -->
 			<xsd:enumeration value="28004272"/>	<!-- 28004272 - ESC MUL MARIA SANTOS BARBOSA -->
 			<xsd:enumeration value="28004299"/>	<!-- 28004299 - ESC MUL ARISTIDE JOSE DOS SANTOS -->
@@ -1163,6 +1151,9 @@
 			<xsd:enumeration value="28004515"/>	<!-- 28004515 - ESC MUL SR DO BOMFIM -->
 			<xsd:enumeration value="28004523"/>	<!-- 28004523 - ESC MUL JOAO EVANGELISTA DOS SANTOS -->
 			<xsd:enumeration value="28004531"/>	<!-- 28004531 - ESC MUL JOSE AUGUSTINHO DE ALMEIDA -->
+			<xsd:enumeration value="28027248"/>	<!-- 28027248 - ESC MUL MANOEL PERCILIANO DOS SANTOS -->
+			<xsd:enumeration value="28029291"/>	<!-- 28029291 - ESC MUL PROFª JOSEFA MARIA DA COSTA -->
+			<xsd:enumeration value="28033485"/>	<!-- 28033485 - ESC MUL PROFª LAUDICEIA MARIA DE ANDRADE SILVA -->
 			<xsd:enumeration value="28001672"/>	<!-- 28001672 - EDUCANDARIO SAO FRANCISCO DE ASSIS -->
 			<xsd:enumeration value="28001680"/>	<!-- 28001680 - COLEGIO ESTADUAL CICERO BEZERRA -->
 			<xsd:enumeration value="28001699"/>	<!-- 28001699 - COLEGIO ESTADUAL MANOEL MESSIAS FEITOSA -->
@@ -1195,11 +1186,10 @@
 			<xsd:enumeration value="28002199"/>	<!-- 28002199 - ESCOLA PE LEON GREGORIO -->
 			<xsd:enumeration value="28002229"/>	<!-- 28002229 - ESCOLA ESTADUAL PROFESSORA EVANGELINA AZEVEDO -->
 			<xsd:enumeration value="28030249"/>	<!-- 28030249 - ESCOLA MUNICIPAL ASSENTAMENTO FORTALEZA -->
-			<xsd:enumeration value="28033248"/>	<!-- 28033248 - CRECHE SORRISO DE CRIANCA -->
 			<xsd:enumeration value="28032144"/>	<!-- 28032144 - ESCOLA MUN ASSENTAMENTO NOSSA SENHORA DE LOURDES -->
 			<xsd:enumeration value="28032152"/>	<!-- 28032152 - ESCOLA MUN ASSENTAMENTO Nª SENHORA APARECIDA -->
+			<xsd:enumeration value="28033248"/>	<!-- 28033248 - CRECHE SORRISO DE CRIANCA -->
 			<xsd:enumeration value="28034139"/>	<!-- 28034139 - ESCOLA MUNICIPAL JARDIM DE INFANCIA PEQUENO PRINCIPE -->
-			<xsd:enumeration value="28032039"/>	<!-- 28032039 - ESCOLA MUNICIPAL JOSE DE FIGUEIREDO BARRETO -->
 			<xsd:enumeration value="28005996"/>	<!-- 28005996 - ESCOLA MUNICIPAL PROFESSORA HOZANA AZEVEDO -->
 			<xsd:enumeration value="28006046"/>	<!-- 28006046 - COLEGIO ESTADUAL PROFESSOR FERNANDO AZEVEDO -->
 			<xsd:enumeration value="28006070"/>	<!-- 28006070 - ESCOLA MUNICIPAL ANISIO TEIXEIRA -->
@@ -1224,6 +1214,7 @@
 			<xsd:enumeration value="28006313"/>	<!-- 28006313 - ESCOLA MUNICIPAL PROFESSORA MARIA ROSA COSTA -->
 			<xsd:enumeration value="28006321"/>	<!-- 28006321 - ESCOLA MUNICIPAL ARNALDO ROLEMBERG GARCEZ -->
 			<xsd:enumeration value="28006330"/>	<!-- 28006330 - COLEGIO ESTADUAL GENERAL CALAZANS -->
+			<xsd:enumeration value="28032039"/>	<!-- 28032039 - ESCOLA MUNICIPAL JOSE DE FIGUEIREDO BARRETO -->
 			<xsd:enumeration value="28013514"/>	<!-- 28013514 - COLEGIO ESTADUAL MONSENHOR FERNANDO G LEITE -->
 			<xsd:enumeration value="28013530"/>	<!-- 28013530 - ESCOLA MUNICIPAL ADOLFO MARTINS -->
 			<xsd:enumeration value="28013549"/>	<!-- 28013549 - ESCOLA MUNICIPAL DR AUGUSTO FRANCO -->
@@ -1234,25 +1225,6 @@
 			<xsd:enumeration value="28013611"/>	<!-- 28013611 - ESCOLA MUNICIPAL ULISSES GOMES DE ANDRADE -->
 			<xsd:enumeration value="28013620"/>	<!-- 28013620 - COLEGIO ESTADUAL ALMIRANTE TAMANDARE -->
 			<xsd:enumeration value="28039408"/>	<!-- 28039408 - ESCOLA ESTADUAL PROF EULINA BATISTA DE MELO -->
-			<xsd:enumeration value="28057406"/>	<!-- 28057406 - CRECHE E PRE-ESCOLA MUNICIPAL IRMA DULCE -->
-			<xsd:enumeration value="28035038"/>	<!-- 28035038 - CRECHE VOVO JASON DE GOIS DA SILVA -->
-			<xsd:enumeration value="28087402"/>	<!-- 28087402 - ESCOLA MUNICIPAL JOAO PAULO II -->
-			<xsd:enumeration value="28111400"/>	<!-- 28111400 - ESCOLA MUNICIPAL PROFA NEUZICE BARRETO LIMA -->
-			<xsd:enumeration value="28032004"/>	<!-- 28032004 - ESC MUL PROF MARIA VITORIA COSTA SANTOS -->
-			<xsd:enumeration value="28032306"/>	<!-- 28032306 - COLEGIO ESTADUAL PROF NILSON SOCORRO -->
-			<xsd:enumeration value="28033388"/>	<!-- 28033388 - ESC MUN JOSE DO PRADO FRANCO -->
-			<xsd:enumeration value="28033060"/>	<!-- 28033060 - ESCOLA MUNICIPAL NOSSA SENHORA DE LOURDES -->
-			<xsd:enumeration value="28033035"/>	<!-- 28033035 - ESCOLA MUNICIPAL PROFESSORA MARIA DA CONCEICAO CRUZ VASCONCELOS -->
-			<xsd:enumeration value="28033043"/>	<!-- 28033043 - ESCOLA MUNICIPAL MANOEL CUNHA -->
-			<xsd:enumeration value="28031040"/>	<!-- 28031040 - ESCOLA MUNICIPAL NAIR MENEZES SANTOS -->
-			<xsd:enumeration value="28031903"/>	<!-- 28031903 - ESC MUN DIVA MARIA CORREA -->
-			<xsd:enumeration value="28030745"/>	<!-- 28030745 - ESCOLA MUNICIPAL PADRE PEDRO -->
-			<xsd:enumeration value="28029690"/>	<!-- 28029690 - ESCOLA MUNICIPAL DE EDUCACAO ESPECIAL LUANA ROLLEMBERG DOS SANTOS MENESES -->
-			<xsd:enumeration value="28029003"/>	<!-- 28029003 - ESCOLA ESTADUAL ZUMBI DOS PALMARES -->
-			<xsd:enumeration value="28027744"/>	<!-- 28027744 - CAIC JORNALISTA JOEL SILVEIRA -->
-			<xsd:enumeration value="28027760"/>	<!-- 28027760 - ESC MUNICIPAL N S DO SOCORRO -->
-			<xsd:enumeration value="28026853"/>	<!-- 28026853 - COLEGIO ESTADUAL GILBERTO FREYRE -->
-			<xsd:enumeration value="28026519"/>	<!-- 28026519 - ESCOLA MUNICIPAL LEONEL BRIZOLA -->
 			<xsd:enumeration value="28020421"/>	<!-- 28020421 - COLEGIO ESTADUAL PROFESSOR JOSE BARRETO FONTES -->
 			<xsd:enumeration value="28020448"/>	<!-- 28020448 - COLEGIO ESTADUAL PROF LEAO MAGNO BRASIL -->
 			<xsd:enumeration value="28020456"/>	<!-- 28020456 - COLEGIO ESTADUAL PROFESSOR ANTONIO FONTES FREITAS -->
@@ -1299,6 +1271,25 @@
 			<xsd:enumeration value="28020987"/>	<!-- 28020987 - ESCOLA ESTADUAL PROF AGDA FONTES FERREIRA -->
 			<xsd:enumeration value="28020995"/>	<!-- 28020995 - ESCOLA ESTADUAL PROFESSORA ROSA MARIA NASCIMENTO FREIRE -->
 			<xsd:enumeration value="28021002"/>	<!-- 28021002 - ESCOLA ESTADUAL PROF CECINHA M COSTA -->
+			<xsd:enumeration value="28026519"/>	<!-- 28026519 - ESCOLA MUNICIPAL LEONEL BRIZOLA -->
+			<xsd:enumeration value="28026853"/>	<!-- 28026853 - COLEGIO ESTADUAL GILBERTO FREYRE -->
+			<xsd:enumeration value="28027744"/>	<!-- 28027744 - CAIC JORNALISTA JOEL SILVEIRA -->
+			<xsd:enumeration value="28027760"/>	<!-- 28027760 - ESC MUNICIPAL N S DO SOCORRO -->
+			<xsd:enumeration value="28029003"/>	<!-- 28029003 - ESCOLA ESTADUAL ZUMBI DOS PALMARES -->
+			<xsd:enumeration value="28029690"/>	<!-- 28029690 - ESCOLA MUNICIPAL DE EDUCACAO ESPECIAL LUANA ROLLEMBERG DOS SANTOS MENESES -->
+			<xsd:enumeration value="28030745"/>	<!-- 28030745 - ESCOLA MUNICIPAL PADRE PEDRO -->
+			<xsd:enumeration value="28031040"/>	<!-- 28031040 - ESCOLA MUNICIPAL NAIR MENEZES SANTOS -->
+			<xsd:enumeration value="28031903"/>	<!-- 28031903 - ESC MUN DIVA MARIA CORREA -->
+			<xsd:enumeration value="28032004"/>	<!-- 28032004 - ESC MUL PROF MARIA VITORIA COSTA SANTOS -->
+			<xsd:enumeration value="28032306"/>	<!-- 28032306 - COLEGIO ESTADUAL PROF NILSON SOCORRO -->
+			<xsd:enumeration value="28033035"/>	<!-- 28033035 - ESCOLA MUNICIPAL PROFESSORA MARIA DA CONCEICAO CRUZ VASCONCELOS -->
+			<xsd:enumeration value="28033043"/>	<!-- 28033043 - ESCOLA MUNICIPAL MANOEL CUNHA -->
+			<xsd:enumeration value="28033060"/>	<!-- 28033060 - ESCOLA MUNICIPAL NOSSA SENHORA DE LOURDES -->
+			<xsd:enumeration value="28033388"/>	<!-- 28033388 - ESC MUN JOSE DO PRADO FRANCO -->
+			<xsd:enumeration value="28035038"/>	<!-- 28035038 - CRECHE VOVO JASON DE GOIS DA SILVA -->
+			<xsd:enumeration value="28057406"/>	<!-- 28057406 - CRECHE E PRE-ESCOLA MUNICIPAL IRMA DULCE -->
+			<xsd:enumeration value="28087402"/>	<!-- 28087402 - ESCOLA MUNICIPAL JOAO PAULO II -->
+			<xsd:enumeration value="28111400"/>	<!-- 28111400 - ESCOLA MUNICIPAL PROFA NEUZICE BARRETO LIMA -->
 			<xsd:enumeration value="28015622"/>	<!-- 28015622 - COLEGIO ESTADUAL DR LEANDRO MACIEL -->
 			<xsd:enumeration value="28015690"/>	<!-- 28015690 - ESC MUL SAO JOSE -->
 			<xsd:enumeration value="28015703"/>	<!-- 28015703 - ESC MUL SAO SEBASTIAO -->
@@ -1323,7 +1314,6 @@
 			<xsd:enumeration value="28028953"/>	<!-- 28028953 - ESCOLA MUL SANTA MARIA -->
 			<xsd:enumeration value="28028970"/>	<!-- 28028970 - ESCOLA MUL ALIETE CARLOS SANTOS -->
 			<xsd:enumeration value="28029380"/>	<!-- 28029380 - ESCOLA MUNICIPAL NOSSA SENHORA DO CARMO -->
-			<xsd:enumeration value="28109406"/>	<!-- 28109406 - COLEGIO ESTADUAL LOURIVAL FONTES -->
 			<xsd:enumeration value="28004574"/>	<!-- 28004574 - ESC ANTONIO MANOEL DE CARVALHO DANTAS -->
 			<xsd:enumeration value="28004582"/>	<!-- 28004582 - COLEGIO ESTADUAL AUGUSTO FRANCO -->
 			<xsd:enumeration value="28004604"/>	<!-- 28004604 - ESC DEP JOSE CARLOS TEIXEIRA -->
@@ -1331,6 +1321,7 @@
 			<xsd:enumeration value="28004639"/>	<!-- 28004639 - ESC MUN PRES TANCREDO NEVES -->
 			<xsd:enumeration value="28004655"/>	<!-- 28004655 - ESC MUN PEDRO ALMEIDA VALADARES -->
 			<xsd:enumeration value="28004680"/>	<!-- 28004680 - ESCOLA MUNICIPAL PROF NICODEMOS CORREIA FALCAO -->
+			<xsd:enumeration value="28109406"/>	<!-- 28109406 - COLEGIO ESTADUAL LOURIVAL FONTES -->
 			<xsd:enumeration value="28023145"/>	<!-- 28023145 - CENTRO EDUC PE ARNALDO CONCEICAO -->
 			<xsd:enumeration value="28023153"/>	<!-- 28023153 - ESCOLA ESTADUAL JOSEFINA LEITE CAMPOS -->
 			<xsd:enumeration value="28023161"/>	<!-- 28023161 - ESCOLA MUNICIPAL PAROQUISA BATISTA NASCIMENTO -->
@@ -1351,9 +1342,6 @@
 			<xsd:enumeration value="28028678"/>	<!-- 28028678 - COLEGIO JOAO LIMA FEITOSA -->
 			<xsd:enumeration value="28028686"/>	<!-- 28028686 - ESCOLA MUL JOSE DOREA DE ALMEIDA -->
 			<xsd:enumeration value="28031890"/>	<!-- 28031890 - ESC MUL JOSE EMIGDIO DA COSTA FILHO -->
-			<xsd:enumeration value="28030737"/>	<!-- 28030737 - ESCOLA MUNICIPAL LAUDELINA MOURA FERREIRA -->
-			<xsd:enumeration value="28032934"/>	<!-- 28032934 - PRE-ESCOLAR LEONOR BARRETO FRANCO -->
-			<xsd:enumeration value="28032616"/>	<!-- 28032616 - CRECHE MUNICIPAL DE PIRAMBU -->
 			<xsd:enumeration value="28015983"/>	<!-- 28015983 - COLEGIO ESTADUAL JOSE AMARAL LEMOS -->
 			<xsd:enumeration value="28016009"/>	<!-- 28016009 - ESC MUL ESTER RIBEIRO DANTAS -->
 			<xsd:enumeration value="28016017"/>	<!-- 28016017 - ESC MUL JOAO FRANCISCO DA SILVA -->
@@ -1362,6 +1350,9 @@
 			<xsd:enumeration value="28016041"/>	<!-- 28016041 - ESC MUL PROFª ODETE PEREIRA DE SANTANA -->
 			<xsd:enumeration value="28016050"/>	<!-- 28016050 - ESCOLA MUL PROF MARIA JULIA CRUZ DALTRO -->
 			<xsd:enumeration value="28016068"/>	<!-- 28016068 - ESC MUL XV DE NOVEMBRO -->
+			<xsd:enumeration value="28030737"/>	<!-- 28030737 - ESCOLA MUNICIPAL LAUDELINA MOURA FERREIRA -->
+			<xsd:enumeration value="28032616"/>	<!-- 28032616 - CRECHE MUNICIPAL DE PIRAMBU -->
+			<xsd:enumeration value="28032934"/>	<!-- 28032934 - PRE-ESCOLAR LEONOR BARRETO FRANCO -->
 			<xsd:enumeration value="28002237"/>	<!-- 28002237 - COLEGIO MUNICIPAL MENINO DEUS -->
 			<xsd:enumeration value="28002245"/>	<!-- 28002245 - COLEGIO ESTADUAL PROFESSOR JUSTINIANO DE MELO E SILVA -->
 			<xsd:enumeration value="28002253"/>	<!-- 28002253 - ESC ESPERANCA DO MENINO -->
@@ -1387,21 +1378,19 @@
 			<xsd:enumeration value="28002822"/>	<!-- 28002822 - ESCOLA MUNICIPAL BOM JESUS DOS PASSOS -->
 			<xsd:enumeration value="28002857"/>	<!-- 28002857 - COLEGIO MUNICIPAL LEONOR BARRETO FRANCO -->
 			<xsd:enumeration value="28002865"/>	<!-- 28002865 - ESCOLA ESTADUAL TEOTONIO ALVES CHINA -->
-			<xsd:enumeration value="28032730"/>	<!-- 28032730 - COLEGIO ESTADUAL PROFESSORA NOEMIA DE SOUZA -->
-			<xsd:enumeration value="28033086"/>	<!-- 28033086 - CENTRO ESTADUAL DE EDUCACAO PROFISSIONAL DOM JOSE BRANDAO DE CASTRO -->
-			<xsd:enumeration value="28030389"/>	<!-- 28030389 - ESCOLA MUL JOSE SATURNINO -->
-			<xsd:enumeration value="28031261"/>	<!-- 28031261 - CENTRO DE FORMACAO AGRICOLA DOM JOSE BRANDAO DE CA -->
-			<xsd:enumeration value="28031474"/>	<!-- 28031474 - ESCOLA MUNICIPAL 05 DE JANEIRO -->
+			<xsd:enumeration value="28027590"/>	<!-- 28027590 - ESCOLA MUL MARIA GILDA RESENDE -->
+			<xsd:enumeration value="28027647"/>	<!-- 28027647 - CRECHE MUL PROFESSORA DOMITILA ALVES -->
 			<xsd:enumeration value="28029100"/>	<!-- 28029100 - ESCOLA MUL FELIX VITORINO -->
 			<xsd:enumeration value="28029119"/>	<!-- 28029119 - ESCOLA MUNICIPAL ZUMBI DOS PALMARES -->
 			<xsd:enumeration value="28029364"/>	<!-- 28029364 - ESCOLA ESTADUAL DURVAL RODRIGUES ROSA -->
 			<xsd:enumeration value="28029984"/>	<!-- 28029984 - COLEGIO MUL NOSSA SENHORA DA CONCEICAO -->
 			<xsd:enumeration value="28029992"/>	<!-- 28029992 - ESCOLA MUL IRENO CIRILO DOS SANTOS -->
-			<xsd:enumeration value="28027590"/>	<!-- 28027590 - ESCOLA MUL MARIA GILDA RESENDE -->
-			<xsd:enumeration value="28027647"/>	<!-- 28027647 - CRECHE MUL PROFESSORA DOMITILA ALVES -->
+			<xsd:enumeration value="28030389"/>	<!-- 28030389 - ESCOLA MUL JOSE SATURNINO -->
+			<xsd:enumeration value="28031261"/>	<!-- 28031261 - CENTRO DE FORMACAO AGRICOLA DOM JOSE BRANDAO DE CA -->
+			<xsd:enumeration value="28031474"/>	<!-- 28031474 - ESCOLA MUNICIPAL 05 DE JANEIRO -->
+			<xsd:enumeration value="28032730"/>	<!-- 28032730 - COLEGIO ESTADUAL PROFESSORA NOEMIA DE SOUZA -->
+			<xsd:enumeration value="28033086"/>	<!-- 28033086 - CENTRO ESTADUAL DE EDUCACAO PROFISSIONAL DOM JOSE BRANDAO DE CASTRO -->
 			<xsd:enumeration value="28035020"/>	<!-- 28035020 - CRECHE MUNICIPAL MARLEIDE SEYCHERLLYS -->
-			<xsd:enumeration value="28035003"/>	<!-- 28035003 - CENTRO EDUCACIONAL ALICE MARIANA -->
-			<xsd:enumeration value="28029704"/>	<!-- 28029704 - ESCOLA INFANTIL MORADA DO SABER -->
 			<xsd:enumeration value="28008677"/>	<!-- 28008677 - COLEGIO ESTADUAL PROFESSOR JOAO DE OLIVEIRA -->
 			<xsd:enumeration value="28008693"/>	<!-- 28008693 - ESC AGRICOLA MUL PRES JOSE SARNEY -->
 			<xsd:enumeration value="28008715"/>	<!-- 28008715 - ESCOLA MUNICIPAL ANANIAS BARBOSA SOBRINHO -->
@@ -1422,6 +1411,8 @@
 			<xsd:enumeration value="28009134"/>	<!-- 28009134 - ESCOLA ESTADUAL SAO JOSE -->
 			<xsd:enumeration value="28009223"/>	<!-- 28009223 - ESCOLA ESTADUAL SEBASTIAO DA FONSECA -->
 			<xsd:enumeration value="28009240"/>	<!-- 28009240 - ESCOLA MUNICIPAL HILDETE FALCAO BATISTA -->
+			<xsd:enumeration value="28029704"/>	<!-- 28029704 - ESCOLA INFANTIL MORADA DO SABER -->
+			<xsd:enumeration value="28035003"/>	<!-- 28035003 - CENTRO EDUCACIONAL ALICE MARIANA -->
 			<xsd:enumeration value="28002881"/>	<!-- 28002881 - ESCOLA MUNICIPAL PEDRO BERNADINO DA SILVA -->
 			<xsd:enumeration value="28002890"/>	<!-- 28002890 - ESCOLA MUNICIPAL BONIFACIO DE LOUREIRO LIMA -->
 			<xsd:enumeration value="28002911"/>	<!-- 28002911 - ESCOLA MUNICIPAL FLORENCIO EDUARDO DA SILVA -->
@@ -1453,21 +1444,18 @@
 			<xsd:enumeration value="28003497"/>	<!-- 28003497 - ESCOLA MUNICIPAL SANTA TEREZINHA -->
 			<xsd:enumeration value="28003500"/>	<!-- 28003500 - ESCOLA MUNICIPAL TOMAZ BERMUDES -->
 			<xsd:enumeration value="28003535"/>	<!-- 28003535 - COLEGIO INDIGENA ESTADUAL D JOSE B DE CASTRO -->
-			<xsd:enumeration value="28029372"/>	<!-- 28029372 - ESCOLA MUNICIPAL PROFª DORALICE FEITOSA DOS SANTOS -->
-			<xsd:enumeration value="28029348"/>	<!-- 28029348 - ESCOLA MUNICIPAL MARIA REZENDE DOS SANTOS -->
-			<xsd:enumeration value="28030060"/>	<!-- 28030060 - ESCOLA MUNICIPAL PROF JOSE FERNANDO DE BARROS -->
+			<xsd:enumeration value="28026543"/>	<!-- 28026543 - COLEGIO ESTADUAL PROFESSORA MARIA ZENITE DOS SANTOS -->
+			<xsd:enumeration value="28026705"/>	<!-- 28026705 - COLEGIO ESTADUAL GOVERNADOR LOURIVAL BAPTISTA -->
 			<xsd:enumeration value="28027507"/>	<!-- 28027507 - ESCOLA MUNICIPAL MANOEL CAIO FEITOSA -->
 			<xsd:enumeration value="28027515"/>	<!-- 28027515 - ESCOLA MUNICIPAL AROALDO SIMPLICIO DA SILVA -->
-			<xsd:enumeration value="28026705"/>	<!-- 28026705 - COLEGIO ESTADUAL GOVERNADOR LOURIVAL BAPTISTA -->
-			<xsd:enumeration value="28026543"/>	<!-- 28026543 - COLEGIO ESTADUAL PROFESSORA MARIA ZENITE DOS SANTOS -->
+			<xsd:enumeration value="28029348"/>	<!-- 28029348 - ESCOLA MUNICIPAL MARIA REZENDE DOS SANTOS -->
+			<xsd:enumeration value="28029372"/>	<!-- 28029372 - ESCOLA MUNICIPAL PROFª DORALICE FEITOSA DOS SANTOS -->
+			<xsd:enumeration value="28030060"/>	<!-- 28030060 - ESCOLA MUNICIPAL PROF JOSE FERNANDO DE BARROS -->
 			<xsd:enumeration value="28030362"/>	<!-- 28030362 - ESCOLA MUNICIPAL PROFESSORA FRANCISCA DE SA -->
 			<xsd:enumeration value="28030451"/>	<!-- 28030451 - ESCOLA MUNICIPAL RAQUEL RODRIGUES BERNARDINO -->
+			<xsd:enumeration value="28031946"/>	<!-- 28031946 - ESCOLA MUNICIPAL ASSENTAMENTO PAULO FREIRE -->
 			<xsd:enumeration value="28032969"/>	<!-- 28032969 - CRECHE MUNICIPAL DONA JOSEFA NUNES DE SANTANA GOMES -->
 			<xsd:enumeration value="28033884"/>	<!-- 28033884 - COLEGIO ESTADUAL PROFA CLEMENCIA ALVES DA SILVA -->
-			<xsd:enumeration value="28031946"/>	<!-- 28031946 - ESCOLA MUNICIPAL ASSENTAMENTO PAULO FREIRE -->
-			<xsd:enumeration value="28031806"/>	<!-- 28031806 - ESCOLA MUNICIPAL DOM JOSE BRANDAO DE CASTRO -->
-			<xsd:enumeration value="28027400"/>	<!-- 28027400 - ESCOLA MUNICIPAL ADVOGADO JOSIAS FERREIRA NUNES-CAIC -->
-			<xsd:enumeration value="28029917"/>	<!-- 28029917 - ESCOLA AGRICOLA PREFEITO GERALDO SAMPAIO MAIA -->
 			<xsd:enumeration value="28013700"/>	<!-- 28013700 - COLEGIO ESTADUAL CEL JOAO FERNANDES DE BRITTO -->
 			<xsd:enumeration value="28013719"/>	<!-- 28013719 - COLEGIO ESTADUAL JOANA DE FREITAS BARBOSA -->
 			<xsd:enumeration value="28013727"/>	<!-- 28013727 - ESCOLA MUNICIPAL MONSENHOR AFONSO DE MEDEIROS CHAVES -->
@@ -1482,6 +1470,9 @@
 			<xsd:enumeration value="28013875"/>	<!-- 28013875 - ESCOLA ESTADUAL PROFESSOR CEZARIO SIQUEIRA -->
 			<xsd:enumeration value="28013891"/>	<!-- 28013891 - ESCOLA MUNICIPAL EVANILDE SERRA PINHEIRO NUNES -->
 			<xsd:enumeration value="28013913"/>	<!-- 28013913 - ESCOLA ESTADUAL DOUTORA MARIA DO CARMO ALVES -->
+			<xsd:enumeration value="28027400"/>	<!-- 28027400 - ESCOLA MUNICIPAL ADVOGADO JOSIAS FERREIRA NUNES-CAIC -->
+			<xsd:enumeration value="28029917"/>	<!-- 28029917 - ESCOLA AGRICOLA PREFEITO GERALDO SAMPAIO MAIA -->
+			<xsd:enumeration value="28031806"/>	<!-- 28031806 - ESCOLA MUNICIPAL DOM JOSE BRANDAO DE CASTRO -->
 			<xsd:enumeration value="28012127"/>	<!-- 28012127 - ESCOLA MUNICIPAL PROFESSORA MARIA ANETE -->
 			<xsd:enumeration value="28012143"/>	<!-- 28012143 - ESCOLA ESTADUAL LOURIVAL FONTES -->
 			<xsd:enumeration value="28012151"/>	<!-- 28012151 - ESCOLA ESTADUAL ANTONIO FONTES FREITAS -->
@@ -1515,11 +1506,10 @@
 			<xsd:enumeration value="28012542"/>	<!-- 28012542 - COLEGIO ESTADUAL JOSE LOPES DE ALMEIDA -->
 			<xsd:enumeration value="28012593"/>	<!-- 28012593 - ESCOLA MUNICIPAL PROFESSORA CLENILDA GOIS DE ALMEIDA COSTA -->
 			<xsd:enumeration value="28012615"/>	<!-- 28012615 - ESCOLA MUNICIPAL MARIETA DA SILVEIRA FONTES -->
-			<xsd:enumeration value="28030230"/>	<!-- 28030230 - ESC DE 1º E 2º G PROFº LUIZ ANTONIO BARRETO -->
 			<xsd:enumeration value="28026250"/>	<!-- 28026250 - ESCOLA TIA MARIA ISABEL -->
+			<xsd:enumeration value="28030230"/>	<!-- 28030230 - ESC DE 1º E 2º G PROFº LUIZ ANTONIO BARRETO -->
 			<xsd:enumeration value="28032098"/>	<!-- 28032098 - ESCOLA MUNICIPAL PADRE ESAU BARBOSA DE SOUZA -->
 			<xsd:enumeration value="28095405"/>	<!-- 28095405 - CRECHE MUNICIPAL RAIMUNDA ANDRADE FARIAS -->
-			<xsd:enumeration value="28028384"/>	<!-- 28028384 - COLEGIO ESTADUAL GOVERNADOR ALBANO FRANCO -->
 			<xsd:enumeration value="28016742"/>	<!-- 28016742 - ESCOLA CENTRAL -->
 			<xsd:enumeration value="28016777"/>	<!-- 28016777 - ESCOLA MUNICIPAL CONEGO ANTONIO DE BARROS PADILHA -->
 			<xsd:enumeration value="28016785"/>	<!-- 28016785 - ESCOLA MUNICIPAL D PEDRO I -->
@@ -1528,8 +1518,8 @@
 			<xsd:enumeration value="28016831"/>	<!-- 28016831 - ESCOLA MUNICIPAL POETA SANTO SOUZA -->
 			<xsd:enumeration value="28016858"/>	<!-- 28016858 - ESCOLA MUNICIPAL EULINA VASCONCELOS -->
 			<xsd:enumeration value="28016866"/>	<!-- 28016866 - JARDIM DE INFANCIA LAURA AGUIAR -->
-			<xsd:enumeration value="28016874"/>	<!-- 28016874 - ESCOLA MUNICIPAL FRANCISCO LEITE FILHO -->
-			<xsd:enumeration value="28016882"/>	<!-- 28016882 - ESCOLA MUNCIPAL MARCIA LEITE FRANCO -->
+			<xsd:enumeration value="28016874"/>	<!-- 28016874 - ESCOLA MUNICIPAL LEONOR BARRETO FRANCO -->
+			<xsd:enumeration value="28028384"/>	<!-- 28028384 - COLEGIO ESTADUAL GOVERNADOR ALBANO FRANCO -->
 			<xsd:enumeration value="28004809"/>	<!-- 28004809 - COLEGIO ESTADUAL ABDIAS BEZERRA -->
 			<xsd:enumeration value="28004817"/>	<!-- 28004817 - ESCOLA ESTADUAL PROFESSORA MARIA DO CARMO SANTOS -->
 			<xsd:enumeration value="28004833"/>	<!-- 28004833 - ESC MUN ANA DE OLIVEIRA BARBOSA -->
@@ -1548,17 +1538,17 @@
 			<xsd:enumeration value="28005104"/>	<!-- 28005104 - ESCOLA ESTADUAL PROFESSORA MARIA MELANIA MENDONCA -->
 			<xsd:enumeration value="28005120"/>	<!-- 28005120 - ESCOLA MUL MARIA IVANILDA SOUZA -->
 			<xsd:enumeration value="28005155"/>	<!-- 28005155 - ESCOLA ESTADUAL JOSUE PASSOS -->
-			<xsd:enumeration value="28030095"/>	<!-- 28030095 - COLEGIO ESTADUAL JOAO XXIII -->
 			<xsd:enumeration value="28029852"/>	<!-- 28029852 - CENTRO DE EDUCACAO INFANTIL PROFª GISLENE COSTA -->
+			<xsd:enumeration value="28030095"/>	<!-- 28030095 - COLEGIO ESTADUAL JOAO XXIII -->
 			<xsd:enumeration value="28032977"/>	<!-- 28032977 - ESCOLA MUNICIPAL JOSE JOAQUIM PEREIRA DE LIMA -->
 			<xsd:enumeration value="28034058"/>	<!-- 28034058 - CRECHE MUNICIPAL MUNDO ENCANTADO -->
-			<xsd:enumeration value="28113403"/>	<!-- 28113403 - ESCOLA MUNICIPAL CONEGO SERAPIAO MACHADO -->
-			<xsd:enumeration value="28030338"/>	<!-- 28030338 - ESCOLA MUL PROFº JOSE ANTONIO SANTOS -->
-			<xsd:enumeration value="28029259"/>	<!-- 28029259 - CRECHE FLOR INOCENCIA -->
 			<xsd:enumeration value="28016890"/>	<!-- 28016890 - COLEGIO ESTADUAL LEANDRO MACIEL -->
 			<xsd:enumeration value="28016912"/>	<!-- 28016912 - ESC M 1º E 2º G D JOSE SOTERO V DE MELO -->
 			<xsd:enumeration value="28016939"/>	<!-- 28016939 - ESCOLA MUNICIPAL PROFª ERNESTINA SILVA -->
 			<xsd:enumeration value="28016947"/>	<!-- 28016947 - JARD DE INFAN AMELIA CORREIA DE RESENDE -->
+			<xsd:enumeration value="28029259"/>	<!-- 28029259 - CRECHE FLOR INOCENCIA -->
+			<xsd:enumeration value="28030338"/>	<!-- 28030338 - ESCOLA MUL PROFº JOSE ANTONIO SANTOS -->
+			<xsd:enumeration value="28113403"/>	<!-- 28113403 - ESCOLA MUNICIPAL CONEGO SERAPIAO MACHADO -->
 			<xsd:enumeration value="28023285"/>	<!-- 28023285 - CRECHE TIA LOURDES -->
 			<xsd:enumeration value="28023293"/>	<!-- 28023293 - ESCOLA MUNICIPAL DURVAL MILITAO DE ARAUJO -->
 			<xsd:enumeration value="28023307"/>	<!-- 28023307 - ESC AMELIA GONCALVES DA SILVEIRA -->
@@ -1592,9 +1582,6 @@
 			<xsd:enumeration value="28023692"/>	<!-- 28023692 - ESC MUL JOAQUIM ANTONIO DE CARVALHO -->
 			<xsd:enumeration value="28023706"/>	<!-- 28023706 - ESCOLA MUNL JOSE ARAUJO DOS SANTOS -->
 			<xsd:enumeration value="28040201"/>	<!-- 28040201 - COLEGIO ESTADUAL DEPUTADO JOALDO VIEIRA BARBOSA -->
-			<xsd:enumeration value="28042000"/>	<!-- 28042000 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL JESSE DA SILVA PRADO -->
-			<xsd:enumeration value="28032837"/>	<!-- 28032837 - ESC MUN DE ENS FND VR JOSE VICENTE G DIAS -->
-			<xsd:enumeration value="28032071"/>	<!-- 28032071 - ESCOLA MUL DE ENS FUND ANTONIO RIBEIRO SOUTELO -->
 			<xsd:enumeration value="28025903"/>	<!-- 28025903 - COLEGIO ESTADUAL COMENDADOR CALAZANS -->
 			<xsd:enumeration value="28025911"/>	<!-- 28025911 - ESC MUL DE ENSINO FUNDAMENTAL ACRISIO CRUZ -->
 			<xsd:enumeration value="28025970"/>	<!-- 28025970 - ESC MUL DE ENS FUND IDALINA MARIA COSTA -->
@@ -1614,15 +1601,9 @@
 			<xsd:enumeration value="28026152"/>	<!-- 28026152 - ESCOLA MUL DE ENSI FUND REUNIDAS -->
 			<xsd:enumeration value="28026179"/>	<!-- 28026179 - ESCOLA MUL DE ENSINO INF SIT DO PICA PAU AMARELO -->
 			<xsd:enumeration value="28026187"/>	<!-- 28026187 - ESC MUL DE ENSINO INFANTIL CINDERELA -->
-			<xsd:enumeration value="28013921"/>	<!-- 28013921 - COLEGIO ESTADUAL ANTONIO MATHIAS BARROSO -->
-			<xsd:enumeration value="28013930"/>	<!-- 28013930 - ESCOLA MUNICIPAL AGESISLAO BATISTA MARTINS SOARES -->
-			<xsd:enumeration value="28013948"/>	<!-- 28013948 - ESCOLA MUNICIPAL AFONSO DE OLIVEIRA FORTES -->
-			<xsd:enumeration value="28013964"/>	<!-- 28013964 - ESC RURAL JOAO DA SILVA BARROZO -->
-			<xsd:enumeration value="28013972"/>	<!-- 28013972 - ESCOLA ESTADUAL PROFESSOR GOMES NETO -->
-			<xsd:enumeration value="28029933"/>	<!-- 28029933 - CRECHE MUNICIPAL LEONOR FRANCO -->
-			<xsd:enumeration value="28034740"/>	<!-- 28034740 - ESCOLA MUNICIPAL AMARISE SOARES CAVALCANTE -->
-			<xsd:enumeration value="28031202"/>	<!-- 28031202 - ESCOLA MUNICIPAL JORGE DO PRADO SOBRAL -->
-			<xsd:enumeration value="28031296"/>	<!-- 28031296 - ESCOLA MUNICIPAL JOSE DANTAS DO PRADO -->
+			<xsd:enumeration value="28032071"/>	<!-- 28032071 - ESCOLA MUL DE ENS FUND ANTONIO RIBEIRO SOUTELO -->
+			<xsd:enumeration value="28032837"/>	<!-- 28032837 - ESC MUN DE ENS FND VR JOSE VICENTE G DIAS -->
+			<xsd:enumeration value="28042000"/>	<!-- 28042000 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL JESSE DA SILVA PRADO -->
 			<xsd:enumeration value="28014731"/>	<!-- 28014731 - ESCOLA MUNICIPAL SENADOR LEITE NETO -->
 			<xsd:enumeration value="28014758"/>	<!-- 28014758 - ESC MUL ADOLFO ROLEMBERG -->
 			<xsd:enumeration value="28014766"/>	<!-- 28014766 - ESC MUL BRAULIO CANDIDO DE ALMEIDA -->
@@ -1631,6 +1612,15 @@
 			<xsd:enumeration value="28014790"/>	<!-- 28014790 - ESC MUL PROF NEUZICE BARRETO DE LIMA -->
 			<xsd:enumeration value="28014804"/>	<!-- 28014804 - ESC MUL WALESKA DA PAIXAO -->
 			<xsd:enumeration value="28014812"/>	<!-- 28014812 - COLEGIO ESTADUAL DR EDELZIO VIEIRA DE MELO -->
+			<xsd:enumeration value="28031202"/>	<!-- 28031202 - ESCOLA MUNICIPAL JORGE DO PRADO SOBRAL -->
+			<xsd:enumeration value="28031296"/>	<!-- 28031296 - ESCOLA MUNICIPAL JOSE DANTAS DO PRADO -->
+			<xsd:enumeration value="28013921"/>	<!-- 28013921 - COLEGIO ESTADUAL ANTONIO MATHIAS BARROSO -->
+			<xsd:enumeration value="28013930"/>	<!-- 28013930 - ESCOLA MUNICIPAL AGESISLAO BATISTA MARTINS SOARES -->
+			<xsd:enumeration value="28013948"/>	<!-- 28013948 - ESCOLA MUNICIPAL AFONSO DE OLIVEIRA FORTES -->
+			<xsd:enumeration value="28013964"/>	<!-- 28013964 - ESC RURAL JOAO DA SILVA BARROZO -->
+			<xsd:enumeration value="28013972"/>	<!-- 28013972 - ESCOLA ESTADUAL PROFESSOR GOMES NETO -->
+			<xsd:enumeration value="28029933"/>	<!-- 28029933 - CRECHE MUNICIPAL LEONOR FRANCO -->
+			<xsd:enumeration value="28034740"/>	<!-- 28034740 - ESCOLA MUNICIPAL AMARISE SOARES CAVALCANTE -->
 			<xsd:enumeration value="28016963"/>	<!-- 28016963 - ESCOLA JOAO MARINHO FILHO -->
 			<xsd:enumeration value="28016971"/>	<!-- 28016971 - COLEGIO ESTADUAL PROF ROGACIANO M LEAO BRASIL -->
 			<xsd:enumeration value="28016980"/>	<!-- 28016980 - ESCOLA ESTADUAL ESPERIDIAO MONTEIRO -->
@@ -1639,21 +1629,29 @@
 			<xsd:enumeration value="28017030"/>	<!-- 28017030 - ESCOLA RURAL DE PLANTA -->
 			<xsd:enumeration value="28017080"/>	<!-- 28017080 - ESCOLA MUNICIPAL EMILIA PINTO GARCIA -->
 			<xsd:enumeration value="28017129"/>	<!-- 28017129 - ESCOLA MENINO JESUS DE SION -->
-			<xsd:enumeration value="28031270"/>	<!-- 28031270 - ESCOLA MUNICIPAL VICE GOVERNADOR BENEDITO FIGUEIREDO -->
 			<xsd:enumeration value="28029909"/>	<!-- 28029909 - UNIDADE PRE-ESCOLAR IRMA AMABILE CAOVILLA -->
-			<xsd:enumeration value="28028627"/>	<!-- 28028627 - ESCOLA MUNICIPAL ARMANDO BATALHA DE GOIS -->
-			<xsd:enumeration value="28028392"/>	<!-- 28028392 - ESCOLA MUNICIPAL RAIMUNDO FRANCISCO DOS SANTOS -->
-			<xsd:enumeration value="28028597"/>	<!-- 28028597 - ESCOLA MUNICIPAL FRANCISCO DA COSTA BATISTA -->
-			<xsd:enumeration value="28028252"/>	<!-- 28028252 - ESCOLA MUNICIPAL GINA FRANCO -->
-			<xsd:enumeration value="28021754"/>	<!-- 28021754 - ESCOLA ESTADUAL LUIZ GUIMARAES -->
-			<xsd:enumeration value="28021762"/>	<!-- 28021762 - ESCOLA MUNICIPAL FREI FERNANDO -->
-			<xsd:enumeration value="28021770"/>	<!-- 28021770 - ESCOLA ESTADUAL PROFESSORA NORMELIA ARAUJO MELO -->
-			<xsd:enumeration value="28030559"/>	<!-- 28030559 - ESCOLA CAPITAO MANOEL BATISTA SANTOS -->
-			<xsd:enumeration value="28032349"/>	<!-- 28032349 - ESCOLA MUNICIPAL MADALENA DE GOIS -->
-			<xsd:enumeration value="28032640"/>	<!-- 28032640 - COLEGIO EST PROF HAMILTON ALVES ROCHA -->
-			<xsd:enumeration value="28033183"/>	<!-- 28033183 - CRECHE NILZA ANDRADE OLIVEIRA -->
-			<xsd:enumeration value="28033191"/>	<!-- 28033191 - CRECHE EZILDE SERRA PINHEIRO -->
-			<xsd:enumeration value="28033205"/>	<!-- 28033205 - CRECHE MARIA DE LOURDES GOMES -->
+			<xsd:enumeration value="28031270"/>	<!-- 28031270 - ESCOLA MUNICIPAL VICE GOVERNADOR BENEDITO FIGUEIREDO -->
+			<xsd:enumeration value="28021045"/>	<!-- 28021045 - COLEGIO ESTADUAL DEP ELISIO CARMELO -->
+			<xsd:enumeration value="28021100"/>	<!-- 28021100 - ESCOLA ESTADUAL MANOEL PASSOS DE OLIVEIRA TELES -->
+			<xsd:enumeration value="28021126"/>	<!-- 28021126 - ESCOLA MUNICIPAL CLAUDIO MEIRELES -->
+			<xsd:enumeration value="28021142"/>	<!-- 28021142 - COLEGIO ESTADUAL PROF GLORITA PORTUGAL -->
+			<xsd:enumeration value="28021177"/>	<!-- 28021177 - COLEGIO ESTADUAL ARMINDO GUARANA -->
+			<xsd:enumeration value="28021207"/>	<!-- 28021207 - ESCOLA MUNICIPAL SAO CRISTOVAO -->
+			<xsd:enumeration value="28021215"/>	<!-- 28021215 - ESCOLA ESTADUAL SENADOR PAULO SARASATE -->
+			<xsd:enumeration value="28021223"/>	<!-- 28021223 - COLEGIO ESTADUAL PADRE GASPAR LOURENCO -->
+			<xsd:enumeration value="28021231"/>	<!-- 28021231 - ESCOLA ESTADUAL PROF OLGA BARRETO -->
+			<xsd:enumeration value="28021266"/>	<!-- 28021266 - ESCOLA MUNICIPAL ALICE FREIRE DE OLIVEIRA -->
+			<xsd:enumeration value="28021274"/>	<!-- 28021274 - ESCOLA MUNICIPAL ALMANCIO TAVARES DOS SANTOS -->
+			<xsd:enumeration value="28021282"/>	<!-- 28021282 - ESCOLA MUNICIPAL OLGA MARIA SANTOS -->
+			<xsd:enumeration value="28021290"/>	<!-- 28021290 - ESCOLA MUNICIPAL ARACELES RODRIGUES CORREA -->
+			<xsd:enumeration value="28021304"/>	<!-- 28021304 - ESCOLA MUNICIPAL PROFESSORA TEREZITA PAIVA LIMA -->
+			<xsd:enumeration value="28021312"/>	<!-- 28021312 - ESCOLA MUNICIPAL DR LOURIVAL BAPTISTA -->
+			<xsd:enumeration value="28021320"/>	<!-- 28021320 - ESCOLA MUNICIPAL DR LOURIVAL FONTES -->
+			<xsd:enumeration value="28021339"/>	<!-- 28021339 - ESCOLA MUNICIPAL DR MARTINHO DE OLIVEIRA BRAVO -->
+			<xsd:enumeration value="28021347"/>	<!-- 28021347 - ESCOLA MUNICIPAL FELISBERTO PAIS DE ANDRADE -->
+			<xsd:enumeration value="28021355"/>	<!-- 28021355 - ESCOLA MUNICIPAL FRANCISCO DE ARAUJO MACEDO -->
+			<xsd:enumeration value="28021363"/>	<!-- 28021363 - ESCOLA MUNICIPAL DEPUTADO ANTONIO CARLOS LEITE FRANCO -->
+			<xsd:enumeration value="28021371"/>	<!-- 28021371 - ESCOLA MUNICIPAL JOAO SEIXAS DOREA -->
 			<xsd:enumeration value="28021398"/>	<!-- 28021398 - ESCOLA MUNICIPAL PROF JOSE DE ALENCAR CARDOSO -->
 			<xsd:enumeration value="28021401"/>	<!-- 28021401 - ESCOLA MUNICIPAL CLEODICE ARAUJO DA CRUZ -->
 			<xsd:enumeration value="28021428"/>	<!-- 28021428 - ESCOLA MUNICIPAL LAURO ROCHA DE ANDRADE -->
@@ -1679,27 +1677,19 @@
 			<xsd:enumeration value="28021711"/>	<!-- 28021711 - ESCOLA MUNICIPAL TIA AIDEE -->
 			<xsd:enumeration value="28021720"/>	<!-- 28021720 - ESCOLA MUNICIPAL ADILMA LIMA -->
 			<xsd:enumeration value="28021738"/>	<!-- 28021738 - ESCOLA MUNICIPAL TIA MARINETE -->
-			<xsd:enumeration value="28021100"/>	<!-- 28021100 - ESCOLA ESTADUAL MANOEL PASSOS DE OLIVEIRA TELES -->
-			<xsd:enumeration value="28021126"/>	<!-- 28021126 - ESCOLA MUNICIPAL CLAUDIO MEIRELES -->
-			<xsd:enumeration value="28021142"/>	<!-- 28021142 - COLEGIO ESTADUAL PROF GLORITA PORTUGAL -->
-			<xsd:enumeration value="28021177"/>	<!-- 28021177 - COLEGIO ESTADUAL ARMINDO GUARANA -->
-			<xsd:enumeration value="28021207"/>	<!-- 28021207 - ESCOLA MUNICIPAL SAO CRISTOVAO -->
-			<xsd:enumeration value="28021215"/>	<!-- 28021215 - ESCOLA ESTADUAL SENADOR PAULO SARASATE -->
-			<xsd:enumeration value="28021223"/>	<!-- 28021223 - COLEGIO ESTADUAL PADRE GASPAR LOURENCO -->
-			<xsd:enumeration value="28021231"/>	<!-- 28021231 - ESCOLA ESTADUAL PROF OLGA BARRETO -->
-			<xsd:enumeration value="28021266"/>	<!-- 28021266 - ESCOLA MUNICIPAL ALICE FREIRE DE OLIVEIRA -->
-			<xsd:enumeration value="28021274"/>	<!-- 28021274 - ESCOLA MUNICIPAL ALMANCIO TAVARES DOS SANTOS -->
-			<xsd:enumeration value="28021282"/>	<!-- 28021282 - ESCOLA MUNICIPAL OLGA MARIA SANTOS -->
-			<xsd:enumeration value="28021290"/>	<!-- 28021290 - ESCOLA MUNICIPAL ARACELES RODRIGUES CORREA -->
-			<xsd:enumeration value="28021304"/>	<!-- 28021304 - ESCOLA MUNICIPAL PROFESSORA TEREZITA PAIVA LIMA -->
-			<xsd:enumeration value="28021312"/>	<!-- 28021312 - ESCOLA MUNICIPAL DR LOURIVAL BAPTISTA -->
-			<xsd:enumeration value="28021320"/>	<!-- 28021320 - ESCOLA MUNICIPAL DR LOURIVAL FONTES -->
-			<xsd:enumeration value="28021339"/>	<!-- 28021339 - ESCOLA MUNICIPAL DR MARTINHO DE OLIVEIRA BRAVO -->
-			<xsd:enumeration value="28021347"/>	<!-- 28021347 - ESCOLA MUNICIPAL FELISBERTO PAIS DE ANDRADE -->
-			<xsd:enumeration value="28021355"/>	<!-- 28021355 - ESCOLA MUNICIPAL FRANCISCO DE ARAUJO MACEDO -->
-			<xsd:enumeration value="28021363"/>	<!-- 28021363 - ESCOLA MUNICIPAL DEPUTADO ANTONIO CARLOS LEITE FRANCO -->
-			<xsd:enumeration value="28021371"/>	<!-- 28021371 - ESCOLA MUNICIPAL JOAO SEIXAS DOREA -->
-			<xsd:enumeration value="28021045"/>	<!-- 28021045 - COLEGIO ESTADUAL DEP ELISIO CARMELO -->
+			<xsd:enumeration value="28021754"/>	<!-- 28021754 - ESCOLA ESTADUAL LUIZ GUIMARAES -->
+			<xsd:enumeration value="28021762"/>	<!-- 28021762 - ESCOLA MUNICIPAL FREI FERNANDO -->
+			<xsd:enumeration value="28021770"/>	<!-- 28021770 - ESCOLA ESTADUAL PROFESSORA NORMELIA ARAUJO MELO -->
+			<xsd:enumeration value="28028252"/>	<!-- 28028252 - ESCOLA MUNICIPAL GINA FRANCO -->
+			<xsd:enumeration value="28028392"/>	<!-- 28028392 - ESCOLA MUNICIPAL RAIMUNDO FRANCISCO DOS SANTOS -->
+			<xsd:enumeration value="28028597"/>	<!-- 28028597 - ESCOLA MUNICIPAL FRANCISCO DA COSTA BATISTA -->
+			<xsd:enumeration value="28028627"/>	<!-- 28028627 - ESCOLA MUNICIPAL ARMANDO BATALHA DE GOIS -->
+			<xsd:enumeration value="28030559"/>	<!-- 28030559 - ESCOLA CAPITAO MANOEL BATISTA SANTOS -->
+			<xsd:enumeration value="28032349"/>	<!-- 28032349 - ESCOLA MUNICIPAL MADALENA DE GOIS -->
+			<xsd:enumeration value="28032640"/>	<!-- 28032640 - COLEGIO EST PROF HAMILTON ALVES ROCHA -->
+			<xsd:enumeration value="28033183"/>	<!-- 28033183 - CRECHE NILZA ANDRADE OLIVEIRA -->
+			<xsd:enumeration value="28033191"/>	<!-- 28033191 - CRECHE EZILDE SERRA PINHEIRO -->
+			<xsd:enumeration value="28033205"/>	<!-- 28033205 - CRECHE MARIA DE LOURDES GOMES -->
 			<xsd:enumeration value="28008413"/>	<!-- 28008413 - CRECHE ANGELINA MECENAS -->
 			<xsd:enumeration value="28008421"/>	<!-- 28008421 - COLEGIO ESTADUAL EMELIANO RIBEIRO -->
 			<xsd:enumeration value="28008430"/>	<!-- 28008430 - ESCOLA MUNICIPAL ANTONIO BARRETO DE MENEZES -->
@@ -1783,9 +1773,9 @@
 			<xsd:enumeration value="28010019"/>	<!-- 28010019 - ESCOLA MUNICIPAL PEDRO JOSE DE OLIVEIRA -->
 			<xsd:enumeration value="28010027"/>	<!-- 28010027 - ESCOLA MUNICIPAL PEDRO JOSE DOS SANTOS -->
 			<xsd:enumeration value="28010060"/>	<!-- 28010060 - ESCOLA ESTADUAL JOAO FERREIRA DE MATOS -->
-			<xsd:enumeration value="28033400"/>	<!-- 28033400 - ESCOLA MUNICIPAL CARVALHO NETO -->
-			<xsd:enumeration value="28033302"/>	<!-- 28033302 - ESCOLA MUNICIPAL DR JOSE MONTALVAO -->
 			<xsd:enumeration value="28031644"/>	<!-- 28031644 - ESC ESTADUAL CARMEM DO PRADO DANTAS AMARAL -->
+			<xsd:enumeration value="28033302"/>	<!-- 28033302 - ESCOLA MUNICIPAL DR JOSE MONTALVAO -->
+			<xsd:enumeration value="28033400"/>	<!-- 28033400 - ESCOLA MUNICIPAL CARVALHO NETO -->
 			<xsd:enumeration value="28033981"/>	<!-- 28033981 - ESCOLA MUNICIPAL FRANCISCO JOSE DOS SANTOS -->
 			<xsd:enumeration value="28014839"/>	<!-- 28014839 - COLEGIO ESTADUAL CEL JOSE JOAQUIM BARBOSA -->
 			<xsd:enumeration value="28014855"/>	<!-- 28014855 - ESC MUL ABELARDO VIEIRA DE MENEZES -->
@@ -1838,21 +1828,13 @@
 			<xsd:enumeration value="28010825"/>	<!-- 28010825 - ESCOLA ESTADUAL TOBIAS BARRETO -->
 			<xsd:enumeration value="28010841"/>	<!-- 28010841 - JARDIM DE INFANCIA JOANA RAMOS -->
 			<xsd:enumeration value="28010868"/>	<!-- 28010868 - ESCOLA ESTADUAL ROSINHA FELIPE -->
-			<xsd:enumeration value="28072413"/>	<!-- 28072413 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL ANTONIO ALVES BARRETO -->
-			<xsd:enumeration value="28073401"/>	<!-- 28073401 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL JOSEFA SAO PEDRO DE JESUS -->
-			<xsd:enumeration value="28031814"/>	<!-- 28031814 - ESCOLA ESTADUAL RURAL ENGENHEIRO JOSE CARVALHO -->
-			<xsd:enumeration value="28031725"/>	<!-- 28031725 - ESC MUL DE ENSINO FUND PAULO FREIRE -->
-			<xsd:enumeration value="28033329"/>	<!-- 28033329 - CRECHE MONALIZA -->
 			<xsd:enumeration value="28027019"/>	<!-- 28027019 - ESCOLA SAO VICENTE DE PAULO -->
 			<xsd:enumeration value="28027086"/>	<!-- 28027086 - ESCOLA MUL DE ENSINO FUNDAMENTAL SANTA TEREZINHA -->
-			<xsd:enumeration value="28027213"/>	<!-- 28027213 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL SANTA MARIA -->
-			<xsd:enumeration value="28026780"/>	<!-- 28026780 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL LEONOR BARRETO FRANCO -->
-			<xsd:enumeration value="28026799"/>	<!-- 28026799 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL DR ALBANO FRANCO -->
-			<xsd:enumeration value="28032659"/>	<!-- 28032659 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL KIRIRIS -->
-			<xsd:enumeration value="28032845"/>	<!-- 28032845 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL MARIA DE JESUS -->
-			<xsd:enumeration value="28032080"/>	<!-- 28032080 - COLEGIO ESTADUAL PREFEITO PEDRO DE BALBINO -->
-			<xsd:enumeration value="28030621"/>	<!-- 28030621 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL GILSON FERREIRA DA SILVA -->
-			<xsd:enumeration value="28030427"/>	<!-- 28030427 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL ANTONIO AGUIAR VELAMES -->
+			<xsd:enumeration value="28031725"/>	<!-- 28031725 - ESC MUL DE ENSINO FUND PAULO FREIRE -->
+			<xsd:enumeration value="28031814"/>	<!-- 28031814 - ESCOLA ESTADUAL RURAL ENGENHEIRO JOSE CARVALHO -->
+			<xsd:enumeration value="28033329"/>	<!-- 28033329 - CRECHE MONALIZA -->
+			<xsd:enumeration value="28072413"/>	<!-- 28072413 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL ANTONIO ALVES BARRETO -->
+			<xsd:enumeration value="28073401"/>	<!-- 28073401 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL JOSEFA SAO PEDRO DE JESUS -->
 			<xsd:enumeration value="28023714"/>	<!-- 28023714 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL VEREADOR JOAO VIANINHA -->
 			<xsd:enumeration value="28023730"/>	<!-- 28023730 - ESCOLA ESTADUAL D JOSE VICENTE TAVORA -->
 			<xsd:enumeration value="28023773"/>	<!-- 28023773 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL ESPERIDIAO DE MEDEIROS -->
@@ -1874,6 +1856,14 @@
 			<xsd:enumeration value="28024060"/>	<!-- 28024060 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL MANOEL MARIA DOS SANTOS -->
 			<xsd:enumeration value="28024079"/>	<!-- 28024079 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL VALDETE DOREA -->
 			<xsd:enumeration value="28024087"/>	<!-- 28024087 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL FELIX SOARES -->
+			<xsd:enumeration value="28026780"/>	<!-- 28026780 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL LEONOR BARRETO FRANCO -->
+			<xsd:enumeration value="28026799"/>	<!-- 28026799 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL DR ALBANO FRANCO -->
+			<xsd:enumeration value="28027213"/>	<!-- 28027213 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL SANTA MARIA -->
+			<xsd:enumeration value="28030427"/>	<!-- 28030427 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL ANTONIO AGUIAR VELAMES -->
+			<xsd:enumeration value="28030621"/>	<!-- 28030621 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL GILSON FERREIRA DA SILVA -->
+			<xsd:enumeration value="28032080"/>	<!-- 28032080 - COLEGIO ESTADUAL PREFEITO PEDRO DE BALBINO -->
+			<xsd:enumeration value="28032659"/>	<!-- 28032659 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL KIRIRIS -->
+			<xsd:enumeration value="28032845"/>	<!-- 28032845 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL MARIA DE JESUS -->
 			<xsd:enumeration value="28024141"/>	<!-- 28024141 - EMEF BENEDITO BARRETO DO NASCIMENTO -->
 			<xsd:enumeration value="28024150"/>	<!-- 28024150 - COLEGIO ESTADUAL DR ANTONIO GARCIA FILHO -->
 			<xsd:enumeration value="28024168"/>	<!-- 28024168 - EMEF PROFª JOSEFINA BATISTA HORA -->
@@ -1892,75 +1882,19 @@
 			<xsd:enumeration value="28024370"/>	<!-- 28024370 - EMEF ADELVAN CAVALCANTI BAPTISTA -->
 			<xsd:enumeration value="28024389"/>	<!-- 28024389 - EMEF RIVALDO MOREIRA GUIMARAES -->
 			<xsd:enumeration value="28024400"/>	<!-- 28024400 - EMEI SOLDADINHO DE CHUMBO -->
+			<xsd:enumeration value="28028562"/>	<!-- 28028562 - COLEGIO ESTAD BENEDITO B DO NASCIMENTO -->
 			<xsd:enumeration value="28033957"/>	<!-- 28033957 - EMEF PROFA ADILEIA BOMFIM VIANA -->
 			<xsd:enumeration value="28033965"/>	<!-- 28033965 - EMEF DR ROBERTO BAHIA FONTES -->
 			<xsd:enumeration value="28033973"/>	<!-- 28033973 - EMEF VEREADOR ELVINO MOREIRA GUIMARAES -->
-			<xsd:enumeration value="28028562"/>	<!-- 28028562 - COLEGIO ESTAD BENEDITO B DO NASCIMENTO -->		
-			<xsd:enumeration value="28036239"/>	<!-- 28036239 - CENTRO DE EDUCACAO INFANTIL MARIA DE ARAUJO LEITE - DONA ZINHA -->
-			<xsd:enumeration value="28036301"/>	<!-- 28036301 - ESPACO MUNICIPAL DE EDUCACAO INFANTIL LUCAS NASCIMENTO SANTANA -->
-			<xsd:enumeration value="28035046"/>	<!-- 28035046 - CRECHE MUNICIPAL ORLANDO CARVALHO DE SANTANA -->
-			<xsd:enumeration value="28030206"/>	<!-- 28030206 - ESCOLA MUNICIPAL MARIA LUCIA DANTAS -->
-			<xsd:enumeration value="28036930"/>	<!-- 28036930 - UNIDADE MUNICIPAL DE EDUCAÇÃO INFANTIL PROFESSORA RIVANDA ALVES DE OLIVEIRA -->
-			<xsd:enumeration value="28035941"/>	<!-- 28035941 - CENTRO DE EDUCACAO INFANTIL MARIA ANA DE LIMA -->
-			<xsd:enumeration value="28036360"/>	<!-- 28036360 - CRECHE MUNICIPAL JUMARA XAVIER DE SANTANA ANDRADE -->
-			<xsd:enumeration value="28035160"/>	<!-- 28035160 - CRECHE MUNICIPAL JOSEFA FERREIRA DOS SANTOS -->
-			<xsd:enumeration value="28035917"/>	<!-- 28035917 - CRECHE JOSEFA DO CARMO SANTOS -->
-			<xsd:enumeration value="28035984"/>	<!-- 28035984 - CRECHE MUNICIPAL PREFEITO WALTER FRANCO DO PRADO -->
-			<xsd:enumeration value="28035224"/>	<!-- 28035224 - ESCOLA MUNICIPAL PROFESSORA MARIA MADALENA DOS SANTOS SILVA -->
-			<xsd:enumeration value="28014919"/>	<!-- 28014919 - ESC MUL STO ANTONIO -->
-			<xsd:enumeration value="28025415"/>	<!-- 28025415 - ESCOLINHA DO DIVINO -->
-			<xsd:enumeration value="28036751"/>	<!-- 28036751 - ESCOLA DE EDUCAÇÃO INFANTIL FREI JOSE SIQUEIRA DE REZENDE -->
-			<xsd:enumeration value="28035348"/>	<!-- 28035348 - EMEI DOUTOR JOSE CALUMBY FILHO -->
-			<xsd:enumeration value="28035950"/>	<!-- 28035950 - EMEF JOSE SOUZA DE JESUS -->
-			<xsd:enumeration value="28037510"/>	<!-- 28037510 - EMEF EM TEMPO INTEGRAL JOÃO OLIVA ALVES -->
-			<xsd:enumeration value="28037545"/>	<!-- 28037545 - EMEF PROFESSORA IZABEL CRISTINA SANTOS SILVA -->
-			<xsd:enumeration value="28037537"/>	<!-- 28037537 - EMEI IRMÃOS MIRELLA E MARCELL MOURA -->
-			<xsd:enumeration value="28037529"/>	<!-- 28037529 - EMEI MARIA RUTH WYNNE CARDOSO -->
-			<xsd:enumeration value="28037553"/>	<!-- 28037553 - EMEI PROFESSORA MICHELE DE JESUS -->
-			<xsd:enumeration value="28030990"/>	<!-- 28030990 - ESCOLA MARIA ELIDIA DE SA FEITOSA -->
-			<xsd:enumeration value="28022149"/>	<!-- 28022149 - ESC MUL FRANCISCO JOSE DE OLIVEIRA -->
-			<xsd:enumeration value="28035500"/>	<!-- 28035500 - CRECHE MUNICIPAL ANTUZI DO NASCIMENTO SILVA FIGUEIREDO -->
-			<xsd:enumeration value="28035925"/>	<!-- 28035925 - ESCOLA MUNICIPAL DE ENSINO FUNDAMENTAL MARIA DE FATIMA RAMOS DANTAS DE SANTANA -->
-			<xsd:enumeration value="28035097"/>	<!-- 28035097 - ESCOLA MUNICIPAL PROFESSOR JOAQUIM ALVES DE GOIS -->
-			<xsd:enumeration value="28037170"/>	<!-- 28037170 - CRECHE MUNICIPAL MARIA SOUZA COSTA -->
-			<xsd:enumeration value="28036298"/>	<!-- 28036298 - CRECHE PRE ESCOLAR PROFESSOR JOSE CLAUDIO BARRETO SOBRAL -->
-			<xsd:enumeration value="28036271"/>	<!-- 28036271 - ESCOLA MUNICIPAL JOSE DOS SANTOS -->
-			<xsd:enumeration value="28035305"/>	<!-- 28035305 - CRECHE MARIANA MARTINS MOURA SOUSA -->
-			<xsd:enumeration value="28036131"/>	<!-- 28036131 - EMEI CRECHE MUNICIPAL DOM HÉLDER PESSOA CÂMARA -->
-			<xsd:enumeration value="28036140"/>	<!-- 28036140 - EMEI CRECHE MUNICIPAL ANA CRISTINA ARAGÃO NEVES -->
-			<xsd:enumeration value="28036158"/>	<!-- 28036158 - EMEI - CRECHE APARECIDO DOS SANTOS - CIDO CAPUNGA -->
-			<xsd:enumeration value="28036778"/>	<!-- 28036778 - ESCOLA MUNICIPAL PROFESSORA MARIA RIZONETE SILVA -->
-			<xsd:enumeration value="28036786"/>	<!-- 28036786 - ESCOLA MUNICIPAL PROFESSORA MARIA CRISTINA DOS SANTOS AMARO -->
-			<xsd:enumeration value="28036794"/>	<!-- 28036794 - EMEI CRECHE MUNICIPAL MADRE MARIA DOS ANJOS AMORIM -->
-			<xsd:enumeration value="28036972"/>	<!-- 28036972 - CENTRO EDUCACIONAL PEDRO RIAN DE JESUS ARAGAO -->
-			<xsd:enumeration value="28035682"/>	<!-- 28035682 - UNIDADE MUNICIPAL DE EDUCACAO INFANTIL PROFESSORA IZABEL BARRETO - TIA LILI -->
-			<xsd:enumeration value="28013506"/>	<!-- 28013506 - CENTRO EDUCACIONAL JOSE DA SILVA PEIXOTO -->
-			<xsd:enumeration value="28036395"/>	<!-- 28036395 - ESCOLA MUNICIPAL PROFESSOR JOSE VALMIR DE SOUSA -->
-			<xsd:enumeration value="28036964"/>	<!-- 28036964 - CENTRO EDUCACIONAL PROFESSORA MARIA DAGMAR MENEZES -->
-			<xsd:enumeration value="28035240"/>	<!-- 28035240 - ESCOLA MUNICIPAL PRO-INFANCIA JOANA DARC DE SANTANA FEITOZA XAVIER -->
-			<xsd:enumeration value="28036824"/>	<!-- 28036824 - ESCOLA MUNICIPAL RAUL GOMES DE MORAES -->
-			<xsd:enumeration value="28035445"/>	<!-- 28035445 - CRECHE COMUNITARIA VALQUIRIA LUIZA CAMPOS NASCIMENTO -->
-			<xsd:enumeration value="28035453"/>	<!-- 28035453 - CRECHE MUNICIPAL GOVERNADOR MARCELO DEDA CHAGAS -->
-			<xsd:enumeration value="28036166"/>	<!-- 28036166 - EMEI - CRECHE MICHELE DE JESUS SANTOS -->
-			<xsd:enumeration value="28035674"/>	<!-- 28035674 - ESCOLA MUNICIPAL DE EDUCACAO INFANTIL MARIA MENEZES DE JESUS - CRECHE TIA MARIA -->
-			<xsd:enumeration value="28037260"/>	<!-- 28037260 - CEMEI - PROF ARISCOGENES OLIVEIRA LEMOS -->
-			<xsd:enumeration value="28035933"/>	<!-- 28035933 - CRECHE MUNICIPAL CRISTIANE NASCIMENTO DE OLIVEIRA -->
-			<xsd:enumeration value="28036379"/>	<!-- 28036379 - CRECHE MUNICIPAL ACONCHEGO DA MAMAE -->
-			<xsd:enumeration value="28035089"/>	<!-- 28035089 - ESCOLA MUNICIPAL SENHORA SANTANA -->
-			<xsd:enumeration value="28037332"/>	<!-- 28037332 - CENTRO DE EDUCAÇÃO INFANTIL E INCLUSÃO - AQUIDABÃ -->
-			<xsd:enumeration value="28035143"/>	<!-- 28035143 - CRECHE DRª ZILDA ARNS NEUMANN -->
-			<xsd:enumeration value="28037626"/>	<!-- 28037626 - ESCOLA DE EDUCAÇÃO INFANTIL MARIA TEREZINHA FREIRE SILVA -->
-			<xsd:enumeration value="28037561"/>	<!-- 28037561 - EMEI DULCILENE TEIXEIRA ALMEIDA -->
 		</xsd:restriction>
-	</xsd:simpleType>			
+	</xsd:simpleType>				
 								
 	<xsd:complexType name="matricula_t">
 	  <xsd:sequence>
 		<xsd:element name="numero">
 		  <xsd:simpleType>
 			<xsd:restriction base="xsd:string">
-			  <xsd:whiteSpace value="preserve"/>
-			  <xsd:minLength value="1" />
+			  <xsd:whiteSpace value="collapse"/>
 			  <xsd:maxLength value="100" />
 			</xsd:restriction>
 		  </xsd:simpleType>
@@ -1975,19 +1909,12 @@
 		
 	<xsd:complexType name="aluno_t">
 	  <xsd:sequence>
-		<xsd:element name="cpfAluno" type="edu:cpf_t" minOccurs="1" />		
-		<xsd:element name="data_nascimento">		
-			<xsd:simpleType>
-				<xsd:restriction base="xsd:date">    
-					<xsd:minInclusive value="1923-01-01"/>    			 
-				</xsd:restriction>	
-			</xsd:simpleType>		
-		</xsd:element>		
+		<xsd:element name="cpfAluno" type="edu:cpf_t" minOccurs="0" />
+		<xsd:element name="data_nascimento" type="xsd:date" />
 		<xsd:element name="nome">
 		  <xsd:simpleType>
 			<xsd:restriction base="xsd:string">
-			  <xsd:whiteSpace value="preserve"/>
-			  <xsd:minLength value="5" />
+			  <xsd:whiteSpace value="collapse"/>
 			  <xsd:maxLength value="200" />
 			</xsd:restriction>		  
 		  </xsd:simpleType>
@@ -2019,22 +1946,14 @@
 					<xsd:enumeration value="7"/>	<!-- 7 - Domingo -->
 				</xsd:restriction>
 			</xsd:simpleType>
-		</xsd:element>
-		<xsd:element name="duracao">	
-		<xsd:simpleType>
-			<xsd:restriction base="xsd:integer">
-				<xsd:minInclusive value="1"/>
-				<xsd:maxInclusive value="5"/>
-			</xsd:restriction>
-		</xsd:simpleType>
-		</xsd:element>
+		</xsd:element>	  
+		<xsd:element name="duracao" type="xsd:integer" />
 		<xsd:element name="hora_inicio" type="xsd:time" />	
 		<xsd:element name="disciplina">
 		  <xsd:simpleType>
 			<xsd:restriction base="xsd:string">
-			  <xsd:whiteSpace value="preserve"/>
-			  <xsd:minLength value="3" />
-			  <xsd:maxLength value="100" />
+			  <xsd:whiteSpace value="collapse"/>
+			  <xsd:maxLength value="50" />
 			</xsd:restriction>
 		  </xsd:simpleType>
 		</xsd:element>				
@@ -2056,8 +1975,7 @@
 		<xsd:element name="descricao" minOccurs="0">
 		  <xsd:simpleType>
 			<xsd:restriction base="xsd:string">
-			  <xsd:whiteSpace value="preserve"/>
-			  <xsd:minLength value="1" />
+			  <xsd:whiteSpace value="collapse"/>
 			  <xsd:maxLength value="50" />
 			</xsd:restriction>
 		  </xsd:simpleType>
@@ -2080,8 +1998,7 @@
 		<xsd:element name="descricao">
 			<xsd:simpleType>
 				<xsd:restriction base="xsd:string">
-					<xsd:whiteSpace value="preserve"/>
-					<xsd:minLength value="3" />
+					<xsd:whiteSpace value="collapse"/>
 					<xsd:maxLength value="50" />
 				</xsd:restriction>
 			</xsd:simpleType>
@@ -2093,7 +2010,6 @@
 					<xsd:enumeration value="2"/>	<!-- 2 - Ensino Fundamental -->
 					<xsd:enumeration value="3"/>	<!-- 3 - Ensino Médio -->				
 					<xsd:enumeration value="4"/>	<!-- 4 - Educação de Jovens e Adultos -->				
-					<xsd:enumeration value="5"/>	<!-- 5 - Atendimento Educacional Especializado -->	
 				</xsd:restriction>
 			</xsd:simpleType>
 		</xsd:element>
@@ -2107,8 +2023,7 @@
 		<xsd:element name="especialidade">
 		  <xsd:simpleType>
 			<xsd:restriction base="xsd:string">
-			  <xsd:whiteSpace value="preserve"/>
-			  <xsd:minLength value="5" />
+			  <xsd:whiteSpace value="collapse"/>
 			  <xsd:maxLength value="50" />
 			</xsd:restriction>
 		  </xsd:simpleType>
@@ -2125,8 +2040,7 @@
 		<xsd:element name="nrAto">
 		  <xsd:simpleType>
 			<xsd:restriction base="xsd:string">
-			  <xsd:whiteSpace value="preserve"/>
-			  <xsd:minLength value="1" />
+			  <xsd:whiteSpace value="collapse"/>
 			  <xsd:maxLength value="100" />
 			</xsd:restriction>
 		  </xsd:simpleType>
@@ -2140,8 +2054,7 @@
 		<xsd:element name="local" minOccurs="0">
 		  <xsd:simpleType>
 			<xsd:restriction base="xsd:string">
-			  <xsd:whiteSpace value="preserve"/>
-			  <xsd:minLength value="5" />
+			  <xsd:whiteSpace value="collapse"/>
 			  <xsd:maxLength value="200" />
 			</xsd:restriction>
 		  </xsd:simpleType>		  
@@ -2156,9 +2069,8 @@
 		<xsd:element name="descricao_merenda">
 		  <xsd:simpleType>
 			<xsd:restriction base="xsd:string">
-			  <xsd:whiteSpace value="preserve"/>
-			  <xsd:minLength value="5" />
-			  <xsd:maxLength value="1000" />
+			  <xsd:whiteSpace value="collapse"/>
+			  <xsd:maxLength value="300" />
 			</xsd:restriction>
 		  </xsd:simpleType>
 		</xsd:element>
@@ -2200,17 +2112,14 @@
 	
 	<!-- ROOT -->	
 	<xsd:element name="educacao" type="edu:educacao_t">
-	<!--
 		<xsd:unique name="chaveAluno">
 			<xsd:selector xpath="edu:escola/edu:turma/edu:matricula/edu:aluno"/>
 			<xsd:field xpath="edu:cpfAluno"/>
 		</xsd:unique>	
-	
 		<xsd:unique name="chaveDiretor">
 			<xsd:selector xpath="edu:escola/edu:diretor"/>
 			<xsd:field xpath="edu:cpfDiretor"/>
 		</xsd:unique>	
-	-->
 		<xsd:unique name="chaveEscola">
 			<xsd:selector xpath="edu:escola"/>
 			<xsd:field xpath="edu:idEscola"/>
