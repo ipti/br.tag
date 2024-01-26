@@ -254,7 +254,14 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
             <i class="fa fa-spin fa-spinner"></i>
         </div>
         <div class="modal-body">
-            <div class="alert alert-error alert-calendar-error no-show"></div>
+            <div class="t-alert t-alert--critical alert  alert-calendar-error no-show">
+                <div class="t-alert-informacao">
+                    <div class="alert-calendar-error-mensage">
+                        <span class="t-info_positive t-alert__icon alert-calendar-error">
+                        </span>
+                    </div>
+                </div>
+            </div>
             <div class="row-fluid">
                 <div class="span12">
                     <?= chtml::label(yii::t("calendarModule.labels", "Title Required"), "title", array('class' => 'control-label required')); ?>
@@ -327,7 +334,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
             <i class="fa fa-spin fa-spinner"></i>
         </div>
         <div class="modal-body">
-            <div class="alert alert-error alert-calendar-error no-show"></div>
+            <div class="t-alert t-alert--critical alert alert-error alert-calendar-error no-show"></div>
             <div class="row-fluid">
                 <div class="span12">
                     <?= chtml::label(yii::t("calendarModule.labels", "Title Required"), "copy", array('class' => 'control-label required')); ?>
@@ -375,7 +382,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
             <i class="fa fa-spin fa-spinner"></i>
         </div>
         <div class="modal-body">
-            <div class="alert alert-error alert-calendar-error no-show"></div>
+            <div class="t-alert t-alert--critical alert alert-error alert-calendar-error no-show"></div>
             <div class="unity-periods-container"></div>
             <span class="replicate-periods">Replicar datas para etapas similares</span><i class="fa fa-spin fa-spinner load-replication"></i>
             <div class="modal-footer">

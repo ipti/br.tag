@@ -10,9 +10,16 @@ $(document).on("click", ".new-calendar-button", function () {
 $(document).on("click", ".create-calendar", function () {
     var form = $(this).closest("form");
     if (form.find(".create-calendar-title").val() === "" || form.find("#stages").val() === null) {
-        form.find(".alert").html("Campos com * são obrigatórios.").show();
+
+        // form.find(".alert").html("Campos com * são obrigatórios.").show();
+        var alertDiv = form.find(".alert-calendar-error");
+        alertDiv.find(".alert-calendar-error-mensage").append("Campos com * são obrigatórios.<br>");
+        alertDiv.show();
     } else {
-        form.find(".alert").hide();
+        // form.find(".alert").hide();
+        var alertDiv = $(this).closest("form").find(".alert-instructor-error");
+        alertDiv.hide();
+        alertDiv.find(".alert-instructor-error-mensage").html("");
         $.ajax({
             url: "?r=calendar/default/create",
             type: "POST",
@@ -139,7 +146,10 @@ $(document).on("click", ".manage-unity-periods", function (e) {
                         html += "</div>";
                     });
                 } else {
-                    html += "<div class='alert alert-warning'>Etapa sem unidades. </div>";
+                    // html += "<div class='alert alert-warning'>Etapa sem unidades. </div>";
+                    html +="<div class='t-alert t-alert--critical alert-school-error no-show'><div class='t-alert-informacao'><div class='alert-school-error-mensage'><span class='t-info_positive t-alert__icon alert-school-error'></span>'Etapa sem unidades.'</div></div></div>"
+
+
                 }
                 html += "</div>";
             });
@@ -232,18 +242,23 @@ $(document).on("click", ".manage-unity-periods-button", function () {
 
     if (errorUnsequenced) {
         var alertDiv = $("#unity-periods-modal").find(".alert-calendar-error");
-        alertDiv.find(".alert-calendar-error-mensage").append(message);
+        alertDiv.find(".alert-calendar-error-mensage").append("As datas estão fora de sequência.");
         alertDiv.show();
 
     } else if (errorUnfilled) {
-        
         var alertDiv = $("#unity-periods-modal").find(".alert-calendar-error")
         alertDiv.find(".alert-calendar-error-mensage").append("Preencha todas as datas.");
-alertDiv.show();
+        alertDiv.show();
     } else if (errorDateAfterCalendarEnd) {
-        $("#unity-periods-modal").find(".alert-calendar-error").html("As datas selecionadas não podem ser superiores à data de fim do ano letivo (" + $(".calendar-end-date").val() + ").").show();
+        // $("#unity-periods-modal").find(".alert-calendar-error").html("As datas selecionadas não podem ser superiores à data de fim do ano letivo (" + $(".calendar-end-date").val() + ").").show();
+        var alertDiv = $("#unity-periods-modal").find(".alert-calendar-error")
+        alertDiv.find(".alert-calendar-error-mensage").append("As datas selecionadas não podem ser superiores à data de fim do ano letivo (" + $(".calendar-end-date").val() + ").");
+        alertDiv.show();
     } else {
-        $("#unity-periods-modal").find(".alert-calendar-error").hide();
+        // $("#unity-periods-modal").find(".alert-calendar-error").hide();
+        var alertDiv = $("#unity-periods-modal").find(".alert-calendar-error");
+        alertDiv.hide();
+        alertDiv.find(".alert-calendar-error-mensage").html("");
         $.ajax({
             url: "?r=calendar/default/editUnityPeriods",
             type: "POST",
