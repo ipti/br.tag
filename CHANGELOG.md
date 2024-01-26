@@ -1,3 +1,6 @@
+## [Versão 3.65.104]
+- Corrigindo ano de exportação do sagres
+
 ## [Versão 3.65.102]
 - Adicionando filtros nas unidades de medida a depender da comida selecionada na tela de estoque
 
