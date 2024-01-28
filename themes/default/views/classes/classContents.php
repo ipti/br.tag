@@ -9,8 +9,8 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 
@@ -36,7 +36,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
         <a id="save" class='t-button-primary hide'><?php echo Yii::t('default', 'Save') ?></a>
     </div>
-    <table class="table table-bordered table-striped visible-print" summary="Tabela relacionada a informações da escola">
+    <table class="table table-bordered table-striped visible-print"
+           summary="Tabela relacionada a informações da escola">
         <tr>
             <th scope="school">Escola:</th>
             <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
@@ -54,28 +55,28 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <td colspan="1"><?php echo $school->location == 1 ? "URBANA" : "RURAL" ?></td>
             <th scope="Administrative Dependence">Dependência Administrativa:</th>
             <td colspan="3"><?php
-                            $ad = $school->administrative_dependence;
-                            switch ($ad) {
-                                case 1:
-                                    echo "FEDERAL";
-                                    break;
-                                case 2:
-                                    echo "ESTADUAL";
-                                    break;
-                                case 3:
-                                    echo "MUNICIPAL";
-                                    break;
-                                default:
-                                    echo "PRIVADA";
-                                    break;
-                            }
-                            ?></td>
+                $ad = $school->administrative_dependence;
+                switch ($ad) {
+                    case 1:
+                        echo "FEDERAL";
+                        break;
+                    case 2:
+                        echo "ESTADUAL";
+                        break;
+                    case 3:
+                        echo "MUNICIPAL";
+                        break;
+                    default:
+                        echo "PRIVADA";
+                        break;
+                }
+                ?></td>
         <tr>
     </table>
     <table class="table table-bordered table-striped visible-print" summary="Tabela de filtros">
         <tr>
             <th>Turma:</th>
-            <td colspan="1" id="disciplinesValue"></td>
+            <td colspan="1" id="classroomValue"></td>
         <tr>
         <tr>
             <th>Mês:</th>
@@ -83,7 +84,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <tr>
         <tr>
             <th>Componente Curricular/ Eixo:</th>
-            <td colspan="1" id="classroomValue" ></td>
+            <td colspan="1" id="disciplinesValue"></td>
         <tr>
     </table>
     <br>
@@ -103,45 +104,28 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="mobile-row">
                 <div class="column clearleft">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
                         <select class="select-search-on t-field-select__input " id="classroom" name="classroom">
-                            <option>Selecione a turma</option>
+                            <option value="">Selecione a turma</option>
                             <?php foreach ($classrooms as $classroom) : ?>
-                                <option value="<?= $classroom->id ?>" fundamentalmaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ? "1" : "0" ?>"><?= $classroom->name ?></option>
+                                <option value="<?= $classroom->id ?>"
+                                        fundamentalmaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ? "1" : "0" ?>"><?= $classroom->name ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
-                <div class="column">
+                <div class="column month-container">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
-                        <?php
-                        echo CHtml::dropDownList('month', '', array(
-                            1 => 'Janeiro',
-                            2 => 'Fevereiro',
-                            3 => 'Março',
-                            4 => 'Abril',
-                            5 => 'Maio',
-                            6 => 'Junho',
-                            7 => 'Julho',
-                            8 => 'Agosto',
-                            9 => 'Setembro',
-                            10 => 'Outubro',
-                            11 => 'Novembro',
-                            12 => 'Dezembro'
-                        ), array(
-                            'key' => 'id',
-                            'class' => 'select-search-on t-field-select__input ',
-                            'prompt' => 'Selecione o mês',
-                        ));
-                        ?>
+                        <?php echo CHtml::label(yii::t('default', 'Month') . "/Ano", 'month', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 80px;')); ?>
+                        <select class="select-search-on t-field-select__input" id="month"
+                                style="min-width: 185px;"></select>
                     </div>
                 </div>
             </div>
             <div class="mobile-row helper printSelect selectComponente">
                 <div class="column clearleft on-tablet disciplines-container" style="display: none;">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required' )); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Discipline'), 'disciplines', array('class' => 'control-label t-field-select__label--required')); ?>
                         <?php
                         echo CHtml::dropDownList('disciplines', '', array(), array(
                             'key' => 'id',
@@ -152,18 +136,20 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
             </div>
             <div class="column clearleft on-tablet align-items--center ">
-                <img class="loading-class-contents" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+                <img class="loading-class-contents" height="30px" width="30px"
+                     src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
         </div>
         <div class="clear"></div>
         <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
-            <table id="class-contents" class="tag-table-secondary table-bordered" aria-labelledby="create class contents">
+            <table id="class-contents" class="tag-table-secondary table-bordered"
+                   aria-labelledby="create class contents">
                 <thead>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="center">1</td>
-                    </tr>
+                <tr>
+                    <td class="center">1</td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -171,7 +157,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
     <div class="row">
         <div class="t-buttons-container printButton">
-            <a id="save-button-mobile" class='t-button-primary align-items--center hide'><?php echo Yii::t('default', 'Save') ?></a>
+            <a id="save-button-mobile"
+               class='t-button-primary align-items--center hide'><?php echo Yii::t('default', 'Save') ?></a>
         </div>
     </div>
 
@@ -188,11 +175,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <div class="t-modal__body">
                     <div class="t-field-tarea">
                         <label class="t-field-tarea__label">Diário de Aula Geral</label>
-                        <textarea class="t-field-tarea__input large classroom-diary-textarea" placeholder="Digite"></textarea>
+                        <textarea class="t-field-tarea__input large classroom-diary-textarea"
+                                  placeholder="Digite"></textarea>
                     </div>
 
                     <label>Diário de Aula por Aluno</label>
-                    <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na turma.</div>
+                    <div class="alert alert-error classroom-diary-no-students no-show">Não há alunos matriculados na
+                        turma.
+                    </div>
                     <div class="accordion-students"></div>
 
 
@@ -201,7 +191,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="t-buttons-container justify-content--center">
-                            <button type="button" class="t-button-primary clear-margin--right js-add-classroom-diary" data-dismiss="modal">Salvar</button>
+                            <button type="button" class="t-button-primary clear-margin--right js-add-classroom-diary"
+                                    data-dismiss="modal">Salvar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -210,26 +202,32 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
 </div>
 <style>
-    @media print{
-        .title1{
+    @media print {
+        .title1 {
             padding-left: 30px;
         }
-        .printButton{
+
+        .printButton {
             display: none;
         }
-        .saveButton{
+
+        .saveButton {
             display: none;
         }
-        .printSelect{
+
+        .printSelect {
             margin-left: 0px;
         }
-        .classroom-diary-button{
+
+        .classroom-diary-button {
             display: none;
         }
-        .selectComponente{
+
+        .selectComponente {
             padding-left: 0px;
         }
-        .tablet-row{
+
+        .tablet-row {
             display: none;
         }
     }

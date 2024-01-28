@@ -1,96 +1,113 @@
 function loadClassContents() {
-    if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
+    var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
+    var monthSplit = $("#month").val().split("-");
+    $.ajax({
+        type: 'POST',
+        url: "?r=classes/getClassContents",
+        cache: false,
+        data: {
+            classroom: $("#classroom").val(),
+            month: monthSplit[1],
+            year: monthSplit[0],
+            fundamentalMaior: fundamentalMaior,
+            discipline: $("#disciplines").val()
+        },
+        beforeSend: function () {
+            $(".loading-class-contents").css("display", "flex");
+            $("#widget-class-contents").css("opacity", 0.3).css("pointer-events", "none");
+            $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").attr("disabled", "disabled");
+        },
+        success: function (data) {
+            data = jQuery.parseJSON(data);
+            if (data.valid) {
+                createTable(data);
+                $("#print").addClass("show").removeClass("hide");
+                $("#save").addClass("show--desktop").removeClass("hide");
+                $("#save-button-mobile").addClass("show--tablet").removeClass("hide");
+                $('#error-badge').html('')
+            } else {
+                $('#error-badge').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span>' + data.error + '</div>')
+                $('#class-contents > thead').html('');
+                $('#class-contents > tbody').html('');
+                $('#class-contents').show();
+                $("#save, #save-button-mobile").addClass("hide");
+            }
+            $('#month_text').html($('#month').find('option:selected').text());
+            $('#discipline_text').html($('#disciplines').is(":visible") ? $('#disciplines').find('option:selected').text() : "Todas as Disciplinas");
+        },
+        complete: function () {
+            $(".loading-class-contents").hide();
+            $("#widget-class-contents").css("opacity", 1).css("pointer-events", "auto").show();
+            $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").removeAttr("disabled");
+        }
+    });
+}
 
-
-        jQuery.ajax({
-            type: 'POST',
-            url: "?r=classes/getClassContents",
+$("#classroom").on("change", function () {
+    $("#widget-class-contents, .alert-incomplete-data").hide();
+    $("#disciplines").val("").trigger("change.select2");
+    if ($(this).val() !== "") {
+        $.ajax({
+            type: "POST",
+            url: "?r=classes/getMonthsAndDisciplines",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
-                month: $("#month").val(),
-                discipline: $("#disciplines").val()
+                fundamentalMaior: $("#classroom > option:selected").attr("fundamentalMaior")
             },
             beforeSend: function () {
-                $(".loading-class-contents").css("display", "flex");
-                $("#widget-class-contents").css("opacity", 0.3).css("pointer-events", "none");
-                $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").attr("disabled", "disabled");
+                $(".loading-frequency").css("display", "inline-block");
+                $("#classroom, #month, #disciplines").attr("disabled", "disabled");
             },
             success: function (data) {
-                data = jQuery.parseJSON(data);
+                data = JSON.parse(data);
                 if (data.valid) {
-                    createTable(data);
-                    $("#print").addClass("show").removeClass("hide");
-                    $("#save").addClass("show--desktop").removeClass("hide");
-                    $("#save-button-mobile").addClass("show--tablet").removeClass("hide");
-                    $('#error-badge').html('')
+                    $("#month").children().remove();
+                    $("#month").append(new Option("Selecione o Mês/Ano", ""));
+                    $.each(data.months, function (index, value) {
+                        $("#month").append(new Option(value.name, value.id));
+                    });
+                    $("#month option:first").attr("selected", "selected").trigger("change.select2");
+
+                    if ($("#classroom > option:selected").attr("fundamentalMaior") === "1") {
+                        $("#disciplines").children().remove();
+                        $("#disciplines").append(new Option("Selecione a Disciplina", ""));
+                        $.each(data.disciplines, function (index, value) {
+                            $("#disciplines").append(new Option(value.name, value.id));
+                        });
+                        $("#disciplines option:first").attr("selected", "selected").trigger("change.select2");
+                        $(".disciplines-container").show();
+                    } else {
+                        $(".disciplines-container").hide();
+                    }
+                    $(".month-container").show();
                 } else {
-                    $('#error-badge').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span>' + data.error + '</div>')
-                    $('#class-contents > thead').html('');
-                    $('#class-contents > tbody').html('');
-                    $('#class-contents').show();
-                    $("#save, #save-button-mobile").addClass("hide");
+                    $(".alert-incomplete-data").html(data.error).show();
+                    $(".disciplines-container, .month-container").hide();
                 }
-                $('#month_text').html($('#month').find('option:selected').text());
-                $('#discipline_text').html($('#disciplines').is(":visible") ? $('#disciplines').find('option:selected').text() : "Todas as Disciplinas");
             },
-            complete: function () {
-                $(".loading-class-contents").hide();
-                $("#widget-class-contents").css("opacity", 1).css("pointer-events", "auto").show();
-                $("#classroom, #month, #disciplines, #classesSearch, #classesSearchMobile").removeAttr("disabled");
-            }
+            complete: function (response) {
+                $(".loading-frequency").hide();
+                $("#classroom, #month, #disciplines").removeAttr("disabled");
+            },
         });
+    } else {
+        $(".disciplines-container, .month-container").hide();
+    }
+
+});
+
+$("#month, #disciplines").on("change", function () {
+    if ($("#classroom").val() !== "" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
+        loadClassContents();
+        $("#disciplinesValue").text($("#disciplines option:selected").text());
+        $("#monthValue").text($("#month option:selected").text());
+        $("#classroomValue").text($("#classroom option:selected").text());
     } else {
         $("#widget-class-contents").hide();
         $("#print, #save, #save-button-mobile").addClass("hide");
     }
-}
-
-
-$('#classesSearch, #classesSearchMobile').on('click', loadClassContents);
-
-$("#classroom").on("change", function () {
-    $("#disciplines").val("").trigger("change.select2");
-    if ($(this).val() !== "") {
-        if ($("#classroom > option:selected").attr("fundamentalmaior") === "1") {
-            $.ajax({
-                type: "POST",
-                url: "?r=classes/getDisciplines",
-                cache: false,
-                data: {
-                    classroom: $("#classroom").val(),
-                },
-                success: function (response) {
-                    if (response == "") {
-                        $("#disciplines").html("<option value='-1'></option>").trigger("change.select2").show();
-                    } else {
-                        $("#disciplines").html(decodeHtml(response)).trigger("change.select2").show();
-                    }
-                    $(".disciplines-container").show();
-                },
-            });
-        } else {
-            $(".disciplines-container").hide();
-        }
-    } else {
-        $(".disciplines-container").hide();
-    }
-
 });
-
-$("#month").on("change", loadClassContents);
-
-$("#disciplines").on("change", function () {
-    loadClassContents();
-    let disciplinesValue = $("#disciplines option:selected").text();
-    $("#disciplinesValue").text(disciplinesValue);
-    let monthValue = $("#month option:selected").text();
-    $("#monthValue").text(monthValue);
-    let classroomValue = $("#classroom option:selected").text();
-    $("#classroomValue").text(classroomValue);
-});
-
-
 
 $(document).ready(function () {
     $('#class-contents').hide();
@@ -111,7 +128,6 @@ $("#save, #save-button-mobile").on('click', function () {
                 diary: $(this).val()
             })
         });
-        console.log($(this).find("select.course-classes-select").val())
         classContents.push({
             day: $(this).attr("day"),
             diary: $(this).find(".classroom-diary-of-the-day").val(),
@@ -126,6 +142,7 @@ $("#save, #save-button-mobile").on('click', function () {
         data: {
             classroom: $("#class-contents").attr("classroom"),
             month: $("#class-contents").attr("month"),
+            year: $("#class-contents").attr("year"),
             discipline: $("#class-contents").attr("discipline"),
             fundamentalMaior: $("#class-contents").attr("fundamentalmaior"),
             classContents: classContents
@@ -167,7 +184,7 @@ $(document).on("click", ".js-add-classroom-diary", function () {
 
     tr.find(".classroom-diary-of-the-day").val($(".js-classroom-diary").val());
     $(".js-student-classroom-diary").each(function () {
-         tr.find(".student-diary-of-the-day[studentid=" + $(this).attr("studentid") + "]").val($(this).val())
+        tr.find(".student-diary-of-the-day[studentid=" + $(this).attr("studentid") + "]").val($(this).val())
     });
 });
 
