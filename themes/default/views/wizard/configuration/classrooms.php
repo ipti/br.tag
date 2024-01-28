@@ -58,7 +58,7 @@ $cs = Yii::app()->getClientScript();
                                 echo chtml::dropDownList('Classrooms', "", CHtml::listData(Classroom::model()->findAllByAttributes(array('school_year' => $lastYear, 'school_inep_fk'=>$school),array('order'=>'name ASC')), 'id', 'name'), array(
                                     'class' => 'select-search-on',
                                     'multiple' => 'multiple',
-                                    'placeholder' => Yii::t('default', 'Select Classrom'),
+                                    'placeholder' => Yii::t('default', 'Select Classroom'),
                                 ));
                                 ?> 
                             </div>
