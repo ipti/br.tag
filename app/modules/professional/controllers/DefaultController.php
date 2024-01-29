@@ -149,8 +149,6 @@ class DefaultController extends Controller
     public function actionDeleteAttendance()
     {
         $attendanceId = Yii::app()->request->getPost('attendance');
-        $professionalId = Yii::app()->request->getPost('professional');
-
         $model = Attendance::model()->findByPk($attendanceId);
         $model->delete();
         header('HTTP/1.1 200 OK');
