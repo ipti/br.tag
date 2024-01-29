@@ -50,8 +50,8 @@
 							<h3>Dados Básicos</h3>
 						</div>
 						<div class="full">
-							<div>
-								<div class="separator row">
+							<div class="row">
+								<div class="control-group column clearleft">
                                     <div class="hide" id="id_professional"><?php echo $modelProfessional->id_professional;?></div>
 									<div class="control-group column clearleft">
 										<div class="controls">
@@ -73,21 +73,23 @@
 									</div>
                                 </div>
                                 <div class="control-group column clearleft">
-                                    <div class="controls">
-                                        <?php echo $form->label($modelProfessional, 'speciality', array('class' => 'control-label')); ?>
+                                    <div class="control-group column clearleft">
+                                        <div class="controls">
+                                            <?php echo $form->label($modelProfessional, 'speciality', array('class' => 'control-label')); ?>
+                                        </div>
+                                        <div class="controls">
+                                            <?php echo $form->textField($modelProfessional, 'speciality', array('size' => 100)); ?>
+                                            <?php echo $form->error($modelProfessional, 'speciality'); ?>
+                                        </div>
                                     </div>
-                                    <div class="controls">
-                                        <?php echo $form->textField($modelProfessional, 'speciality', array('size' => 100)); ?>
-                                        <?php echo $form->error($modelProfessional, 'speciality'); ?>
-                                    </div>
-                                </div>
-                                <div class="control-group column clearleft">
-                                    <div class="controls">
-                                        <?php echo $form->label($modelProfessional, 'fundeb', array('class' => 'control-label', 'style' => 'width: 70px;')); ?>
-                                        <?php echo $form->checkBox($modelProfessional, 'fundeb', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    </div>
-                                    <div class="controls">
-                                        <?php echo $form->error($modelProfessional, 'fundeb'); ?>
+                                    <div class="control-group column clearleft">
+                                        <div class="controls">
+                                            <?php echo $form->label($modelProfessional, 'fundeb', array('class' => 'control-label', 'style' => 'width: 70px;')); ?>
+                                            <?php echo $form->checkBox($modelProfessional, 'fundeb', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </div>
+                                        <div class="controls">
+                                            <?php echo $form->error($modelProfessional, 'fundeb'); ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +97,9 @@
 							<?php if(!$modelProfessional->isNewRecord) {?>
 							<div class="span6 column clearleft">
 								<div class="control-group column clearleft">
-									<a href="#" class="t-button-primary new-attendance-button" id="new-attendance-button">Adicionar Atendimento</a>
+                                    <div class="controls">
+                                        <a href="#" class="t-button-primary new-attendance-button" id="new-attendance-button">Adicionar Atendimento</a>
+                                    </div>
 								</div>
 								<div class="attendance-container">
 									<div class="form-attendance" style="display: none;">
@@ -130,9 +134,9 @@
 												aria-describedby="tabela de atendimentos">
 												<thead>
 													<tr>
-														<th style="min-width: 200px;border: none">Data</th>
+														<th style="min-width: 100px;border: none">Data</th>
 														<th style="min-width: 200px;border: none">Local</th>
-                                                        <th style="text-align: right; min-width: 200px;border: none"></th>
+                                                        <th style="text-align: right; min-width: 50px;border: none"></th>
 													</thead>
 												<tbody>
 													<?php
