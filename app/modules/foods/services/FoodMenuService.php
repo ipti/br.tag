@@ -16,7 +16,8 @@ class FoodMenuService
     }
     public function getMealType($id)
     {
-        $sql = "SELECT fmt.id as food_meal_type, fmm.meal_time, fmt.description,
+        $sql = "SELECT fmt.id as food_meal_type, fmt.description,
+        TIME_FORMAT(fmm.meal_time, '%H:%i') AS meal_time,
         CASE
             WHEN fmm.turn = 'M' THEN 'Manhã'
             WHEN fmm.turn = 'T' THEN 'Tarde'
@@ -45,7 +46,7 @@ class FoodMenuService
             where fm.id = :id
         ';
         $nutritionalValue = Yii::app()->db->createCommand($sql)->bindParam(':id', $id)->queryAll();
-        
+
         $kcal = 0;
         $calTotal = 0;
         $ptnTotal = 0;
@@ -72,14 +73,14 @@ class FoodMenuService
 
         $result["calAverage"] = round($calAverage);
         $result["calpct"] = round($calpct);
-        
+
         $result["ptnAvarage"] = round($ptnAvarage);
         $result["ptnpct"] = round($ptnpct);
 
         $result["lpdAvarage"] = round($lpdAvarage);
         $result["lpdpct"] = round($lpdpct);
 
-        
+
         return $result;
     }
     public function getMelsOfWeek()

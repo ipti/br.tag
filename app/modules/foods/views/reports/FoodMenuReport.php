@@ -4,13 +4,18 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/sass/css/main.css');
 
 $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
-    ?>
+?>
 <style>
+    table {
+        border-collapse: collapse;
+    }
+
     th,
     td {
         text-align: center !important;
         vertical-align: middle !important;
         font-size: 14px;
+        border: 1px solid black;
     }
 
     td {
@@ -47,11 +52,13 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
         #print {
             display: none;
         }
+
         .background-dark {
-        background-color: lightgray;
-        -webkit-print-color-adjust:exact !important;
-        print-color-adjust:exact !important;
-    }
+            background-color: lightgray !important;
+            print-color-adjust: exact;
+        }
+
+
     }
 </style>
 <div class="row buttons">
@@ -132,17 +139,17 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                     <td>5ª FEIRA</td>
                     <td>6ª FEIRA</td>
                 </tr>
-                <?php foreach ($mealTypes as $mealType): ?>
+                <?php foreach ($mealTypes as $mealType) : ?>
                     <tr>
                         <td class="background-dark font-bold nowrap">
                             <?= $mealType["description"] ?><br />
                             <?= $mealType["turn"] ?><br />
                             <?= $mealType["meal_time"] ?>
                         </td>
-                        <?php foreach ($days as $day): ?>
+                        <?php foreach ($days as $day) : ?>
                             <td>
-                                <?php foreach ($foodMenu->$day as $meal): ?>
-                                    <?php if ($meal["food_meal_type"] == $mealType["food_meal_type"]): ?>
+                                <?php foreach ($foodMenu->$day as $meal) : ?>
+                                    <?php if ($meal["food_meal_type"] == $mealType["food_meal_type"]) : ?>
                                         <div>
                                             <?php
                                             $descriptions = array_reduce($meal["meals_component"], function ($carry, $item) {
@@ -196,12 +203,12 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                 <tr class="font-bold">
                     <td class="nowrap">55% a %65 do VET</td>
                     <td class="nowrap">10% a 15% do VET</td>
-                    <?php if($publicTarget["id"] != 7):?>
+                    <?php if ($publicTarget["id"] != 7) : ?>
                         <td class="nowrap">25% a 35% do VET</td>
-                    <?php else:?>
+                    <?php else : ?>
                         <td class="nowrap">15% a 30% do VET</td>
-                    <?php endif;?>
-                 
+                    <?php endif; ?>
+
                 </tr>
                 <tr>
                     <td rowspan="2">

@@ -98,7 +98,7 @@ class FoodmenuController extends Controller
                 'model' => $foodMenu,
             ));
             Yii::app()->end();
-        } 
+        }
 
         // Trecho do código para excluir todos os registros associados ao cardápio
         $transaction = Yii::app()->db->beginTransaction();
@@ -160,7 +160,7 @@ class FoodmenuController extends Controller
         $result["kcal"] = is_numeric($food->energy_kcal) ? round($food->energy_kcal, 2) : $food->energy_kcal;
         $result["pt"] = is_numeric($food->protein_g) ? round($food->protein_g, 2) : $food->protein_g;
         $result["lip"] = is_numeric($food->lipidius_g) ? round($food->lipidius_g, 2) : $food->lipidius_g;
-        $result["cal"] = is_numeric($food->carbohydrate_g) ? round($food->carbohydrate_g, 2) : $food->carbohydrate_g;
+        $result["car"] = is_numeric($food->carbohydrate_g) ? round($food->carbohydrate_g, 2) : $food->carbohydrate_g;
 
         echo CJSON::encode($result);
     }
@@ -223,7 +223,7 @@ class FoodmenuController extends Controller
         Yii::app()->end();
     }
     public function actionGetMealsOfWeek() {
-       
+
         $getMelsOfWeek = new GetMelsOfWeek();
         $foodMenu  = $getMelsOfWeek->exec();
 
