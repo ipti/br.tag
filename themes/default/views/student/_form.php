@@ -321,12 +321,24 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Escolaridade -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select js-hide-not-required" id="scholarity-select">
-                                <?php echo $form->label($modelStudentIdentification, 'scholarity', array('class' => 't-field-select__label')); ?>
+                                <?php echo $form->label($modelStudentIdentification, 'scholarity',
+                                array(
+                                    'class' => 't-field-select__label'
+                                )); ?>
                                 <?php echo $form->DropDownList($modelStudentIdentification, 'scholarity',
-                                    array(null => "Selecione a escolaridade", "1" => "Formação Geral", "2" => "Modalidade Normal (Magistério)", "3" => "Curso Técnico",
-                                        "4" => "Magistério Indígena Modalidade Normal"),
-                                    array('class' => 'select-search-off t-field-select__input select2-container')); ?>
+                                    array(
+                                        null => "Selecione a escolaridade",
+                                        "1" => "Formação Geral",
+                                        "2" => "Modalidade Normal (Magistério)",
+                                        "3" => "Curso Técnico",
+                                        "4" => "Magistério Indígena Modalidade Normal",
+                                        "5" => "Ensino Fundamental"
+                                    ),
+                                    array(
+                                        'class' => 'select-search-off t-field-select__input select2-container'
+                                    )); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'scholarity'); ?>
+                                <!-- ver o espaçamento do select para ficar para baixo -->
                             </div>
                         </div>
                     </div>
