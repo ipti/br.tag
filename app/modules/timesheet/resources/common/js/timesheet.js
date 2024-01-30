@@ -81,15 +81,33 @@ function getTimesheet(data) {
         $(".schedule-info").addClass("display-hide");
     } else if (!data.valid) {
         if (data.error === "curricularMatrix") {
-            $(".loading-alert").removeClass("display-hide").html("Para exibir o quadro de horário, é necessário cadastrar uma <b>matriz curricular</b> com a mesma etapa da turma selecionada.");
+            // $(".loading-alert")
+            // .removeClass("display-hide")
+            // .html("Para exibir o quadro de horário, é necessário cadastrar uma <b>matriz curricular</b> com a mesma etapa da turma selecionada.");
+            // $(".schedule-info").
+            var alertDiv = $(".loading-alert");
+            alertDiv.removeClass("display-hide");
+            alertDiv.find(".alert-loading-error-mensage").append("Para exibir o quadro de horário, é necessário cadastrar uma <b>matriz curricular</b> com a mesma etapa da turma selecionada.");
+            alertDiv.show();
             $(".schedule-info").addClass("display-hide");
             $(".table-container").hide();
         } else if (data.error === "calendar") {
-            $(".loading-alert").removeClass("display-hide").html("Para exibir o quadro de horário, É necessário disponibilizar um <b>calendário</b> contemplando a etapa da turma selecionada e com os eventos de início e fim de ano escolar.");
+            // $(".loading-alert")
+            // .removeClass("display-hide")
+            // .html("Para exibir o quadro de horário, É necessário disponibilizar um <b>calendário</b> contemplando a etapa da turma selecionada e com os eventos de início e fim de ano escolar.");
+            // $(".schedule-info").addClass("display-hide");
+            // $(".table-container").hide();
+            var alertDiv = $(".loading-alert");
+            alertDiv.removeClass("display-hide");
+            alertDiv.find(".alert-loading-error-mensage").append("Para exibir o quadro de horário, É necessário disponibilizar um <b>calendário</b> contemplando a etapa da turma selecionada e com os eventos de início e fim de ano escolar.");
+            alertDiv.show();
             $(".schedule-info").addClass("display-hide");
             $(".table-container").hide();
         } else if (data.error === "frequencyOrClassContentFilled") {
-            $(".loading-alert").removeClass("display-hide").html("Não se pode mais gerar um novo quadro de horário, visto que já existe preenchimento de frequência ou aula ministrada.");
+            var alertDiv = $(".loading-alert");
+            alertDiv.removeClass("display-hide");
+            alertDiv.find(".alert-loading-error-mensage").append("Não se pode mais gerar um novo quadro de horário, visto que já existe preenchimento de frequência ou aula ministrada.");
+            alertDiv.show();
             $("#turn").show();
         }
     } else {
@@ -162,7 +180,7 @@ function getTimesheet(data) {
                 html += "</tr>";
             }
             $(".tables-timesheet table[month=" + month + "] tbody").html(html);
-            $('[data-toggle="tooltip"]').tooltip({container: "body"});
+            $('[data-toggle="tooltip"]').tooltip({ container: "body" });
         }
         calculateWorkload(data.disciplines, false);
         $("#turn").text(turn).show();
@@ -373,7 +391,7 @@ $(document).on("click", ".btn-add-schedule", function () {
             $(".schedule-add").remove();
             $(".schedule-selected").removeClass("schedule-selected");
             $(".schedule-highlighted").removeClass("schedule-highlighted");
-            $('.soft-unavailable .availability-schedule').tooltip({container: "body"}).tooltip({container: "body"});
+            $('.soft-unavailable .availability-schedule').tooltip({ container: "body" }).tooltip({ container: "body" });
         }).complete(function () {
             $(".loading-timesheet").hide();
             $(".table-container").css("opacity", 1).css("pointer-events", "auto");
@@ -436,7 +454,7 @@ function swapSchedule(firstSchedule, secondSchedule) {
                 }
             });
             calculateWorkload(data.disciplines, false);
-            $('.soft-unavailable .availability-schedule').tooltip({container: "body"});
+            $('.soft-unavailable .availability-schedule').tooltip({ container: "body" });
         }
         $(".schedule-remove, .schedule-add").remove();
         $(".schedule-selected").removeClass("schedule-selected");

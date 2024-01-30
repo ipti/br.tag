@@ -67,10 +67,18 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                     <i></i><?= yii::t('timesheetModule.timesheet', "Generate automatic timesheet") ?>
                 </button>
             </div>
-            <img class="loading-timesheet"  style="margin-bottom:5px;display:none;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+            <img class="loading-timesheet" style="margin-bottom:5px;display:none;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
         <hr />
-        <div class="loading-alert alert alert-warning display-hide"></div>
+        <div class="loading-alert t-alert t-alert--warning display-hide">
+            <div class="t-alert-informacao">
+                <div class="alert-loading-error-mensage">
+                    <span class="t-info_positive t-alert__icon alert-school-error">
+                    </span>
+                </div>
+            </div>
+        </div>
+
         <div class="row-fluid table-container">
             <div class="span12">
                 <span id="turn"></span>

@@ -114,7 +114,7 @@ $(document).on("click", ".edit-calendar-button", function () {
 
 $(document).on("click", ".manage-unity-periods", function (e) {
     dismissPeriods();
-    $("#unity-periods-modal").find(".alert").hide();
+    $("#unity-periods-modal").find(".alert-calendar-error").hide();
     var icon = this;
     e.stopPropagation();
     $.ajax({
@@ -147,7 +147,7 @@ $(document).on("click", ".manage-unity-periods", function (e) {
                     });
                 } else {
                     // html += "<div class='alert alert-warning'>Etapa sem unidades. </div>";
-                    html +="<div class='t-alert t-alert--critical alert-school-error no-show'><div class='t-alert-informacao'><div class='alert-school-error-mensage'><span class='t-info_positive t-alert__icon alert-school-error'></span>'Etapa sem unidades.'</div></div></div>"
+                    html +="<div class='t-alert t-alert--critical alert-calendar-error no-show'><div class='t-alert-informacao'><div class='alert-school-error-mensage'><span class='t-info_positive t-alert__icon alert-school-error'></span>'Etapa sem unidades.'</div></div></div>"
 
 
                 }
