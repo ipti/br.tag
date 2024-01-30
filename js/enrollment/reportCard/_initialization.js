@@ -31,7 +31,7 @@ $('#discipline').change(function (e, triggerEvent) {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getReportCardGrades",
+            url: "?r=grades/getReportCardGrades",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -39,7 +39,8 @@ $('#discipline').change(function (e, triggerEvent) {
             },
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");
-                $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
+                $(".js-grades-container").css("opacity", "0.4").css("overflow", "auto").css("pointer-events", "none");
+                $("#grades-save-button").removeClass("hide");
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -47,7 +48,7 @@ $('#discipline').change(function (e, triggerEvent) {
                 if (data.valid) {
                     let html = `
                     <h3>Aulas Dadas</h3>
-                    <div class="mobile-row">
+                    <div class="row">
                     `;
                     for (let i = 0; i < 3; i++) {
                         let order = i + 1;
@@ -153,7 +154,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     $(".js-grades-alert").addClass("alert-error").removeClass("alert-success").text(data.message).show();
                 }
                 $(".js-grades-loading").hide();
-                $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
+                $(".js-grades-container, .grades-buttons").css("overflow", "auto").css("opacity", "1").css("pointer-events", "auto");
             },
         });
     } else {
@@ -192,7 +193,7 @@ $("#save").on("click", function (e) {
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");
-            $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
+            $(".js-grades-container, .grades-buttons").css("overflow", "auto").css("opacity", "0.4").css("pointer-events", "none");
         },
         success: function (data) {
             $("#discipline").trigger("change", ["saveGrades"]);
