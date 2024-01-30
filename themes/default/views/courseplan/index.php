@@ -13,16 +13,24 @@ $cs = Yii::app()->getClientScript();
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Course Plan') ?></h1>
             <div class="t-buttons-container">
-                <a href="<?php echo Yii::app()->createUrl('courseplan/create') ?>"
-                    class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>
+                <a href="<?php echo Yii::app()->createUrl('courseplan/create') ?>" class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>
             </div>
         </div>
     </div>
-
     <div class="tag-inner">
         <div class="columnone" style="padding-right: 1em">
             <div class="widget clearmargin">
-                <div class="alert courseplan-alert <?= Yii::app()->user->hasFlash('success') ? "alert-success" : "no-show" ?>"><?php echo Yii::app()->user->getFlash('success') ?></div>
+                <div class="t-alert courseplan-alert <?= Yii::app()->user->hasFlash('success') ? "t-alert--sucess" : "no-show" ?>">
+                    <div class="t-alert-informacao">
+                        <div class="">
+                            <span class="t-info_positive t-alert__icon">
+                            </span>
+                            <?php echo Yii::app()->user->getFlash('success') ?>
+
+                        </div>
+                    </div>
+
+                </div>
                 <div class="widget-body">
                     <?php $this->widget('zii.widgets.grid.CGridView', array(
                         'dataProvider' => $dataProvider,
@@ -64,15 +72,15 @@ $cs = Yii::app()->getClientScript();
                                 'template' => '{delete}',
                                 'buttons' => array(
                                     'delete' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                        'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
                                     )
                                 ),
                                 'afterDelete' => 'function(link, success, data){
                                     data = JSON.parse(data);
                                     if (data.valid) {
-                                        $(".alert").text(data.message).addClass("alert-success").removeClass("alert-error");
+                                        $(".t-alert").text(data.message).addClass("t-alert--sucess").removeClass("t-alert--critical");
                                     } else {
-                                        $(".alert").text(data.message).addClass("alert-error").removeClass("alert-success");
+                                        $(".t-alert").text(data.message).addClass("t-alert--critical").removeClass("t-alert--sucess");
                                     }
                                     $(".courseplan-alert").show();
                                 }',
@@ -90,4 +98,3 @@ $cs = Yii::app()->getClientScript();
 
     </div>
 </div>
-
