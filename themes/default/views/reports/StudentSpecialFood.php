@@ -15,7 +15,7 @@ $school = SchoolIdentification::model()->findByPk($classroom->school_inep_fk);
 
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
-    <h3><?php echo Yii::t('default', 'Alunos Cardápios Especiais'); ?></h3>
+    <h3><?php echo Yii::t('default', 'Alunos Cardápios Especiais') . ' - ' . Yii::app()->user->year; ?></h3>
     <div class="row-fluid hidden-print">
         <div class="span12">
             <div class="buttons">
