@@ -1,25 +1,25 @@
 <?php
 
 /**
-* @var FormsController $this FormsController
-* @var $report mixed
-*/
+ * @var FormsController $this FormsController
+ * @var $report mixed
+ */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
-    $turns = ['M'=>'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
+$turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
 
 ?>
 
 
 <div id="body-students-file-form" class="pageA4V">
     <?php
-        $this->renderPartial('head');
-        $data = StudentEnrollment::getFileInformation($enrollment->id);
-        $birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
+    $this->renderPartial('head');
+    $data = StudentEnrollment::getFileInformation($enrollment->id);
+    $birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
     ?>
     <br>
     <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
@@ -31,9 +31,10 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
          }*/
         ?>
         <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
-            <?php //echo $namereport ?>
-            <?php echo 'FICHA INDIVIDUAL DO ALUNO - '?>
-            <span class="stage"><?php echo $data['stage']?></span>
+            <?php //echo $namereport
+            ?>
+            <?php echo 'FICHA INDIVIDUAL DO ALUNO - ' ?>
+            <span class="stage"><?php echo $data['stage'] ?></span>
         </div>
         <span style="clear:both;display:block"></span>
         <div style="border:1px solid black; float:left; width: 2.5cm; height: 3cm; text-align:center;margin-right: 15px;"><br><br><span>F O T O<br>3 x 4</span></div>
@@ -62,36 +63,37 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <?php
                 if ($_REQUEST['type'] == '2') {
                     echo '<td colspan="3">O(A) ALUNO(A) REQUER SUA MATRÍCULA ';
-                    ?>
+                ?>
                     NO_________ANO
                     <!--<span class="class"></span>-->
-                    <?php
+                <?php
                     echo ', DE ACORDO COM SITUAÇÃO APRESENTADA ABAIXO, A QUAL PEDE DEFERIMENTO.</td>';
                 } else {
                     echo '<td colspan="3">O INDICADO ABAIXO, IDENTIFICADO, REPRESENTADO QUANDO MENOR, REQUER SUA MATRÍCULA ';
-                    ?>
+                ?>
                     <?php
-                    if ($_REQUEST['type'] == '0'){
+                    if ($_REQUEST['type'] == '0') {
                         echo '<span class="class"></span>';
-                    }else{
+                    } else {
                         echo 'NO_________ANO';
                     }
                     ?>
-                    <?php
+                <?php
                     echo ' DESTA UNIDADE DE ENSINO, NESTE ANO LETIVO, NESTES TERMOS, PEDE DEFERIMENTO.</td>';
                 }
                 ?>
             </tr>
             <tr>
                 <td>DATA: _______/_______/_________</td>
-                <td colspan="2"  style="font-size: 10px;line-height: 11px;padding-top: 12px;">__________________________________________________________________________________
+                <td colspan="2" style="font-size: 10px;line-height: 11px;padding-top: 12px;">__________________________________________________________________________________
                     <br>Filiação ou Responsável
                 </td>
             </tr>
             <tr style="border-top: 1px solid black;">
                 <td>
                     USO EXCLUSIVO DA U.E.
-                    <br>☐ DEFERIDO ☐ INDEFERIDO</td>
+                    <br>☐ DEFERIDO ☐ INDEFERIDO
+                </td>
                 <td colspan="2" style="font-size: 10px;line-height: 11px;padding-top: 12px;">
                     _______/_______/_________&nbsp;&nbsp;&nbsp;&nbsp;________________________________________________
                     <br><span style="display: table;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Diretor(a)</span>
@@ -99,8 +101,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             </tr>
         </table>
         <style type="text/css">
-            .subheader {margin:5px 0px}
-            .subheader div{margin:0px !important;}
+            .subheader {
+                margin: 5px 0px
+            }
+
+            .subheader div {
+                margin: 0px !important;
+            }
         </style>
 
         <div class="subheader" style="float: left; text-align: justify;line-height: 16px;">
@@ -121,7 +128,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 
     <table id="report-table" class="table table-bordered">
-        <tr><th style="text-align: center">BLOCO 1 - IDENTIFICAÇÃO E CADASTRO</th></tr>
+        <tr>
+            <th style="text-align: center">BLOCO 1 - IDENTIFICAÇÃO E CADASTRO</th>
+        </tr>
         <tr>
             <td>
                 <div class="span12"><b>01 - Nome do(a) aluno(a):</b>&nbsp;<span class="name"><?= $data['name'] ?></span></div>
@@ -158,7 +167,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['mother'] ?></span></div>
                 <div class="span4"><b>RG: </b><span class="cc_number"><?= $data['mother_rg'] ?></div>
                 <div class="span8"><b>CPF: </b><span class="cc_number"><?= $data['mother_cpf'] ?><span class="father"></span></div>
-                <br/>
+                <br />
                 <div class="span4"><b>Profissão: </b><span class="mother"><?= $data['mother_job'] ?></span></div>
                 <div class="span6"><b>Grau de instrução: </b><span class="mother"><?= $data['mother_scholarity'] ?></span></div>
             </td>
@@ -169,29 +178,30 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['father'] ?></span></div>
                 <div class="span4"><b>RG: </b><span class="cc_number"><?= $data['father_rg'] ?></span></div>
                 <div class="span8"><b>CPF: </b><span class="father"><span class="cc_number"><?= $data['father_cpf'] ?></span></div>
-                <br/>
+                <br />
                 <div class="span4"><b>Profissão: </b><span class="mother"><?= $data['father_job'] ?></span></div>
                 <div class="span6"><b>Grau de instrução: </b><span class="mother"><?= $data['father_scholarity'] ?></span></div>
             </td>
         </tr>
         <tr>
             <td>
-                <?php if($data['cc'] == 1){ ?>
+                <?php if ($data['cc'] == 1) { ?>
                     <div id="old_cc">
                         <div class="span9"><b>08 - Certidão Civil de <span class="cc_type"><?= $data['cc_type'] ?></span></b></div>
-                        <br/>
+                        <br />
                         <div class="span2"><b>Nº: </b><span class="cc_number"><?= $data['cc_number'] ?></span></div>
                         <div class="span2"><b>Livro: </b><span class="cc_book"><?= $data['cc_book'] ?></span></div>
                         <div class="span2"><b>Folha: </b><span class="cc_sheet"><?= $data['cc_sheet'] ?></span></div>
-                        <br><div class="span4"><b>Nome do Cartório: </b><span class="cc_name"><?= $data['cc_name'] ?></span></div>
+                        <br>
+                        <div class="span4"><b>Nome do Cartório: </b><span class="cc_name"><?= $data['cc_name'] ?></span></div>
                         <div class="span4"><b>Cidade: </b><span class="cc_city"><?= $data['cc_city'] ?></span></div>
                         <div class="span1"><b>UF: </b><span class="cc_uf"></span><?= $data['cc_uf'] ?></div>
                     </div>
-                <?php } else{ ?>
+                <?php } else { ?>
                     <div id="new_cc">
                         <div class="span9"><b>08 - Certidão Civil:</b>
                         </div>
-                        <br/>
+                        <br />
                         <div class="span9"><b>Nº:</b><span class="cc_new"><?= $data['cc_new'] ?></span></div>
                     </div>
                 <?php } ?>
@@ -212,7 +222,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         </tr>
         <tr>
             <td>
-                <div class="span12" >
+                <div class="span12">
                     <b>12 - Nome do responsável e parentesco: </b><span class="responsable_name"><?= $data['responsable_name'] ?></span>
                 </div>
                 <div class="span4">
@@ -230,7 +240,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <td>
                 <div class="span10"><b>13 - Grau de escolaridade do responsável:</b>
                     <br><span class="responsable_scholarity"><?= $data['responsable_scholarity'] ?></span>
-                </<div>
+                    </<div>
             </td>
         </tr>
         <tr>
@@ -246,8 +256,10 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 
     <table style="margin-top:10px;" id="report-table" class="table table-bordered">
-        <tr><th style="text-align: center">CARACTERIZAÇÃO</th></tr>
-        <?php if(GLOGALGROUP != 1){?>
+        <tr>
+            <th style="text-align: center">CARACTERIZAÇÃO</th>
+        </tr>
+        <?php if (GLOGALGROUP != 1) { ?>
             <tr>
                 <td>
                     <div class="span12"><b>15 - Matrícula do aluno: </b></div>
@@ -256,14 +268,14 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <div class="span4"><b>Série: </b><span><?= $enrollment->edcensoStageVsModalityFk->name ?></span></div>
                     <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
                     <div class="span9"><b>Situação do aluno: </b><span>
-                        <?php
-                           echo $enrollment->getCurrentStatus();
-                        ?>
-                    </span></div>
+                            <?php
+                            echo $enrollment->getCurrentStatus();
+                            ?>
+                        </span></div>
                     <div class="span3"><b>Turno: </b><span> <?php echo $turns[$enrollment->classroomFk->turn]; ?></span></div>
                 </td>
             </tr>
-        <?php }?>
+        <?php } ?>
         <tr>
             <td>
                 <div class="span10"><b>16 - Documentos(s) que habilita(m) matrícula no segmento: </b>
@@ -287,13 +299,17 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <br>
                     <div style="margin-right: -20px;">
                         <?php
-                        if ($_REQUEST['type'] == '0'){ ?>
+                        if ($_REQUEST['type'] == '0') { ?>
                             <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>
-                            <?php
-                        }else{?>
-                            <div class="padding-5"><b>☐</b> Primeira matrícula no Curso (Nível e/ou modalidade de ensino)</div>
-                            <div class="padding-5"><b>☐</b> Promovido na série/etapa anterior do mesmo curso (nível e/ou modalidade de ensino)</div>
-                            <div class="padding-5"> <b>☐</b> Repetente</div>
+                        <?php
+                        } else {
+                            $firstRegistration = "Primeira matrícula no curso (nível e/ou modalidade de ensino)";
+                            $promoted = "Promovido na série anterior do mesmo curso (nível e/ou modalidade de ensino)";
+                            $repeatStudent = "Repetente";
+                        ?>
+                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $firstRegistration) ? '☑ ' : '☐ ' ?></b> <?php echo $firstRegistration ?></div>
+                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $promoted) ? '☑ ' : '☐ ' ?></b> <?php echo $promoted ?></div>
+                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $repeatStudent) ? '☑ ' : '☐ ' ?></b> <?php echo $repeatStudent ?></div>
                         <?php } ?>
 
                     </div>
@@ -303,19 +319,22 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <tr>
             <td>
                 <div class="span10"><b>19 - Situação do Aluno no ano Anterior: </b></div>
-                <br><div class="span3 padding-5" style="margin-right: -20px;">
-                    <b>☐</b> Não Frequentou
-                    <br><b>☐</b> Reprovado
+                <br>
+                <div class="span3 padding-5" style="margin-right: -20px;">
+                    <b><?= ($enrollment->previous_stage_situation == 0) ? '☑' : '☐' ?></b> Não Frequentou
+                    <br><b><?= ($enrollment->previous_stage_situation == 1) ? '☑' : '☐' ?></b> Reprovado
                 </div>
                 <div class="span4 padding-5" style="margin-right: -20px;">
-                    <b>☐</b> Afastado por transferência
-                    <br><b>☐</b> Matricula final em Educação Infantil
+                    <b><?= ($enrollment->previous_stage_situation == 2) ? '☑' : '☐' ?></b> Afastado por transferência
+                    <br><b><?= ($enrollment->previous_stage_situation == 4) ? '☑' : '☐' ?></b> Matrícula final em Educação Infantil
                 </div>
                 <div class="span3 padding-5">
-                    <b>☐</b> Afastado por abandono
+                    <b><?= ($enrollment->previous_stage_situation == 3) ? '☑' : '☐' ?></b> Afastado por abandono
+                    <br><b><?= ($enrollment->previous_stage_situation == 5) ? '☑' : '☐' ?></b> Promovido
                 </div>
             </td>
         </tr>
+
         <!--<tr>
             <td>
                 <div class="span10"><b>17 - Situação do aluno no ano anterior: </b>
@@ -325,19 +344,20 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 </div>
             </td>
         </tr>-->
-        <tr><td>
+        <tr>
+            <td>
                 <div class="span12"><b>20 - Portador de Necessidades Especiais? </b></div>
                 <br>
-                <div class="span2"><b>☐</b> Sim</div>
-                <div class="span2"><b>☐</b> Não</div>
-                <div class="span8" style="margin-bottom:8px;"><b>Tipo: </b><span>__________________________________________________________</span></div>
+                <div class="span2"><b><?= !empty($data['deficiency']) ? '☑' : '☐' ?></b> Sim</div>
+                <div class="span2"><b><?= empty($data['deficiency']) ? '☑' : '☐' ?></b> Não</div>
+                <div class="span8" style="margin-bottom:8px;"><b>Tipo: </b><span><?= $data['deficiency'] ?></div>
             </td>
         </tr>
         <tr>
             <td>
                 <div class="span12"><b>21 - Participa do Programa Bolsa Família? </b></div>
                 <!-- <br><span class="bf_participator"><?= $data['bf_participator'] ?></span> -->
-                <div class="span4"><b>☐</b> Bolsa Família</div>
+                <div class="span4"><b><?= ($data['bf_participator'] == 'Sim') ? '☑' : '☐' ?></b> Bolsa Família</div>
                 <div class="span4"><b>☐</b> PETI</div>
                 <div class="span4"><b>☐</b> Pro Jovem</div>
                 <br>
@@ -348,22 +368,65 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <tr>
             <td>
                 <div class="span10"><b>22 - Utiliza transporte escolar? </b>
-                    <br><span class="public_transport"><?= $data['public_transport'] ?></span>
+                    <span class="public_transport">
+                        <?= ($enrollment->public_transport == '0') ? 'Não' : 'Sim' ?>
+                    </span>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
                 <div class="span10"><b>23 - Restrição alimentar ou alergia a: </b>
-                    <br><span class="food_restrictions"><?= $data['food_restrictions'] ?></span>
+                    <?php
+                    $result = '';
+
+                    if ($data['celiac'] == '1') {
+                        $result .= 'Doença celíaca';
+                    }
+
+                    if ($data['diabetes'] == '1') {
+                        $result .= ($result ? ', ' : '') . 'Diabetes';
+                    }
+
+                    if ($data['hypertension'] == '1') {
+                        $result .= ($result ? ', ' : '') . 'Hipertensão';
+                    }
+
+                    if ($data['iron_deficiency_anemia'] == '1') {
+                        $result .= ($result ? ', ' : '') . 'Anemia ferropriva';
+                    }
+
+                    if ($data['sickle_cell_anemia'] == '1') {
+                        $result .= ($result ? ', ' : '') . 'Anemia falciforme';
+                    }
+
+                    if ($data['lactose_intolerance'] == '1') {
+                        $result .= ($result ? ', ' : '') . 'Intolerância à lactose';
+                    }
+
+                    if ($data['malnutrition'] == '1') {
+                        $result .= ($result ? ', ' : '') . 'Desnutrição';
+                    }
+
+                    if ($data['obesity'] == '1') {
+                        $result .= ($result ? ', ' : '') . 'Obesidade';
+                    }
+
+                    if (!empty($data['others'])) {
+                        $result .= ($result ? ', ' : '') . $data['others'];
+                    }
+
+                    echo $result;
+                    ?>
                 </div>
             </td>
         </tr>
-        <tr><td>
-                <div class="span12"><b>24 - Autorização do Termo de Consentimento? </b></div>
+        <tr>
+            <td>
+                <div class="span12"><b>24 - Autorização do Termo de Consentimento da Imagem? </b></div>
                 <br>
-                <div class="span2"><b>☐</b> Sim</div>
-                <div class="span2"><b>☐</b> Não</div>
+                <div class="span2"><b><?= ($data['consent_form'] == '1') ? '☑' : '☐' ?></b> Sim</div>
+                <div class="span2"><b><?= ($data['consent_form'] == '0') ? '☑' : '☐' ?></b> Não</div>
             </td>
         </tr>
     </table>
@@ -371,7 +434,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 
 <style>
-
     .container-report {
         width: 980px;
         margin: auto;
@@ -381,7 +443,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         clear: both;
     }
 
-    .container-report:before, .container-report:after {
+    .container-report:before,
+    .container-report:after {
         display: table;
         content: "";
         line-height: 0;
@@ -418,77 +481,111 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         text-transform: uppercase;
     }
 
-    .table-border, .table-border th, .table-border td {
-       border: 1px solid black;
+    .table-border,
+    .table-border th,
+    .table-border td {
+        border: 1px solid black;
         border-collapse: collapse;
     }
 
-    .table-border td, .table-border th {
+    .table-border td,
+    .table-border th {
         padding: 8px;
     }
 
     .table-border {
         width: 100%;
-        page-break-inside:auto
+        page-break-inside: auto
     }
 
-    @media screen{
-        .pageA4V{width:980px; height:1400px; margin:0 auto;}
-        .pageA4H{width:1400px; height:810px; margin:0 auto;}
-        #header-report ul#info, #header-report ul#addinfo {
+    @media screen {
+        .pageA4V {
+            width: 980px;
+            height: 1400px;
+            margin: 0 auto;
+        }
+
+        .pageA4H {
+            width: 1400px;
+            height: 810px;
+            margin: 0 auto;
+        }
+
+        #header-report ul#info,
+        #header-report ul#addinfo {
             float: right;
             width: 970px;
             margin: 0;
             overflow: hidden;
         }
     }
-    @media print {
-        .pageA4V{width:960px; height:1200px; margin:0 auto; font-size: 15px; }
-        .pageA4H{width:1122px; height:810px; margin:0 auto; font-size: 15px;}
 
-        .padding-5{
+    @media print {
+        .pageA4V {
+            width: 960px;
+            height: 1200px;
+            margin: 0 auto;
+            font-size: 15px;
+        }
+
+        .pageA4H {
+            width: 1122px;
+            height: 810px;
+            margin: 0 auto;
+            font-size: 15px;
+        }
+
+        .padding-5 {
             padding: 5px 0 0 0;
         }
 
-        .margin-15{
+        .margin-15 {
             margin-top: 8px;
             margin-bottom: 7px;
         }
 
-        #header-report{
-            width:820px;
+        #header-report {
+            width: 820px;
         }
 
         #container-header {
             width: 425px !important;
         }
-        table, td, tr, th {
+
+        table,
+        td,
+        tr,
+        th {
             border-color: black !important;
         }
+
         .report-table-empty td {
             padding-top: 0 !important;
             padding-bottom: 0 !important;
         }
+
         .vertical-text {
             height: 110px;
             vertical-align: bottom !IMPORTANT;
         }
+
         .vertical-text div {
             transform: translate(5px, 0px) rotate(270deg);
             width: 5px;
             line-height: 16px;
             margin: 0px 10px 0px 0px;
         }
+
         #canvas-td {
             background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
-            background-repeat:no-repeat;
-            background-position:center center;
+            background-repeat: no-repeat;
+            background-position: center center;
             background-size: 100% 100%, auto;
         }
 
         .blue-background {
-          --webkit-print-color-adjust: exact;
-          background-color: #C6D9F1 !important;
+            --webkit-print-color-adjust: exact;
+            background-color: #C6D9F1 !important;
         }
 
         #body-students-file-form {

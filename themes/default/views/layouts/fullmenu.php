@@ -407,7 +407,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                             <span class="t-menu-item__text">Merenda Escolar</span>
                                         </a>
                                     </li>
-                                <?php endif; 
+                                <?php endif;
                                 endif;
                                 ?>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
