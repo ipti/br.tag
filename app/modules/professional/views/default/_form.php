@@ -101,6 +101,8 @@
 											<h3>Atendimento</h3>
 										</div>
 										<div class="control-group">
+											<div><?php echo "<strong>* Se a data não for escolhida, mas o local do atendimento for informado, a data registrada será a atual.</strong>" ?></div>
+											
 											<div class="controls">
 												<?php echo $form->label($modelAttendance, 'date', array('class' => 'control-label')); ?>
 											</div>
@@ -122,6 +124,10 @@
 															'style' => 'cursor: pointer;',
 															'placeholder' => 'Clique aqui para escolher a data'
 														),
+													));
+
+													echo CHtml::link('	Limpar', '#', array(
+														'onclick' => '$("#' . CHtml::activeId($modelAttendance, 'date') . '").datepicker("setDate", null); return false;',
 													));
 												
 													echo $form->error($modelAttendance, 'date');
