@@ -22,14 +22,12 @@ $cs = Yii::app()->getClientScript();
             <div class="widget clearmargin">
                 <div class="t-alert courseplan-alert <?= Yii::app()->user->hasFlash('success') ? "t-alert--sucess" : "no-show" ?>">
                     <div class="t-alert-informacao">
-                        <div class="">
+                        <div class="t-alert-informacao-courseplan">
                             <span class="t-info_positive t-alert__icon">
                             </span>
                             <?php echo Yii::app()->user->getFlash('success') ?>
-
                         </div>
                     </div>
-
                 </div>
                 <div class="widget-body">
                     <?php $this->widget('zii.widgets.grid.CGridView', array(
@@ -78,9 +76,15 @@ $cs = Yii::app()->getClientScript();
                                 'afterDelete' => 'function(link, success, data){
                                     data = JSON.parse(data);
                                     if (data.valid) {
-                                        $(".t-alert").text(data.message).addClass("t-alert--sucess").removeClass("t-alert--critical");
+                                        $(".t-alert-informacao")
+                                        .append(data.message)
+                                        .addClass("t-alert--sucess")
+                                        .removeClass("t-alert--critical");
                                     } else {
-                                        $(".t-alert").text(data.message).addClass("t-alert--critical").removeClass("t-alert--sucess");
+                                        $(".t-alert-informacao")
+                                        .append(data.message)
+                                        .addClass("t-alert--critical")
+                                        .removeClass("t-alert--sucess");
                                     }
                                     $(".courseplan-alert").show();
                                 }',
