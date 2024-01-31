@@ -191,7 +191,7 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                         (Kcal)
                     </td>
                     <td>
-                        CAR(g)
+                        CHO(g)
                     </td>
                     <td>
                         PTN(g)
