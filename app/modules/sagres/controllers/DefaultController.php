@@ -52,9 +52,11 @@ class DefaultController extends Controller
 		$this->render('inconsistencys');
 	}
 
-	public function actionExport($year, $month, $finalClass, $chunkSize = 100)
+	public function actionExport($month, $finalClass, $chunkSize = 100)
 	{
+
 		try {
+			$year = Yii::app()->user->year;
 			$memory_limit = ini_get('memory_limit');
 			set_time_limit(0);
 
