@@ -1,3 +1,6 @@
+## [Versão 3.66.104]
+- Corrigindo o Label de Aulas ministradas, retirando o asterisco adicional e impedindo o select de quebrar a formação
+
 ## [Versão 3.66.103]
 - Corrigindo o cálculo de média final na tela de lançamento de notas de buzios e adicionando notas por conceito em lançamento de nota
 

@@ -103,7 +103,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="mobile-row">
                 <div class="column clearleft">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Classroom') . "", 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
                         <select class="select-search-on t-field-select__input " id="classroom" name="classroom">
                             <option>Selecione a turma</option>
                             <?php foreach ($classrooms as $classroom) : ?>

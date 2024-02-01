@@ -76,7 +76,6 @@ $cs = Yii::app()->getClientScript();
                                     }
                                     $(".courseplan-alert").show();
                                 }',
-
                             ),
                         ),
                     )); ?>
