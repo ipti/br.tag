@@ -42,7 +42,15 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
 </div>
 
 <div class="pageA4V">
-    <?php $this->renderPartial('../reports/buzios/headers/headBuziosVI'); ?>
+    <?php
+    if (TagUtils::isInstance("BUZIOS")){
+        $this->renderPartial('../reports/buzios/headers/headBuziosVI');
+    }
+
+    if(!TagUtils::isInstance("BUZIOS") || TagUtils::isInstance("LOCALHOST")){
+        $this->renderPartial('../reports/buzios/headers/head');
+    }
+    ?>
 
     <hr>
     <h3 style="text-align:center;">FICHA INDIVIDUAL DE ENSINO FUNDAMENTAL <?php echo $minorFundamental ? "1º" : "2º"?> SEGMENTO</h3>

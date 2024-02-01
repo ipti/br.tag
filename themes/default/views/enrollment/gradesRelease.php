@@ -9,6 +9,7 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/gradesRelease/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/gradesRelease/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $script = "var getGradesUrl = '" . Yii::app()->createUrl('grades/getGrades') . "';";
 
@@ -32,24 +33,14 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
                 <?php echo Yii::t('default', 'Report Card'); ?>
             </h1>
         </div>
-        <div class="column clearfix align-items--center justify-content--end show--desktop">
-            <div class="row justify-content--end">
-                <button id="save" class='t-button-primary  hidden-print no-show '>
+        <div class="column clearfix align-items--center justify-content--end">
+            <div id="grades-save-button" class="row justify-content--end hide">
+                <a id="save" class='t-button-primary'>
                     <?php echo Yii::t('default', 'Save') ?>
-                </button>
+                </a>
             </div>
         </div>
     </div>
-    <!-- <div class="row-fluid hidden-print">
-        <div class="span12">
-            <h1><?php echo Yii::t('default', 'Report Card'); ?></h1>
-            <div class="buttons row grades-buttons">
-                <button id="save"
-                   class='t-button-primary  hidden-print no-show'><?php echo Yii::t('default', 'Save') ?>
-                </button>
-            </div>
-        </div>
-    </div> -->
 
     <?php if (Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success">
