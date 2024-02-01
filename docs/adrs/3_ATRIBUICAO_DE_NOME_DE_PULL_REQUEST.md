@@ -21,6 +21,7 @@ Padronizar os nomes de pull requests e consequentemente os nomes de branchs é f
 * feat: Novas funcionalidades
 * fix: Correção de bugs
 * test: Adicionar ou corrigir testes
+* refact: Refatorações no código que não adicionem uma nova funcionalidade e que também não corrijam bugs
 A descrição do pull request deve ser sucinta e as palavras devem ser separadas por underscores "_".
 
 ## Resultado da decisão
