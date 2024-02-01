@@ -6,8 +6,8 @@
 
 ## Migrations Utilizadas
 
-## Teste de aceitação
-- [ ] Tem teste de aceitação.
-
-## Changelog
-- [ ] O changelog foi atualizado.
+## Checklist de revisão
+- [ ] O número da versão foi alterado no arquivo ``` config.php ```?
+- [ ] Foi adicionada uma descrição das alterações no arquivo de   ``` CHANGELOG ```?
+- [ ] O pull request passou na avaliação do SonarLint?
+- [ ] O pull request está nomeado corretamente seguindo o padrão de nomes de branchs?
