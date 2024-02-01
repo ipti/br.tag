@@ -72,6 +72,7 @@ class DefaultController extends Controller
 	{
 		$criteria = new CDbCriteria();
 		$criteria->condition = "professional_fk = ".$id;
+		$criteria->order = "date desc";
 		$modelProfessional = Professional::model()->findByPk($id);
 		$modelAttendance = new Attendance;
 		$modelAttendances = Attendance::model()->findAll($criteria);
@@ -79,10 +80,15 @@ class DefaultController extends Controller
 		if(isset($_POST['Attendance'])) {
 			$modelAttendance->attributes = $_POST['Attendance'];
 			$modelAttendance->professional_fk = $modelProfessional->id_professional;
+
+			$modelAttendance->date = Yii::app()->dateFormatter->format(
+				'yyyy-MM-dd', CDateTimeParser::parse($modelAttendance->date, 'dd/MM/yyyy')
+			);
+
 			if($modelAttendance->validate()) {
 				if($modelAttendance->save()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Atendimento adicionado com sucesso!'));
-                    $this->redirect(Yii::app()->request->getUrl());
+					$this->redirect(array('update', 'id' => $id));
 				}
 			}
 		}

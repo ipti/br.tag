@@ -107,12 +107,37 @@
 											<h3>Atendimento</h3>
 										</div>
 										<div class="control-group">
+											<div><?php echo "<strong>* Se a data não for escolhida, mas o local do atendimento for informado, a data registrada será a atual.</strong>" ?></div>
+											
 											<div class="controls">
 												<?php echo $form->label($modelAttendance, 'date', array('class' => 'control-label')); ?>
 											</div>
 											<div class="controls">
-												<?php echo $form->dateField($modelAttendance, 'date', array('size' => 60, 'maxlength' => 100)); ?>
-												<?php echo $form->error($modelAttendance, 'date'); ?>
+												<?php 
+													$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+														'model' => $modelAttendance,
+														'attribute' => 'date',
+														'options' => array(
+															'dateFormat' => 'dd/mm/yy',
+															'changeYear' => true,
+															'changeMonth' => true,
+															'yearRange' => '2000:' . date('Y'),
+															'showOn' => 'focus',
+															'maxDate' => 0
+														),
+														'htmlOptions' => array(
+															'readonly' => 'readonly',
+															'style' => 'cursor: pointer;',
+															'placeholder' => 'Clique aqui para escolher a data'
+														),
+													));
+
+													echo CHtml::link('	Limpar', '#', array(
+														'onclick' => '$("#' . CHtml::activeId($modelAttendance, 'date') . '").datepicker("setDate", null); return false;',
+													));
+												
+													echo $form->error($modelAttendance, 'date');
+												?>
 											</div>
 										</div>
 										<div class="control-group">
@@ -120,7 +145,7 @@
 												<?php echo $form->label($modelAttendance, 'local', array('class' => 'control-label')); ?>
 											</div>
 											<div class="controls">
-												<?php echo $form->textField($modelAttendance, 'local', array('size' => 60, 'maxlength' => 100)); ?>
+												<?php echo $form->textField($modelAttendance, 'local', array('size' => 60, 'maxlength' => 100, 'placeholder' => 'Informe o local do atendimento')); ?>
 												<?php echo $form->error($modelAttendance, 'local'); ?>
 											</div>
 										</div>
