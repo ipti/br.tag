@@ -13,7 +13,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
-    <h3><?php echo Yii::t('default', 'Teachers By Stage'); ?></h3>
+    <h3><?php echo Yii::t('default', 'Teachers By Stage') . ' - ' . Yii::app()->user->year; ?></h3>
     <div class="row-fluid hidden-print">
         <div class="span12">
             <div class="buttons">

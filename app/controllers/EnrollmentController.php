@@ -669,12 +669,25 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                         ":type3" => GradeUnity::TYPE_UNITY_BY_CONCEPT,
                     ]
                 );
+                $rules = GradeRules::model()->find(
+                    [
+                        "select" => "rule_type",
+                        "condition" => "edcenso_stage_vs_modality_fk = :stageId",
+                        "params" => [":stageId" => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk]
+                    ]
+                );
+                if($rules->rule_type == "C") {
+                    $concepts = GradeConcept::model()->findAll();
+                    $result["concepts"] = CHtml::listData($concepts, 'id', 'name');
+                }
+
                 $arr = [];
                 $arr["enrollmentId"] = $studentEnrollment->id;
                 $arr["daily_order"] = $studentEnrollment->daily_order;
                 $arr["studentName"] = $studentEnrollment->studentFk->name;
                 $arr["grades"] = [];
                 $arr["faults"] = [];
+
 
                 $gradeResult = GradeResults::model()->find(
                     "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
@@ -685,6 +698,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                     $index = $key + 1;
                     array_push($arr["grades"], [
                         "value" => $gradeResult["grade_" . $index],
+                        "concept" => $gradeResult["grade_concept_" . $index],
                         "faults" => $gradeResult["grade_faults_" . $index],
                         "givenClasses" => $gradeResult["given_classes_" . $index]
                     ]);
@@ -692,15 +706,17 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
                 $arr["finalMedia"] = $gradeResult->final_media ?? "";
                 $arr["recFinal"] = $gradeResult->rec_final ?? "";
+                $arr["finalConcept"] = $gradeResult->final_concept;
 
                 $arr["situation"] = $studentEnrollment->getCurrentStatus();
                 if ($studentEnrollment->isActive()) {
-                    $arr["situation"] = $gradeResult->situation;
+                    $arr["situation"] = ($gradeResult->situation == null) ? "" : $gradeResult->situation;
                 }
 
 
 
                 $result["unities"] = $unities;
+                $result["rule"] = $rules->rule_type;
                 array_push($result["students"], $arr);
             }
 

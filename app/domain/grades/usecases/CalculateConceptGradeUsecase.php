@@ -19,7 +19,7 @@ class CalculateConceptGradeUsecase
         $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->classroomId);
 
         foreach ($studentEnrollments as $studentEnrollment) {
-            $this->calculateConceptGrades($studentEnrollment, $unitiesByDiscipline, $this->discipline, );
+            $this->calculateConceptGrades($studentEnrollment, $unitiesByDiscipline, $this->discipline);
         }
     }
 
