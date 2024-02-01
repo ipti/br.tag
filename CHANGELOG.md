@@ -1,3 +1,6 @@
+## [Versão 3.68.105]
+- Excluido * a mais da tela de aulas ministradas.
+
 ## [Versão 3.68.104]
 - Adicionado a opção Ensino Fundamental dentro da escolaridade na tela de alunos.
 - Corrigido campo ao salvar a escolaridade dos alunos.
@@ -13,6 +16,7 @@
 
 ## [Versão 3.65.103]
 - Corrigindo inconsistências na tela de lançamento de notas de búzios, abilitando as telas relacionadas a notas
+
 
 ## [Versão 3.65.102]
 - Adicionada funcionalidade de excluir atendimento de professional individualmente e atualização do layout do formulário
