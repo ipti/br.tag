@@ -9,9 +9,9 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/form/_functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/form/_functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
@@ -68,20 +68,20 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="row">
                             <div class="column is-two-fifths clearleft">
                                 <div class="t-field-select">
-                                        <?php echo CHtml::label(Yii::t('default', 'Role'), 's2id_Role', array('class' => 't-field-select__label required', 'required' => true)); ?>
-                                        <?php
-                                        $roles = CHtml::listData(AuthItem::model()->findAll('type=2 order by name'), 'name', 'name');
-                                        foreach ($roles as $key => $value) {
-                                            $roles[$key] = Yii::t('default', $value);
-                                        }
-                                        echo CHtml::dropDownList(
-                                            'Role',
-                                            $actual_role,
-                                            $roles,
-                                            array(
-                                                'class' => 'select-search-off t-field-select__input select2-container js-show-instructor-input'
-                                            )
-                                        ); ?>
+                                    <?php echo CHtml::label(Yii::t('default', 'Role'), 's2id_Role', array('class' => 't-field-select__label required', 'required' => true)); ?>
+                                    <?php
+                                    $roles = CHtml::listData(AuthItem::model()->findAll('type=2 order by name'), 'name', 'name');
+                                    foreach ($roles as $key => $value) {
+                                        $roles[$key] = Yii::t('default', $value);
+                                    }
+                                    echo CHtml::dropDownList(
+                                        'Role',
+                                        $actual_role,
+                                        $roles,
+                                        array(
+                                            'class' => 'select-search-off t-field-select__input select2-container js-show-instructor-input'
+                                        )
+                                    ); ?>
                                 </div>
                                 <div class="t-field-select js-instructor-input hide">
                                     <?php echo CHtml::label(Yii::t('default', 'Instructor'), 'instructor', array('class' => 't-field-select__label')) ?>
@@ -143,7 +143,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="t-modal__body">
                                 <div>
-                                   Pressione o botão de salvar para adicionar as escolas.
+                                    Pressione o botão de salvar para adicionar as escolas.
                                 </div>
                                 <div class="t-multiselect">
                                     <?php echo CHtml::label(Yii::t('default', 'Schools'), 'schools', array('class' => 't-field-select__label')); ?>
