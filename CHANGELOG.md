@@ -1,3 +1,13 @@
+## [Versão 3.68.104]
+- Adicionado a opção Ensino Fundamental dentro da escolaridade na tela de alunos.
+- Corrigido campo ao salvar a escolaridade dos alunos.
+
+## [Versão 3.68.103]
+- Adicionando notas por conceito no lançamento de notas de búzios
+
+## [Versão 3.67.103]
+- Adicionada funcionalidade de excluir atendimento de professional individualmente e atualização do layout do formulário
+
 ## [Versão 3.66.103]
 - Corrigindo o cálculo de média final na tela de lançamento de notas de buzios e adicionando notas por conceito em lançamento de nota
 
