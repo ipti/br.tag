@@ -137,7 +137,7 @@ const PlateComponent = function (plate) {
     wrapper.find(".js-plate-name").on("change", (e) => { plate.description = e.target.value });
     getFoodList(wrapper.find(".js-taco-foods"))
     const table = wrapper.find('table.js-meal-component-table')
-    plate.food_ingredients.map((e) => {
+    plate.foodIngredients.map((e) => {
       getFood(e, table)
     })
     wrapper.find(".js-remove-plate").on("click", (e) => {
@@ -197,14 +197,14 @@ const PlateComponent = function (plate) {
             <th>KCAL</th>
             <th></th>
         </tr>`)
-      plate.food_ingredients.push({
+      plate.foodIngredients.push({
         id: idIgredientes,
-        food_id_fk: selectFoods.val(),
-        food_measure_unit_id: "",
+        foodIdFk: selectFoods.val(),
+        foodMeasureUnitId: "",
         amount: "",
       })
       idIgredientes++
-      plate.food_ingredients.map((e) => {
+      plate.foodIngredients.map((e) => {
         getFood(e, table)
       })
 
@@ -217,7 +217,7 @@ const PlateComponent = function (plate) {
     $.ajax({
       url: "?r=foods/foodMenu/getFood",
       data: {
-        idFood: food.food_id_fk
+        idFood: food.foodIdFk
       },
       type: "GET",
     }).success(function (response) {
@@ -235,7 +235,7 @@ const PlateComponent = function (plate) {
           let plateIndex = meal.plates.findIndex(plate => plate.id == accordionPlateActive);
 
           if (plateIndex !== -1) {
-            meal.plates[plateIndex].food_ingredients = meal.plates[plateIndex].food_ingredients.filter(foodIngredient => foodIngredient.id != ingredientId);
+            meal.plates[plateIndex].foodIngredients = meal.plates[plateIndex].foodIngredients.filter(foodIngredient => foodIngredient.id != ingredientId);
             accordionMeals = i;
           }
         }
@@ -268,7 +268,7 @@ const PlateComponent = function (plate) {
       td.text(newAmount)
     })
     select.on('change', function (event) {
-      food.food_measure_unit_id = select.val()
+      food.foodMeasureUnitId = select.val()
       let newAmount = calculateAmount(
         select.find('option:selected').attr('data-value')
         , select.find('option:selected').attr('data-measure'), input.val())
@@ -341,7 +341,7 @@ const PlateComponent = function (plate) {
 
         select.append(DOMPurify.sanitize((option)));
       });
-      select.val(food.food_measure_unit_id).trigger('change')
+      select.val(food.foodMeasureUnitId).trigger('change')
       initializeSelect2()
     })
   }
@@ -486,7 +486,7 @@ const MealsComponent = function (meal, day) {
       meal.plates.push({
         description: "",
         id: idplates,
-        food_ingredients: []
+        foodIngredients: []
       })
       idplates++
 

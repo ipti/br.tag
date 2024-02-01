@@ -67,15 +67,15 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
     </a>
 </div>
 <div class="pageA4H">
-    <h2>
+    <h2 id="title-page">
         SECRETARIA MUNICIPAL DE EDUCAÇÃO <br>
         DEPARTAMENTO DA ALIMENTAÇÃO ESCOLAR - DAE
     </h2>
     <div class="row t-margin-medium--top">
-        <table class="column table table-bordered">
+        <table aria-describedby="title-page" class="column table table-bordered">
             <thead class="background-dark font-bold">
                 <tr>
-                    <th colspan="6" class="text-align--center" style="background: none !important;">
+                    <th colspan="6" class="text-align--center">
                         <div>SECRETARIA MUNICIPAL DE
                             <?= $schoolCity ?>
                         </div>
@@ -84,7 +84,7 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                     </th>
                 </tr>
                 <tr>
-                    <th colspan="6" class="text-align--center" style="background: none !important;">
+                    <th colspan="6" class="text-align--center">
                         <div>
                             <?= $foodMenu->description . " - " . $publicTarget["name"] ?>
                         </div>
@@ -149,10 +149,10 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                         <?php foreach ($days as $day) : ?>
                             <td>
                                 <?php foreach ($foodMenu->$day as $meal) : ?>
-                                    <?php if ($meal["food_meal_type"] == $mealType["food_meal_type"]) : ?>
+                                    <?php if ($meal["foodMealType"] == $mealType["food_meal_type"]) : ?>
                                         <div>
                                             <?php
-                                            $descriptions = array_reduce($meal["meals_component"], function ($carry, $item) {
+                                            $descriptions = array_reduce($meal["mealsComponent"], function ($carry, $item) {
                                                 // Adiciona a descrição do item ao resultado acumulado
                                                 $carry[] = $item['description'];
                                                 return $carry;
@@ -166,9 +166,9 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                                             <br>
                                             <?php
                                             $igredientsList = array();
-                                            foreach ($meal["meals_component"] as $mealComponent) {
+                                            foreach ($meal["mealsComponent"] as $mealComponent) {
                                                 foreach ($mealComponent["ingredients"] as $igredients) {
-                                                    array_push($igredientsList, str_replace(',', '', $igredients['food_name']));
+                                                    array_push($igredientsList, str_replace(',', '', $igredients['foodName']));
                                                 }
                                             }
                                             echo implode(', ', $igredientsList);
@@ -239,12 +239,8 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
         </table>
     </div>
 </div>
-
 <script>
     function imprimirPagina() {
-        // printButton = document.getElementsByClassName('span12');
-        // printButton.style.visibility = 'hidden';
         window.print();
-        // printButton.style.visibility = 'visible';
     }
 </script>

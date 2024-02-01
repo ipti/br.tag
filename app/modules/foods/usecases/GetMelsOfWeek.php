@@ -14,7 +14,7 @@ Yii::import('application.modules.foods.services.*');
             $this->foodmenuService = $foodmenuService ?? new FoodMenuService();
         }
         public function exec(){
-            $response = $this->foodmenuService->getMelsOfWeek();
-            return $response;
+            return $this->foodmenuService->getMelsOfWeek();
+
         }
     }

@@ -15,7 +15,6 @@ Yii::import('application.modules.foods.services.*');
             $this->foodmenuService = $foodmenuService ?? new FoodMenuService();
         }
         public function exec($foodMenuId){
-            $response = $this->foodmenuService->getMealType($foodMenuId);
-            return $response;
+            return $this->foodmenuService->getMealType($foodMenuId);
         }
     }

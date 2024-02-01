@@ -1,5 +1,5 @@
 <?php
-Yii::import('application.modules.foods.services.*');
+    Yii::import('application.modules.foods.services.*');
   /**
     * @property CreateFoodMenuRelations $CreateFoodMenuRelations
     */
@@ -15,7 +15,6 @@ Yii::import('application.modules.foods.services.*');
             $this->foodmenuService = $foodmenuService ?? new FoodMenuService();
         }
         public function exec($modelFoodMenu, $publicTarget, $modelMenuMeals){
-            $response = $this->foodmenuService->createFoodMenuRelations($modelFoodMenu, $publicTarget, $modelMenuMeals);
-            return $response;
+            return $this->foodmenuService->createFoodMenuRelations($modelFoodMenu, $publicTarget, $modelMenuMeals);
         }
     }

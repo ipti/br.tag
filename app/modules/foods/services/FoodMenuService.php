@@ -29,10 +29,7 @@ class FoodMenuService
         WHERE fmm.food_menuId = :id
         GROUP BY fmt.description";
 
-        $mealtype = Yii::app()->db->createCommand($sql)->bindParam(':id', $id)->queryAll();
-
-
-        return $mealtype;
+        return Yii::app()->db->createCommand($sql)->bindParam(':id', $id)->queryAll();
     }
     public function getNutritionalValue($id)
     {
@@ -52,22 +49,22 @@ class FoodMenuService
         $ptnTotal = 0;
         $lpdTotal = 0;
         $daysOFWeek = 5;
-        foreach($nutritionalValue as $item){
+        foreach ($nutritionalValue as $item) {
             $kcal += $item["energy_kcal"];
             $calTotal += $item["carbohydrate_g"];
             $ptnTotal += $item["protein_g"];
             $lpdTotal += $item["lipidius_g"];
         }
-        $kcalAverage =  $kcal/$daysOFWeek;
+        $kcalAverage = $kcal / $daysOFWeek;
 
-        $calAverage = $calTotal/$daysOFWeek;
-        $calpct = (($calAverage*4)*100)/$kcalAverage;
+        $calAverage = $calTotal / $daysOFWeek;
+        $calpct = (($calAverage * 4) * 100) / $kcalAverage;
 
-        $ptnAvarage = $ptnTotal/$daysOFWeek;
-        $ptnpct = (($ptnAvarage*4)*100)/$kcalAverage;
+        $ptnAvarage = $ptnTotal / $daysOFWeek;
+        $ptnpct = (($ptnAvarage * 4) * 100) / $kcalAverage;
 
-        $lpdAvarage = $lpdTotal/$daysOFWeek;
-        $lpdpct = (($lpdAvarage*9)*100)/$kcalAverage;
+        $lpdAvarage = $lpdTotal / $daysOFWeek;
+        $lpdpct = (($lpdAvarage * 9) * 100) / $kcalAverage;
 
         $result["kcalAverage"] = round($kcalAverage);
 
@@ -154,7 +151,6 @@ class FoodMenuService
      */
     private function createComponents($foodMenuMeal, $meal, $transaction)
     {
-        // $meal["meals_component"] se trata da lista de pratos que uma refeição pode ter
         foreach ($meal["meals_component"] as $component) {
             $foodMenuMealComponent = new FoodMenuMealComponent;
             $foodMenuMealComponent->food_menu_mealId = $foodMenuMeal->id;
@@ -184,11 +180,11 @@ class FoodMenuService
             $foodIngredient->food_menu_meal_componentId = $modelComponent->id;
             $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measure_unit_id"]);
             $foodIngredient->food_measurement_fk = $foodMeasurement->id;
+            $foodIngredient->validate();
+            CVarDumper::dump($foodIngredient->getErrors());
             $saveIngredientResult = $foodIngredient->save();
-            // $foodIngredient->validate();
+            
 
-
-            //  CVarDumper::dump($ingredient, 10, true);
 
             if ($saveIngredientResult === false) {
                 // Caso de erro: Falha quando ocorre um erro ao tentar salvar um ingrediente de um prato
@@ -208,9 +204,9 @@ class FoodMenuObject
     public $week;
     public $description;
     public $observation;
-    public $food_public_target;
-    public $start_date;
-    public $final_date;
+    public $foodPublicTarget;
+    public $startDate;
+    public $finalDate;
     public $sunday = [];
     public $monday = [];
     public $tuesday = [];
@@ -226,7 +222,7 @@ class FoodMenuObject
             $this->week = $model->week;
             $this->description = $model->description;
             $this->observation = $model->observation;
-            $this->food_public_target = $foodPublicTarget['id'];
+            $this->foodPublicTarget = $foodPublicTarget['id'];
         }
     }
 
@@ -234,8 +230,8 @@ class FoodMenuObject
     {
         $startDate = DateTime::createFromFormat("Y-m-d", $model->start_date);
         $finalDate = DateTime::createFromFormat("Y-m-d", $model->final_date);
-        $this->start_date = $startDate->format("d/m/Y");
-        $this->final_date = $finalDate->format("d/m/Y");
+        $this->startDate = $startDate->format("d/m/Y");
+        $this->finalDate = $finalDate->format("d/m/Y");
     }
 
     public function setDayMeals($day, $modelMeals, $publicTarget)
@@ -259,21 +255,21 @@ class MealObject
     public $time;
     public $sequence;
     public $turn;
-    public $food_meal_type;
+    public $foodMealType;
 
-    public $food_public_target_id;
-    public $food_public_target_name;
-    public $meals_component = [];
+    public $foodPublicTargetId;
+    public $foodPublicTargetName;
+    public $mealsComponent = [];
 
     public function __construct($model, $foodMenuPublicTarget, $mealDescription)
     {
         $this->time = $model->meal_time;
         $this->sequence = $model->sequence;
         $this->turn = $model->turn;
-        $this->food_meal_type = $model->food_meal_type_fk;
-        $this->food_meal_type_description = $mealDescription;
-        $this->food_public_target_name = $foodMenuPublicTarget->name;
-        $this->food_public_target_id = $foodMenuPublicTarget->id;
+        $this->foodMealType = $model->food_meal_type_fk;
+        $this->foodMealTypeDescription = $mealDescription;
+        $this->foodPublicTargetName = $foodMenuPublicTarget->name;
+        $this->foodPublicTargetId = $foodMenuPublicTarget->id;
     }
 
     public function setComponentMeal($modelComponents)
@@ -282,7 +278,7 @@ class MealObject
             $modelIngredients = FoodIngredient::model()->findAllByAttributes(array('food_menu_meal_componentId' => $modelComponent->id));
             $component = new MealComponentObject($modelComponent);
             $component->setComponentIngredients($modelIngredients);
-            array_push($this->meals_component, (array) $component);
+            array_push($this->mealsComponent, (array) $component);
         }
     }
 }
@@ -313,16 +309,16 @@ class MealComponentObject
  */
 class IngredientObject
 {
-    public $food_id_fk;
-    public $food_name;
+    public $foodIdFk;
+    public $foodName;
     public $amount;
-    public $food_measure_unit_id;
+    public $foodMeasureUnitId;
 
     public function __construct($model, $foodModel)
     {
-        $this->food_id_fk = $model->food_id_fk;
-        $this->food_name = $foodModel->description;
+        $this->foodIdFk = $model->food_id_fk;
+        $this->foodName = $foodModel->description;
         $this->amount = $model->amount;
-        $this->food_measure_unit_id = $model->food_measurement_fk;
+        $this->foodMeasureUnitId = $model->food_measurement_fk;
     }
 }
