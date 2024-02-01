@@ -4,6 +4,7 @@
  *
  * @var CActiveForm $this CActiveForm
  * @var Classroom $modelClassroom Classroom
+ * @var EdcensoStageVsModality $edcensoStageVsModalities EdcensoStageVsModality
  */
 
 $baseUrl = Yii::app()->baseUrl;
@@ -125,7 +126,11 @@ $form = $this->beginWidget(
                     <div class="row">
                         <div class="column">
                             <?php
-                            echo $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school));
+                            echo
+                            $modelClassroom->isNewRecord ?
+                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school)) :
+                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => $modelClassroom->school_inep_fk))
+                            ;
                             echo CHtml::hiddenField("teachingData", '', array('id' => 'teachingData'));
                             echo CHtml::hiddenField("disciplines", '', array('id' => 'disciplines'));
                             echo CHtml::hiddenField("events", '', array('id' => 'events'));
@@ -162,7 +167,8 @@ $form = $this->beginWidget(
                                     '1' => 'Ensino Regular',
                                     '2' => 'Educação Especial - Modalidade Substitutiva',
                                     '3' => 'Educação de Jovens e Adultos (EJA)',
-                                    '4' => 'Não se aplica'
+                                    '4' => 'Não se aplica',
+                                    '5' => 'Atendimento Educacional Especializado'
                                 ), array('prompt' => 'Selecione a Modalidade', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
                                 ?>
                                 <?php echo $form->error($modelClassroom, 'modality'); ?>
@@ -195,7 +201,7 @@ $form = $this->beginWidget(
                             <!-- Etapa de Ensino -->
                             <div class="t-field-select" id="stage_vs_modality">
                                 <?php echo $form->label($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
+                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData($edcensoStageVsModalities, 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
                                 <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 <img class="loading-disciplines" style="display:none;position: fixed;margin: 5px 20px;"
                                     height="20px" width="20px"

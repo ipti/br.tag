@@ -225,7 +225,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group hide-responsive" id="transport_type">
                                 <label class="t-field-checkbox__label--required required"><?php echo Yii::t('default', 'Transport Type'); ?>
-                                    *</label>
+                                    </label>
                                 <div class="uniformjs t-field-checkbox-group">
                                     <div class="t-field-checkbox">
                                         <?php echo $form->checkBox($model, 'vehicle_type_van', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>

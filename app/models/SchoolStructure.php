@@ -123,16 +123,16 @@
  */
 class SchoolStructure extends AltActiveRecord
 {
-    public $stages_concept_grades;
-    /**
-     * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
-     * @return SchoolStructure the static model class
-     */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+    public $stages;
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @param string $className active record class name.
+	 * @return SchoolStructure the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 
     /**
      * @return string the associated database table name
@@ -601,7 +601,7 @@ class SchoolStructure extends AltActiveRecord
             'board_organ_inexistent' => Yii::t('default', 'Organ Inexistent'),
             'provide_potable_water' => Yii::t('default', 'Provide Potable Water'),
             'dependencies_student_repose_room' => Yii::t('default', 'Student Repose Room'),
-            'stages_concept_grades' => Yii::t('default', 'Stages Concept Grades')
+            'stages' => Yii::t('default', 'School Stages')
         );
     }
 

@@ -55,7 +55,7 @@ function classroomDisciplineLabelResumeArray($id) {
         return EdcensoDiscipline::model()->findByPk($id)->name;
     }
 }
-$rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com a soma do total de disciplinas da matriz
+$diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines); // contador com a soma do total de disciplinas da matriz
 ?>
 
 <div class="row-fluid hidden-print">
@@ -83,7 +83,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                    class="table table-bordered report-table-empty">
                 <thead>
                     <tr>
-                        <th colspan="<?= $rows+4 ?>" style="text-align: center">RENDIMENTO ESCOLAR POR ATIVIDADES</th>
+                        <th colspan="<?= $diciplinesColumnsCount+4 ?>" style="text-align: center">FICHA DE NOTAS</th>
                     </tr>
                     <tr>
                         <td style="text-align: center; min-width: 90px !important;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
@@ -130,30 +130,45 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                 </thead>
                 <tbody>
                     <?php
+                    $conceptUnities = false;
                     for($i=1;$i<=count($unities);$i++) {?>
                         <tr>
                             <td><?= strtoupper($unities[$i-1]->name) ?></td>
                             <?php
-                            $school_days = 0;
-                            $workload = 0;
-                            $faults = 0;
-                            for($j=0; $j < $rows; $j++) {
-                                $school_days += $result[$j]['school_days'];
-                                $workload += $result[$j]['workload'];
-                                $faults += $result[$j]['faults'];
+                            $gradeResultFaults = 0;
+                            if ($unities[$i-1]->type == 'UC') {
+                                $conceptUnities = true;
+
+                            }
+                            for($j=0; $j < $diciplinesColumnsCount; $j++) {
+                                $gradeResultFaults += $result[$j]['grade_result']['grade_faults_'.$i];
                                 ?>
-                                <td style="text-align: center;"><?= $result[$j]['grades'][$i-1]->grade ?></td>
+                                <?php if ($unities[$i-1]->type == 'RF') { ?>
+                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['rec_final'] ?></td>
+                                <?php } else if ($unities[$i-1]->type == 'UC') { ?>
+                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['grade_concept_'.$i] ?></td>
+                                <?php } else if ($result[$j]['grade_result']['grade_'.$i] < $result[$j]['grade_result']['rec_bim_'.$i]) { ?>
+                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['rec_bim_'.$i] ?></td>
+                                <?php } else { ?>
+                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['grade_'.$i] ?></td>
+                                <?php } ?>
                             <?php }?>
-                            <td style="text-align: center;"><?= $school_days?></td>
-                            <td style="text-align: center;"><?= $workload?></td>
-                            <td style="text-align: center;"><?= $faults?></td>
+                            <?php if ($unities[$i-1]->type != 'RF') { ?>
+                                <td style="text-align: center;"><?= $school_days[$i-1]?></td>
+                                <td style="text-align: center;"><?= $workload[$i-1]?></td>
+                                <td style="text-align: center;"><?= $gradeResultFaults == 0 ? $faults[$i-1] : $gradeResultFaults ?></td>
+                            <?php } else { ?>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                                <td style="text-align: center;"></td>
+                            <?php } ?>
                         </tr>
                     <?php }?>
                 </tbody>
 
                 <!-- <tr>
                     <td colspan="1">MÉDIA ANUAL</td>
-                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
                         <td style="text-align: center;"><?= $result[$i]['final_media']?></td>
                     <?php }?>
                     <td></td>
@@ -162,7 +177,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                 </tr> -->
                 <!-- <tr>
                     <td colspan="1">NOTA DA PROVA FINAL</td>
-                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
                         <td style="text-align: center;"><?= end($result[$i]['grades'])->grade?></td>
                     <?php }?>
                     <td></td>
@@ -171,8 +186,8 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                 </tr> -->
                 <tr>
                     <td colspan="1">MÉDIA FINAL</td>
-                    <?php for ($i=0; $i < $rows; $i++) { ?>
-                        <td style="text-align: center;font-weight:bold;"><?= $result[$i]['final_media']?></td>
+                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
+                        <td style="text-align: center;font-weight:bold;"><?= ($conceptUnities ? '' : $result[$i]['final_media']) ?></td>
                     <?php }?>
                     <td></td>
                     <td></td>
@@ -180,7 +195,7 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                 </tr>
                 <tr>
                     <td style="text-align:right;" colspan="1">TOTAL DE AULAS DADAS</td>
-                    <?php for ($i=0; $i < $rows; $i++) { ?>
+                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
                         <td style="text-align: center;"><?= $result[$i]['total_number_of_classes']?></td>
                     <?php }?>
                     <td></td>
@@ -189,8 +204,8 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                 </tr>
                 <tr>
                     <td style="text-align:right;" colspan="1">TOTAL DE FALTAS</td>
-                    <?php for ($i=0; $i < $rows; $i++) { ?>
-                        <td style="text-align: center;"><?= $result[$i]['faults']?></td>
+                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
+                        <td style="text-align: center;"><?= $result[$i]['total_faults']?></td>
                     <?php }?>
                     <td></td>
                     <td></td>
@@ -198,13 +213,8 @@ $rows = count($baseDisciplines)+count($diversifiedDisciplines); // contador com 
                 </tr>
                 <tr>
                     <td style="text-align:right;" colspan="1">FREQUÊNCIAS %</td>
-                    <?php for ($i=0; $i < $rows; $i++) {
-                        $totalDiasAula = $result[$i]['school_days'];
-                        $quantidadeFaltas = $result[$i]['faults'];
-                        $frequencia = (($totalDiasAula - $quantidadeFaltas) / $totalDiasAula) * 100;
-                        $verifyCalc = is_nan($frequencia);
-                        ?>
-                        <td style="text-align: center;"><?= !$verifyCalc ? strval(number_format($frequencia, 2))."%" : "" ?></td>
+                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) {?>
+                        <td style="text-align: center;"><?= is_nan($result[$i]['frequency_percentage']) || $result[$i]['frequency_percentage'] < 0 ? "" : ceil($result[$i]['frequency_percentage']) . "%" ?></td>
                     <?php }?>
                     <td></td>
                     <td></td>

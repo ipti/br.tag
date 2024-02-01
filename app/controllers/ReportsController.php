@@ -400,9 +400,6 @@ class ReportsController extends Controller
         $query = $repository->getNumberStudentsPerClassroom();
         $this->render('NumberStudentsPerClassroomReport', $query);
     }
-    public function actionFoodMenu() {
-        $this->render('FoodMenu', array());
-    }
     public function actionEnrollmentStatisticsByYearReport()
     {
         // Construíndo condicionais e definindo ordenação para a consulta

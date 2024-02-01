@@ -46,8 +46,8 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 			</h3>
 		</div>
 		<?php if(!$model->isNewRecord): ?>
-			<div class="row t-margin-medium--bottom hide">
-					<a class="t-button-secondary" target="_blank" href="<?php echo Yii::app()->createUrl('reports/FoodMenu', array()) ?>">
+			<div class="row t-margin-medium--bottom">
+					<a class="t-button-secondary" target="_blank" href="<?php echo Yii::app()->createUrl('foods/reports/FoodMenuReport', array('id'=>$model->id)) ?>">
 						<span class="t-icon-printer"></span>imprimir cardápio
 					</a>
 			</div>
@@ -81,26 +81,36 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 			</div>
 		</div>
 		<div class="row">
+			<div class="column">
+			<label for="week" class="t-field-select__label">Semana</label>
+				<select id="week" name="Semana"
+					class="select-search-on t-field-select__input js-week js-initialize-select2">
+					<option value="">Selecione a semana</option>
+					<option value="1">1° semana</option>
+					<option value="2">2° semana</option>
+					<option value="3">3° semana</option>
+					<option value="4">4° semana </option>
+				</select>
+			</div>
 			<div class="t-field-text column">
 				<label for="menu_observation" class="t-field-select__label">Observação</label>
 				<input type="text" id="menu_observation" name="Observação" class="t-field-select__input js-observation">
 			</div>
-			<div class="column"></div>
 		</div>
 		<div class="row">
-			<div class="column t-buttons-container">
+			<div class="column clearleft--on-mobile t-buttons-container">
 				<a class="t-button-primary js-add-meal">
 					<span class="t-icon-start"></span>
 					Adicionar Refeição
 				</a>
 			</div>
 		</div>
-		<div class="t-tabs-secondary js-days-of-week-component row">
+		<div class="t-tabs-secondary js-days-of-week-component row show t-margin-large--top">
 
 		</div>
 		<div class="row">
 			<div class="column t-accordeon--header">
-				<div class="row">
+				<div class="mobile-row">
 					<div class="column">
 						Refeição
 					</div>
@@ -117,8 +127,13 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		</div>
 	</div>
 	<div class="row buttons">
-		<a class="t-button-primary js-save-menu">
-			<?= $model->isNewRecord ? 'Criar' : 'Salvar' ?>
+		<a class="t-button-primary js-save-menu show--desktop">
+			<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
+		</a>
+	</div>
+	<div class="row t-buttons-container t-margin-large--top">
+		<a class="t-button-primary column  t-margin-large--left t-margin-large--right js-save-menu show--tablet">
+			<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
 		</a>
 	</div>
 

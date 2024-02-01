@@ -403,7 +403,6 @@ function checkValidInputs() {
     $(".alert-required-fields, .alert-media-fields").hide();
     let valid = true;
     let message = "";
-
     if (
         $(".js-rule-type").select2("val") === "N" &&
         ($(".approval-media").val() === "" ||

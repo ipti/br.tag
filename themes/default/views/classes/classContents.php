@@ -103,18 +103,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="mobile-row">
                 <div class="column clearleft">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
                         <select class="select-search-on t-field-select__input " id="classroom" name="classroom">
                             <option>Selecione a turma</option>
                             <?php foreach ($classrooms as $classroom) : ?>
-                                <option value="<?= $classroom->id ?>" fundamentalmaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ?>"><?= $classroom->name ?></option>
+                                <option value="<?= $classroom->id ?>" fundamentalmaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ? "1" : "0" ?>"><?= $classroom->name ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                 </div>
                 <div class="column">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Month') . " *", 'month', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Month'), 'month', array('class' => 'control-label t-field-select__label--required', 'style' => 'width: 53px;')); ?>
                         <?php
                         echo CHtml::dropDownList('month', '', array(
                             1 => 'Janeiro',
@@ -141,7 +141,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="mobile-row helper printSelect selectComponente">
                 <div class="column clearleft on-tablet disciplines-container" style="display: none;">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 'control-label t-field-select__label--required' )); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Discipline'), 'disciplines', array('class' => 'control-label t-field-select__label--required' )); ?>
                         <?php
                         echo CHtml::dropDownList('disciplines', '', array(), array(
                             'key' => 'id',

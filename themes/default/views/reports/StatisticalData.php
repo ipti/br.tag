@@ -6,7 +6,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 <div class="pageA4H" style="width:1080px;">
     <?php $this->renderPartial('head'); ?>
     <h3>
-        <?php echo Yii::t('default', 'Statistical Data'); ?>
+        <?php echo Yii::t('default', 'Statistical Data') . ' - ' . Yii::app()->user->year; ?>
     </h3>
     <div class="row-fluid hidden-print">
         <div class="span12">
@@ -34,8 +34,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 ."</tr>";
         foreach ($report as $r) {
             $ordemStr = $ordem < 10 ? "0".$ordem : $ordem;
-            
-            
+
+
             $html .= "<tr>"
                 . "<td>" . $ordemStr . "</td>"
                 . "<td>" . $r['stage']->name . "</td>"
@@ -43,7 +43,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 . "</tr>";
 
             $ordem++;
-            
+
 
             /* código a ser descomentado de acordo com a demanda
             echo "<h5><b>Nome da etapa: </b>" . $r['stage']->name . "</h5><br>";
