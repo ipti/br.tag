@@ -152,6 +152,7 @@ return array(
                 'gestao-resultados/escola/<action:\w+>'         => 'resultsmanagement/managementschool/<action>',
                 'gestao-resultados/escola/<action:\w+>/<sid:\d+>'=> 'resultsmanagement/managementschool/<action>',
 
+                'profissional/<action:\w+>/<id:\d+>'      => 'professional/default/<action>'
             ),
         ),
         // uncomment the following to use a MySQL database

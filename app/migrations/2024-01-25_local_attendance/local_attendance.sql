@@ -1,0 +1,1 @@
+ALTER TABLE attendance MODIFY COLUMN `local` VARCHAR(50);
