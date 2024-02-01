@@ -126,9 +126,8 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 
 		month = parseInt(selectedValue, 10)
 
-		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${year}&month=${month}&finalClass=${checkboxValue}`;
+		const newHref = `?r=sagres/default/export&month=${month}&finalClass=${checkboxValue}`;
 		exportLink.setAttribute('href', newHref);
 	});
 
@@ -137,9 +136,8 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 
 		month = parseInt(selectedValue, 10)
 
-		const year = new Date().getFullYear();
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${year}&month=${month}&finalClass=${checkboxValue}`;
+		const newHref = `?r=sagres/default/export&month=${month}&finalClass=${checkboxValue}`;
 		exportLink.setAttribute('href', newHref);
 
 	});

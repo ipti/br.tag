@@ -348,9 +348,11 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             <td>
                 <div class="span12"><b>20 - Portador de Necessidades Especiais? </b></div>
                 <br>
-                <div class="span2"><b><?= !empty($data['deficiency']) ? '☑' : '☐' ?></b> Sim</div>
-                <div class="span2"><b><?= empty($data['deficiency']) ? '☑' : '☐' ?></b> Não</div>
-                <div class="span8" style="margin-bottom:8px;"><b>Tipo: </b><span><?= $data['deficiency'] ?></div>
+                <div class="span2"><b><?= ($data['deficiency'] != 'Não') ? '☑' : '☐' ?></b> Sim</div>
+                <div class="span2"><b><?= ($data['deficiency'] == 'Não') ? '☑' : '☐' ?></b> Não</div>
+                <div class="span8" style="margin-bottom:8px;"><b>Tipo: </b>
+                    <span><?= ($data['deficiency'] != 'Não') ? $data['deficiency'] : '';?></span>
+                </div>
             </td>
         </tr>
         <tr>

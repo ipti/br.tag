@@ -1,3 +1,9 @@
+## [Versão 3.66.103]
+- Corrigindo o cálculo de média final na tela de lançamento de notas de buzios e adicionando notas por conceito em lançamento de nota
+
+## [Versão 3.65.103]
+- Corrigindo inconsistências na tela de lançamento de notas de búzios, abilitando as telas relacionadas a notas
+
 ## [Versão 3.65.102]
 - Correção da funcionalidade de atualizar turma, que estava transferindo as turmas entre as escolas
 
