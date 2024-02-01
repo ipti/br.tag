@@ -75,7 +75,7 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
         <table aria-describedby="title-page" class="column table table-bordered">
             <thead class="background-dark font-bold">
                 <tr>
-                    <th colspan="6" class="text-align--center">
+                    <th id="title" colspan="6" class="text-align--center">
                         <div>SECRETARIA MUNICIPAL DE
                             <?= $schoolCity ?>
                         </div>
@@ -84,7 +84,7 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
                     </th>
                 </tr>
                 <tr>
-                    <th colspan="6" class="text-align--center">
+                    <th id="food-menu-infos" colspan="6" class="text-align--center">
                         <div>
                             <?= $foodMenu->description . " - " . $publicTarget["name"] ?>
                         </div>
