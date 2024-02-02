@@ -4,20 +4,21 @@
  *
  * @var CActiveForm $this CActiveForm
  * @var Classroom $modelClassroom Classroom
+ * @var EdcensoStageVsModality $edcensoStageVsModalities EdcensoStageVsModality
  */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/dialogs.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classroom/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classroom/form/dialogs.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classroom/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
-$cs->registerCssFile($baseUrl . 'sass/css/main.css');
-
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget(
+    'CActiveForm',
+    array(
         'id' => 'classroom-form',
         'enableAjaxValidation' => false,
     )
@@ -34,22 +35,24 @@ $form = $this->beginWidget('CActiveForm', array(
                 <?php if ($sedspSync) { ?>
                     <div style="font-weight: bold;margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
-                             style="width: 25px; margin-right: 2px;">Sincronizado
+                            style="width: 25px; margin-right: 2px;">Sincronizado
                     </div>
                 <?php } else { ?>
                     <div style="font-weight: bold;margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                             style="width: 25px;margin-right: 2px;">Não sincronizado
+                            style="width: 25px;margin-right: 2px;">Não sincronizado
                     </div>
                 <?php } ?>
 
                 <a class="update-classroom-from-sedsp"
-                   style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;">
+                    style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;">
                     Importar dados da SED
                 </a>
             </div>
         <?php } ?>
-        <h1><?php echo $title; ?></h1>
+        <h1>
+            <?php echo $title; ?>
+        </h1>
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
         <button class="t-button-primary  last save-classroom" type="button">
@@ -123,38 +126,42 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column">
                             <?php
-                            echo $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school));
+                            echo
+                            $modelClassroom->isNewRecord ?
+                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school)) :
+                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => $modelClassroom->school_inep_fk))
+                            ;
                             echo CHtml::hiddenField("teachingData", '', array('id' => 'teachingData'));
                             echo CHtml::hiddenField("disciplines", '', array('id' => 'disciplines'));
                             echo CHtml::hiddenField("events", '', array('id' => 'events'));
                             ?>
                             <!-- Nome -->
                             <div class="t-field-text">
-                                <?php echo $form->labelEx($modelClassroom, 'name', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'name', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelClassroom, 'name', array('size' => 60, 'maxlength' => 80, 'class' => 't-field-text__input', 'placeholder' => ' Nome completo')); ?>
                                 <?php echo $form->error($modelClassroom, 'name'); ?>
                             </div>
                             <!-- Tipo de Mediação Didático-Pedagógica -->
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelClassroom, 'pedagogical_mediation_type', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'pedagogical_mediation_type', array('class' => 't-field-select__label--required')); ?>
                                 <?php echo $form->DropDownList($modelClassroom, 'pedagogical_mediation_type', array(null => 'Selecione o tipo', "1" => "Presencial", "3" => "Educação a Distância - EAD"), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
                                 <?php echo $form->error($modelClassroom, 'pedagogical_mediation_type'); ?>
                             </div>
                             <!-- Código Curso Educação Profissional -->
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelClassroom, 'edcenso_professional_education_course_fk', array('class' => 't-field-select__label')); ?>
+                                <?php echo $form->label($modelClassroom, 'edcenso_professional_education_course_fk', array('class' => 't-field-select__label')); ?>
                                 <?php echo $form->DropDownList($modelClassroom, 'edcenso_professional_education_course_fk', CHtml::listData(EdcensoProfessionalEducationCourse::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o curso', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
                                 <?php echo $form->error($modelClassroom, 'edcenso_professional_education_course_fk'); ?>
                             </div>
                             <!-- Local de Funcionamento Diferenciado -->
                             <div class="t-field-select" id="diff_location_container">
-                                <?php echo $form->labelEx($modelClassroom, 'diff_location', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'diff_location', array('class' => 't-field-select__label--required')); ?>
                                 <?php echo $form->DropDownList($modelClassroom, 'diff_location', array(null => 'Selecione a localização', 0 => 'A turma não está em local de funcionamento diferenciado', 1 => 'Sala anexa', 2 => 'Unidade de atendimento socioeducativo', 3 => 'Unidade prisional'), array('class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%')); ?>
                                 <?php echo $form->error($modelClassroom, 'diff_location'); ?>
                             </div>
                             <!-- Modalidade -->
                             <div class="t-field-select" id="modality">
-                                <?php echo $form->labelEx($modelClassroom, 'modality', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'modality', array('class' => 't-field-select__label--required')); ?>
                                 <?php
                                 echo $form->DropDownList($modelClassroom, 'modality', array(
                                     '1' => 'Ensino Regular',
@@ -168,14 +175,23 @@ $form = $this->beginWidget('CActiveForm', array(
                             <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")) { ?>
                                 <!--Gov ID-->
                                 <div class="t-field-text js-hide-not-required">
-                                    <?php echo $form->labelEx($modelClassroom, 'gov_id', array('class' => 't-field-text__label')); ?>
-                                    <?php echo $form->textField($modelClassroom, 'gov_id', array('size' => 60, 'maxlength' => 12,
-                                        'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled')); ?>
+                                    <?php echo $form->label($modelClassroom, 'gov_id', array('class' => 't-field-text__label')); ?>
+                                    <?php echo $form->textField(
+                                        $modelClassroom,
+                                        'gov_id',
+                                        array(
+                                            'size' => 60,
+                                            'maxlength' => 12,
+                                            'class' => 't-field-text__input',
+                                            'placeholder' => 'Não possui',
+                                            'disabled' => 'disabled'
+                                        )
+                                    ); ?>
                                     <button type="button" id="copy-gov-id" class="t-button-icon">
                                         <span class="t-icon-copy"></span>
                                     </button>
                                     <span id="copy-message" style="display:none;">
-                                </span>
+                                    </span>
                                     <?php echo $form->error($modelClassroom, 'gov_id'); ?>
                                 </div>
                             <?php } ?>
@@ -183,34 +199,34 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column">
                             <!-- Etapa de Ensino -->
                             <div class="t-field-select" id="stage_vs_modality">
-                                <?php echo $form->labelEx($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
+                                <?php echo $form->label($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData($edcensoStageVsModalities, 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
                                 <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 <img class="loading-disciplines" style="display:none;position: fixed;margin: 5px 20px;"
-                                     height="20px" width="20px"
-                                     src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
-                                     alt="TAG Loading">
+                                    height="20px" width="20px"
+                                    src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
+                                    alt="TAG Loading">
                             </div>
 
                             <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                 <!-- Unidade Escolar -->
                                 <div class="t-field-select" id="sedsp_school_unity_fk">
-                                    <?php echo $form->labelEx($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, 'Unidade Escolar', array('class' => 't-field-select__label--required')); ?>
                                     <?php echo $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(array('school_inep_id_fk' => yii::app()->user->school)), 'id', 'description'), array('prompt' => 'Selecione a unidade escolar', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%')); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_school_unity_fk'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx($modelClassroom, "Turma *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Turma", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->textField($modelClassroom, 'sedsp_acronym', array('size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'placeholder' => 'Ex: A, B, 1, A1, B1...', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_acronym'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx($modelClassroom, "Sala de Aula *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Sala de Aula", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->numberField($modelClassroom, 'sedsp_classnumber', array('min' => 1, 'max' => 99, 'size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_classnumber'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->labelEx($modelClassroom, "Capacidade Fisica Maxima *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Capacidade Fisica Maxima", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->numberField($modelClassroom, 'sedsp_max_physical_capacity', array('size' => 2, 'min' => 1, 'max' => 99, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_max_physical_capacity'); ?>
                                 </div>
@@ -220,29 +236,23 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div>
                         <h3>Horário de funcionamento</h3>
                     </div>
-                    <div class="row">
+                    <div class="row t-padding-small--bottom">
                         <div class="column">
-                            <!-- hora inicial -->
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelClassroom, 'initial_hour', array('class' => 't-field-text__label--required')); ?>
-                                <?php echo $form->hiddenField($modelClassroom, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
-                                <?php echo $form->hiddenField($modelClassroom, 'initial_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . '' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', "disabled" => $disabledFields)); ?>
-                                <!-- <?php echo Yii::t('help', 'Time'); ?> -->
-                                <?php echo $form->error($modelClassroom, 'initial_hour'); ?>
-                                <?php echo $form->error($modelClassroom, 'initial_minute'); ?>
-                            </div>
                             <!-- turno -->
                             <div class="t-field-select">
-                                <?php echo $form->labelEx($modelClassroom, 'turn', array('class' => 't-field-select__label--required')); ?>
+                                <?php echo $form->label($modelClassroom, 'turn', array('class' => 't-field-select__label--required')); ?>
                                 <?php
-                                echo $form->DropDownList($modelClassroom, 'turn', array(
-                                    null => 'Selecione o turno',
-                                    'M' => 'Manhã',
-                                    'T' => 'Tarde',
-                                    'N' => 'Noite',
-                                    'I' => 'Integral'
-                                ), array(
+                                echo $form->DropDownList(
+                                    $modelClassroom,
+                                    'turn',
+                                    array(
+                                        null => 'Selecione o turno',
+                                        'M' => 'Manhã',
+                                        'T' => 'Tarde',
+                                        'N' => 'Noite',
+                                        'I' => 'Integral'
+                                    ),
+                                    array(
                                         'class' => 'select-search-off t-field-select__input',
                                         'style' => 'width: 100%',
                                         'disabled' => $disabledFields,
@@ -260,23 +270,12 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                         <div class="column">
-                            <!-- hora final -->
-                            <div class="t-field-text">
-                                <?php echo $form->labelEx($modelClassroom, 'final_hour', array('class' => 't-field-text__label--required', 'placeholder' => 'Somente números')); ?>
-                                <?php echo $form->hiddenField($modelClassroom, 'final_hour', array('size' => 2, 'maxlength' => 2)); ?>
-                                <?php echo $form->hiddenField($modelClassroom, 'final_minute', array('size' => 2, 'maxlength' => 2)); ?>
-                                <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . '' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', 'disabled' => $disabledFields)); ?>
-                                <!-- <?php echo Yii::t('help', 'Time'); ?> -->
-                                <?php echo $form->error($modelClassroom, 'final_hour'); ?>
-                                <?php echo $form->error($modelClassroom, 'final_minute'); ?>
-                            </div>
 
                             <!-- Dias da semana -->
                             <div class="control-group">
                                 <div>
                                     <label class="t-field-text__label--required">
                                         <?php echo Yii::t('default', 'Week Days'); ?>
-                                        *
                                     </label>
                                 </div>
                                 <div class="uniformjs" id="Classroom_week_days">
@@ -296,13 +295,27 @@ $form = $this->beginWidget('CActiveForm', array(
                                             </td> -->
                                         </tr>
                                         <tr>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_monday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_tuesday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_friday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_saturday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
-                                            <td><?php echo $form->checkBox($modelClassroom, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?></td>
+                                            <td>
+                                                <?php echo $form->checkBox($modelClassroom, 'week_days_monday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $form->checkBox($modelClassroom, 'week_days_tuesday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $form->checkBox($modelClassroom, 'week_days_wednesday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $form->checkBox($modelClassroom, 'week_days_thursday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $form->checkBox($modelClassroom, 'week_days_friday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $form->checkBox($modelClassroom, 'week_days_saturday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $form->checkBox($modelClassroom, 'week_days_sunday', array('value' => 1, 'uncheckValue' => 0, 'disabled' => $disabledFields)); ?>
+                                            </td>
                                             <td></td>
                                         </tr>
                                     </table>
@@ -310,6 +323,34 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="column">
+                            <!-- hora inicial -->
+                            <div class="t-field-text">
+                                <?php echo $form->label($modelClassroom, 'initial_hour', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->hiddenField($modelClassroom, 'initial_hour', array('size' => 2, 'maxlength' => 2)); ?>
+                                <?php echo $form->hiddenField($modelClassroom, 'initial_minute', array('size' => 2, 'maxlength' => 2)); ?>
+                                <?php echo CHtml::textField('Classroom_initial_time', $modelClassroom->initial_hour . '' . $modelClassroom->initial_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', "disabled" => $disabledFields)); ?>
+                                <!-- <?php echo Yii::t('help', 'Time'); ?> -->
+                                <?php echo $form->error($modelClassroom, 'initial_hour'); ?>
+                                <?php echo $form->error($modelClassroom, 'initial_minute'); ?>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <!-- hora final -->
+                            <div class="t-field-text">
+                                <?php echo $form->label($modelClassroom, 'final_hour', array('class' => 't-field-text__label--required', 'placeholder' => 'Somente números')); ?>
+                                <?php echo $form->hiddenField($modelClassroom, 'final_hour', array('size' => 2, 'maxlength' => 2)); ?>
+                                <?php echo $form->hiddenField($modelClassroom, 'final_minute', array('size' => 2, 'maxlength' => 2)); ?>
+                                <?php echo CHtml::textField('Classroom_final_time', $modelClassroom->final_hour . '' . $modelClassroom->final_minute, array('size' => 5, 'maxlength' => 5, 'class' => 't-field-text__input', 'placeholder' => ' Somente números', 'disabled' => $disabledFields)); ?>
+                                <!-- <?php echo Yii::t('help', 'Time'); ?> -->
+                                <?php echo $form->error($modelClassroom, 'final_hour'); ?>
+                                <?php echo $form->error($modelClassroom, 'final_minute'); ?>
+                            </div>
+
+                        </div>
+                    </div>
+
                     <div>
                         <h3>Atendimento</h3>
                     </div>
@@ -319,29 +360,34 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="control-group hidden">
                                 <label for=""></label>
                                 <div class="">
-                                    <?php echo $form->labelEx($modelClassroom, 'school_year', array('class' => 't-field-text__label')); ?>
+                                    <?php echo $form->label($modelClassroom, 'school_year', array('class' => 't-field-text__label')); ?>
                                 </div>
                                 <div class="">
                                     <?php echo $form->textField($modelClassroom, 'school_year', array('value' => isset($modelClassroom->school_year) ? $modelClassroom->school_year : Yii::app()->user->year, 'size' => 5, 'maxlength' => 5)); ?>
                                     <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark"
-                                          data-toggle="tooltip" data-placement="top"
-                                          data-original-title="<?php echo Yii::t('help', 'School year'); ?>"><i></i></span>
+                                        data-toggle="tooltip" data-placement="top"
+                                        data-original-title="<?php echo Yii::t('help', 'School year'); ?>"><i></i></span>
                                     <?php echo $form->error($modelClassroom, 'school_year'); ?>
                                 </div>
                             </div>
                             <!-- <div class="control-group">
-                                <?php echo $form->labelEx($modelClassroom, 'assistance_type', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->label($modelClassroom, 'assistance_type', array('class' => 't-field-text__label')); ?>
                                 <div class="">
                                     <?php
-                            echo $form->DropDownList($modelClassroom, 'assistance_type', $assistance_types, array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off'));
-                            ?>
+                                    echo $form->DropDownList(
+                                        $modelClassroom,
+                                        'assistance_type',
+                                        $assistance_types,
+                                        array('prompt' => 'Selecione o Tipo de Atendimento', 'class' => 'select-search-off')
+                                    );
+                                    ?>
                                     <?php echo $form->error($modelClassroom, 'assistance_type'); ?>
                                 </div>
                             </div> -->
                             <!-- Tipo de Atendimento* -->
                             <div class="t-field-checkbox-group js-assistance-types-container" id="assistance_type">
                                 <label class="t-field-checkbox__label--required">
-                                    <?php echo Yii::t('default', 'Assistence Types'); ?>*
+                                    <?php echo Yii::t('default', 'Assistence Types'); ?>
                                 </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'schooling', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
@@ -365,18 +411,27 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- Participante do programa Mais Educação -->
                             <div class="control-group" id="mais_educacao">
                                 <div id="none">
-                                    <?php echo CHtml::activeHiddenField($modelClassroom, 'mais_educacao_participator', array('disabled' => 'disabled',)) ?>
+                                    <?php echo CHtml::activeHiddenField($modelClassroom, 'mais_educacao_participator', array('disabled' => 'disabled', )) ?>
                                 </div>
                                 <div class="t-field-checkbox" id="some">
-                                    <?php echo $form->checkBox($modelClassroom, 'mais_educacao_participator', array('class' => 't-field-checkbox__input', 'id' => 'Classroom[mais_educacao_participator]')); ?>
+                                    <?php echo $form->checkBox(
+                                        $modelClassroom,
+                                        'mais_educacao_participator',
+                                        array('class' => 't-field-checkbox__input', 'id' => 'Classroom[mais_educacao_participator]')
+                                    ); ?>
                                     <?php echo $form->error($modelClassroom, 'mais_educacao_participator'); ?>
-                                    <?php echo $form->labelEx($modelClassroom, 'mais_educacao_participator', array('class' => 't-field-checkbox__label', 'for' => 'Classroom[mais_educacao_participator]')); ?>
+                                    <?php echo $form->label(
+                                        $modelClassroom,
+                                        'mais_educacao_participator',
+                                        array('class' => 't-field-checkbox__label', 'for' => 'Classroom[mais_educacao_participator]')
+                                    );
+                                    ?>
 
                                 </div>
                             </div>
                             <div class="control-group" id="complementary_activity">
                                 <div class="">
-                                    <?php echo $form->labelEx($modelClassroom, 'complementary_activity_type_1', array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, 'complementary_activity_type_1', array('class' => 't-field-text__label--required')); ?>
                                 </div>
                                 <div class="">
                                     <?php echo $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-search-on control-input', 'key' => 'id')); ?>
@@ -402,14 +457,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'aee_optical_nonoptical', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino do uso de recursos ópticos e não ópticos')); ?>
                                     <label class="t-field-checkbox"
-                                           for="Ensino do uso de recursos ópticos e não ópticos">
+                                        for="Ensino do uso de recursos ópticos e não ópticos">
                                         <?php echo Classroom::model()->attributeLabels()['aee_optical_nonoptical']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'aee_cognitive_functions', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Estratégias para o desenvolvimento de processos mentais')); ?>
                                     <label class="t-field-checkbox"
-                                           for="Estratégias para o desenvolvimento de processos mentais">
+                                        for="Estratégias para o desenvolvimento de processos mentais">
                                         <?php echo Classroom::model()->attributeLabels()['aee_cognitive_functions']; ?>
                                     </label>
                                 </div>
@@ -422,14 +477,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'aee_libras', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino da Língua Brasileira de Sinais (Libras)')); ?>
                                     <label class="t-field-checkbox"
-                                           for="Ensino da Língua Brasileira de Sinais (Libras)">
+                                        for="Ensino da Língua Brasileira de Sinais (Libras)">
                                         <?php echo Classroom::model()->attributeLabels()['aee_libras']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'aee_caa', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino de uso da Comunicação Alternativa e Aumentativa - CAA')); ?>
                                     <label class="t-field-checkbox"
-                                           for="Ensino de uso da Comunicação Alternativa e Aumentativa - CAA">
+                                        for="Ensino de uso da Comunicação Alternativa e Aumentativa - CAA">
                                         <?php echo Classroom::model()->attributeLabels()['aee_caa']; ?>
                                     </label>
                                 </div>
@@ -448,21 +503,21 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'aee_accessible_teaching', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino da usabilidade e das funcionalidades da informática acessível')); ?>
                                     <label class="t-field-checkbox"
-                                           for="Ensino da usabilidade e das funcionalidades da informática acessível">
+                                        for="Ensino da usabilidade e das funcionalidades da informática acessível">
                                         <?php echo Classroom::model()->attributeLabels()['aee_accessible_teaching']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'aee_portuguese', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Ensino da Língua Portuguesa na modalidade escrita')); ?>
                                     <label class="t-field-checkbox"
-                                           for="Ensino da Língua Portuguesa na modalidade escrita">
+                                        for="Ensino da Língua Portuguesa na modalidade escrita">
                                         <?php echo Classroom::model()->attributeLabels()['aee_portuguese']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelClassroom, 'aee_autonomous_life', array('value' => 1, 'uncheckValue' => 0, 'id' => 'Estratégias para autonomia no ambiente escolar')); ?>
                                     <label class="t-field-checkbox"
-                                           for="Estratégias para autonomia no ambiente escolar">
+                                        for="Estratégias para autonomia no ambiente escolar">
                                         <?php echo Classroom::model()->attributeLabels()['aee_autonomous_life']; ?>
                                     </label>
                                 </div>
@@ -475,8 +530,8 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class=" span12">
                             <!-- adicionar diciplina -->
                             <div class="row">
-                                <a href="#" class="t-button-primary   add hidden-print"
-                                   id="newDiscipline"><i></i><?php echo Yii::t('default', 'Add Discipline/Teacher') ?>
+                                <a href="#" class="t-button-primary   add hidden-print" id="newDiscipline"><i></i>
+                                    <?php echo Yii::t('default', 'Add Discipline/Teacher') ?>
                                 </a>
                             </div>
 
@@ -565,7 +620,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php if (TagUtils::isInstance("BUZIOS")): ?>
                                         <div class="reports_cards">
                                             <a class="t-button-secondary" rel="noopener" target="_blank"
-                                               href="<?= @Yii::app()->createUrl('classroom/batchupdatenrollment', array('id' => $modelClassroom->id)); ?>">
+                                                href="<?= @Yii::app()->createUrl('classroom/batchupdatenrollment', array('id' => $modelClassroom->id)); ?>">
                                                 <span class="t-icon-printer"></span>
                                                 <?php echo Yii::t('default', 'Sinalizar rematricula') ?>
                                             </a>
@@ -573,7 +628,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php endif; ?>
                                     <div class="reports_cards">
                                         <a class="t-button-secondary" rel="noopener" target="_blank"
-                                           href="<?= @Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)); ?>">
+                                            href="<?= @Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)); ?>">
                                             <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                             <span class="t-icon-printer"></span>
                                             <?php echo Yii::t('default', 'Atualizar transporte') ?>
@@ -581,7 +636,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                     <div class="reports_cards">
                                         <a class="t-button-secondary" rel="noopener" target="_blank"
-                                           href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>">
+                                            href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>">
                                             <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                             <span class="t-icon-printer"></span>
                                             <?php echo Yii::t('default', 'Atualização em Lote') ?>
@@ -589,7 +644,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                     <div class="reports_cards">
                                         <a class="t-button-secondary" rel="noopener" target="_blank"
-                                           href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>">
+                                            href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>">
                                             <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                             <span class="t-icon-printer"></span>
                                             <?php echo Yii::t('default', 'Relatório de Matrícula') ?>
@@ -597,7 +652,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                     <div class="reports_cards">
                                         <a class="t-button-secondary" rel="noopener" target="_blank"
-                                           href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>">
+                                            href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>">
                                             <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                             <span class="t-icon-printer"></span>
                                             <?php echo Yii::t('default', 'Lista de Alunos') ?>
@@ -605,7 +660,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                     <div class="reports_cards">
                                         <a class="t-button-secondary" rel="noopener" target="_blank"
-                                           href="<?php echo Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>">
+                                            href="<?php echo Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>">
                                             <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                             <span class="t-icon-printer"></span>
                                             <?php echo Yii::t('default', 'Fichas de Matrícula') ?>
@@ -613,7 +668,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                     <div class="reports_cards">
                                         <a class="t-button-secondary" rel="noopener" target="_blank"
-                                           href="<?php echo Yii::app()->createUrl('forms/AtaSchoolPerformance', array('id' => $modelClassroom->id)) ?>">
+                                            href="<?php echo Yii::app()->createUrl('forms/AtaSchoolPerformance', array('id' => $modelClassroom->id)) ?>">
                                             <!-- <img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> -->
                                             <span class="t-icon-printer"></span>
                                             <?php echo Yii::t('default', 'Ata de Notas') ?>
@@ -625,10 +680,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <span class="t-icon-export"></span>
                                                 Sincronizar Matrículas (SEDSP)
                                             </button>
-                                            <img class="loading-sync" style="display:none;margin: 10px 20px;"
-                                                 height="30px" width="30px"
-                                                 src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
-                                                 alt="TAG Loading">
+                                            <img class="loading-sync" style="display:none;margin: 10px 20px;" height="30px"
+                                                width="30px"
+                                                src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
+                                                alt="TAG Loading">
                                         </div>
                                     <?php endif ?>
                                 </div>
@@ -643,43 +698,43 @@ $form = $this->beginWidget('CActiveForm', array(
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatenrollment', array('id' => $modelClassroom->id)) ?>"
-                                       target="blank" class="hidden-print"><i></i>
+                                        target="blank" class="hidden-print"><i></i>
                                         <?php echo Yii::t('default', 'Sinalizar Rematricula') ?>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetransport', array('id' => $modelClassroom->id)) ?>"
-                                       target="blank" class="hidden-print"><i></i>
+                                        target="blank" class="hidden-print"><i></i>
                                         <?php echo Yii::t('default', 'Atualizar transporte') ?>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?php echo Yii::app()->createUrl('classroom/batchupdatetotal', array('id' => $modelClassroom->id)) ?>"
-                                       target="blank" class="hidden-print"><i></i>
+                                        target="blank" class="hidden-print"><i></i>
                                         <?php echo Yii::t('default', 'Atualização em Lote') ?>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?php echo Yii::app()->createUrl('reports/enrollmentperclassroomreport', array('id' => $modelClassroom->id)) ?>"
-                                       target="blank" class="hidden-print"><i></i>
+                                        target="blank" class="hidden-print"><i></i>
                                         <?php echo Yii::t('default', 'Relatório de Matrícula') ?>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?php echo Yii::app()->createUrl('reports/studentperclassroom', array('id' => $modelClassroom->id)) ?>"
-                                       target="blank" class="hidden-print"><i></i>
+                                        target="blank" class="hidden-print"><i></i>
                                         <?php echo Yii::t('default', 'Lista de Alunos') ?>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?php echo Yii::app()->createUrl('forms/StudentsFileForm', array('classroom_id' => $modelClassroom->id, 'type' => 1)) ?>"
-                                       target="blank" class="hidden-print"><i></i>
+                                        target="blank" class="hidden-print"><i></i>
                                         <?php echo Yii::t('default', 'Fichas de Matrícula') ?>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="<?php echo Yii::app()->createUrl('forms/AtaSchoolPerformance', array('id' => $modelClassroom->id)) ?>"
-                                       target="blank" class="hidden-print"><i></i>
+                                        target="blank" class="hidden-print"><i></i>
                                         <?php echo Yii::t('default', 'Ata de Notas') ?>
                                     </a>
                                 </li>
@@ -696,69 +751,99 @@ $form = $this->beginWidget('CActiveForm', array(
                             </style>
                             <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
                                 <thead>
-                                <tr>
-                                    <th class='span1'><?php echo Yii::t('default', 'Mover/Cancelar') ?></th>
-                                    <th><?php echo Yii::t('default', 'Pedido') ?></th>
-                                    <th><?php echo Yii::t('default', 'Enrollment') ?></th>
-                                    <th><?php echo Yii::t('default', 'Name') ?></th>
-                                    <?= Yii::app()->features->isEnable("FEAT_SEDSP") ? "<th>Sincronizado</th>" : "" ?>
-                                    <th><?php echo Yii::t('default', 'Print') ?></th>
-                                </tr>
+                                    <tr>
+                                        <th class='span1'>
+                                            <?php echo Yii::t('default', 'Mover/Cancelar') ?>
+                                        </th>
+                                        <th>
+                                            <?php echo Yii::t('default', 'Ordem') ?>
+                                        </th>
+                                        <th>
+                                            <?php echo Yii::t('default', 'Enrollment') ?>
+                                        </th>
+                                        <th>
+                                            <?php echo Yii::t('default', 'Name') ?>
+                                        </th>
+                                        <th>
+                                            <?php echo Yii::t('default', 'Status') ?>
+                                        </th>
+                                        <?= Yii::app()->features->isEnable("FEAT_SEDSP") ? "<th>Sincronizado</th>" : "" ?>
+                                        <th>
+                                            <?php echo Yii::t('default', 'Print') ?>
+                                        </th>
+                                    </tr>
 
                                 </thead>
                                 <tbody>
-                                <?php
-                                if (count($modelEnrollments) > 0) {
-                                    $i = 1;
-                                    foreach ($modelEnrollments as $enrollment) { ?>
-                                        <tr>
-                                            <td text-align="center"><input value="<?= $enrollment["enrollmentId"] ?>"
-                                                                           name="enrollments[]"
-                                                                           type='checkbox'/></td>
-                                            <td width="30"><?= $i ?></td>
-                                            <td enrollmentid="<?php echo $enrollment["enrollmentId"] ?>"><?php echo $enrollment["enrollmentId"] ?></td>
-                                            <td>
-                                                <a href="<?= Yii::app()->createUrl('student/update', array('id' => $enrollment["studentId"])) ?>"> <?= $enrollment["studentName"] ?></a>
-                                            </td>
-                                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
-                                                <td class="sync-column">
-                                                    <?php if ($enrollment["synced"]) { ?>
-                                                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
-                                                             style="width: 21px;" alt="synced">
-                                                    <?php } else { ?>
-                                                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                                                             style="width: 21px" alt="not synced">
-                                                    <?php } ?>
+                                    <?php
+                                    if (count($modelEnrollments) > 0):
+                                        $i = 1;
+                                        foreach ($modelEnrollments as $enrollment): ?>
+                                            <tr>
+                                                <td text-align="center">
+                                                    <input value="<?= $enrollment["enrollmentId"] ?>" name="enrollments[]"
+                                                        type='checkbox' />
                                                 </td>
-                                            <?php endif ?>
-                                            <td width="140">
-                                                <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollment["enrollmentId"])); ?>"
-                                                   target="_blank"> <i class="fa fa-eye" style="color:#3F45EA; "></i>
-                                                    Ficha de Matrícula
-                                                </a>
+                                                <td width="30">
+                                                    <?= $enrollment["daily_order"] ?? $i ?>
+                                                </td>
+                                                <td enrollmentid="<?php echo $enrollment["enrollmentId"] ?>">
+                                                    <?php echo $enrollment["enrollmentId"] ?>
+                                                </td>
+                                                <td>
+                                                    <a
+                                                        href="<?= Yii::app()->createUrl('student/update', array('id' => $enrollment["studentId"])) ?>">
+                                                        <?= $enrollment["studentName"] ?>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <?= $enrollment["status"] ?>
+                                                </td>
+                                                <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
+                                                    <td class="sync-column">
+                                                        <?php if ($enrollment["synced"]) { ?>
+                                                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
+                                                                style="width: 21px;" alt="synced">
+                                                        <?php } else { ?>
+                                                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
+                                                                style="width: 21px" alt="not synced">
+                                                        <?php } ?>
+                                                    </td>
+                                                <?php endif ?>
+                                                <td width="140">
+                                                    <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollment["enrollmentId"])); ?>"
+                                                        target="_blank"> <i class="fa fa-eye" style="color:#3F45EA; "></i>
+                                                        Ficha de Matrícula
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            $i++;
+                                        endforeach;
+                                        ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td class="center" colspan="<?= $columnCount ?>">Não há alunos matriculados.
                                             </td>
                                         </tr>
-                                        <?php $i++;
-                                    }
-                                    ?>
-                                <?php } else { ?>
-                                    <tr>
-                                        <td class="center" colspan="<?= $columnCount ?>">Não há alunos matriculados.
-                                        </td>
-                                    </tr>
-                                <?php } ?>
+                                    <?php endif; ?>
                                 </tbody>
                                 <tfooter>
                                     <?php
                                     echo "<tr><td>Total:</td><td colspan='" . ($columnCount - 1) . "'>" . count($modelEnrollments) . "</td></tr>";
                                     echo '<tr><td colspan="' . $columnCount . '">';
-                                    echo chtml::dropDownList('toclassroom', "", CHtml::listData(Classroom::model()->findAll(
-                                        "school_year = :sy AND school_inep_fk = :si order by name",
-                                        array("sy" => (Yii::app()->user->year), "si" => yii::app()->user->school)
-                                    ), 'id', 'name'), array(
-                                        'class' => 'span5',
-                                        'empty' => '**EXCLUIR MATRICULAS**'
-                                    ));
+                                    echo chtml::dropDownList(
+                                        'toclassroom',
+                                        "",
+                                        CHtml::listData(Classroom::model()->findAll(
+                                            "school_year = :sy AND school_inep_fk = :si order by name",
+                                            array("sy" => (Yii::app()->user->year), "si" => yii::app()->user->school)
+                                        ), 'id', 'name'),
+                                        array(
+                                            'class' => 'span5',
+                                            'empty' => '**EXCLUIR MATRICULAS**'
+                                        )
+                                    );
                                     echo '<input value="Mover/Excluir" type="submit" class="t-button-primary " style="margin-left:10px"><i></i></input></td></tr>';
                                     ?>
                                 </tfooter>
@@ -805,10 +890,9 @@ $form = $this->beginWidget('CActiveForm', array(
                 </div>
                 <div class="control-group">
                     <label class="t-field-text__label">Componentes curriculares/eixos <span style="margin: 0;"
-                                                                                            class="btn-action single glyphicons circle_question_mark"
-                                                                                            data-toggle="tooltip"
-                                                                                            data-placement="right"
-                                                                                            data-original-title="Serão listadas apenas as componentes curriculares/eixos inseridos na matriz curricular desta etapa de ensino selecionada na turma.">
+                            class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip"
+                            data-placement="right"
+                            data-original-title="Serão listadas apenas as componentes curriculares/eixos inseridos na matriz curricular desta etapa de ensino selecionada na turma.">
                             <!-- <i></i> -->
                         </span></label>
                     <select id="Disciplines" class="select-disciplines" multiple></select>
@@ -854,13 +938,12 @@ $form = $this->beginWidget('CActiveForm', array(
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
-                         style="vertical-align: -webkit-baseline-middle">
+                        style="vertical-align: -webkit-baseline-middle">
                 </button>
-                <h4 class="modal-title"
-                    id="myModalLabel">Importar turma da SEDSP</h4>
+                <h4 class="modal-title" id="myModalLabel">Importar turma da SEDSP</h4>
             </div>
             <form method="post"
-                  action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id, 'gov_id' => $modelClassroom->gov_id)); ?>">
+                action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id, 'gov_id' => $modelClassroom->gov_id)); ?>">
                 <div class="centered-loading-gif">
                     <i class="fa fa-spin fa-spinner"></i>
                 </div>
@@ -870,11 +953,9 @@ $form = $this->beginWidget('CActiveForm', array(
                         Você tem certeza?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal">Cancelar
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar
                         </button>
-                        <button type="button"
-                                class="btn btn-primary import-classroom-button">Confirmar
+                        <button type="button" class="btn btn-primary import-classroom-button">Confirmar
                         </button>
                     </div>
                 </div>

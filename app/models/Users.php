@@ -4,7 +4,7 @@
  * This is the model class for table "users".
  *
  * The followings are the available columns in table 'users':
- * 
+ *
  * @property integer $id
  * @property string $name
  * @property string $username
@@ -17,7 +17,7 @@
  * @property CoursePlan[] $coursePlans
  * @property InstructorIdentification[] $instructorIdentifications
  * @property UsersSchool[] $usersSchools
- * 
+ *
  */
 
 class Users extends AltActiveRecord
@@ -46,7 +46,7 @@ class Users extends AltActiveRecord
 			array('hash', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>150),
 			array('username', 'length', 'max'=>32),
-			array('password', 'length', 'max'=>45),
+			array('password', 'length', 'min' => 6, 'max'=>45, 'tooShort' => 'A senha deve ter pelo menos 6 caracteres.'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, name, username, password, active', 'safe', 'on'=>'search'),
@@ -122,7 +122,7 @@ class Users extends AltActiveRecord
 		return parent::model($className);
 	}
 
-	public function getRole() 
+	public function getRole()
 	{
 
         $role = Yii::app()->db->createCommand()

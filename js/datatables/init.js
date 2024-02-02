@@ -170,7 +170,7 @@ function initDatatable() {
                         items: 'cell'
                     },
                     // "bLengthChange": false,
-                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: indexActionButtons }],
+                    columnDefs: [isMobile ? { "className": "none", "targets": columnsIndex } : { orderable: false, targets: [5] }],
                     searching: true,
                 });
             }else if ((action.includes("stock"))){

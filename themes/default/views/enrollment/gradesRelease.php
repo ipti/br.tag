@@ -1,16 +1,17 @@
 <?php
 /**
-* @var ClassesController $this ClassesController
-* @var CActiveDataProvider $dataProvider CActiveDataProvider
-*
-*/
+ * @var ClassesController $this ClassesController
+ * @var CActiveDataProvider $dataProvider CActiveDataProvider
+ *
+ */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/enrollment/gradesRelease/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/gradesRelease/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/gradesRelease/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
-$script = "var getGradesUrl = '" . Yii::app()->createUrl('enrollment/getGrades') . "';";
+$script = "var getGradesUrl = '" . Yii::app()->createUrl('grades/getGrades') . "';";
 
 $cs->registerScript('variables', $script, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl . '/css/grades.css');
@@ -20,34 +21,26 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
 
 <div class="main">
     <?php
-        $form = $this->beginWidget('CActiveForm', array(
-            'id' => 'classes-form',
-            'enableAjaxValidation' => false,
-            'action' => CHtml::normalizeUrl(array('enrollment/saveGrades')),
-        ));
+    $form = $this->beginWidget('CActiveForm', array(
+        'id' => 'classes-form',
+        'enableAjaxValidation' => false
+    )
+    );
     ?>
     <div class="row">
         <div class="column clearleft">
-            <h1><?php echo Yii::t('default', 'Report Card'); ?></h1>
+            <h1>
+                <?php echo Yii::t('default', 'Report Card'); ?>
+            </h1>
         </div>
-        <div class="column clearfix align-items--center justify-content--end show--desktop">
-            <div class="buttons row grades-buttons">
-                <button id="save"
-                   class='t-button-primary  hidden-print no-show'><?php echo Yii::t('default', 'Save') ?>
-                </button>
+        <div class="column clearfix align-items--center justify-content--end">
+            <div id="grades-save-button" class="row justify-content--end hide">
+                <a id="save" class='t-button-primary'>
+                    <?php echo Yii::t('default', 'Save') ?>
+                </a>
             </div>
         </div>
     </div>
-    <!-- <div class="row-fluid hidden-print">
-        <div class="span12">
-            <h1><?php echo Yii::t('default', 'Report Card'); ?></h1>
-            <div class="buttons row grades-buttons">
-                <button id="save"
-                   class='t-button-primary  hidden-print no-show'><?php echo Yii::t('default', 'Save') ?>
-                </button>
-            </div>
-        </div>
-    </div> -->
 
     <?php if (Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success">
@@ -55,39 +48,42 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
         </div>
     <?php endif ?>
     <div class="js-grades-alert alert"></div>
-    <div class="mobile-row">
+    <div class="row">
         <div class="column is-one-fifth clearleft ">
             <div class="t-field-select">
-                <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 't-field-select__label--required')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 't-field-select__label--required')); ?>
                 <?php
                 echo CHtml::dropDownList('classroom', '', $classrooms, array(
                     'key' => 'id',
                     'class' => 'select-search-on t-field-select__input select2-container',
                     'prompt' => 'Selecione...',
-                    ));
+                )
+                );
                 ?>
             </div>
         </div>
         <div class="column is-one-fifth">
             <div class="t-field-select">
-                <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'discipline', array('class' => 't-field-select__label--required')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 't-field-select__label--required')); ?>
                 <?php
                 echo CHtml::dropDownList('discipline', '', array(), array(
                     'key' => 'id',
                     'class' => 'select-search-on t-field-select__input select2-container',
                     'prompt' => 'Selecione...',
-                ));
+                )
+                );
                 ?>
             </div>
         </div>
         <div class="column is-one-tenth">
-            <img class="js-grades-loading"  style="display:none;margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+            <img class="js-grades-loading" style="display:none;margin: 10px 20px;" height="30px" width="30px"
+                src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>
 
 
     </div>
 
     <div class="js-grades-container"></div>
-<?php $this->endWidget(); ?>
+    <?php $this->endWidget(); ?>
 
 </div>

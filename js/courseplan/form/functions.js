@@ -3,8 +3,8 @@ function initDatatable() {
         ajax: {
             type: "POST",
             url: "?r=courseplan/getCourseClasses",
-            data: function (data) { 
-                data.coursePlanId = $(".js-course-plan-id").val(); 
+            data: function (data) {
+                data.coursePlanId = $(".js-course-plan-id").val();
             },
             complete: function () {
                 $(".details-control").click().click();
@@ -15,7 +15,7 @@ function initDatatable() {
         lengthMenu: false,
         filter: false,
         info: false,
-        
+
         "columns": [
             {
                 "className": ' dt-center',
@@ -107,11 +107,11 @@ function format(d) {
     var $resourceAdd = $('<button class="btn btn-success btn-small fa fa-plus-square add-resource" style="height: 28px;margin-left:10px;" ><i></i></button>');
     var $deleteButton = "";
     if(d.deleteButton === 'js-unavailable'){
-        $deleteButton = $('<div class="t-buttons-container"><a class="t-button-danger js-remove-course-class js-unavailable t-button-danger--disabled" data-toggle="tooltip" data-placement="left" title="Aula já ministrada em alguma turma. Não é possível removê-la do plano de aula.">Excluir Plano</a></div>') 
+        $deleteButton = $('<div class="t-buttons-container"><a class="t-button-danger js-remove-course-class js-unavailable t-button-danger--disabled" data-toggle="tooltip" data-placement="left" title="Aula já ministrada em alguma turma. Não é possível removê-la do plano de aula.">Excluir Plano</a></div>')
     } else {
         $deleteButton = $('<div class="t-buttons-container"><a class="t-button-danger js-remove-course-class">Excluir Plano</a></div>')
     }
-   
+
     var $resources = $('<div class="resources"></div>');
     if (d.abilities !== null) {
         $.each(d.abilities, function (i, v) {
@@ -158,8 +158,8 @@ function format(d) {
     $column1.append($deleteButton);
     $div.append($id);
     $div.append($column1);
-    
-   
+
+
 
     return $div;
 }

@@ -5,8 +5,8 @@
     
     display: flex;
     list-style: none;
-    margin: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
-    padding: $spaceEmpty $spaceEmpty $spaceEmpty $spaceEmpty;
+    margin: $spaceEmpty;
+    padding: $spaceEmpty;
     overflow-x: scroll;
     overflow-y: hidden;
     -ms-overflow-style: none;  /* IE and Edge */
@@ -117,10 +117,17 @@
         display: flex;
         list-style: none;
         text-align: center;
+        padding: $spaceEmpty;
+        margin-left: $spaceEmpty;
+        overflow-x: scroll;
+        &::-webkit-scrollbar {
+            display: none;
+          }
         .t-tabs__item {
             padding: $SizeXSmall;
-            font-weight: $fontWeightSemiBold;
-            font-size: 52%;
+            font-weight: $fontWeightRegular;
+            white-space: nowrap;
+           font-size: $FontSizeTextNormal;
             cursor: pointer;
             @include device(mobile) {
                 font-size: $FontSizeTextNormal; 
@@ -134,6 +141,7 @@
             }
             &.active {
                 border-bottom: $borderWidthInputFocus #222C64  solid;
+                font-weight: $fontWeightSemiBold;
             }
         }
         

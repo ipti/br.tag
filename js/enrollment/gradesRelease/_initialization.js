@@ -39,7 +39,8 @@ $('#discipline').change(function (e, triggerEvent) {
             },
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");
-                $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
+                $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("overflow", "auto").css("pointer-events", "none");
+                $("#grades-save-button").removeClass("hide");
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -49,7 +50,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     let totalGivenClasses = 0;
                     let html = `
                     <h3>Aulas Dadas</h3>
-                    <div class="mobile-row">
+                    <div class="row">
                     `;
                     for (let i = 0; i < unitiesLength; i++) {
                         let order = i + 1;
@@ -77,21 +78,33 @@ $('#discipline').change(function (e, triggerEvent) {
                     `</div>`;
 
                     html += `
-                    <table class='grades-table table table-bordered table-striped'>
+                    <table class='grades-table table table-bordered' concept="${data.rule}">
                         <thead>
                             <tr>
                                 <th colspan=14' class='table-title'>Lançamento de Notas</th>
                             </tr>
                             <tr>
-                                <th rowspan='2' style='width:2%;'>Ordem</th>
-                                <th rowspan='2' style='width:10%;'>Nome</th>
+                                <th rowspan='2' style='width:2%;vertical-align:middle;'>Ordem</th>
+                                <th rowspan='2' style='min-width:250px;vertical-align:middle;'>Nome</th>
                         `;
                     $.each(data.unities, function (index) {
                         html += `<th colspan='2' style='width:20%;'>` + this.name + `</th>`
                     });
+
+                    if(data.rule == "N") {
+                        html += `
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>Recuperação Final</th>
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
+                        `;
+                    } else {
+                        html += `
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>Conceito Final</th>
+                        `;
+                    }
                     html += `
-                                <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
-                                <th rowspan='2' style='width:2%;'>Frequência</th>
+
+                                <th rowspan='2' style='width:2%;vertical-align:middle;'>Frequência</th>
+                                <th rowspan='2' style='width:10%;vertical-align:middle;'>Situação</th>
                             </tr>
                             <tr>
                     `;
@@ -111,16 +124,21 @@ $('#discipline').change(function (e, triggerEvent) {
                             <td class='grade-student-order final-media'>
                             ${order}
                             </td>
-                            <td class='grade-student-name final-media'><input type='hidden' class='enrollment-id' value='${this.enrollmentId}'>
+                            <td class='grade-student-name'><input type='hidden' class='enrollment-id' value='${this.enrollmentId}'>
                             ${ $.trim(this.studentName) }
                             </td>
                         `;
                         $.each(this.grades, function (index, value) {
                             let valueGrade;
-                            if (this.value == "" || this.value == null) {
-                                valueGrade = "";
+
+                            if(data.rule == "C") {
+                                valueGrade = this.concept;
                             } else {
-                                valueGrade = parseFloat(this.value).toFixed(1);
+                                if (this.value == "" || this.value == null) {
+                                    valueGrade = "";
+                                } else {
+                                    valueGrade = parseFloat(this.value).toFixed(1);
+                                }
                             }
 
                             let faults;
@@ -130,15 +148,12 @@ $('#discipline').change(function (e, triggerEvent) {
                             } else {
                                 faults = this.faults;
                                 totalFaults +=  parseInt(this.faults, 10);
-                                console.log(totalFaults);
                             }
+                            html += buildInputOrSelect(data.rule, valueGrade, data.concepts);
 
                             html += `
                                 <td class='grade-td'>
-                                    <input type='text' class='grade' value='${valueGrade}'>
-                                </td>
-                                <td class='grade-td'>
-                                    <input type='text' class='faults' style='width:50px;text-align:center;' value='${ faults }'>
+                                    <input type='text' class='faults' style='width:50px;text-align:center;margin-bottom: 0px' value='${ faults }'>
                                 </td>
                             `;
                         });
@@ -147,9 +162,20 @@ $('#discipline').change(function (e, triggerEvent) {
                             frequency = parseInt(frequency);
                         }
 
+                        if(data.rule == "N") {
+                            html += `
+                                <td class='grade-td rec-final-td'>
+                                    <input type='text' class='rec-final' value='${this.recFinal}'>
+                                </td>
+                                <td style='font-weight: bold;font-size: 16px;' class='final-media'> ${this.finalMedia }</td>
+                            `;
+                        } else {
+                            html += buildInputOrSelect(data.rule, this.finalConcept, data.concepts, true);
+                        }
+
                         html += `
-                            <td style='font-weight: bold;font-size: 16px;' class='final-media'> ${this.finalMedia }</td>
                             <td class="final-media">${frequency}%</td>
+                            <td class="grade-td situation">${ this.situation }</td>
                         </tr>`;
                     });
                     html += "</tbody></table>";
@@ -162,7 +188,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     $(".js-grades-alert").addClass("alert-error").removeClass("alert-success").text(data.message).show();
                 }
                 $(".js-grades-loading").hide();
-                $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
+                $(".js-grades-container, .grades-buttons").css("overflow", "auto").css("opacity", "1").css("pointer-events", "auto");
             },
         });
     } else {
@@ -177,31 +203,45 @@ $("#save").on("click", function (e) {
     let students = [];
     $('.grades-table tbody tr').each(function () {
         let grades = [];
-        $(this).find(".grade").each(function (index) {
-            grades.push({
-                value: $(this).val(),
-                faults: $(this).parent().next().children().val(),
-                givenClasses: $('.givenClasses' + index).val()
+        if ($(".grades-table").attr("concept") === "C") {
+            $(this).find(".grade-concept").each(function (index) {
+                grades.push({
+                    value: $(this).val(),
+                    faults: $(this).parent().next().children().val(),
+                    givenClasses: $('.givenClasses' + index).val()
+                });
             });
-        });
+        } else {
+            $(this).find(".grade").each(function (index) {
+                grades.push({
+                    value: $(this).val(),
+                    faults: $(this).parent().next().children().val(),
+                    givenClasses: $('.givenClasses' + index).val()
+                });
+            });
+        }
+
         students.push({
             enrollmentId: $(this).find(".enrollment-id").val(),
-            grades: grades
+            grades: grades,
+            recFinal:  $(this).find(".rec-final").val(),
+            finalConcept:  $(this).find(".final-concept").val()
         });
     });
 
     $.ajax({
         type: "POST",
-        url: "?r=enrollment/saveGradesReportCard",
+        url: "?r=grades/saveGradesRelease",
         cache: false,
         data: {
             classroom: $("#classroom").val(),
             discipline: $("#discipline").val(),
-            students: students
+            students: students,
+            rule: $(".grades-table").attr("concept")
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");
-            $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
+            $(".js-grades-container, .grades-buttons").css("overflow", "auto").css("opacity", "0.4").css("pointer-events", "none");
         },
         success: function (data) {
             $("#discipline").trigger("change", ["saveGrades"]);
@@ -218,7 +258,7 @@ $(document).on("keyup", "input.faults", function (e) {
     this.value = val;
 })
 
-$(document).on("keyup", "input.grade", function (e) {
+$(document).on("keyup", "input.grade, input.rec-final", function (e) {
     let val = this.value;
     if (!$.isNumeric(val)) {
         e.preventDefault();
@@ -232,4 +272,28 @@ $(document).on("keyup", "input.grade", function (e) {
         }
     }
     this.value = val;
+});
+
+
+$("#close-grades-diary").on("click", function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "?r=enrollment/calculateFinalMedia",
+        cache: false,
+        data: {
+            classroomId: $("#classroom").val(),
+            disciplineId: $("#discipline").val(),
+        },
+        beforeSend: function () {
+            $(".js-grades-loading").css("display", "inline-block");
+            $(".js-grades-container, .grades-buttons")
+                .css("opacity", "0.4")
+                .css("overflow", "auto")
+                .css("pointer-events", "none");
+        },
+        success: function (data) {
+            $("#discipline").trigger("change", ["saveGrades"]);
+        },
+    });
 });

@@ -26,7 +26,7 @@
         <div class="row">
             <div class="column is-two-fifths clearfix">
                 <div class="t-field-text">
-                    <?php echo $form->labelEx($model,'name', array('class' => 't-field-text__label--required')); ?>
+                    <?php echo $form->label($model,'name', array('class' => 't-field-text__label--required')); ?>
                     <?php echo $form->textField($model,'name', array('id' => 'stageName','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
                     <?php echo $form->error($model,'name'); ?>
                 </div>
@@ -36,7 +36,7 @@
         <div class="row">
             <div class="column is-two-fifths clearfix">
                 <div class="t-field-text">
-                    <?php echo $form->labelEx($model,'stage', array('class' => 't-field-text__label--required')); ?>
+                    <?php echo $form->label($model,'stage', array('class' => 't-field-text__label--required')); ?>
                     <?php echo $form->textField($model,'stage', array('id' => 'stage','class' => 't-field-text__input')); ?>
                     <?php echo $form->error($model,'stage'); ?>
                 </div>
@@ -46,7 +46,7 @@
         <div class="row">
             <div class="column is-two-fifths clearfix">
                 <div class="t-field-text">
-                    <?php echo $form->labelEx($model,'alias', array('class' => 't-field-text__label--required')); ?>
+                    <?php echo $form->label($model,'alias', array('class' => 't-field-text__label--required')); ?>
                     <?php echo $form->textField($model,'alias', array('id' => 'stageAlias','size'=>15, 'class' => 't-field-text__input')); ?>
                     <?php echo $form->error($model,'alias'); ?>
                 </div>

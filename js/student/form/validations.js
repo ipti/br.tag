@@ -295,7 +295,7 @@ $(formIdentification + "nationality").change(function () {
                 .show()
                 .find("label")
                 .addClass("required")
-                .html("Cidade *");
+                .html("Cidade");
         } else {
             $(formIdentification + "edcenso_uf_fk")
                 .val("")

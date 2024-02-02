@@ -43,8 +43,8 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 			<div class="span12">
 				<div class="widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false" total="<?= $logCount ?>">
 				<div class="aviso" hidden><?= $logCount ?></div>
-					<div class="home-page-table-header">
-						<h5>Atividades Recentes</h5>
+					<div class="home-page-table-header ">
+						<h5 class="t-margin-medium--left text-color--white">Atividades Recentes</h5>
 					</div>
 					<div class="widget-body logs in" style="height: auto;">
 						<?= $html ?>

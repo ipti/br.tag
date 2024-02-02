@@ -42,12 +42,12 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		</div>
 		<div class="row">
 			<div class="t-field-text column">
-				<label for="menu_description" class="t-field-text__label--required">Nome *</label>
+				<label for="menu_description" class="t-field-text__label--required">Nome</label>
 				<input type="text" id="menu_description" name="Nome" class="t-field-text__input js-menu-name" required="required">
 
 			</div>
 			<div class="clear-margin--top column">
-				<label for="public_target" class="t-field-select__label">Publico Alvo *</label>
+				<label for="public_target" class="t-field-select__label">Publico Alvo</label>
 				<select id="public_target" name="Público Alvo" class="select-search-on t-field-select__input js-public-target js-initialize-select2" required="required" placeholder="Select Classrom">
 					<option value="">Selecione o Público Alvo</option>
 				</select>

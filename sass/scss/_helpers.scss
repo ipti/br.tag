@@ -1,57 +1,38 @@
 .align-items {
-    &--center {
-        display: flex;
-        align-items: center;
+    $alignments: center, start, stretch, baseline, end;
+    @each $align in $alignments {
+        &--#{$align} {
+            display: flex;
+            align-items: $align;
+        }
     }
+
     &--center-on-desktop {
         @include device (tablet) {
             display: flex;
             align-items: center;
         }
     }
-
-    &--baseline {
-        display: flex;
-        align-items: baseline;
-    }
-
-    &--stretch {
-        display: flex;
-        align-items: stretch;
-    }
-
-    &--end {
-        display: flex;
-        align-items: end;
-    }
 }
 
 .justify-content {
-    &--center {
-        display: flex;
-        justify-content: center;
-    }
-
-    &--start {
-        display: flex;
-        justify-content: start;
-    }
-
-    &--space-between {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    &--end {
-        display: flex;
-        justify-content: end;
+    $alignments: center, start, end, space-between, end;
+    @each $align in $alignments {
+        &--#{$align} {
+            display: flex;
+            justify-content: $align;
+        }
     }
 }
 
 .align-self {
-    &--end {
-        align-self: end;
+    $alignments: center, start, baseline, end;
+    @each $align in $alignments {
+        &--#{$align} {
+            align-self: $align;
+        }
     }
+
 }
 
 .cursor-pointer {
@@ -62,108 +43,66 @@
     &--red {
         color: $colorsTextError;
     }
+
     &--green {
         color: $colorsTextSuccess;
+    }
+
+    &--white {
+        color: $colorsBaseCloudLight;
     }
 }
 
 .flex-direction {
-    &--row {
-        flex-direction: row;
-    }
-    &--col {
-        flex-direction: column;
-    }
-    &--row-reverse {
-        flex-direction: row-reverse;
-    }
-    &--col-reverse {
-        flex-direction: column-reverse;
+    $directions: row, column, row-reverse, column-reverse;
+
+    @each $dir in $directions {
+        &--#{$dir} {
+            flex-direction: $dir;
+        }
     }
 }
 
 .text-align {
-    &--center {
-        text-align: center;
-      }
+    $variations: center, left, right, justify;
 
-      &--left {
-        text-align: left;
-      }
-
-      &--right {
-        text-align: right;
-      }
-
-      &--justify {
-        text-align: justify;
-      }
-}
-
-.clear-padding {
-    &--left {
-        padding-left: 0;
-    }
-
-    &--right {
-        padding-right: 0;
-    }
-    &--top {
-        padding-top: 0;
-    }
-    &--bottom {
-        padding-bottom: 0;
-    }
-    &--all {
-        padding: 0;
-    }
-    &--x {
-        padding-right: 0;
-        padding-left: 0;
-    }
-    &--y {
-        padding-top: 0;
-        padding-bottom: 0;
+    @each $v in $variations {
+        &--#{$v} {
+            text-align: $v;
+        }
     }
 }
 
-.clear-margin {
-    &--left {
-        margin-left: 0;
+/**
+    Generate default space helpers
+
+    Ex: .t-padding-small, .t-padding-small--left, .t-padding-small--right...
+    Ex: .t-padding-large, .t-padding-large--left, .t-padding-large--right...
+    Ex: .t-margin-large, .t-margin-large--left, .t-margin-large--right...
+*/
+$sizes: (small: $SizeSmall, medium: $SizeMedium, large: $SizeLarge, none: 0);
+
+@each $name,
+$size in $sizes {
+    .t-padding-#{$name} {
+        @include spacings(padding, $size);
     }
 
-    &--right {
-        margin-right: 0;
-    }
-    &--top {
-        margin-top: 0;
-    }
-    &--bottom {
-        margin-bottom: 0;
-    }
-    &--all {
-        margin: 0 !important;
-    }
-    &--x {
-        margin-right: 0;
-        margin-left: 0;
-    }
-    &--y {
-        margin-top: 0;
-        margin-bottom: 0;
+    .t-margin-#{$name} {
+        @include spacings(margin, $size);
     }
 }
 
-.wrap {
-    flex-wrap: wrap;
-}
 .hide {
-    display:none;
+    display: none;
 }
+
 .show {
-    display:block;
+    display: block;
+
     &--mobile {
         display: flex;
+
         @include device(mobile) {
             display: none;
         }
@@ -171,40 +110,49 @@
 
     &--tablet {
         display: flex;
+
         @include device(tablet) {
             display: none;
         }
     }
-    &--tabletDesktop{
+
+    &--tabletDesktop {
         display: none;
+
         @include device(mobile) {
             display: flex;
         }
     }
+
     &--desktop {
         display: none;
+
         @include device(tablet) {
             display: flex;
         }
     }
 
 }
+
 .full {
     width: 100%;
     height: 100%;
+
     &--width {
         width: 100%;
     }
+
     &--height {
         height: 100%;
     }
 }
-.border-none{
+
+.border-none {
     border: none;
     outline: none;
 }
 
-.sticky{
+.sticky {
     position: -webkit-sticky;
     position: sticky !important;
     top: 0;
@@ -213,14 +161,3 @@
     z-index: 1;
 }
 
-.container-frequency-over{
-    overflow-y: auto;
-    height: 400px;
-}
-
-.container-frequency-over::-webkit-scrollbar{
-    display: none;
-}
-.t-field-tarea__input{
-    font-family:'inter', sans-serif!important ;
-}

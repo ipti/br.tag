@@ -503,6 +503,9 @@ class ClassroomController extends Controller
         $modelClassroom = new Classroom;
         $modelTeachingData = array();
 
+
+        $edcensoStageVsModalities = $this->getSchoolStagesModels();
+
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines']) && isset($_POST['events'])) {
             $disciplines = json_decode($_POST['disciplines'], true);
             $this->setDisciplines($modelClassroom, $disciplines);
@@ -584,7 +587,8 @@ class ClassroomController extends Controller
             'modelClassroom' => $modelClassroom,
             'complementary_activities' => array(),
             'modelTeachingData' => $modelTeachingData,
-            'modelEnrollments' => [],
+            'edcensoStageVsModalities' => $edcensoStageVsModalities,
+            'modelEnrollments' => []
         ));
     }
 
@@ -600,6 +604,7 @@ class ClassroomController extends Controller
             $array["studentId"] = $studentEnrollment->studentFk->id;
             $array["studentName"] = $studentEnrollment->studentFk->name;
             $array["dailyOrder"] = $studentEnrollment->daily_order;
+            $array["status"] = $studentEnrollment->getCurrentStatus();
 
             if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                 $array["synced"] = $studentEnrollment->studentFk->sedsp_sync && $studentEnrollment->sedsp_sync;
@@ -607,6 +612,8 @@ class ClassroomController extends Controller
 
             array_push($modelEnrollments, $array);
         }
+
+        $edcensoStageVsModalities = $this->getSchoolStagesModels();
 
 
         $disableFieldsWhenItsUBATUBA = false;
@@ -784,6 +791,7 @@ class ClassroomController extends Controller
             'modelClassroom' => $modelClassroom,
             'modelTeachingData' => $modelTeachingData,
             'modelEnrollments' => $modelEnrollments,
+            'edcensoStageVsModalities' => $edcensoStageVsModalities,
             'disabledFields' => $disableFieldsWhenItsUBATUBA
         ));
     }
@@ -1013,6 +1021,18 @@ class ClassroomController extends Controller
 
         echo json_encode($result);
         /* Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order')); */
+    }
+
+    public function getSchoolStagesModels() {
+        $criteriaStages = new CDbCriteria();
+        $criteriaStages->alias = "esvm";
+        $criteriaStages->condition = 'ss.school_fk = :school_fk';
+        $criteriaStages->params = array(
+            ':school_fk' => Yii::app()->user->school,
+        );
+        $criteriaStages->join = "join school_stages ss on ss.edcenso_stage_vs_modality_fk = esvm.id";
+        $criteriaStages->order = "esvm.name";
+        return EdcensoStageVsModality::model()->findAll($criteriaStages);
     }
 
     public function actionSyncUnsyncedStudents()

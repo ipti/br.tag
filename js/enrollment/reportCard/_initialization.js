@@ -2,7 +2,7 @@ $('#classroom').change(function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getDisciplines",
+            url: "?r=grades/getDisciplines",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -31,7 +31,7 @@ $('#discipline').change(function (e, triggerEvent) {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getReportCardGrades",
+            url: "?r=grades/getReportCardGrades",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -39,7 +39,8 @@ $('#discipline').change(function (e, triggerEvent) {
             },
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");
-                $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
+                $(".js-grades-container").css("opacity", "0.4").css("overflow", "auto").css("pointer-events", "none");
+                $("#grades-save-button").removeClass("hide");
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -47,7 +48,7 @@ $('#discipline').change(function (e, triggerEvent) {
                 if (data.valid) {
                     let html = `
                     <h3>Aulas Dadas</h3>
-                    <div class="mobile-row">
+                    <div class="row">
                     `;
                     for (let i = 0; i < 3; i++) {
                         let order = i + 1;
@@ -110,20 +111,23 @@ $('#discipline').change(function (e, triggerEvent) {
                             ${ $.trim(this.studentName) }
                             </td>
                         `;
-                        $.each(this.grades, function (index, value) {
+
+                        for (let index = 0; index < 3; index++) {
+                            const element = index <= this.grades.length ? this.grades[index] : null;
+
                             let valueGrade;
-                            if (this.value == "" || this.value == null) {
+                            if (element?.value == "" || element?.value == null) {
                                 valueGrade = "";
                             } else {
-                                valueGrade = parseFloat(this.value).toFixed(1);
+                                valueGrade = parseFloat(element.value).toFixed(1);
                             }
 
                             let faults;
 
-                            if(this.faults == null) {
-                                faults = ""
+                            if (element?.faults == null) {
+                                faults = "";
                             } else {
-                                faults = this.faults
+                                faults = element?.faults;
                             }
 
                             html += `
@@ -131,13 +135,10 @@ $('#discipline').change(function (e, triggerEvent) {
                                     <input type='text' class='grade' value='${valueGrade}'>
                                 </td>
                                 <td class='grade-td'>
-                                    <input type='text' class='faults' style='width:50px;text-align:center;' value='${ faults }'>
+                                    <input type='text' class='faults' style='width:50px;text-align:center;' value='${faults}'>
                                 </td>
                             `;
-                            if(index == 2) {
-                                return false;
-                            }
-                        });
+                        }
 
                         html += `
                             <td style='font-weight: bold;font-size: 16px;' class='final-media'> ${this.finalMedia }</td>
@@ -153,7 +154,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     $(".js-grades-alert").addClass("alert-error").removeClass("alert-success").text(data.message).show();
                 }
                 $(".js-grades-loading").hide();
-                $(".js-grades-container, .grades-buttons").css("opacity", "1").css("pointer-events", "auto");
+                $(".js-grades-container, .grades-buttons").css("overflow", "auto").css("opacity", "1").css("pointer-events", "auto");
             },
         });
     } else {
@@ -183,7 +184,7 @@ $("#save").on("click", function (e) {
 
     $.ajax({
         type: "POST",
-        url: "?r=enrollment/saveGradesReportCard",
+        url: "?r=grades/saveGradesReportCard",
         cache: false,
         data: {
             classroom: $("#classroom").val(),
@@ -192,7 +193,7 @@ $("#save").on("click", function (e) {
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");
-            $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("pointer-events", "none");
+            $(".js-grades-container, .grades-buttons").css("overflow", "auto").css("opacity", "0.4").css("pointer-events", "none");
         },
         success: function (data) {
             $("#discipline").trigger("change", ["saveGrades"]);

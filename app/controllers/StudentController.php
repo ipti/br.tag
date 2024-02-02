@@ -130,8 +130,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $columns[0] = 'name';
         $columns[1] = 'filiation_1';
         $columns[2] = 'birthday';
-        $columns[3] = 'inep_id';
-        $columns[4] = 'actions';
+        $columns[3] = 'cpf';
+        $columns[4] = 'inep_id';
+        $columns[5] = 'actions';
         if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
             $columns[5] = 'sedsp_sync';
         }
@@ -144,12 +145,13 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $criteria->condition = "name LIKE '%" . $requestData['search']['value'] . "%' OR " .
                 "filiation_1 LIKE '%" . $requestData['search']['value'] . "%' OR " .
                 "birthday LIKE '%" . $requestData['search']['value'] . "%' OR " .
+                "documentsFk.cpf LIKE '%" . $requestData['search']['value'] . "%' OR " .
                 "inep_id LIKE '%" . $requestData['search']['value'] . "%'";
         }
 
         // Obter o número total de registros
-        $totalData = StudentIdentification::model()->count();
-        $totalFiltered = StudentIdentification::model()->count($criteria);
+        $totalData = StudentIdentification::model()->with("documentsFk")->count();
+        $totalFiltered = StudentIdentification::model()->with("documentsFk")->count($criteria);
 
         // Paginação
         $start = $requestData['start'];
@@ -164,7 +166,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $criteria->order = $sortColumn . " " . $sortDirection;
 
 
-        $students = StudentIdentification::model()->findAll($criteria);
+        $students = StudentIdentification::model()->with("documentsFk")->findAll($criteria);
 
 
         // Formatar os dados de saída
@@ -174,6 +176,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $nestedData[] = "<a href='/?r=student/update&id=" . $student->id . "' cursor: pointer;>" . $student->name . "</a>";
             $nestedData[] = $student->filiation_1;
             $nestedData[] = $student->birthday;
+            $nestedData[] = $student->documentsFk->cpf;
             $nestedData[] = $student->inep_id;
             $nestedData[] = "<a style='cursor: pointer;' title='Editar' id='student-edit'  href='/?r=student/update&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
@@ -579,6 +582,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelEnrollment = new StudentEnrollment;
+        $modelSchool = SchoolIdentification::model()->findAll();
         if (isset($_POST['StudentEnrollment'])) {
             $currentEnrollment = StudentEnrollment::model()->findByPk($modelStudentIdentification->lastEnrollment->id);
             if ($currentEnrollment->validate()) {
@@ -612,7 +616,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         } else {
             $this->render('transfer', array(
                 'modelStudentIdentification' => $modelStudentIdentification,
-                'modelEnrollment' => $modelEnrollment
+                'modelEnrollment' => $modelEnrollment,
+                'modelSchool' => $modelSchool,
             ));
         }
     }
