@@ -178,7 +178,7 @@ class FormsRepository {
         $scheduleSql = "SELECT `month`, `day`c FROM schedule s JOIN classroom c on c.id = s.classroom_fk
         WHERE c.school_year = :year AND c.id = :classroom
         GROUP BY s.`month`, s.`day`";
-        $scheduleParams = array(':year' => 2023, ':classroom' => $enrollment->classroom_fk);
+        $scheduleParams = array(':year' => Yii::app()->user->year, ':classroom' => $enrollment->classroom_fk);
         $schedules = Schedule::model()->findAllBySql($scheduleSql, $scheduleParams);
         $gradeRules = GradeRules::model()->findByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcensoStageVsModalityFk->id]);
         $portuguese = array(); $history = array(); $geography = array(); $mathematics = array(); $sciences = array();
