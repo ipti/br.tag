@@ -1,3 +1,6 @@
+## [Versão 3.66.104]
+- Corrigindo relatório de ficha individual de aluno, que estava apresentando informações incorretas ou desnecessárias
+
 ## [Versão 3.66.103]
 - Corrigindo o cálculo de média final na tela de lançamento de notas de buzios e adicionando notas por conceito em lançamento de nota
 
