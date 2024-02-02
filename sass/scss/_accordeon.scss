@@ -33,6 +33,9 @@
 
     .ui-accordion-content {
         overflow-x: hidden !important;
+        &.accordion-overflow{
+            overflow-x: scroll !important;
+        }
         padding: $SizeXXXSmall $SizeSmall !important;
         &.hide {
             display: none !important;

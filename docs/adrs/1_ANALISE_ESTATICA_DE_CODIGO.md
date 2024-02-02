@@ -26,7 +26,6 @@ durante a sua escrita, reduzindo a quantidade de erros em tempo de execucação.
 1. Adicionar PHPMD
 2. Adicionar PHPStam
 3. Adicionar SonarCloud
-4. Adicionar SonarCloud
 
 ## Resultado da decisão
 

@@ -105,6 +105,184 @@ $(document).on("click", ".edit-calendar-button", function () {
     }
 });
 
+$(document).on("click", ".manage-unity-periods", function (e) {
+    dismissPeriods();
+    $("#unity-periods-modal").find(".alert").hide();
+    var icon = this;
+    e.stopPropagation();
+    $.ajax({
+        url: "?r=calendar/default/loadUnityPeriods",
+        type: "POST",
+        data: {
+            id: $(icon).attr("data-id")
+        },
+        beforeSend: function () {
+            $(icon).css("pointer-events", "none").find("i").addClass("fa-spin").addClass("fa-spinner").removeClass("fa-map-o");
+        },
+    }).success(function (data) {
+        data = JSON.parse(data);
+        if (data.valid) {
+            var html = "";
+            html += "<input class='calendar-end-date' type='hidden' value='" + data.result.calendarFinalDate + "'>";
+            for (var i = 0; i < Object.keys(data.result.stages).length; i++) {
+                html += "<div class='grade-unity-stage-tab " + (i === 0 ? "active" : "") + "'>" + (i + 1) + "ª Etapa</div>";
+            }
+            $.each(data.result.stages, function (i, stage) {
+                html += "<div class='grade-unity-stage-container " + (i === 0 ? "active" : "") + "'>";
+                html += "<span class='grade-unity-stage-title'>" + stage.title + "</span>";
+                if (Object.keys(stage.unities).length) {
+                    $.each(stage.unities, function (j, unity) {
+                        html += "<div class='form-control grade-unity-container'>";
+                        html += "<input class='grade-unity-id' type='hidden' value='" + unity.id + "'>";
+                        html += "<label>" + unity.name + "</label>";
+                        html += "<input class='grade-unity-initial-date' " + (j === 0 ? "disabled" : "") + " size='10' maxlength='10' type='text' placeholder='Início da Unidade' value='" + unity.initial_date + "'>";
+                        html += "</div>";
+                    });
+                } else {
+                    html += "<div class='alert alert-warning'>Etapa sem unidades. </div>";
+                }
+                html += "</div>";
+            });
+            $(".unity-periods-container").html(html);
+
+            $(".grade-unity-initial-date").mask("99/99/9999").datepicker({
+                container: "#unity-periods-modal .modal-dialog",
+                language: "pt-BR",
+                format: "dd/mm/yyyy",
+                autoclose: true,
+                todayHighlight: true,
+                allowInputToggle: true,
+                disableTouchKeyboard: true,
+                keyboardNavigation: false,
+                orientation: "bottom left",
+                clearBtn: true,
+                maxViewMode: 2,
+                startDate: "01/01/" + data.result.year,
+                endDate: "31/12/" + data.result.year
+
+            });
+
+        } else {
+            $("#unity-periods-modal").find(".alert").html(DOMPurify.sanitize(data.error)).show();
+        }
+
+        $("#unity-periods-modal").modal("show");
+    }).complete(function () {
+        $(icon).css("pointer-events", "auto").find("i").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-map-o");
+
+    });
+});
+
+$(document).on("click", ".grade-unity-stage-tab", function () {
+    if (!$(this).hasClass("active")) {
+        $(".grade-unity-stage-tab, .grade-unity-stage-container").removeClass("active");
+        var tabIndex = $(".unity-periods-container").find(".grade-unity-stage-tab").index(this);
+        $($(".grade-unity-stage-container").get(tabIndex)).addClass("active");
+        $(this).addClass("active");
+    }
+});
+
+$(document).on("click", ".manage-unity-periods-button", function () {
+    var previousDate;
+    var gradeUnities = [];
+    var errorUnsequenced = false;
+    var errorUnfilled = false;
+    var errorDateAfterCalendarEnd = false;
+    var splittedDate = "";
+
+    var calendarEndDate = $(".calendar-end-date").val();
+    calendarEndDate = calendarEndDate.split("/");
+    calendarEndDate = calendarEndDate[2] + calendarEndDate[1] + calendarEndDate[0];
+
+    $(".grade-unity-stage-container").each(function (i, stage) {
+        $(stage).find(".grade-unity-container").each(function (index) {
+            if ($(this).find(".grade-unity-initial-date").val() == "") {
+                errorUnfilled = true;
+                return false;
+            }
+
+            var currentDate = $(this).find(".grade-unity-initial-date").val();
+            currentDate = currentDate.split("/");
+            currentDate = currentDate[2] + currentDate[1] + currentDate[0];
+
+            if (currentDate > calendarEndDate) {
+                errorDateAfterCalendarEnd = true;
+                return false;
+            }
+
+            if (index > 0) {
+                if (previousDate > currentDate) {
+                    errorUnsequenced = true;
+                    return false;
+                }
+            }
+            previousDate = currentDate;
+
+            gradeUnities.push({
+                gradeUnityFk: $(this).find(".grade-unity-id").val(),
+                initialDate: $(this).find(".grade-unity-initial-date").val(),
+            });
+        });
+
+        if (errorUnsequenced || errorUnfilled || errorDateAfterCalendarEnd) {
+            $("#unity-periods-modal .modal-body").animate({scrollTop: 0}, "fast");
+            return false;
+        }
+    });
+
+    if (errorUnsequenced) {
+        $("#unity-periods-modal").find(".error-calendar-event").html("As datas estão fora de sequência.").show();
+    } else if (errorUnfilled) {
+        $("#unity-periods-modal").find(".error-calendar-event").html("Preencha todas as datas.").show();
+    } else if (errorDateAfterCalendarEnd) {
+        $("#unity-periods-modal").find(".error-calendar-event").html("As datas selecionadas não podem ser superiores à data de fim do ano letivo (" + $(".calendar-end-date").val() + ").").show();
+    } else {
+        $("#unity-periods-modal").find(".error-calendar-event").hide();
+        $.ajax({
+            url: "?r=calendar/default/editUnityPeriods",
+            type: "POST",
+            data: {
+                gradeUnities: gradeUnities,
+            },
+            beforeSend: function () {
+                $("#unity-periods-modal").find(".modal-body").css("opacity", 0.3).css("pointer-events", "none");
+                $("#unity-periods-modal").find("button").attr("disabled", "disabled");
+                $("#unity-periods-modal").find(".centered-loading-gif").show();
+            },
+        }).success(function (data) {
+            data = JSON.parse(data);
+            if (data.valid) {
+                $("#unity-periods-modal").modal("hide");
+            } else {
+                $("#unity-periods-modal").find(".alert").html(DOMPurify.sanitize(data.error)).show();
+            }
+        }).complete(function () {
+            $("#unity-periods-modal").find(".modal-body").css("opacity", 1).css("pointer-events", "auto");
+            $("#unity-periods-modal").find("button").removeAttr("disabled");
+            $("#unity-periods-modal").find(".centered-loading-gif").hide();
+        });
+    }
+});
+
+$(document).on("click", ".replicate-periods", function () {
+    $(".load-replication").css("display", "inline-block");
+    var activeContainer = $(".unity-periods-container").find(".grade-unity-stage-container.active");
+    var activeContainerDates = [];
+    activeContainer.find(".grade-unity-container").each(function () {
+        activeContainerDates.push($(this).find(".grade-unity-initial-date").val());
+    });
+    $(".unity-periods-container").find(".grade-unity-stage-container").not(activeContainer).each(function () {
+        if (activeContainer.find(".grade-unity-container").length === $(this).find(".grade-unity-container").length) {
+            $(this).find(".grade-unity-container").each(function (index) {
+                $(this).find(".grade-unity-initial-date").val(activeContainerDates[index])
+            });
+        }
+    });
+    setTimeout(function () {
+        $(".load-replication").hide();
+    }, 300);
+});
+
 $(document).on("click", ".remove-calendar", function (e) {
     e.stopPropagation();
     $("#calendar_removal_id").val($(this).data('id'));
@@ -174,11 +352,12 @@ $(document).on("click", ".remove-event-button", function (e, confirm = 0) {
     });
 });
 
-$(document).on("click", ".confirm-delete-event", function() {
+$(document).on("click", ".confirm-delete-event", function () {
     $(".remove-event-button").trigger("click", [1]);
 });
 
 $(document).on("click", ".change-event", function () {
+    dismissPeriods();
     var event = this;
     $("#myChangeEvent").find(".selected-calendar-current-year").val($(event).closest(".calendar").data("year"));
     $(".error-calendar-event").hide();
@@ -286,11 +465,12 @@ $(document).on("click", ".save-event", function (e, confirm = 0) {
     }
 });
 
-$(document).on("click", ".confirm-save-event", function() {
+$(document).on("click", ".confirm-save-event", function () {
     $(".save-event").trigger("click", [1]);
 });
 
 $(document).on("click", ".show-stages", function (e) {
+    dismissPeriods();
     var icon = this;
     e.stopPropagation();
     if (!$(icon).closest(".accordion-group").find(".floating-stages-container").length) {
@@ -306,25 +486,66 @@ $(document).on("click", ".show-stages", function (e) {
             },
         }).success(function (data) {
             data = JSON.parse(data);
-            var html = "<div class='floating-stages-container'><div class='stages-container-title'>" + $(icon).closest(".accordion-group").find(".accordion-title").text() + "</div>";
+            var html = "<div class='floating-stages-container' calendarid='" + $(icon).data('id') + "'><div class='stages-container-title'>" + $(icon).closest(".accordion-group").find(".accordion-title").text() + "</div>";
             $.each(data, function () {
-                html += "<div class='stage-container'>" + this.name + "</div>";
+                html += "" +
+                    "<div class='stage-container'>" +
+                    "<span>" + this.name + "</span>" +
+                    (this.hasPeriod ? "<i stageid='" + this.id + "' calendarid='" + $(icon).data('id') + "' class='view-periods fa fa-map-o' data-toggle='tooltip' data-placement='right' data-original-title='Visualizar Vigência'></i>" : "") +
+                    "</div>";
             });
             html += '<i class="close-stages-container fa fa-remove"></i></div>';
             $(icon).closest(".accordion-group").append(html);
-            $(".floating-stages-container").css("top", $(icon).closest(".accordion-group").offset().top);
+            $(".view-periods").tooltip({container: "body"});
         }).complete(function () {
             $(icon).css("pointer-events", "auto").find("i").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-question-circle-o");
         });
     } else {
         $(".floating-stages-container").remove();
     }
+});
 
+$(document).on("click", ".view-periods", function () {
+    var icon = this;
+    $.ajax({
+        url: "?r=calendar/default/viewPeriods",
+        type: "POST",
+        data: {
+            calendarId: $(icon).attr("calendarid"),
+            stageId: $(icon).attr("stageid")
+        },
+        beforeSend: function () {
+            $(icon).css("pointer-events", "none").addClass("fa-spin").addClass("fa-spinner").removeClass("fa-map-o");
+        },
+    }).success(function (data) {
+        data = JSON.parse(data);
+        var calendarContainer = $(".calendar-container[data-id=" + $(icon).attr("calendarid") + "]");
+        var backgroundPalletes = ["#26cb24", "#ff0000", "#0081c2", "#9700f6", "#d9d303", "#333333", "pink"];
+        calendarContainer.find(".calendar-icon").addClass("calendar-icon-hide");
+        $.each(data, function () {
+            calendarContainer.find(".change-event[data-year=" + this.year + "][data-month=" + this.month + "][data-day=" + this.day + "]")
+                .tooltip("destroy")
+                .parent()
+                .addClass("date-palleted").attr("data-toggle", "tooltip").attr("data-placement", "top").attr("data-original-title", this.unityName)
+                .css("background-color", backgroundPalletes[this.colorIndex])
+
+        });
+        $(".date-palleted").tooltip({container: "body"});
+    }).complete(function () {
+        $(icon).css("pointer-events", "auto").removeClass("fa-spin").removeClass("fa-spinner").addClass("fa-map-o");
+    });
 });
 
 $(document).on("click", ".close-stages-container", function () {
+    dismissPeriods();
     $(".floating-stages-container").remove();
 });
+
+function dismissPeriods() {
+    $(".calendar-container").find(".date-palleted").removeClass("date-palleted").css("background-color", "initial").tooltip("destroy");
+    $(".calendar-container").find(".change-event").tooltip({container: "body"});
+    $(".calendar-container").find(".calendar-icon").removeClass("calendar-icon-hide");
+}
 
 $(document).on("click", ".change-calendar-status", function (e) {
     e.stopPropagation();

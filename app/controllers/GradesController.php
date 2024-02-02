@@ -36,7 +36,8 @@ class GradesController extends Controller
                     'calculateFinalMedia',
                     'reportCard',
                     'getReportCardGrades',
-                    'saveGradesReportCard'
+                    'saveGradesReportCard',
+                    'saveGradesRelease'
                 ),
                 'users' => array('@'),
             ),
@@ -156,6 +157,7 @@ class GradesController extends Controller
     {
         $discipline = $_POST['discipline'];
         $students = $_POST['students'];
+        $rule = $_POST['rule'];
 
         foreach ($students as $std) {
             $mediaFinal = 0;
@@ -166,18 +168,32 @@ class GradesController extends Controller
 
             $gradeResult->enrollment_fk = $std['enrollmentId'];
             $gradeResult->discipline_fk = $discipline;
+            $gradeResult->final_concept = $std["finalConcept"];
 
+            $hasAllValues = true;
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
-                $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
+                if($rule == "C") {
+                    $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
+                    $hasAllValues = $hasAllValues && (isset($gradeResult["grade_concept_" . $index]) && $gradeResult["grade_concept_" . $index] != "");
+                } else {
+                    $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
+                    $mediaFinal += floatval($gradeResult->attributes["grade_" . $index] * ($index == 3 ? 2 : 1));
+                }
                 $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
-
-
-                $mediaFinal += floatval($gradeResult->attributes["grade_" . $index] * ($index == 3 ? 2 : 1));
             }
 
-            $gradeResult->final_media = number_format($mediaFinal / 4, 1);
+            if($rule == "C") {
+                if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
+                    $gradeResult->situation = "APROVADO";
+                } else {
+                    $gradeResult->situation = "";
+                }
+            } else {
+                $gradeResult->final_media = floor(($mediaFinal/4) * 10) / 10;
+            }
+
             if (!$gradeResult->validate()) {
                 die(print_r($gradeResult->getErrors()));
             }
@@ -187,9 +203,85 @@ class GradesController extends Controller
         echo json_encode(["valid" => true]);
     }
 
+    public function actionSaveGradesRelease()
+    {
+        $discipline = $_POST['discipline'];
+        $classroomId = $_POST['classroom'];
+        $students = $_POST['students'];
+        $rule = $_POST['rule'];
+
+        $classroom = Classroom::model()->findByPk($classroomId);
+
+        $gradeRules = GradeRules::model()->findByAttributes([
+            "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
+        ]);
+
+        foreach ($students as $std) {
+            $start = microtime(true);
+            $gradeResult = (new GetStudentGradesResultUsecase($std['enrollmentId'], $discipline))->exec();
+            $gradeResult->enrollment_fk = $std['enrollmentId'];
+            $gradeResult->discipline_fk = $discipline;
+            $gradeResult->rec_final = $std["recFinal"];
+            $gradeResult->final_concept = $std["finalConcept"];
+
+            $hasAllValues = true;
+            foreach ($std['grades'] as $key => $value) {
+                $index = $key + 1;
+                if($rule == "C") {
+                    $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
+                    $hasAllValues = $hasAllValues && (isset($gradeResult["grade_concept_" . $index]) && $gradeResult["grade_concept_" . $index] != "");
+                } else {
+                    $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
+                    $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
+                }
+                $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
+                $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
+            }
+
+
+            if (!$gradeResult->validate()) {
+                throw new CHttpException(
+                    "400",
+                    "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult->getErrors())
+                );
+            }
+
+            $gradeResult->save();
+
+            if ($hasAllValues) {
+                $usecaseFinalMedia = new CalculateFinalMediaUsecase(
+                    $gradeResult,
+                    $gradeRules,
+                    count($std['grades'])
+                );
+                $usecaseFinalMedia->exec();
+
+                if ($gradeResult->enrollmentFk->isActive()) {
+                    $usecase = new ChageStudentStatusByGradeUsecase(
+                        $gradeResult,
+                        $gradeRules,
+                        count($std['grades'])
+                    );
+                    $usecase->exec();
+                }
+            } else {
+                $gradeResult->situation = "MATRICULADO";
+            }
+
+            if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
+                $gradeResult->situation = "APROVADO";
+            }
+            $gradeResult->save();
+
+            $time_elapsed_secs = microtime(true) - $start;
+            Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
+        }
+
+        echo CJSON::encode(["valid" => true]);
+    }
+
     public function actionGetReportCardGrades()
     {
-
         $criteria = new CDbCriteria;
         $criteria->alias = "se";
         $criteria->join = "join student_identification si on si.id = se.student_fk";
@@ -200,33 +292,71 @@ class GradesController extends Controller
 
 
         if ($studentEnrollments != null) {
-            $result = [];
             $result["students"] = [];
-            $arr = [];
             foreach ($studentEnrollments as $studentEnrollment) {
+
+                // TODO: Mudar lógica de criação de tabela para turmas multiseriadas
+                // $stage = isset($studentEnrollment->edcenso_stage_vs_modality_fk)
+                //     ? $studentEnrollment->edcenso_stage_vs_modality_fk :
+                //     $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk;
+
+                $unities = GradeUnity::model()->findAll(
+                    "edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)",
+                    [
+                        ":stageId" => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk,
+                        ":type" => GradeUnity::TYPE_UNITY,
+                        ":type2" => GradeUnity::TYPE_UNITY_WITH_RECOVERY,
+                        ":type3" => GradeUnity::TYPE_UNITY_BY_CONCEPT,
+                    ]
+                );
+                $rules = GradeRules::model()->find(
+                    [
+                        "select" => "rule_type",
+                        "condition" => "edcenso_stage_vs_modality_fk = :stageId",
+                        "params" => [":stageId" => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk]
+                    ]
+                );
+                if($rules->rule_type == "C") {
+                    $concepts = GradeConcept::model()->findAll();
+                    $result["concepts"] = CHtml::listData($concepts, 'id', 'name');
+                }
+
+                $arr = [];
                 $arr["enrollmentId"] = $studentEnrollment->id;
                 $arr["daily_order"] = $studentEnrollment->daily_order;
                 $arr["studentName"] = $studentEnrollment->studentFk->name;
                 $arr["grades"] = [];
                 $arr["faults"] = [];
 
+
                 $gradeResult = GradeResults::model()->find(
                     "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
                     ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]
                 );
 
-                for ($index = 1; $index <= 3; $index++) {
-                    array_push(
-                        $arr["grades"],
-                        [
-                            "value" => $gradeResult["grade_" . $index],
-                            "faults" => $gradeResult["grade_faults_" . $index],
-                            "givenClasses" => $gradeResult["given_classes_" . $index]
-                        ]
-                    );
+                foreach ($unities as $key => $value) {
+                    $index = $key + 1;
+                    array_push($arr["grades"], [
+                        "value" => $gradeResult["grade_" . $index],
+                        "concept" => $gradeResult["grade_concept_" . $index],
+                        "faults" => $gradeResult["grade_faults_" . $index],
+                        "givenClasses" => $gradeResult["given_classes_" . $index]
+                    ]);
                 }
 
-                $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                $arr["finalMedia"] = $gradeResult->final_media ?? "";
+                $arr["recFinal"] = $gradeResult->rec_final ?? "";
+                $arr["finalConcept"] = $gradeResult->final_concept;
+
+                $arr["situation"] = $studentEnrollment->getCurrentStatus();
+                if ($studentEnrollment->isActive()) {
+                    $arr["situation"] = ($gradeResult->situation == null) ? "" : $gradeResult->situation;
+                }
+
+
+
+                $result["unities"] = $unities;
+                $result["rule"] = $rules->rule_type;
                 array_push($result["students"], $arr);
             }
 
