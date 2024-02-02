@@ -124,7 +124,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	checkbox.addEventListener('change', function() {
 		checkboxValue = checkbox.checked ? true : false;
 
-		month = parseInt(selectedValue, 10)
+        month = parseInt(selectedValue, 10)
 
 		const exportLink = document.getElementById('exportLink');
 		const newHref = `?r=sagres/default/export&month=${month}&finalClass=${checkboxValue}`;
