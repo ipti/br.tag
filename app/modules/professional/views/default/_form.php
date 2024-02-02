@@ -43,57 +43,63 @@
 		<div class="widget widget-tabs border-bottom-none">
 			<?php echo $form->errorSummary($modelProfessional); ?>
 			<div class="alert alert-error professional-error no-show"></div>
-			<div class="widget-body form-horizontal">
+			<div class="widget-body">
 				<div class="tab-content">
 					<div class="tab-pane active" id="professional-identify">
 						<div>
 							<h3>Dados Básicos</h3>
 						</div>
-						<div class="row-fluid">
-							<div class="span6">
-								<div class="separator">
-									<div class="control-group">
+						<div class="full">
+							<div class="row">
+								<div class="control-group column clearleft">
+                                    <div class="hide" id="id_professional"><?php echo $modelProfessional->id_professional;?></div>
+									<div class="control-group column clearleft">
 										<div class="controls">
 											<?php echo $form->label($modelProfessional, 'name', array('class' => 'control-label')); ?>
 										</div>
 										<div class="controls">
-											<?php echo $form->textField($modelProfessional, 'name', array('size' => 60, 'maxlength' => 100)); ?>
+											<?php echo $form->textField($modelProfessional, 'name', array('size' => 100, 'maxlength' => 100)); ?>
 											<?php echo $form->error($modelProfessional, 'name'); ?>
 										</div>
 									</div>
-									<div class="control-group">
+									<div class="control-group column clearleft">
 										<div class="controls">
 											<?php echo $form->label($modelProfessional, 'cpf_professional', array('class' => 'control-label')); ?>
 										</div>
 										<div class="controls">
-											<?php echo $form->textField($modelProfessional, 'cpf_professional', array('size' => 60, 'maxlength' => 100, 'class' => 'cpf-input')); ?>
+											<?php echo $form->textField($modelProfessional, 'cpf_professional', array('size' => 100, 'maxlength' => 100, 'class' => 'cpf-input')); ?>
 											<?php echo $form->error($modelProfessional, 'cpf_professional'); ?>
 										</div>
 									</div>
-									<div class="control-group">
-										<div class="controls">
-											<?php echo $form->label($modelProfessional, 'speciality', array('class' => 'control-label')); ?>
-										</div>
-										<div class="controls">
-											<?php echo $form->textField($modelProfessional, 'speciality', array('size' => 100)); ?>
-											<?php echo $form->error($modelProfessional, 'speciality'); ?>
-										</div>
-									</div>
-									<div class="control-group">
-										<div class="controls">
-											<?php echo $form->label($modelProfessional, 'fundeb', array('class' => 'control-label', 'style' => 'width: 70px;')); ?>
-											<?php echo $form->checkBox($modelProfessional, 'fundeb', array('value' => 1, 'uncheckValue' => 0)); ?>
-										</div>
-										<div class="controls">
-											<?php echo $form->error($modelProfessional, 'fundeb'); ?>
-										</div>
-									</div>
-								</div>
+                                </div>
+                                <div class="control-group column clearleft">
+                                    <div class="control-group column clearleft">
+                                        <div class="controls">
+                                            <?php echo $form->label($modelProfessional, 'speciality', array('class' => 'control-label')); ?>
+                                        </div>
+                                        <div class="controls">
+                                            <?php echo $form->textField($modelProfessional, 'speciality', array('size' => 100)); ?>
+                                            <?php echo $form->error($modelProfessional, 'speciality'); ?>
+                                        </div>
+                                    </div>
+                                    <div class="control-group column clearleft">
+                                        <div class="controls">
+                                            <?php echo $form->label($modelProfessional, 'fundeb', array('class' => 'control-label', 'style' => 'width: 70px;')); ?>
+                                            <?php echo $form->checkBox($modelProfessional, 'fundeb', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        </div>
+                                        <div class="controls">
+                                            <?php echo $form->error($modelProfessional, 'fundeb'); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 							</div>
 							<?php if(!$modelProfessional->isNewRecord) {?>
-							<div class="span6">
-								<div class="row">
-									<a href="#" class="t-button-primary new-attendance-button" id="new-attendance-button">Adicionar Atendimento</a>
+							<div class="span6 column clearleft">
+								<div class="control-group column clearleft">
+                                    <div class="controls">
+                                        <a href="#" class="t-button-primary new-attendance-button" id="new-attendance-button">Adicionar Atendimento</a>
+                                    </div>
 								</div>
 								<div class="attendance-container">
 									<div class="form-attendance" style="display: none;">
@@ -148,28 +154,42 @@
 										<h3>
 											Atendimentos
 										</h3>
-										<div style="max-height: 300px; overflow-y: scroll;">
-											<table class="tag-table-primary table-bordered table-striped"
+										<div style="" class="full">
+											<table class="tag-table-secondary table-bordered table-striped align-start"
 												aria-describedby="tabela de atendimentos">
 												<thead>
 													<tr>
-														<th style="text-align: center; min-width: 200px;">Data</th>
-														<th style="text-align: center; min-width: 200px;">Local</th>
-													</tr>
-												</thead>
+														<th style="min-width: 100px;border: none">Data</th>
+														<th style="min-width: 200px;border: none">Local</th>
+                                                        <th style="text-align: right; min-width: 50px;border: none"></th>
+													</thead>
 												<tbody>
 													<?php
 													foreach ($modelAttendances as $attendance) {
 													?>
 														<tr>
-															<td style="text-align: center;"><?php echo date("d/m/Y", strtotime($attendance->date)) ?></td>
-															<td style="text-align: center;"><?php echo $attendance->local?></td>
+															<td style="border: none"><?php echo date("d/m/Y", strtotime($attendance->date)) ?></td>
+															<td style="border: none"><?php echo $attendance->local?></td>
+                                                            <td style="border: none">
+                                                                <button
+                                                                    type="button"
+                                                                    class="delete-attendance-bt t-button-content"
+                                                                    style="float:right; margin-right: 14px"
+                                                                    value="<?php echo $attendance->id_attendance?>"
+                                                                    onclick="deleteAttendance(this)">
+                                                                        <!-- <div class="t-icon-trash"></div> -->
+                                                                        <img src="<?php echo Yii::app()->theme->baseUrl . '/img/deletar.svg';?>" alt='Excluir'></img>
+                                                                </button>
+                                                            </td>
 														</tr>
 													<?php
 													}
 													?>
 												</tbody>
 											</table>
+                                            <div>
+                                                <p>Atendimentos encontrados: <?php echo count($modelAttendances); ?></p>
+                                            </div>
 										</div>
 									</div>
 								</div>

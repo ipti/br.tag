@@ -31,7 +31,7 @@ $('#discipline').change(function (e, triggerEvent) {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getReportCardGrades",
+            url: "?r=grades/getReportCardGrades",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -199,6 +199,8 @@ $('#discipline').change(function (e, triggerEvent) {
 $("#save").on("click", function (e) {
     e.preventDefault();
     $(".js-grades-alert").hide();
+
+    console.log($(".grades-table").attr("concept"));
 
     let students = [];
     $('.grades-table tbody tr').each(function () {
