@@ -20,7 +20,7 @@ function age($date){
 ?>
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
-    <h3><?php echo Yii::t('default', 'Student By Classroom'); ?></h3>
+    <h3><?php echo Yii::t('default', 'Student By Classroom') . ' - ' . Yii::app()->user->year; ?></h3>
     <div class="row-fluid hidden-print">
         <div class="span12">
             <div class="buttons">
@@ -61,10 +61,10 @@ function age($date){
                 <td><?= $c['responsable_telephone'] ?></td>
                 <td><?= $c['address'] ?></td>
             </tr>
-    <?php 
+    <?php
             $oldClassroom = $c['classroom_id'];
-    
-        } 
+
+        }
     ?>
     </table>
     <?php $this->renderPartial('footer'); ?>

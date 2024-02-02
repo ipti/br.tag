@@ -96,7 +96,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                                 <i class="fa fa-remove"></i>
                             </span>
                     <span class="text-right pull-right edit-calendar" data-toggle="tooltip" data-placement="top"
-                          data-original-title="<?= yii::t('index', 'Editar Título do Calendário') ?>"
+                          data-original-title="<?= yii::t('index', 'Editar do Calendário') ?>"
                           data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-edit"></i>
                             </span>
@@ -106,8 +106,12 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                           data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-eye<?= $calendar->available ? "" : "-slash" ?>"></i>
                             </span>
+                    <span class="text-right pull-right manage-unity-periods" data-toggle="tooltip" data-placement="top"d
+                          data-original-title="Gerenciar Vigência das Unidades" data-id="<?= $calendar->id ?>">
+                                <i class="fa fa-map-o"></i>
+                            </span>
                     <span class="text-right pull-right show-stages" data-toggle="tooltip" data-placement="top"
-                          data-original-title="Visualizar Etapas do Calendário" data-id="<?= $calendar->id ?>">
+                          data-original-title="Visualizar Etapas e Vigências" data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-question-circle-o"></i>
                             </span>
                 </div>
@@ -310,21 +314,21 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
 </div>
 
 <div class="modal fade modal-content" id="edit-calendar-modal" tabindex="-1" role="dialog"
-     aria-labelledby="Edit Calendar Title">
+     aria-labelledby="Edit Calendar">
     <div class="modal-dialog" role="document">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
                 </button>
                 <h4 class="modal-title"
-                    id="myModalLabel"><?= yii::t("calendarModule.index", "Edit Calendar Title") ?></h4>
+                    id="myModalLabel"><?= yii::t("calendarModule.index", "Edit Calendar") ?></h4>
             </div>
             <?php
             /* @var $form CActiveForm */
             $editCalendar = new Calendar();
             $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'createCalendar',
-                'action' => '?r=/calendar/default/editCalendarTitle',
+                'action' => '?r=/calendar/default/editCalendar',
                 'enableClientValidation' => true,
                 'clientOptions' => array(
                     'validateOnSubmit' => true,
@@ -373,6 +377,35 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
             <?php
             $this->endWidget();
             ?>
+    </div>
+</div>
+
+<div class="modal fade modal-content" id="unity-periods-modal" tabindex="-1" role="dialog"
+     aria-labelledby="Manage Unities Initial Date">
+    <div class="modal-dialog" role="document">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title"
+                id="myModalLabel"><?= yii::t("calendarModule.index", "Manage Unities Initial Date") ?></h4>
+        </div>
+
+        <div class="centered-loading-gif">
+            <i class="fa fa-spin fa-spinner"></i>
+        </div>
+        <div class="modal-body">
+            <div class="error-calendar-event alert alert-error no-show"></div>
+            <div class="unity-periods-container"></div>
+            <span class="replicate-periods">Replicar datas para etapas similares</span><i class="fa fa-spin fa-spinner load-replication"></i>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal"><?= yii::t("calendarModule.index", "Cancel") ?></button>
+                <button type="button"
+                        class="btn btn-primary manage-unity-periods-button"><?= yii::t("calendarModule.index", "Save") ?></button>
+            </div>
+        </div>
+
     </div>
 </div>
 

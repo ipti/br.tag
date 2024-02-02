@@ -117,10 +117,17 @@
         display: flex;
         list-style: none;
         text-align: center;
+        padding: $spaceEmpty;
+        margin-left: $spaceEmpty;
+        overflow-x: scroll;
+        &::-webkit-scrollbar {
+            display: none;
+          }
         .t-tabs__item {
             padding: $SizeXSmall;
             font-weight: $fontWeightRegular;
-            font-size: 52%;
+            white-space: nowrap;
+           font-size: $FontSizeTextNormal;
             cursor: pointer;
             @include device(mobile) {
                 font-size: $FontSizeTextNormal; 
