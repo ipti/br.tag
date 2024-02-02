@@ -21,8 +21,12 @@ $this->menu = array(
 				<?php echo Yii::t('default', 'Food Menus') ?>
 			</h1>
 			<div class="t-buttons-container">
-				<a class="t-button-primary" href="<?= Yii::app()->createUrl('foods/foodMenu/create') ?>">
+				<a class="t-button-primary"  rel="noopener" href="<?= Yii::app()->createUrl('foods/foodMenu/create') ?>">
 					<?= Yii::t('default', 'Add') ?>
+				</a>
+				<a class="t-button-secondary" target="_blank"  rel="noopener"
+					href="<?php echo Yii::app()->createUrl('foods/reports/ShoppingListReport') ?>">
+					<span class="t-icon-printer"></span>Lista de Compras
 				</a>
 			</div>
 		</div>
@@ -74,10 +78,10 @@ $this->menu = array(
 								'template' => '{update}{delete}',
 								'buttons' => array(
 									'update' => array(
-										'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+										'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
 									),
 									'delete' => array(
-										'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+										'imageUrl' => Yii::app()->theme->baseUrl . '/img/deletar.svg',
 									)
 								),
 								'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
