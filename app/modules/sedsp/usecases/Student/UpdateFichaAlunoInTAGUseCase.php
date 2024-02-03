@@ -62,7 +62,7 @@ class UpdateFichaAlunoInTAGUseCase
 
     private function updateStudentDocsAndAddress($docsAndAddress, $studentId)
     {
-        $studentDocument = StudentDocumentsAndAddress::model()->findByAttributes(array("student_fk" => $studentId));
+        $studentDocument = StudentDocumentsAndAddress::model()->findByAttributes(array("id" => $studentId));
 
         if($studentDocument === null) {
             return $this->createStudentDocumentsAndAddress($docsAndAddress, $studentId);
