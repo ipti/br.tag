@@ -206,6 +206,32 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 </div>
 <?php $this->endWidget(); ?>
 
+<div class="modal fade modal-content" id="js-createResource" tabindex="-1" role="dialog">
+    <div modal="modal-dialog" role="document">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title" id="modalLabelResources">Adicionar Recurso</h4>
+        </div>
+        <form method="post">
+            <input type="hidden" class="course-class-index">
+            <div class="modal-body">
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">Cancelar
+                </button>
+                <button type="button" class="btn btn-primary js-add-selected-abilities"
+                        data-dismiss="modal">Adicionar
+                </button>
+            </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <style>
 .select2-container .select2-choice {
     margin: 10px 0;

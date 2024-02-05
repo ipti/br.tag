@@ -200,6 +200,8 @@ $(document).on("click", ".add-abilities", function (e) {
     $("#js-selectAbilities").modal("show");
 });
 
+$(document).on("click", ".add-resource", func)
+
 $(document).on("click", ".ability-panel-option", function() {
     if ($(this).closest(".js-abilities-panel").length) {
         if (!$(this).hasClass("selected")) {

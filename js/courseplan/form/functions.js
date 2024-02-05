@@ -99,6 +99,7 @@ function format(d) {
     var $typeLabel = $('<label class="t-field-select__label" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
     var $typeInput = $('<select class="t-field-select__input type-select" name="course-class[' + d.class + '][type][]" multiple>' + $(".js-all-types")[0].innerHTML + '</select>');
 
+    var $resourceButton = $('<button class="btn btn-success add-resource" style="height: 28px;" ><i class="fa fa-plus-square"></i> Adicionar</button>');
     var $resource = $('<div class=" t-field-select control-group"></div>');
     var $resourceLabel = $('<label class="t-field-select__label" for="resource">Recurso(s)</label>');
     var $resourceInput = $('<div class="t-field-select__input resource-input"></div>');
