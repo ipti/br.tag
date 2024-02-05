@@ -127,7 +127,7 @@ class AdminController extends Controller
             if (!isset($modelValidate)) {
                 $model->attributes = $_POST['Users'];
                 if ($model->validate()) {
-                    $password = md5($_POST['Users']['password']);
+                    $password = password_hash($_POST['Users']['password'], PASSWORD_BCRYPT, ['cost' => 6]);
 
                     $model->password = $password;
                     // form inputs are valid, do something here
