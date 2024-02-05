@@ -159,6 +159,8 @@ class GradesController extends Controller
         $students = $_POST['students'];
         $rule = $_POST['rule'];
 
+        var_dump($students);
+
         foreach ($students as $std) {
             $mediaFinal = 0;
             $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $std['enrollmentId'], "discipline_fk" => $discipline]);
