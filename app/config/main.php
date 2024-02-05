@@ -32,7 +32,7 @@ if (YII_DEBUG) {
             'class' => 'CProfileLogRoute',
             'showInFireBug' => true,
             'report' => 'summary',
-        ),
+        )
     );
 }
 
