@@ -2,14 +2,42 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/sass/css/main.css');
+
+$turns = ["Manhã", "Tarde", "Noite", "Integral"];
 ?>
 <style>
+     table {
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        font-size: 14px;
+        border: 1.5px solid black;
+    }
     .background-dark {
         background-color: lightgray;
     }
 
     .font-bold {
         font-weight: bold;
+    }
+    h2 {
+        font-size: 16px;
+        color: #252A31;
+    }
+    .pageA4H {
+        width: 1122px;
+        height: auto;
+        margin: 0 auto;
+    }
+    .text-center {
+        text-align: center !important;
+    }
+    .table .subtitle {
+        font-size: 14px;
+        color: #252A31;
+        background-color: lightgray !important;
     }
 
     @media print {
@@ -24,8 +52,63 @@ $cs->registerCssFile($baseUrl . '/sass/css/main.css');
     </a>
 </div>
 <div id="page" class="pageA4H">
+    <h2 id="title-page" class="text-center">
+        SECRETARIA MUNICIPAL DE EDUCAÇÃO <br>
+        DEPARTAMENTO DA ALIMENTAÇÃO ESCOLAR - DAE
+    </h2>
     <div class="row t-margin-medium--top">
-        
+        <?php
+        //CVarDumper::dump($foodIngredientsList[0]["turn"], 12, true);
+        ?>
+        <table aria-describedby="title-page" class="column table table-bordered">
+            <thead class="background-dark font-bold">
+            <tr>
+                    <th id="title" colspan="2" class="text-center">
+                        <div>SECRETARIA MUNICIPAL DE
+                            <?= $schoolCity ?>
+                        </div>
+                        <br />
+                        <div>PROGRAMA NACIONAL DE ALIMENTAÇÃO ESCOLAR - PNAE</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    foreach ($turns as $turn):
+                ?>
+                <tr>
+                    <td class="text-center font-bold subtitle" colspan="2">
+                        Turno: <?= $turn ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="font-bold subtitle">Alimiento</td>
+                    <td class="font-bold subtitle">Quantidade</td>
+                </tr>
+
+
+                    <?php
+                        foreach ($foodIngredientsList as $foodItem):
+                    ?>
+
+                        <?php
+                            if($turn ==  $foodItem["turn"]):
+                        ?>
+                        <tr>
+                            <td><?= $foodItem["description"]?></td>
+                            <td><?= $foodItem["total"] . $foodItem["measure"] ?></td>
+                        </tr>
+                        <?php
+                            endif;
+                        ?>
+                    <?php
+                        endforeach;
+                    ?>
+                <?php
+                    endforeach;
+                ?>
+            </tbody>
+        </table>
     </div>
 </div>
 <script>

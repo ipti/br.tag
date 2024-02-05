@@ -31,6 +31,36 @@ class FoodMenuService
 
         return Yii::app()->db->createCommand($sql)->bindParam(':id', $id)->queryAll();
     }
+    public function getFoodIngredientsList()
+    {
+
+        date_default_timezone_set('America/Bahia');
+        $date = date('Y-m-d', time());
+
+        $sql = "SELECT
+        CASE
+            WHEN fmm.turn = 'M' THEN 'Manhã'
+            WHEN fmm.turn = 'T' THEN 'Tarde'
+            WHEN fmm.turn = 'N' THEN 'Noite'
+            ELSE ''
+        END AS turn,
+        fi.food_id_fk,
+        f.description,
+        fm2.measure,
+        SUM(fi.amount) as total_amount,
+        SUM(fm2.value) as total_value,
+        SUM((fi.amount * fm2.value)) as total
+        FROM food_menu fm
+        JOIN food_menu_meal fmm ON fmm.food_menuId = fm.id
+        JOIN food_menu_meal_component fmmc ON fmm.id = fmmc.food_menu_mealId
+        JOIN food_ingredient fi ON fmmc.id = fi.food_menu_meal_componentId
+        JOIN food_measurement fm2 ON fm2.id = fi.food_measurement_fk
+        JOIN food f ON f.id = fi.food_id_fk
+        WHERE fm.start_date <= :date AND fm.final_date >= :date
+        GROUP BY turn, fi.food_id_fk;";
+
+        return Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
+    }
     public function getNutritionalValue($id)
     {
         $nutritionalValue = array();
@@ -183,7 +213,7 @@ class FoodMenuService
             $foodIngredient->validate();
             CVarDumper::dump($foodIngredient->getErrors());
             $saveIngredientResult = $foodIngredient->save();
-            
+
 
 
             if ($saveIngredientResult === false) {

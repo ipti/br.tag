@@ -49,35 +49,35 @@ function renderMeals(mealsParam) {
 
     let cards = []
     cards = mealsParam.monday.map((meal) => {
-        return meal.meals_component.reduce((accumulator, meal_component) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
             return accumulator + createCard(meal_component, meal, 1);
         }, '')
 
     })
     containerCards.append(cards)
     cards = mealsParam.tuesday.map((meal) => {
-        return meal.meals_component.reduce((accumulator, meal_component) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
             return accumulator + createCard(meal_component, meal, 2);
         }, '')
 
     })
     containerCards.append(cards)
     cards = mealsParam.wednesday.map((meal) => {
-        return meal.meals_component.reduce((accumulator, meal_component) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
             return accumulator + createCard(meal_component, meal, 3);
         }, '')
 
     })
     containerCards.append(cards)
     cards = mealsParam.thursday.map((meal) => {
-        return meal.meals_component.reduce((accumulator, meal_component) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
             return accumulator + createCard(meal_component, meal, 4);
         }, '')
 
     })
     containerCards.append(cards)
     cards = mealsParam.friday.map((meal) => {
-        return meal.meals_component.reduce((accumulator, meal_component) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
             return accumulator + createCard(meal_component, meal, 5);
         }, '')
 
@@ -104,7 +104,7 @@ function createCard(meal_component, meal, dayMeal) {
             turn = ""
     }
     igredients = meal_component.ingredients.map((item) => {
-        return  item.amount + ' ' + item.food_name.replace(/,/g, '');
+        return  item.amount + ' ' + item.foodName.replace(/,/g, '');
     })
     return `<div class="t-cards ${dayMeal != day ? "hide" : ""}"  style=" max-width: none;" data-public-target="${meal.food_public_target_id}" data-turn="${turn}">
                 <div class="t-cards-content">
