@@ -1,3 +1,11 @@
+## [Versão 3.68.107]
+- Corrigido condição para mostrar as habilidades do plano de aula.
+- Excluido * a mais da tela de plano de aulas.
+
+## [Versão 3.68.106]
+- Corrigindo a disposição de unidades de lançamento de notas de búzios, permitindo que sejam adicionadas not
+as maiores de 10 em lançamento de notas e adicionada a verificação de recuperação final
+
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
 
