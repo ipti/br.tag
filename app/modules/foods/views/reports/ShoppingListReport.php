@@ -14,6 +14,7 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
     td {
         font-size: 14px;
         border: 1.5px solid black;
+        padding: 8px !important;
     }
     .background-dark {
         background-color: lightgray;
@@ -82,7 +83,7 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
                     </td>
                 </tr>
                 <tr>
-                    <td class="font-bold subtitle">Alimiento</td>
+                    <td class="font-bold subtitle">Alimento</td>
                     <td class="font-bold subtitle">Quantidade</td>
                 </tr>
 
