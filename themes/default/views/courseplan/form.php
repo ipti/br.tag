@@ -204,7 +204,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </form>
     </div>
 </div>
-<?php $this->endWidget(); ?>
+
 
 <div class="modal fade modal-content" id="js-createResource" tabindex="-1" role="dialog">
     <div modal="modal-dialog" role="document">
@@ -217,20 +217,24 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <form method="post">
             <input type="hidden" class="course-class-index">
             <div class="modal-body">
-
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal">Cancelar
-                </button>
-                <button type="button" class="btn btn-primary js-add-selected-abilities"
-                        data-dismiss="modal">Adicionar
-                </button>
-            </div>
+                <?php echo CHtml::label(yii::t('default', 'Add Resource') , array('class' => 'control-label t-field-text__label--required')); ?>
+                <div class="row">
+                    <?php echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Plano')); ?>
+                    <button class="t-button-secondary add-new-resource" style="margin: 0px">Adicionar</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary js-add-selected-resources"
+                            data-dismiss="modal">Adicionar
+                    </button>
+                </div>
             </div>
         </form>
     </div>
 </div>
+<?php $this->endWidget(); ?>
 
 <style>
 .select2-container .select2-choice {

@@ -200,7 +200,10 @@ $(document).on("click", ".add-abilities", function (e) {
     $("#js-selectAbilities").modal("show");
 });
 
-$(document).on("click", ".add-resource", func)
+$(document).on("click", ".add-resource", function(e){
+    e.preventDefault();
+    $('#js-createResource').modal("show");
+})
 
 $(document).on("click", ".ability-panel-option", function() {
     if ($(this).closest(".js-abilities-panel").length) {

@@ -92,14 +92,14 @@ function format(d) {
 
     var $ability = $('<div class="control-group courseplan-ability-container"></div>');
     var $abilityLabel = $('<label class="" for="course-class[' + d.class + '][ability][]">Habilidade(s)</label>');
-    var $abilityButton = $('<button class="btn btn-success add-abilities" style="height: 28px;" ><i class="fa fa-plus-square"></i> Adicionar</button>');
+    var $abilityButton = $('<button class="t-button-primary add-abilities" style="height: 28px;" ><i class="fa fa-plus-square"></i> Adicionar</button>');
     var $abilitiesContainer = $('<div class="courseplan-abilities-selected">');
 
     var $type = $('<div class="t-field-select courseplan-type-container"></div>');
     var $typeLabel = $('<label class="t-field-select__label" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
     var $typeInput = $('<select class="t-field-select__input type-select" name="course-class[' + d.class + '][type][]" multiple>' + $(".js-all-types")[0].innerHTML + '</select>');
 
-    var $resourceButton = $('<button class="btn btn-success add-resource" style="height: 28px;" ><i class="fa fa-plus-square"></i> Adicionar</button>');
+    var $resourceButton = $('<button class="t-button-primary add-resource" style="height: 28px;" ><i class="fa fa-plus-square"></i> Adicionar recurso</button>');
     var $resource = $('<div class=" t-field-select control-group"></div>');
     var $resourceLabel = $('<label class="t-field-select__label" for="resource">Recurso(s)</label>');
     var $resourceInput = $('<div class="t-field-select__input resource-input"></div>');
@@ -150,6 +150,7 @@ function format(d) {
     $resource.append($resourceLabel);
     $resource.append($resourceInput);
     $resource.append($resources);
+    $resource.append($resourceButton);
     $type.append($typeLabel);
     $type.append($typeInput);
     $column1.append($objective);
@@ -164,6 +165,10 @@ function format(d) {
 
     return $div;
 }
+
+$(document).on('click', '.add-new-resource', function(){
+    $('CoursePlan_name')
+})
 
 function addResource(button) {
     var div = $(button).parent();
