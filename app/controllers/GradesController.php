@@ -386,11 +386,6 @@ class GradesController extends Controller
             $result["students"] = [];
             foreach ($studentEnrollments as $studentEnrollment) {
 
-                // TODO: Mudar lógica de criação de tabela para turmas multiseriadas
-                // $stage = isset($studentEnrollment->edcenso_stage_vs_modality_fk)
-                //     ? $studentEnrollment->edcenso_stage_vs_modality_fk :
-                //     $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk;
-
                 $unities = GradeUnity::model()->findAll(
                     "edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)",
                     [
@@ -407,10 +402,8 @@ class GradesController extends Controller
                         "params" => [":stageId" => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk]
                     ]
                 );
-                if($rules->rule_type == "C") {
-                    $concepts = GradeConcept::model()->findAll();
-                    $result["concepts"] = CHtml::listData($concepts, 'id', 'name');
-                }
+                $concepts = GradeConcept::model()->findAll();
+                $result["concepts"] = CHtml::listData($concepts, 'id', 'name');
 
                 $arr = [];
                 $arr["enrollmentId"] = $studentEnrollment->id;
