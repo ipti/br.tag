@@ -269,6 +269,7 @@ class GradesController extends Controller
                 }
             } else {
                 $gradeResult->situation = "MATRICULADO";
+                $gradeResult->final_media = null;
             }
 
             if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
