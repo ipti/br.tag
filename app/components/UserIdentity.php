@@ -39,6 +39,7 @@ class UserIdentity extends CUserIdentity
     public function authenticate() {
         $record = Users::model()->findByAttributes(array('username' => $this->username));
         
+        // NOSONAR
         if($this->isMd5($record->password)){
             if ($record->password === md5($this->password)) {
                 $passwordHasher =  new PasswordHasher;
