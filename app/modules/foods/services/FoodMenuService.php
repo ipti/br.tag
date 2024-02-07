@@ -33,6 +33,7 @@ class FoodMenuService
     }
     public function getFoodIngredientsList()
     {
+        $result = array();
 
         date_default_timezone_set('America/Bahia');
         $date = date('Y-m-d', time());
@@ -59,7 +60,55 @@ class FoodMenuService
         WHERE fm.start_date <= :date AND fm.final_date >= :date
         GROUP BY turn, fi.food_id_fk;";
 
-        return Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
+        $foods =  Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
+
+        $sql = "SELECT
+        COUNT(*) as total_students,
+        CASE
+            WHEN c.turn = 'M' THEN 'Manhã'
+            WHEN c.turn = 'T' THEN 'Tarde'
+            WHEN c.turn = 'N' THEN 'Noite'
+            WHEN c.turn = 'I' THEN 'Integral'
+            ELSE ''
+        END AS turn
+    FROM
+        student_enrollment
+        INNER JOIN classroom as c ON student_enrollment.classroom_fk = c.id
+    WHERE
+        (status IN (1, 6, 7, 8, 9, 10) OR status IS NULL) AND
+        (c.school_year = :user_year AND student_enrollment.school_inep_id_fk = :user_school)
+    GROUP BY
+        c.turn;
+    ";
+
+        $students = Yii::app()->db->createCommand($sql)
+            ->bindParam(':user_year', Yii::app()->user->year)
+            ->bindParam(':user_school', Yii::app()->user->school)->queryAll();
+
+        if ($students != null && $foods != null) {
+            foreach ($foods as $food) {
+                // verifica se tem alunos nesse turno
+                $turn = $food["turn"];
+                $studentsTurn = array_filter($students, function($item) use ($turn) {
+                    return $item['turn'] === $turn;
+                });
+
+                 CVarDumper::dump($studentsTurn[0]["total_students"], 13, true);
+               /* CVarDumper::dump($studentsTurn, 13, true); */
+                if(!empty($studentsTurn)){
+                    array_push($result, [
+                        "name"=>$food["description"],
+                        "total"=> ((float)$food["total"] * (float)$studentsTurn[0]["total_students"]),
+                        "measure" => $food["measure"]
+                    ]);
+                }
+            }
+        }
+
+        CVarDumper::dump($foods, 13, true);
+        CVarDumper::dump($students, 13, true);
+        CVarDumper::dump($result, 13, true);
+        return '';
     }
     public function getNutritionalValue($id)
     {
