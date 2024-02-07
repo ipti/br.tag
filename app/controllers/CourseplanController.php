@@ -290,6 +290,10 @@ class CourseplanController extends Controller
         $this->redirect(array('index'));
     }
 
+    public function actionAddResources(){
+        // $resources = Yii::app->request->getPost('name');
+    }
+
     /**
      * Delete model.
      */

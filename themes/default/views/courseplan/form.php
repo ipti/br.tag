@@ -214,19 +214,23 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </button>
             <h4 class="modal-title" id="modalLabelResources">Adicionar Recurso</h4>
         </div>
-        <form method="post">
+        <form>
             <input type="hidden" class="course-class-index">
             <div class="modal-body">
                 <?php echo CHtml::label(yii::t('default', 'Add Resource') , array('class' => 'control-label t-field-text__label--required')); ?>
                 <div class="row">
-                    <?php echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Plano')); ?>
-                    <button class="t-button-secondary add-new-resource" style="margin: 0px">Adicionar</button>
+                    <?php
+                        $newResource = new CourseClassResources();
+                        echo $form->textField($newResource, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input new-resource', 'placeholder' => 'Digite o Nome do Plano'));
+                    ?>
+                    <button class="t-button-secondary confirm-new-resource" style="margin: 0px">Adicionar</button>
                 </div>
+                <div class="new-resources-table t-accordeon-primary"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal">Cancelar
                     </button>
-                    <button type="button" class="btn btn-primary js-add-selected-resources"
+                    <button type="button" class="btn btn-primary js-add-selected-resources save-new-resources save-new-resources"
                             data-dismiss="modal">Adicionar
                     </button>
                 </div>

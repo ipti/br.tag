@@ -99,7 +99,7 @@ function format(d) {
     var $typeLabel = $('<label class="t-field-select__label" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
     var $typeInput = $('<select class="t-field-select__input type-select" name="course-class[' + d.class + '][type][]" multiple>' + $(".js-all-types")[0].innerHTML + '</select>');
 
-    var $resourceButton = $('<button class="t-button-primary add-resource" style="height: 28px;" ><i class="fa fa-plus-square"></i> Adicionar recurso</button>');
+    var $resourceButton = $('<button class="t-button-primary add-new-resource" style="height: 28px;" ><i class="fa fa-plus-square"></i>Adicionar recursos</button>');
     var $resource = $('<div class=" t-field-select control-group"></div>');
     var $resourceLabel = $('<label class="t-field-select__label" for="resource">Recurso(s)</label>');
     var $resourceInput = $('<div class="t-field-select__input resource-input"></div>');
@@ -166,9 +166,21 @@ function format(d) {
     return $div;
 }
 
-$(document).on('click', '.add-new-resource', function(){
-    $('CoursePlan_name')
-})
+function addNewResources(){
+    const newResource = $('.new-resource');
+    const divResources = $('.new-resources-table');
+    const closeBt = '<span class="remove-new-resource"><i class="t-icon-close"></i></span></div>';
+    const newDivResource = `<div class='row ui-accordion-content'>${newResource.val()} ${closeBt}`;
+
+    divResources.append(newDivResource);
+
+    console.log(newResource.val());
+}
+
+function removeNewResource(button){
+    // const parentNode = button.parent();
+    console.log(button.parentNode);
+}
 
 function addResource(button) {
     var div = $(button).parent();
