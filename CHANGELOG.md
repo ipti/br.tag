@@ -1,3 +1,14 @@
+## [Versão 3.69.107]
+- Renomeado head dos relatórios para o municipio de Poço Dantas.
+
+## [Versão 3.69.106]
+- Adicionado atualização de documentos e endereço do aluno com base na identificação (id).
+- Adicionado bcrypt para autenticação de usuários
+- Adicionado bcrypt na criação do instrutor
+- Adicionado classe PasswordHasher
+- Adicionado bcrypt para criação de usuários admins
+- Adicionado bcrypt para criação de usuários
+
 ## [Versão 3.68.106]
 - Corrigindo a disposição de unidades de lançamento de notas de búzios, permitindo que sejam adicionadas not
 as maiores de 10 em lançamento de notas e adicionada a verificação de recuperação final
