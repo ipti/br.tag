@@ -1,3 +1,7 @@
+## [Versão 3.69.108]
+- Modificando o estilo do botão dos botões de movimentações na tabela de estoque
+- Escondendo o botão de solicitacoes na tela de estoque
+
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
 
