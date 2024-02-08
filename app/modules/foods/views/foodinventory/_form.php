@@ -35,7 +35,7 @@ $form=$this->beginWidget('CActiveForm', array(
 
     <div class="row t-buttons-container">
         <a class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</a>
-        <a class="t-button-primary" href="?r=foods/foodRequest/create">Solicitações</a>
+        <a class="t-button-primary hide" href="?r=foods/foodRequest/create">Solicitações</a>
         <a class="t-button-secondary hide"><span class="t-icon-printer"></span>Relatório de Estoque</a>
     </div>
     <div class="row">
