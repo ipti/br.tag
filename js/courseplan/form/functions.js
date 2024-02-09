@@ -96,8 +96,8 @@ function format(d) {
     var $abilitiesContainer = $('<div class="courseplan-abilities-selected">');
 
     var $type = $('<div class="t-field-select courseplan-type-container"></div>');
-    var $typeLabel = $('<label class="t-field-select__label" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
-    var $typeInput = $('<select class="t-field-select__input type-select" name="course-class[' + d.class + '][type][]" multiple>' + $(".js-all-types")[0].innerHTML + '</select>');
+    var $typeLabel = $('<label class="" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
+    var $typeInput = $('<input class="t-field-text__input" name="course-class[' + d.class + '][type][]">' + $(".js-all-types")[0].innerHTML + '</input>');
 
     var $resourceButton = $('<button class="t-button-primary add-new-resource" style="height: 28px;" ><i class="fa fa-plus-square"></i>Adicionar recursos</button>');
     var $resource = $('<div class=" t-field-select control-group"></div>');
@@ -166,20 +166,35 @@ function format(d) {
     return $div;
 }
 
+const newResources = Array();
+
 function addNewResources(){
     const newResource = $('.new-resource');
     const divResources = $('.new-resources-table');
     const closeBt = '<span class="remove-new-resource"><i class="t-icon-close"></i></span></div>';
     const newDivResource = `<div class='row ui-accordion-content'>${newResource.val()} ${closeBt}`;
-
     divResources.append(newDivResource);
-
-    console.log(newResource.val());
+    newResources.push(newResource.val());
 }
 
 function removeNewResource(button){
-    // const parentNode = button.parent();
-    console.log(button.parentNode);
+    const parentNode = button.parentNode;
+    console.log(parentNode);
+    parentNode.remove();
+}
+
+function saveNewResources(){
+    $.ajax({
+        type: "POST",
+        url: "?=courseplan/addResources",
+        cache: false,
+        data: {
+            resources: newResources,
+        },
+        beforeSend: function () {
+
+        }
+    })
 }
 
 function addResource(button) {
