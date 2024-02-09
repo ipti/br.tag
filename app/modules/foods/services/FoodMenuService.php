@@ -60,7 +60,7 @@ class FoodMenuService
         WHERE fm.start_date <= :date AND fm.final_date >= :date
         GROUP BY turn, fi.food_id_fk;";
 
-        $foods =  Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
+        $foods = Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
 
         $sql = "SELECT
         COUNT(*) as total_students,
@@ -89,26 +89,27 @@ class FoodMenuService
             foreach ($foods as $food) {
                 // verifica se tem alunos nesse turno
                 $turn = $food["turn"];
-                $studentsTurn = array_filter($students, function($item) use ($turn) {
-                    return $item['turn'] === $turn;
-                });
 
-                 CVarDumper::dump($studentsTurn[0]["total_students"], 13, true);
-               /* CVarDumper::dump($studentsTurn, 13, true); */
-                if(!empty($studentsTurn)){
+                $studentsTurn = null;
+
+                foreach ($students as $elemento) {
+                    if ($elemento['turn'] == $turn) {
+                        $studentsTurn = $elemento;
+                        break; // Se encontrado, podemos parar o loop
+                    }
+                }
+                if ($studentsTurn != null) {
                     array_push($result, [
-                        "name"=>$food["description"],
-                        "total"=> ((float)$food["total"] * (float)$studentsTurn[0]["total_students"]),
+                        "name" => $food["description"],
+                        "total" => ($food["total"] * $studentsTurn["total_students"]),
                         "measure" => $food["measure"]
                     ]);
+                    CVarDumper::dump(($food["total"] ." ".$studentsTurn["total_students"]), 13, true);
                 }
             }
         }
-
-        CVarDumper::dump($foods, 13, true);
-        CVarDumper::dump($students, 13, true);
-        CVarDumper::dump($result, 13, true);
-        return '';
+                CVarDumper::dump($result, 13, true);
+        return $result;
     }
     public function getNutritionalValue($id)
     {

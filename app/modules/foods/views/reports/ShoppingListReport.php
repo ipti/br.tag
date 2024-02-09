@@ -112,6 +112,9 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
         </table>
     </div>
 </div>
+<?php
+    //  CVarDumper::dump($result, 13, true);
+?>
 <script>
     function imprimirPagina() {
         window.print();

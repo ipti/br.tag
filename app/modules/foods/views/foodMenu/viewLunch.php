@@ -29,7 +29,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             <span class="t-info_positive"></span>
             <?php echo $students ?>  Alunos Presentes
         </div> -->
-        <?php //CVarDumper::dump($studentsByTurn, 12, true)?>
+        <?php CVarDumper::dump($studentsByTurn, 12, true)?>
     </div>
     <div class="t-buttons-container">
         <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
