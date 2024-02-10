@@ -1,3 +1,8 @@
+## [Versão 3.68.106]
+- Calendário ajustado para permitir sua extensão para ano(s) seguinte(s).
+- Eventos de início e fim de ano letivo removidos. O intervalo letivo será definido no momento da criação/edição do calendário.
+- Adicionado seletor de calendário na turma. 
+
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
 
