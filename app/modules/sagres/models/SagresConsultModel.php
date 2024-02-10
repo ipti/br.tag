@@ -444,33 +444,34 @@ class SagresConsultModel
                 $inconsistencyModel->insert();
             }
 
-            if (strlen($serieType->getDescricao()) > $strMaxLength) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'SÉRIE';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'DESCRIÇÃO PARA A SÉRIE: ' . $serieType->getDescricao() . ' COM MAIS DE 50 CARACTERES';
-                $inconsistencyModel->action = 'FORNEÇA UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES';
-                $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->insert();
-            }
-
-            /* [1, 2, 3, 4]
-             * 1 - Educação Infantil -->
-             * 2 - Ensino Fundamental -->
-             * 3 - Ensino Médio -->
-             * 4 - Educação de Jovens e Adultos -->
-             */
-            if (!in_array($serieType->getModalidade(), [1, 2, 3, 4])) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'SÉRIE';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'MODALIDADE INVÁLIDA';
-                $inconsistencyModel->action = 'SELECIONE UMA MODALIDADE VÁLIDA PARA A SÉRIE';
-                $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->insert();
-            }
+                if (strlen($serieType->getDescricao()) > $strMaxLength) {
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = 'SÉRIE';
+                    $inconsistencyModel->school = '';
+                    $inconsistencyModel->description = 'DESCRIÇÃO PARA A SÉRIE: ' . $serieType->getDescricao() . ' COM MAIS DE 50 CARACTERES';
+                    $inconsistencyModel->action = 'FORNEÇA UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES';
+                    $inconsistencyModel->identifier = '10';
+                    $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->insert();
+                }
+    
+                /*
+                 * 1 - Educação Infantil
+                 * 2 - Ensino Fundamental
+                 * 3 - Ensino Médio
+                 * 4 - Educação de Jovens e Adultos
+                 * 5 - Atendimento Educacional Especializado
+                 */
+                if (!in_array($serieType->getModalidade(), [1, 2, 3, 4, 5])) {
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = 'SÉRIE';
+                    $inconsistencyModel->school = '';
+                    $inconsistencyModel->description = 'MODALIDADE INVÁLIDA';
+                    $inconsistencyModel->action = 'SELECIONE UMA MODALIDADE VÁLIDA PARA A SÉRIE';
+                    $inconsistencyModel->identifier = '10';
+                    $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->insert();
+                }
 
             $seriesList[] = $serieType;
         }
@@ -485,8 +486,8 @@ class SagresConsultModel
     public function getSchedules($classId, $month)
     {
         $scheduleList = [];
-        $strlen = 5;
-        $maxLength = 50;
+        $strlen = 3;
+        $maxLength = 100;
 
         $query = "SELECT DISTINCT
                     s.schedule AS schedule,
@@ -690,7 +691,9 @@ class SagresConsultModel
     {
         $menuList = [];
         $strlen = 4;
-        $query = "SELECT
+        $maxLen = 1000;
+
+        $query = "SELECT 
                     lm.date AS data,
                     lm.turn AS turno,
                     lm2.restrictions  AS descricaoMerenda,
@@ -738,6 +741,16 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'DESCRIÇÃO PARA MERENDA MENOR QUE 5 CARACTERES';
                 $inconsistencyModel->action = 'INFORMAR UMA DESCRIÇÃO PARA MERENDA MAIOR QUE 4 CARACTERES';
+                $inconsistencyModel->idSchool = $schoolId;
+                $inconsistencyModel->insert();
+            }
+
+            if (strlen($menuType->getDescricaoMerenda()) > $maxLen) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'CARDÁPIO';
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'DESCRIÇÃO PARA A MERENDA MAIOR QUE 1000 CARACTERES';
+                $inconsistencyModel->action = 'INFORMAR UMA DESCRIÇÃO PARA A MERENDA MENOR QUE 1000 CARACTERES';
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }

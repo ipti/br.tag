@@ -3,6 +3,7 @@ $(".js-save-menu").on("click", function () {
     if(form[0].checkValidity()) {
         let foodMenu = {
             "description": "",
+            "week": "",
             "food_public_target": "",
             "start_date": "",
             "final_date": "",
@@ -33,6 +34,7 @@ $(".js-save-menu").on("click", function () {
         foodMenu.food_public_target = $('select.js-public-target').val()
         foodMenu.start_date = $('.js-start-date').val()
         foodMenu.final_date = $('.js-final-date').val()
+        foodMenu.week = $('select.js-week').val()
         foodMenu.observation = $('.js-observation').val()
 
         //get meals
@@ -44,7 +46,7 @@ $(".js-save-menu").on("click", function () {
         foodMenu.friday = getMealsByDay(5)
         foodMenu.saturday = getMealsByDay(6)
 
-        // console.log(foodMenu)
+        //  console.log(foodMenu)
         if(menuId)
         {
             $.ajax({
