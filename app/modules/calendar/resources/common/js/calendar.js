@@ -109,7 +109,7 @@ function editCalendar(confirm) {
     }).success(function (data) {
         data = JSON.parse(data);
         if (data.valid) {
-            window.location.href = window.location.href;
+            window.location.reload();
         } else {
             $("#edit-calendar-modal").find(".alert").removeClass("alert-error").addClass("alert-" + DOMPurify.sanitize(data.alert)).html(DOMPurify.sanitize(data.message)).show();
         }
