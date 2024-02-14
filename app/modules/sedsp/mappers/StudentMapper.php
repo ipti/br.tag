@@ -268,6 +268,10 @@ class StudentMapper
         $inEnderecoResidencial->setInNumero($studentDocumentsAndAddressTag->number);
         $inEnderecoResidencial->setInBairro($studentDocumentsAndAddressTag->neighborhood);
 
+        if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+            $inEnderecoResidencial->setInCodMunicipioDne('9756');
+        }
+        
         $nameCidade = EdcensoCity::model()->findByPk($studentIdentificationTag->edcenso_city_fk);
 
         $inEnderecoResidencial->setInNomeCidade($nameCidade->name);
@@ -354,6 +358,7 @@ class StudentMapper
         $studentDocumentsAndAddress->id = $studentIdentification->id;
         $studentDocumentsAndAddress->cpf = $outDocumentos->getOutCpf();
         $studentDocumentsAndAddress->nis = $outDocumentos->getOutNumNis();
+        $studentDocumentsAndAddress->DNE_city_code = $outEnderecoResidencial->getOutCodMunicipioDne();
 
         $rgNumber = $outDocumentos->getOutNumDoctoCivil() + $outDocumentos->getOutDigitoDoctoCivil();
         $studentDocumentsAndAddress->rg_number = $rgNumber;
@@ -406,6 +411,7 @@ class StudentMapper
         $studentDocumentsAndAddress->neighborhood = $outEnderecoResidencial->getOutBairro();
         $studentDocumentsAndAddress->complement = $outEnderecoResidencial->getOutComplemento();
         $studentDocumentsAndAddress->cep = $outEnderecoResidencial->getOutCep();
+        $studentDocumentsAndAddress->DNE_city_code = $outEnderecoResidencial->getOutCodMunicipioDne();
         $studentDocumentsAndAddress->residence_zone = $outEnderecoResidencial->getOutAreaLogradouro() == "URBANA" ? 1 : 2;
 
         $studentDocumentsAndAddress->edcenso_uf_fk = intval(
