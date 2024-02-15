@@ -1,5 +1,6 @@
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
+- Foi adicionado o envio do código do município para atender à recente exigência da SEDSP
 
 ## [Versão 3.68.104]
 - Adicionado a opção Ensino Fundamental dentro da escolaridade na tela de alunos.
