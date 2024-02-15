@@ -267,7 +267,7 @@ class StudentMapper
         $inEnderecoResidencial->setInLogradouro($studentDocumentsAndAddressTag->address);
         $inEnderecoResidencial->setInNumero($studentDocumentsAndAddressTag->number);
         $inEnderecoResidencial->setInBairro($studentDocumentsAndAddressTag->neighborhood);
-        $inEnderecoResidencial->setInCodMunicipioDne('9756');
+        $inEnderecoResidencial->setInCodMunicipioDne('9756'); // Código Ubatuba
         
         
         $nameCidade = EdcensoCity::model()->findByPk($studentIdentificationTag->edcenso_city_fk);
