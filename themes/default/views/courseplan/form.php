@@ -230,7 +230,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal">Cancelar
                     </button>
-                    <button type="button" class="btn btn-primary js-add-selected-resources save-new-resources save-new-resources"
+                    <button type="button" class="btn btn-primary js-add-selected-resources save-new-resources"
                             data-dismiss="modal">Adicionar
                     </button>
                 </div>

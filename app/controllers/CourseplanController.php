@@ -30,7 +30,7 @@ class CourseplanController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'index', 'delete',
-                    'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure', 'getAbilitiesNextStructure'),
+                    'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure', 'getAbilitiesNextStructure', 'addResources'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -291,7 +291,9 @@ class CourseplanController extends Controller
     }
 
     public function actionAddResources(){
-        // $resources = Yii::app->request->getPost('name');
+        $resources = Yii::app()->request->getPost('resources');
+
+        // var_dump($resources);
     }
 
     /**

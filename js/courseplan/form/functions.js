@@ -179,20 +179,23 @@ function addNewResources(){
 
 function removeNewResource(button){
     const parentNode = button.parentNode;
-    console.log(parentNode);
+    // console.log(parentNode);
     parentNode.remove();
 }
 
 function saveNewResources(){
     $.ajax({
         type: "POST",
-        url: "?=courseplan/addResources",
+        url: "?r=courseplan/addResources",
         cache: false,
         data: {
             resources: newResources,
         },
-        beforeSend: function () {
-
+        success: function(data){
+            const elements = document.getElementsByClassName('new-resources-table')[0].children;
+            for(let i = 0;i < elements.length ;i++){
+                elements[i].remove();
+            }
         }
     })
 }
