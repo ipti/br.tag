@@ -48,6 +48,7 @@ class FoodMenuService
         fi.food_id_fk,
         f.description,
         fm2.measure,
+        f.id,
         SUM(fi.amount) as total_amount,
         SUM(fm2.value) as total_value,
         SUM((fi.amount * fm2.value)) as total
@@ -84,31 +85,38 @@ class FoodMenuService
         $students = Yii::app()->db->createCommand($sql)
             ->bindParam(':user_year', Yii::app()->user->year)
             ->bindParam(':user_school', Yii::app()->user->school)->queryAll();
+             $studentsTurn = ['Manhã' => '0', 'Tarde' => '0', 'Noite' => '0', 'Integral' => '0'];
+
+            foreach ($students as $element) {
+                $turn = $element['turn'];
+                $totalStudents = $element['total_students'];
+
+
+                $studentsTurn[$turn] = $totalStudents;
+
+            }
 
         if ($students != null && $foods != null) {
             foreach ($foods as $food) {
                 // verifica se tem alunos nesse turno
                 $turn = $food["turn"];
 
-                $studentsTurn = null;
-
-                foreach ($students as $elemento) {
-                    if ($elemento['turn'] == $turn) {
-                        $studentsTurn = $elemento;
-                        break; // Se encontrado, podemos parar o loop
+                    $idFood = $food["id"];
+                    if (!array_key_exists($idFood, $result)) {
+                        $result[$idFood] = array(
+                            'id' => $idFood,
+                            'name' => str_replace(',', '', $food["description"]),
+                            'total' => 0, // Inicializa o total como 0
+                            'measure' => $food["measure"]
+                        );
                     }
-                }
-                if ($studentsTurn != null) {
-                    array_push($result, [
-                        "name" => $food["description"],
-                        "total" => ($food["total"] * $studentsTurn["total_students"]),
-                        "measure" => $food["measure"]
-                    ]);
-                    CVarDumper::dump(($food["total"] ." ".$studentsTurn["total_students"]), 13, true);
-                }
+                    //CVarDumper::dump($food["total"]." * ".$studentsTurn[$turn] ." + ". $food["total"] . " * ". $studentsTurn["Integral"], 13, true);
+                    // Atualiza o total
+                    $result[$idFood]['total'] += ($food["total"] * $studentsTurn[$turn]) + ($food["total"] *$studentsTurn["Integral"]);
+
             }
         }
-                CVarDumper::dump($result, 13, true);
+                //   CVarDumper::dump($result, 13, true);
         return $result;
     }
     public function getNutritionalValue($id)

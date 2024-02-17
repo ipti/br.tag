@@ -206,7 +206,15 @@ class FoodmenuController extends Controller
      */
     public function actionViewLunch()
     {
-        $sql = "SELECT COUNT(*) as total_students, c.turn
+        $result = ['Manhã' => '0', 'Tarde' => '0', 'Noite' => '0', 'Integral' => '0'];
+        $sql = "SELECT COUNT(*) as total_students,
+        CASE
+            WHEN c.turn = 'M' THEN 'Manhã'
+            WHEN c.turn = 'T' THEN 'Tarde'
+            WHEN c.turn = 'N' THEN 'Noite'
+            WHEN c.turn = 'I' THEN 'Integral'
+            ELSE ''
+        END AS turn
         FROM student_enrollment
         inner JOIN classroom as c ON student_enrollment.classroom_fk = c.id
         WHERE
@@ -220,8 +228,17 @@ class FoodmenuController extends Controller
             ->bindParam(':user_year', Yii::app()->user->year)
             ->bindParam(':user_school', Yii::app()->user->school)->queryAll();
 
+        foreach ($sql as $element) {
+            $turn = $element['turn'];
+            $totalStudents = $element['total_students'];
+
+
+            $result[$turn] = $totalStudents;
+
+        }
+
         $this->render('viewLunch', array(
-            "studentsByTurn" => $sql
+            "studentsByTurn" => $result
         ));
         Yii::app()->end();
     }

@@ -87,7 +87,6 @@ function renderMeals(mealsParam) {
 
 
 function createCard(meal_component, meal, dayMeal) {
-    // console.log(meal_component, meal)
     const day = $('.js-day-tab.active').attr("data-day-of-week")
     let turn = ""
     switch (meal.turn) {
@@ -106,18 +105,18 @@ function createCard(meal_component, meal, dayMeal) {
     igredients = meal_component.ingredients.map((item) => {
         return  item.amount + ' ' + item.foodName.replace(/,/g, '');
     })
-    return `<div class="t-cards ${dayMeal != day ? "hide" : ""}"  style=" max-width: none;" data-public-target="${meal.food_public_target_id}" data-turn="${turn}">
+    return `<div class="t-cards ${dayMeal != day ? "hide" : ""}"  style=" max-width: none;" data-public-target="${meal.foodPublicTargetId}" data-turn="${turn}">
                 <div class="t-cards-content">
                     <div class="mobile-row wrap">
                         <div style="margin:5px;" class="t-tag-primary clear-margin--left">
-                            ${meal.food_meal_type_description}
+                            ${meal.foodMealTypeDescription}
                         </div>
                         <div style="margin:5px;" class="t-tag-secundary">
                             ${turn
         }
                         </div>
                         <div style="margin:5px;" class="t-tag-secundary">
-                            ${meal.food_public_target_name}
+                            ${meal.foodPublicTargetName}
                         </div>
                     </div>
                     <div class="t-cards-title">${meal_component.description}</div>
@@ -126,6 +125,5 @@ function createCard(meal_component, meal, dayMeal) {
             </div>`
 }
 $(".js-expansive-panel").on("click", function () {
-    console.log($(".t-expansive-panel"))
     $(".t-expansive-panel").toggle("expanded");
 })

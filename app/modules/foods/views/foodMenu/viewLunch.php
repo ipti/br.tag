@@ -25,11 +25,22 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
         </div>
     </div>
     <div class="row">
-       <!--  <div class="t-badge-info t-margin-none--left">
+        <div class="t-badge-info t-margin-none--left">
             <span class="t-info_positive"></span>
-            <?php echo $students ?>  Alunos Presentes
-        </div> -->
-        <?php CVarDumper::dump($studentsByTurn, 12, true)?>
+            Alunos Manhã: <?php echo $studentsByTurn["Manhã"] ?>
+        </div>
+        <div class="t-badge-info t-margin-none--left">
+            <span class="t-info_positive"></span>
+            Alunos Tarde: <?php echo $studentsByTurn["Tarde"] ?>
+        </div>
+        <div class="t-badge-info t-margin-none--left">
+            <span class="t-info_positive"></span>
+            Alunos Noite: <?php echo $studentsByTurn["Noite"] ?>
+        </div>
+        <div class="t-badge-info t-margin-none--left">
+            <span class="t-info_positive"></span>
+            Alunos Integral: <?php echo $studentsByTurn["Integral"] ?>
+        </div>
     </div>
     <div class="t-buttons-container">
         <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">

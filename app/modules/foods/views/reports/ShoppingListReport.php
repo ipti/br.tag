@@ -74,14 +74,6 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
                 </tr>
             </thead>
             <tbody>
-                <?php
-                    foreach ($turns as $turn):
-                ?>
-                <tr>
-                    <td class="text-center font-bold subtitle" colspan="2">
-                        Turno: <?= $turn ?>
-                    </td>
-                </tr>
                 <tr>
                     <td class="font-bold subtitle">Alimento</td>
                     <td class="font-bold subtitle">Quantidade</td>
@@ -92,22 +84,14 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
                         foreach ($foodIngredientsList as $foodItem):
                     ?>
 
-                        <?php
-                            if($turn ==  $foodItem["turn"]):
-                        ?>
+
                         <tr>
-                            <td><?= $foodItem["description"]?></td>
+                            <td><?= $foodItem["name"]?></td>
                             <td><?= $foodItem["total"] . $foodItem["measure"] ?></td>
                         </tr>
-                        <?php
-                            endif;
-                        ?>
                     <?php
                         endforeach;
                     ?>
-                <?php
-                    endforeach;
-                ?>
             </tbody>
         </table>
     </div>
