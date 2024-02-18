@@ -1,3 +1,7 @@
+
+## [Versão 3.68.106]
+- Corrigindo relatório de ficha individual de aluno, que estava apresentando informações incorretas ou desnecessárias
+
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
 
