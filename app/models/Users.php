@@ -46,7 +46,7 @@ class Users extends AltActiveRecord
 			array('hash', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>150),
 			array('username', 'length', 'max'=>32),
-			array('password', 'length', 'min' => 6, 'max'=>45, 'tooShort' => 'A senha deve ter pelo menos 6 caracteres.'),
+			array('password', 'length', 'min' => 6, 'max'=>60, 'tooShort' => 'A senha deve ter pelo menos 6 caracteres.'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, name, username, password, active', 'safe', 'on'=>'search'),
