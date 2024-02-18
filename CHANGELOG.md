@@ -11,6 +11,12 @@ as maiores de 10 em lançamento de notas e adicionada a verificação de recuper
 
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
+- Adicionado atualização de documentos e endereço do aluno com base na identificação (id).
+- Adicionado bcrypt para autenticação de usuários
+- Adicionado bcrypt na criação do instrutor
+- Adicionado classe PasswordHasher
+- Adicionado bcrypt para criação de usuários admins
+- Adicionado bcrypt para criação de usuários
 
 ## [Versão 3.68.104]
 - Adicionado a opção Ensino Fundamental dentro da escolaridade na tela de alunos.
