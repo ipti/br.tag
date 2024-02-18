@@ -1,4 +1,4 @@
-$(document).on("click", ".load-more", function () {
+$(document).on("click", ".info-list", function () {
     $.ajax({
         type: 'GET',
         url: loadMoreLogs,
@@ -9,11 +9,34 @@ $(document).on("click", ".load-more", function () {
 
             $(".no-recent-activitive").remove();
 
-            $(data).insertBefore(".load-more");
-            if ($(".log").length >= $(".eggs").find(".widget").attr("total")) {
-                $(".load-more").hide();
+            $(data).insertBefore(".info-list");
+            if ($(".log").length >= $(".eggs").find(".log-widget").attr("total")) {
+                $(".info-list").hide();
             }
             $(".log").each(function () {
+                $(this).find(".t-info_positive").html("<i></i>" + changeNameLength($(this).find(".t-info_positive").text(), 100));
+
+            });
+        }
+    });
+});
+
+$(document).on("click", ".warn-list", function () {
+    $.ajax({
+        type: 'GET',
+        url: loadMoreWarns,
+        data: {
+            date: $(".log-date").last().text()
+        },
+        success: function (data) {
+
+            $(".no-recent-activitive").remove();
+
+            $(data).insertBefore(".warn-list");
+            if ($(".warn").length >= $(".eggs").find(".warn-widget").attr("total")) {
+                $(".warn-list").hide();
+            }
+            $(".warn").each(function () {
                 $(this).find(".t-info_positive").html("<i></i>" + changeNameLength($(this).find(".t-info_positive").text(), 100));
 
             });
@@ -26,8 +49,20 @@ $(document).ready(function () {
         $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").text(), 100));
     });
 
-    if ($(".log").length >= $(".eggs").find(".widget").attr("total")) {
-        $(".load-more").hide();
+    if ($(".log").length >= $(".eggs").find(".log-widget").attr("total")) {
+        $(".info-list").hide();
+    }
+
+    if ($(".board-msg").attr("version") !== getCookie('tag_version')) {
+        $(".board-msg").show();
+    }
+
+    $(".warns").each(function () {
+        $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").text(), 100));
+    });
+
+    if ($(".warns").length >= $(".eggs").find(".warn-widget").attr("total")) {
+        $(".warn-list").hide();
     }
 
     if ($(".board-msg").attr("version") !== getCookie('tag_version')) {

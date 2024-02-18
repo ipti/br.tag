@@ -16,7 +16,7 @@ class SiteController extends Controller
         return [
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['changeschool', 'changeyear', 'loadMoreLogs'], 'users' => ['@'],
+                'actions' => ['changeschool', 'changeyear', 'loadMoreLogs', 'loadMoreWarns'], 'users' => ['@'],
             ],
         ];
     }
@@ -50,7 +50,7 @@ class SiteController extends Controller
 
         //$this->redirect(yii::app()->createUrl('student'));
         $this->loadLogsHtml(5);
-        $this->render('index', ["html" => $this->loadLogsHtml(8)]);
+        $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8), "htmlWarns" => $this->loadWarnsHtml(8)]);
     }
 
     /**
@@ -176,7 +176,7 @@ class SiteController extends Controller
                     . '</li>';
             }
         } else {
-            $html = '<div class="no-recent-activitive t-badge-info" id="no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>'; 
+            $html = '<div class="no-recent-activitive t-badge-info" id="no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>';
         }
 
         return $html;
@@ -185,6 +185,19 @@ class SiteController extends Controller
     public function actionLoadMoreLogs($date)
     {
         echo $this->loadLogsHtml(10, $date);
+    }
+
+    private function loadWarnsHtml($limit, $date = NULL)
+    {
+        $html = "";
+
+        $html = '<div class="no-recent-activitive t-badge-info" id="no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há falhas cadastrais.</div>';
+        return $html;
+    }
+
+    public function actionLoadMoreWarns($date)
+    {
+        echo $this->loadWarnsHtml(10, $date);
     }
 
     public function actionLoadLineChartData()
