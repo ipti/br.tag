@@ -1,5 +1,6 @@
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
+- Adicionado sincronização direta dos dados do aluno, com importação automática de turmas, se necessário.
 
 ## [Versão 3.68.104]
 - Adicionado a opção Ensino Fundamental dentro da escolaridade na tela de alunos.
