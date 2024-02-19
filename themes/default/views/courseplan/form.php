@@ -225,7 +225,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     ?>
                     <button class="t-button-secondary confirm-new-resource" style="margin: 0px">Adicionar</button>
                 </div>
-                <div class="new-resources-table t-accordeon-primary"></div>
+                <div id="new-resources-table" class="t-accordeon-primary"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal">Cancelar

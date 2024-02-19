@@ -170,7 +170,7 @@ const newResources = Array();
 
 function addNewResources(){
     const newResource = $('.new-resource');
-    const divResources = $('.new-resources-table');
+    const divResources = $('#new-resources-table');
     const closeBt = '<span class="remove-new-resource"><i class="t-icon-close"></i></span></div>';
     const newDivResource = `<div class='row ui-accordion-content'>${newResource.val()} ${closeBt}`;
     divResources.append(newDivResource);
@@ -192,10 +192,16 @@ function saveNewResources(){
             resources: newResources,
         },
         success: function(data){
-            const elements = document.getElementsByClassName('new-resources-table')[0].children;
-            for(let i = 0;i < elements.length ;i++){
-                elements[i].remove();
-            }
+            const elements = document.getElementById('new-resources-table');
+            // To clean the list of elements added to new resources form
+            elements.innerHTML = "";
+            newResources.length = 0;
+            $.ajax({
+                type: "GET",
+                url: "?r=courseplan/"
+            })
+            // console.log(elements);
+            // console.log(newResources);
         }
     })
 }

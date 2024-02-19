@@ -30,8 +30,9 @@ class CourseplanController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'index', 'delete',
-                    'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure', 'getAbilitiesNextStructure', 'addResources'),
-                'users' => array('@'),
+                    'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure',
+                    'getAbilitiesNextStructure', 'addResources', 'getResources'),
+                'users' => array('*'),
             ),
             array('deny', // deny all users
                 'users' => array('*'),
@@ -291,9 +292,36 @@ class CourseplanController extends Controller
     }
 
     public function actionAddResources(){
-        $resources = Yii::app()->request->getPost('resources');
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $resources = Yii::app()->request->getPost('resources');
+            foreach($resources as $resource){
+                $newResource = new CourseClassResources();
+                $newResource->name = $resource;
+                $newResource->save();
+            }
+            $transaction->commit();
+            header('HTTP/1.1 200 OK');
+        }catch(Exception $e){
+            $transaction->rollback();
+            throw new CHttpException(500, $e->getMessage());
+        }
+    }
 
-        // var_dump($resources);
+    public function actionGetResources()
+    {
+        // $mealsType = FoodMealType::model()->findAll();
+        // $mealsType = CHtml::listData($mealsType, 'id', 'description');
+        $resources = CourseClassResources::model()->findAll();
+        $resources = CHtml::listData($resources, 'id', 'name');
+        $options = array();
+        foreach ($resources as $value => $name) {
+            array_push(
+                $options,
+                CHtml::tag('option', ['value' => $value],
+                    CHtml::encode($name), TRUE));
+        }
+        echo CJSON::encode($options);
     }
 
     /**
