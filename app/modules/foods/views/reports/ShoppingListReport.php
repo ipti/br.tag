@@ -82,6 +82,7 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
 
                     <?php
                         foreach ($foodIngredientsList as $foodItem):
+                            if($foodItem["total"] != 0):
                     ?>
 
 
@@ -90,6 +91,7 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
                             <td><?= $foodItem["total"] . $foodItem["measure"] ?></td>
                         </tr>
                     <?php
+                            endif;
                         endforeach;
                     ?>
             </tbody>

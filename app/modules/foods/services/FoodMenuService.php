@@ -85,38 +85,36 @@ class FoodMenuService
         $students = Yii::app()->db->createCommand($sql)
             ->bindParam(':user_year', Yii::app()->user->year)
             ->bindParam(':user_school', Yii::app()->user->school)->queryAll();
-             $studentsTurn = ['Manhã' => '0', 'Tarde' => '0', 'Noite' => '0', 'Integral' => '0'];
+        $studentsTurn = ['Manhã' => '0', 'Tarde' => '0', 'Noite' => '0', 'Integral' => '0'];
 
-            foreach ($students as $element) {
-                $turn = $element['turn'];
-                $totalStudents = $element['total_students'];
+        foreach ($students as $element) {
+            $turn = $element['turn'];
+            $totalStudents = $element['total_students'];
 
 
-                $studentsTurn[$turn] = $totalStudents;
-
-            }
+            $studentsTurn[$turn] = $totalStudents;
+        }
 
         if ($students != null && $foods != null) {
             foreach ($foods as $food) {
                 // verifica se tem alunos nesse turno
                 $turn = $food["turn"];
 
-                    $idFood = $food["id"];
-                    if (!array_key_exists($idFood, $result)) {
-                        $result[$idFood] = array(
-                            'id' => $idFood,
-                            'name' => str_replace(',', '', $food["description"]),
-                            'total' => 0, // Inicializa o total como 0
-                            'measure' => $food["measure"]
-                        );
-                    }
-                    //CVarDumper::dump($food["total"]." * ".$studentsTurn[$turn] ." + ". $food["total"] . " * ". $studentsTurn["Integral"], 13, true);
-                    // Atualiza o total
-                    $result[$idFood]['total'] += ($food["total"] * $studentsTurn[$turn]) + ($food["total"] *$studentsTurn["Integral"]);
+                $idFood = $food["id"];
+                if (!array_key_exists($idFood, $result)) {
+                    $result[$idFood] = array(
+                        'id' => $idFood,
+                        'name' => str_replace(',', '', $food["description"]),
+                        'total' => 0, // Inicializa o total como 0
+                        'measure' => $food["measure"]
+                    );
+                }
 
+                // Atualiza o total
+                $result[$idFood]['total'] +=
+                    ($food["total"] * $studentsTurn[$turn]) + ($food["total"] * $studentsTurn["Integral"]);
             }
         }
-                //   CVarDumper::dump($result, 13, true);
         return $result;
     }
     public function getNutritionalValue($id)
