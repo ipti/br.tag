@@ -58,9 +58,6 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
         DEPARTAMENTO DA ALIMENTAÇÃO ESCOLAR - DAE
     </h2>
     <div class="row t-margin-medium--top">
-        <?php
-        //CVarDumper::dump($foodIngredientsList[0]["turn"], 12, true);
-        ?>
         <table aria-describedby="title-page" class="column table table-bordered">
             <thead class="background-dark font-bold">
             <tr>
@@ -98,9 +95,6 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
         </table>
     </div>
 </div>
-<?php
-    //  CVarDumper::dump($result, 13, true);
-?>
 <script>
     function imprimirPagina() {
         window.print();

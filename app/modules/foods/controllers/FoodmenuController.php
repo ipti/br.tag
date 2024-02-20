@@ -339,7 +339,7 @@ class FoodmenuController extends Controller
                     'option',
                     ['value' => $value],
                     CHtml::encode($description),
-                    TRUE
+                    true
                 )
             );
         }
