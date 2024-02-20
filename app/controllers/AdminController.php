@@ -129,7 +129,7 @@ class AdminController extends Controller
                 if ($model->validate()) {
                     $passwordHasher =  new PasswordHasher;
                     $password = $passwordHasher->bcriptHash($_POST['Users']['password']);
-                   
+
                     $model->password = $password;
                     // form inputs are valid, do something here
                     if ($model->save()) {
@@ -193,6 +193,18 @@ class AdminController extends Controller
     {
         $stage = Yii::app()->request->getPost("stage");
 
+        $modality =  Yii::app()->db->createCommand("
+        select
+            distinct gu.name,
+            gu.id,
+            gu.edcenso_stage_vs_modality_fk
+        from grade_unity gu
+            join curricular_matrix cm on cm.stage_fk = gu.edcenso_stage_vs_modality_fk
+        where cm.school_year = :year and gu.edcenso_stage_vs_modality_fk = :stage_modality")
+        ->bindParam(":year", Yii::app()->user->year)
+        ->bindParam(":stage_modality", $stage)
+        ->queryAll();
+
         $result = [];
         $result["unities"] = [];
 
@@ -241,6 +253,7 @@ class AdminController extends Controller
         $result["mediaCalculation"] = $gradeRules->grade_calculation_fk;
         $result["ruleType"] = $gradeRules->rule_type;
         $result["hasFinalRecovery"] = (bool) $gradeRules->has_final_recovery;
+        $result["modality"] = $modality;
 
         echo CJSON::encode($result);
     }

@@ -270,6 +270,24 @@ $(document).on("change", ".js-has-final-recovery", function (event) {
     }
 });
 
+$(document).on("change", ".js-has-semianual-unity", function (event) {
+    const isChecked = $(this).is(":checked");
+    const isNew = $(".semianual-unity-id").val() === "";
+    if (isChecked) {
+        $(".js-recovery-semianual-form").show();
+        if (isNew) {
+            $(".semianual-unity-operation").val("create");
+        } else {
+            $(".semianual-unity-operation").val("update");
+        }
+    } else {
+        $(".js-recovery-semianual-form").hide();
+        if (!isNew) {
+            $(".semianual-unity-operation").val("delete");
+        }
+    }
+});
+
 function initRuleType(ruleType) {
     if (ruleType === "C") {
         $(".numeric-fields").hide();
@@ -565,6 +583,10 @@ function loadStructure() {
                 $(".final-recovery-unity-calculation").select2(
                     "val",
                     data.final_recovery.grade_calculation_fk
+                );
+                $(".semianual-modality").select2(
+                    "val",
+                    data.final_recovery.name
                 );
                 $(".final-recover-media").val(data.finalRecoverMedia);
 
