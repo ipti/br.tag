@@ -346,6 +346,7 @@ function saveUnities(reply) {
             unities: unities,
             approvalMedia: $(".approval-media").val(),
             hasFinalRecovery: $("#has_final_recovery").is(":checked"),
+            hasRecoverySemianual: $("#has_recovery_semianual").is(":checked"),
             finalRecovery: {
                 id: $(".final-recovery-unity-id").val(),
                 name: $(".final-recovery-unity-name").val(),
@@ -569,6 +570,7 @@ function loadStructure() {
                 $(".js-grades-structure-container").children(".unity").remove();
                 $(".approval-media").val(data.approvalMedia);
                 $("#has_final_recovery").prop("checked", data.hasFinalRecovery);
+                $("#has_recovery_semianual").prop("checked", data.hasRecoverySemianual);
                 $(".calculation-final-media").select2(
                     "val",
                     data.mediaCalculation
@@ -594,6 +596,12 @@ function loadStructure() {
                     $(".js-recovery-form").show();
                 } else {
                     $(".js-recovery-form").hide();
+                }
+
+                if (data.hasRecoverySemianual) {
+                    $(".js-recovery-semianual-form").show();
+                } else {
+                    $(".js-recovery-semianual-form").hide();
                 }
 
                 $(

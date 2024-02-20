@@ -94,7 +94,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             </div>
             <div class="numeric-fields t-field-checkbox">
                 <?php echo CHtml::checkbox(
-                    'has_final_recovery',
+                    'has_recovery_semianual',
                     false,
                     array(
                         'class' => 't-field-checkbox__input js-has-semianual-unity'
