@@ -1,6 +1,26 @@
+## [Versão 3.68.109]
+- consertado listagem de refeições
+- 
+## [Versão 3.68.108]
+- Corrigido condição para mostrar as habilidades do plano de aula.
+- Excluido * a mais da tela de plano de aulas.
+
+## [Versão 3.68.107]
+- Corrigindo a disposição de unidades de lançamento de notas de búzios, permitindo que sejam adicionadas not
+as maiores de 10 em lançamento de notas e adicionada a verificação de recuperação final
+
+## [Versão 3.68.106]
+- Corrigindo relatório de ficha individual de aluno, que estava apresentando informações incorretas ou desnecessárias
+
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
 - Foi adicionado o envio do código do município para atender à recente exigência da SEDSP
+- Adicionado atualização de documentos e endereço do aluno com base na identificação (id).
+- Adicionado bcrypt para autenticação de usuários
+- Adicionado bcrypt na criação do instrutor
+- Adicionado classe PasswordHasher
+- Adicionado bcrypt para criação de usuários admins
+- Adicionado bcrypt para criação de usuários
 
 ## [Versão 3.68.104]
 - Adicionado a opção Ensino Fundamental dentro da escolaridade na tela de alunos.
