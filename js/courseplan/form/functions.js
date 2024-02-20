@@ -97,13 +97,13 @@ function format(d) {
 
     var $type = $('<div class="t-field-select courseplan-type-container"></div>');
     var $typeLabel = $('<label class="" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
-    var $typeInput = $('<input class="t-field-text__input" name="course-class[' + d.class + '][type][]">' + $(".js-all-types")[0].innerHTML + '</input>');
+    var $typeInput = $('<input class="t-field-text__input" name="course-class[' + d.class + '][type]"></input>');
 
     var $resourceButton = $('<button class="t-button-primary add-new-resource" style="height: 28px;" ><i class="fa fa-plus-square"></i>Adicionar recursos</button>');
     var $resource = $('<div class=" t-field-select control-group"></div>');
     var $resourceLabel = $('<label class="t-field-select__label" for="resource">Recurso(s)</label>');
     var $resourceInput = $('<div class="t-field-select__input resource-input"></div>');
-    var $resourceValue = $('<select class="resource-select" name="resource"><option value=""></option>' + $(".js-all-resources")[0].innerHTML + '</select>');
+    var $resourceValue = $('<select id="resource-select" class="resource-select" name="resource"><option value=""></option>' + $(".js-all-resources")[0].innerHTML + '</select>');
     var $resourceAmount = $('<input class="resource-amount" style="width:35px; height: 22px;margin-left: 5px;" type="number" name="amount" step="1" min="1" value="1" max="999">');
     var $resourceAdd = $('<button class="btn btn-success btn-small fa fa-plus-square add-resource" style="height: 28px;margin-left:10px;" ><i></i></button>');
     var $deleteButton = "";
@@ -196,13 +196,25 @@ function saveNewResources(){
             // To clean the list of elements added to new resources form
             elements.innerHTML = "";
             newResources.length = 0;
-            $.ajax({
-                type: "GET",
-                url: "?r=courseplan/"
-            })
-            // console.log(elements);
-            // console.log(newResources);
+           updateSelectResources();
         }
+    })
+}
+
+function updateSelectResources(){
+    const resourceSelect = $('select#resource-select');
+    resourceSelect.html("");
+    $.ajax({
+        type: "GET",
+        url: "?r=courseplan/getResources",
+        cache: false
+    }).success(function(response){
+        resources = JSON.parse(response);
+        Object.entries(resources).forEach(function(option) {
+            resourceSelect.append(option);
+        });
+        resourceSelect.select2("destroy");
+        resourceSelect.select2();
     })
 }
 

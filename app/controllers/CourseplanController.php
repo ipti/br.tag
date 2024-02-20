@@ -251,16 +251,19 @@ class CourseplanController extends Controller
                 }
             }
 
-            CourseClassHasClassType::model()->deleteAll("course_class_fk = :course_class_fk and course_class_type_fk not in ( '" . implode("', '", $cc['type']) . "' )", [":course_class_fk" => $courseClass->id]);
-            foreach ($cc["type"] as $typeId) {
-                $courseClassHasClassType = CourseClassHasClassType::model()->find("course_class_fk = :course_class_fk and course_class_type_fk = :course_class_type_fk", ["course_class_fk" => $courseClass->id, "course_class_type_fk" => $typeId]);
-                if ($courseClassHasClassType == null) {
-                    $courseClassHasClassType = new CourseClassHasClassType();
-                    $courseClassHasClassType->course_class_fk = $courseClass->id;
-                    $courseClassHasClassType->course_class_type_fk = $typeId;
-                    $courseClassHasClassType->save();
-                }
-            }
+            // CourseClassHasClassType::model()->deleteAll("course_class_fk = :course_class_fk and course_class_type_fk not in ( '" . implode("', '", $cc['type']) . "' )", [":course_class_fk" => $courseClass->id]);
+            // foreach ($cc["type"] as $typeId) {
+            //     $courseClassHasClassType = CourseClassHasClassType::model()->find("course_class_fk = :course_class_fk and course_class_type_fk = :course_class_type_fk", ["course_class_fk" => $courseClass->id, "course_class_type_fk" => $typeId]);
+            //     if ($courseClassHasClassType == null) {
+            //         $courseClassHasClassType = new CourseClassHasClassType();
+            //         $courseClassHasClassType->course_class_fk = $courseClass->id;
+            //         $courseClassHasClassType->course_class_type_fk = $typeId;
+            //         $courseClassHasClassType->save();
+            //     }
+            // }
+            $courseClassType = new $courseClassType();
+            $courseClassType->name = $cc['type'];
+            $courseClassType->course_class_fk = $courseClass->id;
 
             if ($cc["resource"] != null) {
                 $idsArray = [];
