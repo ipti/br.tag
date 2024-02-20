@@ -81,7 +81,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class="row">
                             <div class="column flex is-two-fifths">
                                 <div class="t-field-text">
-                                    <?php echo CHtml::label(yii::t('default', 'Name') . "*", 'name', array('class' => 'control-label t-field-text__label--required')); ?>
+                                    <?php echo CHtml::label(yii::t('default', 'Name'), 'name', array('class' => 'control-label t-field-text__label--required')); ?>
                                     <?php echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Plano')); ?>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class="row">
                             <div class="column flex is-two-fifths">
                                 <div class="t-field-select">
-                                    <?php echo CHtml::label(yii::t('default', 'Stage') . "*", 'modality_fk', array('class' => 'control-label t-field-select__label--required')); ?>
+                                    <?php echo CHtml::label(yii::t('default', 'Stage'), 'modality_fk', array('class' => 'control-label t-field-select__label--required')); ?>
                                     <?php
                                     echo $form->dropDownList($coursePlan, 'modality_fk', CHtml::listData($stages, 'id', 'name'), array(
                                         'key' => 'id',
@@ -105,7 +105,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class="row">
                             <div class="column flex is-two-fifths">
                                 <div class="t-field-select">
-                                    <?php echo CHtml::label(yii::t('default', 'Discipline') . "*", 'discipline_fk', array('class' => 'control-label t-field-select__label--required')); ?>
+                                    <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline_fk', array('class' => 'control-label t-field-select__label--required')); ?>
                                     <?php echo $form->dropDownList($coursePlan, 'discipline_fk', array(), array(
                                         'key' => 'id',
                                         'class' => 'select-search-on t-field-select__input',
