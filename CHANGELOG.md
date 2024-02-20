@@ -1,3 +1,5 @@
+## [Versão 3.69.105]
+- Adicionado relatório de lista de compras
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
 
