@@ -261,7 +261,8 @@ class CourseplanController extends Controller
             //         $courseClassHasClassType->save();
             //     }
             // }
-            $courseClassType = new $courseClassType();
+
+            $courseClassType = new CourseClassTypes;
             $courseClassType->name = $cc['type'];
             $courseClassType->course_class_fk = $courseClass->id;
 

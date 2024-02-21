@@ -96,8 +96,8 @@ function format(d) {
     var $abilitiesContainer = $('<div class="courseplan-abilities-selected">');
 
     var $type = $('<div class="t-field-select courseplan-type-container"></div>');
-    var $typeLabel = $('<label class="" for="course-class[' + d.class + '][type][]">Tipo(s)</label>');
-    var $typeInput = $('<input class="t-field-text__input" name="course-class[' + d.class + '][type]"></input>');
+    var $typeLabel = $('<label class="" for="course-class[' + d.class + '][type][]">Tipo</label>');
+    var $typeInput = $('<input class="t-field-text__input" name="course-class[' + d.class + '][type]">' + d. + '</input>');
 
     var $resourceButton = $('<button class="t-button-primary add-new-resource" style="height: 28px;" ><i class="fa fa-plus-square"></i>Adicionar recursos</button>');
     var $resource = $('<div class=" t-field-select control-group"></div>');
