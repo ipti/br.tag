@@ -44,54 +44,14 @@ function renderStockTable(foodsOnStock, id) {
 
     if (typeof id === 'undefined') {
         $.each(foodsOnStock, function(index, stock) {
-            let row = $('<tr>').addClass('');
-            let foodDescription = stock.description;
-            foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
-            let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
-
-            $('<td>').text(foodDescription).appendTo(row);
-            $('<td>').text(stock.amount + measurementUnit).appendTo(row);
-            $('<td>').text(stock.expiration_date).appendTo(row);
-            let select = $('<select class="select-search-on t-field-select__input select2-container" id="foodInventoryStatus" name="foodInventoryStatus" data-foodInventoryId="' + stock.id + '" data-amount="'+ stock.amount +'">' +
-            '<option value="Disponivel">Disponível</option>'+
-            '<option value="Acabando">Acabando</option>'+
-            '<option value="Emfalta">Em falta</option>'+
-            '</select>');
-            select.val(stock.status)
-            if (stock.status === 'Emfalta') {
-                select.prop('disabled', true);
-            }
-            $('<td>').html(select).appendTo(row);
-            $('<td>').html('<button id="js-movements-button" type="button" class="t-button-secondary" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"><span class="t-icon-cart-arrow-down cursor-pointer"></span>Movimentações</button>').appendTo(row);
-
-            table.append(row);
+            table.append(renderStockTableRow(stock));
         });
     } else {
         let found = false;
         $.each(foodsOnStock, function(index, stock) {
             if (stock.foodId == id) {
                 found = true;
-                let row = $('<tr>').addClass('');
-                let foodDescription = stock.description;
-                foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
-                let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
-
-                $('<td>').text(foodDescription).appendTo(row);
-                $('<td>').text(stock.amount + measurementUnit).appendTo(row);
-                $('<td>').text(stock.expiration_date).appendTo(row);
-                let select = $('<select class="select-search-on t-field-select__input select2-container" id="foodInventoryStatus" name="foodInventoryStatus" data-foodInventoryId="' + stock.id + '" data-amount="'+ stock.amount +'">' +
-                '<option value="Disponivel">Disponível</option>'+
-                '<option value="Acabando">Acabando</option>'+
-                '<option value="Emfalta">Em falta</option>'+
-                '</select>');
-                select.val(stock.status)
-                if (stock.status === 'Emfalta') {
-                    select.prop('disabled', true);
-                }
-                $('<td>').html(select).appendTo(row);
-                $('<td>').html('<button id="js-movements-button" class="t-button-secondary" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"><span class="t-icon-cart-arrow-down cursor-pointer"></span>Movimentações</button>').appendTo(row);
-
-                table.append(row);
+                table.append(renderStockTableRow(stock));
             }
         });
 
@@ -103,8 +63,30 @@ function renderStockTable(foodsOnStock, id) {
             table.append(row);
         }
     }
+};
 
+function renderStockTableRow(stock) {
+    let row = $('<tr>').addClass('');
+    let foodDescription = stock.description;
+    foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+    let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
 
+    $('<td>').text(foodDescription).appendTo(row);
+    $('<td>').text(stock.amount + measurementUnit).appendTo(row);
+    $('<td>').text(stock.expiration_date).appendTo(row);
+    let select = $('<select class="select-search-on t-field-select__input select2-container" id="foodInventoryStatus" name="foodInventoryStatus" data-foodInventoryId="' + stock.id + '" data-amount="'+ stock.amount +'">' +
+    '<option value="Disponivel">Disponível</option>'+
+    '<option value="Acabando">Acabando</option>'+
+    '<option value="Emfalta">Em falta</option>'+
+    '</select>');
+    select.val(stock.status)
+    if (stock.status === 'Emfalta') {
+        select.prop('disabled', true);
+    }
+    $('<td>').html(select).appendTo(row);
+    $('<td>').html('<button id="js-movements-button" type="button" class="t-button-secondary" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"><span class="t-icon-cart-arrow-down cursor-pointer"></span>Movimentações</button>').appendTo(row);
+
+    return row;
 };
 
 function renderMovementsTable(movements, foodName) {
