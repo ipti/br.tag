@@ -192,7 +192,11 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClasses[2]?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOnefaultsTotal?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClassesTotal?></td>
-                    <td><?= $portuguese[0]['final_media']?></td>
+                    <td><?php echo
+                        $portuguese[0]['grade1'] == null ||
+                        $portuguese[0]['grade2'] == null ||
+                        $portuguese[0]['grade3'] == null ? "-" : $portuguese[0]['final_media']
+                    ?></td>
                     <?php
                     if($portuguese[0]['final_media'] < $gradeRules->approvation_media) {
                         $reprovado = true;
@@ -226,7 +230,11 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOnefaultsTotal?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClassesTotal?></td>
                     <?php } ?>
-                    <td><?= $history[0]['final_media']?></td>
+                    <td><?php echo
+                        $history[0]['grade1'] == null ||
+                        $history[0]['grade2'] == null ||
+                        $history[0]['grade3'] == null ? "-" : $history[0]['final_media']
+                    ?></td>
                     <?php
                     if($history[0]['final_media'] < $gradeRules->approvation_media) {
                         $reprovado = true;
@@ -260,7 +268,11 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOnefaultsTotal?></td>
                     <td rowspan="<?php echo $rOneDisiciplinesCount?>"><?= $rOneGivenClassesTotal?></td>
                     <?php } ?>
-                    <td><?= $geography[0]['final_media']?></td>
+                    <td><?php echo
+                        $geography[0]['grade1'] == null ||
+                        $geography[0]['grade2'] == null ||
+                        $geography[0]['grade3'] == null ? "-" : $geography[0]['final_media']
+                    ?></td>
                     <?php
                     if($geography[0]['final_media'] < $gradeRules->approvation_media) {
                         $reprovado = true;
@@ -290,7 +302,11 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoGivenClasses[2]?></td>
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwofaultsTotal?></td>
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoGivenClassesTotal?></td>
-                    <td><?= $mathematics[0]['final_media']?></td>
+                    <td><?php echo
+                        $mathematics[0]['grade1'] == null ||
+                        $mathematics[0]['grade2'] == null ||
+                        $mathematics[0]['grade3'] == null ? "-" : $mathematics[0]['final_media']
+                    ?></td>
                     <?php
                     if($mathematics[0]['final_media'] < $gradeRules->approvation_media) {
                         $reprovado = true;
@@ -324,7 +340,11 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwofaultsTotal?></td>
                     <td rowspan="<?php echo $rTwoDisciplinesCount?>"><?= $rTwoGivenClassesTotal?></td>
                     <?php } ?>
-                    <td><?= $sciences[0]['final_media']?></td>
+                    <td><?php echo
+                        $sciences[0]['grade1'] == null ||
+                        $sciences[0]['grade2'] == null ||
+                        $sciences[0]['grade3'] == null ? "-" : $sciences[0]['final_media']
+                    ?></td>
                     <?php
                     if($sciences[0]['final_media'] < $gradeRules->approvation_media) {
                         $reprovado = true;
@@ -364,9 +384,14 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                         <?php $totalGivenClasses += $d['givenClasses1'] + $d['givenClasses2'] + $d['givenClasses3'] ?>
                         <td>
                             <?php
-                                if (isset($d['final_media']) && !empty($disciplines[0]['grade3'])){
+                                if (
+                                    isset($d['final_media'])
+                                    && (
+                                        ($d['grade3'] !== NULL) &&
+                                        ($d['grade2'] !== NULL) &&
+                                        ($d['grade1'] !== NULL))){
                                     echo $d['final_media'];
-                                }
+                                }else{echo "-";}
                             ?>
                         </td>
                         <?php
@@ -391,12 +416,16 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
         <div class="footer-container" style="display: flex; justify-content:space-between; margin-bottom: 10px">
             <p>Total de aulas dadas: <?= $totalGivenClasses ?></p>
             <p>Frequência: <?= $frequency."%"?></p>
+            <p>Resultado:
             <?php
-                if ($reprovado && !empty($disciplines[0]['grade3'])){
-                    echo "<p>Resultado: Reprovado</p>";
-                }elseif (!empty($disciplines[0]['grade3'])){
-                    echo "<p>Resultado: Aprovado</p>";
+                if((
+                    ($d['grade3'] !== NULL) &&
+                    ($d['grade2'] !== NULL) &&
+                    ($d['grade1'] !== NULL)))
+                {
+                    echo $reprovado ? "Reprovado</p>" : "Aprovado</p>";
                 }
+
             ?>
         </div>
         <p class="footer-container">
