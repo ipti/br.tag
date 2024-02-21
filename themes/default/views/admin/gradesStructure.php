@@ -158,11 +158,6 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <div class="t-field-select">
                 <label class='t-field-select__label--required'>Fim do semestre:</span></label>
                 <select class='t-field-select__input select-search-on semianual-modality'>
-                    <?php foreach ($modality as $modalitykey): ?>
-                        <option value="<?= $modalitykey['id'] ?>">
-                            <?= $modalitykey['name'] ?>
-                        </option>
-                    <?php endforeach; ?>
                 </select>
             </div>
         </div>
