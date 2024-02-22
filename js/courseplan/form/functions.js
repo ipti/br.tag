@@ -32,9 +32,9 @@ function initDatatable() {
                 "className": 'dt-justify objective-title',
                 "data": "objective",
             },
+            {"data": "type", "visible": false},
             {"data": "abilities", "visible": false},
             {"data": "resources", "visible": false},
-            {"data": "types", "visible": false},
             {
                 "className": 'dt-center details-control t-accordion__container-icon',
                 "orderable": false,
@@ -69,9 +69,9 @@ function addCoursePlanRow() {
         "class": index + 1,
         "courseClassId": "",
         "objective": "",
+        "type": "",
         "abilities": null,
         "resources": null,
-        "types": null,
         "deleteButton": null
     }).draw();
     $("#course-classes tbody .details-control").last().click();
@@ -97,7 +97,7 @@ function format(d) {
 
     var $type = $('<div class="t-field-select courseplan-type-container"></div>');
     var $typeLabel = $('<label class="" for="course-class[' + d.class + '][type][]">Tipo</label>');
-    var $typeInput = $('<input class="t-field-text__input" name="course-class[' + d.class + '][type]">' + d. + '</input>');
+    var $typeInput = $('<input class="t-field-text__input" name="course-class[' + d.class + '][type]" value="'+ d.type +'"></input>');
 
     var $resourceButton = $('<button class="t-button-primary add-new-resource" style="height: 28px;" ><i class="fa fa-plus-square"></i>Adicionar recursos</button>');
     var $resource = $('<div class=" t-field-select control-group"></div>');

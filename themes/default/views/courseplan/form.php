@@ -149,6 +149,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <option value="<?= $type->id ?>"><?= $type->name ?></option>
                         <?php endforeach; ?>
                     </div>
+                    <div class="js-type no-show">
+                        <input type="text" value="<?$type?>">
+                    </div>
                     <div class="js-all-resources no-show">
                         <?php foreach ($resources as $resource) : ?>
                             <option value="<?= $resource->id ?>"><?= $resource->name ?></option>

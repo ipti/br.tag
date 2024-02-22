@@ -51,13 +51,13 @@ class CourseplanController extends Controller
         } else {
 
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
-            $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
+            // $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
 
             $this->render('form', array(
                 'coursePlan' => new CoursePlan(),
                 'stages' => $this->getStages(),
                 'resources' => $resources,
-                'types' => $types,
+                // 'types' => $types,
             ));
         }
     }
@@ -75,13 +75,13 @@ class CourseplanController extends Controller
             $coursePlan = $this->loadModel($id);
 
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
-            $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
+            // $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
 
             $this->render('form', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
                 'resources' => $resources,
-                'types' => $types,
+                // 'types' => $types,
             ));
         }
     }
@@ -113,7 +113,7 @@ class CourseplanController extends Controller
             $courseClasses[$order]["class"] = $courseClass->order;
             $courseClasses[$order]['courseClassId'] = $courseClass->id;
             $courseClasses[$order]['objective'] = $courseClass->objective;
-            $courseClasses[$order]['types'] = [];
+            $courseClasses[$order]['type'] = $courseClass->type;
             $courseClasses[$order]['resources'] = [];
             $courseClasses[$order]['abilities'] = [];
             foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
@@ -122,9 +122,6 @@ class CourseplanController extends Controller
                 $resource["description"] = $courseClassHasClassResource->courseClassResourceFk->name;
                 $resource["amount"] = $courseClassHasClassResource->amount;
                 array_push($courseClasses[$order]['resources'], $resource);
-            }
-            foreach ($courseClass->courseClassHasClassTypes as $courseClassHasClassType) {
-                array_push($courseClasses[$order]['types'], $courseClassHasClassType->course_class_type_fk);
             }
             foreach ($courseClass->courseClassHasClassAbilities as $courseClassHasClassAbility) {
                 $ability["id"] = $courseClassHasClassAbility->courseClassAbilityFk->id;
@@ -235,6 +232,7 @@ class CourseplanController extends Controller
             }
             $courseClass->order = $i++;
             $courseClass->objective = $cc['objective'];
+            $courseClass->type = $cc['type'];
             $courseClass->save();
 
 
@@ -261,10 +259,6 @@ class CourseplanController extends Controller
             //         $courseClassHasClassType->save();
             //     }
             // }
-
-            $courseClassType = new CourseClassTypes;
-            $courseClassType->name = $cc['type'];
-            $courseClassType->course_class_fk = $courseClass->id;
 
             if ($cc["resource"] != null) {
                 $idsArray = [];
