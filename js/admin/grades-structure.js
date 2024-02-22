@@ -689,3 +689,22 @@ $(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
     }
     this.value = val;
 });
+
+function mostrarCamposSemestreOne() {
+    const camposSemestreOne = document.getElementById('campos-primeiro-semestre');
+    if (camposSemestreOne.style.display === 'none') {
+        camposSemestreOne.style.display = 'block';
+    } else {
+        camposSemestreOne.style.display = 'none';
+    }
+}
+
+function mostrarCamposSemestreTwo() {
+    const camposSemestreTwo = document.getElementById('campos-segundo-semestre');
+    if (camposSemestreTwo.style.display === 'none') {
+        camposSemestreTwo.style.display = 'block';
+    } else {
+        camposSemestreTwo.style.display = 'none';
+    }
+}
+

@@ -137,33 +137,37 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <input type='hidden' class="semianual-unity-type" value="RF">
             <input type="hidden" class="semianual-unity-operation" value="create">
             <div class="t-field-text js-semianual-unity-media-visibility">
-                <label class="t-field-text__label--required">Média de Rec. Semestral</span></label>
+                <label class="t-field-text__label--required">Média de Rec. Semestral</label>
                 <input type="text" class="semianual-unity-media t-field-text__input">
             </div>
-            <div class="t-field-text" style="margin-top: 16px">
-                <label class='t-field-text__label--required'>Nome:</span></label>
-                <input type='text' class='t-field-text__input semianual-unity-name'
-                    placeholder='Recuperação Semestral'>
+
+            <div class="row unity-heading ui-accordion-header" onclick="mostrarCamposSemestreOne()">
+                <h2 class="unity-title accordion-heading" style="cursor: pointer;">Primeiro Semestre</h2>
             </div>
-            <div class="t-field-select js-calculation">
-                <label class='t-field-select__label--required'>Forma de cálculo:</span></label>
-                <select class='t-field-select__input select-search-on semianual-unity-calculation'>
-                    <?php foreach ($formulas as $formula): ?>
-                        <option value="<?= $formula->id ?>">
-                            <?= $formula->name ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="t-field-select">
-                <label class='t-field-select__label--required'>Unidades presentes no primeiro semestre:</label>
-                <select id="semianual-modality-first" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
-            </div>
-            <div class="t-field-select">
-                <label class='t-field-select__label--required'>Unidades presentes no segundo semestre:</label>
-                <select id="semianual-modality-second" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
+            <div id="campos-primeiro-semestre" style="display: none;">
+                <div class="t-field-text" style="margin-top: 16px">
+                    <label class='t-field-text__label--required'>Nome:</label>
+                    <input type='text' class='t-field-text__input semianual-unity-name' placeholder='Segunda Recuperação Semestral'>
+                </div>
+                <div class="t-field-select">
+                    <label class='t-field-select__label--required'>Unidades presentes no primeiro semestre:</label>
+                    <select id="semianual-modality-first" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
+                </div>
             </div>
 
+            <div class="row unity-heading ui-accordion-header" onclick="mostrarCamposSemestreTwo()">
+                <h2 class="unity-title accordion-heading" style="cursor: pointer;">Segundo Semestre</h2>
+            </div>
+            <div id="campos-segundo-semestre" style="display: none;">
+                <div class="t-field-text" style="margin-top: 16px">
+                    <label class='t-field-text__label--required'>Nome:</label>
+                    <input type='text' class='t-field-text__input semianual-unity-name' placeholder='Segunda Recuperação Semestral'>
+                </div>
+                <div class="t-field-select">
+                    <label class='t-field-select__label--required'>Unidades presentes no segundo semestre:</label>
+                    <select id="semianual-modality-second" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
+                </div>
+            </div>
         </div>
         <div class="column js-recovery-form  is-three-fifths" style="display: none;">
             <h2>Regras de recuperação final</h2>
