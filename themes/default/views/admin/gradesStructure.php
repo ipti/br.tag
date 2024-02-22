@@ -156,10 +156,14 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 </select>
             </div>
             <div class="t-field-select">
-                <label class='t-field-select__label--required'>Fim do semestre:</span></label>
-                <select class='t-field-select__input select-search-on semianual-modality'>
-                </select>
+                <label class='t-field-select__label--required'>Unidades presentes no primeiro semestre:</label>
+                <select id="semianual-modality-first" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
             </div>
+            <div class="t-field-select">
+                <label class='t-field-select__label--required'>Unidades presentes no segundo semestre:</label>
+                <select id="semianual-modality-second" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
+            </div>
+
         </div>
         <div class="column js-recovery-form  is-three-fifths" style="display: none;">
             <h2>Regras de recuperação final</h2>

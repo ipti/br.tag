@@ -586,17 +586,24 @@ function loadStructure() {
                     "val",
                     data.final_recovery.grade_calculation_fk
                 );
-                
+
                 const dataUnities = data.unities.map(unity => [unity.id, unity.name]);
-                const selectUnities = $('.semianual-modality');
+                const selectUnitiesFirst = $('#semianual-modality-first');
+                const selectUnitiesSecond = $('#semianual-modality-second');
 
                 console.log(dataUnities);
 
                 dataUnities.forEach(function([id, name]) {
-                    selectUnities.append($('<option>', {
+                    const optionFirst = $('<option>', {
                         value: id,
                         text: name
-                    }));
+                    });
+                    const optionSecond = $('<option>', {
+                        value: id,
+                        text: name
+                    });
+                    selectUnitiesFirst.append(optionFirst);
+                    selectUnitiesSecond.append(optionSecond);
                 });
 
                 $(".final-recover-media").val(data.finalRecoverMedia);
