@@ -180,9 +180,8 @@ const PlateComponent = function (plate) {
         }));
       });
     })
-
-
   }
+  
   function addRowToTable(selectFoods, table) {
     selectFoods.on('change', (e) => {
       table.find('tbody').html('')

@@ -24,7 +24,7 @@ services:
       - /app/docker/mysql
       - /app/vendor
       - /app/app/vendor
-      - /app/assets
+      - ./assets:/app/assets
       - /app/db
       - /app/.git
       # - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
