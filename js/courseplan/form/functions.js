@@ -95,7 +95,7 @@ function format(d) {
 
     var $ability = $('<div class="control-group courseplan-ability-container"></div>');
     var $abilityLabel = $('<label class="" for="course-class[' + d.class + '][ability][]">Habilidade(s)</label>');
-    var $abilityButton = $('<button class="t-button-primary add-abilities" style="height: 28px;" ><i class="fa fa-plus-square"></i> Adicionar</button>');
+    var $abilityButton = $('<button class="t-button-primary add-abilities" style="height: 28px;gap: 5px" ><icon class="t-icon-start"></icon>Adicionar habilidades</button>');
     var $abilitiesContainer = $('<div class="courseplan-abilities-selected">');
 
     var $type = $('<div class="t-field-text control-group courseplan-type-container"></div>');
@@ -104,13 +104,13 @@ function format(d) {
     $typeInput.val(d.type);
 
     var $resourceButtonContainer = $('<div class="t-buttons-container control-group no-margin"></div>');
-    var $resourceButton = $('<button class="t-button-primary add-new-resource" style="height: 28px;" ><i class="fa fa-plus-square"></i>Adicionar recursos</button>');
+    var $resourceButton = $('<button class="t-button-primary add-new-resource" style="height: 28px;gap: 5px" ><icon class="t-icon-start"></icon>Adicionar recursos</button>');
     var $resource = $('<div class="t-field-select control-group"></div>');
     var $resourceLabel = $('<label class="t-field-select__label" for="resource">Recurso(s)</label>');
     var $resourceInput = $('<div class="t-field-select__input resource-input"></div>');
     var $resourceValue = $('<select id="resource-select" class="resource-select" name="resource"><option value=""></option>' + $(".js-all-resources")[0].innerHTML + '</select>');
-    var $resourceAmount = $('<input class="resource-amount" style="width:35px; height: 22px;margin-left: 5px;" type="number" name="amount" step="1" min="1" value="1" max="999">');
-    var $resourceAdd = $('<button class="btn btn-success btn-small fa fa-plus-square add-resource" style="height: 28px;margin-left:10px;" ><i></i></button>');
+    var $resourceAmount = $('<input class="resource-amount" style="width:35px; padding: 0px 5px;;margin-left: 5px;" type="number" name="amount" step="1" min="1" value="1" max="999">');
+    var $resourceAdd = $('<button class="btn btn-small fa fa-plus-square add-resource" style="height: 28px;margin-left:10px;" ><i></i></button>');
     var $deleteButton = "";
     if(d.deleteButton === 'js-unavailable'){
         $deleteButton = $('<div class="t-buttons-container"><a class="t-button-danger js-remove-course-class js-unavailable t-button-danger--disabled" data-toggle="tooltip" data-placement="left" title="Aula já ministrada em alguma turma. Não é possível removê-la do plano de aula.">Excluir Plano</a></div>')
@@ -153,7 +153,6 @@ function format(d) {
     $resourceInput.append($resourceValue);
     $resourceInput.append($resourceAmount);
     $resourceInput.append($resourceAdd);
-    // $resource.append($resourceButton);
     $resource.append($resourceButtonContainer);
     $resource.append($resourceLabel);
     $resource.append($resourceInput);
@@ -167,36 +166,34 @@ function format(d) {
     $column1.append($deleteButton);
     $div.append($id);
     $div.append($column1);
-
-
-
     return $div;
 }
 
-const newResources = Array();
+let newResources = Array();
 
 function addNewResources(){
     const newResource = $('.new-resource');
+    const newResourceP = `<p>${newResource.val()}</p>`
+    const alert = $('.alert-resource');
     if(newResource.val() == ""){
-        const alert = $('.alert-resource');
         console.log(alert);
         alert.removeClass('hide');
         alert.addClass('show');
         return;
     }
+    alert.removeClass('show');
+    alert.addClass('hide');
     const divResources = $('#new-resources-table');
-    const closeBt = '<span class="remove-new-resource"><i class=""></i></span></div>';
-    // const closeBt =
-    // '<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">' +
-    // '<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">' +
-    // '</button>';
-    const newDivResource = `<div class='row ui-accordion-content control-group'>${newResource.val()} ${closeBt}`;
+    const closeBt = '<span class="remove-new-resource"><i class="t-icon-close"></i></span></div>';
+    const newDivResource = `<div class='row ui-accordion-content mobile-row justify-content--space-between t-margin-small--top'>${newResourceP} ${closeBt}`;
     divResources.append(newDivResource);
     newResources.push(newResource.val());
 }
 
 function removeNewResource(button){
     const parentNode = button.parentNode;
+    const resourceTag = button.previousElementSibling;
+    newResources = newResources.filter(e => e !== resourceTag.innerHTML);
     parentNode.remove();
 }
 

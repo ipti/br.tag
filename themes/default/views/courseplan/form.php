@@ -217,7 +217,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </button>
             <h4 class="modal-title" id="modalLabelResources">Adicionar Recurso</h4>
         </div>
-        <div class="alert-resource hide">
+        <div class="alert alert-error t-badge-critical alert-resource hide control-group">
             <p>É necessário inserir um recurso no campo</p>
         </div>
         <form>
