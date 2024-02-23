@@ -270,8 +270,10 @@ class AdminController extends Controller
         $finalRecoverMedia = Yii::app()->request->getPost("finalRecoverMedia");
         $calculationFinalMedia = Yii::app()->request->getPost("finalMediaCalculation");
         $finalRecovery = Yii::app()->request->getPost("finalRecovery");
+        $semiRecovery = Yii::app()->request->getPost("RecoverySemianual");
         $ruleType = Yii::app()->request->getPost("ruleType");
         $hasFinalRecovery = Yii::app()->request->getPost("hasFinalRecovery") === "true";
+        $hasSemianualRecovery = Yii::app()->request->getPost("hasRecoverySemianual") === "true";
 
         try {
             $usecase = new UpdateGradeStructUsecase(
@@ -282,6 +284,7 @@ class AdminController extends Controller
                 $finalRecoverMedia,
                 $calculationFinalMedia,
                 $hasFinalRecovery,
+                $hasSemianualRecovery,
                 $ruleType);
             $usecase->exec();
 
@@ -310,6 +313,32 @@ class AdminController extends Controller
                 }
 
                 $recoveryUnity->save();
+            }
+
+            if ($hasSemianualRecovery === true) {
+
+                $recoveryUnitySemi = RecoverySemianual::model()->find($semiRecovery["id"]);
+
+                if ($semiRecovery["operation"] === "delete") {
+                    $recoveryUnitySemi->delete();
+                    echo json_encode(["valid" => true]);
+                    Yii::app()->end();
+                }
+
+                if ($recoveryUnitySemi === null) {
+                    $recoveryUnitySemi = new RecoverySemianual();
+                }
+
+                $recoveryUnitySemi->name = $semiRecovery["name"];
+                $recoveryUnitySemi->type = "RS";
+                $recoveryUnity->grade_calculation_fk = $semiRecovery["grade_calculation_fk"];
+
+                if (!$recoveryUnitySemi->validate()) {
+                    $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnitySemi);
+                    throw new CHttpException(400, "Não foi possivel salvar dados da recuperação semestral: \n" . $validationMessage, 1);
+                }
+
+                $recoveryUnitySemi->save();
             }
 
             echo json_encode(["valid" => true]);

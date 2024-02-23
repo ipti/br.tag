@@ -599,12 +599,16 @@ function loadStructure() {
                     "val",
                     data.final_recovery.grade_calculation_fk
                 );
+                // $(".semianual-recovery-unity-calculation").select2(
+                //     "val",
+                //     data.recovery_semianual.grade_calculation_fk
+                // );
 
                 const dataUnities = data.unities.map(unity => [unity.id, unity.name]);
                 const selectUnitiesFirst = $('#semianual-modality-first');
                 const selectUnitiesSecond = $('#semianual-modality-second');
 
-                console.log(dataUnities);
+                console.log(data);
 
                 dataUnities.forEach(function([id, name]) {
                     const optionFirst = $('<option>', {

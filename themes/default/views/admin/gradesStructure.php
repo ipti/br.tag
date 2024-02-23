@@ -134,11 +134,22 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 Configure as regras básicas para aprovação dos alunos
             </p>
             <input type='hidden' class="semianual-unity-id">
-            <input type='hidden' class="semianual-unity-type" value="RF">
+            <input type='hidden' class="semianual-unity-type" value="RS">
             <input type="hidden" class="semianual-unity-operation" value="create">
             <div class="numeric-fields t-field-text">
                 <label class="t-field-text__label--required">Média de Rec. Semestral</span></label>
                 <input type="text" class="semianual-unity-media t-field-text__input">
+            </div>
+
+            <div class="t-field-select js-calculation">
+                <label class='t-field-select__label--required'>Forma de cálculo:</span></label>
+                <select class='t-field-select__input select-search-on semianual-recovery-unity-calculation'>
+                    <?php foreach ($formulas as $formula): ?>
+                        <option value="<?= $formula->id ?>">
+                            <?= $formula->name ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <div class='grades-structure-container t-accordeon-quaternary accordion'>
