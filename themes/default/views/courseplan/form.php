@@ -217,8 +217,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </button>
             <h4 class="modal-title" id="modalLabelResources">Adicionar Recurso</h4>
         </div>
+        <div class="alert-resource hide">
+            <p>É necessário inserir um recurso no campo</p>
+        </div>
         <form>
-            <input type="hidden" class="course-class-index">
+            <input type="hidden" class="course-class-index row">
             <div class="modal-body">
                 <?php echo CHtml::label(yii::t('default', 'Add Resource') , array('class' => 'control-label t-field-text__label--required')); ?>
                 <div class="row">

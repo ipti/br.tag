@@ -32,7 +32,10 @@ function initDatatable() {
                 "className": 'dt-justify objective-title',
                 "data": "objective",
             },
-            {"data": "type", "visible": false},
+            {
+                "className": 'courseplan-type-container',
+                "data": "type",
+                "visible": false},
             {"data": "abilities", "visible": false},
             {"data": "resources", "visible": false},
             {
@@ -95,12 +98,14 @@ function format(d) {
     var $abilityButton = $('<button class="t-button-primary add-abilities" style="height: 28px;" ><i class="fa fa-plus-square"></i> Adicionar</button>');
     var $abilitiesContainer = $('<div class="courseplan-abilities-selected">');
 
-    var $type = $('<div class="t-field-select courseplan-type-container"></div>');
-    var $typeLabel = $('<label class="" for="course-class[' + d.class + '][type][]">Tipo</label>');
-    var $typeInput = $('<input class="t-field-text__input" name="course-class[' + d.class + '][type]" value="'+ d.type +'"></input>');
+    var $type = $('<div class="t-field-text control-group courseplan-type-container"></div>');
+    var $typeLabel = $('<label class="t-field-text__label" for="course-class[' + d.class + '][type][]">Tipo</label>');
+    var $typeInput = $('<input type="text" class="t-field-text__input" name="course-class[' + d.class + '][type]"></input>');
+    $typeInput.val(d.type);
 
+    var $resourceButtonContainer = $('<div class="t-buttons-container control-group no-margin"></div>');
     var $resourceButton = $('<button class="t-button-primary add-new-resource" style="height: 28px;" ><i class="fa fa-plus-square"></i>Adicionar recursos</button>');
-    var $resource = $('<div class=" t-field-select control-group"></div>');
+    var $resource = $('<div class="t-field-select control-group"></div>');
     var $resourceLabel = $('<label class="t-field-select__label" for="resource">Recurso(s)</label>');
     var $resourceInput = $('<div class="t-field-select__input resource-input"></div>');
     var $resourceValue = $('<select id="resource-select" class="resource-select" name="resource"><option value=""></option>' + $(".js-all-resources")[0].innerHTML + '</select>');
@@ -121,7 +126,7 @@ function format(d) {
         });
     }
     if (d.types !== null) {
-        $typeInput.val(d.types);
+        $typeInput.val(d.type);
     }
     if (d.resources !== null) {
         $.each(d.resources, function (i, v) {
@@ -144,13 +149,15 @@ function format(d) {
     $ability.append($abilityLabel);
     $ability.append($abilityButton);
     $ability.append($abilitiesContainer);
+    $resourceButtonContainer.append($resourceButton);
     $resourceInput.append($resourceValue);
     $resourceInput.append($resourceAmount);
     $resourceInput.append($resourceAdd);
+    // $resource.append($resourceButton);
+    $resource.append($resourceButtonContainer);
     $resource.append($resourceLabel);
     $resource.append($resourceInput);
     $resource.append($resources);
-    $resource.append($resourceButton);
     $type.append($typeLabel);
     $type.append($typeInput);
     $column1.append($objective);
@@ -170,16 +177,26 @@ const newResources = Array();
 
 function addNewResources(){
     const newResource = $('.new-resource');
+    if(newResource.val() == ""){
+        const alert = $('.alert-resource');
+        console.log(alert);
+        alert.removeClass('hide');
+        alert.addClass('show');
+        return;
+    }
     const divResources = $('#new-resources-table');
-    const closeBt = '<span class="remove-new-resource"><i class="t-icon-close"></i></span></div>';
-    const newDivResource = `<div class='row ui-accordion-content'>${newResource.val()} ${closeBt}`;
+    const closeBt = '<span class="remove-new-resource"><i class=""></i></span></div>';
+    // const closeBt =
+    // '<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">' +
+    // '<img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">' +
+    // '</button>';
+    const newDivResource = `<div class='row ui-accordion-content control-group'>${newResource.val()} ${closeBt}`;
     divResources.append(newDivResource);
     newResources.push(newResource.val());
 }
 
 function removeNewResource(button){
     const parentNode = button.parentNode;
-    // console.log(parentNode);
     parentNode.remove();
 }
 
