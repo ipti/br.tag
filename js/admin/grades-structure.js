@@ -356,7 +356,20 @@ function saveUnities(reply) {
                 ),
                 operation: $(".final-recovery-unity-operation").val(),
             },
+            semianualRecovery: {
+                id: $(".semianual-unity-id").val(),
+                nameOne: $(".one-semianual-unity-name").val(),
+                nameTwo: $(".two-semianual-unity-name").val(),
+                type: $(".semianual-unity-type").val(),
+                unityOne: $("#semianual-modality-first").val(),
+                unityTwo: $("#semianual-modality-second").val(),
+                grade_calculation_fk: $(".calculation-final-media").select2(
+                    "val"
+                ),
+                operation: $(".semianual-unity-operation").val(),
+            },
             finalRecoverMedia: $(".final-recover-media").val(),
+            semianualRecoverMedia: $(".semianual-unity-media").val(),
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
             ruleType: $(".js-rule-type").select2("val"),

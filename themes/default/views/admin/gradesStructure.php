@@ -136,8 +136,8 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <input type='hidden' class="semianual-unity-id">
             <input type='hidden' class="semianual-unity-type" value="RF">
             <input type="hidden" class="semianual-unity-operation" value="create">
-            <div class="t-field-text js-semianual-unity-media-visibility">
-                <label class="t-field-text__label--required">Média de Rec. Semestral</label>
+            <div class="numeric-fields t-field-text">
+                <label class="t-field-text__label--required">Média de Rec. Semestral</span></label>
                 <input type="text" class="semianual-unity-media t-field-text__input">
             </div>
 
@@ -148,7 +148,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <div id="campos-primeiro-semestre" style="display: none;">
                     <div class="t-field-text" style="margin-top: 16px">
                         <label class='t-field-text__label--required'>Nome:</label>
-                        <input type='text' class='t-field-text__input semianual-unity-name' placeholder='Primeira Recuperação Semestral'>
+                        <input type='text' class='t-field-text__input one-semianual-unity-name' placeholder='Primeira Recuperação Semestral'>
                     </div>
                     <div class="t-field-select">
                         <label class='t-field-select__label--required'>Unidades presentes no primeiro semestre:</label>
@@ -164,7 +164,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <div id="campos-segundo-semestre" style="display: none;">
                     <div class="t-field-text" style="margin-top: 16px">
                         <label class='t-field-text__label--required'>Nome:</label>
-                        <input type='text' class='t-field-text__input semianual-unity-name' placeholder='Segunda Recuperação Semestral'>
+                        <input type='text' class='t-field-text__input two-semianual-unity-name' placeholder='Segunda Recuperação Semestral'>
                     </div>
                     <div class="t-field-select">
                         <label class='t-field-select__label--required'>Unidades presentes no segundo semestre:</label>
