@@ -1,3 +1,6 @@
+## [Versão 3.68.110]
+- Obtenção do CPF do estudante corrigida 
+- 
 ## [Versão 3.68.109]
 - consertado listagem de refeições
 - 
