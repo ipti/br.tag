@@ -128,7 +128,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion"
             style="display: none;">
         </div>
-        <div class="column js-recovery-semianual-form  is-three-fifths" style="display: none;">
+        <div class="column js-recovery-semianual-form is-three-fifths" style="display: none;">
             <h2>Regras de recuperação semestral</h2>
             <p class="subheading">
                 Configure as regras básicas para aprovação dos alunos
@@ -141,31 +141,35 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <input type="text" class="semianual-unity-media t-field-text__input">
             </div>
 
-            <div class="row unity-heading ui-accordion-header" onclick="mostrarCamposSemestreOne()">
-                <h2 class="unity-title accordion-heading" style="cursor: pointer;">Primeiro Semestre</h2>
-            </div>
-            <div id="campos-primeiro-semestre" style="display: none;">
-                <div class="t-field-text" style="margin-top: 16px">
-                    <label class='t-field-text__label--required'>Nome:</label>
-                    <input type='text' class='t-field-text__input semianual-unity-name' placeholder='Segunda Recuperação Semestral'>
+            <div class='grades-structure-container t-accordeon-quaternary accordion'>
+                <div class="row unity-heading ui-accordion-header" onclick="mostrarCamposSemestreOne()">
+                    <h2 class="unity-title accordion-heading" style="cursor: pointer;">Primeiro Semestre</h2>
                 </div>
-                <div class="t-field-select">
-                    <label class='t-field-select__label--required'>Unidades presentes no primeiro semestre:</label>
-                    <select id="semianual-modality-first" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
+                <div id="campos-primeiro-semestre" style="display: none;">
+                    <div class="t-field-text" style="margin-top: 16px">
+                        <label class='t-field-text__label--required'>Nome:</label>
+                        <input type='text' class='t-field-text__input semianual-unity-name' placeholder='Primeira Recuperação Semestral'>
+                    </div>
+                    <div class="t-field-select">
+                        <label class='t-field-select__label--required'>Unidades presentes no primeiro semestre:</label>
+                        <select id="semianual-modality-first" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
+                    </div>
                 </div>
             </div>
 
-            <div class="row unity-heading ui-accordion-header" onclick="mostrarCamposSemestreTwo()">
-                <h2 class="unity-title accordion-heading" style="cursor: pointer;">Segundo Semestre</h2>
-            </div>
-            <div id="campos-segundo-semestre" style="display: none;">
-                <div class="t-field-text" style="margin-top: 16px">
-                    <label class='t-field-text__label--required'>Nome:</label>
-                    <input type='text' class='t-field-text__input semianual-unity-name' placeholder='Segunda Recuperação Semestral'>
+            <div class='grades-structure-container t-accordeon-quaternary accordion'>
+                <div class="row unity-heading ui-accordion-header" onclick="mostrarCamposSemestreTwo()">
+                    <h2 class="unity-title accordion-heading" style="cursor: pointer;">Segundo Semestre</h2>
                 </div>
-                <div class="t-field-select">
-                    <label class='t-field-select__label--required'>Unidades presentes no segundo semestre:</label>
-                    <select id="semianual-modality-second" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
+                <div id="campos-segundo-semestre" style="display: none;">
+                    <div class="t-field-text" style="margin-top: 16px">
+                        <label class='t-field-text__label--required'>Nome:</label>
+                        <input type='text' class='t-field-text__input semianual-unity-name' placeholder='Segunda Recuperação Semestral'>
+                    </div>
+                    <div class="t-field-select">
+                        <label class='t-field-select__label--required'>Unidades presentes no segundo semestre:</label>
+                        <select id="semianual-modality-second" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
+                    </div>
                 </div>
             </div>
         </div>
