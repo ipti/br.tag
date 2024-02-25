@@ -129,10 +129,12 @@ function getFoodIngredients(idPlateAccordion) {
             "food_id_fk": "",
             "food_measure_unit_id": "",
             "amount": "",
+            "portion":""
         }
         foodIngredient.food_id_fk = $(row).attr('data-idTaco')
         foodIngredient.food_measure_unit_id = $(row).find('.js-measure select').val()
         foodIngredient.amount = $(row).find('.js-unit input').val()
+        foodIngredient.portion = $(row).find('.js-amount').text()
         foodIngredients.push(foodIngredient)
     })
     return foodIngredients

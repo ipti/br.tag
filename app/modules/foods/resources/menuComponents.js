@@ -202,6 +202,7 @@ const PlateComponent = function (plate) {
         foodIdFk: selectFoods.val(),
         foodMeasureUnitId: "",
         amount: "",
+        portion: ""
       })
       idIgredientes++
       plate.foodIngredients.map((e) => {

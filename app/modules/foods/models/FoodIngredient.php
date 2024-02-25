@@ -10,6 +10,7 @@
  * @property integer $food_menu_meal_componentId
  * @property integer $food_measurement_fk
  * @property integer $food_id_fk
+ * @property integer $portion
  *
  * The followings are the available model relations:
  * @property FoodMenuMealComponent $foodMenuMealComponent
@@ -38,6 +39,7 @@ class FoodIngredient extends CActiveRecord
             array('amount', 'required'),
             array('amount, replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'numerical', 'integerOnly'=>true),
             array('observation', 'length', 'max'=>191),
+            array('portion', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, observation, amount, replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'safe', 'on'=>'search'),
@@ -72,6 +74,7 @@ class FoodIngredient extends CActiveRecord
             'food_menu_meal_componentId' => 'Food Menu Meal Component',
             'food_measurement_fk' => 'Food Measurement Fk',
             'food_id_fk' => 'Food Id Fk',
+            'portion' => 'Portion',
         );
     }
 
