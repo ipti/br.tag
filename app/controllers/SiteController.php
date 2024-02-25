@@ -192,8 +192,8 @@ class SiteController extends Controller
         $warns = [];
 
         //Verifica a existencia de turmas na escola
-        $countSchoolClassrooms = Classroom::model()->countByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
-        if ($countSchoolClassrooms == 0) {
+        $listSchoolClassrooms = Classroom::model()->findallByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+        if (count($listSchoolClassrooms) == 0) {
             $schoolModel = SchoolIdentification::model()->findByAttributes(['inep_id' => yii::app()->user->school]);
             $warning = "Escola " . $schoolModel->name . " ainda não possui turmas cadastradas.";
 
@@ -205,6 +205,51 @@ class SiteController extends Controller
                 . '</li>';
 
             array_push($warns, $htmlpart);
+        } else {
+            foreach ($listSchoolClassrooms as $classroom) {
+                //Se houver turma verificar se exite etapa vinculada a turma
+                $stage = $classroom->edcensoStageVsModalityFk;
+                if ($stage == null){
+                    $warning = "Turma " . $classroom->name . " ainda não possui uma etapa.";
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                        . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/plano_de_aula.svg"/>'
+                        . $warning
+                        . '</div>'
+                        . '</li>';
+                    array_push($warns, $htmlpart);
+                } else {
+                    $listCurricularMatrixs = $stage->curricularMatrixes;
+                    if (count($listCurricularMatrixs)){
+                        $warning = "Etapa " . $stage->name . " da turma " . $classroom->name . " não tem matriz curricular.";
+                        $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                            . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                            . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/matriz_curricular.svg"/>'
+                            . $warning
+                            . '</div>'
+                            . '</li>';
+                        array_push($warns, $htmlpart);
+                    } else {
+                        //Verificar necessidades de alerta
+                    }
+                }
+
+                //Se houver turma verificar se exite calendario vinculado a turma
+                $calendar = $classroom->calendarFk;
+                if ($calendar == null){
+                    $warning = "Turma " . $classroom->name . " ainda não possui um calendário.";
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                        . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/calendario.svg"/>'
+                        . $warning
+                        . '</div>'
+                        . '</li>';
+                    array_push($warns, $htmlpart);
+                } else {
+                    //Se houver calendário verificar necessidades de alerta
+                }
+
+            }
         }
 
 
