@@ -70,7 +70,18 @@ function renderStockTableRow(stock) {
     let foodDescription = stock.description;
     foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
     let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
-    let statusValue = (stock.status == "Disponivel") ? "Disponível" : (stock.status == "Emfalta") ? "Em Falta" : "Acabando";
+    let statusValue;
+
+    switch (stock.status) {
+        case "Disponivel":
+            statusValue = "Disponível";
+            break;
+        case "Emfalta":
+            statusValue = "Em Falta";
+            break;
+        default:
+            statusValue = "Acabando";
+    }
 
     $('<td>').text(foodDescription).appendTo(row);
     $('<td>').text(stock.amount + measurementUnit).appendTo(row);
@@ -152,7 +163,18 @@ function renderStockListRow(stock) {
     let foodDescription = stock.description;
     foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
     let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
-    let statusValue = (stock.status == "Disponivel") ? "Disponível" : (stock.status == "Emfalta") ? "Em Falta" : "Acabando";
+    let statusValue;
+
+    switch (stock.status) {
+        case "Disponivel":
+            statusValue = "Disponível";
+            break;
+        case "Emfalta":
+            statusValue = "Em Falta";
+            break;
+        default:
+            statusValue = "Acabando";
+    }
 
     let foodStock = `
     <div class="row no-gap t-list-primary">
