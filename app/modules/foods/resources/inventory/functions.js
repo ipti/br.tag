@@ -37,7 +37,7 @@ function renderStockTable(foodsOnStock, id) {
     $('<th>').text('Item').appendTo(head);
     $('<th>').text('Quantidade').appendTo(head);
     $('<th>').text('Validade').appendTo(head);
-    $('<th>').text('Status').appendTo(head);
+    $('<th style="width: 18%">').text('Status').appendTo(head);
     $('<th>').text('Entrada/Saída').appendTo(head);
 
     table.append(head);
@@ -70,21 +70,17 @@ function renderStockTableRow(stock) {
     let foodDescription = stock.description;
     foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
     let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
+    let statusValue = (stock.status == "Disponivel") ? "Disponível" : (stock.status == "Emfalta") ? "Em Falta" : "Acabando";
 
     $('<td>').text(foodDescription).appendTo(row);
     $('<td>').text(stock.amount + measurementUnit).appendTo(row);
     $('<td>').text(stock.expiration_date).appendTo(row);
-    let select = $('<select class="select-search-on t-field-select__input select2-container" id="foodInventoryStatus" name="foodInventoryStatus" data-foodInventoryId="' + stock.id + '" data-amount="'+ stock.amount +'">' +
-    '<option value="Disponivel">Disponível</option>'+
-    '<option value="Acabando">Acabando</option>'+
-    '<option value="Emfalta">Em falta</option>'+
-    '</select>');
-    select.val(stock.status)
-    if (stock.status === 'Emfalta') {
-        select.prop('disabled', true);
+    if(stock.status == "Emfalta") {
+        $('<td style="padding-right: 25px">').html('<button disabled class="t-button-quaternary full--width t-margin-none--right" id="js-status-button" type="button" data-foodStatus="' + stock.status + '" data-foodInventoryId="' + stock.id + '" data-amount="'+ stock.amount +'">'+ statusValue +'</button>').appendTo(row);
+    } else {
+    $('<td style="padding-right: 25px">').html('<button class="t-button-secondary full--width t-margin-none--right" id="js-status-button" type="button" data-foodStatus="' + stock.status + '" data-foodInventoryId="' + stock.id + '" data-amount="'+ stock.amount +'"><span class="t-icon-pencil text-color--ink"></span>'+ statusValue +'</button>').appendTo(row);
     }
-    $('<td>').html(select).appendTo(row);
-    $('<td>').html('<button id="js-movements-button" type="button" class="t-button-secondary" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"><span class="t-icon-cart-arrow-down cursor-pointer"></span>Movimentações</button>').appendTo(row);
+    $('<td>').html('<button id="js-movements-button" type="button" class="t-button-secondary" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"><span class="t-icon-cart-arrow-down cursor-pointer text-color--ink"></span>Movimentações</button>').appendTo(row);
 
     return row;
 };
@@ -134,51 +130,7 @@ function renderStockList(foodsOnStock, id) {
 
     if (typeof id === 'undefined') {
         $.each(foodsOnStock, function(index, stock) {
-            let foodDescription = stock.description;
-            foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
-            let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
-
-            let isEmptyStatus = stock.status == "Emfalta" ? "disabled" : "";
-            let isDisabled = stock.status == "Disponivel" ? "selected" : "";
-            let isEnding = stock.status == "Acabando" ? "selected" : "";
-            let isEmpty = stock.status == "Emfalta" ? "selected" : "";
-
-            let foodStock = `
-            <div class="row t-list-primary">
-                <div class="row">
-                    <div class="column clearfix">
-                        <label>Item:</label>
-                        ${foodDescription}
-                    </div>
-                </div>
-                <div class="mobile-row">
-                    <div class="column is-half clearfix">
-                        <label>Quantidade:</label>
-                        ${stock.amount + measurementUnit}
-                    </div>
-                    <div class="column is-half">
-                        <label>Validade:</label>
-                        ${stock.expiration_date}
-                    </div>
-                </div>
-                <div class="mobile-row">
-                    <div class="js-select-status column is-half clearfix">
-                        <label>Status:</label>
-                        <select class="select-search-on t-field-select__input select2-container" id="foodInventorySelectStatus" name="foodInventoryStatus" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}" ${isEmptyStatus}>' +
-                        '<option value="Disponivel" ${isDisabled}>Disponível</option>'+
-                        '<option value="Acabando" ${isEnding}>Acabando</option>'+
-                        '<option value="Emfalta" ${isEmpty}>Em falta</option>'+
-                        '</select>
-                    </div>
-                    <div class="column is-half">
-                        <label>Movimentações:</label>
-                        <span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryFoodId="${stock.foodId}" data-foodInventoryFoodName="${foodDescription}"></span>
-                    </div>
-                </div>
-            </div>
-            `;
-
-            foodStockList.innerHTML += foodStock;
+            foodStockList.innerHTML += renderStockListRow(stock);
         });
     } else {
         let found = false;
@@ -186,59 +138,61 @@ function renderStockList(foodsOnStock, id) {
         $.each(foodsOnStock, function(index, stock) {
             if (stock.foodId == id) {
                 found = true;
-                let foodDescription = stock.description;
-                foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
-                let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
-
-                let isEmptyStatus = stock.status == "Emfalta" ? "disabled" : "";
-                let isDisabled = stock.status == "Disponivel" ? "selected" : "";
-                let isEnding = stock.status == "Acabando" ? "selected" : "";
-                let isEmpty = stock.status == "Emfalta" ? "selected" : "";
-
-                let foodStock = `
-                <div class="row t-list-primary">
-                    <div class="row">
-                        <div class="column clearfix">
-                            <label>Item:</label>
-                            ${foodDescription}
-                        </div>
-                    </div>
-                    <div class="mobile-row">
-                        <div class="column is-half clearfix">
-                            <label>Quantidade:</label>
-                            ${stock.amount + measurementUnit}
-                        </div>
-                        <div class="column is-half">
-                            <label>Validade:</label>
-                            ${stock.expiration_date}
-                        </div>
-                    </div>
-                    <div class="mobile-row">
-                        <div class="column is-half clearfix">
-                            <label>Status:</label>
-                            <select class="select-search-on t-field-select__input select2-container" id="foodInventorySelectStatus" name="foodInventoryStatus" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}" ${isEmptyStatus}>' +
-                            '<option value="Disponivel" ${isDisabled}>Disponível</option>'+
-                            '<option value="Acabando" ${isEnding}>Acabando</option>'+
-                            '<option value="Emfalta" ${isEmpty}>Em falta</option>'+
-                            '</select>
-                        </div>
-                        <div class="column is-half">
-                            <label>Movimentações:</label>
-                            <span id="js-movements-button" class="t-icon-cart-arrow-down cursor-pointer" data-foodInventoryFoodId="${stock.foodId}" data-foodInventoryFoodName="${foodDescription}"></span>
-                        </div>
-                    </div>
-                </div>
-                `;
-
-                foodStockList.innerHTML += foodStock;
+                foodStockList.innerHTML += renderStockListRow(stock);
             }
-
         });
         if (!found) {
-
             let foodStock = '<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>';
             foodStockList.innerHTML += foodStock;
         }
     }
+};
 
-}
+function renderStockListRow(stock) {
+    let foodDescription = stock.description;
+    foodDescription = foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+    let measurementUnit = stock.measurementUnit !== null ? (" (" + stock.measurementUnit + ") ") : "";
+    let statusValue = (stock.status == "Disponivel") ? "Disponível" : (stock.status == "Emfalta") ? "Em Falta" : "Acabando";
+
+    let foodStock = `
+    <div class="row no-gap t-list-primary">
+        <div class="mobile-row">
+                <label class="t-margin-small--right text-bold">Item:</label>
+                ${foodDescription}
+        </div>
+        <div class="mobile-row">
+            <div class="column is-half clearfix">
+                <div class="mobile-row">
+                    <label class="t-margin-small--right text-bold">Quantidade:</label>
+                    ${stock.amount + measurementUnit}
+                </div>
+            </div>
+            <div class="column is-half">
+                <div class="mobile-row">
+                    <label class="t-margin-small--right text-bold">Validade:</label>
+                    ${stock.expiration_date}
+                </div>
+            </div>
+        </div>
+        <hr class="t-separator-primary">
+        <div class="mobile-row">
+            <div class="column is-half clearfix">
+                <label class="text-bold">Status:</label>
+        `;
+    if(stock.status == "Emfalta") {
+        foodStock += `<button disabled class="t-button-quaternary t-margin-none--right" id="js-status-button" type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}">${statusValue}</button>`;
+    } else {
+        foodStock += `<button class="t-button-secondary t-margin-none--right" id="js-status-button" type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}"><span class="t-icon-pencil text-color--ink"></span>${statusValue}</button>`;
+    }
+    foodStock += `
+            </div>
+            <div class="column is-half">
+                <label class="text-bold">Entrada/Saída:</label>
+                <button id="js-movements-button" type="button" class="t-button-secondary" data-foodInventoryFoodId="${stock.foodId}" data-foodInventoryFoodName="${foodDescription}"><span class="t-icon-cart-arrow-down cursor-pointer text-color--ink"></span>Movimentações</button>
+            </div>
+        </div>
+    </div>
+    `;
+
+    return foodStock;
+};

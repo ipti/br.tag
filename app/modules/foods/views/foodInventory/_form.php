@@ -47,7 +47,7 @@ $form=$this->beginWidget('CActiveForm', array(
     </div>
     <div class="row show--tabletDesktop">
         <div class="column is-four-fifths clearfix">
-            <table id="foodStockTable" class="tag-table-secondary align-start">
+            <table id="foodStockTable"  aria-describedby="FoodStockTable" class="tag-table-secondary align-start">
             </table>
         </div>
     </div>
@@ -65,7 +65,7 @@ $form=$this->beginWidget('CActiveForm', array(
             <form method="post">
                 <div class="t-modal__body">
                     <p>Entrada e saída de itens</p>
-                    <table id="movementsTable" class="tag-table-secondary align-start">
+                    <table id="movementsTable" aria-describedby="MovementsTable" class="tag-table-secondary align-start">
 
                     </table>
                 </div>
@@ -126,6 +126,39 @@ $form=$this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="t-buttons-container justify-content--center">
                             <button type="button" class="t-button-primary clear-margin--right" id="save-food">Adicionar ao estoque</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade t-modal-container" id="js-status-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog " role="document">
+            <div class="t-modal__header">
+                <div class="column clearfix">
+                    <h4 class="t-title" id="myModalLabel">Definir Status</h4>
+                    <p style="margin-bottom: 0px">Defina o status do produto</p>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                </button>
+            </div>
+            <form method="post">
+                <div class="t-modal__body">
+                    <div class="row">
+                        <div class="column t-field-select t-margin-none--bottom clearfix">
+                            <?php echo CHtml::label('Status', array('class' => 't-field-select__label')); ?>
+                            <select id="js-status-select" class="select-search-on t-field-select__input select2-container">
+                                <option value="Disponivel">Disponível</option>
+                                <option value="Acabando">Acabando</option>
+                                <option value="Emfalta">Em falta</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row margin-large--top">
+                        <div class="t-buttons-container">
+                            <button type="button" id="js-saveFoodInventoryStatus" data-dismiss="modal" class="t-button-primary t-margin-none--right full--width">Salvar</button>
                         </div>
                     </div>
                 </div>
