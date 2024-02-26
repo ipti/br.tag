@@ -110,7 +110,7 @@ function format(d) {
     var $resourceInput = $('<div class="t-field-select__input resource-input"></div>');
     var $resourceValue = $('<select id="resource-select" class="resource-select" name="resource"><option value=""></option>' + $(".js-all-resources")[0].innerHTML + '</select>');
     var $resourceAmount = $('<input class="resource-amount" style="width:35px; padding: 0px 5px;;margin-left: 5px;" type="number" name="amount" step="1" min="1" value="1" max="999">');
-    var $resourceAdd = $('<button class="btn btn-small fa fa-plus-square add-resource" style="height: 28px;margin-left:10px;" ><i></i></button>');
+    var $resourceAdd = $('<button class="t-button-secondary add-resource" style="height: 28px;margin-left:10px;" ><icon class="t-icon-start"></icon></button>');
     var $deleteButton = "";
     if(d.deleteButton === 'js-unavailable'){
         $deleteButton = $('<div class="t-buttons-container"><a class="t-button-danger js-remove-course-class js-unavailable t-button-danger--disabled" data-toggle="tooltip" data-placement="left" title="Aula já ministrada em alguma turma. Não é possível removê-la do plano de aula.">Excluir Plano</a></div>')
@@ -265,12 +265,13 @@ function removeResource(button) {
     var resources = resource.parent();
     var classe = resources.closest("tr").prev().children(".details-control").next().text();
     resource.remove();
-    $.each(resources.children(".course-class-resource"), function () {
-        var index = resources.children(".course-class-resource").index(this);
-        $(this).attr("name", "course-class[" + classe + "][resource][" + index + "]");
-        $(this).children(".resource-value").attr("name", "course-class[" + classe + "][resource][" + index + "][value]");
-        $(this).children(".resource-amount").attr("name", "course-class[" + classe + "][resource][" + index + "][amount]");
-    });
+    // $.each(resources.children(".course-class-resource"), function () {
+    //     debugger;
+    //     var index = resources.children(".course-class-resource").index(this);
+    //     $(this).attr("name", "course-class[" + classe + "][resource][" + index + "]");
+    //     $(this).children(".resource-value").attr("name", "course-class[" + classe + "][resource][" + index + "][value]");
+    //     $(this).children(".resource-amount").attr("name", "course-class[" + classe + "][resource][" + index + "][amount]");
+    // });
 }
 
 function buildAbilityStructureSelect(data) {
