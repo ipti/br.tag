@@ -293,7 +293,6 @@ class AdminController extends Controller
             $usecase->exec();
 
             if ($hasFinalRecovery === true) {
-
                 $recoveryUnity = GradeUnity::model()->find($finalRecovery["id"]);
 
                 if ($finalRecovery["operation"] === "delete") {
@@ -313,40 +312,14 @@ class AdminController extends Controller
 
                 if (!$recoveryUnity->validate()) {
                     $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnity);
-                    throw new CHttpException(400, "Não foi possivel salvar dados da recuperação final: \n" . $validationMessage, 1);
+                    throw new CHttpException(400, "Não foi possível salvar dados da recuperação final: \n" . $validationMessage, 1);
                 }
 
                 $recoveryUnity->save();
             }
 
             if ($hasSemianualRecovery === true) {
-
-                foreach ($semiRecovery as $semianual) {
-                    $recoveryUnitySemi = new GradeUnity();
-
-                    if ($semianual["operation"] === "update") {
-                        $recoveryUnitySemi = GradeUnity::model()->find($semianual["id"]);
-                    }
-
-                    if ($semianual["operation"] === "delete") {
-                        $recoveryUnitySemi = GradeUnity::model()->find($semianual["id"]);
-                        $recoveryUnitySemi->delete();
-                        echo json_encode(["valid" => true]);
-                        Yii::app()->end();
-                    }
-
-                    $recoveryUnitySemi->name = $semianual["name"];
-                    $recoveryUnitySemi->type = "RS";
-                    $recoveryUnitySemi->grade_calculation_fk = $semianual["grade_calculation_fk"];
-                    $recoveryUnitySemi->edcenso_stage_vs_modality_fk = $stage;
-
-                    if (!$recoveryUnitySemi->validate()) {
-                        $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnitySemi);
-                        throw new CHttpException(400, "Não foi possivel salvar dados da recuperação semestral: \n" . $validationMessage, 1);
-                    }
-
-                    $recoveryUnitySemi->save();
-                }
+                $this->processSemianualRecovery($stage, $semiRecovery);
             }
 
             echo json_encode(["valid" => true]);
@@ -358,7 +331,35 @@ class AdminController extends Controller
         }
     }
 
+    protected function processSemianualRecovery($stage, $semiRecovery)
+    {
+        foreach ($semiRecovery as $semianual) {
+            $recoveryUnitySemi = new GradeUnity();
 
+            if ($semianual["operation"] === "update") {
+                $recoveryUnitySemi = GradeUnity::model()->find($semianual["id"]);
+            }
+
+            if ($semianual["operation"] === "delete") {
+                $recoveryUnitySemi = GradeUnity::model()->find($semianual["id"]);
+                $recoveryUnitySemi->delete();
+                echo json_encode(["valid" => true]);
+                Yii::app()->end();
+            }
+
+            $recoveryUnitySemi->name = $semianual["name"];
+            $recoveryUnitySemi->type = "RS";
+            $recoveryUnitySemi->grade_calculation_fk = $semianual["grade_calculation_fk"];
+            $recoveryUnitySemi->edcenso_stage_vs_modality_fk = $stage;
+
+            if (!$recoveryUnitySemi->validate()) {
+                $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnitySemi);
+                throw new CHttpException(400, "Não foi possível salvar dados da recuperação semestral: \n" . $validationMessage, 1);
+            }
+
+            $recoveryUnitySemi->save();
+        }
+    }
 
     public function actionActiveDisableUser()
     {

@@ -355,7 +355,7 @@ function saveUnities(reply) {
             semianualRecovery: [
                 {
                     id: $(".semianual-unity-id").val(),
-                    name: $(".two-semianual-unity-name").val(),
+                    name: $(".one-semianual-unity-name").val(),
                     type: $(".semianual-unity-type").val(),
                     grade_calculation_fk: $(".semianual-recovery-unity-calculation").select2(
                         "val"
@@ -364,13 +364,13 @@ function saveUnities(reply) {
                 },
                 {
                     id: $(".semianual-unity-id").val(),
-                    name: $(".one-semianual-unity-name").val(),
+                    name: $(".two-semianual-unity-name").val(),
                     type: $(".semianual-unity-type").val(),
                     grade_calculation_fk: $(".semianual-recovery-unity-calculation").select2(
                         "val"
                     ),
                     operation: $(".semianual-unity-operation").val(),
-                },
+                }
             ],
             finalRecoverMedia: $(".final-recover-media").val(),
             semiRecoverMedia: $(".semianual-unity-media").val(),
