@@ -297,8 +297,6 @@ class CourseplanController extends Controller
 
     public function actionGetResources()
     {
-        // $mealsType = FoodMealType::model()->findAll();
-        // $mealsType = CHtml::listData($mealsType, 'id', 'description');
         $resources = CourseClassResources::model()->findAll();
         $resources = CHtml::listData($resources, 'id', 'name');
         $options = array();
