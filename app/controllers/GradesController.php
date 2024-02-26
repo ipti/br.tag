@@ -332,10 +332,11 @@ class GradesController extends Controller
                 $arr["grades"] = [];
                 $arr["faults"] = [];
 
+                $discipline = $_POST['discipline'];
 
                 $gradeResult = GradeResults::model()->find(
                     "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
-                    ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]
+                    ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]
                 );
 
                 for ($key = 0; $key < 3; $key++) {
@@ -413,10 +414,11 @@ class GradesController extends Controller
                 $arr["grades"] = [];
                 $arr["faults"] = [];
 
+                $discipline = $_POST['discipline'];
 
                 $gradeResult = GradeResults::model()->find(
                     "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
-                    ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]
+                    ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]
                 );
 
                 foreach ($unities as $key => $value) {
