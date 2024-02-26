@@ -1,3 +1,6 @@
+## [Versão 3.68.110]
+- Corrigindo o estilo da tela de estoque, as colunas status e entrada/saida atualizadas para facilitar a usabilidade
+
 ## [Versão 3.68.109]
 - consertado listagem de refeições
 -
