@@ -261,19 +261,26 @@ const PlateComponent = function (plate) {
   function changeAmount(line, food) {
     const input = line.find('.js-unit input')
     const select = line.find('.js-measure select')
+    const inputAmount = line.find('.js-input-amount input')
     const td = line.find('.js-amount')
     input.on('input', function (event) {
-      let newAmount = calculateAmount(
-        select.find('option:selected').attr('data-value'),
-        select.find('option:selected').attr('data-measure'), input.val())
-      td.text(newAmount)
+        if($('.js-measure select').find('option:selected').text()  != "unidade"){
+            let newAmount = calculateAmount(
+                select.find('option:selected').attr('data-value'),
+                select.find('option:selected').attr('data-measure'), input.val())
+            td.text(newAmount)
+        }
     })
     select.on('change', function (event) {
-      food.foodMeasureUnitId = select.val()
-      let newAmount = calculateAmount(
-        select.find('option:selected').attr('data-value')
-        , select.find('option:selected').attr('data-measure'), input.val())
-      td.text(newAmount)
+        food.foodMeasureUnitId = select.val()
+        if($('.js-measure select').find('option:selected').text()  != "unidade"){
+            let newAmount = calculateAmount(
+                select.find('option:selected').attr('data-value')
+                , select.find('option:selected').attr('data-measure'), input.val())
+            td.text(newAmount)
+            return;
+        }
+        td.html(`<input class='t-field-text__input ' type='text' style='width:50px !important' required='required' name='Quantidade'>`)
     })
   }
   function calculateAmount(value, measure, amount) {
@@ -315,7 +322,9 @@ const PlateComponent = function (plate) {
                 <select class="js-initialize-select2 t-field-select__input js-food-measurement" style='width:100px' required='required'>
                 </select>
             </td>`)
-      .append(`<td class='js-amount'></td>`)
+      .append(`<td class='js-amount'>
+
+      </td>`)
       .append(`<td class='js-pt'>${pt}</td>`)
       .append(`<td class='js-lip'>${lip}</td>`)
       .append(`<td class='js-cho'>${cho}</td>`)
