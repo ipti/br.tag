@@ -23,9 +23,8 @@ $(document).on("click", ".js-new-unity", function (e) {
                 </a>
                 <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor"></span>
             </div>
-            <div id="collaps-${unities}"class=" collapse ${
-        unities == 0 ? "in" : ""
-    }">
+            <div id="collaps-${unities}"class=" collapse ${unities == 0 ? "in" : ""
+        }">
                 <input type='hidden' class="unity-id">
                 <input type="hidden" class="unity-operation" value="create">
                 <div class="t-field-text" style="margin-top: 16px">
@@ -35,17 +34,15 @@ $(document).on("click", ".js-new-unity", function (e) {
                 <div class="t-field-select">
                     <label class='t-field-select__label--required'>Modelo: </label>
                     <select class='t-field-select__input js-type-select select-search-on control-input'>
-                        ${
-                            isUnityConcept
-                                ? `<option value='UC'>Unidade por conceito</option>`
-                                : `<option value='U'>Unidade</option>
+                        ${isUnityConcept
+            ? `<option value='UC'>Unidade por conceito</option>`
+            : `<option value='U'>Unidade</option>
                                    <option value='UR'>Unidade com recuperação</option>`
-                        }
+        }
                     </select>
                 </div>
-                <div class="t-field-select js-calculation ${
-                    isUnityConcept ? "hide" : "show"
-                }" >
+                <div class="t-field-select js-calculation ${isUnityConcept ? "hide" : "show"
+        }" >
                     <label class='t-field-select__label--required'>Forma de cálculo:  </label>
                     <select class='t-field-select__input js-formula-select select-search-on control-input'>
                         ${$(".formulas")[0].innerHTML}
@@ -184,15 +181,14 @@ $(document).on("click", ".js-new-modality", function (e) {
                 <div class="t-field-text">
                     <label class='t-field-text__label--required'>Nome da modalidade avaliativa: </label>
                     <input type='text' class='modality-name t-field-text__input' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.' style='width: calc(100% - 222px);'>
-                    ${
-                        formula === "Peso"
-                            ? template`
+                    ${formula === "Peso"
+            ? template`
                                 <div class="t-field-text">
                                     <label class='t-field-text__label--required'>Peso:</span></label>
                                     <input type='text' class='t-field-text__input weight form-control' placeholder='Peso'>
                                 </div>`
-                            : ""
-                    }
+            : ""
+        }
                 </div>
                 <span class="remove-modality remove-button t-button-icon-danger t-icon-trash"></span>
             </div>
@@ -356,20 +352,28 @@ function saveUnities(reply) {
                 ),
                 operation: $(".final-recovery-unity-operation").val(),
             },
-            semianualRecovery: {
-                id: $(".semianual-unity-id").val(),
-                nameOne: $(".one-semianual-unity-name").val(),
-                nameTwo: $(".two-semianual-unity-name").val(),
-                type: $(".semianual-unity-type").val(),
-                unityOne: $("#semianual-modality-first").val(),
-                unityTwo: $("#semianual-modality-second").val(),
-                grade_calculation_fk: $(".calculation-final-media").select2(
-                    "val"
-                ),
-                operation: $(".semianual-unity-operation").val(),
-            },
+            semianualRecovery: [
+                {
+                    id: $(".semianual-unity-id").val(),
+                    name: $(".two-semianual-unity-name").val(),
+                    type: $(".semianual-unity-type").val(),
+                    grade_calculation_fk: $(".semianual-recovery-unity-calculation").select2(
+                        "val"
+                    ),
+                    operation: $(".semianual-unity-operation").val(),
+                },
+                {
+                    id: $(".semianual-unity-id").val(),
+                    name: $(".one-semianual-unity-name").val(),
+                    type: $(".semianual-unity-type").val(),
+                    grade_calculation_fk: $(".semianual-recovery-unity-calculation").select2(
+                        "val"
+                    ),
+                    operation: $(".semianual-unity-operation").val(),
+                },
+            ],
             finalRecoverMedia: $(".final-recover-media").val(),
-            semianualRecoverMedia: $(".semianual-unity-media").val(),
+            semiRecoverMedia: $(".semianual-unity-media").val(),
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
             ruleType: $(".js-rule-type").select2("val"),
@@ -610,7 +614,7 @@ function loadStructure() {
 
                 console.log(data);
 
-                dataUnities.forEach(function([id, name]) {
+                dataUnities.forEach(function ([id, name]) {
                     const optionFirst = $('<option>', {
                         value: id,
                         text: name
