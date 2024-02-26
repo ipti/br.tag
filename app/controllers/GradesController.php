@@ -332,7 +332,7 @@ class GradesController extends Controller
                 $arr["grades"] = [];
                 $arr["faults"] = [];
 
-                $discipline = $_POST['discipline'];
+                $discipline = Yii::app()->request->getPost("discipline");
 
                 $gradeResult = GradeResults::model()->find(
                     "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
@@ -414,7 +414,7 @@ class GradesController extends Controller
                 $arr["grades"] = [];
                 $arr["faults"] = [];
 
-                $discipline = $_POST['discipline'];
+                $discipline = Yii::app()->request->getPost("discipline");
 
                 $gradeResult = GradeResults::model()->find(
                     "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
