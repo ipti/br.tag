@@ -33,9 +33,13 @@ class UpdateFichaAlunoInTAGUseCase
             $studentId = StudentIdentification::model()->find('gov_id = :govId', [':govId' => $mapperStudentDocuments->gov_id])->id;
 
             $this->updateStudentDocsAndAddress($mapperStudentDocuments, $studentId);
-            $this->createOrUpdateStudentEnrollment($mapper->StudentEnrollment);
+            $statusUpdateEnrollment = $this->createOrUpdateStudentEnrollment($mapper->StudentEnrollment);
 
-            return $studentIdentification;
+            if($statusUpdateEnrollment === false){
+                return -1;
+            } else {
+                return $studentIdentification;
+            }
         } catch (Exception $e) {
             $this->handleException($mapperStudentIdentification, $e);
             return $e->getCode();
@@ -93,10 +97,15 @@ class UpdateFichaAlunoInTAGUseCase
                 $newEnrollment->attributes = $studentEnrollment->attributes;
                 $newEnrollment->sedsp_sync = 0;
 
-                if($newEnrollment->validate() && $newEnrollment->save()) {
-                    $newEnrollment->sedsp_sync = 1;
+                if($newEnrollment->classroom_fk === null){
+                    return false;
+                }else{
+                    if($newEnrollment->validate() && $newEnrollment->save()) {
+                        $newEnrollment->sedsp_sync = 1;
+                    }
+    
+                    return $newEnrollment->save();
                 }
-                return $newEnrollment->save();
             } else {
                 $enrollment->attributes = $studentEnrollment->attributes;
                 $enrollment->sedsp_sync = 0;
