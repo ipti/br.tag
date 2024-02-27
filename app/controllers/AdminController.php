@@ -127,8 +127,9 @@ class AdminController extends Controller
             if (!isset($modelValidate)) {
                 $model->attributes = $_POST['Users'];
                 if ($model->validate()) {
-                    $password = md5($_POST['Users']['password']);
-
+                    $passwordHasher =  new PasswordHasher;
+                    $password = $passwordHasher->bcriptHash($_POST['Users']['password']);
+                   
                     $model->password = $password;
                     // form inputs are valid, do something here
                     if ($model->save()) {
@@ -408,10 +409,11 @@ class AdminController extends Controller
         $model = Users::model()->findByPk($id);
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
-            $password = md5($_POST['Users']['password']);
-            $confirm = md5($_POST['Confirm']);
+            $passwordHasher = new PasswordHasher;
+            $password = ($_POST['Users']['password']);
+            $confirm = ($_POST['Confirm']);
             if ($password == $confirm) {
-                $model->password = $password;
+                $model->password = $passwordHasher->bcriptHash($password);
                 if ($model->save()) {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
                     if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
@@ -547,8 +549,8 @@ class AdminController extends Controller
         if (isset($users)) {
             $model->attributes = $users;
             if ($model->validate()) {
-                $password = md5($users['password']);
-                $model->password = $password;
+                $passwordHasher = new PasswordHasher;
+                $model->password = $passwordHasher->bcriptHash($users['password']);
                 if ($model->save()) {
                     $save = true;
                     foreach ($userSchools as $userSchool) {
