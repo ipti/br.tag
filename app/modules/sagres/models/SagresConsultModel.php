@@ -534,7 +534,7 @@ class SagresConsultModel
         $schedules = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
 
         if(empty($schedules)) {
-            if (empty($scheduleType)) {
+            if (empty($schedules)) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'HORÁRIO';
                 $inconsistencyModel->school = '';
@@ -544,7 +544,7 @@ class SagresConsultModel
                 $inconsistencyModel->idClass = $classId;
                 #$inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
-            }            
+            }
         }
 
 
