@@ -1,6 +1,10 @@
+## [Versão 3.68.110]
+- Adicionado Modal para adicionar novos recursos na tela de plano de aula.
+- Alteração na estrutura do banco de dados referente ao tipo de recurso cadastrado em um plano
+
 ## [Versão 3.68.109]
 - consertado listagem de refeições
-- 
+
 ## [Versão 3.68.108]
 - Corrigido condição para mostrar as habilidades do plano de aula.
 - Excluido * a mais da tela de plano de aulas.
