@@ -8,10 +8,10 @@
     margin-bottom: $SizeXXSmall;
     padding: $SizeXXSmall;
     border-radius: $borderRadiusNormal;
-};
+}
 
 .t-list-primary {
     @extend .t-list-content;
 
-    background-color: $colorsBaseCloudNormal;
+    background-color: $colorsBaseCloudLight;
 }
