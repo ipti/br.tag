@@ -171,7 +171,7 @@ class EducacaoTType
      * @param \SagresEdu\ProfissionalTType[] $profissional
      * @return self
      */
-    public function setProfissional(array $profissional)
+    public function setProfissional(array $profissional = null)
     {
         $this->profissional = $profissional;
         return $this;
