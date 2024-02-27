@@ -6,7 +6,7 @@ SagresEdu\TurmaTType:
             serialized_name: periodo
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getPeriodo
                 setter: setPeriodo
@@ -17,7 +17,7 @@ SagresEdu\TurmaTType:
             serialized_name: descricao
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getDescricao
                 setter: setDescricao
@@ -28,7 +28,7 @@ SagresEdu\TurmaTType:
             serialized_name: turno
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getTurno
                 setter: setTurno
@@ -39,14 +39,14 @@ SagresEdu\TurmaTType:
             serialized_name: serie
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getSerie
                 setter: setSerie
             xml_list:
                 inline: true
                 entry_name: serie
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             type: array<SagresEdu\SerieTType>
         matricula:
             expose: true
@@ -54,14 +54,14 @@ SagresEdu\TurmaTType:
             serialized_name: matricula
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getMatricula
                 setter: setMatricula
             xml_list:
                 inline: true
                 entry_name: matricula
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             type: array<SagresEdu\MatriculaTType>
         horario:
             expose: true
@@ -69,14 +69,14 @@ SagresEdu\TurmaTType:
             serialized_name: horario
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getHorario
                 setter: setHorario
             xml_list:
                 inline: true
                 entry_name: horario
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             type: array<SagresEdu\HorarioTType>
         finalTurma:
             expose: true
@@ -84,7 +84,7 @@ SagresEdu\TurmaTType:
             serialized_name: finalTurma
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getFinalTurma
                 setter: setFinalTurma
