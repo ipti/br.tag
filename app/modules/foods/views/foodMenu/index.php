@@ -24,7 +24,7 @@ $this->menu = array(
 				<a class="t-button-primary"  rel="noopener" href="<?= Yii::app()->createUrl('foods/foodMenu/create') ?>">
 					<?= Yii::t('default', 'Add') ?>
 				</a>
-				<a class="t-button-secondary hide" target="_blank"  rel="noopener"
+				<a class="t-button-secondary" target="_blank"  rel="noopener"
 					href="<?php echo Yii::app()->createUrl('foods/reports/ShoppingListReport') ?>">
 					<span class="t-icon-printer"></span>Lista de Compras
 				</a>

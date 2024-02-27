@@ -1,6 +1,9 @@
+## [Versão 3.69.109]
+- Adicionado relatório de lista de compras
+
 ## [Versão 3.68.109]
 - consertado listagem de refeições
-- 
+
 ## [Versão 3.68.108]
 - Corrigido condição para mostrar as habilidades do plano de aula.
 - Excluido * a mais da tela de plano de aulas.
@@ -15,6 +18,7 @@ as maiores de 10 em lançamento de notas e adicionada a verificação de recuper
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
 - Foi adicionado o envio do código do município para atender à recente exigência da SEDSP
+- Adicionado sincronização direta dos dados do aluno, com importação automática de turmas, se necessário.
 - Adicionado atualização de documentos e endereço do aluno com base na identificação (id).
 - Adicionado bcrypt para autenticação de usuários
 - Adicionado bcrypt na criação do instrutor
