@@ -138,7 +138,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <input type="hidden" class="semianual-unity-operation" value="create">
             <div class="numeric-fields t-field-text">
                 <label class="t-field-text__label--required">Média de Rec. Semestral</span></label>
-                <input type="text" class="semianual-unity-media t-field-text__input">
+                <input type="text" class="t-field-text__input" id="semianual-unity-media">
             </div>
 
             <div class="t-field-select js-calculation">

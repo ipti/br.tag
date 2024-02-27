@@ -253,6 +253,7 @@ class AdminController extends Controller
 
         $result["approvalMedia"] = $gradeRules->approvation_media;
         $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
+        $result["semiRecoverMedia"] = $gradeRules->semi_recover_media;
         $result["mediaCalculation"] = $gradeRules->grade_calculation_fk;
         $result["ruleType"] = $gradeRules->rule_type;
         $result["hasFinalRecovery"] = (bool) $gradeRules->has_final_recovery;
@@ -271,6 +272,7 @@ class AdminController extends Controller
         $unities = Yii::app()->request->getPost("unities");
         $approvalMedia = Yii::app()->request->getPost("approvalMedia");
         $finalRecoverMedia = Yii::app()->request->getPost("finalRecoverMedia");
+        $semiRecoverMedia = Yii::app()->request->getPost("semiRecoverMedia");
         $calculationFinalMedia = Yii::app()->request->getPost("finalMediaCalculation");
         $finalRecovery = Yii::app()->request->getPost("finalRecovery");
         $semiRecovery = Yii::app()->request->getPost("semianualRecovery");
@@ -285,6 +287,7 @@ class AdminController extends Controller
                 $unities,
                 $approvalMedia,
                 $finalRecoverMedia,
+                $semiRecoverMedia,
                 $calculationFinalMedia,
                 $hasFinalRecovery,
                 $hasSemianualRecovery,
@@ -349,6 +352,7 @@ class AdminController extends Controller
 
             $recoveryUnitySemi->name = $semianual["name"];
             $recoveryUnitySemi->type = "RS";
+            $recoveryUnitySemi
             $recoveryUnitySemi->grade_calculation_fk = $semianual["grade_calculation_fk"];
             $recoveryUnitySemi->edcenso_stage_vs_modality_fk = $stage;
 

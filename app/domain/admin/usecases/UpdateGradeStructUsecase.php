@@ -8,6 +8,8 @@
  * @property [] $unities
  * @property mixed $approvalMedia
  * @property mixed $finalRecoverMedia
+ * @property mixed $semiRecoverMedia
+ * @property mixed $calculationFinalMedia
  * @property mixed $calcFinalMedia
  * @property bool $hasFinalRecovery
  * @property string $ruleType
@@ -18,13 +20,14 @@ class UpdateGradeStructUsecase
     private const ALL_STAGES = "A";
     private const STAGES_FROM_SAME_MODALITY = "S";
 
-    public function __construct($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType)
+    public function __construct($reply, $stage, $unities, $approvalMedia, $finalRecoverMedia, $semiRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType)
     {
         $this->reply = $reply;
         $this->stage = $stage;
         $this->unities = $unities;
         $this->approvalMedia = $approvalMedia;
         $this->finalRecoverMedia = $finalRecoverMedia;
+        $this->semiRecoverMedia = $semiRecoverMedia;
         $this->calculationFinalMedia = $calcFinalMedia;
         $this->hasFinalRecovery = $hasFinalRecovery;
         $this->ruleType = $ruleType;
@@ -38,6 +41,7 @@ class UpdateGradeStructUsecase
                 $this->unities,
                 $this->approvalMedia,
                 $this->finalRecoverMedia,
+                $this->semiRecoverMedia,
                 $this->calculationFinalMedia,
                 $this->hasFinalRecovery,
                 $this->ruleType
@@ -46,15 +50,15 @@ class UpdateGradeStructUsecase
         } elseif ($this->reply === self::ALL_STAGES) {
             // A = Toda a Matriz Curricular
             $matrixes = $this->getAllMatrixes();
-            $this->saveAndReplayForSimliarStages($matrixes, $this->unities, $this->approvalMedia, $this->finalRecoverMedia, $this->calculationFinalMedia, $this->hasFinalRecovery, $this->ruleType);
+            $this->saveAndReplayForSimliarStages($matrixes, $this->unities, $this->approvalMedia, $this->finalRecoverMedia, $this->semiRecoverMedia, $this->calculationFinalMedia, $this->hasFinalRecovery, $this->ruleType);
         } elseif ($this->reply === self::STAGES_FROM_SAME_MODALITY) {
             // S = Todas as etapas de a modalidade selecionada.
             $stages = $this->getMatrixesForAllModalities($this->stage);
-            $this->saveAndReplayForSimliarStages($stages, $this->unities, $this->approvalMedia, $this->finalRecoverMedia, $this->calculationFinalMedia, $this->hasFinalRecovery, $this->ruleType);
+            $this->saveAndReplayForSimliarStages($stages, $this->unities, $this->approvalMedia, $this->finalRecoverMedia, $this->semiRecoverMedia, $this->calculationFinalMedia, $this->hasFinalRecovery, $this->ruleType);
         }
     }
 
-    private function saveAndReplayForSimliarStages($stages, $unities, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType)
+    private function saveAndReplayForSimliarStages($stages, $unities, $approvalMedia, $finalRecoverMedia, $semiRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType)
     {
         foreach ($stages as $stage) {
             $justOneUsecase = new UpdateGradeJustOneStructUsecase(
@@ -62,6 +66,7 @@ class UpdateGradeStructUsecase
                 $unities,
                 $approvalMedia,
                 $finalRecoverMedia,
+                $semiRecoverMedia,
                 $calcFinalMedia,
                 $hasFinalRecovery,
                 $ruleType

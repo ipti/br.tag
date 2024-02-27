@@ -373,7 +373,7 @@ function saveUnities(reply) {
                 }
             ],
             finalRecoverMedia: $(".final-recover-media").val(),
-            semiRecoverMedia: $(".semianual-unity-media").val(),
+            semiRecoverMedia: $("#semianual-unity-media").val(),
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
             ruleType: $(".js-rule-type").select2("val"),
@@ -594,6 +594,7 @@ function loadStructure() {
                 );
                 $(".js-rule-type").select2("val", data.ruleType);
                 $(".final-recover-media").val(data.finalRecoverMedia);
+                $("#semianual-unity-media").val(data.semiRecoverMedia);
                 $(".final-recovery-unity-operation").val(
                     data.final_recovery !== null ? "update" : "create"
                 );
@@ -628,6 +629,7 @@ function loadStructure() {
                 });
 
                 $(".final-recover-media").val(data.finalRecoverMedia);
+                $(".semiRecoverMedia").val(data.semiRecoverMedia);
 
                 if (data.hasFinalRecovery) {
                     $(".js-recovery-form").show();
