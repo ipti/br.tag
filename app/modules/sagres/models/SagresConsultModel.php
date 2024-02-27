@@ -516,6 +516,21 @@ class SagresConsultModel
 
         $schedules = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
 
+        if(empty($schedules)) {
+            if (empty($scheduleType)) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'HORÁRIO';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'NÃO HÁ UM QUADRO DE HORÁRIOS PARA A TURMA: ';
+                $inconsistencyModel->action = 'ADICIONE UM QUADRO DE HORÁRIOS PARA TURMA';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+        }
+
+
         foreach ($schedules as $schedule) {
             $scheduleType = new HorarioTType();
 

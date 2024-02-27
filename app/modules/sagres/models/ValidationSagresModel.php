@@ -42,7 +42,7 @@ class ValidationSagresModel extends CActiveRecord
             'school' => 'Escola',
             'description' => 'Descrição',
             'action' => 'Ação',
-            '$inep_id' => 'Inep Id',
+            'inep_id' => 'Inep Id',
             'idSchool' => 'School Id',
             'idClass' => 'Class Id',
             'identifier' => 'Identifier',
