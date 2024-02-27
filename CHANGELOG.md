@@ -1,3 +1,14 @@
+## [Versão 3.70.110]
+- Renomeado o head dos relatórios do municipio de Poço Dantas.
+
+## [Versão 3.70.109]
+- Adicionado atualização de documentos e endereço do aluno com base na identificação (id).
+- Adicionado bcrypt para autenticação de usuários
+- Adicionado bcrypt na criação do instrutor
+- Adicionado classe PasswordHasher
+- Adicionado bcrypt para criação de usuários admins
+- Adicionado bcrypt para criação de usuários
+
 ## [Versão 3.69.109]
 - Adicionado relatório de lista de compras
 
