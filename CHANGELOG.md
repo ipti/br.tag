@@ -1,9 +1,26 @@
-## [Versão 3.68.110]
+## [Versão 3.70.112]
 - Corrigindo o estilo da tela de estoque, as colunas status e entrada/saida atualizadas para facilitar a usabilidade
+
+## [Versão 3.70.111]
+- consertado listagem de refeições
+
+## [Versão 3.70.110]
+- Renomeado o head dos relatórios do municipio de Poço Dantas.
+
+## [Versão 3.70.109]
+- Adicionado atualização de documentos e endereço do aluno com base na identificação (id).
+- Adicionado bcrypt para autenticação de usuários
+- Adicionado bcrypt na criação do instrutor
+- Adicionado classe PasswordHasher
+- Adicionado bcrypt para criação de usuários admins
+- Adicionado bcrypt para criação de usuários
+
+## [Versão 3.69.109]
+- Adicionado relatório de lista de compras
 
 ## [Versão 3.68.109]
 - consertado listagem de refeições
--
+
 ## [Versão 3.68.108]
 - Corrigido condição para mostrar as habilidades do plano de aula.
 - Excluido * a mais da tela de plano de aulas.
