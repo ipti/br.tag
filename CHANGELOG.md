@@ -1,6 +1,9 @@
+## [Versão 3.69.109]
+- Adicionado relatório de lista de compras
+
 ## [Versão 3.68.109]
 - consertado listagem de refeições
-- 
+
 ## [Versão 3.68.108]
 - Corrigido condição para mostrar as habilidades do plano de aula.
 - Excluido * a mais da tela de plano de aulas.
