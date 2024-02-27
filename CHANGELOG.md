@@ -1,3 +1,6 @@
+## [Versão 3.68.111]
+- Foi modificado o ano para o tipo: @XmlNamespace para 2024
+
 ## [Versão 3.68.109]
 - consertado listagem de refeições
 - 
