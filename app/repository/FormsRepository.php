@@ -329,23 +329,19 @@ class FormsRepository {
         $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
         $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]); // medias do aluno na turma
         $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
-        $schedules = Schedule::model()->findAllByAttributes(["classroom_fk" => $enrollment->classroom_fk]);
+        $scheduleSql = "SELECT `month`, `day`c FROM schedule s JOIN classroom c on c.id = s.classroom_fk
+        WHERE c.school_year = :year AND c.id = :classroom
+        GROUP BY s.`month`, s.`day`";
+        $scheduleParams = array(':year' => Yii::app()->user->year, ':classroom' => $enrollment->classroom_fk);
+        $schedules = Schedule::model()->findAllBySql($scheduleSql, $scheduleParams);
         $gradeRules = GradeRules::model()->findByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcensoStageVsModalityFk->id]);
-        $portuguese = array();
-        $history = array();
-        $geography = array();
-        $mathematics = array();
-        $sciences = array();
-
+        $portuguese = array(); $history = array(); $geography = array(); $mathematics = array(); $sciences = array();
         $stage = isset($enrollment->edcenso_stage_vs_modality_fk) ? $enrollment->edcenso_stage_vs_modality_fk : $enrollment->classroomFk->edcenso_stage_vs_modality_fk;
-
         $minorFundamental = Yii::app()->utils->isStageMinorEducation($stage);
-
         $workload = 0;
         foreach ($curricularMatrix as $c) {
             $workload += $c->workload;
         }
-
         foreach ($curricularMatrix as $c) {
             foreach ($gradesResult as $g) {
                 if($c->disciplineFk->id == $g->discipline_fk) {
@@ -450,20 +446,16 @@ class FormsRepository {
                 }
             }
         }
-
         $totalFaults = 0;
         foreach ($disciplines as $d) {
             $totalFaults += $d["faults1"] + $d["faults2"] + $d["faults3"] + $d["faults4"];
         }
-
         $totalFaults += $portuguese[0]["faults1"] + $portuguese[0]["faults2"] + $portuguese[0]["faults3"] + $portuguese[0]["faults4"];
         $totalFaults += $history[0]["faults1"] + $history[0]["faults2"] + $history[0]["faults3"] + $history[0]["faults4"];
         $totalFaults += $geography[0]["faults1"] + $geography[0]["faults2"] + $geography[0]["faults3"] + $geography[0]["faults4"];
         $totalFaults += $mathematics[0]["faults1"] + $mathematics[0]["faults2"] + $mathematics[0]["faults3"] + $mathematics[0]["faults4"];
         $totalFaults += $sciences[0]["faults1"] + $sciences[0]["faults2"] + $sciences[0]["faults3"] + $sciences[0]["faults4"];
-
         $frequency = $this->calculateFrequency($workload, $totalFaults);
-
         $response = array(
             'gradeRules' => $gradeRules,
             'enrollment' => $enrollment,
@@ -478,7 +470,6 @@ class FormsRepository {
             'frequency' => $frequency,
             'minorFundamental' => $minorFundamental
         );
-
         return $response;
     }
 

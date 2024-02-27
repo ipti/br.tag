@@ -145,6 +145,14 @@
     }
 }
 
+.t-button-quaternary {
+    @extend .t-button;
+    background-color: $colorsBaseCloudLightActive;
+    color: $colorsBaseInkNormal;
+    border: 0;
+    cursor: auto;
+}
+
 .t-button-submit {
     @extend .t-button-primary;
     margin: $SizeNormal 0;
