@@ -170,8 +170,10 @@ class CourseplanController extends Controller
         $criteria->alias = "cca";
         $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = cca.edcenso_stage_vs_modality_fk";
 
+        $abilities = [];
+
         if ($disciplineId != null) {
-            $criteria->condition = "cca.edcenso_discipline_fk = :discipline and parent_fk is null and cca.type = 'COMPONENTE'";
+            $criteria->condition = "cca.edcenso_discipline_fk = :discipline and parent_fk is null";
             $criteria->params = [":discipline" => $disciplineId];
             $abilities = CourseClassAbilities::model()->findAll($criteria);
         }
