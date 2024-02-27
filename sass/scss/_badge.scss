@@ -55,3 +55,13 @@
     background-color: $colorsAlertWarningBackground;
     color: $colorsAlertWarningText;
 }
+
+.t-badge-content {
+    @extend .t-badge;
+    background-color: $colorsBaseProductLightActive;
+    color: $colorsBaseProductNormal;
+    border-radius: 4px;
+    border: none;
+    padding: 4px 8px 4px 8px;
+    gap: 4px;
+}
