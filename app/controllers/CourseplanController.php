@@ -49,15 +49,11 @@ class CourseplanController extends Controller
         if (isset($_POST['CoursePlan'])) {
             $this->actionSave();
         } else {
-
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
-            // $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
-
             $this->render('form', array(
                 'coursePlan' => new CoursePlan(),
                 'stages' => $this->getStages(),
                 'resources' => $resources,
-                // 'types' => $types,
             ));
         }
     }
@@ -73,15 +69,12 @@ class CourseplanController extends Controller
             $this->actionSave($id);
         } else {
             $coursePlan = $this->loadModel($id);
-
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
-            // $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
 
             $this->render('form', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
                 'resources' => $resources,
-                // 'types' => $types,
             ));
         }
     }
@@ -306,7 +299,7 @@ class CourseplanController extends Controller
             array_push(
                 $options,
                 CHtml::tag('option', ['value' => $value],
-                    CHtml::encode($name), TRUE));
+                    CHtml::encode($name), true));
         }
         echo CJSON::encode($options);
     }
