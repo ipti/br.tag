@@ -23,6 +23,17 @@ class RequisitionController extends Controller
         echo CJSON::encode($result);
     }
 
+
+
+    public function actionGetConsumptionData()
+{
+    $result = $this->getConsumptionData();
+
+    echo CJSON::encode($result);
+}
+
+
+
     public function actionGetInputData()
     {
         $result = $this->getInputData();
@@ -58,6 +69,21 @@ class RequisitionController extends Controller
         }
     }
 
+
+    private function getConsumptionData()
+{
+    try {
+        $result = $this->getClient()->request("GET", "/api/consultar_dados_input_consumo?code_school=Nada com nada de Itai10&item_code=005");
+
+        $resultArr = CJSON::decode($result->getBody()->getContents());
+
+        return $resultArr;
+
+    } catch (\Throwable $th) {
+        throw $th;
+    }
+}
+
     private function getClient()
     {
         if (is_null($this->client)) {
@@ -66,12 +92,18 @@ class RequisitionController extends Controller
                 'headers' => [
                     'content-type' => 'application/json',
                 ],
-                'timeout' => 10.0,
+                'timeout' => 30.0,
             ]);
         }
         return $this->client;
     }
 }
+
+
+
+
+
+
 
 
 
