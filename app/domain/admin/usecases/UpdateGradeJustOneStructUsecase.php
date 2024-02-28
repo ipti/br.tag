@@ -12,6 +12,7 @@
  * @property mixed $semiRecoverMedia
  * @property mixed $calculationFinalMedia
  * @property bool $hasFinalRecovery
+ * @property bool $hasSemianualRecovery
  * @property string $ruleType
  */
 class UpdateGradeJustOneStructUsecase
@@ -20,7 +21,7 @@ class UpdateGradeJustOneStructUsecase
     private const OP_UPDATE = "update";
     private const OP_REMOVE = "remove";
 
-    public function __construct($stage, $unities, $approvalMedia, $finalRecoverMedia, $semiRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $ruleType)
+    public function __construct($stage, $unities, $approvalMedia, $finalRecoverMedia, $semiRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $hasSemianualRecovery, $ruleType)
     {
         $this->stage = $stage;
         $this->unities = $unities;
@@ -29,6 +30,7 @@ class UpdateGradeJustOneStructUsecase
         $this->semiRecoverMedia = $semiRecoverMedia;
         $this->calculationFinalMedia = $calculationFinalMedia;
         $this->hasFinalRecovery = $hasFinalRecovery;
+        $this->hasSemianualRecovery = $hasSemianualRecovery;
         $this->ruleType = $ruleType;
     }
 
@@ -46,10 +48,10 @@ class UpdateGradeJustOneStructUsecase
             $this->semiRecoverMedia,
             $this->calculationFinalMedia,
             $this->hasFinalRecovery,
+            $this->hasSemianualRecovery,
             $this->ruleType
         );
         $rulesUseCase->exec();
-
     }
 
 
@@ -104,7 +106,6 @@ class UpdateGradeJustOneStructUsecase
                 }
 
                 $modalityModel->save();
-
             } elseif ($m["operation"] === self::OP_REMOVE) {
                 GradeUnityModality::model()->deleteByPk($m["id"]);
             }

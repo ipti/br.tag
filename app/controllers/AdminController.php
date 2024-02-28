@@ -322,7 +322,7 @@ class AdminController extends Controller
             }
 
             if ($hasSemianualRecovery === true) {
-                $this->processSemianualRecovery($stage, $semiRecovery);
+                $this->processSemianualRecovery($stage, $semiRecovery, $semiRecoverMedia);
             }
 
             echo json_encode(["valid" => true]);
@@ -334,10 +334,11 @@ class AdminController extends Controller
         }
     }
 
-    protected function processSemianualRecovery($stage, $semiRecovery)
+    protected function processSemianualRecovery($stage, $semiRecovery, $semiRecoverMedia)
     {
         foreach ($semiRecovery as $semianual) {
             $recoveryUnitySemi = new GradeUnity();
+            $gradeRules = new GradeRules();
 
             if ($semianual["operation"] === "update") {
                 $recoveryUnitySemi = GradeUnity::model()->find($semianual["id"]);
@@ -352,9 +353,10 @@ class AdminController extends Controller
 
             $recoveryUnitySemi->name = $semianual["name"];
             $recoveryUnitySemi->type = "RS";
-            $recoveryUnitySemi
+            // $recoveryUnitySemi
             $recoveryUnitySemi->grade_calculation_fk = $semianual["grade_calculation_fk"];
             $recoveryUnitySemi->edcenso_stage_vs_modality_fk = $stage;
+            $gradeRules->semi_recover_media = $semiRecoverMedia;
 
             if (!$recoveryUnitySemi->validate()) {
                 $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnitySemi);
