@@ -52,7 +52,7 @@ class DefaultController extends Controller
 		$this->render('inconsistencys');
 	}
 
-	public function actionExport($month, $finalClass, $chunkSize = 100)
+	public function actionExport($month, $finalClass, $noMovement)
 	{
 
 		try {
@@ -64,7 +64,7 @@ class DefaultController extends Controller
 
 			$sagres = new SagresConsultModel;
             $sagres->cleanInconsistences();
-			$sagresEduData = $sagres->getSagresEdu($year, $month, $finalClass);
+			$sagresEduData = $sagres->getSagresEdu($year, $month, $finalClass, $noMovement);
 			$sagresEduXML = $sagres->generatesSagresEduXML($sagresEduData);
 			$sagres->actionExportSagresXML($sagresEduXML);
 
