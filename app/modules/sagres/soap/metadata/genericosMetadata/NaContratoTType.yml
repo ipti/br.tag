@@ -6,7 +6,7 @@ Genericos\NaContratoTType:
             serialized_name: tipoContrato
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/genericos'
             accessor:
                 getter: getTipoContrato
                 setter: setTipoContrato
@@ -17,7 +17,7 @@ Genericos\NaContratoTType:
             serialized_name: nrContrato
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/genericos'
             accessor:
                 getter: getNrContrato
                 setter: setNrContrato
@@ -28,7 +28,7 @@ Genericos\NaContratoTType:
             serialized_name: anoContrato
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/genericos'
             accessor:
                 getter: getAnoContrato
                 setter: setAnoContrato

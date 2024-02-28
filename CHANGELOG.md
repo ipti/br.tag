@@ -1,3 +1,6 @@
+## [Versão 3.68.106]
+-Foi modificado o ano para o tipo: @XmlNamespace
+
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
 
