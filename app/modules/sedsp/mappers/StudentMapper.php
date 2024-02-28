@@ -376,14 +376,13 @@ class StudentMapper
             $numClass = $enrollment->getOutNumClasse();
             $codSchool = self::mapToTAGInepId($enrollment->getOutCodEscola());
 
-            $classroomFk = Classroom::model()->find([
-                'condition' => '(gov_id = :numClass OR inep_id = :numClass) AND school_inep_fk = :codSchool',
-                'params' => [
-                    ':numClass' => $numClass,
-                    ':codSchool' => $codSchool,
-                ],
-            ])->id;
-
+            $classroomFk = self::getClassroomFk($numClass, $codSchool);
+            if ($classroomFk === null) {
+                $inRelacaoClasses = new InRelacaoClasses(Yii::app()->user->year, strval(intval(substr($codSchool, 2))), null, null, null, null);
+                $classes = new GetRelacaoClassesFromSEDUseCase();
+                $classes->exec($inRelacaoClasses);
+            }
+            $classroomFk = self::getClassroomFk($numClass, $codSchool);
 
             $studentEnrollment = new StudentEnrollment();
             $studentEnrollment->school_inep_id_fk = $codSchool;
@@ -452,6 +451,17 @@ class StudentMapper
         $parseResult["StudentDocumentsAndAddress"] = $studentDocumentsAndAddress;
 
         return $parseResult;
+    }
+
+    public static function getClassroomFk($numClass, $codSchool)
+    {
+        return Classroom::model()->find([
+            'condition' => '(gov_id = :numClass OR inep_id = :numClass) AND school_inep_fk = :codSchool',
+            'params' => [
+                ':numClass' => $numClass,
+                ':codSchool' => $codSchool,
+            ],
+        ])->id;
     }
 
     public static function existsEnrollments($studentFk, $classroomInepId, $schoolInepIdFk)
