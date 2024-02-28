@@ -62,6 +62,8 @@ class DefaultController extends Controller
 
 			ini_set('memory_limit', '2048M');
 
+			$noMovement = ($noMovement === "true") ? true : false;
+
 			$sagres = new SagresConsultModel;
             $sagres->cleanInconsistences();
 			$sagresEduData = $sagres->getSagresEdu($year, $month, $finalClass, $noMovement);
