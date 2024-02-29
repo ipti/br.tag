@@ -227,7 +227,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <div class="row">
                     <?php
                         $newResource = new CourseClassResources();
-                        echo $form->textField($newResource, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input new-resource', 'placeholder' => 'Digite o Nome do Plano'));
+                        echo $form->textField($newResource, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input new-resource', 'placeholder' => 'Digite o Nome do Recurso'));
                     ?>
                     <button class="t-button-secondary confirm-new-resource" style="margin: 0px">Adicionar</button>
                 </div>
