@@ -1,3 +1,6 @@
+## [Versão 3.71.112]
+- Adicionando o botão de ordem alfabética na aba de ordem de diário no formulário de turmas
+
 ## [Versão 3.70.112]
 - Corrigindo o estilo da tela de estoque, as colunas status e entrada/saida atualizadas para facilitar a usabilidade
 
