@@ -3,35 +3,41 @@
 
 use GuzzleHttp\Client;
 
+
+$school_test = yii::app()->user->school;
+
+
 class RequisitionController extends Controller
 {
     private $client;
 
     public function actionIndex()
-    {
-        $result = $this->getData();
-
-        $this->render('index', array(
-            "data" => $result
-        ));
-    }
-
-    public function actionGetData()
-    {
-        $result = $this->getData();
-
-        echo CJSON::encode($result);
-    }
-
-
-
-    public function actionGetConsumptionData()
 {
-    $result = $this->getConsumptionData();
+    $itemId = Yii::app()->getRequest()->getQuery('item_code');
+    $result = $this->getData($itemId);
+
+    $this->render('index', array(
+        "data" => $result
+    ));
+}
+
+public function actionGetData()
+{
+    $itemId = Yii::app()->getRequest()->getQuery('item_code');
+    $result = $this->getData($itemId);
 
     echo CJSON::encode($result);
 }
 
+
+
+public function actionGetConsumptionData()
+{
+    $itemId = Yii::app()->getRequest()->getQuery('item_code');
+    $result = $this->getConsumptionData($itemId);
+
+    echo CJSON::encode($result);
+}
 
 
     public function actionGetInputData()
@@ -41,10 +47,10 @@ class RequisitionController extends Controller
         echo CJSON::encode($result);
     }
 
-    private function getData()
+        private function getData($itemCode)
     {
         try {
-            $result = $this->getClient()->request("GET", "/api/consultar_dados_output?school_code=Nada com nada de Itai10&item_code=001");
+            $result = $this->getClient()->request("GET", "/api/consultar_dados_output?school_code=Nada com nada de Itai10&item_code=$itemCode");
 
             $resultArr = CJSON::decode($result->getBody()->getContents());
 
@@ -54,11 +60,12 @@ class RequisitionController extends Controller
             throw $th;
         }
     }
+
 
     private function getInputData()
     {
         try {
-            $result = $this->getClient()->request("GET", "/api/consultar_dados_input?code_school=Nada com nada de Itai10&item_code=005");
+            $result = $this->getClient()->request("GET", "/api/consultar_dados_input?code_school=Nada com nada de Itai10");
 
             $resultArr = CJSON::decode($result->getBody()->getContents());
 
@@ -69,11 +76,10 @@ class RequisitionController extends Controller
         }
     }
 
-
-    private function getConsumptionData()
+private function getConsumptionData($itemCode)
 {
     try {
-        $result = $this->getClient()->request("GET", "/api/consultar_dados_input_consumo?code_school=Nada com nada de Itai10&item_code=005");
+        $result = $this->getClient()->request("GET", "/api/consultar_dados_input_consumo?code_school=Nada com nada de Itai10&item_code=$itemCode");
 
         $resultArr = CJSON::decode($result->getBody()->getContents());
 
@@ -101,9 +107,20 @@ class RequisitionController extends Controller
 
 
 
+///////////////////////////////////////////////////////////////////////////////
 
 
+// FoodInventoryReceived::model()->findByAttributes(["date"=>$dataquerida])
+
+// $china = FoodInventoryReceived::model()->findAll();
+// CVarDumper::dump($china, 12, True);
 
 
+// $finventoryReceived = FoodInventoryReceived::model()->findAllByAttributes([],['select' => 'date, amount']);
+// CVarDumper::dump($finventoryReceived, 12, True);
+
+
+$finventory = FoodInventory::model()->findAllByAttributes([],['select' => 'id, amount, expiration_date']);
+CVarDumper::dump($finventory, 12, True);
 
 
