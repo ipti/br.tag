@@ -93,6 +93,9 @@ $('#discipline').change(function (e, triggerEvent) {
 
                     if(data.rule == "N") {
                         html += `
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>1º Recuperação Semestral</th>
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>2º Recuperação Semestral</th>
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Semestral</th>
                             <th rowspan='2' style='width:10%;vertical-align:middle;'>Recuperação Final</th>
                             <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
                         `;
@@ -164,6 +167,13 @@ $('#discipline').change(function (e, triggerEvent) {
 
                         if(data.rule == "N") {
                             html += `
+                                <td class='grade-td one-semianual-td'>
+                                    <input type='text' class='one-semianual' value='' style="width:50px; text-align:center; margin-bottom: 0px">
+                                </td>
+                                <td class='grade-td two-semianual-td'>
+                                    <input type='text' class='one-semianual' value='' style="width:50px; text-align:center; margin-bottom: 0px">
+                                </td>
+                                <td style='font-weight: bold;font-size: 16px;' class='final-media'> ${this.finalMedia }</td>
                                 <td class='grade-td rec-final-td'>
                                     <input type='text' class='rec-final' value='${this.recFinal}'>
                                 </td>

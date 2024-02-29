@@ -16,7 +16,7 @@ declare(strict_types=1);
  */
 class UpdateGradeRulesUsecase
 {
-    public function __construct($stage, $approvalMedia, $finalRecoverMedia, $semiRecoverMedia, $calcFinalMedia, $hasFinalRecovery,$hasSemianualRecovery, $ruleType)
+    public function __construct($stage, $approvalMedia, $finalRecoverMedia, $semiRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $hasSemianualRecovery, $ruleType)
     {
         $this->stage = $stage;
         $this->approvalMedia = $approvalMedia;
@@ -45,6 +45,7 @@ class UpdateGradeRulesUsecase
         $gradeRules->has_final_recovery = (int) $this->hasFinalRecovery;
         $gradeRules->rule_type = $this->ruleType;
         $gradeRules->semi_recover_media = $this->semiRecoverMedia;
+        $gradeRules->has_semianual_recovery = (int) $this->hasSemianualRecovery;
 
         if(!$gradeRules->validate()){
             Yii::log(TagUtils::stringfyValidationErrors($gradeRules), CLogger::LEVEL_ERROR);
