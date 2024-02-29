@@ -67,8 +67,6 @@ $('#js-alphabetic-order').click(function() {
         },
     }).success(function (response) {
         const result = JSON.parse(response);
-        console.log(result);
-
         const list = []
         result.forEach(element => {
             const li = document.createElement('li');
