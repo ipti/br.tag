@@ -49,7 +49,7 @@ class ClassroomController extends Controller
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
                     'batchupdatenrollment',
-                    'getcomplementaryactivitytype', 'delete',
+                    'getcomplementaryactivitytype', 'delete', 'updateDailyOrder',
                     'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines', 'syncToSedsp', 'syncUnsyncedStudents'
                 ),
                 'users' => array('@'),
@@ -998,6 +998,36 @@ class ClassroomController extends Controller
         }
     }
 
+    public function actionUpdateDailyOrder() {
+        $ids = $_POST['list'];
+        $enrollments = StudentEnrollment::model()->findAllByPk($ids);
+        $studentsNames = [];
+
+        foreach ($enrollments as $enrollment) {
+            $studentsNames[] = $enrollment->studentFk->name;
+        }
+
+        sort($studentsNames);
+
+        foreach ($enrollments as $enrollment) {
+            $currentName = $enrollment->studentFk->name;
+            $position = array_search($currentName, $studentsNames);
+            $enrollment->daily_order = $position + 1;
+            $enrollment->save();
+        }
+
+        $result = array_map(function ($enrollment) {
+            return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name,
+                "daily_order" => $enrollment->daily_order];
+        }, $enrollments);
+
+        usort($result, function($a, $b) {
+            return $a['daily_order'] - $b['daily_order'];
+        });
+
+        echo json_encode($result);
+    }
+
     public function actionChangeEnrollments()
     {
         $ids = $_POST['list'];
@@ -1012,8 +1042,8 @@ class ClassroomController extends Controller
         foreach ($enrollments as $i => $enrollment) {
             $enrollment->daily_order = $i + 1;
             $enrollment->save();
-        }
-        ;
+        };
+
         $result = array_map(function ($enrollment) {
             return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name,
                 "daily_order" => $enrollment->daily_order];
