@@ -54,7 +54,7 @@ $('#copy-gov-id').click(function() {
 });
 
 $('#js-alphabetic-order').click(function() {
-    orderArray = $('#js-t-sortable').sortable("toArray");
+    var orderArray = $('#js-t-sortable').sortable("toArray");
     $.ajax({
         url: `?r=classroom/updateDailyOrder`,
         type: "POST",

@@ -1042,7 +1042,7 @@ class ClassroomController extends Controller
         foreach ($enrollments as $i => $enrollment) {
             $enrollment->daily_order = $i + 1;
             $enrollment->save();
-        };
+        }
 
         $result = array_map(function ($enrollment) {
             return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name,
