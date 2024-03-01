@@ -223,7 +223,7 @@ function updateSelectResources(){
         url: "?r=courseplan/getResources",
         cache: false
     }).success(function(response){
-        resources = JSON.parse(response);
+        let resources = JSON.parse(response);
         Object.entries(resources).forEach(function(option) {
             resourceSelect.append(option);
         });
@@ -263,7 +263,6 @@ function addResource(button) {
 function removeResource(button) {
     let resource = $(button).closest(".course-class-resource");
     let resources = resource.parent();
-    let classe = resources.closest("tr").prev().children(".details-control").next().text();
     resource.remove();
 }
 
