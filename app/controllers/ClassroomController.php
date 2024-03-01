@@ -999,7 +999,7 @@ class ClassroomController extends Controller
     }
 
     public function actionUpdateDailyOrder() {
-        $ids = $_POST['list'];
+        $ids = Yii::app()->request->getPost("list");
         $enrollments = StudentEnrollment::model()->findAllByPk($ids);
         $studentsNames = [];
 
