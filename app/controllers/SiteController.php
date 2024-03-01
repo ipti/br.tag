@@ -219,6 +219,7 @@ class SiteController extends Controller
                         . '</li>';
                     array_push($warns, $htmlpart);
                 } else {
+                    //Se houver etapa verificar matrix curricular
                     $listCurricularMatrixs = $stage->curricularMatrixes;
                     if (count($listCurricularMatrixs)){
                         $warning = "Etapa " . $stage->name . " da turma " . $classroom->name . " não tem matriz curricular.";
@@ -232,6 +233,22 @@ class SiteController extends Controller
                     } else {
                         //Verificar necessidades de alerta
                     }
+
+                    //Se houver etapa verificar se existe estrutura de notas
+                    $listGradeUnities = $stage->gradeUnities;
+                    if (count($listGradeUnities)) {
+                        $warning = "Etapa " . $stage->name . " da turma " . $classroom->name . " está sem estrutura de notas.";
+                        $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                            . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                            . '<img style="background-color:orange; color:black;" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/notas.svg"/>'
+                            . $warning
+                            . '</div>'
+                            . '</li>';
+                        array_push($warns, $htmlpart);
+                    } else {
+                        //Verificar necessidades de alerta
+                    }
+
                 }
 
                 //Se houver turma verificar se exite calendario vinculado a turma
@@ -247,6 +264,51 @@ class SiteController extends Controller
                     array_push($warns, $htmlpart);
                 } else {
                     //Se houver calendário verificar necessidades de alerta
+                }
+
+                //Se houver turma verificar se exite quadro de horários vinculado a turma
+                $listSchedules = Schedule::model()->findallByAttributes(["classroom_fk" => $classroom->id]);
+                if (count($listSchedules) == 0) {
+                    $warning = "Turma " . $classroom->name . " ainda não possui um quadro de horários.";
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                        . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/quadro_de_horario.svg"/>'
+                        . $warning
+                        . '</div>'
+                        . '</li>';
+                    array_push($warns, $htmlpart);
+                } else {
+                    //Verificar necessidades de alerta
+                }
+
+                //Se houver turma verificar se exite professor vinculado a turma
+                $listInstructors = InstructorTeachingData::model()->findallByAttributes(["classroom_id_fk" => $classroom->id]);
+                if (count($listInstructors) == 0) {
+                    $warning = "Turma " . $classroom->name . " ainda não possui professores.";
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                        . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/professores.svg"/>'
+                        . $warning
+                        . '</div>'
+                        . '</li>';
+                    array_push($warns, $htmlpart);
+                } else {
+                    //Verificar necessidades de alerta
+                }
+
+                //Se houver turma verificar se exite aluno matriculado a turma
+                $listStudentEnrollments = StudentEnrollment::model()->findallByAttributes(["classroom_fk" => $classroom->id]);
+                if (count($listStudentEnrollments) == 0) {
+                    $warning = "Turma " . $classroom->name . " ainda não possui alunos matriculados.";
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                        . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/matricula.svg"/>'
+                        . $warning
+                        . '</div>'
+                        . '</li>';
+                    array_push($warns, $htmlpart);
+                } else {
+                    //Verificar necessidades de alerta
                 }
 
             }
