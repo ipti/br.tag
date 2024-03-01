@@ -268,8 +268,12 @@ const PlateComponent = function (plate) {
             let newAmount = calculateAmount(
                 select.find('option:selected').attr('data-value'),
                 select.find('option:selected').attr('data-measure'), input.val())
-            td.text(newAmount)
+            td.find("span").text(newAmount).show()
+            td.find("input").hide()
+            return;
         }
+        td.find("span").hide()
+        td.find("input").show()
     })
     select.on('change', function (event) {
         food.foodMeasureUnitId = select.val()
@@ -277,10 +281,12 @@ const PlateComponent = function (plate) {
             let newAmount = calculateAmount(
                 select.find('option:selected').attr('data-value')
                 , select.find('option:selected').attr('data-measure'), input.val())
-            td.text(newAmount)
+                td.find("span").text(newAmount).show()
+                td.find("input").hide()
             return;
         }
-        td.html(`<input class='t-field-text__input ' type='text' style='width:50px !important' required='required' name='Quantidade'>`)
+        td.find("span").hide()
+        td.find("input").show()
     })
   }
   function calculateAmount(value, measure, amount) {
@@ -323,7 +329,8 @@ const PlateComponent = function (plate) {
                 </select>
             </td>`)
       .append(`<td class='js-amount'>
-
+        <span class="hide"></span>
+        <input class='t-field-text__input hide' type='text' style='width:50px !important' required='required' name='Quantidade'>
       </td>`)
       .append(`<td class='js-pt'>${pt}</td>`)
       .append(`<td class='js-lip'>${lip}</td>`)
