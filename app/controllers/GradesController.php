@@ -222,6 +222,8 @@ class GradesController extends Controller
             $gradeResult->enrollment_fk = $std['enrollmentId'];
             $gradeResult->discipline_fk = $discipline;
             $gradeResult->rec_final = $std["recFinal"];
+            $gradeResult->rec_semianual_1 = $std["recSemianual1"];
+            $gradeResult->rec_semianual_2 = $std["recSemianual2"];
             $gradeResult->final_concept = $std["finalConcept"];
 
             $hasAllValues = true;
@@ -346,6 +348,11 @@ class GradesController extends Controller
 
                 $arr["finalMedia"] = $gradeResult->final_media ?? "";
                 $arr["recFinal"] = $gradeResult->rec_final ?? "";
+
+                $arr["recSemianual1"] = $gradeResult->rec_semianual_1 ?? "";
+                $arr["recSemianual2"] = $gradeResult->rec_semianual_2 ?? "";
+                $arr["semianualMedia"] = $gradeResult->semianual_media ?? "";
+
                 $arr["finalConcept"] = $gradeResult->final_concept;
 
                 $arr["situation"] = $studentEnrollment->getCurrentStatus();
