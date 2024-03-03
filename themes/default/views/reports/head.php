@@ -20,13 +20,20 @@ if(!isset($school)){
     };
     ?>
     <ul id="info">
-        <?php if(isset($school->act_of_acknowledgement)&&(!empty($school->act_of_acknowledgement))){?>
+        <?php if (isset($school->act_of_acknowledgement) && !empty($school->act_of_acknowledgement)) { ?>
             <li><?php echo $school->name ?></li>
-        <?php }else{?>
-            <li>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name ?></li>
+        <?php } else { ?>
+            <li>
+                <?php if (TagUtils::isInstance("POCODANTAS")) { ?>
+                    SECRETÁRIA MUNICIPAL DE EDUCAÇÃO DE <?php echo $school->edcensoCityFk->name ?>
+                <?php } else { ?>
+                    PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name ?>
+                <?php } ?>
+            </li>
             <li><?php echo $school->name ?></li>
-        <?php }?>
+        <?php } ?>
     </ul>
+
     <ul id="addinfo">
         <li><?php echo $school->address.', '.(!empty($school->address_number) ? $school->address_number.', ':'' ).$school->address_neighborhood; ?>, <?php echo $school->edcensoCityFk->name . " - " . $school->edcensoUfFk->acronym ?> </li>
         <li><?php echo $school->act_of_acknowledgement ?></li>

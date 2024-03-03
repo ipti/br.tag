@@ -324,6 +324,11 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
 			$statusSave = $exibirFicha->exec($inAluno);
             $id = (int) $_GET["id"];
 
+            if($statusSave === -1) {
+                Yii::app()->user->setFlash('error', "O estudante foi sincronizado com sucesso, no entanto, a matrícula não foi sincronizada.");
+				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
+            }
+
             if($statusSave === 401) {
                 Yii::app()->user->setFlash('error', "Não foi possível fazer a sincronização da SED para o TAG.");
 				$this->redirect([self::REDIRECT_PATH, 'id' => $id]);
