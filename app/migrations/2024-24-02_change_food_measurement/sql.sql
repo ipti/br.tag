@@ -7,6 +7,8 @@ ADD unit varchar(100);
 delete from food_measurement;
 
 insert into food_measurement (value, unit, measure) values
+(300, "copo (requeijão) duplo colmado (cheio)", "ml"),
+(null, "unidade", "null"),
 (240, "xícara", "ml"),
 (15, "colher (sopa)", "ml"),
 (5, "colher (chá)", "ml"),
@@ -20,7 +22,6 @@ insert into food_measurement (value, unit, measure) values
 (250, "copo (americano) duplo até o vinco", "ml"),
 (150, "copo (requeijão) pequeno", "ml"),
 (250, "copo (requeijão) duplo nivelado", "ml"),
-(300, "copo (requeijão) duplo colmado (cheio)", "ml"),
 (90, "copo (vinho)", "ml"),
 (45, "cálice", "ml"),
 (120, "1/2 xícara", "ml"),
@@ -35,8 +36,7 @@ insert into food_measurement (value, unit, measure) values
 (80, "concha pequena", "ml"),
 (160, "concha média", "ml"),
 (320, "concha grande", "ml"),
-(1000, "litro (4 copos americanos)", "ml"),
-(null, "unidade", "null");
+(1000, "litro (4 copos americanos)", "ml");
 
 
 alter table food_ingredient

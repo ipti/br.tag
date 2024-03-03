@@ -1,6 +1,13 @@
 $(".js-save-menu").on("click", function () {
     const form = $('#food-menu-form')
-    if(form[0].checkValidity()) {
+    const erros = []
+    form.find(':input[required]').each(function () {
+        if (!this.validity.valid && !this.classList.contains('js-ignore-validation')) {
+            if(!erros.includes(this.name))
+            erros.push(this.name)
+        }
+    });
+    if(erros.length === 0 ) {
         let foodMenu = {
             "description": "",
             "week": "",
@@ -46,8 +53,8 @@ $(".js-save-menu").on("click", function () {
         foodMenu.friday = getMealsByDay(5)
         foodMenu.saturday = getMealsByDay(6)
 
-        console.log(foodMenu)
-        /* if(menuId)
+        // console.log(foodMenu)
+        if(menuId)
         {
             $.ajax({
                 url: `?r=foods/foodMenu/update&id=${menuId}`,
@@ -69,16 +76,9 @@ $(".js-save-menu").on("click", function () {
             }).done(function (response) {
                 window.location.href = "?r=foods/foodMenu/index";
             })
-        } */
+        }
 
     } else {
-        const erros = []
-        form.find(':input[required]').each(function () {
-            if (!this.validity.valid) {
-                if(!erros.includes(this.name))
-                erros.push(this.name)
-            }
-        });
 
         showErros(erros)
     }
@@ -134,7 +134,8 @@ function getFoodIngredients(idPlateAccordion) {
         foodIngredient.food_id_fk = $(row).attr('data-idTaco')
         foodIngredient.food_measure_unit_id = $(row).find('.js-measure select').val()
         foodIngredient.amount = $(row).find('.js-unit input').val()
-        foodIngredient.portion = $(row).find('.js-amount input').length > 0 ? $(row).find('.js-amount input').val() : $(row).find('.js-amount').text()
+        foodIngredient.portion = $(row).find('.js-measure select').find('option:selected').text()  != "unidade" ? $(row).find('.js-amount .js-amount-value').text() :  $(row).find('.js-amount input').val()
+
         foodIngredients.push(foodIngredient)
     })
     return foodIngredients

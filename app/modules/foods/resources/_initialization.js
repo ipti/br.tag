@@ -50,7 +50,8 @@ if(menuId)  {
                 id: idIgredientes,
                 amount: foodIngredient.amount,
                 foodIdFk: foodIngredient.foodIdFk,
-                foodMeasureUnitId: foodIngredient.foodMeasureUnitId
+                foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                portion: foodIngredient.portion
             }
             idIgredientes++
             return food
@@ -84,7 +85,8 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    portion: foodIngredient.portion
                 }
             idIgredientes++
             return food
@@ -118,7 +120,8 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    portion: foodIngredient.portion
                 }
             idIgredientes++
             return food
@@ -152,7 +155,8 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    portion: foodIngredient.portion
                 }
             idIgredientes++
             return food
@@ -186,7 +190,8 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    portion: foodIngredient.portion
                 }
             idIgredientes++
             return food
