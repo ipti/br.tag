@@ -102,11 +102,13 @@ class FoodMenuService
 
                 $idFood = $food["id"];
                 if (!array_key_exists($idFood, $result)) {
+                    $measurementUnit = Food::model()->findByAttributes(array('id' => $idFood))->measurementUnit;
                     $result[$idFood] = array(
                         'id' => $idFood,
                         'name' => str_replace(',', '', $food["description"]),
                         'total' => 0, // Inicializa o total como 0
-                        'measure' => $food["measure"]
+                        'measure' => $food["measure"],
+                        'measurementUnit' => $measurementUnit
                     );
                 }
 

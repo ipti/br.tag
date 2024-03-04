@@ -85,7 +85,7 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
 
                         <tr>
                             <td><?= $foodItem["name"]?></td>
-                            <td><?= $foodItem["total"] . $foodItem["measure"] ?></td>
+                            <td><?= $foodItem["total"] . $foodItem["measurementUnit"] ?></td>
                         </tr>
                     <?php
                             endif;
@@ -95,6 +95,7 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
         </table>
     </div>
 </div>
+<?php CVarDumper::dump($foodIngredientsList, 12, true); ?>
 <script>
     function imprimirPagina() {
         window.print();
