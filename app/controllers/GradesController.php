@@ -258,6 +258,14 @@ class GradesController extends Controller
                 );
                 $usecaseFinalMedia->exec();
 
+                $count = 2;
+                $usecaseSemiMedia = new CalculateSemianualMediaUsecase(
+                    $gradeResult,
+                    $gradeRules,
+                    $count
+                );
+                $usecaseSemiMedia->exec();
+
                 if ($gradeResult->enrollmentFk->isActive()) {
                     $usecase = new ChageStudentStatusByGradeUsecase(
                         $gradeResult,

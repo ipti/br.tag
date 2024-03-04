@@ -591,6 +591,13 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 );
                 $usecaseFinalMedia->exec();
 
+                $usecaseSemiMedia = new CalculateSemianualMediaUsecase(
+                    $gradeResult,
+                    $gradeRules,
+                    count($std['grades'])
+                );
+                $usecaseSemiMedia->exec();
+
                 if ($gradeResult->enrollmentFk->isActive()) {
                     $usecase = new ChageStudentStatusByGradeUsecase(
                         $gradeResult,
