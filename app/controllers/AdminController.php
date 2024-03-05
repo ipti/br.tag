@@ -72,6 +72,7 @@ class AdminController extends Controller
 
     public function actionImportMaster()
     {
+        ini_set('memory_limit', '2048M');
         $adapter = new Adapter;
         $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
