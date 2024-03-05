@@ -4,11 +4,13 @@
  * @property GradeResults $gradesResult
  * @property GradeRules $gradeRule
  * @property int $countUnities
+ * @property int $classroomId
  */
 class CalculateSemianualMediaUsecase
 {
-    public function __construct($gradesResult, $gradeRule, $countUnities)
+    public function __construct($classroomId, $gradesResult, $gradeRule, $countUnities)
     {
+        $this->classroomId = $classroomId;
         $this->gradesResult = $gradesResult;
         $this->gradeRule = $gradeRule;
         $this->countUnities = $countUnities;
@@ -16,13 +18,15 @@ class CalculateSemianualMediaUsecase
 
     public function exec()
     {
-        $semiGrade = 
+        //Retorna a média semianual
+        $teste = $this->getSemianualMedia($this->classroomId);
 
         $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
         $semianualMedia = $this->applyCalculation($this->gradeRule->gradeCalculationFk, $grades);
 
         if ($this->shouldApplySemianualRecovery($this->gradesResult, $semianualMedia)) {
             $this->applySemianualRecovery($this->gradesResult, $semianualMedia);
+            // $this->applySemianualRecovery($this->gradesResult, $teste);
         }
 
         $this->saveSemianualMedia($this->gradesResult, $semianualMedia);
@@ -84,5 +88,15 @@ class CalculateSemianualMediaUsecase
                 $this->gradeRule->edcenso_stage_vs_modality_fk
             )
         )->execCount();
+    }
+
+    private function getSemianualMedia($classroomId)
+    {
+        $classroom = Classroom::model()->findByPk($classroomId);
+        $gradeRules = GradeRules::model()->findByAttributes([
+            "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
+        ]);
+
+        return $gradeRules->semi_recover_media;
     }
 }

@@ -31,6 +31,10 @@ class CalculateNumericGradeUsecase
                 $gradeResult = $this->calculateCommonUnity($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
             } elseif ($gradeUnity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
                 $gradeResult = $this->calculateUnityWithRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
+            } elseif ($gradeUnity->type == GradeUnity::TYPE_SEMIANUAL_RECOVERY) {
+                // @TODO: ALTERAR MEDOTO PARA CALCULO DA RECUPERACAO SEMESTRAL
+                $gradeResult = $this->calculateUnityWithRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
+            }
             } elseif ($gradeUnity->type == GradeUnity::TYPE_FINAL_RECOVERY) {
                 $gradeResult = $this->calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity);
             }

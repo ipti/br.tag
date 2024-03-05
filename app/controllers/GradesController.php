@@ -260,6 +260,7 @@ class GradesController extends Controller
 
                 $count = 2;
                 $usecaseSemiMedia = new CalculateSemianualMediaUsecase(
+                    $classroom->id,
                     $gradeResult,
                     $gradeRules,
                     $count
