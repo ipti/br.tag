@@ -1,8 +1,11 @@
+## [Versão 3.71.113]
+- Adicionado módulo de dashboard
+
 ## [Versão 3.70.113]
 - Corrigindo o estilo da tela de estoque, as colunas status e entrada/saida atualizadas para facilitar a usabilidade
 
 ## [Versão 3.70.112]
-- consertado listagem de refeições
+- Consertado listagem de refeições
 
 ## [Versão 3.70.111]
 - Renomeado o head dos relatórios do municipio de Poço Dantas.
