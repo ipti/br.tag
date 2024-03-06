@@ -1,7 +1,7 @@
 <?php
 /* @var $this RequisitionController */
 
-$this->breadcrumbs=array(
+$this->breadcrumbs = array(
     $this->module->id,
 );
 
@@ -18,7 +18,8 @@ $cs->registerScriptFile('https://cdn.jsdelivr.net/npm/chart.js', CClientScript::
     <div class="main">
         <div class="js-predict">
             <table id="example" class="js-tag-table tag-table-primary table table-condensed
-                            table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%">
+                            table-striped table-hover table-primary table-vertical-center checkboxs"
+                style="width:100%">
                 <thead>
                     <tr>
                         <th class="text-center">Alimento</th>
@@ -32,7 +33,7 @@ $cs->registerScriptFile('https://cdn.jsdelivr.net/npm/chart.js', CClientScript::
                 <tbody>
                 </tbody>
             </table>
-        </div>   
+        </div>
     </div>
 
     <!-- Modal -->
@@ -40,7 +41,8 @@ $cs->registerScriptFile('https://cdn.jsdelivr.net/npm/chart.js', CClientScript::
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Gráfico de Previsão</h4>
                 </div>
                 <div class="modal-body">
@@ -50,11 +52,8 @@ $cs->registerScriptFile('https://cdn.jsdelivr.net/npm/chart.js', CClientScript::
         </div>
     </div>
 
-    <!-- Dados de comportamento do consumo do item ao longo do tempo
-    <h3>Dados de comportamento do consumo do item ao longo do tempo</h3>
+    <button id="sendDataButton">Enviar Dados</button>
+    <h3>dados do post</h3>
     <div id="secondRequestData"></div>
 
-  Dados saída do item 
-   <h3>Dados saída do item</h3>
-    <div id="TerciaryRequestData"></div> -->
 </div>
