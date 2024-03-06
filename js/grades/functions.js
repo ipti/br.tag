@@ -285,7 +285,10 @@ function GradeTableBuilder(data) {
                             .join("\n")}
                         ${
                             !data.isUnityConcept
-                                ? `<th style="font-size: 80%; font-weight: bold;">Média Anual</th>`
+                                ? `
+                                <th style="font-size: 80%; font-weight: bold;">Média Semestral</th>
+                                <th style="font-size: 80%; font-weight: bold;">Média Anual</th>
+                                `
                                 : ""
                         }
                         <th style="font-size: 80%; font-weight: bold;">Resultado</th>
