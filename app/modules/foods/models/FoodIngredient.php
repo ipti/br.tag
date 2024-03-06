@@ -37,7 +37,7 @@ class FoodIngredient extends CActiveRecord
         // will receive user inputs.
         return array(
             array('amount', 'required'),
-            array('amount, replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'numerical', 'integerOnly'=>true),
+            array('replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'numerical', 'integerOnly'=>true),
             array('observation', 'length', 'max'=>191),
             array('portion', 'safe'),
             // The following rule is used by search().

@@ -47,6 +47,7 @@ class FoodMenuService
         END AS turn,
         fi.food_id_fk,
         f.description,
+        f.measurementUnit,
         fm2.measure,
         f.id,
         SUM(fi.amount) as total_amount,
@@ -95,6 +96,7 @@ class FoodMenuService
             $studentsTurn[$turn] = $totalStudents;
         }
 
+        // CVarDumper::dump($foods, 12, true);
         if ($students != null && $foods != null) {
             foreach ($foods as $food) {
                 // verifica se tem alunos nesse turno
@@ -102,19 +104,33 @@ class FoodMenuService
 
                 $idFood = $food["id"];
                 if (!array_key_exists($idFood, $result)) {
-                    $measurementUnit = Food::model()->findByAttributes(array('id' => $idFood))->measurementUnit;
+
+                    if($food["measure"] == 'g'){
+                        $measure = "kg";
+                    } else if($food["measure"] == 'ml'){
+                        $measure = $food["measurementUnit"] == "g"? "kg" : "l";
+                    } else if ($food["measure"] == 'u') {
+                        $measure = "u";
+                    }
                     $result[$idFood] = array(
                         'id' => $idFood,
                         'name' => str_replace(',', '', $food["description"]),
                         'total' => 0, // Inicializa o total como 0
-                        'measure' => $food["measure"],
-                        'measurementUnit' => $measurementUnit
+                        'measure' => $measure,
+                        // 'measurementUnit' => $measurementUnit
                     );
                 }
 
                 // Atualiza o total
+                $value = $food["total"];
+
+                if($food["measure"] == 'g' || $food["measure"]  == 'ml'){
+                    $value = $food["total"]/1000;
+                }
+
+
                 $result[$idFood]['total'] +=
-                    ($food["total"] * $studentsTurn[$turn]) + ($food["total"] * $studentsTurn["Integral"]);
+                    ($value * $studentsTurn[$turn]) + ($value * $studentsTurn["Integral"]);
             }
         }
         return $result;
@@ -265,7 +281,6 @@ class FoodMenuService
             $foodSearch = Food::model()->findByPk($ingredient["food_id_fk"]);
             $foodIngredient->food_id_fk = $foodSearch->id;
             $foodIngredient->amount = $ingredient["amount"];
-            $foodIngredient->portion =  $ingredient["portion"];
             $foodIngredient->food_menu_meal_componentId = $modelComponent->id;
             $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measure_unit_id"]);
             $foodIngredient->food_measurement_fk = $foodMeasurement->id;
@@ -402,7 +417,6 @@ class IngredientObject
     public $foodName;
     public $amount;
     public $foodMeasureUnitId;
-    public $portion;
 
     public function __construct($model, $foodModel)
     {
@@ -410,6 +424,5 @@ class IngredientObject
         $this->foodName = $foodModel->description;
         $this->amount = $model->amount;
         $this->foodMeasureUnitId = $model->food_measurement_fk;
-        $this->portion = $model->portion;
     }
 }

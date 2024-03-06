@@ -6,10 +6,17 @@ ADD unit varchar(100);
 
 delete from food_measurement;
 
+ALTER TABLE food_measurement
+MODIFY COLUMN measure ENUM('Kg','mg','g','ml','L', 'u');
+
 insert into food_measurement (value, unit, measure) values
-(300, "copo (requeijão) duplo colmado (cheio)", "ml"),
-(null, "unidade", "null"),
 (240, "xícara", "ml"),
+(1, "litro", "l"),
+(1, "kilograma", "kg"),
+(1, "grama", "g"),
+(1, "ml", "ml"),
+(1, "unidade", "u"),
+(300, "copo (requeijão) duplo colmado (cheio)", "ml"),
 (15, "colher (sopa)", "ml"),
 (5, "colher (chá)", "ml"),
 (50, "dedo", "ml"),
@@ -35,9 +42,8 @@ insert into food_measurement (value, unit, measure) values
 (2.5, "colher (café)", "ml"),
 (80, "concha pequena", "ml"),
 (160, "concha média", "ml"),
-(320, "concha grande", "ml"),
-(1000, "litro (4 copos americanos)", "ml");
+(320, "concha grande", "ml");
 
 
-alter table food_ingredient
- add portion varchar(20)
+ALTER TABLE food_ingredient
+MODIFY COLUMN amount DECIMAL(10,2);
