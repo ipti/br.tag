@@ -417,12 +417,21 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     <span class="t-menu-item__text">Administração</span>
                                 </a>
                             </li>
-                            <li class="t-menu-item hide-responsive">
-                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>">
-                                    <span class="t-icon-bar_graph t-menu-item__icon"></span>
-                                    <span class="t-menu-item__text">Gestão de Resultados</span>
-                                </a>
-                            </li>
+                            <?php if(Yii::app()->features->isEnable("FEAT_DASHBOARD_POWER")): ?>
+                                    <li class="t-menu-item hide-responsive">
+                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('dashboard') ?>">
+                                            <span class="t-icon-bar_graph t-menu-item__icon"></span>
+                                            <span class="t-menu-item__text">Gestão de Resultados</span>
+                                        </a>
+                                    </li>
+                                <?php else: ?>
+                                    <li class="t-menu-item hide-responsive">
+                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('resultsmanagement') ?>">
+                                            <span class="t-icon-bar_graph t-menu-item__icon"></span>
+                                            <span class="t-menu-item__text">Gestão de Resultados</span>
+                                        </a>
+                                    </li>
+                                <?php endif;?>
                         <?php } ?>
                     </ul>
                 </div>
