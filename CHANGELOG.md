@@ -1,3 +1,7 @@
+## [Versão 3.71.114]
+- Adicionada a opção "Não possui" na tela de enrollment.
+
+
 ## [Versão 3.71.113]
 - Adicionado módulo de dashboard
 
@@ -22,7 +26,7 @@
 - Adicionado relatório de lista de compras
 
 ## [Versão 3.68.110]
-- Obtenção do CPF do estudante corrigida 
+- Obtenção do CPF do estudante corrigida
 
 ## [Versão 3.68.109]
 - consertado listagem de refeições
