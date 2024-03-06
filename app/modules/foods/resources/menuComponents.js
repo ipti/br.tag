@@ -108,7 +108,7 @@ const PlateComponent = function (plate) {
             <th>Nome</th>
             <th>Unidade</th>
             <th>Medida</th>
-            <th>Quantidade</th>
+            <th colspan="2">Quantidade</th>
             <th>PT</th>
             <th>LIP</th>
             <th>CHO</th>
@@ -119,7 +119,7 @@ const PlateComponent = function (plate) {
           <th></th>
           <th></th>
           <th></th>
-          <th></th>
+          <th colspan="2"></th>
           <th></th>
           <th></th>
           <th></th>
@@ -190,7 +190,7 @@ const PlateComponent = function (plate) {
             <th>Nome</th>
             <th>Unidade</th>
             <th>Medida</th>
-            <th>Quantidade</th>
+            <th colspan="2">Quantidade</th>
             <th>PT</th>
             <th>LIP</th>
             <th>CHO</th>
@@ -264,7 +264,17 @@ const PlateComponent = function (plate) {
     const select = line.find('.js-measure select')
     const td = line.find('.js-amount')
     const inputAmount = td.find("input")
-    const measurementUnit = td.find("select.js-measurement-unit")
+    const selectAmount = line.find(".js-amount-select select.js-measurement-unit")
+    if(tacoFood.measurementUnit =='l') {
+        selectAmount.empty();
+        selectAmount.append('<option value="ml">ml</option>');
+        selectAmount.append('<option value="l">l</option>');
+    } else {
+        selectAmount.empty();
+        selectAmount.append('<option value="mg">mg</option>');
+        selectAmount.append('<option value="kg">kg</option>');
+    }
+    line.find(".js-amount-select .js-measurement-unit").hide()
     inputAmount.on('input', function (event) {
       food.portion =  inputAmount.val();
     })
@@ -277,16 +287,16 @@ const PlateComponent = function (plate) {
                 select.find('option:selected').attr('data-measure'))
             td.find(".js-amount-value").text(newAmount).show()
             inputAmount.hide()
-            td.find("select.js-measurement-unit").hide()
-            td.find("select.js-measurement-unit").addClass('js-ignore-validation')
             inputAmount.addClass('js-ignore-validation')
+            line.find(".js-amount-select select").hide()
+            line.find(".js-amount-select .js-measurement-unit").addClass('js-ignore-validation')
             return;
         }
         td.find(".js-amount-value").hide()
-        inputAmount.removeClass('js-ignore-validation')
         inputAmount.show()
-        td.find(".js-measurement-unit").removeClass('js-ignore-validation')
-        td.find(".js-measurement-unit").show()
+        inputAmount.removeClass('js-ignore-validation')
+       line.find(".js-amount-select select").show()
+        line.find(".js-amount-select .js-measurement-unit").removeClass('js-ignore-validation')
     })
     select.on('change', function (event) {
         food.foodMeasureUnitId = select.val()
@@ -299,15 +309,15 @@ const PlateComponent = function (plate) {
                 td.find(".js-amount-value").text(newAmount).show()
                 inputAmount.hide()
                 inputAmount.addClass('js-ignore-validation')
-                td.find(".js-measurement-unit").hide()
-                td.find(".js-measurement-unit").addClass('js-ignore-validation')
+                line.find(".js-amount-select select").hide()
+                line.find(".js-amount-select .js-measurement-unit").addClass('js-ignore-validation')
             return;
         }
         td.find(".js-amount-value").hide()
-        inputAmount.removeClass('js-ignore-validation')
         inputAmount.show()
-        td.find(".js-measurement-unit").removeClass('js-ignore-validation')
-        td.find(".js-measurement-unit").show()
+        inputAmount.removeClass('js-ignore-validation')
+        line.find(".js-amount-select  select").show()
+        line.find(".js-amount-select .js-measurement-unit").removeClass('js-ignore-validation')
     })
   }
   function calculateAmount(value, tacoFood, amount, measure) {
@@ -316,10 +326,10 @@ const PlateComponent = function (plate) {
 
     let result = (Number(amount) * Number(value)).toFixed(2)
 
-    if(tacoFood.measurementUnit === 'l'){
-      result = result > 1000 ? (result/1000)+"l" : result + "ml"
-    } else {
-      result = result > 1000 ? (result/1000)+"kg" : result + "g"
+    if(tacoFood.measurementUnit === 'l' && (measure == 'l' || measure == 'ml')){
+      result = result+measure
+    } else if(tacoFood.measurementUnit != 'l' && (measure == 'ml')) {
+      result = result +"g"
     }
     return result
   }
@@ -342,16 +352,13 @@ const PlateComponent = function (plate) {
       .append(`<td>Total</td>`)
       .append(`<td></td>`)
       .append(`<td></td>`)
-      .append(`<td></td>`)
+      .append(`<td colspan="2"></td>`)
       .append(`<td>${total_pt.toFixed(2)}</td>`)
-      .append(`<td>${total_lip.toFixed(2)}</td>`)
+      .append(`<td>${total_pt.toFixed(2)}</td>`)
       .append(`<td>${total_cho.toFixed(2)}</td>`)
       .append(`<td>${total_kcal.toFixed(2)}</td>`)
       .append(`<td></td>`)
     table.append(lineTotal)
-  }
-  function transformUnit(measurementUnit) {
-    /* if() */
   }
   function createMealComponent({ id, name, pt, lip, cho, kcal, measurementUnit }, food) {
     const line = $(`<tr class='js-food-ingredient' data-idTaco='${id}'></tr>`)
@@ -362,16 +369,14 @@ const PlateComponent = function (plate) {
                 </select>
             </td>`)
       .append(`<td class='js-amount'>
-        <span class="js-amount-value"></span>
-        <input class='t-field-text__input js-ignore-validation' type='text' style='width:50px !important' value='${food.portion}' name='Quantidade'>
-        <select class="js-initialize-select2 t-field-select__input js-ignore-validation js-measurement-unit" style='width:50px !important;'>
-            <option value="kg">kg</option>
-            <option value="g">g</option>
-            <option value="L">L</option>
-            <option value="ml">ml</option>
-        </select>
+                <span class="js-amount-value"></span>
+                <input class='t-field-text__input js-ignore-validation' type='text' style='width:50px !important' value='${food.portion}' name='Quantidade'>
+             </td>`)
+      .append(`<td class='js-amount-select'><select class="t-field-select__input js-ignore-validation js-measurement-unit measurement-unit" >
 
-        </td>`)
+      </select>
+
+             </td>`)
       .append(`<td class='js-pt'>${pt}</td>`)
       .append(`<td class='js-lip'>${lip}</td>`)
       .append(`<td class='js-cho'>${cho}</td>`)
