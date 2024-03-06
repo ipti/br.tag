@@ -10,13 +10,23 @@ function renderFoodsTable(foodsRelation) {
 
     table.append(head);
 
-    $.each(foodsRelation, function(index, stock) {
+    $.each(foodsRelation, function(index, food) {
         let row = $('<tr>').addClass('');
-        $('<td>').text(stock.foodDescription).appendTo(row);
-        $('<td>').text(stock.amount).appendTo(row);
-        $('<td>').text(stock.measurementUnit).appendTo(row);
+        $('<td>').text(food.foodDescription).appendTo(row);
+        $('<td>').text(food.amount).appendTo(row);
+        $('<td>').text(food.measurementUnit).appendTo(row);
         $('<td>').html('<div class="justify-content--end"><span class="t-icon-close t-icon" data-foodId="'+ index +'" id="remove-food-button"></span></div>').appendTo(row);
 
         table.append(row);
+    });
+}
+
+function existingFoodVerification(foodsRelation, id) {
+    let found = false;
+
+    $.each(foodsRelation, function(index, food) {
+        if(food.id == id) {
+            found = true;
+        }
     });
 }

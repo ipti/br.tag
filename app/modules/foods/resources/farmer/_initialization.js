@@ -41,13 +41,22 @@ $(document).on("change", "#foodSelect", function () {
 });
 
 $(document).on("click", "#js-add-food", function () {
+    debugger;
     let food = $('#foodSelect').find('option:selected').text();
     let foodId = $('#foodSelect').val().split(',')[0];
     let amount = $('#amount').val();
     let measurementUnit = $('#measurementUnit').find('option:selected').text();
 
-    foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit});
-    renderFoodsTable(foodsRelation);
+    if(foodId == "alimento" || amount == "") {
+        $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
+    } else {
+        if(amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
+            foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit});
+            renderFoodsTable(foodsRelation);
+        } else {
+            $('#info-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
+        }
+    }
 });
 
 $(document).on("click", "#remove-food-button", function () {
