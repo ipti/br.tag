@@ -41,7 +41,6 @@ $(document).on("change", "#foodSelect", function () {
 });
 
 $(document).on("click", "#js-add-food", function () {
-    debugger;
     let food = $('#foodSelect').find('option:selected').text();
     let foodId = $('#foodSelect').val().split(',')[0];
     let amount = $('#amount').val();
@@ -51,7 +50,15 @@ $(document).on("click", "#js-add-food", function () {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     } else {
         if(amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
-            foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit});
+            let existingIndex = $.map(foodsRelation, function(obj, index) {
+                return obj.id === foodId ? index : null;
+            })[0];
+
+            if(existingIndex !== undefined) {
+                foodsRelation[existingIndex].amount = parseFloat(foodsRelation[existingIndex].amount) + parseFloat(amount);
+            } else {
+                foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit});
+            }
             renderFoodsTable(foodsRelation);
         } else {
             $('#info-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
@@ -64,3 +71,23 @@ $(document).on("click", "#remove-food-button", function () {
     foodsRelation.splice(id, 1);
     renderFoodsTable(foodsRelation);
 });
+
+$(document).on("click", "#save-farmer", function () {
+    let name = $("#farmerName").val();
+    let cpf = $("#farmerCpf").val();
+    let phone = $("#farmerPhone").val();
+    let groupType = $('#farmerGroupType').find('option:selected').text();
+
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/farmerRegister/saveFarmerRegister",
+        cache: false,
+        data: {
+            name: name,
+            cpf: cpf,
+            phone: phone,
+            groupType: groupType,
+            foodsOnStock: foodsOnStock
+        }
+    })
+})

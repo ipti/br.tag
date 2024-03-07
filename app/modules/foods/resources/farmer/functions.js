@@ -20,13 +20,3 @@ function renderFoodsTable(foodsRelation) {
         table.append(row);
     });
 }
-
-function existingFoodVerification(foodsRelation, id) {
-    let found = false;
-
-    $.each(foodsRelation, function(index, food) {
-        if(food.id == id) {
-            found = true;
-        }
-    });
-}

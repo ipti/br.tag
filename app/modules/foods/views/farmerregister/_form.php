@@ -24,7 +24,7 @@ $form=$this->beginWidget('CActiveForm', array(
             <p></p>
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
-            <button id="saveStage" class="t-button-primary" type="submit">
+            <button id="save-farmer" class="t-button-primary" type="submit">
                 <?= $model->isNewRecord ? Yii::t('default', 'Cadastrar') : Yii::t('default', 'Save') ?>
             </button>
         </div>
@@ -55,14 +55,14 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="column clearleft is-two-fifths">
             <div class="t-field-text">
                 <?php echo $form->label($model,'name', array('class' => 't-field-text__label--required')); ?>
-                <?php echo $form->textField($model,'name', array('id' => 'stageName','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
+                <?php echo $form->textField($model,'name', array('id' => 'farmerName','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($model,'name'); ?>
             </div>
         </div>
         <div class="column clearleft is-two-fifths">
             <div class="t-field-text">
                 <?php echo $form->label($model,'cpf', array('class' => 't-field-text__label--required')); ?>
-                <?php echo $form->textField($model,'cpf', array('id' => 'stageName','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
+                <?php echo $form->textField($model,'cpf', array('id' => 'farmerCpf','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($model,'cpf'); ?>
             </div>
         </div>
@@ -72,14 +72,14 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="column clearleft is-two-fifths">
             <div class="t-field-text">
                 <?php echo $form->label($model,'phone', array('class' => 't-field-text__label--required')); ?>
-                <?php echo $form->textField($model,'phone', array('id' => 'stageName','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
+                <?php echo $form->textField($model,'phone', array('id' => 'farmerPhone','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($model,'phone'); ?>
             </div>
         </div>
         <div class="column clearleft is-two-fifths">
             <div class="t-field-select">
                 <?php echo $form->label($model,'group_type', array('class' => 't-field-select__label--required')); ?>
-                <select class="select-search-off t-field-select__input select2-container">
+                <select id="farmerGroupType" class="select-search-off t-field-select__input select2-container">
                     <option value="agricultor">Selecione o Grupo</option>
                     <option value="Fornecedor Individual">Fornecedor Individual</option>
                     <option value="Grupo Formal">Grupo Formal</option>
