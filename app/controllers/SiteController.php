@@ -50,7 +50,7 @@ class SiteController extends Controller
 
         //$this->redirect(yii::app()->createUrl('student'));
         $this->loadLogsHtml(5);
-        $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8), "htmlWarns" => $this->loadWarnsHtml(8)]);
+        $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8), "htmlWarns" => $this->loadWarnsHtml(8, 0)]);
     }
 
     /**
@@ -187,7 +187,7 @@ class SiteController extends Controller
         echo $this->loadLogsHtml(10, $date);
     }
 
-    private function loadWarnsHtml()
+    private function loadWarnsHtml($limit, $visibloWarningsCount)
     {
         $warns = [];
 
@@ -195,10 +195,10 @@ class SiteController extends Controller
         $listSchoolClassrooms = Classroom::model()->findallByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
         if (count($listSchoolClassrooms) == 0) {
             $schoolModel = SchoolIdentification::model()->findByAttributes(['inep_id' => yii::app()->user->school]);
-            $warning = "Escola " . $schoolModel->name . " ainda não possui turmas cadastradas.";
+            $warning = 'Escola "<b>' . $schoolModel->name . '</b>" ainda não possui turmas cadastradas.';
 
             $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
                 . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/turmas.svg"/>'
                 . $warning
                 . '</div>'
@@ -210,9 +210,9 @@ class SiteController extends Controller
                 //Se houver turma verificar se exite etapa vinculada a turma
                 $stage = $classroom->edcensoStageVsModalityFk;
                 if ($stage == null){
-                    $warning = "Turma " . $classroom->name . " ainda não possui uma etapa.";
+                    $warning = 'Turma "<b>' . $classroom->name . '</b>" ainda não possui uma etapa.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                        . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
                         . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/plano_de_aula.svg"/>'
                         . $warning
                         . '</div>'
@@ -222,9 +222,9 @@ class SiteController extends Controller
                     //Se houver etapa verificar matrix curricular
                     $listCurricularMatrixs = $stage->curricularMatrixes;
                     if (count($listCurricularMatrixs)){
-                        $warning = "Etapa " . $stage->name . " da turma " . $classroom->name . " não tem matriz curricular.";
+                        $warning = 'Etapa "<b>' . $stage->name . '</b>" da turma "<b>' . $classroom->name . '</b>" não tem matriz curricular.';
                         $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                            . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                            . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
                             . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/matriz_curricular.svg"/>'
                             . $warning
                             . '</div>'
@@ -237,9 +237,9 @@ class SiteController extends Controller
                     //Se houver etapa verificar se existe estrutura de notas
                     $listGradeUnities = $stage->gradeUnities;
                     if (count($listGradeUnities)) {
-                        $warning = "Etapa " . $stage->name . " da turma " . $classroom->name . " está sem estrutura de notas.";
+                        $warning = 'Etapa "<b>' . $stage->name . '</b>" da turma "<b>' . $classroom->name . '</b>" está sem estrutura de notas.';
                         $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                            . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                            . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
                             . '<img style="background-color:orange; color:black;" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/notas.svg"/>'
                             . $warning
                             . '</div>'
@@ -254,9 +254,9 @@ class SiteController extends Controller
                 //Se houver turma verificar se exite calendario vinculado a turma
                 $calendar = $classroom->calendarFk;
                 if ($calendar == null){
-                    $warning = "Turma " . $classroom->name . " ainda não possui um calendário.";
+                    $warning = 'Turma "<b>' . $classroom->name . '</b>" ainda não possui um calendário.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                        . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
                         . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/calendario.svg"/>'
                         . $warning
                         . '</div>'
@@ -267,11 +267,11 @@ class SiteController extends Controller
                 }
 
                 //Se houver turma verificar se exite quadro de horários vinculado a turma
-                $listSchedules = Schedule::model()->findallByAttributes(["classroom_fk" => $classroom->id]);
+                $listSchedules = $classroom->schedules;
                 if (count($listSchedules) == 0) {
-                    $warning = "Turma " . $classroom->name . " ainda não possui um quadro de horários.";
+                    $warning = 'Turma "<b>' . $classroom->name . '</b>" ainda não possui um quadro de horários.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                        . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
                         . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/quadro_de_horario.svg"/>'
                         . $warning
                         . '</div>'
@@ -282,11 +282,11 @@ class SiteController extends Controller
                 }
 
                 //Se houver turma verificar se exite professor vinculado a turma
-                $listInstructors = InstructorTeachingData::model()->findallByAttributes(["classroom_id_fk" => $classroom->id]);
+                $listInstructors = $classroom->instructorTeachingDatas;
                 if (count($listInstructors) == 0) {
-                    $warning = "Turma " . $classroom->name . " ainda não possui professores.";
+                    $warning = 'Turma "<b>' . $classroom->name . '</b>" ainda não possui professores.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                        . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
                         . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/professores.svg"/>'
                         . $warning
                         . '</div>'
@@ -297,11 +297,11 @@ class SiteController extends Controller
                 }
 
                 //Se houver turma verificar se exite aluno matriculado a turma
-                $listStudentEnrollments = StudentEnrollment::model()->findallByAttributes(["classroom_fk" => $classroom->id]);
+                $listStudentEnrollments = $classroom->studentEnrollments;
                 if (count($listStudentEnrollments) == 0) {
-                    $warning = "Turma " . $classroom->name . " ainda não possui alunos matriculados.";
+                    $warning = '"Turma "<b>' . $classroom->name . '</b>" ainda não possui alunos matriculados.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                        . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
                         . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/matricula.svg"/>'
                         . $warning
                         . '</div>'
@@ -317,11 +317,12 @@ class SiteController extends Controller
 
 
         if (count($warns) == 0) {
-            return '<div class="no-recent-activitive t-badge-info" id="no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há falhas cadastrais.</div>';
+            return '<div class="no-recent-activitive t-badge-info" id="no-recent-warnings"><span class="t-info_positive t-badge-info__icon"></span>Não há falhas cadastrais.</div>';
         } else {
             $html = "";
-            foreach ($warns as $warn => $value) {
-                $html .= $value;
+            $count = $limit + $visibloWarningsCount;
+            for ($i = 0; $i < $count; $i++) {
+                $html .= $warns[$i];
             }
             return $html;
         }
@@ -329,7 +330,8 @@ class SiteController extends Controller
 
     public function actionLoadMoreWarns()
     {
-        echo $this->loadWarnsHtml();
+        $count = $_POST['visibleWarningsCount'];
+        echo $this->loadWarnsHtml(8, intval($count));
     }
 
     public function actionLoadLineChartData()

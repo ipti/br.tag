@@ -23,19 +23,16 @@ $(document).on("click", ".info-list", function () {
 
 $(document).on("click", ".warn-list", function () {
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: loadMoreWarns,
         data: {
-            date: $(".log-date").last().text()
+            visibleWarningsCount:  $('.warn-div').length
         },
         success: function (data) {
 
-            $(".no-recent-activitive").remove();
-
+            $(".no-recent-warnings").remove();
+            $(".warns > li").remove();
             $(data).insertBefore(".warn-list");
-            if ($(".warn").length >= $(".eggs").find(".warn-widget").attr("total")) {
-                $(".warn-list").hide();
-            }
             $(".warn").each(function () {
                 $(this).find(".t-info_positive").html("<i></i>" + changeNameLength($(this).find(".t-info_positive").text(), 100));
 
@@ -49,7 +46,7 @@ $(document).ready(function () {
         $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").text(), 100));
     });
 
-    if ($(".log").length >= $(".eggs").find(".log-widget").attr("total")) {
+    if ($(".logs").length >= $(".eggs").find(".log-widget").attr("total")) {
         $(".info-list").hide();
     }
 
@@ -60,10 +57,6 @@ $(document).ready(function () {
     $(".warns").each(function () {
         $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").text(), 100));
     });
-
-    if ($(".warns").length >= $(".eggs").find(".warn-widget").attr("total")) {
-        $(".warn-list").hide();
-    }
 
     if ($(".board-msg").attr("version") !== getCookie('tag_version')) {
         $(".board-msg").show();
