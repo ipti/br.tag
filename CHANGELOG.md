@@ -1,3 +1,6 @@
+## [Versão 3.72.114]
+- Adicionada a opção "Não possui" na tela de enrollment.
+
 ## [Versão 3.72.113]
 - Adicionando o botão de ordem alfabética na aba de ordem de diário no formulário de turmas
 
@@ -25,7 +28,7 @@
 - Adicionado relatório de lista de compras
 
 ## [Versão 3.68.110]
-- Obtenção do CPF do estudante corrigida 
+- Obtenção do CPF do estudante corrigida
 
 ## [Versão 3.68.109]
 - consertado listagem de refeições
