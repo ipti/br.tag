@@ -182,7 +182,7 @@ $('#discipline').change(function (e, triggerEvent) {
                         }
 
                         html += `
-                            <td class="final-media">${frequency}%</td>
+                            <td id='frequency' class="final-media">${frequency}%</td>
                             <td class="grade-td situation">${ this.situation }</td>
                         </tr>`;
                     });
@@ -239,6 +239,8 @@ $("#save").on("click", function (e) {
         });
     });
 
+    let frequencyData = $('#frequency').text().replace('%', '');
+
     $.ajax({
         type: "POST",
         url: "?r=grades/saveGradesRelease",
@@ -247,7 +249,8 @@ $("#save").on("click", function (e) {
             classroom: $("#classroom").val(),
             discipline: $("#discipline").val(),
             students: students,
-            rule: $(".grades-table").attr("concept")
+            rule: $(".grades-table").attr("concept"),
+            frequency: frequencyData
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");

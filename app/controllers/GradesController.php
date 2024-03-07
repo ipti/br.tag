@@ -212,6 +212,7 @@ class GradesController extends Controller
         $classroomId = $_POST['classroom'];
         $students = $_POST['students'];
         $rule = $_POST['rule'];
+        $frequency = $_POST['frequency'];
 
         $classroom = Classroom::model()->findByPk($classroomId);
 
@@ -263,7 +264,8 @@ class GradesController extends Controller
                     $usecase = new ChageStudentStatusByGradeUsecase(
                         $gradeResult,
                         $gradeRules,
-                        count($std['grades'])
+                        count($std['grades']),
+                        $frequency
                     );
                     $usecase->exec();
                 }
