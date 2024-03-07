@@ -205,7 +205,7 @@ class SiteController extends Controller
                 . '</li>';
 
             array_push($warns, $htmlpart);
-        } else {//
+        } else {
             foreach ($listSchoolClassrooms as $classroom) {
                 //Se houver turma, verificar se existe etapa vinculada à turma
                 $stage = $classroom->edcensoStageVsModalityFk;
