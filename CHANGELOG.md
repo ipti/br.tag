@@ -1,3 +1,6 @@
+## [Versão 3.72.113]
+- Adicionando o botão de ordem alfabética na aba de ordem de diário no formulário de turmas
+
 ## [Versão 3.71.113]
 - Adicionado módulo de dashboard
 
