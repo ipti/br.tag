@@ -11,10 +11,10 @@ MODIFY COLUMN measure ENUM('Kg','mg','g','ml','L', 'u');
 
 insert into food_measurement (value, unit, measure) values
 (240, "xícara", "ml"),
-(1, "litro", "l"),
-(1, "kilograma", "kg"),
-(1, "grama", "g"),
-(1, "ml", "ml"),
+(1, "l (litro)", "l"),
+(1, "kg (kilograma)", "kg"),
+(1, "g (grama)", "g"),
+(1, "ml (mililitro)", "ml"),
 (1, "unidade", "u"),
 (300, "copo (requeijão) duplo colmado (cheio)", "ml"),
 (15, "colher (sopa)", "ml"),

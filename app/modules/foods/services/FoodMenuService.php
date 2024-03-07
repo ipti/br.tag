@@ -60,7 +60,7 @@ class FoodMenuService
         JOIN food_measurement fm2 ON fm2.id = fi.food_measurement_fk
         JOIN food f ON f.id = fi.food_id_fk
         WHERE fm.start_date <= :date AND fm.final_date >= :date
-        GROUP BY turn, fi.food_id_fk;";
+        GROUP BY turn, fi.food_id_fk ;";
 
         $foods = Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
 
@@ -95,8 +95,6 @@ class FoodMenuService
 
             $studentsTurn[$turn] = $totalStudents;
         }
-
-        // CVarDumper::dump($foods, 12, true);
         if ($students != null && $foods != null) {
             foreach ($foods as $food) {
                 // verifica se tem alunos nesse turno
@@ -104,20 +102,24 @@ class FoodMenuService
 
                 $idFood = $food["id"];
                 if (!array_key_exists($idFood, $result)) {
+                    $measure = '';
 
-                    if($food["measure"] == 'g'){
-                        $measure = "kg";
-                    } else if($food["measure"] == 'ml'){
-                        $measure = $food["measurementUnit"] == "g"? "kg" : "l";
-                    } else if ($food["measure"] == 'u') {
-                        $measure = "u";
-                    }
+                    switch ($food["measure"]) {
+                        case 'g':
+                            $measure = "Kg";
+                            break;
+                        case 'ml':
+                            $measure = ($food["measurementUnit"] == "g") ? "kg" : "L";
+                            break;
+                        default:
+                            $measure = $food["measure"];
+                            break;
+                    };
                     $result[$idFood] = array(
                         'id' => $idFood,
                         'name' => str_replace(',', '', $food["description"]),
                         'total' => 0, // Inicializa o total como 0
                         'measure' => $measure,
-                        // 'measurementUnit' => $measurementUnit
                     );
                 }
 
@@ -127,8 +129,6 @@ class FoodMenuService
                 if($food["measure"] == 'g' || $food["measure"]  == 'ml'){
                     $value = $food["total"]/1000;
                 }
-
-
                 $result[$idFood]['total'] +=
                     ($value * $studentsTurn[$turn]) + ($value * $studentsTurn["Integral"]);
             }
