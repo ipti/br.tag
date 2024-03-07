@@ -70,6 +70,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 //$stage = '7';
                 //$class = '41';
                 switch ($class) {
+                    case '2':
+                        $c = 'Escola (4 e 5 anos)';
+                        break;
                     case '4':
                         $c = '1º';
                         break;
