@@ -1,0 +1,1 @@
+ALTER TABLE student_documents_and_address ADD DNE_city_code varchar(10) NULL;

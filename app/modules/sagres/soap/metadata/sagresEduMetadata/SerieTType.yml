@@ -6,7 +6,7 @@ SagresEdu\SerieTType:
             serialized_name: descricao
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getDescricao
                 setter: setDescricao
@@ -17,7 +17,7 @@ SagresEdu\SerieTType:
             serialized_name: modalidade
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getModalidade
                 setter: setModalidade

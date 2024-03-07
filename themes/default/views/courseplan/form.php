@@ -149,6 +149,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <option value="<?= $type->id ?>"><?= $type->name ?></option>
                         <?php endforeach; ?>
                     </div>
+                    <div class="js-type no-show">
+                        <input type="text" value="<?$type?>">
+                    </div>
                     <div class="js-all-resources no-show">
                         <?php foreach ($resources as $resource) : ?>
                             <option value="<?= $resource->id ?>"><?= $resource->name ?></option>
@@ -202,6 +205,45 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </div>
                 </div>
             </form>
+    </div>
+</div>
+
+
+<div class="modal fade modal-content" id="js-createResource" tabindex="-1" role="dialog">
+    <div modal="modal-dialog" role="document">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title" id="modalLabelResources">Adicionar Recurso</h4>
+        </div>
+        <div class="alert alert-error t-badge-critical alert-resource hide control-group">
+            <p>É necessário inserir um recurso no campo</p>
+        </div>
+        <form>
+            <input type="hidden" class="course-class-index row">
+            <div class="modal-body">
+                <?php echo CHtml::label(yii::t('default', 'Add Resource') , array('class' => 'control-label t-field-text__label--required')); ?>
+                <div class="row">
+                    <?php
+                        $newResource = new CourseClassResources();
+                        echo $form->textField($newResource, 'name', array('size' => 400, 'maxlength' => 500,
+                                                                        'class' => 't-field-text__input new-resource',
+                                                                        'placeholder' => 'Digite o Nome do Recurso'));
+                    ?>
+                    <button class="t-button-secondary confirm-new-resource" style="margin: 0px">Adicionar</button>
+                </div>
+                <div id="new-resources-table" class="t-accordeon-primary"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary js-add-selected-resources save-new-resources"
+                            data-dismiss="modal">Adicionar
+                    </button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 <?php $this->endWidget(); ?>

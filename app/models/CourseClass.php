@@ -9,6 +9,7 @@
  * @property string $objective
  * @property integer $course_plan_fk
  * @property string $fkid
+ * @property string $type
  *
  * The followings are the available model relations:
  * @property ClassContents[] $classContents
@@ -38,9 +39,10 @@ class CourseClass extends CActiveRecord
 			array('order, objective, course_plan_fk', 'required'),
 			array('order, course_plan_fk', 'numerical', 'integerOnly'=>true),
 			array('fkid', 'length', 'max'=>40),
+			array('type', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, order, objective, course_plan_fk, fkid', 'safe', 'on'=>'search'),
+			array('id, order, objective, course_plan_fk, fkid, type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,6 +73,7 @@ class CourseClass extends CActiveRecord
 			'objective' => 'Objective',
 			'course_plan_fk' => 'Course Plan Fk',
 			'fkid' => 'Fkid',
+			'type' => 'Type',
 		);
 	}
 
@@ -97,6 +100,7 @@ class CourseClass extends CActiveRecord
 		$criteria->compare('objective',$this->objective,true);
 		$criteria->compare('course_plan_fk',$this->course_plan_fk);
 		$criteria->compare('fkid',$this->fkid,true);
+		$criteria->compare('type',$this->type,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

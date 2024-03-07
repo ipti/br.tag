@@ -52,3 +52,41 @@ $('#copy-gov-id').click(function() {
     navigator.clipboard.writeText(govId);
     $('#copy-message').text('Copiado!').fadeIn().delay(1000).fadeOut();
 });
+
+$('#js-alphabetic-order').click(function() {
+    let orderArray = $('#js-t-sortable').sortable("toArray");
+    $.ajax({
+        url: `?r=classroom/updateDailyOrder`,
+        type: "POST",
+        data: {
+            list: orderArray
+        },
+        beforeSend: function () {
+            $("#js-t-sortable").sortable("destroy");
+            $("#daily").css("opacity", 0.5);
+        },
+    }).success(function (response) {
+        const result = JSON.parse(response);
+        const list = []
+        result.forEach(element => {
+            const li = document.createElement('li');
+            li.id = element.id;
+            li.className = 'ui-state-default';
+
+            const span1 = document.createElement('span');
+            span1.className = 't-icon-slip';
+
+            const span2 = document.createElement('span');
+            span2.textContent = element.daily_order + ' ' + element.name;
+
+            li.appendChild(span1);
+            li.appendChild(span2);
+
+            list.push(li);
+        });
+
+        $("#js-t-sortable").html(list);
+        $("#daily").css("opacity", 1);
+        $("#js-t-sortable").sortable();
+    })
+});
