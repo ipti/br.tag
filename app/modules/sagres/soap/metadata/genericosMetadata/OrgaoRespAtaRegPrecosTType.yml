@@ -6,7 +6,7 @@ Genericos\OrgaoRespAtaRegPrecosTType:
             serialized_name: cnpj
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/genericos'
             accessor:
                 getter: getCnpj
                 setter: setCnpj
@@ -17,7 +17,7 @@ Genericos\OrgaoRespAtaRegPrecosTType:
             serialized_name: nome
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/genericos'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/genericos'
             accessor:
                 getter: getNome
                 setter: setNome
