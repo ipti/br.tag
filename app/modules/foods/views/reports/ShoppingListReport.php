@@ -95,7 +95,6 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
         </table>
     </div>
 </div>
-<!-- <?php //CVarDumper::dump($foodIngredientsList, 12, true); ?> -->
 <script>
     function imprimirPagina() {
         window.print();

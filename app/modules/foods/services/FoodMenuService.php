@@ -65,7 +65,7 @@ class FoodMenuService
                     default:
                         $measure = $food["measure"];
                         break;
-                };
+                }
                 $result[$idFood] = array(
                     'id' => $idFood,
                     'name' => str_replace(',', '', $food["description"]),

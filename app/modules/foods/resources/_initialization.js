@@ -211,7 +211,9 @@ if(menuId)  {
 
     })
     const day = $('.js-day-tab.active').attr("data-day-of-week")
-    meals.map((e) => { return MealsComponent(e, day).actions.render()})
+    meals.forEach((e) => {
+        MealsComponent(e, day).actions.render();
+    });
     $('.js-meals-component').accordion("destroy");
     $( ".js-meals-component" ).accordion({
       active: false,
