@@ -53,7 +53,7 @@ $(".js-save-menu").on("click", function () {
         foodMenu.friday = getMealsByDay(5)
         foodMenu.saturday = getMealsByDay(6)
 
-        // console.log(foodMenu)
+        //  console.log(foodMenu)
         if(menuId)
         {
             $.ajax({

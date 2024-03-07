@@ -108,7 +108,7 @@ const PlateComponent = function (plate) {
             <th>Nome</th>
             <th>Unidade</th>
             <th>Medida</th>
-            <th >Quantidade</th>
+            <th>Quantidade</th>
             <th>PT</th>
             <th>LIP</th>
             <th>CHO</th>
@@ -190,7 +190,7 @@ const PlateComponent = function (plate) {
             <th>Nome</th>
             <th>Unidade</th>
             <th>Medida</th>
-            <th >Quantidade</th>
+            <th>Quantidade</th>
             <th>PT</th>
             <th>LIP</th>
             <th>CHO</th>
@@ -262,7 +262,6 @@ const PlateComponent = function (plate) {
     const input = line.find('.js-unit input')
     const select = line.find('.js-measure select')
     const td = line.find('.js-amount')
-    const inputAmount = td.find("input")
 
     input.on('input', function (event) {
             let newAmount = calculateAmount(

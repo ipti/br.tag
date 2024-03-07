@@ -50,8 +50,7 @@ if(menuId)  {
                 id: idIgredientes,
                 amount: foodIngredient.amount,
                 foodIdFk: foodIngredient.foodIdFk,
-                foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
-                portion: foodIngredient.portion
+                foodMeasureUnitId: foodIngredient.foodMeasureUnitId
             }
             idIgredientes++
             return food
@@ -85,8 +84,7 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
-                    portion: foodIngredient.portion
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
                 }
             idIgredientes++
             return food
@@ -120,8 +118,7 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
-                    portion: foodIngredient.portion
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
                 }
             idIgredientes++
             return food
@@ -155,8 +152,7 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
-                    portion: foodIngredient.portion
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
                 }
             idIgredientes++
             return food
@@ -190,8 +186,7 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
-                    portion: foodIngredient.portion
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
                 }
             idIgredientes++
             return food
@@ -216,7 +211,7 @@ if(menuId)  {
 
     })
     const day = $('.js-day-tab.active').attr("data-day-of-week")
-    meals.map((e) => MealsComponent(e, day).actions.render())
+    meals.map((e) => { return MealsComponent(e, day).actions.render()})
     $('.js-meals-component').accordion("destroy");
     $( ".js-meals-component" ).accordion({
       active: false,
