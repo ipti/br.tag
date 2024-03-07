@@ -1,4 +1,4 @@
-## [Versão 3.72.115]
+## [Versão 3.72.116]
 - Foi adicionado o case para selecionar o alias para a modalidade
 
 ## [Versão 3.72.115]
