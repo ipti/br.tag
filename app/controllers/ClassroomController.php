@@ -48,8 +48,8 @@ class ClassroomController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
-                    'batchupdatenrollment', 'getcomplementaryactivitytype', 'delete', 'updateDailyOrder'
-                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'updateDisciplines'
+                    'batchupdatenrollment', 'getcomplementaryactivitytype', 'delete', 'updateDailyOrder',
+                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'updateDisciplines',
                     'changeenrollments', 'batchupdatetransport', 'updateDisciplinesAndCalendars',
                     'syncToSedsp', 'syncUnsyncedStudents', 'getCalendars'
                 ),
@@ -996,7 +996,7 @@ class ClassroomController extends Controller
             ->bindParam(":id", $_POST["id"])->bindParam(":year", Yii::app()->user->year)->queryAll();
 
         $calendars = Yii::app()->db->createCommand("
-                select c.id, c.title from calendar c 
+                select c.id, c.title from calendar c
                 join calendar_stages cs on (c.id = cs.calendar_fk)
                 where cs.stage_fk = :id and c.school_year = :year")
             ->bindParam(":id", $_POST["id"])->bindParam(":year", Yii::app()->user->year)->queryAll();
