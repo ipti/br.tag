@@ -103,7 +103,8 @@ class FoodmenuController extends Controller
         // Trecho do código para excluir todos os registros associados ao cardápio
         $transaction = Yii::app()->db->beginTransaction();
 
-        if ($modelFoodMenu != null) {
+        if($modelFoodMenu != null)
+        {
             $modelFoodMenu->start_date = DateTime::createFromFormat('d/m/Y', $request["start_date"])->format("Y-m-d");
             $modelFoodMenu->final_date = DateTime::createFromFormat('d/m/Y', $request["final_date"])->format("Y-m-d");
             $modelFoodMenu->week = $request['week'];

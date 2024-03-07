@@ -89,7 +89,7 @@ class AlunoTType
      * @param \DateTime $dataNascimento
      * @return self
      */
-    public function setDataNascimento($dataNascimento)
+    public function setDataNascimento(\DateTime $dataNascimento)
     {
         $this->dataNascimento = $dataNascimento;
         return $this;

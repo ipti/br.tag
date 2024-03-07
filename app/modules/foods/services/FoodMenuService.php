@@ -305,7 +305,6 @@ class FoodMenuService
             $saveIngredientResult = $foodIngredient->save();
 
 
-
             if ($saveIngredientResult === false) {
                 // Caso de erro: Falha quando ocorre um erro ao tentar salvar um ingrediente de um prato
                 $message = 'Ocorreu um erro ao salvar um ingrediente! Verifique as informações e tente novamente';
