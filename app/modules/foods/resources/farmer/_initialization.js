@@ -74,8 +74,8 @@ $(document).on("click", "#remove-food-button", function () {
 
 $(document).on("click", "#save-farmer", function () {
     let name = $("#farmerName").val();
-    let cpf = $("#farmerCpf").val();
-    let phone = $("#farmerPhone").val();
+    let cpf = $("#farmerCpf").val().replace(/[^0-9]/g, '');
+    let phone = $("#farmerPhone").val().replace(/[^0-9]/g, '');
     let groupType = $('#farmerGroupType').find('option:selected').text();
 
     $.ajax({
@@ -87,7 +87,14 @@ $(document).on("click", "#save-farmer", function () {
             cpf: cpf,
             phone: phone,
             groupType: groupType,
-            foodsOnStock: foodsOnStock
+            foodsRelation: foodsRelation
         }
     })
 })
+
+$('#farmerCpf').mask("000.000.000-00", {
+    placeholder: "___.___.___-__",
+});
+$('#farmerPhone').mask("(00) 00000-0000", {
+    placeholder: "(__) _____-____",
+});

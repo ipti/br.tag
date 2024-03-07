@@ -57,7 +57,35 @@ class FarmerRegisterController extends Controller
 	}
 
 	public function actionSaveFarmerRegister() {
-		
+		$name = Yii::app()->request->getPost('name');
+		$cpf = Yii::app()->request->getPost('cpf');
+		$phone = Yii::app()->request->getPost('phone');
+		$groupType = Yii::app()->request->getPost('groupType');
+        $foodsRelation = Yii::app()->request->getPost('foodsRelation');
+
+        var_dump($name, $cpf, $phone, $groupType, $foodsRelation);
+
+        if(!empty($name) && !empty($cpf) && !empty($phone) && !empty($groupType)) {
+            $farmerRegister = new FarmerRegister();
+
+            $farmerRegister->name = $name;
+            $farmerRegister->cpf = $cpf;
+            $farmerRegister->phone = $phone;
+            $farmerRegister->group_type = $groupType;
+
+            if($farmerRegister->save()) {
+                foreach ($foodsRelation as $foodData) {
+                    $farmerFoods =  new FarmerFoods;
+
+                    $farmerFoods->food_fk = $foodData['id'];
+                    $farmerFoods->farmer_fk = $farmerRegister->id;
+                    $farmerFoods->amount = $foodData['amount'];
+                    $farmerFoods->measurementUnit = $foodData['measurementUnit'];
+
+                    $farmerFoods->save();
+                }
+            }
+        }
 	}
 
 	public function actionCreate() {

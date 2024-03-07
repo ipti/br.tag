@@ -24,7 +24,7 @@ $form=$this->beginWidget('CActiveForm', array(
             <p></p>
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
-            <button id="save-farmer" class="t-button-primary" type="submit">
+            <button id="save-farmer" class="t-button-primary" type="button">
                 <?= $model->isNewRecord ? Yii::t('default', 'Cadastrar') : Yii::t('default', 'Save') ?>
             </button>
         </div>
@@ -38,32 +38,22 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
-    <div class="row">
-        <h3>Dados Básicos</h3>
-    </div>
-
-    <div class="row t-margin-medium--bottom">
-        <div class="column is-two-fifths t-field-select t-margin-none--bottom clearfix">
-            <?php echo CHtml::label('Para preencher os dados automaticamente, selecione o agricultor', array('class' => 't-field-select__label--required')); ?>
-            <select class="select-search-on t-field-select__input select2-container">
-                <option value="agricultor">Selecione o Agricultor</option>
-            </select>
-        </div>
-    </div>
+    <h3>Dados Básicos</h3>
+    <p>Informe o CPF, caso o agricultor já possua cadastro os dados básicos serão preenchidos automaticamente</p>
 
     <div class="row">
-        <div class="column clearleft is-two-fifths">
-            <div class="t-field-text">
-                <?php echo $form->label($model,'name', array('class' => 't-field-text__label--required')); ?>
-                <?php echo $form->textField($model,'name', array('id' => 'farmerName','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
-                <?php echo $form->error($model,'name'); ?>
-            </div>
-        </div>
         <div class="column clearleft is-two-fifths">
             <div class="t-field-text">
                 <?php echo $form->label($model,'cpf', array('class' => 't-field-text__label--required')); ?>
                 <?php echo $form->textField($model,'cpf', array('id' => 'farmerCpf','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($model,'cpf'); ?>
+            </div>
+        </div>
+        <div class="column clearleft is-two-fifths">
+            <div class="t-field-text">
+                <?php echo $form->label($model,'name', array('class' => 't-field-text__label--required')); ?>
+                <?php echo $form->textField($model,'name', array('id' => 'farmerName','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
+                <?php echo $form->error($model,'name'); ?>
             </div>
         </div>
     </div>
