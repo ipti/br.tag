@@ -200,6 +200,26 @@ $(document).on("click", ".add-abilities", function (e) {
     $("#js-selectAbilities").modal("show");
 });
 
+$(document).on("click", ".add-new-resource", function(e){
+    e.preventDefault();
+    $('#js-createResource').modal("show");
+})
+
+$(document).on("click", ".remove-new-resource", function(e){
+    e.preventDefault();
+    removeNewResource(this);
+})
+
+$(document).on('click', '.confirm-new-resource', function(e){
+    e.preventDefault();
+    addNewResources();
+})
+
+$(document).on('click', '.save-new-resources', function(e){
+    e.preventDefault();
+    saveNewResources();
+})
+
 $(document).on("click", ".ability-panel-option", function() {
     if ($(this).closest(".js-abilities-panel").length) {
         if (!$(this).hasClass("selected")) {

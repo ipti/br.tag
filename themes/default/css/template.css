@@ -8937,19 +8937,18 @@ textarea,
 }
 
 .remove-resource {
-    color: #fff;
+    color: #3F45EA;
     cursor: pointer;
-    position: absolute;
-    top: -9px;
-    right: -9px;
     padding: 4px 5px 5px;
-    background: #bd362f;
+    background: #CCD0EE;
     border-radius: 13px;
     font-size: 10px !important;
+	font-weight:50;
 }
 
 .remove-resource:hover {
-    background:  #a9302a;
+    color: #eaeaf8;
+	background:  #004680;
 }
 
 .details-control {
