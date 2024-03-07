@@ -1,4 +1,7 @@
 ## [Versão 3.72.115]
+- Foi adicionado o case para selecionar o alias para a modalidade
+
+## [Versão 3.72.115]
 - Adicionado Modal para adicionar novos recursos na tela de plano de aula.
 - Alteração na estrutura do banco de dados referente ao tipo de recurso cadastrado em um plano
 
