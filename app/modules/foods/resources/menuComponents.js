@@ -318,13 +318,13 @@ const PlateComponent = function (plate) {
       .append(`<td></td>`)
       .append(`<td></td>`)
       .append(`<td>${total_pt.toFixed(2)}</td>`)
-      .append(`<td>${total_pt.toFixed(2)}</td>`)
+      .append(`<td>${total_lip.toFixed(2)}</td>`)
       .append(`<td>${total_cho.toFixed(2)}</td>`)
       .append(`<td>${total_kcal.toFixed(2)}</td>`)
       .append(`<td></td>`)
     table.append(lineTotal)
   }
-  function createMealComponent({ id, name, pt, lip, cho, kcal, measurementUnit }, food) {
+  function createMealComponent({ id, name, pt, lip, cho, kcal }, food) {
     const line = $(`<tr class='js-food-ingredient' data-idTaco='${id}'></tr>`)
       .append(`<td class='js-food-name'>${name}</td>`)
       .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important' required='required' name='Unidade' value='${food.amount}'></td>`)
