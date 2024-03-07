@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "selenium-standalone": "^9.2.0"
+    "selenium-standalone": "^9.3.3"
   }
 }

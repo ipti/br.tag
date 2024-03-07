@@ -404,7 +404,7 @@ $("#js-t-sortable").on("sortupdate", function (event, ui) {
         },
     }).success(function (response) {
 
-        const result = JSON.parse(response);
+        const result = JSON.parse(DOMPurify.sanitize(response));
         const list = []
         result.forEach(element => {
             const li = document.createElement('li');

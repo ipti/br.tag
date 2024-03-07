@@ -33,6 +33,10 @@
             margin-top: $spaceNormal;
         }
     }
+
+    &.no-gap{
+        gap: 0;
+    }
 }
 
 .mobile-row {

@@ -6,7 +6,7 @@ SagresEdu\DiretorTType:
             serialized_name: cpfDiretor
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getCpfDiretor
                 setter: setCpfDiretor
@@ -17,7 +17,7 @@ SagresEdu\DiretorTType:
             serialized_name: nrAto
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getNrAto
                 setter: setNrAto

@@ -6,7 +6,7 @@ SagresEdu\MatriculaTType:
             serialized_name: numero
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getNumero
                 setter: setNumero
@@ -17,7 +17,7 @@ SagresEdu\MatriculaTType:
             serialized_name: data_matricula
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getDataMatricula
                 setter: setDataMatricula
@@ -28,7 +28,7 @@ SagresEdu\MatriculaTType:
             serialized_name: data_cancelamento
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getDataCancelamento
                 setter: setDataCancelamento
@@ -39,7 +39,7 @@ SagresEdu\MatriculaTType:
             serialized_name: numero_faltas
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getNumeroFaltas
                 setter: setNumeroFaltas
@@ -50,7 +50,7 @@ SagresEdu\MatriculaTType:
             serialized_name: aprovado
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getAprovado
                 setter: setAprovado
@@ -61,7 +61,7 @@ SagresEdu\MatriculaTType:
             serialized_name: aluno
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getAluno
                 setter: setAluno

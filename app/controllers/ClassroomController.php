@@ -48,9 +48,8 @@ class ClassroomController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
-                    'batchupdatenrollment',
-                    'getcomplementaryactivitytype', 'delete',
-                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal',
+                    'batchupdatenrollment', 'getcomplementaryactivitytype', 'delete', 'updateDailyOrder'
+                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'updateDisciplines'
                     'changeenrollments', 'batchupdatetransport', 'updateDisciplinesAndCalendars',
                     'syncToSedsp', 'syncUnsyncedStudents', 'getCalendars'
                 ),
@@ -1005,6 +1004,36 @@ class ClassroomController extends Controller
         echo json_encode(["disciplines" => $disciplines, "calendars" => $calendars]);
     }
 
+    public function actionUpdateDailyOrder() {
+        $ids = Yii::app()->request->getPost("list");
+        $enrollments = StudentEnrollment::model()->findAllByPk($ids);
+        $studentsNames = [];
+
+        foreach ($enrollments as $enrollment) {
+            $studentsNames[] = $enrollment->studentFk->name;
+        }
+
+        sort($studentsNames);
+
+        foreach ($enrollments as $enrollment) {
+            $currentName = $enrollment->studentFk->name;
+            $position = array_search($currentName, $studentsNames);
+            $enrollment->daily_order = $position + 1;
+            $enrollment->save();
+        }
+
+        $result = array_map(function ($enrollment) {
+            return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name,
+                "daily_order" => $enrollment->daily_order];
+        }, $enrollments);
+
+        usort($result, function($a, $b) {
+            return $a['daily_order'] - $b['daily_order'];
+        });
+
+        echo json_encode($result);
+    }
+
     public function actionChangeEnrollments()
     {
         $ids = $_POST['list'];
@@ -1020,7 +1049,7 @@ class ClassroomController extends Controller
             $enrollment->daily_order = $i + 1;
             $enrollment->save();
         }
-        ;
+
         $result = array_map(function ($enrollment) {
             return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name,
                 "daily_order" => $enrollment->daily_order];

@@ -863,7 +863,10 @@ $form = $this->beginWidget(
                     </div>
                 </div>
                 <div class="tab-pane" id="daily">
-                    <ul id="js-t-sortable" class="t-sortable">
+                    <div class="row">
+                        <button id="js-alphabetic-order" type="button" class="t-button-secondary"><span class="t-icon-arrow-az"></span>Ordem Alfabética</button>
+                    </div>
+                    <ul id="js-t-sortable" class="t-sortable t-margin-none--left">
                         <?php
                         if (isset($modelEnrollments)) {
                             $i = 1;
