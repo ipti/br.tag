@@ -1,3 +1,9 @@
+## [Versão 3.69.106]
+- Foi implementada a funcionalidade que permite a escolha da geração do arquivo Educacao.zip com ou sem movimentação
+
+## [Versão 3.68.106]
+-Foi modificado o ano para o tipo: @XmlNamespace
+
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
 
