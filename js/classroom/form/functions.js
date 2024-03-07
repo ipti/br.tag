@@ -324,53 +324,71 @@ $(document).on("change", "#Classroom_pedagogical_mediation_type", function () {
 });
 
 $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () {
-    $.ajax({
-        url: "?r=classroom/updateDisciplines",
-        type: "POST",
-        data: {
-            id: $("#Classroom_edcenso_stage_vs_modality_fk").val(),
-        },
-        beforeSend: function () {
-            $("#Classroom_edcenso_stage_vs_modality_fk").attr("disabled", "disabled");
-            $("#tab-instructor").css("pointer-events", "none");
-            $(".loading-disciplines").css("display", "inline-block");
-        },
-    }).success(function (data) {
-        data = JSON.parse(data);
-        var html = "";
-        if (data.valid) {
-            $(".no-curricular-matrix-error").hide();
-            var disciplines = [];
-            $.each(data.disciplines, function () {
-                html += "<option value='" + this.id + "'>" + this.name + "</option>";
-                disciplines.push(this.id);
-            });
-            $("#Disciplines").html(html);
-            $(".li-discipline").each(function () {
-                if (!disciplines.includes($(this).attr("discipline"))) {
-                    $(this).remove();
-                }
-            });
-            $(".li-instructor").each(function () {
-                if (!$(this).find(".li-discipline").length) {
-                    $(this).remove();
-                }
-            });
-        } else {
-            $(".no-curricular-matrix-error").show();
-            $("#Disciplines").html("");
-            $("#DisciplinesWithInstructors, #DisciplinesWithoutInstructors").html("");
-        }
-    }).complete(function () {
-        if (!$("#Classroom_edcenso_stage_vs_modality_fk").hasClass("disabled-field")) {
-            $("#Classroom_edcenso_stage_vs_modality_fk").removeAttr("disabled");
-        }
-        $("#tab-instructor").css("pointer-events", "auto");
-        $(".loading-disciplines").hide();
-    });
-});
-$("#Classroom_edcenso_stage_vs_modality_fk").trigger("change");
+    if ($(this).val() !== '' ) {
+        $.ajax({
+            url: "?r=classroom/updateDisciplinesAndCalendars",
+            type: "POST",
+            data: {
+                id: $("#Classroom_edcenso_stage_vs_modality_fk").val(),
+            },
+            beforeSend: function () {
+                $("#Classroom_edcenso_stage_vs_modality_fk").attr("disabled", "disabled");
+                $("#tab-instructor").css("pointer-events", "none");
+                $(".loading-disciplines").css("display", "inline-block");
+            },
+        }).success(function (data) {
+            data = JSON.parse(data);
+            var html = "";
+            if (data.disciplines.length) {
+                $(".no-curricular-matrix-error").hide();
+                var disciplines = [];
+                $.each(data.disciplines, function () {
+                    html += "<option value='" + this.id + "'>" + this.name + "</option>";
+                    disciplines.push(this.id);
+                });
+                $("#Disciplines").html(html);
+                $(".li-discipline").each(function () {
+                    if (!disciplines.includes($(this).attr("discipline"))) {
+                        $(this).remove();
+                    }
+                });
+                $(".li-instructor").each(function () {
+                    if (!$(this).find(".li-discipline").length) {
+                        $(this).remove();
+                    }
+                });
+            } else {
+                $(".no-curricular-matrix-error").show();
+                $("#Disciplines").html("");
+                $("#DisciplinesWithInstructors, #DisciplinesWithoutInstructors").html("");
+            }
 
+            if (data.calendars.length) {
+                html = "";
+                html += "<option value=''>Selecione um Calendário</option>";
+                $.each(data.calendars, function () {
+                    html += "<option value='" + this.id + "'>" + this.title + "</option>";
+                });
+                $("#Calendars").html(html);
+                if ($("#Calendars").attr("selectedOption") === "") {
+                    $("#Calendars option:first").attr("selected", "selected").trigger("change.select2");
+                } else {
+                    $("#Calendars option[value=" + $("#Calendars").attr("selectedOption") + "]").attr("selected", "selected").trigger("change.select2");
+                }
+            } else {
+                $("#Calendars").html("");
+            }
+        }).complete(function () {
+            if (!$("#Classroom_edcenso_stage_vs_modality_fk").hasClass("disabled-field")) {
+                $("#Classroom_edcenso_stage_vs_modality_fk").removeAttr("disabled");
+            }
+            $("#tab-instructor").css("pointer-events", "auto");
+            $(".loading-disciplines").hide();
+        });
+    }
+});
+
+$("#Classroom_edcenso_stage_vs_modality_fk").trigger("change");
 
 $("#js-t-sortable").on("sortupdate", function (event, ui) {
     newOrderArray = $(this).sortable("toArray");
