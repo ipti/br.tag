@@ -212,8 +212,8 @@ form {
     background-color: #ccc;
 }
 
-.logs {
-    padding: 0px 0px 24px 0px !important;
+.logs, .warns {
+    padding: 0 0 24px 0 !important;
     max-height: 405px;
     overflow-y: auto;
 }

@@ -81,13 +81,13 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 			</div>
             <div class="row-fluid">
                 <div class="span12">
-                    <div class="widget-scroll margin-bottom-none warn-widget" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false" total="<?= $logCount ?>">
-                        <div class="alerta" hidden><?= $logCount ?></div>
+                    <div class="widget-scroll margin-bottom-none warn-widget" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false" total="<?= $warns["total"] ?>">
+                        <div class="alerta" hidden><?= $warns["total"] ?></div>
                         <div class="home-page-table-header ">
                             <h5 class="t-margin-medium--left text-color--white">Cadastros Pendentes</h5>
                         </div>
                         <div class="widget-body warns in" style="height: auto;">
-                            <?= $htmlWarns ?>
+                            <?= $warns["html"] ?>
                             <span class="t-button-primary load-more warn-list"> Carregar mais</span>
                         </div>
                     </div>

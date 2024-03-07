@@ -8,7 +8,6 @@ $(document).on("click", ".info-list", function () {
         success: function (data) {
 
             $(".no-recent-activitive").remove();
-
             $(data).insertBefore(".info-list");
             if ($(".log").length >= $(".eggs").find(".log-widget").attr("total")) {
                 $(".info-list").hide();
@@ -29,14 +28,12 @@ $(document).on("click", ".warn-list", function () {
             visibleWarningsCount:  $('.warn-div').length
         },
         success: function (data) {
-
+            data = JSON.parse(data);
             $(".no-recent-warnings").remove();
-            $(".warns > li").remove();
-            $(data).insertBefore(".warn-list");
-            $(".warn").each(function () {
-                $(this).find(".t-info_positive").html("<i></i>" + changeNameLength($(this).find(".t-info_positive").text(), 100));
-
-            });
+            $(data.html).insertBefore(".warn-list");
+            if ($(".warn-div").length >= $(".eggs").find(".warn-widget").attr("total")) {
+                $(".warn-list").hide();
+            }
         }
     });
 });
@@ -54,9 +51,9 @@ $(document).ready(function () {
         $(".board-msg").show();
     }
 
-    $(".warns").each(function () {
-        $(this).find(".glyphicons").html("<i></i>" + changeNameLength($(this).find(".glyphicons").text(), 100));
-    });
+    if ($(".warn-div").length >= $(".eggs").find(".warn-widget").attr("total")) {
+        $(".warn-list").hide();
+    }
 
     if ($(".board-msg").attr("version") !== getCookie('tag_version')) {
         $(".board-msg").show();
