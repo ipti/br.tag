@@ -803,10 +803,6 @@ class RequisitionController extends Controller
 }
 
 
-
-
-
-
 // Nome da escola --------------------------------------------------
 // $school_test = yii::app()->user->school;
 
@@ -899,20 +895,18 @@ public function getFoodInventoryDetails()
 */
 
 
-
-
 $criteria = new CDbCriteria;
 $criteria->select = 't.food_fk';
 $criteria->join = 'JOIN food f ON f.id = t.food_fk';
 $finventory = FoodInventory::model()->findAll($criteria);
 
-$finventoryReceived = FoodInventoryReceived::model()->findAllByAttributes([],['select' => 'date, amount, food_inventory_fk']);
+$finventoryReceived = FoodInventoryReceived::model()->findAllByAttributes([],['select' => 'date, amount, food_inventory_fk, food_fk']);
 
 // $school_test = Yii::app()->user->school;
 $tempo_entrega = 5;
 
 
-
+echo "Food Inventory Reciver <br>";
 foreach ($finventoryReceived as $item) {
     $date = date('Y-m-d', strtotime($item->date));
 
@@ -920,20 +914,16 @@ foreach ($finventoryReceived as $item) {
     $food = Food::model()->findByPk($item->food_inventory_fk);
     $food_description = ($food !== null) ? $food->description : 'Descrição não encontrada';
 
-    echo "School: {}, Date: {$date}, Food: {$item->food_inventory_fk}, Amount: {$item->amount}, Description: {$food_description}<br>";
+    echo "food_inventory_fk: {$item->food_inventory_fk}, Date: {$date}, Food: {$item->food_fk}, Amount: {$item->amount}, Description: {$food_description}<br>";
 }
 
 
-
-$finventory = FoodInventory::model()->findAllByAttributes([],['select' => 'school_fk, food_fk, amount, expiration_date']);
+echo "Food Inventory <br>";
+$finventory = FoodInventory::model()->findAllByAttributes([],['select' => 'id, school_fk, food_fk, amount, expiration_date']);
 
 foreach ($finventory as $item) {
-    echo "school: {$item->school_fk}, food_fk: " . $item->food_fk . ", amount: " . $item->amount . ", expiration_date: " . $item->expiration_date . "<br>";
+    echo "id {$item->id}, school: {$item->school_fk}, food_fk: " . $item->food_fk . ", amount: " . $item->amount . ", expiration_date: " . $item->expiration_date . "<br>";
 }
-
-
-
-
 
 
 // 'school_fk' => 'School Fk',

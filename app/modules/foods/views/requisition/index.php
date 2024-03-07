@@ -53,7 +53,6 @@ $cs->registerScriptFile('https://cdn.jsdelivr.net/npm/chart.js', CClientScript::
     </div>
 
     <button id="sendDataButton">Enviar Dados</button>
-    <h3>dados do post</h3>
     <div id="secondRequestData"></div>
 
 </div>
