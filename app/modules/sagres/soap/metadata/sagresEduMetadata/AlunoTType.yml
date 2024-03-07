@@ -6,7 +6,7 @@ SagresEdu\AlunoTType:
             serialized_name: cpfAluno
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getCpfAluno
                 setter: setCpfAluno
@@ -17,7 +17,7 @@ SagresEdu\AlunoTType:
             serialized_name: data_nascimento
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getDataNascimento
                 setter: setDataNascimento
@@ -28,7 +28,7 @@ SagresEdu\AlunoTType:
             serialized_name: nome
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getNome
                 setter: setNome
@@ -39,7 +39,7 @@ SagresEdu\AlunoTType:
             serialized_name: pcd
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getPcd
                 setter: setPcd
@@ -50,7 +50,7 @@ SagresEdu\AlunoTType:
             serialized_name: sexo
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2023/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getSexo
                 setter: setSexo
