@@ -84,7 +84,7 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
                     <div class="widget-scroll margin-bottom-none warn-widget" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false" total="<?= $logCount ?>">
                         <div class="alerta" hidden><?= $logCount ?></div>
                         <div class="home-page-table-header ">
-                            <h5 class="t-margin-medium--left text-color--white">Faltas cadastrais</h5>
+                            <h5 class="t-margin-medium--left text-color--white">Cadastros Pendentes</h5>
                         </div>
                         <div class="widget-body warns in" style="height: auto;">
                             <?= $htmlWarns ?>
