@@ -1,16 +1,19 @@
-## [Versão 3.71.112]
+## [Versão 3.72.113]
 - Adicionando o botão de ordem alfabética na aba de ordem de diário no formulário de turmas
 
-## [Versão 3.70.112]
+## [Versão 3.71.113]
+- Adicionado módulo de dashboard
+
+## [Versão 3.70.113]
 - Corrigindo o estilo da tela de estoque, as colunas status e entrada/saida atualizadas para facilitar a usabilidade
 
-## [Versão 3.70.111]
-- consertado listagem de refeições
+## [Versão 3.70.112]
+- Consertado listagem de refeições
 
-## [Versão 3.70.110]
+## [Versão 3.70.111]
 - Renomeado o head dos relatórios do municipio de Poço Dantas.
 
-## [Versão 3.70.109]
+## [Versão 3.70.110]
 - Adicionado atualização de documentos e endereço do aluno com base na identificação (id).
 - Adicionado bcrypt para autenticação de usuários
 - Adicionado bcrypt na criação do instrutor
@@ -18,8 +21,11 @@
 - Adicionado bcrypt para criação de usuários admins
 - Adicionado bcrypt para criação de usuários
 
-## [Versão 3.69.109]
+## [Versão 3.69.110]
 - Adicionado relatório de lista de compras
+
+## [Versão 3.68.110]
+- Obtenção do CPF do estudante corrigida 
 
 ## [Versão 3.68.109]
 - consertado listagem de refeições
@@ -37,6 +43,7 @@ as maiores de 10 em lançamento de notas e adicionada a verificação de recuper
 
 ## [Versão 3.68.105]
 - Excluido * a mais da tela de aulas ministradas.
+- Foi adicionado o envio do código do município para atender à recente exigência da SEDSP
 - Adicionado sincronização direta dos dados do aluno, com importação automática de turmas, se necessário.
 - Adicionado atualização de documentos e endereço do aluno com base na identificação (id).
 - Adicionado bcrypt para autenticação de usuários
