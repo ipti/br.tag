@@ -118,6 +118,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     case '21':
                         $c = '8º';
                         break;
+                    case '22':
+                        $c = 'Multi-';
+                        break;
                     case '41':
                         $c = '9º';
                         break;
