@@ -1,5 +1,15 @@
-## [Versão 3.72.113]
+## [Versão 3.73.115]
 - Adicionado novas medidas para os pratos do cardápio
+## [Versão 3.72.115]
+- Adicionado Modal para adicionar novos recursos na tela de plano de aula.
+- Alteração na estrutura do banco de dados referente ao tipo de recurso cadastrado em um plano
+
+## [Versão 3.72.114]
+- Adicionada a opção "Não possui" na tela de enrollment.
+
+## [Versão 3.72.113]
+- Adicionando o botão de ordem alfabética na aba de ordem de diário no formulário de turmas
+
 ## [Versão 3.71.113]
 - Adicionado módulo de dashboard
 

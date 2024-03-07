@@ -30,8 +30,9 @@ class CourseplanController extends Controller
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'index', 'delete',
-                    'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure', 'getAbilitiesNextStructure'),
-                'users' => array('@'),
+                    'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure',
+                    'getAbilitiesNextStructure', 'addResources', 'getResources'),
+                'users' => array('*'),
             ),
             array('deny', // deny all users
                 'users' => array('*'),
@@ -48,15 +49,11 @@ class CourseplanController extends Controller
         if (isset($_POST['CoursePlan'])) {
             $this->actionSave();
         } else {
-
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
-            $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
-
             $this->render('form', array(
                 'coursePlan' => new CoursePlan(),
                 'stages' => $this->getStages(),
                 'resources' => $resources,
-                'types' => $types,
             ));
         }
     }
@@ -72,15 +69,12 @@ class CourseplanController extends Controller
             $this->actionSave($id);
         } else {
             $coursePlan = $this->loadModel($id);
-
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
-            $types = CourseClassTypes::model()->findAll(array('order'=>'name'));
 
             $this->render('form', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
                 'resources' => $resources,
-                'types' => $types,
             ));
         }
     }
@@ -112,7 +106,7 @@ class CourseplanController extends Controller
             $courseClasses[$order]["class"] = $courseClass->order;
             $courseClasses[$order]['courseClassId'] = $courseClass->id;
             $courseClasses[$order]['objective'] = $courseClass->objective;
-            $courseClasses[$order]['types'] = [];
+            $courseClasses[$order]['type'] = $courseClass->type;
             $courseClasses[$order]['resources'] = [];
             $courseClasses[$order]['abilities'] = [];
             foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
@@ -121,9 +115,6 @@ class CourseplanController extends Controller
                 $resource["description"] = $courseClassHasClassResource->courseClassResourceFk->name;
                 $resource["amount"] = $courseClassHasClassResource->amount;
                 array_push($courseClasses[$order]['resources'], $resource);
-            }
-            foreach ($courseClass->courseClassHasClassTypes as $courseClassHasClassType) {
-                array_push($courseClasses[$order]['types'], $courseClassHasClassType->course_class_type_fk);
             }
             foreach ($courseClass->courseClassHasClassAbilities as $courseClassHasClassAbility) {
                 $ability["id"] = $courseClassHasClassAbility->courseClassAbilityFk->id;
@@ -236,6 +227,7 @@ class CourseplanController extends Controller
             }
             $courseClass->order = $i++;
             $courseClass->objective = $cc['objective'];
+            $courseClass->type = $cc['type'];
             $courseClass->save();
 
 
@@ -249,17 +241,6 @@ class CourseplanController extends Controller
                     $courseClassHasClassAbility->course_class_fk = $courseClass->id;
                     $courseClassHasClassAbility->course_class_ability_fk = $abilityId;
                     $courseClassHasClassAbility->save();
-                }
-            }
-
-            CourseClassHasClassType::model()->deleteAll("course_class_fk = :course_class_fk and course_class_type_fk not in ( '" . implode("', '", $cc['type']) . "' )", [":course_class_fk" => $courseClass->id]);
-            foreach ($cc["type"] as $typeId) {
-                $courseClassHasClassType = CourseClassHasClassType::model()->find("course_class_fk = :course_class_fk and course_class_type_fk = :course_class_type_fk", ["course_class_fk" => $courseClass->id, "course_class_type_fk" => $typeId]);
-                if ($courseClassHasClassType == null) {
-                    $courseClassHasClassType = new CourseClassHasClassType();
-                    $courseClassHasClassType->course_class_fk = $courseClass->id;
-                    $courseClassHasClassType->course_class_type_fk = $typeId;
-                    $courseClassHasClassType->save();
                 }
             }
 
@@ -290,6 +271,37 @@ class CourseplanController extends Controller
         Log::model()->saveAction("courseplan", $id, $logSituation, $coursePlan->name);
         Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
         $this->redirect(array('index'));
+    }
+
+    public function actionAddResources(){
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            $resources = Yii::app()->request->getPost('resources');
+            foreach($resources as $resource){
+                $newResource = new CourseClassResources();
+                $newResource->name = $resource;
+                $newResource->save();
+            }
+            $transaction->commit();
+            header('HTTP/1.1 200 OK');
+        }catch(Exception $e){
+            $transaction->rollback();
+            throw new CHttpException(500, $e->getMessage());
+        }
+    }
+
+    public function actionGetResources()
+    {
+        $resources = CourseClassResources::model()->findAll();
+        $resources = CHtml::listData($resources, 'id', 'name');
+        $options = array();
+        foreach ($resources as $value => $name) {
+            array_push(
+                $options,
+                CHtml::tag('option', ['value' => $value],
+                    CHtml::encode($name), true));
+        }
+        echo CJSON::encode($options);
     }
 
     /**
