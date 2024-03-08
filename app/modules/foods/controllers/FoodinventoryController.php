@@ -115,6 +115,8 @@ class FoodinventoryController extends Controller
                         $FoodInventoryReceived->food_fk = $foodData['id'];
                         $FoodInventoryReceived->food_inventory_fk = $FoodInventory->id;
                         $FoodInventoryReceived->amount = $foodData['amount'];
+                        $FoodInventoryReceived->expiration_date = date('Y-m-d', $expiration_date_Timestamp);
+
 
                         $FoodInventoryReceived->save();
                     } else {
@@ -127,7 +129,8 @@ class FoodinventoryController extends Controller
                     $FoodInventoryReceived->food_fk = $foodData['id'];
                     $FoodInventoryReceived->food_inventory_fk = $existingFood->id;
                     $FoodInventoryReceived->amount = $foodData['amount'];
-
+                    $FoodInventoryReceived->expiration_date = date('Y-m-d', $expiration_date_Timestamp);
+                    $FoodInventoryReceived->previous_amount = $existingFood->amount;
 
                     $FoodInventoryReceived->save();
 
