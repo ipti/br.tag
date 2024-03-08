@@ -56,18 +56,18 @@ $(".js-save-menu").on("click", function () {
                 },
                 type: "POST",
             }).done(function (response) {
-                window.location.href = "?r=foods/foodMenu/index";
+                window.location.href = "?r=foods/foodmenu/index";
             })
          } else
         {
             $.ajax({
-                url: "?r=foods/foodMenu/create",
+                url: "?r=foods/foodmenu/create",
                 data: {
                     foodMenu: foodMenu
                 },
                 type: "POST",
             }).done(function (response) {
-                window.location.href = "?r=foods/foodMenu/index";
+                window.location.href = "?r=foods/foodmenu/index";
             })
         }
 

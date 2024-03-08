@@ -169,7 +169,7 @@ const PlateComponent = function (plate) {
   function getFoodList(select) {
 
     $.ajax({
-      url: "?r=foods/foodMenu/getTacoFoods",
+      url: "?r=foods/foodmenu/getTacoFoods",
       type: "GET",
     }).success(function (response) {
       let foods = JSON.parse(response);
@@ -215,7 +215,7 @@ const PlateComponent = function (plate) {
   function getFood(food, table) {
 
     $.ajax({
-      url: "?r=foods/foodMenu/getFood",
+      url: "?r=foods/foodmenu/getFood",
       data: {
         idFood: food.foodIdFk
       },
@@ -325,7 +325,7 @@ const PlateComponent = function (plate) {
   }
   function addFoodMeasurement(line, food) {
     $.ajax({
-      url: "?r=foods/foodMenu/getFoodMeasurement",
+      url: "?r=foods/foodmenu/getFoodMeasurement",
       type: "GET",
     }).success(function (response) {
       const measurements = JSON.parse(response)
@@ -518,7 +518,7 @@ const MealsComponent = function (meal, day) {
 
   function getMealTypeList(select) {
     $.ajax({
-      url: "?r=foods/foodMenu/getMealType",
+      url: "?r=foods/foodmenu/getMealType",
       type: "GET",
     }).success(function (response) {
       select.append(DOMPurify.sanitize(JSON.parse(response)));

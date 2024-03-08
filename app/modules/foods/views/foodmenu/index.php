@@ -21,7 +21,7 @@ $this->menu = array(
 				<?php echo Yii::t('default', 'Food Menus') ?>
 			</h1>
 			<div class="t-buttons-container">
-				<a class="t-button-primary"  rel="noopener" href="<?= Yii::app()->createUrl('foods/foodMenu/create') ?>">
+				<a class="t-button-primary"  rel="noopener" href="<?= Yii::app()->createUrl('foods/foodmenu/create') ?>">
 					<?= Yii::t('default', 'Add') ?>
 				</a>
 				<a class="t-button-secondary" target="_blank"  rel="noopener"
