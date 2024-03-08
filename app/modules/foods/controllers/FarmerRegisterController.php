@@ -31,7 +31,9 @@ class FarmerRegisterController extends Controller
 				'actions'=>array(
 					'index',
 					'view',
-					'saveFarmerRegister'
+					'saveFarmerRegister',
+                    'getFoodAlias',
+                    'getFarmerFoods'
 				),
 				'users'=>array('*'),
 			),
@@ -88,6 +90,45 @@ class FarmerRegisterController extends Controller
         }
 	}
 
+    public function actionGetFarmerFoods() {
+        $id = Yii::app()->request->getPost('id');
+
+        $criteria = new CDbCriteria();
+        $criteria->with = array('foodFk');
+        $criteria->condition = 't.farmer_fk = ' . $id;
+        $farmerFoodsData = FarmerFoods::model()->findAll($criteria);
+
+        $values = [];
+        foreach ($farmerFoodsData as $foods) {
+            $values[] = array(
+                'description' => $foods->foodFk->description,
+                'amount' => $foods->amount,
+                'measurementUnit' => $foods->measurementUnit,
+            );
+        }
+
+        echo json_encode($values);
+    }
+
+    public function actionGetFoodAlias()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, description, measurementUnit';
+        $criteria->condition = 'alias_id = t.id';
+
+        $foods_description = Food::model()->findAll($criteria);
+
+        $values = [];
+        foreach ($foods_description as $food) {
+            $values[$food->id] = (object) [
+                'description' => $food->description,
+                'measurementUnit' => $food->measurementUnit
+            ];
+        }
+
+        echo json_encode($values);
+    }
+
 	public function actionCreate() {
 		$model=new FarmerRegister;
         $modelFarmerFoods = new FarmerFoods;
@@ -107,6 +148,7 @@ class FarmerRegisterController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$modelFarmerFoods=$this->loadFarmerFoodsModel($id);
 
 		if(isset($_POST['FarmerRegister']))
 		{
@@ -116,7 +158,7 @@ class FarmerRegisterController extends Controller
 		}
 
 		$this->render('update',array(
-			'model'=>$model,
+			'model'=>$model, 'modelFarmerFoods'=>$modelFarmerFoods,
 		));
 	}
 
@@ -154,6 +196,19 @@ class FarmerRegisterController extends Controller
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
+	}
+
+    public function loadFarmerFoodsModel($id)
+	{
+		$modelFarmerFoods = FarmerFoods::model()->find(
+            array(
+                'condition' => 'farmer_fk = :id',
+                'params' => array(':id' => $id),
+            )
+        );
+		if($modelFarmerFoods===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $modelFarmerFoods;
 	}
 
 	protected function performAjaxValidation($model)

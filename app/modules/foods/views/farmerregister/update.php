@@ -16,6 +16,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Update FarmerRegister <?php echo $model->id; ?></h1>
-
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<div id="mainPage" class="main">
+    <?php $this->renderPartial('_form', array('model'=>$model, 'modelFarmerFoods'=>$modelFarmerFoods)); ?>
+</div>

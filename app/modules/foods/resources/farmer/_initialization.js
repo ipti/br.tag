@@ -3,9 +3,27 @@ let foodsRelation = [];
 $(document).ready(function() {
     let foodSelect = $('#foodSelect');
 
+    const $params = new URLSearchParams(window.location.search);
+    const $id = $params.get('id');
+
+    if($id != null) {
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/farmerregister/getFarmerFoods",
+            cache: false,
+            data: {
+                id: $id,
+            }
+        }).success(function(response) {
+            let farmerFoods = JSON.parse(response);
+
+            console.log(farmerFoods);
+        });
+    }
+
     $.ajax({
         type: 'POST',
-        url: "?r=foods/foodInventory/getFoodAlias",
+        url: "?r=foods/farmerregister/getFoodAlias",
         cache: false
     }).success(function(response) {
         foods_description = JSON.parse(response);

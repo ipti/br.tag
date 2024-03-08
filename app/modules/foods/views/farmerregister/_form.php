@@ -69,12 +69,14 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="column clearleft is-two-fifths">
             <div class="t-field-select">
                 <?php echo $form->label($model,'group_type', array('class' => 't-field-select__label--required')); ?>
-                <select id="farmerGroupType" class="select-search-off t-field-select__input select2-container">
-                    <option value="agricultor">Selecione o Grupo</option>
-                    <option value="Fornecedor Individual">Fornecedor Individual</option>
-                    <option value="Grupo Formal">Grupo Formal</option>
-                    <option value="Grupo Informal">Grupo Informal</option>
-                </select>
+                <?php
+                echo $form->DropDownList($model, 'group_type', array(
+                    "agricultor" => "Selecione o Grupo",
+                    "Fornecedor Individual" => "Fornecedor Individual",
+                    "Grupo Formal" => "Grupo Formal",
+                    "Grupo Informal" => "Grupo Informal",
+                ), array('id'=>'farmerGroupType','class' => 'select-search-off t-field-select__input select2-container'));
+                ?>
             </div>
         </div>
     </div>
