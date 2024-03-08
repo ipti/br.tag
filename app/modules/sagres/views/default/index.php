@@ -44,8 +44,16 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				<option value="12">Dezembro</option>
 			</select>
 		</div>
-		<input type="checkbox" name="finalTurma" value="1" id="finalTurma" style="margin: 30px 0 0 20px;">
-		<label for="finalTurma" style="margin: 30px 0 0 10px;">Encerramento de Período</label>
+		<div class="column" style=" display: flex;flex-direction: column; display: flex;align-items: left">
+			<div style="display: flex;align-items: center, margin: 3px 5px 0 0;">
+				<input type="checkbox" name="finalTurma" value="1" id="finalTurma" style="margin: 3px 5px 0 0;">
+				<label for="finalTurma" style="vertical-align: middle;">Encerramento de Período</label>
+			</div>
+			<div style="display: flex;align-items: center, margin: 3px 5px 0 0;">
+				<input type="checkbox" name="semMovimentacao" value="1" id="semMovimentacao" style="margin: 3px 5px 0 0;">
+				<label for="semMovimentacao" style="vertical-align: middle;">Sem movimentação</label>
+			</div>
+		</div>
 	</div>
 
 	<div class="container-box" style="display: grid;">
@@ -117,31 +125,41 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 <script>
 	let selectedValue;
-	const selectElement = document.getElementById("mes");
-	var checkbox = document.getElementById("finalTurma");
-	var checkboxValue = false;
+	let checkbox = document.getElementById("finalTurma");
+	let checkboxSemMovi = document.getElementById("semMovimentacao");
+	let checkboxValue = false;
+	let checkboxValueSem = false;
+
+	function updateExportLink() {
+		const month = parseInt(selectedValue, 10);
+
+		const exportLink = document.getElementById('exportLink');
+		const newHref = `?r=sagres/default/export&month=${month}&finalClass=${checkboxValue}&noMovement=${checkboxValueSem}`;
+		exportLink.setAttribute('href', newHref);
+	}
 
 	checkbox.addEventListener('change', function() {
-		checkboxValue = checkbox.checked ? true : false;
-
-		month = parseInt(selectedValue, 10)
-
-		const year = new Date().getFullYear();
-		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${year}&month=${month}&finalClass=${checkboxValue}`;
-		exportLink.setAttribute('href', newHref);
+		checkboxValue = checkbox.checked;
+		if (checkboxValue) {
+			checkboxSemMovi.checked = false;
+			checkboxValueSem = false;
+		}
+		updateExportLink();
 	});
 
+	checkboxSemMovi.addEventListener('change', function() {
+		checkboxValueSem = checkboxSemMovi.checked;
+		if (checkboxValueSem) {
+			checkbox.checked = false;
+			checkboxValue = false;
+		}
+		updateExportLink();
+	});
+
+	const selectElement = document.getElementById("mes");
 	selectElement.addEventListener("change", (event) => {
 		selectedValue = event.target.value;
-
-		month = parseInt(selectedValue, 10)
-
-		const year = new Date().getFullYear();
-		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&year=${year}&month=${month}&finalClass=${checkboxValue}`;
-		exportLink.setAttribute('href', newHref);
-
+		updateExportLink();
 	});
 
 	function downloadFile(url, filename) {
@@ -157,19 +175,21 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 		e.preventDefault();
 		const exportLink = document.getElementById('exportLink');
 		const href = exportLink.getAttribute('href');
+
 		if (!href) {
 			console.error('O link de exportação não foi definido');
 			return;
 		}
 
-		if (!selectedValue) {
-			$(".alert-error-export").append("Você precisa selecionar um mês antes de exportar os dados.");
+		if (!selectedValue || selectedValue == '0') {
+			$(".alert-error-export").html("Você precisa selecionar um mês antes de exportar os dados.");  // Change append to html to overwrite the content
 			$(".alert-error-export").show();
 			return;
 		}
 
 		downloadFile(href, 'Educacao.xml');
 	});
+
 
 	function downloadFile(url, filename) {
 		$(".alert-error-export").hide();

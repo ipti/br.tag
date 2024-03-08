@@ -12,6 +12,7 @@ return [
     "Copyable" => "Copiável",
     "Event Type" => "Tipo do Evento *",
     "Stages" => "Etapas *",
+    "Period" => "Período Letivo *",
 
 
     'January' => 'Janeiro',

@@ -47,10 +47,6 @@
     color: white;
 }
 
-.sunday .calendar-text {
-    color: #ff0000 !important;
-}
-
 .calendar-yellow {
     color: #d9d303 !important;
 }
@@ -271,7 +267,7 @@ form {
     display: none;
 }
 
-.disciplines-container {
+.disciplines-container, .month-container {
     display: none;
 }
 
@@ -311,4 +307,8 @@ form {
 
 .schedule-info {
     padding: 3px !important;
+}
+
+.school-stages-container label {
+    font-weight: bold !important;
 }

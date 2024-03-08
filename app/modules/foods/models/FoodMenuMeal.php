@@ -1,4 +1,3 @@
-
 <?php
 
 /**
@@ -22,7 +21,7 @@
  * @property string $turn
  *
  * The followings are the available model relations:
- * @property FoodMenu $foodMenu
+ * @property FoodMenu $foodmenu
  * @property FoodMealType $foodMealTypeFk
  * @property FoodMenuMealComponent[] $foodMenuMealComponents
  */

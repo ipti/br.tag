@@ -18,17 +18,24 @@
             flex-direction: row;
         }
     }
+    &.no-gap {
+        gap: 0;
+    }
 
     @include device(mobile) {
         flex-direction: row;
     }
     &.margin-large {
         &--bottom {
-            margin-bottom: calc($spaceXLarge / 2);
+            margin-bottom: calc(#{$spaceXLarge} / 2);
         }
         &--top {
             margin-top: $spaceNormal;
         }
+    }
+
+    &.no-gap{
+        gap: 0;
     }
 }
 
@@ -61,8 +68,8 @@
 .column {
     flex: 1;
     flex-basis: 0;
-    margin-left: calc($spaceXLarge / 2);
-    margin-right: calc($spaceXLarge / 2);
+    margin-left: calc(#{$spaceXLarge} / 2);
+    margin-right: calc(#{$spaceXLarge} / 2);
 
     &.flex {
         display: flex;
@@ -79,7 +86,7 @@
             margin-left: 0;
 
             @include device(tablet) {
-                margin-left: calc($spaceXLarge / 2);
+                margin-left: calc(#{$spaceXLarge} / 2);
             }
         }
 
@@ -87,7 +94,7 @@
             margin-left: 0;
 
             @include device(mobile) {
-                margin-left: calc($spaceXLarge/2);
+                margin-left: calc(#{$spaceXLarge}/2);
             }
         }
     }

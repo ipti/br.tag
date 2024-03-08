@@ -1,3 +1,95 @@
+## [Versão 3.72.115]
+- Adicionado Modal para adicionar novos recursos na tela de plano de aula.
+- Alteração na estrutura do banco de dados referente ao tipo de recurso cadastrado em um plano
+
+## [Versão 3.72.114]
+- Adicionada a opção "Não possui" na tela de enrollment.
+
+## [Versão 3.72.113]
+- Adicionando o botão de ordem alfabética na aba de ordem de diário no formulário de turmas
+
+## [Versão 3.71.113]
+- Calendário ajustado para permitir sua extensão para ano(s) seguinte(s).
+- Eventos de início e fim de ano letivo removidos. O intervalo letivo será definido no momento da criação/edição do calendário.
+- Adicionado seletor de calendário na turma. 
+- 
+## [Versão 3.71.113]
+- Adicionado módulo de dashboard
+
+## [Versão 3.70.113]
+- Corrigindo o estilo da tela de estoque, as colunas status e entrada/saida atualizadas para facilitar a usabilidade
+
+## [Versão 3.70.112]
+- Consertado listagem de refeições
+
+## [Versão 3.70.111]
+- Renomeado o head dos relatórios do municipio de Poço Dantas.
+
+## [Versão 3.70.110]
+- Adicionado atualização de documentos e endereço do aluno com base na identificação (id).
+- Adicionado bcrypt para autenticação de usuários
+- Adicionado bcrypt na criação do instrutor
+- Adicionado classe PasswordHasher
+- Adicionado bcrypt para criação de usuários admins
+- Adicionado bcrypt para criação de usuários
+
+## [Versão 3.69.110]
+- Adicionado relatório de lista de compras
+
+## [Versão 3.68.110]
+- Obtenção do CPF do estudante corrigida
+
+## [Versão 3.68.109]
+- consertado listagem de refeições
+
+## [Versão 3.68.108]
+- Corrigido condição para mostrar as habilidades do plano de aula.
+- Excluido * a mais da tela de plano de aulas.
+
+## [Versão 3.68.107]
+- Corrigindo a disposição de unidades de lançamento de notas de búzios, permitindo que sejam adicionadas not
+as maiores de 10 em lançamento de notas e adicionada a verificação de recuperação final
+
+## [Versão 3.68.106]
+- Corrigindo relatório de ficha individual de aluno, que estava apresentando informações incorretas ou desnecessárias
+
+## [Versão 3.68.105]
+- Excluido * a mais da tela de aulas ministradas.
+- Foi adicionado o envio do código do município para atender à recente exigência da SEDSP
+- Adicionado sincronização direta dos dados do aluno, com importação automática de turmas, se necessário.
+- Adicionado atualização de documentos e endereço do aluno com base na identificação (id).
+- Adicionado bcrypt para autenticação de usuários
+- Adicionado bcrypt na criação do instrutor
+- Adicionado classe PasswordHasher
+- Adicionado bcrypt para criação de usuários admins
+- Adicionado bcrypt para criação de usuários
+
+## [Versão 3.68.104]
+- Adicionado a opção Ensino Fundamental dentro da escolaridade na tela de alunos.
+- Corrigido campo ao salvar a escolaridade dos alunos.
+
+## [Versão 3.68.103]
+- Adicionando notas por conceito no lançamento de notas de búzios
+
+## [Versão 3.67.103]
+- Adicionada funcionalidade de excluir atendimento de professional individualmente e atualização do layout do formulário
+
+## [Versão 3.66.103]
+- Corrigindo o cálculo de média final na tela de lançamento de notas de buzios e adicionando notas por conceito em lançamento de nota
+
+## [Versão 3.65.103]
+- Corrigindo inconsistências na tela de lançamento de notas de búzios, abilitando as telas relacionadas a notas
+
+
+## [Versão 3.65.102]
+- Adicionada funcionalidade de excluir atendimento de professional individualmente e atualização do layout do formulário
+- Corrigindo ano de exportação do sagres
+## [Versão 3.65.103]
+- Correção da funcionalidade de atualizar turma, que estava transferindo as turmas entre as escolas
+
+## [Versão 3.65.102]
+- Adicionando filtros nas unidades de medida a depender da comida selecionada na tela de estoque
+
 ## [Versão 3.65.101]
 - Criação da tela de lançamento de notas
 

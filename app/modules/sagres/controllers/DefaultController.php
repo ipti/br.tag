@@ -12,7 +12,7 @@ class DefaultController extends Controller
 	}
 
 	public function actionCreateOrUpdate()
-	{		   		
+	{
 		$sagresConsultModel = new SagresConsultModel;
 		$managementUnitCode = $sagresConsultModel->getManagementId();
 
@@ -52,17 +52,21 @@ class DefaultController extends Controller
 		$this->render('inconsistencys');
 	}
 
-	public function actionExport($year, $month, $finalClass, $chunkSize = 100)
+	public function actionExport($month, $finalClass, $noMovement)
 	{
+
 		try {
-			$memory_limit = ini_get('memory_limit');
+			$year = Yii::app()->user->year;
+			$memoryLimit = ini_get('memory_limit');
 			set_time_limit(0);
 
 			ini_set('memory_limit', '2048M');
 
-			$sagres = new SagresConsultModel;
+			$noMovement = ($noMovement === "true") ? true : false;
 
-			$sagresEduData = $sagres->getSagresEdu($year, $month, $finalClass);
+			$sagres = new SagresConsultModel;
+            $sagres->cleanInconsistences();
+			$sagresEduData = $sagres->getSagresEdu($year, $month, $finalClass, $noMovement);
 			$sagresEduXML = $sagres->generatesSagresEduXML($sagresEduData);
 			$sagres->actionExportSagresXML($sagresEduXML);
 
@@ -71,15 +75,14 @@ class DefaultController extends Controller
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
 		} finally {
-			ini_set('memory_limit', $memory_limit);
+			ini_set('memory_limit', $memoryLimit);
 		}
 	}
 
-
 	public function actionDownload(){
 
-		
-		$fileDir = "./app/export/SagresEdu/Educacao.zip";
+		$inst = "File_" . INSTANCE . "/";
+		$fileDir = "./app/export/SagresEdu/" . $inst . "Educacao.zip";
         if (file_exists($fileDir)) {
             header('Content-Description: File Transfer');
             header('Content-type: application/zip');
@@ -88,7 +91,7 @@ class DefaultController extends Controller
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
             header('Content-Length: ' . filesize($fileDir));
-            readfile($fileDir);			
+            readfile($fileDir);
 			unlink($fileDir);
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));

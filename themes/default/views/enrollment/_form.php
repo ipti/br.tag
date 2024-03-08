@@ -73,7 +73,13 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'unified_class', array('class' => 't-field-select__label')); ?>
-                                    <?php echo $form->DropDownList($model, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"), array('class' => 'select-search-off t-field-select__input', 'style' => 'width:100%')); ?>
+                                    <?php echo $form->DropDownList($model, 'unified_class',
+                                    array(
+                                        null => "Selecione o tipo de turma infantil",
+                                        "1" => "CRECHE",
+                                        "2" => "PRÉ-ESCOLA",
+                                        "3" => "NÃO POSSUI"
+                                    ), array('class' => 'select-search-off t-field-select__input', 'style' => 'width:100%')); ?>
                                     <?php echo $form->error($model, 'unified_class'); ?>
                             </div>
 
@@ -225,7 +231,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="control-group hide-responsive" id="transport_type">
                                 <label class="t-field-checkbox__label--required required"><?php echo Yii::t('default', 'Transport Type'); ?>
-                                    *</label>
+                                    </label>
                                 <div class="uniformjs t-field-checkbox-group">
                                     <div class="t-field-checkbox">
                                         <?php echo $form->checkBox($model, 'vehicle_type_van', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>

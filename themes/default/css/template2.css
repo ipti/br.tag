@@ -241,13 +241,11 @@ table.dataTable {
 .control-label.required {
     width: 352px;
     text-align: left;
-    font-weight: bold;
 }
 
 .control-label.required.small-label {
     width: auto;
     text-align: left;
-    font-weight: bold;
 }
 
 .control-label.required.indicator::after {
@@ -360,7 +358,7 @@ table.dataTable.no-footer {
 
 @font-face {
     font-family: 'icone-tag';
-    src: url('/themes/default/fonts/IconsTag_V17.ttf');
+    src: url('/themes/default/fonts/IconsTag_V18.ttf');
 }
 
 .icones {
@@ -526,7 +524,7 @@ li[instructor]:hover {
 
 .modal-content label {
     margin-left: 5px;
-    width: 234px;
+    width: 334px;
     height: 20px;
     font-family: 'Inter', sans-serif;
     font-style: normal;

@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation\XmlElement;
 /**
  * Class representing AlunoTType
  *
- * 
+ *
  * XSD Type: aluno_t
  */
 class AlunoTType

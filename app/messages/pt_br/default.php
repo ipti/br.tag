@@ -345,7 +345,7 @@ return array(
     'Potable Water' => 'Água Pótavel',
     'Provide Potable Water' => 'Para Consumo Humano',
     'Student Repose Room' => 'Sala de Repouso para Alunos',
-    'Stages Concept Grades' => 'Etapas para Notas por Conceito',
+    'School Stages' => 'Etapas da Escola',
 
     //Classroom
     'School Inep Fk' => 'Escola',
@@ -538,7 +538,7 @@ return array(
     'History' => 'Histórico',
     'Justice Restriction' => 'Restrição na Justiça',
     'Student Diff Location' => 'Localização Diferenciada',
-    'Consent Form' => 'Termo de Consentimento',
+    'Consent Form' => 'Termo de Consentimento da Imagem',
 
     //Student Enrollment
     'Student Inep' => 'Inep do aluno',
@@ -748,6 +748,7 @@ return array(
     'Content' => 'Conteúdo',
     'Type' => 'Tipo',
     'Resource' => 'Recurso',
+    'Add Resource' => 'Novo Recurso',
 
     //Labels
     'User' => 'Usuário',

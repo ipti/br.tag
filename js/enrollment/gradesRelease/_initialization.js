@@ -31,7 +31,7 @@ $('#discipline').change(function (e, triggerEvent) {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getReportCardGrades",
+            url: "?r=grades/getGradesRelease",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -40,6 +40,7 @@ $('#discipline').change(function (e, triggerEvent) {
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");
                 $(".js-grades-container, .grades-buttons").css("opacity", "0.4").css("overflow", "auto").css("pointer-events", "none");
+                $("#grades-save-button").removeClass("hide");
             },
             success: function (data) {
                 data = JSON.parse(data);
@@ -77,7 +78,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     `</div>`;
 
                     html += `
-                    <table class='grades-table table table-bordered'>
+                    <table class='grades-table table table-bordered' concept="${data.rule}">
                         <thead>
                             <tr>
                                 <th colspan=14' class='table-title'>Lançamento de Notas</th>
@@ -89,9 +90,23 @@ $('#discipline').change(function (e, triggerEvent) {
                     $.each(data.unities, function (index) {
                         html += `<th colspan='2' style='width:20%;'>` + this.name + `</th>`
                     });
-                    html += `
+
+                    if(data.rule == "N") {
+                        if(data.hasRecovery == 1) {
+                            html += `
                                 <th rowspan='2' style='width:10%;vertical-align:middle;'>Recuperação Final</th>
-                                <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
+                            `;
+                        }
+                        html += `
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
+                        `;
+                    } else {
+                        html += `
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>Conceito Final</th>
+                        `;
+                    }
+                    html += `
+
                                 <th rowspan='2' style='width:2%;vertical-align:middle;'>Frequência</th>
                                 <th rowspan='2' style='width:10%;vertical-align:middle;'>Situação</th>
                             </tr>
@@ -119,10 +134,15 @@ $('#discipline').change(function (e, triggerEvent) {
                         `;
                         $.each(this.grades, function (index, value) {
                             let valueGrade;
-                            if (this.value == "" || this.value == null) {
-                                valueGrade = "";
+
+                            if(data.rule == "C") {
+                                valueGrade = this.concept;
                             } else {
-                                valueGrade = parseFloat(this.value).toFixed(1);
+                                if (this.value == "" || this.value == null) {
+                                    valueGrade = "";
+                                } else {
+                                    valueGrade = parseFloat(this.value).toFixed(1);
+                                }
                             }
 
                             let faults;
@@ -132,15 +152,12 @@ $('#discipline').change(function (e, triggerEvent) {
                             } else {
                                 faults = this.faults;
                                 totalFaults +=  parseInt(this.faults, 10);
-                                console.log(totalFaults);
                             }
+                            html += buildInputOrSelect(data.rule, valueGrade, data.concepts);
 
                             html += `
                                 <td class='grade-td'>
-                                    <input type='text' class='grade' value='${valueGrade}'>
-                                </td>
-                                <td class='grade-td'>
-                                    <input type='text' class='faults' style='width:50px;text-align:center;' value='${ faults }'>
+                                    <input type='text' class='faults' style='width:50px;text-align:center;margin-bottom: 0px' value='${ faults }'>
                                 </td>
                             `;
                         });
@@ -149,11 +166,22 @@ $('#discipline').change(function (e, triggerEvent) {
                             frequency = parseInt(frequency);
                         }
 
+                        if(data.rule == "N") {
+                            if(data.hasRecovery == 1) {
+                                html += `
+                                <td class='grade-td rec-final-td'>
+                                    <input type='text' class='rec-final' value='${this.recFinal}'>
+                                </td>
+                                `
+                            }
+                            html += `
+                                <td style='font-weight: bold;font-size: 16px;' class='final-media'> ${this.finalMedia }</td>
+                            `;
+                        } else {
+                            html += buildInputOrSelect(data.rule, this.finalConcept, data.concepts, true);
+                        }
+
                         html += `
-                            <td class='grade-td rec-final-td'>
-                                <input type='text' class='rec-final' value='${this.recFinal}'>
-                            </td>
-                            <td style='font-weight: bold;font-size: 16px;' class='final-media'> ${this.finalMedia }</td>
                             <td class="final-media">${frequency}%</td>
                             <td class="grade-td situation">${ this.situation }</td>
                         </tr>`;
@@ -180,31 +208,46 @@ $("#save").on("click", function (e) {
     e.preventDefault();
     $(".js-grades-alert").hide();
 
+    console.log($(".grades-table").attr("concept"));
+
     let students = [];
     $('.grades-table tbody tr').each(function () {
         let grades = [];
-        $(this).find(".grade").each(function (index) {
-            grades.push({
-                value: $(this).val(),
-                faults: $(this).parent().next().children().val(),
-                givenClasses: $('.givenClasses' + index).val()
+        if ($(".grades-table").attr("concept") === "C") {
+            $(this).find(".grade-concept").each(function (index) {
+                grades.push({
+                    value: $(this).val(),
+                    faults: $(this).parent().next().children().val(),
+                    givenClasses: $('.givenClasses' + index).val()
+                });
             });
-        });
+        } else {
+            $(this).find(".grade").each(function (index) {
+                grades.push({
+                    value: $(this).val(),
+                    faults: $(this).parent().next().children().val(),
+                    givenClasses: $('.givenClasses' + index).val()
+                });
+            });
+        }
+
         students.push({
             enrollmentId: $(this).find(".enrollment-id").val(),
             grades: grades,
-            recFinal:  $(this).find(".rec-final").val()
+            recFinal:  $(this).find(".rec-final").val(),
+            finalConcept:  $(this).find(".final-concept").val()
         });
     });
 
     $.ajax({
         type: "POST",
-        url: "?r=enrollment/saveGradesReportCard",
+        url: "?r=grades/saveGradesRelease",
         cache: false,
         data: {
             classroom: $("#classroom").val(),
             discipline: $("#discipline").val(),
-            students: students
+            students: students,
+            rule: $(".grades-table").attr("concept")
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");
@@ -231,11 +274,9 @@ $(document).on("keyup", "input.grade, input.rec-final", function (e) {
         e.preventDefault();
         val = "";
     } else {
-        let grade = /^(10|\d)([.,]\d?)?$/;
+        let grade = /^(\d+([.,]\d?)?)?$/;
         if (val?.match(grade) === null) {
             val = "";
-        } else if (val > 10) {
-            val = 10;
         }
     }
     this.value = val;

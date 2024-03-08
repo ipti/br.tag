@@ -180,6 +180,10 @@ class Log extends CActiveRecord
                 $text = 'Professor(a) "' . $log->additional_info . '" foi ' . $crud . ".";
                 $icon = "professores";
                 break;
+            case "professional":
+                $text = 'Profissional "' . $log->additional_info . '" foi '. $crud . ".";
+                $icon = "professional";
+                break;
             case "school":
                 $text = 'Escola "' . $log->additional_info . '" foi ' . $crud . ".";
                 $icon = "escola";
@@ -231,7 +235,7 @@ class Log extends CActiveRecord
                 $text = 'Alunos de ' . $log->additional_info . ' foram rematriculados.';
                 $icon = "alunos";
                 break;
-            case "foodMenu":
+            case "foodmenu":
                 $text = 'O Cardápio "' .$log->additional_info .'" foi adicionado.';
                 $icon = "cardapio";
         }

@@ -15,10 +15,14 @@ class FoodsModule extends CWebModule
         $this->baseScriptUrl = Yii::app()->getAssetManager()
             ->publish(Yii::getPathOfAlias('application.modules.foods.resources'));
         // import the module-level models and components
-        $this->setImport(array(
-            'foods.models.*',
-            'foods.components.*',
-        ));
+        $this->setImport(
+            array(
+                'foods.models.*',
+                'foods.components.*',
+                'foods.services.*',
+                'foods.usecases.*',
+            )
+        );
     }
 
     public function beforeControllerAction($controller, $action)

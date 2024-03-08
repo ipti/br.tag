@@ -33,7 +33,7 @@ class DefaultController extends Controller
         }
 
         $message = null;
-        // Atribui valores às propriedades do model foodMenu(Cardápio) e trata o formato das datas
+        // Atribui valores às propriedades do model foodmenu(Cardápio) e trata o formato das datas
         $startTimestamp = strtotime(str_replace('/', '-', $request["start_date"]));
         $finalTimestamp = strtotime(str_replace('/', '-', $request["final_date"]));
         $modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
@@ -41,7 +41,7 @@ class DefaultController extends Controller
         $modelFoodMenu->observation = $request['observation'];
         $modelFoodMenu->description = $request['description'];
 
-        // Verifica se a ação de salvar foodMenu ocorreu com sucesso, caso falhe encerra a aplicação
+        // Verifica se a ação de salvar foodmenu ocorreu com sucesso, caso falhe encerra a aplicação
         $saveFoodMenuResult = $modelFoodMenu->save();
 
         if ($saveFoodMenuResult == false) {
@@ -62,7 +62,7 @@ class DefaultController extends Controller
         // Salvar alterações no banco
         $transaction->commit();
         header('HTTP/1.1 201 Created');
-        Log::model()->saveAction("foodMenu", $modelFoodMenu->id, "C", $modelFoodMenu->description);
+        Log::model()->saveAction("foodmenu", $modelFoodMenu->id, "C", $modelFoodMenu->description);
         Yii::app()->end();
     }
 

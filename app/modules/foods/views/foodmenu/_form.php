@@ -19,73 +19,98 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		// There is a call to performAjaxValidation() commented in generated controller code.
 		// See class documentation of CActiveForm for details on this.
 		'enableAjaxValidation' => false,
-	)); ?>
-	<div class="t-tabs row">
-		<div class="column">
-			<ul class="tab-instructor t-tabs__list ">
-				<li class="active t-tabs__item"><a data-toggle="tab" class="t-tabs__link">
-						<span class="t-tabs__numeration">1</span>
-						<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-	<div class="row">
-		<div class="alert alert-error js-menu-error hide column"></div>
-	</div>
+	)
+	); ?>
+
 	<div class="main form-content">
+		<h1>
+			<?php echo $title; ?>
+		</h1>
+		<div class="row">
+			<div class="alert alert-error js-menu-error hide column"></div>
+		</div>
+		<div class="t-tabs row">
+			<div class="column">
+				<ul class="tab-instructor t-tabs__list ">
+					<li class="active t-tabs__item"><a data-toggle="tab" class="t-tabs__link">
+							<span class="t-tabs__numeration">1</span>
+							<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 		<div class="row">
 			<h3 class="column">
 				Informações do Cardápio
 			</h3>
 		</div>
+		<?php if(!$model->isNewRecord): ?>
+			<div class="row t-margin-medium--bottom">
+					<a class="t-button-secondary" target="_blank" href="<?php echo Yii::app()->createUrl('foods/reports/FoodMenuReport', array('id'=>$model->id)) ?>">
+						<span class="t-icon-printer"></span>imprimir cardápio
+					</a>
+			</div>
+		<?php endif; ?>
 		<div class="row">
 			<div class="t-field-text column">
-				<label for="menu_description" class="t-field-text__label--required">Nome *</label>
-				<input type="text" id="menu_description" name="Nome" class="t-field-text__input js-menu-name" required="required">
+				<label for="menu_description" class="t-field-text__label--required">Nome</label>
+				<input type="text" id="menu_description" name="Nome" class="t-field-text__input js-menu-name"
+					required="required">
 
 			</div>
 			<div class="clear-margin--top column">
-				<label for="public_target" class="t-field-select__label">Publico Alvo *</label>
-				<select id="public_target" name="Público Alvo" class="select-search-on t-field-select__input js-public-target js-initialize-select2" required="required" placeholder="Select Classrom">
+				<label for="public_target" class="t-field-select__label--required">Publico Alvo</label>
+				<select id="public_target" name="Público Alvo"
+					class="select-search-on t-field-select__input js-public-target js-initialize-select2"
+					required="required" placeholder="Select Classrom">
 					<option value="">Selecione o Público Alvo</option>
 				</select>
 			</div>
 		</div>
 		<div class="row">
 			<div class="t-field-text column">
-				<label for="menu_start_date" class="t-field-text__label">Data Inicial</label>
+				<label for="menu_start_date" class="t-field-text__label--required">Data Inicial</label>
 				<input type="text" id="menu_start_date" name="Data Inicial"
-						class="t-field-text__input js-date date js-start-date" required="required">
+					class="t-field-text__input js-date date js-start-date" required="required">
 			</div>
 			<div class="t-field-text column">
-				<label for="menu_final_date" class="t-field-text__label">Data Final</label>
+				<label for="menu_final_date" class="t-field-text__label--required">Data Final</label>
 				<input type="text" id="menu_final_date" name="Data Final"
 					class="t-field-text__input js-date date js-final-date" required="required" />
 			</div>
 		</div>
 		<div class="row">
+			<div class="column">
+			<label for="week" class="t-field-select__label">Semana</label>
+				<select id="week" name="Semana"
+					class="select-search-on t-field-select__input js-week js-initialize-select2">
+					<option value="">Selecione a semana</option>
+					<option value="1">1° semana</option>
+					<option value="2">2° semana</option>
+					<option value="3">3° semana</option>
+					<option value="4">4° semana </option>
+				</select>
+			</div>
 			<div class="t-field-text column">
 				<label for="menu_observation" class="t-field-select__label">Observação</label>
 				<input type="text" id="menu_observation" name="Observação" class="t-field-select__input js-observation">
 			</div>
-			<div class="column"></div>
 		</div>
 		<div class="row">
-			<div class="column t-buttons-container">
+			<div class="column clearleft--on-mobile t-buttons-container">
 				<a class="t-button-primary js-add-meal">
 					<span class="t-icon-start"></span>
 					Adicionar Refeição
 				</a>
 			</div>
 		</div>
-		<div class="t-tabs-secondary js-days-of-week-component row">
+		<div class="t-tabs-secondary js-days-of-week-component row show t-margin-large--top">
 
 		</div>
 		<div class="row">
 			<div class="column t-accordeon--header">
-				<div class="row">
+				<div class="mobile-row">
 					<div class="column">
 						Refeição
 					</div>
@@ -102,7 +127,14 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		</div>
 	</div>
 	<div class="row buttons">
-		<a class="t-button-primary js-save-menu"><?= $model->isNewRecord ? 'Criar' : 'Salvar' ?></a>
+		<a class="t-button-primary js-save-menu show--desktop">
+			<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
+		</a>
+	</div>
+	<div class="row t-buttons-container t-margin-large--top">
+		<a class="t-button-primary column  t-margin-large--left t-margin-large--right js-save-menu show--tablet">
+			<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
+		</a>
 	</div>
 
 	<?php $this->endWidget(); ?>

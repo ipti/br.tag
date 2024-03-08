@@ -321,14 +321,28 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Escolaridade -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select js-hide-not-required" id="scholarity-select">
-                                <?php echo $form->label($modelStudentIdentification, 'scholarity', array('class' => 't-field-select__label')); ?>
-                                <?php echo $form->DropDownList($modelStudentIdentification, 'scholarity',
-                                    array(null => "Selecione a escolaridade", "1" => "Formação Geral", "2" => "Modalidade Normal (Magistério)", "3" => "Curso Técnico",
-                                        "4" => "Magistério Indígena Modalidade Normal"),
-                                    array('class' => 'select-search-off t-field-select__input select2-container')); ?>
+                                <?php echo CHtml::label("Escolaridade", 'scholarity', array('class' => 't-field-select__label')); ?>
+                                <?php
+                                 echo $form->dropDownList(
+                                    $modelStudentIdentification,
+                                    'scholarity',
+                                    array(
+                                        "0" => "Selecione a escolaridade",
+                                        "1" => "Formação Geral",
+                                        "2" => "Modalidade Normal (Magistério)",
+                                        "3" => "Curso Técnico",
+                                        "4" => "Magistério Indígena Modalidade Normal",
+                                        "5" => "Ensino Fundamental",
+                                    ),
+                                    array(
+                                        'class' => 'select-search-off t-field-select__input select2-container'
+                                    )
+                                );
+                                ?>
                                 <?php echo $form->error($modelStudentIdentification, 'scholarity'); ?>
                             </div>
                         </div>
+
                     </div>
                     <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                             <!--Gov ID-->
@@ -456,12 +470,12 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Escolaridade do responsavel -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-select js-hide-not-required" id="scholarityResponsable-select">
-                                <?php echo $form->label($modelStudentIdentification, 'scholarity', array('class' => 't-field-select__label')); ?>
-                                <?php echo $form->DropDownList($modelStudentIdentification, 'scholarity',
+                                <?php echo $form->label($modelStudentIdentification, 'responsable_scholarity', array('class' => 't-field-select__label')); ?>
+                                <?php echo $form->DropDownList($modelStudentIdentification, 'responsable_scholarity',
                                     array(null => "Selecione a escolaridade", "1" => "Formação Geral", "2" => "Modalidade Normal (Magistério)", "3" => "Curso Técnico",
                                         "4" => "Magistério Indígena Modalidade Normal"),
                                     array('class' => 'select-search-off t-field-select__input select2-container')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'scholarity'); ?>
+                                <?php echo $form->error($modelStudentIdentification, 'responsable_scholarity'); ?>
                             </div>
                         </div>
                         <!-- rg responsavel -->
@@ -708,7 +722,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                             <div class="column clearleft--on-mobile is-two-fifths">
-                                <label class="t-field-checkbox">
+                                <label class="t-field-checkbox" style="align-items: center">
                                     <?php echo $form->checkBox($modelStudentDocumentsAndAddress, 'consent_form',
                                         array('value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0,
                                             'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->consent_form)); ?>
@@ -1327,7 +1341,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- Turma unificada -->
                             <div class="t-field-select js-hide-not-required" id="unifiedClassroom-select">
                                 <?php echo $form->label($modelEnrollment, 'unified_class', array('class' => 't-field-select__label')); ?>
-                                <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"),
+                                <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA", "3" => "NÃO POSSUI"),
                                     array('class' => 'select-search-off t-field-select__input select2-container')); ?>
                                 <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
                             </div>
@@ -1702,7 +1716,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                            href="<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport'
                                                                , array('enrollment_id' => $me->id)) ?>">
                                                             <span class="t-icon-printer"></span>
-                                                            Rendimento Escolar Por Atividades
+                                                            Ficha de Notas
                                                         </a>
                                                         <a class="t-button-secondary" rel="noopener" target="_blank"
                                                            href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
@@ -1775,7 +1789,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div id="StudentIdentification_deficiencies"
                                  class="t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
                                 <label class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Deficiency Type'); ?>
-                                    *</label>
+                                    </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
                                     <label class="t-field-checkbox">

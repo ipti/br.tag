@@ -17,23 +17,9 @@ class AdminController extends Controller
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-                    'import',
-                    'export',
-                    'update',
-                    'manageUsers',
-                    'clearDB',
-                    'acl',
-                    'backup',
-                    'data',
-                    'exportStudentIdentify',
-                    'syncExport',
-                    'syncImport',
-                    'exportToMaster',
-                    'clearMaster',
-                    'importFromMaster',
-                    'gradesStructure'
-                ],
-                'users' => ['@'],
+                    'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure', 'instanceConfig', 'editInstanceConfigs'
+                ], 'users' => ['@'],
             ],
         ];
     }
@@ -86,6 +72,7 @@ class AdminController extends Controller
 
     public function actionImportMaster()
     {
+        ini_set('memory_limit', '2048M');
         $adapter = new Adapter;
         $databaseName = Yii::app()->db->createCommand("SELECT DATABASE()")->queryScalar();
         $pathFileJson = "./app/export/InfoTagJSON/$databaseName.json";
@@ -141,8 +128,9 @@ class AdminController extends Controller
             if (!isset($modelValidate)) {
                 $model->attributes = $_POST['Users'];
                 if ($model->validate()) {
-                    $password = md5($_POST['Users']['password']);
-
+                    $passwordHasher =  new PasswordHasher;
+                    $password = $passwordHasher->bcriptHash($_POST['Users']['password']);
+                   
                     $model->password = $password;
                     // form inputs are valid, do something here
                     if ($model->save()) {
@@ -422,10 +410,11 @@ class AdminController extends Controller
         $model = Users::model()->findByPk($id);
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
-            $password = md5($_POST['Users']['password']);
-            $confirm = md5($_POST['Confirm']);
+            $passwordHasher = new PasswordHasher;
+            $password = ($_POST['Users']['password']);
+            $confirm = ($_POST['Confirm']);
             if ($password == $confirm) {
-                $model->password = $password;
+                $model->password = $passwordHasher->bcriptHash($password);
                 if ($model->save()) {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Senha alterada com sucesso!'));
                     if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) {
@@ -561,8 +550,8 @@ class AdminController extends Controller
         if (isset($users)) {
             $model->attributes = $users;
             if ($model->validate()) {
-                $password = md5($users['password']);
-                $model->password = $password;
+                $passwordHasher = new PasswordHasher;
+                $model->password = $passwordHasher->bcriptHash($users['password']);
                 if ($model->save()) {
                     $save = true;
                     foreach ($userSchools as $userSchool) {
@@ -649,6 +638,27 @@ class AdminController extends Controller
         $this->render('changelog');
     }
 
+    public function actionInstanceConfig()
+    {
+        $configs = InstanceConfig::model()->findAll();
+        $this->render('instanceConfig', [
+            "configs" => $configs
+        ]);
+    }
+
+    public function actionEditInstanceConfigs()
+    {
+        $changed = false;
+        foreach ($_POST["configs"] as $config) {
+            $instanceConfig = InstanceConfig::model()->findByPk($config["id"]);
+            if ($instanceConfig->value != $config["value"]) {
+                $instanceConfig->value = $config["value"];
+                $instanceConfig->save();
+                $changed = true;
+            }
+        }
+        echo json_encode(["valid" => $changed, "text" => "Configurações alteradas com sucesso.</br>"]);
+    }
     public function actionAuditory()
     {
         $schools = Yii::app()->db->createCommand("select inep_id, `name` from school_identification order by `name`")->queryAll();

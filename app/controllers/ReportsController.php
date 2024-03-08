@@ -31,7 +31,7 @@ class ReportsController extends Controller
                     'NumberOfStudentsEnrolledPerPeriodPerSchool', 'NumberOfStudentsEnrolledPerPeriodAllSchools',
                     'AllSchoolsReportOfStudentsBenefitingFromTheBF','AllClassroomsReportOfStudentsBenefitingFromTheBF',
                     'ReportOfStudentsBenefitingFromTheBFPerClassroom', 'TeachersByStage', 'TeachersBySchool', 'StatisticalData',
-                    'NumberOfClassesPerSchool', 'NumberOfClassesPerSchool', 'StudentCpfRgNisPerClassroom',),
+                    'NumberOfClassesPerSchool', 'NumberOfClassesPerSchool', 'StudentCpfRgNisPerClassroom','FoodMenu'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -400,7 +400,6 @@ class ReportsController extends Controller
         $query = $repository->getNumberStudentsPerClassroom();
         $this->render('NumberStudentsPerClassroomReport', $query);
     }
-
     public function actionEnrollmentStatisticsByYearReport()
     {
         // Construíndo condicionais e definindo ordenação para a consulta

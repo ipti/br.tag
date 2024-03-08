@@ -8,9 +8,10 @@ function parseDOM(htmlString) {
   wrapper.append(htmlString);
   return wrapper;
 }
-function initializeMealAccordion(id) {
+function initializeMealAccordion(id = false) {
   $('.js-meals-component').accordion("destroy");
   $(".js-meals-component").accordion({
+    heightStyle: "content",
     active: id,
     collapsible: true,
     icons: false,
@@ -61,7 +62,6 @@ const DateComponent = function () {
         return html; // Não adiciona <li> para sábado e domingo
       }
     }, `<ul class="t-tabs__list column">`);
-
     container.html(template);
   }
 
@@ -83,7 +83,7 @@ const PlateComponent = function (plate) {
   function render() {
 
     let template = `
-      <div class="ui-accordion-header js-plate-accordion-header row" data-id-accordion="${plate.id}">
+      <div class="ui-accordion-header js-plate-accordion-header mobile-row" data-id-accordion="${plate.id}">
         <div class='column flex-direction--row align-items--baseline'>
           <input type="text" class="t-accordion-input-header js-plate-name" autofocus="true" value='${plate.description}' name='Nome do Prato' placeholder="Digite o nome do prato" required='required' />
           <label>
@@ -91,11 +91,11 @@ const PlateComponent = function (plate) {
           </label>
         </div>
         <div class="column justify-content--space-between  border-left">
-        <span class="js-ingredients-names"></span>
-        <span class="t-icon-down_arrow arrow" ></span>
+            <span class="js-ingredients-names"></span>
+            <span class="t-icon-down_arrow arrow" ></span>
         </div>
       </div>
-      <div class="ui-accordion-content js-plate-accordion-content"  data-id-accordion="${plate.id}">
+      <div class="ui-accordion-content accordion-overflow js-plate-accordion-content"  data-id-accordion="${plate.id}">
         <div class="row">
           <div class="t-field-select column clearfix">
             <select class="t-field-select__input js-initialize-select2 js-taco-foods">
@@ -106,7 +106,7 @@ const PlateComponent = function (plate) {
         <table class="tag-table-secondary centralize js-meal-component-table">
           <tr>
             <th>Nome</th>
-            <th>unidade</th>
+            <th>Unidade</th>
             <th>Medida</th>
             <th>Quantidade</th>
             <th>PT</th>
@@ -127,7 +127,7 @@ const PlateComponent = function (plate) {
           <th></th>
         </tr>
         </table>
-        <div class="row">
+        <div class="row t-margin-medium--bottom">
             <a class="t-button-icon-danger js-remove-plate" data-id-plate="${plate.id}">Remover Prato</a>
         </div>
       </div>
@@ -137,7 +137,7 @@ const PlateComponent = function (plate) {
     wrapper.find(".js-plate-name").on("change", (e) => { plate.description = e.target.value });
     getFoodList(wrapper.find(".js-taco-foods"))
     const table = wrapper.find('table.js-meal-component-table')
-    plate.food_ingredients.map((e) => {
+    plate.foodIngredients.map((e) => {
       getFood(e, table)
     })
     wrapper.find(".js-remove-plate").on("click", (e) => {
@@ -158,12 +158,7 @@ const PlateComponent = function (plate) {
       meals.forEach((e) => {
         MealsComponent(e, day).actions.render();
       });
-      $('.js-meals-component').accordion("destroy");
-      $(".js-meals-component").accordion({
-        active: accordionActive,
-        collapsible: true,
-        icons: false,
-      });
+      initializeMealAccordion(accordionActive)
     })
     const selectFoods = wrapper.find('.js-taco-foods')
     addRowToTable(selectFoods, table)
@@ -174,7 +169,7 @@ const PlateComponent = function (plate) {
   function getFoodList(select) {
 
     $.ajax({
-      url: "?r=foods/foodMenu/getTacoFoods",
+      url: "?r=foods/foodmenu/getTacoFoods",
       type: "GET",
     }).success(function (response) {
       let foods = JSON.parse(response);
@@ -190,15 +185,26 @@ const PlateComponent = function (plate) {
   }
   function addRowToTable(selectFoods, table) {
     selectFoods.on('change', (e) => {
-      table.find('tbody > :not(:first-child)').html('')
-      plate.food_ingredients.push({
+      table.find('tbody').html('')
+      table.find('tbody').append(`<tr>
+            <th>Nome</th>
+            <th>Unidade</th>
+            <th>Medida</th>
+            <th>Quantidade</th>
+            <th>PT</th>
+            <th>LIP</th>
+            <th>CHO</th>
+            <th>KCAL</th>
+            <th></th>
+        </tr>`)
+      plate.foodIngredients.push({
         id: idIgredientes,
-        food_id_fk: selectFoods.val(),
-        food_measure_unit_id: "",
+        foodIdFk: selectFoods.val(),
+        foodMeasureUnitId: "",
         amount: "",
       })
       idIgredientes++
-      plate.food_ingredients.map((e) => {
+      plate.foodIngredients.map((e) => {
         getFood(e, table)
       })
 
@@ -209,16 +215,16 @@ const PlateComponent = function (plate) {
   function getFood(food, table) {
 
     $.ajax({
-      url: "?r=foods/foodMenu/getFood",
+      url: "?r=foods/foodmenu/getFood",
       data: {
-        idFood: food.food_id_fk
+        idFood: food.foodIdFk
       },
       type: "GET",
     }).success(function (response) {
       response = JSON.parse(DOMPurify.sanitize(response))
       let line = createMealComponent(response, food);
       const wrapper = parseDOM(line);
-      wrapper.find(".js-unit").on("change", (e) => { food.amount = e.target.value });
+      wrapper.find(".js-unit input").on("input", (e) => {food.amount = e.target.value});
       wrapper.find('.js-remove-taco-food').on('click', (e) => {
 
         let accordionPlateActive = $(e.target).attr("data-id-plate")
@@ -229,7 +235,7 @@ const PlateComponent = function (plate) {
           let plateIndex = meal.plates.findIndex(plate => plate.id == accordionPlateActive);
 
           if (plateIndex !== -1) {
-            meal.plates[plateIndex].food_ingredients = meal.plates[plateIndex].food_ingredients.filter(foodIngredient => foodIngredient.id != ingredientId);
+            meal.plates[plateIndex].foodIngredients = meal.plates[plateIndex].foodIngredients.filter(foodIngredient => foodIngredient.id != ingredientId);
             accordionMeals = i;
           }
         }
@@ -239,12 +245,7 @@ const PlateComponent = function (plate) {
         meals.forEach((e) => {
           MealsComponent(e, day).actions.render();
         });
-        $('.js-meals-component').accordion("destroy");
-        $(".js-meals-component").accordion({
-          active: accordionMeals,
-          collapsible: true,
-          icons: false,
-        });
+        initializeMealAccordion(accordionMeals)
 
       })
       table.find('.js-total').remove()
@@ -267,7 +268,7 @@ const PlateComponent = function (plate) {
       td.text(newAmount)
     })
     select.on('change', function (event) {
-      food.food_measure_unit_id = select.val()
+      food.foodMeasureUnitId = select.val()
       let newAmount = calculateAmount(
         select.find('option:selected').attr('data-value')
         , select.find('option:selected').attr('data-measure'), input.val())
@@ -287,7 +288,7 @@ const PlateComponent = function (plate) {
       total_lip += Number(lip.innerHTML) ? Number(lip.innerHTML) : 0
     })
     table.find('.js-cho').each((_, cho) => {
-      total_cho += Number(cho.innerHTML) ? Number(cho.innerHTML) : 0
+      total_cho+= Number(cho.innerHTML) ? Number(cho.innerHTML) : 0
     })
     table.find('.js-kcal').each((_, kcal) => {
       total_kcal += Number(kcal.innerHTML) ? Number(kcal.innerHTML) : 0
@@ -324,7 +325,7 @@ const PlateComponent = function (plate) {
   }
   function addFoodMeasurement(line, food) {
     $.ajax({
-      url: "?r=foods/foodMenu/getFoodMeasurement",
+      url: "?r=foods/foodmenu/getFoodMeasurement",
       type: "GET",
     }).success(function (response) {
       const measurements = JSON.parse(response)
@@ -340,7 +341,7 @@ const PlateComponent = function (plate) {
 
         select.append(DOMPurify.sanitize((option)));
       });
-      select.val(food.food_measure_unit_id).trigger('change')
+      select.val(food.foodMeasureUnitId).trigger('change')
       initializeSelect2()
     })
   }
@@ -396,8 +397,8 @@ const MealsComponent = function (meal, day) {
   function render() {
     const container = $(".js-meals-component");
     let template = `
-    
-    <div class="ui-accordion-header js-meals-accordion-header row ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
+
+    <div class="ui-accordion-header js-meals-accordion-header mobile-row ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
       <div class="column justify-content--start js-meal-name">
         ${meal.mealType == "Selecione a refeição" ? "Turno da refeição" : meal.mealType}
       </div>
@@ -408,12 +409,12 @@ const MealsComponent = function (meal, day) {
     </div>
     <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
       <div class="row">
-        <div class="t-field-text column">
-          <label class="t-field-text__label--required">Hora da Refeição *</label>
+        <div class="t-field-text column clearleft--on-mobile">
+          <label class="t-field-text__label--required">Hora da Refeição</label>
           <input type='text' class='t-field-text__input js-mealTime' required='required' value="${meal.mealTime}" name='Hora da Refeição' />
         </div>
-        <div class="t-field-select column">
-            <label class='t-field-select__label--required'>Refeição *</label>
+        <div class="t-field-select column clearleft--on-mobile">
+            <label class='t-field-select__label--required'>Refeição</label>
             <select required='required' name='Refeição'
                     class="js-initialize-select2 select-search-on t-field-select__input js-meal-type">
               <option value="">Selecione a refeição</option>
@@ -421,19 +422,19 @@ const MealsComponent = function (meal, day) {
         </div>
       </div>
       <div class="row">
-					<div class="t-field-select column">
-            <label class="t-field-select__label--required">Turno *</label>
+					<div class="t-field-select column clearleft--on-mobile">
+            <label class="t-field-select__label--required">Turno</label>
             <select class="js-initialize-select2 select-search-on t-field-select__input js-shift" name='Turno' required='required'>
                 <option value="">Selecione o turno</option>
                 <option value="M">Manhã</option>
                 <option value="T">Tarde</option>
                 <option value="N">Noite</option>
-            </select>          
+            </select>
 					</div>
-					<div class="column"></div>
+					<div class="column "></div>
 			</div>
       <div class"row">
-        <div class="column t-buttons-container">
+        <div class="column clearleft--on-mobile t-buttons-container">
           <a class="t-button-secondary js-add-plate">
             <span class="t-icon-start"></span>
             Adicionar Prato
@@ -442,7 +443,7 @@ const MealsComponent = function (meal, day) {
       </div>
       <div class="row">
         <div class="column t-accordeon--header">
-          <div class="row">
+          <div class="mobile-row">
             <div class="column">
               Prato
             </div>
@@ -456,7 +457,7 @@ const MealsComponent = function (meal, day) {
         <div class="js-plate-accordion column">
         </div>
       </div>
-    </div>     
+    </div>
           `;
 
     const wrapper = parseDOM(template);
@@ -485,29 +486,14 @@ const MealsComponent = function (meal, day) {
       meal.plates.push({
         description: "",
         id: idplates,
-        food_ingredients: []
+        foodIngredients: []
       })
       idplates++
 
       meals.forEach((e) => {
         MealsComponent(e, day).actions.render();
       });
-      $('.js-meals-component').accordion("destroy");
-      $(".js-meals-component").accordion({
-        active: meals.indexOf(meal),
-        collapsible: true,
-        icons: false,
-      });
-
-      if (platesContainer.data('ui-accordion')) {
-        $(platesContainer).accordion("destroy");
-      }
-      platesContainer.accordion({
-        active: meal.plates.length,
-        collapsible: true,
-        icons: false,
-      });
-
+      initializeMealAccordion(meals.indexOf(meal))
 
       $(".js-plate-accordion-header").off("keydown");
 
@@ -517,22 +503,22 @@ const MealsComponent = function (meal, day) {
 
     // adiciona máscara no input de hora
     wrapper.find(".js-mealTime").mask("99:99")
-
     container.append(wrapper.children())
     const renderPlates = meal.plates.reduce((acc, plate) => acc.concat(PlateComponent(plate).actions.render()), []);
     platesContainer.html(renderPlates)
     platesContainer.accordion({
+      heightStyle: "content",
       active: false,
       collapsible: true,
       icons: false,
-    });
+  });
     $(".js-plate-accordion-header").off("keydown");
     initializeSelect2()
   }
 
   function getMealTypeList(select) {
     $.ajax({
-      url: "?r=foods/foodMenu/getMealType",
+      url: "?r=foods/foodmenu/getMealType",
       type: "GET",
     }).success(function (response) {
       select.append(DOMPurify.sanitize(JSON.parse(response)));
@@ -574,12 +560,7 @@ $(document).on("click", ".js-remove-meal", function () {
   meals.forEach((e) => {
     MealsComponent(e, day).actions.render();
   });
-  $('.js-meals-component').accordion("destroy");
-  $(".js-meals-component").accordion({
-    active: false,
-    collapsible: true,
-    icons: false,
-  });
+  initializeMealAccordion()
 });
 
 $(document).on("click", '.js-change-pagination', function () {
@@ -594,12 +575,5 @@ $(document).on("click", '.js-change-pagination', function () {
   meals.forEach((e) => {
     MealsComponent(e, day).actions.render();
   });
-  $('.js-meals-component').accordion("destroy");
-  $(".js-meals-component").accordion({
-    active: false,
-    collapsible: true,
-    icons: false,
-  });
+  initializeMealAccordion()
 })
-
-

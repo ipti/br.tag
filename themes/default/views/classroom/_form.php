@@ -4,6 +4,7 @@
  *
  * @var CActiveForm $this CActiveForm
  * @var Classroom $modelClassroom Classroom
+ * @var EdcensoStageVsModality $edcensoStageVsModalities EdcensoStageVsModality
  */
 
 $baseUrl = Yii::app()->baseUrl;
@@ -125,7 +126,11 @@ $form = $this->beginWidget(
                     <div class="row">
                         <div class="column">
                             <?php
-                            echo $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school));
+                            echo
+                            $modelClassroom->isNewRecord ?
+                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school)) :
+                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => $modelClassroom->school_inep_fk))
+                            ;
                             echo CHtml::hiddenField("teachingData", '', array('id' => 'teachingData'));
                             echo CHtml::hiddenField("disciplines", '', array('id' => 'disciplines'));
                             echo CHtml::hiddenField("events", '', array('id' => 'events'));
@@ -162,7 +167,8 @@ $form = $this->beginWidget(
                                     '1' => 'Ensino Regular',
                                     '2' => 'Educação Especial - Modalidade Substitutiva',
                                     '3' => 'Educação de Jovens e Adultos (EJA)',
-                                    '4' => 'Não se aplica'
+                                    '4' => 'Não se aplica',
+                                    '5' => 'Atendimento Educacional Especializado'
                                 ), array('prompt' => 'Selecione a Modalidade', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
                                 ?>
                                 <?php echo $form->error($modelClassroom, 'modality'); ?>
@@ -195,7 +201,9 @@ $form = $this->beginWidget(
                             <!-- Etapa de Ensino -->
                             <div class="t-field-select" id="stage_vs_modality">
                                 <?php echo $form->label($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
+                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData($edcensoStageVsModalities, 'id', 'name'), array(
+                                    'prompt' => 'Selecione o estágio vs modalidade',
+                                    'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
                                 <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 <img class="loading-disciplines" style="display:none;position: fixed;margin: 5px 20px;"
                                     height="20px" width="20px"
@@ -203,25 +211,33 @@ $form = $this->beginWidget(
                                     alt="TAG Loading">
                             </div>
 
+                            <!-- Calendários da etapa -->
+                            <div class="t-field-select">
+                                <label class="t-field-select__label">Calendário</label>
+                                <select class="select-search-on t-field-select__input select2-container" name="calendar_fk" id="Calendars" selectedOption="<?= $modelClassroom->calendar_fk ?>">
+                                    <option value=''>Selecione um Calendário</option>
+                                </select>
+                            </div>
+
                             <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                 <!-- Unidade Escolar -->
                                 <div class="t-field-select" id="sedsp_school_unity_fk">
-                                    <?php echo $form->label($modelClassroom, 'Unidade Escolar *', array('class' => 't-field-select__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, 'Unidade Escolar', array('class' => 't-field-select__label--required')); ?>
                                     <?php echo $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(array('school_inep_id_fk' => yii::app()->user->school)), 'id', 'description'), array('prompt' => 'Selecione a unidade escolar', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%')); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_school_unity_fk'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->label($modelClassroom, "Turma *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Turma", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->textField($modelClassroom, 'sedsp_acronym', array('size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'placeholder' => 'Ex: A, B, 1, A1, B1...', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_acronym'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->label($modelClassroom, "Sala de Aula *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Sala de Aula", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->numberField($modelClassroom, 'sedsp_classnumber', array('min' => 1, 'max' => 99, 'size' => 2, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_classnumber'); ?>
                                 </div>
                                 <div class="t-field-text">
-                                    <?php echo $form->label($modelClassroom, "Capacidade Fisica Maxima *", array('class' => 't-field-text__label--required')); ?>
+                                    <?php echo $form->label($modelClassroom, "Capacidade Fisica Maxima", array('class' => 't-field-text__label--required')); ?>
                                     <?php echo $form->numberField($modelClassroom, 'sedsp_max_physical_capacity', array('size' => 2, 'min' => 1, 'max' => 99, 'maxlength' => 2, 'class' => 't-field-text__input', 'disabled' => $disabledFields)); ?>
                                     <?php echo $form->error($modelClassroom, 'sedsp_max_physical_capacity'); ?>
                                 </div>
@@ -847,7 +863,10 @@ $form = $this->beginWidget(
                     </div>
                 </div>
                 <div class="tab-pane" id="daily">
-                    <ul id="js-t-sortable" class="t-sortable">
+                    <div class="row">
+                        <button id="js-alphabetic-order" type="button" class="t-button-secondary"><span class="t-icon-arrow-az"></span>Ordem Alfabética</button>
+                    </div>
+                    <ul id="js-t-sortable" class="t-sortable t-margin-none--left">
                         <?php
                         if (isset($modelEnrollments)) {
                             $i = 1;
