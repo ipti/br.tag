@@ -18,7 +18,7 @@ $form=$this->beginWidget('CActiveForm', array(
 <div class="form">
     <div class="mobile-row">
         <div class="column clearleft">
-            <h1 class="clear-padding--bottom"><?php echo $model->isNewRecord ? 'Solicitações' : '' ?></h1>
+            <h1 class="t-padding-none--bottom"><?php echo $model->isNewRecord ? 'Solicitações' : '' ?></h1>
         </div>
     </div>
     <div class="row">

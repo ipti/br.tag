@@ -57,7 +57,7 @@ $this->menu = array(
 							'description' => array(
 								'header' => 'Nome',
 								'type' => 'raw',
-								'value' => 'CHtml::link($data->description,Yii::app()->createUrl("foods/foodMenu/update",array("id"=>$data->id)))',
+								'value' => 'CHtml::link($data->description,Yii::app()->createUrl("foods/foodmenu/update",array("id"=>$data->id)))',
 								'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
 							),
 							'start_date' => array(
