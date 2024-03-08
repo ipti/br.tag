@@ -28,7 +28,7 @@ class FoodNoticeController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'getTacoFoods'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -55,7 +55,22 @@ class FoodNoticeController extends Controller
 			'model'=>$this->loadModel($id),
 		));
 	}
+	public function actionGetTacoFoods()
+    {
+		$criteria = new CDbCriteria();
+        $criteria->select = 'id, description';
+        $criteria->condition = 'alias_id = t.id';
 
+        $foods = Food::model()->findAll($criteria);
+
+        $resultArray = array();
+        foreach ($foods as $food) {
+            $resultArray[$food->id] =  $food->description;
+        }
+        echo json_encode($resultArray);
+
+    }
+	
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -63,11 +78,11 @@ class FoodNoticeController extends Controller
 	public function actionCreate()
 	{
 		$model=new FoodNotice;
-
+		$request = Yii::app()->request->getPost('notice');
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['FoodNotice']))
+		if($request != null)
 		{
 			$model->attributes=$_POST['FoodNotice'];
 			if($model->save())

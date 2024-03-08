@@ -1,6 +1,17 @@
 <?php
 class FoodMenuService
 {
+    public function getTacoFoods()
+    {
+        $foods = Food::model()->findAll(array(
+            'select' => 'id, description'
+        ));
+        $resultArray = array();
+        foreach ($foods as $food) {
+            $resultArray[$food->id] = $food->description;
+        }
+        echo json_encode($resultArray);
+    }
     public function getFoodMenu($modelFoodMenu, $publicTarget, $modelMenuMeals)
     {
         $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];

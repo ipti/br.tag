@@ -16,13 +16,17 @@ $(".js-date").datepicker({
 
 $('select.js-initialize-select2').select2();
 
-
-$('.js-datatable').DataTable({
-    items,
-    filter: true,
-    paginate: true,
-    language: {
-        emptyTable: "Nenhum item cadastrado.",
-        "sLoadingRecords": "Carregando...",
-    }
-});
+$.ajax({
+  url: "?r=foods/foodnotice/getTacoFoods",
+  type: "GET",
+}).success(function (response) {
+  let foods = JSON.parse(response);
+  let select = $("select.js-taco-foods")
+  $.map(foods, function (name, id) {
+    name = name.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+    select.append($('<option>', {
+      value: id,
+      text: name
+    }));
+  });
+})

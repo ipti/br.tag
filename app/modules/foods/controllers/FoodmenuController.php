@@ -141,14 +141,11 @@ class FoodmenuController extends Controller
 
     public function actionGetTacoFoods()
     {
-        $foods = Food::model()->findAll(array(
-            'select' => 'id, description'
-        ));
-        $resultArray = array();
-        foreach ($foods as $food) {
-            $resultArray[$food->id] = $food->description;
-        }
-        echo json_encode($resultArray);
+        $getTacoFoods = new GetTacoFoods();
+        $tacolist  = $getTacoFoods->exec();
+
+        $response = $tacolist;
+        echo $response;
     }
     public function actionGetFood()
     {

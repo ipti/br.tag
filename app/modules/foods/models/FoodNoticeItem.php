@@ -9,8 +9,10 @@
  * @property string $description
  * @property string $measurement
  * @property integer $year_amount
+ * @property integer $food_id
  *
  * The followings are the available model relations:
+ * @property Food $food
  * @property FoodNoticeVsFoodNoticeItem[] $foodNoticeVsFoodNoticeItems
  */
 class FoodNoticeItem extends CActiveRecord
@@ -32,13 +34,13 @@ class FoodNoticeItem extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, measurement, year_amount', 'required'),
-			array('year_amount', 'numerical', 'integerOnly'=>true),
+			array('year_amount, food_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>255),
 			array('description', 'length', 'max'=>1000),
 			array('measurement', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, description, measurement, year_amount', 'safe', 'on'=>'search'),
+			array('id, name, description, measurement, year_amount, food_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -50,6 +52,7 @@ class FoodNoticeItem extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'food' => array(self::BELONGS_TO, 'Food', 'food_id'),
 			'foodNoticeVsFoodNoticeItems' => array(self::HAS_MANY, 'FoodNoticeVsFoodNoticeItem', 'food_notice_item_id'),
 		);
 	}
@@ -65,6 +68,7 @@ class FoodNoticeItem extends CActiveRecord
 			'description' => 'Description',
 			'measurement' => 'Measurement',
 			'year_amount' => 'Year Amount',
+			'food_id' => 'Food',
 		);
 	}
 
@@ -91,6 +95,7 @@ class FoodNoticeItem extends CActiveRecord
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('measurement',$this->measurement,true);
 		$criteria->compare('year_amount',$this->year_amount);
+		$criteria->compare('food_id',$this->food_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
