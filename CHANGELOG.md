@@ -1,3 +1,6 @@
+## [Versão 3.72.116]
+- Adicionando o campo de quantidade anterior na tabela de estoque e adicionando data de validade na tabela de alimentos inseridos no estoque
+
 ## [Versão 3.72.115]
 - Adicionado Modal para adicionar novos recursos na tela de plano de aula.
 - Alteração na estrutura do banco de dados referente ao tipo de recurso cadastrado em um plano
