@@ -5,7 +5,7 @@ $(document).ready(function() {
     let food_inventory;
     $.ajax({
         type: 'POST',
-        url: "?r=foods/foodinventory/getFoodInventory",
+        url: "?r=foods/foodInventory/getFoodInventory",
         cache: false
     }).success(function(response) {
         food_inventory = JSON.parse(response);
@@ -16,7 +16,7 @@ $(document).ready(function() {
     let foodSelect = $('#foodStockSelect');
     $.ajax({
         type: 'POST',
-        url: "?r=foods/foodinventory/getFoodAlias",
+        url: "?r=foods/foodInventory/getFoodAlias",
         cache: false
     }).success(function(response) {
         let foods_description = JSON.parse(response);
@@ -50,7 +50,7 @@ $(document).on("click", "#js-movements-button", function () {
 
     $.ajax({
         type: 'POST',
-        url: "?r=foods/foodinventory/getStockMovement",
+        url: "?r=foods/foodInventory/getStockMovement",
         cache: false,
         data: {
             foodInventoryFoodId: foodInventoryFoodId
@@ -86,7 +86,7 @@ $(document).on("click", "#js-entry-stock-button", function () {
 
     $.ajax({
         type: 'POST',
-        url: "?r=foods/foodinventory/getFoodAlias",
+        url: "?r=foods/foodInventory/getFoodAlias",
         cache: false
     }).success(function(response) {
         foods_description = JSON.parse(response);
@@ -146,7 +146,7 @@ $(document).on("click", "#save-food", function () {
     if (foodsOnStock != 0){
         $.ajax({
             type: 'POST',
-            url: "?r=foods/foodinventory/saveStock",
+            url: "?r=foods/foodInventory/saveStock",
             cache: false,
             data: {
                 foodsOnStock: foodsOnStock
@@ -175,7 +175,7 @@ $(document).on("click", "#spent-checkbox", function () {
     if($(this).is(':checked')) {
         $.ajax({
             type: 'POST',
-            url: "?r=foods/foodinventory/saveStockSpent",
+            url: "?r=foods/foodInventory/saveStockSpent",
             cache: false,
             data: {
                 foodInventoryId: foodInventoryId,
@@ -202,7 +202,7 @@ $(document).on("click", "#js-saveFoodInventoryStatus", function () {
     if(status == 'Emfalta') {
         $.ajax({
             type: 'POST',
-            url: "?r=foods/foodinventory/saveStockSpent",
+            url: "?r=foods/foodInventory/saveStockSpent",
             cache: false,
             data: {
                 foodInventoryId: foodInventoryId,
@@ -218,7 +218,7 @@ $(document).on("click", "#js-saveFoodInventoryStatus", function () {
     } else {
         $.ajax({
             type: 'POST',
-            url: "?r=foods/foodinventory/updateFoodInventoryStatus",
+            url: "?r=foods/foodInventory/updateFoodInventoryStatus",
             cache: false,
             data: {
                 foodInventoryId: foodInventoryId,
@@ -242,7 +242,7 @@ table.on('change', '#foodInventoryStatus', function() {
     if(status == 'Emfalta') {
         $.ajax({
             type: 'POST',
-            url: "?r=foods/foodinventory/saveStockSpent",
+            url: "?r=foods/foodInventory/saveStockSpent",
             cache: false,
             data: {
                 foodInventoryId: foodInventoryId,
@@ -258,7 +258,7 @@ table.on('change', '#foodInventoryStatus', function() {
     } else {
         $.ajax({
             type: 'POST',
-            url: "?r=foods/foodinventory/updateFoodInventoryStatus",
+            url: "?r=foods/foodInventory/updateFoodInventoryStatus",
             cache: false,
             data: {
                 foodInventoryId: foodInventoryId,

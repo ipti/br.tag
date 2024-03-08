@@ -4,7 +4,7 @@ $(document).ready(function() {
     let food_request;
     $.ajax({
         type: 'POST',
-        url: "?r=foods/foodrequest/getFoodRequest",
+        url: "?r=foods/foodRequest/getFoodRequest",
         cache: false
     }).success(function(response) {
         food_request = JSON.parse(response);
@@ -15,7 +15,7 @@ $(document).ready(function() {
     let foodSelect = $('#foodRequestSelect');
     $.ajax({
         type: 'POST',
-        url: "?r=foods/foodinventory/getFoodAlias",
+        url: "?r=foods/foodInventory/getFoodAlias",
         cache: false
     }).success(function(response) {
         foods_description = JSON.parse(response);
@@ -45,7 +45,7 @@ $(document).on("click", "#js-entry-request-button", function () {
     let foodSelect = $('#food');
     $.ajax({
         type: 'POST',
-        url: "?r=foods/foodinventory/getFoodAlias",
+        url: "?r=foods/foodInventory/getFoodAlias",
         cache: false
     }).success(function(response) {
         foods_description = JSON.parse(response);
@@ -90,7 +90,7 @@ $(document).on("click", "#request_button", function () {
 $(document).on("click", "#save-request", function () {
     $.ajax({
         type: 'POST',
-        url: "?r=foods/foodrequest/saveRequest",
+        url: "?r=foods/foodRequest/saveRequest",
         cache: false,
         data: {
             foodRequests: foodRequests
@@ -105,7 +105,7 @@ $(document).on("click", "#save-request", function () {
         $('#info-alert').removeClass('hide').addClass('alert-success').html("Solicitação gerada com sucesso.");
         $.ajax({
             type: 'POST',
-            url: "?r=foods/foodrequest/getFoodRequest",
+            url: "?r=foods/foodRequest/getFoodRequest",
             cache: false
         }).success(function(response) {
             food_request = JSON.parse(response);

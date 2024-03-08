@@ -46,7 +46,7 @@ $(".js-save-menu").on("click", function () {
         foodMenu.friday = getMealsByDay(5)
         foodMenu.saturday = getMealsByDay(6)
 
-        //  console.log(foodmenu)
+        //  console.log(foodMenu)
         if(menuId)
         {
             $.ajax({
@@ -56,18 +56,18 @@ $(".js-save-menu").on("click", function () {
                 },
                 type: "POST",
             }).done(function (response) {
-                window.location.href = "?r=foods/foodmenu/index";
+                window.location.href = "?r=foods/foodMenu/index";
             })
          } else
         {
             $.ajax({
-                url: "?r=foods/foodmenu/create",
+                url: "?r=foods/foodMenu/create",
                 data: {
                     foodMenu: foodMenu
                 },
                 type: "POST",
             }).done(function (response) {
-                window.location.href = "?r=foods/foodmenu/index";
+                window.location.href = "?r=foods/foodMenu/index";
             })
         }
 

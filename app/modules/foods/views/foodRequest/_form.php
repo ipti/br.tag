@@ -86,13 +86,8 @@ $form=$this->beginWidget('CActiveForm', array(
 							<?php echo $form->textField($model,'description', array('class' => 't-field-text__input js-description clear-margin--all', 'placeholder' => 'Informe')); ?>
 							<?php echo $form->error($model,'description'); ?>
 						</div>
-<<<<<<< HEAD
-						<div class="column is-one-tenth clearleft--on-mobile t-buttons-container clear-padding--bottom clear-margin--bottom clearfix">
-							<button class="t-button-secondary mobile-margin-top clear-margin--all full--width align-self--end" id="add-request" type="button">Adicionar</button>
-=======
 						<div class="column is-one-tenth clearleft--on-mobile t-buttons-container t-margin-none--bottom clearfix">
 							<button class="t-button-secondary mobile-margin-top t-margin-none--bottom full--width align-self--end" id="add-request" type="button">Adicionar</button>
->>>>>>> dev
 						</div>
                     </div>
 

@@ -31,7 +31,7 @@ class ReportsController extends Controller
 
         $this->layout = 'webroot.themes.default.views.layouts.reportsclean';
         $this->render('FoodMenuReport', array(
-            "foodmenu" => $foodMenu,
+            "foodMenu" => $foodMenu,
             "mealTypes" => $mealTypes,
             "publicTarget" => $publicTarget,
             "schoolLocation" => $schoolLocation,

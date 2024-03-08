@@ -235,7 +235,7 @@ class Log extends CActiveRecord
                 $text = 'Alunos de ' . $log->additional_info . ' foram rematriculados.';
                 $icon = "alunos";
                 break;
-            case "foodmenu":
+            case "foodMenu":
                 $text = 'O Cardápio "' .$log->additional_info .'" foi adicionado.';
                 $icon = "cardapio";
         }

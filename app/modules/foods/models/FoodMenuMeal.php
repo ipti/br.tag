@@ -21,7 +21,7 @@
  * @property string $turn
  *
  * The followings are the available model relations:
- * @property FoodMenu $foodmenu
+ * @property FoodMenu $foodMenu
  * @property FoodMealType $foodMealTypeFk
  * @property FoodMenuMealComponent[] $foodMenuMealComponents
  */

@@ -281,7 +281,7 @@ class FoodMenuService
     }
 }
 /**
- * Classes that represents a foodmenu which will be manipulated and send as response to client request
+ * Classes that represents a foodMenu which will be manipulated and send as response to client request
  */
 class FoodMenuObject
 {
@@ -333,7 +333,7 @@ class FoodMenuObject
     }
 }
 /**
- * Classe that represents a meal from a foodmenu to be loaded in JSON response
+ * Classe that represents a meal from a foodMenu to be loaded in JSON response
  */
 class MealObject
 {

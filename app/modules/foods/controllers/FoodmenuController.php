@@ -36,7 +36,7 @@ class FoodmenuController extends Controller
         }
 
         $message = null;
-        // Atribui valores às propriedades do model foodmenu(Cardápio) e trata o formato das datas
+        // Atribui valores às propriedades do model foodMenu(Cardápio) e trata o formato das datas
         $startTimestamp = strtotime(str_replace('/', '-', $request["start_date"]));
         $finalTimestamp = strtotime(str_replace('/', '-', $request["final_date"]));
         $modelFoodMenu->start_date = date('Y-m-d', $startTimestamp);
@@ -45,7 +45,7 @@ class FoodmenuController extends Controller
         $modelFoodMenu->observation = $request['observation'];
         $modelFoodMenu->description = $request['description'];
 
-        // Verifica se a ação de salvar foodmenu ocorreu com sucesso, caso falhe encerra a aplicação
+        // Verifica se a ação de salvar foodMenu ocorreu com sucesso, caso falhe encerra a aplicação
         $saveFoodMenuResult = $modelFoodMenu->save();
 
         if ($saveFoodMenuResult == false) {
@@ -67,7 +67,7 @@ class FoodmenuController extends Controller
         // Salvar alterações no banco
         $transaction->commit();
         header('HTTP/1.1 201 Created');
-        Log::model()->saveAction("foodmenu", $modelFoodMenu->id, "C", $modelFoodMenu->description);
+        Log::model()->saveAction("foodMenu", $modelFoodMenu->id, "C", $modelFoodMenu->description);
         Yii::app()->end();
     }
 
@@ -135,7 +135,7 @@ class FoodmenuController extends Controller
         $createFoodMenuRelations->exec($modelFoodMenu, $request, $transaction);
         $transaction->commit();
         header('HTTP/1.1 200 OK');
-        Log::model()->saveAction("foodmenu", $modelFoodMenu->id, "U", $modelFoodMenu->description);
+        Log::model()->saveAction("foodMenu", $modelFoodMenu->id, "U", $modelFoodMenu->description);
         Yii::app()->end();
     }
 
@@ -189,7 +189,7 @@ class FoodmenuController extends Controller
             $modelFoodMenu->delete();
             $transaction->commit();
             header('HTTP/1.1 200 OK');
-            Log::model()->saveAction("foodmenu", $id, "D", $modelFoodMenu->description);
+            Log::model()->saveAction("foodMenu", $id, "D", $modelFoodMenu->description);
             // echo json_encode(["valid" => true, "message" => "Cardápio excluído com sucesso!"]);
             $dataProvider = new CActiveDataProvider('FoodMenu');
             $this->render('index', array(

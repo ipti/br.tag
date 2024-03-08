@@ -2,7 +2,7 @@ let mealsOfWeek = []
 let mealsOfWeekFiltered = []
 const containerCards = $('.js-cards-meals')
 $.ajax({
-    url: "?r=foods/foodmenu/GetMealsOfWeek",
+    url: "?r=foods/foodMenu/GetMealsOfWeek",
     type: "POST",
 }).success(function (response) {
     mealsOfWeek = JSON.parse(DOMPurify.sanitize(response))
