@@ -2,7 +2,7 @@
 
 
 $debug = getenv("YII_DEBUG");
-defined('YII_DEBUG') or define('YII_DEBUG', $debug);
+defined('YII_DEBUG') or define('YII_DEBUG', true);
 
 define("TAG_VERSION", '3.72.115');
 

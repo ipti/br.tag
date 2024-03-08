@@ -43,11 +43,11 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
         </div>
     </div>
     <div class="t-buttons-container">
-        <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
+        <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodMenu/index') ?>">
             Preparar Cardápio
         </a>
         <div class="mobile-row">
-            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodInventory') ?>">
                 Estoque
             </a>
             <a class="t-button-secondary js-expansive-panel show--mobile">

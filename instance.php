@@ -29,12 +29,12 @@ $PWD = getenv("PWD_DB_TAG");
 
 define("DBCONFIG", serialize(
     array(
-        'connectionString' => "mysql:host=$HOST;dbname=$newdb",
+        'connectionString' => "mysql:host=localhost;dbname=demo.tag.ong.br",
         'emulatePrepare' => true,
         'enableProfiling' => YII_DEBUG,
         'enableParamLogging' => YII_DEBUG,
-        'username' => $USER,
-        'password' => $PWD,
+        'username' => "user.tag",
+        'password' => "123456",
         'charset' => 'utf8',
     )
 )
