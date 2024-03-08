@@ -10,6 +10,14 @@
  * @property double $amount
  * @property string $measurementUnit
  * @property string $expiration_date
+ * @property string $status
+ * @property double $previous_amount
+ *
+ * The followings are the available model relations:
+ * @property SchoolIdentification $schoolFk
+ * @property Food $foodFk
+ * @property FoodInventoryReceived[] $foodInventoryReceiveds
+ * @property FoodInventorySpent[] $foodInventorySpents
  */
 class FoodInventory extends CActiveRecord
 {
@@ -29,15 +37,16 @@ class FoodInventory extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_fk, food_fk, amount, expiration_date', 'required'),
+            array('school_fk, food_fk, amount', 'required'),
             array('food_fk', 'numerical', 'integerOnly'=>true),
-            array('amount', 'numerical'),
+            array('amount, previous_amount', 'numerical'),
             array('school_fk', 'length', 'max'=>8),
             array('measurementUnit', 'length', 'max'=>7),
+            array('status', 'length', 'max'=>10),
             array('expiration_date', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, school_fk, food_fk, amount, measurementUnit, expiration_date', 'safe', 'on'=>'search'),
+            array('id, school_fk, food_fk, amount, measurementUnit, expiration_date, status, previous_amount', 'safe', 'on'=>'search'),
         );
     }
 
@@ -49,7 +58,7 @@ class FoodInventory extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'foodRelation' => array(self::BELONGS_TO, 'Food', 'food_fk'),
+            'foodRelation' => array(self::BELONGS_TO, 'Food', 'food_fk')
         );
     }
 
@@ -63,10 +72,13 @@ class FoodInventory extends CActiveRecord
             'school_fk' => 'School Fk',
             'food_fk' => 'Food Fk',
             'amount' => 'Quantidade',
+            'previous_amount' => 'Quantidade Anterior',
             'measurementUnit' => 'Measurement Unit',
             'expiration_date' => 'Validade',
         );
     }
+
+    
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -92,6 +104,8 @@ class FoodInventory extends CActiveRecord
         $criteria->compare('amount',$this->amount);
         $criteria->compare('measurementUnit',$this->measurementUnit,true);
         $criteria->compare('expiration_date',$this->expiration_date,true);
+        $criteria->compare('status',$this->status,true);
+        $criteria->compare('previous_amount',$this->previous_amount);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
