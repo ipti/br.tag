@@ -63,11 +63,14 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                           data-original-title="Remover Calendário" data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-remove"></i>
                             </span>
-                    <span class="text-right pull-right edit-calendar" data-toggle="tooltip" data-placement="top"
-                          data-original-title="<?= yii::t('index', 'Editar Calendário') ?>"
-                          data-id="<?= $calendar->id ?>">
+                            <?php 
+                    if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?> 
+                        <span class="text-right pull-right edit-calendar" data-toggle="tooltip" data-placement="top"
+                            data-original-title="<?= yii::t('index', 'Editar Calendário') ?>"
+                            data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-edit"></i>
-                            </span>
+                        </span>
+                    <?php endif; ?>
                     <span class="text-right pull-right manage-unity-periods" data-toggle="tooltip" data-placement="top"
                           d
                           data-original-title="Gerenciar Vigência das Unidades" data-id="<?= $calendar->id ?>">
