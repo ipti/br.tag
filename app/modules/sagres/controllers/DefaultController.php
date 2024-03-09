@@ -1,6 +1,6 @@
 <?php
 use SagresEdu\SagresConsultModel;
-require_once 'vendor/autoload.php';
+
 
 
 class DefaultController extends Controller

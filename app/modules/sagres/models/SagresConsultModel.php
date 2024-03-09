@@ -2,6 +2,8 @@
 
 namespace SagresEdu;
 
+require_once 'vendor/autoload.php';
+
 use Datetime;
 
 use ErrorException;
