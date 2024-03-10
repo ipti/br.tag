@@ -57,7 +57,7 @@ class DefaultController extends Controller
 
 		try {
 			$year = Yii::app()->user->year;
-			$memory_limit = ini_get('memory_limit');
+			$memoryLimit = ini_get('memory_limit');
 			set_time_limit(0);
 
 			ini_set('memory_limit', '2048M');
@@ -75,7 +75,7 @@ class DefaultController extends Controller
 		} catch (Exception $e) {
 			Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
 		} finally {
-			ini_set('memory_limit', $memory_limit);
+			ini_set('memory_limit', $memoryLimit);
 		}
 	}
 

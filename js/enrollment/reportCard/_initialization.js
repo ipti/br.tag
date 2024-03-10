@@ -124,7 +124,7 @@ $('#discipline').change(function (e, triggerEvent) {
                             </td>
                         `;
                         for (let index = 0; index < 3; index++) {
-                            const element = index <= this.grades.length ? this.grades[index] : null;
+                            const element = this.grades[index];
 
                             let valueGrade;
                             if(data.rule == "C") {

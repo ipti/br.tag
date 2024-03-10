@@ -18,6 +18,9 @@
             flex-direction: row;
         }
     }
+    &.no-gap {
+        gap: 0;
+    }
 
     @include device(mobile) {
         flex-direction: row;
@@ -29,6 +32,10 @@
         &--top {
             margin-top: $spaceNormal;
         }
+    }
+
+    &.no-gap{
+        gap: 0;
     }
 }
 

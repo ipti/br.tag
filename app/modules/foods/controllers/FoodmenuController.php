@@ -165,22 +165,22 @@ class FoodmenuController extends Controller
         echo CJSON::encode($result);
     }
 
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
-	public function actionDelete($id)
-	{
-		$modelFoodMenu = FoodMenu::model()->findByPk($id);
+    /**
+     * Deletes a particular model.
+     * If deletion is successful, the browser will be redirected to the 'admin' page.
+     * @param integer $id the ID of the model to be deleted
+     */
+    public function actionDelete($id)
+    {
+        $modelFoodMenu = FoodMenu::model()->findByPk($id);
         $transaction = Yii::app()->db->beginTransaction();
-        try{
+        try {
             $modelFoodMenuMeals = FoodMenuMeal::model()->findAllByAttributes(array('food_menuId' => $modelFoodMenu->id));
-            foreach($modelFoodMenuMeals as $modelFoodMenuMeal){
+            foreach ($modelFoodMenuMeals as $modelFoodMenuMeal) {
                 $modelFoodMealComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelFoodMenuMeal->id));
-                foreach($modelFoodMealComponents as $modelFoodMealComponent){
+                foreach ($modelFoodMealComponents as $modelFoodMealComponent) {
                     $modelFoodIngredients = FoodIngredient::model()
-                    ->deleteAllByAttributes(array('food_menu_meal_componentId'=> $modelFoodMealComponent->id));
+                        ->deleteAllByAttributes(array('food_menu_meal_componentId' => $modelFoodMealComponent->id));
                 }
                 $modelFoodMenuMeal->delete();
             }
@@ -193,36 +193,58 @@ class FoodmenuController extends Controller
             // echo json_encode(["valid" => true, "message" => "Cardápio excluído com sucesso!"]);
             $dataProvider = new CActiveDataProvider('FoodMenu');
             $this->render('index', array(
-            'dataProvider' => $dataProvider,
-        ));
+                'dataProvider' => $dataProvider,
+            ));
             Yii::app()->end();
-        }catch(Exception $e){
+        } catch (Exception $e) {
             $transaction->rollback();
             throw new CHttpException(500, $e->getMessage());
         }
-	}
+    }
     /**
      * Essa função deve retornar um objeto com todas as refeições em todos os cardápios
      * cadastrados para cada um dos dias da semana, onde a semana será baseada no dia atual
      */
-    public function actionViewLunch(){
-        $criteria = new CDbCriteria();
+    public function actionViewLunch()
+    {
+        $result = ['Manhã' => '0', 'Tarde' => '0', 'Noite' => '0', 'Integral' => '0'];
+        $sql = "SELECT COUNT(*) as total_students,
+        CASE
+            WHEN c.turn = 'M' THEN 'Manhã'
+            WHEN c.turn = 'T' THEN 'Tarde'
+            WHEN c.turn = 'N' THEN 'Noite'
+            WHEN c.turn = 'I' THEN 'Integral'
+            ELSE ''
+        END AS turn
+        FROM student_enrollment
+        inner JOIN classroom as c ON student_enrollment.classroom_fk = c.id
+        WHERE
+            (status IN (1, 6, 7, 8, 9, 10) OR
+            status IS NULL) and
+            (c.school_year = :user_year and
+            student_enrollment.school_inep_id_fk = :user_school)
+          group by c.turn";
 
-        // Adiciona condição para os valores específicos e NULL
-        $criteria->addInCondition('status', array(1, 6, 7, 8, 9, 10));
-        $criteria->addCondition('status is null', "OR");
-        $criteria->compare('classroomFk.school_year', Yii::app()->user->year);
-        $criteria->compare('school_inep_id_fk', Yii::app()->user->school);
+        $sql = Yii::app()->db->createCommand($sql)
+            ->bindParam(':user_year', Yii::app()->user->year)
+            ->bindParam(':user_school', Yii::app()->user->school)->queryAll();
 
-        // Executa a contagem
-        $count = StudentEnrollment::model()->with("classroomFk")->count($criteria);
+        foreach ($sql as $element) {
+            $turn = $element['turn'];
+            $totalStudents = $element['total_students'];
+
+
+            $result[$turn] = $totalStudents;
+
+        }
 
         $this->render('viewLunch', array(
-            "students" => $count
+            "studentsByTurn" => $result
         ));
         Yii::app()->end();
     }
-    public function actionGetMealsOfWeek() {
+    public function actionGetMealsOfWeek()
+    {
 
         $getMelsOfWeek = new GetMelsOfWeek();
         $foodMenu  = $getMelsOfWeek->exec();
@@ -302,7 +324,6 @@ class FoodmenuController extends Controller
             $resultArray[$publicTarget->id] = $publicTarget->name;
         }
         echo json_encode($resultArray);
-
     }
     /**
      * Método que retorna os tipos de refeição
@@ -315,8 +336,13 @@ class FoodmenuController extends Controller
         foreach ($mealsType as $value => $description) {
             array_push(
                 $options,
-                CHtml::tag('option', ['value' => $value],
-                    CHtml::encode($description), TRUE));
+                CHtml::tag(
+                    'option',
+                    ['value' => $value],
+                    CHtml::encode($description),
+                    true
+                )
+            );
         }
         echo CJSON::encode($options);
     }
@@ -336,7 +362,8 @@ class FoodmenuController extends Controller
                     "unit" => $foodMeasurement->unit,
                     "value" => $foodMeasurement->value,
                     "measure" => $foodMeasurement->measure
-                ));
+                )
+            );
         }
         echo CJSON::encode($options);
     }

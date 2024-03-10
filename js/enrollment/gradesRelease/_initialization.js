@@ -31,7 +31,7 @@ $('#discipline').change(function (e, triggerEvent) {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
-            url: "?r=grades/getReportCardGrades",
+            url: "?r=grades/getGradesRelease",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -92,8 +92,12 @@ $('#discipline').change(function (e, triggerEvent) {
                     });
 
                     if(data.rule == "N") {
+                        if(data.hasRecovery == 1) {
+                            html += `
+                                <th rowspan='2' style='width:10%;vertical-align:middle;'>Recuperação Final</th>
+                            `;
+                        }
                         html += `
-                            <th rowspan='2' style='width:10%;vertical-align:middle;'>Recuperação Final</th>
                             <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
                         `;
                     } else {
@@ -163,10 +167,14 @@ $('#discipline').change(function (e, triggerEvent) {
                         }
 
                         if(data.rule == "N") {
-                            html += `
+                            if(data.hasRecovery == 1) {
+                                html += `
                                 <td class='grade-td rec-final-td'>
                                     <input type='text' class='rec-final' value='${this.recFinal}'>
                                 </td>
+                                `
+                            }
+                            html += `
                                 <td style='font-weight: bold;font-size: 16px;' class='final-media'> ${this.finalMedia }</td>
                             `;
                         } else {
@@ -266,11 +274,9 @@ $(document).on("keyup", "input.grade, input.rec-final", function (e) {
         e.preventDefault();
         val = "";
     } else {
-        let grade = /^(10|\d)([.,]\d?)?$/;
+        let grade = /^(\d+([.,]\d?)?)?$/;
         if (val?.match(grade) === null) {
             val = "";
-        } else if (val > 10) {
-            val = 10;
         }
     }
     this.value = val;

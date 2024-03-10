@@ -32,7 +32,7 @@ if (YII_DEBUG) {
             'class' => 'CProfileLogRoute',
             'showInFireBug' => true,
             'report' => 'summary',
-        ),
+        )
     );
 }
 
@@ -93,7 +93,8 @@ return array(
         'classdiary',
         'curricularcomponents',
         'stages',
-        'foods'
+        'foods',
+        'dashboard'
     ),
     // application components
     'components' => array(

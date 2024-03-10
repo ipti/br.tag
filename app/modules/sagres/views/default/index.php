@@ -175,7 +175,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 		e.preventDefault();
 		const exportLink = document.getElementById('exportLink');
 		const href = exportLink.getAttribute('href');
-		
+
 		if (!href) {
 			console.error('O link de exportação não foi definido');
 			return;
