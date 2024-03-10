@@ -20,7 +20,7 @@ $form=$this->beginWidget('CActiveForm', array(
 
     <div class="mobile-row">
         <div class="column clearleft">
-            <h1 class="clear-padding--bottom"><?php echo $model->isNewRecord ? 'Cadastro Agricultor' : '' ?></h1>
+            <h1 class="clear-padding--bottom"><?php echo $model->isNewRecord ? 'Cadastro Agricultor' : 'Atualizar Agricultor' ?></h1>
             <p></p>
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
@@ -30,11 +30,20 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
-	<?php echo $form->errorSummary($model); ?>
-
     <div class="row">
         <div class="column clearfix">
-            <div id="info-alert" class="alert hide"></div>
+            <?php if (Yii::app()->user->hasFlash('success')): ?>
+                <div class="alert alert-success">
+                    <?php echo Yii::app()->user->getFlash('success') ?>
+                </div>
+                <br/>
+            <?php endif ?>
+            <?php if (Yii::app()->user->hasFlash('error')): ?>
+                <div class="alert alert-error">
+                    <?php echo Yii::app()->user->getFlash('error') ?>
+                </div>
+                <br/>
+            <?php endif ?>
         </div>
     </div>
 

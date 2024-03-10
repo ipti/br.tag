@@ -22,23 +22,23 @@ $title = "Agricultores";
         <h1>Agricultores</h1>
     </div>
     <div class="row">
-        <?php if (Yii::app()->user->hasFlash('success')): ?>
-            <div class="alert alert-success">
-                <?php echo Yii::app()->user->getFlash('success') ?>
-            </div>
-            <br/>
-        <?php endif ?>
-        <?php if (Yii::app()->user->hasFlash('error')): ?>
-            <div class="alert alert-error">
-                <?php echo Yii::app()->user->getFlash('error') ?>
-            </div>
-            <br/>
-        <?php endif ?>
-
         <div class="t-buttons-container">
             <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('foods/farmerregister/create')?>">Adicionar Agricultor</a>
         </div>
     </div>
+
+    <?php if (Yii::app()->user->hasFlash('success')): ?>
+        <div class="alert alert-success">
+            <?php echo Yii::app()->user->getFlash('success') ?>
+        </div>
+        <br/>
+    <?php endif ?>
+    <?php if (Yii::app()->user->hasFlash('error')): ?>
+        <div class="alert alert-error">
+            <?php echo Yii::app()->user->getFlash('error') ?>
+        </div>
+        <br/>
+    <?php endif ?>
 
     <div class="tag-inner">
         <div class="widget clearmargin">

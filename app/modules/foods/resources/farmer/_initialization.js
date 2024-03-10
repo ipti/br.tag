@@ -16,8 +16,8 @@ $(document).ready(function() {
             }
         }).success(function(response) {
             let farmerFoods = JSON.parse(response);
-
-            console.log(farmerFoods);
+            foodsRelation = farmerFoods
+            renderFoodsTable(foodsRelation);
         });
     }
 
@@ -96,18 +96,41 @@ $(document).on("click", "#save-farmer", function () {
     let phone = $("#farmerPhone").val().replace(/[^0-9]/g, '');
     let groupType = $('#farmerGroupType').find('option:selected').text();
 
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/farmerRegister/saveFarmerRegister",
-        cache: false,
-        data: {
-            name: name,
-            cpf: cpf,
-            phone: phone,
-            groupType: groupType,
-            foodsRelation: foodsRelation
-        }
-    })
+    let params = new URLSearchParams(window.location.search);
+    let id = params.get('id');
+
+    if(id != null) {
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/farmerRegister/updateFarmerRegister",
+            cache: false,
+            data: {
+                farmerId: id,
+                name: name,
+                cpf: cpf,
+                phone: phone,
+                groupType: groupType,
+                foodsRelation: foodsRelation
+            }
+        }).success(function(response) {
+            window.location.href = "?r=foods/farmerregister/update&id=" + id;
+        });
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/farmerRegister/createFarmerRegister",
+            cache: false,
+            data: {
+                name: name,
+                cpf: cpf,
+                phone: phone,
+                groupType: groupType,
+                foodsRelation: foodsRelation
+            }
+        }).success(function(response) {
+            window.location.href = "?r=foods/farmerregister/index";
+        })
+    }
 })
 
 $('#farmerCpf').mask("000.000.000-00", {
