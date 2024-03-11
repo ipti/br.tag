@@ -2,7 +2,6 @@
 
 use GuzzleHttp\Client;
 
-
 class RequisitionController extends Controller
 {
     private $client;
@@ -28,7 +27,6 @@ class RequisitionController extends Controller
         echo CJSON::encode($result);
     }
 
-
     public function actionGetConsumptionData()
     {
         $itemId = Yii::app()->getRequest()->getQuery('item_code');
@@ -36,7 +34,6 @@ class RequisitionController extends Controller
 
         echo CJSON::encode($result);
     }
-
 
     public function actionGetInputData()
     {
@@ -90,6 +87,7 @@ class RequisitionController extends Controller
 
     public function actionSendData()
     {
+        
         $school_test = Yii::app()->user->school;
         $tempo_entrega = 5;
         try {
@@ -786,7 +784,6 @@ class RequisitionController extends Controller
         }
     }
 
-
     private function getClient()
     {
         if (is_null($this->client)) {
@@ -803,95 +800,9 @@ class RequisitionController extends Controller
 }
 
 
-// Nome da escola --------------------------------------------------
-// $school_test = yii::app()->user->school;
 
 
-// // data_alimento_inserido, qtd_comprada
-// $finventoryReceived = FoodInventoryReceived::model()->findAllByAttributes([],['select' => 'date, amount']);
-// CVarDumper::dump($finventoryReceived, 12, True);
-
-
-// $finventorySpent = FoodInventorySpent::model()->findAllByAttributes([],['select' => 'amount']);
-// CVarDumper::dump($finventorySpent, 12, True);
-
-
-// $finventory = FoodInventory::model()->findAllByAttributes([],['select' => 'food_fk, amount, expiration_date']);
-
-// foreach ($finventory as $item) {
-//     echo "food_fk: " . $item->food_fk . ", amount: " . $item->amount . ", expiration_date: " . $item->expiration_date . "<br>";
-// }
-
-
-// $criteria = new CDbCriteria;
-// $criteria->select = 't.food_fk';
-// $criteria->join = 'JOIN food f ON f.id = t.food_fk';
-// $finventory = FoodInventory::model()->findAll($criteria);
-
-// foreach ($finventory as $item) {
-//     $food_fk = $item->food_fk;
-//     $food_description = Food::model()->findByPk($food_fk)->description;
-//     echo "Food FK: " . $food_fk . ", Description: " . $food_description . "<br>";
-// }
-
-///////////////////////////////////////////////////////////////////////////////
-
-/*
-
-public function getFoodInventoryDetails()
-{
-    $inventoryDetails = array();
-
-    // data_alimento_inserido, qtd_comprada
-    $finventoryReceived = FoodInventoryReceived::model()->findAllByAttributes([],['select' => 'date, amount']);
-    foreach ($finventoryReceived as $item) {
-        $inventoryDetails[] = array(
-            'food_fk' => null, // Defina o valor apropriado para food_fk
-            'amount' => $item->amount,
-            'expiration_date' => null, // Defina o valor apropriado para expiration_date
-            'description' => null // Defina o valor apropriado para description
-        );
-    }
-
-    $finventorySpent = FoodInventorySpent::model()->findAllByAttributes([],['select' => 'amount']);
-    foreach ($finventorySpent as $item) {
-        $inventoryDetails[] = array(
-            'food_fk' => null, // Defina o valor apropriado para food_fk
-            'amount' => $item->amount,
-            'expiration_date' => null, // Defina o valor apropriado para expiration_date
-            'description' => null // Defina o valor apropriado para description
-        );
-    }
-
-    $finventory = FoodInventory::model()->findAllByAttributes([],['select' => 'food_fk, amount, expiration_date']);
-    foreach ($finventory as $item) {
-        $inventoryDetails[] = array(
-            'food_fk' => $item->food_fk,
-            'amount' => $item->amount,
-            'expiration_date' => $item->expiration_date,
-            'description' => null // Defina o valor apropriado para description
-        );
-    }
-
-    $criteria = new CDbCriteria;
-    $criteria->select = 't.food_fk';
-    $criteria->join = 'JOIN food f ON f.id = t.food_fk';
-    $finventory = FoodInventory::model()->findAll($criteria);
-    foreach ($finventory as $item) {
-        $food_fk = $item->food_fk;
-        $food_description = Food::model()->findByPk($food_fk)->description;
-        $inventoryDetails[] = array(
-            'food_fk' => $item->food_fk,
-            'amount' => null, // Defina o valor apropriado para amount
-            'expiration_date' => null, // Defina o valor apropriado para expiration_date
-            'description' => $food_description
-        );
-    }
-
-    return $inventoryDetails;
-}
-*/
-
+$school_test = Yii::app()->user->school;
 
 $criteria = new CDbCriteria;
 $criteria->select = 't.food_fk';
@@ -900,22 +811,40 @@ $finventory = FoodInventory::model()->findAll($criteria);
 
 $finventoryReceived = FoodInventoryReceived::model()->findAllByAttributes([],['select' => 'previous_amount, date, amount, food_inventory_fk, food_fk, expiration_date']);
 
-echo "Food Inventory Reciver <br>";
+echo "Food Inventory Receiver <br>";
 foreach ($finventoryReceived as $item) {
     $date = date('Y-m-d', strtotime($item->date));
     $expiration_date = date('Y-m-d', strtotime($item->expiration_date));
 
-    // Buscar a descrição do alimento associado a food_inventory_fk
-    $food = Food::model()->findByPk($item->food_inventory_fk);
+    $food = Food::model()->findByPk($item->food_fk);
     $food_description = ($food !== null) ? $food->description : 'Descrição não encontrada';
-
-    echo "food_inventory_fk: {$item->food_inventory_fk} <br>";
 }
 
 $finventory = FoodInventory::model()->findAllByAttributes([],['select' => 'id, school_fk, food_fk, amount, expiration_date, previous_amount']);
 
 foreach ($finventory as $item) {
-        echo "id: {$item->id} -> school: {$item->school_fk} <br>";
-    }
-    
+    if ($item->school_fk == $school_test) {
+        // echo "----------------------------> id: {$item->id} -> school: {$item->school_fk} <br>";
 
+        $correspondingReceivedItems = array_filter($finventoryReceived, function($receivedItem) use ($item) {
+            return $receivedItem->food_fk == $item->food_fk && $receivedItem->food_inventory_fk == $item->id;
+        });
+
+        foreach ($correspondingReceivedItems as $receivedItem) {
+            // Buscar a descrição do alimento associado a food_fk
+            $food = Food::model()->findByPk($receivedItem->food_fk);
+            $food_description = ($food !== null) ? $food->description : 'Descrição não encontrada';
+            $date = date('Y-m-a', strtotime($receivedItem->date));
+            $expiration_date = date('Y-m-d', strtotime($receivedItem->expiration_date));
+
+            echo "school: {$item->school_fk} <br>";
+            echo "id: {$item->id}<br>";
+            echo "date: {$date}<br>";
+            // echo "Descrição do alimento: {$food_description} <br>";
+            // echo "food_fk: {$receivedItem->food_fk}<br>";
+            // echo "amount: {$receivedItem->amount}<br>";
+            // echo "previous_amount: {$receivedItem->previous_amount}<br>";
+            // echo "expiration_date: {$expiration_date} <br>";
+        }
+    }
+}
