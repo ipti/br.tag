@@ -15,6 +15,7 @@ class FoodrequestController extends Controller
                 $FoodRequest->amount = $request['amount'];
                 $FoodRequest->measurementUnit = $request['measurementUnit'];
                 $FoodRequest->description = $request['description'];
+                $FoodRequest->school_fk = Yii::app()->user->school;
 
                 if (!$FoodRequest->save()) {
                     Yii::app()->request->sendStatusCode(400);
@@ -27,8 +28,11 @@ class FoodrequestController extends Controller
 
     public function actionGetFoodRequest()
     {
+        $school_fk = Yii::app()->user->school;
+
         $criteria = new CDbCriteria();
         $criteria->with = array('foodFk');
+        $criteria->compare('school_fk', $school_fk);
 
         $foodRequestData = FoodRequest::model()->findAll($criteria);
 
@@ -41,7 +45,7 @@ class FoodrequestController extends Controller
                 'amount' => $request->amount,
                 'measurementUnit' => $request->measurementUnit,
                 'description' => $request->description,
-                'delivered' => $request->delivered == 0 ? false : true,
+                'status' => $request->status,
                 'date' => date('d/m/Y', strtotime($request->date)),
             );
         }
