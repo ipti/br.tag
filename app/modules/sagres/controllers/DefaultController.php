@@ -1,6 +1,8 @@
 <?php
 use SagresEdu\SagresConsultModel;
 
+
+
 class DefaultController extends Controller
 {
 	public function actionIndex()
