@@ -143,7 +143,7 @@ form {
     padding: 0 10px;
 }
 
-.remove-calendar, .show-stages, .edit-calendar, .change-calendar-status, .manage-unity-periods {
+.remove-calendar, .show-stages, .edit-calendar, .manage-unity-periods {
     padding: 0 10px;
 }
 
@@ -159,11 +159,11 @@ form {
     color: #333;
 }
 
-.remove-calendar:hover .fa-remove, .show-stages:hover .fa-question-circle-o, .edit-calendar:hover .fa-edit, .change-calendar-status:hover .fa, .manage-unity-periods:hover .fa {
+.remove-calendar:hover .fa-remove, .show-stages:hover .fa-question-circle-o, .edit-calendar:hover .fa-edit, .manage-unity-periods:hover .fa {
     color: white;
 }
 
-.remove-calendar .fa-remove, .show-stages .fa-question-circle-o, .edit-calendar .fa-edit, .change-calendar-status .fa, .manage-unity-periods .fa {
+.remove-calendar .fa-remove, .show-stages .fa-question-circle-o, .edit-calendar .fa-edit, .manage-unity-periods .fa {
     color: darkred;
     font-size: 16px;
     margin-top: 6px;
@@ -271,7 +271,7 @@ form {
     text-align: justify;
 }
 
-.confirm-save-event, .confirm-delete-event {
+.confirm-save-event, .confirm-delete-event, .confirm-edit-calendar-event {
     text-decoration: underline;
     cursor: pointer;
 }
@@ -321,4 +321,12 @@ form {
 #unity-periods-modal .load-replication {
     display: none;
     margin-left: 5px;
+}
+
+.start-date {
+    border: 2px solid #26cb24;
+}
+
+.end-date {
+    border: 2px solid red;
 }

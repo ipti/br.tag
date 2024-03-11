@@ -43,6 +43,7 @@ class ClassesController extends Controller
                     'classContents',
                     'getClassContents',
                     'saveClassContents',
+                    'getmonthsanddisciplines',
                     'getdisciplines',
                     'getfrequency',
                     'saveJustification'
@@ -106,14 +107,15 @@ class ClassesController extends Controller
     {
         $classroomId = $_POST["classroom"];
         $month = $_POST["month"];
+        $year = $_POST["year"];
         $disciplineId = $_POST["discipline"];
 
         $students = $this->getStudentsByClassroom($classroomId);
 
         if ($_POST["fundamentalMaior"] == "1") {
-            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $disciplineId);
+            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
         } else {
-            $schedules = $this->getSchedulesFromMinorStage($classroomId, $month);
+            $schedules = $this->getSchedulesFromMinorStage($classroomId, $month, $year);
         }
 
         if (!empty($schedules)) {
@@ -179,7 +181,7 @@ class ClassesController extends Controller
                 "courseClasses" => $courseClasses,
             ]);
         } else {
-            echo json_encode(["valid" => false, "error" => "Não existe quadro de horário com dias letivos para o mês selecionado."]);
+            echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($_POST["fundamentalMaior"] == "1" ? "e Disciplina": "") . " sem aula no Quadro de Horário."]);
         }
     }
 
@@ -191,13 +193,14 @@ class ClassesController extends Controller
      * @param integer $disciplineId
      * @return Schedule[]
      */
-    private function getSchedulesFromMajorStage($classroomId, $month, $disciplineId)
+    private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
     {
         return Schedule::model()->findAll(
-            "classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
+            "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
             [
                 "classroom_fk" => $classroomId,
                 "month" => $month,
+                "year" => $year,
                 "discipline_fk" => $disciplineId
             ]
         );
@@ -209,13 +212,14 @@ class ClassesController extends Controller
      * @param integer $month
      * @return Schedule[]
      */
-    private function getSchedulesFromMinorStage($classroomId, $month)
+    private function getSchedulesFromMinorStage($classroomId, $month, $year)
     {
         return Schedule::model()->findAll(
-            "classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule",
+            "classroom_fk = :classroom_fk and month = :month and year = :year and unavailable = 0 group by day order by day, schedule",
             [
                 "classroom_fk" => $classroomId,
-                "month" => $month
+                "month" => $month,
+                "year" => $year
             ]
         );
     }
@@ -251,7 +255,7 @@ class ClassesController extends Controller
     {
         $classContents = [];
         foreach ($schedules as $schedule) {
-            $scheduleDate = date("Y-m-d", mktime(0, 0, 0, $schedule->month, $schedule->day, Yii::app()->user->year));
+            $scheduleDate = date("Y-m-d", mktime(0, 0, 0, $schedule->month, $schedule->day, $schedule->year));
             $classContents[$schedule->day]["available"] = date("Y-m-d") >= $scheduleDate;
             $classContents[$schedule->day]["diary"] = $schedule->diary !== null ? $schedule->diary : "";
             $classContents[$schedule->day]["students"] = [];
@@ -299,9 +303,10 @@ class ClassesController extends Controller
         $classContents = $_POST["classContents"];
         $classroom = $_POST["classroom"];
         $month = $_POST["month"];
+        $year = $_POST["year"];
         $discipline = $_POST["discipline"];
 
-        $schedules = $this->loadSchedulesByStage($isMajorStage, $classroom, $month, $discipline);
+        $schedules = $this->loadSchedulesByStage($isMajorStage, $classroom, $month, $year, $discipline);
 
         foreach ($classContents as $classContent) {
             $scheduleKey = array_search($classContent["day"], array_column($schedules, 'day'));
@@ -311,24 +316,26 @@ class ClassesController extends Controller
         }
     }
 
-    private function loadSchedulesByStage($isMajorStage, $classroom, $month, $discipline)
+    private function loadSchedulesByStage($isMajorStage, $classroom, $month, $year, $discipline)
     {
         if ($isMajorStage) {
             return Schedule::model()->findAll(
-                "classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
+                "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
                 [
                     "classroom_fk" => $classroom,
                     "month" => $month,
+                    "year" => $year,
                     "discipline_fk" => $discipline
                 ]
             );
         }
 
         return Schedule::model()->findAll(
-            "classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule",
+            "classroom_fk = :classroom_fk and month = :month and year = :year and unavailable = 0 group by day order by day, schedule",
             [
                 "classroom_fk" => $classroom,
-                "month" => $month
+                "month" => $month,
+                "year" => $year,
             ]
         );
 
@@ -357,6 +364,7 @@ class ClassesController extends Controller
         }
 
     }
+
     private function saveClassContents($content, $schedule)
     {
         $classHasContent = new ClassContents();
@@ -429,18 +437,20 @@ class ClassesController extends Controller
     {
         if ($_POST["fundamentalMaior"] == "1") {
             $schedules = Schedule::model()->findAll(
-                "classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
+                "classroom_fk = :classroom_fk and year = :year and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
                 [
                     "classroom_fk" => $_POST["classroom"],
+                    "year" => $_POST["year"],
                     "month" => $_POST["month"],
                     "discipline_fk" => $_POST["discipline"]
                 ]
             );
         } else {
             $schedules = Schedule::model()->findAll(
-                "classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule",
+                "classroom_fk = :classroom_fk and year = :year and month = :month and unavailable = 0 group by day order by day, schedule",
                 [
                     "classroom_fk" => $_POST["classroom"],
+                    "year" => $_POST["year"],
                     "month" => $_POST["month"]
                 ]
             );
@@ -461,7 +471,7 @@ class ClassesController extends Controller
                     $array["schedules"] = [];
                     foreach ($schedules as $schedule) {
                         $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
-                        $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
+                        $available = date("Y-m-d") >= $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
                         array_push($array["schedules"], [
                             "available" => $available,
                             "day" => $schedule->day,
@@ -475,10 +485,10 @@ class ClassesController extends Controller
                 }
                 echo json_encode(["valid" => true, "students" => $students]);
             } else {
-                echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o quadro de frequência."]);
+                echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o Quadro de Frequência."]);
             }
         } else {
-            echo json_encode(["valid" => false, "error" => "No quadro de horário da turma, não existe dia letivo no mês selecionado para este componente curricular/eixo."]);
+            echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($_POST["fundamentalMaior"] == "1" ? "e Disciplina": "") . " sem aula no Quadro de Horário."]);
         }
     }
 
@@ -489,22 +499,18 @@ class ClassesController extends Controller
     public function actionSaveFrequency()
     {
         if ($_POST["fundamentalMaior"] == "1") {
-            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and year = :year and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "year" => $_POST["year"], "schedule" => $_POST["schedule"]]);
             $this->saveFrequency($schedule);
         } else {
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and year = :year and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "year" => $_POST["year"]]);
             foreach ($schedules as $schedule) {
                 $this->saveFrequency($schedule);
             }
         }
     }
 
-    private
-        function saveFrequency(
-        $schedule
-    ) {
-
-
+    private function saveFrequency($schedule)
+    {
         if ($_POST["studentId"] != null) {
             if ($_POST["fault"] == "1") {
                 $classFault = new ClassFaults();
@@ -538,14 +544,14 @@ class ClassesController extends Controller
     {
 
         if ($_POST["fundamentalMaior"] == "1") {
-            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "schedule" => $_POST["schedule"]]);
+            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and year = :year and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "year" => $_POST["year"], "schedule" => $_POST["schedule"]]);
             $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
             $classFault->save();
 
 
         } else {
-            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"]]);
+            $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month and year = :year ", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "year" => $_POST["year"]]);
             foreach ($schedules as $schedule) {
                 $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
                 $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
@@ -556,9 +562,57 @@ class ClassesController extends Controller
     }
 
     /**
+     * Get all months and disciplines by classroom
+     */
+    public function actionGetMonthsAndDisciplines()
+    {
+        $result = [];
+        $classroom = Classroom::model()->findByPk($_POST["classroom"]);
+        if ($classroom->calendar_fk != null) {
+
+            $result["months"] = [];
+            $calendar = $classroom->calendarFk;
+            $begin = new Datetime($calendar->start_date);
+            $begin->modify("first day of this month");
+            $end = new Datetime($calendar->end_date);
+            $end->modify("first day of next month");
+            $interval = DateInterval::createFromDateString('1 month');
+            $period = new DatePeriod($begin, $interval, $end);
+            $meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+            foreach ($period as $date) {
+                array_push($result["months"], ["id" => $date->format("Y") . "-" . $date->format("n"), "name" => $meses[$date->format("n") - 1] . "/" . $date->format("Y")]);
+            }
+
+            $result["disciplines"] = [];
+            if ($_POST["fundamentalMaior"] == "1") {
+                if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+                    $disciplines = Yii::app()->db->createCommand(
+                        "select ed.id, ed.name from teaching_matrixes tm
+                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk
+                join instructor_identification ii on ii.id = itd.instructor_fk
+                join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
+                join edcenso_discipline ed on ed.id = cm.discipline_fk
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
+                } else {
+                    $disciplines = Yii::app()->db->createCommand("select ed.id, ed.name from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
+                }
+                foreach ($disciplines as $discipline) {
+                    array_push($result["disciplines"], ["id" => $discipline["id"], "name" => $discipline["name"]]);
+                }
+            }
+
+            $result["valid"] = true;
+        } else {
+            $result = ["valid" => false, "error" => "A Turma está sem Calendário Escolar vinculado."];
+        }
+        echo json_encode($result);
+
+
+    }
+
+    /**
      * Get all disciplines by classroom
      */
-
     public function actionGetDisciplines()
     {
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);

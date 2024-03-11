@@ -48,9 +48,10 @@ class ClassroomController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
                     'updateassistancetypedependencies', 'updatecomplementaryactivity',
-                    'batchupdatenrollment',
-                    'getcomplementaryactivitytype', 'delete', 'updateDailyOrder',
-                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'changeenrollments', 'batchupdatetransport', 'updateDisciplines', 'syncToSedsp', 'syncUnsyncedStudents'
+                    'batchupdatenrollment', 'getcomplementaryactivitytype', 'delete', 'updateDailyOrder',
+                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'updateDisciplines',
+                    'changeenrollments', 'batchupdatetransport', 'updateDisciplinesAndCalendars',
+                    'syncToSedsp', 'syncUnsyncedStudents', 'getCalendars'
                 ),
                 'users' => array('@'),
             ),
@@ -523,6 +524,7 @@ class ClassroomController extends Controller
             $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
 
             $modelClassroom->attributes = $_POST['Classroom'];
+            $modelClassroom->calendar_fk = $_POST['calendar_fk'];
             $modelClassroom->sedsp_sync = 0;
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
@@ -588,6 +590,7 @@ class ClassroomController extends Controller
             'complementary_activities' => array(),
             'modelTeachingData' => $modelTeachingData,
             'edcensoStageVsModalities' => $edcensoStageVsModalities,
+            'calendars' => [],
             'modelEnrollments' => []
         ));
     }
@@ -680,6 +683,7 @@ class ClassroomController extends Controller
             $beforeChangeClassroom = new Classroom();
             $beforeChangeClassroom->attributes = $modelClassroom->attributes;
             $modelClassroom->attributes = $_POST['Classroom'];
+            $modelClassroom->calendar_fk = $_POST['calendar_fk'];
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
             if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$disableFieldsWhenItsUBATUBA) {
@@ -785,7 +789,6 @@ class ClassroomController extends Controller
                 }
             }
         }
-
 
         $this->render('update', array(
             'modelClassroom' => $modelClassroom,
@@ -984,18 +987,21 @@ class ClassroomController extends Controller
         echo json_encode($return);
     }
 
-    public function actionUpdateDisciplines()
+    public function actionUpdateDisciplinesAndCalendars()
     {
         $disciplines = Yii::app()->db->createCommand("
-            select ed.id, ed.name from curricular_matrix cm
-            join edcenso_discipline ed on ed.id = cm.discipline_fk
-            where cm.stage_fk = :id and cm.school_year = :year")
+                select ed.id, ed.name from curricular_matrix cm
+                join edcenso_discipline ed on ed.id = cm.discipline_fk
+                where cm.stage_fk = :id and cm.school_year = :year")
             ->bindParam(":id", $_POST["id"])->bindParam(":year", Yii::app()->user->year)->queryAll();
-        if ($disciplines) {
-            echo json_encode(["valid" => true, "disciplines" => $disciplines]);
-        } else {
-            echo json_encode(["valid" => false]);
-        }
+
+        $calendars = Yii::app()->db->createCommand("
+                select c.id, c.title from calendar c
+                join calendar_stages cs on (c.id = cs.calendar_fk)
+                where cs.stage_fk = :id and c.school_year = :year")
+            ->bindParam(":id", $_POST["id"])->bindParam(":year", Yii::app()->user->year)->queryAll();
+
+        echo json_encode(["disciplines" => $disciplines, "calendars" => $calendars]);
     }
 
     public function actionUpdateDailyOrder() {

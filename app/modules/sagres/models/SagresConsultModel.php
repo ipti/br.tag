@@ -54,10 +54,15 @@ class SagresConsultModel
         }
     }
 
-    public function getSagresEdu($referenceYear, $month, $finalClass): EducacaoTType
+    public function getSagresEdu($referenceYear, $month, $finalClass, $noMovement): EducacaoTType
     {
         $education = new EducacaoTType();
         $managementUnitId = $this->getManagementId();
+
+        if($noMovement) {
+            $education->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $month));
+            return $education;
+        }
 
         try {
             $education
