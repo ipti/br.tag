@@ -5,7 +5,7 @@
  *
  * The followings are the available columns in table 'food_notice':
  * @property integer $id
- * @property string $nome
+ * @property string $name
  * @property string $date
  *
  * The followings are the available model relations:
@@ -29,11 +29,11 @@ class FoodNotice extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nome, date', 'required'),
-			array('nome', 'length', 'max'=>255),
+			array('name, date', 'required'),
+			array('name', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, nome, date', 'safe', 'on'=>'search'),
+			array('id, name, date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +56,7 @@ class FoodNotice extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'nome' => 'Nome',
+			'name' => 'Nome',
 			'date' => 'Date',
 		);
 	}
@@ -80,7 +80,7 @@ class FoodNotice extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('nome',$this->nome,true);
+		$criteria->compare('name',$this->name,true);
 		$criteria->compare('date',$this->date,true);
 
 		return new CActiveDataProvider($this, array(
