@@ -84,6 +84,7 @@ class FoodNoticeController extends Controller
         $request = Yii::app()->request->getPost('notice');
 
         if ($request != null) {
+            CVarDumper::dump($request, 12, true);
            /*  $date = strtotime(str_replace('/', '-', $request["date"]));
 
             $model->name = $request["name"];
@@ -107,8 +108,8 @@ class FoodNoticeController extends Controller
             } */
 
 
-            $createNotice = new CreateNotice();
-            $notice  = $createNotice->exec();
+           /*  $createNotice = new CreateNotice();
+            $notice  = $createNotice->exec(); */
         }
 
         $this->render('create', array(

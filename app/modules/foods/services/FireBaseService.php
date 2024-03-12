@@ -1,6 +1,5 @@
 <?php
 
-// require 'vendor/autoload.php';
 
 use MrShan0\PHPFirestore\FirestoreClient;
 use MrShan0\PHPFirestore\FirestoreDocument;
@@ -21,25 +20,22 @@ class FireBaseService
 
     public function __construct()
     {
-      /*   $this->firestoreClient = new FirestoreClient('31058192374', 'AIzaSyAf7EefR1VXllpmE60kiQwl6xictSDO-Tc ', [
+        $this->firestoreClient = new FirestoreClient('br-nham-agrigultor', 'AIzaSyAf7EefR1VXllpmE60kiQwl6xictSDO-Tc', [
             'database' => '(default)',
-        ]); */
+        ]);
     }
 
     public function createNotice()
     {
-        $this->firestoreClient = new FirestoreClient('br-nham-agrigultor', 'AIzaSyAf7EefR1VXllpmE60kiQwl6xictSDO-Tc ', [
-            'database' => '(default)',
-        ]);
         $collection = 'Edital';
 
         $document = new FirestoreDocument;
         $document->fillValues([
-            'NomedoEdital' => 'Edital teste',
-            'Alimento' => 'Batata',
+            'NomedoEdital' => 'Edital teste chagas 2',
+            'Alimento' => 'Batata chagas 2',
         ]);
 
-        $this->firestoreClient->addDocument($collection, $document,);
+        $this->firestoreClient->addDocument($collection, $document);
     }
 
 }

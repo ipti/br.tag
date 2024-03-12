@@ -60,9 +60,12 @@ $(".js-submit").on("click", function () {
             'food_fk': item[4]
         });
     });
+    let formData = new FormData();
+    formData.append('notice_pdf', $('#notice_pdf')[0].files[0]);
     let notice = {
         name: $(".js-notice-name").val(),
         date: $(".js-date").val(),
+        pdf: formData,
         noticeItems: transformedData
     }
     if (noticeID) {
@@ -84,7 +87,7 @@ $(".js-submit").on("click", function () {
             notice: notice
         }
     }).success(function (response) {
-        window.location.href = "?r=foods/foodnotice/index";
+        //  window.location.href = "?r=foods/foodnotice/index";
     })
 
 })

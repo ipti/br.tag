@@ -55,7 +55,13 @@ $cs->registerScriptFile($baseScriptUrl . '\notice\_initialization.js', CClientSc
         <div class="t-field-text column">
             <label for="menu_start_date" class="t-field-text__label--required">Data Inicial</label>
             <input type="text" name="Data Inicial" class="t-field-text__input js-date date" readonly
-                required="required">
+            required="required">
+        </div>
+    </div>
+    <div class="row">
+        <div class="column clearleft">
+            <label for="notice_pdf" class="t-field-file__label t-button-secondary">Anexar PDF</label>
+            <input type="file" id="notice_pdf" name="notice_pdf" accept=".pdf" class="t-field-file__input js-notice_pdf">
         </div>
     </div>
     <div class="row">
@@ -92,6 +98,7 @@ $cs->registerScriptFile($baseScriptUrl . '\notice\_initialization.js', CClientSc
             </select>
         </div>
     </div>
+
     <div class="row">
         <a class="t-button-secondary column js-add-notice-item">
             Adicionar Item
