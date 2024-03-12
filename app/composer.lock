@@ -4,8 +4,67 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc8abe45fd8680edd8d1e8da8f5efcc5",
+    "content-hash": "0c2157c0b80f48fcd60a6b3d4248fc0d",
     "packages": [
+        {
+            "name": "bensontrent/firestore-php",
+            "version": "3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bensontrent/firestore-php.git",
+                "reference": "160c159eec968230ec3e451e418da982c141e672"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bensontrent/firestore-php/zipball/160c159eec968230ec3e451e418da982c141e672",
+                "reference": "160c159eec968230ec3e451e418da982c141e672",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "~7.0|~6.0|~5.0|~4.0",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MrShan0\\PHPFirestore\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Benson Trent",
+                    "email": "bensontrent@gmail.com",
+                    "role": "Contributor"
+                },
+                {
+                    "name": "Ahsaan Muhammad Yousuf",
+                    "email": "ahsankhatri1992@gmail.com",
+                    "homepage": "https://ahsaan.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Firestore PHP Client without gRPC and support for Guzzle 7. Forked from archived project ahsankhatri/firestore-php",
+            "homepage": "https://github.com/bensontrent/firestore-php",
+            "keywords": [
+                "firebase",
+                "firestore",
+                "google",
+                "php"
+            ],
+            "support": {
+                "source": "https://github.com/bensontrent/firestore-php/tree/3.1.0"
+            },
+            "time": "2023-05-22T17:49:38+00:00"
+        },
         {
             "name": "doctrine/annotations",
             "version": "2.0.1",

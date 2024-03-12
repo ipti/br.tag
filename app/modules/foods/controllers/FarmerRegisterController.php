@@ -69,7 +69,7 @@ class FarmerRegisterController extends Controller
 
 		if(!empty($name) && !empty($cpf) && !empty($phone) && !empty($groupType)) {
 			$existingFarmer = FarmerRegister::model()->findByPk($farmerId);
-			
+
 			$existingFarmer->name = $name;
 			$existingFarmer->cpf = $cpf;
 			$existingFarmer->phone = $phone;
@@ -117,8 +117,13 @@ class FarmerRegisterController extends Controller
 					$farmerFoods->measurementUnit = $foodData['measurementUnit'];
 
 					$farmerFoods->save();
+
+
+
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Cadastro do agricultor criado com sucesso!'));
 				}
+                $createFarmerRegister = new CreateFarmerRegister();
+                $createFarmerRegister->exec($name, $cpf, $phone, $groupType, $foodsRelation);
 			}
         }
 	}
