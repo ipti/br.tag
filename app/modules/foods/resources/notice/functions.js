@@ -60,21 +60,22 @@ $(".js-submit").on("click", function () {
             'food_fk': item[4]
         });
     });
-    let formData = new FormData();
-    formData.append('notice_pdf', $('#notice_pdf')[0].files[0]);
-    let notice = {
-        name: $(".js-notice-name").val(),
-        date: $(".js-date").val(),
-        pdf: formData,
-        noticeItems: transformedData
-    }
+    const form =  document.getElementById("food-notice-form");
+    let formData = new FormData(form);
+    const fileEdital = document.getElementById('notice_pdf').files[0];
+    
+    formData.append('name', $(".js-notice-name").val());
+    formData.append('date', $(".js-date").val()); 
+    formData.append('noticeItems', transformedData);
+    formData.append('pdf', fileEdital);
+
     if (noticeID) {
         $.ajax({
             url: `?r=foods/foodnotice/update&id=${noticeID}`,
             type: "POST",
-            data: {
-                notice: notice
-            }
+            processData: false,
+            contentType: false,
+            data: formData
         }).success(function (response) {
             window.location.href = "?r=foods/foodnotice/index";
         })
@@ -83,9 +84,9 @@ $(".js-submit").on("click", function () {
     $.ajax({
         url: "?r=foods/foodnotice/create",
         type: "POST",
-        data: {
-            notice: notice
-        }
+        processData: false,
+        contentType: false,
+        data: formData
     }).success(function (response) {
         //  window.location.href = "?r=foods/foodnotice/index";
     })
