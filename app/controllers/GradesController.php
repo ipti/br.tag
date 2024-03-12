@@ -212,7 +212,6 @@ class GradesController extends Controller
         $classroomId = $_POST['classroom'];
         $students = $_POST['students'];
         $rule = $_POST['rule'];
-        $frequency = $_POST['frequency'];
 
         $classroom = Classroom::model()->findByPk($classroomId);
 
@@ -229,6 +228,8 @@ class GradesController extends Controller
             $gradeResult->final_concept = $std["finalConcept"];
 
             $hasAllValues = true;
+            $totalFaults = 0;
+            $givenClasses = 0;
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
                 if($rule == "C") {
@@ -239,8 +240,12 @@ class GradesController extends Controller
                     $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
                 }
                 $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
+                $totalFaults += (int) $std['grades'][$key]['faults'];
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
+                $givenClasses += (int) $std['grades'][$key]['givenClasses'];
             }
+
+            $frequency = (($givenClasses - $totalFaults) / $givenClasses)*100;
 
 
             if (!$gradeResult->validate()) {

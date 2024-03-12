@@ -134,7 +134,6 @@ $('#discipline').change(function (e, triggerEvent) {
                     $.each(data.students, function (index ) {
                         let order = this.daily_order || index + 1;
                         let totalFaults = 0;
-                        // let frequency = 0;
                         html += `<tr>
                             <td class='grade-student-order final-media'>
                             ${order}
@@ -225,10 +224,6 @@ $("#save").on("click", function (e) {
     e.preventDefault();
     $(".js-grades-alert").hide();
 
-    let frequencyData = getFrequency();
-
-    console.log(frequencyData);
-
     let students = [];
     $('.grades-table tbody tr').each(function () {
         let grades = [];
@@ -266,8 +261,7 @@ $("#save").on("click", function (e) {
             classroom: $("#classroom").val(),
             discipline: $("#discipline").val(),
             students: students,
-            rule: $(".grades-table").attr("concept"),
-            frequency: frequencyData
+            rule: $(".grades-table").attr("concept")
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");
