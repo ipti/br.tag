@@ -637,12 +637,9 @@ class ReportsRepository
                 ii.name,
                 ii.birthday_date,
                 ii.inep_id,
-                ivd.scholarity,
                 ii.school_inep_id_fk
             FROM instructor_identification ii
-            JOIN instructor_variable_data ivd ON ii.id = ivd.id
-            GROUP BY ii.name
-            ORDER BY ii.name;";
+            GROUP BY ii.name;";
         $instructors = Yii::app()->db->createCommand($sql)->queryAll();
 
         $schools = SchoolIdentification::model()->findAll();
