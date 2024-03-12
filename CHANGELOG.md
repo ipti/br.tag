@@ -1,3 +1,18 @@
+## [Versão 3.72.119]
+- Modificado a controler de grades, ao salvar as Grades Releases.
+- Adicionado um novo parametro ao contrutor de ChageStudentStatusByGradeUsecase.
+- Melhorado o initialization da tela.
+
+## [Versão 3.72.118]
+- Renomeado o head dos relatórios do municipio de Poço Dantas.
+- Adicionado cep formatado da escola.
+
+## [Versão 3.72.117]
+- Removido acesso para edição do calendário pelo gestor
+
+## [Versão 3.72.116]
+- Inserido painel de cadastros pendentes na tela inicial
+
 ## [Versão 3.71.113]
 - Adicionado módulo de dashboard
 
@@ -22,7 +37,7 @@
 - Adicionado relatório de lista de compras
 
 ## [Versão 3.68.110]
-- Obtenção do CPF do estudante corrigida 
+- Obtenção do CPF do estudante corrigida
 
 ## [Versão 3.68.109]
 - consertado listagem de refeições
