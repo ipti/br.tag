@@ -346,7 +346,7 @@ return array(
     'Provide Potable Water' => 'Para Consumo Humano',
     'Student Repose Room' => 'Sala de Repouso para Alunos',
     'School Stages' => 'Etapas da Escola',
-    
+
     //Classroom
     'School Inep Fk' => 'Escola',
     'School Year' => 'Ano Letivo',
@@ -748,6 +748,7 @@ return array(
     'Content' => 'Conteúdo',
     'Type' => 'Tipo',
     'Resource' => 'Recurso',
+    'Add Resource' => 'Novo Recurso',
 
     //Labels
     'User' => 'Usuário',

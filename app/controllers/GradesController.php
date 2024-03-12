@@ -195,8 +195,6 @@ class GradesController extends Controller
                 $gradeResult->final_media = floor(($mediaFinal/4) * 10) / 10;
             }
 
-            var_dump($gradeResult);
-
             if (!$gradeResult->validate()) {
                 die(print_r($gradeResult->getErrors()));
             }

@@ -267,7 +267,7 @@ form {
     display: none;
 }
 
-.disciplines-container {
+.disciplines-container, .month-container {
     display: none;
 }
 

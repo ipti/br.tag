@@ -1341,7 +1341,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- Turma unificada -->
                             <div class="t-field-select js-hide-not-required" id="unifiedClassroom-select">
                                 <?php echo $form->label($modelEnrollment, 'unified_class', array('class' => 't-field-select__label')); ?>
-                                <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA"),
+                                <?php echo $form->DropDownList($modelEnrollment, 'unified_class', array(null => "Selecione o tipo de turma infantil", "1" => "CRECHE", "2" => "PRÉ-ESCOLA", "3" => "NÃO POSSUI"),
                                     array('class' => 'select-search-off t-field-select__input select2-container')); ?>
                                 <?php echo $form->error($modelEnrollment, 'unified_class'); ?>
                             </div>
