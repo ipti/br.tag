@@ -57,31 +57,30 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
         <div class="accordion-group">
             <div class="accordion-heading">
                 <div class="accordion-toggle" data-toggle="collapse" data-parent="#calendars"
-                     href="#collapse<?= $calendar->id ?>">
+                    href="#collapse<?= $calendar->id ?>">
                     <a class="accordion-title" style="margin-left:10px"><?= $calendar->title ?></a>
-                    <span class="text-right pull-right remove-calendar" data-toggle="tooltip" data-placement="top"
-                          data-original-title="Remover Calendário" data-id="<?= $calendar->id ?>">
+                    <?php if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?>
+                        <span class="text-right pull-right remove-calendar" data-toggle="tooltip" data-placement="top"
+                            data-original-title="Remover Calendário" data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-remove"></i>
-                            </span>
-                            <?php 
-                    if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)): ?> 
+                        </span>
+                                    
                         <span class="text-right pull-right edit-calendar" data-toggle="tooltip" data-placement="top"
                             data-original-title="<?= yii::t('index', 'Editar Calendário') ?>"
                             data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-edit"></i>
                         </span>
-                    <?php endif; ?>
-                    <span class="text-right pull-right manage-unity-periods" data-toggle="tooltip" data-placement="top"
-                          d
-                          data-original-title="Gerenciar Vigência das Unidades" data-id="<?= $calendar->id ?>">
+                        <span class="text-right pull-right manage-unity-periods" data-toggle="tooltip" data-placement="top"
+                            data-original-title="Gerenciar Vigência das Unidades" data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-map-o"></i>
-                            </span>
-                    <span class="text-right pull-right show-stages" data-toggle="tooltip" data-placement="top"
-                          data-original-title="Visualizar Etapas e Vigências" data-id="<?= $calendar->id ?>">
+                        </span>
+                        <span class="text-right pull-right show-stages" data-toggle="tooltip" data-placement="top"
+                            data-original-title="Visualizar Etapas e Vigências" data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-question-circle-o"></i>
-                            </span>
+                        </span>
+                    <?php endif; ?>
                 </div>
-            </div>
+            </div> 
             <div id="collapse<?= $calendar->id ?>" class="accordion-body collapse">
                 <div class="accordion-inner">
                     <div class="centered-loading-gif">
@@ -136,18 +135,24 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                                                         if (($week == 0 && $weekDay < $firstWeekDay) || $day > $totalDays) {
                                                             $content = "--";
                                                         } else {
-                                                            $beforeContent = "<a class='change-event' data-toggle='modal' data-target='#myChangeEvent' data-id='-1' data-year='$y'  data-month='$m' data-day='$day' >";
+                                                            $isAdmin = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id);
+                                                            if($isAdmin) {
+                                                                $beforeContent = "<a class='change-event' data-toggle='modal' data-target='#myChangeEvent' data-id='-1' data-year='$y'  data-month='$m' data-day='$day' >";
+                                                            }
                                                             if ($day < 10) {
                                                                 $content = "0";
                                                             }
                                                             foreach ($calendar->calendarEvents as $event) {
                                                                 if (isInInterval($event->start_date, $event->end_date, $day, $m, $y)) {
-                                                                    $beforeContent = "<a class='change-event' data-toggle='tooltip' data-placement='top' data-original-title='" . $event->name . "' data-year='$y'  data-id='$event->id' data-month='$m' data-day='$day' >";
+                                                                    if($isAdmin) {
+                                                                        $beforeContent = "<a class='change-event' data-toggle='tooltip' data-placement='top' data-original-title='" . $event->name . "' data-year='$y'  data-id='$event->id' data-month='$m' data-day='$day' >";
+                                                                    }
                                                                     $class .= " calendar-" . $event->calendarEventTypeFk->color . " ";
                                                                     $beforeContent .= "<i class=' calendar-icon fa " . $event->calendarEventTypeFk->icon . "'></i>";
                                                                     break;
                                                                 }
                                                             }
+                                                            
 
                                                             $content .= $day++;
                                                             $afterContent = "</a>";
