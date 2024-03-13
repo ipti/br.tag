@@ -42,7 +42,7 @@ $(".js-date").datepicker({
 
 const DateComponent = function () {
 
-  const daysOfWeek = ["Domingo", "Segunda-freia", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
+  const daysOfWeek = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
 
   function getLastDay() {
     return days[days.length - 1].date
