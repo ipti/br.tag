@@ -126,13 +126,6 @@ class FarmerRegisterController extends Controller
         }
 	}
 
-	public function actionGetFarmerRegister() {
-		$getFarmerRegister = new GetFarmerRegister();
-        $farmerRegister = $getFarmerRegister->exec();
-
-		var_dump($farmerRegister);
-	}
-
     public function actionGetFarmerFoods() {
         $id = Yii::app()->request->getPost('id');
 

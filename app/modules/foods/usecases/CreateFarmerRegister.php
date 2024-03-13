@@ -18,4 +18,3 @@
             return $this->firebaseservice->createFarmerRegister($name, $cpf, $phone, $groupType, $foodsRelation);
         }
     }
-?>
