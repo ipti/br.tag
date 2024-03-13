@@ -1,6 +1,6 @@
 <?php
 
-
+use Ramsey\Uuid\Uuid;
 use MrShan0\PHPFirestore\FirestoreClient;
 use MrShan0\PHPFirestore\FirestoreDocument;
 // Optional, depending on your usage
@@ -36,6 +36,35 @@ class FireBaseService
         ]);
 
         $this->firestoreClient->addDocument($collection, $document);
+    }
+
+    public function createFarmerRegister($name, $cpf, $phone, $groupType, $foodsRelation) {
+        $collection = 'farmer_register';
+        $collectionFoods = 'farmer_foods';
+        $uuid = Uuid::uuid4();
+
+        $document = new FirestoreDocument;
+        $document->fillValues([
+            'name' => $name,
+            'cpf' => $cpf,
+            'phone' => $phone,
+            'groupType'=> $groupType,
+            'id'=> $uuid->toString(),
+        ]);
+
+        $this->firestoreClient->addDocument($collection, $document);
+
+        foreach ($foodsRelation as $foodData) {
+            $document = new FirestoreDocument;
+            $document->fillValues([
+                'name' => $foodData['foodDescription'],
+                'amount' => $foodData['amount'],
+                'measurementUnit' => $foodData['measurementUnit'],
+                'id'=> $uuid->toString(),
+            ]);
+
+            $this->firestoreClient->addDocument($collectionFoods, $document);
+        }
     }
 
 }
