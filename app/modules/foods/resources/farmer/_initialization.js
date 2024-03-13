@@ -6,6 +6,14 @@ $(document).ready(function() {
     const $params = new URLSearchParams(window.location.search);
     const $id = $params.get('id');
 
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/farmerregister/getFarmerRegister",
+        cache: false,
+        data: {
+        }
+    });
+
     if($id != null) {
         $.ajax({
             type: 'POST',

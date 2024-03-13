@@ -7,7 +7,8 @@
     "guzzlehttp/guzzle": "^6.0",
     "symfony/validator": "^4.0",
     "jms/serializer": "^3.21",
-    "bensontrent/firestore-php": "^3.1"
+    "bensontrent/firestore-php": "^3.1",
+    "ramsey/uuid": "^4.2"
   },
   "require-dev": {
     "goetas-webservices/xsd2php": "^0.3",

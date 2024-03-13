@@ -33,6 +33,7 @@ class FarmerRegisterController extends Controller
 					'view',
 					'createFarmerRegister',
 					'updateFarmerRegister',
+					'getFarmerRegister',
                     'getFoodAlias',
                     'getFarmerFoods'
 				),
@@ -117,15 +118,19 @@ class FarmerRegisterController extends Controller
 					$farmerFoods->measurementUnit = $foodData['measurementUnit'];
 
 					$farmerFoods->save();
-
-
-
-					Yii::app()->user->setFlash('success', Yii::t('default', 'Cadastro do agricultor criado com sucesso!'));
 				}
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Cadastro do agricultor criado com sucesso!'));
                 $createFarmerRegister = new CreateFarmerRegister();
                 $createFarmerRegister->exec($name, $cpf, $phone, $groupType, $foodsRelation);
 			}
         }
+	}
+
+	public function actionGetFarmerRegister() {
+		$getFarmerRegister = new GetFarmerRegister();
+        $farmerRegister = $getFarmerRegister->exec();
+
+		var_dump($farmerRegister);
 	}
 
     public function actionGetFarmerFoods() {
