@@ -216,7 +216,7 @@ class FarmerRegisterController extends Controller
 		if(!isset($_GET['ajax']))
 			$this->redirect(isset($returnUrl) ? $returnUrl : array('admin'));
 	}
-
+ 
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('FarmerRegister');

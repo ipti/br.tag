@@ -23,7 +23,8 @@ $(document).ready(function() {
                 id: $id,
             }
         }).success(function(response) {
-            let farmerFoods = JSON.parse(DOMPurify.sanitize(response));
+            let data = DOMPurify.sanitize(response);
+            let farmerFoods = JSON.parse(data);
             foodsRelation = farmerFoods
             renderFoodsTable(foodsRelation);
         });
@@ -34,7 +35,8 @@ $(document).ready(function() {
         url: "?r=foods/farmerregister/getFoodAlias",
         cache: false
     }).success(function(response) {
-        foods_description = JSON.parse(DOMPurify.sanitize(response));
+        let data = DOMPurify.sanitize(response);
+        foods_description = JSON.parse(data);
 
         Object.entries(foods_description).forEach(function([id, value]) {
             description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
