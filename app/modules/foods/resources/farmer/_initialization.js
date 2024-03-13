@@ -23,7 +23,7 @@ $(document).ready(function() {
                 id: $id,
             }
         }).success(function(response) {
-            let farmerFoods = JSON.parse(response);
+            let farmerFoods = JSON.parse(DOMPurify.sanitize(response));
             foodsRelation = farmerFoods
             renderFoodsTable(foodsRelation);
         });

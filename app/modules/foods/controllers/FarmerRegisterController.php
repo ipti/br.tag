@@ -211,8 +211,10 @@ class FarmerRegisterController extends Controller
 		$this->loadModel($id)->delete();
 		Yii::app()->user->setFlash('success', Yii::t('default', 'Agricultor excluído com sucesso!'));
 
+		$returnUrl = Yii::app()->request->getPost('returnUrl');
+
 		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+			$this->redirect(isset($returnUrl) ? $returnUrl : array('admin'));
 	}
 
 	public function actionIndex()
