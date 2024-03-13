@@ -49,6 +49,7 @@
  * @property integer $diff_location
  * @property integer $consent_form
  * @property integer $justification
+ * @property string $DNE_city_code
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk

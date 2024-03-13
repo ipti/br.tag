@@ -119,7 +119,7 @@ class MatriculaTType
      * @param \DateTime $dataCancelamento
      * @return self
      */
-    public function setDataCancelamento(\DateTime $dataCancelamento)
+    public function setDataCancelamento(\DateTime $dataCancelamento = null)
     {
         $this->dataCancelamento = $dataCancelamento;
         return $this;
