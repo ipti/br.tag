@@ -6,9 +6,10 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile('app\modules\foods\resources\farmer\_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile('app\modules\foods\resources\farmer\functions.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/farmer/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/farmer/functions.js', CClientScript::POS_END);
 
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'farmer-register-form',
@@ -44,6 +45,12 @@ $form=$this->beginWidget('CActiveForm', array(
                 </div>
                 <br/>
             <?php endif ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column clearfix">
+            <div id="info-alert" class="alert hide"></div>
         </div>
     </div>
 

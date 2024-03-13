@@ -36,8 +36,6 @@ class FarmerFoods extends CActiveRecord
 			array('food_fk, farmer_fk', 'numerical', 'integerOnly'=>true),
 			array('amount', 'numerical'),
 			array('measurementUnit', 'length', 'max'=>7),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, food_fk, farmer_fk, measurementUnit, amount', 'safe', 'on'=>'search'),
 		);
 	}
@@ -47,8 +45,6 @@ class FarmerFoods extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'farmerFk' => array(self::BELONGS_TO, 'FarmerRegister', 'farmer_fk'),
 			'foodFk' => array(self::BELONGS_TO, 'Food', 'food_fk'),
@@ -83,8 +79,6 @@ class FarmerFoods extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);

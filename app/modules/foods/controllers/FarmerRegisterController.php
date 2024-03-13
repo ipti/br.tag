@@ -159,10 +159,10 @@ class FarmerRegisterController extends Controller
         $criteria->select = 'id, description, measurementUnit';
         $criteria->condition = 'alias_id = t.id';
 
-        $foods_description = Food::model()->findAll($criteria);
+        $foodsDescription = Food::model()->findAll($criteria);
 
         $values = [];
-        foreach ($foods_description as $food) {
+        foreach ($foodsDescription as $food) {
             $values[$food->id] = (object) [
                 'description' => $food->description,
                 'measurementUnit' => $food->measurementUnit
@@ -179,8 +179,9 @@ class FarmerRegisterController extends Controller
 		if(isset($_POST['FarmerRegister']))
 		{
 			$model->attributes=$_POST['FarmerRegister'];
-			if($model->save())
+			if($model->save()) {
 				$this->redirect(array('index'));
+            }
 		}
 
 		$this->render('create',array(
@@ -196,8 +197,9 @@ class FarmerRegisterController extends Controller
 		if(isset($_POST['FarmerRegister']))
 		{
 			$model->attributes=$_POST['FarmerRegister'];
-			if($model->save())
+			if($model->save()) {
 				$this->redirect(array('view','id'=>$model->id));
+            }
 		}
 
 		$this->render('update',array(
@@ -213,10 +215,11 @@ class FarmerRegisterController extends Controller
 
 		$returnUrl = Yii::app()->request->getPost('returnUrl');
 
-		if(!isset($_GET['ajax']))
+		if(!isset($_GET['ajax'])) {
 			$this->redirect(isset($returnUrl) ? $returnUrl : array('admin'));
+        }
 	}
- 
+
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('FarmerRegister');
@@ -229,8 +232,9 @@ class FarmerRegisterController extends Controller
 	{
 		$model=new FarmerRegister('search');
 		$model->unsetAttributes();
-		if(isset($_GET['FarmerRegister']))
+		if(isset($_GET['FarmerRegister'])) {
 			$model->attributes=$_GET['FarmerRegister'];
+        }
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -240,8 +244,9 @@ class FarmerRegisterController extends Controller
 	public function loadModel($id)
 	{
 		$model=FarmerRegister::model()->findByPk($id);
-		if($model===null)
+		if($model===null) {
 			throw new CHttpException(404,'The requested page does not exist.');
+        }
 		return $model;
 	}
 
@@ -253,8 +258,9 @@ class FarmerRegisterController extends Controller
                 'params' => array(':id' => $id),
             )
         );
-		if($modelFarmerFoods===null)
+		if($modelFarmerFoods===null) {
 			throw new CHttpException(404,'The requested page does not exist.');
+        }
 		return $modelFarmerFoods;
 	}
 

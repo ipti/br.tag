@@ -36,10 +36,10 @@ $(document).ready(function() {
         cache: false
     }).success(function(response) {
         let data = DOMPurify.sanitize(response);
-        foods_description = JSON.parse(data);
+        let foods_description = JSON.parse(data);
 
         Object.entries(foods_description).forEach(function([id, value]) {
-            description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+            let description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
             value = id + ',' + value.measurementUnit;
             foodSelect.append($('<option>', {
                 value: value,
@@ -76,21 +76,19 @@ $(document).on("click", "#js-add-food", function () {
 
     if(foodId == "alimento" || amount == "") {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
-    } else {
-        if(amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
-            let existingIndex = $.map(foodsRelation, function(obj, index) {
-                return obj.id === foodId ? index : null;
-            })[0];
+    } else if(amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
+        let existingIndex = $.map(foodsRelation, function(obj, index) {
+            return obj.id === foodId ? index : null;
+        })[0];
 
-            if(existingIndex !== undefined) {
-                foodsRelation[existingIndex].amount = parseFloat(foodsRelation[existingIndex].amount) + parseFloat(amount);
-            } else {
-                foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit});
-            }
-            renderFoodsTable(foodsRelation);
+        if(existingIndex !== undefined) {
+            foodsRelation[existingIndex].amount = parseFloat(foodsRelation[existingIndex].amount) + parseFloat(amount);
         } else {
-            $('#info-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
+            foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit});
         }
+        renderFoodsTable(foodsRelation);
+    } else {
+        $('#info-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
     }
 });
 
@@ -102,8 +100,8 @@ $(document).on("click", "#remove-food-button", function () {
 
 $(document).on("click", "#save-farmer", function () {
     let name = $("#farmerName").val();
-    let cpf = $("#farmerCpf").val().replace(/[^0-9]/g, '');
-    let phone = $("#farmerPhone").val().replace(/[^0-9]/g, '');
+    let cpf = $("#farmerCpf").val().replace(/\D/g, '');
+    let phone = $("#farmerPhone").val().replace(/\D/g, '');
     let groupType = $('#farmerGroupType').find('option:selected').text();
 
     let params = new URLSearchParams(window.location.search);

@@ -221,11 +221,11 @@ class FoodinventoryController extends Controller
 
     public function actionGetFoodInventory()
     {
-        $school_fk = Yii::app()->user->school;
+        $schoolFk = Yii::app()->user->school;
 
         $criteria = new CDbCriteria();
         $criteria->with = array('foodRelation');
-        $criteria->compare('school_fk', $school_fk);
+        $criteria->compare('school_fk', $schoolFk);
 
         $foodInventoryData = FoodInventory::model()->findAll($criteria);
 
