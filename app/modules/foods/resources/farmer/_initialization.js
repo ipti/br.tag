@@ -34,7 +34,7 @@ $(document).ready(function() {
         url: "?r=foods/farmerregister/getFoodAlias",
         cache: false
     }).success(function(response) {
-        foods_description = JSON.parse(response);
+        foods_description = JSON.parse(DOMPurify.sanitize(response));
 
         Object.entries(foods_description).forEach(function([id, value]) {
             description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
