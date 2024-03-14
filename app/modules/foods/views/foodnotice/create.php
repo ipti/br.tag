@@ -1,7 +1,6 @@
 <?php
 /* @var $this FoodNoticeController */
 /* @var $model FoodNotice */
-
 $this->breadcrumbs=array(
 	'Food Notices'=>array('index'),
 	'Create',

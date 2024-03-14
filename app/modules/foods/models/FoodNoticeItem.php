@@ -40,7 +40,6 @@ class FoodNoticeItem extends CActiveRecord
 			array('description', 'length', 'max'=>1000),
 			array('measurement', 'length', 'max'=>20),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, name, description, measurement, year_amount, food_id', 'safe', 'on'=>'search'),
 		);
 	}

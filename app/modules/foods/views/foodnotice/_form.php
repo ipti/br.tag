@@ -104,7 +104,7 @@ $cs->registerScriptFile($baseScriptUrl . '\notice\_initialization.js', CClientSc
             Adicionar Item
         </a>
     </div>
-    <table class="tag-table-primary table js-datatable">
+    <table aria-label="Tabela de items" class="tag-table-primary table js-datatable">
         <thead>
             <tr>
                 <th>Nome</th>

@@ -32,7 +32,6 @@ class FoodNoticeVsFoodNoticeItem extends CActiveRecord
 		return array(
 			array('food_notice_id, food_notice_item_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, food_notice_id, food_notice_item_id', 'safe', 'on'=>'search'),
 		);
 	}

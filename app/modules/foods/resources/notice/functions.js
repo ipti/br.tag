@@ -60,14 +60,6 @@ $(".js-submit").on("click", function () {
             'food_fk': item[4]
         });
     });
-    /* const form =  document.getElementById("food-notice-form");
-    let formData = new FormData(form);
-    const fileEdital = document.getElementById('notice_pdf').files[0]; 
-    
-    formData.append('name', $(".js-notice-name").val());
-    formData.append('date', $(".js-date").val()); 
-    formData.append('noticeItems', transformedData);
-    formData.append('pdf', fileEdital);*/
 
     let notice = {
         name: $(".js-notice-name").val(),
@@ -79,7 +71,7 @@ $(".js-submit").on("click", function () {
         $.ajax({
             url: `?r=foods/foodnotice/update&id=${noticeID}`,
             type: "POST",
-            data: { 
+            data: {
                 notice: notice
             }
         }).success(function (response) {
@@ -90,7 +82,7 @@ $(".js-submit").on("click", function () {
     $.ajax({
         url: "?r=foods/foodnotice/create",
         type: "POST",
-        data: { 
+        data: {
             notice: notice
         }
     }).success(function (response) {
@@ -99,8 +91,8 @@ $(".js-submit").on("click", function () {
 
 })
 $('table tbody').on('click', 'a.delete-btn', function () {
-    var row = table.row($(this).parents('tr'));
-    var rowIndex = row.index();
+    let row = table.row($(this).parents('tr'));
+    let rowIndex = row.index();
     data.splice(rowIndex, 1)
     table.destroy();
     table = $('table').DataTable({

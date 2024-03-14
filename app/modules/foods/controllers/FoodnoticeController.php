@@ -57,7 +57,8 @@ class FoodNoticeController extends Controller
     {
         $this->render('view', array(
             'model' => $this->loadModel($id),
-        ));
+        )
+        );
     }
     public function actionGetTacoFoods()
     {
@@ -69,7 +70,7 @@ class FoodNoticeController extends Controller
 
         $resultArray = array();
         foreach ($foods as $food) {
-            $resultArray[$food->id] =  $food->description;
+            $resultArray[$food->id] = $food->description;
         }
         echo json_encode($resultArray);
     }
@@ -89,7 +90,7 @@ class FoodNoticeController extends Controller
             $model->name = $request["name"];
             $model->date = date('Y-m-d', $date);
             if ($model->save()) {
-                foreach ($request["noticeItems"] as  $item) {
+                foreach ($request["noticeItems"] as $item) {
                     $modelNoticeItem = new FoodNoticeItem;
                     $modelNoticeItem->name = $item["name"];
                     $modelNoticeItem->description = $item["description"];
@@ -108,12 +109,13 @@ class FoodNoticeController extends Controller
 
 
             $createNotice = new CreateNotice($request["pdf"]);
-            $notice  = $createNotice->exec();
+            $createNotice->exec();
         }
 
         $this->render('create', array(
             'model' => $model,
-        ));
+        )
+        );
     }
 
     /**
@@ -140,7 +142,7 @@ class FoodNoticeController extends Controller
                 "food_notice_id = :id",
                 ["id" => $id]
             );
-            foreach ($noticeVsNoticeItem as  $item) {
+            foreach ($noticeVsNoticeItem as $item) {
                 $modelNoticeItem = FoodNoticeItem::model()->findByAttributes(
                     ["id" => $item->food_notice_item_id,]
                 );
@@ -149,7 +151,7 @@ class FoodNoticeController extends Controller
             }
 
             if ($model->save()) {
-                foreach ($request["noticeItems"] as  $item) {
+                foreach ($request["noticeItems"] as $item) {
                     $modelNoticeItem = new FoodNoticeItem;
                     $modelNoticeItem->name = $item["name"];
                     $modelNoticeItem->description = $item["description"];
@@ -169,7 +171,8 @@ class FoodNoticeController extends Controller
 
         $this->render('update', array(
             'model' => $model,
-        ));
+        )
+        );
     }
     public function actionGetNotice($id)
     {
@@ -185,7 +188,7 @@ class FoodNoticeController extends Controller
         $result["name"] = $model->name;
         $result["date"] = $date->format("d/m/Y");
         $result["noticeItems"] = array();
-        foreach ($noticeVsNoticeItem as  $item) {
+        foreach ($noticeVsNoticeItem as $item) {
             $modelNoticeItem = FoodNoticeItem::model()->findByAttributes(
                 ["id" => $item->food_notice_item_id,]
             );
@@ -216,7 +219,7 @@ class FoodNoticeController extends Controller
             "food_notice_id = :id",
             ["id" => $id]
         );
-        foreach ($noticeVsNoticeItem as  $item) {
+        foreach ($noticeVsNoticeItem as $item) {
             $modelNoticeItem = FoodNoticeItem::model()->findByAttributes(
                 ["id" => $item->food_notice_item_id,]
             );
@@ -224,8 +227,6 @@ class FoodNoticeController extends Controller
             $modelNoticeItem->delete();
         }
         $model->delete();
-
-        // $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
     }
@@ -238,7 +239,8 @@ class FoodNoticeController extends Controller
         $dataProvider = new CActiveDataProvider('FoodNotice');
         $this->render('index', array(
             'dataProvider' => $dataProvider,
-        ));
+        )
+        );
     }
 
     /**
@@ -253,7 +255,8 @@ class FoodNoticeController extends Controller
 
         $this->render('admin', array(
             'model' => $model,
-        ));
+        )
+        );
     }
 
     /**

@@ -32,7 +32,6 @@ class FoodNotice extends CActiveRecord
 			array('name, date', 'required'),
 			array('name', 'length', 'max'=>255),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, name, date', 'safe', 'on'=>'search'),
 		);
 	}
