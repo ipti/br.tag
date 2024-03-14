@@ -54,7 +54,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
                 Agricultor
             </a>
             <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodnotice') ?>">
-                Editais
+                Editais 
             </a>
             <a class="t-button-secondary js-expansive-panel show--mobile">
                 Filtros

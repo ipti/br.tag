@@ -22,3 +22,5 @@ ADD COLUMN food_id INT,
 ADD CONSTRAINT fk_food_notice_item_food
     FOREIGN KEY (food_id)
     REFERENCES food(id);
+ALTER TABLE food_notice_item
+MODIFY COLUMN year_amount VARCHAR(20);
