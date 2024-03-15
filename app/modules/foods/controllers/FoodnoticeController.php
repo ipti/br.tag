@@ -228,6 +228,12 @@ class FoodNoticeController extends Controller
         }
         $model->delete();
 
+        $dataProvider = new CActiveDataProvider('FoodNotice');
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+        )
+        );
+
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
     }
 
