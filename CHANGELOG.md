@@ -1,3 +1,5 @@
+## [Versão 3.73.115]
+- Adicionado novas medidas para os pratos do cardápio
 ## [Versão 3.72.115]
 - Adicionado Modal para adicionar novos recursos na tela de plano de aula.
 - Alteração na estrutura do banco de dados referente ao tipo de recurso cadastrado em um plano
