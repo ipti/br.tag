@@ -60,7 +60,12 @@
 
 .tag-table-primary {
     @extend .tag-table;
-
+    
+    &.centralize {
+        td {
+            text-align: center; 
+        }
+    }
     thead {
         tr th {
             font-weight: 500;

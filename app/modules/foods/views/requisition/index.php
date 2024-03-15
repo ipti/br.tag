@@ -17,7 +17,7 @@ $cs->registerScriptFile('https://cdn.jsdelivr.net/npm/chart.js', CClientScript::
 <div class="tag-inner" style="margin-top:20px">
     <div class="main">
         <div class="js-predict">
-            <table id="example" class="js-tag-table tag-table-primary table table-condensed
+            <table id="example" class="js-tag-table tag-table-primary table table-condensed centralize
                             table-striped table-hover table-primary table-vertical-center checkboxs"
                 style="width:100%">
                 <thead>
@@ -51,8 +51,5 @@ $cs->registerScriptFile('https://cdn.jsdelivr.net/npm/chart.js', CClientScript::
             </div>
         </div>
     </div>
-
     <button id="sendDataButton">Enviar Dados</button>
-    <div id="secondRequestData"></div>
-
 </div>
