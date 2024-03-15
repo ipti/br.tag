@@ -36,7 +36,7 @@ class FoodIngredient extends CActiveRecord
         // will receive user inputs.
         return array(
             array('amount', 'required'),
-            array('amount, replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'numerical', 'integerOnly'=>true),
+            array('replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'numerical', 'integerOnly'=>true),
             array('observation', 'length', 'max'=>191),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -71,7 +71,7 @@ class FoodIngredient extends CActiveRecord
             'replaceable' => 'Replaceable',
             'food_menu_meal_componentId' => 'Food Menu Meal Component',
             'food_measurement_fk' => 'Food Measurement Fk',
-            'food_id_fk' => 'Food Id Fk',
+            'food_id_fk' => 'Food Id Fk'
         );
     }
 

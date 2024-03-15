@@ -1,5 +1,8 @@
-## [Versão 3.72.116]
+## [Versão 3.73.116]
 - Funcionaldide gerenciar "Aulas Ministradas" corrigida, agora são apresentados somente os dias em que há aula daquela disciplina
+
+## [Versão 3.73.115]
+- Adicionado novas medidas para os pratos do cardápio
 
 ## [Versão 3.72.115]
 - Adicionado Modal para adicionar novos recursos na tela de plano de aula.

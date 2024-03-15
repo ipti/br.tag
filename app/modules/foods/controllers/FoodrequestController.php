@@ -15,6 +15,7 @@ class FoodrequestController extends Controller
                 $FoodRequest->amount = $request['amount'];
                 $FoodRequest->measurementUnit = $request['measurementUnit'];
                 $FoodRequest->description = $request['description'];
+                $FoodRequest->school_fk = Yii::app()->user->school;
 
                 if (!$FoodRequest->save()) {
                     Yii::app()->request->sendStatusCode(400);
@@ -27,8 +28,11 @@ class FoodrequestController extends Controller
 
     public function actionGetFoodRequest()
     {
+        $schoolFk = Yii::app()->user->school;
+
         $criteria = new CDbCriteria();
         $criteria->with = array('foodFk');
+        $criteria->compare('school_fk', $schoolFk);
 
         $foodRequestData = FoodRequest::model()->findAll($criteria);
 
@@ -41,7 +45,7 @@ class FoodrequestController extends Controller
                 'amount' => $request->amount,
                 'measurementUnit' => $request->measurementUnit,
                 'description' => $request->description,
-                'delivered' => $request->delivered == 0 ? false : true,
+                'status' => $request->status,
                 'date' => date('d/m/Y', strtotime($request->date)),
             );
         }
@@ -74,8 +78,9 @@ class FoodrequestController extends Controller
 
         if (isset($_POST['FoodRequest'])) {
             $model->attributes = $_POST['FoodRequest'];
-            if ($model->save())
+            if ($model->save())  {
                 $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
         $this->render('create', array(
@@ -97,8 +102,9 @@ class FoodrequestController extends Controller
 
         if (isset($_POST['FoodRequest'])) {
             $model->attributes = $_POST['FoodRequest'];
-            if ($model->save())
+            if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
         $this->render('update', array(
@@ -134,8 +140,9 @@ class FoodrequestController extends Controller
 
         if (isset($_POST['FoodRequest'])) {
             $model->attributes = $_POST['FoodRequest'];
-            if ($model->save())
+            if ($model->save()) {
                 $this->redirect(array('view', 'id' => $model->id));
+            }
         }
 
         $this->render('create', array(
@@ -150,8 +157,9 @@ class FoodrequestController extends Controller
     {
         $model = new FoodRequest('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['FoodRequest']))
+        if (isset($_GET['FoodRequest'])) {
             $model->attributes = $_GET['FoodRequest'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -168,8 +176,9 @@ class FoodrequestController extends Controller
     public function loadModel($id)
     {
         $model = FoodRequest::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
