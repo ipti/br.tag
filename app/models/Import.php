@@ -116,7 +116,6 @@ class Import extends CModel
 
                 if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
                     $schoolIdentificationModel->{$columnName} = utf8_encode($line[$collumnOrder]);
-                    $hasModified = true;
                 }
             }
 
