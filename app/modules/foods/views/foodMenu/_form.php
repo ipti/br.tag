@@ -145,7 +145,11 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		cursor: pointer;
 		background-color: white;
 	}
-    .alert-error b {
+  .alert-error b {
         font-weight: bold;
-    }
+  }
+  .t-field-select__input.measurement-unit  {
+      width: 60px !important;
+      margin: 0px;
+  }
 </style>

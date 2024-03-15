@@ -1,6 +1,13 @@
 $(".js-save-menu").on("click", function () {
     const form = $('#food-menu-form')
-    if(form[0].checkValidity()) {
+    const erros = []
+    form.find(':input[required]').each(function () {
+        if (!this.validity.valid && !this.classList.contains('js-ignore-validation')) {
+            if(!erros.includes(this.name))
+            erros.push(this.name)
+        }
+    });
+    if(erros.length === 0 ) {
         let foodMenu = {
             "description": "",
             "week": "",
@@ -88,11 +95,8 @@ $(".js-save-menu").on("click", function () {
                 }
             }
         });
-
         showErros(erros)
     }
-
-
 });
 
 function getMealsByDay(day) {
@@ -142,6 +146,7 @@ function getFoodIngredients(idPlateAccordion) {
         foodIngredient.food_id_fk = $(row).attr('data-idTaco')
         foodIngredient.food_measure_unit_id = $(row).find('.js-measure select').val()
         foodIngredient.amount = $(row).find('.js-unit input').val()
+
         foodIngredients.push(foodIngredient)
     })
     return foodIngredients

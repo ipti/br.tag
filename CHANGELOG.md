@@ -1,5 +1,25 @@
 ## [Versão 3.72.116]
 - Ajustes visuais na tela de cadastro de cardápio
+
+## [Versão 3.73.119]
+- Renomeado o head dos relatórios do municipio de Poço Dantas.
+- Adicionado cep formatado da escola.
+
+## [Versão 3.73.118]
+- Inserido painel de cadastros pendentes na tela inicial
+
+## [Versão 3.73.118]
+- Removido acesso para edição do calendário pelo gestor
+
+## [Versão 3.73.117]
+- Foi adicionado o case para selecionar o alias para a modalidade
+
+## [Versão 3.73.116]
+- Funcionaldide gerenciar "Aulas Ministradas" corrigida, agora são apresentados somente os dias em que há aula daquela disciplina
+
+## [Versão 3.73.115]
+- Adicionado novas medidas para os pratos do cardápio
+
 ## [Versão 3.72.115]
 - Adicionado Modal para adicionar novos recursos na tela de plano de aula.
 - Alteração na estrutura do banco de dados referente ao tipo de recurso cadastrado em um plano
@@ -14,6 +34,7 @@
 - Calendário ajustado para permitir sua extensão para ano(s) seguinte(s).
 - Eventos de início e fim de ano letivo removidos. O intervalo letivo será definido no momento da criação/edição do calendário.
 - Adicionado seletor de calendário na turma.
+
 ## [Versão 3.71.113]
 - Adicionado módulo de dashboard
 
