@@ -153,12 +153,16 @@ function showErros(erros) {
         console.log(item)
          if(item.day != undefined &&  item.meal != undefined) {
             if(item.meal != "Selecione a refeição"){
-                return accumulator + `O campo ${item.field} na refeição ${item.meal} do dia ${days[item.day]} é obrigatório<br>`;
+                return accumulator + `O campo <b>${item.field}</b> na refeição <b>${item.meal}</b> na <b>${days[item.day]}</b> é obrigatório<br>`;
             }
-            return accumulator + `O campo ${item.field} em uma refeição sem tipo sel no dia ${days[item.day]} é obrigatório<br>`
+            return accumulator + `O campo <b>${item.field}</b> em uma refeição <b>sem turno selecionado</b> na <b>${days[item.day]}</b> é obrigatório<br>`
          }
-        return accumulator + `O campo ${item.field} é obrigatório<br>`;
+        return accumulator + `O campo <b>${item.field}</b> é obrigatório<br>`;
     }, '');
     menuError.html(message)
     menuError.removeClass('hide')
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
 }

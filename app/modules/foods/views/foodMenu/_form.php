@@ -145,4 +145,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		cursor: pointer;
 		background-color: white;
 	}
+    .alert-error b {
+        font-weight: bold;
+    }
 </style>
