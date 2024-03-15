@@ -1,3 +1,6 @@
+## [Versão 3.73.118]
+- Removido acesso para edição do calendário pelo gestor
+
 ## [Versão 3.73.117]
 - Foi adicionado o case para selecionar o alias para a modalidade
 
@@ -6,7 +9,6 @@
 
 ## [Versão 3.73.115]
 - Adicionado novas medidas para os pratos do cardápio
-
 
 ## [Versão 3.72.115]
 - Adicionado Modal para adicionar novos recursos na tela de plano de aula.
