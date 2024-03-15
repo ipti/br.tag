@@ -54,10 +54,15 @@ class SagresConsultModel
         }
     }
 
-    public function getSagresEdu($referenceYear, $month, $finalClass): EducacaoTType
+    public function getSagresEdu($referenceYear, $month, $finalClass, $noMovement): EducacaoTType
     {
         $education = new EducacaoTType();
         $managementUnitId = $this->getManagementId();
+
+        if($noMovement) {
+            $education->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $month));
+            return $education;
+        }
 
         try {
             $education
@@ -954,6 +959,7 @@ class SagresConsultModel
                         si.name AS name,
                         ifnull(si.deficiency, 0) AS deficiency,
                         si.sex AS gender,
+                        si.id,
                         SUM(IF(cf.id is null, 0, 1)) AS faults
                   FROM
                         student_enrollment se
@@ -989,11 +995,17 @@ class SagresConsultModel
                 continue;
             }            
 
+
+            $query1 = "SELECT cpf from student_documents_and_address WHERE id = :idStudent";
+            $command = Yii::app()->db->createCommand($query1);
+            $command->bindValues([':idStudent' => $enrollment['id']]);
+            $cpf = $command->queryScalar();
+
             $studentType = new AlunoTType();
             $studentType
                 ->setNome($enrollment['name'])
                 ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']))
-                ->setCpfAluno(!empty($enrollment['cpfenrollment']) ? $enrollment['cpfenrollment'] : null)
+                ->setCpfAluno(!empty($cpf) ? $cpf : null)
                 ->setPcd($enrollment['deficiency'])
                 ->setSexo($enrollment['gender']);
 

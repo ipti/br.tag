@@ -51,6 +51,14 @@
     &--white {
         color: $colorsBaseCloudLight;
     }
+
+    &--ink {
+        color: $colorsBaseInkLight;
+    }
+}
+
+.text-bold {
+    font-weight: $fontWeightBold;
 }
 
 .flex-direction {

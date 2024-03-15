@@ -7,10 +7,11 @@
  * @property integer $id
  * @property string $initial_date
  * @property integer $grade_unity_fk
- * @property integer $school_year
+ * @property integer $calendar_fk
  *
  * The followings are the available model relations:
  * @property GradeUnity $gradeUnityFk
+ * @property Calendar $calendarFk
  */
 class GradeUnityPeriods extends CActiveRecord
 {
@@ -30,11 +31,11 @@ class GradeUnityPeriods extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('initial_date, grade_unity_fk, school_year', 'required'),
-			array('grade_unity_fk, school_year', 'numerical', 'integerOnly'=>true),
+			array('initial_date, grade_unity_fk, calendar_fk', 'required'),
+			array('grade_unity_fk, calendar_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, initial_date, grade_unity_fk, school_year', 'safe', 'on'=>'search'),
+			array('id, initial_date, grade_unity_fk, calendar_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,6 +48,7 @@ class GradeUnityPeriods extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'gradeUnityFk' => array(self::BELONGS_TO, 'GradeUnity', 'grade_unity_fk'),
+			'calendarFk' => array(self::BELONGS_TO, 'Calendar', 'calendar_fk'),
 		);
 	}
 
@@ -59,7 +61,7 @@ class GradeUnityPeriods extends CActiveRecord
 			'id' => 'ID',
 			'initial_date' => 'Initial Date',
 			'grade_unity_fk' => 'Grade Unity Fk',
-			'school_year' => 'School Year',
+			'calendar_fk' => 'Calendar Fk',
 		);
 	}
 
@@ -84,7 +86,7 @@ class GradeUnityPeriods extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('initial_date',$this->initial_date,true);
 		$criteria->compare('grade_unity_fk',$this->grade_unity_fk);
-		$criteria->compare('school_year',$this->school_year);
+		$criteria->compare('calendar_fk',$this->calendar_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
