@@ -4,6 +4,8 @@
  * @var $isUpdate Boolean
  */
 
+ Yii::import('application.modules.foods.models.Food', true);
+ Yii::import('application.modules.lunch.controllers.LunchController', true);
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
@@ -186,13 +188,17 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="row-fluid">
                                 <div class=" span8">
                                     <?= CHtml::label(Yii::t('lunchModule.labels', 'Portion'), 'MealPortion[portion_fk]', array('class' => 'control-label')); ?>
+
                                     <div class="controls span12">
-                                        <?= CHtml::dropDownList(
-                                            'MealPortion[portion_fk]',
+                                        <?php
+                                        $lunchController = new LunchController(null);
+                                        $lunchController->init();
+                                        echo CHtml::dropDownList(
+                                            'MealPortion[food_fk]',
                                             '',
-                                            CHtml::listData(Portion::model()->findAll(), 'id', 'concatName'),
-                                            ['class' => 'span12']
-                                        ); ?>
+                                            CHtml::listData($lunchController->actionGetFoodAlias(), 'id', 'description'),
+                                        );
+                                        ?>
                                     </div>
                                 </div>
                                 <div class="span2" style="width: 8%;">

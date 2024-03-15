@@ -103,6 +103,17 @@ class LunchController extends Controller {
         $this->redirect(yii::app()->createUrl('lunch/lunch/update',["id"=>$menuPost['id']]));
     }
 
+    public function actionGetFoodAlias()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, description, measurementUnit';
+        $criteria->condition = 'alias_id = t.id';
+
+        $foods_description = Food::model()->findAll($criteria);
+
+       return $foods_description;
+    }
+
     public function actionAddPortion(){
         /* @var $mealPortion MealPortion */
         /* @var $portion Portion */
@@ -111,6 +122,10 @@ class LunchController extends Controller {
         $menuPost = $request->getPost("Menu", false);
         $portionPost = $request->getPost("Portion", false);
         $mealPortionPost = $request->getPost("MealPortion", false);
+
+        // My changes
+        $food = $request->getPost("Food", false);
+
         $isNewPortion = false;
         if($portionPost){
             $portion = new Portion();
