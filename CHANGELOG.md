@@ -14,7 +14,6 @@
 - Calendário ajustado para permitir sua extensão para ano(s) seguinte(s).
 - Eventos de início e fim de ano letivo removidos. O intervalo letivo será definido no momento da criação/edição do calendário.
 - Adicionado seletor de calendário na turma.
--
 ## [Versão 3.71.113]
 - Adicionado módulo de dashboard
 
