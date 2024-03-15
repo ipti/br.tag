@@ -41,6 +41,19 @@ $(document).ready(function() {
     })
 });
 
+$(document).on("focusout", "#farmerCpf", function () {
+    let farmerCpf = this.val().replace(/\D/g, '');
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/farmerregister/getFarmerRegister",
+        cache: false,
+        data: {
+            farmerCpf: farmerCpf,
+        }
+    }).success(function(response) {
+    });
+});
+
 $(document).on("change", "#foodSelect", function () {
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');

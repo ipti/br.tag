@@ -67,4 +67,9 @@ class FireBaseService
         }
     }
 
+    public function getFarmerRegister($cpf) {
+        $collections = $this->firestoreClient->listDocuments('farmer_register');
+
+        return $collections;
+    }
 }
