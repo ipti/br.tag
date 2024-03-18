@@ -1,3 +1,6 @@
+## [Versão 3.73.120]
+- Integrado os bancos utilizados por Boquim/SE.
+
 ## [Versão 3.73.119]
 - Renomeado o head dos relatórios do municipio de Poço Dantas.
 - Adicionado cep formatado da escola.
