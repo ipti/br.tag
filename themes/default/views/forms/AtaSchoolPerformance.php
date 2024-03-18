@@ -23,7 +23,7 @@ $stage = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_
 
     }
 
-    // Tratamento do cabeçalho das
+    // Tratamento do cabeçalho das disciplinas do educacenso para reduzir o nome das disciplinas
     function classroomDisciplineLabelResumeArray($discipline_id)
     {
         $label = '';
@@ -232,8 +232,8 @@ if ($turno == 'M') {
             </tr>
             <tr>
                 <?php foreach($disciplines as $discipline) {
-                    //$discipline = classroomDisciplineLabelResumeArray($discipline['discipline_id']);
-                    $discipline = $discipline['discipline_name'];
+                    $discipline = classroomDisciplineLabelResumeArray($discipline['discipline_id']);
+                    //$discipline = $discipline['discipline_name'];
                     if (strlen($discipline) <= 20) {
                         echo "<th scope='col' class='vertical-text'><div>".$discipline."</div></th>";
                     }else {
