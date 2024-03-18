@@ -106,14 +106,16 @@ class ClassesController extends Controller
     public function actionGetClassContents()
     {
         $classroomId = $_POST["classroom"];
+        $isMinorEducation = TagUtils::isStageMinorEducation(Classroom::model()->findByPk($classroomId)->edcenso_stage_vs_modality_fk);
         $month = $_POST["month"];
         $year = $_POST["year"];
         $disciplineId = $_POST["discipline"];
 
         $students = $this->getStudentsByClassroom($classroomId);
 
-        if ($_POST["fundamentalMaior"] == "1") {
-            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
+        if (!$isMinorEducation) {
+            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $disciplineId, $year);
+
         } else {
             $schedules = $this->getSchedulesFromMinorStage($classroomId, $month, $year);
         }
@@ -122,7 +124,7 @@ class ClassesController extends Controller
             $classContents = $this->buildClassContents($schedules, $students);
 
             if (TagUtils::isInstructor()) {
-                if ($_POST["fundamentalMaior"] == "1") {
+                if (!$isMinorEducation) {
                     $courseClasses = Yii::app()->db->createCommand(
                         "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
@@ -149,7 +151,7 @@ class ClassesController extends Controller
                         ->queryAll();
                 }
             } else {
-                if ($_POST["fundamentalMaior"] == "1") {
+                if (!$isMinorEducation) {
                     $courseClasses = Yii::app()->db->createCommand(
                         "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
