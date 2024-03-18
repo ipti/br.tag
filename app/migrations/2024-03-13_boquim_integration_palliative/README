@@ -12,5 +12,6 @@ Passos:
 5. Se na importação der erro no registro 50 ou 60, é porque o sistema exportou ineps repetidos, cpfs repetidos ou nome + data do nascimento repetida. Corrigir na mão. Nos testes:
 5.1. deu 1 conflito de inep em mariadagloria com duas Laras
 5.2. deu 1 conflito de cpf em joaldo com Emilly e Rita de Cassia
+5.3. deu 1 conflito de inep em josefina
 
-6. 3 turmas de joaldo estão sem etapa e modalidade: AEE---TURMA-A, AEE---TURMA-B e AEE---TURMA-C. Inserir no próprio sistema ou manualmente o id 75 (Atendimento Educacional Especializado)
+6. 3 turmas de joaldo estão sem etapa e modalidade: AEE---TURMA-A, AEE---TURMA-B e AEE---TURMA-C. Inserir no próprio sistema ou manualmente o id 75 (Atendimento Educacional Especializado) e modalidade 1
