@@ -232,7 +232,8 @@ if ($turno == 'M') {
             </tr>
             <tr>
                 <?php foreach($disciplines as $discipline) {
-                    $discipline = classroomDisciplineLabelResumeArray($discipline['discipline_id']);
+                    //$discipline = classroomDisciplineLabelResumeArray($discipline['discipline_id']);
+                    $discipline = $discipline['discipline_name'];
                     if (strlen($discipline) <= 20) {
                         echo "<th scope='col' class='vertical-text'><div>".$discipline."</div></th>";
                     }else {
