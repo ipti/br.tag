@@ -53,3 +53,19 @@ $(document).on('click', '#new-portion', function(){
     $('#is-add-amount').hide().children().find("input, select").prop('disabled', true);
     $('#is-new-portion').show().children().find("input, select").prop('disabled', false);
 });
+
+$(document).ready(function(){
+    $(document).on("change", "#unityDropdown", function(){
+        let unityMeasure = $(this).val();
+        console.log($(this).val);
+        $.ajax({
+            url: "?r=lunch/lunch/getUnityMeasure",
+            type: "POST",
+            data: {
+                id: unityMeasure
+            }
+        }).done (data) {
+            console.log(data);
+        }
+    })
+})

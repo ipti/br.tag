@@ -5,6 +5,7 @@
  */
 
  Yii::import('application.modules.foods.models.Food', true);
+ Yii::import('application.modules.foods.models.FoodMeasurement', true);
  Yii::import('application.modules.lunch.controllers.LunchController', true);
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
@@ -185,81 +186,43 @@ $form = $this->beginWidget('CActiveForm', array(
                             </h4>
                         </div>
                         <div class="widget-body">
-                            <div class="row-fluid">
+                            <div class="row-fluid row">
                                 <div class=" span8">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Portion'), 'MealPortion[portion_fk]', array('class' => 'control-label')); ?>
-
-                                    <div class="controls span12">
+                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Portion'), 'MealPortion[food_fk]', array('class' => 'control-label')); ?>
+                                    <div class="controls">
                                         <?php
-                                        $lunchController = new LunchController(null);
-                                        $lunchController->init();
-                                        echo CHtml::dropDownList(
-                                            'MealPortion[food_fk]',
-                                            '',
-                                            CHtml::listData($lunchController->actionGetFoodAlias(), 'id', 'description'),
-                                        );
+                                            $lunchController = new LunchController(null);
+                                            $lunchController->init();
+                                            echo CHtml::dropDownList(
+                                                'MealPortion[food_fk]',
+                                                '',
+                                                CHtml::listData($lunchController->actionGetFoodAlias(), 'id', 'description'),
+                                            );
+                                        ?>
+                                    </div>
+
+                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Unity'), 'MealPortion[unity_fk]', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php
+                                            echo CHtml::dropDownList(
+                                                'MealPortion[unity_fk]',
+                                                '',
+                                                CHtml::listData($lunchController->actionGetFoodMeasurement(), 'id', 'unit'),
+                                                array('id' => 'unityDropdown')
+                                            );
                                         ?>
                                     </div>
                                 </div>
-                                <div class="span2" style="width: 8%;">
-                                    <label class="control-label" style="margin: 0 0 10px 0; width: 10px;">&nbsp;</label>
-                                    <div class="controls span6" style="width: 100%;">
-                                        <a href="#" id="new-portion" class="btn btn-success btn-small" style="background:none; border:none;">
-                                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/addItem.svg" alt="Adicionar Novo Item">
-                                        </a>
+                                <div class="row" style="flex-direction: column;">
+                                    <div class="column" style="width: 23%;">
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', array('class' => 'control-label', 'style' => 'width: 100%')); ?>
+                                        <div class="controls span12">
+                                            <?= CHtml::numberField('MealPortion[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class=" span2" style="width: 23%;">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', array('class' => 'control-label', 'style' => 'width: 100%')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::numberField('MealPortion[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="is-new-portion" class="widget widget-scroll margin-bottom-none">
-                        <div class="widget-head" style="background: none;">
-                            <h4 class="heading">
-                                <i></i><?= yii::t('lunchModule.stock', 'New Portion') ?>
-                            </h4>
-                        </div>
-                        <div class="widget-body" style="overflow: hidden;">
-                            <div class="row-fluid">
-                                <div class=" span6" style="margin-right:12px">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', array('class' => 'control-label')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::dropDownList(
-                                            'Portion[item_fk]',
-                                            '',
-                                            CHtml::listData(Item::model()->with(["inventories" => ["select" => "amount", 'condition' => 'amount > 0']])->findAll(), 'id', 'concatName'),
-                                            ['class' => 'pull-left span10', 'style' => 'height:44px;width:100%;']
-                                        ); ?>
-
-                                    </div>
-                                </div>
-
-                                <div class=" span2" style="margin-right:10px">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', array('class' => 'control-label')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::numberField('MealPortion[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
-                                    </div>
-                                </div>
-                                <div class=" span2" style="margin-right:10px">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::numberField('Portion[measure]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
-                                    </div>
-                                </div>
-                                <div class=" span2" style="width: 10%;">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label', 'style' => 'width:auto')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::dropDownList(
-                                            'Portion[unity_fk]',
-                                            '',
-                                            CHtml::listData(Unity::model()->findAll(['order' => 'acronym']), 'id', 'acronym'),
-                                            ['class' => ' span10', 'style' => 'width:100%']
-                                        ); ?>
+                                    <div class="column">
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'MealPortion[measure]', array('class' => 'control-label', 'style' => 'width: 100%')); ?>
+                                        <div id="lunchUnityMeasure"></div>
                                     </div>
                                 </div>
                             </div>

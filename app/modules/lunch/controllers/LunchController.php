@@ -114,6 +114,30 @@ class LunchController extends Controller {
        return $foods_description;
     }
 
+    public function actionGetFoodMeasurement()
+    {
+        $foodMeasurements = FoodMeasurement::model()->findAll();
+        $options = array();
+        foreach ($foodMeasurements as $foodMeasurement) {
+            array_push(
+                $options,
+                array(
+                    "id" => $foodMeasurement->id,
+                    "unit" => $foodMeasurement->unit,
+                    "value" => $foodMeasurement->value,
+                    "measure" => $foodMeasurement->measure
+                )
+            );
+        }
+        return $options;
+    }
+
+    public function actionGetUnityMeasure()
+    {
+        $measureId = Yii::app()->request()->getPost('id');
+
+    }
+
     public function actionAddPortion(){
         /* @var $mealPortion MealPortion */
         /* @var $portion Portion */
