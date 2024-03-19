@@ -1,21 +1,6 @@
-let data = [];
+
 let url = new URL(window.location.href);
 let noticeID = url.searchParams.get('id');
-
-let table = $('table').DataTable({
-    data: data,
-    ordering: true,
-    searching: false,
-    paginate: true,
-    language: getLanguagePtbr(),
-    columnDefs: [
-        {
-            targets: -1, // Última coluna
-            data: null,
-            defaultContent: '<a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;"><span class="t-icon-trash"></span></a>'
-        }
-    ]
-});
 
 $(".js-add-notice-item").on("click", function () {
     let selectFood = $("select.js-taco-foods")

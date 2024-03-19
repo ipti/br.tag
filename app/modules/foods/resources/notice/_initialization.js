@@ -1,3 +1,18 @@
+let data = [];
+let table = $('table').DataTable({
+    data: data,
+    ordering: true,
+    searching: false,
+    paginate: true,
+    language: getLanguagePtbr(),
+    columnDefs: [
+        {
+            targets: -1, // Última coluna
+            data: null,
+            defaultContent: '<a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;"><span class="t-icon-trash"></span></a>'
+        }
+    ]
+});
 $('.js-date').mask("99/99/9999");
 
 $(".js-date").datepicker({
@@ -39,8 +54,7 @@ if(noticeID)  {
         response = JSON.parse(response)
         $(".js-notice-name").val(response.name)
         $(".js-date").val(response.date)
-        let data = response.noticeItems
-        console.log(data)
+        data = response.noticeItems
         table.destroy();
         table = $('table').DataTable({
             data: data,
