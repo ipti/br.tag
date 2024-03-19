@@ -39,7 +39,7 @@ if(noticeID)  {
         response = JSON.parse(response)
         $(".js-notice-name").val(response.name)
         $(".js-date").val(response.date)
-        data = response.noticeItems
+        let data = response.noticeItems
         console.log(data)
         table.destroy();
         table = $('table').DataTable({

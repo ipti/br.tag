@@ -1,9 +1,4 @@
-w<?php
-
-// $baseUrl = Yii::app()->baseUrl;
-// $cs = Yii::app()->getClientScript();
-// $cs->registerScriptFile($baseUrl . "/");
-
+<?php
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Merenda'));
 
 $this->menu = array(
