@@ -42,7 +42,7 @@ $(".js-date").datepicker({
 
 const DateComponent = function () {
 
-  const daysOfWeek = ["Domingo", "Segunda-freia", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
+  const daysOfWeek = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
 
   function getLastDay() {
     return days[days.length - 1].date
@@ -528,7 +528,7 @@ const MealsComponent = function (meal, day) {
     platesContainer.html(renderPlates)
     platesContainer.accordion({
       heightStyle: "content",
-      active: false,
+      active:  meal.plates.length-1,
       collapsible: true,
       icons: false,
   });
@@ -569,7 +569,7 @@ $(document).on("click", ".js-add-meal", function () {
   meals.forEach((e) => {
     MealsComponent(e, day).actions.render();
   });
-  initializeMealAccordion(meals.length)
+  initializeMealAccordion((meals.length-1))
 });
 
 $(document).on("click", ".js-remove-meal", function () {

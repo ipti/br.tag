@@ -2,6 +2,8 @@
 /* @var $this FoodInventoryController */
 /* @var $dataProvider CActiveDataProvider */
 
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Estoque'));
+
 $this->breadcrumbs=array(
 	'Food Inventories',
 );

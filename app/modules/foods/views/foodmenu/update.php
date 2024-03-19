@@ -2,6 +2,7 @@
 /* @var $this FoodMenuController */
 /* @var $model FoodMenu */
 /** @var FoodMenu $model */
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Atualizar Cardápio'));
 
 $this->breadcrumbs=array(
 	'Food Menus'=>array('index'),

@@ -259,7 +259,13 @@ class FoodmenuController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('FoodMenu');
+        $dataProvider = new CActiveDataProvider(
+           'foodmenu',
+            array(
+                'pagination' => false
+            )
+        );
+
         $this->render('index', array(
             'dataProvider' => $dataProvider,
         ));
