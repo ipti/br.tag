@@ -125,7 +125,6 @@ class FarmerRegisterController extends Controller
 			}
         }
 	}
-
     public function actionGetFarmerRegister() {
         $cpf = Yii::app()->request->getPost('farmerCpf');
 
