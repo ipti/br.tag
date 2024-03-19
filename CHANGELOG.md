@@ -1,3 +1,6 @@
+## [Versão 3.74.119]
+- Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
+
 ## [Versão 3.73.119]
 - Renomeado o head dos relatórios do municipio de Poço Dantas.
 - Adicionado cep formatado da escola.
