@@ -228,15 +228,7 @@ class FoodNoticeController extends Controller
         }
         $model->delete();
 
-<<<<<<< HEAD
         $this->redirect(array('index'));
-=======
-        $dataProvider = new CActiveDataProvider('FoodNotice');
-        $this->render('index', array(
-            'dataProvider' => $dataProvider,
-        )
-        );
->>>>>>> 52fdae7b04438495667606ba326e4acab9826316
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
     }
@@ -260,8 +252,9 @@ class FoodNoticeController extends Controller
     {
         $model = new FoodNotice('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['FoodNotice']))
+        if (isset($_GET['FoodNotice'])){
             $model->attributes = $_GET['FoodNotice'];
+        }
 
         $this->render('admin', array(
             'model' => $model,
@@ -279,8 +272,9 @@ class FoodNoticeController extends Controller
     public function loadModel($id)
     {
         $model = FoodNotice::model()->findByPk($id);
-        if ($model === null)
+        if ($model === null){
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
