@@ -191,10 +191,7 @@ class FoodmenuController extends Controller
             header('HTTP/1.1 200 OK');
             Log::model()->saveAction("foodMenu", $id, "D", $modelFoodMenu->description);
             // echo json_encode(["valid" => true, "message" => "Cardápio excluído com sucesso!"]);
-            $dataProvider = new CActiveDataProvider('FoodMenu');
-            $this->render('index', array(
-                'dataProvider' => $dataProvider,
-            ));
+            $this->redirect(array('index'));
             Yii::app()->end();
         } catch (Exception $e) {
             $transaction->rollback();
