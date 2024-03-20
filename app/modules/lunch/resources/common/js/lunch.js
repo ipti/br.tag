@@ -43,7 +43,6 @@ $(document).on('click', '.button-remove-lunch', function () {
 });
 
 
-
 $(document).on("show.bs.modal", "#addPortion", function(){
     $('#is-add-amount').show().children().find("input, select").prop('disabled', false);
     $('#is-new-portion').hide().children().find("input, select").prop('disabled', true);
@@ -55,17 +54,24 @@ $(document).on('click', '#new-portion', function(){
 });
 
 $(document).ready(function(){
-    $(document).on("change", "#unityDropdown", function(){
-        let unityMeasure = $(this).val();
-        console.log($(this).val);
-        $.ajax({
-            url: "?r=lunch/lunch/getUnityMeasure",
-            type: "POST",
-            data: {
-                id: unityMeasure
-            }
-        }).done (data) {
-            console.log(data);
-        }
+    $(document).on('change', "#unityDropdown", function(){
+       updateMeasureAmount();
     })
 })
+
+function updateMeasureAmount(){
+    let unityMeasure = $(this).val();
+    $.ajax({
+        url: "?r=lunch/lunch/getUnityMeasure",
+        type: "POST",
+        data: {
+            id: unityMeasure
+        }
+    }).success(function(data) {
+        data = JSON.parse(data);
+        const amountUnity = $('#foodAmount').val();
+        const totalAmount = amountUnity * data.value;
+        const txt = `<span>${totalAmount} ${data.measure}</span>`;
+        $(txt).replaceAll("#lunchUnityMeasure span");
+    });
+}

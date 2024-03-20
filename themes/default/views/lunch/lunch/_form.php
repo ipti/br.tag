@@ -217,12 +217,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <div class="column" style="width: 23%;">
                                         <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', array('class' => 'control-label', 'style' => 'width: 100%')); ?>
                                         <div class="controls span12">
-                                            <?= CHtml::numberField('MealPortion[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
+                                            <?= CHtml::numberField('MealPortion[amount]', '1',
+                                            ['min' => '0', 'step' => '1', 'class' => 'span10',
+                                            'style' => 'height:44px;width:100%;',
+                                            'id' => 'foodAmount']);
+                                            ?>
                                         </div>
                                     </div>
                                     <div class="column">
                                         <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'MealPortion[measure]', array('class' => 'control-label', 'style' => 'width: 100%')); ?>
-                                        <div id="lunchUnityMeasure"></div>
+                                        <div id="lunchUnityMeasure"><span></span></div>
                                     </div>
                                 </div>
                             </div>

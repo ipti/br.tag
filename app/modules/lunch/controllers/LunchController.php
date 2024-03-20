@@ -1,5 +1,6 @@
 <?php
 
+Yii::import('application.modules.foods.models.FoodMeasurement', true);
 /**
  * Class LunchController
  *
@@ -65,6 +66,8 @@ class LunchController extends Controller {
                 $this->render('update', ["menu" => $menu]);
             }
         }else {
+            // CVarDumper::dump($menu, 10, true);
+            // exit();
             $this->render('update', ["menu" => $menu]);
         }
     }
@@ -134,8 +137,10 @@ class LunchController extends Controller {
 
     public function actionGetUnityMeasure()
     {
-        $measureId = Yii::app()->request()->getPost('id');
+        $measureId = Yii::app()->request->getPost('id');
+        $modal = FoodMeasurement::model()->findByPk($measureId);
 
+        echo CJSON::encode($modal);
     }
 
     public function actionAddPortion(){
@@ -147,16 +152,15 @@ class LunchController extends Controller {
         $portionPost = $request->getPost("Portion", false);
         $mealPortionPost = $request->getPost("MealPortion", false);
 
-        // My changes
-        $food = $request->getPost("Food", false);
 
         $isNewPortion = false;
         if($portionPost){
             $portion = new Portion();
-            $portion->item_fk = $portionPost["item_fk"];
-            $portion->measure = $portionPost["measure"];
-            $portion->unity_fk = $portionPost["unity_fk"];
-            $portion->amount = 1;
+            // $portion->item_fk = $portionPost["item_fk"];
+            // $portion->measure = $portionPost["measure"];
+            // $portion->unity_fk = $portionPost["unity_fk"];
+            // $portion->amount = 1;
+            $portion = $mealPortionPost;
             if($portion->validate()){
                 $portion->save();
                 $isNewPortion = true;
@@ -167,7 +171,8 @@ class LunchController extends Controller {
         }
 
         $mealId = $mealPortionPost["meal_fk"];
-        $portionId = $isNewPortion ? $portion->id : $mealPortionPost["portion_fk"];
+        $portionId = !$isNewPortion ? $portion->id : $mealPortionPost["portion_fk"];
+        // $portionId = $portion->id;
         $mealPortion = MealPortion::model()->findByAttributes(["meal_fk" => $mealId, "portion_fk"=>$portionId]);
         $isNewMealPortion = !isset($mealPortion);
 
