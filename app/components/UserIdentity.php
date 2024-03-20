@@ -30,16 +30,30 @@ class UserIdentity extends CUserIdentity
 //			$this->errorCode=self::ERROR_NONE;
 //		return !$this->errorCode;
 //	}
-//        
-    
+// 
+    public function isMd5($string) {
+        $md5_pattern = '/^[a-fA-F0-9]{32}$/';
+        return preg_match($md5_pattern, $string);
+    }
 
     public function authenticate() {
         $record = Users::model()->findByAttributes(array('username' => $this->username));
-        if ($record === null || !$record->active)
+        
+        if($this->isMd5($record->password)){
+            if ($record->password === md5($this->password)) {
+                $passwordHasher =  new PasswordHasher;
+                $record->password = $passwordHasher->bcriptHash($this->password);
+                $record->save();
+            } else {
+                $this->errorCode = self::ERROR_PASSWORD_INVALID;
+            }
+        }
+        
+        if ($record === null || !$record->active) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
-        else if ($record->password !== md5($this->password))
+        } elseif(!password_verify($this->password, $record->password)) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
-        else {
+        }else {
             if(Yii::app()->getAuthManager()->checkAccess('admin',$record->id)){
                 $userSchools = [];
                 $this->setState('hardfoot',false);

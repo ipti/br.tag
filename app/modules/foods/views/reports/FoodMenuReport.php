@@ -3,7 +3,7 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/sass/css/main.css');
 
-$days = ["monday", "tuesday", "wednesday", "thursday", "friday"]
+$days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
 ?>
 <style>
     table {

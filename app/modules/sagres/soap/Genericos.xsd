@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.tce.se.gov.br/sagres2023/xml/genericos" version="1.0" xml:lang="pt-BR"	 xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.tce.se.gov.br/sagres2024/xml/genericos" version="1.0" xml:lang="pt-BR"	 xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 
 	 <!-- Namespaces: Conteudo: Descricao: Validadores dos tipos genericos  -->
@@ -160,7 +160,7 @@
 <xs:simpleType name="dataInicOuFimVigencia_t">
 	 <xs:restriction base="xs:date">    
           <xs:minInclusive value="2010-01-01"/>    
-          <xs:maxInclusive value="2023-12-31"/>   
+          <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -187,7 +187,7 @@
 <xs:simpleType name="anoReferencia_t">
 	  <xs:restriction base="xs:integer">
         <xs:minInclusive value="2016"/>
-        <xs:maxInclusive value="2023"/>
+        <xs:maxInclusive value="2024"/>
   </xs:restriction>
 
 </xs:simpleType>
@@ -233,7 +233,7 @@
 <xs:simpleType name="dataEmisEmpenho_t">
 	<xs:restriction base="xs:date">    
         <xs:minInclusive value="2010-01-01"/>    
-        <xs:maxInclusive value="2023-12-31"/> 
+        <xs:maxInclusive value="2024-12-31"/> 
  </xs:restriction>
 </xs:simpleType>
 
@@ -306,6 +306,7 @@
 				<xs:enumeration value="2021"/>
 				<xs:enumeration value="2022"/>
 				<xs:enumeration value="2023"/>
+				<xs:enumeration value="2024"/>
          </xs:restriction>
      </xs:simpleType>
     </xs:element>
@@ -363,6 +364,7 @@
 				<xs:enumeration value="2021"/>
 				<xs:enumeration value="2022"/>
 				<xs:enumeration value="2023"/>
+				<xs:enumeration value="2024"/>
          </xs:restriction>
      </xs:simpleType>
     </xs:element>
@@ -423,6 +425,7 @@
 				<xs:enumeration value="2021"/>
 				<xs:enumeration value="2022"/>
 				<xs:enumeration value="2023"/>
+				<xs:enumeration value="2024"/>
          </xs:restriction>
      </xs:simpleType>
     </xs:element>
@@ -482,7 +485,7 @@
 <xs:simpleType name="dataEmisRp_t">
 	<xs:restriction base="xs:date">    
         <xs:minInclusive value="2000-01-01"/>    
-        <xs:maxInclusive value="2023-12-31"/> 
+        <xs:maxInclusive value="2024-12-31"/> 
  </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -597,6 +600,7 @@
 				<xs:enumeration value="2021"/>
 				<xs:enumeration value="2022"/>
 				<xs:enumeration value="2023"/>
+				<xs:enumeration value="2024"/>
          </xs:restriction>
      </xs:simpleType>
     </xs:element>
@@ -628,7 +632,7 @@
 <xs:simpleType name="dataEmisAnulacao_t">
 	<xs:restriction base="xs:date">    
        <xs:minInclusive value="2016-01-01"/>    
-       <xs:maxInclusive value="2023-12-31"/>   
+       <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -646,7 +650,7 @@
 <xs:simpleType name="dataLiquidacao_t">
 	  <xs:restriction base="xs:date">    
          <xs:minInclusive value="2010-01-01"/>    
-         <xs:maxInclusive value="2023-12-31"/>   
+         <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -673,7 +677,7 @@
 <xs:simpleType name="dataPagamento_t">
 	<xs:restriction base="xs:date">    
          <xs:minInclusive value="2016-01-01"/>    
-         <xs:maxInclusive value="2023-12-31"/>   
+         <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -709,7 +713,7 @@
 <xs:simpleType name="anoEmisEmpenho_t">
 	  <xs:restriction base="xs:integer">
            <xs:minInclusive value="2005"/>
-           <xs:maxInclusive value="2023"/>
+           <xs:maxInclusive value="2024"/>
   </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -718,7 +722,7 @@
 <xs:simpleType name="dataInscricao_t">
 	<xs:restriction base="xs:date">    
         <xs:minInclusive value="2000-01-01"/>    
-        <xs:maxInclusive value="2023-12-31"/>   
+        <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -727,7 +731,7 @@
 <xs:simpleType name="anoEmisRp_t">
 	  <xs:restriction base="xs:integer">
            <xs:minInclusive value="2005"/>
-           <xs:maxInclusive value="2023"/>
+           <xs:maxInclusive value="2024"/>
   </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -736,7 +740,7 @@
 <xs:simpleType name="dataCancelamento_t">
 	  <xs:restriction base="xs:date">    
        <xs:minInclusive value="2016-01-01"/>    
-       <xs:maxInclusive value="2023-12-31"/>   
+       <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -763,7 +767,7 @@
 <xs:simpleType name="dataCredito_t">
 	<xs:restriction base="xs:date">    
          <xs:minInclusive value="2016-01-01"/>    
-         <xs:maxInclusive value="2023-12-31"/>   
+         <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -790,7 +794,7 @@
 <xs:simpleType name="anoVigeLoa_t">
 	<xs:restriction base="xs:integer">
    <xs:minInclusive value="2016"/>
-   <xs:maxInclusive value="2023"/>
+   <xs:maxInclusive value="2024"/>
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -799,7 +803,7 @@
 <xs:simpleType name="dataPublLoa_t">
 	<xs:restriction base="xs:date">    
         <xs:minInclusive value="2013-01-01"/>    
-        <xs:maxInclusive value="2023-12-31"/>   
+        <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -827,7 +831,7 @@
 <xs:simpleType name="dataPublLdo_t">
 	<xs:restriction base="xs:date">    
         <xs:minInclusive value="2013-01-01"/>    
-        <xs:maxInclusive value="2023-12-31"/>   
+        <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -856,6 +860,7 @@
 				<xs:enumeration value="2021"/>
 				<xs:enumeration value="2022"/>
 				<xs:enumeration value="2023"/>
+				<xs:enumeration value="2024"/>
          </xs:restriction>
      </xs:simpleType>
     </xs:element>
@@ -887,6 +892,7 @@
 				<xs:enumeration value="2021"/>
 				<xs:enumeration value="2022"/>
 				<xs:enumeration value="2023"/>
+				<xs:enumeration value="2024"/>
          </xs:restriction>
      </xs:simpleType>
     </xs:element>
@@ -898,7 +904,7 @@
 <xs:simpleType name="dataPublPpa_t">
 	<xs:restriction base="xs:date">    
         <xs:minInclusive value="2013-01-01"/>    
-        <xs:maxInclusive value="2023-12-31"/>   
+        <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -927,6 +933,7 @@
 				<xs:enumeration value="2021"/>
 				<xs:enumeration value="2022"/>
 				<xs:enumeration value="2023"/>
+				<xs:enumeration value="2024"/>
          </xs:restriction>
      </xs:simpleType>
     </xs:element>
@@ -938,7 +945,7 @@
 <xs:simpleType name="dataPublAltePpa_t">
 	<xs:restriction base="xs:date">    
         <xs:minInclusive value="2013-01-01"/>    
-        <xs:maxInclusive value="2023-12-31"/>   
+        <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -1012,6 +1019,7 @@
 				<xs:enumeration value="2021"/>
 				<xs:enumeration value="2022"/>
 				<xs:enumeration value="2023"/>
+				<xs:enumeration value="2024"/>
          </xs:restriction>
      </xs:simpleType>
     </xs:element>
@@ -1023,7 +1031,7 @@
 <xs:simpleType name="dataPublAtoQueNomeGestor_t">
 	  <xs:restriction base="xs:date">   
           <xs:minInclusive value="2005-01-01"/>    
-          <xs:maxInclusive value="2023-12-31"/>   
+          <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -1090,6 +1098,7 @@
 				<xs:enumeration value="2021"/>
 				<xs:enumeration value="2022"/>
 				<xs:enumeration value="2023"/>
+				<xs:enumeration value="2024"/>
          </xs:restriction>
      </xs:simpleType>
     </xs:element>
@@ -1101,7 +1110,7 @@
 <xs:simpleType name="dataDecreto_t">
 	  <xs:restriction base="xs:date">   
           <xs:minInclusive value="2015-01-01"/>    
-          <xs:maxInclusive value="2023-12-31"/>   
+          <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -1110,7 +1119,7 @@
 <xs:simpleType name="dataPublDecreto_t">
 	  <xs:restriction base="xs:date">   
           <xs:minInclusive value="2015-01-01"/>    
-          <xs:maxInclusive value="2023-12-31"/>   
+          <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -1138,7 +1147,7 @@
 <xs:simpleType name="dataFatoConciliado_t">
 	<xs:restriction base="xs:date">    
           <xs:minInclusive value="2005-01-01"/>    
-          <xs:maxInclusive value="2023-12-31"/>   
+          <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -1185,7 +1194,7 @@
 <xs:simpleType name="dataRegiOuLancamento_t">
 	  <xs:restriction base="xs:date">   
           <xs:minInclusive value="2016-01-01"/>    
-          <xs:maxInclusive value="2023-12-31"/>   
+          <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -1203,7 +1212,7 @@
 <xs:simpleType name="dataLiquRp_t">
 	  <xs:restriction base="xs:date">    
          <xs:minInclusive value="2010-01-01"/>    
-         <xs:maxInclusive value="2023-12-31"/>   
+         <xs:maxInclusive value="2024-12-31"/>   
 </xs:restriction>
 </xs:simpleType>
 <!-- ==================================================================================== -->
@@ -1249,6 +1258,7 @@
 				<xs:enumeration value="2021"/>
 				<xs:enumeration value="2022"/>
 				<xs:enumeration value="2023"/>
+				<xs:enumeration value="2024"/>
          </xs:restriction>
      </xs:simpleType>
     </xs:element>

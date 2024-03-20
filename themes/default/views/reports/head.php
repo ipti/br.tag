@@ -20,15 +20,41 @@ if(!isset($school)){
     };
     ?>
     <ul id="info">
-        <?php if(isset($school->act_of_acknowledgement)&&(!empty($school->act_of_acknowledgement))){?>
+        <?php if (isset($school->act_of_acknowledgement) && !empty($school->act_of_acknowledgement)) { ?>
             <li><?php echo $school->name ?></li>
-        <?php }else{?>
-            <li>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name ?></li>
+        <?php } else { ?>
+            <li>
+                <?php if (TagUtils::isInstance("POCODANTAS")) { ?>
+                    SECRETÁRIA MUNICIPAL DE EDUCAÇÃO DE POÇO DANTAS
+                <?php } else { ?>
+                    PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name ?>
+                <?php } ?>
+            </li>
             <li><?php echo $school->name ?></li>
-        <?php }?>
+        <?php } ?>
     </ul>
+
     <ul id="addinfo">
-        <li><?php echo $school->address.', '.(!empty($school->address_number) ? $school->address_number.', ':'' ).$school->address_neighborhood; ?>, <?php echo $school->edcensoCityFk->name . " - " . $school->edcensoUfFk->acronym ?> </li>
+
+        <?php
+            $cep = $school->cep;
+
+            if (empty($cep)){
+                $fieldCep = '';
+            } else if (ctype_digit($cep) && strlen($cep) === 8) {
+                $formatted_cep = substr($cep, 0, 2) . '.' . substr($cep, 2, 3) . '-' . substr($cep, 5, 3);
+                $fieldCep = ', CEP: '. $formatted_cep;
+            } else {
+                $fieldCep = '';
+            }
+        ?>
+
+        <li>
+            <?php
+                echo $school->address.', '.(!empty($school->address_number) ? $school->address_number.', ':'' ).$school->address_neighborhood;
+            ?>,
+            <?php
+            echo $school->edcensoCityFk->name . " - " . $school->edcensoUfFk->acronym . $fieldCep ?> </li>
         <li><?php echo $school->act_of_acknowledgement ?></li>
         <!--<?php echo 'Email: '.(!empty($school->email) ? $school->email.' - ': (!empty($school->manager_email) ? $school->manager_email.' - ':'' ) ).'Tel: '.(!empty($school->phone_number) ? $school->phone_number:'' )?>-->
     </ul>
