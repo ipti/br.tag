@@ -2,6 +2,30 @@ let meals = [];
 let idMeals = 0;
 let idplates = 0;
 let idIgredientes = 0;
+let mealTypeList = null
+let tacoFoodList = null
+let foodMeasurementList = null
+
+$.ajax({
+    url: "?r=foods/foodMenu/getMealType",
+    type: "GET",
+  }).success(function (response) {
+    mealTypeList = DOMPurify.sanitize(JSON.parse(response))
+  })
+
+  $.ajax({
+    url: "?r=foods/foodMenu/getTacoFoods",
+    type: "GET",
+  }).success(function (response) {
+     tacoFoodList = JSON.parse(response);
+  })
+
+  $.ajax({
+    url: "?r=foods/foodMenu/getFoodMeasurement",
+    type: "GET",
+  }).success(function (response) {
+    foodMeasurementList = JSON.parse(response)
+  })
 
 function parseDOM(htmlString) {
   const wrapper = $('<div></div>');
@@ -167,20 +191,12 @@ const PlateComponent = function (plate) {
   }
 
   function getFoodList(select) {
-
-    $.ajax({
-      url: "?r=foods/foodMenu/getTacoFoods",
-      type: "GET",
-    }).success(function (response) {
-      let foods = JSON.parse(response);
-      $.map(foods, function (name, id) {
+    $.map(tacoFoodList, function (name, id) {
         select.append($('<option>', {
           value: id,
           text: name
         }));
       });
-    })
-
 
   }
   function addRowToTable(selectFoods, table) {
@@ -202,6 +218,10 @@ const PlateComponent = function (plate) {
         foodIdFk: selectFoods.val(),
         foodMeasureUnitId: "",
         amount: "",
+        pt:"",
+        lip:"",
+        cho: "",
+        kcal:""
       })
       idIgredientes++
       plate.foodIngredients.map((e) => {
@@ -344,13 +364,8 @@ const PlateComponent = function (plate) {
     return line;
   }
   function addFoodMeasurement(line, food) {
-    $.ajax({
-      url: "?r=foods/foodMenu/getFoodMeasurement",
-      type: "GET",
-    }).success(function (response) {
-      const measurements = JSON.parse(response)
       const select = line.find('.js-food-measurement')
-      measurements.forEach(obj => {
+      foodMeasurementList.forEach(obj => {
         const option = document.createElement("option");
         option.text = obj.unit;
         option.value = obj.id;
@@ -363,7 +378,6 @@ const PlateComponent = function (plate) {
       });
       select.val(food.foodMeasureUnitId).trigger('change')
       initializeSelect2()
-    })
   }
   function addUnitMask(line) {
     const input = line.find('.js-unit input')
@@ -537,13 +551,8 @@ const MealsComponent = function (meal, day) {
   }
 
   function getMealTypeList(select) {
-    $.ajax({
-      url: "?r=foods/foodMenu/getMealType",
-      type: "GET",
-    }).success(function (response) {
-      select.append(DOMPurify.sanitize(JSON.parse(response)));
-      select.val(meal.mealTypeId).trigger('change')
-    })
+    select.append(mealTypeList)
+    select.val(meal.mealTypeId).trigger('change')
   }
   return {
     actions: {
