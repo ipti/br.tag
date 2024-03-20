@@ -110,7 +110,7 @@ class ClassroomRobots
      */
     public function stageVsModalaty($stage)
     {
-        $this->tester->selectOption('#Classroom_edcenso_stage_vs_modality_fk', $stage);
+        $this->tester->executeJS("document.querySelector('#Classroom_edcenso_stage_vs_modality_fk').value = '{$stage}';");
     }
 
     /**
@@ -259,5 +259,10 @@ class ClassroomRobots
     public function createNewComponent()
     {
         $this->tester->click('.ui-dialog-buttonset > button:nth-child(1)');
+    }
+
+    public function school ($school)
+    {
+        $this->tester->selectOption('#SchoolIdentification_inep_id', $school);
     }
 }

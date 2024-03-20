@@ -24,6 +24,7 @@ class StudentsRobots
      */
     public function pageAddStudents ()
     {
+        $this->school(0089);
         $this->tester->amOnPage('?r=student/create');
     }
 
@@ -627,7 +628,7 @@ class StudentsRobots
      */
     public function stateAddress($stateAddress)
     {
-        $this->tester->selectOption('#stateAddress-select select', $stateAddress);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_edcenso_uf_fk', $stateAddress);
     }
 
     /**
@@ -636,7 +637,7 @@ class StudentsRobots
      */
     public function cep($cep)
     {
-        $this->tester->fillField('#cepAddress input[type=text]',$cep);
+        $this->tester->fillField('#StudentDocumentsAndAddress_cep',$cep);
     }
 
     /**
@@ -645,7 +646,7 @@ class StudentsRobots
      */
     public function cityAddress($cityAddress)
     {
-        $this->tester->selectOption('#cityAddress select', $cityAddress);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_edcenso_city_fk', $cityAddress);
     }
 
     /**
@@ -654,7 +655,7 @@ class StudentsRobots
      */
     public function address ($address)
     {
-        $this->tester->fillField('#address input[type=text]', $address);
+        $this->tester->fillField('#StudentDocumentsAndAddress_address', $address);
     }
 
     /**
@@ -663,7 +664,7 @@ class StudentsRobots
      */
     public function neighborhood ($neighborhood)
     {
-        $this->tester->fillField('#neighborhood input[type=text]', $neighborhood);
+        $this->tester->fillField('#StudentDocumentsAndAddress_neighborhood', $neighborhood);
     }
 
     /**
@@ -672,7 +673,7 @@ class StudentsRobots
      */
     public function number ($number)
     {
-        $this->tester->fillField('#number input[type=text]', $number);
+        $this->tester->fillField('#StudentDocumentsAndAddress_number', $number);
     }
 
     /**
@@ -681,7 +682,7 @@ class StudentsRobots
      */
     public function complement ($complement)
     {
-        $this->tester->fillField('#complement input[type=text]', $complement);
+        $this->tester->fillField('#StudentDocumentsAndAddress_complement', $complement);
     }
 
     /**
@@ -690,7 +691,7 @@ class StudentsRobots
      */
     public function location ($location)
     {
-        $this->tester->selectOption('#location-select select', $location);
+        $this->tester->selectOption('#StudentDocumentsAndAddress_diff_location', $location);
     }
 
 
@@ -700,7 +701,7 @@ class StudentsRobots
      */
     public function zone($zone)
     {
-        $this->tester->executeJS("document.querySelector('#zone-select select').value = '{$zone}';");
+        $this->tester->executeJS("document.querySelector('#StudentDocumentsAndAddress_residence_zone').value = '{$zone}';");
     }
 
      /**
@@ -893,6 +894,11 @@ class StudentsRobots
     {
         $script = "document.querySelector('#restrictions-checkbox input[type=checkbox]').click();";
         $this->tester->executeJS($script);
+    }
+
+    public function school ($school)
+    {
+        $this->tester->selectOption('#SchoolIdentification_inep_id', $school);
     }
 
 

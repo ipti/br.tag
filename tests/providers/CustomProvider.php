@@ -131,18 +131,19 @@ class CustomProvider extends Base
 
         return "$firstName $lastName";
     }
-/**
-     * Método que gera um nome para turma.
+
+    /**
+     * Método que gera um nome para turma em português.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function generateRandomClassName() {
-        $adjectives = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange', 'Silver', 'Golden'];
-        $nouns = ['Lions', 'Tigers', 'Bears', 'Eagles', 'Wolves', 'Dolphins', 'Sharks', 'Falcons'];
+        $adjetivos = ['Vermelho', 'Azul', 'Verde', 'Amarelo', 'Roxo', 'Laranja', 'Prata', 'Dourado'];
+        $substantivos = ['Leões', 'Tigres', 'Ursos', 'Águias', 'Lobos', 'Golfinhos', 'Tubarões', 'Falcões'];
 
-        $randomAdjective = $adjectives[array_rand($adjectives)];
-        $randomNoun = $nouns[array_rand($nouns)];
+        $adjetivoAleatorio = $adjetivos[array_rand($adjetivos)];
+        $substantivoAleatorio = $substantivos[array_rand($substantivos)];
 
-        return $randomAdjective . ' ' . $randomNoun . ' Class';
+        return 'Turma ' . $adjetivoAleatorio . ' ' . $substantivoAleatorio;
     }
 
     /**
@@ -179,6 +180,38 @@ class CustomProvider extends Base
         }
 
         return $hour1 - $hour2;
+    }
+
+    /**
+     * Método gera name do estudante
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+    */
+    public function nameStudent($name)
+    {
+        $prefixos = ['Sr. ', 'Sra. ', 'Srta. ', 'Dr. ', 'Dra. '];
+        $nomeSemPrefixo = str_replace($prefixos, '', $name);
+
+        return $nomeSemPrefixo;
+    }
+
+    public function jobTitle()
+    {
+        $job =
+        [
+            'Médico(a)',
+            'Advogado(a)',
+            'Professor(a)',
+            'Fisioterapeuta',
+            'Músicista',
+            'Programador(a)',
+            'Administrador(a)',
+            'Balconista',
+            'Recepcionista',
+            'Vendedor(a)',
+            'Juiz(a)'
+        ];
+
+        return $this->generator->randomElement($job);
     }
 
 }

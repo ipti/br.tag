@@ -34,7 +34,7 @@ class ClassroomBuilder
     public function buildCompleted ()
     {
         $this->classroom['name'] = $this->fakerCustom->generateRandomClassName();
-        $this->classroom['edcenso_stage_vs_modality_fk'] = '1';
+        $this->classroom['edcenso_stage_vs_modality_fk'] = $this->faker->randomElement(array (10043,73,39,40,31,32));
         $this->classroom['pedagogical_mediation_type_IN_PERSON'] = '1';
         $this->classroom['pedagogical_mediation_type_EAD'] = '3';
         $this->classroom['modality'] = $this->faker->randomElement(array (1,2,3,4));

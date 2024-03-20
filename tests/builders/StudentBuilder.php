@@ -39,7 +39,7 @@ class StudentBuilder {
 
     public function buildCompleted ()
     {
-         $this->student['name'] = $this->faker->name();
+         $this->student['name'] = $this->fakerCustom->nameStudent($this->faker->name());
          $this->student['civil_name'] = $this->faker->name();
          $this->student['birthday'] = $this->faker->date('d/m/Y');
          $this->studentDocument['cpf'] = $this->faker->cpf();
@@ -56,7 +56,7 @@ class StudentBuilder {
          $this->student['responsable_telephone'] = $this->faker->cellphoneNumber();
          $this->student['responsable_name'] = $this->faker->name();
          $this->student['responsable_email'] = $this->faker->email();
-         $this->student['responsable_job'] = $this->faker->jobTitle();
+         $this->student['responsable_job'] = $this->fakerCustom->jobTitle();
          $this->student['responsable_scholarity'] = $this->faker->randomElement(array (1,2,3,4));
          $this->student['responsable_rg'] = $this->faker->rg();
          $this->student['responsable_cpf'] = $this->faker->cpf();
@@ -65,13 +65,13 @@ class StudentBuilder {
          $this->student['filiation_1_birthday'] = $this->faker->date('d/m/Y');
          $this->student['filiation_1_rg'] = $this->faker->rg();
          $this->student['filiation_1_scholarity'] = $this->faker->randomElement(array (0,1,2,3,4,5,6,7));
-         $this->student['filiation_1_job'] = $this->faker->jobTitle();
+         $this->student['filiation_1_job'] = $this->fakerCustom->jobTitle();
          $this->student['filiation_2'] = $this->fakerCustom->filiationName();
          $this->student['filiation_2_cpf'] = $this->faker->cpf();
          $this->student['filiation_2_birthday'] = $this->faker->date('d/m/Y');
          $this->student['filiation_2_rg'] = $this->faker->rg();
          $this->student['filiation_2_scholarity'] = $this->faker->randomElement(array (0,1,2,3,4,5,6,7));
-         $this->student['filiation_2_job'] = $this->faker->jobTitle();
+         $this->student['filiation_2_job'] = $this->fakerCustom->jobTitle();
          $this->studentDocument['civil_certification_type_old'] = '1';
          $this->studentDocument['civil_certification_type_new'] = '2';
          $this->studentDocument['civil_certification_type'] = $this->faker->randomElement(array (1,2));
@@ -101,7 +101,7 @@ class StudentBuilder {
          $this->studentDocument['complement'] = $this->fakerCustom->complementLocation();
          $this->studentDocument['diff_location'] = $this->faker->randomElement(array (1,2,3,7));
          $this->studentDocument['residence_zone'] = $this->faker->randomElement(array (1,2));
-         $this->studentEnrollment['classroom_fk'] = $this->faker->randomElement(array (7,3,2,1));
+         $this->studentEnrollment['classroom_fk'] = '745';
          $this->studentEnrollment['admission_type'] = $this->faker->randomElement(array (1,2,3));
          $this->studentEnrollment['school_admission_date'] = $this->faker->date('d/m/Y');
          $this->studentEnrollment['current_stage_situation'] = $this->faker->randomElement(array (0,1,2));
