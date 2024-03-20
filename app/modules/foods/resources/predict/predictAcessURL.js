@@ -10,7 +10,7 @@ $(function () {
             dataType: 'json',
             success: function (response) {
                 console.log(response);
-                callback(response);
+                // callback(response);
             },
 
             error: function (xhr, status, error) {

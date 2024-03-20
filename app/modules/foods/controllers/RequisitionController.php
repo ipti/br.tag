@@ -85,9 +85,6 @@ class RequisitionController extends Controller
     }
  
 
-
-
-
     public function actionSendData()
 {
     $school_test = Yii::app()->user->school;
@@ -116,8 +113,7 @@ class RequisitionController extends Controller
         $postData['quantidade_em_estoque'][] = $item['qtd em estoque'];
         $postData['quantidade_comprada'][] = $item['quantidade recebida'];
         $postData['data_validade'][] = $item['data se validade'];
-        $postData['tempo_entrega_dias'][] = 5;
-        
+        $postData['tempo_entrega_dias'][] = 5; 
     }
 
     try {
@@ -136,11 +132,9 @@ class RequisitionController extends Controller
 
         // Imprimir os dados enviados pelo POST no console.log
         echo "<script>console.log(" . json_encode($postData) . ");</script>";
-
     } catch (\Throwable $th) {
         throw $th;
     }
-
 }
 
 
