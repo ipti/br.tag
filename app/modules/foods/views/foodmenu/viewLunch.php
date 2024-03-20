@@ -42,14 +42,6 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
                 Filtros
             </a>
         </div>
-        <div class="mobile-row">
-            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/Requisition/index') ?>">
-            Painel de Informações
-            </a>
-            <a class="t-button-secondary js-expansive-panel show--mobile">
-                Filtros
-            </a>
-        </div>
     </div>
     <div class="row t-expansive-panel expanded">
         <div class="t-field-select column clearleft--on-mobile t-multiselect">
