@@ -264,14 +264,19 @@ class SagresConsultModel
 
     public function getInconsistenciesCount()
     {
-        if(Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)) {
+        $authAssignment = \AuthAssignment::model()->find(
+            array(
+                'condition' => 'userid = :userid', 
+                'params' => array(':userid' => Yii::app()->user->loginInfos->id)
+            ))->itemname;
+
+        if($authAssignment === "manager") {
             $idSchool = Yii::app()->user->school;
             $query = "SELECT count(*) FROM inconsistency_sagres is2 WHERE is2.idSchool = $idSchool";
         } else {
             $query = "SELECT count(*) FROM inconsistency_sagres";
         }
 
-        
         return Yii::app()->db->createCommand($query)->queryScalar();
     }
 
