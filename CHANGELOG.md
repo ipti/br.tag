@@ -1,3 +1,7 @@
+## [Versão 3.73.120]
+- Correção do inep_id para a escola.
+- Alteração na seleção do mês no calendário: agora só é possível selecionar até o mês corrente.
+
 ## [Versão 3.73.119]
 - Renomeado o head dos relatórios do municipio de Poço Dantas.
 - Adicionado cep formatado da escola.
