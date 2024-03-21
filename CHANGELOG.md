@@ -1,3 +1,6 @@
+## [Versão 3.75.122]
+- Adicionada lógica, para que ao reaproveitar turmas, os alunos do ano de 2023 entrarão como matriculados.
+
 ## [Versão 3.75.121]
 - Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
 
