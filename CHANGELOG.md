@@ -1,3 +1,8 @@
+## [Versão 3.74.120]
+- Modificado a controler de grades, ao salvar as Grades Releases.
+- Adicionado um novo parametro ao contrutor de ChageStudentStatusByGradeUsecase.
+- Melhorado o initialization da tela.
+
 ## [Versão 3.74.119]
 - Inserido painel de cadastros pendentes na tela inicial
  
