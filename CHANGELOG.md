@@ -1,3 +1,6 @@
+## [Versão 3.72.117]
+- Adicionado ckeckbox: Gerar arquivo excluindo alunos sem CPF
+
 ## [Versão 3.72.116]
 - Correções nas anotações do arquivo sagres.
 
