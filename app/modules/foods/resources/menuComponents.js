@@ -42,7 +42,7 @@ $(".js-date").datepicker({
 
 const DateComponent = function () {
 
-  const daysOfWeek = ["Domingo", "Segunda-freia", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
+  const daysOfWeek = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
 
   function getLastDay() {
     return days[days.length - 1].date
@@ -119,7 +119,7 @@ const PlateComponent = function (plate) {
           <th></th>
           <th></th>
           <th></th>
-          <th></th>
+          <th ></th>
           <th></th>
           <th></th>
           <th></th>
@@ -169,7 +169,7 @@ const PlateComponent = function (plate) {
   function getFoodList(select) {
 
     $.ajax({
-      url: "?r=foods/foodMenu/getTacoFoods",
+      url: "?r=foods/foodmenu/getTacoFoods",
       type: "GET",
     }).success(function (response) {
       let foods = JSON.parse(response);
@@ -213,18 +213,19 @@ const PlateComponent = function (plate) {
     })
   }
   function getFood(food, table) {
-
+    let tacoFood = null
     $.ajax({
-      url: "?r=foods/foodMenu/getFood",
+      url: "?r=foods/foodmenu/getFood",
       data: {
         idFood: food.foodIdFk
       },
       type: "GET",
     }).success(function (response) {
       response = JSON.parse(DOMPurify.sanitize(response))
+      tacoFood = response
       let line = createMealComponent(response, food);
       const wrapper = parseDOM(line);
-      wrapper.find(".js-unit input").on("input", (e) => {food.amount = e.target.value});
+      wrapper.find(".js-unit input").on("input", (e) => { food.amount = e.target.value });
       wrapper.find('.js-remove-taco-food').on('click', (e) => {
 
         let accordionPlateActive = $(e.target).attr("data-id-plate")
@@ -251,33 +252,50 @@ const PlateComponent = function (plate) {
       table.find('.js-total').remove()
       addFoodMeasurement(line, food)
       addUnitMask(line)
-      changeAmount(line, food)
+      changeAmount(line, food, tacoFood)
       addIngrendientsName(line.find('.js-food-name').text())
       table.append(line)
       calculateNutritionalValue(table)
     })
   }
-  function changeAmount(line, food) {
+  function changeAmount(line, food, tacoFood) {
     const input = line.find('.js-unit input')
     const select = line.find('.js-measure select')
     const td = line.find('.js-amount')
+
     input.on('input', function (event) {
-      let newAmount = calculateAmount(
-        select.find('option:selected').attr('data-value'),
-        select.find('option:selected').attr('data-measure'), input.val())
-      td.text(newAmount)
+            let newAmount = calculateAmount(
+                select.find('option:selected').attr('data-value'),
+                tacoFood,
+                input.val(),
+                select.find('option:selected').attr('data-measure'))
+            td.find(".js-amount-value").text(newAmount)
+
     })
     select.on('change', function (event) {
-      food.foodMeasureUnitId = select.val()
-      let newAmount = calculateAmount(
-        select.find('option:selected').attr('data-value')
-        , select.find('option:selected').attr('data-measure'), input.val())
-      td.text(newAmount)
-    })
+        food.foodMeasureUnitId = select.val()
+        let newAmount = calculateAmount(
+            select.find('option:selected').attr('data-value'),
+            tacoFood,
+            input.val(),
+            select.find('option:selected').attr('data-measure'))
+            td.find(".js-amount-value").text(newAmount)
+  })
   }
-  function calculateAmount(value, measure, amount) {
+  function calculateAmount(value, tacoFood, amount, measure) {
     amount = amount == "" ? 0 : amount
-    return (Number(amount) * Number(value)).toFixed(2) + measure
+
+    let result = (Number(amount) * Number(value)).toFixed(2)
+
+    if(measure == 'u') {
+        result = parseInt(result);
+    }
+
+    if(tacoFood.measurementUnit !="l" && measure == 'ml') {
+        return result + 'g'
+    }
+
+    return result + measure
   }
   function calculateNutritionalValue(table) {
     let total_pt = total_lip = total_cho = total_kcal = 0;
@@ -288,7 +306,7 @@ const PlateComponent = function (plate) {
       total_lip += Number(lip.innerHTML) ? Number(lip.innerHTML) : 0
     })
     table.find('.js-cho').each((_, cho) => {
-      total_cho+= Number(cho.innerHTML) ? Number(cho.innerHTML) : 0
+      total_cho += Number(cho.innerHTML) ? Number(cho.innerHTML) : 0
     })
     table.find('.js-kcal').each((_, kcal) => {
       total_kcal += Number(kcal.innerHTML) ? Number(kcal.innerHTML) : 0
@@ -314,7 +332,9 @@ const PlateComponent = function (plate) {
                 <select class="js-initialize-select2 t-field-select__input js-food-measurement" style='width:100px' required='required'>
                 </select>
             </td>`)
-      .append(`<td class='js-amount'></td>`)
+      .append(`<td class='js-amount'>
+                <span class="js-amount-value"></span>
+             </td>`)
       .append(`<td class='js-pt'>${pt}</td>`)
       .append(`<td class='js-lip'>${lip}</td>`)
       .append(`<td class='js-cho'>${cho}</td>`)
@@ -325,7 +345,7 @@ const PlateComponent = function (plate) {
   }
   function addFoodMeasurement(line, food) {
     $.ajax({
-      url: "?r=foods/foodMenu/getFoodMeasurement",
+      url: "?r=foods/foodmenu/getFoodMeasurement",
       type: "GET",
     }).success(function (response) {
       const measurements = JSON.parse(response)
@@ -347,7 +367,15 @@ const PlateComponent = function (plate) {
   }
   function addUnitMask(line) {
     const input = line.find('.js-unit input')
-    $(input).mask('999.99', { reverse: true });
+    input.on('input', (e) => {
+      const inputValue = e.target.value;
+
+      if (/[^0-9.]/.test(inputValue)) {
+        const sanitizedValue = inputValue.replace(/[^0-9.,]/g, '');
+
+        $(e.target).val(sanitizedValue);
+      }
+    })
   }
   function addIngrendientsName(name) {
 
@@ -511,14 +539,14 @@ const MealsComponent = function (meal, day) {
       active: false,
       collapsible: true,
       icons: false,
-  });
+    });
     $(".js-plate-accordion-header").off("keydown");
     initializeSelect2()
   }
 
   function getMealTypeList(select) {
     $.ajax({
-      url: "?r=foods/foodMenu/getMealType",
+      url: "?r=foods/foodmenu/getMealType",
       type: "GET",
     }).success(function (response) {
       select.append(DOMPurify.sanitize(JSON.parse(response)));
