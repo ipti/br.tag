@@ -1,4 +1,5 @@
 <?php
+
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Merenda'));
 
 $this->menu = array(

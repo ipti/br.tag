@@ -1,5 +1,16 @@
-## [Versão 3.73.120]
+## [Versão 3.75.121]
 - Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
+
+## [Versão 3.74.121]
+- Correção no relatório de professores por escola
+
+## [Versão 3.74.120]
+- Modificado a controler de grades, ao salvar as Grades Releases.
+- Adicionado um novo parametro ao contrutor de ChageStudentStatusByGradeUsecase.
+- Melhorado o initialization da tela.
+
+## [Versão 3.74.119]
+- Inserido painel de cadastros pendentes na tela inicial
 
 ## [Versão 3.73.119]
 - Renomeado o head dos relatórios do municipio de Poço Dantas.
@@ -34,7 +45,7 @@
 - Calendário ajustado para permitir sua extensão para ano(s) seguinte(s).
 - Eventos de início e fim de ano letivo removidos. O intervalo letivo será definido no momento da criação/edição do calendário.
 - Adicionado seletor de calendário na turma.
--
+
 ## [Versão 3.71.113]
 - Adicionado módulo de dashboard
 
