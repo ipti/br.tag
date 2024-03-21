@@ -68,8 +68,20 @@ class FireBaseService
     }
 
     public function getFarmerRegister($cpf) {
-        $collections = $this->firestoreClient->listDocuments('farmer_register');
+        $farmerRegisters = $this->firestoreClient->listDocuments('farmer_register');
+        $foundFarmer = [];
 
-        return $collections;
+        foreach ($farmerRegisters['documents'] as $farmerRegister) {
+            if ($farmerRegister->get('cpf') == $cpf) {
+                $foundFarmer = array(
+                    "name" => $farmerRegister->get('name'),
+                    "groupType" => $farmerRegister->get('groupType'),
+                    "cpf" => $farmerRegister->get('cpf'),
+                    "phone" => $farmerRegister->get('phone')
+                );
+            }
+        }
+
+        return $foundFarmer;
     }
 }

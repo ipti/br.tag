@@ -42,7 +42,7 @@ $(document).ready(function() {
 });
 
 $(document).on("focusout", "#farmerCpf", function () {
-    let farmerCpf = this.val().replace(/\D/g, '');
+    let farmerCpf = $(this).val().replace(/\D/g, '');
     $.ajax({
         type: 'POST',
         url: "?r=foods/farmerregister/getFarmerRegister",
@@ -51,6 +51,18 @@ $(document).on("focusout", "#farmerCpf", function () {
             farmerCpf: farmerCpf,
         }
     }).success(function(response) {
+        let data = DOMPurify.sanitize(response);
+        let farmerRegister = JSON.parse(data);
+
+        if(Object.keys(farmerRegister).length != 0) {
+            let groupTypeSelect = $('#farmerGroupType');
+            $("#farmerName").val(farmerRegister['name']);
+            $("#farmerPhone").val(farmerRegister['phone']);
+            groupTypeSelect.val(farmerRegister['groupType']);
+            groupTypeSelect.trigger("change");
+        } else {
+            $('#info-alert').removeClass('hide').html("O cpf informado não possui cadastro, informe os dados básicos");
+        }
     });
 });
 

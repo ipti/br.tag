@@ -129,20 +129,9 @@ class FarmerRegisterController extends Controller
         $cpf = Yii::app()->request->getPost('farmerCpf');
 
         $getFarmerRegister = new GetFarmerRegister();
-        $farmerRegisters = $getFarmerRegister->exec($cpf);
+        $farmerRegister = $getFarmerRegister->exec($cpf);
 
-        // $resultados = [];
-
-        // foreach ($farmerRegisters['documents'] as $farmerRegister) {
-        //     $resultados[] = array(
-        //         "name" => $farmerRegister->get('name'),
-        //         "groupType" => $farmerRegister->get('groupType'),
-        //         "cpf" => $farmerRegister->get('cpf'),
-        //         "phone" => $farmerRegister->get('phone')
-        //     );
-        // }
-
-        // echo json_encode($resultados);
+        echo json_encode($farmerRegister);
     }
 
     public function actionGetFarmerFoods() {
