@@ -734,6 +734,7 @@ class ClassroomController extends Controller
                     $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
                     $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
                     $modelTeachingData[$key]->instructor_fk = $td->Instructor;
+                    $modelTeachingData[$key]->instructor_inep_id = $td->Inep;
                     $modelTeachingData[$key]->role = $td->Role;
                     $modelTeachingData[$key]->contract_type = $td->ContractType;
                     $modelTeachingData[$key]->regent = $td->RegentTeacher;
