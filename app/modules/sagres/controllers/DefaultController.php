@@ -54,7 +54,7 @@ class DefaultController extends Controller
 		$this->render('inconsistencys');
 	}
 
-	public function actionExport($month, $finalClass, $noMovement)
+	public function actionExport($month, $finalClass, $noMovement, $withoutCpf)
 	{
 
 		try {
@@ -65,10 +65,11 @@ class DefaultController extends Controller
 			ini_set('memory_limit', '2048M');
 
 			$noMovement = ($noMovement === "true") ? true : false;
+			$withoutCpf = ($withoutCpf === "true") ? true : false;
 
 			$sagres = new SagresConsultModel;
             $sagres->cleanInconsistences();
-			$sagresEduData = $sagres->getSagresEdu($year, $month, $finalClass, $noMovement);
+			$sagresEduData = $sagres->getSagresEdu($year, $month, $finalClass, $noMovement, $withoutCpf);
 			$sagresEduXML = $sagres->generatesSagresEduXML($sagresEduData);
 			$sagres->actionExportSagresXML($sagresEduXML);
 
