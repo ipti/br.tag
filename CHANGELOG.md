@@ -1,5 +1,13 @@
-## [Versão 3.73.121]
+## [Versão 3.74.121]
 - Correção no relatório de professores por escola
+
+## [Versão 3.74.120]
+- Modificado a controler de grades, ao salvar as Grades Releases.
+- Adicionado um novo parametro ao contrutor de ChageStudentStatusByGradeUsecase.
+- Melhorado o initialization da tela.
+
+## [Versão 3.74.119]
+- Inserido painel de cadastros pendentes na tela inicial
 
 ## [Versão 3.73.119]
 - Renomeado o head dos relatórios do municipio de Poço Dantas.

@@ -239,7 +239,7 @@ class FoodmenuController extends Controller
 
         }
 
-        $this->render('viewLunch', array(
+        $this->render('viewlunch', array(
             "studentsByTurn" => $result
         ));
         Yii::app()->end();
