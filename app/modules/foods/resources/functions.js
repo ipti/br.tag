@@ -79,11 +79,24 @@ $(".js-save-menu").on("click", function () {
         }
 
     } else {
-
+        const erros = []
+        form.find(':input[required]').each(function () {
+            if (!this.validity.valid) {
+                if (!erros.some(function (erro) {
+                    return erro.field === this.name && erro.day === "" && erro.meal === "";
+                }, this)) {
+                    let mealError = $(this).closest('.js-meals-accordion-content');
+                    let mealName = mealError.find("select.js-meal-type").find('option:selected').text()
+                    erros.push({
+                        field: this.name,
+                        day: mealError.attr("data-day-of-week"),
+                        meal: mealName == "" ? undefined : mealName
+                    });
+                }
+            }
+        });
         showErros(erros)
     }
-
-
 });
 
 function getMealsByDay(day) {
@@ -139,10 +152,22 @@ function getFoodIngredients(idPlateAccordion) {
     return foodIngredients
 }
 function showErros(erros) {
+    const days = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
     const menuError = $('.js-menu-error')
-    const message  = erros.reduce((accumulator, campo) => {
-        return accumulator + `O campo ${campo} é obrigatório<br>`;
+    const message  = erros.reduce((accumulator, item) => {
+        console.log(item)
+         if(item.day != undefined &&  item.meal != undefined) {
+            if(item.meal != "Selecione a refeição"){
+                return accumulator + `O campo <b>${item.field}</b> na refeição <b>${item.meal}</b> na <b>${days[item.day]}</b> é obrigatório<br>`;
+            }
+            return accumulator + `O campo <b>${item.field}</b> em uma refeição <b>sem turno selecionado</b> na <b>${days[item.day]}</b> é obrigatório<br>`
+         }
+        return accumulator + `O campo <b>${item.field}</b> é obrigatório<br>`;
     }, '');
     menuError.html(message)
     menuError.removeClass('hide')
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
 }
