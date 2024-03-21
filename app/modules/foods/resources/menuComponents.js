@@ -2,30 +2,7 @@ let meals = [];
 let idMeals = 0;
 let idplates = 0;
 let idIgredientes = 0;
-let mealTypeList = null
-let tacoFoodList = null
-let foodMeasurementList = null
 
-$.ajax({
-    url: "?r=foods/foodMenu/getMealType",
-    type: "GET",
-  }).success(function (response) {
-    mealTypeList = DOMPurify.sanitize(JSON.parse(response))
-  })
-
-  $.ajax({
-    url: "?r=foods/foodMenu/getTacoFoods",
-    type: "GET",
-  }).success(function (response) {
-     tacoFoodList = JSON.parse(response);
-  })
-
-  $.ajax({
-    url: "?r=foods/foodMenu/getFoodMeasurement",
-    type: "GET",
-  }).success(function (response) {
-    foodMeasurementList = JSON.parse(response)
-  })
 
 function parseDOM(htmlString) {
   const wrapper = $('<div></div>');
@@ -162,7 +139,7 @@ const PlateComponent = function (plate) {
     getFoodList(wrapper.find(".js-taco-foods"))
     const table = wrapper.find('table.js-meal-component-table')
     plate.foodIngredients.map((e) => {
-      getFood(e, table)
+        renderIngredients(e, table)
     })
     wrapper.find(".js-remove-plate").on("click", (e) => {
       const plateIdToRemove = $(e.target).attr("data-id-plate");
@@ -221,7 +198,9 @@ const PlateComponent = function (plate) {
         pt:"",
         lip:"",
         cho: "",
-        kcal:""
+        kcal:"",
+        nameFood:"",
+        measurementUnit: ""
       })
       idIgredientes++
       plate.foodIngredients.map((e) => {
@@ -233,7 +212,6 @@ const PlateComponent = function (plate) {
     })
   }
   function getFood(food, table) {
-    let tacoFood = null
     $.ajax({
       url: "?r=foods/foodMenu/getFood",
       data: {
@@ -242,8 +220,19 @@ const PlateComponent = function (plate) {
       type: "GET",
     }).success(function (response) {
       response = JSON.parse(DOMPurify.sanitize(response))
-      tacoFood = response
-      let line = createMealComponent(response, food);
+
+      food.pt = response.pt
+      food.lip = response.lip
+      food.cho = response.cho
+      food.kcal = response.kcal
+      food.nameFood = response.name
+      food.measurementUnit = response.measurementUnit
+      renderIngredients(food, table)
+
+    })
+  }
+  function renderIngredients(food, table) {
+      let line = createMealComponent(food);
       const wrapper = parseDOM(line);
       wrapper.find(".js-unit input").on("input", (e) => {food.amount = e.target.value});
       wrapper.find('.js-remove-taco-food').on('click', (e) => {
@@ -272,13 +261,12 @@ const PlateComponent = function (plate) {
       table.find('.js-total').remove()
       addFoodMeasurement(line, food)
       addUnitMask(line)
-      changeAmount(line, food, tacoFood)
+      changeAmount(line, food)
       addIngrendientsName(line.find('.js-food-name').text())
       table.append(line)
       calculateNutritionalValue(table)
-    })
   }
-  function changeAmount(line, food, tacoFood) {
+  function changeAmount(line, food) {
     const input = line.find('.js-unit input')
     const select = line.find('.js-measure select')
     const td = line.find('.js-amount')
@@ -286,7 +274,7 @@ const PlateComponent = function (plate) {
     input.on('input', function (event) {
             let newAmount = calculateAmount(
                 select.find('option:selected').attr('data-value'),
-                tacoFood,
+                food,
                 input.val(),
                 select.find('option:selected').attr('data-measure'))
             td.find(".js-amount-value").text(newAmount)
@@ -296,13 +284,13 @@ const PlateComponent = function (plate) {
         food.foodMeasureUnitId = select.val()
         let newAmount = calculateAmount(
             select.find('option:selected').attr('data-value'),
-            tacoFood,
+            food,
             input.val(),
             select.find('option:selected').attr('data-measure'))
             td.find(".js-amount-value").text(newAmount)
   })
   }
-  function calculateAmount(value, tacoFood, amount, measure) {
+  function calculateAmount(value, food, amount, measure) {
     amount = amount == "" ? 0 : amount
 
     let result = (Number(amount) * Number(value)).toFixed(2)
@@ -311,7 +299,7 @@ const PlateComponent = function (plate) {
         result = parseInt(result);
     }
 
-    if(tacoFood.measurementUnit !="l" && measure == 'ml') {
+    if(food.measurementUnit !="l" && measure == 'ml') {
         return result + 'g'
     }
 
@@ -344,9 +332,9 @@ const PlateComponent = function (plate) {
       .append(`<td></td>`)
     table.append(lineTotal)
   }
-  function createMealComponent({ id, name, pt, lip, cho, kcal }, food) {
-    const line = $(`<tr class='js-food-ingredient' data-idTaco='${id}'></tr>`)
-      .append(`<td class='js-food-name'>${name}</td>`)
+  function createMealComponent(food) {
+    const line = $(`<tr class='js-food-ingredient' data-idTaco='${food.foodIdFk}'></tr>`)
+      .append(`<td class='js-food-name'>${food.nameFood}</td>`)
       .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important' required='required' name='Unidade' value='${food.amount}'></td>`)
       .append(`<td class='js-measure'>
                 <select class="js-initialize-select2 t-field-select__input js-food-measurement" style='width:100px' required='required'>
@@ -355,10 +343,10 @@ const PlateComponent = function (plate) {
       .append(`<td class='js-amount'>
                 <span class="js-amount-value"></span>
              </td>`)
-      .append(`<td class='js-pt'>${pt}</td>`)
-      .append(`<td class='js-lip'>${lip}</td>`)
-      .append(`<td class='js-cho'>${cho}</td>`)
-      .append(`<td class='js-kcal'>${kcal}</td>`)
+      .append(`<td class='js-pt'>${food.pt}</td>`)
+      .append(`<td class='js-lip'>${food.lip}</td>`)
+      .append(`<td class='js-cho'>${food.cho}</td>`)
+      .append(`<td class='js-kcal'>${food.kcal}</td>`)
       .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon' data-id-plate='${plate.id}' data-id-food-ingredients="${food.id}"><span></td>`)
 
     return line;

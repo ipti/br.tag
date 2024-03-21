@@ -39,7 +39,7 @@ class FoodMenuService
 
         $students = $this->getStudents();
         $studentsTurn = $this->getStudentsTurn($students);
-       
+
         if ($students != null && $foods != null) {
             $result = $this->processFood($foods, $studentsTurn);
         }
@@ -378,6 +378,7 @@ class MealObject
 
     public $foodPublicTargetId;
     public $foodPublicTargetName;
+    public $foodMealTypeDescription;
     public $mealsComponent = [];
 
     public function __construct($model, $foodMenuPublicTarget, $mealDescription)
@@ -432,6 +433,12 @@ class IngredientObject
     public $foodName;
     public $amount;
     public $foodMeasureUnitId;
+    public $lip;
+    public $pt;
+    public $cho;
+    public $kcal;
+    public $nameFood;
+    public $measurementUnit;
 
     public function __construct($model, $foodModel)
     {
@@ -439,5 +446,13 @@ class IngredientObject
         $this->foodName = $foodModel->description;
         $this->amount = $model->amount;
         $this->foodMeasureUnitId = $model->food_measurement_fk;
+        $this->lip =  is_numeric($foodModel->lipidius_g) ? round($foodModel->lipidius_g, 2) : $foodModel->lipidius_g;
+        $this->pt = is_numeric($foodModel->protein_g) ? round($foodModel->protein_g, 2) : $foodModel->protein_g;
+        $this->cho = is_numeric($foodModel->carbohydrate_g) ?
+             round($foodModel->carbohydrate_g, 2) : $foodModel->carbohydrate_g;
+        $this->kcal = is_numeric($foodModel->energy_kcal) ? round($foodModel->energy_kcal, 2) : $foodModel->energy_kcal;
+        $this->nameFood = $foodModel->description;
+        $this->measurementUnit = $foodModel->measurementUnit;
+
     }
 }

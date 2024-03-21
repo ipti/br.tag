@@ -50,10 +50,17 @@ if(menuId)  {
                 id: idIgredientes,
                 amount: foodIngredient.amount,
                 foodIdFk: foodIngredient.foodIdFk,
-                foodMeasureUnitId: foodIngredient.foodMeasureUnitId
-            }
-            idIgredientes++
-            return food
+                foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                lip: foodIngredient.lip,
+                pt: foodIngredient.pt,
+                cho: foodIngredient.cho,
+                kcal: foodIngredient.kcal,
+                nameFood: foodIngredient.nameFood,
+                measurementUnit: foodIngredient.measurementUnit,
+                }
+
+                idIgredientes++
+                return food
             })
             plates.push({
                     description: mealComponent.description,
@@ -84,8 +91,14 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
-                }
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    lip: foodIngredient.lip,
+                    pt: foodIngredient.pt,
+                    cho: foodIngredient.cho,
+                    kcal: foodIngredient.kcal,
+                    nameFood: foodIngredient.nameFood,
+                    measurementUnit: foodIngredient.measurementUnit,
+                    }
             idIgredientes++
             return food
             })
@@ -118,8 +131,14 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
-                }
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    lip: foodIngredient.lip,
+                    pt: foodIngredient.pt,
+                    cho: foodIngredient.cho,
+                    kcal: foodIngredient.kcal,
+                    nameFood: foodIngredient.nameFood,
+                    measurementUnit: foodIngredient.measurementUnit,
+                    }
             idIgredientes++
             return food
             })
@@ -152,8 +171,14 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
-                }
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    lip: foodIngredient.lip,
+                    pt: foodIngredient.pt,
+                    cho: foodIngredient.cho,
+                    kcal: foodIngredient.kcal,
+                    nameFood: foodIngredient.nameFood,
+                    measurementUnit: foodIngredient.measurementUnit,
+                    }
             idIgredientes++
             return food
             })
@@ -186,8 +211,14 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
-                }
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    lip: foodIngredient.lip,
+                    pt: foodIngredient.pt,
+                    cho: foodIngredient.cho,
+                    kcal: foodIngredient.kcal,
+                    nameFood: foodIngredient.nameFood,
+                    measurementUnit: foodIngredient.measurementUnit,
+                    }
             idIgredientes++
             return food
             })
@@ -216,6 +247,7 @@ if(menuId)  {
     });
     $('.js-meals-component').accordion("destroy");
     $( ".js-meals-component" ).accordion({
+      heightStyle: "content",
       active: false,
       collapsible: true,
       icons: false,

@@ -22,5 +22,8 @@ $title = $model->description
 
 <?php $this->renderPartial('_form', array('model'=>$model, 'title' => $title)); ?>
 <script type="text/javascript">
-	 var menuUpdate = <?php echo CJSON::encode($model); ?>
+	 var menuUpdate = <?php echo CJSON::encode($model); ?>;
+	 var mealTypeList = <?php echo CJSON::encode($mealTypeList); ?>;
+	 var tacoFoodList = <?php echo CJSON::encode($tacoFoodsList); ?>;
+	 var foodMeasurementList = <?php echo CJSON::encode($foodMeasurementList); ?>;
 </script>
