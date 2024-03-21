@@ -1,5 +1,15 @@
-## [Versão 3.74.122]
-- Adicionado registro de profissional em mais de uma escola
+## [Versão 3.75.125]
+- Integrado os bancos utilizados por Boquim/SE.
+
+## [Versão 3.75.123]
+- Correção do inep_id para a escola.
+- Alteração na seleção do mês no calendário: agora só é possível selecionar até o mês corrente.
+
+## [Versão 3.75.122]
+- Adicionada lógica, para que ao reaproveitar turmas, os alunos do ano de 2023 entrarão como matriculados.
+
+## [Versão 3.75.121]
+- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
 
 ## [Versão 3.74.121]
 - Correção no relatório de professores por escola
