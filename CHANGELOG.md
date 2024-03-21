@@ -1,9 +1,6 @@
 ## [Versão 3.75.125]
 - Integrado os bancos utilizados por Boquim/SE.
 
-## [Versão 3.75.124]
-- Integrado os bancos utilizados por Boquim/SE.
-
 ## [Versão 3.75.123]
 - Correção do inep_id para a escola.
 - Alteração na seleção do mês no calendário: agora só é possível selecionar até o mês corrente.
