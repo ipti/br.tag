@@ -124,10 +124,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <?php foreach ($meal->mealPortions as $mealPortion) :
                                                     $portion = $mealPortion->portion ?>
                                                     <tr class="<?= $odd ? "odd" : "" ?>">
-                                                        <td><?= $portion->item->name ?></td>
+                                                        <td><?= var_dump(Food::model()->findByPk($portion->food_fk));  ?></td>
                                                         <td class="span2"><?= (floatval($mealPortion->amount) . "x " .
                                                         floatval($portion->measure)). " " .
-                                                        $portion->unity->acronym ?></td>
+                                                        $portion->unityFk->measure ?></td>
                                                         <td class="span1 text-right">
                                                             <a data-toggle="modal" href="#removePortion" data-meal-portion-id="<?= $mealPortion->id ?>" class="button-remove-portion btn btn-danger btn-mini hidden-print">
                                                                 <i class="fa fa-times"></i>
@@ -226,6 +226,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                     <div class="column">
                                         <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'MealPortion[measure]', array('class' => 'control-label', 'style' => 'width: 100%')); ?>
+                                        <?= CHtml::hiddenField('MealPortion[measure]', '1', [
+                                            'class' => 'hide',
+                                            'id' => 'measureInput'
+                                        ]); ?>
                                         <div id="lunchUnityMeasure"><span></span></div>
                                     </div>
                                 </div>

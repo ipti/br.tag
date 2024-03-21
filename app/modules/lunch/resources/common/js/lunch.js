@@ -55,12 +55,18 @@ $(document).on('click', '#new-portion', function(){
 
 $(document).ready(function(){
     $(document).on('change', "#unityDropdown", function(){
-       updateMeasureAmount();
+       updateMeasureAmount($(this));
     })
 })
 
-function updateMeasureAmount(){
-    let unityMeasure = $(this).val();
+$(document).ready(function(){
+    $(document).on('change', '#foodAmount', function () {
+        updateMeasureAmount($('#unityDropdown'));
+      })
+})
+
+function updateMeasureAmount(select){
+    let unityMeasure = select.val();
     $.ajax({
         url: "?r=lunch/lunch/getUnityMeasure",
         type: "POST",
@@ -73,5 +79,8 @@ function updateMeasureAmount(){
         const totalAmount = amountUnity * data.value;
         const txt = `<span>${totalAmount} ${data.measure}</span>`;
         $(txt).replaceAll("#lunchUnityMeasure span");
+
+        const measureInput = $('#measureInput');
+        measureInput.val(totalAmount);
     });
 }

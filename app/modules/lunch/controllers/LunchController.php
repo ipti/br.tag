@@ -51,6 +51,14 @@ class LunchController extends Controller {
         $menuPost = $request->getPost("Menu", false);
 
         $menu = Menu::model()->findByPk($id);
+        $menuMeals = MenuMeal::model()->findAllByAttributes(array("menu_fk" => $menu->id));
+        $meals = [];
+        foreach($menuMeals as $menuMeal)
+        {
+            array_push(
+                Meal::model()->findByPk($menuMeal->meal_fk)
+            );
+        }
 
         if($menuPost){
             $menu->name = $menuPost['name'];
@@ -66,8 +74,6 @@ class LunchController extends Controller {
                 $this->render('update', ["menu" => $menu]);
             }
         }else {
-            // CVarDumper::dump($menu, 10, true);
-            // exit();
             $this->render('update', ["menu" => $menu]);
         }
     }
@@ -149,18 +155,18 @@ class LunchController extends Controller {
 
         $request = Yii::app()->getRequest();
         $menuPost = $request->getPost("Menu", false);
-        $portionPost = $request->getPost("Portion", false);
+        // $portionPost = $request->getPost("Portion", false);
         $mealPortionPost = $request->getPost("MealPortion", false);
 
 
         $isNewPortion = false;
-        if($portionPost){
+        if($mealPortionPost){
             $portion = new Portion();
             // $portion->item_fk = $portionPost["item_fk"];
             // $portion->measure = $portionPost["measure"];
             // $portion->unity_fk = $portionPost["unity_fk"];
             // $portion->amount = 1;
-            $portion = $mealPortionPost;
+            $portion->setAttributes($mealPortionPost);
             if($portion->validate()){
                 $portion->save();
                 $isNewPortion = true;
@@ -171,18 +177,18 @@ class LunchController extends Controller {
         }
 
         $mealId = $mealPortionPost["meal_fk"];
-        $portionId = !$isNewPortion ? $portion->id : $mealPortionPost["portion_fk"];
+        // $portionId = !$isNewPortion ? $portion->id : $mealPortionPost["portion_fk"];
+        $portionId = $portion->id;
         // $portionId = $portion->id;
-        $mealPortion = MealPortion::model()->findByAttributes(["meal_fk" => $mealId, "portion_fk"=>$portionId]);
+        // $mealPortion = MealPortion::model()->findByAttributes(["meal_fk" => $mealId, "portion_fk"=>$portionId]);
+        $mealPortion = MealPortion::model()->findByAttributes(["meal_fk" => $mealId, "portion_fk" => $portionId]);
         $isNewMealPortion = !isset($mealPortion);
 
         if($isNewMealPortion){
             $mealPortion = new MealPortion();
             $mealPortion->meal_fk = $mealId;
             $mealPortion->portion_fk = $portionId;
-            $mealPortion->amount = $mealPortionPost["amount"];
-        }else{
-            $mealPortion->amount = $mealPortion->amount + $mealPortionPost["amount"];
+            // $mealPortion->amount = $mealPortionPost["amount"];
         }
 
         if($mealPortion->validate()){
