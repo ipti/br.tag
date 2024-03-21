@@ -37,7 +37,8 @@
 
 ## [Versão 3.73.116]
 - Funcionaldide gerenciar "Aulas Ministradas" corrigida, agora são apresentados somente os dias em que há aula daquela disciplina
-
+- Adicionado ckeckbox: Gerar arquivo excluindo alunos sem CPF
+- Correções nas anotações do arquivo sagres.
 ## [Versão 3.73.115]
 - Adicionado novas medidas para os pratos do cardápio
 

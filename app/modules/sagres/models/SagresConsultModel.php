@@ -2,6 +2,8 @@
 
 namespace SagresEdu;
 
+require_once 'vendor/autoload.php';
+
 use Datetime;
 
 use ErrorException;
@@ -54,7 +56,7 @@ class SagresConsultModel
         }
     }
 
-    public function getSagresEdu($referenceYear, $month, $finalClass, $noMovement): EducacaoTType
+    public function getSagresEdu($referenceYear, $month, $finalClass, $noMovement, $withoutCpf): EducacaoTType
     {
         $education = new EducacaoTType();
         $managementUnitId = $this->getManagementId();
@@ -67,7 +69,7 @@ class SagresConsultModel
         try {
             $education
                 ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $month))
-                ->setEscola($this->getSchools($referenceYear, $month, $finalClass))
+                ->setEscola($this->getSchools($referenceYear, $month, $finalClass, $withoutCpf))
                 ->setProfissional($this->getProfessionals($referenceYear, $month));
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
@@ -178,7 +180,7 @@ class SagresConsultModel
      * Summary of EscolaTType
      * @return EscolaTType[]
      */
-    public function getSchools($referenceYear, $month, $finalClass)
+    public function getSchools($referenceYear, $month, $finalClass, $withoutCpf)
     {
         $schoolList = [];
 
@@ -189,7 +191,7 @@ class SagresConsultModel
             $schoolType = new EscolaTType();
             $schoolType
                 ->setIdEscola($school['inep_id'])
-                ->setTurma($this->getClasses($school['inep_id'], $referenceYear, $month, $finalClass))
+                ->setTurma($this->getClasses($school['inep_id'], $referenceYear, $month, $finalClass, $withoutCpf))
                 ->setDiretor($this->getDirectorSchool($school['inep_id']))
                 ->setCardapio($this->getMenuList($school['inep_id'], $referenceYear, $month));
 
@@ -266,7 +268,7 @@ class SagresConsultModel
     {
         $authAssignment = \AuthAssignment::model()->find(
             array(
-                'condition' => 'userid = :userid', 
+                'condition' => 'userid = :userid',
                 'params' => array(':userid' => Yii::app()->user->loginInfos->id)
             ))->itemname;
 
@@ -291,7 +293,7 @@ class SagresConsultModel
      * Summary of TurmaTType
      * @return TurmaTType[]
      */
-    public function getClasses($inepId, $referenceYear, $month, $finalClass)
+    public function getClasses($inepId, $referenceYear, $month, $finalClass, $withoutCpf)
     {
         $classList = [];
         $strMaxLength = 50;
@@ -327,7 +329,7 @@ class SagresConsultModel
                 ->setDescricao($turma["classroomName"])
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($this->getSeries($classId, $inepId))
-                ->setMatricula($this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId))
+                ->setMatricula($this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf))
                 ->setHorario($this->getSchedules($classId, $month, $inepId))
                 ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN));
 
@@ -474,7 +476,7 @@ class SagresConsultModel
                     $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
-    
+
                 /*
                  * 1 - Educação Infantil
                  * 2 - Ensino Fundamental
@@ -715,15 +717,15 @@ class SagresConsultModel
         $maxLen = 1000;
 
         $isFoodEnabled = (object) \InstanceConfig::model()->findByAttributes(array('parameter_key' => 'FEAT_FOOD'));
-        
+
         if($isFoodEnabled->value) {
 
-            $query = "SELECT 
-                        fm.start_date as data, 
-                        fm.description AS descricaoMerenda, 
+            $query = "SELECT
+                        fm.start_date as data,
+                        fm.description AS descricaoMerenda,
                         fm.adjusted AS ajustado,
                         fmm.turn AS turno
-                    FROM food_menu fm 
+                    FROM food_menu fm
                         JOIN food_menu_meal fmm on fmm.food_menuId = fm.id
                     WHERE YEAR(fm.start_date) = :year and month(fm.start_date) <= :month";
             $params = [
@@ -731,7 +733,7 @@ class SagresConsultModel
                 ':month' => $month
             ];
         } else {
-            $query = "SELECT 
+            $query = "SELECT
                     lm.date AS data,
                     lm.turn AS turno,
                     lm2.restrictions  AS descricaoMerenda,
@@ -740,14 +742,14 @@ class SagresConsultModel
                     JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk
                     JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
                 WHERE lm.school_fk =  :schoolId AND YEAR(lm.date) = :year AND MONTH(lm.date) <= :month";
-        
+
             $params = [
                 ':schoolId' => $schoolId,
                 ':year' => $year,
                 ':month' => $month
-            ];  
+            ];
         }
-       
+
         $menus = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
 
         foreach ($menus as $menu) {
@@ -945,7 +947,7 @@ class SagresConsultModel
      *
      * @return MatriculaTType[]
      */
-    public function getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId)
+    public function getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId ,$withoutCpf)
     {
         $enrollmentList = [];
         $strMaxLength = 200;
@@ -1005,187 +1007,341 @@ class SagresConsultModel
             $command->bindValues([':idStudent' => $enrollment['id']]);
             $cpf = $command->queryScalar();
 
-            $studentType = new AlunoTType();
-            $studentType
-                ->setNome($enrollment['name'])
-                ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']))
-                ->setCpfAluno(!empty($cpf) ? $cpf : null)
-                ->setPcd($enrollment['deficiency'])
-                ->setSexo($enrollment['gender']);
+            if($withoutCpf) {
+                if(!empty($cpf)) {
+                    $studentType = new AlunoTType();
+                    $studentType
+                        ->setNome($enrollment['name'])
+                        ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']))
+                        ->setCpfAluno(!empty($cpf) ? $cpf : null)
+                        ->setPcd($enrollment['deficiency'])
+                        ->setSexo($enrollment['gender']);
 
 
-            if (!is_null($studentType->getCpfAluno())) {
-                if (!$this->validaCPF($studentType->getCpfAluno())) {
-                    $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = 'ESTUDANTE';
-                    $inconsistencyModel->school = '';
-                    $inconsistencyModel->description = 'CPF DO ESTUDANTE É INVÁLIDO';
-                    $inconsistencyModel->action = 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: ' . $enrollment['name'];
-                    $inconsistencyModel->identifier = '9';
-                    $inconsistencyModel->idClass = $classId;
-                    $inconsistencyModel->idSchool = $inepId;
-                    $inconsistencyModel->insert();
+                    if (!is_null($studentType->getCpfAluno())) {
+                        if (!$this->validaCPF($studentType->getCpfAluno())) {
+                            $inconsistencyModel = new ValidationSagresModel();
+                            $inconsistencyModel->enrollment = 'ESTUDANTE';
+                            $inconsistencyModel->school = '';
+                            $inconsistencyModel->description = 'CPF DO ESTUDANTE É INVÁLIDO';
+                            $inconsistencyModel->action = 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: ' . $enrollment['name'];
+                            $inconsistencyModel->identifier = '9';
+                            $inconsistencyModel->idClass = $classId;
+                            $inconsistencyModel->insert();
+                        }
+                    }
+
+                    if (is_null($studentType->getCpfAluno())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'É OBRIGATÓRIO INFORMAR O CPF DO ESTUDANTE';
+                        $inconsistencyModel->action = 'INFORME UM CPF PARA O ESTUDANTE: ' . $enrollment['name'];
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!$this->validateDate($studentType->getDataNascimento())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO: ' . $enrollment['birthdate'];
+                        $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDA';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+
+                    if (strlen($studentType->getNome()) < $strlen) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MENOS DE 5 CARACTERES';
+                        $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if ($studentType->getNome() > $strMaxLength) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MAIS DE 200 CARACTERES';
+                        $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM ATÉ 200 CARACTERES';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!is_bool(boolval($studentType->getPcd()))) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'CÓDIGO PCD É INVÁLIDO';
+                        $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O PCD';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if ($studentType->getDataNascimento() === false) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'DATA DE NASCIMENTO INVÁLIDA';
+                        $inconsistencyModel->action = 'ALTERE O FORMATO DE DATA PARA DD/MM/AAAA';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!in_array($studentType->getSexo(), [1, 2, 3])) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'SEXO NÃO É VÁLIDO';
+                        $inconsistencyModel->action = 'ADICIONE UM SEXO VÁLIDO PARA O ESTUDANTE';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    $enrollmentType = new MatriculaTType();
+                    $enrollmentType
+                        ->setNumero($enrollment['numero'])
+                        ->setDataMatricula(new DateTime($enrollment['data_matricula']))
+                        // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
+                        ->setNumeroFaltas((int) $enrollment['faults'])
+                        ->setAluno($studentType);
+
+                    if (is_null($studentType)) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'ESTUDANTE NÃO EXISTE PARA A MATRÍCULA DA TURMA: ';
+                        $inconsistencyModel->action = 'ADICIONE UM ESTUDANTE À TURMA DA ESCOLA';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
+                        $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
+                    }
+
+                    if (empty($enrollmentType)) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'MATRÍCULA';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'NÃO HÁ MATRÍCULA PARA A TURMA';
+                        $inconsistencyModel->action = 'ADICIONE UMA MATRÍCULA PARA A TURMA';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!$this->validateDate($enrollmentType->getDataMatricula())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'MATRÍCULA';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO';
+                        $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDO';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!is_int($enrollmentType->getNumeroFaltas())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'MATRÍCULA';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'O VALOR PARA O NÚMERO DE FALTAS É INVÁLIDO';
+                        $inconsistencyModel->action = 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+                    if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
+                        if (!is_bool($enrollmentType->getAprovado())) {
+                            $inconsistencyModel = new ValidationSagresModel();
+                            $inconsistencyModel->enrollment = 'MATRÍCULA';
+                            $inconsistencyModel->school = '';
+                            $inconsistencyModel->description = 'VALOR INVÁLIDO PARA O STATUS APROVADO';
+                            $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO: ' . $studentType->getNome();
+                            $inconsistencyModel->idClass = $classId;
+                            $inconsistencyModel->insert();
+                        }
+                    }
+
+                    $enrollmentList[] = $enrollmentType;
                 }
+            } else {
+                $studentType = new AlunoTType();
+                    $studentType
+                        ->setNome($enrollment['name'])
+                        ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']))
+                        ->setCpfAluno(!empty($cpf) ? $cpf : null)
+                        ->setPcd($enrollment['deficiency'])
+                        ->setSexo($enrollment['gender']);
+
+
+                    if (!is_null($studentType->getCpfAluno())) {
+                        if (!$this->validaCPF($studentType->getCpfAluno())) {
+                            $inconsistencyModel = new ValidationSagresModel();
+                            $inconsistencyModel->enrollment = 'ESTUDANTE';
+                            $inconsistencyModel->school = '';
+                            $inconsistencyModel->description = 'CPF DO ESTUDANTE É INVÁLIDO';
+                            $inconsistencyModel->action = 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: ' . $enrollment['name'];
+                            $inconsistencyModel->identifier = '9';
+                            $inconsistencyModel->idClass = $classId;
+                            $inconsistencyModel->insert();
+                        }
+                    }
+
+                    if (is_null($studentType->getCpfAluno())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'É OBRIGATÓRIO INFORMAR O CPF DO ESTUDANTE';
+                        $inconsistencyModel->action = 'INFORME UM CPF PARA O ESTUDANTE: ' . $enrollment['name'];
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!$this->validateDate($studentType->getDataNascimento())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO: ' . $enrollment['birthdate'];
+                        $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDA';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+
+                    if (strlen($studentType->getNome()) < $strlen) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MENOS DE 5 CARACTERES';
+                        $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if ($studentType->getNome() > $strMaxLength) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MAIS DE 200 CARACTERES';
+                        $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM ATÉ 200 CARACTERES';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!is_bool(boolval($studentType->getPcd()))) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'CÓDIGO PCD É INVÁLIDO';
+                        $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O PCD';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if ($studentType->getDataNascimento() === false) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'DATA DE NASCIMENTO INVÁLIDA';
+                        $inconsistencyModel->action = 'ALTERE O FORMATO DE DATA PARA DD/MM/AAAA';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!in_array($studentType->getSexo(), [1, 2, 3])) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'SEXO NÃO É VÁLIDO';
+                        $inconsistencyModel->action = 'ADICIONE UM SEXO VÁLIDO PARA O ESTUDANTE';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    $enrollmentType = new MatriculaTType();
+                    $enrollmentType
+                        ->setNumero($enrollment['numero'])
+                        ->setDataMatricula(new DateTime($enrollment['data_matricula']))
+                        // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
+                        ->setNumeroFaltas((int) $enrollment['faults'])
+                        ->setAluno($studentType);
+
+                    if (is_null($studentType)) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'ESTUDANTE';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'ESTUDANTE NÃO EXISTE PARA A MATRÍCULA DA TURMA: ';
+                        $inconsistencyModel->action = 'ADICIONE UM ESTUDANTE À TURMA DA ESCOLA';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
+                        $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
+                    }
+
+                    if (empty($enrollmentType)) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'MATRÍCULA';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'NÃO HÁ MATRÍCULA PARA A TURMA';
+                        $inconsistencyModel->action = 'ADICIONE UMA MATRÍCULA PARA A TURMA';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!$this->validateDate($enrollmentType->getDataMatricula())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'MATRÍCULA';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO';
+                        $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDO';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!is_int($enrollmentType->getNumeroFaltas())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'MATRÍCULA';
+                        $inconsistencyModel->school = '';
+                        $inconsistencyModel->description = 'O VALOR PARA O NÚMERO DE FALTAS É INVÁLIDO';
+                        $inconsistencyModel->action = 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+                    if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
+                        if (!is_bool($enrollmentType->getAprovado())) {
+                            $inconsistencyModel = new ValidationSagresModel();
+                            $inconsistencyModel->enrollment = 'MATRÍCULA';
+                            $inconsistencyModel->school = '';
+                            $inconsistencyModel->description = 'VALOR INVÁLIDO PARA O STATUS APROVADO';
+                            $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO: ' . $studentType->getNome();
+                            $inconsistencyModel->idClass = $classId;
+                            $inconsistencyModel->insert();
+                        }
+                    }
+
+                $enrollmentList[] = $enrollmentType;
             }
-
-            if (is_null($studentType->getCpfAluno())) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'ESTUDANTE';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'É OBRIGATÓRIO INFORMAR O CPF DO ESTUDANTE';
-                $inconsistencyModel->action = 'INFORME UM CPF PARA O ESTUDANTE: ' . $enrollment['name'];
-                $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idStudent = $enrollment['student_fk'];
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
-            }
-
-            if (!$this->validateDate($studentType->getDataNascimento())) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'ESTUDANTE';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO: ' . $enrollment['birthdate'];
-                $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDA';
-                $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
-            }
-
-
-            if (strlen($studentType->getNome()) < $strlen) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'ESTUDANTE';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MENOS DE 5 CARACTERES';
-                $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES';
-                $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
-            }
-
-            if ($studentType->getNome() > $strMaxLength) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'ESTUDANTE';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MAIS DE 200 CARACTERES';
-                $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM ATÉ 200 CARACTERES';
-                $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
-            }
-
-            if (!is_bool(boolval($studentType->getPcd()))) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'ESTUDANTE';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'CÓDIGO PCD É INVÁLIDO';
-                $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O PCD';
-                $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
-            }
-
-            if ($studentType->getDataNascimento() === false) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'ESTUDANTE';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'DATA DE NASCIMENTO INVÁLIDA';
-                $inconsistencyModel->action = 'ALTERE O FORMATO DE DATA PARA DD/MM/AAAA';
-                $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
-            }
-
-            if (!in_array($studentType->getSexo(), [1, 2, 3])) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'ESTUDANTE';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'SEXO NÃO É VÁLIDO';
-                $inconsistencyModel->action = 'ADICIONE UM SEXO VÁLIDO PARA O ESTUDANTE';
-                $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
-            }
-
-
-
-
-            $enrollmentType = new MatriculaTType();
-            $enrollmentType
-                ->setNumero($enrollment['numero'])
-                ->setDataMatricula(new DateTime($enrollment['data_matricula']))
-                // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
-                ->setNumeroFaltas((int) $enrollment['faults'])
-                ->setAluno($studentType);
-
-            if (is_null($studentType)) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'ESTUDANTE';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'ESTUDANTE NÃO EXISTE PARA A MATRÍCULA DA TURMA: ';
-                $inconsistencyModel->action = 'ADICIONE UM ESTUDANTE À TURMA DA ESCOLA';
-                $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
-            }
-
-            if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
-                $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
-            }
-
-            if (empty($enrollmentType)) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'MATRÍCULA';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'NÃO HÁ MATRÍCULA PARA A TURMA';
-                $inconsistencyModel->action = 'ADICIONE UMA MATRÍCULA PARA A TURMA';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
-            }
-
-            if (!$this->validateDate($enrollmentType->getDataMatricula())) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'MATRÍCULA';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO';
-                $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDO';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
-            }
-
-            if (!is_int($enrollmentType->getNumeroFaltas())) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'MATRÍCULA';
-                $inconsistencyModel->school = '';
-                $inconsistencyModel->description = 'O VALOR PARA O NÚMERO DE FALTAS É INVÁLIDO';
-                $inconsistencyModel->action = 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
-            }
-            if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
-                if (!is_bool($enrollmentType->getAprovado())) {
-                    $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = 'MATRÍCULA';
-                    $inconsistencyModel->school = '';
-                    $inconsistencyModel->description = 'VALOR INVÁLIDO PARA O STATUS APROVADO';
-                    $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO: ' . $studentType->getNome();
-                    $inconsistencyModel->idClass = $classId;
-                    $inconsistencyModel->idSchool = $inepId;
-                    $inconsistencyModel->insert();
-                }
-            }
-
-            $enrollmentList[] = $enrollmentType;
         }
 
         return $enrollmentList;
