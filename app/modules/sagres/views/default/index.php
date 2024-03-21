@@ -53,6 +53,10 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				<input type="checkbox" name="semMovimentacao" value="1" id="semMovimentacao" style="margin: 3px 5px 0 0;">
 				<label for="semMovimentacao" style="vertical-align: middle;">Sem movimentação</label>
 			</div>
+			<div style="display: flex;align-items: center, margin: 3px 5px 0 0;">
+				<input type="checkbox" name="generateWithoutCPF" value="1" id="generateWithoutCPF" style="margin: 3px 5px 0 0;">
+				<label for="generateWithoutCPF" style="vertical-align: middle;">Gerar arquivo excluindo alunos sem CPF</label>
+			</div>
 		</div>
 	</div>
 
@@ -127,14 +131,16 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	let selectedValue;
 	let checkbox = document.getElementById("finalTurma");
 	let checkboxSemMovi = document.getElementById("semMovimentacao");
+	let checkboxWithoutCPF = document.getElementById("generateWithoutCPF"); 
 	let checkboxValue = false;
 	let checkboxValueSem = false;
+	let checkboxWithoutCPFValue = false;
 
 	function updateExportLink() {
 		const month = parseInt(selectedValue, 10);
 
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&month=${month}&finalClass=${checkboxValue}&noMovement=${checkboxValueSem}`;
+		const newHref = `?r=sagres/default/export&month=${month}&finalClass=${checkboxValue}&noMovement=${checkboxValueSem}&withoutCpf=${checkboxWithoutCPFValue}`;
 		exportLink.setAttribute('href', newHref);
 	}
 
@@ -152,6 +158,17 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 		if (checkboxValueSem) {
 			checkbox.checked = false;
 			checkboxValue = false;
+			checkboxWithoutCPF.checked = false;
+			checkboxWithoutCPFValue = false;
+		}
+		updateExportLink();
+	});
+
+	checkboxWithoutCPF.addEventListener('change', function() {
+		checkboxWithoutCPFValue = checkboxWithoutCPF.checked;
+		if (checkboxValueSem) {
+			checkboxSemMovi.checked = false;
+			checkboxValueSem = false;
 		}
 		updateExportLink();
 	});
