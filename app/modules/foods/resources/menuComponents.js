@@ -225,7 +225,7 @@ const PlateComponent = function (plate) {
       tacoFood = response
       let line = createMealComponent(response, food);
       const wrapper = parseDOM(line);
-      wrapper.find(".js-unit input").on("input", (e) => {food.amount = e.target.value});
+      wrapper.find(".js-unit input").on("input", (e) => { food.amount = e.target.value });
       wrapper.find('.js-remove-taco-food').on('click', (e) => {
 
         let accordionPlateActive = $(e.target).attr("data-id-plate")
@@ -306,7 +306,7 @@ const PlateComponent = function (plate) {
       total_lip += Number(lip.innerHTML) ? Number(lip.innerHTML) : 0
     })
     table.find('.js-cho').each((_, cho) => {
-      total_cho+= Number(cho.innerHTML) ? Number(cho.innerHTML) : 0
+      total_cho += Number(cho.innerHTML) ? Number(cho.innerHTML) : 0
     })
     table.find('.js-kcal').each((_, kcal) => {
       total_kcal += Number(kcal.innerHTML) ? Number(kcal.innerHTML) : 0
@@ -367,7 +367,15 @@ const PlateComponent = function (plate) {
   }
   function addUnitMask(line) {
     const input = line.find('.js-unit input')
-    $(input).mask('999.99', { reverse: true });
+    input.on('input', (e) => {
+      const inputValue = e.target.value;
+
+      if (/[^0-9.]/.test(inputValue)) {
+        const sanitizedValue = inputValue.replace(/[^0-9.,]/g, '');
+
+        $(e.target).val(sanitizedValue);
+      }
+    })
   }
   function addIngrendientsName(name) {
 
@@ -531,7 +539,7 @@ const MealsComponent = function (meal, day) {
       active: false,
       collapsible: true,
       icons: false,
-  });
+    });
     $(".js-plate-accordion-header").off("keydown");
     initializeSelect2()
   }

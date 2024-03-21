@@ -1,3 +1,6 @@
+## [Versão 3.75.121]
+- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
+
 ## [Versão 3.74.121]
 - Correção no relatório de professores por escola
 
