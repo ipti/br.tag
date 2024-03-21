@@ -125,7 +125,7 @@ function renderMovementsTable(movements, foodName) {
 function getFoodInventory() {
     $.ajax({
         type: 'POST',
-        url: "?r=foods/foodInventory/getFoodInventory",
+        url: "?r=foods/foodinventory/getFoodInventory",
         cache: false
     }).success(function(response) {
         food_inventory = JSON.parse(response);

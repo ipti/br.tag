@@ -1,6 +1,23 @@
-## [Versão 3.73.120]
+## [Versão 3.75.123]
 - Correção do inep_id para a escola.
 - Alteração na seleção do mês no calendário: agora só é possível selecionar até o mês corrente.
+
+## [Versão 3.75.122]
+- Adicionada lógica, para que ao reaproveitar turmas, os alunos do ano de 2023 entrarão como matriculados.
+
+## [Versão 3.75.121]
+- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
+
+## [Versão 3.74.121]
+- Correção no relatório de professores por escola
+
+## [Versão 3.74.120]
+- Modificado a controler de grades, ao salvar as Grades Releases.
+- Adicionado um novo parametro ao contrutor de ChageStudentStatusByGradeUsecase.
+- Melhorado o initialization da tela.
+
+## [Versão 3.74.119]
+- Inserido painel de cadastros pendentes na tela inicial
 
 ## [Versão 3.73.119]
 - Renomeado o head dos relatórios do municipio de Poço Dantas.
@@ -21,7 +38,6 @@
 ## [Versão 3.73.115]
 - Adicionado novas medidas para os pratos do cardápio
 
-
 ## [Versão 3.72.115]
 - Adicionado Modal para adicionar novos recursos na tela de plano de aula.
 - Alteração na estrutura do banco de dados referente ao tipo de recurso cadastrado em um plano
@@ -36,7 +52,7 @@
 - Calendário ajustado para permitir sua extensão para ano(s) seguinte(s).
 - Eventos de início e fim de ano letivo removidos. O intervalo letivo será definido no momento da criação/edição do calendário.
 - Adicionado seletor de calendário na turma.
--
+
 ## [Versão 3.71.113]
 - Adicionado módulo de dashboard
 
