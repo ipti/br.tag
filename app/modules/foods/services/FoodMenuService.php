@@ -35,34 +35,69 @@ class FoodMenuService
     {
         $result = array();
 
-        date_default_timezone_set('America/Bahia');
-        $date = date('Y-m-d', time());
+        $foods = $this->getFoodFromTheMenu();
 
-        $sql = "SELECT
-        CASE
-            WHEN fmm.turn = 'M' THEN 'Manhã'
-            WHEN fmm.turn = 'T' THEN 'Tarde'
-            WHEN fmm.turn = 'N' THEN 'Noite'
-            ELSE ''
-        END AS turn,
-        fi.food_id_fk,
-        f.description,
-        fm2.measure,
-        f.id,
-        SUM(fi.amount) as total_amount,
-        SUM(fm2.value) as total_value,
-        SUM((fi.amount * fm2.value)) as total
-        FROM food_menu fm
-        JOIN food_menu_meal fmm ON fmm.food_menuId = fm.id
-        JOIN food_menu_meal_component fmmc ON fmm.id = fmmc.food_menu_mealId
-        JOIN food_ingredient fi ON fmmc.id = fi.food_menu_meal_componentId
-        JOIN food_measurement fm2 ON fm2.id = fi.food_measurement_fk
-        JOIN food f ON f.id = fi.food_id_fk
-        WHERE fm.start_date <= :date AND fm.final_date >= :date
-        GROUP BY turn, fi.food_id_fk;";
+        $students = $this->getStudents();
+        $studentsTurn = $this->getStudentsTurn($students);
+       
+        if ($students != null && $foods != null) {
+            $result = $this->processFood($foods, $studentsTurn);
+        }
+        return $result;
+    }
+    public function processFood($foods, $studentsTurn) {
+        $result = array();
+        foreach ($foods as $food) {
+            // verifica se tem alunos nesse turno
+            $turn = $food["turn"];
 
-        $foods = Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
+            $idFood = $food["id"];
+            if (!array_key_exists($idFood, $result)) {
+                $measure = '';
 
+                switch ($food["measure"]) {
+                    case 'g':
+                        $measure = "Kg";
+                        break;
+                    case 'ml':
+                        $measure = ($food["measurementUnit"] == "g") ? "kg" : "L";
+                        break;
+                    default:
+                        $measure = $food["measure"];
+                        break;
+                }
+                $result[$idFood] = array(
+                    'id' => $idFood,
+                    'name' => str_replace(',', '', $food["description"]),
+                    'total' => 0, // Inicializa o total como 0
+                    'measure' => $measure,
+                );
+            }
+
+            // Atualiza o total
+            $value = $food["total"];
+
+            if($food["measure"] == 'g' || $food["measure"]  == 'ml'){
+                $value = $food["total"]/1000;
+            }
+            $result[$idFood]['total'] +=
+                ($value * $studentsTurn[$turn]) + ($value * $studentsTurn["Integral"]);
+        }
+        return $result;
+    }
+    private function getStudentsTurn($students){
+        $studentsTurn = ['Manhã' => '0', 'Tarde' => '0', 'Noite' => '0', 'Integral' => '0'];
+
+        foreach ($students as $element) {
+            $turn = $element['turn'];
+            $totalStudents = $element['total_students'];
+
+
+            $studentsTurn[$turn] = $totalStudents;
+        }
+        return  $studentsTurn;
+    }
+    private function getStudents(){
         $sql = "SELECT
         COUNT(*) as total_students,
         CASE
@@ -82,40 +117,39 @@ class FoodMenuService
         c.turn;
     ";
 
-        $students = Yii::app()->db->createCommand($sql)
+        return Yii::app()->db->createCommand($sql)
             ->bindParam(':user_year', Yii::app()->user->year)
             ->bindParam(':user_school', Yii::app()->user->school)->queryAll();
-        $studentsTurn = ['Manhã' => '0', 'Tarde' => '0', 'Noite' => '0', 'Integral' => '0'];
+    }
+    private function getFoodFromTheMenu(){
+        date_default_timezone_set('America/Bahia');
+        $date = date('Y-m-d', time());
 
-        foreach ($students as $element) {
-            $turn = $element['turn'];
-            $totalStudents = $element['total_students'];
+        $sql = "SELECT
+        CASE
+            WHEN fmm.turn = 'M' THEN 'Manhã'
+            WHEN fmm.turn = 'T' THEN 'Tarde'
+            WHEN fmm.turn = 'N' THEN 'Noite'
+            ELSE ''
+        END AS turn,
+        fi.food_id_fk,
+        f.description,
+        f.measurementUnit,
+        fm2.measure,
+        f.id,
+        SUM(fi.amount) as total_amount,
+        SUM(fm2.value) as total_value,
+        SUM((fi.amount * fm2.value)) as total
+        FROM food_menu fm
+        JOIN food_menu_meal fmm ON fmm.food_menuId = fm.id
+        JOIN food_menu_meal_component fmmc ON fmm.id = fmmc.food_menu_mealId
+        JOIN food_ingredient fi ON fmmc.id = fi.food_menu_meal_componentId
+        JOIN food_measurement fm2 ON fm2.id = fi.food_measurement_fk
+        JOIN food f ON f.id = fi.food_id_fk
+        WHERE fm.start_date <= :date AND fm.final_date >= :date
+        GROUP BY turn, fi.food_id_fk ;";
 
-
-            $studentsTurn[$turn] = $totalStudents;
-        }
-
-        if ($students != null && $foods != null) {
-            foreach ($foods as $food) {
-                // verifica se tem alunos nesse turno
-                $turn = $food["turn"];
-
-                $idFood = $food["id"];
-                if (!array_key_exists($idFood, $result)) {
-                    $result[$idFood] = array(
-                        'id' => $idFood,
-                        'name' => str_replace(',', '', $food["description"]),
-                        'total' => 0, // Inicializa o total como 0
-                        'measure' => $food["measure"]
-                    );
-                }
-
-                // Atualiza o total
-                $result[$idFood]['total'] +=
-                    ($food["total"] * $studentsTurn[$turn]) + ($food["total"] * $studentsTurn["Integral"]);
-            }
-        }
-        return $result;
+         return Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
     }
     public function getNutritionalValue($id)
     {
