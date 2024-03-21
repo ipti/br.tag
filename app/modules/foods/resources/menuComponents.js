@@ -265,6 +265,7 @@ const PlateComponent = function (plate) {
       addIngrendientsName(line.find('.js-food-name').text())
       table.append(line)
       calculateNutritionalValue(table)
+      initializeSelect2()
   }
   function changeAmount(line, food) {
     const input = line.find('.js-unit input')
@@ -280,15 +281,22 @@ const PlateComponent = function (plate) {
             td.find(".js-amount-value").text(newAmount)
 
     })
-    select.on('change', function (event) {
-        food.foodMeasureUnitId = select.val()
-        let newAmount = calculateAmount(
-            select.find('option:selected').attr('data-value'),
-            food,
-            input.val(),
-            select.find('option:selected').attr('data-measure'))
-            td.find(".js-amount-value").text(newAmount)
-  })
+      select.on('change', function (event) {
+          food.foodMeasureUnitId = select.val()
+          let newAmount = calculateAmount(
+              select.find('option:selected').attr('data-value'),
+              food,
+              input.val(),
+              select.find('option:selected').attr('data-measure'))
+              td.find(".js-amount-value").text(newAmount)
+    })
+      let newAmount = calculateAmount(
+      select.find('option:selected').attr('data-value'),
+      food,
+      input.val(),
+      select.find('option:selected').attr('data-measure'))
+      td.find(".js-amount-value").text(newAmount)
+
   }
   function calculateAmount(value, food, amount, measure) {
     amount = amount == "" ? 0 : amount
@@ -337,7 +345,7 @@ const PlateComponent = function (plate) {
       .append(`<td class='js-food-name'>${food.nameFood}</td>`)
       .append(`<td class='js-unit'><input class='t-field-text__input' type='text' style='width:50px !important' required='required' name='Unidade' value='${food.amount}'></td>`)
       .append(`<td class='js-measure'>
-                <select class="js-initialize-select2 t-field-select__input js-food-measurement" style='width:100px' required='required'>
+                <select class="js-initialize-select2 t-field-select__input js-food-measurement" style='width:100px !important;' required='required'>
                 </select>
             </td>`)
       .append(`<td class='js-amount'>

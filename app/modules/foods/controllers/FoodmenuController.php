@@ -18,8 +18,14 @@ class FoodmenuController extends Controller
         // Verifica se há dados na requisição enviada
         // Caso negativo, renderiza o formulário
         if ($request === null) {
+            $mealTypeList = $this->actionGetMealType();
+            $tacoFoodsList = $this->actionGetTacoFoods();
+            $foodMeasurementList = $this->actionGetFoodMeasurement();
             $this->render('create', array(
                 'model' => $modelFoodMenu,
+                'mealTypeList' => $mealTypeList,
+                'tacoFoodsList' => $tacoFoodsList,
+                'foodMeasurementList' => $foodMeasurementList,
             ));
             Yii::app()->end();
         }
