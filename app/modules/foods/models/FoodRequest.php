@@ -32,14 +32,17 @@ class FoodRequest extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
+            array('school_fk', 'required'),
             array('food_fk', 'numerical', 'integerOnly'=>true),
             array('amount', 'numerical'),
             array('measurementUnit', 'length', 'max'=>7),
             array('description', 'length', 'max'=>100),
+            array('status', 'length', 'max'=>12),
+            array('school_fk', 'length', 'max'=>8),
             array('date', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, date, food_fk, amount, measurementUnit, description', 'safe', 'on'=>'search'),
+            array('id, date, food_fk, amount, measurementUnit, description, status, school_fk', 'safe', 'on'=>'search'),
         );
     }
 
@@ -52,6 +55,7 @@ class FoodRequest extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'foodFk' => array(self::BELONGS_TO, 'Food', 'food_fk'),
+            'schoolFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_fk'),
         );
     }
 
@@ -67,6 +71,7 @@ class FoodRequest extends CActiveRecord
             'amount' => 'Quantidade',
             'measurementUnit' => 'Unidade',
             'description' => 'Descrição',
+            'status' => 'Status',
         );
     }
 
@@ -94,6 +99,8 @@ class FoodRequest extends CActiveRecord
         $criteria->compare('amount',$this->amount);
         $criteria->compare('measurementUnit',$this->measurementUnit,true);
         $criteria->compare('description',$this->description,true);
+        $criteria->compare('status',$this->status,true);
+        $criteria->compare('school_fk',$this->school_fk,true);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -111,3 +118,4 @@ class FoodRequest extends CActiveRecord
         return parent::model($className);
     }
 }
+

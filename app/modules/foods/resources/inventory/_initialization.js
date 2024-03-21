@@ -132,8 +132,6 @@ $(document).on("click", "#add-food", function () {
             $('#stock-modal-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
         }
     }
-
-
 });
 
 $(document).on("click", "#stock_button", function () {
@@ -277,7 +275,6 @@ $(document).on("change", "#food", function () {
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');
     measurementUnitSelect.empty();
-    console.log(measurementUnit);
     switch (measurementUnit) {
         case "g":
             measurementUnitSelect.append($('<option value="g" selected>g</option><option value="Kg">Kg</option>'));

@@ -161,6 +161,7 @@ class FoodmenuController extends Controller
         $result["pt"] = is_numeric($food->protein_g) ? round($food->protein_g, 2) : $food->protein_g;
         $result["lip"] = is_numeric($food->lipidius_g) ? round($food->lipidius_g, 2) : $food->lipidius_g;
         $result["cho"] = is_numeric($food->carbohydrate_g) ? round($food->carbohydrate_g, 2) : $food->carbohydrate_g;
+        $result["measurementUnit"] = $food->measurementUnit;
 
         echo CJSON::encode($result);
     }
@@ -238,7 +239,7 @@ class FoodmenuController extends Controller
 
         }
 
-        $this->render('viewLunch', array(
+        $this->render('viewlunch', array(
             "studentsByTurn" => $result
         ));
         Yii::app()->end();

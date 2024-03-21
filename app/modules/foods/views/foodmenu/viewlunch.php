@@ -1,8 +1,4 @@
-w<?php
-
-// $baseUrl = Yii::app()->baseUrl;
-// $cs = Yii::app()->getClientScript();
-// $cs->registerScriptFile($baseUrl . "/");
+<?php
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Merenda'));
 
@@ -49,6 +45,9 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
         <div class="mobile-row">
             <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
                 Estoque
+            </a>
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/farmerregister') ?>">
+                Agricultor
             </a>
             <a class="t-button-secondary js-expansive-panel show--mobile">
                 Filtros

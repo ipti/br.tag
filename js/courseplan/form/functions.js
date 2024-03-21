@@ -248,14 +248,14 @@ function addResource(button) {
             let row = table.row(tr);
             let d = row.data();
             let count = $(resources).children('.course-class-resource').length;
-            let div = $('<div class="t-badge-content course-class-resource"></div>');
+            let divRes = $('<div class="t-badge-content course-class-resource"></div>');
             let values = $('<input class="resource-id" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][id]" value=""/>'
                 + '<input class="resource-value" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][value]" value="' + resourceValue + '"/>'
                 + '<input class="resource-amount" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][amount]" value="' + resourceAmount + '"/>');
             let label = $('<span class="row"><span class="fa fa-times remove-resource"><i></i></span><span><span class="resource-amount-text">' + resourceAmount + '</span>x - ' + resourceName + ' </span></span>');
-            div.append(values);
-            div.append(label);
-            resources.append(div);
+            divRes.append(values);
+            divRes.append(label);
+            resources.append(divRes);
         }
     }
 }
