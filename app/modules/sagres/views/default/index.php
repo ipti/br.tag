@@ -30,18 +30,35 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 			<h5>Mês</h5>
 			<select id="mes" name="mes">
 				<option value="0">Selecione um mês</option>
-				<option value="1">Janeiro</option>
-				<option value="2">Fevereiro</option>
-				<option value="3">Março</option>
-				<option value="4">Abril</option>
-				<option value="5">Maio</option>
-				<option value="6">Junho</option>
-				<option value="7">Julho</option>
-				<option value="8">Agosto</option>
-				<option value="9">Setembro</option>
-				<option value="10">Outubro</option>
-				<option value="11">Novembro</option>
-				<option value="12">Dezembro</option>
+				<?php
+					$anoAtual = date('Y');
+					$mesAtual = date('n');
+
+					$meses = [
+						1 => 'Janeiro',
+						2 => 'Fevereiro',
+						3 => 'Março',
+						4 => 'Abril',
+						5 => 'Maio',
+						6 => 'Junho',
+						7 => 'Julho',
+						8 => 'Agosto',
+						9 => 'Setembro',
+						10 => 'Outubro',
+						11 => 'Novembro',
+						12 => 'Dezembro'
+					];
+			
+					if ($anoAtual == Yii::app()->user->year) {
+						for ($mes = 1; $mes <= $mesAtual; $mes++) {
+							echo "<option value='$mes'>$meses[$mes]</option>";
+						}
+					} else {
+						for ($mes = 1; $mes <= 12; $mes++) {
+							echo "<option value='$mes'>$meses[$mes]</option>";
+						}
+					}
+				?>
 			</select>
 		</div>
 		<div class="column" style=" display: flex;flex-direction: column; display: flex;align-items: left">

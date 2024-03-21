@@ -11,6 +11,7 @@ class Import extends CModel
 
     public $registers;
     public $instructorOwnSystemCodes;
+    public $instructorInepId;
     public $year;
     public $file;
     public $importWithError;
@@ -51,6 +52,8 @@ class Import extends CModel
 
         $registers = [];
         $instructorOwnSystemCodes = [];
+        $instructorInepId = [];
+
         while (true) {
             $line = fgets($file);
             if ($line == null) {
@@ -62,12 +65,16 @@ class Import extends CModel
             $fields = array_map('trim', $fields);
 
             if (in_array($registerType, [40, 50])) {
-                array_push($instructorOwnSystemCodes, $fields[2]);
+                if($fields[2] !== ""){
+                    array_push($instructorOwnSystemCodes, $fields[2]);
+                }
+                array_push($instructorInepId, $fields[3]);
             }
             $registers[$registerType][] = $fields;
         }
 
         $this->instructorOwnSystemCodes = $instructorOwnSystemCodes;
+        $this->instructorInepId = $instructorInepId;
         $this->registers = $registers;
         $this->initImport($this->year);
     }
@@ -114,7 +121,7 @@ class Import extends CModel
                 $columnName = $field->attr;
                 $collumnOrder = $field->corder - 1;
 
-                if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
+                if (isset ($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
                     $schoolIdentificationModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                 }
             }
@@ -202,7 +209,7 @@ class Import extends CModel
     {
 
         foreach ($lines as $line) {
-            $isStudent = !in_array($line[2], $this->instructorOwnSystemCodes);
+            $isStudent = !(in_array($line[2], $this->instructorOwnSystemCodes) || in_array($line[3], $this->instructorInepId));
 
             if ($isStudent) {
                 $this->importRegister301($line, $year);
@@ -245,7 +252,7 @@ class Import extends CModel
 
                 $model = $modelType == self::STUDENT_IDENTIFICATION ? $studentIdentificationModel : $studentDocumentModel;
 
-                if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $model->attributeNames())) {
+                if (isset ($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $model->attributeNames())) {
                     $model->{$columnName} = utf8_encode($line[$collumnOrder]);
                 }
             }
@@ -300,7 +307,7 @@ class Import extends CModel
 
                 $model = $modelType == self::INSTRUCTOR_IDENTIFICATION ? $instructorIdentificationModel : $instructorDocumentModel;
 
-                if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $model->attributeNames())) {
+                if (isset ($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $model->attributeNames())) {
                     $model->{$columnName} = utf8_encode($line[$collumnOrder]);
                 }
             }
@@ -343,21 +350,23 @@ class Import extends CModel
                     $columnName = $field->attr;
                     $collumnOrder = $field->corder - 1;
 
-                    if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
+                    if (isset ($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
                         $schoolModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                     }
                 }
             }
 
             $inepId = $line[3];
-            if (isset($inepId)) {
+            if (isset ($inepId)) {
 
-                $manager = Yii::app()->db->createCommand(array(
-                    'select' => array('name', 'email'),
-                    'from' => 'instructor_identification',
-                    'where' => 'inep_id=:inep_id',
-                    'params' => array(':inep_id' => $inepId),
-                ))->queryRow();
+                $manager = Yii::app()->db->createCommand(
+                    array(
+                        'select' => array('name', 'email'),
+                        'from' => 'instructor_identification',
+                        'where' => 'inep_id=:inep_id',
+                        'params' => array(':inep_id' => $inepId),
+                    )
+                )->queryRow();
 
                 if (is_array($manager)) {
                     $schoolModel->manager_name = $manager['name'];
@@ -365,8 +374,11 @@ class Import extends CModel
                 }
             }
 
+            $schoolModel->regulation = $schoolModel->regulation ?? 2;
+
             if (!$schoolModel->save()) {
-                $this->setFailure('40', $line);
+                $schoolModel->validate();
+                $this->setFailure('40', $line, TagUtils::stringfyValidationErrors($schoolModel));
             }
 
         }
@@ -395,7 +407,7 @@ class Import extends CModel
                     $columnName = $field->attr;
                     $collumnOrder = $field->corder - 1;
 
-                    if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
+                    if (isset ($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
                         $instructorTeachingModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                     }
                 }
@@ -416,8 +428,12 @@ class Import extends CModel
         $attributes = $studentEnrollment->attributeNames();
 
         foreach ($lines as $line) {
-            $classroom = Classroom::model()->findByAttributes(['school_inep_fk' => $line[1], 'school_year' => $year, 'censo_own_system_code' => $line[4]]);
-            $student = StudentIdentification::model()->findByAttributes(['school_inep_id_fk' => $line[1], 'censo_own_system_code' => $line[2]]);
+            $inepId = $line[3];
+            $classroomInepId = $line[5];
+            // $classroom = Classroom::model()->findByAttributes(['school_inep_fk' => $line[1], 'school_year' => $year, 'censo_own_system_code' => $line[4]]);
+            $classroom = Classroom::model()->findByAttributes(['inep_id' => $classroomInepId]);
+            // $student = StudentIdentification::model()->findByAttributes(['school_inep_id_fk' => $line[1], 'censo_own_system_code' => $line[2]]);
+            $student = StudentIdentification::model()->findByAttributes(['inep_id' => $inepId]);
             $studentEnrollmentModel = StudentEnrollment::model()->find("student_fk = :student_fk and classroom_fk = :classroom_fk", ["student_fk" => $student->id, "classroom_fk" => $classroom->id]);
             if ($studentEnrollmentModel == null) {
                 $studentEnrollmentModel = new StudentEnrollment();
@@ -430,21 +446,22 @@ class Import extends CModel
                     $columnName = $field->attr;
                     $collumnOrder = $field->corder - 1;
 
-                    if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
+                    if (isset ($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
                         $studentEnrollmentModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                     }
                 }
             }
 
             if (!$studentEnrollmentModel->save()) {
-                $this->setFailure('60', $line);
+                $studentEnrollmentModel->validate();
+                $this->setFailure('60', $line, TagUtils::stringfyValidationErrors($studentEnrollmentModel));
             }
         }
     }
 
-    public function setFailure($registerType, $data)
+    public function setFailure($registerType, $data, $message = "")
     {
-        $this->addError('file', implode("|", $data));
+        $this->addError('file', implode("|", $data) . " \n " . $message);
     }
 }
 

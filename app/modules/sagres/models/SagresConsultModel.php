@@ -264,7 +264,19 @@ class SagresConsultModel
 
     public function getInconsistenciesCount()
     {
-        $query = "SELECT count(*) FROM inconsistency_sagres";
+        $authAssignment = \AuthAssignment::model()->find(
+            array(
+                'condition' => 'userid = :userid', 
+                'params' => array(':userid' => Yii::app()->user->loginInfos->id)
+            ))->itemname;
+
+        if($authAssignment === "manager") {
+            $idSchool = Yii::app()->user->school;
+            $query = "SELECT count(*) FROM inconsistency_sagres is2 WHERE is2.idSchool = $idSchool";
+        } else {
+            $query = "SELECT count(*) FROM inconsistency_sagres";
+        }
+
         return Yii::app()->db->createCommand($query)->queryScalar();
     }
 
@@ -314,9 +326,9 @@ class SagresConsultModel
                 ->setPeriodo(0) //0 - Anual
                 ->setDescricao($turma["classroomName"])
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
-                ->setSerie($this->getSeries($classId))
-                ->setMatricula($this->getEnrollments($classId, $referenceYear, $month, $finalClass))
-                ->setHorario($this->getSchedules($classId, $month))
+                ->setSerie($this->getSeries($classId, $inepId))
+                ->setMatricula($this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId))
+                ->setHorario($this->getSchedules($classId, $month, $inepId))
                 ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN));
 
 
@@ -405,7 +417,7 @@ class SagresConsultModel
      * Summary of SerieTType
      * @return SerieTType[]
      */
-    public function getSeries($classId)
+    public function getSeries($classId, $inepId)
     {
         $seriesList = [];
         $strlen = 2;
@@ -435,6 +447,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UMA SÉRIE PARA A TURMA: ';
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -446,6 +459,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'FORNEÇA UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES';
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -457,6 +471,7 @@ class SagresConsultModel
                     $inconsistencyModel->action = 'FORNEÇA UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES';
                     $inconsistencyModel->identifier = '10';
                     $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
     
@@ -475,6 +490,7 @@ class SagresConsultModel
                     $inconsistencyModel->action = 'SELECIONE UMA MODALIDADE VÁLIDA PARA A SÉRIE';
                     $inconsistencyModel->identifier = '10';
                     $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
 
@@ -488,7 +504,7 @@ class SagresConsultModel
      * Summary of SerieTType
      * @return HorarioTType[]
      */
-    public function getSchedules($classId, $month)
+    public function getSchedules($classId, $month, $inepId)
     {
         $scheduleList = [];
         $strlen = 3;
@@ -554,7 +570,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UM PROFESSOR OU COMPONENTES CURRICULARES À TURMA';
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
-                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -566,7 +582,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UM DIA DA SEMANA VÁLIDO PARA A DISCIPLINA';
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
-                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -578,7 +594,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UM DIA DA SEMANA VÁLIDO PARA A DISCIPLINA';
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
-                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -591,7 +607,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'INFORMAR UM CPF VÁLIDO PARA O PROFESSOR';
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
-                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -603,7 +619,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UM NOME PARA A DISCIPLINA COM PELO MENOS 5 CARACTERES';
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
-                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -615,7 +631,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UM NOME PARA A DISCIPLINA COM ATÉ 50 CARACTERES';
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
-                #$inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -698,7 +714,24 @@ class SagresConsultModel
         $strlen = 4;
         $maxLen = 1000;
 
-        $query = "SELECT 
+        $isFoodEnabled = (object) \InstanceConfig::model()->findByAttributes(array('parameter_key' => 'FEAT_FOOD'));
+        
+        if($isFoodEnabled->value) {
+
+            $query = "SELECT 
+                        fm.start_date as data, 
+                        fm.description AS descricaoMerenda, 
+                        fm.adjusted AS ajustado,
+                        fmm.turn AS turno
+                    FROM food_menu fm 
+                        JOIN food_menu_meal fmm on fmm.food_menuId = fm.id
+                    WHERE YEAR(fm.start_date) = :year and month(fm.start_date) <= :month";
+            $params = [
+                ':year' => $year,
+                ':month' => $month
+            ];
+        } else {
+            $query = "SELECT 
                     lm.date AS data,
                     lm.turn AS turno,
                     lm2.restrictions  AS descricaoMerenda,
@@ -707,13 +740,14 @@ class SagresConsultModel
                     JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk
                     JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
                 WHERE lm.school_fk =  :schoolId AND YEAR(lm.date) = :year AND MONTH(lm.date) <= :month";
-
-        $params = [
-            ':schoolId' => $schoolId,
-            ':year' => $year,
-            ':month' => $month
-        ];
-
+        
+            $params = [
+                ':schoolId' => $schoolId,
+                ':year' => $year,
+                ':month' => $month
+            ];  
+        }
+       
         $menus = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
 
         foreach ($menus as $menu) {
@@ -911,7 +945,7 @@ class SagresConsultModel
      *
      * @return MatriculaTType[]
      */
-    public function getEnrollments($classId, $referenceYear, $month, $finalClass)
+    public function getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId)
     {
         $enrollmentList = [];
         $strMaxLength = 200;
@@ -960,6 +994,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ALTERE O FORMATO DE DATA PARA DD/MM/AAAA';
                 $inconsistencyModel->identifier = '9';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
                 continue;
             }
@@ -988,6 +1023,7 @@ class SagresConsultModel
                     $inconsistencyModel->action = 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: ' . $enrollment['name'];
                     $inconsistencyModel->identifier = '9';
                     $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
             }
@@ -1000,6 +1036,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'INFORME UM CPF PARA O ESTUDANTE: ' . $enrollment['name'];
                 $inconsistencyModel->identifier = '9';
                 $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -1011,6 +1048,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDA';
                 $inconsistencyModel->identifier = '9';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -1023,6 +1061,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES';
                 $inconsistencyModel->identifier = '9';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -1034,6 +1073,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM ATÉ 200 CARACTERES';
                 $inconsistencyModel->identifier = '9';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -1045,6 +1085,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O PCD';
                 $inconsistencyModel->identifier = '9';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -1056,6 +1097,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ALTERE O FORMATO DE DATA PARA DD/MM/AAAA';
                 $inconsistencyModel->identifier = '9';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -1067,6 +1109,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UM SEXO VÁLIDO PARA O ESTUDANTE';
                 $inconsistencyModel->identifier = '9';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -1089,6 +1132,7 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'ADICIONE UM ESTUDANTE À TURMA DA ESCOLA';
                 $inconsistencyModel->identifier = '9';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -1103,6 +1147,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'NÃO HÁ MATRÍCULA PARA A TURMA';
                 $inconsistencyModel->action = 'ADICIONE UMA MATRÍCULA PARA A TURMA';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -1113,6 +1158,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO';
                 $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDO';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
@@ -1123,6 +1169,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'O VALOR PARA O NÚMERO DE FALTAS É INVÁLIDO';
                 $inconsistencyModel->action = 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
             if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
@@ -1133,6 +1180,7 @@ class SagresConsultModel
                     $inconsistencyModel->description = 'VALOR INVÁLIDO PARA O STATUS APROVADO';
                     $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO: ' . $studentType->getNome();
                     $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
             }
