@@ -2530,9 +2530,9 @@ class CensoController extends Controller
     {
         include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
         $Educacenso = new Educacenso;
-        $export = $Educacenso->exportar(date("Y"));
+        $export = $Educacenso->exportar(Yii::app()->user->year);
 
-        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+        $fileDir = Yii::app()->basePath . '/export/' . Yii::app()->user->year . "_" . Yii::app()->user->school . '.TXT';
 
         Yii::import('ext.FileManager.fileManager');
         $fm = new fileManager();
@@ -2646,7 +2646,7 @@ class CensoController extends Controller
 
     public function actionDownloadExportFile()
     {
-        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+        $fileDir = Yii::app()->basePath . '/export/' . Yii::app()->user->year . "_" . Yii::app()->user->school . '.TXT';
         if (file_exists($fileDir)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');

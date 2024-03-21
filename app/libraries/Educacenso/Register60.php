@@ -7,11 +7,11 @@ class Register60
         $registers = [];
 
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => $year]);
         $students = [];
 
         foreach ($classrooms as $iclass => $classroom) {
-            if (count($classroom->instructorTeachingDatas) >= 1) {
+//            if (count($classroom->instructorTeachingDatas) >= 1) {
                 foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
                     if (!isset($students[$enrollment->student_fk])) {
                         $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
@@ -23,7 +23,7 @@ class Register60
                     $enrollment->school_inep_id_fk = $school->inep_id;
                     $students[$enrollment->student_fk]['enrollments'][$ienrollment][] = $enrollment->attributes;
                 }
-            }
+//            }
         }
 
         foreach ($students as $student) {
@@ -228,7 +228,8 @@ class Register60
                         $enrollment['student_inep_id'] = $student->inep_id;
                     }
 
-                    $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 60 order by corder', [":year" => $year]);
+                    $edcensoAliasYear = $year <= 2023 ? 2023 : $year;
+                    $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 60 order by corder', [":year" => $edcensoAliasYear]);
                     foreach ($edcensoAliases as $edcensoAlias) {
                         $register[$edcensoAlias->corder] = $edcensoAlias->default;
                         if ($edcensoAlias["attr"] != null && $enrollment[$edcensoAlias["attr"]] !== $edcensoAlias->default) {

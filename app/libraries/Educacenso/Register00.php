@@ -115,8 +115,8 @@ class Register00
             }
         }
 
-
-        $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 0 order by corder', [":year" => $year]);
+        $edcensoAliasYear = $year <= 2023 ? 2023 : $year;
+        $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 0 order by corder', [":year" => $edcensoAliasYear]);
         foreach ($edcensoAliases as $edcensoAlias) {
             $register[$edcensoAlias->corder] = $edcensoAlias->default;
             if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {

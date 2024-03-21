@@ -65,10 +65,10 @@ class Register20
     {
         $registers = [];
 
-        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => $year]);
 
         foreach ($classrooms as $iclass => $attributes) {
-            if (count($attributes->instructorTeachingDatas) >= 1 && count($attributes->studentEnrollments) >= 1) {
+//            if (count($attributes->instructorTeachingDatas) >= 1 && count($attributes->studentEnrollments) >= 1) {
 
                 $register = [];
 
@@ -170,10 +170,11 @@ class Register20
                     $attributes["complementary_activity_type_6"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_6"]);
                 }
 
-                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 20 order by corder', [":year" => $year]);
+                $edcensoAliasYear = $year <= 2023 ? 2023 : $year;
+                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 20 order by corder', [":year" => $edcensoAliasYear]);
                 foreach ($edcensoAliases as $edcensoAlias) {
-                    
-                    $register[$edcensoAlias->corder] = $edcensoAlias->default;                  
+
+                    $register[$edcensoAlias->corder] = $edcensoAlias->default;
 
                     if ($edcensoAlias->corder == 21 || $edcensoAlias->corder == 22 || $edcensoAlias->corder == 23) {
                         if ($attributes["schooling"] == '0') {
@@ -228,17 +229,17 @@ class Register20
                         }
                     } else if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
-                    } 
-                    
+                    }
+
                     if ($edcensoAlias->corder >= 49 && $edcensoAlias->corder <= 75){
                         if($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1' && $attributes["schooling"] == '0')){
                             $register[$edcensoAlias->corder] = '';
                         }
-                    }                   
+                    }
                 }
 
                 array_push($registers, implode('|', $register));
-            }
+//            }
         }
 
         return $registers;

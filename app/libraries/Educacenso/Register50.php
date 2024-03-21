@@ -7,7 +7,7 @@ class Register50
         $registers = [];
 
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => $year]);
         $instructors = [];
 
         foreach ($classrooms as $iclass => $classroom) {
@@ -84,7 +84,8 @@ class Register50
                     $teaching['contract_type'] = '1';
                 }
 
-                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 50 order by corder', [":year" => $year]);
+                $edcensoAliasYear = $year <= 2023 ? 2023 : $year;
+                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 50 order by corder', [":year" => $edcensoAliasYear]);
                 foreach ($edcensoAliases as $edcensoAlias) {
                     $register[$edcensoAlias->corder] = $edcensoAlias->default;
                     //códigos

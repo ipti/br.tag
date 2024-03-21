@@ -483,13 +483,14 @@ class Register30
     {
         $registers = [];
 
-        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => $year]);
         $managerIdentification = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
         $highEducationCourses = EdcensoCourseOfHigherEducation::model()->findAll();
 
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $aliasesStudent = Yii::app()->db->createCommand("select * from edcenso_alias where register = 301 and year = :year")->bindParam(":year", $year)->queryAll();
-        $aliasesInstructor = Yii::app()->db->createCommand("select * from edcenso_alias where register = 302 and year = :year")->bindParam(":year", $year)->queryAll();
+        $edcensoAliasYear = $year <= 2023 ? 2023 : $year;
+        $aliasesStudent = Yii::app()->db->createCommand("select * from edcenso_alias where register = 301 and year = :year")->bindParam(":year", $edcensoAliasYear)->queryAll();
+        $aliasesInstructor = Yii::app()->db->createCommand("select * from edcenso_alias where register = 302 and year = :year")->bindParam(":year", $edcensoAliasYear)->queryAll();
 
         $instructors = [];
         $students = [];

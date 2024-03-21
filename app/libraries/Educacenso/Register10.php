@@ -206,7 +206,8 @@ class Register10
             $attributes['board_organ_others'] = '0';
         }
 
-        $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 10 order by corder', [":year" => $year]);
+        $edcensoAliasYear = $year <= 2023 ? 2023 : $year;
+        $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 10 order by corder', [":year" => $edcensoAliasYear]);
         foreach ($edcensoAliases as $edcensoAlias) {
             if ($edcensoAlias->corder == 43) {
                 $register[$edcensoAlias->corder] =
