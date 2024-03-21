@@ -1,3 +1,6 @@
+## [Versão 3.74.122]
+- Adicionado registro de profissional em mais de uma escola
+
 ## [Versão 3.74.121]
 - Correção no relatório de professores por escola
 
