@@ -1,3 +1,6 @@
+## [Versão 3.76.125]
+- Adicionado registro de profissional em mais de uma escola
+
 ## [Versão 3.75.125]
 - Integrado os bancos utilizados por Boquim/SE.
 
