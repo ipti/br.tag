@@ -1,0 +1,11 @@
+@import '../_tokens.scss';
+@import '../_functions.scss';
+
+.t-field-file {
+    &__label{
+        width: fit-content;
+    }
+    &__input{
+        display: none;
+    }
+}

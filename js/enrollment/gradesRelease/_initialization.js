@@ -1,3 +1,14 @@
+let frequency = 0;
+let totalFaults = 0;
+
+function getFrequency(){
+    return frequency;
+}
+
+function setFrequency(value){
+    frequency = value;
+}
+
 $('#classroom').change(function () {
     if ($(this).val() !== "") {
         $.ajax({
@@ -123,7 +134,6 @@ $('#discipline').change(function (e, triggerEvent) {
                     $.each(data.students, function (index ) {
                         let order = this.daily_order || index + 1;
                         let totalFaults = 0;
-                        let frequency = 0;
                         html += `<tr>
                             <td class='grade-student-order final-media'>
                             ${order}
@@ -161,9 +171,12 @@ $('#discipline').change(function (e, triggerEvent) {
                                 </td>
                             `;
                         });
+
+
                         if(totalGivenClasses != 0) {
                             frequency = ((totalGivenClasses - totalFaults)/totalGivenClasses)*100;
                             frequency = parseInt(frequency);
+                            setFrequency(frequency);
                         }
 
                         if(data.rule == "N") {
@@ -181,11 +194,14 @@ $('#discipline').change(function (e, triggerEvent) {
                             html += buildInputOrSelect(data.rule, this.finalConcept, data.concepts, true);
                         }
 
+                        let valorF = getFrequency();
+
                         html += `
-                            <td class="final-media">${frequency}%</td>
+                            <td class="final-media">${valorF}%</td>
                             <td class="grade-td situation">${ this.situation }</td>
                         </tr>`;
                     });
+
                     html += "</tbody></table>";
                     $(".js-grades-container").html(html);
                     if (triggerEvent === "saveGrades") {
@@ -207,8 +223,6 @@ $('#discipline').change(function (e, triggerEvent) {
 $("#save").on("click", function (e) {
     e.preventDefault();
     $(".js-grades-alert").hide();
-
-    console.log($(".grades-table").attr("concept"));
 
     let students = [];
     $('.grades-table tbody tr').each(function () {
