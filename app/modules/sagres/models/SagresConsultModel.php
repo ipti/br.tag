@@ -714,7 +714,24 @@ class SagresConsultModel
         $strlen = 4;
         $maxLen = 1000;
 
-        $query = "SELECT 
+        $isFoodEnabled = (object) \InstanceConfig::model()->findByAttributes(array('parameter_key' => 'FEAT_FOOD'));
+        
+        if($isFoodEnabled->value) {
+
+            $query = "SELECT 
+                        fm.start_date as data, 
+                        fm.description AS descricaoMerenda, 
+                        fm.adjusted AS ajustado,
+                        fmm.turn AS turno
+                    FROM food_menu fm 
+                        JOIN food_menu_meal fmm on fmm.food_menuId = fm.id
+                    WHERE YEAR(fm.start_date) = :year and month(fm.start_date) <= :month";
+            $params = [
+                ':year' => $year,
+                ':month' => $month
+            ];
+        } else {
+            $query = "SELECT 
                     lm.date AS data,
                     lm.turn AS turno,
                     lm2.restrictions  AS descricaoMerenda,
@@ -723,13 +740,14 @@ class SagresConsultModel
                     JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk
                     JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
                 WHERE lm.school_fk =  :schoolId AND YEAR(lm.date) = :year AND MONTH(lm.date) <= :month";
-
-        $params = [
-            ':schoolId' => $schoolId,
-            ':year' => $year,
-            ':month' => $month
-        ];
-
+        
+            $params = [
+                ':schoolId' => $schoolId,
+                ':year' => $year,
+                ':month' => $month
+            ];  
+        }
+       
         $menus = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
 
         foreach ($menus as $menu) {
