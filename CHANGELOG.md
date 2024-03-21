@@ -1,4 +1,4 @@
-## [Versão 3.75.124]
+## [Versão 3.75.125]
 - Integrado os bancos utilizados por Boquim/SE.
 
 ## [Versão 3.75.123]

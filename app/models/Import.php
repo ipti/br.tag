@@ -157,7 +157,7 @@ class Import extends CModel
                 $columnName = $field->attr;
                 $collumnOrder = $field->corder - 1;
 
-                if (isset ($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
+                if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
                     $schoolStructureModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                 }
             }
@@ -188,7 +188,7 @@ class Import extends CModel
                     $columnName = $field->attr;
                     $collumnOrder = $field->corder - 1;
 
-                    if (isset ($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
+                    if (isset($line[$collumnOrder]) && $line[$collumnOrder] != "" && in_array($columnName, $attributes)) {
                         $classroomModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                     }
                 }
