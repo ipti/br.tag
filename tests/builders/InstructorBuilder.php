@@ -42,7 +42,7 @@ class InstructorBuilder
 
     public function buildComplete()
     {
-        $this->instructor['name'] = $this->faker->name();
+        $this->instructor['name'] = $this->fakerCustom->nameStudent($this->faker->name());
         $this->instructor['email'] = $this->faker->email();
         $this->instructor['nationality'] = '1';
         $this->instructorDocumentsAddress['cpf'] = $this->faker->cpf();

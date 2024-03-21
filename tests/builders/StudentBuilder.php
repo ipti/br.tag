@@ -101,7 +101,7 @@ class StudentBuilder {
          $this->studentDocument['complement'] = $this->fakerCustom->complementLocation();
          $this->studentDocument['diff_location'] = $this->faker->randomElement(array (1,2,3,7));
          $this->studentDocument['residence_zone'] = $this->faker->randomElement(array (1,2));
-         $this->studentEnrollment['classroom_fk'] = '745';
+         $this->studentEnrollment['classroom_fk'] = '799';
          $this->studentEnrollment['admission_type'] = $this->faker->randomElement(array (1,2,3));
          $this->studentEnrollment['school_admission_date'] = $this->faker->date('d/m/Y');
          $this->studentEnrollment['current_stage_situation'] = $this->faker->randomElement(array (0,1,2));
