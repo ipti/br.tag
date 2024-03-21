@@ -23,8 +23,8 @@ class InstructorRobots
     /* Clicar no botão próximo para mudar de página */
     public function btnProximo()
     {
-        $this->tester->waitForElement('#btnNext');
-        $this->tester->executeJS("document.querySelector('#btnNext').click();");
+        $this->tester->waitForElement('.next');
+        $this->tester->executeJS("document.querySelector('.next').click();");
     }
 
     public function btnSave()

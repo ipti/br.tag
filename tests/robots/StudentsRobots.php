@@ -24,7 +24,6 @@ class StudentsRobots
      */
     public function pageAddStudents ()
     {
-        $this->school(0089);
         $this->tester->amOnPage('?r=student/create');
     }
 
