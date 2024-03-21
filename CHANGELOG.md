@@ -1,3 +1,6 @@
+## [Versão 3.73.121]
+- Corrigido tela de frequência de Professor.
+
 ## [Versão 3.73.120]
 - Integrado os bancos utilizados por Boquim/SE.
 
