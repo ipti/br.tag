@@ -1,3 +1,7 @@
+## [Versão 3.75.123]
+- Correção do inep_id para a escola.
+- Alteração na seleção do mês no calendário: agora só é possível selecionar até o mês corrente.
+
 ## [Versão 3.75.122]
 - Adicionada lógica, para que ao reaproveitar turmas, os alunos do ano de 2023 entrarão como matriculados.
 
