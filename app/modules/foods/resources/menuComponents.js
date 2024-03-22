@@ -261,13 +261,13 @@ const PlateComponent = function (plate) {
       table.find('.js-total').remove()
       addFoodMeasurement(line, food)
       addUnitMask(line)
-      changeAmount(line, food)
+      changeAmount(line, food, table)
       addIngrendientsName(line.find('.js-food-name').text())
       table.append(line)
       calculateNutritionalValue(table)
       initializeSelect2()
   }
-  function changeAmount(line, food) {
+  function changeAmount(line, food, table) {
     const input = line.find('.js-unit input')
     const select = line.find('.js-measure select')
     const td = line.find('.js-amount')
@@ -277,8 +277,11 @@ const PlateComponent = function (plate) {
                 select.find('option:selected').attr('data-value'),
                 food,
                 input.val(),
-                select.find('option:selected').attr('data-measure'))
+                select.find('option:selected').attr('data-measure'),
+                line
+                )
             td.find(".js-amount-value").text(newAmount)
+            calculateNutritionalValue(table)
 
     })
       select.on('change', function (event) {
@@ -287,18 +290,24 @@ const PlateComponent = function (plate) {
               select.find('option:selected').attr('data-value'),
               food,
               input.val(),
-              select.find('option:selected').attr('data-measure'))
+              select.find('option:selected').attr('data-measure'),
+              line
+              )
+              calculateNutritionalValue(table)
               td.find(".js-amount-value").text(newAmount)
     })
       let newAmount = calculateAmount(
       select.find('option:selected').attr('data-value'),
       food,
       input.val(),
-      select.find('option:selected').attr('data-measure'))
+      select.find('option:selected').attr('data-measure'),
+      line
+      )
       td.find(".js-amount-value").text(newAmount)
+      calculateNutritionalValue(table)
 
   }
-  function calculateAmount(value, food, amount, measure) {
+  function calculateAmount(value, food, amount, measure, line) {
     amount = amount == "" ? 0 : amount
 
     let result = (Number(amount) * Number(value)).toFixed(2)
@@ -306,12 +315,32 @@ const PlateComponent = function (plate) {
     if(measure == 'u') {
         result = parseInt(result);
     }
-
+    updateNutritionalValues(result, measure, food, line)
     if(food.measurementUnit !="l" && measure == 'ml') {
         return result + 'g'
     }
 
     return result + measure
+  }
+  function updateNutritionalValues(result, measure, food, line) {
+
+    console.log(food)
+    if(measure == "g" || measure == 'ml') {
+      line.find(".js-pt").text(((food.pt * result)/100).toFixed(2))
+      line.find(".js-lip").text(((food.lip * result)/100).toFixed(2))
+      line.find(".js-cho").text(((food.cho * result)/100).toFixed(2))
+      line.find(".js-kcal").text(((food.kcal * result)/100).toFixed(2))
+     } else if (measure == "Kg" || measure == "L") {
+      let kgTog = result*1000
+      line.find(".js-pt").text(((food.pt * kgTog)/100).toFixed(2))
+      line.find(".js-lip").text(((food.lip * kgTog)/100).toFixed(2))
+      line.find(".js-cho").text(((food.cho * kgTog)/100).toFixed(2))
+      line.find(".js-kcal").text(((food.kcal * kgTog)/100).toFixed(2))
+     }
+
+
+   /*  console.log(result)
+    console.log(measure) */
   }
   function calculateNutritionalValue(table) {
     let total_pt = total_lip = total_cho = total_kcal = 0;
@@ -338,6 +367,7 @@ const PlateComponent = function (plate) {
       .append(`<td>${total_cho.toFixed(2)}</td>`)
       .append(`<td>${total_kcal.toFixed(2)}</td>`)
       .append(`<td></td>`)
+    table.find(`.js-total`).remove()
     table.append(lineTotal)
   }
   function createMealComponent(food) {
