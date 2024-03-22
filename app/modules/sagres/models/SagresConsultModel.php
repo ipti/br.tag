@@ -120,7 +120,7 @@ class SagresConsultModel
                     $inconsistencyModel->action = 'Por favor, informe o código de identificação da Unidade Gestora';
                     $inconsistencyModel->insert();
                 }
-                
+
                 if (empty($managementUnit['managementUnitName'])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'UNIDADE GESTORA';
@@ -129,7 +129,7 @@ class SagresConsultModel
                     $inconsistencyModel->action = 'Por favor, informe um nome para a Unidade Gestora';
                     $inconsistencyModel->insert();
                 }
-                
+
                 if (empty($managementUnit['responsibleCpf'])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'UNIDADE GESTORA: ' . $managementUnit['managementUnitName'];
@@ -138,7 +138,7 @@ class SagresConsultModel
                     $inconsistencyModel->action = 'Por favor, informe um CPF válido para o responsável';
                     $inconsistencyModel->insert();
                 }
-                
+
                 if (empty($managementUnit['managerCpf'])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'UNIDADE GESTORA: ' . $managementUnit['managementUnitName'];
@@ -147,7 +147,7 @@ class SagresConsultModel
                     $inconsistencyModel->action = 'Por favor, informe um CPF válido para o gestor';
                     $inconsistencyModel->insert();
                 }
-                
+
 
             return $headerType;
         } catch (Exception $e) {
@@ -216,7 +216,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $school['inep_id'];
                 $inconsistencyModel->insert();
             }
-            
+
             if (strlen($diretor->getNrAto()) > $strMaxLength) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'DIRETOR';
@@ -227,7 +227,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $school['inep_id'];
                 $inconsistencyModel->insert();
             }
-            
+
             if ($diretor->getCpfDiretor() === null || !preg_match('/^[0-9]{11}$/', $diretor->getCpfDiretor())) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'DIRETOR';
@@ -238,7 +238,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $school['inep_id'];
                 $inconsistencyModel->insert();
             }
-            
+
             if (!$this->validaCPF($diretor->getCpfDiretor())) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'DIRETOR';
@@ -249,7 +249,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $school['inep_id'];
                 $inconsistencyModel->insert();
             }
-            
+
             if (is_null($inconsistencies)) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'DIRETOR';
@@ -259,7 +259,7 @@ class SagresConsultModel
                 $inconsistencyModel->identifier = '4';
                 $inconsistencyModel->idSchool = $school['inep_id'];
                 $inconsistencyModel->insert();
-            }            
+            }
         }
 
         return $schoolList;
@@ -323,7 +323,7 @@ class SagresConsultModel
 
         $query = "SELECT name from school_identification WHERE inep_id = :inepId";
         $schoolName = Yii::app()->db->createCommand($query)->bindValues(array('inepId' => $inepId))->queryScalar();
-        
+
         if(empty($turmas)) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = 'ESCOLA';
@@ -377,7 +377,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
-            
+
             if (strlen($classType->getDescricao()) <= $strlen && !is_null($classType->getDescricao())) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'TURMA';
@@ -389,7 +389,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
-            
+
             if (strlen($classType->getDescricao()) > $strMaxLength) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'TURMA';
@@ -401,7 +401,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
-            
+
             if (!in_array($classType->getTurno(), [1, 2, 3, 4])) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'TURMA';
@@ -413,7 +413,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
-            
+
             if (!is_bool($classType->getFinalTurma())) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'TURMA';
@@ -424,7 +424,7 @@ class SagresConsultModel
                 $inconsistencyModel->idClass = $idClassroom;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
-            }            
+            }
         }
 
         return $classList;
@@ -456,29 +456,29 @@ class SagresConsultModel
                 ->setDescricao($serie['serieDescription'])
                 ->setModalidade($serie['serieModality']);
 
-                if (empty($serieType)) {
-                    $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = 'SÉRIE';
-                    $inconsistencyModel->school = '';
-                    $inconsistencyModel->description = 'Não há série para a escola: ';
-                    $inconsistencyModel->action = 'Adicione uma série para a turma: ';
-                    $inconsistencyModel->identifier = '10';
-                    $inconsistencyModel->idClass = $classId;
-                    $inconsistencyModel->insert();
-                }
-                
+            if (empty($serieType)) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'SÉRIE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'Não há série para a escola: ';
+                $inconsistencyModel->action = 'Adicione uma série para a turma: ';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
 
-                if (strlen($serieType->getDescricao()) <= $strlen) {
-                    $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = 'SÉRIE';
-                    $inconsistencyModel->school = '';
-                    $inconsistencyModel->description = 'Descrição para a série: ' . $serieType->getDescricao() . ' menor que 3 caracteres';
-                    $inconsistencyModel->action = 'Forneça uma descrição mais detalhada, contendo mais de 5 caracteres';
-                    $inconsistencyModel->identifier = '10';
-                    $inconsistencyModel->idClass = $classId;
-                    $inconsistencyModel->insert();
-                }
-                
+
+            if (strlen($serieType->getDescricao()) <= $strlen) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = 'SÉRIE';
+                $inconsistencyModel->school = '';
+                $inconsistencyModel->description = 'Descrição para a série: ' . $serieType->getDescricao() . ' menor que 3 caracteres';
+                $inconsistencyModel->action = 'Forneça uma descrição mais detalhada, contendo mais de 5 caracteres';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
+
 
                 if (strlen($serieType->getDescricao()) > $strMaxLength) {
                     $inconsistencyModel = new ValidationSagresModel();
@@ -491,6 +491,7 @@ class SagresConsultModel
                     $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
+
                 /*
                  * 1 - Educação Infantil
                  * 2 - Ensino Fundamental
@@ -508,7 +509,7 @@ class SagresConsultModel
                     $inconsistencyModel->idClass = $classId;
                     $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
-                }                
+                }
 
             $seriesList[] = $serieType;
         }
@@ -518,7 +519,9 @@ class SagresConsultModel
 
     /**
      * Summary of SerieTType
+     *
      * @return HorarioTType[]
+     *
      */
     public function getSchedules($classId, $month, $inepId)
     {
@@ -604,7 +607,7 @@ class SagresConsultModel
                     #$inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
-                
+
                 if (!in_array($scheduleType->getDiaSemana(), [1, 2, 3, 4, 5, 6, 7])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'HORÁRIO';
@@ -616,7 +619,7 @@ class SagresConsultModel
                     #$inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
-                
+
                 if (!is_int($scheduleType->getDuracao())) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'HORÁRIO';
@@ -628,7 +631,7 @@ class SagresConsultModel
                     #$inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
-                
+
                 $cpfInstructor = $scheduleType->getCpfProfessor();
                 if (!$this->validaCPF($cpfInstructor[0])) {
                     $inconsistencyModel = new ValidationSagresModel();
@@ -641,7 +644,7 @@ class SagresConsultModel
                     #$inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
-                
+
                 if (strlen($scheduleType->getDisciplina()) < $strlen) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'HORÁRIO';
@@ -653,7 +656,7 @@ class SagresConsultModel
                     #$inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
-                
+
                 if (strlen($scheduleType->getDisciplina()) > $maxLength) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'HORÁRIO';
@@ -664,7 +667,7 @@ class SagresConsultModel
                     $inconsistencyModel->idClass = $classId;
                     #$inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
-                }                
+                }
 
             $scheduleList[] = $scheduleType;
 
@@ -804,7 +807,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
-            
+
             if (strlen($menuType->getDescricaoMerenda()) <= $strlen) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'CARDÁPIO';
@@ -814,7 +817,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
-            
+
             if (strlen($menuType->getDescricaoMerenda()) > $maxLen) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'CARDÁPIO';
@@ -824,7 +827,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
-            
+
             if (!in_array($menuType->getAjustado(), [0, 1])) { # 0: Not, 1: True
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'CARDÁPIO';
@@ -834,7 +837,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
-            
+
             if (!$this->validateDate($menuType->getData())) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'CARDÁPIO';
@@ -926,7 +929,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $professional['idEscola'];
                 $inconsistencyModel->insert();
             }
-            
+
             if (strlen($professionalType->getEspecialidade()) > $strMaxLength) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'PROFISSIONAL';
@@ -1027,7 +1030,7 @@ class SagresConsultModel
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
                 continue;
-            }            
+            }
 
 
             $query1 = "SELECT cpf from student_documents_and_address WHERE id = :idStudent";
