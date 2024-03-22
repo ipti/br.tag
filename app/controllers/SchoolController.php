@@ -52,12 +52,12 @@ class SchoolController extends Controller
                 ),
                 'users' => array('@'),
             ),
-            array(
+            [
                 'allow',
                 // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete', 'reports', 'ReportsMonthlyTransaction', 'Record'),
-                'users' => array('admin'),
-            ),
+                'actions' => ['admin', 'manager', 'delete', 'reports', 'ReportsMonthlyTransaction', 'Record'], 
+                'users' => ['@'],   
+            ], 
             array(
                 'deny',
                 // deny all users
