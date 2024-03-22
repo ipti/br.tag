@@ -1,3 +1,7 @@
+## [Versão 3.76.126]
+- Gestor autorizado para gerar os relatórios da escola.
+- Correção no redireccionamento para o aluno nas incoerências sagres
+
 ## [Versão 3.76.125]
 - Adicionado registro de profissional em mais de uma escola
 
