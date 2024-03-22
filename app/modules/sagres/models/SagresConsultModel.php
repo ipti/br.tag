@@ -1054,6 +1054,7 @@ class SagresConsultModel
                             $inconsistencyModel->description = 'CPF DO ESTUDANTE É INVÁLIDO';
                             $inconsistencyModel->action = 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: ' . $enrollment['name'];
                             $inconsistencyModel->identifier = '9';
+                            $inconsistencyModel->idStudent = $enrollment['student_fk'];
                             $inconsistencyModel->idClass = $classId;
                             $inconsistencyModel->insert();
                         }
@@ -1077,6 +1078,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO: ' . $enrollment['birthdate'];
                         $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDA';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1089,6 +1091,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MENOS DE 5 CARACTERES';
                         $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1100,6 +1103,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MAIS DE 200 CARACTERES';
                         $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM ATÉ 200 CARACTERES';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1111,6 +1115,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'CÓDIGO PCD É INVÁLIDO';
                         $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O PCD';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1122,6 +1127,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'DATA DE NASCIMENTO INVÁLIDA';
                         $inconsistencyModel->action = 'ALTERE O FORMATO DE DATA PARA DD/MM/AAAA';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1133,6 +1139,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'SEXO NÃO É VÁLIDO';
                         $inconsistencyModel->action = 'ADICIONE UM SEXO VÁLIDO PARA O ESTUDANTE';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1152,6 +1159,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'ESTUDANTE NÃO EXISTE PARA A MATRÍCULA DA TURMA: ';
                         $inconsistencyModel->action = 'ADICIONE UM ESTUDANTE À TURMA DA ESCOLA';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1221,6 +1229,7 @@ class SagresConsultModel
                             $inconsistencyModel->description = 'CPF DO ESTUDANTE É INVÁLIDO';
                             $inconsistencyModel->action = 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: ' . $enrollment['name'];
                             $inconsistencyModel->identifier = '9';
+                            $inconsistencyModel->idStudent = $enrollment['student_fk'];
                             $inconsistencyModel->idClass = $classId;
                             $inconsistencyModel->insert();
                         }
@@ -1244,6 +1253,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'DATA NO FORMATO INVÁLIDO: ' . $enrollment['birthdate'];
                         $inconsistencyModel->action = 'ADICIONE UMA DATA NO FORMATO VÁLIDA';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1256,6 +1266,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MENOS DE 5 CARACTERES';
                         $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1267,6 +1278,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'NOME DO ESTUDANTE COM MAIS DE 200 CARACTERES';
                         $inconsistencyModel->action = 'ADICIONE UM NOME PARA O ESTUDANTE COM ATÉ 200 CARACTERES';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1278,6 +1290,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'CÓDIGO PCD É INVÁLIDO';
                         $inconsistencyModel->action = 'ADICIONE UM VALOR VÁLIDO PARA O PCD';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1289,6 +1302,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'DATA DE NASCIMENTO INVÁLIDA';
                         $inconsistencyModel->action = 'ALTERE O FORMATO DE DATA PARA DD/MM/AAAA';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1300,6 +1314,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'SEXO NÃO É VÁLIDO';
                         $inconsistencyModel->action = 'ADICIONE UM SEXO VÁLIDO PARA O ESTUDANTE';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
@@ -1319,6 +1334,7 @@ class SagresConsultModel
                         $inconsistencyModel->description = 'ESTUDANTE NÃO EXISTE PARA A MATRÍCULA DA TURMA: ';
                         $inconsistencyModel->action = 'ADICIONE UM ESTUDANTE À TURMA DA ESCOLA';
                         $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
