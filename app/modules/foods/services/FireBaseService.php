@@ -52,7 +52,7 @@ class FireBaseService
             'id'=> $uuid->toString(),
         ]);
 
-        $this->firestoreClient->addDocument($collection, $document);
+        $this->firestoreClient->addDocument($collection, $document, $uuid->toString());
 
         foreach ($foodsRelation as $foodData) {
             $document = new FirestoreDocument;
@@ -65,6 +65,7 @@ class FireBaseService
 
             $this->firestoreClient->addDocument($collectionFoods, $document);
         }
+        return $uuid->toString();
     }
 
     public function getFarmerRegister($cpf) {
@@ -83,5 +84,19 @@ class FireBaseService
         }
 
         return $foundFarmer;
+    }
+
+    public function updateFarmerRegister($farmerId ,$name, $cpf, $phone, $groupType, $foodsRelation) {
+        $collection = 'farmer_register';
+        $documentPath =  $collection . '/' . $farmerId;
+
+        $this->firestoreClient->updateDocument($documentPath, [
+            'cpf' => $cpf,
+            'name' => $name,
+            'phone' => $phone,
+            'groupType'=> $groupType,
+        ]);
+
+
     }
 }

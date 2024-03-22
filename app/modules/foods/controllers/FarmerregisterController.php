@@ -89,6 +89,9 @@ class FarmerRegisterController extends Controller
 
 					$farmerFoods->save();
 				}
+
+                $updateFarmerRegister = new UpdateFarmerRegister();
+                $updateFarmerRegister->exec($existingFarmer->reference_id, $name, $cpf, $phone, $groupType, $foodsRelation);
 			}
 		}
 	}
@@ -121,7 +124,10 @@ class FarmerRegisterController extends Controller
 				}
 				Yii::app()->user->setFlash('success', Yii::t('default', 'Cadastro do agricultor criado com sucesso!'));
                 $createFarmerRegister = new CreateFarmerRegister();
-                $createFarmerRegister->exec($name, $cpf, $phone, $groupType, $foodsRelation);
+                $farmerReferenceId = $createFarmerRegister->exec($name, $cpf, $phone, $groupType, $foodsRelation);
+
+                $farmerRegister->reference_id = $farmerReferenceId;
+                $farmerRegister->save();
 			}
         }
 	}
@@ -199,7 +205,7 @@ class FarmerRegisterController extends Controller
 		{
 			$model->attributes=$_POST['FarmerRegister'];
 			if($model->save()) {
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect(array('index'));
             }
 		}
 
