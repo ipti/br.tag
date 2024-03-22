@@ -10,7 +10,6 @@
  * @property integer $idClass;
  * @property integer $identifier;
  * @property integer $idStudent;
- * @property integer $inep_id;
  * 
  */
 class ValidationSagresModel extends CActiveRecord
@@ -20,7 +19,6 @@ class ValidationSagresModel extends CActiveRecord
     public $identifier;
 	public $idProfessional;
     public $idStudent;
-    public $inep_id;
 
 
     public function tableName()
@@ -31,7 +29,7 @@ class ValidationSagresModel extends CActiveRecord
     public function rules()
     {
         return array(
-            array('enrollment, school, description, action, inep_id', 'required'),
+            array('enrollment, school, description, action', 'required'),
         );
     }
 
@@ -42,7 +40,6 @@ class ValidationSagresModel extends CActiveRecord
             'school' => 'Escola',
             'description' => 'Descrição',
             'action' => 'Ação',
-            'inep_id' => 'Inep Id',
             'idSchool' => 'School Id',
             'idClass' => 'Class Id',
             'identifier' => 'Identifier',
