@@ -64,7 +64,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                             data-original-title="Remover Calendário" data-id="<?= $calendar->id ?>">
                                 <i class="fa fa-remove"></i>
                         </span>
-                                    
+
                         <span class="text-right pull-right edit-calendar" data-toggle="tooltip" data-placement="top"
                             data-original-title="<?= yii::t('index', 'Editar Calendário') ?>"
                             data-id="<?= $calendar->id ?>">
@@ -80,7 +80,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                         </span>
                     <?php endif; ?>
                 </div>
-            </div> 
+            </div>
             <div id="collapse<?= $calendar->id ?>" class="accordion-body collapse">
                 <div class="accordion-inner">
                     <div class="centered-loading-gif">
@@ -152,7 +152,7 @@ $calendars = Calendar::model()->findAll("YEAR(start_date) = :year", [":year" => 
                                                                     break;
                                                                 }
                                                             }
-                                                            
+
 
                                                             $content .= $day++;
                                                             $afterContent = "</a>";

@@ -50,12 +50,23 @@ class DefaultController extends Controller
 		{
 			$modelProfessional->attributes=$_POST['Professional'];
 			$modelProfessional->inep_id_fk = Yii::app()->user->school;
-			if($modelProfessional->validate()) {
-				if($modelProfessional->save()) {
-					Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional cadastrado com sucesso!'));
-					$this->redirect(array('index'));
+
+			$professional = Professional::model()->findByAttributes(array('inep_id_fk' => Yii::app()->user->school));
+
+			if($professional === null) {
+				if($modelProfessional->validate()) {
+					if($modelProfessional->save()) {
+						Yii::app()->user->setFlash('success', Yii::t('default', 'Profissional cadastrado com sucesso!'));
+						$this->redirect(array('index'));
+					}
 				}
+			} else {
+				Yii::app()->user->setFlash('error', Yii::t('default', 'Profissional já cadastrado para esta escola!'));
+				$this->redirect(array('index'));
 			}
+
+			 
+
 		}
 
 		$this->render('create',array(

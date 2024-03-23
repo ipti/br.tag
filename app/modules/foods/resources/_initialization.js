@@ -9,7 +9,7 @@ $( "#js-accordion" ).accordion({
 });
 
     $.ajax({
-        url: "?r=foods/foodMenu/getPublicTarget",
+        url: "?r=foods/foodmenu/getPublicTarget",
         type: "GET",
     }).success(function(response) {
        const publicTarget = JSON.parse(response);
