@@ -1,3 +1,5 @@
+## [Versão 3.76.127]
+- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
 ## [Versão 3.76.126]
 - Gestor autorizado para gerar os relatórios da escola.
 - Correção no redireccionamento para o aluno nas incoerências sagres
@@ -14,9 +16,6 @@
 
 ## [Versão 3.75.122]
 - Adicionada lógica, para que ao reaproveitar turmas, os alunos do ano de 2023 entrarão como matriculados.
-
-## [Versão 3.75.121]
-- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
 
 ## [Versão 3.74.121]
 - Correção no relatório de professores por escola
