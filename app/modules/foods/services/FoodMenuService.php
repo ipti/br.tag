@@ -155,11 +155,13 @@ class FoodMenuService
     {
         $nutritionalValue = array();
         $sql = '
-            select f.id, f.description, f.energy_kcal, f.protein_g, f.carbohydrate_g, f.lipidius_g from food as f
+            select f.id, f.description, fi.amount, fme.value, fme.measure,
+            f.energy_kcal, f.protein_g, f.carbohydrate_g, f.lipidius_g from food as f
             inner join food_ingredient as fi  on fi.food_id_fk= f.id
             inner join food_menu_meal_component as  fmmc on fmmc.id = fi.food_menu_meal_componentId
             inner join  food_menu_meal as fmm on fmm.id = fmmc.food_menu_mealId
             inner join food_menu as fm  on fm.id = food_menuId
+            inner join food_measurement as fme on fme.id = fi.food_measurement_fk
             where fm.id = :id
         ';
         $nutritionalValue = Yii::app()->db->createCommand($sql)->bindParam(':id', $id)->queryAll();
@@ -170,11 +172,21 @@ class FoodMenuService
         $lpdTotal = 0;
         $daysOFWeek = 5;
         foreach ($nutritionalValue as $item) {
-            $kcal += $item["energy_kcal"];
-            $calTotal += $item["carbohydrate_g"];
-            $ptnTotal += $item["protein_g"];
-            $lpdTotal += $item["lipidius_g"];
+            $portion = $item["value"] * $item["amount"];
+            if( $item["measure"] == "g" ||  $item["measure"] == 'ml'){
+                $kcal += ($item["energy_kcal"] * $portion/100);
+                $calTotal += ($item["carbohydrate_g"] * $portion/100);
+                $ptnTotal += ($item["protein_g"] * $portion/100);
+                $lpdTotal += ($item["lipidius_g"] * $portion/100);
+            }  elseif ($item["measure"] == "Kg" || $item["measure"] == "L") {
+                $kgTog = $portion*1000;
+                $kcal += ($item["energy_kcal"] * $kgTog/100);
+                $calTotal += ($item["carbohydrate_g"] * $kgTog/100);
+                $ptnTotal += ($item["protein_g"] * $kgTog/100);
+                $lpdTotal += ($item["lipidius_g"] * $kgTog/100);
+            }
         }
+
         $kcalAverage = $kcal / $daysOFWeek;
 
         $calAverage = $calTotal / $daysOFWeek;

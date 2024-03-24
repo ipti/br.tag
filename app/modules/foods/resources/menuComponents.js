@@ -324,7 +324,6 @@ const PlateComponent = function (plate) {
   }
   function updateNutritionalValues(result, measure, food, line) {
 
-    console.log(food)
     if(measure == "g" || measure == 'ml') {
       line.find(".js-pt").text(((food.pt * result)/100).toFixed(2))
       line.find(".js-lip").text(((food.lip * result)/100).toFixed(2))
@@ -337,10 +336,6 @@ const PlateComponent = function (plate) {
       line.find(".js-cho").text(((food.cho * kgTog)/100).toFixed(2))
       line.find(".js-kcal").text(((food.kcal * kgTog)/100).toFixed(2))
      }
-
-
-   /*  console.log(result)
-    console.log(measure) */
   }
   function calculateNutritionalValue(table) {
     let total_pt = total_lip = total_cho = total_kcal = 0;
@@ -574,6 +569,10 @@ const MealsComponent = function (meal, day) {
     container.append(wrapper.children())
     const renderPlates = meal.plates.reduce((acc, plate) => acc.concat(PlateComponent(plate).actions.render()), []);
     platesContainer.html(renderPlates)
+    if(platesContainer.data('ui-accordion')){
+        platesContainer.accordion("destroy");
+    }
+
     platesContainer.accordion({
       heightStyle: "content",
       active:  meal.plates.length-1,
