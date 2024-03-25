@@ -1,4 +1,10 @@
-let meals = [];
+let meals = {
+    mondayMeals: [],
+    tuesdayMeals: [],
+    wednesdayMeals: [],
+    thursdayMeals: [],
+    fridayMeals: [],
+};
 let idMeals = 0;
 let idplates = 0;
 let idIgredientes = 0;
@@ -44,6 +50,7 @@ $(".js-date").datepicker({
 const DateComponent = function () {
 
   const daysOfWeek = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
+  const daysMeals = ["sundayMeals", "mondayMeals", "tuesdayMeals", "wednesdayMeals", "thursdayMeals", "fridayMeals", "saturdayMeals"]
 
   function getLastDay() {
     return days[days.length - 1].date
@@ -56,7 +63,7 @@ const DateComponent = function () {
 
       if (!isWeekend) {
         return html +
-          `<li class="t-tabs__item js-day-tab js-change-pagination ${isActive}" data-day-of-week=${index} >
+          `<li class="t-tabs__item js-day-tab js-change-pagination ${isActive}" data-day-meal="${daysMeals[index]}" data-day-of-week=${index} >
             <div class="text-primary">${day}</div>
           </li>`;
       } else {
@@ -155,10 +162,7 @@ const PlateComponent = function (plate) {
         }
 
       }
-      $(".js-meals-component").html('')
-      meals.forEach((e) => {
-        MealsComponent(e, day).actions.render();
-      });
+      $(`.js-plate-accordion-header[data-id-accordion="${plateIdToRemove}"], .js-plate-accordion-content[data-id-accordion="${plateIdToRemove}"]`).remove();
       initializeMealAccordion(accordionActive)
     })
     const selectFoods = wrapper.find('.js-taco-foods')
@@ -249,13 +253,7 @@ const PlateComponent = function (plate) {
             accordionMeals = i;
           }
         }
-
-        const day = $('.js-day-tab.active').attr("data-day-of-week")
-        $(".js-meals-component").html('')
-        meals.forEach((e) => {
-          MealsComponent(e, day).actions.render();
-        });
-        initializeMealAccordion(accordionMeals)
+        line.remove();
 
       })
       table.find('.js-total').remove()
@@ -461,7 +459,7 @@ const MealsComponent = function (meal, day) {
     const container = $(".js-meals-component");
     let template = `
 
-    <div class="ui-accordion-header js-meals-accordion-header mobile-row ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
+    <div class="ui-accordion-header js-meals-accordion-header mobile-row ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}" data-id-accordion="${meal.id}">
       <div class="column justify-content--start js-meal-name">
         ${meal.mealType == "Selecione a refeição" ? "Turno da refeição" : meal.mealType}
       </div>
@@ -470,7 +468,7 @@ const MealsComponent = function (meal, day) {
         <span class="t-icon-trash js-remove-meal" data-id-accordion="${meal.id}" ></span>
       </div>
     </div>
-    <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}">
+    <div class="ui-accordion-content js-meals-accordion-content  ${meal.mealDay != day ? 'hide' : ''}" data-day-of-week="${meal.mealDay}" data-id-accordion="${meal.id}">
       <div class="row">
         <div class="t-field-text column clearleft--on-mobile">
           <label class="t-field-text__label--required">Hora da Refeição</label>
@@ -544,22 +542,28 @@ const MealsComponent = function (meal, day) {
     //adiciona prato à refeição
     const platesContainer = wrapper.find('.js-plate-accordion')
     wrapper.find('.js-add-plate').on("click", (e) => {
-      const day = $('.js-day-tab.active').attr("data-day-of-week")
-      $(".js-meals-component").html('')
+     const dayMeal = $('.js-day-tab.active').attr("data-day-meal")
       meal.plates.push({
         description: "",
         id: idplates,
         foodIngredients: []
       })
-      idplates++
+      platesContainer.append(PlateComponent(meal.plates[meal.plates.length-1]).actions.render())
+      if(platesContainer.data('ui-accordion')){
+        platesContainer.accordion("destroy");
+      }
 
-      meals.forEach((e) => {
-        MealsComponent(e, day).actions.render();
-      });
-      initializeMealAccordion(meals.indexOf(meal))
+      platesContainer.accordion({
+        heightStyle: "content",
+        active:  meal.plates.length-1,
+        collapsible: true,
+        icons: false,
+        });
+      idplates++
+      initializeMealAccordion(meals[dayMeal].indexOf(meal))
 
       $(".js-plate-accordion-header").off("keydown");
-
+      initializeSelect2();
     })
 
     getMealTypeList(wrapper.find(".js-meal-type"))
@@ -597,31 +601,29 @@ const MealsComponent = function (meal, day) {
 
 $(document).on("click", ".js-add-meal", function () {
   const day = $('.js-day-tab.active').attr("data-day-of-week")
-  $(".js-meals-component").html('')
-  meals.push({
-    id: idMeals,
-    mealDay: day,
-    mealTime: '',
-    mealTypeId: '',
-    mealType: 'Turno da refeição',
-    shift: '',
-    plates: []
+  const dayMeal = $('.js-day-tab.active').attr("data-day-meal")
+
+  meals[dayMeal].push({
+        id: idMeals,
+        order: meals[dayMeal].length,
+        mealDay: day,
+        mealTime: '',
+        mealTypeId: '',
+        mealType: 'Turno da refeição',
+        shift: '',
+        plates: []
   })
-  idMeals++
-  meals.forEach((e) => {
-    MealsComponent(e, day).actions.render();
-  });
-  initializeMealAccordion((meals.length-1))
+   MealsComponent(meals[dayMeal][meals[dayMeal].length-1], day).actions.render();
+   idMeals++
+  initializeMealAccordion((meals[dayMeal].length-1))
 });
 
 $(document).on("click", ".js-remove-meal", function () {
-  const day = $('.js-day-tab.active').attr("data-day-of-week")
+  const dayMeal = $('.js-day-tab.active').attr("data-day-meal")
   let mealIdRemoved = $(this).attr("data-id-accordion")
-  meals = meals.filter((e) => e.id != mealIdRemoved)
-  $(".js-meals-component").html('')
-  meals.forEach((e) => {
-    MealsComponent(e, day).actions.render();
-  });
+  meals[dayMeal] = meals[dayMeal].filter((e) => e.id != mealIdRemoved)
+
+  $(`.js-meals-accordion-header[data-id-accordion="${mealIdRemoved}"], .js-meals-accordion-content[data-id-accordion="${mealIdRemoved}"]`).remove();
   initializeMealAccordion()
 });
 
@@ -633,9 +635,7 @@ $(document).on("click", '.js-change-pagination', function () {
 
   let day = clicked.attr("data-day-of-week");
 
-  $(".js-meals-component").html('')
-  meals.forEach((e) => {
-    MealsComponent(e, day).actions.render();
-  });
+  $(`.js-meals-accordion-header[data-day-of-week="${day}"], .js-meals-accordion-content[data-day-of-week="${day}"]`).removeClass('hide');
+  $(`.js-meals-accordion-header[data-day-of-week]:not([data-day-of-week="${day}"]), .js-meals-accordion-content[data-day-of-week]:not([data-day-of-week="${day}"])`).addClass('hide');
   initializeMealAccordion()
 })
