@@ -221,7 +221,7 @@ class SiteController extends Controller
                 } else {
                     //Se houver etapa, verificar matriz curricular
                     $listCurricularMatrixs = $stage->curricularMatrixes;
-                    if (count($listCurricularMatrixs)){
+                    if (count($listCurricularMatrixs) == 0){
                         $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem matriz curricular.';
                         $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                             . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
@@ -234,7 +234,7 @@ class SiteController extends Controller
 
                     //Se houver etapa, verificar se existe estrutura de notas
                     $listGradeUnities = $stage->gradeUnities;
-                    if (count($listGradeUnities)) {
+                    if (count($listGradeUnities) == 0) {
                         $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem estrutura de notas.';
                         $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                             . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
