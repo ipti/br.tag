@@ -1,3 +1,6 @@
+## [Versão 3.76.127]
+- Corrigido erro que não saía do painel de cadastros pendentes, referente à matriz curricular e estrutura de notas
+
 ## [Versão 3.76.126]
 - Gestor autorizado para gerar os relatórios da escola.
 - Correção no redireccionamento para o aluno nas incoerências sagres
