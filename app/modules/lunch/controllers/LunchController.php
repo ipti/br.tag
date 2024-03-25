@@ -55,8 +55,14 @@ class LunchController extends Controller {
         $meals = [];
         foreach($menuMeals as $menuMeal)
         {
+            $mealsPortion = MealPortion::model()->findAllByAttributes(array("meal_fk" => $menuMeal->id));
+            foreach($mealsPortion as $mealPortion)
             array_push(
-                Meal::model()->findByPk($menuMeal->meal_fk)
+                $meals,
+                [
+                    "meal" => Meal::model()->findByPk($menuMeal->meal_fk),
+                    "portions" => Portion::model()->findByPk($mealPortion->portion_fk)
+                ]
             );
         }
 
@@ -74,7 +80,7 @@ class LunchController extends Controller {
                 $this->render('update', ["menu" => $menu]);
             }
         }else {
-            $this->render('update', ["menu" => $menu]);
+            $this->render('update', ["menu" => $menu, "meals" => $meals]);
         }
     }
     public function actionLunchDelete(){

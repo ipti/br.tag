@@ -1,5 +1,6 @@
 <?php
 /* @var $menuModel Menu
+ * @var $mealModel Meals
  * @var $form CActiveForm
  * @var $isUpdate Boolean
  */
@@ -111,8 +112,8 @@ $form = $this->beginWidget('CActiveForm', array(
                         <tbody>
                             <?php
                             $odd = false;
-                            foreach ($menuModel->menuMeals as $menuMeal) :
-                                $meal = $menuMeal->meal;
+                            foreach ($mealModel as $meal) :
+                                // $meal = $menuMeal->meal;
                                 $odd = !$odd;
                             ?>
                                 <tr class="<?= $odd ? "odd" : "" ?>">
@@ -121,7 +122,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <td id="portions">
                                         <table class="table table-clear">
                                             <tbody>
-                                                <?php foreach ($meal->mealPortions as $mealPortion) :
+                                                <?php
+                                                MealPortion::model()->
+                                                foreach ($meal->mealPortions as $mealPortion) :
                                                     $portion = $mealPortion->portion ?>
                                                     <tr class="<?= $odd ? "odd" : "" ?>">
                                                         <td><?= var_dump(Food::model()->findByPk($portion->food_fk));  ?></td>
