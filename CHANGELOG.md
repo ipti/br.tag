@@ -1,3 +1,6 @@
+## [Versão 3.76.129]
+- Correção no conteúdo ministrado em sala de aula
+
 ## [Versão 3.76.128]
 - Corrigido erro que não mostrava o nome da escola e das turmas nas inconsistências sagres
 - Corrigido na busca por profissional na mesma escola
