@@ -195,7 +195,7 @@ class ClassesController extends Controller
      * @param integer $disciplineId
      * @return Schedule[]
      */
-    private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
+    private function getSchedulesFromMajorStage($classroomId, $month, $disciplineId, $year)
     {
         return Schedule::model()->findAll(
             "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
