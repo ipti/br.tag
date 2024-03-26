@@ -55,13 +55,22 @@ class LunchController extends Controller {
         $meals = [];
         foreach($menuMeals as $menuMeal)
         {
+            // Array temporário para inserir porções de uma refeição
+            $tmpPortions = [];
+            // Encontrar todas as porções que pertencem à uma refeição
             $mealsPortion = MealPortion::model()->findAllByAttributes(array("meal_fk" => $menuMeal->id));
-            foreach($mealsPortion as $mealPortion)
+
+            // Inserir porções em array temporário
+            foreach($mealsPortion as $mealPortion){
+                array_push($tmpPortions, Portion::model()->findByPk($mealPortion->portion_fk));
+            }
+
+            // Inserir par Refeição:Porções em array Refeições
             array_push(
                 $meals,
                 [
                     "meal" => Meal::model()->findByPk($menuMeal->meal_fk),
-                    "portions" => Portion::model()->findByPk($mealPortion->portion_fk)
+                    "portions" => $tmpPortions
                 ]
             );
         }
@@ -194,7 +203,7 @@ class LunchController extends Controller {
             $mealPortion = new MealPortion();
             $mealPortion->meal_fk = $mealId;
             $mealPortion->portion_fk = $portionId;
-            // $mealPortion->amount = $mealPortionPost["amount"];
+            $mealPortion->amount = $mealPortionPost["amount"];
         }
 
         if($mealPortion->validate()){

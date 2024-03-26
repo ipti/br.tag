@@ -1,6 +1,6 @@
 <?php
 /* @var $menuModel Menu
- * @var $mealModel Meals
+ * @var $meals Meals
  * @var $form CActiveForm
  * @var $isUpdate Boolean
  */
@@ -112,8 +112,9 @@ $form = $this->beginWidget('CActiveForm', array(
                         <tbody>
                             <?php
                             $odd = false;
-                            foreach ($mealModel as $meal) :
-                                // $meal = $menuMeal->meal;
+                            foreach ($meals as $meal) :
+                                $portions = $meal["portions"];
+                                $meal = $meal["meal"];
                                 $odd = !$odd;
                             ?>
                                 <tr class="<?= $odd ? "odd" : "" ?>">
@@ -123,16 +124,23 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <table class="table table-clear">
                                             <tbody>
                                                 <?php
-                                                MealPortion::model()->
-                                                foreach ($meal->mealPortions as $mealPortion) :
-                                                    $portion = $mealPortion->portion ?>
+                                                $lunchController = new LunchController(null);
+                                                // CVarDumper::dump($portions);
+
+                                                foreach ($portions as $portion) :
+                                                    $foodModel = Food::model()->findByPk($portion->food_fk);
+                                                    $foodAlias = $lunchController->actionGetFoodAlias();
+                                                    $food = array_filter($foodAlias,
+                                                    function($f) use ($foodModel) {return $f->id == $foodModel->id;});
+                                                    $foodUnity = FoodMeasurement::model()->findByPk($portion->unity_fk);
+                                                    $food = array_pop($food); ?>
                                                     <tr class="<?= $odd ? "odd" : "" ?>">
-                                                        <td><?= var_dump(Food::model()->findByPk($portion->food_fk));  ?></td>
-                                                        <td class="span2"><?= (floatval($mealPortion->amount) . "x " .
-                                                        floatval($portion->measure)). " " .
-                                                        $portion->unityFk->measure ?></td>
+                                                        <td><?= $food->description ?></td>
+                                                        <td class="span2"><?= (floatval($portion->amount) . " " . $foodUnity->unit . " x " .
+                                                        floatval($foodUnity->value)). " " .
+                                                        $foodUnity->measure ?></td>
                                                         <td class="span1 text-right">
-                                                            <a data-toggle="modal" href="#removePortion" data-meal-portion-id="<?= $mealPortion->id ?>" class="button-remove-portion btn btn-danger btn-mini hidden-print">
+                                                            <a data-toggle="modal" href="#removePortion" data-meal-portion-id="<?= $meal->id ?>" class="button-remove-portion btn btn-danger btn-mini hidden-print">
                                                                 <i class="fa fa-times"></i>
                                                             </a>
                                                         </td>
@@ -140,8 +148,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <?php endforeach ?>
                                                 <tr>
                                                     <td colspan="3" class="<?= $odd ? "odd" : "" ?>">
-
-                                                        <a data-toggle="modal" href="#addPortion" data-meal-id="<?= $menuMeal->meal_fk ?>" class="pull-left button-add-portion btn btn-success btn-small hidden-print">
+                                                        <a data-toggle="modal" href="#addPortion" data-meal-id="<?= $meal->id ?>" class="pull-left button-add-portion btn btn-success btn-small hidden-print">
                                                             <i class="fa fa-plus-circle"></i>
                                                             <?= Yii::t('lunchModule.stock', 'Add Portion'); ?>
                                                         </a>
