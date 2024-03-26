@@ -1,3 +1,13 @@
+## [Versão 3.76.128]
+- Corrigido na busca por profissional na mesma escola
+
+## [Versão 3.76.127]
+- Corrigido erro que não saía do painel de cadastros pendentes, referente à matriz curricular e estrutura de notas
+
+## [Versão 3.76.126]
+- Gestor autorizado para gerar os relatórios da escola.
+- Correção no redireccionamento para o aluno nas incoerências sagres
+
 ## [Versão 3.76.125]
 - Adicionado registro de profissional em mais de uma escola
 
@@ -40,7 +50,8 @@
 
 ## [Versão 3.73.116]
 - Funcionaldide gerenciar "Aulas Ministradas" corrigida, agora são apresentados somente os dias em que há aula daquela disciplina
-
+- Adicionado ckeckbox: Gerar arquivo excluindo alunos sem CPF
+- Correções nas anotações do arquivo sagres.
 ## [Versão 3.73.115]
 - Adicionado novas medidas para os pratos do cardápio
 
