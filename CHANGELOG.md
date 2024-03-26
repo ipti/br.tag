@@ -1,3 +1,6 @@
+## [Versão 3.76.128]
+- Corrigido na busca por profissional na mesma escola
+
 ## [Versão 3.76.127]
 - Corrigido erro que não saía do painel de cadastros pendentes, referente à matriz curricular e estrutura de notas
 
