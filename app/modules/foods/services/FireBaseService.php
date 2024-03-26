@@ -40,7 +40,6 @@ class FireBaseService
 
     public function createFarmerRegister($name, $cpf, $phone, $groupType, $foodsRelation) {
         $collection = 'farmer_register';
-        $collectionFoods = 'farmer_foods';
         $uuid = Uuid::uuid4();
 
         $document = new FirestoreDocument;
@@ -54,18 +53,32 @@ class FireBaseService
 
         $this->firestoreClient->addDocument($collection, $document, $uuid->toString());
 
-        foreach ($foodsRelation as $foodData) {
-            $document = new FirestoreDocument;
-            $document->fillValues([
-                'name' => $foodData['foodDescription'],
-                'amount' => $foodData['amount'],
-                'measurementUnit' => $foodData['measurementUnit'],
-                'id'=> $uuid->toString(),
-            ]);
+        $this->createFarmerFoods($foodsRelation, $uuid->toString());
 
-            $this->firestoreClient->addDocument($collectionFoods, $document);
-        }
         return $uuid->toString();
+    }
+
+    public function updateFarmerRegister($farmerId, $name, $cpf, $phone, $groupType, $foodsRelation) {
+        $collection = 'farmer_register';
+        $documentPath =  $collection . '/' . $farmerId;
+
+        $this->firestoreClient->updateDocument($documentPath, [
+            'cpf' => $cpf,
+            'name' => $name,
+            'phone' => $phone,
+            'groupType'=> $groupType,
+        ]);
+
+        $this->deleteFarmerFoods($farmerId);
+        $this->createFarmerFoods($foodsRelation, $farmerId);
+    }
+
+    public function deleteFarmerRegister($farmerId) {
+        $collection = 'farmer_register';
+        $documentPath =  $collection . '/' . $farmerId;
+
+        $this->firestoreClient->deleteDocument($documentPath);
+        $this->deleteFarmerFoods($farmerId);
     }
 
     public function getFarmerRegister($cpf) {
@@ -86,17 +99,36 @@ class FireBaseService
         return $foundFarmer;
     }
 
-    public function updateFarmerRegister($farmerId ,$name, $cpf, $phone, $groupType, $foodsRelation) {
-        $collection = 'farmer_register';
-        $documentPath =  $collection . '/' . $farmerId;
+    public function createFarmerFoods($foods, $farmerId) {
+        $collectionFoods = 'farmer_foods';
 
-        $this->firestoreClient->updateDocument($documentPath, [
-            'cpf' => $cpf,
-            'name' => $name,
-            'phone' => $phone,
-            'groupType'=> $groupType,
-        ]);
+        foreach ($foods as $foodData) {
+            $uuid = Uuid::uuid4();
+            $document = new FirestoreDocument;
+            $document->fillValues([
+                'name' => $foodData['foodDescription'],
+                'amount' => $foodData['amount'],
+                'measurementUnit' => $foodData['measurementUnit'],
+                'farmer_id'=> $farmerId,
+                'id' => $uuid->toString(),
+            ]);
 
-
+            $this->firestoreClient->addDocument($collectionFoods, $document, $uuid->toString());
+        }
     }
+
+    public function deleteFarmerFoods($farmerId) {
+        $collectionFoods = 'farmer_foods';
+
+
+        $farmerFoods = $this->firestoreClient->listDocuments('farmer_foods');
+
+        foreach ($farmerFoods['documents'] as $farmerFood) {
+            if ($farmerFood->get('farmer_id') == $farmerId) {
+                $documentPath =  $collectionFoods . '/' . $farmerFood->get('id');
+                $this->firestoreClient->deleteDocument($documentPath);
+            }
+        }
+    }
+
 }

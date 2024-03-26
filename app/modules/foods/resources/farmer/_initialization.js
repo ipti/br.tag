@@ -47,32 +47,42 @@ $(document).ready(function() {
 $(document).on("focusout", "#farmerCpf", function () {
     const $params = new URLSearchParams(window.location.search);
     let id = $params.get('id');
-    if(id == null) {
-        let farmerCpf = $(this).val().replace(/\D/g, '');
-        $.ajax({
-            type: 'POST',
-            url: "?r=foods/farmerregister/getFarmerRegister",
-            cache: false,
-            data: {
-                farmerCpf: farmerCpf,
-            }
-        }).success(function(response) {
-            let data = DOMPurify.sanitize(response);
-            let farmerRegister = JSON.parse(data);
-            $('#farmerName').removeAttr('disabled');
-            $('#farmerPhone').removeAttr('disabled');
-            $('#farmerGroupType').removeAttr('disabled');
+    let farmerCpf = $(this).val().replace(/\D/g, '');
 
-            if(Object.keys(farmerRegister).length != 0) {
-                let groupTypeSelect = $('#farmerGroupType');
-                $("#farmerName").val(farmerRegister['name']);
-                $("#farmerPhone").val(farmerRegister['phone']);
-                groupTypeSelect.val(farmerRegister['groupType']);
-                groupTypeSelect.trigger("change");
-            } else {
-                $('#info-alert').removeClass('hide').html("O cpf informado não possui cadastro, informe os dados básicos");
-            }
-        });
+    if(id == null && farmerCpf != '') {
+        if(farmerCpf.length < 11) {
+            $('#info-alert').removeClass('hide').html("Informe o CPF completo");
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: "?r=foods/farmerregister/getFarmerRegister",
+                cache: false,
+                data: {
+                    farmerCpf: farmerCpf,
+                }
+            }).success(function(response) {
+                let data = DOMPurify.sanitize(response);
+                let farmerRegister = JSON.parse(data);
+                if("error" in farmerRegister) {
+                    $('#info-alert').removeClass('hide').addClass('alert-error').html(farmerRegister.error);
+                } else {
+                    $('#farmerName').removeAttr('disabled');
+                    $('#farmerPhone').removeAttr('disabled');
+                    $('#farmerGroupType').removeAttr('disabled');
+
+                    if(Object.keys(farmerRegister).length != 0) {
+                        $('#info-alert').addClass('hide')
+                        let groupTypeSelect = $('#farmerGroupType');
+                        $("#farmerName").val(farmerRegister['name']);
+                        $("#farmerPhone").val(farmerRegister['phone']);
+                        groupTypeSelect.val(farmerRegister['groupType']);
+                        groupTypeSelect.trigger("change");
+                    } else {
+                        $('#info-alert').removeClass('hide').html("O cpf informado não possui cadastro, informe os dados básicos");
+                    }
+                }
+            });
+        }
     }
 });
 
@@ -163,6 +173,11 @@ $(document).on("click", "#save-farmer", function () {
                 foodsRelation: foodsRelation
             }
         }).success(function(response) {
+            let data = DOMPurify.sanitize(response);
+            let result = JSON.parse(data);
+            if("error" in result) {
+                $('#info-alert').removeClass('hide').addClass('alert-error').html(result.error);
+            }
             window.location.href = "?r=foods/farmerregister/index";
         })
     }

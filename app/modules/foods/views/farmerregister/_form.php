@@ -55,7 +55,7 @@ $form=$this->beginWidget('CActiveForm', array(
     </div>
 
     <h3>Dados Básicos</h3>
-    <p>Informe o CPF, caso o agricultor já possua cadastro os dados básicos serão preenchidos automaticamente</p>
+    <p>Informe o CPF, caso o agricultor já possua cadastro na plataforma NHAM, os dados básicos serão preenchidos automaticamente.</p>
 
     <div class="row">
         <div class="column clearleft is-two-fifths">
