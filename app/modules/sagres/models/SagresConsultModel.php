@@ -454,7 +454,7 @@ class SagresConsultModel
         foreach ($series as $serie) {
             $serieType = new SerieTType();
             $serieType
-                ->setDescricao($serie['serieDescription'])
+                ->setDescricao($serie['serieDescriptiactionon'])
                 ->setModalidade($serie['serieModality']);
 
                 if (empty($serieType)) {
@@ -479,6 +479,7 @@ class SagresConsultModel
                     $inconsistencyModel->idClass = $classId;
                     $inconsistencyModel->insert();
                 }
+
 
 
                 if (strlen($serieType->getDescricao()) > $strMaxLength) {
