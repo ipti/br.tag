@@ -10,6 +10,20 @@ let idplates = 0;
 let idIgredientes = 0;
 
 
+function getIdMeal(daysMeals) {
+    let totalLength = 0;
+
+    // Obtém os dias anteriores ao daysMeals
+    let days = Object.keys(meals).slice(0, daysMeals);
+
+    // Itera sobre os dias anteriores e soma o comprimento dos arrays correspondentes
+    for (let day of days) {
+        totalLength += meals[day].length;
+    }
+
+    return totalLength;
+}
+
 function parseDOM(htmlString) {
   const wrapper = $('<div></div>');
   wrapper.append(htmlString);
@@ -605,7 +619,6 @@ $(document).on("click", ".js-add-meal", function () {
 
   meals[dayMeal].push({
         id: idMeals,
-        order: meals[dayMeal].length,
         mealDay: day,
         mealTime: '',
         mealTypeId: '',
@@ -615,7 +628,9 @@ $(document).on("click", ".js-add-meal", function () {
   })
    MealsComponent(meals[dayMeal][meals[dayMeal].length-1], day).actions.render();
    idMeals++
-  initializeMealAccordion((meals[dayMeal].length-1))
+   console.log((meals[dayMeal].length-1))
+   console.log(getIdMeal(dayMeal))
+  initializeMealAccordion(meals[dayMeal].indexOf(meal))
 });
 
 $(document).on("click", ".js-remove-meal", function () {
