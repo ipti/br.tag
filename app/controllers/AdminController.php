@@ -92,9 +92,11 @@ class AdminController extends Controller
             $importModel->saveSchoolStructureDB($dataDecoded['school_structure']);
             $importModel->saveClassroomsDB($dataDecoded['classrooms']);
 
-            $importModel->saveInstructorDataDB($dataDecoded['instructor_identification'],
+            $importModel->saveInstructorDataDB(
+                $dataDecoded['instructor_identification'],
                 $dataDecoded['instructor_documents_and_address'],
-                $dataDecoded['instructor_variable_data']);
+                $dataDecoded['instructor_variable_data']
+            );
             $importModel->saveInstructorsTeachingDataDB($dataDecoded['instructor_teaching_data']);
             $importModel->saveTeachingMatrixes($dataDecoded['teaching_matrixes']);
 
@@ -130,7 +132,7 @@ class AdminController extends Controller
                 if ($model->validate()) {
                     $passwordHasher =  new PasswordHasher;
                     $password = $passwordHasher->bcriptHash($_POST['Users']['password']);
-                   
+
                     $model->password = $password;
                     // form inputs are valid, do something here
                     if ($model->save()) {
@@ -144,7 +146,6 @@ class AdminController extends Controller
                         if ($save) {
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
-
                         }
                         if (isset($_POST['instructor']) && $_POST['instructor'] != "") {
                             $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]);
@@ -160,8 +161,10 @@ class AdminController extends Controller
                 $this->redirect(['index']);
             }
         }
-        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk' => null],
-            ['select' => 'id, name']);
+        $instructors = InstructorIdentification::model()->findAllByAttributes(
+            ['users_fk' => null],
+            ['select' => 'id, name']
+        );
         $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
             return $carry;
@@ -193,6 +196,18 @@ class AdminController extends Controller
     public function actionGetUnities()
     {
         $stage = Yii::app()->request->getPost("stage");
+
+        $modality =  Yii::app()->db->createCommand("
+        select
+            distinct gu.name,
+            gu.id,
+            gu.edcenso_stage_vs_modality_fk
+        from grade_unity gu
+            join curricular_matrix cm on cm.stage_fk = gu.edcenso_stage_vs_modality_fk
+        where cm.school_year = :year and gu.edcenso_stage_vs_modality_fk = :stage_modality")
+            ->bindParam(":year", Yii::app()->user->year)
+            ->bindParam(":stage_modality", $stage)
+            ->queryAll();
 
         $result = [];
         $result["unities"] = [];
@@ -239,9 +254,11 @@ class AdminController extends Controller
 
         $result["approvalMedia"] = $gradeRules->approvation_media;
         $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
+        $result["semiRecoverMedia"] = $gradeRules->semi_recover_media;
         $result["mediaCalculation"] = $gradeRules->grade_calculation_fk;
         $result["ruleType"] = $gradeRules->rule_type;
         $result["hasFinalRecovery"] = (bool) $gradeRules->has_final_recovery;
+        $result["modality"] = $modality;
 
         echo CJSON::encode($result);
     }
@@ -256,10 +273,13 @@ class AdminController extends Controller
         $unities = Yii::app()->request->getPost("unities");
         $approvalMedia = Yii::app()->request->getPost("approvalMedia");
         $finalRecoverMedia = Yii::app()->request->getPost("finalRecoverMedia");
+        $semiRecoverMedia = Yii::app()->request->getPost("semiRecoverMedia");
         $calculationFinalMedia = Yii::app()->request->getPost("finalMediaCalculation");
         $finalRecovery = Yii::app()->request->getPost("finalRecovery");
+        $semiRecovery = Yii::app()->request->getPost("semianualRecovery");
         $ruleType = Yii::app()->request->getPost("ruleType");
         $hasFinalRecovery = Yii::app()->request->getPost("hasFinalRecovery") === "true";
+        $hasSemianualRecovery = Yii::app()->request->getPost("hasRecoverySemianual") === "true";
 
         try {
             $usecase = new UpdateGradeStructUsecase(
@@ -268,13 +288,15 @@ class AdminController extends Controller
                 $unities,
                 $approvalMedia,
                 $finalRecoverMedia,
+                $semiRecoverMedia,
                 $calculationFinalMedia,
                 $hasFinalRecovery,
-                $ruleType);
+                $hasSemianualRecovery,
+                $ruleType
+            );
             $usecase->exec();
 
             if ($hasFinalRecovery === true) {
-
                 $recoveryUnity = GradeUnity::model()->find($finalRecovery["id"]);
 
                 if ($finalRecovery["operation"] === "delete") {
@@ -294,10 +316,14 @@ class AdminController extends Controller
 
                 if (!$recoveryUnity->validate()) {
                     $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnity);
-                    throw new CHttpException(400, "Não foi possivel salvar dados da recuperação final: \n" . $validationMessage, 1);
+                    throw new CHttpException(400, "Não foi possível salvar dados da recuperação final: \n" . $validationMessage, 1);
                 }
 
                 $recoveryUnity->save();
+            }
+
+            if ($hasSemianualRecovery === true) {
+                $this->processSemianualRecovery($stage, $semiRecovery, $semiRecoverMedia);
             }
 
             echo json_encode(["valid" => true]);
@@ -307,10 +333,40 @@ class AdminController extends Controller
 
             throw $th;
         }
-
     }
 
+    protected function processSemianualRecovery($stage, $semiRecovery, $semiRecoverMedia)
+    {
+        foreach ($semiRecovery as $semianual) {
+            $recoveryUnitySemi = new GradeUnity();
+            $gradeRules = new GradeRules();
 
+            if ($semianual["operation"] === "update") {
+                $recoveryUnitySemi = GradeUnity::model()->find($semianual["id"]);
+            }
+
+            if ($semianual["operation"] === "delete") {
+                $recoveryUnitySemi = GradeUnity::model()->find($semianual["id"]);
+                $recoveryUnitySemi->delete();
+                echo json_encode(["valid" => true]);
+                Yii::app()->end();
+            }
+
+            $recoveryUnitySemi->name = $semianual["name"];
+            $recoveryUnitySemi->type = "RS";
+            // $recoveryUnitySemi
+            $recoveryUnitySemi->grade_calculation_fk = $semianual["grade_calculation_fk"];
+            $recoveryUnitySemi->edcenso_stage_vs_modality_fk = $stage;
+            $gradeRules->semi_recover_media = $semiRecoverMedia;
+
+            if (!$recoveryUnitySemi->validate()) {
+                $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnitySemi);
+                throw new CHttpException(400, "Não foi possível salvar dados da recuperação semestral: \n" . $validationMessage, 1);
+            }
+
+            $recoveryUnitySemi->save();
+        }
+    }
 
     public function actionActiveDisableUser()
     {
@@ -326,7 +382,6 @@ class AdminController extends Controller
     {
 
         echo phpinfo();
-
     }
     public function actionDisableUser($id)
     {
@@ -385,14 +440,12 @@ class AdminController extends Controller
             if ($userSchool !== null) {
                 foreach ($userSchool as $register) {
                     $register->delete('users_school', 'user_fk=' . $id);
-
                 }
             }
 
             // Excluindo o registro na tabela de usuário
             $user->delete('users', 'id=' . $id);
             $delete = true;
-
         }
 
         // Redirecionando para a tela de gerenciar usuários
@@ -401,7 +454,6 @@ class AdminController extends Controller
             $this->redirect(array('admin/manageUsers'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Erro! Não foi possível excluir o usuário, tente novamente!'));
-
         }
     }
 

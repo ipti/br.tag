@@ -109,6 +109,10 @@ $('#discipline').change(function (e, triggerEvent) {
                             `;
                         }
                         html += `
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>1º Recuperação Semestral</th>
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>2º Recuperação Semestral</th>
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Semestral</th>
+                            <th rowspan='2' style='width:10%;vertical-align:middle;'>Recuperação Final</th>
                             <th rowspan='2' style='width:10%;vertical-align:middle;'>Média Final</th>
                         `;
                     } else {
@@ -180,8 +184,14 @@ $('#discipline').change(function (e, triggerEvent) {
                         }
 
                         if(data.rule == "N") {
-                            if(data.hasRecovery == 1) {
-                                html += `
+                            html += `
+                                <td class='grade-td one-semianual-td'>
+                                    <input type='text' class='one-semianual' value='${this.recSemianual1}' style="width:50px; text-align:center; margin-bottom: 0px">
+                                </td>
+                                <td class='grade-td two-semianual-td'>
+                                    <input type='text' class='two-semianual' value='${this.recSemianual2}' style="width:50px; text-align:center; margin-bottom: 0px">
+                                </td>
+                                <td style='font-weight: bold;font-size: 16px;' class='semianual-media'> ${this.semianualMedia}</td>
                                 <td class='grade-td rec-final-td'>
                                     <input type='text' class='rec-final' value='${this.recFinal}'>
                                 </td>
@@ -249,6 +259,8 @@ $("#save").on("click", function (e) {
             enrollmentId: $(this).find(".enrollment-id").val(),
             grades: grades,
             recFinal:  $(this).find(".rec-final").val(),
+            recSemianual1:  $(this).find(".one-semianual").val(),
+            recSemianual2:  $(this).find(".two-semianual").val(),
             finalConcept:  $(this).find(".final-concept").val()
         });
     });

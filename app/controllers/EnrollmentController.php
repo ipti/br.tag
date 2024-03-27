@@ -560,6 +560,10 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             $gradeResult->discipline_fk = $discipline;
             $gradeResult->rec_final = $std["recFinal"];
 
+            $gradeResult->rec_semianual_1 = $std["recSemianual1"];
+            $gradeResult->rec_semianual_2 = $std["recSemianual2"];
+            $gradeResult->semianual_media = $std["semianualMedia"];
+
             $hasAllValues = true;
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
@@ -586,6 +590,13 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                     count($std['grades'])
                 );
                 $usecaseFinalMedia->exec();
+
+                $usecaseSemiMedia = new CalculateSemianualMediaUsecase(
+                    $gradeResult,
+                    $gradeRules,
+                    count($std['grades'])
+                );
+                $usecaseSemiMedia->exec();
 
                 if ($gradeResult->enrollmentFk->isActive()) {
                     $usecase = new ChageStudentStatusByGradeUsecase(

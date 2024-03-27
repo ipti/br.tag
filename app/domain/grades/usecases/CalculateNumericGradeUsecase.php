@@ -31,6 +31,10 @@ class CalculateNumericGradeUsecase
                 $gradeResult = $this->calculateCommonUnity($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
             } elseif ($gradeUnity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
                 $gradeResult = $this->calculateUnityWithRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
+            } elseif ($gradeUnity->type == GradeUnity::TYPE_SEMIANUAL_RECOVERY) {
+                // @TODO: ALTERAR MEDOTO PARA CALCULO DA RECUPERACAO SEMESTRAL
+                $gradeResult = $this->calculateSemiRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
+            }
             } elseif ($gradeUnity->type == GradeUnity::TYPE_FINAL_RECOVERY) {
                 $gradeResult = $this->calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity);
             }
@@ -46,6 +50,15 @@ class CalculateNumericGradeUsecase
     {
         $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $unity);
         $gradeResult->setAttribute("rec_final", is_nan($unityMedia) ? "" : $unityMedia);
+
+        return $gradeResult;
+    }
+
+    private function calculateSemiRecovery($gradeResult, $studentEnrollment, $discipline, $unity)
+    {
+        $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $unity);
+        $gradeResult->setAttribute("rec_semianual_1", is_nan($unityMedia) ? "" : $unityMedia);
+        $gradeResult->setAttribute("rec_semianual_2", is_nan($unityMedia) ? "" : $unityMedia);
 
         return $gradeResult;
     }
