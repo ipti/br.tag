@@ -326,7 +326,7 @@ class SagresConsultModel
         
         if(empty($turmas)) {
             $inconsistencyModel = new ValidationSagresModel();
-            $inconsistencyModel->enrollment = 'ESCOLA';
+            $inconsistencyModel->enrollment = '<strong>ESCOLA<strong>';
             $inconsistencyModel->school = $schoolName;
             $inconsistencyModel->description = 'Não há turmas para a escola: ' . $schoolName;
             $inconsistencyModel->action = 'Adicione turmas para a escola';
@@ -368,7 +368,7 @@ class SagresConsultModel
              */
             if (!in_array($classType->getPeriodo(), [0, 1, 2])) {
                 $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'TURMA';
+                $inconsistencyModel->enrollment = '<strong>TURMA<strong>';
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Valor inválido para o período';
                 $inconsistencyModel->action = 'Adicione um valor válido para o período da turma: ' . $classType->getDescricao();
@@ -380,7 +380,7 @@ class SagresConsultModel
             
             if (strlen($classType->getDescricao()) <= $strlen && !is_null($classType->getDescricao())) {
                 $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'TURMA';
+                $inconsistencyModel->enrollment = '<strong>TURMA<strong>';
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Descrição para a turma menor que 3 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição mais detalhada, contendo mais de 5 caracteres';
@@ -392,7 +392,7 @@ class SagresConsultModel
             
             if (strlen($classType->getDescricao()) > $strMaxLength) {
                 $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'TURMA';
+                $inconsistencyModel->enrollment = '<strong>TURMA<strong>';
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Descrição para a turma com mais de 50 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição menos detalhada, contendo até 50 caracteres';
@@ -404,7 +404,7 @@ class SagresConsultModel
             
             if (!in_array($classType->getTurno(), [1, 2, 3, 4])) {
                 $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'TURMA';
+                $inconsistencyModel->enrollment = '<strong>TURMA<strong>';
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Valor inválido para o turno da turma';
                 $inconsistencyModel->action = 'Selecione um turno válido para o horário de funcionamento';
@@ -416,7 +416,7 @@ class SagresConsultModel
             
             if (!is_bool($classType->getFinalTurma())) {
                 $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'TURMA';
+                $inconsistencyModel->enrollment = '<strong>TURMA<strong>';
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Valor inválido para o final turma';
                 $inconsistencyModel->action = 'Selecione um valor válido para o encerramento do período';
@@ -452,14 +452,15 @@ class SagresConsultModel
         $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
 
         foreach ($series as $serie) {
+            $serie = (object) $serie;
             $serieType = new SerieTType();
             $serieType
-                ->setDescricao($serie['serieDescription'])
-                ->setModalidade($serie['serieModality']);
+                ->setDescricao($serie->serieDescription)
+                ->setModalidade($serie->serieModality);
 
                 if (empty($serieType)) {
                     $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = 'SÉRIE';
+                    $inconsistencyModel->enrollment = '<strong>SÉRIE<strong>';
                     $inconsistencyModel->school = $school->name;
                     $inconsistencyModel->description = 'Não há série para a escola: ' . $school->name;
                     $inconsistencyModel->action = 'Adicione uma série para a turma';
@@ -471,7 +472,7 @@ class SagresConsultModel
 
                 if (strlen($serieType->getDescricao()) <= $strlen) {
                     $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = 'SÉRIE';
+                    $inconsistencyModel->enrollment = '<strong>SÉRIE<strong>';
                     $inconsistencyModel->school = $school->name;
                     $inconsistencyModel->description = 'Descrição para a série: ' . $serieType->getDescricao() . ' menor que 3 caracteres';
                     $inconsistencyModel->action = 'Forneça uma descrição mais detalhada, contendo mais de 5 caracteres';
@@ -483,7 +484,7 @@ class SagresConsultModel
 
                 if (strlen($serieType->getDescricao()) > $strMaxLength) {
                     $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = 'SÉRIE';
+                    $inconsistencyModel->enrollment = '<strong>SÉRIE<strong>';
                     $inconsistencyModel->school = $school->name;
                     $inconsistencyModel->description = 'Descrição para a série: ' . $serieType->getDescricao() . ' com mais de 50 caracteres';
                     $inconsistencyModel->action = 'Forneça uma descrição menos detalhada, contendo até 50 caracteres';
@@ -501,7 +502,7 @@ class SagresConsultModel
                  */
                 if (!in_array($serieType->getModalidade(), [1, 2, 3, 4, 5])) {
                     $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = 'SÉRIE';
+                    $inconsistencyModel->enrollment = '<strong>SÉRIE<strong>';
                     $inconsistencyModel->school = $school->name;
                     $inconsistencyModel->description = 'Modalidade inválida';
                     $inconsistencyModel->action = 'Selecione uma modalidade válida para a série';
