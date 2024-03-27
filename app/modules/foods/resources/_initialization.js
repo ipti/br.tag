@@ -69,7 +69,7 @@ if(menuId)  {
             })
             idplates++
         })
-        meals.mondayMeals.push({
+        meals.push({
             id: idMeals,
             mealDay: 1,
             mealTime: e.time,
@@ -109,7 +109,7 @@ if(menuId)  {
             })
             idplates++
         })
-        meals.tuesdayMeals.push({
+        meals.push({
             id: idMeals,
             mealDay: 2,
             mealTime: e.time,
@@ -149,7 +149,7 @@ if(menuId)  {
             })
             idplates++
         })
-        meals.wednesdayMeals.push({
+        meals.push({
             id: idMeals,
             mealDay: 3,
             mealTime: e.time,
@@ -189,7 +189,7 @@ if(menuId)  {
             })
             idplates++
         })
-        meals.thursdayMeals.push({
+        meals.push({
             id: idMeals,
             mealDay: 4,
             mealTime: e.time,
@@ -229,7 +229,7 @@ if(menuId)  {
             })
             idplates++
         })
-        meals.fridayMeals.push({
+        meals.push({
             id: idMeals,
             mealDay: 5,
             mealTime: e.time,
@@ -242,19 +242,7 @@ if(menuId)  {
 
     })
     const day = $('.js-day-tab.active').attr("data-day-of-week")
-    meals.mondayMeals.forEach((e) => {
-        MealsComponent(e, day).actions.render();
-    });
-    meals.tuesdayMeals.forEach((e) => {
-        MealsComponent(e, day).actions.render();
-    });
-    meals.wednesdayMeals.forEach((e) => {
-        MealsComponent(e, day).actions.render();
-    });
-    meals.thursdayMeals.forEach((e) => {
-        MealsComponent(e, day).actions.render();
-    });
-    meals.fridayMeals.forEach((e) => {
+    meals.forEach((e) => {
         MealsComponent(e, day).actions.render();
     });
     $('.js-meals-component').accordion("destroy");
