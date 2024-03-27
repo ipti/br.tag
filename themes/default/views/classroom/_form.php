@@ -201,12 +201,22 @@ $form = $this->beginWidget(
                             <!-- Etapa de Ensino -->
                             <div class="t-field-select" id="stage_vs_modality">
                                 <?php echo $form->label($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
-                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData($edcensoStageVsModalities, 'id', 'name'), array('prompt' => 'Selecione o estágio vs modalidade', 'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
+                                <?php echo $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData($edcensoStageVsModalities, 'id', 'name'), array(
+                                    'prompt' => 'Selecione o estágio vs modalidade',
+                                    'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
                                 <?php echo $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 <img class="loading-disciplines" style="display:none;position: fixed;margin: 5px 20px;"
                                     height="20px" width="20px"
                                     src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
                                     alt="TAG Loading">
+                            </div>
+
+                            <!-- Calendários da etapa -->
+                            <div class="t-field-select">
+                                <label class="t-field-select__label">Calendário</label>
+                                <select class="select-search-on t-field-select__input select2-container" name="calendar_fk" id="Calendars" selectedOption="<?= $modelClassroom->calendar_fk ?>">
+                                    <option value=''>Selecione um Calendário</option>
+                                </select>
                             </div>
 
                             <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
@@ -567,6 +577,7 @@ $form = $this->beginWidget(
 
                                 $teachingDataArray[$i] = array();
                                 $teachingDataArray[$i]['Instructor'] = $model->instructor_fk;
+                                $teachingDataArray[$i]["Inep"] = $model->instructorFk->inep_id;
                                 $teachingDataArray[$i]['Classroom'] = $model->classroom_id_fk;
                                 $teachingDataArray[$i]['Role'] = $model->role;
                                 $teachingDataArray[$i]['ContractType'] = $model->contract_type;
@@ -853,7 +864,10 @@ $form = $this->beginWidget(
                     </div>
                 </div>
                 <div class="tab-pane" id="daily">
-                    <ul id="js-t-sortable" class="t-sortable">
+                    <div class="row">
+                        <button id="js-alphabetic-order" type="button" class="t-button-secondary"><span class="t-icon-arrow-az"></span>Ordem Alfabética</button>
+                    </div>
+                    <ul id="js-t-sortable" class="t-sortable t-margin-none--left">
                         <?php
                         if (isset($modelEnrollments)) {
                             $i = 1;

@@ -195,8 +195,6 @@ class GradesController extends Controller
                 $gradeResult->final_media = floor(($mediaFinal/4) * 10) / 10;
             }
 
-            var_dump($gradeResult);
-
             if (!$gradeResult->validate()) {
                 die(print_r($gradeResult->getErrors()));
             }
@@ -230,6 +228,8 @@ class GradesController extends Controller
             $gradeResult->final_concept = $std["finalConcept"];
 
             $hasAllValues = true;
+            $totalFaults = 0;
+            $givenClasses = 0;
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
                 if($rule == "C") {
@@ -240,8 +240,12 @@ class GradesController extends Controller
                     $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
                 }
                 $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
+                $totalFaults += (int) $std['grades'][$key]['faults'];
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
+                $givenClasses += (int) $std['grades'][$key]['givenClasses'];
             }
+
+            $frequency = (($givenClasses - $totalFaults) / $givenClasses)*100;
 
 
             if (!$gradeResult->validate()) {
@@ -274,7 +278,8 @@ class GradesController extends Controller
                     $usecase = new ChageStudentStatusByGradeUsecase(
                         $gradeResult,
                         $gradeRules,
-                        count($std['grades'])
+                        count($std['grades']),
+                        $frequency
                     );
                     $usecase->exec();
                 }

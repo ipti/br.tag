@@ -153,8 +153,10 @@ class Classroom extends AltActiveRecord
         return array(
             'classBoards' => array(self::HAS_MANY, 'ClassBoard', 'classroom_fk'),
             'schedules' => array(self::HAS_MANY, 'Schedule', 'classroom_fk'),
+            'calendarFk' => array(self::BELONGS_TO, 'Calendar', 'calendar_fk'),
             'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
             'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+            'calendarFk' => array(self::BELONGS_TO, 'Calendar', 'calendar_fk'),
             'sedspSchoolUnityFk' => array(self::BELONGS_TO, 'SedspSchoolUnities', 'sedsp_school_unity_fk'),
             'instructorTeachingDatas' => array(self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'),
             'edcensoProfessionalEducationCourseFk' => array(

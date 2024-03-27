@@ -10,6 +10,7 @@
  * @property integer $classroom_fk
  * @property integer $day
  * @property integer $month
+ * @property integer $year
  * @property integer $week
  * @property integer $week_day
  * @property integer $schedule
@@ -17,16 +18,18 @@
  * @property integer $unavailable
  * @property string $diary
  * @property string $fkid
+ * @property string $hash
  *
  * The followings are the available model relations:
  * @property ClassContents[] $classContents
  * @property ClassDiaries[] $classDiaries
  * @property ClassFaults[] $classFaults
+ * @property InstructorFaults[] $instructorFaults
  * @property Classroom $classroomFk
  * @property EdcensoDiscipline $disciplineFk
  * @property InstructorIdentification $instructorFk
  */
-class Schedule extends AltActiveRecord
+class Schedule extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
@@ -44,13 +47,14 @@ class Schedule extends AltActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('discipline_fk, classroom_fk, day, month, week, week_day, unavailable', 'required'),
-			array('instructor_fk, discipline_fk, classroom_fk, day, month, week, week_day, schedule, turn, unavailable', 'numerical', 'integerOnly'=>true),
+			array('discipline_fk, classroom_fk, day, month, year, week, week_day, unavailable', 'required'),
+			array('instructor_fk, discipline_fk, classroom_fk, day, month, year, week, week_day, schedule, turn, unavailable', 'numerical', 'integerOnly'=>true),
 			array('fkid', 'length', 'max'=>40),
+			array('hash', 'length', 'max'=>20),
 			array('diary', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, instructor_fk, discipline_fk, classroom_fk, day, month, week, week_day, schedule, turn, unavailable, diary, fkid', 'safe', 'on'=>'search'),
+			array('id, instructor_fk, discipline_fk, classroom_fk, day, month, year, week, week_day, schedule, turn, unavailable, diary, fkid, hash', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,6 +69,7 @@ class Schedule extends AltActiveRecord
 			'classContents' => array(self::HAS_MANY, 'ClassContents', 'schedule_fk'),
 			'classDiaries' => array(self::HAS_MANY, 'ClassDiaries', 'schedule_fk'),
 			'classFaults' => array(self::HAS_MANY, 'ClassFaults', 'schedule_fk'),
+			'instructorFaults' => array(self::HAS_MANY, 'InstructorFaults', 'schedule_fk'),
 			'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
 			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
 			'instructorFk' => array(self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'),
@@ -83,6 +88,7 @@ class Schedule extends AltActiveRecord
 			'classroom_fk' => 'Classroom Fk',
 			'day' => 'Day',
 			'month' => 'Month',
+			'year' => 'Year',
 			'week' => 'Week',
 			'week_day' => 'Week Day',
 			'schedule' => 'Schedule',
@@ -90,6 +96,7 @@ class Schedule extends AltActiveRecord
 			'unavailable' => 'Unavailable',
 			'diary' => 'Diary',
 			'fkid' => 'Fkid',
+			'hash' => 'Hash',
 		);
 	}
 
@@ -117,6 +124,7 @@ class Schedule extends AltActiveRecord
 		$criteria->compare('classroom_fk',$this->classroom_fk);
 		$criteria->compare('day',$this->day);
 		$criteria->compare('month',$this->month);
+		$criteria->compare('year',$this->year);
 		$criteria->compare('week',$this->week);
 		$criteria->compare('week_day',$this->week_day);
 		$criteria->compare('schedule',$this->schedule);
@@ -124,6 +132,7 @@ class Schedule extends AltActiveRecord
 		$criteria->compare('unavailable',$this->unavailable);
 		$criteria->compare('diary',$this->diary,true);
 		$criteria->compare('fkid',$this->fkid,true);
+		$criteria->compare('hash',$this->hash,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

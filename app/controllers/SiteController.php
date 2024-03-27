@@ -16,7 +16,7 @@ class SiteController extends Controller
         return [
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['changeschool', 'changeyear', 'loadMoreLogs'], 'users' => ['@'],
+                'actions' => ['changeschool', 'changeyear', 'loadMoreLogs', 'loadMoreWarns'], 'users' => ['@'],
             ],
         ];
     }
@@ -50,7 +50,7 @@ class SiteController extends Controller
 
         //$this->redirect(yii::app()->createUrl('student'));
         $this->loadLogsHtml(5);
-        $this->render('index', ["html" => $this->loadLogsHtml(8)]);
+        $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8), "warns" => $this->loadWarnsHtml(8, 0)]);
     }
 
     /**
@@ -176,7 +176,7 @@ class SiteController extends Controller
                     . '</li>';
             }
         } else {
-            $html = '<div class="no-recent-activitive t-badge-info" id="no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>'; 
+            $html = '<div class="no-recent-activitive t-badge-info" id="no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>';
         }
 
         return $html;
@@ -185,6 +185,147 @@ class SiteController extends Controller
     public function actionLoadMoreLogs($date)
     {
         echo $this->loadLogsHtml(10, $date);
+    }
+
+    private function loadWarnsHtml($limit, $visibleWarningsCount)
+    {
+        $warns = [];
+
+        //Verifica a existência de turmas na escola
+        $listSchoolClassrooms = Classroom::model()->findallByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+        if (count($listSchoolClassrooms) == 0) {
+            $schoolModel = SchoolIdentification::model()->findByAttributes(['inep_id' => yii::app()->user->school]);
+            $warning = 'Escola <b>' . $schoolModel->name . '</b> está sem turmas cadastradas.';
+
+            $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/turmas.svg"/>'
+                . '<span>' . $warning . '</span>'
+                . '</div>'
+                . '</li>';
+
+            array_push($warns, $htmlpart);
+        } else {
+            foreach ($listSchoolClassrooms as $classroom) {
+                //Se houver turma, verificar se existe etapa vinculada à turma
+                $stage = $classroom->edcensoStageVsModalityFk;
+                if ($stage == null){
+                    $warning = 'Turma <b>' . $classroom->name . '</b> está sem etapa.';
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/plano_de_aula.svg"/>'
+                        . '<span>' . $warning . '</span>'
+                        . '</div>'
+                        . '</li>';
+                    array_push($warns, $htmlpart);
+                } else {
+                    //Se houver etapa, verificar matriz curricular
+                    $listCurricularMatrixs = $stage->curricularMatrixes;
+                    if (count($listCurricularMatrixs) == 0){
+                        $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem matriz curricular.';
+                        $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                            . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                            . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/matriz_curricular.svg"/>'
+                            . '<span>' . $warning . '</span>'
+                            . '</div>'
+                            . '</li>';
+                        array_push($warns, $htmlpart);
+                    }
+
+                    //Se houver etapa, verificar se existe estrutura de notas
+                    $listGradeUnities = $stage->gradeUnities;
+                    if (count($listGradeUnities) == 0) {
+                        $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem estrutura de notas.';
+                        $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                            . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                            . '<img style="background-color:orange; color:black;" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/notas.svg"/>'
+                            . '<span>' . $warning . '</span>'
+                            . '</div>'
+                            . '</li>';
+                        array_push($warns, $htmlpart);
+                    }
+
+                }
+
+                //Se houver turma, verificar se existe calendario vinculado a ela
+                $calendar = $classroom->calendarFk;
+                if ($calendar == null){
+                    $warning = 'Turma <b>' . $classroom->name . '</b> não possui calendário vinculado.';
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/calendario.svg"/>'
+                        . '<span>' . $warning . '</span>'
+                        . '</div>'
+                        . '</li>';
+                    array_push($warns, $htmlpart);
+                }
+
+                //Se houver turma, verificar se existe quadro de horários
+                $listSchedules = $classroom->schedules;
+                if (count($listSchedules) == 0) {
+                    $warning = 'Turma <b>' . $classroom->name . '</b> está sem quadro de horários.';
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/quadro_de_horario.svg"/>'
+                        . '<span>' . $warning . '</span>'
+                        . '</div>'
+                        . '</li>';
+                    array_push($warns, $htmlpart);
+                }
+
+                //Se houver turma, verificar se existe professor
+                $listInstructors = $classroom->instructorTeachingDatas;
+                if (count($listInstructors) == 0) {
+                    $warning = 'Turma <b>' . $classroom->name . '</b> está sem professores.';
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/professores.svg"/>'
+                        . '<span>' . $warning . '</span>'
+                        . '</div>'
+                        . '</li>';
+                    array_push($warns, $htmlpart);
+                }
+
+                //Se houver turma, verificar se existe aluno matriculado
+                $listStudentEnrollments = $classroom->studentEnrollments;
+                if (count($listStudentEnrollments) == 0) {
+                    $warning = 'Turma <b>' . $classroom->name . '</b> está sem alunos matriculados.';
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
+                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/matricula.svg"/>'
+                        . '<span>' . $warning . '</span>'
+                        . '</div>'
+                        . '</li>';
+                    array_push($warns, $htmlpart);
+                }
+
+            }
+        }
+
+
+
+        if (count($warns) == 0) {
+            return [
+                "total" => 0,
+                "html" => '<div class="no-recent-activitive t-badge-info" id="no-recent-warnings"><span class="t-info_positive t-badge-info__icon"></span>Não há cadastros pendentes.</div>'
+            ];
+        } else {
+            $html = "";
+            $count = $limit + $visibleWarningsCount;
+            for ($i = $visibleWarningsCount; $i < $count; $i++) {
+                $html .= $warns[$i];
+            }
+            return [
+                "total" => count($warns),
+                "html" => $html
+            ];
+        }
+    }
+
+    public function actionLoadMoreWarns()
+    {
+        $count = $_POST['visibleWarningsCount'];
+        echo json_encode($this->loadWarnsHtml(8, intval($count)));
     }
 
     public function actionLoadLineChartData()

@@ -194,7 +194,7 @@ class EscolaTType
      * @param \SagresEdu\CardapioTType[] $cardapio
      * @return self
      */
-    public function setCardapio(array $cardapio)
+    public function setCardapio(array $cardapio = null)
     {
         $this->cardapio = $cardapio;
         return $this;

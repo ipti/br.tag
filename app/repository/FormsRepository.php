@@ -98,9 +98,9 @@ class FormsRepository {
         $schedulesPerUnityPeriods = [];
         $unityDates = [];
         foreach($unities as $unity) {
-            $unityPeriods = GradeUnityPeriods::model()->find("school_year = :year
+            $unityPeriods = GradeUnityPeriods::model()->find("calendar_fk = :calendar_fk
                 and grade_unity_fk = :grade_unity_fk", [
-                ":year" => $classroomFk->school_year,
+                ":calendar_fk" => $classroomFk->calendar_fk,
                 ":grade_unity_fk" => $unity->id
             ]);
             if ($unityPeriods != null) {
