@@ -124,7 +124,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <tbody>
                                                 <?php
                                                 $lunchController = new LunchController(null);
-                                                // CVarDumper::dump($portions);
 
                                                 foreach ($portions as $portion) :
                                                     $foodModel = Food::model()->findByPk($portion->food_fk);

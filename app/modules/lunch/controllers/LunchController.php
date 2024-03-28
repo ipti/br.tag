@@ -108,8 +108,9 @@ class LunchController extends Controller {
         $portion = Portion::model()->findByPk($portionId);
         $mealPortion = MealPortion::model()->findByAttributes(["portion_fk" => $portion->id]);
         if(isset($portion) && isset($mealPortion)){
-            if($mealPortion->delete() && $portion->delete())
+            if($mealPortion->delete() && $portion->delete()){
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Portion removed successfully!'));
+            }
         }else{
             Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error, portion not found.'));
         }
@@ -159,7 +160,6 @@ class LunchController extends Controller {
 
         $request = Yii::app()->getRequest();
         $menuPost = $request->getPost("Menu", false);
-        // $portionPost = $request->getPost("Portion", false);
         $mealPortionPost = $request->getPost("MealPortion", false);
 
 
