@@ -91,11 +91,22 @@ class FarmerRegisterController extends Controller
                         $farmerFoods->save();
                     }
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Cadastro do agricultor criado com sucesso!'));
-                    $createFarmerRegister = new CreateFarmerRegister();
-                    $farmerReferenceId = $createFarmerRegister->exec($name, $cpf, $phone, $groupType, $foodsRelation);
+                    $getFarmerRegister = new GetFarmerRegister();
+                    $existingFarmerRegister = $getFarmerRegister->exec($cpf);
 
-                    $farmerRegister->reference_id = $farmerReferenceId;
-                    $farmerRegister->save();
+                    if(empty($existingFarmerRegister)) {
+                        $createFarmerRegister = new CreateFarmerRegister();
+                        $farmerReferenceId = $createFarmerRegister->exec($name, $cpf, $phone, $groupType, $foodsRelation);
+
+                        $farmerRegister->reference_id = $farmerReferenceId;
+                        $farmerRegister->save();
+                    } else {
+                        $updateFarmerRegister = new UpdateFarmerRegister();
+                        $updateFarmerRegister->exec($existingFarmerRegister["id"], $name, $cpf, $phone, $groupType, $foodsRelation);
+
+                        $farmerRegister->reference_id = $existingFarmerRegister["id"];
+                        $farmerRegister->save();
+                    }
                 }
             }
         }
@@ -151,12 +162,7 @@ class FarmerRegisterController extends Controller
     public function actionGetFarmerRegister() {
         $cpf = Yii::app()->request->getPost('farmerCpf');
 
-        $criteria = new CDbCriteria();
-        $criteria->condition = 't.cpf = :cpf';
-        $criteria->params = array(':cpf' => $cpf);
-        $farmerRegister = FarmerRegister::model()->findAll($criteria);
-
-        $hasValues = !empty($farmerRegister);
+        $hasValues = $this->verifyFarmerCpf($cpf);
 
         if($hasValues) {
             echo json_encode(['error' => 'O CPF do agricultor informado já possui cadastro no TAG']);
@@ -244,6 +250,11 @@ class FarmerRegisterController extends Controller
 
 	public function actionDelete($id)
 	{
+        $farmerRegister = FarmerRegister::model()->findByPk($id);
+
+        $deleteFarmerRegister = new DeleteFarmerRegister();
+        $deleteFarmerRegister->exec($farmerRegister->reference_id);
+
 		FarmerFoods::model()->deleteAll('farmer_fk = :id', array(':id' => $id));
 		$this->loadModel($id)->delete();
 

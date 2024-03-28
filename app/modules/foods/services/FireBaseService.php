@@ -77,8 +77,38 @@ class FireBaseService
         $collection = 'farmer_register';
         $documentPath =  $collection . '/' . $farmerId;
 
-        $this->firestoreClient->deleteDocument($documentPath);
-        $this->deleteFarmerFoods($farmerId);
+        $farmerRegister = $this->firestoreClient->getDocument($documentPath);
+
+        try {
+            $userField = $farmerRegister->get('user');
+        } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+            $userField = "";
+        }
+
+        if($userField == "") {
+            $this->firestoreClient->deleteDocument($documentPath);
+            $this->deleteFarmerFoods($farmerId);
+        }
+        // return true;
+
+        // if(!$this->hasUserField($documentPath)) {
+
+        // }
+    }
+
+    public function hasUserField($documentPath) {
+        $farmerRegister = $this->firestoreClient->getDocument($documentPath);
+
+        try {
+            $userField = $farmerRegister->get('user');
+        } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+            $userField = "";
+        }
+
+        if($userField == "") {
+            return false;
+        }
+        return true;
     }
 
     public function getFarmerRegister($cpf) {
@@ -87,12 +117,20 @@ class FireBaseService
 
         foreach ($farmerRegisters['documents'] as $farmerRegister) {
             if ($farmerRegister->get('cpf') == $cpf) {
+                try {
+                    $userField = $farmerRegister->get('user');
+                } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+                    $userField = "";
+                }
                 $foundFarmer = array(
+                    "id" => $farmerRegister->get("id"),
                     "name" => $farmerRegister->get('name'),
                     "groupType" => $farmerRegister->get('groupType'),
                     "cpf" => $farmerRegister->get('cpf'),
-                    "phone" => $farmerRegister->get('phone')
+                    "phone" => $farmerRegister->get('phone'),
+                    "user" => $userField
                 );
+
             }
         }
 
@@ -119,7 +157,6 @@ class FireBaseService
 
     public function deleteFarmerFoods($farmerId) {
         $collectionFoods = 'farmer_foods';
-
 
         $farmerFoods = $this->firestoreClient->listDocuments('farmer_foods');
 

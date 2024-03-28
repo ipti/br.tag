@@ -173,12 +173,14 @@ $(document).on("click", "#save-farmer", function () {
                 foodsRelation: foodsRelation
             }
         }).success(function(response) {
-            let data = DOMPurify.sanitize(response);
-            let result = JSON.parse(data);
-            if("error" in result) {
+            if (response !== "") {
+                let data = DOMPurify.sanitize(response);
+                let result = JSON.parse(data);
+
                 $('#info-alert').removeClass('hide').addClass('alert-error').html(result.error);
+            } else {
+                window.location.href = "?r=foods/farmerregister/index";
             }
-            window.location.href = "?r=foods/farmerregister/index";
         })
     }
 })
