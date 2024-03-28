@@ -113,6 +113,16 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <?php echo CHtml::label("Incluir recuperação final?", 'has_final_recovery', array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
             </div>
         </div>
+        <div class="column js-grades-rules-container">
+            <unity-component index=1 name="Unidade 1" type="UC" formula="2">
+                <div slot='modalities'>
+                    <unity-modality-component name="Prova"></unity-modality-component>
+                    <unity-modality-component name="Trabalho"></unity-modality-component>
+                </div>
+            </unity-component>
+            <unity-component index=2 name="Unidade 2" type="U" formula="1"></unity-component>
+            <unity-concept-component index=3 name="Unidade 3" type="c" formula="3"></unity-concept-component>
+        </div>
         <div class="column js-grades-rules-container" style="display: none;">
             <div class="row">
                 <h2>Definição das unidades</h2>
