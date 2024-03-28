@@ -38,7 +38,6 @@ class FarmerRegister extends CActiveRecord
             array('group_type', 'length', 'max'=>21),
             array('reference_id', 'length', 'max'=>36),
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, name, cpf, phone, group_type, reference_id', 'safe', 'on'=>'search'),
         );
     }
@@ -83,7 +82,6 @@ class FarmerRegister extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria=new CDbCriteria;
 

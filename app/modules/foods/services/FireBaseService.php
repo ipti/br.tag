@@ -89,11 +89,6 @@ class FireBaseService
             $this->firestoreClient->deleteDocument($documentPath);
             $this->deleteFarmerFoods($farmerId);
         }
-        // return true;
-
-        // if(!$this->hasUserField($documentPath)) {
-
-        // }
     }
 
     public function hasUserField($documentPath) {
