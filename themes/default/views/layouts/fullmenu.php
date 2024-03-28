@@ -243,6 +243,17 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 </a>
                             </li>
                         <?php endif ?>
+
+
+                        <?php if($i = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) :?>
+                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=calendar") ? 'active' : '' ?> hide-responsive">
+                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('calendar') ?> ">
+                                    <span class="t-icon-calendar t-menu-item__icon"></span>
+                                    <span class="t-menu-item__text">Calendário Escolar</span>
+                                </a>
+                            </li>
+                        <?php endif ?>
+
                         <?php if(!Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)):?>
                         <li id="menu-electronic-diary" class="t-menu-group <?=
                                                                             strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
@@ -499,6 +510,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     <script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js?v=<?= TAG_VERSION ?>'></script>
     <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js?v=<?= TAG_VERSION ?>'></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatables.min.js"></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatablesptbr.js"></script>
 </body>
 
 </html>

@@ -352,15 +352,11 @@ $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () 
                         $(this).remove();
                     }
                 });
-                $(".li-instructor").each(function () {
-                    if (!$(this).find(".li-discipline").length) {
-                        $(this).remove();
-                    }
-                });
             } else {
                 $(".no-curricular-matrix-error").show();
                 $("#Disciplines").html("");
-                $("#DisciplinesWithInstructors, #DisciplinesWithoutInstructors").html("");
+                $(".li-discipline").remove();
+                $("#DisciplinesWithoutInstructors").html("");
             }
 
             if (data.calendars.length) {

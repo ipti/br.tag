@@ -60,7 +60,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 
 			</div>
 			<div class="clear-margin--top column">
-				<label for="public_target" class="t-field-select__label--required">Publico Alvo</label>
+				<label for="public_target" class="t-field-select__label--required">Público Alvo</label>
 				<select id="public_target" name="Público Alvo"
 					class="select-search-on t-field-select__input js-public-target js-initialize-select2"
 					required="required" placeholder="Select Classrom">
@@ -145,4 +145,13 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		cursor: pointer;
 		background-color: white;
 	}
+
+  .alert-error b {
+        font-weight: bold;
+  }
+  
+  .t-field-select__input.measurement-unit  {
+      width: 60px !important;
+      margin: 0px;
+  }
 </style>

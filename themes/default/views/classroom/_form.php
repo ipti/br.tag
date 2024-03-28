@@ -577,6 +577,7 @@ $form = $this->beginWidget(
 
                                 $teachingDataArray[$i] = array();
                                 $teachingDataArray[$i]['Instructor'] = $model->instructor_fk;
+                                $teachingDataArray[$i]["Inep"] = $model->instructorFk->inep_id;
                                 $teachingDataArray[$i]['Classroom'] = $model->classroom_id_fk;
                                 $teachingDataArray[$i]['Role'] = $model->role;
                                 $teachingDataArray[$i]['ContractType'] = $model->contract_type;
