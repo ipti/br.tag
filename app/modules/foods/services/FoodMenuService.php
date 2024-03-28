@@ -39,7 +39,7 @@ class FoodMenuService
 
         $students = $this->getStudents();
         $studentsTurn = $this->getStudentsTurn($students);
-       
+
         if ($students != null && $foods != null) {
             $result = $this->processFood($foods, $studentsTurn);
         }

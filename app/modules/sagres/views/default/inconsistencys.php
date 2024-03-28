@@ -33,7 +33,7 @@
                         if ((Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id))) {
                             $models = ValidationSagresModel::model()->findAll();
                         }elseif ((Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id))) 
-                            $models = ValidationSagresModel::model()->findAllByAttributes(array('inep_id' => Yii::app()->user->school));
+                            $models = ValidationSagresModel::model()->findAllByAttributes(array('idSchool' => Yii::app()->user->school));
                         
                         foreach ($models as $model): ?>
                             <?php
