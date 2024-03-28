@@ -1,3 +1,7 @@
+
+## [Versão 3.76.129]
+- Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
+
 ## [Versão 3.76.128]
 - Corrigido erro que não mostrava o nome da escola e das turmas nas inconsistências sagres
 - Corrigido na busca por profissional na mesma escola

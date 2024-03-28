@@ -40,7 +40,6 @@ class FireBaseService
 
     public function createFarmerRegister($name, $cpf, $phone, $groupType, $foodsRelation) {
         $collection = 'farmer_register';
-        $collectionFoods = 'farmer_foods';
         $uuid = Uuid::uuid4();
 
         $document = new FirestoreDocument;
@@ -52,18 +51,115 @@ class FireBaseService
             'id'=> $uuid->toString(),
         ]);
 
-        $this->firestoreClient->addDocument($collection, $document);
+        $this->firestoreClient->addDocument($collection, $document, $uuid->toString());
 
-        foreach ($foodsRelation as $foodData) {
+        $this->createFarmerFoods($foodsRelation, $uuid->toString());
+
+        return $uuid->toString();
+    }
+
+    public function updateFarmerRegister($farmerId, $name, $cpf, $phone, $groupType, $foodsRelation) {
+        $collection = 'farmer_register';
+        $documentPath =  $collection . '/' . $farmerId;
+
+        $this->firestoreClient->updateDocument($documentPath, [
+            'cpf' => $cpf,
+            'name' => $name,
+            'phone' => $phone,
+            'groupType'=> $groupType,
+        ]);
+
+        $this->deleteFarmerFoods($farmerId);
+        $this->createFarmerFoods($foodsRelation, $farmerId);
+    }
+
+    public function deleteFarmerRegister($farmerId) {
+        $collection = 'farmer_register';
+        $documentPath =  $collection . '/' . $farmerId;
+
+        $farmerRegister = $this->firestoreClient->getDocument($documentPath);
+
+        try {
+            $userField = $farmerRegister->get('user');
+        } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+            $userField = "";
+        }
+
+        if($userField == "") {
+            $this->firestoreClient->deleteDocument($documentPath);
+            $this->deleteFarmerFoods($farmerId);
+        }
+    }
+
+    public function hasUserField($documentPath) {
+        $farmerRegister = $this->firestoreClient->getDocument($documentPath);
+
+        try {
+            $userField = $farmerRegister->get('user');
+        } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+            $userField = "";
+        }
+
+        if($userField == "") {
+            return false;
+        }
+        return true;
+    }
+
+    public function getFarmerRegister($cpf) {
+        $farmerRegisters = $this->firestoreClient->listDocuments('farmer_register');
+        $foundFarmer = [];
+
+        foreach ($farmerRegisters['documents'] as $farmerRegister) {
+            if ($farmerRegister->get('cpf') == $cpf) {
+                try {
+                    $userField = $farmerRegister->get('user');
+                } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+                    $userField = "";
+                }
+                $foundFarmer = array(
+                    "id" => $farmerRegister->get("id"),
+                    "name" => $farmerRegister->get('name'),
+                    "groupType" => $farmerRegister->get('groupType'),
+                    "cpf" => $farmerRegister->get('cpf'),
+                    "phone" => $farmerRegister->get('phone'),
+                    "user" => $userField
+                );
+
+            }
+        }
+
+        return $foundFarmer;
+    }
+
+    public function createFarmerFoods($foods, $farmerId) {
+        $collectionFoods = 'farmer_foods';
+
+        foreach ($foods as $foodData) {
+            $uuid = Uuid::uuid4();
             $document = new FirestoreDocument;
             $document->fillValues([
                 'name' => $foodData['foodDescription'],
                 'amount' => $foodData['amount'],
                 'measurementUnit' => $foodData['measurementUnit'],
-                'id'=> $uuid->toString(),
+                'farmer_id'=> $farmerId,
+                'id' => $uuid->toString(),
             ]);
 
-            $this->firestoreClient->addDocument($collectionFoods, $document);
+            $this->firestoreClient->addDocument($collectionFoods, $document, $uuid->toString());
+        }
+    }
+
+    public function deleteFarmerFoods($farmerId) {
+        $collectionFoods = 'farmer_foods';
+
+        $farmerFoods = $this->firestoreClient->listDocuments('farmer_foods');
+
+        foreach ($farmerFoods['documents'] as $farmerFood) {
+            if ($farmerFood->get('farmer_id') == $farmerId) {
+                $documentPath =  $collectionFoods . '/' . $farmerFood->get('id');
+                $this->firestoreClient->deleteDocument($documentPath);
+            }
         }
     }
 
