@@ -104,8 +104,6 @@ class LunchController extends Controller {
         $request = Yii::app()->getRequest();
         $portionId = $request->getPost("id", false);
         $menuPost = $request->getPost("menu", false);
-        // $mealPortionPost = $request->getPost("MealPortion", false);
-        // $amountPost = $mealPortionPost['amount'] > 0 ? -1 *$mealPortionPost['amount'] : $mealPortionPost['amount'];
 
         $portion = Portion::model()->findByPk($portionId);
         $mealPortion = MealPortion::model()->findByAttributes(["portion_fk" => $portion->id]);
@@ -168,10 +166,6 @@ class LunchController extends Controller {
         $isNewPortion = false;
         if($mealPortionPost){
             $portion = new Portion();
-            // $portion->item_fk = $portionPost["item_fk"];
-            // $portion->measure = $portionPost["measure"];
-            // $portion->unity_fk = $portionPost["unity_fk"];
-            // $portion->amount = 1;
             $portion->setAttributes($mealPortionPost);
             if($portion->validate()){
                 $portion->save();
@@ -183,10 +177,7 @@ class LunchController extends Controller {
         }
 
         $mealId = $mealPortionPost["meal_fk"];
-        // $portionId = !$isNewPortion ? $portion->id : $mealPortionPost["portion_fk"];
         $portionId = $portion->id;
-        // $portionId = $portion->id;
-        // $mealPortion = MealPortion::model()->findByAttributes(["meal_fk" => $mealId, "portion_fk"=>$portionId]);
         $mealPortion = MealPortion::model()->findByAttributes(["meal_fk" => $mealId, "portion_fk" => $portionId]);
         $isNewMealPortion = !isset($mealPortion);
 
@@ -257,12 +248,10 @@ class LunchController extends Controller {
         if($mealPost && $menuMealPost) {
             $mealId = $menuMealPost['meal_fk'];
             $menuId = $menuMealPost['menu_fk'];
-            // $amount = $menuMealPost['amount'];
             $restrictions = $mealPost['restrictions'];
 
             $menuMeal = MenuMeal::model()->findByAttributes(['meal_fk'=>$mealId, 'menu_fk'=>$menuId]);
             $meal = Meal::model()->findByPk($menuMeal->meal_fk);
-            // $menuMeal->amount = $amount;
             $meal->restrictions = $restrictions;
             if($meal->validate() && $menuMeal->validate()) {
                 $meal->save();
