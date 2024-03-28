@@ -14,6 +14,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/themes/light.
 $cs->registerScript(
 	"vars",
 	"var loadMoreLogs = '" . $this->createUrl("site/loadMoreLogs") . "'; " .
+    "var loadMoreWarns = '" . $this->createUrl("site/loadMoreWarns") . "'; " .
 		"var loadLineChartData = '" . $this->createUrl("site/loadLineChartData") . "'; " .
 		"var loadCylinderChartData = '" . $this->createUrl("site/loadCylinderChartData") . "'; " .
 		"var loadPieChartData = '" . $this->createUrl("site/loadPieChartData") . "'; ",
@@ -32,7 +33,7 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 
 <div class="main">
 	<div class="row-fluid">
-		<div class="span12">
+		<div class="span12"><!-- -->
 			<h1>Bem vindo ao Tag
 				<!-- <img class="tag-logo"  alt="tag logo" style="width:65px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag_navbar.svg" /></h1> -->
 		</div>
@@ -41,14 +42,14 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 		<div class="board-msg" version="<?php echo TAG_VERSION; ?>"><?php echo BOARD_MSG; ?></div>
 		<div class="row-fluid">
 			<div class="span12">
-				<div class="widget-scroll margin-bottom-none" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false" total="<?= $logCount ?>">
+				<div class="widget-scroll margin-bottom-none log-widget" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false" total="<?= $logCount ?>">
 				<div class="aviso" hidden><?= $logCount ?></div>
 					<div class="home-page-table-header ">
 						<h5 class="t-margin-medium--left text-color--white">Atividades Recentes</h5>
 					</div>
 					<div class="widget-body logs in" style="height: auto;">
-						<?= $html ?>
-						<span class="t-button-primary load-more"> Carregar mais</span>
+						<?= $htmlLogs ?>
+						<span class="t-button-primary load-more info-list"> Carregar mais</span>
 					</div>
 				</div>
 			</div>
@@ -78,6 +79,20 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 					</div>
 				</div>
 			</div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="widget-scroll margin-bottom-none warn-widget" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false" total="<?= $warns["total"] ?>">
+                        <div class="alerta" hidden><?= $warns["total"] ?></div>
+                        <div class="home-page-table-header ">
+                            <h5 class="t-margin-medium--left text-color--white">Cadastros Pendentes</h5>
+                        </div>
+                        <div class="widget-body warns in" style="height: auto;">
+                            <?= $warns["html"] ?>
+                            <span class="t-button-primary load-more warn-list"> Carregar mais</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 			<!--    <div class="row-fluid home-container">-->
 			<!--        <div class="span6">-->
 			<!--            <div class="widget widget-scroll widget-gray margin-bottom-none"-->

@@ -34,7 +34,6 @@ class Professional extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, cpf_professional, speciality, inep_id_fk, fundeb', 'required'),
-			array('cpf_professional', 'unique', 'className' => 'Professional'),
 			array('fundeb', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>200),
 			array('speciality', 'length', 'max'=>100),
