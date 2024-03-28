@@ -1,5 +1,6 @@
 <?php
 
+Yii::import('application.modules.foods.models.FoodMeasurement', true);
 /**
  * Class LunchController
  *
@@ -50,6 +51,29 @@ class LunchController extends Controller {
         $menuPost = $request->getPost("Menu", false);
 
         $menu = Menu::model()->findByPk($id);
+        $menuMeals = MenuMeal::model()->findAllByAttributes(array("menu_fk" => $menu->id));
+        $meals = [];
+        foreach($menuMeals as $menuMeal)
+        {
+            // Array temporário para inserir porções de uma refeição
+            $tmpPortions = [];
+            // Encontrar todas as porções que pertencem à uma refeição
+            $mealsPortion = MealPortion::model()->findAllByAttributes(array("meal_fk" => $menuMeal->id));
+
+            // Inserir porções em array temporário
+            foreach($mealsPortion as $mealPortion){
+                array_push($tmpPortions, Portion::model()->findByPk($mealPortion->portion_fk));
+            }
+
+            // Inserir par Refeição:Porções em array Refeições
+            array_push(
+                $meals,
+                [
+                    "meal" => Meal::model()->findByPk($menuMeal->meal_fk),
+                    "portions" => $tmpPortions
+                ]
+            );
+        }
 
         if($menuPost){
             $menu->name = $menuPost['name'];
@@ -65,7 +89,7 @@ class LunchController extends Controller {
                 $this->render('update', ["menu" => $menu]);
             }
         }else {
-            $this->render('update', ["menu" => $menu]);
+            $this->render('update', ["menu" => $menu, "meals" => $meals]);
         }
     }
     public function actionLunchDelete(){
@@ -78,23 +102,13 @@ class LunchController extends Controller {
         /* @var $mealPortion MealPortion */
 
         $request = Yii::app()->getRequest();
-        $menuPost = $request->getPost("Menu", false);
-        $mealPortionPost = $request->getPost("MealPortion", false);
-        $amountPost = $mealPortionPost['amount'] > 0 ? -1 *$mealPortionPost['amount'] : $mealPortionPost['amount'];
+        $portionId = $request->getPost("id", false);
+        $menuPost = $request->getPost("menu", false);
 
-        $mealPortion = MealPortion::model()->findByPk($mealPortionPost['id']);
-        if(isset($mealPortion)){
-            $amount = $mealPortion->amount;
-            if($amount + $amountPost > 0){
-                $mealPortion->amount = $amount + $amountPost;
-                if($mealPortion->validate()){
-                    $mealPortion->save();
-                    Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Portion decreased successfully!'));
-                }else{
-                    Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when removing portion.'));
-                }
-            }else{
-                $mealPortion->delete();
+        $portion = Portion::model()->findByPk($portionId);
+        $mealPortion = MealPortion::model()->findByAttributes(["portion_fk" => $portion->id]);
+        if(isset($portion) && isset($mealPortion)){
+            if($mealPortion->delete() && $portion->delete()){
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Portion removed successfully!'));
             }
         }else{
@@ -103,21 +117,56 @@ class LunchController extends Controller {
         $this->redirect(yii::app()->createUrl('lunch/lunch/update',["id"=>$menuPost['id']]));
     }
 
+    public function actionGetFoodAlias()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, description, measurementUnit';
+        $criteria->condition = 'alias_id = t.id';
+
+        $foods_description = Food::model()->findAll($criteria);
+
+       return $foods_description;
+    }
+
+    public function actionGetFoodMeasurement()
+    {
+        $foodMeasurements = FoodMeasurement::model()->findAll();
+        $options = array();
+        foreach ($foodMeasurements as $foodMeasurement) {
+            array_push(
+                $options,
+                array(
+                    "id" => $foodMeasurement->id,
+                    "unit" => $foodMeasurement->unit,
+                    "value" => $foodMeasurement->value,
+                    "measure" => $foodMeasurement->measure
+                )
+            );
+        }
+        return $options;
+    }
+
+    public function actionGetUnityMeasure()
+    {
+        $measureId = Yii::app()->request->getPost('id');
+        $modal = FoodMeasurement::model()->findByPk($measureId);
+
+        echo CJSON::encode($modal);
+    }
+
     public function actionAddPortion(){
         /* @var $mealPortion MealPortion */
         /* @var $portion Portion */
 
         $request = Yii::app()->getRequest();
         $menuPost = $request->getPost("Menu", false);
-        $portionPost = $request->getPost("Portion", false);
         $mealPortionPost = $request->getPost("MealPortion", false);
+
+
         $isNewPortion = false;
-        if($portionPost){
+        if($mealPortionPost){
             $portion = new Portion();
-            $portion->item_fk = $portionPost["item_fk"];
-            $portion->measure = $portionPost["measure"];
-            $portion->unity_fk = $portionPost["unity_fk"];
-            $portion->amount = 1;
+            $portion->setAttributes($mealPortionPost);
             if($portion->validate()){
                 $portion->save();
                 $isNewPortion = true;
@@ -128,8 +177,8 @@ class LunchController extends Controller {
         }
 
         $mealId = $mealPortionPost["meal_fk"];
-        $portionId = $isNewPortion ? $portion->id : $mealPortionPost["portion_fk"];
-        $mealPortion = MealPortion::model()->findByAttributes(["meal_fk" => $mealId, "portion_fk"=>$portionId]);
+        $portionId = $portion->id;
+        $mealPortion = MealPortion::model()->findByAttributes(["meal_fk" => $mealId, "portion_fk" => $portionId]);
         $isNewMealPortion = !isset($mealPortion);
 
         if($isNewMealPortion){
@@ -137,8 +186,6 @@ class LunchController extends Controller {
             $mealPortion->meal_fk = $mealId;
             $mealPortion->portion_fk = $portionId;
             $mealPortion->amount = $mealPortionPost["amount"];
-        }else{
-            $mealPortion->amount = $mealPortion->amount + $mealPortionPost["amount"];
         }
 
         if($mealPortion->validate()){
@@ -172,7 +219,6 @@ class LunchController extends Controller {
                 $menuMeal = new MenuMeal();
                 $menuMeal->meal_fk = $meal->id;
                 $menuMeal->menu_fk = $menuMealPost['menu_fk'];
-                $menuMeal->amount = $menuMealPost['amount'];
 
                 if($menuMeal->validate()){
                     $menuMeal->save();
@@ -201,14 +247,13 @@ class LunchController extends Controller {
         if($mealPost && $menuMealPost) {
             $mealId = $menuMealPost['meal_fk'];
             $menuId = $menuMealPost['menu_fk'];
-            $amount = $menuMealPost['amount'];
             $restrictions = $mealPost['restrictions'];
 
             $menuMeal = MenuMeal::model()->findByAttributes(['meal_fk'=>$mealId, 'menu_fk'=>$menuId]);
-            $menuMeal->amount = $amount;
-            $menuMeal->meal->restrictions = $restrictions;
-            if($menuMeal->meal->validate() && $menuMeal->validate()) {
-                $menuMeal->meal->save();
+            $meal = Meal::model()->findByPk($menuMeal->meal_fk);
+            $meal->restrictions = $restrictions;
+            if($meal->validate() && $menuMeal->validate()) {
+                $meal->save();
                 $menuMeal->save();
                 Log::model()->saveAction("lunch_meal", $menuMeal->id, "U", $menuMeal->menu->name);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Meal updated successfully!'));

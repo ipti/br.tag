@@ -7,24 +7,13 @@
  * @property integer $id
  * @property integer $menu_fk
  * @property integer $meal_fk
- * @property double $amount
  *
  * The followings are the available model relations:
- * @property Menu $menu
- * @property Meal $meal
+ * @property Menu $menuFk
+ * @property Meal $mealFk
  */
 class MenuMeal extends CActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return MenuMeal the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
-
 	/**
 	 * @return string the associated database table name
 	 */
@@ -41,12 +30,11 @@ class MenuMeal extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('menu_fk, meal_fk, amount', 'required'),
+			array('menu_fk, meal_fk', 'required'),
 			array('menu_fk, meal_fk', 'numerical', 'integerOnly'=>true),
-			array('amount', 'numerical'),
 			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, menu_fk, meal_fk, amount', 'safe', 'on'=>'search'),
+			// @todo Please remove those attributes that should not be searched.
+			array('id, menu_fk, meal_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -69,31 +57,47 @@ class MenuMeal extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => Yii::t('lunchModule.labels', 'ID'),
-			'menu_fk' => Yii::t('lunchModule.labels', 'Menu'),
+			'id' => 'ID',
+            'menu_fk' => Yii::t('lunchModule.labels', 'Menu'),
 			'meal_fk' => Yii::t('lunchModule.labels', 'Meal'),
-			'amount' => Yii::t('lunchModule.labels', 'Amount'),
 		);
 	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 *
+	 * Typical usecase:
+	 * - Initialize the model fields with values from filter form.
+	 * - Execute this method to get CActiveDataProvider instance which will filter
+	 * models according to data in model fields.
+	 * - Pass data provider to CGridView, CListView or any similar widget.
+	 *
+	 * @return CActiveDataProvider the data provider that can return the models
+	 * based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('menu_fk',$this->menu_fk);
 		$criteria->compare('meal_fk',$this->meal_fk);
-		$criteria->compare('amount',$this->amount);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+
+	/**
+	 * Returns the static model of the specified AR class.
+	 * Please note that you should have this exact method in all your CActiveRecord descendants!
+	 * @param string $className active record class name.
+	 * @return MenuMeal the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
 	}
 }

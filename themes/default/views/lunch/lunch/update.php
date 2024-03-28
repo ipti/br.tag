@@ -22,6 +22,7 @@ $title = Yii::t('lunchModule.lunch', 'Update Menu');
     <div class="home">
         <?= $this->renderPartial('_form', array(
             'menuModel' => $menu,
+            'meals' => $meals,
             'title' => $title,
             'isUpdate'=>true
         ));
