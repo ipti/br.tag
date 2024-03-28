@@ -1,3 +1,7 @@
+## [Versão 3.76.129]
+- Corrigir a funcionalidade de cadastrar porções em refeições de cardápio
+- Ajustar banco de dados para adequar ao novo fluxo da tela de atualizar cardápio
+
 ## [Versão 3.76.128]
 - Corrigido erro que não mostrava o nome da escola e das turmas nas inconsistências sagres
 - Corrigido na busca por profissional na mesma escola

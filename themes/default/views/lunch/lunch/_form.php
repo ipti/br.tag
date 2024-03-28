@@ -332,12 +332,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?= CHtml::textArea('Meal[restrictions]', '', ['style' => 'resize: vertical;', 'class' => 'span10', 'style' => 'height:44px;width: 100%']); ?>
                                     </div>
                                 </div>
-                                <div class=" span6" style="width: 20%;">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MenuMeal[amount]', array('class' => 'control-label')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::numberField('MenuMeal[amount]', '1', ['min' => '1', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px; width:99%;']); ?>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

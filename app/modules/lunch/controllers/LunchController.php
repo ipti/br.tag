@@ -219,7 +219,6 @@ class LunchController extends Controller {
                 $menuMeal = new MenuMeal();
                 $menuMeal->meal_fk = $meal->id;
                 $menuMeal->menu_fk = $menuMealPost['menu_fk'];
-                $menuMeal->amount = $menuMealPost['amount'];
 
                 if($menuMeal->validate()){
                     $menuMeal->save();
