@@ -8,10 +8,20 @@ $(document).on('click', '.button-add-portion', function () {
 
 $(document).on('click', '.button-remove-portion', function () {
     var button = $(this);
-    var modal = $("#removePortion");
-    var mealPortionId = button.data('meal-portion-id');
+    // var modal = $("#removePortion");
+    // var mealPortionId = button.data('meal-portion-id');
 
-    modal.find('#meal-portion-id').val(mealPortionId);
+    // modal.find('#meal-portion-id').val(mealPortionId);
+    $.ajax({
+        url: "?r=lunch/lunch/removePortion",
+        type: "POST",
+        data: {
+            menu: button.data('menu-id'),
+            id: button.data('meal-portion-id')
+        }
+    }).success(function(data){
+        location.reload();
+    })
 });
 
 

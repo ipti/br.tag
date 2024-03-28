@@ -105,7 +105,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <th class="span1">Código</th>
                                 <th class="span4">Restrições</th>
                                 <th>Porções</th>
-                                <th class="span1">Quantidade</th>
                                 <th class="span1">Ações</th>
                             </tr>
                         </thead>
@@ -140,7 +139,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         floatval($foodUnity->value)). " " .
                                                         $foodUnity->measure ?></td>
                                                         <td class="span1 text-right">
-                                                            <a data-toggle="modal" href="#removePortion" data-meal-portion-id="<?= $meal->id ?>" class="button-remove-portion btn btn-danger btn-mini hidden-print">
+                                                            <a
+                                                                href="#removePortion"
+                                                                data-meal-portion-id="<?= $portion->id ?>"
+                                                                data-menu-id="<?= $menuModel->id ?>"
+                                                                class="button-remove-portion btn btn-danger btn-mini hidden-print"
+                                                            >
                                                                 <i class="fa fa-times"></i>
                                                             </a>
                                                         </td>
@@ -157,9 +161,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                             </tbody>
                                         </table>
                                     </td>
-                                    <td id="amount" class="text-center"><?= $menuMeal->amount ?></td>
                                     <td id="actions" class="text-center">
-                                        <a data-toggle="modal" href="#changeMeal" data-meal-id="<?= $menuMeal->meal_fk ?>" class="button-change-meal btn btn-primary btn-small hidden-print">
+                                        <a data-toggle="modal" href="#changeMeal" data-meal-id="<?= $meal->id ?>" class="button-change-meal btn btn-primary btn-small hidden-print">
                                             <i class="fa fa-pencil-square-o"></i>
                                         </a>
                                     </td>
@@ -376,12 +379,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?= CHtml::label(Yii::t('lunchModule.labels', 'Restrictions'), 'Meal[restrictions]', array('class' => 'control-label')); ?>
                                     <div class="controls span12" style="margin-left: 0;">
                                         <?= CHtml::textArea('Meal[restrictions]', '', ['style' => 'resize: vertical;', 'class' => 'span10', 'style' => 'height:44px;width: 100%']); ?>
-                                    </div>
-                                </div>
-                                <div class=" span6" style="width: 20%;">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MenuMeal[amount]', array('class' => 'control-label')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::numberField('MenuMeal[amount]', '1', ['min' => '1', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px; width:99%;']); ?>
                                     </div>
                                 </div>
                             </div>

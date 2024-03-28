@@ -102,25 +102,16 @@ class LunchController extends Controller {
         /* @var $mealPortion MealPortion */
 
         $request = Yii::app()->getRequest();
-        $menuPost = $request->getPost("Menu", false);
-        $mealPortionPost = $request->getPost("MealPortion", false);
-        $amountPost = $mealPortionPost['amount'] > 0 ? -1 *$mealPortionPost['amount'] : $mealPortionPost['amount'];
+        $portionId = $request->getPost("id", false);
+        $menuPost = $request->getPost("menu", false);
+        // $mealPortionPost = $request->getPost("MealPortion", false);
+        // $amountPost = $mealPortionPost['amount'] > 0 ? -1 *$mealPortionPost['amount'] : $mealPortionPost['amount'];
 
-        $mealPortion = MealPortion::model()->findByPk($mealPortionPost['id']);
-        if(isset($mealPortion)){
-            $amount = $mealPortion->amount;
-            if($amount + $amountPost > 0){
-                $mealPortion->amount = $amount + $amountPost;
-                if($mealPortion->validate()){
-                    $mealPortion->save();
-                    Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Portion decreased successfully!'));
-                }else{
-                    Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when removing portion.'));
-                }
-            }else{
-                $mealPortion->delete();
+        $portion = Portion::model()->findByPk($portionId);
+        $mealPortion = MealPortion::model()->findByAttributes(["portion_fk" => $portion->id]);
+        if(isset($portion) && isset($mealPortion)){
+            if($mealPortion->delete() && $portion->delete())
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Portion removed successfully!'));
-            }
         }else{
             Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error, portion not found.'));
         }
@@ -266,14 +257,15 @@ class LunchController extends Controller {
         if($mealPost && $menuMealPost) {
             $mealId = $menuMealPost['meal_fk'];
             $menuId = $menuMealPost['menu_fk'];
-            $amount = $menuMealPost['amount'];
+            // $amount = $menuMealPost['amount'];
             $restrictions = $mealPost['restrictions'];
 
             $menuMeal = MenuMeal::model()->findByAttributes(['meal_fk'=>$mealId, 'menu_fk'=>$menuId]);
-            $menuMeal->amount = $amount;
-            $menuMeal->meal->restrictions = $restrictions;
-            if($menuMeal->meal->validate() && $menuMeal->validate()) {
-                $menuMeal->meal->save();
+            $meal = Meal::model()->findByPk($menuMeal->meal_fk);
+            // $menuMeal->amount = $amount;
+            $meal->restrictions = $restrictions;
+            if($meal->validate() && $menuMeal->validate()) {
+                $meal->save();
                 $menuMeal->save();
                 Log::model()->saveAction("lunch_meal", $menuMeal->id, "U", $menuMeal->menu->name);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Meal updated successfully!'));
