@@ -1,3 +1,6 @@
+## [Versão 3.76.130]
+- Corrigida lentidão na tela de cardápio
+
 ## [Versão 3.76.129]
 - Correção na descrição da séries para as inconsistências sagres
 
