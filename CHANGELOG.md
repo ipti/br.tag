@@ -1,5 +1,11 @@
-## [Versão 3.76.130]
+## [Versão 3.77.131]
 - Corrigida lentidão na tela de cardápio
+
+## [Versão 3.77.130]
+- Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
+
+## [Versão 3.76.130]
+- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
 
 ## [Versão 3.76.129]
 - Correção na descrição da séries para as inconsistências sagres
@@ -27,9 +33,6 @@
 
 ## [Versão 3.75.122]
 - Adicionada lógica, para que ao reaproveitar turmas, os alunos do ano de 2023 entrarão como matriculados.
-
-## [Versão 3.75.121]
-- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
 
 ## [Versão 3.74.121]
 - Correção no relatório de professores por escola
