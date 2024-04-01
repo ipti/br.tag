@@ -1,3 +1,6 @@
+## [Versão 3.77.131]
+- Realizado correções nas validações das datas para Professor, Estudante e Escola
+
 ## [Versão 3.77.130]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
 
