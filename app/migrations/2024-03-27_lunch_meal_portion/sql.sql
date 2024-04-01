@@ -1,10 +1,9 @@
 ALTER TABLE lunch_portion
 ADD COLUMN food_fk INT NOT NULL;
 
-
 ALTER TABLE lunch_portion
 ADD CONSTRAINT fk_lunch_portion_food
-FOREIGN KEY (lunch_portion.food_fk) REFERENCES food(food.id);
+FOREIGN KEY (food_fk) REFERENCES food(id);
 
 ALTER TABLE lunch_portion
 DROP FOREIGN KEY portion_unity;
