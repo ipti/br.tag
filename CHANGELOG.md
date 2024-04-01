@@ -1,8 +1,12 @@
+## [Versão 3.77.130]
+- Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
+
 ## [Versão 3.76.130]
 - Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
 
 ## [Versão 3.76.129]
 - Correção na descrição da séries para as inconsistências sagres
+
 
 ## [Versão 3.76.128]
 - Corrigido erro que não mostrava o nome da escola e das turmas nas inconsistências sagres
