@@ -246,20 +246,33 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'initial_date',
                                     array('class' => 't-field-text__label')
                                 ); ?>
-                                <?php echo $form->textField(
-                                    $modelSchoolIdentification,
-                                    'initial_date',
-                                    array(
-                                        'size' => 10,
-                                        'maxlength' => 10,
-                                        'placeholder' => 'Digite a Data Inicial (Dia/Mês/Ano)',
-                                        'class' => 't-field-text__input'
-                                    )
-                                ); ?>
-                                <?php echo $form->error(
-                                    $modelSchoolIdentification,
-                                    'initial_date'
-                                ); ?>
+                                
+                                <div>
+									<?php 
+										$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+											'model' => $modelSchoolIdentification,
+										    'attribute' => 'initial_date',
+											'options' => array(
+												'dateFormat' => 'dd/mm/yy',
+												'changeYear' => true,
+												'changeMonth' => true,
+												'yearRange' => '1930:' . date('Y'),
+													'showOn' => 'focus',
+													'maxDate' => 0
+                                                ),
+												'htmlOptions' => array(
+													'readonly' => 'readonly',
+														'style' => 'cursor: pointer;',
+														'placeholder' => 'Clique aqui para escolher a data'
+													),
+												));
+
+												echo CHtml::link('	Limpar', '#', array(
+													'onclick' => '$("#' . CHtml::activeId($modelSchoolIdentification, 'initial_date') . '").datepicker("setDate", null); return false;',
+										));		
+										echo $form->error($modelSchoolIdentification, 'initial_date');
+									?>
+								</div>
                             </div>
                         </div>
                     </div>
