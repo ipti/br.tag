@@ -191,8 +191,32 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-text" id="dateOfBirth">
                                 <?php echo $form->label($modelStudentIdentification, 'birthday', array('class' => 't-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'birthday'); ?>
+                                <div>
+									<?php 
+										$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+											'model' => $modelStudentIdentification,
+										    'attribute' => 'birthday',
+											'options' => array(
+												'dateFormat' => 'dd/mm/yy',
+												'changeYear' => true,
+												'changeMonth' => true,
+												'yearRange' => '1930:' . date('Y'),
+													'showOn' => 'focus',
+													'maxDate' => 0
+                                                ),
+												'htmlOptions' => array(
+													'readonly' => 'readonly',
+														'style' => 'cursor: pointer;',
+														'placeholder' => 'Clique aqui para escolher a data'
+													),
+												));
+
+												echo CHtml::link('	Limpar', '#', array(
+													'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
+										));		
+										echo $form->error($modelStudentIdentification, 'birthday');
+									?>
+								</div>
                             </div>
                         </div>
                         <!-- CPF -->
@@ -204,7 +228,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <img id="errorCPFIcon" style="display: none;"
                                          src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
+                                <?php if ($modelStudentDocumentsAndAddress->hasErrors(['cpf'])): ?>
+                                    <div style='margin-top: 5px;color: red;'><?= CHtml::encode($modelStudentDocumentsAndAddress->getError(['cpf'])); ?></div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
