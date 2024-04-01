@@ -161,9 +161,7 @@ class FarmerRegisterController extends Controller
         $criteria->params = array(':cpf' => $cpf);
         $farmerRegister = FarmerRegister::model()->findAll($criteria);
 
-        $hasValues = !empty($farmerRegister);
-
-        return $hasValues;
+        return !empty($farmerRegister);
     }
 
     public function actionGetFarmerRegister()
