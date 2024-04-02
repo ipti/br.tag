@@ -142,6 +142,7 @@ class FireBaseService
                 'name' => $foodData['foodDescription'],
                 'amount' => $foodData['amount'],
                 'measurementUnit' => $foodData['measurementUnit'],
+                'notice' => $foodData['noticeId'],
                 'farmer_id'=> $farmerId,
                 'id' => $uuid->toString(),
             ]);

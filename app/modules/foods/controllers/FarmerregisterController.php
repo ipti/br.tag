@@ -36,7 +36,8 @@ class FarmerRegisterController extends Controller
                     'updateFarmerRegister',
                     'getFarmerRegister',
                     'getFoodAlias',
-                    'getFarmerFoods'
+                    'getFarmerFoods',
+                    'getFoodNotice'
                 ),
                 'users' => array('*'),
             ),
@@ -92,6 +93,7 @@ class FarmerRegisterController extends Controller
                         $farmerFoods->farmer_fk = $farmerRegister->id;
                         $farmerFoods->amount = $foodData['amount'];
                         $farmerFoods->measurementUnit = $foodData['measurementUnit'];
+                        $farmerFoods->foodNotice_fk = $foodData['noticeId'];
 
                         $farmerFoods->save();
                     }
@@ -144,6 +146,7 @@ class FarmerRegisterController extends Controller
                     $farmerFoods->farmer_fk = $existingFarmer->id;
                     $farmerFoods->amount = $foodData['amount'];
                     $farmerFoods->measurementUnit = $foodData['measurementUnit'];
+                    $farmerFoods->foodNotice_fk = $foodData['noticeId'];
 
                     $farmerFoods->save();
                 }
@@ -183,7 +186,7 @@ class FarmerRegisterController extends Controller
         $id = Yii::app()->request->getPost('id');
 
         $criteria = new CDbCriteria();
-        $criteria->with = array('foodFk');
+        $criteria->with = array('foodFk', 'foodNoticeFk');
         $criteria->condition = 't.farmer_fk = ' . $id;
         $farmerFoodsData = FarmerFoods::model()->findAll($criteria);
 
@@ -194,6 +197,8 @@ class FarmerRegisterController extends Controller
                 'foodDescription' => preg_replace('/,|\b(cru[ao]?)\b/', '', $foods->foodFk->description),
                 'amount' => $foods->amount,
                 'measurementUnit' => $foods->measurementUnit,
+                'notice' => $foods->foodNoticeFk ? $foods->foodNoticeFk->name : null,
+                'noticeId' => $foods->foodNotice_fk,
             );
         }
 
@@ -213,6 +218,23 @@ class FarmerRegisterController extends Controller
             $values[$food->id] = (object) [
                 'description' => $food->description,
                 'measurementUnit' => $food->measurementUnit
+            ];
+        }
+
+        echo json_encode($values);
+    }
+
+    public function actionGetFoodNotice()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, name';
+
+        $foodNotices =  FoodNotice::model()->findAll($criteria);
+
+        $values = [];
+        foreach ($foodNotices as $notice) {
+            $values[$notice->id] = (object) [
+                'name' => $notice->name
             ];
         }
 

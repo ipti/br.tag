@@ -2,6 +2,7 @@ let foodsRelation = [];
 
 $(document).ready(function() {
     let foodSelect = $('#foodSelect');
+    let foodNotice = $('#foodNotice');
 
     const $params = new URLSearchParams(window.location.search);
     const $id = $params.get('id');
@@ -24,6 +25,22 @@ $(document).ready(function() {
         $('#farmerPhone').removeAttr('disabled');
         $('#farmerGroupType').removeAttr('disabled');
     }
+
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/farmerregister/getFoodNotice",
+        cache: false
+    }).success(function(response) {
+        let data = DOMPurify.sanitize(response);
+        let food_notices = JSON.parse(data);
+
+        Object.entries(food_notices).forEach(function([id, value]) {
+            foodNotice.append($('<option>', {
+                value: id,
+                text: value.name
+            }));
+        });
+    });
 
     $.ajax({
         type: 'POST',
@@ -110,6 +127,8 @@ $(document).on("click", "#js-add-food", function () {
     let foodId = $('#foodSelect').val().split(',')[0];
     let amount = $('#amount').val();
     let measurementUnit = $('#measurementUnit').find('option:selected').text();
+    let notice = $('#foodNotice').find('option:selected').text();
+    let noticeId = $('#foodNotice').find('option:selected').val();
 
     if(foodId == "alimento" || amount == "") {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
@@ -121,7 +140,7 @@ $(document).on("click", "#js-add-food", function () {
         if(existingIndex !== undefined) {
             foodsRelation[existingIndex].amount = parseFloat(foodsRelation[existingIndex].amount) + parseFloat(amount);
         } else {
-            foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit});
+            foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit, notice: notice, noticeId: noticeId});
         }
         renderFoodsTable(foodsRelation);
     } else {

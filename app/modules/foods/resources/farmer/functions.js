@@ -6,6 +6,7 @@ function renderFoodsTable(foodsRelation) {
     $('<th>').text('Nome').appendTo(head);
     $('<th>').text('Quantidade').appendTo(head);
     $('<th>').text('Unidade').appendTo(head);
+    $('<th>').text('Edital').appendTo(head);
     $('<th>').text('').appendTo(head);
 
     table.append(head);
@@ -15,6 +16,7 @@ function renderFoodsTable(foodsRelation) {
         $('<td>').text(food.foodDescription).appendTo(row);
         $('<td>').text(food.amount).appendTo(row);
         $('<td>').text(food.measurementUnit).appendTo(row);
+        $('<td>').text(food.notice).appendTo(row);
         $('<td>').html('<div class="justify-content--end"><span class="t-icon-close t-icon" data-foodId="'+ index +'" id="remove-food-button"></span></div>').appendTo(row);
 
         table.append(row);
