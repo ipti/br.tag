@@ -191,32 +191,31 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-text" id="dateOfBirth">
                                 <?php echo $form->label($modelStudentIdentification, 'birthday', array('class' => 't-field-text__label--required')); ?>
-                                <div>
-									<?php 
-										$this->widget('zii.widgets.jui.CJuiDatePicker', array(
-											'model' => $modelStudentIdentification,
-										    'attribute' => 'birthday',
-											'options' => array(
-												'dateFormat' => 'dd/mm/yy',
-												'changeYear' => true,
-												'changeMonth' => true,
-												'yearRange' => '1930:' . date('Y'),
-													'showOn' => 'focus',
-													'maxDate' => 0
+								<?php 
+                                    $this->widget('zii.widgets.jui.CJuiDatePicker', array(
+                                        'model' => $modelStudentIdentification,
+                                        'attribute' => 'birthday',
+                                        'options' => array(
+                                            'dateFormat' => 'dd/mm/yy',
+                                            'changeYear' => true,
+                                            'changeMonth' => true,
+                                            'yearRange' => '1930:' . date('Y'),
+                                                'showOn' => 'focus',
+                                                'maxDate' => 0
+                                            ),
+                                            'htmlOptions' => array(
+                                                'id' => 'initial_date_picker',
+                                                'readonly' => 'readonly',
+                                                    'style' => 'cursor: pointer;',
+                                                    'placeholder' => 'Clique aqui para escolher a data'
                                                 ),
-												'htmlOptions' => array(
-													'readonly' => 'readonly',
-														'style' => 'cursor: pointer;',
-														'placeholder' => 'Clique aqui para escolher a data'
-													),
-												));
+                                            ));
 
-												echo CHtml::link('	Limpar', '#', array(
-													'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
-										));		
-										echo $form->error($modelStudentIdentification, 'birthday');
-									?>
-								</div>
+                                            echo CHtml::link('	Limpar', '#', array(
+                                                'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
+                                    ));		
+                                    echo $form->error($modelStudentIdentification, 'birthday');
+								?>
                             </div>
                         </div>
                         <!-- CPF -->
