@@ -1014,7 +1014,7 @@ class SagresConsultModel
                         left join schedule s on cf.schedule_fk = s.id
                   WHERE
                         se.classroom_fk  =  :classId AND
-                        c.school_year and s.year = :referenceYear
+                        c.school_year = :referenceYear
                   GROUP BY se.id;
                 ";
 
