@@ -1003,7 +1003,9 @@ class SagresConsultModel
                         ifnull(si.deficiency, 0) AS deficiency,
                         si.sex AS gender,
                         si.id,
-                        SUM(IF(cf.id is null, 0, 1)) AS faults
+                        (SELECT COUNT(*) FROM class_faults cf
+						 JOIN schedule s ON s.id = cf.schedule_fk
+						 WHERE s.`year` = :referenceYear AND cf.student_fk = si.id) AS faults
                   FROM
                         student_enrollment se
                         join classroom c on se.classroom_fk = c.id
