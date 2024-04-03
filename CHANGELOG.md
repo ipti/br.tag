@@ -1,3 +1,6 @@
+## [Versão 3.77.131]
+- Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
+
 ## [Versão 3.77.130]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
 
