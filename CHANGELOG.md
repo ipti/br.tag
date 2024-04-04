@@ -1,3 +1,6 @@
+## [Versão 3.78.130]
+- Adicionado campo para a assinatura do diretor 
+
 ## [Versão 3.77.130]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
 
