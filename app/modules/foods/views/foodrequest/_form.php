@@ -47,7 +47,7 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
-	<div class="modal fade t-modal-container larger" id="js-entry-request-modal" tabindex="-1" role="dialog">
+	<div class="modal fade t-modal-container" id="js-entry-request-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog " role="document">
             <div class="t-modal__header">
                 <h4 class="t-title" id="myModalLabel">Gerar Solicitação</h4>
@@ -57,13 +57,49 @@ $form=$this->beginWidget('CActiveForm', array(
             </div>
             <form method="post">
                 <div class="t-modal__body">
-                    <p>Selecione os itens e quantidades para gerar solicitações</p>
+                    <p>Selecione o item e a quantidade para gerar a solicitação</p>
                     <div class="row">
                         <div class="column clearfix">
                             <div id="request-modal-alert" class="alert hide"></div>
                         </div>
                     </div>
-                    <div class="tablet-row bottom-margin">
+                    <div class="row">
+                        <div class="column is-half t-field-select clearfix">
+							<?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
+							<select class="select-search-on t-field-select__input select2-container clear-margin--all" id="food" name="food">
+								<option value="alimento">Selecione o Alimento</option>
+							</select>
+						</div>
+						<div class="column is-half clearleft--on-mobile t-field-text clearfix">
+							<?php echo $form->label($model,'amount', array('class' => 't-field-text__label--required')); ?>
+							<?php echo $form->textField($model,'amount', array('class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
+							<?php echo $form->error($model,'amount'); ?>
+						</div>
+                    </div>
+                    <div class="row">
+                        <div class="column is-half t-field-select clearfix">
+							<?php echo CHtml::label('Unidade', 'measurementUnit', array('class' => 't-field-select__label--required')); ?>
+							<select class="select-search-on t-field-select__input select2-container clear-margin--all" id="measurementUnit" name="measurementUnit">
+                                <option value="selecione">Selecione</option>
+							</select>
+						</div>
+                        <div class="column is-half t-field-select clearleft--on-mobile clearfix">
+							<?php echo CHtml::label('Agricultor', 'farmer_fk', array('class' => 't-field-select__label--required')); ?>
+							<select class="select-search-on t-field-select__input select2-container clear-margin--all" id="farmer" name="farmer">
+                                <option value="selecione">Selecione</option>
+							</select>
+						</div>
+                    </div>
+                    <div class="row bottom-margin">
+                        <div class="column t-field-text clearfix">
+							<?php echo $form->label($model,'description', array('class' => 't-field-text__label')); ?>
+							<?php echo $form->textField($model,'description', array('class' => 't-field-text__input js-description clear-margin--all', 'placeholder' => 'Informe')); ?>
+							<?php echo $form->error($model,'description'); ?>
+						</div>
+                    </div>
+
+
+                    <!-- <div class="tablet-row bottom-margin">
 						<div class="column is-third t-field-select t-margin-none--bottom clearfix">
 							<?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
 							<select class="select-search-on t-field-select__input select2-container clear-margin--all" id="food" name="food">
@@ -82,23 +118,23 @@ $form=$this->beginWidget('CActiveForm', array(
 							</select>
 						</div>
 						<div class="column t-field-text clearleft--on-mobile t-margin-none--bottom is-two-fifths clearfix">
-							<?php echo $form->label($model,'description', array('class' => 't-field-text__label--required')); ?>
+							<?php echo $form->label($model,'description', array('class' => 't-field-text__label')); ?>
 							<?php echo $form->textField($model,'description', array('class' => 't-field-text__input js-description clear-margin--all', 'placeholder' => 'Informe')); ?>
 							<?php echo $form->error($model,'description'); ?>
 						</div>
 						<div class="column is-one-tenth clearleft--on-mobile t-buttons-container t-margin-none--bottom clearfix">
 							<button class="t-button-secondary mobile-margin-top t-margin-none--bottom full--width align-self--end" id="add-request" type="button">Adicionar</button>
 						</div>
-                    </div>
+                    </div> -->
 
                     <div id="food_request"></div>
 
                     <div class="t-modal__footer row reverse">
                         <div class="t-buttons-container justify-content--center">
-                            <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="t-button-secondary t-margin-none--right" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="t-buttons-container justify-content--center">
-                            <button type="button" class="t-button-primary clear-margin--right" data-dismiss="modal" id="save-request">Enviar solicitação</button>
+                            <button type="button" class="t-button-primary t-margin-none--right" data-dismiss="modal" id="save-request">Enviar solicitação</button>
                         </div>
                     </div>
                 </div>

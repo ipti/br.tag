@@ -2,6 +2,29 @@
 
 class FoodrequestController extends Controller
 {
+    /**
+     * Displays a particular model.
+     * @param integer $id the ID of the model to be displayed
+     */
+    public function actionView($id)
+    {
+        $this->render('view', array(
+            'model' => $this->loadModel($id),
+        ));
+    }
+
+    public function actionGetFarmerRegister() {
+        $farmerRegisters = FarmerRegister::model()->findAll();
+
+        $values = [];
+        foreach ($farmerRegisters as $farmer) {
+            $values[$farmer->id] = (object) [
+                'name' => $farmer->name,
+            ];
+        }
+
+        echo json_encode($values);
+    }
 
     public function actionSaveRequest()
     {
@@ -16,6 +39,7 @@ class FoodrequestController extends Controller
                 $FoodRequest->measurementUnit = $request['measurementUnit'];
                 $FoodRequest->description = $request['description'];
                 $FoodRequest->school_fk = Yii::app()->user->school;
+                $FoodRequest->farmer_fk = $request['farmerId'];
 
                 if (!$FoodRequest->save()) {
                     Yii::app()->request->sendStatusCode(400);
@@ -51,18 +75,6 @@ class FoodrequestController extends Controller
         }
 
         echo json_encode($values);
-    }
-
-
-    /**
-     * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
-     */
-    public function actionView($id)
-    {
-        $this->render('view', array(
-            'model' => $this->loadModel($id),
-        ));
     }
 
     /**

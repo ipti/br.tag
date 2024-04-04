@@ -59,6 +59,22 @@ $(document).on("click", "#js-entry-request-button", function () {
             }));
         });
     })
+    let farmerSelect = $('#farmer');
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodrequest/getFarmerRegister",
+        cache: false
+    }).success(function(response) {
+        let data = DOMPurify.sanitize(response);
+        let farmerRegisters = JSON.parse(data);
+
+        Object.entries(farmerRegisters).forEach(function([id, value]) {
+            farmerSelect.append($('<option>', {
+                value: id,
+                text: value.name
+            }));
+        });
+    })
 })
 
 $(document).on("click", "#add-request", function () {
@@ -88,34 +104,52 @@ $(document).on("click", "#request_button", function () {
 });
 
 $(document).on("click", "#save-request", function () {
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/foodrequest/saveRequest",
-        cache: false,
-        data: {
-            foodRequests: foodRequests
+    let amount = $('.js-amount').val();
+    let food = $('#food').find('option:selected').text();
+    let measurementUnit = $('#measurementUnit').find('option:selected').text();
+    let foodId = $('#food').val().split(',')[0];
+    let description = $('.js-description').val();
+    let farmerId = $('#farmer').find('option:selected').val();
+    let requestDate = $('.js-date').val();
+
+    if(foodId == "alimento" || amount == "") {
+        $('#request-modal-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
+    } else {
+        if (amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
+            foodRequests.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit , date: requestDate, description: description, farmerId: farmerId});
+            $.ajax({
+                type: 'POST',
+                url: "?r=foods/foodrequest/saveRequest",
+                cache: false,
+                data: {
+                    foodRequests: foodRequests
+                }
+            }).success(function(response) {
+                foodRequests.splice(0, foodRequests.length);
+                let foodRequestsDiv = document.getElementById("food_request");
+                foodRequestsDiv.innerHTML = '';
+                $('.js-date').val('');
+                $('.js-amount').val('');
+                $('.js-description').val('');
+                $('#info-alert').removeClass('hide').addClass('alert-success').html("Solicitação gerada com sucesso.");
+                $.ajax({
+                    type: 'POST',
+                    url: "?r=foods/foodrequest/getFoodRequest",
+                    cache: false
+                }).success(function(response) {
+                    food_request = JSON.parse(response);
+                    food_request.sort((a, b) => (a.delivered === false && b.delivered === true) ? -1 : 1);
+                    renderRequestTable(food_request);
+                });
+            }).fail(function(error) {
+                $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível gerar a solicitação no sistema.");
+            })
+        } else {
+            $('#request-modal-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
         }
-    }).success(function(response) {
-        foodRequests.splice(0, foodRequests.length);
-        let foodRequestsDiv = document.getElementById("food_request");
-        foodRequestsDiv.innerHTML = '';
-        $('.js-date').val('');
-        $('.js-amount').val('');
-        $('.js-description').val('');
-        $('#info-alert').removeClass('hide').addClass('alert-success').html("Solicitação gerada com sucesso.");
-        $.ajax({
-            type: 'POST',
-            url: "?r=foods/foodrequest/getFoodRequest",
-            cache: false
-        }).success(function(response) {
-            food_request = JSON.parse(response);
-            food_request.sort((a, b) => (a.delivered === false && b.delivered === true) ? -1 : 1);
-            renderRequestTable(food_request);
-        });
-    }).fail(function(error) {
-        $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível gerar a solicitação no sistema.");
-    })
+    }
 });
+
 $(document).on("change", "#food", function () {
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');
