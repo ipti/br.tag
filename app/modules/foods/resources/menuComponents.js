@@ -139,7 +139,7 @@ const PlateComponent = function (plate) {
     getFoodList(wrapper.find(".js-taco-foods"))
     const table = wrapper.find('table.js-meal-component-table')
     plate.foodIngredients.map((e) => {
-        renderIngredients(e, table)
+        renderIngredients(e, table, wrapper.find('.js-plate-accordion-header .js-ingredients-names'))
     })
     wrapper.find(".js-remove-plate").on("click", (e) => {
       const plateIdToRemove = $(e.target).attr("data-id-plate");
@@ -159,7 +159,7 @@ const PlateComponent = function (plate) {
       initializeMealAccordion(accordionActive)
     })
     const selectFoods = wrapper.find('.js-taco-foods')
-    addRowToTable(selectFoods, table)
+    addRowToTable(selectFoods, table, wrapper.find('.js-plate-accordion-header .js-ingredients-names'))
     return wrapper.children()
 
   }
@@ -173,7 +173,7 @@ const PlateComponent = function (plate) {
       });
 
   }
-  function addRowToTable(selectFoods, table) {
+  function addRowToTable(selectFoods, table, accordionComponent) {
     selectFoods.on('change', (e) => {
       table.find('tbody').html('')
       table.find('tbody').append(`<tr>
@@ -201,14 +201,14 @@ const PlateComponent = function (plate) {
       })
       idIgredientes++
       plate.foodIngredients.map((e) => {
-        getFood(e, table)
+        getFood(e, table, accordionComponent)
       })
 
       $(selectFoods).val('');
       initializeSelect2();
     })
   }
-  function getFood(food, table) {
+  function getFood(food, table, accordionComponent) {
     $.ajax({
       url: "?r=foods/foodmenu/getFood",
       data: {
@@ -224,11 +224,11 @@ const PlateComponent = function (plate) {
       food.kcal = response.kcal
       food.nameFood = response.name
       food.measurementUnit = response.measurementUnit
-      renderIngredients(food, table)
+      renderIngredients(food, table, accordionComponent)
 
     })
   }
-  function renderIngredients(food, table) {
+  function renderIngredients(food, table, accordionComponent) {
       let line = createMealComponent(food);
       const wrapper = parseDOM(line);
       wrapper.find(".js-unit input").on("input", (e) => { food.amount = e.target.value });
@@ -236,7 +236,6 @@ const PlateComponent = function (plate) {
 
         let accordionPlateActive = $(e.target).attr("data-id-plate")
         let ingredientId = $(e.target).attr("data-id-food-ingredients")
-        let accordionMeals = 0
         for (let i = 0; i < meals.length; i++) {
           let meal = meals[i];
           let plateIndex = meal.plates.findIndex(plate => plate.id == accordionPlateActive);
@@ -246,6 +245,7 @@ const PlateComponent = function (plate) {
             accordionMeals = i;
           }
         }
+        removeIngrendientsName($(e.target).attr("data-id-plate"), line.find('.js-food-name').text())
         line.remove();
 
       })
@@ -253,8 +253,8 @@ const PlateComponent = function (plate) {
       addFoodMeasurement(line, food)
       addUnitMask(line)
       changeAmount(line, food, table)
-      addIngrendientsName(line.find('.js-food-name').text())
       table.append(line)
+      addIngrendientsName(line.find('.js-food-name').text(), accordionComponent)
       calculateNutritionalValue(table)
       initializeSelect2()
   }
@@ -403,12 +403,9 @@ const PlateComponent = function (plate) {
       }
     })
   }
-  function addIngrendientsName(name) {
-
-    let oldIngrendientsName = $(`.js-plate-accordion-header[data-id-accordion="${plate.id}"]  .js-ingredients-names`)
+  function addIngrendientsName(name, oldIngrendientsName) {
     let ingredientsList = oldIngrendientsName.text().trim().split(', ')
     let firstNameNewIngredient = name.split(', ')[0]
-
     if (ingredientsList.indexOf(firstNameNewIngredient) === -1) {
       ingredientsList[0] == "" ? ingredientsList[0] = firstNameNewIngredient : ingredientsList.push(firstNameNewIngredient)
     }

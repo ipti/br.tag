@@ -55,7 +55,7 @@ $form=$this->beginWidget('CActiveForm', array(
     </div>
 
     <h3>Dados Básicos</h3>
-    <p>Informe o CPF, caso o agricultor já possua cadastro os dados básicos serão preenchidos automaticamente</p>
+    <p>Informe o CPF, caso o agricultor já possua cadastro na plataforma NHAM, os dados básicos serão preenchidos automaticamente.</p>
 
     <div class="row">
         <div class="column clearleft is-two-fifths">
@@ -68,7 +68,7 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="column clearleft is-two-fifths">
             <div class="t-field-text">
                 <?php echo $form->label($model,'name', array('class' => 't-field-text__label--required')); ?>
-                <?php echo $form->textField($model,'name', array('id' => 'farmerName','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
+                <?php echo $form->textField($model,'name', array('id' => 'farmerName', 'disabled' => 'disabled','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($model,'name'); ?>
             </div>
         </div>
@@ -78,7 +78,7 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="column clearleft is-two-fifths">
             <div class="t-field-text">
                 <?php echo $form->label($model,'phone', array('class' => 't-field-text__label--required')); ?>
-                <?php echo $form->textField($model,'phone', array('id' => 'farmerPhone','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
+                <?php echo $form->textField($model,'phone', array('id' => 'farmerPhone', 'disabled' => 'disabled','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($model,'phone'); ?>
             </div>
         </div>
@@ -91,7 +91,7 @@ $form=$this->beginWidget('CActiveForm', array(
                     "Fornecedor Individual" => "Fornecedor Individual",
                     "Grupo Formal" => "Grupo Formal",
                     "Grupo Informal" => "Grupo Informal",
-                ), array('id'=>'farmerGroupType','class' => 'select-search-off t-field-select__input select2-container'));
+                ), array('id'=>'farmerGroupType', 'disabled' => 'disabled','class' => 'select-search-off t-field-select__input select2-container'));
                 ?>
             </div>
         </div>

@@ -1,9 +1,9 @@
 <?php
     Yii::import('application.modules.foods.services.*');
     /**
-    * @property GetFarmerRegister $GetFarmerRegister
+    * @property UpdateFarmerRegister $UpdateFarmerRegister
     */
-    class GetFarmerRegister
+    class UpdateFarmerRegister
     {
         /**
          * Summary of firebaseservice
@@ -17,7 +17,7 @@
         /**
          * @return MrShan0\PHPFirestore\FirestoreDocument[]
          */
-        public function exec($cpf){
-            return $this->firebaseservice->getFarmerRegister($cpf);
+        public function exec($farmerId, $name, $cpf, $phone, $groupType, $foodsRelation){
+            return $this->firebaseservice->updateFarmerRegister($farmerId ,$name, $cpf, $phone, $groupType, $foodsRelation);
         }
     }
