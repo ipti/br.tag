@@ -21,4 +21,4 @@ $this->menu=array(
 	</div>
 </div>
 
-<?php $this->renderPartial('_form', array('model'=>$modelCoursePlan,'stages'=>$stages)); ?>
+<?php $this->renderPartial('_form', array('coursePlan'=>$coursePlan,'stages'=>$stages)); ?>

@@ -6,18 +6,23 @@
 ?>
 
 <?php
-$baseUrl = Yii::app()->baseUrl;
-$themeUrl = Yii::app()->theme->baseUrl;
+
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
+// $baseUrl = Yii::app()->baseUrl;
+// $themeUrl = Yii::app()->theme->baseUrl;
+// $cs = Yii::app()->getClientScript();
+// $cs->registerScriptFile($baseUrl . '/js/courseplan/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
 // $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js?v='.TAG_VERSION, CClientScript::POS_END);
 // $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
 // $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 
-
+// $cs->registerScriptFile($baseScriptUrl . '/menuComponents.js', CClientScript::POS_END);
+// $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END);
+// $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 $form = $this->beginWidget('CActiveForm', array(
@@ -28,12 +33,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
 <div class="main">
-    <?php echo $form->errorSummary($coursePlan); ?>
-    <div class="row-fluid hidden-print">
-        <div class="span12">
-            <h1><?php echo Yii::t('default', 'Create Plan'); ?></h1>
-        </div>
-    </div>
+    <?php // echo $form->errorSummary($coursePlan); ?>
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
@@ -120,8 +120,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </div>
 
                         <div class="row">
-                            <div class="column flex">
-                            <div class="t-field-text column">
+                            <div class="column flex is-two-fifths">
+                            <div class="t-field-text">
                                 <label for="courseplan_start_date" class="t-field-text__label">Data Inicial</label>
                                 <input type="text" id="courseplan_start_date" name="Data Inicial"
                                         class="t-field-text__input js-date date js-start-date" required="required">

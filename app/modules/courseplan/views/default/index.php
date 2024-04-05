@@ -25,9 +25,16 @@ $this->menu = array(
 );
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
-// $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/_initialization.js');
+// $cs->registerScriptFile($baseScriptUrl . '/_initialization.js');
+
+// $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+// $themeUrl = Yii::app()->theme->baseScriptUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 ?>
 

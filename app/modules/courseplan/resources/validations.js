@@ -55,3 +55,18 @@ $(document).on("keyup", ".course-class-objective", function(){
         removeError("#"+id);
     }
 });
+
+console.log($('#courseplan_start_date'));
+$('#courseplan_start_date').mask("99/99/9999", {placeholder: 'DD/MM/YYYY' });
+$('#courseplan_start_date').focusout(function () {
+    var id = '#' + $(this).attr("id");
+    initial_date = stringToDate($('##courseplan_start_date').val());
+    if (!validateDate($('#courseplan_start_date').val())
+        || !(initial_date.year >= actual_year - 1
+            && initial_date.year <= actual_year)) {
+        $('#courseplan_start_date').attr('value', '');
+        addError(id, "A data deve ser válida, no formato Dia/Mês/Ano e inferior a data final.");
+    } else {
+        removeError(id);
+    }
+});

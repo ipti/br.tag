@@ -46,13 +46,13 @@ class DefaultController extends Controller
      */
     public function actionCreate()
     {
-        $modelCoursePlan = new CoursePlan();
+        $coursePlan = new CoursePlan();
         if (isset($_POST['CoursePlan'])) {
             $this->actionSave();
         } else {
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
             $this->render('create', array(
-                'coursePlan' => $modelCoursePlan,
+                'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
                 'resources' => $resources,
             ));
