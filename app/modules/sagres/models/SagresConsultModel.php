@@ -1005,7 +1005,7 @@ class SagresConsultModel
                         si.id,
                         CASE 
                             WHEN c.edcenso_stage_vs_modality_fk = 1  THEN 
-                                (SELECT MAX(s.day) FROM class_faults cf
+                                (SELECT IF(MAX(s.day) IS NULL, 0, MAX(s.day)) FROM class_faults cf
                                     JOIN schedule s ON s.id = cf.schedule_fk
                                     WHERE s.year = :referenceYear AND cf.student_fk = si.id) 
                             ELSE 
