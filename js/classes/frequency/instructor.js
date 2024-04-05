@@ -28,73 +28,90 @@ function load() {
 
             success: function (response) {
                 var data = JSON.parse(response);
+                console.log(data.students)
                 if (data.valid) {
-                    let accordion = $('<div id="accordion" class="t-accordeon-secondary"></div>');
-                    accordion.append(data.scheduleDays.reduce((acc, scheduleDays) => {
+                    var accordion = "";
+                    accordion +=
+                        '<div id="accordion" class="t-accordeon-secondary">';
+                    var item = 0;
+                    $.each(data.students[0].schedules, function () {
                         var dia = this.day;
                         var mes = monthSplit[1];
                         var ano = monthSplit[0];
-                        return acc + `
-                        <div class="ui-accordion-header justify-content--space-between">
-                            <div>Aula do dia ${scheduleDays.date}</div>
-                            <div>
-                                <span class="t-icon-down_arrow arrow" ></span>
-                            </div>
-                        </div>
-                        <div class='ui-accordion-content'>
-                            ${data.students.reduce((line, student) => {
+                        fault = this.fault;
+                        item++;
+                        accordion +=
+                            `
+            <div  class='t-accordeon-container ui-accordion-header'>
+              <table class='table-frequency-head table'>
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="" style='display:flex;'>
+                        Nome
+                      </div>
+                    </th>
+                    <th class='justify-content--end'  style='display:flex;'>
+                        ${this.day}/${pad(mes, 2, 0)}/${ano}
+                    </th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div class='ui-accordion-content'>
+              <table class='table-frequency table'>
+                <tbody>`;
+                        $.each(data.students, function (indexStudent, student) {
+                            var hasFaults = student.schedules.filter((schedule) => dia == schedule.day && mes == monthSplit[1] && ano == monthSplit[0] && schedule.fault == true).length > 0;
 
-                                return line + `
-                                    <div class='justify-content--space-between t-padding-small--top t-padding-small--bottom' style="border-bottom:1px #e8e8e8 solid;">
-                                        <div>${student.studentName}</div>
-                                        <div style='display:flex;'>
-                                            ${student.schedules.reduce((acc, schedule) => {
-                                                let justificationContainer = "";
-                                                let iconJustification = "";
-                                                if (schedule.fault) {
-                                                    iconJustification = `
-                                                        <a href='javascript:;' style='margin-left:5px;' studentId=${student.studentId} day=${dia} data-toggle='tooltip' class='frequency-justification-icon title=''>
-                                                            <span class='t-icon-annotation icon-color'></span>
-                                                        </a>
-                                                    `
-                                                    if (schedule.justification !== null) {
-                                                        justificationContainer +=
-                                                            "data-toggle='tooltip' data-placement='left' title='" + schedule.justification + "'";
-                                                    }
-                                                }
+                            accordion += `<tr>
+                        <td class='student-name'>
+                          <div class='t-accordeon-container-table'>
+                            ${student.studentName}
+                            <a href='javascript:;' studentId=${student.studentId} day=${dia} data-toggle='tooltip' class='frequency-justification-icon ${!hasFaults ? 'hide' : 'show'}' title=''>
+                              <span class='t-icon-annotation icon-color'></span>
+                            </a>
+                          </div>
+                            </td>`;
+                            $.each(student.schedules, function (indexSchedule, schedule) {
+                                if (dia == schedule.day && mes == monthSplit[1] && ano == monthSplit[0]) {
+                                    var justificationContainer = "";
+                                    if (schedule.fault) {
+                                        if (schedule.justification !== null) {
+                                            justificationContainer +=
+                                                "data-toggle='tooltip' data-placement='left' title='" + schedule.justification + "'";
+                                        } else {
+                                            justificationContainer +=
+                                                ""
+                                        }
+                                    }
 
-                                                return acc + `
-                                                <span class="align-items--center" style='margin-left:5px;'>
+                                    accordion += "" +
+                                        "<td class='frequency-checkbox-student justify-content--end frequency-checkbox-container' " + (!this.available ? $("disabled") : "") + ">" +
+                                        "<input class='frequency-checkbox' type='checkbox' " +
+                                        (!schedule.available ? "disabled " : "") +
+                                        (schedule.fault ? "checked " : "") +
+                                        "classroomId = '" + $("#classroom").val() + "' " +
+                                        "studentId = '" + student.studentId + "' " +
+                                        "day = '" + schedule.day + "' " +
+                                        "month = '" + mes + "' " +
+                                        "year = '" + ano + "' " +
+                                        "schedule = '" + schedule.schedule + "' " +
+                                        "fundamentalMaior = '" + fundamentalMaior + "' " +
+                                        justificationContainer +
+                                        "</td>";
+                                }
 
-                                                    <a href='javascript:;' style='margin-left:5px;' studentId=${student.studentId} day=${dia} data-toggle='tooltip' class='frequency-justification-icon  ${!schedule.fault ? 'hide' : ''}' title=''>
-                                                            <span class='t-icon-annotation icon-color'></span>
-                                                    </a>
-                                                    ${schedule.schedule}°
-                                                    <span class="frequency-checkbox-container" ${(!schedule.available ? $("disabled") : "")}>
-                                                        <input class='frequency-checkbox' type='checkbox'
-                                                            ${(!schedule.available ? "disabled " : "")}
-                                                            ${(schedule.fault ? "checked " : "")}
-                                                            classroomId='${$("#classroom").val()}'
-                                                            studentId='${student.studentId}'
-                                                            day='${schedule.day}'
-                                                            month='${mes}'
-                                                            year='${ano}'
-                                                            schedule='${schedule.schedule}'
-                                                            fundamentalMaior='${fundamentalMaior}'
-                                                            ${justificationContainer}
-                                                        />
-                                                    </span>
-                                                </span>
-                                                `
-                                            }, '')}
-                                        </div>
-                                    </div>
-                                `;
-                            }, '')}
-                        </div>
-                    `;
-                    }, ''))
 
+                            });
+                            accordion += `</tr>`;
+                        });
+                        accordion +=
+                            `</tbody>
+              </table>
+            </div>`;
+                    });
+                    accordion += `</div>`;
                     $("#frequency-container").html(accordion).show();
 
 
@@ -104,8 +121,16 @@ function load() {
                             icons: null,
                         });
                     });
-
-
+                    $(".frequency-checkbox-general").each(function () {
+                        var day = $(this).find(".frequency-checkbox").attr("day");
+                        $(this)
+                            .find(".frequency-checkbox")
+                            .prop("checked", $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-student .frequency-checkbox[day=" + day + "]").length);
+                    });
+                    $('[data-toggle="tooltip"]').tooltip({container: "body"});
+                } else {
+                    $("#frequency-container").hide();
+                    $(".alert-incomplete-data").html(data.error).show();
                 }
             },
             complete: function () {
@@ -250,9 +275,8 @@ $(document).on("click", ".frequency-justification-icon", function () {
     $("#justification-year").val(checkbox.attr("year"));
     $("#justification-schedule").val(checkbox.attr("schedule"));
     $("#justification-fundamentalmaior").val(checkbox.attr("fundamentalmaior"));
-    $(".justification-text").val($(this).parent().find(".frequency-checkbox").attr("title"));
+    $(".justification-text").val($(this).closest("tr").find(".frequency-checkbox").attr("data-original-title"));
     $("#save-justification-modal").modal("show");
-    // console.log($(this).closest("tr").find(".frequency-checkbox").attr("data-original-title"))
 });
 
 $("#save-justification-modal").on("shown", function () {
@@ -280,13 +304,12 @@ $(document).on("click", ".btn-save-justification", function () {
             $("#save-justification-modal").find(".centered-loading-gif").show();
         },
         success: function (data) {
-            var justification = $(".frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "][year=" + $("#justification-year").val() + "]").parent().parent().find(".frequency-justification-icon");
-            console.log(justification)
+            var justification = $(".table-frequency tbody .frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "][year=" + $("#justification-year").val() + "]").parent().parent().find(".frequency-justification-icon");
+
             if ($(".justification-text").val() == "") {
-                justification.attr("title", "").tooltip("hide");
+                justification.attr("data-original-title", "").tooltip("hide");
             } else {
-                $(justification).parent().find(".frequency-checkbox").attr($(".justification-text").val())
-                justification.attr("title", $(".justification-text").val()).tooltip({container: "body"});
+                justification.attr("data-original-title", $(".justification-text").val()).tooltip({container: "body"});
             }
             $("#save-justification-modal").modal("hide");
         },

@@ -464,6 +464,7 @@ class ClassesController extends Controller
         $criteria->order = 'name';
         $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $_POST["classroom"]), $criteria);
         if ($schedules != null) {
+            $scheduleDays = $this->getScheduleDays($schedules);
             if ($enrollments != null) {
                 $students = [];
                 $dayName = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
@@ -485,13 +486,29 @@ class ClassesController extends Controller
                     }
                     array_push($students, $array);
                 }
-                echo json_encode(["valid" => true, "students" => $students]);
+                echo json_encode(["valid" => true, "students" => $students, "scheduleDays"=>$scheduleDays]);
             } else {
                 echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o Quadro de Frequência."]);
             }
         } else {
             echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($_POST["fundamentalMaior"] == "1" ? "e Disciplina": "") . " sem aula no Quadro de Horário."]);
         }
+    }
+    private function getScheduleDays($schedules) {
+        $result = [];
+        foreach ($schedules as $schedule) {
+            $day = ($schedule->day < 10) ? '0' . $schedule->day : $schedule->day;
+            $month = ($schedule->month < 10) ? '0' . $schedule->month : $schedule->month;
+            $date = $day . "/" . $month . "/" . $schedule->year;
+            $index = array_search($date, array_column($result, 'date'));
+            if ($index === false) {
+                array_push($result, [
+                    "day" => $schedule->day,
+                    "date" => $date
+                ]);
+            }
+        }
+        return $result;
     }
 
     /**
