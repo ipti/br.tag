@@ -1003,9 +1003,16 @@ class SagresConsultModel
                         ifnull(si.deficiency, 0) AS deficiency,
                         si.sex AS gender,
                         si.id,
-                        (SELECT COUNT(*) FROM class_faults cf
-						 JOIN schedule s ON s.id = cf.schedule_fk
-						 WHERE s.`year` = :referenceYear AND cf.student_fk = si.id) AS faults
+                        CASE 
+                            WHEN c.edcenso_stage_vs_modality_fk = 1  THEN 
+                                (SELECT MAX(s.day) FROM class_faults cf
+                                    JOIN schedule s ON s.id = cf.schedule_fk
+                                    WHERE s.year = :referenceYear AND cf.student_fk = si.id) 
+                            ELSE 
+                                (SELECT COUNT(*) FROM class_faults cf
+                                    JOIN schedule s ON s.id = cf.schedule_fk
+                                    WHERE s.year = :referenceYear AND cf.student_fk = si.id)
+                        END AS faults           
                   FROM
                         student_enrollment se
                         join classroom c on se.classroom_fk = c.id
