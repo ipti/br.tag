@@ -1,3 +1,6 @@
+## [Versão 3.77.131]
+- Consertado tela de frequencia para os professores
+
 ## [Versão 3.77.130]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
 
