@@ -465,6 +465,7 @@ class ClassesController extends Controller
         $enrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $_POST["classroom"]), $criteria);
         if ($schedules != null) {
             $scheduleDays = $this->getScheduleDays($schedules);
+            $schedulePerDays = $this->getSchedulePerDays($schedules);
             if ($enrollments != null) {
                 $students = [];
                 $dayName = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
@@ -475,24 +476,47 @@ class ClassesController extends Controller
                     foreach ($schedules as $schedule) {
                         $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                         $available = date("Y-m-d") >= $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
+                        $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year);
                         array_push($array["schedules"], [
                             "available" => $available,
                             "day" => $schedule->day,
                             "week_day" => $dayName[$schedule->week_day],
                             "schedule" => $schedule->schedule,
                             "fault" => $classFault != null,
-                            "justification" => $classFault->justification
+                            "justification" => $classFault->justification,
+                            "date" => $date
                         ]);
                     }
                     array_push($students, $array);
                 }
-                echo json_encode(["valid" => true, "students" => $students, "scheduleDays"=>$scheduleDays]);
+                echo json_encode(["valid" => true, "students" => $students, "scheduleDays"=>$scheduleDays, "schedulePerDays"=>$schedulePerDays]);
             } else {
                 echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o Quadro de Frequência."]);
             }
         } else {
             echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($_POST["fundamentalMaior"] == "1" ? "e Disciplina": "") . " sem aula no Quadro de Horário."]);
         }
+    }
+    private function gerateDate($day, $month, $year){
+            $day = ($day < 10) ? '0' . $day : $day;
+            $month = ($month < 10) ? '0' . $month : $month;
+            return $day . "/" . $month . "/" . $year;
+    }
+    private function getSchedulePerDays($schedules) {
+        $result = [];
+        foreach ($schedules as $schedule) {
+            $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year);
+            $index = array_search($date, array_column($result, 'date'));
+            if ($index === false) {
+                array_push($result, [
+                    "schedulePerDays" => [$schedule->schedule],
+                    "date" => $date
+                ]);
+            } else {
+                array_push($result[$index]["schedulePerDays"],  $schedule->schedule);
+            }
+        }
+        return $result;
     }
     private function getScheduleDays($schedules) {
         $result = [];
