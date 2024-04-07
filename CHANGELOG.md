@@ -1,3 +1,6 @@
+## [Versão 3.77.132]
+- Adicionado unidades de medida para o lançamento no estoque
+
 ## [Versão 3.77.130]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
 
