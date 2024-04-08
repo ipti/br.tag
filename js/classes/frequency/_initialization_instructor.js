@@ -1,11 +1,10 @@
-function generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSplit, schedulePerDays, date) {
+function generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSplit, date) {
      const index = student.schedules.findIndex(schedule => schedule.date === date);
      const schedule = student.schedules[index];
 
     let checkboxItem = '';
     if (dia == schedule.day && mes == monthSplit[1] && ano == monthSplit[0]) {
         let justificationContainer = "";
-        schedulePerDays = schedulePerDays.filter((e)=> e.date == date)
         if (schedule.fault) {
             if (schedule.justification !== null) {
                 justificationContainer +=
@@ -26,7 +25,6 @@ function generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSp
                         day='${schedule.day}'
                         month='${mes}'
                         year='${ano}'
-                        schedulePerDays='${schedulePerDays[0].schedulePerDays}'
                         schedule='${schedule.schedule}'
                         fundamentalMaior='${fundamentalMaior}'
                         ${justificationContainer}
@@ -36,18 +34,18 @@ function generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSp
     }
     return checkboxItem;
 }
-function generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit, schedulePerDays, date) {
+function generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit, date) {
     return data.students.reduce((line, student) => {
         return line + `
             <div class='justify-content--space-between t-padding-small--top t-padding-small--bottom' style="border-bottom:1px #e8e8e8 solid;">
                 <div>${student.studentName}</div>
                 <div style='display:flex;'>
-                    ${generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSplit, schedulePerDays, date)}
+                    ${generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSplit, date)}
                 </div>
             </div>`;
     }, '');
 }
-function generateScheduleDays(data, monthSplit, fundamentalMaior, schedulePerDays) {
+function generateScheduleDays(data, monthSplit, fundamentalMaior) {
     return data.scheduleDays.reduce((acc, scheduleDays) => {
         let dia = scheduleDays.day;
         let mes = monthSplit[1];
@@ -61,47 +59,10 @@ function generateScheduleDays(data, monthSplit, fundamentalMaior, schedulePerDay
             </div>
             <div class='ui-accordion-content'>
                 <div style='width: 100%; overflow-x:auto;'>
-                    ${generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit, schedulePerDays, scheduleDays.date)}
+                    ${generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit, scheduleDays.date)}
                 </div>
             </div>`;
     }, '');
-}
-function updateFrequency(schedule, monthSplit){
-    $.ajax({
-        type: "POST",
-        url: "?r=classes/saveFrequency",
-        cache: false,
-        data: {
-            classroomId: $(this).attr("classroomId"),
-            day: $(this).attr("day"),
-            month: monthSplit[1],
-            year: monthSplit[0],
-            schedule: schedule,
-            studentId: $(this).attr("studentId"),
-            fault: $(this).is(":checked") ? 1 : 0,
-            fundamentalMaior: $(this).attr("fundamentalMaior"),
-        },
-
-        beforeSend: function () {
-            $(".loading-frequency").css("display", "inline-block");
-            $(".table-frequency").css("opacity", 0.3).css("pointer-events", "none");
-            $(".table-frequency-head").css("opacity", 0.3).css("pointer-events", "none");
-            $("#classroom, #month, #disciplines, #classesSearch").attr(
-                "disabled",
-                "disabled"
-            );
-        },
-        complete: function () {
-            $(checkbox).parent().parent().find('.frequency-justification-icon').toggleClass('hide')
-
-            $(".loading-frequency").hide();
-            $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
-            $(".table-frequency-head").css("opacity", 1).css("pointer-events", "auto");
-            $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
-                "disabled"
-            );
-        },
-    });
 }
 
 function load() {
@@ -138,7 +99,7 @@ function load() {
                 if (data.valid) {
                     let accordion = $('<div id="accordion" class="t-accordeon-secondary"></div>');
 
-                    accordion.append(generateScheduleDays(data, monthSplit, fundamentalMaior, data.schedulePerDays))
+                    accordion.append(generateScheduleDays(data, monthSplit, fundamentalMaior))
                     $("#frequency-container").html(accordion).show();
 
                     $(function () {
@@ -238,20 +199,17 @@ $(".js-load-frequency").on("change", function () {
 });
 
 $(document).on("change", ".frequency-checkbox", function () {
-    let checkbox = this;
-    let schedules = checkbox.getAttribute('schedulePerDays').split(",");
+    let checkbox = this
     let monthSplit = $("#month").val().split("-");
-    schedules.forEach((schedule) => {
         $.ajax({
             type: "POST",
-            url: "?r=classes/saveFrequency",
+            url: "?r=classes/saveFrequencies",
             cache: false,
             data: {
                 classroomId: $(this).attr("classroomId"),
                 day: $(this).attr("day"),
                 month: monthSplit[1],
                 year: monthSplit[0],
-                schedule: schedule,
                 studentId: $(this).attr("studentId"),
                 fault: $(this).is(":checked") ? 1 : 0,
                 fundamentalMaior: $(this).attr("fundamentalMaior"),
@@ -277,7 +235,6 @@ $(document).on("change", ".frequency-checkbox", function () {
                 );
             },
         })
-      });
 });
 
 $(document).on("click", ".frequency-justification-icon", function () {
@@ -300,13 +257,10 @@ $("#save-justification-modal").on("shown", function () {
 
 $(document).on("click", ".btn-save-justification", function () {
     let justification = $(".frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][schedule=" + $("#justification-schedule").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "][year=" + $("#justification-year").val() + "]").parent().parent().find(".frequency-justification-icon");
-    let checkbox = justification.parent().find(".frequency-checkbox");
-    console.log(checkbox)
-    let schedules = checkbox.attr("schedulePerDays").split(",");
-    schedules.forEach((schedule) => {
+
         $.ajax({
             type: "POST",
-            url: "?r=classes/saveJustification",
+            url: "?r=classes/SaveJustifications",
             cache: false,
             data: {
                 classroomId: $("#justification-classroomid").val(),
@@ -314,7 +268,6 @@ $(document).on("click", ".btn-save-justification", function () {
                 day: $("#justification-day").val(),
                 month: $("#justification-month").val(),
                 year: $("#justification-year").val(),
-                schedule: schedule,
                 fundamentalMaior: $("#justification-fundamentalmaior").val(),
                 justification: $(".justification-text").val(),
             },
@@ -339,7 +292,6 @@ $(document).on("click", ".btn-save-justification", function () {
                 $("#save-justification-modal").find(".centered-loading-gif").hide();
             },
         });
-    })
 });
 
 $(document).on("keyup", ".justification-text", function (e) {
