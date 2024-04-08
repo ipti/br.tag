@@ -93,39 +93,10 @@ $form=$this->beginWidget('CActiveForm', array(
                     <div class="row bottom-margin">
                         <div class="column t-field-text clearfix">
 							<?php echo $form->label($model,'description', array('class' => 't-field-text__label')); ?>
-							<?php echo $form->textField($model,'description', array('class' => 't-field-text__input js-description clear-margin--all', 'placeholder' => 'Informe')); ?>
+							<?php echo $form->textField($model,'description', array('class' => 't-field-text__input js-description clear-margin--all', 'placeholder' => 'Informe a descrição da solicitação')); ?>
 							<?php echo $form->error($model,'description'); ?>
 						</div>
                     </div>
-
-
-                    <!-- <div class="tablet-row bottom-margin">
-						<div class="column is-third t-field-select t-margin-none--bottom clearfix">
-							<?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
-							<select class="select-search-on t-field-select__input select2-container clear-margin--all" id="food" name="food">
-								<option value="alimento">Selecione o Alimento</option>
-							</select>
-						</div>
-						<div class="column is-one-tenth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
-							<?php echo $form->label($model,'amount', array('class' => 't-field-text__label--required')); ?>
-							<?php echo $form->textField($model,'amount', array('class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
-							<?php echo $form->error($model,'amount'); ?>
-						</div>
-						<div class="column is-one-tenth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
-							<?php echo CHtml::label('Unidade', 'measurementUnit', array('class' => 't-field-select__label--required')); ?>
-							<select class="select-search-on t-field-select__input select2-container clear-margin--all" id="measurementUnit" name="measurementUnit">
-                                <option value="selecione">Selecione</option>
-							</select>
-						</div>
-						<div class="column t-field-text clearleft--on-mobile t-margin-none--bottom is-two-fifths clearfix">
-							<?php echo $form->label($model,'description', array('class' => 't-field-text__label')); ?>
-							<?php echo $form->textField($model,'description', array('class' => 't-field-text__input js-description clear-margin--all', 'placeholder' => 'Informe')); ?>
-							<?php echo $form->error($model,'description'); ?>
-						</div>
-						<div class="column is-one-tenth clearleft--on-mobile t-buttons-container t-margin-none--bottom clearfix">
-							<button class="t-button-secondary mobile-margin-top t-margin-none--bottom full--width align-self--end" id="add-request" type="button">Adicionar</button>
-						</div>
-                    </div> -->
 
                     <div id="food_request"></div>
 

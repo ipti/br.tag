@@ -53,7 +53,7 @@ function renderRequestTable(foodRequests, id) {
             $('<td>').text(request.amount + measurementUnit).appendTo(row);
             $('<td>').text(request.date).appendTo(row);
             $('<td>').text(request.description).appendTo(row);
-            $('<td style="padding-right: 25px">').html('<button class="t-button-secondary full--width t-margin-none--right" id="js-status-button" type="button"><span class="t-icon-pencil text-color--ink"></span>'+ request.status +'</button>').appendTo(row);
+            $('<td style="padding-right: 25px">').html('<button class="t-button-secondary full--width t-margin-none--right" id="js-status-button" type="button">'+ request.status +'</button>').appendTo(row);
 
             table.append(row);
         });

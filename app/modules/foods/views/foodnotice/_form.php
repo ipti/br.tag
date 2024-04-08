@@ -100,7 +100,7 @@ $cs->registerScriptFile($baseScriptUrl . '\notice\_initialization.js', CClientSc
     </div>
 
     <div class="row">
-        <a class="t-button-secondary column js-add-notice-item">
+        <a class="t-button-primary column js-add-notice-item">
             Adicionar Item
         </a>
     </div>

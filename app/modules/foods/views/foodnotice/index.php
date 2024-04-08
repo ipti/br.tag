@@ -36,11 +36,10 @@ $this->menu=array(
 				<?php $this->widget(
 					'zii.widgets.grid.CGridView',
 					array(
-						'id' => 'food-menu-grid',
+						'id' => 'food-notice-grid',
 						'dataProvider' => $dataProvider,
 						'enablePagination' => false,
 						'enableSorting' => false,
-						'ajaxUpdate' => false,
 						'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
 						'columns' => array(
 							'id',
@@ -73,6 +72,9 @@ $this->menu=array(
 								'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
 							)
 						),
+                        'afterAjaxUpdate' => 'function(id, data) {
+                            initDatatable()
+                        }',
 					)
 				); ?>
 

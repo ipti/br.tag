@@ -117,12 +117,13 @@ $(document).on("click", "#save-request", function () {
     } else {
         if (amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
             foodRequests.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit , date: requestDate, description: description, farmerId: farmerId});
+
             $.ajax({
                 type: 'POST',
                 url: "?r=foods/foodrequest/saveRequest",
                 cache: false,
                 data: {
-                    foodRequests: foodRequests
+                    foodRequests: foodRequests[0]
                 }
             }).success(function(response) {
                 foodRequests.splice(0, foodRequests.length);
@@ -154,7 +155,6 @@ $(document).on("change", "#food", function () {
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');
     measurementUnitSelect.empty();
-    console.log(measurementUnit);
     switch (measurementUnit) {
         case "g":
             measurementUnitSelect.append($('<option value="g" selected>g</option><option value="Kg">Kg</option>'));

@@ -97,13 +97,9 @@ class FoodNoticeController extends Controller
                     $modelNoticeItem->measurement = $item["measurement"];
                     $modelNoticeItem->year_amount = $item["yearAmount"];
                     $modelNoticeItem->food_id = $item["food_fk"];
+                    $modelNoticeItem->foodNotice_fk = $model->id;
 
-                    if ($modelNoticeItem->save()) {
-                        $modelNoticeVsNoticeItem = new FoodNoticeVsFoodNoticeItem;
-                        $modelNoticeVsNoticeItem->food_notice_id = $model->id;
-                        $modelNoticeVsNoticeItem->food_notice_item_id = $modelNoticeItem->id;
-                        $modelNoticeVsNoticeItem->save();
-                    }
+                    $modelNoticeItem->save();
                 }
             }
 
@@ -138,15 +134,10 @@ class FoodNoticeController extends Controller
             $model->name = $request["name"];
             $model->date = date('Y-m-d', $date);
 
-            $noticeVsNoticeItem = FoodNoticeVsFoodNoticeItem::model()->findAll(
-                "food_notice_id = :id",
-                ["id" => $id]
+            $modelNoticeItems = FoodNoticeItem::model()->findAllByAttributes(
+                ["foodNotice_fk" => $id]
             );
-            foreach ($noticeVsNoticeItem as $item) {
-                $modelNoticeItem = FoodNoticeItem::model()->findByAttributes(
-                    ["id" => $item->food_notice_item_id,]
-                );
-                $item->delete();
+            foreach ($modelNoticeItems as $modelNoticeItem) {
                 $modelNoticeItem->delete();
             }
 
@@ -158,13 +149,9 @@ class FoodNoticeController extends Controller
                     $modelNoticeItem->measurement = $item["measurement"];
                     $modelNoticeItem->year_amount = $item["yearAmount"];
                     $modelNoticeItem->food_id = $item["food_fk"];
+                    $modelNoticeItem->foodNotice_fk = $id;
 
-                    if ($modelNoticeItem->save()) {
-                        $modelNoticeVsNoticeItem = new FoodNoticeVsFoodNoticeItem;
-                        $modelNoticeVsNoticeItem->food_notice_id = $model->id;
-                        $modelNoticeVsNoticeItem->food_notice_item_id = $modelNoticeItem->id;
-                        $modelNoticeVsNoticeItem->save();
-                    }
+                    $modelNoticeItem->save();
                 }
             }
         }
@@ -177,9 +164,9 @@ class FoodNoticeController extends Controller
     public function actionGetNotice($id)
     {
         $model = $this->loadModel($id);
-        $noticeVsNoticeItem = FoodNoticeVsFoodNoticeItem::model()->findAll(
-            "food_notice_id = :id",
-            ["id" => $id]
+
+        $modelNoticeItem = FoodNoticeItem::model()->findAllByAttributes(
+            ["foodNotice_fk" => $id]
         );
 
         $date = DateTime::createFromFormat("Y-m-d", $model->date);
@@ -188,18 +175,15 @@ class FoodNoticeController extends Controller
         $result["name"] = $model->name;
         $result["date"] = $date->format("d/m/Y");
         $result["noticeItems"] = array();
-        foreach ($noticeVsNoticeItem as $item) {
-            $modelNoticeItem = FoodNoticeItem::model()->findByAttributes(
-                ["id" => $item->food_notice_item_id,]
-            );
+        foreach ($modelNoticeItem as $item) {
             array_push(
                 $result["noticeItems"],
                 [
-                    0 => $modelNoticeItem->name,
-                    1 => $modelNoticeItem->year_amount,
-                    2 => $modelNoticeItem->measurement,
-                    3 => $modelNoticeItem->description,
-                    4 => $modelNoticeItem->food_id,
+                    0 => $item->name,
+                    1 => $item->year_amount,
+                    2 => $item->measurement,
+                    3 => $item->description,
+                    4 => $item->food_id,
                 ]
             );
         }
@@ -215,20 +199,21 @@ class FoodNoticeController extends Controller
     {
         $model = $this->loadModel($id);
 
-        $noticeVsNoticeItem = FoodNoticeVsFoodNoticeItem::model()->findAll(
-            "food_notice_id = :id",
-            ["id" => $id]
+        $modelNoticeItems = FoodNoticeItem::model()->findAllByAttributes(
+            ["foodNotice_fk" => $id]
         );
-        foreach ($noticeVsNoticeItem as $item) {
-            $modelNoticeItem = FoodNoticeItem::model()->findByAttributes(
-                ["id" => $item->food_notice_item_id,]
-            );
-            $item->delete();
+        foreach ($modelNoticeItems as $modelNoticeItem) {
             $modelNoticeItem->delete();
+        }
+        $modelFarmerFoods = FarmerFoods::model()->findAllByAttributes(
+            ["foodNotice_fk" => $id]
+        );
+        foreach ($modelFarmerFoods as $farmerFood) {
+            $farmerFood->delete();
         }
         $model->delete();
 
-        $this->redirect(array('index'));
+        // $this->redirect(array('index'));
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
     }

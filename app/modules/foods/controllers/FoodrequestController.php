@@ -28,24 +28,29 @@ class FoodrequestController extends Controller
 
     public function actionSaveRequest()
     {
-        $foodRequests = Yii::app()->request->getPost('foodRequests');
+        $request = Yii::app()->request->getPost('foodRequests');
 
-        if (!empty($foodRequests)) {
-            foreach ($foodRequests as $request) {
-                $FoodRequest = new FoodRequest;
+        if (!empty($request)) {
+            $criteria = new CDbCriteria();
+            $criteria->select = 'id, amount, foodNotice_fk';
+            $criteria->condition = 't.farmer_fk = :farmerId AND t.food_fk = :foodId';
+            $criteria->params = array(':farmerId' => $request['farmerId'], ':foodId' => $request['id']);
 
-                $FoodRequest->food_fk = $request['id'];
-                $FoodRequest->amount = $request['amount'];
-                $FoodRequest->measurementUnit = $request['measurementUnit'];
-                $FoodRequest->description = $request['description'];
-                $FoodRequest->school_fk = Yii::app()->user->school;
-                $FoodRequest->farmer_fk = $request['farmerId'];
+            $farmerFoods = FarmerFoods::model()->findAll($criteria);
 
-                if (!$FoodRequest->save()) {
-                    Yii::app()->request->sendStatusCode(400);
-                    $errors = $FoodRequest->getErrors();
-                    echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
-                }
+            $FoodRequest = new FoodRequest;
+
+            $FoodRequest->food_fk = $request['id'];
+            $FoodRequest->amount = $request['amount'];
+            $FoodRequest->measurementUnit = $request['measurementUnit'];
+            $FoodRequest->description = $request['description'];
+            $FoodRequest->school_fk = Yii::app()->user->school;
+            $FoodRequest->farmer_fk = $request['farmerId'];
+
+            if (!$FoodRequest->save()) {
+                Yii::app()->request->sendStatusCode(400);
+                $errors = $FoodRequest->getErrors();
+                echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
             }
         }
     }
