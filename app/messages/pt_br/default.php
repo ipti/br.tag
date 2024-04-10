@@ -749,6 +749,7 @@ return array(
     'Type' => 'Tipo',
     'Resource' => 'Recurso',
     'Add Resource' => 'Novo Recurso',
+    'Start Date' => 'Data Inicial',
 
     //Labels
     'User' => 'Usuário',

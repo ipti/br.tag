@@ -200,7 +200,7 @@ function removeNewResource(button){
 function saveNewResources(){
     $.ajax({
         type: "POST",
-        url: "?r=courseplan/addResources",
+        url: "?r=courseplan/default/addResources",
         cache: false,
         data: {
             resources: newResources,
@@ -220,7 +220,7 @@ function updateSelectResources(){
     resourceSelect.html("");
     $.ajax({
         type: "GET",
-        url: "?r=courseplan/getResources",
+        url: "?r=courseplan/default/getResources",
         cache: false
     }).success(function(response){
         let resources = JSON.parse(response);

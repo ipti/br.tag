@@ -73,7 +73,7 @@ class DefaultController extends Controller
             $coursePlan = $this->loadModel($id);
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
 
-            $this->render('form', array(
+            $this->render('_form', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
                 'resources' => $resources,
@@ -201,12 +201,13 @@ class DefaultController extends Controller
         echo CJSON::encode($result);
     }
 
-
     /**
      * Sabe the Course Plan, and yours course classes.
      */
     public function actionSave($id = null)
     {
+        $request = Yii::app()->request->getPost("CoursePlan");
+
         if ($id !== null) {
             $coursePlan = CoursePlan::model()->findByPk($id);
             $logSituation = "U";
@@ -216,7 +217,10 @@ class DefaultController extends Controller
             $coursePlan->users_fk = Yii::app()->user->loginInfos->id;
             $logSituation = "C";
         }
-        $coursePlan->attributes = $_POST["CoursePlan"];
+        $startTimestamp = $this->dataConverter($request["start_date"]);
+        $request["start_date"] = $startTimestamp;
+        $coursePlan->attributes = $request;
+        $coursePlan->situation = 'PENDENTE';
         $coursePlan->save();
         $courseClassIds = [];
         $i = 1;
@@ -290,6 +294,25 @@ class DefaultController extends Controller
             $transaction->rollback();
             throw new CHttpException(500, $e->getMessage());
         }
+    }
+
+    public function dataConverter($data, $case)
+    {
+        // Caso 0: converte dd/mm/yyyy para yyyy-mm-dd
+        if($case == 0){
+            $dataObj = date_create_from_format('d/m/Y', $data);
+            if(!$dataObj == false)
+                return date_format($dataObj, 'Y-m-d');
+        }
+
+        // Caso 1: converte yyyy-mm-dd para dd/mm/yyyy
+        if($case == 1){
+            $dataObj = date_create_from_format('d/m/Y');
+            if(!$dataObj == false)
+                return date_format($dataObj, 'Y-m-d');
+        }
+
+        return false;
     }
 
     public function actionGetResources()

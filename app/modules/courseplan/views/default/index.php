@@ -64,7 +64,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                                 'header' => Yii::t('default', 'Name'),
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/update",array("id"=>$data->id)))',
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/default/update",array("id"=>$data->id)))',
                                 'htmlOptions' => array('width' => '25%', 'class' => 'link-update-grid-view')
                             ),
                             array(

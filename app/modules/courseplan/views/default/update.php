@@ -4,19 +4,21 @@
 
 $this->breadcrumbs=array(
 	'Courseplan' => array('index'),
-    'Create',
+    'Update',
 );
 
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Criar Plano de Aula'));
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Atualizar Plano de Aula'));
 $this->menu=array(
 	array('label'=>'Create CoursePlan', 'url'=>array('index')),
 	array('label'=>'List ClassPlan', 'url'=>array('admin')),
 );
+
+$title = $model->description
 ?>
 <div class="row main">
 	<div class="column">
-		<h1>Criar Plano de Aula</h1>
+		<h1>Atualizar Plano de Aula</h1>
 	</div>
 </div>
 
-<?php $this->renderPartial('_form', array('coursePlan'=>$coursePlan,'stages'=>$stages)); ?>
+<?php $this->renderPartial('_form', array('coursePlan'=>$coursePlan, 'title' => $title,'stages'=>$stages)); ?>

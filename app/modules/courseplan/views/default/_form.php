@@ -7,12 +7,14 @@
 
 <?php
 
+Yii::import('application.modules.courseplan.controllers', true);
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 // $baseUrl = Yii::app()->baseUrl;
 // $themeUrl = Yii::app()->theme->baseUrl;
 // $cs = Yii::app()->getClientScript();
 // $cs->registerScriptFile($baseUrl . '/js/courseplan/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
@@ -20,9 +22,6 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
 // $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
 // $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 
-// $cs->registerScriptFile($baseScriptUrl . '/menuComponents.js', CClientScript::POS_END);
-// $cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END);
-// $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 $form = $this->beginWidget('CActiveForm', array(
@@ -122,9 +121,15 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class="row">
                             <div class="column flex is-two-fifths">
                             <div class="t-field-text">
-                                <label for="courseplan_start_date" class="t-field-text__label">Data Inicial</label>
+                                <!-- <label for="courseplan_start_date" class="t-field-text__label">Data Inicial</label>
                                 <input type="text" id="courseplan_start_date" name="Data Inicial"
-                                        class="t-field-text__input js-date date js-start-date" required="required">
+                                        class="t-field-text__input js-date date js-start-date" required="required"> -->
+                                <?php echo CHtml::label(yii::t('default', 'Start Date'), 'start_date', array('class' => 'control-label t-field-select__label--required')); ?>
+                                <?php
+                                $cpController = New DefaultController();
+                                $coursePlan->start_date = $cpController->dataConverter($coursePlan->start_date, 1);
+                                echo $form->textField($coursePlan, 'start_date', array('size' => 400, 'maxlength' => 500,
+                                'class' => 't-field-text__input js-date date js-start-date', 'id' => 'courseplan_start_date')); ?>
                             </div>
                             </div>
                         </div>

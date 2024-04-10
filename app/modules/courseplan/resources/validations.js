@@ -56,11 +56,12 @@ $(document).on("keyup", ".course-class-objective", function(){
     }
 });
 
-console.log($('#courseplan_start_date'));
 $('#courseplan_start_date').mask("99/99/9999", {placeholder: 'DD/MM/YYYY' });
 $('#courseplan_start_date').focusout(function () {
     var id = '#' + $(this).attr("id");
-    initial_date = stringToDate($('##courseplan_start_date').val());
+    var date = new Date();
+    var actual_year = date.getFullYear();
+    initial_date = stringToDate($('#courseplan_start_date').val());
     if (!validateDate($('#courseplan_start_date').val())
         || !(initial_date.year >= actual_year - 1
             && initial_date.year <= actual_year)) {
