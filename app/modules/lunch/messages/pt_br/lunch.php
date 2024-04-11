@@ -47,7 +47,7 @@ return [
     'New Lunch' => 'Nova Refeição',
 
     'Meal updated successfully!' => 'Refeição atualizada com sucesso!',
-    'Error when updating meal.' => 'Erro ao atualizar refeição.'
+    'Error when updating meal.' => 'Erro ao atualizar refeição. A descrição deve conter mais que 5 caracteres'
 
 
 ];
