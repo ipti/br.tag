@@ -213,8 +213,6 @@ class FoodNoticeController extends Controller
         }
         $model->delete();
 
-        // $this->redirect(array('index'));
-
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
     }
 
