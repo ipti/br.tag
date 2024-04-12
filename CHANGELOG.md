@@ -1,3 +1,6 @@
+## [Versão 3.78.130]
+- Modificado o design da tela de solicitações no novo módulo de merenda e realizado a conexão do formulário de solicitações com o firebase
+
 ## [Versão 3.77.130]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
 
