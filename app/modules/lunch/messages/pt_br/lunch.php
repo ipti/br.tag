@@ -35,7 +35,7 @@ return [
     'Portion decreased successfully!' => 'Porção decrementada com sucesso!',
     'Portion removed successfully!' => 'Porção removida com sucesso!',
 
-    'Error when adding new meal' => 'Erro ao adicionar nova refeição',
+    'Error when adding new meal' => 'Erro ao adicionar nova refeição <br>Possíveis erros: <br>- A descrição não pode ter menos que 5 caracteres',
     'Meal added successfully!' => 'Refeição adicionada com sucesso!',
 
     'Menu updated successfully!' => 'Menu atualizado com sucesso!',
@@ -47,7 +47,7 @@ return [
     'New Lunch' => 'Nova Refeição',
 
     'Meal updated successfully!' => 'Refeição atualizada com sucesso!',
-    'Error when updating meal.' => 'Erro ao atualizar refeição. A descrição deve conter mais que 5 caracteres'
+    'Error when updating meal.' => 'Erro ao atualizar refeição <br>Possíveis erros: <br>- A descrição deve conter mais que 5 caracteres'
 
 
 ];
