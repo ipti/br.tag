@@ -1,11 +1,14 @@
-## [Versão 3.76.129]
-- Correção no conteúdo ministrado em sala de aula
+## [Versão 3.77.133]
+- Adicionado unidades de medida para o lançamento no estoque
 
-## [Versão 3.77.130]
+## [Versão 3.77.132]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
 
-## [Versão 3.76.130]
+## [Versão 3.76.131]
 - Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
+
+## [Versão 3.76.130]
+- Correção no conteúdo ministrado em sala de aula
 
 ## [Versão 3.76.129]
 - Correção na descrição da séries para as inconsistências sagres
