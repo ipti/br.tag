@@ -31,7 +31,7 @@ class DefaultController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'index', 'delete',
                     'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure',
-                    'getAbilitiesNextStructure', 'addResources', 'getResources'),
+                    'getAbilitiesNextStructure', 'addResources', 'getResources', 'pendingPlans'),
                 'users' => array('*'),
             ),
             array('deny', // deny all users
@@ -363,6 +363,27 @@ class DefaultController extends Controller
                 'criteria' => array(
                     'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id,
                 ),
+                'pagination' => false
+            ));
+        } else {
+            $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                'pagination' => false
+            ));
+        }
+
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+        ));
+    }
+
+    public function actionPendingPlans()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->addInCondition('users-fk', Yii::app()->user->loginInfos->id, 'AND');
+        $criteria->addInCondition('situation', 'PENDENTE', 'AND');
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                'criteria' => $criteria,
                 'pagination' => false
             ));
         } else {

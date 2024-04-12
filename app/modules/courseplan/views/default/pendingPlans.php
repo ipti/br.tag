@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'Create CoursePlan', 'url'=>array('index')),
-	array('label'=>'List Pending ClassPlan', 'url'=>array('admin')),
+	array('label'=>'List ClassPlan', 'url'=>array('admin')),
 );
 
 ?>
@@ -20,7 +20,8 @@ $this->menu=array(
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 
 $this->menu = array(
-    array('label' => 'List Pending Courseplan', 'url' => array('index')),
+    array('label' => 'List Courseplan', 'url' => array('index')),
+    array('label' => '')
 );
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
@@ -40,11 +41,11 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
 <div id="mainPage" class="main">
     <div class="row-fluid">
         <div class="span12">
-            <h1><?php echo Yii::t('default', 'Pending Course Plan'); ?></h1>
+            <h1><?php echo Yii::t('default', 'Course Plan') ?></h1>
             <div class="t-buttons-container">
                 <a href="<?php echo Yii::app()->createUrl('courseplan/default/create') ?>"
                     class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>
-                <a  href="<?php echo Yii::app()->createUrl('courseplan/default/pendingPlans') ?>"
+                <a  href="<?php echo Yii::app()->createUrl('courseplan/default/pendentPlans') ?>"
                 class="t-button-primary"><?= Yii::t('default', 'Pendent Plan') ?></a>
             </div>
         </div>
@@ -68,26 +69,32 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                                 'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/default/update",array("id"=>$data->id)))',
                                 'htmlOptions' => array('width' => '25%', 'class' => 'link-update-grid-view')
                             ),
-                            array(
-                                'header' => Yii::t('default', 'Stage'),
-                                'name' => 'modality_fk',
-                                'type' => 'raw',
-                                'value' => '$data->modalityFk->name',
-                                'htmlOptions' => array('width' => '25%'),
-                            ),
-                            array(
-                                'header' => Yii::t('default', 'Discipline'),
-                                'name' => 'discipline_fk',
-                                'value' => '$data->disciplineFk->name',
-                                'htmlOptions' => array('width' => '20%'),
-                                'filter' => false
-                            ),
+                            // array(
+                            //     'header' => Yii::t('default', 'Stage'),
+                            //     'name' => 'modality_fk',
+                            //     'type' => 'raw',
+                            //     'value' => '$data->modalityFk->name',
+                            //     'htmlOptions' => array('width' => '25%'),
+                            // ),
+                            // array(
+                            //     'header' => Yii::t('default', 'Discipline'),
+                            //     'name' => 'discipline_fk',
+                            //     'value' => '$data->disciplineFk->name',
+                            //     'htmlOptions' => array('width' => '20%'),
+                            //     'filter' => false
+                            // ),
                             array(
                                 'header' => Yii::t('default', 'Autor'),
                                 'name' => 'users_fk',
                                 'value' => '$data->usersFk->name',
                                 'htmlOptions' => array('width' => '25%'),
                                 'filter' => false
+                            ),
+                            array(
+                                'header' => Yii::t('default', 'Situation'),
+                                'name' => 'situation',
+                                'value' => '$data->situation',
+                                'htmlOptions' => array('width' => '25%'),
                             ),
                             array(
                                 'header' => 'Ações',

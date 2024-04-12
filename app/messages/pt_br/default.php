@@ -742,6 +742,8 @@ return array(
     //Course Plan
     'Course Plan' => 'Plano de aula',
     'Create Plan' => 'Criar plano',
+    'Pendent Plan' => 'Planos pendentes',
+    'Pending Course Plan' => 'Planos de aula pendentes',
     'Class'  => 'Aula',
     'Objective' => 'Objetivo',
     'New' => 'Novo',
@@ -750,6 +752,7 @@ return array(
     'Resource' => 'Recurso',
     'Add Resource' => 'Novo Recurso',
     'Start Date' => 'Data Inicial',
+    'Situation' => 'Situação',
 
     //Labels
     'User' => 'Usuário',
