@@ -164,4 +164,27 @@ class FireBaseService
         }
     }
 
+    public function createFoodRequest($food, $amount, $measurementUnit, $description, $status, $school, $farmerId) {
+        $collection = 'food_request';
+        $uuid = Uuid::uuid4();
+
+        $document = new FirestoreDocument;
+        $document->fillValues([
+            'id'=> $uuid->toString(),
+            'foodName' => $food,
+            'amount' => $amount,
+            'measurementUnit' => $measurementUnit,
+            'description'=> $description,
+            'status'=> $status,
+            'school'=> $school,
+            'farmerId'=> $farmerId,
+            'dist_cpf'=> null,
+            'dist_food'=> null,
+            'dist_amount'=> null,
+            'dist_measurementUnit'=> null,
+        ]);
+
+        $this->firestoreClient->addDocument($collection, $document, $uuid->toString());
+    }
+
 }

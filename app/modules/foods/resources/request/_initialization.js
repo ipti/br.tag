@@ -60,6 +60,7 @@ $(document).on("click", "#js-entry-request-button", function () {
         });
     })
     let farmerSelect = $('#farmer');
+    farmerSelect.empty();
     $.ajax({
         type: 'POST',
         url: "?r=foods/foodrequest/getFarmerRegister",
@@ -101,6 +102,10 @@ $(document).on("click", "#request_button", function () {
     let id = $(this).attr('data-buttonId');
     foodRequests.splice(id, 1);
     renderSelectedRequests(foodRequests);
+});
+
+$(document).on("click", "#js-progression-button", function () {
+    $("#js-progression-modal").modal("show");
 });
 
 $(document).on("click", "#save-request", function () {

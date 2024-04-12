@@ -31,25 +31,36 @@ class FoodrequestController extends Controller
         $request = Yii::app()->request->getPost('foodRequests');
 
         if (!empty($request)) {
+            $schoolFk = Yii::app()->user->school;
+
             $criteria = new CDbCriteria();
-            $criteria->select = 'id, amount, foodNotice_fk';
-            $criteria->condition = 't.farmer_fk = :farmerId AND t.food_fk = :foodId';
-            $criteria->params = array(':farmerId' => $request['farmerId'], ':foodId' => $request['id']);
+            $criteria->select = 'name';
+            $criteria->condition = 't.inep_id = :schoolFk';
+            $criteria->params = array(':schoolFk' => $schoolFk);
 
-            $farmerFoods = FarmerFoods::model()->findAll($criteria);
+            $schoolIdentification = SchoolIdentification::model()->find($criteria);
 
-            $FoodRequest = new FoodRequest;
+            $farmerRegisterCriteria = new CDbCriteria();
+            $farmerRegisterCriteria->condition = 'id = :id';
+            $farmerRegisterCriteria->params = array(':id' => $request['farmerId']);
 
-            $FoodRequest->food_fk = $request['id'];
-            $FoodRequest->amount = $request['amount'];
-            $FoodRequest->measurementUnit = $request['measurementUnit'];
-            $FoodRequest->description = $request['description'];
-            $FoodRequest->school_fk = Yii::app()->user->school;
-            $FoodRequest->farmer_fk = $request['farmerId'];
+            $farmerRegister = FarmerRegister::model()->find($farmerRegisterCriteria);
 
-            if (!$FoodRequest->save()) {
+            $foodRequest = new FoodRequest;
+
+            $foodRequest->food_fk = $request['id'];
+            $foodRequest->amount = $request['amount'];
+            $foodRequest->measurementUnit = $request['measurementUnit'];
+            $foodRequest->description = $request['description'];
+            $foodRequest->school_fk = $schoolFk;
+            $foodRequest->farmer_fk = $request['farmerId'];
+
+            $createFoodRequest = new createFoodRequest();
+            $createFoodRequest->exec($request['foodDescription'], $request['amount'], $request['measurementUnit'], $request['description'], 'Em andamento', $schoolIdentification->name, $farmerRegister->reference_id);
+
+            if (!$foodRequest->save()) {
                 Yii::app()->request->sendStatusCode(400);
-                $errors = $FoodRequest->getErrors();
+                $errors = $foodRequest->getErrors();
                 echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
             }
         }

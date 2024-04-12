@@ -39,6 +39,7 @@ function renderRequestTable(foodRequests, id) {
     $('<th>').text('Data de solicitação').appendTo(head);
     $('<th>').text('Descrição').appendTo(head);
     $('<th>').text('Status').appendTo(head);
+    $('<th>').text('Progressão de entrega').appendTo(head);
 
     table.append(head);
 
@@ -53,8 +54,10 @@ function renderRequestTable(foodRequests, id) {
             $('<td>').text(request.amount + measurementUnit).appendTo(row);
             $('<td>').text(request.date).appendTo(row);
             $('<td>').text(request.description).appendTo(row);
-            $('<td style="padding-right: 25px">').html('<button class="t-button-secondary full--width t-margin-none--right" id="js-status-button" type="button">'+ request.status +'</button>').appendTo(row);
-
+            $('<td style="padding-right: 25px">')
+            .html('<button style="cursor: default" class="' + (request.status === "Finalizado" ? "t-button-success" : "t-button-secondary") + ' full--width t-margin-none--right" id="js-status-button" type="button">'+ request.status +'</button>')
+            .appendTo(row);
+            $('<td>').html('<div class="full justify-content--center"><span class="t-icon-column_graphi t-badge-info__icon cursor-pointer" id="js-progression-button"></span></div>').appendTo(row);
             table.append(row);
         });
     } else {

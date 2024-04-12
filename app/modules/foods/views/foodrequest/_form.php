@@ -113,6 +113,24 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
+    <div class="modal fade t-modal-container" id="js-progression-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog " role="document">
+            <div class="t-modal__header">
+                <div class="column clearfix">
+                    <h4 class="t-title" id="myModalLabel">Progressão de entrega do alimento</h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                </button>
+            </div>
+            <form method="post">
+                <div class="t-modal__body">
+
+                </div>
+            </form>
+        </div>
+    </div>
+
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
