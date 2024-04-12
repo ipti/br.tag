@@ -1,3 +1,6 @@
+## [Versão 3.77.131]
+- Adicionado correção para a tamanho da descrição da merenda
+
 ## [Versão 3.77.130]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
 
