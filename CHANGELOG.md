@@ -1,3 +1,51 @@
+## [Versão 3.78.130]
+- Criando as telas relacionadas a previsão de finalização de alimento
+
+## [Versão 3.77.130]
+- Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
+
+## [Versão 3.76.130]
+- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
+
+## [Versão 3.76.129]
+- Correção na descrição da séries para as inconsistências sagres
+
+
+## [Versão 3.76.128]
+- Corrigido erro que não mostrava o nome da escola e das turmas nas inconsistências sagres
+- Corrigido na busca por profissional na mesma escola
+
+## [Versão 3.76.127]
+- Corrigido erro que não saía do painel de cadastros pendentes, referente à matriz curricular e estrutura de notas
+
+## [Versão 3.76.126]
+- Gestor autorizado para gerar os relatórios da escola.
+- Correção no redireccionamento para o aluno nas incoerências sagres
+
+## [Versão 3.76.125]
+- Adicionado registro de profissional em mais de uma escola
+
+## [Versão 3.75.125]
+- Integrado os bancos utilizados por Boquim/SE.
+
+## [Versão 3.75.123]
+- Correção do inep_id para a escola.
+- Alteração na seleção do mês no calendário: agora só é possível selecionar até o mês corrente.
+
+## [Versão 3.75.122]
+- Adicionada lógica, para que ao reaproveitar turmas, os alunos do ano de 2023 entrarão como matriculados.
+
+## [Versão 3.74.121]
+- Correção no relatório de professores por escola
+
+## [Versão 3.74.120]
+- Modificado a controler de grades, ao salvar as Grades Releases.
+- Adicionado um novo parametro ao contrutor de ChageStudentStatusByGradeUsecase.
+- Melhorado o initialization da tela.
+
+## [Versão 3.74.119]
+- Inserido painel de cadastros pendentes na tela inicial
+
 ## [Versão 3.73.119]
 - Renomeado o head dos relatórios do municipio de Poço Dantas.
 - Adicionado cep formatado da escola.
@@ -13,10 +61,10 @@
 
 ## [Versão 3.73.116]
 - Funcionaldide gerenciar "Aulas Ministradas" corrigida, agora são apresentados somente os dias em que há aula daquela disciplina
-
+- Adicionado ckeckbox: Gerar arquivo excluindo alunos sem CPF
+- Correções nas anotações do arquivo sagres.
 ## [Versão 3.73.115]
 - Adicionado novas medidas para os pratos do cardápio
-
 
 ## [Versão 3.72.115]
 - Adicionado Modal para adicionar novos recursos na tela de plano de aula.
@@ -32,7 +80,7 @@
 - Calendário ajustado para permitir sua extensão para ano(s) seguinte(s).
 - Eventos de início e fim de ano letivo removidos. O intervalo letivo será definido no momento da criação/edição do calendário.
 - Adicionado seletor de calendário na turma.
--
+
 ## [Versão 3.71.113]
 - Adicionado módulo de dashboard
 

@@ -3,7 +3,7 @@ Yii::import('application.modules.foods.usecases.*');
 class FoodmenuController extends Controller
 {
 
-    public $MODEL_FOOD_MENU = 'FoodMenu';
+    public $modelFoodMenu = 'FoodMenu';
     public $defaultAction = "viewlunch";
 
     /**
@@ -56,7 +56,8 @@ class FoodmenuController extends Controller
             throw new CHttpException(500, $message);
         }
 
-        // Atribui valores às propriedades do model FoodMenuVsFoodPublicTarget (Tabela N:N entre cardápio e publico alvo)
+        /* Atribui valores às propriedades do model FoodMenuVsFoodPublicTarget
+        (Tabela N:N entre cardápio e publico alvo) */
         $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
         $foodMenuVsPublicTarget = new FoodMenuVsFoodPublicTarget;
         $foodMenuVsPublicTarget->food_menu_fk = $modelFoodMenu->id;
@@ -89,7 +90,9 @@ class FoodmenuController extends Controller
              SELECT fpt.id, fpt.name FROM food_public_target fpt
              LEFT JOIN food_menu_vs_food_public_target fmvfpt ON fmvfpt.food_public_target_fk = fpt.id
              WHERE fmvfpt.food_menu_fk = :id";
-            $publicTarget = Yii::app()->db->createCommand($publicTargetSql)->bindParam(':id', $modelFoodMenu->id)->queryRow();
+            $publicTarget = Yii::app()->db->createCommand($publicTargetSql)
+                ->bindParam(':id', $modelFoodMenu->id)
+                ->queryRow();
 
             $getFoodMenu = new GetFoodMenu();
             $foodMenu  = $getFoodMenu->exec($modelFoodMenu, $publicTarget, $modelMenuMeals);
@@ -115,16 +118,21 @@ class FoodmenuController extends Controller
             $modelFoodMenu->save();
 
             //atualiza FoodMenuvVsPublicTarget
-            $foodMenuVsPublicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array('food_menu_fk' => $modelFoodMenu->id));
+            $foodMenuVsPublicTarget = FoodMenuVsFoodPublicTarget::model()
+                ->findByAttributes(array('food_menu_fk' => $modelFoodMenu->id));
             $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
             $foodMenuVsPublicTarget->food_public_target_fk = $publicTarget->id;
             $foodMenuVsPublicTarget->save();
         }
 
         foreach ($modelMenuMeals as $modelMenuMeal) {
-            $modelFoodComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelMenuMeal->id));
+            $modelFoodComponents = FoodMenuMealComponent::model()->findAllByAttributes(
+                array('food_menu_mealId' => $modelMenuMeal->id)
+            );
             foreach ($modelFoodComponents as $modelFoodComponent) {
-                $modelFoodIngredients = FoodIngredient::model()->findAllByAttributes(array('food_menu_meal_componentId' => $modelFoodComponent->id));
+                $modelFoodIngredients = FoodIngredient::model()->findAllByAttributes(
+                    array('food_menu_meal_componentId' => $modelFoodComponent->id)
+                );
                 foreach ($modelFoodIngredients as $modelFoodIngredient) {
                     $modelFoodIngredient->delete();
                 }
@@ -178,26 +186,29 @@ class FoodmenuController extends Controller
         $modelFoodMenu = FoodMenu::model()->findByPk($id);
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $modelFoodMenuMeals = FoodMenuMeal::model()->findAllByAttributes(array('food_menuId' => $modelFoodMenu->id));
+            $modelFoodMenuMeals = FoodMenuMeal::model()->findAllByAttributes(
+                array('food_menuId' => $modelFoodMenu->id)
+            );
             foreach ($modelFoodMenuMeals as $modelFoodMenuMeal) {
-                $modelFoodMealComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelFoodMenuMeal->id));
+                $modelFoodMealComponents = FoodMenuMealComponent::model()->findAllByAttributes(
+                    array('food_menu_mealId' => $modelFoodMenuMeal->id)
+                );
                 foreach ($modelFoodMealComponents as $modelFoodMealComponent) {
-                    $modelFoodIngredients = FoodIngredient::model()
-                        ->deleteAllByAttributes(array('food_menu_meal_componentId' => $modelFoodMealComponent->id));
+                    FoodIngredient::model()->deleteAllByAttributes(
+                        array('food_menu_meal_componentId' => $modelFoodMealComponent->id)
+                    );
                 }
                 $modelFoodMenuMeal->delete();
             }
-            $modelFoodMenuVsPublicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array('food_menu_fk' => $modelFoodMenu->id));
+            $modelFoodMenuVsPublicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(
+                array('food_menu_fk' => $modelFoodMenu->id)
+            );
             $modelFoodMenuVsPublicTarget->delete();
             $modelFoodMenu->delete();
             $transaction->commit();
             header('HTTP/1.1 200 OK');
             Log::model()->saveAction("foodMenu", $id, "D", $modelFoodMenu->description);
-            // echo json_encode(["valid" => true, "message" => "Cardápio excluído com sucesso!"]);
-            $dataProvider = new CActiveDataProvider('FoodMenu');
-            $this->render('index', array(
-                'dataProvider' => $dataProvider,
-            ));
+            $this->redirect(array('index'));
             Yii::app()->end();
         } catch (Exception $e) {
             $transaction->rollback();

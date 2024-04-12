@@ -248,16 +248,39 @@ function addResource(button) {
             let row = table.row(tr);
             let d = row.data();
             let count = $(resources).children('.course-class-resource').length;
-            let divRes = $('<div class="t-badge-content course-class-resource"></div>');
+            let div = $('<div class="t-badge-content course-class-resource"></div>');
             let values = $('<input class="resource-id" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][id]" value=""/>'
                 + '<input class="resource-value" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][value]" value="' + resourceValue + '"/>'
                 + '<input class="resource-amount" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][amount]" value="' + resourceAmount + '"/>');
             let label = $('<span class="row"><span class="fa fa-times remove-resource"><i></i></span><span><span class="resource-amount-text">' + resourceAmount + '</span>x - ' + resourceName + ' </span></span>');
-            divRes.append(values);
-            divRes.append(label);
-            resources.append(divRes);
-        }
+            div.append(values);
+            div.append(label);
+            resources.append(div);
+        };
     }
+    objective.append(objectiveLabel);
+    objective.append(objectiveInput);
+    ability.append(abilityLabel);
+    ability.append(abilityButton);
+    ability.append(abilitiesContainer);
+    resourceButtonContainer.append(resourceButton);
+    resourceInput.append(resourceValue);
+    resourceInput.append(resourceAmount);
+    resourceInput.append(resourceAdd);
+    resource.append(resourceButtonContainer);
+    resource.append(resourceLabel);
+    resource.append(resourceInput);
+    resource.append(resources);
+    type.append(typeLabel);
+    type.append(typeInput);
+    column1.append(objective);
+    column1.append(ability);
+    column1.append(type);
+    column1.append(resource);
+    column1.append(deleteButton);
+    div.append(id);
+    div.append(column1);
+    return div;
 }
 
 function removeResource(button) {

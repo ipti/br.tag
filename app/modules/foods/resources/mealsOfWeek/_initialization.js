@@ -4,7 +4,7 @@ const containerCards = $('.js-cards-meals')
 
 
 $.ajax({
-    url: "?r=foods/foodMenu/GetMealsOfWeek",
+    url: "?r=foods/foodmenu/GetMealsOfWeek",
     type: "POST",
 }).success(function (response) {
     mealsOfWeek = JSON.parse(DOMPurify.sanitize(response))

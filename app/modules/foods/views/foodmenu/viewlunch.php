@@ -51,6 +51,8 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             </a>
             <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/Requisition/index') ?>">
                 Painel de Informações
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodnotice') ?>">
+                Editais
             </a>
             <a class="t-button-secondary js-expansive-panel show--mobile">
                 Filtros
