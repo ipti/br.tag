@@ -114,7 +114,7 @@ class ClassesController extends Controller
         $students = $this->getStudentsByClassroom($classroomId);
 
         if (!$isMinorEducation) {
-            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $disciplineId, $year);
+            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
 
         } else {
             $schedules = $this->getSchedulesFromMinorStage($classroomId, $month, $year);
