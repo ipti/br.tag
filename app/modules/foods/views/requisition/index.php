@@ -35,7 +35,6 @@ $cs->registerScriptFile('https://cdn.jsdelivr.net/npm/chart.js', CClientScript::
             </table>
         </div>
     </div>
-
     <!-- Modal -->
     <div class="modal fade modal-content" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -51,5 +50,5 @@ $cs->registerScriptFile('https://cdn.jsdelivr.net/npm/chart.js', CClientScript::
             </div>
         </div>
     </div>
-    <button id="sendDataButton">Enviar Dados</button>
+    <!-- <button id="sendDataButton">Enviar Dados</button> -->
 </div>

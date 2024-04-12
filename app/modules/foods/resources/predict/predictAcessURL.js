@@ -4,13 +4,14 @@ $(function () {
             url: '?r=foods/requisition/getConsumptionData',
             type: 'GET',
             data: {
+                // Mudar isso para a escola (o que tem é so teste)
                 code_school: 'Nada com nada de Itai10',
                 item_code: itemId
             },
             dataType: 'json',
             success: function (response) {
                 console.log(response);
-                // callback(response);
+                callback(response);
             },
 
             error: function (xhr, status, error) {
@@ -24,6 +25,8 @@ $(function () {
             url: '?r=foods/requisition/getData',
             type: 'GET',
             data: {
+                // Mudar isso para a escola (o que tem é so teste)
+                
                 school_code: 'Nada com nada de Itai10',
                 item_code: itemId
             },
@@ -38,18 +41,49 @@ $(function () {
         });
     }
 
-
     function drawPredictionChart(dataset1, dataset2, dataset3, itemName) {
         var ctx = document.getElementById('prediction_chart').getContext('2d');
-        var labels = dataset1.data.map(entry => entry.x);
-
+        var labels = dataset1.data.slice(-10).map(entry => entry.x); // Ajuste para mostrar apenas os últimos 10 rótulos
+        
         dataset1.borderWidth = 2;
-
+    
+        // Ajuste para mostrar apenas os últimos 10 dados dos conjuntos de dados
+        dataset1.data = dataset1.data.slice(-10);
+        dataset2.data = dataset2.data.slice(-10);
+        dataset3.data = dataset3.data.slice(-10);
+    
+        // Calcule o ponto final da linha verde
+        var greenLineEnd = {
+            x: dataset2.data[dataset2.data.length - 1].x,
+            y: dataset2.data[dataset2.data.length - 1].y
+        };
+    
+        // Calcule o ponto inicial da linha vermelha
+        var redLineStart = {
+            x: dataset3.data[0].x,
+            y: dataset3.data[0].y
+        };
+    
+        // Crie um novo conjunto de dados para a nova linha laranja
+        var orangeLineData = [
+            greenLineEnd,
+            redLineStart
+        ];
+    
+        var dataset4 = {
+            label: 'Acabando',
+            data: orangeLineData,
+            backgroundColor: 'rgba(255, 165, 0, 0.2)', // Cor laranja com opacidade
+            borderColor: 'rgba(255, 165, 0, 1)', // Cor laranja sólida
+            borderWidth: 1,
+            fill: false
+        };
+    
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels,
-                datasets: [dataset1, dataset2, dataset3]
+                datasets: [dataset1, dataset2, dataset3, dataset4] 
             },
             options: {
                 scales: {
@@ -66,15 +100,14 @@ $(function () {
             }
         });
     }
-
-
+    
 
     $.ajax({
         url: '?r=foods/requisition/getInputData',
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            $('#example').DataTable().clear().draw(); // Limpa os dados existentes no DataTable
+            $('#example').DataTable().clear().draw();
 
             response.forEach(function (value, index) {
                 var buttonId = 'modalButton' + index;
@@ -145,7 +178,6 @@ $(function () {
                                 fontSize: 10,
                                 fill: false
                             };
-
                             drawPredictionChart(dataset1, dataset2, dataset3, itemName);
                         });
                     });
@@ -156,27 +188,25 @@ $(function () {
             console.error(error);
         }
     });
-
-
 });
 
 
-///POST:
-$(function () {
-    $('#sendDataButton').click(function () {
-        $.ajax({
-            url: '?r=foods/requisition/sendData',
-            type: 'POST',
-            dataType: 'text',
-            success: function (response) {
-                console.log(response);
-            },
-            error: function (xhr, status, error) {
-                console.error(error);
-            }
-        });
-    });
-});
+// ///POST:
+// $(function () {
+//     $('#sendDataButton').click(function () {
+//         $.ajax({
+//             url: '?r=foods/requisition/sendData',
+//             type: 'POST',
+//             dataType: 'text',
+//             success: function (response) {
+//                 console.log(response);
+//             },
+//             error: function (xhr, status, error) {
+//                 console.error(error);
+//             }
+//         });
+//     });
+// });
 
 
 

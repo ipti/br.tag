@@ -42,8 +42,13 @@ class ReportsController extends Controller
     }
     public function actionShoppingListReport()
     {
+        $getFoodIngredientsList = new GetFoodIngredientsList();
+        $foodIngredientsList = $getFoodIngredientsList->exec();
+
+        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+        $schoolCity = EdcensoCity::model()->findByPk($school->edcenso_city_fk)->name;
 
         $this->layout = 'webroot.themes.default.views.layouts.reportsclean';
-        $this->render('ShoppingListReport', array());
+        $this->render('ShoppingListReport', array('foodIngredientsList' => $foodIngredientsList, "schoolCity" => $schoolCity));
     }
 }

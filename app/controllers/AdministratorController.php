@@ -880,10 +880,11 @@
 			if (isset($_POST['Users'], $_POST['Confirm'])) {
 				$model->attributes = $_POST['Users'];
 				if ($model->validate()) {
-					$password = md5($_POST['Users']['password']);
-					$confirm = md5($_POST['Confirm']);
+					$password = ($_POST['Users']['password']);
+					$confirm = ($_POST['Confirm']);
 					if ($password == $confirm) {
-						$model->password = $password;
+						$passwordHasher =  new PasswordHasher;
+						$model->password = $passwordHasher->bcriptHash($password);
 						// form inputs are valid, do something here
 						if ($model->save()) {
 							$save = TRUE;

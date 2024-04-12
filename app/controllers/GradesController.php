@@ -35,6 +35,7 @@ class GradesController extends Controller
                     'getDisciplines',
                     'calculateFinalMedia',
                     'reportCard',
+                    'getGradesRelease',
                     'getReportCardGrades',
                     'saveGradesReportCard',
                     'saveGradesRelease'
@@ -171,7 +172,7 @@ class GradesController extends Controller
             $gradeResult->final_concept = $std["finalConcept"];
 
             $hasAllValues = true;
-            foreach ($std['grades'] as $key => $value) {
+            for ($key = 0; $key < 3; $key++) {
                 $index = $key + 1;
                 if($rule == "C") {
                     $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
@@ -266,6 +267,7 @@ class GradesController extends Controller
                 }
             } else {
                 $gradeResult->situation = "MATRICULADO";
+                $gradeResult->final_media = null;
             }
 
             if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
@@ -328,10 +330,93 @@ class GradesController extends Controller
                 $arr["grades"] = [];
                 $arr["faults"] = [];
 
+                $discipline = Yii::app()->request->getPost("discipline");
 
                 $gradeResult = GradeResults::model()->find(
                     "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
-                    ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $_POST["discipline"]]
+                    ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]
+                );
+
+                for ($key = 0; $key < 3; $key++) {
+                    $index = $key + 1;
+                    array_push($arr["grades"], [
+                        "value" => $gradeResult["grade_" . $index],
+                        "concept" => $gradeResult["grade_concept_" . $index],
+                        "faults" => $gradeResult["grade_faults_" . $index],
+                        "givenClasses" => $gradeResult["given_classes_" . $index]
+                    ]);
+                }
+
+                $arr["finalMedia"] = $gradeResult->final_media ?? "";
+                $arr["recFinal"] = $gradeResult->rec_final ?? "";
+                $arr["finalConcept"] = $gradeResult->final_concept;
+
+                $arr["situation"] = $studentEnrollment->getCurrentStatus();
+                if ($studentEnrollment->isActive()) {
+                    $arr["situation"] = ($gradeResult->situation == null) ? "" : $gradeResult->situation;
+                }
+
+
+
+                $result["unities"] = $unities;
+                $result["rule"] = $rules->rule_type;
+                array_push($result["students"], $arr);
+            }
+
+            $result["valid"] = true;
+        } else {
+            $result["valid"] = false;
+            $result["message"] = "Não há estudantes matriculados na turma.";
+        }
+        echo CJSON::encode($result);
+    }
+
+    public function actionGetGradesRelease()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = "se";
+        $criteria->join = "join student_identification si on si.id = se.student_fk";
+        $criteria->condition = "classroom_fk = :classroom_fk";
+        $criteria->params = array(':classroom_fk' => $_POST["classroom"]);
+        $criteria->order = "se.daily_order, si.name";
+        $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
+
+
+        if ($studentEnrollments != null) {
+            $result["students"] = [];
+            foreach ($studentEnrollments as $studentEnrollment) {
+
+                $unities = GradeUnity::model()->findAll(
+                    "edcenso_stage_vs_modality_fk = :stageId and (type = :type or type = :type2 or type = :type3)",
+                    [
+                        ":stageId" => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk,
+                        ":type" => GradeUnity::TYPE_UNITY,
+                        ":type2" => GradeUnity::TYPE_UNITY_WITH_RECOVERY,
+                        ":type3" => GradeUnity::TYPE_UNITY_BY_CONCEPT,
+                    ]
+                );
+                $rules = GradeRules::model()->find(
+                    [
+                        "select" => "rule_type, has_final_recovery",
+                        "condition" => "edcenso_stage_vs_modality_fk = :stageId",
+                        "params" => [":stageId" => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk]
+                    ]
+                );
+                $concepts = GradeConcept::model()->findAll();
+                $result["concepts"] = CHtml::listData($concepts, 'id', 'name');
+
+                $arr = [];
+                $arr["enrollmentId"] = $studentEnrollment->id;
+                $arr["daily_order"] = $studentEnrollment->daily_order;
+                $arr["studentName"] = $studentEnrollment->studentFk->name;
+                $arr["grades"] = [];
+                $arr["faults"] = [];
+
+                $discipline = Yii::app()->request->getPost("discipline");
+
+                $gradeResult = GradeResults::model()->find(
+                    "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
+                    ["enrollment_fk" => $studentEnrollment->id, "discipline_fk" => $discipline]
                 );
 
                 foreach ($unities as $key => $value) {
@@ -357,6 +442,7 @@ class GradesController extends Controller
 
                 $result["unities"] = $unities;
                 $result["rule"] = $rules->rule_type;
+                $result["hasRecovery"] = $rules->has_final_recovery;
                 array_push($result["students"], $arr);
             }
 

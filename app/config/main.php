@@ -93,7 +93,8 @@ return array(
         'classdiary',
         'curricularcomponents',
         'stages',
-        'foods'
+        'foods',
+        'dashboard'
     ),
     // application components
     'components' => array(

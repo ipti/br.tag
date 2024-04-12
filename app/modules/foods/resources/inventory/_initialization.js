@@ -19,7 +19,7 @@ $(document).ready(function() {
         url: "?r=foods/foodInventory/getFoodAlias",
         cache: false
     }).success(function(response) {
-        foods_description = JSON.parse(response);
+        let foods_description = JSON.parse(response);
 
         Object.entries(foods_description).forEach(function([id, value]) {
             value = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
@@ -102,6 +102,19 @@ $(document).on("click", "#js-entry-stock-button", function () {
     })
 });
 
+$(document).on("click", "#js-status-button", function () {
+    $("#js-status-modal").modal("show");
+    let status = $(this).attr('data-foodStatus');
+    let foodInventoryId = $(this).attr('data-foodInventoryId');
+    let amount = $(this).attr('data-amount');
+
+    $("#js-saveFoodInventoryStatus").attr("data-foodInventoryId", foodInventoryId);
+    $("#js-saveFoodInventoryStatus").attr("data-amount", amount);
+
+    $("#js-status-select").val(status);
+    $("#js-status-select").trigger("change");
+});
+
 $(document).on("click", "#add-food", function () {
     let food = $('#food').find('option:selected').text();
     let measurementUnit = $('#measurementUnit').find('option:selected').text();
@@ -119,8 +132,6 @@ $(document).on("click", "#add-food", function () {
             $('#stock-modal-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
         }
     }
-
-
 });
 
 $(document).on("click", "#stock_button", function () {
@@ -147,13 +158,36 @@ $(document).on("click", "#save-food", function () {
             $('.js-amount').val('');
             $('#info-alert').removeClass('hide').addClass('alert-success').html("Alimento(s) adicionado(s) ao estoque com sucesso.");
             getFoodInventory();
+            funcao();
         }).fail(function(error) {
             $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível adicionar o alimento no sistema.");
         })
+
+     function funcao(){
+         // adicionar aqui
+             $.ajax({
+                 url: '?r=foods/requisition/sendData',
+                 type: 'POST',
+                 dataType: 'text',
+                 
+                //  error: function (xhr, status, error) {
+                //      console.error(error);
+                //  }
+             }).success(function(response){
+                    console.log(response);
+             });
+    }   
+
+
+
+
     } else {
         $('#stock-modal-alert').removeClass('hide').addClass('alert-error').html("Para adicionar ao estoque é necessário adicionar um alimento");
     }
 });
+
+
+
 
 $(document).on("click", "#spent-checkbox", function () {
     let foodInventoryId = $(this).attr('data-foodInventoryId');
@@ -175,18 +209,14 @@ $(document).on("click", "#spent-checkbox", function () {
         }).fail(function(error) {
             $('#spent-checkbox').prop('checked', false);
             $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível retirar o estoque do alimento do sistema.");
-
         })
-
-
     }
 });
 
-$(document).on("change", "#foodInventorySelectStatus", function () {
-    let status = $(this).val();
+$(document).on("click", "#js-saveFoodInventoryStatus", function () {
+    let status = $("#js-status-select").val();
     let foodInventoryId =  $(this).attr('data-foodInventoryId');
     let amount = $(this).attr('data-amount');
-    console.log(status);
 
     if(status == 'Emfalta') {
         $.ajax({
@@ -214,6 +244,7 @@ $(document).on("change", "#foodInventorySelectStatus", function () {
                 status: status
             }
         }).success(function(response) {
+            getFoodInventory();
             $('#info-alert').removeClass('hide').addClass('alert-success').html("Status do alimento modificado com sucesso.");
         }).fail(function(error) {
             $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível modificar o status do alimento.");
@@ -265,7 +296,6 @@ $(document).on("change", "#food", function () {
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');
     measurementUnitSelect.empty();
-    console.log(measurementUnit);
     switch (measurementUnit) {
         case "g":
             measurementUnitSelect.append($('<option value="g" selected>g</option><option value="Kg">Kg</option>'));

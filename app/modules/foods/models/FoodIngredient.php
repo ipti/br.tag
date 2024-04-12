@@ -36,7 +36,7 @@ class FoodIngredient extends CActiveRecord
         // will receive user inputs.
         return array(
             array('amount', 'required'),
-            array('amount, replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'numerical', 'integerOnly'=>true),
+            array('replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'numerical', 'integerOnly'=>true),
             array('observation', 'length', 'max'=>191),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -51,10 +51,15 @@ class FoodIngredient extends CActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
+        // $school_test = Yii::app()->user->school;
+        
+
         return array(
             'foodMenuMealComponent' => array(self::BELONGS_TO, 'FoodMenuMealComponent', 'food_menu_meal_componentId'),
             'foodMeasurementFk' => array(self::BELONGS_TO, 'FoodMeasurement', 'food_measurement_fk'),
             'foodIdFk' => array(self::BELONGS_TO, 'Food', 'food_id_fk'),
+            'inInvetory' => array(self::HAS_ONE, 'FoodInventory', '', 'foreignKey' => array('food_id_fk'=>'food_fk')),
+            // 'inInvetory' => array(self::HAS_ONE, 'FoodInventory', '', 'on'=>'inInvetory.school_fk=:schoolId', 'params'=>array(':schoolId' => Yii::app()->user->school), 'foreignKey' => array('food_id_fk'=>'food_fk')),
             'foodIngredientAlternatives' => array(self::HAS_MANY, 'FoodIngredientAlternatives', 'food_ingredient_fk'),
         );
     }
@@ -71,7 +76,7 @@ class FoodIngredient extends CActiveRecord
             'replaceable' => 'Replaceable',
             'food_menu_meal_componentId' => 'Food Menu Meal Component',
             'food_measurement_fk' => 'Food Measurement Fk',
-            'food_id_fk' => 'Food Id Fk',
+            'food_id_fk' => 'Food Id Fk'
         );
     }
 

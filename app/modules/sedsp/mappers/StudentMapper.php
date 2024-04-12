@@ -267,7 +267,9 @@ class StudentMapper
         $inEnderecoResidencial->setInLogradouro($studentDocumentsAndAddressTag->address);
         $inEnderecoResidencial->setInNumero($studentDocumentsAndAddressTag->number);
         $inEnderecoResidencial->setInBairro($studentDocumentsAndAddressTag->neighborhood);
-
+        $inEnderecoResidencial->setInCodMunicipioDne('9756'); // Código Ubatuba
+        
+        
         $nameCidade = EdcensoCity::model()->findByPk($studentIdentificationTag->edcenso_city_fk);
 
         $inEnderecoResidencial->setInNomeCidade($nameCidade->name);
@@ -376,14 +378,13 @@ class StudentMapper
             $numClass = $enrollment->getOutNumClasse();
             $codSchool = self::mapToTAGInepId($enrollment->getOutCodEscola());
 
-            $classroomFk = Classroom::model()->find([
-                'condition' => '(gov_id = :numClass OR inep_id = :numClass) AND school_inep_fk = :codSchool',
-                'params' => [
-                    ':numClass' => $numClass,
-                    ':codSchool' => $codSchool,
-                ],
-            ])->id;
-
+            $classroomFk = self::getClassroomFk($numClass, $codSchool);
+            if ($classroomFk === null) {
+                $inRelacaoClasses = new InRelacaoClasses(Yii::app()->user->year, strval(intval(substr($codSchool, 2))), null, null, null, null);
+                $classes = new GetRelacaoClassesFromSEDUseCase();
+                $classes->exec($inRelacaoClasses);
+            }
+            $classroomFk = self::getClassroomFk($numClass, $codSchool);
 
             $studentEnrollment = new StudentEnrollment();
             $studentEnrollment->school_inep_id_fk = $codSchool;
@@ -406,6 +407,7 @@ class StudentMapper
         $studentDocumentsAndAddress->neighborhood = $outEnderecoResidencial->getOutBairro();
         $studentDocumentsAndAddress->complement = $outEnderecoResidencial->getOutComplemento();
         $studentDocumentsAndAddress->cep = $outEnderecoResidencial->getOutCep();
+        $studentDocumentsAndAddress->DNE_city_code = $outEnderecoResidencial->getOutCodMunicipioDne();
         $studentDocumentsAndAddress->residence_zone = $outEnderecoResidencial->getOutAreaLogradouro() == "URBANA" ? 1 : 2;
 
         $studentDocumentsAndAddress->edcenso_uf_fk = intval(
@@ -452,6 +454,17 @@ class StudentMapper
         $parseResult["StudentDocumentsAndAddress"] = $studentDocumentsAndAddress;
 
         return $parseResult;
+    }
+
+    public static function getClassroomFk($numClass, $codSchool)
+    {
+        return Classroom::model()->find([
+            'condition' => '(gov_id = :numClass OR inep_id = :numClass) AND school_inep_fk = :codSchool',
+            'params' => [
+                ':numClass' => $numClass,
+                ':codSchool' => $codSchool,
+            ],
+        ])->id;
     }
 
     public static function existsEnrollments($studentFk, $classroomInepId, $schoolInepIdFk)
