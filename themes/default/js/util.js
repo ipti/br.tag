@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -209,7 +209,7 @@ function validateNamePerson(personName, handler) {
     }
 
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentname`
+        url: `${origin}${pathname}?r=student/student/comparestudentname`
     }).success(function (response) {
         const names = $.parseJSON(response);
         var names_teste = Object.keys(names);
@@ -224,7 +224,7 @@ function validateNamePerson(personName, handler) {
         }
 
         for (let index = 0; index < array_students.length; index++) {
-            var similares_text = `<a style="color: #2E33B7; font-size: 13px;" href='${origin}${pathname}?r=student/update&id=${array_students[index].id}' >${array_students[index].name}</a><br>`;
+            var similares_text = `<a style="color: #2E33B7; font-size: 13px;" href='${origin}${pathname}?r=student/student/update&id=${array_students[index].id}' >${array_students[index].name}</a><br>`;
             formatSimilares.push(similares_text);
         }
         if (passExp) {
@@ -273,12 +273,12 @@ function existsStudentWithCPF(cpf, callback) {
     var ret = new Array();
     var passCpf = false;
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentcpf&student_cpf=${cpf}`,
+        url: `${origin}${pathname}?r=student/student/comparestudentcpf&student_cpf=${cpf}`,
     }).success(function (response) {
         $.each($.parseJSON(response), function (student_fk, id) {
             if (student_fk != '') passCpf = true
         });
-        
+
         if (passCpf) {
             ret[0] = false;
             ret[1] = "CPF já vinculado com cadastro de aluno existente.";
@@ -305,7 +305,7 @@ function validateCpf(cpf) {
         || cpf == "66666666666" || cpf == "77777777777"
         || cpf == "88888888888" || cpf == "99999999999"
         || !rule(cpf, numberRules.cpf)) {
-       
+
         return statusInvalido;
     } else {
         var soma = 0;
@@ -329,8 +329,8 @@ function validateCpf(cpf) {
 
     if (cpf == "00000000000" || cpf == "00000000191") {
         return statusInvalido;
-    } 
-    
+    }
+
     if (!rule(cpf, numberRules.cpf)){
         return statusInvalido;
     }
@@ -343,7 +343,7 @@ function validateCivilCertificationTermNumber(term_number, handler) {
     var ret = new Array();
     var passTerm = false;
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentcertificate&civil_certification_term_number=${term_number}`,
+        url: `${origin}${pathname}?r=student/student/comparestudentcertificate&civil_certification_term_number=${term_number}`,
     }).success(function (response) {
         $.each($.parseJSON(response), function (student_fk, id) {
             console.log(student_fk)
@@ -365,7 +365,7 @@ function validateCivilRegisterEnrollmentNumber(term_number, handler) {
     var ret = new Array();
     var passTerm = false;
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentcivilregisterenrollmentnumber&civil_register_enrollment_number=${term_number}`,
+        url: `${origin}${pathname}?r=student/student/comparestudentcivilregisterenrollmentnumber&civil_register_enrollment_number=${term_number}`,
     }).success(function (response) {
         $.each($.parseJSON(response), function (student_fk, id) {
             console.log(student_fk)
@@ -464,7 +464,7 @@ function removeWarning(id, id_caixa, id_icon) {
 
 /**
  * Adiciona a classe "required" ao campo, e adiciona um "*" no final do seu texto;
- * 
+ *
  * @param {element} id
  * @returns {nothing}
  */
@@ -475,7 +475,7 @@ function addRequired(id) {
 }
 /**
  * Remove a classe "required" ao campo, e remove o "*" do seu texto;
- * 
+ *
  * @param {element} id
  * @returns {nothing}
  */
@@ -487,7 +487,7 @@ function removeRequired(id) {
 
 /**
  * Adiciona a classe "required" ao campo, e adiciona um "*" no final do seu texto;
- * 
+ *
  * @param {element} id
  * @returns {nothing}
  */
@@ -498,7 +498,7 @@ function addRequiredSelect2(id) {
 
 /**
  * Remove a classe "required" ao campo, e remove o "*" do seu texto;
- * 
+ *
  * @param {element} id
  * @returns {nothing}
  */
@@ -509,7 +509,7 @@ function removeRequiredSelect2(id) {
 
 /**
  * Abre uma nova aba ao clicar.
- * 
+ *
  * @param {element} id
  * @returns {nothing}
  */
@@ -532,12 +532,12 @@ function initDateFieldMaskAndValidation(element) {
     $(element).focusout(function () {
         var id = '#' + $(this).attr("id");
         var dateValue = stringToDate($(element).val());
-    
+
         if ((!validateDate($(element).val()) || !validateYear(dateValue.year)) && ($(id).val() != '')) {
             addError(id, "Informe uma data válida no formato Dia/Mês/Ano.");
         } else {
             removeError(id);
         }
     });
-    
+
 }

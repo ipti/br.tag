@@ -11,7 +11,7 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/gradesRelease/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/gradesRelease/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
-$script = "var getGradesUrl = '" . Yii::app()->createUrl('grades/getGrades') . "';";
+$script = "var getGradesUrl = '" . Yii::app()->createUrl('grades/grades/getGrades') . "';";
 
 $cs->registerScript('variables', $script, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl . '/css/grades.css');

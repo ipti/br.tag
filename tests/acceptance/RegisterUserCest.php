@@ -21,7 +21,7 @@ class RegisterUserCest
     // tests
     public function registerUser(AcceptanceTester $teste)
     {
-        $teste->amOnPage('?r=admin/createUser');
+        $teste->amOnPage('?r=admin/admin/createUser');
 
         $name = 'Harry Styles';
         $userName = 'harrystyles';
@@ -34,6 +34,6 @@ class RegisterUserCest
 
         $robots->save();
         sleep(5);
-        $teste->canSeeInCurrentUrl('admin/index');
+        $teste->canSeeInCurrentUrl('admin/admin/index');
     }
 }

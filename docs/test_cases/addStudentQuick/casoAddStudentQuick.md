@@ -10,7 +10,7 @@ Adicionar aluno (rápido) com campos obrigatórios em branco;
 Adicionar aluno (rápido) com alguns campos inválidos.
 
 **URL**
-https://demo.tag.ong.br/?r=student/create&simple=1
+https://demo.tag.ong.br/?r=student/student/create&simple=1
 
 ### Adicionar aluno (rápido) com campos obrigatórios válidos e preenchidos
 | Cenário                             | Casos de teste                                               | Passos de execução                                           | Cenário (BDD)                                                | Critérios de aceitação                                       | Resultados esperados                                         |
