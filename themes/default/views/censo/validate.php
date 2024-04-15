@@ -210,7 +210,7 @@
                                                     -
                                                     <?php echo current($studenterror) ?>
                                             </span>
-                                            <?php echo CHtml::link('- Corrigir', array('student/update',
+                                            <?php echo CHtml::link('- Corrigir', array('student/student/update',
                                                 'id' => $student['info']['id'], 'censo' => 1)); ?>
                                             <?php $dataValidation['student' . $student['info']['id']][] = current($studenterror); ?>
                                             <div class="clearfix"></div>
@@ -228,7 +228,7 @@
                                                 <?php echo str_replace("*", "", StudentDocumentsAndAddress::model()->getAttributeLabel(key($studenterror))) ?>
                                                     - <?php echo current($studenterror) ?>
                                             </span>
-                                            <?php echo CHtml::link('- Corrigir', array('student/update',
+                                            <?php echo CHtml::link('- Corrigir', array('student/student/update',
                                                 'id' => $student['info']['id'], 'censo' => 1)); ?>
                                             <?php $dataValidation['student' . $student['info']['id']][] = current($studenterror); ?>
                                             <div class="clearfix"></div>

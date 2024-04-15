@@ -7,7 +7,7 @@ Yii::import('application.modules.sedsp.interfaces.*');
 class DefaultController extends Controller implements AuthenticateSEDTokenInterface
 {
     private $ERROR_CONNECTION = 'Conexão com SEDSP falhou. Tente novamente mais tarde.';
-    const REDIRECT_PATH = '/student/update';
+    const REDIRECT_PATH = '/student/student/update';
 
 	public function authenticateSedToken()
     {

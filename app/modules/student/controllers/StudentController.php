@@ -173,12 +173,12 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $data = array();
         foreach ($students as $student) {
             $nestedData = array();
-            $nestedData[] = "<a href='/?r=student/update&id=" . $student->id . "' cursor: pointer;>" . $student->name . "</a>";
+            $nestedData[] = "<a href='/?r=student/student/update&id=" . $student->id . "' cursor: pointer;>" . $student->name . "</a>";
             $nestedData[] = $student->filiation_1;
             $nestedData[] = $student->birthday;
             $nestedData[] = $student->documentsFk->cpf;
             $nestedData[] = $student->inep_id;
-            $nestedData[] = "<a style='cursor: pointer;' title='Editar' id='student-edit'  href='/?r=student/update&id=" . $student->id . "'>
+            $nestedData[] = "<a style='cursor: pointer;' title='Editar' id='student-edit'  href='/?r=student/student/update&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
                             </a>&nbsp;"
                 . "<a style='cursor: pointer;' title='Excluir'
@@ -612,7 +612,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $modelEnrollment->save();
             }
             Yii::app()->user->setFlash('success', Yii::t('default', 'transferred enrollment'));
-            $this->redirect(array('student/update&id=' . $modelStudentIdentification->id));
+            $this->redirect(array('student/student/update&id=' . $modelStudentIdentification->id));
         } else {
             $this->render('transfer', array(
                 'modelStudentIdentification' => $modelStudentIdentification,
@@ -745,7 +745,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $buttons = CHtml::tag(
                     'a',
                     array(
-                        'href' => yii::app()->createUrl('student/update', array('id' => $sid)),
+                        'href' => yii::app()->createUrl('student/student/update', array('id' => $sid)),
                         'class' => "btn btn-primary btn-icon glyphicons eye_open",
                         'style' => 'margin-top: 5px; width: 110px'
                     ),
@@ -757,7 +757,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'a',
                     array(
                         'target' => '_blank', 'href' => yii::app()->createUrl(
-                        '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollmentId)
+                        '/student/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollmentId)
                     ),
                         'class' => "btn btn-primary btn-icon glyphicons notes_2",
                         'style' => 'margin-top: 5px; width: 110px'
