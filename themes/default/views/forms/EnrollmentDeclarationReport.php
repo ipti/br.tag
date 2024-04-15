@@ -377,13 +377,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
                 <span id="box-obs">
                     <br>
-                    OBS: <textarea id="obs" placeholder="Digite aqui sua observação."></textarea>
+                         OBS: <textarea id="obs" placeholder="Digite aqui sua observação."></textarea>
                 </span>
                 <br/><br/><br/><br/>
                 <span class="pull-right">
                     <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
                 </span>
                 <br/><br/><br/><br/>
+                <p style="margin: 0 auto; text-align: center; width:600px">
+                _______________________________________________________<br>
+                    <b>ASSINATURA DO DIRETOR(A)/SECRETÁRIO(A)</b>
+                </p>
+                <br>
                 <?php if(!(isset($school->act_of_acknowledgement))){?>
                     <!--<div style="text-align: center">
                         <span style="font-size: 14px">
