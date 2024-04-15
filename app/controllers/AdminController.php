@@ -17,9 +17,25 @@ class AdminController extends Controller
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-                    'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure', 'instanceConfig', 'editInstanceConfigs'
-                ], 'users' => ['@'],
+                    'import',
+                    'export',
+                    'update',
+                    'manageUsers',
+                    'clearDB',
+                    'acl',
+                    'backup',
+                    'data',
+                    'exportStudentIdentify',
+                    'syncExport',
+                    'syncImport',
+                    'exportToMaster',
+                    'clearMaster',
+                    'importFromMaster',
+                    'gradesStructure',
+                    'instanceConfig',
+                    'editInstanceConfigs'
+                ],
+                'users' => ['@'],
             ],
         ];
     }
@@ -126,11 +142,11 @@ class AdminController extends Controller
                 "username" => $_POST["Users"]["name"]
             ]
         );
-        if (isset($_POST['Users'])) {
-            if (!isset($modelValidate)) {
+        if (isset ($_POST['Users'])) {
+            if (!isset ($modelValidate)) {
                 $model->attributes = $_POST['Users'];
                 if ($model->validate()) {
-                    $passwordHasher =  new PasswordHasher;
+                    $passwordHasher = new PasswordHasher;
                     $password = $passwordHasher->bcriptHash($_POST['Users']['password']);
 
                     $model->password = $password;
@@ -147,7 +163,7 @@ class AdminController extends Controller
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
                         }
-                        if (isset($_POST['instructor']) && $_POST['instructor'] != "") {
+                        if (isset ($_POST['instructor']) && $_POST['instructor'] != "") {
                             $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $_POST['instructor']]);
                             $instructors->users_fk = $model->id;
                             $instructors->save();
@@ -195,9 +211,12 @@ class AdminController extends Controller
 
     public function actionGetUnities()
     {
-        $stage = Yii::app()->request->getPost("stage");
 
-        $modality =  Yii::app()->db->createCommand("
+        // CVarDumper::dump(Yii::app()->request, 10, true);
+        $requestBody = CJSON::decode(Yii::app()->request->getRawBody());
+        $stage = $requestBody["stage"];
+
+        $modality = Yii::app()->db->createCommand("
         select
             distinct gu.name,
             gu.id,
@@ -461,7 +480,7 @@ class AdminController extends Controller
     {
         $model = Users::model()->findByPk($id);
 
-        if (isset($_POST['Users'], $_POST['Confirm'])) {
+        if (isset ($_POST['Users'], $_POST['Confirm'])) {
             $passwordHasher = new PasswordHasher;
             $password = ($_POST['Users']['password']);
             $confirm = ($_POST['Confirm']);
@@ -565,7 +584,7 @@ class AdminController extends Controller
         $filter->unsetAttributes();
         $users = Yii::app()->request->getParam('Users');
 
-        if (isset($users)) {
+        if (isset ($users)) {
             $filter->attributes = $users;
         }
         $criteria = new CDbCriteria();
@@ -599,7 +618,7 @@ class AdminController extends Controller
         $instructor = Yii::app()->request->getPost('instructor');
         $role = Yii::app()->request->getPost('Role');
 
-        if (isset($users)) {
+        if (isset ($users)) {
             $model->attributes = $users;
             if ($model->validate()) {
                 $passwordHasher = new PasswordHasher;
@@ -620,7 +639,7 @@ class AdminController extends Controller
                         $auth->revoke($actualRole, $model->id);
                         $auth->assign($role, $model->id);
                     }
-                    if (isset($instructor) && $instructor != "") {
+                    if (isset ($instructor) && $instructor != "") {
                         $instructors = InstructorIdentification::model()->find("id = :id", ["id" => $instructor]);
 
                         $instructors->users_fk = $model->id;
@@ -647,7 +666,7 @@ class AdminController extends Controller
 
         $selectedInstructor = InstructorIdentification::model()->find("users_fk = :user_fk", ["user_fk" => $model->id]);
 
-        if (isset($selectedInstructor)) {
+        if (isset ($selectedInstructor)) {
             $instructorsResult[$selectedInstructor->id] = $selectedInstructor->name;
         }
 

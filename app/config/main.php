@@ -28,11 +28,11 @@ if (YII_DEBUG) {
             'class' => 'CFileLogRoute',
             'levels' => 'profile',
         ),
-        array(
-            'class' => 'CProfileLogRoute',
-            'showInFireBug' => true,
-            'report' => 'summary',
-        )
+        // array(
+        //     'class' => 'CProfileLogRoute',
+        //     'showInFireBug' => false,
+        //     'report' => 'summary',
+        // )
     );
 }
 

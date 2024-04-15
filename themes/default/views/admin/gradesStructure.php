@@ -114,14 +114,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             </div>
         </div>
         <div class="column js-grades-rules-container">
-            <unity-component index=1 name="Unidade 1" type="UC" formula="2">
-                <div slot='modalities'>
-                    <unity-modality-component name="Prova"></unity-modality-component>
-                    <unity-modality-component name="Trabalho"></unity-modality-component>
-                </div>
-            </unity-component>
-            <unity-component index=2 name="Unidade 2" type="U" formula="1"></unity-component>
-            <unity-concept-component index=3 name="Unidade 3" type="c" formula="3"></unity-concept-component>
+            <unities-panel></unities-panel>
         </div>
         <div class="column js-grades-rules-container" style="display: none;">
             <div class="row">
@@ -169,11 +162,13 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <div id="campos-primeiro-semestre" style="display: none;">
                     <div class="t-field-text" style="margin-top: 16px">
                         <label class='t-field-text__label--required'>Nome:</label>
-                        <input type='text' class='t-field-text__input one-semianual-unity-name' placeholder='Primeira Recuperação Semestral'>
+                        <input type='text' class='t-field-text__input one-semianual-unity-name'
+                            placeholder='Primeira Recuperação Semestral'>
                     </div>
                     <div class="t-field-select">
                         <label class='t-field-select__label--required'>Unidades presentes no primeiro semestre:</label>
-                        <select id="semianual-modality-first" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
+                        <select id="semianual-modality-first"
+                            class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
                     </div>
                 </div>
             </div>
@@ -185,11 +180,13 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <div id="campos-segundo-semestre" style="display: none;">
                     <div class="t-field-text" style="margin-top: 16px">
                         <label class='t-field-text__label--required'>Nome:</label>
-                        <input type='text' class='t-field-text__input two-semianual-unity-name' placeholder='Segunda Recuperação Semestral'>
+                        <input type='text' class='t-field-text__input two-semianual-unity-name'
+                            placeholder='Segunda Recuperação Semestral'>
                     </div>
                     <div class="t-field-select">
                         <label class='t-field-select__label--required'>Unidades presentes no segundo semestre:</label>
-                        <select id="semianual-modality-second" class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
+                        <select id="semianual-modality-second"
+                            class="select-search-on t-multiselect t-field-select__input" multiple="multiple"></select>
                     </div>
                 </div>
             </div>
@@ -230,7 +227,9 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
 
 <div class="formulas">
     <?php foreach ($formulas as $formula): ?>
-        <option value="<?= $formula->id ?>"><?= $formula->name ?></option>
+        <option value="<?= $formula->id ?>">
+            <?= $formula->name ?>
+        </option>
     <?php endforeach; ?>
 </div>
 <div class="modal fade modal-content" id="js-saveandreply-modal" tabindex="-1" role="dialog">
