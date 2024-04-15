@@ -125,7 +125,9 @@ $form=$this->beginWidget('CActiveForm', array(
                             <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="t-buttons-container justify-content--center">
-                            <button type="button" class="t-button-primary clear-margin--right" id="save-food">Adicionar ao estoque</button>
+                            <button type="button" class="t-button-primary clear-margin--right" id="save-food">
+                                Adicionar ao estoque
+                            </button>
                         </div>
                     </div>
                 </div>
