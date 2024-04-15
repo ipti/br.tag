@@ -455,6 +455,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
         $modelStudentRestrictions = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
 
+        $oldCpf = $modelStudentDocumentsAndAddress->cpf;
+
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
         if ($studentVaccinesSaves) {
@@ -477,6 +479,19 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->id;
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
+
+            $newCpf = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS]['cpf'];
+
+            if($oldCpf !== $newCpf && $newCpf !== "") {
+                $existCpf = StudentDocumentsAndAddress::model()->findByAttributes(array('cpf' => $modelStudentDocumentsAndAddress->cpf));
+
+                if($existCpf !== null) {
+                    Yii::app()->user->setFlash(
+                        'error', Yii::t('default', 'Já existe um registro associado a este CPF de um aluno cadastrado!')
+                    );
+                    $this->redirect(array('/student/update', 'id' => $modelStudentDocumentsAndAddress->id));    
+                }  
+            }
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
@@ -525,7 +540,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                                 }
                             }
                         }
-
+                        
                         if ($saved) {
                             $flash = "success";
                             $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';

@@ -1,3 +1,5 @@
+## [Versão 3.77.133]
+- Realizado correções nas validações das datas para Professor, Estudante e Escola
 
 ## [Versão 3.78.132]
 - Adicionado campo para a assinatura do diretor 
