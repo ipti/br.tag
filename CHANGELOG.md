@@ -1,3 +1,6 @@
+## [Versão 3.77.133]
+- Correção no id da classe para as inconsistências
+
 ## [Versão 3.77.132]
 - Adicionado unidades de medida para o lançamento no estoque
 
