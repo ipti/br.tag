@@ -96,8 +96,12 @@ return array(
         'foods',
         'dashboard',
         'student',
-<<<<<<< HEAD
-        'courseplan'
+        'courseplan',
+        'school',
+        'admin',
+        'instructor',
+        'classroom',
+        'censo'
     ),
     // application components
     'components' => array(
