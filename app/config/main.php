@@ -97,7 +97,8 @@ return array(
         'dashboard',
         'student',
         'instructor',
-        'classroom'
+        'classroom',
+        'reports'
     ),
     // application components
     'components' => array(

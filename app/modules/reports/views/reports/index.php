@@ -36,7 +36,7 @@ $this->breadcrumbs = array(
 
                 <p>Alunos</p>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/NumberStudentsPerClassroomReport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/NumberStudentsPerClassroomReport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-add-group t-reports_icons"></span>
@@ -48,7 +48,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/EnrollmentStatisticsByYearReport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/EnrollmentStatisticsByYearReport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-line_graph t-reports_icons"></span>
@@ -60,7 +60,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/incompatiblestudentagebyclassroomreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/incompatiblestudentagebyclassroomreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-parents-children t-reports_icons"></span>
@@ -113,7 +113,7 @@ $this->breadcrumbs = array(
                     </div>
                 </button>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentpendingdocument') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/studentpendingdocument') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-weather-report t-reports_icons"></span>
@@ -125,7 +125,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentsbyclassroomreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/studentsbyclassroomreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-percentage t-reports_icons"></span>
@@ -149,7 +149,7 @@ $this->breadcrumbs = array(
                     </button>
                 <?php endif; ?>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentsbetween5and14yearsoldreport', array('id' => Yii::app()->user->school)) ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/studentsbetween5and14yearsoldreport', array('id' => Yii::app()->user->school)) ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-heart t-reports_icons"></span>
@@ -161,7 +161,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentsinalphabeticalorderrelationreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/studentsinalphabeticalorderrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-arrow-az t-reports_icons"></span>
@@ -173,7 +173,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentspecialfood') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/studentspecialfood') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-room-service t-reports_icons"></span>
@@ -185,7 +185,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/outoftownstudentsreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/outoftownstudentsreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-backpack t-reports_icons"></span>
@@ -197,7 +197,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/electronicdiary') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container" style="padding-left: 25px;">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-book t-reports_icons"></span>
@@ -282,7 +282,7 @@ $this->breadcrumbs = array(
 
                 <p>Professores</p>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/schoolprofessionalnumberbyclassroomreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/schoolprofessionalnumberbyclassroomreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-graduation-cap t-reports_icons"></span>
@@ -294,7 +294,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/TeachersByStage') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/TeachersByStage') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-stage-teachers t-reports_icons"></span>
@@ -306,7 +306,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/disciplineandinstructorrelationreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/disciplineandinstructorrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-person t-reports_icons"></span>
@@ -318,7 +318,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/InstructorsPerClassroomReport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/InstructorsPerClassroomReport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-column_graphi t-reports_icons"></span>
@@ -330,7 +330,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/classroomwithoutinstructorrelationreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/classroomwithoutinstructorrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-no-teacher t-reports_icons"></span>
@@ -356,7 +356,7 @@ $this->breadcrumbs = array(
 
                 <p>Escola</p>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentsusingschooltransportationrelationreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/studentsusingschooltransportationrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-bus2 t-reports_icons"></span>
@@ -368,7 +368,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/SchoolTransferReport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/SchoolTransferReport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-school-transfer t-reports_icons"></span>
@@ -380,7 +380,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/educationalassistantperclassroomreport', array('id' => Yii::app()->user->school)) ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/educationalassistantperclassroomreport', array('id' => Yii::app()->user->school)) ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-handshake t-reports_icons"></span>
@@ -392,7 +392,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/enrollmentcomparativeanalysisreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/enrollmentcomparativeanalysisreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-copy t-reports_icons"></span>
@@ -404,7 +404,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentswithdisabilitiesrelationreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/studentswithdisabilitiesrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-wheelchair t-reports_icons"></span>
@@ -416,7 +416,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/complementaractivityassistantbyclassroomreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/complementaractivityassistantbyclassroomreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-bullseye-arrow t-reports_icons"></span>
@@ -428,7 +428,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/studentinstructornumbersrelationreport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/studentinstructornumbersrelationreport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-teachers-students t-reports_icons"></span>
@@ -440,7 +440,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/CnsPerSchool') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/CnsPerSchool') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-doctor t-reports_icons"></span>
@@ -461,7 +461,7 @@ $this->breadcrumbs = array(
                         <span class="subtitle">Listagem dos alunos matriculados na escola em um período de tempo</span>
                     </div>
                 </button>
-                <a href="<?php echo Yii::app()->createUrl('reports/StudentCpfRgNisAllClassrooms') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/StudentCpfRgNisAllClassrooms') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-id-card-clip t-reports_icons"></span>
@@ -473,7 +473,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/AllClassroomsReportOfStudentsBenefitingFromTheBF') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/AllClassroomsReportOfStudentsBenefitingFromTheBF') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-group-bag t-reports_icons"></span>
@@ -500,7 +500,7 @@ $this->breadcrumbs = array(
                     </div>
                 </button>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/AllSchoolsTransferReport') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/AllSchoolsTransferReport') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-transfer-all-school t-reports_icons"></span>
@@ -512,7 +512,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/TeachersBySchool') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/TeachersBySchool') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-school-teacher t-reports_icons"></span>
@@ -524,7 +524,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/StudentsWithDisabilitiesPerSchool') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/StudentsWithDisabilitiesPerSchool') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-wheelchair t-reports_icons"></span>
@@ -536,7 +536,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/StatisticalData') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/StatisticalData') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-statistic-data t-reports_icons"></span>
@@ -548,7 +548,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/AllSchoolsReportOfStudentsBenefitingFromTheBF') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/AllSchoolsReportOfStudentsBenefitingFromTheBF') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-scholarship-schools t-reports_icons"></span>
@@ -560,7 +560,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/NumberOfClassesPerSchool') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/NumberOfClassesPerSchool') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-amount-school t-reports_icons"></span>
@@ -572,7 +572,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/TotalNumberOfStudentsEnrolled') ?>" target="_blank" rel="noopener">
+                <a href="<?php echo Yii::app()->createUrl('reports/reports/TotalNumberOfStudentsEnrolled') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-student-registration t-reports_icons"></span>
@@ -615,7 +615,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Defina um período de matrícula</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodAllSchools'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/NumberOfStudentsEnrolledPerPeriodAllSchools'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -644,7 +644,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Defina um período de matrícula</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/NumberOfStudentsEnrolledPerPeriodPerSchool'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/NumberOfStudentsEnrolledPerPeriodPerSchool'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -673,7 +673,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/ReportOfStudentsBenefitingFromTheBFPerClassroom'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/ReportOfStudentsBenefitingFromTheBFPerClassroom'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -714,7 +714,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/ReportOfStudentsBenefitingFromTheBFPerClassroom'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/ReportOfStudentsBenefitingFromTheBFPerClassroom'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -747,7 +747,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Ata de Formação de Professores - Escolha a Turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/TeacherTrainingReport'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/TeacherTrainingReport'); ?>" method="post" target="_blank">
                 <div class="modal-body" style="max-height: none !important;overflow: visible !important;">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -844,7 +844,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/StudentCpfRgNisPerClassroom'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/StudentCpfRgNisPerClassroom'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -877,7 +877,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/classroomTransferReport'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/classroomTransferReport'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -918,7 +918,7 @@ $this->breadcrumbs = array(
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <a href="<?php echo Yii::app()->createUrl('reports/StudentCpfRgNisAllSchools') ?>" target="_blank" rel="noopener" style="margin-left: 5px;">
+                            <a href="<?php echo Yii::app()->createUrl('reports/reports/StudentCpfRgNisAllSchools') ?>" target="_blank" rel="noopener" style="margin-left: 5px;">
                                 <button type="button" class="btn btn-primary">Gerar</button>
                             </a>
                         </div>
@@ -944,7 +944,7 @@ $this->breadcrumbs = array(
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <a href="<?php echo Yii::app()->createUrl('reports/CnsSchools') ?>" target="_blank" rel="noopener" style="margin-left: 5px;">
+                            <a href="<?php echo Yii::app()->createUrl('reports/reports/CnsSchools') ?>" target="_blank" rel="noopener" style="margin-left: 5px;">
                                 <button type="button" class="btn btn-primary">Gerar</button>
                             </a>
                         </div>
@@ -962,7 +962,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Frequência Bolsa Família - Escolha a Turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/BFReport'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/BFReport'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -995,7 +995,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/studentswithdisabilitiesperclassroom'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/studentswithdisabilitiesperclassroom'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -1029,7 +1029,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/StudentByClassroomReport'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/StudentByClassroomReport'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -1061,7 +1061,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Selecione a turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/CnsPerClassroomReport'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/CnsPerClassroomReport'); ?>" method="post" target="_blank">
                 <div class="modal-body">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -1093,7 +1093,7 @@ $this->breadcrumbs = array(
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Ata de Conselho de Classe - Escolha a Turma</h4>
             </div>
-            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/ClassCouncilReport'); ?>" method="post" target="_blank">
+            <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/ClassCouncilReport'); ?>" method="post" target="_blank">
                 <div class="modal-body" style="max-height: none !important;overflow: visible !important;">
                     <div class="row-fluid">
                         <div class=" span12">
@@ -1195,7 +1195,7 @@ $this->breadcrumbs = array(
             </button>
             <h4 class="modal-title" id="myModalLabel">Relatório Trimestral Individual - Escolha o Aluno</h4>
         </div>
-        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/QuarterlyReport'); ?>" method="post" target="_blank">
+        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/QuarterlyReport'); ?>" method="post" target="_blank">
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
@@ -1260,7 +1260,7 @@ $this->breadcrumbs = array(
             </button>
             <h4 class="modal-title" id="myModalLabel">Relatório Trimestral de Acompanhamento</h4>
         </div>
-        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/QuarterlyFollowUpReport'); ?>" method="post" target="_blank">
+        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/QuarterlyFollowUpReport'); ?>" method="post" target="_blank">
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
@@ -1311,7 +1311,7 @@ $this->breadcrumbs = array(
             </button>
             <h4 class="modal-title" id="myModalLabel">Acompanhamento Avaliativo dos Alunos</h4>
         </div>
-        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/EvaluationFollowUpStudentsReport'); ?>" method="post" target="_blank">
+        <form class="form-vertical" action="<?php echo Yii::app()->createUrl('reports/reports/EvaluationFollowUpStudentsReport'); ?>" method="post" target="_blank">
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
