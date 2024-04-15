@@ -160,11 +160,11 @@ class InstructorController extends Controller
                     $user = new Users();
                     $user->name = $modelInstructorIdentification->name;
                     $user->username = $modelInstructorDocumentsAndAddress->cpf;
-                    
+
                     $passwordHasher = new PasswordHasher;
                     $birthdayDate = str_replace("/", "", $modelInstructorIdentification->birthday_date);
                     $user->password = $passwordHasher->bcriptHash($birthdayDate);
-                    
+
                     if ($user->save()) {
                         $userSchool = new UsersSchool();
                         $userSchool->user_fk = $user->id;
@@ -377,7 +377,7 @@ preenchidos";
         $dataProvider = InstructorIdentification::model()->search();
 
 
-        $this->render('index', [
+        $this->render('instructor/index', [
             'dataProvider' => $dataProvider
         ]);
     }

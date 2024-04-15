@@ -95,7 +95,8 @@ return array(
         'stages',
         'foods',
         'dashboard',
-        'student'
+        'student',
+        'instructor'
     ),
     // application components
     'components' => array(
