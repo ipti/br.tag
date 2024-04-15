@@ -10,7 +10,7 @@ $(document).on("click", ".save", function () {
     });
 
     $.ajax({
-        url: "?r=admin/editInstanceConfigs",
+        url: "?r=admin/admin/editInstanceConfigs",
         type: "POST",
         data: {
             configs: configs,

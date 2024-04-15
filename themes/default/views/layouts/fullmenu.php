@@ -397,8 +397,8 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 </ul>
                             </li>
                         <?php endif ?>
-                        <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=admin/editPassword") ? 'active' : '' ?> hide-responsive">
-                            <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('admin/editPassword', array("id" => Yii::app()->user->loginInfos->id)) ?>">
+                        <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=admin/admin/editPassword") ? 'active' : '' ?> hide-responsive">
+                            <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('admin/admin/editPassword', array("id" => Yii::app()->user->loginInfos->id)) ?>">
                                 <span class="t-icon-lock t-menu-item__icon"></span>
                                 <span class="t-menu-item__text">Alterar senha</span>
                             </a>
@@ -489,7 +489,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Voltar</button>
-                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('admin/changeYear'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar Ano </button>
+                    <button class="btn btn-primary" url="<?php echo Yii::app()->createUrl('admin/admin/changeYear'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;"> Selecionar Ano </button>
                 </div>
         </form>
     </div>

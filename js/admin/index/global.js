@@ -1,6 +1,6 @@
 ////Baixar o Arquivo
 //$('#callSyncExport').on('click', function () {
-//    location.href = "/index.php?r=admin/synchronizationExport";
+//    location.href = "/index.php?r=admin/admin/synchronizationExport";
 //});
 
 //
@@ -23,7 +23,7 @@
 //        event.stopPropagation(); // Stop stuff happening
 //        event.preventDefault(); // Totally stop stuff happening
 //
-//        var url = '?r=admin/synchronizationImport';
+//        var url = '?r=admin/admin/synchronizationImport';
 //        var photo = document.getElementById("syncFile");
 //        var file = photo.files[0];
 //        var formData = new FormData();

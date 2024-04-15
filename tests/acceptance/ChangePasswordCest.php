@@ -21,7 +21,7 @@ class ChangePasswordCest
     // tests
     public function sucess(AcceptanceTester $teste)
     {
-        $teste->amOnPage('?r=admin/editPassword&id=1');
+        $teste->amOnPage('?r=admin/admin/editPassword&id=1');
 
         $newSecret = "novaSenha@2023";
 
@@ -30,6 +30,6 @@ class ChangePasswordCest
 
         $teste->click("#save button");
         sleep(5);
-        $teste->canSeeInCurrentUrl('admin/index');
+        $teste->canSeeInCurrentUrl('admin/admin/index');
     }
 }
