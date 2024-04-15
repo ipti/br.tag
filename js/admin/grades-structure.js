@@ -321,7 +321,7 @@ function saveUnities(reply) {
     });
     $.ajax({
         type: "POST",
-        url: "?r=admin/saveUnities",
+        url: "?r=admin/admin/saveUnities",
         cache: false,
         data: {
             stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
@@ -526,7 +526,7 @@ function loadStructure() {
     if ($("#GradeUnity_edcenso_stage_vs_modality_fk").val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=admin/getUnities",
+            url: "?r=admin/admin/getUnities",
             cache: false,
             data: {
                 stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),

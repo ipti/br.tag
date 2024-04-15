@@ -87,7 +87,7 @@ function initTable() {
         searching: false,
         ajax: {
             type: "POST",
-            url: "/index.php?r=admin/getAuditoryLogs",
+            url: "/index.php?r=admin/admin/getAuditoryLogs",
             data: function (data) {
                 data.school = $("#log-school").val();
                 data.action = $("#log-action").val();

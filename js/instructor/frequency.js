@@ -4,7 +4,7 @@ $("#classesSearch").on("click", function () {
         $(".alert-required-fields, .alert-incomplete-data").hide();
         jQuery.ajax({
             type: "POST",
-            url: "?r=instructor/getFrequency",
+            url: "?r=instructor/instructor/getFrequency",
             cache: false,
             data: {
                 instructor: $("#instructor").val(),
@@ -88,7 +88,7 @@ $("#instructor").on("change", function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=instructor/getFrequencyClassroom",
+            url: "?r=instructor/instructor/getFrequencyClassroom",
             cache: false,
             data: {
                 instructor: $("#instructor").val(),
@@ -112,7 +112,7 @@ $("#classrooms").on("change", function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=instructor/getFrequencyDisciplines",
+            url: "?r=instructor/instructor/getFrequencyDisciplines",
             cache: false,
             data: {
                 instructor: $("#instructor").val(),
@@ -136,7 +136,7 @@ $(document).on("change", ".frequency-checkbox", function () {
     var checkbox = this;
     $.ajax({
         type: "POST",
-        url: "?r=instructor/saveFrequency",
+        url: "?r=instructor/instructor/saveFrequency",
         cache: false,
         data: {
             classroomId: $("#classrooms").val(),
@@ -196,7 +196,7 @@ $("#save-justification-modal").on('shown', function () {
 $(document).on("click", ".btn-save-justification", function () {
     $.ajax({
         type: "POST",
-        url: "?r=instructor/saveJustification",
+        url: "?r=instructor/instructor/saveJustification",
         cache: false,
         data: {
             classroomId: $("#justification-classroomid").val(),

@@ -57,6 +57,6 @@ class StudentsRemoveCest
         $robots->btnDelete();
         $teste->acceptPopup();
         $teste->see('Aluno excluído com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=student/index');
+        $teste->canSeeInCurrentUrl('?r=student/student/index');
     }
 }

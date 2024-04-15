@@ -18,7 +18,7 @@ function updateCep(data) {
     $('#InstructorDocumentsAndAddress_edcenso_city_fk option:not(:contains("Selecione uma cidade"))').remove();
     $.ajax({
         type: "POST",
-        url: "?r=instructor/getCity",
+        url: "?r=instructor/instructor/getCity",
         data: {
             edcenso_uf_fk: data.UF,
             current_city: $("#InstructorDocumentsAndAddress_edcenso_city_fk").val()
@@ -56,7 +56,7 @@ $(function () {
 function loadCitiesTo(emmiter , citySelector){
     $.ajax({
         type: "POST",
-        url: "?r=instructor/getCity",
+        url: "?r=instructor/instructor/getCity",
         data: {
             edcenso_uf_fk: $(emmiter).val(),
             current_city: $(citySelector).val()
@@ -75,7 +75,7 @@ function loadIES(iesUfDropDown, iesDropDownPath, currentIES) {
     console.log(currentIES)
     $.ajax({
         type: "POST",
-        url: "?r=instructor/getinstitution",
+        url: "?r=instructor/instructor/getinstitution",
         data: {
             edcenso_uf_fk: $(iesUfDropDown).val(),
         },
