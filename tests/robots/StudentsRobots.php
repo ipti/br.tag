@@ -24,7 +24,7 @@ class StudentsRobots
      */
     public function pageAddStudents ()
     {
-        $this->tester->amOnPage('?r=student/create');
+        $this->tester->amOnPage('?r=student/student/create');
     }
 
     /**
@@ -33,7 +33,7 @@ class StudentsRobots
      */
     public function pageRapidAddStudents ()
     {
-        $this->tester->amOnPage('?r=student/create&simple=1');
+        $this->tester->amOnPage('?r=student/student/create&simple=1');
     }
 
     /**
