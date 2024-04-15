@@ -13,11 +13,11 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/themes/light.
 
 $cs->registerScript(
 	"vars",
-	"var loadMoreLogs = '" . $this->createUrl("site/loadMoreLogs") . "'; " .
-    "var loadMoreWarns = '" . $this->createUrl("site/loadMoreWarns") . "'; " .
-		"var loadLineChartData = '" . $this->createUrl("site/loadLineChartData") . "'; " .
-		"var loadCylinderChartData = '" . $this->createUrl("site/loadCylinderChartData") . "'; " .
-		"var loadPieChartData = '" . $this->createUrl("site/loadPieChartData") . "'; ",
+	"var loadMoreLogs = '" . $this->createUrl("site/site/loadMoreLogs") . "'; " .
+    "var loadMoreWarns = '" . $this->createUrl("site/site/loadMoreWarns") . "'; " .
+		"var loadLineChartData = '" . $this->createUrl("site/site/loadLineChartData") . "'; " .
+		"var loadCylinderChartData = '" . $this->createUrl("site/site/loadCylinderChartData") . "'; " .
+		"var loadPieChartData = '" . $this->createUrl("site/site/loadPieChartData") . "'; ",
 	CClientScript::POS_HEAD
 );
 
