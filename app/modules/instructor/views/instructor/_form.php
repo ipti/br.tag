@@ -13,7 +13,7 @@ $cs->registerScriptFile($baseUrl . '/js/instructor/form/validations.js?v='.TAG_V
 $cs->registerScriptFile($baseUrl . '/js/instructor/form/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $cs->registerScript("VARS", "
-    var GET_INSTITUTIONS = '" . $this->createUrl('instructor/getInstitutions') . "';
+    var GET_INSTITUTIONS = '" . $this->createUrl('instructor/instructor/getInstitutions') . "';
 ", CClientScript::POS_BEGIN);
 
 
@@ -683,7 +683,7 @@ $isModel = isset($modelInstructorIdentification->id);
                                             'ajax' => array(
                                                 'type' => 'POST',
                                                 'url' => CController::createUrl(
-                                                    'Instructor/getcitybycep'
+                                                    'Instructor/instructor/getcitybycep'
                                                 ),
                                                 'data' => array('cep' => 'js:this.value'),
                                                 'success' => "function(data){
@@ -1332,7 +1332,7 @@ $isModel = isset($modelInstructorIdentification->id);
                                                                         'ajax' => array(
                                                                             'type' => 'POST',
                                                                             'url' => CController::createUrl(
-                                                                                'instructor/getCourses&tdid=1'
+                                                                                'instructor/instructor/getCourses&tdid=1'
                                                                             ),
                                                                             'success' => "function(data){
                                                                             val =
@@ -1569,7 +1569,7 @@ $isModel = isset($modelInstructorIdentification->id);
                                                                         'prompt' => 'Selecione a Área de Atuação',
                                                                         'ajax' => array(
                                                                             'type' => 'POST',
-                                                                            'url' => CController::createUrl('instructor/getCourses&tdid=2'),
+                                                                            'url' => CController::createUrl('instructor/instructor/getCourses&tdid=2'),
                                                                             'success' => "function(data){
                                                                             val = $('#InstructorVariableData_high_education_course_code_2_fk').val();
                                                                             $('#InstructorVariableData_high_education_course_code_2_fk').html(data).val(val).trigger('change');
@@ -1784,7 +1784,7 @@ $isModel = isset($modelInstructorIdentification->id);
                                                                         'ajax' => array(
                                                                             'type' => 'POST',
                                                                             'url' => CController::createUrl(
-                                                                                'instructor/getCourses&tdid=3'
+                                                                                'instructor/instructor/getCourses&tdid=3'
                                                                             ),
                                                                             'success' => "function(data){
                                                                             val = $('#InstructorVariableData_high_education_course_code_3_fk').val();
