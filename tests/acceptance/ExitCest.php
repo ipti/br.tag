@@ -24,7 +24,7 @@ class ExitCest
         $teste->amOnPage('/');
         $teste->click('.t-button-tertiary');
         sleep(5);
-        $teste->canSeeInCurrentUrl('site/login');
+        $teste->canSeeInCurrentUrl('site/site/login');
     }
 
 }

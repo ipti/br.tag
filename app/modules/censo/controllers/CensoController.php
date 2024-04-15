@@ -2528,7 +2528,7 @@ class CensoController extends Controller
 
     public function actionExport()
     {
-        include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
+        Yii::import('application.libraries.Educacenso.*');
         $Educacenso = new Educacenso;
         $export = $Educacenso->exportar(date("Y"));
 
@@ -2539,7 +2539,7 @@ class CensoController extends Controller
         $result = $fm->write($fileDir, $export);
 
         if ($result) {
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
         }
@@ -2637,7 +2637,7 @@ class CensoController extends Controller
 //        $result = $fm->write($fileDir, $export);
 //
 //        if ($result) {
-//            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
+//            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
 //        } else {
 //            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
 //        }
