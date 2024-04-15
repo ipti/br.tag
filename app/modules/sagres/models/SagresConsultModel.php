@@ -378,7 +378,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'Valor inválido para o período';
                 $inconsistencyModel->action = 'Adicione um valor válido para o período da turma: ' . $classType->getDescricao();
                 $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
@@ -390,7 +390,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'Descrição para a turma menor que 3 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição mais detalhada, contendo mais de 5 caracteres';
                 $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
@@ -402,7 +402,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'Descrição para a turma com mais de 50 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição menos detalhada, contendo até 50 caracteres';
                 $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
@@ -411,10 +411,10 @@ class SagresConsultModel
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
                 $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'Valor inválido para o turno da turma';
+                $inconsistencyModel->description = 'Valor inválido para o turno da turma: <strong>' . $classType->getDescricao() . '<strong>';
                 $inconsistencyModel->action = 'Selecione um turno válido para o horário de funcionamento';
                 $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
@@ -426,7 +426,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'Valor inválido para o final turma';
                 $inconsistencyModel->action = 'Selecione um valor válido para o encerramento do período';
                 $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }            
