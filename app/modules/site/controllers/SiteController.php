@@ -27,8 +27,8 @@ class SiteController extends Controller
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => [
                 'class' => 'CCaptchaAction', 'backColor' => 0xFFFFFF,
-            ], // page action renders "static" pages stored under 'protected/views/site/pages'
-            // They can be accessed via: index.php?r=site/page&view=FileName
+            ], // page action renders "static" pages stored under 'protected/views/site/site/pages'
+            // They can be accessed via: index.php?r=site/site/page&view=FileName
             'page' => [
                 'class' => 'CViewAction',
             ],
@@ -42,10 +42,10 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-        // renders the view file 'protected/views/site/index.php'
+        // renders the view file 'protected/views/site/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
         if (Yii::app()->user->isGuest) {
-            $this->redirect(yii::app()->createUrl('site/login'));
+            $this->redirect(yii::app()->createUrl('site/site/login'));
         }
 
         //$this->redirect(yii::app()->createUrl('student'));

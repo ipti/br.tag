@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../repository/ReportsRepository.php';
+// require_once __DIR__.'/../repository/ReportsRepository.php';
 
 class ReportsController extends Controller
 {
@@ -43,7 +43,7 @@ class ReportsController extends Controller
     public function beforeAction($action)
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(yii::app()->createUrl('site/login'));
+            $this->redirect(yii::app()->createUrl('site/site/login'));
         }
 
         $this->year = Yii::app()->user->year;
@@ -505,7 +505,7 @@ class ReportsController extends Controller
 
     public function actionIndex()
     {
-        $this->layout = "fullmenu";
+        $this->layout = 'webroot.themes.default.views.layouts.fullmenu';
         $repository = new ReportsRepository;
         $data = $repository->getIndexData();
         $this->render('index', $data);
@@ -513,7 +513,7 @@ class ReportsController extends Controller
 
     public function actionElectronicDiary()
     {
-        $this->layout = "fullmenu";
+        $this->layout = 'webroot.themes.default.views.layouts.fullmenu';
         $repository = new ReportsRepository;
         $data = $repository->getElectronicDiary();
         $this->render('ElectronicDiary', $data);

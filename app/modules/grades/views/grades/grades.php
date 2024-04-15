@@ -6,12 +6,13 @@
  */
 
 $baseUrl = Yii::app()->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl.'/js/grades/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl.'/js/grades/functions.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/grades/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl.'/grades/functions.js', CClientScript::POS_END);
 
-$script = "var getGradesUrl = '".Yii::app()->createUrl('grades/getGrades')."';";
+$script = "var getGradesUrl = '".Yii::app()->createUrl('grades/grades/getGrades')."';";
 
 $cs->registerScript('variables', $script, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl.'/css/grades.css');
