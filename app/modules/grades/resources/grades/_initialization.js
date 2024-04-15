@@ -60,7 +60,7 @@ $("#save").on("click", function (e) {
 
     $.ajax({
         type: "POST",
-        url: "?r=grades/saveGrades",
+        url: "?r=grades/grades/saveGrades",
         cache: false,
         data: {
             classroom: $("#classroom").val(),
@@ -86,7 +86,7 @@ $("#close-grades-diary").on("click", function (e) {
     e.preventDefault();
     $.ajax({
         type: "POST",
-        url: "?r=grades/calculateFinalMedia",
+        url: "?r=grades/grades/calculateFinalMedia",
         cache: false,
         data: {
             classroom: $("#classroom").val(),

@@ -1,6 +1,6 @@
 <?php
 
-class SchoolModule extends CWebModule
+class GradesModule extends CWebModule
 {
     public $baseScriptUrl;
     public $baseUrl;
@@ -8,15 +8,15 @@ class SchoolModule extends CWebModule
 	{
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
-        $this->baseUrl = Yii::app()->createUrl("school");
+        $this->baseUrl = Yii::app()->createUrl("grades");
 
 
         $this->baseScriptUrl = Yii::app()->getAssetManager()
-            ->publish(Yii::getPathOfAlias('application.modules.school.resources'));
+            ->publish(Yii::getPathOfAlias('application.modules.grades.resources'));
 		// import the module-level models and components
 		$this->setImport(array(
-			'school.models.*',
-			'school.components.*',
+			'grades.models.*',
+			'grades.components.*',
 		));
 	}
 

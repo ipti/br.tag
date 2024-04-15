@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 window.location.search.includes("update") ? $('.last').css('display', 'flex') : $('.last').css('display', 'none');
 
 $('.heading-buttons').css('width', $('#content').width());
