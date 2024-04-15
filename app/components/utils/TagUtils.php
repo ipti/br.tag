@@ -2,7 +2,6 @@
 
 class TagUtils extends CApplicationComponent {
 
-
     public static function isInstructor(){
         return (bool)Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
     }

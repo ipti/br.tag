@@ -3,10 +3,12 @@
 $yii=dirname(__FILE__).'/app/vendor/autoload.php';
 
 $instance=dirname(__FILE__).'/instance.php';
+// CONFIGURA O APP
 $configtag=dirname(__FILE__).'/config.php';
+// CONFIGURA O FRAMEWORK
 $config=dirname(__FILE__).'/app/config/main.php';
-$sagres=dirname(__FILE__).'/app/modules/sagres/models/SagresConsultModel.php';
 
+$sagres=dirname(__FILE__).'/app/modules/sagres/models/SagresConsultModel.php';
 $escola_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/EscolaTType.php';
 $turma_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/TurmaTType.php';
 $serie_t=dirname(__FILE__).'/app/modules/sagres/soap/src/sagresEdu/SerieTType.php';
