@@ -190,7 +190,7 @@ class SagresConsultModel
     {
         $schoolList = [];
 
-        $query = "SELECT inep_id FROM school_identification";
+        $query = "SELECT inep_id FROM school_identification where situation = 1"; // 1: Ecolas Ativas
         $schools = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($schools as $school) {
