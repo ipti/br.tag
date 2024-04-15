@@ -101,8 +101,9 @@ return array(
         'instructor',
         'classroom',
         'grades',
+        'classfaults',
         'censo',
-        'site',
+        'site'
     ),
     // application components
     'components' => array(
