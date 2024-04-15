@@ -97,6 +97,7 @@ return array(
         'dashboard',
         'student',
         'school',
+        'admin',
         'instructor',
         'classroom'
     ),
