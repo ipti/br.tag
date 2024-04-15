@@ -1,3 +1,6 @@
+## [Versão 3.77.134]
+- Consertado tela de frequencia para os professores
+- 
 ## [Versão 3.77.133]
 - Realizado correções nas validações das datas para Professor, Estudante e Escola
 
