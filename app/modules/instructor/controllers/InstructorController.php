@@ -377,7 +377,7 @@ preenchidos";
         $dataProvider = InstructorIdentification::model()->search();
 
 
-        $this->render('instructor/index', [
+        $this->render('index', [
             'dataProvider' => $dataProvider
         ]);
     }
