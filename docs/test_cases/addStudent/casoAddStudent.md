@@ -8,7 +8,7 @@ Adicionar aluno (normal) com todos os campos obrigatórois preenchidos;
 Adicionar aluno com campos obrigatórios em branco
 
 **URL**
-https://demo.tag.ong.br/?r=student/create
+https://demo.tag.ong.br/?r=student/student/create
 
 ###Adicionar aluno (normal) com todos os campos preenchidos
 | Cenário                                                       | Casos de teste                                               | Passos de execução                                           | Cenário (BDD)                                                | Critérios de aceitação                                       | Resultados esperados                                         |
