@@ -16,14 +16,15 @@ class SchoolController extends Controller
     /**
      * @return array action filters
      */
-    public function filters()
-    {
-        return array(
-            'accessControl', // perform access control for CRUD operations
-        );
-    }
 
-    /**
+     public function filters()
+     {
+         return array(
+             'accessControl', // perform access control for CRUD operations
+         );
+     }
+
+     /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
@@ -55,9 +56,9 @@ class SchoolController extends Controller
             [
                 'allow',
                 // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => ['admin', 'manager', 'delete', 'reports', 'ReportsMonthlyTransaction', 'Record'], 
-                'users' => ['@'],   
-            ], 
+                'actions' => ['admin', 'manager', 'delete', 'reports', 'ReportsMonthlyTransaction', 'Record'],
+                'users' => ['@'],
+            ],
             array(
                 'deny',
                 // deny all users
@@ -65,7 +66,6 @@ class SchoolController extends Controller
             ),
         );
     }
-
     public function actionUpdateCityDependencies()
     {
         $school = new SchoolIdentification();
@@ -78,8 +78,6 @@ class SchoolController extends Controller
 
         echo json_encode($result);
     }
-
-    //@done s1 - Funcionalidade de atualização dos Distritos e dos Órgãos Regionáis de Educação
     public function actionUpdateUfDependencies()
     {
         $school = new SchoolIdentification();
@@ -103,7 +101,6 @@ class SchoolController extends Controller
 
         echo json_encode($result);
     }
-
     public function actionGetCities($Uf = null)
     {
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION])) {
@@ -122,7 +119,6 @@ class SchoolController extends Controller
 
         return $result;
     }
-
     public function actionGetDistricts($CITY = null)
     {
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION])) {
@@ -142,7 +138,6 @@ class SchoolController extends Controller
 
         return $result;
     }
-
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -155,7 +150,6 @@ class SchoolController extends Controller
             )
         );
     }
-
     public function actionGetManagerCities()
     {
         $uf = $_POST['edcenso_uf_fk'];
@@ -170,7 +164,6 @@ class SchoolController extends Controller
 
         echo $result;
     }
-
     /**
      * Creates a new model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -241,7 +234,6 @@ class SchoolController extends Controller
             )
         );
     }
-
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -343,8 +335,7 @@ class SchoolController extends Controller
         )
         );
     }
-
-    /**
+     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
@@ -358,7 +349,6 @@ class SchoolController extends Controller
             throw new CHttpException(404, 'A página requisitada não existe.');
         }
     }
-
     /**
      * Lists all models.
      */
@@ -376,7 +366,6 @@ class SchoolController extends Controller
             )
         );
     }
-
     /**
      * Manages all models.
      */
@@ -414,7 +403,6 @@ class SchoolController extends Controller
             return $this->loadManagerIdentification($id);
         }
     }
-
     /**
      * Summary of loadSchoolIdentification
      * @param string $id
@@ -469,7 +457,6 @@ class SchoolController extends Controller
 
         return $schoolStruct;
     }
-
     private function loadManagerIdentification($id)
     {
 
@@ -481,7 +468,6 @@ class SchoolController extends Controller
 
         return new ManagerIdentification;
     }
-
     public function actionDisplayLogo($id)
     {
         $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
@@ -517,7 +503,6 @@ class SchoolController extends Controller
             )
         );
     }
-
     public function actionReportsMonthlyTransaction($id, $type)
     {
         $this->layout = "reports";

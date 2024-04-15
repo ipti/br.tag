@@ -96,6 +96,7 @@ return array(
         'foods',
         'dashboard',
         'student',
+        'school',
         'admin',
         'instructor',
         'classroom',

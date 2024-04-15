@@ -275,7 +275,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <i></i>Anexar
                                 </button>
                                 <span class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ?
-                                                                        $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)) . '" class="deleteTeachingData" title="Excluir"></a>' : '' ?> </span>
+                                                                        $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)) . '" class="deleteTeachingData" title="Excluir"></a>' : '' ?> </span>
                                 <?php echo $form->fileField(
                                     $modelSchoolIdentification,
                                     'logo_file_content'
@@ -535,7 +535,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'class' => 'select-search-on t-field-select__input select2-container',
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('school/updateUfDependencies'),
+                                            'url' => CController::createUrl('school/school/updateUfDependencies'),
                                             'success' => "function(data){
                                         data = jQuery.parseJSON(data);
                                         valR = $('#SchoolIdentification_edcenso_regional_education_organ_fk').val();
@@ -615,7 +615,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'class' => 'select-search-on t-field-select__input select2-container',
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('school/updateCityDependencies'),
+                                            'url' => CController::createUrl('school/school/updateCityDependencies'),
                                             'success' => "function(data){
                                         data = jQuery.parseJSON(data);
                                         valD = $('#SchoolIdentification_edcenso_district_fk').val();
@@ -3463,7 +3463,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <label class="t-field-checkbox__label--required">
-                                <?php echo Yii::t('default', 'Internet Access'); ?> 
+                                <?php echo Yii::t('default', 'Internet Access'); ?>
                             </label>
                             <div class="t-field-checkbox-group internet-access-container">
                                 <div class="t-field-checkbox">
@@ -4270,7 +4270,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </a>
                             </div>
                             <div class="reports_cards">
-                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/record', array(
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/school/record', array(
                                                                                                         'id' => $modelSchoolIdentification->inep_id, 'type' => 1
                                                                                                     )); ?>">
                                     <span class="t-icon-printer"></span>
@@ -4278,7 +4278,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </a>
                             </div>
                             <div class="reports_cards">
-                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/record', array(
+                                <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/school/record', array(
                                                                                                         'id' => $modelSchoolIdentification->inep_id, 'type' => 2
                                                                                                     )); ?>">
                                     <span class="t-icon-printer"></span>

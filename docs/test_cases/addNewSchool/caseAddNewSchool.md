@@ -10,7 +10,7 @@ Adicionar nova escola com campos obrigatórios válidos e preenchidos;
  Adicionar nova escola com todos os campos preenchidos.
 
 **URL**
-https://demo.tag.ong.br/?r=school/create
+https://demo.tag.ong.br/?r=school/school/create
 
 ### Adicionar nova escola com campos obrigatórios válidos e preenchidos
 
