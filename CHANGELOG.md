@@ -1,5 +1,11 @@
-## [Versão 3.77.131]
+## [Versão 3.77.133]
 - Realizado correções nas validações das datas para Professor, Estudante e Escola
+
+## [Versão 3.78.132]
+- Adicionado campo para a assinatura do diretor 
+
+## [Versão 3.77.131]
+- Adicionado unidades de medida para o lançamento no estoque
 
 ## [Versão 3.77.130]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
@@ -9,7 +15,6 @@
 
 ## [Versão 3.76.129]
 - Correção na descrição da séries para as inconsistências sagres
-
 
 ## [Versão 3.76.128]
 - Corrigido erro que não mostrava o nome da escola e das turmas nas inconsistências sagres
