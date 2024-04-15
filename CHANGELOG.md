@@ -1,3 +1,6 @@
+## [Versão 3.76.130]
+- Escolas inativas excluídas do arquivo sagres
+
 ## [Versão 3.76.129]
 - Correção na descrição da séries para as inconsistências sagres
 ## [Versão 3.76.128]
