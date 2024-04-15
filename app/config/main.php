@@ -99,7 +99,8 @@ return array(
         'school',
         'admin',
         'instructor',
-        'classroom'
+        'classroom',
+        'classfaults'
     ),
     // application components
     'components' => array(
