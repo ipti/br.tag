@@ -359,7 +359,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 </li>
                             <?php endif; ?>
                             <li id="menu-integrations" class="t-menu-group <?=
-                                                                            strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ||
+                                                                            strpos($_SERVER['REQUEST_URI'], "?r=censo/censo/validate") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=sagres") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=sedsp")
                                                                                 ? 'active' : '' ?>"><i class="submenu-icon fa fa-chevron-right"></i><i class="submenu-icon fa fa-chevron-down"></i>
@@ -368,12 +368,12 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     <span class="t-menu-group__text">Integrações</span>
                                 </a>
                                 <ul class="collapse <?=
-                                                    strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ||
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=censo/censo/validate") ||
                                                         strpos($_SERVER['REQUEST_URI'], "?r=sagres") ||
                                                         strpos($_SERVER['REQUEST_URI'], "?r=sedsp") ? 'in' : '' ?>" id="submenu-integrations">
 
-                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">
-                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('censo/validate') ?> ">
+                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=censo/censo/validate") ? 'active' : '' ?>">
+                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('censo/censo/validate') ?> ">
                                             <span class="t-icon-educacenso t-menu-item__icon"></span>
                                             <span class="t-menu-item__text">Educacenso</span>
                                         </a>
