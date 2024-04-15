@@ -8,7 +8,7 @@ if (Yii::app()->user->isGuest) {
 
 $school_logo = $baseUrl . "/img/emblema-escola.svg";
 $url_school_logo = '/?r=school/displayLogo&id=' . Yii::app()->user->school;
-$schoolurl = yii::app()->createUrl('school');
+$schoolurl = yii::app()->createUrl('school/school');
 
 $select_school = '';
 
@@ -195,10 +195,10 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                             </a>
                         </li>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)) : ?>
-                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=school") ? 'active' : '' ?>">
+                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=school/school") ? 'active' : '' ?>">
                                 <?php
                                 if (count(Yii::app()->user->usersSchools) == 1) {
-                                    $schoolurl = yii::app()->createUrl('school/update', array('id' => yii::app()->user->school));
+                                    $schoolurl = yii::app()->createUrl('school/school/update', array('id' => yii::app()->user->school));
                                 }
                                 ?>
                                 <a class="t-menu-item__link" href="<?php echo $schoolurl ?>">

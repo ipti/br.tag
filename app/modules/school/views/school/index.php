@@ -15,7 +15,7 @@
         <div class="span12">
             <h1><?php echo Yii::t('default', 'School Identifications') ?></h1>
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('school/create') ?>" class="t-button-primary  "> Adicionar escola</a>
+                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('school/school/create') ?>" class="t-button-primary  "> Adicionar escola</a>
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
                             array(
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("school/update",array("id"=>$data->inep_id)))',
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("school/school/update",array("id"=>$data->inep_id)))',
                                 'htmlOptions' => array('class' => 'link-update-grid-view'),
                             ),
                             array(
