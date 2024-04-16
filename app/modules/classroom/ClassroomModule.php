@@ -3,6 +3,8 @@
 class ClassroomModule extends CWebModule
 {
     public $defaultController = "classroom";
+    public $baseScriptUrl;
+	public $baseUrl;
 
 	public function init()
 	{
@@ -10,6 +12,9 @@ class ClassroomModule extends CWebModule
 		// you may place code here to customize the module or the application
 
 		// import the module-level models and components
+        $this->baseUrl = Yii::app()->createUrl("classroom");
+        $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.classroom.resources'));
+
 		$this->setImport(array(
 			'classroom.models.*',
 			'classroom.components.*'
