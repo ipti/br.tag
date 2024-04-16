@@ -7,13 +7,8 @@
 
 <?php
 
-Yii::import('application.modules.courseplan.controllers', true);
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-// $baseUrl = Yii::app()->baseUrl;
-// $themeUrl = Yii::app()->theme->baseUrl;
-// $cs = Yii::app()->getClientScript();
-// $cs->registerScriptFile($baseUrl . '/js/courseplan/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
@@ -23,6 +18,8 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
 // $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
 
 
+
+
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'course-plan-form',
@@ -30,6 +27,12 @@ $form = $this->beginWidget('CActiveForm', array(
 ));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
+
+<div class="row main">
+	<div class="column">
+		<h1>Validar Plano de Aula</h1>
+	</div>
+</div>
 
 <div class="main">
     <?php // echo $form->errorSummary($coursePlan); ?>
@@ -41,7 +44,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <?php endif ?>
         <?php if (Yii::app()->user->hasFlash('error')) : ?>
             <div class="alert alert-danger">
-                <?php echo Yii::app()->user->getFlash('error') ?>
+                <?php echo Yii::app()->uSser->getFlash('error') ?>
             </div>
         <?php endif ?>
         <div class="widget border-bottom-none">
@@ -82,7 +85,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <div class="column flex is-two-fifths">
                                 <div class="t-field-text">
                                     <?php echo CHtml::label(yii::t('default', 'Name'), 'name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                    <?php echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Plano')); ?>
+                                    <?php echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Plano', 'readonly' => true)); ?>
                                 </div>
                             </div>
                         </div>
@@ -121,14 +124,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class="row">
                             <div class="column flex is-two-fifths">
                             <div class="t-field-text">
-                                <!-- <label for="courseplan_start_date" class="t-field-text__label">Data Inicial</label>
-                                <input type="text" id="courseplan_start_date" name="Data Inicial"
-                                        class="t-field-text__input js-date date js-start-date" required="required"> -->
                                 <?php echo CHtml::label(yii::t('default', 'Start Date'), 'start_date', array('class' => 'control-label t-field-select__label--required')); ?>
                                 <?php
-                                $cpController = New DefaultController();
-                                $coursePlan->start_date = $cpController->dataConverter($coursePlan->start_date, 1);
-                                echo $form->textField($coursePlan, 'start_date', array('size' => 400, 'maxlength' => 500,
+                                $coursePlan->start_date = $this->dataConverter($coursePlan->start_date, 1);
+                                echo $form->textField($coursePlan, 'start_date', array('size' => 400, 'maxlength' => 500, 'readonly' => true,
                                 'class' => 't-field-text__input js-date date js-start-date', 'id' => 'courseplan_start_date')); ?>
                             </div>
                             </div>
@@ -153,10 +152,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </table>
 
                     <div class="row">
-                        <a href="#new-course-class" id="new-course-class"
-                            class="t-button-primary">
-                            <img alt="Novo plano de aula" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/start.svg">
-                            <?= Yii::t('default', 'New'); ?>
+                        <div>
+                            <label class="t-field-tarea__label" for="observation">Observação*</label>
+                        </div>
+                        <textarea class="t-field-tarea__input validate-description" placeholder="Digite o Objetivo do Plano" name="observation"></textarea>
+                    </div>
+                    <div class="row">
+                        <a href="" id="new-course-class" class="t-button-primary">
+                            <img alt="Salvar Validação" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/activeUser.svg">
                         </a>
                     </div>
                     <div class="js-all-types no-show">
@@ -187,80 +190,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
     </div>
 </div>
-<div class="modal fade modal-content" id="js-selectAbilities" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
-                </button>
-                <h4 class="modal-title"
-                    id="myModalLabel">Adicionar Habilidades</h4>
-            </div>
-            <form method="post">
-                <input type="hidden" class="course-class-index">
-                <div class="modal-body">
-                    <div class="alert alert-error js-alert-ability-structure">Para adicionar habilidades, é preciso primeiro escolher a etapa e o componente curricular/eixo do plano.</div>
-                    <div class="js-abilities-parents">
-                    </div>
-                    <div class="js-abilities-panel">
 
-                    </div>
-                    <div class="js-abilities-selected">
-                        <label>SELECIONADAS</label>
-                    </div>
-                    <img class="loading-abilities-select"  style="display:none;margin: 0px 5px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading"></img>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default"
-                                data-dismiss="modal">Cancelar
-                        </button>
-                        <button type="button" class="btn btn-primary js-add-selected-abilities"
-                                data-dismiss="modal">Adicionar
-                        </button>
-                    </div>
-                </div>
-            </form>
-    </div>
-</div>
-
-
-<div class="modal fade modal-content" id="js-createResource" tabindex="-1" role="dialog">
-    <div modal="modal-dialog" role="document">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
-            </button>
-            <h4 class="modal-title" id="modalLabelResources">Adicionar Recurso</h4>
-        </div>
-        <div class="alert alert-error t-badge-critical alert-resource hide control-group">
-            <p>É necessário inserir um recurso no campo</p>
-        </div>
-        <form>
-            <input type="hidden" class="course-class-index row">
-            <div class="modal-body">
-                <?php echo CHtml::label(yii::t('default', 'Add Resource') , array('class' => 'control-label t-field-text__label--required')); ?>
-                <div class="row">
-                    <?php
-                        $newResource = new CourseClassResources();
-                        echo $form->textField($newResource, 'name', array('size' => 400, 'maxlength' => 500,
-                                                                        'class' => 't-field-text__input new-resource',
-                                                                        'placeholder' => 'Digite o Nome do Recurso'));
-                    ?>
-                    <button class="t-button-secondary confirm-new-resource" style="margin: 0px">Adicionar</button>
-                </div>
-                <div id="new-resources-table" class="t-accordeon-primary"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal">Cancelar
-                    </button>
-                    <button type="button" class="btn btn-primary js-add-selected-resources save-new-resources"
-                            data-dismiss="modal">Adicionar
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
 <?php $this->endWidget(); ?>
 
 <style>
@@ -268,3 +198,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     margin: 10px 0;
 }
 </style>
+
+<script>
+    const allInputs = $(":input");
+    // allInputs.attr('readonly', true);
+</script>

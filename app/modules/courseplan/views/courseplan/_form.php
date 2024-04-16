@@ -9,10 +9,6 @@
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-// $baseUrl = Yii::app()->baseUrl;
-// $themeUrl = Yii::app()->theme->baseUrl;
-// $cs = Yii::app()->getClientScript();
-// $cs->registerScriptFile($baseUrl . '/js/courseplan/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
@@ -40,7 +36,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <?php endif ?>
         <?php if (Yii::app()->user->hasFlash('error')) : ?>
             <div class="alert alert-danger">
-                <?php echo Yii::app()->user->getFlash('error') ?>
+                <?php echo Yii::app()->uSser->getFlash('error') ?>
             </div>
         <?php endif ?>
         <div class="widget border-bottom-none">
@@ -120,13 +116,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div class="row">
                             <div class="column flex is-two-fifths">
                             <div class="t-field-text">
-                                <!-- <label for="courseplan_start_date" class="t-field-text__label">Data Inicial</label>
-                                <input type="text" id="courseplan_start_date" name="Data Inicial"
-                                        class="t-field-text__input js-date date js-start-date" required="required"> -->
                                 <?php echo CHtml::label(yii::t('default', 'Start Date'), 'start_date', array('class' => 'control-label t-field-select__label--required')); ?>
                                 <?php
-                                $cpController = New CourseplanController();
-                                $coursePlan->start_date = $cpController->dataConverter($coursePlan->start_date, 1);
+                                $coursePlan->start_date = $this->dataConverter($coursePlan->start_date, 1);
                                 echo $form->textField($coursePlan, 'start_date', array('size' => 400, 'maxlength' => 500,
                                 'class' => 't-field-text__input js-date date js-start-date', 'id' => 'courseplan_start_date')); ?>
                             </div>

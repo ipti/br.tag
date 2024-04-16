@@ -40,7 +40,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
 <div id="mainPage" class="main">
     <div class="row-fluid">
         <div class="span12">
-            <h1><?php echo Yii::t('default', 'Pending Course Plan'); ?></h1>
+            <h1><?php echo Yii::t('default', 'Course Plan'); ?></h1>
             <div class="t-buttons-container">
                 <a href="<?php echo Yii::app()->createUrl('courseplan/courseplan/create') ?>"
                     class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>

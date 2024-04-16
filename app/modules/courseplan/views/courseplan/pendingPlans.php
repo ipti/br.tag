@@ -26,10 +26,6 @@ $this->menu = array(
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-// $cs->registerScriptFile($baseScriptUrl . '/_initialization.js');
-
-// $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
-// $themeUrl = Yii::app()->theme->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
@@ -41,12 +37,12 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
 <div id="mainPage" class="main">
     <div class="row-fluid">
         <div class="span12">
-            <h1><?php echo Yii::t('default', 'Course Plan') ?></h1>
+            <h1><?php echo Yii::t('default', 'Pending Course Plan') ?></h1>
             <div class="t-buttons-container">
-                <a href="<?php echo Yii::app()->createUrl('courseplan/default/create') ?>"
+                <a href="<?php echo Yii::app()->createUrl('courseplan/courseplan/create') ?>"
                     class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>
-                <a  href="<?php echo Yii::app()->createUrl('courseplan/default/pendentPlans') ?>"
-                class="t-button-primary"><?= Yii::t('default', 'Pendent Plan') ?></a>
+                <a  href="<?php echo Yii::app()->createUrl('courseplan/courseplan/index') ?>"
+                class="t-button-primary"><?= Yii::t('default', 'Course Plan') ?></a>
             </div>
         </div>
     </div>
@@ -66,23 +62,9 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                                 'header' => Yii::t('default', 'Name'),
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/default/update",array("id"=>$data->id)))',
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/courseplan/validatePlan",array("id"=>$data->id)))',
                                 'htmlOptions' => array('width' => '25%', 'class' => 'link-update-grid-view')
                             ),
-                            // array(
-                            //     'header' => Yii::t('default', 'Stage'),
-                            //     'name' => 'modality_fk',
-                            //     'type' => 'raw',
-                            //     'value' => '$data->modalityFk->name',
-                            //     'htmlOptions' => array('width' => '25%'),
-                            // ),
-                            // array(
-                            //     'header' => Yii::t('default', 'Discipline'),
-                            //     'name' => 'discipline_fk',
-                            //     'value' => '$data->disciplineFk->name',
-                            //     'htmlOptions' => array('width' => '20%'),
-                            //     'filter' => false
-                            // ),
                             array(
                                 'header' => Yii::t('default', 'Autor'),
                                 'name' => 'users_fk',
@@ -99,11 +81,18 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                             array(
                                 'header' => 'Ações',
                                 'class' => 'CButtonColumn',
-                                'template' => '{delete}',
+                                'template' => '{validate}',
                                 'buttons' => array(
-                                    'delete' => array(
-                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
-                                    )
+                                    'validate' => array(
+                                        'label' => 'Validar',
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/activeUser.svg'
+                                    ),
+                                    // 'update' => array(
+                                    //     'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                    // ),
+                                    // 'delete' => array(
+                                    //     'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    // )
                                 ),
                                 'afterDelete' => 'function(link, success, data){
                                     data = JSON.parse(data);
@@ -114,18 +103,14 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                                     }
                                     $(".courseplan-alert").show();
                                 }',
-
-                            ),
-                        ),
+                            )
+                        )
                     )); ?>
-
-
                 </div>
             </div>
         </div>
         <div class="columntwo">
         </div>
-
     </div>
 </div>
 

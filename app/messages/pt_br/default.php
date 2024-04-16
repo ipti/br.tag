@@ -753,6 +753,7 @@ return array(
     'Add Resource' => 'Novo Recurso',
     'Start Date' => 'Data Inicial',
     'Situation' => 'Situação',
+    'Save Validation' => 'Salvar Validação',
 
     //Labels
     'User' => 'Usuário',

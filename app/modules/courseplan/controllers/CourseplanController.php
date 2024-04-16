@@ -1,6 +1,6 @@
 <?php
 
-class DefaultController extends Controller
+class CourseplanController extends Controller
 {
 
     /**
@@ -31,7 +31,7 @@ class DefaultController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'index', 'delete',
                     'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure',
-                    'getAbilitiesNextStructure', 'addResources', 'getResources', 'pendingPlans'),
+                    'getAbilitiesNextStructure', 'addResources', 'getResources', 'pendingPlans', 'validatePlan'),
                 'users' => array('*'),
             ),
             array('deny', // deny all users
@@ -73,7 +73,7 @@ class DefaultController extends Controller
             $coursePlan = $this->loadModel($id);
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
 
-            $this->render('_form', array(
+            $this->render('update', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
                 'resources' => $resources,
@@ -296,7 +296,7 @@ class DefaultController extends Controller
         }
     }
 
-    public function dataConverter($data, $case)
+    public static function dataConverter($data, $case)
     {
         // Caso 0: converte dd/mm/yyyy para yyyy-mm-dd
         if($case == 0){
@@ -307,9 +307,9 @@ class DefaultController extends Controller
 
         // Caso 1: converte yyyy-mm-dd para dd/mm/yyyy
         if($case == 1){
-            $dataObj = date_create_from_format('d/m/Y');
+            $dataObj = date_create_from_format('Y-m-d', $data);
             if(!$dataObj == false)
-                return date_format($dataObj, 'Y-m-d');
+                return date_format($dataObj, 'd/m/Y');
         }
 
         return false;
@@ -379,8 +379,8 @@ class DefaultController extends Controller
     public function actionPendingPlans()
     {
         $criteria = new CDbCriteria;
-        $criteria->addInCondition('users-fk', Yii::app()->user->loginInfos->id, 'AND');
-        $criteria->addInCondition('situation', 'PENDENTE', 'AND');
+        $criteria->condition = "situation = 'PENDENTE'";
+        // $criteria->addInCondition('situation', PENDENTE, 'AND');
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
                 'criteria' => $criteria,
@@ -388,13 +388,30 @@ class DefaultController extends Controller
             ));
         } else {
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                'criteria' => $criteria,
                 'pagination' => false
             ));
         }
 
-        $this->render('index', array(
+        $this->render('pendingPlans', array(
             'dataProvider' => $dataProvider,
         ));
+    }
+
+    public function actionValidatePlan($id)
+    {
+        if (isset($_POST['CoursePlan'])) {
+            $this->actionSave($id);
+        } else {
+            $coursePlan = $this->loadModel($id);
+            $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
+
+            $this->render('formValidate', array(
+                'coursePlan' => $coursePlan,
+                'stages' => $this->getStages(),
+                'resources' => $resources,
+            ));
+        }
     }
 
     /**

@@ -256,7 +256,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
 
                         <?php if(!Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)):?>
                         <li id="menu-electronic-diary" class="t-menu-group <?=
-                                                                            strpos($_SERVER['REQUEST_URI'], "?r=courseplan/courseplan") ||
+                                                                            strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=grades/grades") ||
@@ -269,13 +269,13 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 <span class="t-menu-group__text">Diário Eletrônico</span>
                             </a>
                             <ul class="collapse <?=
-                                                    strpos($_SERVER['REQUEST_URI'], "?r=courseplan/courseplan") ||
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=grades/grades") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard") ? 'in' : '' ?>" id="submenu-electronic-diary">
 
-                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan/courseplan") ? 'active' : '' ?>">
+                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?>">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('courseplan/courseplan') ?>">
                                         <span class="t-icon-diary t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Plano de Aula</span>

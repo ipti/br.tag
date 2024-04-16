@@ -2,7 +2,7 @@ function initDatatable() {
     table = $('#course-classes').DataTable({
         ajax: {
             type: "POST",
-            url: "?r=courseplan/getCourseClasses",
+            url: "?r=courseplan/courseplan/getCourseClasses",
             data: function (data) {
                 data.coursePlanId = $(".js-course-plan-id").val();
             },
@@ -220,7 +220,7 @@ function updateSelectResources(){
     resourceSelect.html("");
     $.ajax({
         type: "GET",
-        url: "?r=courseplan/getResources",
+        url: "?r=courseplan/courseplan/getResources",
         cache: false
     }).success(function(response){
         let resources = JSON.parse(response);

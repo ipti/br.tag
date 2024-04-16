@@ -12,10 +12,13 @@
  * @property integer $users_fk
  * @property string $creation_date
  * @property string $fkid
+ * @property string $situation
+ * @property string $start_date
  *
  * The followings are the available model relations:
  * @property ClassroomHasCoursePlan[] $classroomHasCoursePlans
  * @property CourseClass[] $courseClasses
+ * @property CourseClassTypes[] $courseClassTypes
  * @property Users $usersFk
  * @property SchoolIdentification $schoolInepFk
  * @property EdcensoStageVsModality $modalityFk
@@ -39,15 +42,16 @@ class CoursePlan extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, school_inep_fk, modality_fk, discipline_fk', 'required'),
+			array('name, school_inep_fk, modality_fk, discipline_fk, situation, start_date', 'required'),
 			array('modality_fk, discipline_fk, users_fk', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>100),
 			array('school_inep_fk', 'length', 'max'=>8),
 			array('fkid', 'length', 'max'=>40),
+			array('situation', 'length', 'max'=>9),
 			array('creation_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, school_inep_fk, modality_fk, discipline_fk, users_fk, creation_date, fkid', 'safe', 'on'=>'search'),
+			array('id, name, school_inep_fk, modality_fk, discipline_fk, users_fk, creation_date, fkid, situation, start_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +65,7 @@ class CoursePlan extends CActiveRecord
 		return array(
 			'classroomHasCoursePlans' => array(self::HAS_MANY, 'ClassroomHasCoursePlan', 'course_plan_fk'),
 			'courseClasses' => array(self::HAS_MANY, 'CourseClass', 'course_plan_fk'),
+			'courseClassTypes' => array(self::HAS_MANY, 'CourseClassTypes', 'course_class_fk'),
 			'usersFk' => array(self::BELONGS_TO, 'Users', 'users_fk'),
 			'schoolInepFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'),
 			'modalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'modality_fk'),
@@ -82,6 +87,8 @@ class CoursePlan extends CActiveRecord
 			'users_fk' => 'Users Fk',
 			'creation_date' => 'Creation Date',
 			'fkid' => 'Fkid',
+			'situation' => 'Situation',
+			'start_date' => 'Start Date',
 		);
 	}
 
@@ -111,6 +118,8 @@ class CoursePlan extends CActiveRecord
 		$criteria->compare('users_fk',$this->users_fk);
 		$criteria->compare('creation_date',$this->creation_date,true);
 		$criteria->compare('fkid',$this->fkid,true);
+		$criteria->compare('situation',$this->situation,true);
+		$criteria->compare('start_date',$this->start_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
