@@ -44,7 +44,7 @@ class TimesheetController extends Controller
     public function actionIndex()
     {
         $calendarTypes = CalendarEventType::model()->findAll();
-        $this->render('index', array(
+        $this->render('application.modules.timesheet.views.timesheet.index', array(
             "calendarTypes" => $calendarTypes,
         ));
     }
@@ -91,7 +91,7 @@ class TimesheetController extends Controller
                 foreach ($curricularMatrixes as $cm) {
                     $instructorName = Yii::app()->db->createCommand("
                     select ii.name from teaching_matrixes tm
-                    join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                    join instructor_teaching_data itd on itd.id = tm.teaching_data_fk
                     join instructor_identification ii on itd.instructor_fk = ii.id
                     where itd.classroom_id_fk = :cid and tm.curricular_matrix_fk = :cmid")->bindParam(":cmid", $cm->id)->bindParam(":cid", $classroomId)->queryRow();
                     array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workloadUsed" => 0, "workloadTotal" => $cm->workload, "instructorName" => $instructorName["name"]]);
