@@ -15,9 +15,10 @@
     <?php
 
     $baseUrl = Yii::app()->baseUrl;
+    $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-    $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+    $cs->registerScriptFile($baseScriptUrl . '/js/admin/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+    $cs->registerScriptFile($baseScriptUrl . '/js/admin/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
     $form = $this->beginWidget('CActiveForm', array(
         'id' => 'users-createUser-form',
