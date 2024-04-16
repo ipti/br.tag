@@ -113,7 +113,7 @@ class Import extends CModel
         foreach ($lines as $line) {
 
             $schoolIdentificationModel = SchoolIdentification::model()->find("inep_id = :inep_id", ["inep_id" => $line[1]]);
-            if ($schoolIdentification == null) {
+            if ($schoolIdentificationModel == null) {
                 $schoolIdentificationModel = new SchoolIdentification();
             }
 
