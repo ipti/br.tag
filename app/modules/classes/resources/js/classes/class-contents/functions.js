@@ -1,4 +1,6 @@
 function createTable(data) {
+
+    
     var monthSplit = $("#month").val().split("-");
     $("#class-contents").attr("classroom", $("#classroom").val()).attr("month", monthSplit[1]).attr("year", monthSplit[0]).attr("discipline", $("#disciplines").val()).attr("fundamentalmaior", $("#classroom option:selected").attr("fundamentalmaior"));
     $('#class-contents > thead').html('<tr><th class="center">Dias</th><th style="text-align:left">Conteúdo ministrado em sala de aula</th></tr>');

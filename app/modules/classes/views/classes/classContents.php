@@ -9,8 +9,12 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classes/class-contents/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+
+
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+
+$cs->registerScriptFile($baseScriptUrl . '/js/classes/class-contents/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/classes/class-contents/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes Contents'));
 

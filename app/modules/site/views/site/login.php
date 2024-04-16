@@ -5,6 +5,7 @@
 
 $this->pageTitle = Yii::app()->name . ' - Login';
 $baseUrl = Yii::app()->theme->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/bootstrap.min.css');
@@ -12,7 +13,7 @@ $cs->registerCssFile($baseUrl . '/css/responsive.min.css');
 $cs->registerCssFile($baseUrl . '/css/template.css?v=1.0');
 $cs->registerCssFile($baseUrl . '/css/template2.css');
 $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
-$cs->registerScriptFile(Yii::app()->baseUrl . '/js/site/login.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/site/login.js?v='.TAG_VERSION, CClientScript::POS_END);
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'login-form',
     'enableClientValidation' => true,

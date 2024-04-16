@@ -4,12 +4,22 @@ class ClassesModule extends CWebModule
 {
 
     public $defaultController = "classes";
+	
+	public $baseScriptUrl;
+	// public $baseUrl;
+
 	public function init()
 	{
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
 
 		// import the module-level models and components
+
+		// $this->baseUrl = Yii::app()->createUrl("classes");
+		$this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.classes.resources'));
+	
+
+
 		$this->setImport(array(
 			'classes.models.*',
 			'classes.components.*',
@@ -29,3 +39,7 @@ class ClassesModule extends CWebModule
 			return false;
 	}
 }
+
+
+
+
