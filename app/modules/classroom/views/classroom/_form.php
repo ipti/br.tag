@@ -804,7 +804,7 @@ $form = $this->beginWidget(
                                                 </td>
                                                 <td>
                                                     <a
-                                                        href="<?= Yii::app()->createUrl('student/update', array('id' => $enrollment["studentId"])) ?>">
+                                                        href="<?= Yii::app()->createUrl('student/student/update', array('id' => $enrollment["studentId"])) ?>">
                                                         <?= $enrollment["studentName"] ?>
                                                     </a>
                                                 </td>
@@ -823,7 +823,7 @@ $form = $this->beginWidget(
                                                     </td>
                                                 <?php endif ?>
                                                 <td width="140">
-                                                    <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollment["enrollmentId"])); ?>"
+                                                    <a href="<?php echo @Yii::app()->createUrl('student/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollment["enrollmentId"])); ?>"
                                                         target="_blank"> <i class="fa fa-eye" style="color:#3F45EA; "></i>
                                                         Ficha de Matrícula
                                                     </a>

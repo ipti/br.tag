@@ -115,7 +115,7 @@ $('#discipline').change(function (e, triggerEvent) {
                             ${order}
                             </td>
                             <td class="final-media">
-                            <a class='t-link-button--info' rel='noopener' target='_blank' href='?r=forms/IndividualRecord&enrollment_id=${this.enrollmentId}'>
+                            <a class='t-link-button--info' rel='noopener' target='_blank' href='?r=student/forms/IndividualRecord&enrollment_id=${this.enrollmentId}'>
                                 <span class="t-icon-printer"></span>
                             </a>
                             </td>

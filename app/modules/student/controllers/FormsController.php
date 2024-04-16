@@ -41,7 +41,7 @@ class FormsController extends Controller {
 
     public function actionEnrollmentGradesReport($enrollment_id)
     {
-        $this->layout = "reports";
+        $this->layout = "//layouts/reports";
         $repository = new FormsRepository;
         $query = $repository->getEnrollmentGrades($enrollment_id);
         $this->render('EnrollmentGradesReport', $query);
@@ -49,7 +49,7 @@ class FormsController extends Controller {
 
     public function actionIndividualRecord($enrollment_id)
     {
-        $this->layout = "reports";
+        $this->layout = "//layouts/reports";
         $repository = new FormsRepository;
         $query = $repository->getIndividualRecord($enrollment_id);
         $this->render('IndividualRecord', $query);
@@ -57,14 +57,14 @@ class FormsController extends Controller {
 
     public function actionEnrollmentGradesReportBoquim($enrollment_id)
     {
-        $this->layout = "reports";
+        $this->layout = "//layouts/reports";
         $repository = new FormsRepository;
         $query = $repository->getEnrollmentGradesBoquim($enrollment_id);
         $this->render('EnrollmentGradesReportBoquim', $query);
     }
     public function actionEnrollmentGradesReportBoquimCiclo($enrollment_id)
     {
-        $this->layout = "reports";
+        $this->layout = "//layouts/reports";
         $repository = new FormsRepository;
         $query = $repository->getEnrollmentGradesBoquimCiclo($enrollment_id);
         $this->render('EnrollmentGradesReportBoquimCiclo', $query);
@@ -72,7 +72,7 @@ class FormsController extends Controller {
 
     public function actionEnrollmentDeclarationReport($enrollment_id)
     {
-        $this->layout = "reports";
+        $this->layout = "//layouts/reports";
         $repository = new FormsRepository;
         $query = $repository->getEnrollmentDeclaration($enrollment_id);
         $this->render('EnrollmentDeclarationReport', $query);
@@ -88,7 +88,7 @@ class FormsController extends Controller {
 
     public function actionTransferRequirement($enrollment_id)
     {
-        $this->layout = 'reports';
+        $this->layout = '//layouts/reports';
         $repository = new FormsRepository;
         $query = $repository->getTransferRequirement($enrollment_id);
         $this->render('TransferRequirement', $query);
@@ -104,7 +104,7 @@ class FormsController extends Controller {
 
     public function actionEnrollmentNotification($enrollment_id)
     {
-        $this->layout = 'reports';
+        $this->layout = '//layouts/reports';
         $repository = new FormsRepository;
         $query = $repository->getEnrollmentNotification($enrollment_id);
         $this->render('EnrollmentNotification', $query);
@@ -120,7 +120,7 @@ class FormsController extends Controller {
 
     public function actionStudentsDeclarationReport($enrollment_id)
     {
-        $this->layout = "reports";
+        $this->layout = "//layouts/reports";
         $repository = new FormsRepository;
         $query = $repository->getStudentsDeclaration($enrollment_id);
         $this->render('StudentsDeclarationReport', $query);
@@ -135,28 +135,28 @@ class FormsController extends Controller {
     }
 
     public function actionAtaSchoolPerformance($id) {
-        $this->layout = "reports";
+        $this->layout = "//layouts/reports";
         $repository = new FormsRepository;
         $query = $repository->getAtaSchoolPerformance($id);
         $this->render('AtaSchoolPerformance', $query);
     }
 
     public function actionStudentFileForm($enrollment_id) {
-        $this->layout = "reports";
+        $this->layout = "//layouts/reports";
         $repository = new FormsRepository;
         $query = $repository->getStudentFileForm($enrollment_id);
         $this->render('StudentFileForm', $query);
     }
 
     public function actionStudentsFileForm($classroom_id) {
-        $this->layout = "reports";
+        $this->layout = "//layouts/reports";
         $repository = new FormsRepository;
         $query = $repository->getStudentsFileForm($classroom_id);
         $this->render('StudentsFileForm', $query);
     }
 
     public function actionTransferForm($enrollment_id){
-        $this->layout = 'reports';
+        $this->layout = '//layouts/reports';
         $repository = new FormsRepository;
         $query = $repository->getTransferForm($enrollment_id);
         $this->render('TransferForm', $query);
@@ -170,7 +170,7 @@ class FormsController extends Controller {
     }
 
     public function actionStatementAttended($enrollment_id) {
-        $this->layout = "reports";
+        $this->layout = "//layouts/reports";
         $repository = new FormsRepository;
         $query = $repository->getStatementAttended($enrollment_id);
         $this->render('StudentStatementAttended', $query);
@@ -178,7 +178,7 @@ class FormsController extends Controller {
 
     public function actionWarningTerm($enrollment_id) {
 
-        $this->layout = "reports";
+        $this->layout = "//layouts/reports";
         $repository = new FormsRepository;
         $query = $repository->getWarningTerm($enrollment_id);
         $this->render('WarningTerm', $query);
