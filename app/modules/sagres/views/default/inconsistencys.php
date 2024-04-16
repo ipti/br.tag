@@ -43,7 +43,7 @@
                                     '3' => '?r=professional/default/update&id=' . $model->idProfessional,
                                     '4' => '?r=school/school/update&id=' . $model->idSchool,
                                     '9' => '?r=student/student/update&id=' . $model->idStudent,
-                                    '10' => '?r=classroom/update&id=' . $model->idClass
+                                    '10' => '?r=classroom/classroom/update&id=' . $model->idClass
                                 ];
 
                                 $link = $map[$model->identifier];

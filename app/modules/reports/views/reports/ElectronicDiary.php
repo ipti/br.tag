@@ -9,9 +9,10 @@
      */
 
     $baseUrl = Yii::app()->baseUrl;
+    $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerCssFile($baseUrl . '/css/reports/electronic-diary.css');
-    $cs->registerScriptFile($baseUrl . '/js/reports/ElectronicDiary/index.js?v='.TAG_VERSION, CClientScript::POS_END);
+    $cs->registerCssFile($baseScriptUrl . '/css/reports/electronic-diary.css');
+    $cs->registerScriptFile($baseScriptUrl . '/js/reports/ElectronicDiary/index.js?v='.TAG_VERSION, CClientScript::POS_END);
 
     $this->setPageTitle('TAG - Diário Eletrônico');
 

@@ -20,10 +20,10 @@
                     turma</a>
                 <div class="mobile-row">
                     <a class="t-button-secondary"
-                       href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>"
+                       href="<?php echo Yii::app()->createUrl('reports/reports/numberstudentsperclassroomreport') ?>"
                        target="_blank">Relatório Alunos/Turma</a>
                     <a class="t-button-secondary"
-                       href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>"
+                       href="<?php echo Yii::app()->createUrl('reports/reports/instructorsperclassroomreport') ?>"
                        target="_blank">Relatório Professores/Turma</a>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                         array(
                             'name' => 'name',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
+                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/classroom/update",array("id"=>$data->id)))',
                             'htmlOptions' => array('width' => '400px', 'class' => 'link-update-grid-view'),
                         )
                     );

@@ -270,7 +270,7 @@ $form = $this->beginWidget(
                                         'disabled' => $disabledFields,
                                         'ajax' => array(
                                             'type' => 'POST',
-                                            'url' => CController::createUrl('classroom/updateTime'),
+                                            'url' => CController::createUrl('classroom/classroom/updateTime'),
                                             'success' => "function(data){
                                                 				updateTime(data);
                                                 		}",

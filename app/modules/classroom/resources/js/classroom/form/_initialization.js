@@ -56,7 +56,7 @@ $('#copy-gov-id').click(function() {
 $('#js-alphabetic-order').click(function() {
     let orderArray = $('#js-t-sortable').sortable("toArray");
     $.ajax({
-        url: `?r=classroom/updateDailyOrder`,
+        url: `?r=classroom/classroom/updateDailyOrder`,
         type: "POST",
         data: {
             list: orderArray

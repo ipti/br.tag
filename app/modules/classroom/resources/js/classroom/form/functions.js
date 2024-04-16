@@ -326,7 +326,7 @@ $(document).on("change", "#Classroom_pedagogical_mediation_type", function () {
 $(document).on("change", "#Classroom_edcenso_stage_vs_modality_fk", function () {
     if ($(this).val() !== '' ) {
         $.ajax({
-            url: "?r=classroom/updateDisciplinesAndCalendars",
+            url: "?r=classroom/classroom/updateDisciplinesAndCalendars",
             type: "POST",
             data: {
                 id: $("#Classroom_edcenso_stage_vs_modality_fk").val(),

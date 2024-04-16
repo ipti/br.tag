@@ -4,7 +4,7 @@
 
 class ReportsController extends Controller
 {
-    public $layout = 'reportsclean';
+    public $layout = '//layouts/reportsclean';
     public $year = 0;
 
     public function accessRules()

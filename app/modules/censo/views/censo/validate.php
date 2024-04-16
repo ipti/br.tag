@@ -125,7 +125,7 @@
                                                     -
                                                     <?php echo current($classerror) ?>
                                             </span>
-                                            <?php echo CHtml::link('- Corrigir', array('classroom/update',
+                                            <?php echo CHtml::link('- Corrigir', array('classroom/classroom/update',
                                                 'id' => $class['info']['id'], 'censo' => 1)); ?>
                                             <?php $dataValidation['classroom' . $class['info']['id']][] = current($classerror); ?>
                                             <div class="clearfix"></div>
@@ -186,7 +186,7 @@
                                                     <?php echo str_replace("*", "", InstructorVariableData::model()->getAttributeLabel(key($vberros))) ?>
                                                     - <?php echo current($vberros) ?>
                                         </span>
-                                            <?php echo CHtml::link('- Corrigir', array('classroom/update',
+                                            <?php echo CHtml::link('- Corrigir', array('classroom/classroom/update',
                                                 'id' => $variabledata['id'], 'censo' => 1)); ?>
                                             <?php $dataValidation['classroom' . $variabledata['id']][] = current($vberros); ?>
                                             <div class="clearfix"></div>

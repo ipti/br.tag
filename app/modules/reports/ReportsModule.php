@@ -3,12 +3,16 @@
 class ReportsModule extends CWebModule
 {
     public $defaultController = "reports";
+    public $baseScriptUrl;
+	public $baseUrl;
 	public function init()
 	{
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
 
 		// import the module-level models and components
+        $this->baseUrl = Yii::app()->createUrl("reports");
+        $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.reports.resources'));
 		$this->setImport(array(
 			'reports.models.*',
 			'reports.components.*',
@@ -18,8 +22,6 @@ class ReportsModule extends CWebModule
 
 	public function beforeControllerAction($controller, $action)
 	{
-        $controller->layout = 'webroot.themes.default.views.layouts.fullmenu';
-
 		if(parent::beforeControllerAction($controller, $action))
 		{
 			// this method is called before any module controller action is performed

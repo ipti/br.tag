@@ -1664,7 +1664,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <div class="ui-accordion-content">
                                                     <div class="mobile-row">
                                                         <label class="accordion-label--title">Turma:</label>
-                                                        <a href='<?php echo Yii::app()->createUrl("classroom/update", array("id" => $me->classroomFk->id)); ?>'
+                                                        <a href='<?php echo Yii::app()->createUrl("classroom/classroom/update", array("id" => $me->classroomFk->id)); ?>'
                                                            class="t-link-button--info accordion-label">
                                                             <?php echo $me->classroomFk->name; ?>
                                                         </a>

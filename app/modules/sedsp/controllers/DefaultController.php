@@ -164,14 +164,14 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
         $existingClassroom = Classroom::model()->find('inep_id=:inep_id or gov_id=:inep_id', array(':inep_id' => $classroomNum));
 
         if ($existingClassroom) {
-            $msg = "O Cadastro da Turma " . $existingClassroom->name . " já existe! <a href='" . Yii::app()->createUrl('classroom/update&id=' . $existingClassroom->id) . "' style='color:white;'>Clique aqui para visualizar.</a>";
+            $msg = "O Cadastro da Turma " . $existingClassroom->name . " já existe! <a href='" . Yii::app()->createUrl('classroom/classroom/update&id=' . $existingClassroom->id) . "' style='color:white;'>Clique aqui para visualizar.</a>";
             Yii::app()->user->setFlash('error', Yii::t('default', $msg));
             return;
         }
 
         $modelClassroom = $createClassroom->exec(Yii::app()->user->year, $classroomNum);
         if ($modelClassroom) {
-            $msg = "O Cadastro da Turma " . $modelClassroom->name . " foi criado com sucesso! <a href='" . Yii::app()->createUrl('classroom/update&id=' . $modelClassroom->id) . "' style='color:white;'>Clique aqui para visualizar.</a>";
+            $msg = "O Cadastro da Turma " . $modelClassroom->name . " foi criado com sucesso! <a href='" . Yii::app()->createUrl('classroom/classroom/update&id=' . $modelClassroom->id) . "' style='color:white;'>Clique aqui para visualizar.</a>";
             Yii::app()->user->setFlash('success', Yii::t('default', $msg));
         }
     }
