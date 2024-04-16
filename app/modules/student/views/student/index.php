@@ -21,7 +21,7 @@
                     <a class="t-button-secondary"
                        href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1)) ?>"> <?= Yii::t('default', 'Add (Fast)') ?></a>
                     <a class="t-button-secondary"
-                       href="<?= CHtml::normalizeUrl(array('wizard/configuration/student')) ?>">Matrícula em Grupo</a>
+                       href="<?= CHtml::normalizeUrl(array('stwizard/configuration/student')) ?>">Matrícula em Grupo</a>
                 </div>
             </div>
         </div>

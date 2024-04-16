@@ -10,15 +10,16 @@
  */
 /* @var $modelStudentIdentification /app/models/StudentIdentification */
 $baseUrl = Yii::app()->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/student/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/student/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/student/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/student/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/student/form/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
 
-$cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/enrollment/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/enrollment/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/enrollment/form/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $cs->registerScript("", '
     var sedspEnable = '. Yii::app()->features->isEnable("FEAT_SEDSP") .'

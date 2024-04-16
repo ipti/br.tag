@@ -8,13 +8,14 @@
  */
 
 $baseUrl = Yii::app()->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/dialogs.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/classroom/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/classroom/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/classroom/form/dialogs.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/classroom/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/classroom/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/classroom/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $form = $this->beginWidget(
     'CActiveForm',
