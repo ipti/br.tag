@@ -37,6 +37,7 @@ class SagresConsultModel
     private $dbCommand;
 
 
+
     public function __construct()
     {
         $this->dbCommand = Yii::app()->db->createCommand();
@@ -126,6 +127,7 @@ class SagresConsultModel
                     $inconsistencyModel->insert();
                 }
 
+
                 if (empty($managementUnit['managementUnitName'])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'UNIDADE GESTORA';
@@ -135,6 +137,7 @@ class SagresConsultModel
                     $inconsistencyModel->insert();
                 }
 
+
                 if (empty($managementUnit['responsibleCpf'])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'UNIDADE GESTORA: ' . $managementUnit['managementUnitName'];
@@ -143,6 +146,7 @@ class SagresConsultModel
                     $inconsistencyModel->action = 'Por favor, informe um CPF válido para o responsável';
                     $inconsistencyModel->insert();
                 }
+
 
                 if (empty($managementUnit['managerCpf'])) {
                     $inconsistencyModel = new ValidationSagresModel();
@@ -487,7 +491,6 @@ class SagresConsultModel
                 }
 
 
-
                 if (strlen($serieType->getDescricao()) > $strMaxLength) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = SERIE_STRONG;
@@ -499,7 +502,6 @@ class SagresConsultModel
                     $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
                 }
-
                 /*
                  * 1 - Educação Infantil
                  * 2 - Ensino Fundamental
@@ -1212,6 +1214,16 @@ class SagresConsultModel
                         $inconsistencyModel->insert();
                     }
 
+                    if (!is_int($enrollmentType->getNumeroFaltas())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'MATRÍCULA';
+                        $inconsistencyModel->school = $school->name;
+                        $inconsistencyModel->description = 'O valor para o número de faltas é inválido';
+                        $inconsistencyModel->action = 'Coloque um valor válido para o número de faltas';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
                     if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
                         if (!is_bool($enrollmentType->getAprovado())) {
                             $inconsistencyModel = new ValidationSagresModel();
@@ -1386,6 +1398,7 @@ class SagresConsultModel
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
+
 
                     if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
                         if (!is_bool($enrollmentType->getAprovado())) {
