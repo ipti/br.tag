@@ -96,7 +96,16 @@ return array(
         'foods',
         'dashboard',
         'student',
-        'classroom'
+        'courseplan',
+        'school',
+        'admin',
+        'instructor',
+        'classroom',
+        'censo',
+        'reports',
+        'grades',
+        'classfaults',
+        'site'
     ),
     // application components
     'components' => array(
@@ -187,8 +196,8 @@ return array(
             'itemChildTable' => 'auth_item_child',
         ),
         'errorHandler' => array(
-            // use 'site/error' action to display errors
-            'errorAction' => 'site/error',
+            // use 'site/site/error' action to display errors
+            'errorAction' => 'site/site/error',
         ),
         'log' => $log_config
     ),

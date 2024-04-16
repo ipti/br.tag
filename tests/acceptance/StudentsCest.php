@@ -68,7 +68,7 @@ class StudentsCest
         $robots->btnCriar();
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=student/index&');
+        $teste->canSeeInCurrentUrl('?r=student/student/index&');
 
         return $dataStudent;
     }
@@ -130,7 +130,7 @@ class StudentsCest
         $robots->btnCriar();
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=student/index&');
+        $teste->canSeeInCurrentUrl('?r=student/student/index&');
 
         return $dataStudent;
     }
@@ -195,7 +195,7 @@ class StudentsCest
         sleep(2);
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=student/index&');
+        $teste->canSeeInCurrentUrl('?r=student/student/index&');
 
         return $dataStudent;
     }
@@ -259,7 +259,7 @@ class StudentsCest
         sleep(12);
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=student/index&');
+        $teste->canSeeInCurrentUrl('?r=student/student/index&');
 
         return $dataStudent;
     }
@@ -318,7 +318,7 @@ class StudentsCest
         sleep(12);
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=student/index&');
+        $teste->canSeeInCurrentUrl('?r=student/student/index&');
 
         return $dataStudent;
     }
@@ -331,7 +331,7 @@ class StudentsCest
     {
         //Data Students
         sleep(5);
-        $teste->amOnPage('?r=student/create');
+        $teste->amOnPage('?r=student/student/create');
         $robots = new StudentsRobots($teste);
         $robots->btnProximo();
         sleep(2);
@@ -485,7 +485,7 @@ class StudentsCest
         sleep(2);
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=student/index&');
+        $teste->canSeeInCurrentUrl('?r=student/student/index&');
 
         return $dataStudent;
     }
@@ -596,7 +596,7 @@ class StudentsCest
         sleep(2);
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=student/index&');
+        $teste->canSeeInCurrentUrl('?r=student/student/index&');
 
         return $dataStudent;
     }
@@ -729,7 +729,7 @@ class StudentsCest
         sleep(2);
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=student/index&');
+        $teste->canSeeInCurrentUrl('?r=student/student/index&');
 
         return $dataStudent;
     }
@@ -851,7 +851,7 @@ class StudentsCest
         sleep(2);
 
         $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
-        $teste->canSeeInCurrentUrl('?r=student/index&');
+        $teste->canSeeInCurrentUrl('?r=student/student/index&');
 
         return $dataStudent;
     }

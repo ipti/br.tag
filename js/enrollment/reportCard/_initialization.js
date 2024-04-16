@@ -2,7 +2,7 @@ $('#classroom').change(function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=grades/getDisciplines",
+            url: "?r=grades/grades/getDisciplines",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -31,7 +31,7 @@ $('#discipline').change(function (e, triggerEvent) {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
-            url: "?r=grades/getReportCardGrades",
+            url: "?r=grades/grades/getReportCardGrades",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -217,7 +217,7 @@ $("#save").on("click", function (e) {
 
     $.ajax({
         type: "POST",
-        url: "?r=grades/saveGradesReportCard",
+        url: "?r=grades/grades/saveGradesReportCard",
         cache: false,
         data: {
             classroom: $("#classroom").val(),

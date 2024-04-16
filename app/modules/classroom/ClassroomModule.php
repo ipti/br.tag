@@ -12,7 +12,7 @@ class ClassroomModule extends CWebModule
 		// import the module-level models and components
 		$this->setImport(array(
 			'classroom.models.*',
-			'classroom.components.*',
+			'classroom.components.*'
 		));
 	}
 

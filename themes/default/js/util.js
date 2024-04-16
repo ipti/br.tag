@@ -209,7 +209,7 @@ function validateNamePerson(personName, handler) {
     }
 
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentname`
+        url: `${origin}${pathname}?r=student/student/comparestudentname`
     }).success(function (response) {
         const names = $.parseJSON(response);
         var names_teste = Object.keys(names);
@@ -273,7 +273,7 @@ function existsStudentWithCPF(cpf, callback) {
     var ret = new Array();
     var passCpf = false;
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentcpf&student_cpf=${cpf}`,
+        url: `${origin}${pathname}?r=student/student/comparestudentcpf&student_cpf=${cpf}`,
     }).success(function (response) {
         $.each($.parseJSON(response), function (student_fk, id) {
             if (student_fk != '') passCpf = true
@@ -343,7 +343,7 @@ function validateCivilCertificationTermNumber(term_number, handler) {
     var ret = new Array();
     var passTerm = false;
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentcertificate&civil_certification_term_number=${term_number}`,
+        url: `${origin}${pathname}?r=student/student/comparestudentcertificate&civil_certification_term_number=${term_number}`,
     }).success(function (response) {
         $.each($.parseJSON(response), function (student_fk, id) {
             console.log(student_fk)
@@ -365,7 +365,7 @@ function validateCivilRegisterEnrollmentNumber(term_number, handler) {
     var ret = new Array();
     var passTerm = false;
     $.ajax({
-        url: `${origin}${pathname}?r=student/comparestudentcivilregisterenrollmentnumber&civil_register_enrollment_number=${term_number}`,
+        url: `${origin}${pathname}?r=student/student/comparestudentcivilregisterenrollmentnumber&civil_register_enrollment_number=${term_number}`,
     }).success(function (response) {
         $.each($.parseJSON(response), function (student_fk, id) {
             console.log(student_fk)

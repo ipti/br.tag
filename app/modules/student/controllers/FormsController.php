@@ -27,7 +27,7 @@ class FormsController extends Controller {
     public function beforeAction($action){
 
         if (Yii::app()->user->isGuest){
-            $this->redirect(yii::app()->createUrl('site/login'));
+            $this->redirect(yii::app()->createUrl('site/site/login'));
         }
 
         $this->year = Yii::app()->user->year;

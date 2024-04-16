@@ -182,11 +182,11 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             <img src='" . Yii::app()->theme->baseUrl . '/img/editar.svg' . "' alt='Editar'></img>
                             </a>&nbsp;"
                 . "<a style='cursor: pointer;' title='Excluir'
-                            id='student-delete' href='/?r=student/delete&id=" . $student->id . "'>
+                            id='student-delete' href='/?r=student/student/delete&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/deletar.svg' . "' alt='Excluir'></img>
                             </a>";
             if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
-                $sync = "<a style='cursor: pointer;display: inline-block' title='Sincronizar' id='student-sync' class='" . ($student->sedsp_sync ? "sync" : "unsync") . "' href='/?r=student/syncToSedsp&id=" . $student->id . "'>";
+                $sync = "<a style='cursor: pointer;display: inline-block' title='Sincronizar' id='student-sync' class='" . ($student->sedsp_sync ? "sync" : "unsync") . "' href='/?r=student/student/syncToSedsp&id=" . $student->id . "'>";
                 $sync .= $student->sedsp_sync
                     ? '<img src="' . Yii::app()->theme->baseUrl . '/img/SyncTrue.png" style="width: 25px;text-align: center">'
                     : '<img src="' . Yii::app()->theme->baseUrl . '/img/notSync.png" style="width: 25px;text-align: center">';
