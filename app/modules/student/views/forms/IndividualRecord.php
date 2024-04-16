@@ -44,11 +44,11 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
 <div class="pageA4V">
     <?php
     if (TagUtils::isInstance("BUZIOS")){
-        $this->renderPartial('../reports/buzios/headers/headBuziosVI');
+        $this->renderPartial('application.modules.reports.views.reports.buzios.headBuziosVI');
     }
 
     if(!TagUtils::isInstance("BUZIOS") || TagUtils::isInstance("LOCALHOST")){
-        $this->renderPartial('../reports/buzios/headers/head');
+        $this->renderPartial('application.modules.reports.views.reports.buzios.headers.head');
     }
     ?>
 
