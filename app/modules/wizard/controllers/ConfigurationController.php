@@ -10,7 +10,7 @@ class ConfigurationController extends Controller
 
     public function actionIndex()
     {
-        $this->render('index');
+        $this->render('application.modules.wizard.views.configuration.index');
     }
 
     public function actionSchool()
@@ -31,7 +31,7 @@ class ConfigurationController extends Controller
                     $this->redirect(array('index'));
             }
         }
-        $this->render('school', array('model' => $model));
+        $this->render('application.modules.wizard.views.configuration.school', array('model' => $model));
     }
 
     public function actionClassroom()
@@ -101,13 +101,13 @@ class ConfigurationController extends Controller
                 $this->redirect('?r=classroom');
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro na reutilização das Turmas.'));
-                $this->render('classrooms', array(
+                $this->render('application.modules.wizard.views.configuration.classrooms', array(
                     'title' => Yii::t('default', 'Reaproveitamento das Turmas')
                 ));
             }
             return true;
         }
-        $this->render('classrooms', array(
+        $this->render('application.modules.wizard.views.configuration.classrooms', array(
             'title' => Yii::t('default', 'Reaproveitamento das Turmas')
         ));
     }
@@ -146,9 +146,9 @@ class ConfigurationController extends Controller
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro na matrícula dos Alunos.'));
             }
-            $this->render('index');
+            $this->render('application.modules.wizard.views.configuration.index');
         } else {
-            $this->render('students', array(
+            $this->render('application.modules.wizard.views.configuration.students', array(
                 'title' => Yii::t('default', 'Student Configuration')
             ));
         }
