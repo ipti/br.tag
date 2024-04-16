@@ -3,12 +3,16 @@
 class InstructorModule extends CWebModule
 {
     public $defaultController = "instructor";
+    public $baseScriptUrl;
+	public $baseUrl;
 	public function init()
 	{
 		// this method is called when the module is being created
 		// you may place code here to customize the module or the application
 
 		// import the module-level models and components
+        $this->baseUrl = Yii::app()->createUrl("instructor");
+        $this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.instructor.resources'));
 		$this->setImport(array(
 			'instructor.models.*',
 			'instructor.components.*',
