@@ -262,6 +262,7 @@ class Import extends CModel
         $studentIdentificationModel->send_year = $this->year;
         $studentDocumentModel->school_inep_id_fk = $studentIdentificationModel->school_inep_id_fk;
         $studentDocumentModel->residence_zone = $studentDocumentModel->residence_zone == "" ? 1 : $studentDocumentModel->residence_zone;
+        $studentDocumentModel->setScenario("censoimport");
         if ($studentIdentificationModel->validate() && $studentDocumentModel->validate()) {
             if ($studentIdentificationModel->save(false)) {
                 $studentDocumentModel->student_fk = $studentIdentificationModel->inep_id;
