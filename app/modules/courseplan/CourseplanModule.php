@@ -2,6 +2,7 @@
 
 class CourseplanModule extends CWebModule
 {
+    public $defaultController = 'courseplan';
     public $baseScriptUrl;
     public $baseUrl;
 	public function init()
@@ -16,6 +17,7 @@ class CourseplanModule extends CWebModule
 		$this->setImport(array(
 			'courseplan.models.*',
 			'courseplan.components.*',
+            'courseplan.controllers.*',
 		));
 	}
 
