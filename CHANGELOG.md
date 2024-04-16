@@ -1,11 +1,11 @@
 ## [Versão 3.77.134]
 - Consertado tela de frequencia para os professores
-- 
+-
 ## [Versão 3.77.133]
 - Realizado correções nas validações das datas para Professor, Estudante e Escola
 
 ## [Versão 3.78.132]
-- Adicionado campo para a assinatura do diretor 
+- Adicionado campo para a assinatura do diretor
 
 ## [Versão 3.77.132]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
@@ -15,6 +15,8 @@
 
 ## [Versão 3.76.130]
 - Correção no conteúdo ministrado em sala de aula
+- Escolas inativas excluídas do arquivo sagres
+- Correção na descrição da séries para as inconsistências sagres
 
 ## [Versão 3.76.129]
 - Correção na descrição da séries para as inconsistências sagres
@@ -42,6 +44,9 @@
 
 ## [Versão 3.75.122]
 - Adicionada lógica, para que ao reaproveitar turmas, os alunos do ano de 2023 entrarão como matriculados.
+
+## [Versão 3.75.121]
+- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
 
 ## [Versão 3.74.121]
 - Correção no relatório de professores por escola

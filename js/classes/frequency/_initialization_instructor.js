@@ -108,7 +108,6 @@ function load() {
                             icons: null,
                         });
                     });
-
                 }
             },
             complete: function () {
