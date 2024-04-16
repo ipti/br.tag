@@ -16,7 +16,7 @@
 }
 
 .justify-content {
-    $alignments: center, start, end, space-between, end;
+    $alignments: center, start, end, space-between, end, space-around;
     @each $align in $alignments {
         &--#{$align} {
             display: flex;
