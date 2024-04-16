@@ -34,7 +34,7 @@ $cs = Yii::app()->getClientScript();
                                 'header' => Yii::t('default', 'Name'),
                                 'name' => 'name',
                                 'type' => 'raw',
-                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/update",array("id"=>$data->id)))',
+                                'value' => 'CHtml::link($data->name,Yii::app()->createUrl("courseplan/courseplan/update",array("id"=>$data->id)))',
                                 'htmlOptions' => array('width' => '25%', 'class' => 'link-update-grid-view')
                             ),
                             array(

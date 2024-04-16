@@ -105,7 +105,8 @@ return array(
         'reports',
         'grades',
         'classfaults',
-        'site'
+        'site',
+        'classes',
     ),
     // application components
     'components' => array(

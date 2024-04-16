@@ -67,7 +67,7 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=courseplan/getDisciplines",
+            url: "?r=courseplan/courseplan/getDisciplines",
             cache: false,
             data: {
                 stage: $("#CoursePlan_modality_fk").val(),
@@ -101,7 +101,7 @@ $(document).on("change", "#CoursePlan_discipline_fk", function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=courseplan/getAbilitiesInitialStructure",
+            url: "?r=courseplan/courseplan/getAbilitiesInitialStructure",
             cache: false,
             data: {
                 discipline: $("#CoursePlan_discipline_fk").val()
@@ -140,7 +140,7 @@ $(document).on("change", ".ability-structure-select", function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=courseplan/getAbilitiesNextStructure",
+            url: "?r=courseplan/courseplan/getAbilitiesNextStructure",
             cache: false,
             data: {
                 id: selectedValue

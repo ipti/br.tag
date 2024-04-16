@@ -4,7 +4,7 @@ function load() {
     var monthSplit = $("#month").val().split("-");
     jQuery.ajax({
         type: "POST",
-        url: "?r=classes/getFrequency",
+        url: "?r=classes/classes/getFrequency",
         cache: false,
         data: {
             classroom: $("#classroom").val(),
@@ -90,7 +90,7 @@ $("#classroom").on("change", function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=classes/getMonthsAndDisciplines",
+            url: "?r=classes/classes/getMonthsAndDisciplines",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -149,7 +149,7 @@ $(document).on("change", ".frequency-checkbox", function () {
     var checkbox = this;
     $.ajax({
         type: "POST",
-        url: "?r=classes/saveFrequency",
+        url: "?r=classes/classes/saveFrequency",
         cache: false,
         data: {
             classroomId: $(this).attr("classroomId"),
@@ -213,7 +213,7 @@ $("#save-justification-modal").on('shown', function () {
 $(document).on("click", ".btn-save-justification", function () {
     $.ajax({
         type: "POST",
-        url: "?r=classes/saveJustification",
+        url: "?r=classes/classes/saveJustification",
         cache: false,
         data: {
             classroomId: $("#justification-classroomid").val(),
