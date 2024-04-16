@@ -4,13 +4,14 @@ class AdminModule extends CWebModule
 {
 
     public $defaultController = "admin";
+    public $baseScriptUrl;
+	public $baseUrl;
 
 	public function init()
 	{
-		// this method is called when the module is being created
-		// you may place code here to customize the module or the application
+		$this->baseUrl = Yii::app()->createUrl("admin");
+		$this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.admin.resources'));
 
-		// import the module-level models and components
 		$this->setImport(array(
 			'admin.models.*',
 			'admin.components.*',

@@ -2,9 +2,10 @@
 /* @var $this AdminController */
 
 $baseUrl = Yii::app()->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/admin/index/dialogs.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/admin/index/global.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl . '/css/admin.css');
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
