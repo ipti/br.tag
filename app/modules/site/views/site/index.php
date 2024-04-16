@@ -1,8 +1,9 @@
 <?php
 $baseUrl = Yii::app()->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/site/index.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/site/index.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/amcharts.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/serial.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile(Yii::app()->theme->baseUrl . '/js/amcharts/pie.js?v='.TAG_VERSION, CClientScript::POS_END);

@@ -2,8 +2,9 @@
 	/* @var $this AdminController */
 
 	$baseUrl = Yii::app()->baseUrl;
+    $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 	$cs = Yii::app()->getClientScript();
-	$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js?v='.TAG_VERSION, CClientScript::POS_END);
+	$cs->registerScriptFile($baseScriptUrl . '/js/admin/index/global.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 	$this->pageTitle = 'TAG - ' . Yii::t('default', 'Conflicts');
 

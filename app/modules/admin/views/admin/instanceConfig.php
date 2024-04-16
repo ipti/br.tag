@@ -8,9 +8,10 @@
 <?php
 
 $baseUrl = Yii::app()->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/instance-config.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/admin/instance-config.js', CClientScript::POS_END);
 
 $cs->registerCssFile($baseUrl . 'sass/css/main.css');
 
