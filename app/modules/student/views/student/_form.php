@@ -1713,13 +1713,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         }
                                                         ?>
                                                         <a class="t-button-secondary" rel="noopener" target="_blank"
-                                                           href="<?php echo @Yii::app()->createUrl('forms/EnrollmentGradesReport'
+                                                           href="<?php echo @Yii::app()->createUrl('student/forms/EnrollmentGradesReport'
                                                                , array('enrollment_id' => $me->id)) ?>">
                                                             <span class="t-icon-printer"></span>
                                                             Ficha de Notas
                                                         </a>
                                                         <a class="t-button-secondary" rel="noopener" target="_blank"
-                                                           href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
+                                                           href="<?php echo @Yii::app()->createUrl('student/forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
                                                             <span class="t-icon-printer"></span>
                                                             Ficha Individual
                                                         </a>
