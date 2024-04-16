@@ -3,7 +3,7 @@ function loadClassContents() {
     var monthSplit = $("#month").val().split("-");
     $.ajax({
         type: 'POST',
-        url: "?r=classes/getClassContents",
+        url: "?r=classes/classes/getClassContents",
         cache: false,
         data: {
             classroom: $("#classroom").val(),
@@ -49,7 +49,7 @@ $("#classroom").on("change", function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=classes/getMonthsAndDisciplines",
+            url: "?r=classes/classes/getMonthsAndDisciplines",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -137,7 +137,7 @@ $("#save, #save-button-mobile").on('click', function () {
     });
     $.ajax({
         type: "POST",
-        url: "?r=classes/saveClassContents",
+        url: "?r=classes/classes/saveClassContents",
         cache: false,
         data: {
             classroom: $("#class-contents").attr("classroom"),

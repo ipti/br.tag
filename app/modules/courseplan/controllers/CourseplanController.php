@@ -129,6 +129,7 @@ class CourseplanController extends Controller
 
     public function actionGetDisciplines()
     {
+        Yii::import("application.modules.classroom.controllers.ClassroomController");
         $result = [];
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
