@@ -14,7 +14,7 @@ class StockController extends CController{
     }
 
     public function actionIndex(){
-         $items = CHtml::listData(Item::model()->findAll(), 'id', 'name');
+         $items = CHtml::listData(Item::model()->findAll(), 'id', 'concatName');
          $this->render('index', [
             "items" => $items
          ]);
