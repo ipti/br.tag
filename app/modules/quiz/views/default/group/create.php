@@ -7,6 +7,6 @@
     );
     ?>
     <?php
-        echo $this->renderPartial('//quiz/default/group/_form', array('group' => $group, 'title' => $title));
+        echo $this->renderPartial('group/_form', array('group' => $group, 'title' => $title));
     ?>
 </div>
