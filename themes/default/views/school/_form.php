@@ -247,7 +247,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array('class' => 't-field-text__label')
                                 ); ?>       
 								<?php 
-                                    $yearRange = (date('Y')-1) . ":";
 									$this->widget('zii.widgets.jui.CJuiDatePicker', array(
                                         'model' => $modelSchoolIdentification,
                                         'attribute' => 'initial_date',
@@ -255,7 +254,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             'dateFormat' => 'dd/mm/yy',
                                             'changeYear' => true,
                                             'changeMonth' => true,
-                                            'yearRange' => $yearRange . date('Y'),
+                                            'yearRange' => "1900:" . date('Y'),
                                                 'showOn' => 'focus',
                                                 'maxDate' => 0
                                         ),
