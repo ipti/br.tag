@@ -151,15 +151,24 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </tbody>
                     </table>
 
-                    <div class="row">
+                    <div class="control-group column clearleft">
                         <div>
                             <label class="t-field-tarea__label" for="observation">Observação*</label>
                         </div>
-                        <textarea class="t-field-tarea__input validate-description" placeholder="Digite o Objetivo do Plano" name="observation"></textarea>
+                        <textarea
+                            class="t-field-tarea__input validate-description"
+                            placeholder="Digite o observação do Plano"
+                            style="resize: none; height: 120px; width: 700px;"
+                            name="observation">
+                        </textarea>
+                    </div>
+                    <div class="t-field-checkbox">
+                        <input class="t-field-checkbox__input" type="checkbox" name="aproved" id="aproved_field">
+                        <label class="t-field-checkbox__label" for="aproved">Aprovação do plano</label>
                     </div>
                     <div class="row">
                         <a href="" id="new-course-class" class="t-button-primary">
-                            <img alt="Salvar Validação" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/activeUser.svg">
+                            <img alt="Salvar Aprovação" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/activeUser.svg">
                         </a>
                     </div>
                     <div class="js-all-types no-show">

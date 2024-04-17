@@ -36,7 +36,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <?php endif ?>
         <?php if (Yii::app()->user->hasFlash('error')) : ?>
             <div class="alert alert-danger">
-                <?php echo Yii::app()->uSser->getFlash('error') ?>
+                <?php echo Yii::app()->user->getFlash('error') ?>
             </div>
         <?php endif ?>
         <div class="widget border-bottom-none">
