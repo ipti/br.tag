@@ -1,4 +1,5 @@
 ## [Versão 3.77.135]
+- Correção ao pegar data de aniversário do estudante
 - Foi corrigido para incluir o intervalo de 1900 até o ano corrente
 
 ## [Versão 3.77.134]
