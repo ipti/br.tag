@@ -13,7 +13,7 @@ $('#classroom').change(function () {
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=enrollment/getDisciplines",
+            url: "?r=student/enrollment/getDisciplines",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
