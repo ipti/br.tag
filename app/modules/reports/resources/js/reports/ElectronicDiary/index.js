@@ -91,7 +91,7 @@ $("#classroom").on("change", function () {
         if ($("#classroom > option:selected").attr("fundamentalMaior") === "1") {
             $.ajax({
                 type: "POST",
-                url: "?r=reports/getDisciplines",
+                url: "?r=reports/reports/getDisciplines",
                 cache: false,
                 data: {
                     classroom: $("#classroom").val(),
@@ -117,7 +117,7 @@ $("#classroom").on("change", function () {
 
         $.ajax({
             type: "POST",
-            url: "?r=reports/getEnrollments",
+            url: "?r=reports/reports/getEnrollments",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
@@ -168,7 +168,7 @@ $(document).on("click", "#loadreport", function () {
 function loadReport() {
     $.ajax({
         type: "POST",
-        url: "?r=reports/generateElectronicDiaryReport",
+        url: "?r=reports/reports/generateElectronicDiaryReport",
         cache: false,
         data: {
             type: $("#report").val(),
@@ -239,7 +239,7 @@ function loadReport() {
                     $.each(data.rows, function () {
                         html += "<tr><td>" + this.disciplineName + "</td>";
                         $.each(this.grades, function () {
-                            
+
                             if (this.unityGrade == "") {
                                 valueUnityGrade = "";
                             } else {
@@ -251,7 +251,7 @@ function loadReport() {
                             } else {
                                 valueunityRecoverGrade = parseFloat(this.unityRecoverGrade).toFixed(1);
                             }
- 
+
 
                             html += "<td class='center'>" + valueUnityGrade + "</td>";
                             if (this.gradeUnityType === "UR") {

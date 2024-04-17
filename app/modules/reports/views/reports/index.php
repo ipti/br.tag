@@ -2,9 +2,10 @@
 /* @var $this ReportsController */
 
 $baseUrl = Yii::app()->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/reports.css');
-$cs->registerScriptFile($baseUrl . '/js/reports/index/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/js/reports/index/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Reports');
 $this->breadcrumbs = array(
