@@ -318,7 +318,6 @@ class ReportsController extends Controller
 
     public function actionStudentsBetween5And14YearsOldReport()
     {
-        $this->layout = "reportsclean";
         $repository = new ReportsRepository;
         $query = $repository->getStudentsBetween5And14YearsOldReport();
         $this->render('StudentsBetween5And14YearsOldReport', $query);
