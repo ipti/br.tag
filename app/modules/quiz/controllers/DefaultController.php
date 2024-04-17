@@ -6,17 +6,17 @@ class DefaultController extends Controller
 	public function actionIndex() {
         $this->render('index');
 	}
-	
+
 	public function actionQuiz() {
         $filter = new Quiz('search');
 		$filter->unsetAttributes();
-		
+
         if (isset($_GET['Quiz'])) {
             $filter->attributes = $_GET['Quiz'];
 		}
-		
+
         $dataProvider = new CActiveDataProvider('Quiz', array('pagination' => false));
-		
+
         $this->render('quiz/quiz', array(
             'dataProvider' => $dataProvider,
             'filter' => $filter
@@ -101,19 +101,19 @@ class DefaultController extends Controller
 	public function actionGroup() {
         $filter = new QuestionGroup('search');
 		$filter->unsetAttributes();
-		
+
         if (isset($_GET['QuestionGroup'])) {
             $filter->attributes = $_GET['QuestionGroup'];
 		}
-		
+
         $dataProvider = new CActiveDataProvider('QuestionGroup', array('pagination' => false));
-		
+
         $this->render('group/index', array(
             'dataProvider' => $dataProvider,
             'filter' => $filter
         ));
 	}
-	
+
 	public function actionCreateGroup()
 	{
 		$group = new QuestionGroup;
@@ -181,13 +181,13 @@ class DefaultController extends Controller
 		public function actionQuestionGroup() {
 			$filter = new QuestionGroupQuestion('search');
 			$filter->unsetAttributes();
-			
+
 			if (isset($_GET['QuestionGroupQuestion'])) {
 				$filter->attributes = $_GET['QuestionGroupQuestion'];
 			}
-			
+
 			$dataProvider = new CActiveDataProvider('QuestionGroupQuestion', array('pagination' => false));
-			
+
 			$this->render('questiongroup/index', array(
 				'dataProvider' => $dataProvider,
 				'filter' => $filter
@@ -197,11 +197,11 @@ class DefaultController extends Controller
 		public function actionCreateQuestionGroup()
 		{
 			$questionGroup = new QuestionGroupQuestion;
-	
+
 			if(isset($_POST['QuestionGroupQuestion'])){
 				$questionGroup->attributes = $_POST['QuestionGroupQuestion'];
 				$existsQuestionGroup = QuestionGroupQuestion::model()->findByPk(['question_group_id' => $_POST['QuestionGroupQuestion']['question_group_id'], 'question_id' => $_POST['QuestionGroupQuestion']['question_id']]);
-				
+
 				if(is_null($existsQuestionGroup)){
 					if($questionGroup->validate()){
 						if($questionGroup->save()){
@@ -220,7 +220,7 @@ class DefaultController extends Controller
 		public function actionUpdateQuestionGroup($questionId, $questionGroupId)
 		{
 			$questionGroup = QuestionGroupQuestion::model()->findByPk(['question_group_id' => $questionGroupId, 'question_id' => $questionId]);
-	
+
 			if(isset($_POST['QuestionGroupQuestion'])){
 				$questionGroup->attributes = $_POST['QuestionGroupQuestion'];
 				if($questionGroup->validate()){
@@ -238,7 +238,7 @@ class DefaultController extends Controller
 		public function actionDeleteQuestionGroup($questionId, $questionGroupId)
 		{
 			$questionGroup = QuestionGroupQuestion::model()->findByPk(['question_group_id' => $questionGroupId, 'question_id' => $questionId]);
-	
+
 			if(isset($_POST['QuestionGroupQuestion'])){
 				if($questionGroup->delete()){
 					Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo de questões excluído'));
@@ -259,13 +259,13 @@ class DefaultController extends Controller
 	public function actionQuestion() {
 		$filter = new Question('search');
 		$filter->unsetAttributes();
-		
+
 		if (isset($_GET['Question'])) {
 			$filter->attributes = $_GET['Question'];
 		}
-		
+
 		$dataProvider = new CActiveDataProvider('Question', array('pagination' => false));
-		
+
 		$this->render('question/index', array(
 			'dataProvider' => $dataProvider,
 			'filter' => $filter
@@ -464,7 +464,7 @@ class DefaultController extends Controller
 
 			if(is_null($answered)){
 				try{
-	
+
 					foreach ($data as $questionId => $response) {
 						$sql="INSERT INTO answer (quiz_id, question_id, student_id, seq, option_id, value, complement) VALUES(:quiz_id, :question_id, :student_id, :seq, :option_id, :value, :complement)";
 						$seq = 1;
