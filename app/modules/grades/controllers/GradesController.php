@@ -96,6 +96,8 @@ class GradesController extends Controller
 
     public function actionGetDisciplines()
     {
+        Yii::import("application.modules.classroom.controllers.ClassroomController");
+
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
