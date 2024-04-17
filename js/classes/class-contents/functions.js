@@ -11,6 +11,13 @@ function createTable(data) {
     let accordionBuilt = false;
     let accordionHtml = "";
     accordionHtml += `<div id='accordion' class='t-accordeon-primary'>`
+
+    $arrayFaults = [];
+
+    $.each(data.daysFaults, function (index, daysFaults) {
+        $arrayFaults.push(daysFaults);
+    });
+
     $.each(data.classContents, function (day, classContent) {
         let studentInputs = "";
         if (Object.keys(classContent.students).length) {
@@ -39,11 +46,13 @@ function createTable(data) {
         }
 
         let head = '<th class="center vmiddle contents-day ">' + ((day < 10) ? '0' : '') + day + '</th>';
+        let disabledRow = (!classContent.available || $arrayFaults.includes(day)) ? "disabled" : "";
+        
         let body = '<td class="t-multiselect">'
             + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
             + studentInputs
             + '<span class="t-icon-annotation t-icon classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>'
-            + '<select id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
+            + '<select id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + disabledRow + ' multiple="yes">'
             + options
             + '</select>'
             + '</td>';
