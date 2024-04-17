@@ -1,3 +1,6 @@
+## [Versão 3.77.135]
+- Correção ao pegar data de aniversário do estudante
+
 ## [Versão 3.77.134]
 - Consertado tela de frequencia para os professores
 -
