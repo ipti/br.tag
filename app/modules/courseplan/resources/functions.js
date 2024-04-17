@@ -100,7 +100,7 @@ function format_validate(d){
 
     let type = $('<div class="t-field-text control-group courseplan-type-container"></div>');
     let typeLabel = $('<label class="t-field-text__label" for="course-class[' + d.class + '][type][]">Tipo</label>');
-    let typeInput = $('<input type="text" class="t-field-text__input" name="course-class[' + d.class + '][type]"></input>');
+    let typeInput = $('<input readonly="readonly" type="text" class="t-field-text__input" name="course-class[' + d.class + '][type]"></input>');
     typeInput.val(d.type);
 
     let resourceButtonContainer = $('<div class="t-buttons-container control-group no-margin"></div>');

@@ -200,6 +200,42 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
 </div>
 
+<div class="modal fade modal-content" id="js-selectAbilities" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                </button>
+                <h4 class="modal-title"
+                    id="myModalLabel">Adicionar Habilidades</h4>
+            </div>
+            <form method="post">
+                <input type="hidden" class="course-class-index">
+                <div class="modal-body">
+                    <div class="alert alert-error js-alert-ability-structure">Para adicionar habilidades, é preciso primeiro escolher a etapa e o componente curricular/eixo do plano.</div>
+                    <div class="js-abilities-parents">
+                    </div>
+                    <div class="js-abilities-panel">
+
+                    </div>
+                    <div class="js-abilities-selected">
+                        <label>SELECIONADAS</label>
+                    </div>
+                    <img class="loading-abilities-select"  style="display:none;margin: 0px 5px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading"></img>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">Cancelar
+                        </button>
+                        <button type="button" class="btn btn-primary js-add-selected-abilities"
+                                data-dismiss="modal">Adicionar
+                        </button>
+                    </div>
+                </div>
+            </form>
+    </div>
+</div>
+
 <?php $this->endWidget(); ?>
 
 <style>
