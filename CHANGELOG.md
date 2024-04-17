@@ -1,3 +1,6 @@
+## [Versão 3.77.135]
+- Foi corrigido para incluir o intervalo de 1900 até o ano corrente
+
 ## [Versão 3.77.134]
 - Consertado tela de frequencia para os professores
 -
