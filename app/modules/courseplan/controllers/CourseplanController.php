@@ -217,7 +217,7 @@ class CourseplanController extends Controller
             $coursePlan->users_fk = Yii::app()->user->loginInfos->id;
             $logSituation = "C";
         }
-        $startTimestamp = $this->dataConverter($request["start_date"]);
+        $startTimestamp = $this->dataConverter($request["start_date"], 0);
         $request["start_date"] = $startTimestamp;
         $coursePlan->attributes = $request;
         $coursePlan->situation = 'PENDENTE';

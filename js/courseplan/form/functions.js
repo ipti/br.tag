@@ -2,7 +2,7 @@ function initDatatable() {
     table = $('#course-classes').DataTable({
         ajax: {
             type: "POST",
-            url: "?r=courseplan/courseplan/getCourseClasses",
+            url: "?r=courseplan/getCourseClasses",
             data: function (data) {
                 data.coursePlanId = $(".js-course-plan-id").val();
             },
@@ -132,7 +132,7 @@ function format(d) {
         $.each(d.resources, function (i, v) {
             let resourceId = v.id;
             let resourceValue = v.value;
-            let resourceName = resourceValue.find("option[value=" + v.value + "]").text();
+            let resourceName = v.description;
             let resourceAmount = v.amount;
             let div = $('<div class="row t-badge-content course-class-resource"></div>');
             let values = $('<input class="resource-id" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][id]" value="' + resourceId + '"/>'
@@ -220,7 +220,7 @@ function updateSelectResources(){
     resourceSelect.html("");
     $.ajax({
         type: "GET",
-        url: "?r=courseplan/courseplan/getResources",
+        url: "?r=courseplan/getResources",
         cache: false
     }).success(function(response){
         let resources = JSON.parse(response);

@@ -21,4 +21,4 @@ $title = $model->description
 	</div>
 </div>
 
-<?php $this->renderPartial('_form', array('coursePlan'=>$coursePlan, 'title' => $title,'stages'=>$stages)); ?>
+<?php $this->renderPartial('_form', array('coursePlan'=>$coursePlan, 'title' => $title,'stages'=>$stages,'resources' => $resources,)); ?>
