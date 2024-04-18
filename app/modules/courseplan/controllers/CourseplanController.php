@@ -380,7 +380,7 @@ class CourseplanController extends Controller
     {
         $criteria = new CDbCriteria;
         $criteria->condition = "situation = 'PENDENTE'";
-        // $criteria->addInCondition('situation', PENDENTE, 'AND');
+
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
                 'criteria' => $criteria,
@@ -401,7 +401,10 @@ class CourseplanController extends Controller
     public function actionValidatePlan($id)
     {
         if (isset($_POST['CoursePlan'])) {
+
             $this->actionSave($id);
+
+
         } else {
             $coursePlan = $this->loadModel($id);
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));

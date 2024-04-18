@@ -257,3 +257,21 @@ $("#save").on('click', function () {
         $("#course-plan-form").submit();
     }
 });
+
+$(document).on('click', '#save-approval', function(e){
+    e.preventDefault();
+    const formCoursePlan =  $('course-plan-form').serialize();
+    const approval = $('approved_field').val();
+    $.ajax({
+        type: "POST",
+        url: "?r=courseplan/courseplan/validatePlan",
+        cache: false,
+        data: {
+            coursePlan: formCoursePlan,
+            approval_field: approval
+        },
+        success: function () {
+            window.location.href = "?r=courseplan/courseplan/pendingPlans";
+        },
+    });
+})

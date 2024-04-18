@@ -754,6 +754,7 @@ return array(
     'Start Date' => 'Data Inicial',
     'Situation' => 'Situação',
     'Save Validation' => 'Salvar Validação',
+    'Plan Approval' => 'Aprovação do plano',
 
     //Labels
     'User' => 'Usuário',

@@ -163,12 +163,12 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </textarea>
                     </div>
                     <div class="t-field-checkbox">
-                        <input class="t-field-checkbox__input" type="checkbox" name="aproved" id="aproved_field">
-                        <label class="t-field-checkbox__label" for="aproved">Aprovação do plano</label>
+                        <input class="t-field-checkbox__input" type="checkbox" name="approved" id="approved_field">
+                        <label class="t-field-checkbox__label" for="approved">Aprovação do plano</label>
                     </div>
                     <div class="row">
-                        <a href="" id="new-course-class" class="t-button-primary">
-                            <img alt="Salvar Aprovação" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/activeUser.svg">
+                        <a id="save-approval" class="t-button-primary">
+                            <?= Yii::t('default', 'Plan Approval'); ?>
                         </a>
                     </div>
                     <div class="js-all-types no-show">
@@ -245,6 +245,5 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 </style>
 
 <script>
-    const allInputs = $(":input");
-    // allInputs.attr('readonly', true);
+
 </script>
