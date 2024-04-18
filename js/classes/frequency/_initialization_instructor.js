@@ -227,14 +227,14 @@ $(document).on("change", ".frequency-checkbox", function () {
         complete: function () {
             $(checkbox).parent().parent().find('.frequency-justification-icon').toggleClass('hide')
 
-            $(".loading-frequency").hide();
-            $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
-            $(".table-frequency-head").css("opacity", 1).css("pointer-events", "auto");
-            $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
-                "disabled"
-            );
-        },
-    });
+                $(".loading-frequency").hide();
+                $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
+                $(".table-frequency-head").css("opacity", 1).css("pointer-events", "auto");
+                $("#classroom, #month, #disciplines, #classesSearch").removeAttr(
+                    "disabled"
+                );
+            },
+        })
 });
 
 $(document).on("click", ".frequency-justification-icon", function () {

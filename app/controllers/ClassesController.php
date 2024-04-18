@@ -40,13 +40,15 @@ class ClassesController extends Controller
                     'index',
                     'frequency',
                     'saveFrequency',
+                    'SaveFrequencies',
                     'classContents',
                     'getClassContents',
                     'saveClassContents',
                     'getmonthsanddisciplines',
                     'getdisciplines',
                     'getfrequency',
-                    'saveJustification'
+                    'saveJustification',
+                    'saveJustifications'
                 ),
                 'users' => array('@'),
             ),
@@ -82,7 +84,6 @@ class ClassesController extends Controller
             );
 
             $classrooms = Classroom::model()->findAll($criteria);
-
         } else {
             $classrooms = Classroom::model()->findAll(
                 'school_year = :school_year and school_inep_fk = :school_inep_fk order by name',
@@ -115,7 +116,6 @@ class ClassesController extends Controller
 
         if (!$isMinorEducation) {
             $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
-
         } else {
             $schedules = $this->getSchedulesFromMinorStage($classroomId, $month, $year);
         }
@@ -183,7 +183,7 @@ class ClassesController extends Controller
                 "courseClasses" => $courseClasses,
             ]);
         } else {
-            echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($_POST["fundamentalMaior"] == "1" ? "e Disciplina": "") . " sem aula no Quadro de Horário."]);
+            echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($_POST["fundamentalMaior"] == "1" ? "e Disciplina" : "") . " sem aula no Quadro de Horário."]);
         }
     }
 
@@ -195,7 +195,7 @@ class ClassesController extends Controller
      * @param integer $disciplineId
      * @return Schedule[]
      */
-    private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
+    private function getSchedulesFromMajorStage($classroomId, $month, $disciplineId, $year)
     {
         return Schedule::model()->findAll(
             "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
@@ -244,7 +244,6 @@ class ClassesController extends Controller
         )
             ->bindParam(":classroom_fk", $classroomId)
             ->queryAll();
-
     }
 
     /**
@@ -274,7 +273,6 @@ class ClassesController extends Controller
         }
 
         return $classContents;
-
     }
 
     private function updateStudentAnottations($schedule, $students)
@@ -340,7 +338,6 @@ class ClassesController extends Controller
                 "year" => $year,
             ]
         );
-
     }
 
     /**
@@ -364,7 +361,6 @@ class ClassesController extends Controller
         foreach ($classContent["contents"] as $content) {
             $this->saveClassContents($content, $schedule);
         }
-
     }
 
     private function saveClassContents($content, $schedule)
@@ -466,6 +462,7 @@ class ClassesController extends Controller
         if ($schedules != null) {
             $scheduleDays = $this->getScheduleDays($schedules);
             $schedulePerDays = $this->getSchedulePerDays($schedules);
+
             if ($enrollments != null) {
                 $students = [];
                 $dayName = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
@@ -490,11 +487,43 @@ class ClassesController extends Controller
                     array_push($students, $array);
                 }
                 echo json_encode(["valid" => true, "students" => $students, "scheduleDays"=>$scheduleDays, "schedulePerDays"=>$schedulePerDays]);
+
             } else {
                 echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o Quadro de Frequência."]);
             }
         } else {
-            echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($_POST["fundamentalMaior"] == "1" ? "e Disciplina": "") . " sem aula no Quadro de Horário."]);
+            echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($_POST["fundamentalMaior"] == "1" ? "e Disciplina" : "") . " sem aula no Quadro de Horário."]);
+        }
+    }
+    private function gerateDate($day, $month, $year)
+    {
+        $day = ($day < 10) ? '0' . $day : $day;
+        $month = ($month < 10) ? '0' . $month : $month;
+        return $day . "/" . $month . "/" . $year;
+    }
+    private function getScheduleDays($schedules)
+    {
+        $result = [];
+        foreach ($schedules as $schedule) {
+            $day = ($schedule->day < 10) ? '0' . $schedule->day : $schedule->day;
+            $month = ($schedule->month < 10) ? '0' . $schedule->month : $schedule->month;
+            $date = $day . "/" . $month . "/" . $schedule->year;
+            $index = array_search($date, array_column($result, 'date'));
+            if ($index === false) {
+                array_push($result, [
+                    "day" => $schedule->day,
+                    "date" => $date
+                ]);
+            }
+        }
+        return $result;
+    }
+
+    public function actionSaveFrequencies()
+    {
+        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and year = :year and month = :month", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "year" => $_POST["year"]]);
+        foreach ($schedules as $schedule) {
+            $this->saveFrequency($schedule);
         }
     }
     private function gerateDate($day, $month, $year){
@@ -563,7 +592,6 @@ class ClassesController extends Controller
             } else {
                 ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             }
-
         } else {
             if ($_POST["fault"] == "1") {
                 $enrollments = StudentEnrollment::model()->findAll("classroom_fk = :classroom_fk", ["classroom_fk" => $_POST["classroomId"]]);
@@ -583,6 +611,15 @@ class ClassesController extends Controller
         }
     }
 
+    public function actionSaveJustifications()
+    {
+        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month and year = :year ", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "year" => $_POST["year"]]);
+        foreach ($schedules as $schedule) {
+            $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
+            $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
+            $classFault->save();
+        }
+    }
     public function actionSaveJustification()
     {
 
@@ -591,15 +628,12 @@ class ClassesController extends Controller
             $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
             $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
             $classFault->save();
-
-
         } else {
             $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and month = :month and year = :year ", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "year" => $_POST["year"]]);
             foreach ($schedules as $schedule) {
                 $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
                 $classFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
                 $classFault->save();
-
             }
         }
     }
@@ -635,7 +669,8 @@ class ClassesController extends Controller
                 join instructor_identification ii on ii.id = itd.instructor_fk
                 join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
-                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name")->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name"
+                    )->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
                 } else {
                     $disciplines = Yii::app()->db->createCommand("select ed.id, ed.name from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
                 }
@@ -649,8 +684,6 @@ class ClassesController extends Controller
             $result = ["valid" => false, "error" => "A Turma está sem Calendário Escolar vinculado."];
         }
         echo json_encode($result);
-
-
     }
 
     /**
