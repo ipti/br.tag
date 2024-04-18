@@ -1,3 +1,6 @@
+## [Versão 3.77.135]
+- Foram feitas modificações para garantir que os professores não possam adicionar um plano de aula para os dias em que estão marcados com falta.
+
 ## [Versão 3.77.134]
 - Consertado tela de frequencia para os professores
 - 
