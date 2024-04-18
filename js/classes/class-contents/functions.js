@@ -12,10 +12,10 @@ function createTable(data) {
     let accordionHtml = "";
     accordionHtml += `<div id='accordion' class='t-accordeon-primary'>`
 
-    $arrayFaults = [];
+    arrayFaults = [];
 
     $.each(data.daysFaults, function (index, daysFaults) {
-        $arrayFaults.push(daysFaults);
+        arrayFaults.push(parseInt(daysFaults, 10));
     });
 
     $.each(data.classContents, function (day, classContent) {
@@ -46,7 +46,7 @@ function createTable(data) {
         }
 
         let head = '<th class="center vmiddle contents-day ">' + ((day < 10) ? '0' : '') + day + '</th>';
-        let disabledRow = (!classContent.available || $arrayFaults.includes(day)) ? "disabled" : "";
+        let disabledRow = (!classContent.available || arrayFaults.includes(parseInt(day, 10))) ? "disabled" : "";
         
         let body = '<td class="t-multiselect">'
             + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
