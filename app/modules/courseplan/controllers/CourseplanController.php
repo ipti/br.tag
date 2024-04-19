@@ -400,21 +400,22 @@ class CourseplanController extends Controller
 
     public function actionValidatePlan($id)
     {
-        if (isset($_POST['CoursePlan'])) {
-
-            $this->actionSave($id);
-
-
-        } else {
-            $coursePlan = $this->loadModel($id);
-            $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
-
+        $requestApproval = Yii::app()->request->getPost("approval_field");
+        $requestObservation = Yii::app()->request->getPost("observation");
+        $coursePlan = $this->loadModel($id);
+        if(!isset($requestApproval)){
             $this->render('formValidate', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
                 'resources' => $resources,
             ));
         }
+
+        if ($requestApproval == "true") {
+            $coursePlan->situation = 'APROVADO';
+        }
+        $coursePlan->observation = $requestObservation;
+        $coursePlan->save();
     }
 
     /**

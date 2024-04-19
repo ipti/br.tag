@@ -35,7 +35,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 </div>
 
 <div class="main">
-    <?php // echo $form->errorSummary($coursePlan); ?>
+    <div id="validate-index"></div>
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
@@ -155,15 +155,24 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <div>
                             <label class="t-field-tarea__label" for="observation">Observação*</label>
                         </div>
-                        <textarea
+                        <!-- <textarea
                             class="t-field-tarea__input validate-description"
                             placeholder="Digite o observação do Plano"
                             style="resize: none; height: 120px; width: 700px;"
-                            name="observation">
-                        </textarea>
+                            name="observation"
+                            id="observation">
+                        </textarea> -->
+                        <?= $form->textArea($coursePlan, 'observation', array('rows' => 6, 'cols' => 60,
+                            'class' => 't-field-tarea__input validate-description', 'id' => 'courseplan_start_date',
+                            'placeholder' => "Digite a observação do Plano", 'style' => "height: 120px; width: 700px;")) ?>
                     </div>
                     <div class="t-field-checkbox">
-                        <input class="t-field-checkbox__input" type="checkbox" name="approved" id="approved_field">
+                        <input
+                            class="t-field-checkbox__input"
+                            type="checkbox"
+                            name="approved"
+                            id="approved_field"
+                            value="1">
                         <label class="t-field-checkbox__label" for="approved">Aprovação do plano</label>
                     </div>
                     <div class="row">

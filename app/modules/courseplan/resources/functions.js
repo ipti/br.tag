@@ -147,12 +147,12 @@ function format_validate(d){
     objective.append(objectiveLabel);
     objective.append(objectiveInput);
     ability.append(abilityLabel);
-    ability.append(abilityButton);
+    // ability.append(abilityButton);
     ability.append(abilitiesContainer);
-    resourceButtonContainer.append(resourceButton);
-    resourceInput.append(resourceValue);
-    resourceInput.append(resourceAmount);
-    resourceInput.append(resourceAdd);
+    // resourceButtonContainer.append(resourceButton);
+    // resourceInput.append(resourceValue);
+    // resourceInput.append(resourceAmount);
+    // resourceInput.append(resourceAdd);
     resource.append(resourceButtonContainer);
     resource.append(resourceLabel);
     resource.append(resourceInput);

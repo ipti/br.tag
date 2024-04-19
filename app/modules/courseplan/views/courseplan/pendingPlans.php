@@ -85,14 +85,9 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                                 'buttons' => array(
                                     'validate' => array(
                                         'label' => 'Validar',
+                                        'url' => 'Yii::app()->createUrl("courseplan/courseplan/validatePlan",array("id"=>$data->id))',
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/activeUser.svg'
                                     ),
-                                    // 'update' => array(
-                                    //     'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
-                                    // ),
-                                    // 'delete' => array(
-                                    //     'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
-                                    // )
                                 ),
                                 'afterDelete' => 'function(link, success, data){
                                     data = JSON.parse(data);

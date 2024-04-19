@@ -14,6 +14,7 @@
  * @property string $fkid
  * @property string $situation
  * @property string $start_date
+ * @property string $observation
  *
  * The followings are the available model relations:
  * @property ClassroomHasCoursePlan[] $classroomHasCoursePlans
@@ -48,10 +49,11 @@ class CoursePlan extends CActiveRecord
 			array('school_inep_fk', 'length', 'max'=>8),
 			array('fkid', 'length', 'max'=>40),
 			array('situation', 'length', 'max'=>9),
+			array('observation', 'length', 'max'=>500),
 			array('creation_date', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, school_inep_fk, modality_fk, discipline_fk, users_fk, creation_date, fkid, situation, start_date', 'safe', 'on'=>'search'),
+			array('id, name, school_inep_fk, modality_fk, discipline_fk, users_fk, creation_date, fkid, situation, start_date, observation', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -89,6 +91,7 @@ class CoursePlan extends CActiveRecord
 			'fkid' => 'Fkid',
 			'situation' => 'Situation',
 			'start_date' => 'Start Date',
+			'observation' => 'Observation',
 		);
 	}
 
@@ -120,6 +123,7 @@ class CoursePlan extends CActiveRecord
 		$criteria->compare('fkid',$this->fkid,true);
 		$criteria->compare('situation',$this->situation,true);
 		$criteria->compare('start_date',$this->start_date,true);
+		$criteria->compare('observation',$this->observation,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

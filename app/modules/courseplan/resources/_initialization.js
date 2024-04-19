@@ -14,8 +14,10 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
     var i = $(this).children('img').first();
     var row = table.row(tr);
 
+    let formatSelectionFunction = (d) => $('#validate-index').length > 0 ? format_validate(d) : format(d);
+
     if (!row.child.isShown()) {
-        row.child(format(row.data())).show();
+        row.child(formatSelectionFunction(row.data())).show();
         tr.next().find('select.type-select, select.resource-select').select2();
         tr.next().find('select.ability-select').select2({
             formatSelection: function (state) {
@@ -260,15 +262,17 @@ $("#save").on('click', function () {
 
 $(document).on('click', '#save-approval', function(e){
     e.preventDefault();
-    const formCoursePlan =  $('course-plan-form').serialize();
-    const approval = $('approved_field').val();
+    // const formCoursePlan = $('#course-plan-form').serialize();
+    const courseplanId = $('#course-plan-form')[0][0].value;
+    const observation = $('.validate-description').val();
+    const approval = $('#approved_field')[0].checked;
     $.ajax({
         type: "POST",
-        url: "?r=courseplan/courseplan/validatePlan",
+        url: "?r=courseplan/courseplan/validatePlan&id="+courseplanId,
         cache: false,
         data: {
-            coursePlan: formCoursePlan,
-            approval_field: approval
+            approval_field: approval,
+            observation: observation
         },
         success: function () {
             window.location.href = "?r=courseplan/courseplan/pendingPlans";
