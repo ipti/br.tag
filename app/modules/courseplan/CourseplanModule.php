@@ -1,39 +1,32 @@
 <?php
-
 class CourseplanModule extends CWebModule
 {
-
-	public $defaultController = "courseplan";
-
-	public $baseScriptUrl;
-	public $baseUrl;
+    public $defaultController = "courseplan";
+    public $baseScriptUrl;
+    public $baseUrl;
 
 
-	public function init()
-	{
+    public function init(){
 
-		$this->baseUrl = Yii::app()->createUrl("courseplan");
-		$this->baseScriptUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.courseplan.resources'));
-
-		$this->setImport(array(
-			'courseplan.models.*',
-			'courseplan.components.*',
-		));
-	}
+        $this->baseUrl = Yii::app()->createUrl("courseplan");
+        $assetManager = Yii::app()->getAssetManager();
+        $aliasPath = Yii::getPathOfAlias('application.modules.courseplan.resources');
+        $this->baseScriptUrl = $assetManager->publish($aliasPath);
 
 
+        $this->setImport(array(
+            'courseplan.models.*',
+            'courseplan.components.*',
+        ));
+    }
 
 
-	public function beforeControllerAction($controller, $action){
 
-		$controller->layout='webroot.themes.default.views.layouts.fullmenu';
+    public function beforeControllerAction($controller, $action){
 
-		if(parent::beforeControllerAction($controller, $action))
-		{
+        $controller->layout='webroot.themes.default.views.layouts.fullmenu';
 
-			return true;
-		}
-		else
-			return false;
-	}
+        if(parent::beforeControllerAction($controller, $action)){return true;}
+        return false;
+    }
 }
