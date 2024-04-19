@@ -1,4 +1,5 @@
 ## [Versão 3.77.135]
+- Adicionado novas inconsistências para a falta de componentes curriculasres
 - Correção ao pegar data de aniversário do estudante
 - Foi corrigido para incluir o intervalo de 1900 até o ano corrente
 
