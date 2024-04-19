@@ -270,6 +270,25 @@ $(document).on("change", ".js-has-final-recovery", function (event) {
     }
 });
 
+$(document).on("change", ".js-has-sem-recovery", function (event) {
+    const isChecked = $(this).is(":checked");
+    // const isNew = $(".final-recovery-unity-id").val() === "";
+    if (isChecked) {
+        $(".js-sem-recovery-form").show();
+        if (isNew) {
+            $(".final-recovery-unity-operation").val("create");
+        } else {
+            $(".final-recovery-unity-operation").val("update");
+        }
+    } else {
+        // debugger
+        $(".js-recovery-form").hide();
+        if (!isNew) {
+            $(".final-recovery-unity-operation").val("delete");
+        }
+    }
+});
+
 function initRuleType(ruleType) {
     if (ruleType === "C") {
         $(".numeric-fields").hide();

@@ -92,6 +92,17 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <label class="t-field-text__label--required">Média de Aprovação</span></label>
                 <input type="text" class="approval-media t-field-text__input">
             </div>
+            <div class="numeric-fileds t-field-checkbox">
+                <?php echo CHtml::checkBox(
+                    'has_sem_recovery',
+                    false,
+                    array(
+                        'class'=> 't-field-checkbox__input js-has-sem-recovery'
+                    )
+                )
+                ?>
+                <?php echo CHtml::label("Incluir recuperação semestral?", 'has_sem_recovery', array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
+            </div>
             <div class="numeric-fields t-field-checkbox">
                 <?php echo CHtml::checkbox(
                     'has_final_recovery',
@@ -117,6 +128,35 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         <div id="accordion js-grades-rules-container"
             class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion"
             style="display: none;">
+        </div>
+        <div class="column js-sem-recovery-form  is-three-fifths" style="display: none;">
+            <h2>Regras de recuperação Semestral</h2>
+            <p class="subheading">
+                Configure as regras básicas para aprovação dos alunos
+            </p>
+            <input type='hidden' class="sem-recovery-unity-id">
+            <input type='hidden' class="sem-recovery-unity-id">
+            <input type='hidden' class="sem-recovery-unity-type" value="RF">
+            <input type="hidden" class="sem-recovery-unity-operation" value="create">
+            <div class="t-field-text js-recovery-media-visibility">
+                <label class="t-field-text__label--required">Média de Rec. Semestral</span></label>
+                <input type="text" class="sem-recover-media t-field-text__input">
+            </div>
+            <div class="t-field-text" style="margin-top: 16px">
+                <label class='t-field-text__label--required'>Nome:</span></label>
+                <input type='text' class='t-field-text__input sem-recovery-unity-name'
+                    placeholder='Recuperação Semestral'>
+            </div>
+            <div class="t-field-select js-calculation">
+                <label class='t-field-select__label--required'>Forma de cálculo:</span></label>
+                <select class='t-field-select__input select-search-on final-recovery-unity-calculation'>
+                    <?php foreach ($formulas as $formula): ?>
+                        <option value="<?= $formula->id ?>">
+                            <?= $formula->name ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
         </div>
         <div class="column js-recovery-form  is-three-fifths" style="display: none;">
             <h2>Regras de recuperação final</h2>
