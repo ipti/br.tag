@@ -15,7 +15,7 @@ $title = Yii::t('default', 'Atualizar Componente: '. $model->name);
 
 <div id="mainPage" class="main">
 	<?php $this->renderPartial('_form', array(
-		'model'=>$model, 
-		'edcenso_base_disciplines' => $edcenso_base_disciplines,  
+		'model'=>$model,
+		'edcenso_base_disciplines' => $edcenso_base_disciplines,
 		'title' => $title)); ?>
 </div>
