@@ -245,8 +245,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolIdentification,
                                     'initial_date',
                                     array('class' => 't-field-text__label')
-                                ); ?>       
-								<?php 
+                                ); ?>
+								<?php
                                     $yearRange = (date('Y')-1) . ":";
 									$this->widget('zii.widgets.jui.CJuiDatePicker', array(
                                         'model' => $modelSchoolIdentification,
@@ -269,7 +269,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                                     echo CHtml::link('	Limpar', '#', array(
                                         'onclick' => '$("#' . CHtml::activeId($modelSchoolIdentification, 'initial_date') . '").datepicker("setDate", null); return false;',
-									));	
+									));
 
 									echo $form->error($modelSchoolIdentification, 'initial_date');
 								?>
@@ -3476,7 +3476,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <label class="t-field-checkbox__label--required">
-                                <?php echo Yii::t('default', 'Internet Access'); ?> 
+                                <?php echo Yii::t('default', 'Internet Access'); ?>
                             </label>
                             <div class="t-field-checkbox-group internet-access-container">
                                 <div class="t-field-checkbox">
