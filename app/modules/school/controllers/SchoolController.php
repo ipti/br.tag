@@ -85,7 +85,7 @@ class SchoolController extends Controller
         $uf = $school->edcenso_uf_fk;
 
         $result = array('City' => '', 'Regional' => '');
-        $result['City'] = $this->actionGetCities($uf);
+        $result['City'] = $this->actionGetCities();
 
         $criteria = new CDbCriteria();
         $criteria->select = 't.*';
@@ -100,13 +100,12 @@ class SchoolController extends Controller
 
         echo json_encode($result);
     }
-    public function actionGetCities($uf = null)
+    public function actionGetCities()
     {
         if (isset($_POST[$this->schoolIdentification])) {
             $school = new SchoolIdentification();
             $school->attributes = $_POST[$this->schoolIdentification];
         }
-        $uF = $uf == null ? $school->edcenso_uf_fk : $uf;
 
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => (int)$school->edcenso_uf_fk));
         $data = CHtml::listData($data, 'id', 'name');
@@ -171,38 +170,41 @@ class SchoolController extends Controller
             && isset($_POST[$this->managerIdentification]);
     }
 
-    private function setAttributesModels($modelSchoolIdentification, $modelSchoolStructure, $modelManagerIdentification)
+    private function setAttributesModels(
+        $modelSchoolIdent,
+        $modelSchoolStructure,
+        $modelManagerIdent)
     {
-        $modelSchoolIdentification->attributes = $_POST[$this->schoolIdentification];
+        $modelSchoolIdent->attributes = $_POST[$this->schoolIdentification];
         $modelSchoolStructure->attributes = $_POST[$this->schoolStructure];
-        $modelManagerIdentification->attributes = $_POST[$this->managerIdentification];
+        $modelManagerIdent->attributes = $_POST[$this->managerIdentification];
 
-        $this->managerCpf($modelManagerIdentification);
-        $modelManagerIdentification->school_inep_id_fk = $modelSchoolIdentification->inep_id;
-        $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
+        $this->managerCpf($modelManagerIdent);
+        $modelManagerIdent->school_inep_id_fk = $modelSchoolIdent->inep_id;
+        $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdent->inep_id;
     }
 
     private function loadModelsSchoolAndManager()
     {
-        $modelSchoolIdentification = new SchoolIdentification;
+        $modelSchoolIdent = new SchoolIdentification;
         $modelSchoolStructure = new SchoolStructure;
-        $modelManagerIdentification = new ManagerIdentification;
+        $modelManagerIdent = new ManagerIdentification;
 
         return [
-            'schoolIdentification' => $modelSchoolIdentification,
+            'schoolIdentification' => $modelSchoolIdent,
             'schoolStructure' => $modelSchoolStructure,
-            'managerIdentification' => $modelManagerIdentification
+            'managerIdentification' => $modelManagerIdent
         ];
     }
 
-    private function managerCpf($modelManagerIdentification)
+    private function managerCpf($modelManagerIdent)
     {
-        $modelManagerIdentification->cpf =
-            str_replace([".", "-"], "", $modelManagerIdentification->cpf);
-        $modelManagerIdentification->filiation_1_cpf =
-            str_replace([".", "-"], "", $modelManagerIdentification->filiation_1_cpf);
-        $modelManagerIdentification->filiation_2_cpf =
-            str_replace([".", "-"], "", $modelManagerIdentification->filiation_2_cpf);
+        $modelManagerIdent->cpf =
+            str_replace([".", "-"], "", $modelManagerIdent->cpf);
+        $modelManagerIdent->filiation_1_cpf =
+            str_replace([".", "-"], "", $modelManagerIdent->filiation_1_cpf);
+        $modelManagerIdent->filiation_2_cpf =
+            str_replace([".", "-"], "", $modelManagerIdent->filiation_2_cpf);
     }
 
     private function isOperationLocationSpecified($modelSchoolStructure): bool
@@ -235,15 +237,21 @@ class SchoolController extends Controller
             isset($sharedSchools[5]) ? $sharedSchools[5] : null;
     }
 
-    private function boolValidateModels($modelSchoolIdentification, $modelSchoolStructure, $modelManagerIdentification): bool
+    private function boolValidateModels(
+        $modelSchoolIdent,
+        $modelSchoolStructure,
+        $modelManagerIdent): bool
     {
         return
-            $modelSchoolIdentification->validate()
+            $modelSchoolIdent->validate()
             && $modelSchoolStructure->validate()
-            && $modelManagerIdentification->validate();
+            && $modelManagerIdent->validate();
     }
 
-    private function validateModels($modelSchoolIdentification, $modelSchoolStructure, $modelManagerIdentification)
+    private function validateModels(
+        $modelSchoolIdent,
+        $modelSchoolStructure,
+        $modelManagerIdent)
     {
         if (!$this->isOperationLocationSpecified($modelSchoolStructure)) {
             $modelSchoolStructure->addError(
@@ -252,43 +260,123 @@ class SchoolController extends Controller
             return;
         }
 
-        if ($this->saveModels($modelSchoolIdentification, $modelSchoolStructure, $modelManagerIdentification)) {
-            $this->saveSchoolStage($modelSchoolIdentification);
+        if ($this->saveModels($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent)) {
+            $this->saveSchoolStage($modelSchoolIdent);
 
-            $schoolInepId = $modelSchoolIdentification->inep_id;
-            $schoolName = $modelSchoolIdentification->name;
+            $schoolInepId = $modelSchoolIdent->inep_id;
+            $schoolName = $modelSchoolIdent->name;
             Log::model()->saveAction("school", $schoolInepId, "C", $schoolName);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Escola adicionada com sucesso!'));
             $this->redirect(array('index'));
         }
     }
 
-
-    private function saveModels($modelSchoolIdentification, $modelSchoolStructure, $modelManagerIdentification)
+    private function saveSchoolStageUpdate($modelSchoolIdent)
     {
-        return
-            $modelSchoolIdentification->save()
-            && $modelSchoolStructure->save()
-            && $modelManagerIdentification->save();
+        foreach ($_POST[$this->schoolStructure]["stages"] as $stage) {
+            $schoolStages = SchoolStages::model()->find(
+                "school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk",
+                [
+                    ":school_fk" => $modelSchoolIdent->inep_id,
+                    ":edcenso_stage_vs_modality_fk" => $stage
+                ]);
+            if ($schoolStages == null) {
+                $schoolStages = new SchoolStages();
+                $schoolStages->school_fk = $modelSchoolIdent->inep_id;
+                $schoolStages->edcenso_stage_vs_modality_fk = $stage;
+                $schoolStages->save();
+            }
+        }
     }
 
-    private function saveSchoolStage($modelSchoolIdentification)
+    private function updateSchool($modelSchoolIdent)
+    {
+        Log::model()->saveAction(
+            "school",
+            $modelSchoolIdent->inep_id,
+            "U",
+            $modelSchoolIdent->name);
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso!'));
+        $this->redirect(array('index'));
+    }
+
+    private function validateUpdateModels(
+        $modelSchoolIdent,
+        $modelSchoolStructure,
+        $modelManagerIdent)
+    {
+        if (!$this->isOperationLocationSpecified($modelSchoolStructure))
+        {
+            $modelSchoolStructure->addError(
+                'operation_location_building',
+                Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank'));
+        }
+
+        if ($this->saveModels($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent)) {
+            $criteriaStages = new CDbCriteria();
+            $criteriaStages->condition = 'school_fk = :school_fk';
+            $criteriaStages->params = array(
+                ':school_fk' => $modelSchoolIdent->inep_id,
+            );
+
+            if ($_POST[$this->schoolStructure]["stages"] != "") {
+
+                $criteriaStages->addNotInCondition
+                (
+                    'edcenso_stage_vs_modality_fk',
+                    $_POST[$this->schoolStructure]["stages"]
+                );
+                SchoolStages::model()->deleteAll($criteriaStages);
+                $this->saveSchoolStageUpdate($modelSchoolIdent);
+
+            } else {
+                SchoolStages::model()->deleteAll($criteriaStages);
+            }
+
+            $this->updateSchool($modelSchoolIdent);
+        }
+    }
+
+    private function saveModels($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent)
+    {
+        return
+            $modelSchoolIdent->save()
+            && $modelSchoolStructure->save()
+            && $modelManagerIdent->save();
+    }
+
+    private function saveSchoolStage($modelSchoolIdent)
     {
         foreach ($_POST[$this->schoolStructure]["stages"] as $stage) {
             $schoolStages = new SchoolStages();
-            $schoolStages->school_fk = $modelSchoolIdentification->inep_id;
+            $schoolStages->school_fk = $modelSchoolIdent->inep_id;
             $schoolStages->edcenso_stage_vs_modality_fk = $stage;
             $schoolStages->save();
         }
     }
 
-    private function renderCreateSchool($modelSchoolIdentification, $modelSchoolStructure, $modelManagerIdentification)
+    private function renderCreateSchool($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent)
     {
         $this->render('create', array(
-            'modelSchoolIdentification' => $modelSchoolIdentification,
+            'modelSchoolIdentification' => $modelSchoolIdent,
             'modelSchoolStructure' => $modelSchoolStructure,
-            'modelManagerIdentification' => $modelManagerIdentification
+            'modelManagerIdentification' => $modelManagerIdent
         ));
+    }
+
+    private function renderUpdateSchool(
+        $modelSchoolIdent,
+        $modelSchoolStructure,
+        $modelManagerIdent,
+        $disableFieldUBATUBA)
+    {
+        $this->render('update', array(
+            'modelSchoolIdentification' => $modelSchoolIdent,
+            'modelSchoolStructure' => $modelSchoolStructure,
+            'modelManagerIdentification' => $modelManagerIdent,
+            'disabledFields' => $disableFieldUBATUBA
+    )
+    );
     }
 
     /**
@@ -299,9 +387,9 @@ class SchoolController extends Controller
     {
         $models = $this->loadModelsSchoolAndManager();
 
-        $modelSchoolIdentification = $models['schoolIdentification'];
+        $modelSchoolIdent = $models['schoolIdentification'];
         $modelSchoolStructure = $models['schoolStructure'];
-        $modelManagerIdentification = $models['managerIdentification'];
+        $modelManagerIdent = $models['managerIdentification'];
 
         // Uncomment the following line if AJAX validation is needed
         if ($this->boolDefinedSchoolAndManager()) {
@@ -310,17 +398,17 @@ class SchoolController extends Controller
             }
 
             $this->sharedSchools($sharedSchools);
-            $this->setAttributesModels($modelSchoolIdentification, $modelSchoolStructure, $modelManagerIdentification);
+            $this->setAttributesModels($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent);
 
             /**
              * tratar upload do brasao da escola aqui no create
              */
-            if ($this->boolValidateModels($modelSchoolIdentification, $modelSchoolStructure, $modelManagerIdentification)) {
-                $this->validateModels($modelSchoolIdentification, $modelSchoolStructure, $modelManagerIdentification);
+            if ($this->boolValidateModels($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent)) {
+                $this->validateModels($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent);
             }
         }
 
-        $this->renderCreateSchool($modelSchoolIdentification, $modelSchoolStructure, $modelManagerIdentification);
+        $this->renderCreateSchool($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent);
     }
     /**
      * Updates a particular model.
@@ -329,98 +417,44 @@ class SchoolController extends Controller
      */
     public function actionUpdate($id)
     {
-        $modelSchoolIdentification = $this->loadModel($id, $this->schoolIdentification);
+        $modelSchoolIdent = $this->loadModel($id, $this->schoolIdentification);
         $modelSchoolStructure = $this->loadModel($id, $this->schoolStructure);
-        $modelManagerIdentification = $this->loadModel($id, $this->managerIdentification);
+        $modelManagerIdent = $this->loadModel($id, $this->managerIdentification);
 
-        $disableFieldWhenItsUBATUBA = Yii::app()->features->isEnable("FEAT_SEDSP");
+        $disableFieldUBATUBA = Yii::app()->features->isEnable("FEAT_SEDSP");
 
         // Uncomment the following line if AJAX validation is needed
-
         if ($this->boolDefinedSchoolAndManager()) {
 
             if (isset($_POST[$this->schoolStructure]["shared_school_inep_id_1"])) {
                 $sharedSchools = $_POST[$this->schoolStructure]["shared_school_inep_id_1"];
             }
-            $_POST[$this->schoolStructure]["shared_school_inep_id_1"] = isset($sharedSchools[0]) ? $sharedSchools[0] : null;
-            $_POST[$this->schoolStructure]["shared_school_inep_id_2"] = isset($sharedSchools[1]) ? $sharedSchools[1] : null;
-            $_POST[$this->schoolStructure]["shared_school_inep_id_3"] = isset($sharedSchools[2]) ? $sharedSchools[2] : null;
-            $_POST[$this->schoolStructure]["shared_school_inep_id_4"] = isset($sharedSchools[3]) ? $sharedSchools[3] : null;
-            $_POST[$this->schoolStructure]["shared_school_inep_id_5"] = isset($sharedSchools[4]) ? $sharedSchools[4] : null;
-            $_POST[$this->schoolStructure]["shared_school_inep_id_6"] = isset($sharedSchools[5]) ? $sharedSchools[5] : null;
+            $this->sharedSchools($sharedSchools);
 
-            $file_content_tmp = $modelSchoolIdentification->logo_file_content;
+            $fileContentTmp = $modelSchoolIdent->logo_file_content;
 
-            $modelSchoolIdentification->attributes = $_POST[$this->schoolIdentification];
-            $modelSchoolStructure->attributes = $_POST[$this->schoolStructure];
-            $modelManagerIdentification->attributes = $_POST[$this->managerIdentification];
+            $this->setAttributesModels($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent);
 
-            $modelSchoolIdentification->number_ato = $_POST[$this->schoolIdentification]["number_ato"];
+            $modelSchoolIdent->number_ato = $_POST[$this->schoolIdentification]["number_ato"];
 
-            if (!empty($_FILES['SchoolIdentification']['tmp_name']['logo_file_content'])) {
-                $file = CUploadedFile::getInstance($modelSchoolIdentification, 'logo_file_content');
-                $modelSchoolIdentification->logo_file_name = $file->name;
-                $modelSchoolIdentification->logo_file_type = $file->type;
-                $modelSchoolIdentification->logo_file_content = file_get_contents($file->tempName);
-            } else {
-                $modelSchoolIdentification->logo_file_content = $file_content_tmp;
+            $filesSchoolIdent = $_FILES['SchoolIdentification']['tmp_name']['logo_file_content'];
+            if (!empty($filesSchoolIdent)) {
+                $file = CUploadedFile::getInstance($modelSchoolIdent, 'logo_file_content');
+                $modelSchoolIdent->logo_file_name = $file->name;
+                $modelSchoolIdent->logo_file_type = $file->type;
+                $modelSchoolIdent->logo_file_content = file_get_contents($file->tempName);
             }
 
-            $modelManagerIdentification->cpf = str_replace([".", "-"], "", $modelManagerIdentification->cpf);
-            $modelManagerIdentification->filiation_1_cpf = str_replace([".", "-"], "", $modelManagerIdentification->filiation_1_cpf);
-            $modelManagerIdentification->filiation_2_cpf = str_replace([".", "-"], "", $modelManagerIdentification->filiation_2_cpf);
-            $modelManagerIdentification->school_inep_id_fk = $modelSchoolIdentification->inep_id;
+            if (empty($filesSchoolIdent)) {
+                $modelSchoolIdent->logo_file_content = $fileContentTmp;
+            }
 
-            $modelSchoolStructure->school_inep_id_fk = $modelSchoolIdentification->inep_id;
-
-            if ($modelSchoolIdentification->validate() && $modelSchoolStructure->validate() && $modelManagerIdentification->validate()) {
-                if (
-                    $modelSchoolStructure->operation_location_building || $modelSchoolStructure->operation_location_other_school_room || $modelSchoolStructure->operation_location_barracks
-                    || $modelSchoolStructure->operation_location_socioeducative_unity || $modelSchoolStructure->operation_location_prison_unity || $modelSchoolStructure->operation_location_other
-                ) {
-                    if ($modelSchoolIdentification->save() && $modelSchoolStructure->save() && $modelManagerIdentification->save()) {
-
-                        $criteriaStages = new CDbCriteria();
-                        $criteriaStages->condition = 'school_fk = :school_fk';
-                        $criteriaStages->params = array(
-                            ':school_fk' => $modelSchoolIdentification->inep_id,
-                        );
-
-                        if ($_POST[$this->schoolStructure]["stages"] != "") {
-
-                            $criteriaStages->addNotInCondition('edcenso_stage_vs_modality_fk', $_POST[$this->schoolStructure]["stages"]);
-                            SchoolStages::model()->deleteAll($criteriaStages);
-
-                            foreach ($_POST[$this->schoolStructure]["stages"] as $stage) {
-                                $schoolStages = SchoolStages::model()->find("school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk", [":school_fk" => $modelSchoolIdentification->inep_id, ":edcenso_stage_vs_modality_fk" => $stage]);
-                                if ($schoolStages == null) {
-                                    $schoolStages = new SchoolStages();
-                                    $schoolStages->school_fk = $modelSchoolIdentification->inep_id;
-                                    $schoolStages->edcenso_stage_vs_modality_fk = $stage;
-                                    $schoolStages->save();
-                                }
-                            }
-                        } else {
-                            SchoolStages::model()->deleteAll($criteriaStages);
-                        }
-
-                        Log::model()->saveAction("school", $modelSchoolIdentification->inep_id, "U", $modelSchoolIdentification->name);
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso!'));
-                        $this->redirect(array('index'));
-                    }
-                } else {
-                    $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank'));
-                }
+            if ($this->boolValidateModels($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent)) {
+                $this->validateUpdateModels($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent);
             }
         }
 
-        $this->render('update', array(
-                'modelSchoolIdentification' => $modelSchoolIdentification,
-                'modelSchoolStructure' => $modelSchoolStructure,
-                'modelManagerIdentification' => $modelManagerIdentification,
-                'disabledFields' => $disableFieldWhenItsUBATUBA
-        )
-        );
+        $this->renderUpdateSchool($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent, $disableFieldUBATUBA);
     }
      /**
      * Deletes a particular model.
@@ -429,13 +463,19 @@ class SchoolController extends Controller
      */
     public function actionDelete($id)
     {
-        if ($this->loadModel($id, $this->schoolStructure)->delete() && $this->loadModel($id, $this->schoolIdentification)->delete() && $this->loadModel($id, $this->managerIdentification)->delete()) {
+        $isDeleted = $this->loadModel($id, $this->schoolStructure)->delete()
+            && $this->loadModel($id, $this->schoolIdentification)->delete()
+            && $this->loadModel($id, $this->managerIdentification)->delete();
+
+        if ($isDeleted) {
             Yii::app()->user->setFlash('success', Yii::t('default', 'Escola excluída com sucesso!'));
             $this->redirect(array('index'));
-        } else {
-            throw new CHttpException(404, 'A página requisitada não existe.');
+            return;
         }
+
+        throw new CHttpException(404, 'A página requisitada não existe.');
     }
+
     /**
      * Lists all models.
      */
@@ -458,18 +498,18 @@ class SchoolController extends Controller
      */
     public function actionAdmin()
     {
-        $modelSchoolIdentification = new SchoolIdentification('search');
-        $modelSchoolIdentification->unsetAttributes(); // clear any default values
+        $modelSchoolIdent = new SchoolIdentification('search');
+        $modelSchoolIdent->unsetAttributes(); // clear any default values
         $modelSchoolStructure = new SchoolStructure('search');
         $modelSchoolStructure->unsetAttributes(); // clear any default values
 
         if (isset($_GET[$this->schoolIdentification]) && isset($_GET[$this->schoolStructure])) {
-            $modelSchoolIdentification->attributes = $_GET[$this->schoolIdentification];
+            $modelSchoolIdent->attributes = $_GET[$this->schoolIdentification];
             $modelSchoolStructure->attributes = $_GET[$this->schoolStructure];
         }
 
         $this->render('admin', array(
-                'modelSchoolIdentification' => $modelSchoolIdentification,
+                'modelSchoolIdentification' => $modelSchoolIdent,
                 'modelSchoolStructure' => $modelSchoolStructure,
             )
         );
@@ -600,12 +640,13 @@ class SchoolController extends Controller
             case 1:
                 $title = "ENSINO FUNDAMENTAL - ANOS INICIAIS";
                 break;
-
             case 2:
                 $title = "ENSINO FUNDAMENTAL - ANOS FINAIS";
                 break;
             case 3:
                 $title = "EDUCAÇÃO INFANTIL - PRÉ-ESCOLA";
+                break;
+            default:
                 break;
         }
 
@@ -627,9 +668,10 @@ class SchoolController extends Controller
             case 1:
                 $title = "Hitórico Ensino Regular";
                 break;
-
             case 2:
                 $title = "Histórico Ensino EJA";
+                break;
+            default:
                 break;
         }
 
