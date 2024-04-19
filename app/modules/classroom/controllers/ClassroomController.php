@@ -23,9 +23,9 @@ class ClassroomController extends Controller
      * using two-column layout. See 'protected/views/layouts/column2.php'.
      */
     public $layout = 'fullmenu';
-    public $MODEL_CLASSROOM = 'Classroom';
-    public $MODEL_TEACHING_DATA = 'InstructorTeachingData';
-    public $MODEL_STUDENT_ENROLLMENT = 'StudentEnrollment';
+    public $modelClassroom = 'Classroom';
+    public $modelTeachingData = 'InstructorTeachingData';
+    public $modelStudentEnrollment = 'StudentEnrollment';
 
     /**
      * @return array action filters
@@ -224,38 +224,45 @@ class ClassroomController extends Controller
 
     public function setDisciplines($modelClassroom, $discipline)
     {
-
         $type = $modelClassroom->assistance_type;
         $stage = $modelClassroom->edcenso_stage_vs_modality_fk;
         $putNull = ($type == 4 || $type == 5) || ($stage == 1 || $stage == 2 || $stage == 3 || $stage == 65);
 
+        $disciplines = [
+            'chemistry',
+            'physics',
+            'mathematics',
+            'biology',
+            'science',
+            'language_portuguese_literature',
+            'foreign_language_english',
+            'foreign_language_spanish',
+            'foreign_language_other',
+            'arts',
+            'physical_education',
+            'history',
+            'geography',
+            'philosophy',
+            'informatics',
+            'professional_disciplines',
+            'special_education_and_inclusive_practices',
+            'sociocultural_diversity',
+            'libras',
+            'pedagogical',
+            'religious',
+            'native_language',
+            'social_study',
+            'sociology',
+            'foreign_language_franch',
+            'others'
+        ];
 
-        $modelClassroom->discipline_chemistry = $putNull ? null : (isset($discipline[1]) ? $discipline[1] : 0);
-        $modelClassroom->discipline_physics = $putNull ? null : (isset($discipline[2]) ? $discipline[2] : 0);
-        $modelClassroom->discipline_mathematics = $putNull ? null : (isset($discipline[3]) ? $discipline[3] : 0);
-        $modelClassroom->discipline_biology = $putNull ? null : (isset($discipline[4]) ? $discipline[4] : 0);
-        $modelClassroom->discipline_science = $putNull ? null : (isset($discipline[5]) ? $discipline[5] : 0);
-        $modelClassroom->discipline_language_portuguese_literature = $putNull ? null : (isset($discipline[6]) ? $discipline[6] : 0);
-        $modelClassroom->discipline_foreign_language_english = $putNull ? null : (isset($discipline[7]) ? $discipline[7] : 0);
-        $modelClassroom->discipline_foreign_language_spanish = $putNull ? null : (isset($discipline[8]) ? $discipline[8] : 0);
-        $modelClassroom->discipline_foreign_language_other = $putNull ? null : (isset($discipline[9]) ? $discipline[9] : 0);
-        $modelClassroom->discipline_arts = $putNull ? null : (isset($discipline[10]) ? $discipline[10] : 0);
-        $modelClassroom->discipline_physical_education = $putNull ? null : (isset($discipline[11]) ? $discipline[11] : 0);
-        $modelClassroom->discipline_history = $putNull ? null : (isset($discipline[12]) ? $discipline[12] : 0);
-        $modelClassroom->discipline_geography = $putNull ? null : (isset($discipline[13]) ? $discipline[13] : 0);
-        $modelClassroom->discipline_philosophy = $putNull ? null : (isset($discipline[14]) ? $discipline[14] : 0);
-        $modelClassroom->discipline_informatics = $putNull ? null : (isset($discipline[16]) ? $discipline[16] : 0);
-        $modelClassroom->discipline_professional_disciplines = $putNull ? null : (isset($discipline[17]) ? $discipline[17] : 0);
-        $modelClassroom->discipline_special_education_and_inclusive_practices = $putNull ? null : (isset($discipline[20]) ? $discipline[20] : 0);
-        $modelClassroom->discipline_sociocultural_diversity = $putNull ? null : (isset($discipline[21]) ? $discipline[21] : 0);
-        $modelClassroom->discipline_libras = $putNull ? null : (isset($discipline[23]) ? $discipline[23] : 0);
-        $modelClassroom->discipline_pedagogical = $putNull ? null : (isset($discipline[25]) ? $discipline[25] : 0);
-        $modelClassroom->discipline_religious = $putNull ? null : (isset($discipline[26]) ? $discipline[26] : 0);
-        $modelClassroom->discipline_native_language = $putNull ? null : (isset($discipline[27]) ? $discipline[27] : 0);
-        $modelClassroom->discipline_social_study = $putNull ? null : (isset($discipline[28]) ? $discipline[28] : 0);
-        $modelClassroom->discipline_sociology = $putNull ? null : (isset($discipline[29]) ? $discipline[29] : 0);
-        $modelClassroom->discipline_foreign_language_franch = $putNull ? null : (isset($discipline[30]) ? $discipline[30] : 0);
-        $modelClassroom->discipline_others = $putNull ? null : (isset($discipline[99]) ? $discipline[99] : 0);
+        foreach ($disciplines as $key => $disciplineName) {
+            $attribute = 'discipline_' . $disciplineName;
+            $index = $key + 1;
+
+            $modelClassroom->$attribute = $putNull ? null : ($discipline[$index] ?? 0);
+        }
     }
 
     //@done s1 - criar função para pegar os labels das disciplinas separando pelo id do educacenso
@@ -389,7 +396,7 @@ class ClassroomController extends Controller
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
         //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         //@done s1 - Atualizar o teachingdata ao atualizar o classroom
-        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        $modelClassroom = $this->loadModel($id, $this->modelClassroom);
 
         if (!empty($_POST)) {
             $enrollments = $_POST;
@@ -410,7 +417,7 @@ class ClassroomController extends Controller
     public function actionBatchUpdateTotal($id)
     {
 
-        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        $modelClassroom = $this->loadModel($id, $this->modelClassroom);
 
         if (!empty($_POST)) {
             $enrollments = $_POST;
@@ -439,7 +446,7 @@ class ClassroomController extends Controller
         //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
         //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
         //@done s1 - Atualizar o teachingdata ao atualizar o classroom
-        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        $modelClassroom = $this->loadModel($id, $this->modelClassroom);
 
         if (!empty($_POST)) {
             $enrollments = $_POST;
@@ -467,7 +474,7 @@ class ClassroomController extends Controller
 
     public function actionBatchupdatEnrollment($id)
     {
-        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
+        $modelClassroom = $this->loadModel($id, $this->modelClassroom);
         if (!empty($_POST)) {
             $enrollments = $_POST;
             foreach ($enrollments as $eid => $field) {
@@ -528,55 +535,51 @@ class ClassroomController extends Controller
             $modelClassroom->sedsp_sync = 0;
             $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
 
+            if ($modelClassroom->validate() && $modelClassroom->save() && $this->verifyWeekDays($modelClassroom)) {
+                $saved = true;
+                $teachingDataValidated = true;
 
-            if ($modelClassroom->week_days_sunday || $modelClassroom->week_days_monday || $modelClassroom->week_days_tuesday || $modelClassroom->week_days_wednesday || $modelClassroom->week_days_thursday || $modelClassroom->week_days_friday || $modelClassroom->week_days_saturday) {
+                $teachingData = json_decode($_POST['teachingData']);
 
-                if ($modelClassroom->validate() && $modelClassroom->save()) {
-                    $saved = true;
-                    $teachingDataValidated = true;
+                foreach ($teachingData as $key => $td) {
+                    $modelTeachingData[$key] = new InstructorTeachingData;
+                    $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
+                    $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
+                    $modelTeachingData[$key]->instructor_fk = $td->Instructor;
+                    $modelTeachingData[$key]->role = $td->Role;
+                    $modelTeachingData[$key]->contract_type = $td->ContractType;
+                    $modelTeachingData[$key]->regent = $td->RegentTeacher;
+                    $modelTeachingData[$key]->disciplines = $td->Disciplines;
+                    $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
+                }
 
-                    $teachingData = json_decode($_POST['teachingData']);
-
-                    foreach ($teachingData as $key => $td) {
-                        $modelTeachingData[$key] = new InstructorTeachingData;
-                        $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
-                        $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
-                        $modelTeachingData[$key]->instructor_fk = $td->Instructor;
-                        $modelTeachingData[$key]->role = $td->Role;
-                        $modelTeachingData[$key]->contract_type = $td->ContractType;
-                        $modelTeachingData[$key]->regent = $td->RegentTeacher;
-                        $modelTeachingData[$key]->disciplines = $td->Disciplines;
-                        $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
-                    }
-
-                    if ($teachingDataValidated) {
-                        foreach ($modelTeachingData as $key => $td) {
-                            if ($saved) {
-                                $saved = $modelTeachingData[$key]->save();
-                                foreach ($td->disciplines as $discipline) {
-                                    $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline, "year" => Yii::app()->user->year]);
-                                    $teachingMatrixes = new TeachingMatrixes();
-                                    $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
-                                    $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
-                                    $teachingMatrixes->save();
-                                }
-                            }
-                        }
+                if ($teachingDataValidated) {
+                    foreach ($modelTeachingData as $key => $td) {
                         if ($saved) {
-
-                            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
-                                $loginUseCase = new LoginUseCase();
-                                $loginUseCase->checkSEDToken();
-
-                                $result = $modelClassroom->syncToSEDSP("create", "create");
-                            } else {
-                                $result = ["flash" => "success", "message" => "Turma adicionada com sucesso!"];
+                            $saved = $modelTeachingData[$key]->save();
+                            foreach ($td->disciplines as $discipline) {
+                                $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline, "year" => Yii::app()->user->year]);
+                                $teachingMatrixes = new TeachingMatrixes();
+                                $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
+                                $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
+                                $teachingMatrixes->save();
                             }
-
-                            Log::model()->saveAction("classroom", $modelClassroom->id, "C", $modelClassroom->name);
-                            Yii::app()->user->setFlash($result["flash"], $result["message"]);
-                            $this->redirect(array('index'));
                         }
+                    }
+                    if ($saved) {
+
+                        if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                            $loginUseCase = new LoginUseCase();
+                            $loginUseCase->checkSEDToken();
+
+                            $result = $modelClassroom->syncToSEDSP("create", "create");
+                        } else {
+                            $result = ["flash" => "success", "message" => "Turma adicionada com sucesso!"];
+                        }
+
+                        Log::model()->saveAction("classroom", $modelClassroom->id, "C", $modelClassroom->name);
+                        Yii::app()->user->setFlash($result["flash"], $result["message"]);
+                        $this->redirect(array('index'));
                     }
                 }
             } else {
@@ -595,10 +598,17 @@ class ClassroomController extends Controller
         ));
     }
 
+    private function verifyWeekDays($modelClassroom) {
+        if($modelClassroom->week_days_sunday || $modelClassroom->week_days_monday || $modelClassroom->week_days_tuesday || $modelClassroom->week_days_wednesday || $modelClassroom->week_days_thursday || $modelClassroom->week_days_friday || $modelClassroom->week_days_saturday) {
+            return true;
+        }
+        return false;
+    }
+
     public function actionUpdate($id)
     {
-        $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
-        $modelTeachingData = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+        $modelClassroom = $this->loadModel($id, $this->modelClassroom);
+        $modelTeachingData = $this->loadModel($id, $this->modelTeachingData);
         $studentsEnrollments = $modelClassroom->studentEnrollments;
         $modelEnrollments = [];
         foreach ($studentsEnrollments as $studentEnrollment) {
@@ -808,8 +818,8 @@ class ClassroomController extends Controller
     //@done s1 - excluir Matriculas, TeachingData e Turma
     public function actionDelete($id)
     {
-        $classroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
-        $teachingDatas = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
+        $classroom = $this->loadModel($id, $this->modelClassroom);
+        $teachingDatas = $this->loadModel($id, $this->modelTeachingData);
 
         $ableToDelete = true;
         if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
@@ -915,7 +925,7 @@ class ClassroomController extends Controller
     {
         $return = null;
 
-        if ($model == $this->MODEL_CLASSROOM) {
+        if ($model == $this->modelClassroom) {
             $return = Classroom::model()->findByPk($id);
             $complementaryActivitiesArray = [];
             if ($return->complementary_activity_type_1 != null) {
@@ -937,11 +947,11 @@ class ClassroomController extends Controller
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_6);
             }
             $return->complementary_activity_type_1 = $complementaryActivitiesArray;
-        } else if ($model == $this->MODEL_TEACHING_DATA) {
+        } else if ($model == $this->modelTeachingData) {
             $classroom = $id;
             $instructors = InstructorTeachingData::model()->findAll('classroom_id_fk = ' . $classroom);
             $return = $instructors;
-        } else if ($model == $this->MODEL_STUDENT_ENROLLMENT) {
+        } else if ($model == $this->modelStudentEnrollment) {
             $classroom = $id;
             $student = StudentEnrollment::model()->findAll('classroom_fk = ' . $classroom);
             $return = $student;
