@@ -1,3 +1,6 @@
+## [Versão 3.77.135]
+- Adicionado novas inconsistências para a falta de componentes curriculasres
+
 ## [Versão 3.77.134]
 - Consertado tela de frequencia para os professores
 - 
