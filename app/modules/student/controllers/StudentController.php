@@ -321,8 +321,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     public function actionUpdate($id)
     {
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
-        $studentDocsAndAddr = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
+        $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
         $studentRestrictions = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
+
+        $oldCpf = $modelStudentDocumentsAndAddress->cpf;
 
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
@@ -338,20 +340,33 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             && isset($_POST[$this->STUDENT_RESTRICTIONS])
         ) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
-            $studentDocsAndAddr->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
+            $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             $studentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
             //Atributos comuns entre as tabelas
-            $studentDocsAndAddr->id = $modelStudentIdentification->id;
-            $studentDocsAndAddr->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
-            $studentDocsAndAddr->student_fk = $modelStudentIdentification->id;
+            $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
+            $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
+            $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->id;
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
 
-            if ($modelStudentIdentification->validate() && $studentDocsAndAddr->validate()) {
+            $newCpf = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS]['cpf'];
+
+            if($oldCpf !== $newCpf && $newCpf !== "") {
+                $existCpf = StudentDocumentsAndAddress::model()->findByAttributes(array('cpf' => $modelStudentDocumentsAndAddress->cpf));
+
+                if($existCpf !== null) {
+                    Yii::app()->user->setFlash(
+                        'error', Yii::t('default', 'Já existe um registro associado a este CPF de um aluno cadastrado!')
+                    );
+                    $this->redirect(array('/student/update', 'id' => $modelStudentDocumentsAndAddress->id));
+                }
+            }
+
+            if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
                     $studentRestrictions->student_fk = $modelStudentIdentification->id;
-                    $studentDocsAndAddr->id = $modelStudentIdentification->id;
-                    if ($studentDocsAndAddr->save() && $studentRestrictions->save()) {
+                    $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
+                    if ($modelStudentDocumentsAndAddress->save() && $studentRestrictions->save()) {
                         $saved = true;
                         if (
                             isset($_POST[$this->STUDENT_ENROLLMENT], $_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
@@ -444,7 +459,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             'update',
             array(
                 'modelStudentIdentification' => $modelStudentIdentification,
-                'modelStudentDocumentsAndAddress' => $studentDocsAndAddr,
+                'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
                 'modelStudentRestrictions' => $studentRestrictions,
                 'modelEnrollment' => $modelEnrollment,
                 'vaccines' => $vaccines,
