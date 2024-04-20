@@ -92,10 +92,15 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                             array(
                                 'header' => 'Ações',
                                 'class' => 'CButtonColumn',
-                                'template' => '{delete}',
+                                'template' => '{edition} {delete}',
                                 'buttons' => array(
                                     'delete' => array(
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    ),
+                                    'edition' => array(
+                                        'label' => 'Liberar para Edição',
+                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                        'url' => 'Yii::app()->createUrl("courseplan/courseplan/enableCoursePlanEdition",array("id"=>$data->id))',
                                     )
                                 ),
                                 'afterDelete' => 'function(link, success, data){

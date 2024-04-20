@@ -31,7 +31,8 @@ class CourseplanController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'index', 'delete',
                     'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure',
-                    'getAbilitiesNextStructure', 'addResources', 'getResources', 'pendingPlans', 'validatePlan'),
+                    'getAbilitiesNextStructure', 'addResources', 'getResources', 'pendingPlans',
+                    'validatePlan', 'enableCoursePlanEdition'),
                 'users' => array('*'),
             ),
             array('deny', // deny all users
@@ -381,17 +382,18 @@ class CourseplanController extends Controller
         $criteria = new CDbCriteria;
         $criteria->condition = "situation = 'PENDENTE'";
 
-        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+        // if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
                 'criteria' => $criteria,
                 'pagination' => false
             ));
-        } else {
-            $dataProvider = new CActiveDataProvider('CoursePlan', array(
-                'criteria' => $criteria,
-                'pagination' => false
-            ));
-        }
+        // }
+        // else {
+        //     $dataProvider = new CActiveDataProvider('CoursePlan', array(
+        //         'criteria' => $criteria,
+        //         'pagination' => false
+        //     ));
+        // }
 
         $this->render('pendingPlans', array(
             'dataProvider' => $dataProvider,
@@ -416,6 +418,15 @@ class CourseplanController extends Controller
         }
         $coursePlan->observation = $requestObservation;
         $coursePlan->save();
+    }
+
+    public function actionEnableCoursePlanEdition($id)
+    {
+        $coursePlan = $this->loadModel($id);
+        $coursePlan->situation = 'PENDENTE';
+        $coursePlan->save();
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso Liberado para Edição!'));
+        $this->redirect(array('index'));
     }
 
     /**
