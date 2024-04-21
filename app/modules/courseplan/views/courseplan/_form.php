@@ -27,7 +27,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
 <div class="main">
-    <?php // echo $form->errorSummary($coursePlan); ?>
+    <?php echo ($coursePlan->situation !== 'PENDENTE') ? '<div id="validate-index"></div>' : '' ;  ?>
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
@@ -143,7 +143,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </tbody>
                     </table>
 
-                    <div class="row">
+                    <div class="row <?= $coursePlan->situation !== 'PENDENTE' ? 'hide' : '' ?>">
                         <a href="#new-course-class" id="new-course-class"
                             class="t-button-primary">
                             <img alt="Novo plano de aula" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/start.svg">

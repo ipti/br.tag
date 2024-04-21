@@ -86,6 +86,11 @@ function removeCoursePlanRow(element) {
 }
 
 function format_validate(d){
+    // Bloquando os campos de nome e data do plano de aula
+    $('#CoursePlan_name').attr('readonly', 'readonly');
+    $('#courseplan_start_date').attr('readonly', 'readonly');
+
+    // Inserindo as informações do plano de aula no formulário
     let div = $('<div id="course-class[' + d.class + ']" class="course-class course-class-' + d.class + ' row"></div>');
     let column1 = $('<div   class="column no-grow"></div>');
     let id = $('<input type="hidden" name="course-class[' + d.class + '][id]" value="' + d.courseClassId + '">');

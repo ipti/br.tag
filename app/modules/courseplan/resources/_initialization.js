@@ -262,7 +262,6 @@ $("#save").on('click', function () {
 
 $(document).on('click', '#save-approval', function(e){
     e.preventDefault();
-    // const formCoursePlan = $('#course-plan-form').serialize();
     const courseplanId = $('#course-plan-form')[0][0].value;
     const observation = $('.validate-description').val();
     const approval = $('#approved_field')[0].checked;

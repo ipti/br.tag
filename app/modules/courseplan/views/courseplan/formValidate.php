@@ -72,7 +72,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <a
                     data-toggle="tab" class='t-button-primary next'><?php echo Yii::t('default', 'Next') ?>
                     </a>
-                    <a id="save"
+                    <a id="save-approval"
                     class='t-button-primary last' style="display:none;"><?php echo Yii::t('default', 'Save') ?>
                     </a>
                 </div>
