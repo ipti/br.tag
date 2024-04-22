@@ -218,7 +218,7 @@ class ClassroomController extends Controller
     public function actionView($id)
     {
         $this->render('view', array(
-            'model' => $this->loadModel($id),
+            'model' => $this->loadModel($id, $this->modelClassroom),
         ));
     }
 
@@ -277,19 +277,9 @@ class ClassroomController extends Controller
         return $labels;
     }
 
-    public static function classroomDisciplineLabelResumeArray()
-    {
-        $labels = array();
-        $disciplines = EdcensoDiscipline::model()->findAll(['select' => 'id, name']);
-        foreach ($disciplines as $value) {
-            $labels[$value->id] = $value->name;
-        }
-        return $labels;
-    }
-
-
     public static function classroomDiscipline2array2()
     {
+        $disciplines = [];
         $disciplines['discipline_chemistry'] = 1;
         $disciplines['discipline_physics'] = 2;
         $disciplines['discipline_mathematics'] = 3;
@@ -329,7 +319,7 @@ class ClassroomController extends Controller
             ->with("edcensoStageVsModalityFk.curricularMatrixes.disciplineFk")
             ->find("t.id = :classroom", [":classroom" => $classroom->id]);
 
-        foreach ($classroomModel->edcensoStageVsModalityFk->curricularMatrixes as $key => $matrix) {
+        foreach ($classroomModel->edcensoStageVsModalityFk->curricularMatrixes as $matrix) {
             $disciplines[$matrix->disciplineFk->id] = $matrix->disciplineFk->name;
         }
 
@@ -342,44 +332,11 @@ class ClassroomController extends Controller
     {
         $disciplines = array();
 
-        if (isset($instructor->discipline_1_fk)) {
-            array_push($disciplines, $instructor->discipline1Fk);
-        }
-        if (isset($instructor->discipline_2_fk)) {
-            array_push($disciplines, $instructor->discipline2Fk);
-        }
-        if (isset($instructor->discipline_3_fk)) {
-            array_push($disciplines, $instructor->discipline3Fk);
-        }
-        if (isset($instructor->discipline_4_fk)) {
-            array_push($disciplines, $instructor->discipline4Fk);
-        }
-        if (isset($instructor->discipline_5_fk)) {
-            array_push($disciplines, $instructor->discipline5Fk);
-        }
-        if (isset($instructor->discipline_6_fk)) {
-            array_push($disciplines, $instructor->discipline6Fk);
-        }
-        if (isset($instructor->discipline_7_fk)) {
-            array_push($disciplines, $instructor->discipline7Fk);
-        }
-        if (isset($instructor->discipline_8_fk)) {
-            array_push($disciplines, $instructor->discipline8Fk);
-        }
-        if (isset($instructor->discipline_9_fk)) {
-            array_push($disciplines, $instructor->discipline9Fk);
-        }
-        if (isset($instructor->discipline_10_fk)) {
-            array_push($disciplines, $instructor->discipline10Fk);
-        }
-        if (isset($instructor->discipline_11_fk)) {
-            array_push($disciplines, $instructor->discipline11Fk);
-        }
-        if (isset($instructor->discipline_12_fk)) {
-            array_push($disciplines, $instructor->discipline12Fk);
-        }
-        if (isset($instructor->discipline_13_fk)) {
-            array_push($disciplines, $instructor->discipline13Fk);
+        for ($i = 1; $i <= 13; $i++) {
+            $fieldName = 'discipline_' . $i . '_fk';
+            if (isset($instructor->$fieldName)) {
+                array_push($disciplines, $instructor->$fieldName);
+            }
         }
 
         return $disciplines;
@@ -451,19 +408,11 @@ class ClassroomController extends Controller
         if (!empty($_POST)) {
             $enrollments = $_POST;
             foreach ($enrollments as $id => $field) {
-                if (!empty($field['public_transport'])) {
-                    $enro = StudentEnrollment::model()->findByPk($id);
-                    $enro->public_transport = '1';
-                    $enro->transport_responsable_government = '2';
-                    $enro->vehicle_type_bus = '1';
-                    $enro->update(array('public_transport', 'transport_responsable_government', 'vehicle_type_bus'));
-                } else {
-                    $enro = StudentEnrollment::model()->findByPk($id);
-                    $enro->public_transport = '0';
-                    $enro->transport_responsable_government = '';
-                    $enro->vehicle_type_bus = '';
-                    $enro->update(array('public_transport', 'transport_responsable_government', 'vehicle_type_bus'));
-                }
+                $enro = StudentEnrollment::model()->findByPk($id);
+                $enro->public_transport = !empty($field['public_transport']) ? '1' : '0';
+                $enro->transport_responsable_government = !empty($field['public_transport']) ? '2' : '';
+                $enro->vehicle_type_bus = !empty($field['public_transport']) ? '1' : '';
+                $enro->update(array('public_transport', 'transport_responsable_government', 'vehicle_type_bus'));
             }
         }
 
@@ -478,18 +427,11 @@ class ClassroomController extends Controller
         if (!empty($_POST)) {
             $enrollments = $_POST;
             foreach ($enrollments as $eid => $field) {
-                if (!empty($field['reenrollment'])) {
-                    $enro = StudentEnrollment::model()->findByPk($eid);
-                    $enro->reenrollment = '1';
-                    $enro->update(array('reenrollment'));
-                } else {
-                    $enro = StudentEnrollment::model()->findByPk($eid);
-                    $enro->reenrollment = '0';
-                    $enro->update(array('reenrollment'));
-                }
+                $enro = StudentEnrollment::model()->findByPk($eid);
+                $enro->reenrollment = !empty($field['reenrollment']) ? '1' : '0';
+                $enro->update(array('reenrollment'));
             }
         }
-
 
         $classroom = $id;
         $criteria = new CDbCriteria();
@@ -511,24 +453,12 @@ class ClassroomController extends Controller
         $modelClassroom = new Classroom;
         $modelTeachingData = array();
 
-
         $edcensoStageVsModalities = $this->getSchoolStagesModels();
 
         if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines']) && isset($_POST['events'])) {
             $disciplines = json_decode($_POST['disciplines'], true);
             $this->setDisciplines($modelClassroom, $disciplines);
-
-            // Em adição, inserir a condição dos campos 25-35 (AEE activities)
-            // de nao deixar criar com todos os campos igual a 0
-            if (isset($_POST['Classroom']["complementary_activity_type_1"])) {
-                $compActs = $_POST['Classroom']["complementary_activity_type_1"];
-            }
-            $_POST['Classroom']["complementary_activity_type_1"] = isset($compActs[0]) ? $compActs[0] : null;
-            $_POST['Classroom']["complementary_activity_type_2"] = isset($compActs[1]) ? $compActs[1] : null;
-            $_POST['Classroom']["complementary_activity_type_3"] = isset($compActs[2]) ? $compActs[2] : null;
-            $_POST['Classroom']["complementary_activity_type_4"] = isset($compActs[3]) ? $compActs[3] : null;
-            $_POST['Classroom']["complementary_activity_type_5"] = isset($compActs[4]) ? $compActs[4] : null;
-            $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
+            $_POST['Classroom'] = $this->saveComplementaryActivity($_POST['Classroom']);
 
             $modelClassroom->attributes = $_POST['Classroom'];
             $modelClassroom->calendar_fk = $_POST['calendar_fk'];
@@ -605,6 +535,20 @@ class ClassroomController extends Controller
         return false;
     }
 
+    private function saveComplementaryActivity($classroomPost) {
+        if (isset($classroomPost["complementary_activity_type_1"])) {
+            $compActs = $classroomPost["complementary_activity_type_1"];
+        }
+        $classroomPost["complementary_activity_type_1"] = isset($compActs[0]) ? $compActs[0] : null;
+        $classroomPost["complementary_activity_type_2"] = isset($compActs[1]) ? $compActs[1] : null;
+        $classroomPost["complementary_activity_type_3"] = isset($compActs[2]) ? $compActs[2] : null;
+        $classroomPost["complementary_activity_type_4"] = isset($compActs[3]) ? $compActs[3] : null;
+        $classroomPost["complementary_activity_type_5"] = isset($compActs[4]) ? $compActs[4] : null;
+        $classroomPost["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
+
+        return $classroomPost;
+    }
+
     public function actionUpdate($id)
     {
         $modelClassroom = $this->loadModel($id, $this->modelClassroom);
@@ -636,13 +580,12 @@ class ClassroomController extends Controller
 
         if (isset($_POST['enrollments']) && isset($_POST['toclassroom'])) {
             $enrollments = $_POST['enrollments'];
-            $count_students = count($_POST['enrollments']);
             if (!empty($_POST['toclassroom'])) {
-                $class_room = Classroom::model()->findByPk($_POST['toclassroom']);
+                $classroom = Classroom::model()->findByPk($_POST['toclassroom']);
                 foreach ($enrollments as $enrollment) {
                     $enro = StudentEnrollment::model()->findByPk($enrollment);
-                    $enro->classroom_fk = $class_room->id;
-                    $enro->classroom_inep_id = $class_room->inep_id;
+                    $enro->classroom_fk = $classroom->id;
+                    $enro->classroom_inep_id = $classroom->inep_id;
                     $enro->status = 2;
                     $enro->create_date = date('Y-m-d');
                     $enro->update(array('classroom_fk', 'classroom_inep_id', 'status', 'create_date'));
@@ -1051,9 +994,9 @@ class ClassroomController extends Controller
         $enrollments = StudentEnrollment::model()->findAllByPk($ids);
 
         usort($enrollments, function ($a, $b) use ($ids) {
-            $pos_a = array_search($a->id, $ids);
-            $pos_b = array_search($b->id, $ids);
-            return $pos_a - $pos_b;
+            $posA = array_search($a->id, $ids);
+            $posB = array_search($b->id, $ids);
+            return $posA - $posB;
         });
 
         foreach ($enrollments as $i => $enrollment) {
