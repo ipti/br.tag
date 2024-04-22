@@ -409,7 +409,6 @@ class CourseplanController extends Controller
             $this->render('formValidate', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
-                'resources' => $resources,
             ));
         }
 

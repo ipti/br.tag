@@ -153,15 +153,8 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
                     <div class="control-group column clearleft">
                         <div>
-                            <label class="t-field-tarea__label" for="observation">Observação*</label>
+                            <?php echo CHtml::label(yii::t('default', 'Observation'), 'observation', array('class' => 't-field-tarea__label--required')); ?>
                         </div>
-                        <!-- <textarea
-                            class="t-field-tarea__input validate-description"
-                            placeholder="Digite o observação do Plano"
-                            style="resize: none; height: 120px; width: 700px;"
-                            name="observation"
-                            id="observation">
-                        </textarea> -->
                         <?= $form->textArea($coursePlan, 'observation', array('rows' => 6, 'cols' => 60,
                             'class' => 't-field-tarea__input validate-description', 'id' => 'courseplan_start_date',
                             'placeholder' => "Digite a observação do Plano", 'style' => "height: 120px; width: 700px;")) ?>

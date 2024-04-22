@@ -150,6 +150,17 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <?= Yii::t('default', 'New'); ?>
                         </a>
                     </div>
+
+                    <div class="control-group column clearleft">
+                        <div>
+                            <?php echo CHtml::label(yii::t('default', 'Observation'), 'observation', array('class' => 't-field-tarea__label--required')); ?>
+                        </div>
+                        <?= $form->textArea($coursePlan, 'observation', array('rows' => 6, 'cols' => 60,
+                            'class' => 't-field-tarea__input validate-description', 'id' => 'courseplan_start_date',
+                            'placeholder' => "Digite a observação do Plano", 'style' => "height: 120px; width: 700px;",
+                            'readonly' => 'readonly')) ?>
+                    </div>
+
                     <div class="js-all-types no-show">
                         <?php foreach ($types as $type) : ?>
                             <option value="<?= $type->id ?>"><?= $type->name ?></option>

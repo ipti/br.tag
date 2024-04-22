@@ -755,6 +755,7 @@ return array(
     'Situation' => 'Situação',
     'Save Validation' => 'Salvar Validação',
     'Plan Approval' => 'Aprovação do plano',
+    'Observation' => 'Observação',
 
     //Labels
     'User' => 'Usuário',
