@@ -457,7 +457,7 @@ class StudentIdentification extends AltActiveRecord
                 }
             }
 
-            if ($modelEnrollment->id !== null) {
+            if ($modelEnrollment != null && $modelEnrollment->id !== null) {
                 $enrollmentResult = $this->processEnrollment($studentIdentification, $modelEnrollment);
             }
 
