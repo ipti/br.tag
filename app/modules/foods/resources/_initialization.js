@@ -242,14 +242,17 @@ if(menuId)  {
 
     })
     const day = $('.js-day-tab.active').attr("data-day-of-week")
-    meals.forEach((e) => {
-        MealsComponent(e, day).actions.render();
-    });
-    $('.js-meals-component').accordion("destroy");
-    $( ".js-meals-component" ).accordion({
-      heightStyle: "content",
-      active: false,
-      collapsible: true,
-      icons: false,
-    });
+    window.onload = (event) => {
+        meals.forEach((e) => {
+            MealsComponent(e, day).actions.render();
+        });
+        $(".js-menu-meals-container").show()
+            $('.js-meals-component').accordion("destroy");
+            $( ".js-meals-component" ).accordion({
+              heightStyle: "content",
+              active: false,
+              collapsible: true,
+              icons: false,
+            });
+      };
 }
