@@ -398,5 +398,3 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
     var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies')?>';
 
 </script>
-
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
