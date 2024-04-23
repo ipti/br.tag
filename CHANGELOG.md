@@ -1,14 +1,18 @@
+## [Versão 3.78.135]
+- Adicionando funcionalidade de validação de planos de aula
+- Criando novo tipo de usuário e visibilidade "Coordenador"
+
 ## [Versão 3.77.135]
 - Adicionado novas inconsistências para a falta de componentes curriculasres
 
 ## [Versão 3.77.134]
 - Consertado tela de frequencia para os professores
-- 
+-
 ## [Versão 3.77.133]
 - Realizado correções nas validações das datas para Professor, Estudante e Escola
 
 ## [Versão 3.78.132]
-- Adicionado campo para a assinatura do diretor 
+- Adicionado campo para a assinatura do diretor
 
 ## [Versão 3.77.132]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
