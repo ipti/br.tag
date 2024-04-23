@@ -304,7 +304,7 @@ function updateSelectResources(){
     }).success(function(response){
         let resources = JSON.parse(response);
         Object.entries(resources).forEach(function(option) {
-            resourceSelect.append(option);
+            resourceSelect.append(DOMPurify.sanitize(option));
         });
         resourceSelect.select2("destroy");
         resourceSelect.select2();

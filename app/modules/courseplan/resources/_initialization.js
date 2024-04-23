@@ -116,10 +116,10 @@ $(document).on("change", "#CoursePlan_discipline_fk", function () {
                 if (Object.keys(data.options).length) {
                     $(".js-alert-ability-structure").hide();
                     if (data.options[0].code === null) {
-                        $(".js-abilities-parents").html(buildAbilityStructureSelect(data));
+                        $(".js-abilities-parents").html(DOMPurify.sanitize(buildAbilityStructureSelect(data)));
                         // $(".js-abilities-parents select").select2();
                     } else {
-                        $(".js-abilities-panel").html(buildAbilityStructurePanel(data));
+                        $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(data)));
                     }
                     $(".ability-structure-select").css('width', '100%');
                 } else {
@@ -153,9 +153,9 @@ $(document).on("change", ".ability-structure-select", function () {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.options[0].code === null) {
-                    $(".js-abilities-parents").append(buildAbilityStructureSelect(data));
+                    $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(data)));
                 } else {
-                    $(".js-abilities-panel").html(buildAbilityStructurePanel(data));
+                    $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(data)));
                 }
                 $(".loading-abilities-select").hide();
                 $(".ability-structure-select").css('width', '100%');

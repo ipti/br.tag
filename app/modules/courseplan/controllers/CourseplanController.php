@@ -349,7 +349,8 @@ class CourseplanController extends Controller
             Log::model()->saveAction("courseplan", $id, "D", $coursePlan->name);
             echo json_encode(["valid" => true, "message" => "Plano de aula excluído com sucesso!"]);
         } else {
-            echo json_encode(["valid" => false, "message" => "Não se pode remover plano de aula utilizado em alguma turma."]);
+            echo json_encode(["valid" => false,
+            "message" => "Não se pode remover plano de aula utilizado em alguma turma."]);
         }
     }
 
@@ -359,14 +360,18 @@ class CourseplanController extends Controller
 
     public function actionIndex()
     {
-        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
+        {
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
                 'criteria' => array(
                     'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id,
                 ),
                 'pagination' => false
             ));
-        } else {
+        }
+
+        if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
+        {
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
                 'pagination' => false
             ));
@@ -396,19 +401,21 @@ class CourseplanController extends Controller
         $requestApproval = Yii::app()->request->getPost("approval_field");
         $requestObservation = Yii::app()->request->getPost("observation");
         $coursePlan = $this->loadModel($id);
-        if(!isset($requestApproval)){
+        if(!isset($requestApproval))
+        {
             $this->render('formValidate', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
             ));
-        }else{
+        }
+        if(isset($requestApproval))
+        {
             if ($requestApproval == "true") {
                 $coursePlan->situation = 'APROVADO';
             }
             $coursePlan->observation = $requestObservation;
             $coursePlan->save();
         }
-
     }
 
     public function actionEnableCoursePlanEdition($id)
