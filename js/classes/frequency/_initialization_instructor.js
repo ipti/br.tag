@@ -14,7 +14,7 @@ function generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSp
                     <a href='javascript:;' style='margin-left:5px;' studentId=${student.studentId} day=${dia} data-toggle='tooltip' class='frequency-justification-icon  ${!schedule.fault ? 'hide' : ''}' title=''>
                         <span class='t-icon-annotation icon-color'></span>
                     </a>
-                    ${schedule.schedule}°
+                    ${fundamentalMaior == 1 ? schedule.schedule+'°': ''}
                     <span class="frequency-checkbox-container" ${(!schedule.available ? "disabled" : "")}>
                         <input class='frequency-checkbox' type='checkbox'
                             ${(!schedule.available ? "disabled" : "")}

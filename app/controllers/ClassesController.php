@@ -495,12 +495,6 @@ class ClassesController extends Controller
             echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($_POST["fundamentalMaior"] == "1" ? "e Disciplina" : "") . " sem aula no Quadro de Horário."]);
         }
     }
-    private function gerateDate($day, $month, $year)
-    {
-        $day = ($day < 10) ? '0' . $day : $day;
-        $month = ($month < 10) ? '0' . $month : $month;
-        return $day . "/" . $month . "/" . $year;
-    }
     private function getScheduleDays($schedules)
     {
         $result = [];
@@ -543,22 +537,6 @@ class ClassesController extends Controller
                 ]);
             } else {
                 array_push($result[$index]["schedulePerDays"],  $schedule->schedule);
-            }
-        }
-        return $result;
-    }
-    private function getScheduleDays($schedules) {
-        $result = [];
-        foreach ($schedules as $schedule) {
-            $day = ($schedule->day < 10) ? '0' . $schedule->day : $schedule->day;
-            $month = ($schedule->month < 10) ? '0' . $schedule->month : $schedule->month;
-            $date = $day . "/" . $month . "/" . $schedule->year;
-            $index = array_search($date, array_column($result, 'date'));
-            if ($index === false) {
-                array_push($result, [
-                    "day" => $schedule->day,
-                    "date" => $date
-                ]);
             }
         }
         return $result;
