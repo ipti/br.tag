@@ -23,7 +23,11 @@ class LunchController extends Controller {
 
         $menu = new Menu();
 
-        $menu->date = date("Y-m-d", strtotime(str_replace("/", "-", isset($menuPost["date"]) ? $menuPost["date"] : date("Y-m-d"))));
+        $menu->date = date(
+            "Y-m-d",
+            strtotime(
+                str_replace("/", "-", isset($menuPost["date"]) ? $menuPost["date"] : date("Y-m-d"))
+            ));
         $menu->turn = $menuPost["turn"];
         if($menuPost){
             $menu->attributes = $menuPost;
@@ -39,9 +43,10 @@ class LunchController extends Controller {
                 Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when adding menu.'));
                 $this->render('create', ["menu" => $menu]);
             }
-        }else {
-            $this->render('create', ["menu" => $menu]);
+
+            return;
         }
+        $this->render('create', ["menu" => $menu]);
     }
 
     public function actionUpdate($id){
@@ -64,9 +69,11 @@ class LunchController extends Controller {
                 Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when updating menu.'));
                 $this->render('update', ["menu" => $menu]);
             }
-        }else {
-            $this->render('update', ["menu" => $menu]);
+
+            return;
         }
+        $this->render('update', ["menu" => $menu]);
+
     }
     public function actionLunchDelete(){
         $request = Yii::app()->getRequest();
@@ -89,7 +96,10 @@ class LunchController extends Controller {
                 $mealPortion->amount = $amount + $amountPost;
                 if($mealPortion->validate()){
                     $mealPortion->save();
-                    Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Portion decreased successfully!'));
+                    Yii::app()->user->setFlash(
+                        'success',
+                        Yii::t('lunchModule.lunch', 'Portion decreased successfully!')
+                    );
                 }else{
                     Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when removing portion.'));
                 }
@@ -165,7 +175,8 @@ class LunchController extends Controller {
         $mealPost = $request->getPost("Meal", false);
         if($mealPost){
             $meal = new Meal();
-            $meal->restrictions = empty($mealPost['restrictions'])? yii::t("lunchModule.lunch","None") : $mealPost['restrictions'];
+            $meal->restrictions =
+                empty($mealPost['restrictions'])? yii::t("lunchModule.lunch","None") : $mealPost['restrictions'];
             if($meal->validate()){
                 $meal->save();
 
