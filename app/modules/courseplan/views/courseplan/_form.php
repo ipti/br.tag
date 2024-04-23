@@ -26,8 +26,10 @@ $form = $this->beginWidget('CActiveForm', array(
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
+<?php $readonly = Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) ? 'readonly' : '' ; ?>
+
 <div class="main">
-    <?php echo ($coursePlan->situation !== 'PENDENTE') ? '<div id="validate-index"></div>' : '' ;  ?>
+    <?php echo ($coursePlan->situation == 'PENDENTE' || $coursePlan->isNewRecord) ? '' : '<div id="validate-index"></div>' ;  ?>
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
@@ -77,7 +79,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <div class="column flex is-two-fifths">
                                 <div class="t-field-text">
                                     <?php echo CHtml::label(yii::t('default', 'Name'), 'name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                    <?php echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Plano')); ?>
+                                    <?php echo $form->textField($coursePlan, 'name',
+                                    array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input',
+                                    'placeholder' => 'Digite o Nome do Plano', 'readonly' => $readonly)); ?>
                                 </div>
                             </div>
                         </div>
@@ -120,7 +124,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <?php
                                 $coursePlan->start_date = $this->dataConverter($coursePlan->start_date, 1);
                                 echo $form->textField($coursePlan, 'start_date', array('size' => 400, 'maxlength' => 500,
-                                'class' => 't-field-text__input js-date date js-start-date', 'id' => 'courseplan_start_date')); ?>
+                                'class' => 't-field-text__input js-date date js-start-date', 'id' => 'courseplan_start_date', 'readonly' => $readonly)); ?>
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="column flex is-two-fifths">
+                            <div class="t-field-text">
+                                <?php echo CHtml::label(yii::t('default', 'Situation'), 'situation', array('class' => 'control-label t-field-select__label--required')); ?>
+                                <?php
+                                echo $form->textField($coursePlan, 'situation', array('size' => 400, 'maxlength' => 500, 'readonly' => true,
+                                'class' => 't-field-text__input')); ?>
                             </div>
                             </div>
                         </div>
@@ -143,7 +158,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </tbody>
                     </table>
 
-                    <div class="row <?= $coursePlan->situation !== 'PENDENTE' ? 'hide' : '' ?>">
+                    <div class="row <?= $coursePlan->situation == 'PENDENTE' || $coursePlan->isNewRecord ? '' : 'hide' ?>">
                         <a href="#new-course-class" id="new-course-class"
                             class="t-button-primary">
                             <img alt="Novo plano de aula" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/start.svg">

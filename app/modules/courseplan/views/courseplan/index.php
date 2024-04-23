@@ -42,10 +42,16 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Course Plan'); ?></h1>
             <div class="t-buttons-container">
-                <a href="<?php echo Yii::app()->createUrl('courseplan/courseplan/create') ?>"
+                <?php if (!Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)): ?>
+                    <a href="<?php echo Yii::app()->createUrl('courseplan/courseplan/create') ?>"
                     class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>
-                <a  href="<?php echo Yii::app()->createUrl('courseplan/courseplan/pendingPlans') ?>"
-                class="t-button-primary"><?= Yii::t('default', 'Pendent Plan') ?></a>
+                    <br/>
+                <?php endif ?>
+                <?php if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)): ?>
+                    <a  href="<?php echo Yii::app()->createUrl('courseplan/courseplan/pendingPlans') ?>"
+                    class="t-button-primary"><?= Yii::t('default', 'Pendent Plan') ?></a>
+                    <br/>
+                <?php endif ?>
             </div>
         </div>
     </div>
@@ -101,6 +107,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                                         'label' => 'Liberar para Edição',
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
                                         'url' => 'Yii::app()->createUrl("courseplan/courseplan/enableCoursePlanEdition",array("id"=>$data->id))',
+                                        'visible' => '!Yii::app()->getAuthManager()->checkAccess("instructor", Yii::app()->user->loginInfos->id)',
                                     )
                                 ),
                                 'afterDelete' => 'function(link, success, data){

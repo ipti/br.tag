@@ -55,7 +55,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <li id="tab-create-plan" class="t-tabs__item active">
                             <a class="t-tabs__link" href="#create-plan" data-toggle="tab">
                                 <span  class="t-tabs__numeration">1</span>
-                                <?php echo Yii::t('default', 'Create Plan') ?></a>
+                                <?php echo Yii::t('default', 'Plan Approval') ?></a>
                                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                         </li>
                         <li id="tab-class" class="t-tabs__item">

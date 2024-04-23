@@ -100,7 +100,6 @@ function format_validate(d){
 
     let ability = $('<div class="control-group courseplan-ability-container"></div>');
     let abilityLabel = $('<label class="" for="course-class[' + d.class + '][ability][]">Habilidade(s)</label>');
-    let abilityButton = $('<button class="t-button-primary add-abilities" style="height: 28px;gap: 5px" ><icon class="t-icon-start"></icon>Adicionar habilidades</button>');
     let abilitiesContainer = $('<div class="courseplan-abilities-selected">');
 
     let type = $('<div class="t-field-text control-group courseplan-type-container"></div>');
@@ -109,13 +108,9 @@ function format_validate(d){
     typeInput.val(d.type);
 
     let resourceButtonContainer = $('<div class="t-buttons-container control-group no-margin"></div>');
-    let resourceButton = $('<button class="t-button-primary add-new-resource" style="height: 28px;gap: 5px" ><icon class="t-icon-start"></icon>Adicionar recursos</button>');
     let resource = $('<div class="t-field-select control-group"></div>');
     let resourceLabel = $('<label class="t-field-select__label" for="resource">Recurso(s)</label>');
     let resourceInput = $('<div class="t-field-select__input resource-input"></div>');
-    let resourceValue = $('<select id="resource-select" class="resource-select" name="resource"><option value=""></option>' + $(".js-all-resources")[0].innerHTML + '</select>');
-    let resourceAmount = $('<input class="resource-amount" style="width:35px; padding: 0px 5px;;margin-left: 5px;" type="number" name="amount" step="1" min="1" value="1" max="999">');
-    let resourceAdd = $('<button class="add-resource" style="height: 30px;width: 30px;margin-left:10px;" ><icon class="t-icon-plus"></icon></button>');
     let deleteButton = "";
     if(d.deleteButton === 'js-unavailable'){
         deleteButton = $('<div class="t-buttons-container"><a class="t-button-danger js-remove-course-class js-unavailable t-button-danger--disabled" data-toggle="tooltip" data-placement="left" title="Aula já ministrada em alguma turma. Não é possível removê-la do plano de aula.">Excluir Plano</a></div>')
@@ -143,7 +138,7 @@ function format_validate(d){
             let values = $('<input class="resource-id" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][id]" value="' + resourceId + '"/>'
                 + '<input class="resource-value" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][value]" value="' + resourceValue + '"/>'
                 + '<input class="resource-amount" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][amount]" value="' + resourceAmount + '"/>');
-            let label = $('<span class="row"><span class="fa fa-times remove-resource"><i></i></span><span><span class="resource-amount-text">' + resourceAmount + '</span>x - ' + resourceName + ' </span></span>');
+            let label = $('<span class="row"><span class="resource-amount-text">' + resourceAmount + '</span>x - ' + resourceName + ' </span></span>');
             div.append(values);
             div.append(label);
             resources.append(div);
@@ -152,12 +147,7 @@ function format_validate(d){
     objective.append(objectiveLabel);
     objective.append(objectiveInput);
     ability.append(abilityLabel);
-    // ability.append(abilityButton);
     ability.append(abilitiesContainer);
-    // resourceButtonContainer.append(resourceButton);
-    // resourceInput.append(resourceValue);
-    // resourceInput.append(resourceAmount);
-    // resourceInput.append(resourceAdd);
     resource.append(resourceButtonContainer);
     resource.append(resourceLabel);
     resource.append(resourceInput);

@@ -381,19 +381,10 @@ class CourseplanController extends Controller
     {
         $criteria = new CDbCriteria;
         $criteria->condition = "situation = 'PENDENTE'";
-
-        // if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $dataProvider = new CActiveDataProvider('CoursePlan', array(
-                'criteria' => $criteria,
-                'pagination' => false
-            ));
-        // }
-        // else {
-        //     $dataProvider = new CActiveDataProvider('CoursePlan', array(
-        //         'criteria' => $criteria,
-        //         'pagination' => false
-        //     ));
-        // }
+        $dataProvider = new CActiveDataProvider('CoursePlan', array(
+            'criteria' => $criteria,
+            'pagination' => false
+        ));
 
         $this->render('pendingPlans', array(
             'dataProvider' => $dataProvider,
@@ -410,13 +401,14 @@ class CourseplanController extends Controller
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
             ));
+        }else{
+            if ($requestApproval == "true") {
+                $coursePlan->situation = 'APROVADO';
+            }
+            $coursePlan->observation = $requestObservation;
+            $coursePlan->save();
         }
 
-        if ($requestApproval == "true") {
-            $coursePlan->situation = 'APROVADO';
-        }
-        $coursePlan->observation = $requestObservation;
-        $coursePlan->save();
     }
 
     public function actionEnableCoursePlanEdition($id)
