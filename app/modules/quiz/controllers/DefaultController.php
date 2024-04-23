@@ -80,7 +80,13 @@ class DefaultController extends Controller
                     } else {
                         $quiz->attributes = $_POST['Quiz'];
                         Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir questionário'));
-                        return $this->render(self::RENDER_QUIZ_UPDATE, ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
+                        return $this->render(
+                            self::RENDER_QUIZ_UPDATE,
+                            [
+                                'quiz' => $quiz,
+                                'quizQuestion' => $quizQuestion
+                            ]
+                        );
                     }
                 } else {
                     $quiz->attributes = $_POST['Quiz'];
