@@ -177,14 +177,20 @@ class ClassesController extends Controller
                 }
             }
 
-            $command = Yii::app()->db->createCommand("
-                SELECT s.day
-                FROM instructor_faults if2 
-                JOIN schedule s ON if2.schedule_fk = s.id 
-                WHERE if2.instructor_fk = :instructor_id
-            ");
-            $command->bindValue(':instructor_id', 305);
-            $daysFaults = $command->queryColumn();
+            $featuresComponent = new FeaturesComponent();
+            $isEnable = $featuresComponent->isEnable(strtoupper(INSTANCE));
+
+            if($isEnable) {
+                $command = Yii::app()->db->createCommand("
+                    SELECT s.day
+                    FROM instructor_faults if2 
+                    JOIN schedule s ON if2.schedule_fk = s.id 
+                    WHERE if2.instructor_fk = (SELECT id from instructor_identification ii WHERE ii.users_fk = :instructor_id);"
+                );
+
+                $command->bindValue(':instructor_id', Yii::app()->user->loginInfos->id);
+                $daysFaults = $command->queryColumn();
+            }
 
             echo json_encode([
                 "valid" => true,
