@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c3j0ivvfm4yfb"
+
+[deps]
+
+files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/MSFT_events.Type.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/MSFT_events.Title.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/MSFT_events.Description.translation"]
+
+source_file="res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/MSFT_events.csv"
+dest_files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/MSFT_events.Type.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/MSFT_events.Title.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/MSFT_events.Description.translation"]
+
+[params]
+
+compress=true
+delimiter=0

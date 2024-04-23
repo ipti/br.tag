@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://brclycg6lp54f"
+
+[deps]
+
+files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/pie.litres.translation"]
+
+source_file="res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/pie.csv"
+dest_files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/pie.litres.translation"]
+
+[params]
+
+compress=true
+delimiter=0
