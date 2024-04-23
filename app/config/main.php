@@ -25,13 +25,13 @@ if (YII_DEBUG) {
         //     'showInFireBug' => true,
         // ),
         array(
-            'class' => 'CFileLogRoute',
-            'levels' => 'profile',
-        ),
-        array(
             'class' => 'CProfileLogRoute',
             'showInFireBug' => true,
             'report' => 'summary',
+        ),
+        array(
+            'class' => 'CFileLogRoute',
+            'levels' => 'error, warning, info',
         )
     );
 }

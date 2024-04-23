@@ -14,7 +14,10 @@
         public function __construct($firebaseservice = null){
             $this->firebaseservice = $firebaseservice ?? new FireBaseService();
         }
-        public function exec(){
-            return $this->firebaseservice->getFarmerRegister();
+        /**
+         * @return MrShan0\PHPFirestore\FirestoreDocument[]
+         */
+        public function exec($cpf){
+            return $this->firebaseservice->getFarmerRegister($cpf);
         }
     }
