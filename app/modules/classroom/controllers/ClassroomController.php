@@ -455,65 +455,31 @@ class ClassroomController extends Controller
 
         $edcensoStageVsModalities = $this->getSchoolStagesModels();
 
-        if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines']) && isset($_POST['events'])) {
-            $disciplines = json_decode($_POST['disciplines'], true);
+        $postKeys = ['Classroom', 'teachingData', 'disciplines', 'events'];
+        $allPostDataExists = array_reduce($postKeys, function ($exists, $key) {
+            return $exists && isset($_POST[$key]);
+        }, true);
+
+        if ($allPostDataExists) {
+            $classroom = Yii::app()->request->getPost("Classroom");
+            $teachingData = Yii::app()->request->getPost("teachingData");
+            $disciplines = Yii::app()->request->getPost("disciplines");
+            $calendarFk = Yii::app()->request->getPost("calendar_fk");
+
+            $disciplines = json_decode($disciplines, true);
+            $teachingData = json_decode($teachingData);
             $this->setDisciplines($modelClassroom, $disciplines);
-            $_POST['Classroom'] = $this->saveComplementaryActivity($_POST['Classroom']);
+            $classroom = $this->saveComplementaryActivity($classroom);
 
-            $modelClassroom->attributes = $_POST['Classroom'];
-            $modelClassroom->calendar_fk = $_POST['calendar_fk'];
-            $modelClassroom->sedsp_sync = 0;
-            $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
+            if ($this->saveModelClassroom($classroom, $calendarFk, $modelClassroom) && $this->verifyWeekDays($modelClassroom) &&
+            $this->saveTeachingData($teachingData, $modelTeachingData, $modelClassroom) && $this->saveTeachingMatrixes($modelTeachingData, $modelClassroom)) {
+                $result = Yii::app()->features->isEnable("FEAT_SEDSP")
+                ? (new LoginUseCase())->checkSEDToken() && $modelClassroom->syncToSEDSP("create", "create")
+                : ["flash" => "success", "message" => "Turma adicionada com sucesso!"];
 
-            if ($modelClassroom->validate() && $modelClassroom->save() && $this->verifyWeekDays($modelClassroom)) {
-                $saved = true;
-                $teachingDataValidated = true;
-
-                $teachingData = json_decode($_POST['teachingData']);
-
-                foreach ($teachingData as $key => $td) {
-                    $modelTeachingData[$key] = new InstructorTeachingData;
-                    $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
-                    $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
-                    $modelTeachingData[$key]->instructor_fk = $td->Instructor;
-                    $modelTeachingData[$key]->role = $td->Role;
-                    $modelTeachingData[$key]->contract_type = $td->ContractType;
-                    $modelTeachingData[$key]->regent = $td->RegentTeacher;
-                    $modelTeachingData[$key]->disciplines = $td->Disciplines;
-                    $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
-                }
-
-                if ($teachingDataValidated) {
-                    foreach ($modelTeachingData as $key => $td) {
-                        if ($saved) {
-                            $saved = $modelTeachingData[$key]->save();
-                            foreach ($td->disciplines as $discipline) {
-                                $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline, "year" => Yii::app()->user->year]);
-                                $teachingMatrixes = new TeachingMatrixes();
-                                $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
-                                $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
-                                $teachingMatrixes->save();
-                            }
-                        }
-                    }
-                    if ($saved) {
-
-                        if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
-                            $loginUseCase = new LoginUseCase();
-                            $loginUseCase->checkSEDToken();
-
-                            $result = $modelClassroom->syncToSEDSP("create", "create");
-                        } else {
-                            $result = ["flash" => "success", "message" => "Turma adicionada com sucesso!"];
-                        }
-
-                        Log::model()->saveAction("classroom", $modelClassroom->id, "C", $modelClassroom->name);
-                        Yii::app()->user->setFlash($result["flash"], $result["message"]);
-                        $this->redirect(array('index'));
-                    }
-                }
-            } else {
-                $modelClassroom->addError('week_days_sunday', Yii::t('default', 'Week Days') . ' ' . Yii::t('default', 'cannot be blank'));
+                Log::model()->saveAction("classroom", $modelClassroom->id, "C", $modelClassroom->name);
+                Yii::app()->user->setFlash($result["flash"], $result["message"]);
+                $this->redirect(array('index'));
             }
         }
 
@@ -532,6 +498,8 @@ class ClassroomController extends Controller
         if($modelClassroom->week_days_sunday || $modelClassroom->week_days_monday || $modelClassroom->week_days_tuesday || $modelClassroom->week_days_wednesday || $modelClassroom->week_days_thursday || $modelClassroom->week_days_friday || $modelClassroom->week_days_saturday) {
             return true;
         }
+        $modelClassroom->addError('week_days_sunday', Yii::t('default', 'Week Days') . ' ' . Yii::t('default', 'cannot be blank'));
+        Yii::app()->end();
         return false;
     }
 
@@ -547,6 +515,64 @@ class ClassroomController extends Controller
         $classroomPost["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
 
         return $classroomPost;
+    }
+
+    private function saveTeachingData($teachingData, &$modelTeachingData, $modelClassroom) {
+        $dataIsValidated =  true;
+
+        foreach ($teachingData as $key => $td) {
+            $modelTeachingData[$key] = new InstructorTeachingData;
+            $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
+            $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
+            $modelTeachingData[$key]->instructor_fk = $td->Instructor;
+            $modelTeachingData[$key]->role = $td->Role;
+            $modelTeachingData[$key]->contract_type = $td->ContractType;
+            $modelTeachingData[$key]->regent = $td->RegentTeacher;
+            $modelTeachingData[$key]->disciplines = $td->Disciplines;
+            $dataIsValidated = $dataIsValidated && $modelTeachingData[$key]->validate();
+        }
+
+        if(!$dataIsValidated) {
+            $modelClassroom->addError('teacher', "Ocorreu um error ao salvar as informações do professor");
+            Yii::app()->end();
+            return $dataIsValidated;
+        }
+        return $dataIsValidated;
+    }
+
+    private function saveTeachingMatrixes($modelTeachingData, $modelClassroom) {
+        $saved = true;
+
+        foreach ($modelTeachingData as $key => $td) {
+            if ($saved) {
+                $saved = $modelTeachingData[$key]->save();
+                foreach ($td->disciplines as $discipline) {
+                    $curricularMatrix = CurricularMatrix::model()->find("stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year", ["stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk, "discipline_fk" => $discipline, "year" => Yii::app()->user->year]);
+                    $teachingMatrixes = new TeachingMatrixes();
+                    $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
+                    $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
+                    $teachingMatrixes->save();
+                }
+            }
+        }
+
+        return $saved;
+    }
+
+    private function saveModelClassroom($classroom, $calendarFk, $modelClassroom) {
+        $transaction = Yii::app()->db->beginTransaction();
+        $modelClassroom->attributes = $classroom;
+        $modelClassroom->calendar_fk = $calendarFk;
+        $modelClassroom->sedsp_sync = 0;
+        $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
+
+        if($modelClassroom->validate() && $modelClassroom->save()) {
+            $transaction->commit();
+            return $modelClassroom;
+        }
+        $transaction->rollback();
+        $modelClassroom->addError('classroom', "Ocorreu um error ao salvar a turma");
+        Yii::app()->end();
     }
 
     public function actionUpdate($id)
