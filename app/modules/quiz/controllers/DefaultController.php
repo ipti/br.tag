@@ -5,6 +5,7 @@ class DefaultController extends Controller
     const HEADER = 'Content-Type: application/json; charset="UTF-8"';
     const RENDER_QUIZ_UPDATE = 'quiz/update';
     const RENDER_GROUP_UPDATE = 'group/update';
+    const MSG_PARAMETRO_INVALIDO = 'Parametro inválido';
 
     public function actionIndex()
     {
@@ -57,7 +58,10 @@ class DefaultController extends Controller
             if ($quiz->validate()) {
                 $quiz->create_date = date('Y-m-d');
                 if ($quiz->save()) {
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Questionário atualizado com sucesso'));
+                    Yii::app()->user->setFlash(
+                        'success',
+                        Yii::t('default', 'Questionário atualizado com sucesso')
+                    );
                 }
             }
         }
@@ -76,10 +80,16 @@ class DefaultController extends Controller
                 if (count($questionGroups) == 0) {
 
                     if ($quiz->delete()) {
-                        Yii::app()->user->setFlash('success', Yii::t('default', 'Questionário excluído com sucesso'));
+                        Yii::app()->user->setFlash(
+                            'success',
+                            Yii::t('default', 'Questionário excluído com sucesso')
+                        );
                     } else {
                         $quiz->attributes = $_POST['Quiz'];
-                        Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir questionário'));
+                        Yii::app()->user->setFlash(
+                            'error',
+                            Yii::t('default', 'Erro ao excluir questionário')
+                        );
                         return $this->render(
                             self::RENDER_QUIZ_UPDATE,
                             [
@@ -90,12 +100,18 @@ class DefaultController extends Controller
                     }
                 } else {
                     $quiz->attributes = $_POST['Quiz'];
-                    Yii::app()->user->setFlash('error', Yii::t('default', 'Existe grupo vinculado ao questionário'));
+                    Yii::app()->user->setFlash(
+                        'error',
+                        Yii::t('default', 'Existe grupo vinculado ao questionário')
+                    );
                     return $this->render(self::RENDER_QUIZ_UPDATE, ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
                 }
             } else {
                 $quiz->attributes = $_POST['Quiz'];
-                Yii::app()->user->setFlash('error', Yii::t('default', 'Existe questão vinculada ao questionário'));
+                Yii::app()->user->setFlash('error', Yii::t(
+                    'default',
+                    'Existe questão vinculada ao questionário')
+                );
                 return $this->render(self::RENDER_QUIZ_UPDATE, ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
             }
         }
@@ -368,7 +384,7 @@ class DefaultController extends Controller
                 $data = array_merge($data, $option->getErrors());
             }
         } else {
-            $data = array('errorCode' => 2, 'msg' => 'Parametro inválido');
+            $data = array('errorCode' => 2, 'msg' => self::MSG_PARAMETRO_INVALIDO);
         }
 
         header(self::HEADER);
@@ -391,7 +407,7 @@ class DefaultController extends Controller
                 $data = array_merge($data, $option->getErrors());
             }
         } else {
-            $data = array('errorCode' => 2, 'msg' => 'Parametro inválido');
+            $data = array('errorCode' => 2, self::MSG_PARAMETRO_INVALIDO);
         }
 
         header(self::HEADER);
@@ -411,7 +427,7 @@ class DefaultController extends Controller
                 $data = array('errorCode' => 1, 'msg' => 'Erro ao excluir item');
             }
         } else {
-            $data = array('errorCode' => 2, 'msg' => 'Parametro inválido');
+            $data = array('errorCode' => 2, self::MSG_PARAMETRO_INVALIDO);
         }
 
         header(self::HEADER);
