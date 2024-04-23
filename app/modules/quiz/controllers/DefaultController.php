@@ -6,6 +6,13 @@ class DefaultController extends Controller
     const RENDER_QUIZ_UPDATE = 'quiz/update';
     const RENDER_GROUP_UPDATE = 'group/update';
     const MSG_PARAMETRO_INVALIDO = 'Parametro inválido';
+    const PARAMETRO_COMPLEMENT = ':complement';
+    const PARAMETRO_QUIZ_ID = ':quiz_id';
+    const PARAMETRO_QUESTION_ID = ':question_id';
+    const PARAMETRO_STUDENT_ID = ':student_id';
+    const PARAMETRO_SEQ = ':seq';
+    const PARAMETRO_OPTION_ID = ':option_id';
+    const PARAMETRO_VALUE = ':value';
 
     public function actionIndex()
     {
@@ -509,7 +516,6 @@ class DefaultController extends Controller
 
             if (is_null($answered)) {
                 try {
-
                     foreach ($data as $questionId => $response) {
                         $sql = "INSERT INTO answer (quiz_id, question_id, student_id, seq, option_id, value, complement)
                                 VALUES(:quiz_id, :question_id, :student_id, :seq, :option_id, :value, :complement)";
@@ -518,29 +524,32 @@ class DefaultController extends Controller
                         if (is_array($response)) {
                             foreach ($response as $key => $value) {
                                 $command = $connection->createCommand($sql);
-                                $command->bindParam(":quiz_id", $quizId, PDO::PARAM_INT);
-                                $command->bindParam(":question_id", $questionId, PDO::PARAM_INT);
-                                $command->bindParam(":student_id", $studentId, PDO::PARAM_INT);
-                                $command->bindParam(":seq", $seq, PDO::PARAM_INT);
-                                $command->bindParam(":option_id", $key, PDO::PARAM_INT);
-                                $command->bindParam(":value", $value['response'], PDO::PARAM_STR);
+                                $command->bindParam(self::PARAMETRO_QUIZ_ID, $quizId, PDO::PARAM_INT);
+                                $command->bindParam(self::PARAMETRO_QUESTION_ID, $questionId, PDO::PARAM_INT);
+                                $command->bindParam(self::PARAMETRO_STUDENT_ID, $studentId, PDO::PARAM_INT);
+                                $command->bindParam(self::PARAMETRO_SEQ, $seq, PDO::PARAM_INT);
+                                $command->bindParam(self::PARAMETRO_OPTION_ID, $key, PDO::PARAM_INT);
+                                $command->bindParam(self::PARAMETRO_VALUE, $value['response'], PDO::PARAM_STR);
                                 if (isset($value['complement'])) {
-                                    $command->bindParam(":complement", $value['complement'], PDO::PARAM_STR);
+                                    $command->bindParam(
+                                        self::PARAMETRO_COMPLEMENT,
+                                        $value['complement'],
+                                        PDO::PARAM_STR);
                                 } else {
-                                    $command->bindParam(":complement", $complementNull, PDO::PARAM_NULL);
+                                    $command->bindParam(self::PARAMETRO_COMPLEMENT, $complementNull, PDO::PARAM_NULL);
                                 }
                                 $command->execute();
                                 ++$seq;
                             }
                         } else {
                             $command = $connection->createCommand($sql);
-                            $command->bindParam(":quiz_id", $quizId, PDO::PARAM_INT);
-                            $command->bindParam(":question_id", $questionId, PDO::PARAM_INT);
-                            $command->bindParam(":student_id", $studentId, PDO::PARAM_INT);
-                            $command->bindParam(":seq", $seq, PDO::PARAM_INT);
-                            $command->bindParam(":option_id", $seq, PDO::PARAM_INT);
-                            $command->bindParam(":value", $response, PDO::PARAM_STR);
-                            $command->bindParam(":complement", $complementNull, PDO::PARAM_NULL);
+                            $command->bindParam(self::PARAMETRO_QUIZ_ID, $quizId, PDO::PARAM_INT);
+                            $command->bindParam(self::PARAMETRO_QUESTION_ID, $questionId, PDO::PARAM_INT);
+                            $command->bindParam(self::PARAMETRO_STUDENT_ID, $studentId, PDO::PARAM_INT);
+                            $command->bindParam(self::PARAMETRO_SEQ, $seq, PDO::PARAM_INT);
+                            $command->bindParam(self::PARAMETRO_OPTION_ID, $seq, PDO::PARAM_INT);
+                            $command->bindParam(self::PARAMETRO_VALUE, $response, PDO::PARAM_STR);
+                            $command->bindParam(self::PARAMETRO_COMPLEMENT, $complementNull, PDO::PARAM_NULL);
                             $command->execute();
                         }
                     }
@@ -554,7 +563,6 @@ class DefaultController extends Controller
                 Yii::app()->user->setFlash('error', Yii::t('default', 'O aluno já respondeu este questionário'));
             }
         }
-
         $this->render('answer/view', array(
             'quizId' => $quizId,
             'studentId' => $studentId
