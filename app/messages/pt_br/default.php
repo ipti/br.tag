@@ -864,6 +864,8 @@ return array(
     'Users' => 'Usuários',
     'manager' => 'Gestor Escolar',
     'instructor' => 'Professor',
+    'coordinator' => 'Coordenador Pedagógico',
+    'nutritionist' => 'Nutricionista',
     'admin' => 'Administrador',
     'Edit Password' => 'Alterar Senha',
 
