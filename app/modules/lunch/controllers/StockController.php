@@ -26,7 +26,7 @@ class StockController extends CController{
         $school = yii::app()->user->school;
 
         if (!$postItem) {
-            $item_id = $postInventory['item'];
+            $itemId = $postInventory['item'];
             $amount = $postInventory['amount'];
         } else {
             $item = new Item();
@@ -37,14 +37,14 @@ class StockController extends CController{
 
             if ($item->validate()) {
                 $item->save();
-                $item_id = $item->id;
+                $itemId = $item->id;
                 $amount = $postInventory['amount'];
             }
         }
 
         $inventory = new Inventory();
         $inventory->school_fk = $school;
-        $inventory->item_fk = $item_id;
+        $inventory->item_fk = $itemId;
         $inventory->amount = $amount;
 
         if ($inventory->validate()) {
@@ -56,7 +56,17 @@ class StockController extends CController{
 
             if ($received->validate()) {
                 $received->save();
-                Log::model()->saveAction("lunch_stock", $received->id, "C", $received->inventory->item->name . "|" . $amount * $received->inventory->item->measure . " " . $received->inventory->item->unity->acronym);
+                $receivedInventory =
+                    $received->inventory->item->name
+                    . "|"
+                    . $amount * $received->inventory->item->measure
+                    . " "
+                    . $received->inventory->item->unity->acronym;
+                Log::model()->saveAction(
+                    "lunch_stock",
+                    $received->id,
+                    "C",
+                    $receivedInventory);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Item added successfully.'));
                 $this->redirect(['stock/index']);
             } else {
@@ -64,11 +74,12 @@ class StockController extends CController{
                 Yii::app()->user->setFlash('error', Yii::t('lunchModule.stock', 'Problem on item insertion.'));
                 $this->redirect(['stock/index']);
             }
-        } else {
-            $inventory->delete();
-            Yii::app()->user->setFlash('error', Yii::t('lunchModule.stock', 'Problem on inventory insertion.'));
-            $this->redirect(['stock/index']);
+
+            return;
         }
+        $inventory->delete();
+        Yii::app()->user->setFlash('error', Yii::t('lunchModule.stock', 'Problem on inventory insertion.'));
+        $this->redirect(['stock/index']);
     }
 
     public function actionRemoveItem(){
@@ -94,7 +105,17 @@ class StockController extends CController{
 
             if ($spent->validate()) {
                 $spent->save();
-                Log::model()->saveAction("lunch_stock", $spent->id, "D", $spent->inventory->item->name . "|" . $amount * $spent->inventory->item->measure . " " . $spent->inventory->item->unity->acronym);
+                $spentInventory =
+                    $spent->inventory->item->name
+                    . "|"
+                    . $amount * $spent->inventory->item->measure
+                    . " "
+                    . $spent->inventory->item->unity->acronym;
+                Log::model()->saveAction(
+                    "lunch_stock",
+                    $spent->id,
+                    "D",
+                    $spentInventory);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Item spent successfully.'));
                 $this->redirect(['stock/index']);
             } else {
@@ -102,12 +123,14 @@ class StockController extends CController{
                 Yii::app()->user->setFlash('error', Yii::t('lunchModule.stock', 'Problem when spending.'));
                 $this->redirect(['stock/index']);
             }
-        } else {
-            $inventory->delete();
-            Yii::app()->user->setFlash('error', Yii::t('lunchModule.stock', 'Problem on inventory insertion.'));
-            $this->redirect(['stock/index']);
+
+            return;
         }
+        $inventory->delete();
+        Yii::app()->user->setFlash('error', Yii::t('lunchModule.stock', 'Problem on inventory insertion.'));
+        $this->redirect(['stock/index']);
     }
+
     public function actionDeleteItem() {
         $lunchItemId = Yii::app()->request->getPost('lunchItemId', null);
         if($lunchItemId){
@@ -118,8 +141,6 @@ class StockController extends CController{
                 }
             $item =  Item::model()->findByPk($lunchItemId);
             $item->delete();
-            var_dump(Yii::app()->user->school);
         }
-        
     }
 }
