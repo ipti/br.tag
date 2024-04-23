@@ -68,9 +68,12 @@ class CourseplanController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (isset($_POST['CoursePlan'])) {
+        if (isset($_POST['CoursePlan']))
+        {
             $this->actionSave($id);
-        } else {
+        }
+        if (!isset($_POST['CoursePlan']))
+        {
             $coursePlan = $this->loadModel($id);
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
 

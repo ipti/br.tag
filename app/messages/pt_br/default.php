@@ -753,7 +753,7 @@ return array(
     'Add Resource' => 'Novo Recurso',
     'Start Date' => 'Data Inicial',
     'Situation' => 'Situação',
-    'Save Validation' => 'Salvar Validação',
+    'Save Approval' => 'Salvar Aprovação',
     'Plan Approval' => 'Aprovação do plano',
     'Observation' => 'Observação',
 

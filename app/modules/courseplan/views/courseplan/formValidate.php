@@ -170,7 +170,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     </div>
                     <div class="row">
                         <a id="save-approval" class="t-button-primary">
-                            <?= Yii::t('default', 'Plan Approval'); ?>
+                            <?= Yii::t('default', 'Save Approval'); ?>
                         </a>
                     </div>
                     <div class="js-all-types no-show">
