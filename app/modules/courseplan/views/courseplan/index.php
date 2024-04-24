@@ -98,16 +98,28 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                             array(
                                 'header' => 'Ações',
                                 'class' => 'CButtonColumn',
-                                'template' => '{edition} {delete}',
+                                'template' => '{approved} {canceled} {delete}',
                                 'buttons' => array(
                                     'delete' => array(
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
                                     ),
-                                    'edition' => array(
-                                        'label' => 'Liberar para Edição',
-                                        'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                    'approved' => array(
+                                        'label' => '',
+                                        'options' => [
+                                            'class' => 't-course-plan-canceled',
+                                            'style' => 'font-size: 20px; padding-right: 3 3 0 0;'
+                                        ],
                                         'url' => 'Yii::app()->createUrl("courseplan/courseplan/enableCoursePlanEdition",array("id"=>$data->id))',
-                                        'visible' => '!Yii::app()->getAuthManager()->checkAccess("instructor", Yii::app()->user->loginInfos->id)',
+                                        'visible' => '!Yii::app()->getAuthManager()->checkAccess("instructor", Yii::app()->user->loginInfos->id) && $data->situation !== CoursePlan::STATUS_PENNDING',
+                                    ),
+                                    'canceled' => array(
+                                        'label' => '',
+                                        'options' => [
+                                            'class' => 't-course-plan-approved',
+                                            'style' => 'font-size: 20px; padding: 3 3 0 0;'
+                                        ],
+                                        'url' => 'Yii::app()->createUrl("courseplan/courseplan/enableCoursePlanEdition",array("id"=>$data->id))',
+                                        'visible' => '!Yii::app()->getAuthManager()->checkAccess("instructor", Yii::app()->user->loginInfos->id) && $data->situation === CoursePlan::STATUS_PENNDING',
                                     )
                                 ),
                                 'afterDelete' => 'function(link, success, data){

@@ -27,6 +27,7 @@
  */
 class CoursePlan extends CActiveRecord
 {
+    public const STATUS_PENNDING = "PENDENTE";
 	/**
 	 * @return string the associated database table name
 	 */

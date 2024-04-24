@@ -158,7 +158,6 @@ function format_validate(d){
     column1.append(ability);
     column1.append(type);
     column1.append(resource);
-    column1.append(deleteButton);
     div.append(id);
     div.append(column1);
     return div;
