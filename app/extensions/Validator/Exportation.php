@@ -79,7 +79,7 @@ class Exportation {
 		*Checa se há o determinado de grupo de pessoas nas modalidades disponíveis
 		*uxilia campo 92 à 95 no registro 10
 	*/
-	function areThereByModalitie($sql){
+	function byModalitie($sql){
 		$people_by_modalitie = self::$db->select($sql);
 		$modalities_regular	= false;
 		$modalities_especial = false;
@@ -108,8 +108,8 @@ class Exportation {
 					break;
 			}
 		}
-		return array("modalities_regular" => $modalities_regular, 
-						"modalities_especial" => $modalities_especial, 
+		return array("modalities_regular" => $modalities_regular,
+						"modalities_especial" => $modalities_especial,
 						"modalities_eja" => $modalities_eja,
 						"modalities_professional" => $modalities_professional);
 	}
