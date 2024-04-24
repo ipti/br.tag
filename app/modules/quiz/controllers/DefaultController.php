@@ -3,9 +3,13 @@
 class DefaultController extends Controller
 {
     const HEADER = 'Content-Type: application/json; charset="UTF-8"';
+
+    // LINK renderPartial
     const RENDER_QUIZ_UPDATE = 'quiz/update';
     const RENDER_GROUP_UPDATE = 'group/update';
     const MSG_PARAMETRO_INVALIDO = 'Parametro inválido';
+
+    // SQL bindParam
     const PARAMETRO_COMPLEMENT = ':complement';
     const PARAMETRO_QUIZ_ID = ':quiz_id';
     const PARAMETRO_QUESTION_ID = ':question_id';
@@ -346,14 +350,13 @@ class DefaultController extends Controller
 
         if (isset($_POST['Question'])) {
             $question->attributes = $_POST['Question'];
-            if ($question->validate()) {
-                if ($question->save()) {
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Questão atualizada com sucesso'));
-                } else {
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Erro ao atualizar questões'));
-                }
+            if ($question->validate() && $question->save()) {
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Questão atualizada com sucesso'));
+            } else {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao atualizar questão'));
             }
         }
+
         $this->render('question/update', ['question' => $question, 'option' => $option]);
     }
 
