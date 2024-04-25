@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dahxr1kjtgbpk"
+
+[deps]
+
+files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Língua Inglesa. demonstrando iniciativa para utilizar a língua inglesa..translation"]
+
+source_file="res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Língua Inglesa.csv"
+dest_files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Língua Inglesa. demonstrando iniciativa para utilizar a língua inglesa..translation"]
+
+[params]
+
+compress=true
+delimiter=0

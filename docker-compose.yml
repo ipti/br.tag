@@ -74,6 +74,14 @@ services:
       - ./sass/scss:/sass
       - ./sass/css:/css
     entrypoint: ["/opt/dart-sass/sass", "--watch", "--no-source-map" ,"--style=compressed", "/sass:/css"]
+
+  bytebase:
+      image: bytebase/bytebase
+      ports:
+        - 8080:8080
+      volumes:
+        - ./docker/bytebase-data:/data
+
 networks:
   tag-v3-network:
 
