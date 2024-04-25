@@ -372,6 +372,23 @@ class SagresConsultModel
             $params = array(':inepId' => $inepId);
             $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
 
+            $count = (int) \StudentEnrollment::model()->count(array(
+                'condition' => 'classroom_fk = :classroomId',
+                'params' => array(':classroomId' => $classId),
+            ));
+
+            if($count === 0) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = TURMA_STRONG;
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'Não há matrículas ativas para a turma: <strong>'. $classType->getDescricao() . '</strong>';
+                $inconsistencyModel->action = 'Adicione alunos para a turma: ' . $classType->getDescricao();
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
             /*
              *  [0 : Anual], [1 : 1°], [2 : 2º] Semestre
              */
@@ -380,7 +397,7 @@ class SagresConsultModel
                 $inconsistencyModel->enrollment = TURMA_STRONG;
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Valor inválido para o período';
-                $inconsistencyModel->action = 'Adicione um valor válido para o período da turma: ' . $classType->getDescricao();
+                $inconsistencyModel->action = 'Adicione um valor válido para o período da turma: <strong>' . $classType->getDescricao() . '</strong>';
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
@@ -391,7 +408,7 @@ class SagresConsultModel
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
                 $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'Descrição para a turma menor que 3 caracteres';
+                $inconsistencyModel->description = 'Descrição para a turma: <strong>' . $classType->getDescricao() . ' </strong> menor que 3 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição mais detalhada, contendo mais de 5 caracteres';
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
@@ -403,15 +420,14 @@ class SagresConsultModel
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
                 $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'Descrição para a turma com mais de 50 caracteres';
+                $inconsistencyModel->description = 'Descrição para a turma: <strong>' . $classType->getDescricao() . ' </strong> com mais de 50 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição menos detalhada, contendo até 50 caracteres';
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
-
-            if (!in_array($classType->getTurno(), [1, 2, 3, 4])) {
+            if($classType->getTurno() === 0){
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
                 $inconsistencyModel->school = $schoolRes['name'];
@@ -421,6 +437,18 @@ class SagresConsultModel
                 $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
+            }else{
+                if (!in_array($classType->getTurno(), [1, 2, 3, 4])) {
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = TURMA_STRONG;
+                    $inconsistencyModel->school = $schoolRes['name'];
+                    $inconsistencyModel->description = 'Valor inválido para o turno da turma: <strong>' . $classType->getDescricao() . '</strong>';
+                    $inconsistencyModel->action = 'Selecione um turno válido para o horário de funcionamento';
+                    $inconsistencyModel->identifier = '10';
+                    $inconsistencyModel->idClass = $idClassroom;
+                    $inconsistencyModel->idSchool = $inepId;
+                    $inconsistencyModel->insert();
+                }
             }
 
             if (!is_bool($classType->getFinalTurma())) {
@@ -568,7 +596,21 @@ class SagresConsultModel
 
         $schedules = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
         $class = (object) \Classroom::model()->findByAttributes(array('id' => $classId));
-       
+
+
+        $getTeachersForClass = $this->getTeachersForClass($classId);
+        if(empty($getTeachersForClass)) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = TURMA_STRONG;
+            $inconsistencyModel->school = $school->name;
+            $inconsistencyModel->description = 'Não há professores registrados para a turma: <strong>' . $class->name . '<strong>';
+            $inconsistencyModel->action = 'Adicione os professores juntamente com os seus componentes curriculares';
+            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->idClass = $classId;
+            $inconsistencyModel->idSchool = $inepId;
+            $inconsistencyModel->insert();
+        }
+
 
         $getTeachersForClass = $this->getTeachersForClass($classId);
         if(empty($getTeachersForClass)) {
@@ -596,8 +638,25 @@ class SagresConsultModel
                     $inconsistencyModel->idClass = $classId;
                     $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
-                }   
-            }    
+                }
+            }
+        }
+
+        if(!empty($getTeachersForClass)) {
+            foreach($getTeachersForClass as $teachers) {
+                $componentesCurriculares = $this->getComponentesCurriculares($classId, $teachers['instructor_fk']);
+                if(empty($componentesCurriculares)){
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = TURMA_STRONG;
+                    $inconsistencyModel->school = $school->name;
+                    $inconsistencyModel->description = 'O professor <strong>' . $teachers['name'] . '</strong> está sem seus componentes curriculares para a turma: <strong>' . $class->name . '<strong>';
+                    $inconsistencyModel->action = 'Adicione os componentes curriculares para o professor: <strong>' . $teachers['name'] . '</strong>';
+                    $inconsistencyModel->identifier = '10';
+                    $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->idSchool = $inepId;
+                    $inconsistencyModel->insert();
+                }
+            }
         }
 
 
@@ -707,7 +766,7 @@ class SagresConsultModel
     }
 
     private function getComponentesCurriculares($classId, $instructorId) {
-        $query = "SELECT 
+        $query = "SELECT
                         *
                     FROM instructor_teaching_data itd
                         JOIN teaching_matrixes tm on itd.id = tm.teaching_data_fk
@@ -722,14 +781,14 @@ class SagresConsultModel
             ':classId' => $classId,
             ':instructorId' => $instructorId
         ];
-    
+
         return Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
     }
 
     private function getTeachersForClass($classId) {
         $query = "SELECT itd.instructor_fk, ii.name
                     FROM instructor_teaching_data itd
-                        JOIN instructor_identification ii ON ii.id = itd.instructor_fk 
+                        JOIN instructor_identification ii ON ii.id = itd.instructor_fk
                         JOIN classroom c ON c.id = itd.classroom_id_fk
                     WHERE
                         c.id = :classId
@@ -738,11 +797,11 @@ class SagresConsultModel
         $params = [
             ':classId' => $classId
         ];
-    
+
         return Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
     }
-    
-    
+
+
     /**
      * Calculates the start time for a given schedule and initial hour.
      *
