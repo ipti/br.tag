@@ -130,7 +130,7 @@ class AdminController extends Controller
                 if ($model->validate()) {
                     $passwordHasher =  new PasswordHasher;
                     $password = $passwordHasher->bcriptHash($_POST['Users']['password']);
-                   
+
                     $model->password = $password;
                     // form inputs are valid, do something here
                     if ($model->save()) {
@@ -260,6 +260,8 @@ class AdminController extends Controller
         $finalRecovery = Yii::app()->request->getPost("finalRecovery");
         $ruleType = Yii::app()->request->getPost("ruleType");
         $hasFinalRecovery = Yii::app()->request->getPost("hasFinalRecovery") === "true";
+        $hasPartialRecovery = Yii::app()->request->getPost("hasSemFinalRecovery") === "true";
+        $partialRecoveries = Yii::app()->request->getPost("partialRecoveries");
 
         try {
             $usecase = new UpdateGradeStructUsecase(
@@ -270,7 +272,10 @@ class AdminController extends Controller
                 $finalRecoverMedia,
                 $calculationFinalMedia,
                 $hasFinalRecovery,
-                $ruleType);
+                $ruleType,
+                $hasPartialRecovery,
+                $partialRecoveries,
+                );
             $usecase->exec();
 
             if ($hasFinalRecovery === true) {

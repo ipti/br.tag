@@ -23,9 +23,7 @@ $(document).on("click", ".js-new-unity", function (e) {
                 </a>
                 <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor"></span>
             </div>
-            <div id="collaps-${unities}"class=" collapse ${
-        unities == 0 ? "in" : ""
-    }">
+            <div id="collaps-${unities}"class=" collapse ${unities == 0 ? "in" : ""}">
                 <input type='hidden' class="unity-id">
                 <input type="hidden" class="unity-operation" value="create">
                 <div class="t-field-text" style="margin-top: 16px">
@@ -270,11 +268,11 @@ $(document).on("change", ".js-has-final-recovery", function (event) {
     }
 });
 
-$(document).on("change", ".js-has-sem-recovery", function (event) {
+$(document).on("change", ".js-has-partial-recovery", function (event) {
     const isChecked = $(this).is(":checked");
     // const isNew = $(".final-recovery-unity-id").val() === "";
     if (isChecked) {
-        $(".js-sem-recovery-form").show();
+        $(".js-partial-recovery-form").show();
         if (isNew) {
             $(".final-recovery-unity-operation").val("create");
         } else {
@@ -662,3 +660,43 @@ $(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
     }
     this.value = val;
 });
+
+class PartialRecoveryFormComponent extends HTMLElement {
+    constructor() {
+        super();
+        this.shadow = this.attachShadow({ mode: "open" });
+    }
+    connectedCallback() {
+        this.shadow.innerHTML = this.render();
+    }
+
+    style () {
+        return `<style>
+            @import 'themes/default/css/bootstrap.min.css';
+            @import 'sass/css/main.css';
+        </style>`;
+    }
+    render() {
+        const partialRecovery = $(".partial-recovery").length;
+
+        return template`${this.style()}
+        <div class="accordion-group">
+            <div class='row unity-heading ui-accordion-header'>
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-partial" href="#collaps-${partialRecovery}">
+                        <h2 class="unity-title accordion-heading">Recuperação Parcial: </h2>
+                    </a>
+                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor"></span>
+            </div>
+            <div id="collaps-${partialRecovery}" class="collapse ${partialRecovery == 0 ? "in" : ""}">
+                <p>aaaaaaaaaaaaa<p>
+            </div>
+        </div>
+        `;
+    }
+}
+customElements.define("partial-recovery-form-component", PartialRecoveryFormComponent);
+
+$(document).on("click", ".js-new-partial-recovery", (e) => {
+    $('.partial-recoveries-container').append("<partial-recovery-form-component></partial-recovery-form-component>")
+    $("#accordion-partial").collapse();
+})

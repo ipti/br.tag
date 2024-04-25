@@ -92,17 +92,25 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <label class="t-field-text__label--required">Média de Aprovação</span></label>
                 <input type="text" class="approval-media t-field-text__input">
             </div>
-            <div class="numeric-fileds t-field-checkbox">
-                <?php echo CHtml::checkBox(
-                    'has_sem_recovery',
-                    false,
-                    array(
-                        'class'=> 't-field-checkbox__input js-has-sem-recovery'
+            <div class="row numeric-fields">
+                <div class="numeric-fields t-field-checkbox" style="width:auto;">
+                    <?php echo CHtml::checkBox(
+                        'has_partial_recovery',
+                        false,
+                        array(
+                            'class'=> 't-field-checkbox__input js-has-partial-recovery'
+                        )
                     )
-                )
-                ?>
-                <?php echo CHtml::label("Incluir recuperação semestral?", 'has_sem_recovery', array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
+                    ?>
+                    <?php echo CHtml::label("Incluir recuperação semestral?", 'has_partial_recovery',
+                     array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
+                </div>
+                <a href="#new-partial-recovery" id="new-partial-recovery"
+                        class="js-new-partial-recovery t-button-primary">
+                    <img alt="Recuperação" src="/themes/default/img/buttonIcon/start.svg">Recuperação Parcial
+                </a>
             </div>
+
             <div class="numeric-fields t-field-checkbox">
                 <?php echo CHtml::checkbox(
                     'has_final_recovery',
@@ -129,7 +137,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion"
             style="display: none;">
         </div>
-        <div class="column js-sem-recovery-form  is-three-fifths" style="display: none;">
+   <!--      <div class="column js-partial-recovery-form  is-three-fifths" style="display: none;">
             <h2>Regras de recuperação Semestral</h2>
             <p class="subheading">
                 Configure as regras básicas para aprovação dos alunos
@@ -150,13 +158,13 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <div class="t-field-select js-calculation">
                 <label class='t-field-select__label--required'>Forma de cálculo:</span></label>
                 <select class='t-field-select__input select-search-on final-recovery-unity-calculation'>
-                    <?php foreach ($formulas as $formula): ?>
-                        <option value="<?= $formula->id ?>">
-                            <?= $formula->name ?>
-                        </option>
-                    <?php endforeach; ?>
+
                 </select>
             </div>
+        </div> -->
+        <div id="accordion-partial" class="partial-recoveries-container">
+
+
         </div>
         <div class="column js-recovery-form  is-three-fifths" style="display: none;">
             <h2>Regras de recuperação final</h2>
