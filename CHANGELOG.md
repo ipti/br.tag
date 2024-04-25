@@ -6,9 +6,11 @@
 - 
 ## [Versão 3.77.133]
 - Realizado correções nas validações das datas para Professor, Estudante e Escola
-
+- Correção no id da classe para as inconsistências
+- 
 ## [Versão 3.78.132]
 - Adicionado campo para a assinatura do diretor 
+- Adicionado unidades de medida para o lançamento no estoque
 
 ## [Versão 3.77.132]
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
