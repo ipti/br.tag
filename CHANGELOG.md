@@ -21,6 +21,7 @@
 - Adicionado unidades de medida para o lançamento no estoque
 
 ## [Versão 3.77.132]
+- Adicionado correção para a tamanho da descrição da merenda
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
 
 ## [Versão 3.76.131]
