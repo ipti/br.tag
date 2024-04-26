@@ -36,7 +36,7 @@ $(document).on("change", '.js-filter-turns, .js-filter-public-target', function 
 
         if (publicTargetFilter.length > 0) {
             mealsOfWeekFiltered[day] = mealsOfWeekFiltered[day].filter((item) => {
-                return publicTargetFilter.some((i) => i === item.food_public_target_id);
+                return publicTargetFilter.some((i) => i === item.foodPublicTargetId);
             });
         }
     });
