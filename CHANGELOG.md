@@ -1,14 +1,19 @@
+## [Versão 3.78.135]
+- Adicionando funcionalidade de validação de planos de aula
+- Criando novo tipo de usuário e visibilidade "Coordenador"
+
 ## [Versão 3.77.135]
 - Adicionado novas inconsistências para a falta de componentes curriculasres
 
 ## [Versão 3.77.134]
 - Consertado tela de frequencia para os professores
-- 
+-
 ## [Versão 3.77.133]
 - Realizado correções nas validações das datas para Professor, Estudante e Escola
 - Correção no id da classe para as inconsistências
 - 
 ## [Versão 3.78.132]
+- Adicionado campo para a assinatura do diretor
 - Adicionado campo para a assinatura do diretor 
 - Adicionado unidades de medida para o lançamento no estoque
 

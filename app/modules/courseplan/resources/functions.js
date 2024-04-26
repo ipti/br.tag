@@ -2,7 +2,7 @@ function initDatatable() {
     table = $('#course-classes').DataTable({
         ajax: {
             type: "POST",
-            url: "?r=courseplan/getCourseClasses",
+            url: "?r=courseplan/courseplan/getCourseClasses",
             data: function (data) {
                 data.coursePlanId = $(".js-course-plan-id").val();
             },
@@ -83,6 +83,84 @@ function addCoursePlanRow() {
 function removeCoursePlanRow(element) {
     let tr = $(element).closest( "tr" ).prev()
     table.row(tr).remove().draw();
+}
+
+function format_validate(d){
+    // Bloquando os campos de nome e data do plano de aula
+    $('#CoursePlan_name').attr('readonly', 'readonly');
+    $('#courseplan_start_date').attr('readonly', 'readonly');
+
+    // Inserindo as informações do plano de aula no formulário
+    let div = $('<div id="course-class[' + d.class + ']" class="course-class course-class-' + d.class + ' row"></div>');
+    let column1 = $('<div   class="column no-grow"></div>');
+    let id = $('<input type="hidden" name="course-class[' + d.class + '][id]" value="' + d.courseClassId + '">');
+    let objective = $('<div class="t-field-tarea objective-input"></div>');
+    let objectiveLabel = $('<div><label class="t-field-tarea__label" for="course-class[' + d.class + '][objective]">Objetivo *</label></span>');
+    let objectiveInput = $('<textarea readonly="readonly" class="t-field-tarea__input course-class-objective" placeholder="Digite o Objetivo do Plano" id="objective-' + d.class + '" name="course-class[' + d.class + '][objective]">' + d.objective + '</textarea>');
+
+    let ability = $('<div class="control-group courseplan-ability-container"></div>');
+    let abilityLabel = $('<label class="" for="course-class[' + d.class + '][ability][]">Habilidade(s)</label>');
+    let abilitiesContainer = $('<div class="courseplan-abilities-selected">');
+
+    let type = $('<div class="t-field-text control-group courseplan-type-container"></div>');
+    let typeLabel = $('<label class="t-field-text__label" for="course-class[' + d.class + '][type][]">Tipo</label>');
+    let typeInput = $('<input readonly="readonly" type="text" class="t-field-text__input" name="course-class[' + d.class + '][type]"></input>');
+    typeInput.val(d.type);
+
+    let resourceButtonContainer = $('<div class="t-buttons-container control-group no-margin"></div>');
+    let resource = $('<div class="t-field-select control-group"></div>');
+    let resourceLabel = $('<label class="t-field-select__label" for="resource">Recurso(s)</label>');
+    let resourceInput = $('<div class="t-field-select__input resource-input"></div>');
+    let deleteButton = "";
+    if(d.deleteButton === 'js-unavailable'){
+        deleteButton = $('<div class="t-buttons-container"><a class="t-button-danger js-remove-course-class js-unavailable t-button-danger--disabled" data-toggle="tooltip" data-placement="left" title="Aula já ministrada em alguma turma. Não é possível removê-la do plano de aula.">Excluir Plano</a></div>')
+    } else {
+        deleteButton = $('<div class="t-buttons-container"><a class="t-button-danger js-remove-course-class">Excluir Plano</a></div>')
+    }
+
+    let resources = $('<div class="row wrap no-gap resources"></div>');
+    if (d.abilities !== null) {
+        $.each(d.abilities, function (i, v) {
+            let div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+            abilitiesContainer.append(div);
+        });
+    }
+    if (d.types !== null) {
+        typeInput.val(d.type);
+    }
+    if (d.resources !== null) {
+        $.each(d.resources, function (i, v) {
+            let resourceId = v.id;
+            let resourceValue = v.value;
+            let resourceName = v.description;
+            let resourceAmount = v.amount;
+            let div = $('<div class="row t-badge-content course-class-resource"></div>');
+            let values = $('<input class="resource-id" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][id]" value="' + resourceId + '"/>'
+                + '<input class="resource-value" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][value]" value="' + resourceValue + '"/>'
+                + '<input class="resource-amount" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][amount]" value="' + resourceAmount + '"/>');
+            let label = $('<span class="row"><span class="resource-amount-text">' + resourceAmount + '</span>x - ' + resourceName + ' </span></span>');
+            div.append(values);
+            div.append(label);
+            resources.append(div);
+        });
+    }
+    objective.append(objectiveLabel);
+    objective.append(objectiveInput);
+    ability.append(abilityLabel);
+    ability.append(abilitiesContainer);
+    resource.append(resourceButtonContainer);
+    resource.append(resourceLabel);
+    resource.append(resourceInput);
+    resource.append(resources);
+    type.append(typeLabel);
+    type.append(typeInput);
+    column1.append(objective);
+    column1.append(ability);
+    column1.append(type);
+    column1.append(resource);
+    div.append(id);
+    div.append(column1);
+    return div;
 }
 
 function format(d) {
@@ -200,7 +278,7 @@ function removeNewResource(button){
 function saveNewResources(){
     $.ajax({
         type: "POST",
-        url: "?r=courseplan/addResources",
+        url: "?r=courseplan/courseplan/addResources",
         cache: false,
         data: {
             resources: newResources,
@@ -220,12 +298,12 @@ function updateSelectResources(){
     resourceSelect.html("");
     $.ajax({
         type: "GET",
-        url: "?r=courseplan/getResources",
+        url: "?r=courseplan/courseplan/getResources",
         cache: false
     }).success(function(response){
         let resources = JSON.parse(response);
         Object.entries(resources).forEach(function(option) {
-            resourceSelect.append(option);
+            resourceSelect.append(DOMPurify.sanitize(option));
         });
         resourceSelect.select2("destroy");
         resourceSelect.select2();
@@ -248,14 +326,14 @@ function addResource(button) {
             let row = table.row(tr);
             let d = row.data();
             let count = $(resources).children('.course-class-resource').length;
-            let div = $('<div class="t-badge-content course-class-resource"></div>');
+            let divRes = $('<div class="t-badge-content course-class-resource"></div>');
             let values = $('<input class="resource-id" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][id]" value=""/>'
                 + '<input class="resource-value" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][value]" value="' + resourceValue + '"/>'
                 + '<input class="resource-amount" type="hidden" name="course-class[' + d.class + '][resource][' + count + '][amount]" value="' + resourceAmount + '"/>');
             let label = $('<span class="row"><span class="fa fa-times remove-resource"><i></i></span><span><span class="resource-amount-text">' + resourceAmount + '</span>x - ' + resourceName + ' </span></span>');
-            div.append(values);
-            div.append(label);
-            resources.append(div);
+            divRes.append(values);
+            divRes.append(label);
+            resources.append(divRes);
         };
     }
     objective.append(objectiveLabel);

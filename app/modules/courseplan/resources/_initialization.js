@@ -14,8 +14,10 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
     var i = $(this).children('img').first();
     var row = table.row(tr);
 
+    let formatSelectionFunction = (d) => $('#validate-index').length > 0 ? format_validate(d) : format(d);
+
     if (!row.child.isShown()) {
-        row.child(format(row.data())).show();
+        row.child(formatSelectionFunction(row.data())).show();
         tr.next().find('select.type-select, select.resource-select').select2();
         tr.next().find('select.ability-select').select2({
             formatSelection: function (state) {
@@ -67,7 +69,7 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
     if ($(this).val() !== "") {
         $.ajax({
             type: "POST",
-            url: "?r=courseplan/getDisciplines",
+            url: "?r=courseplan/courseplan/getDisciplines",
             cache: false,
             data: {
                 stage: $("#CoursePlan_modality_fk").val(),
@@ -114,10 +116,10 @@ $(document).on("change", "#CoursePlan_discipline_fk", function () {
                 if (Object.keys(data.options).length) {
                     $(".js-alert-ability-structure").hide();
                     if (data.options[0].code === null) {
-                        $(".js-abilities-parents").html(buildAbilityStructureSelect(data));
+                        $(".js-abilities-parents").html(DOMPurify.sanitize(buildAbilityStructureSelect(data)));
                         // $(".js-abilities-parents select").select2();
                     } else {
-                        $(".js-abilities-panel").html(buildAbilityStructurePanel(data));
+                        $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(data)));
                     }
                     $(".ability-structure-select").css('width', '100%');
                 } else {
@@ -151,9 +153,9 @@ $(document).on("change", ".ability-structure-select", function () {
             success: function (data) {
                 data = JSON.parse(data);
                 if (data.options[0].code === null) {
-                    $(".js-abilities-parents").append(buildAbilityStructureSelect(data));
+                    $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(data)));
                 } else {
-                    $(".js-abilities-panel").html(buildAbilityStructurePanel(data));
+                    $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(data)));
                 }
                 $(".loading-abilities-select").hide();
                 $(".ability-structure-select").css('width', '100%');
@@ -257,3 +259,22 @@ $("#save").on('click', function () {
         $("#course-plan-form").submit();
     }
 });
+
+$(document).on('click', '#save-approval', function(e){
+    e.preventDefault();
+    const courseplanId = $('#course-plan-form')[0][0].value;
+    const observation = $('.validate-description').val();
+    const approval = $('#approved_field')[0].checked;
+    $.ajax({
+        type: "POST",
+        url: "?r=courseplan/courseplan/validatePlan&id="+courseplanId,
+        cache: false,
+        data: {
+            approval_field: approval,
+            observation: observation
+        },
+        success: function () {
+            window.location.href = "?r=courseplan/courseplan/pendingPlans";
+        },
+    });
+})
