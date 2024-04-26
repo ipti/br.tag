@@ -260,7 +260,7 @@ class AdminController extends Controller
         $finalRecovery = Yii::app()->request->getPost("finalRecovery");
         $ruleType = Yii::app()->request->getPost("ruleType");
         $hasFinalRecovery = Yii::app()->request->getPost("hasFinalRecovery") === "true";
-        $hasPartialRecovery = Yii::app()->request->getPost("hasSemFinalRecovery") === "true";
+        $hasPartialRecovery = Yii::app()->request->getPost("hasPartialRecovery") === "true";
         $partialRecoveries = Yii::app()->request->getPost("partialRecoveries");
 
         try {

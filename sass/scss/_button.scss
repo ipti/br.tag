@@ -102,8 +102,18 @@
 
     &:hover,
     &--active {
-        color: $colorsBaseWhiteNormal;
-        background-color: $colorsBaseProductNormalActive;
+       /*  color: $colorsBaseWhiteNormal;
+        background-color: $colorsBaseProductNormalActive; */
+    }
+    &.disabled {
+        background-color: $colorsBaseCloudNormal;
+        color: $colorsBaseInkLighterActive;
+        &:hover,
+        &:active,
+        &:focus{
+            background-color: $colorsBaseCloudNormal;
+            color: $colorsBaseInkLighterActive;
+        }
     }
 
     &:link,

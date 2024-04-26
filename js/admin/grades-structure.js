@@ -272,18 +272,19 @@ $(document).on("change", ".js-has-partial-recovery", function (event) {
     const isChecked = $(this).is(":checked");
     // const isNew = $(".final-recovery-unity-id").val() === "";
     if (isChecked) {
+        $(".js-new-partial-recovery").removeClass("disabled");
         $(".js-partial-recovery-form").show();
-        if (isNew) {
+       /*  if (isNew) {
             $(".final-recovery-unity-operation").val("create");
         } else {
             $(".final-recovery-unity-operation").val("update");
-        }
+        } */
     } else {
-        // debugger
+        $(".js-new-partial-recovery").addClass("disabled")
         $(".js-recovery-form").hide();
-        if (!isNew) {
+       /*  if (!isNew) {
             $(".final-recovery-unity-operation").val("delete");
-        }
+        } */
     }
 });
 
@@ -661,42 +662,67 @@ $(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
     this.value = val;
 });
 
-class PartialRecoveryFormComponent extends HTMLElement {
-    constructor() {
-        super();
-        this.shadow = this.attachShadow({ mode: "open" });
+ function addAccordion() {
+    let  partialRecovery = 0;
+    if( $(".partial-recovery").length > 0){
+         lastAccordion = Number($("#accordion-partial-recovery .partial-recovery:last").attr("data-index"));
+         partialRecovery = lastAccordion+1
     }
-    connectedCallback() {
-        this.shadow.innerHTML = this.render();
-    }
-
-    style () {
-        return `<style>
-            @import 'themes/default/css/bootstrap.min.css';
-            @import 'sass/css/main.css';
-        </style>`;
-    }
-    render() {
-        const partialRecovery = $(".partial-recovery").length;
-
-        return template`${this.style()}
-        <div class="accordion-group">
-            <div class='row unity-heading ui-accordion-header'>
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-partial" href="#collaps-${partialRecovery}">
-                        <h2 class="unity-title accordion-heading">Recuperação Parcial: </h2>
-                    </a>
-                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor"></span>
+    // const unities = getUnities();
+    const collapse = partialRecovery == 0 ? "in" : "";
+    return template`
+    <div class="partial-recovery-container">
+        <div class='row partial-recovery ui-accordion-header' data-index="${partialRecovery}">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-partial" href="#collaps-${partialRecovery}">
+                <h2 class="partial-recovery-title accordion-heading">Recuperação Parcial: </h2>
+            </a>
+            <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="font-size: 20px;"></span>
+        </div>
+        <div id="collaps-${partialRecovery}" class="collapse ${collapse}  partial-recovery-accordion-body">
+            <input type='hidden' class="sem-recovery-unity-id">
+            <input type='hidden' class="sem-recovery-unity-id">
+            <input type='hidden' class="sem-recovery-unity-type" value="RF">
+            <input type="hidden" class="sem-recovery-unity-operation" value="create">
+            <div class="t-field-text js-recovery-media-visibility">
+                <label class="t-field-text__label--required">Média de Rec. Semestral</span></label>
+                <input type="text" class="sem-recover-media t-field-text__input">
             </div>
-            <div id="collaps-${partialRecovery}" class="collapse ${partialRecovery == 0 ? "in" : ""}">
-                <p>aaaaaaaaaaaaa<p>
+            <div class="t-field-text" style="margin-top: 16px">
+                <label class='t-field-text__label--required'>Nome:</span></label>
+                <input type='text' class='t-field-text__input partial-recovery-name'
+                    placeholder='Recuperação Semestral'>
+            </div>
+            <div class="t-field-select js-calculation">
+                <label class='t-field-select__label--required'>Forma de cálculo:</label>
+                <select class='t-field-select__input js-formula-select select-search-on'>
+                    ${$(".formulas")[0].innerHTML}
+                </select>
+                <div class="t-multiselect">
+                <label class='t-field-select__label--required'>Unidades:</label>
+                <select class="t-field-select__input multiselect select-search-on js-partial-recovery-unities" multiple="multiple">
+                    <option value="1">Opção 1</option>
+                    <option value="2">Opção 2</option>
+                    <option value="3">Opção 3</option>
+                </select>
+            </div>
             </div>
         </div>
-        `;
-    }
+    </div>
+    `;
 }
-customElements.define("partial-recovery-form-component", PartialRecoveryFormComponent);
 
 $(document).on("click", ".js-new-partial-recovery", (e) => {
-    $('.partial-recoveries-container').append("<partial-recovery-form-component></partial-recovery-form-component>")
-    $("#accordion-partial").collapse();
+    if($(".js-has-partial-recovery").is(":checked")){
+        newccordion = addAccordion();
+        $('#accordion-partial-recovery').append(newccordion)
+        $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities").select2();
+    }
 })
+$(document).on("click", ".js-remove-partial-recovery", function (e) {
+    const partialRecovery = $(this).closest(".partial-recovery-container");
+    partialRecovery.remove();
+});
+$(document).on("keyup", ".partial-recovery-name", function (e) {
+    const partialRecovery = $(this).closest(".partial-recovery-container");
+    partialRecovery.find(".partial-recovery-title").html($(this).val());
+});

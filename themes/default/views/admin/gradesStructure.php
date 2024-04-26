@@ -105,8 +105,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                     <?php echo CHtml::label("Incluir recuperação semestral?", 'has_partial_recovery',
                      array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
                 </div>
-                <a href="#new-partial-recovery" id="new-partial-recovery"
-                        class="js-new-partial-recovery t-button-primary">
+                <a id="new-partial-recovery" class="js-new-partial-recovery t-button-primary disabled">
                     <img alt="Recuperação" src="/themes/default/img/buttonIcon/start.svg">Recuperação Parcial
                 </a>
             </div>
@@ -162,10 +161,14 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 </select>
             </div>
         </div> -->
-        <div id="accordion-partial" class="partial-recoveries-container">
-
-
+        <div class="row">
+            <div class="column is-three-fifths">
+                <div id="accordion-partial-recovery" class="t-accordeon-quaternary">
+                </div>
+            </div>
         </div>
+
+
         <div class="column js-recovery-form  is-three-fifths" style="display: none;">
             <h2>Regras de recuperação final</h2>
             <p class="subheading">
