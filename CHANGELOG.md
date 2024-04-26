@@ -1,3 +1,6 @@
+## [Versão 3.78.136]
+- Datepicker modificado para apresentar as informações em português
+
 ## [Versão 3.78.135]
 - Adicionando funcionalidade de validação de planos de aula
 - Criando novo tipo de usuário e visibilidade "Coordenador"
