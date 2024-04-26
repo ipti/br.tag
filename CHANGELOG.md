@@ -16,7 +16,6 @@
 - Correção no id da classe para as inconsistências
 - 
 ## [Versão 3.78.132]
-- Adicionado campo para a assinatura do diretor
 - Adicionado campo para a assinatura do diretor 
 - Adicionado unidades de medida para o lançamento no estoque
 
