@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cuiwgvrhml0ep"
+
+[deps]
+
+files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/serial.cars.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/serial.motorcycles.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/serial.bicycles.translation"]
+
+source_file="res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/serial.csv"
+dest_files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/serial.cars.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/serial.motorcycles.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/themes/default/js/amcharts/plugins/dataloader/examples/data/serial.bicycles.translation"]
+
+[params]
+
+compress=true
+delimiter=0

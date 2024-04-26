@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://b57yt4k66mnlc"
+
+[deps]
+
+files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/infantil. tempos.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/infantil. quantidades.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/infantil. relações e transformações;Bebês (zero a 1 ano e 6 meses);(EI01ET01) Explorar e descobrir as propriedades de objetos e materiais (odor, cor, sabor, temperatura)..translation"]
+
+source_file="res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/infantil.csv"
+dest_files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/infantil. tempos.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/infantil. quantidades.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/infantil. relações e transformações;Bebês (zero a 1 ano e 6 meses);(EI01ET01) Explorar e descobrir as propriedades de objetos e materiais (odor, cor, sabor, temperatura)..translation"]
+
+[params]
+
+compress=true
+delimiter=0

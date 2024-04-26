@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bhmkok23b4enw"
+
+[deps]
+
+files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Ciências. discutindo sua origem.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Ciências. os modos como são descartados e como podem ser usados de forma mais consciente..translation"]
+
+source_file="res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Ciências.csv"
+dest_files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Ciências. discutindo sua origem.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Ciências. os modos como são descartados e como podem ser usados de forma mais consciente..translation"]
+
+[params]
+
+compress=true
+delimiter=0
