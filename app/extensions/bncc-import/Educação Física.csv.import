@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cm1mb0qc76yv2"
+
+[deps]
+
+files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Educação Física. fruir e recriar diferentes brincadeiras e jogos da cultura popular presentes no contexto comunitário e regional.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Educação Física. reconhecendo e respeitando as diferenças individuais de desempenho dos colegas..translation"]
+
+source_file="res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Educação Física.csv"
+dest_files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Educação Física. fruir e recriar diferentes brincadeiras e jogos da cultura popular presentes no contexto comunitário e regional.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Educação Física. reconhecendo e respeitando as diferenças individuais de desempenho dos colegas..translation"]
+
+[params]
+
+compress=true
+delimiter=0

@@ -378,7 +378,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'Valor inválido para o período';
                 $inconsistencyModel->action = 'Adicione um valor válido para o período da turma: ' . $classType->getDescricao();
                 $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
@@ -390,7 +390,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'Descrição para a turma menor que 3 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição mais detalhada, contendo mais de 5 caracteres';
                 $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
@@ -402,7 +402,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'Descrição para a turma com mais de 50 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição menos detalhada, contendo até 50 caracteres';
                 $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
@@ -411,10 +411,10 @@ class SagresConsultModel
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
                 $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'Valor inválido para o turno da turma';
+                $inconsistencyModel->description = 'Valor inválido para o turno da turma: <strong>' . $classType->getDescricao() . '<strong>';
                 $inconsistencyModel->action = 'Selecione um turno válido para o horário de funcionamento';
                 $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
@@ -426,7 +426,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'Valor inválido para o final turma';
                 $inconsistencyModel->action = 'Selecione um valor válido para o encerramento do período';
                 $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $idClassroom;
+                $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }            
@@ -816,7 +816,8 @@ class SagresConsultModel
                         fm.start_date as data,
                         fm.description AS descricaoMerenda,
                         fm.adjusted AS ajustado,
-                        fmm.turn AS turno
+                        fmm.turn AS turno,
+                        fmm.menu_fk
                     FROM food_menu fm
                         JOIN food_menu_meal fmm on fmm.food_menuId = fm.id
                     WHERE YEAR(fm.start_date) = :year and month(fm.start_date) <= :month";
@@ -829,7 +830,8 @@ class SagresConsultModel
                     lm.date AS data,
                     lm.turn AS turno,
                     lm2.restrictions  AS descricaoMerenda,
-                    lm.adjusted AS ajustado
+                    lm.adjusted AS ajustado,
+                    lmm.menu_fk
                 FROM lunch_menu lm
                     JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk
                     JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
@@ -864,6 +866,8 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Turno inválido';
                 $inconsistencyModel->action = 'Informar um turno válido para o cardápio';
+                $inconsistencyModel->identifier = '11';
+                $inconsistencyModel->idLunch = $menu['menu_fk'];
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
@@ -874,6 +878,8 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Descrição para merenda menor que 5 caracteres';
                 $inconsistencyModel->action = 'Informar uma descrição para merenda maior que 4 caracteres';
+                $inconsistencyModel->identifier = '11';
+                $inconsistencyModel->idLunch = $menu['menu_fk'];
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
@@ -884,6 +890,8 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Descrição para a merenda maior que 1000 caracteres';
                 $inconsistencyModel->action = 'Informar uma descrição para a merenda menor que 1000 caracteres';
+                $inconsistencyModel->identifier = '11';
+                $inconsistencyModel->idLunch = $menu['menu_fk'];
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
@@ -894,6 +902,8 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Valor inválido para o campo ajustado';
                 $inconsistencyModel->action = 'Marque ou desmarque o checkbox para o campo ajustado';
+                $inconsistencyModel->identifier = '11';
+                $inconsistencyModel->idLunch = $menu['menu_fk'];
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
@@ -904,6 +914,8 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Data no formato inválido';
                 $inconsistencyModel->action = 'Adicione uma data no formato válido';
+                $inconsistencyModel->identifier = '11';
+                $inconsistencyModel->idLunch = $menu['menu_fk'];
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
