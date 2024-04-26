@@ -15,6 +15,8 @@ $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/student/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/student/form/datepicker-pt-BR.js?v='.TAG_VERSION, CClientScript::POS_END);
+
 
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
@@ -191,8 +193,13 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-text" id="dateOfBirth">
                                 <?php echo $form->label($modelStudentIdentification, 'birthday', array('class' => 't-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'birthday'); ?>
+								<?php 
+                                    $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelStudentIdentification, 'birthday'));
+                                    echo CHtml::link('	Limpar', '#', array(
+                                        'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
+                                    ));		
+                                    echo $form->error($modelStudentIdentification, 'birthday');
+								?>
                             </div>
                         </div>
                         <!-- CPF -->
@@ -204,7 +211,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <img id="errorCPFIcon" style="display: none;"
                                          src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
-                                <?php echo $form->error($modelStudentDocumentsAndAddress, 'cpf'); ?>
+                                <?php if ($modelStudentDocumentsAndAddress->hasErrors(['cpf'])): ?>
+                                    <div style='margin-top: 5px;color: red;'><?= CHtml::encode($modelStudentDocumentsAndAddress->getError(['cpf'])); ?></div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

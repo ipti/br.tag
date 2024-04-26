@@ -248,19 +248,15 @@ $isModel = isset($modelInstructorIdentification->id);
                                         array('class' => 'control-label')
                                     ); ?>
                                 </div>
-                                <div class="controls">
-                                    <?php echo $form->textField(
-                                        $modelInstructorIdentification,
-                                        'birthday_date',
-                                        array(
-                                            'size' => 10,
-                                            'maxlength' => 10,
-                                            'class' => 'control-label'
-                                        )
-                                    );
-                                    ?>
-                                    <br><?php echo $form->error($modelInstructorIdentification, 'birthday_date'); ?>
-                                </div>
+                                <div style="margin-left: 23px">
+									<?php 
+										$this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelInstructorIdentification, 'birthday_date'));
+										echo CHtml::link('	Limpar', '#', array(
+											'onclick' => '$("#' . CHtml::activeId($modelInstructorIdentification, 'birthday_date') . '").datepicker("setDate", null); return false;',
+										));		
+										echo $form->error($modelInstructorIdentification, 'birthday_date');
+									?>
+								</div>
                             </div>
 
                             <div class="control-group" id="gender-select">

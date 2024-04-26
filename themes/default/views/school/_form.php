@@ -245,21 +245,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolIdentification,
                                     'initial_date',
                                     array('class' => 't-field-text__label')
-                                ); ?>
-                                <?php echo $form->textField(
-                                    $modelSchoolIdentification,
-                                    'initial_date',
-                                    array(
-                                        'size' => 10,
-                                        'maxlength' => 10,
-                                        'placeholder' => 'Digite a Data Inicial (Dia/Mês/Ano)',
-                                        'class' => 't-field-text__input'
-                                    )
-                                ); ?>
-                                <?php echo $form->error(
-                                    $modelSchoolIdentification,
-                                    'initial_date'
-                                ); ?>
+                                ); ?>       
+								<?php 
+									$this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelSchoolIdentification, 'initial_date'));
+                                    echo CHtml::link('	Limpar', '#', array(
+                                        'onclick' => '$("#' . CHtml::activeId($modelSchoolIdentification, 'initial_date') . '").datepicker("setDate", null); return false;',
+									));	
+									echo $form->error($modelSchoolIdentification, 'initial_date');
+								?>
                             </div>
                         </div>
                     </div>

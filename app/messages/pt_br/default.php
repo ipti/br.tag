@@ -742,6 +742,8 @@ return array(
     //Course Plan
     'Course Plan' => 'Plano de aula',
     'Create Plan' => 'Criar plano',
+    'Pendent Plan' => 'Planos pendentes',
+    'Pending Course Plan' => 'Planos de aula pendentes',
     'Class'  => 'Aula',
     'Objective' => 'Objetivo',
     'New' => 'Novo',
@@ -749,6 +751,11 @@ return array(
     'Type' => 'Tipo',
     'Resource' => 'Recurso',
     'Add Resource' => 'Novo Recurso',
+    'Start Date' => 'Data Inicial',
+    'Situation' => 'Situação',
+    'Save Approval' => 'Salvar Aprovação',
+    'Plan Approval' => 'Aprovação do plano',
+    'Observation' => 'Observação',
 
     //Labels
     'User' => 'Usuário',
@@ -857,6 +864,8 @@ return array(
     'Users' => 'Usuários',
     'manager' => 'Gestor Escolar',
     'instructor' => 'Professor',
+    'coordinator' => 'Coordenador Pedagógico',
+    'nutritionist' => 'Nutricionista',
     'admin' => 'Administrador',
     'Edit Password' => 'Alterar Senha',
 

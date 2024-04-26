@@ -1,6 +1,6 @@
 <?php
 
-class CourseplanController extends Controller
+class DefaultController extends Controller
 {
 
     /**
@@ -31,7 +31,7 @@ class CourseplanController extends Controller
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array('create', 'update', 'index', 'delete',
                     'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure',
-                    'getAbilitiesNextStructure', 'addResources', 'getResources'),
+                    'getAbilitiesNextStructure', 'addResources', 'getResources', 'pendingPlans'),
                 'users' => array('*'),
             ),
             array('deny', // deny all users
@@ -46,15 +46,17 @@ class CourseplanController extends Controller
      */
     public function actionCreate()
     {
+        $coursePlan = new CoursePlan();
         if (isset($_POST['CoursePlan'])) {
             $this->actionSave();
         } else {
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
-            $this->render('form', array(
-                'coursePlan' => new CoursePlan(),
+            $this->render('create', array(
+                'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
                 'resources' => $resources,
             ));
+            Yii::app()->end();
         }
     }
 
@@ -71,7 +73,7 @@ class CourseplanController extends Controller
             $coursePlan = $this->loadModel($id);
             $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
 
-            $this->render('form', array(
+            $this->render('_form', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
                 'resources' => $resources,
@@ -199,12 +201,13 @@ class CourseplanController extends Controller
         echo CJSON::encode($result);
     }
 
-
     /**
      * Sabe the Course Plan, and yours course classes.
      */
     public function actionSave($id = null)
     {
+        $request = Yii::app()->request->getPost("CoursePlan");
+
         if ($id !== null) {
             $coursePlan = CoursePlan::model()->findByPk($id);
             $logSituation = "U";
@@ -214,7 +217,10 @@ class CourseplanController extends Controller
             $coursePlan->users_fk = Yii::app()->user->loginInfos->id;
             $logSituation = "C";
         }
-        $coursePlan->attributes = $_POST["CoursePlan"];
+        $startTimestamp = $this->dataConverter($request["start_date"]);
+        $request["start_date"] = $startTimestamp;
+        $coursePlan->attributes = $request;
+        $coursePlan->situation = 'PENDENTE';
         $coursePlan->save();
         $courseClassIds = [];
         $i = 1;
@@ -290,6 +296,25 @@ class CourseplanController extends Controller
         }
     }
 
+    public function dataConverter($data, $case)
+    {
+        // Caso 0: converte dd/mm/yyyy para yyyy-mm-dd
+        if($case == 0){
+            $dataObj = date_create_from_format('d/m/Y', $data);
+            if(!$dataObj == false)
+                return date_format($dataObj, 'Y-m-d');
+        }
+
+        // Caso 1: converte yyyy-mm-dd para dd/mm/yyyy
+        if($case == 1){
+            $dataObj = date_create_from_format('d/m/Y');
+            if(!$dataObj == false)
+                return date_format($dataObj, 'Y-m-d');
+        }
+
+        return false;
+    }
+
     public function actionGetResources()
     {
         $resources = CourseClassResources::model()->findAll();
@@ -338,6 +363,27 @@ class CourseplanController extends Controller
                 'criteria' => array(
                     'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id,
                 ),
+                'pagination' => false
+            ));
+        } else {
+            $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                'pagination' => false
+            ));
+        }
+
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+        ));
+    }
+
+    public function actionPendingPlans()
+    {
+        $criteria = new CDbCriteria;
+        $criteria->addInCondition('users-fk', Yii::app()->user->loginInfos->id, 'AND');
+        $criteria->addInCondition('situation', 'PENDENTE', 'AND');
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                'criteria' => $criteria,
                 'pagination' => false
             ));
         } else {
