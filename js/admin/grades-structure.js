@@ -1,11 +1,9 @@
 function hasUnitiesSalved(){
-    console.log("aaaaaaa")
-    const unityButton = $('.js-new-unity')
-    const partialRecoveryButton = $('.js-new-partial-recovery')
     if($("input[type='hidden'].unity-id[value]").length > 0){
-        console.log("aaaaaaa2")
         $(".js-new-partial-recovery").removeClass("disabled");
+        return
     }
+    $(".js-new-partial-recovery").addClass("disabled");
 }
 $(document).on(
     "change",
@@ -22,63 +20,68 @@ $(document).on("keyup", ".unity-name", function (e) {
 });
 
 $(document).on("click", ".js-new-unity", function (e) {
-    const unities = $(".unity").length;
-    const isUnityConcept = $(".js-rule-type").select2("val") === "C";
-    const unityHtml = template`
-        <div class='unity column is-three-fifths'>
-            <div class='row unity-heading ui-accordion-header'>
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collaps-${unities}">
-                    <h2 class="unity-title accordion-heading">Unidade: </h2>
-                </a>
-                <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor"></span>
-            </div>
-            <div id="collaps-${unities}"class=" collapse ${unities == 0 ? "in" : ""}">
-                <input type='hidden' class="unity-id">
-                <input type="hidden" class="unity-operation" value="create">
-                <div class="t-field-text" style="margin-top: 16px">
-                    <label class='t-field-text__label--required'>Nome: </label>
-                    <input type='text' class='t-field-text__input unity-name' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
-                </div>
-                <div class="t-field-select">
-                    <label class='t-field-select__label--required'>Modelo: </label>
-                    <select class='t-field-select__input js-type-select select-search-on control-input'>
-                        ${
-                            isUnityConcept
-                                ? `<option value='UC'>Unidade por conceito</option>`
-                                : `<option value='U'>Unidade</option>
-                                   <option value='UR'>Unidade com recuperação</option>`
-                        }
-                    </select>
-                </div>
-                <div class="t-field-select js-calculation ${
-                    isUnityConcept ? "hide" : "show"
-                }" >
-                    <label class='t-field-select__label--required'>Forma de cálculo:  </label>
-                    <select class='t-field-select__input js-formula-select select-search-on control-input'>
-                        ${$(".formulas")[0].innerHTML}
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <h4>Modalidades avaliativas: </h4>
-                        <p class="subheading">
-                        Gerencie todas as formas de avalição que compõe as notas dessa unidade avaliativa
-                        </p>
-                    </div>
-                    <a href="#new-modality" id="new-modality" class="js-new-modality t-button-primary">
-                        <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Modalidade
+    if(!$('.js-new-unity').hasClass('disabled')){
+        const unities = $(".unity").length;
+        const isUnityConcept = $(".js-rule-type").select2("val") === "C";
+        const unityHtml = template`
+            <div class='unity column is-three-fifths'>
+                <div class='row unity-heading ui-accordion-header'>
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collaps-${unities}">
+                        <h2 class="unity-title accordion-heading">Unidade: </h2>
                     </a>
+                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor"></span>
                 </div>
-                <div class="t-cards js-modality-container"></div>
-            </div>
-        </div>`;
+                <div id="collaps-${unities}"class=" collapse ${unities == 0 ? "in" : ""} js-unity-body">
+                    <input type='hidden' class="unity-id">
+                    <input type="hidden" class="unity-operation" value="create">
+                    <div class="t-field-text" style="margin-top: 16px">
+                        <label class='t-field-text__label--required'>Nome: </label>
+                        <input type='text' class='t-field-text__input unity-name' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
+                    </div>
+                    <div class="t-field-select">
+                        <label class='t-field-select__label--required'>Modelo: </label>
+                        <select class='t-field-select__input js-type-select select-search-on control-input'>
+                            ${
+                                isUnityConcept
+                                    ? `<option value='UC'>Unidade por conceito</option>`
+                                    : `<option value='U'>Unidade</option>
+                                    <option value='UR'>Unidade com recuperação</option>`
+                            }
+                        </select>
+                    </div>
+                    <div class="t-field-select js-calculation ${
+                        isUnityConcept ? "hide" : "show"
+                    }" >
+                        <label class='t-field-select__label--required'>Forma de cálculo:  </label>
+                        <select class='t-field-select__input js-formula-select select-search-on control-input'>
+                            ${$(".formulas")[0].innerHTML}
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <h4>Modalidades avaliativas: </h4>
+                            <p class="subheading">
+                            Gerencie todas as formas de avalição que compõe as notas dessa unidade avaliativa
+                            </p>
+                        </div>
+                        <a href="#new-modality" id="new-modality" class="js-new-modality t-button-primary">
+                            <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Modalidade
+                        </a>
+                    </div>
+                    <div class="t-cards js-modality-container"></div>
+                </div>
+            </div>`;
 
-    $(".js-grades-structure-container").append(unityHtml);
-    if ($(".js-rule-type").select2("val") === "C") {
-        $(".js-new-modality").last().trigger("click").hide();
-        $(".remove-modality").last().hide();
+        $(".js-grades-structure-container").append(unityHtml);
+        if ($(".js-rule-type").select2("val") === "C") {
+            $(".js-new-modality").last().trigger("click").hide();
+            $(".remove-modality").last().hide();
+        }
+        $(".unity").last().find(".js-type-select, .js-formula-select").select2();
+        if(!$(".js-new-partial-recovery").hasClass("disabled")){
+            $(".js-new-partial-recovery").addClass("disabled");
+        }
     }
-    $(".unity").last().find(".js-type-select, .js-formula-select").select2();
 });
 
 $(document).on("change", ".js-type-select", function (e) {
@@ -214,6 +217,9 @@ $(document).on("click", ".js-remove-unity", function (e) {
 
     if (isNew) {
         unity.remove();
+        if($("input[type='hidden'].unity-id:not([value])").length == 0){
+            $(".js-new-partial-recovery").removeClass("disabled");
+        }
     } else {
         const response = confirm(
             "Ao remover um unidade, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
@@ -642,6 +648,7 @@ function loadStructure() {
                     .css("opacity", "1");
 
                 initRuleType(data.ruleType);
+                hasUnitiesSalved();
             },
         });
     } else {
@@ -649,11 +656,10 @@ function loadStructure() {
             ".js-grades-structure-container, .grades-buttons,  .js-grades-rules-container"
         ).hide();
     }
-    hasUnitiesSalved();
     $("#accordion").accordion();
 }
 
-$(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
+$(document).on("keyup", ".approval-media, .final-recover-media, .partial-recovery-media", function (e) {
     let val = this.value;
     if (!$.isNumeric(val)) {
         e.preventDefault();
@@ -679,22 +685,20 @@ $(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
          partialRecovery = lastAccordion+1
     }
     const collapse = partialRecovery == 0 ? "in" : "";
+    const unityOptions = getUnityOptions();
     return template`
     <div class="partial-recovery-container">
         <div class='row partial-recovery ui-accordion-header' data-index="${partialRecovery}">
-            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-partial" href="#collaps-${partialRecovery}">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-partial" href="#partial-recovery-collapse-${partialRecovery}">
                 <h2 class="partial-recovery-title accordion-heading">Recuperação Parcial: </h2>
             </a>
             <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="font-size: 20px;"></span>
         </div>
-        <div id="collaps-${partialRecovery}" class="collapse ${collapse}  partial-recovery-accordion-body">
-            <input type='hidden' class="sem-recovery-unity-id">
-            <input type='hidden' class="sem-recovery-unity-id">
-            <input type='hidden' class="sem-recovery-unity-type" value="RF">
-            <input type="hidden" class="sem-recovery-unity-operation" value="create">
+        <div id="partial-recovery-collapse-${partialRecovery}" class="collapse ${collapse}  partial-recovery-accordion-body">
+            <input type='hidden' class="partial-recovery-id">
             <div class="t-field-text js-recovery-media-visibility">
                 <label class="t-field-text__label--required">Média de Rec. Semestral</span></label>
-                <input type="text" class="sem-recover-media t-field-text__input">
+                <input type="text" class="partial-recovery-media t-field-text__input">
             </div>
             <div class="t-field-text" style="margin-top: 16px">
                 <label class='t-field-text__label--required'>Nome:</span></label>
@@ -707,29 +711,47 @@ $(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
                     ${$(".formulas")[0].innerHTML}
                 </select>
                 <div class="t-multiselect">
-                <label class='t-field-select__label--required'>Unidades:</label>
-                <select class="t-field-select__input multiselect select-search-on js-partial-recovery-unities" multiple="multiple">
-                    <option value="1">Opção 1</option>
-                    <option value="2">Opção 2</option>
-                    <option value="3">Opção 3</option>
-                </select>
-            </div>
+                    <label class='t-field-select__label--required'>Unidades:</label>
+                    <select class="t-field-select__input multiselect select-search-on js-partial-recovery-unities" multiple="multiple">
+                        ${unityOptions}
+                    </select>
+                </div>
             </div>
         </div>
     </div>
     `;
 }
 
+function getUnityOptions() {
+    const unities = $('.js-unity-body')
+    let unityOptions = '';
+    let value = '';
+    let name = '';
+    unities.each(function (index, element) {
+        value = $(element).find("input[type='hidden'].unity-id").val();
+        name = $(element).find("input.unity-name").val();
+        unityOptions += template`
+            <option value="${value}">${name}</option>
+        `
+    });
+    return unityOptions;
+}
+
 $(document).on("click", ".js-new-partial-recovery", (e) => {
-    if($(".js-has-partial-recovery").is(":checked")){
+    if(!$(".js-new-partial-recovery").hasClass("disabled")){
         newccordion = addAccordion();
         $('#accordion-partial-recovery').append(newccordion)
         $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities").select2();
+        $('.js-new-unity').addClass('disabled');
     }
 })
 $(document).on("click", ".js-remove-partial-recovery", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
     partialRecovery.remove();
+
+    if($("input[type='hidden'].partial-recovery-id:not([value]").length == 0){
+        $(".js-new-unity").removeClass("disabled");
+    }
 });
 $(document).on("keyup", ".partial-recovery-name", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
