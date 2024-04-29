@@ -92,24 +92,6 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <label class="t-field-text__label--required">Média de Aprovação</span></label>
                 <input type="text" class="approval-media t-field-text__input">
             </div>
-            <div class="row numeric-fields">
-                <div class="numeric-fields t-field-checkbox" style="width:auto;">
-                    <?php echo CHtml::checkBox(
-                        'has_partial_recovery',
-                        false,
-                        array(
-                            'class'=> 't-field-checkbox__input js-has-partial-recovery'
-                        )
-                    )
-                    ?>
-                    <?php echo CHtml::label("Incluir recuperação semestral?", 'has_partial_recovery',
-                     array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
-                </div>
-                <a id="new-partial-recovery" class="js-new-partial-recovery t-button-primary disabled">
-                    <img alt="Recuperação" src="/themes/default/img/buttonIcon/start.svg">Recuperação Parcial
-                </a>
-            </div>
-
             <div class="numeric-fields t-field-checkbox">
                 <?php echo CHtml::checkbox(
                     'has_final_recovery',
@@ -136,31 +118,17 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion"
             style="display: none;">
         </div>
-   <!--      <div class="column js-partial-recovery-form  is-three-fifths" style="display: none;">
-            <h2>Regras de recuperação Semestral</h2>
+        <div class="column js-grades-rules-container" style="display: none;">
+            <div class="row">
+                <h2>Definição das Recuperações Parciais</h2>
+                <a id="new-partial-recovery" class="js-new-partial-recovery t-button-primary disabled">
+                    <img alt="Recuperação" src="/themes/default/img/buttonIcon/start.svg">Recuperação Parcial
+                </a>
+            </div>
             <p class="subheading">
-                Configure as regras básicas para aprovação dos alunos
+                Gerencie a quantidade de recuperações parciais
             </p>
-            <input type='hidden' class="sem-recovery-unity-id">
-            <input type='hidden' class="sem-recovery-unity-id">
-            <input type='hidden' class="sem-recovery-unity-type" value="RF">
-            <input type="hidden" class="sem-recovery-unity-operation" value="create">
-            <div class="t-field-text js-recovery-media-visibility">
-                <label class="t-field-text__label--required">Média de Rec. Semestral</span></label>
-                <input type="text" class="sem-recover-media t-field-text__input">
-            </div>
-            <div class="t-field-text" style="margin-top: 16px">
-                <label class='t-field-text__label--required'>Nome:</span></label>
-                <input type='text' class='t-field-text__input sem-recovery-unity-name'
-                    placeholder='Recuperação Semestral'>
-            </div>
-            <div class="t-field-select js-calculation">
-                <label class='t-field-select__label--required'>Forma de cálculo:</span></label>
-                <select class='t-field-select__input select-search-on final-recovery-unity-calculation'>
-
-                </select>
-            </div>
-        </div> -->
+        </div>
         <div class="row">
             <div class="column is-three-fifths">
                 <div id="accordion-partial-recovery" class="t-accordeon-quaternary">

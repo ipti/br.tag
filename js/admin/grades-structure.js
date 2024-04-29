@@ -1,3 +1,12 @@
+function hasUnitiesSalved(){
+    console.log("aaaaaaa")
+    const unityButton = $('.js-new-unity')
+    const partialRecoveryButton = $('.js-new-partial-recovery')
+    if($("input[type='hidden'].unity-id[value]").length > 0){
+        console.log("aaaaaaa2")
+        $(".js-new-partial-recovery").removeClass("disabled");
+    }
+}
 $(document).on(
     "change",
     "#GradeUnity_edcenso_stage_vs_modality_fk",
@@ -640,6 +649,7 @@ function loadStructure() {
             ".js-grades-structure-container, .grades-buttons,  .js-grades-rules-container"
         ).hide();
     }
+    hasUnitiesSalved();
     $("#accordion").accordion();
 }
 
@@ -668,7 +678,6 @@ $(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
          lastAccordion = Number($("#accordion-partial-recovery .partial-recovery:last").attr("data-index"));
          partialRecovery = lastAccordion+1
     }
-    // const unities = getUnities();
     const collapse = partialRecovery == 0 ? "in" : "";
     return template`
     <div class="partial-recovery-container">
