@@ -329,11 +329,11 @@ class SchoolController extends Controller
                 SchoolStages::model()->deleteAll($criteriaStages);
                 $this->saveSchoolStageUpdate($modelSchoolIdent);
 
-            } else {
-                SchoolStages::model()->deleteAll($criteriaStages);
-            }
+                $this->updateSchool($modelSchoolIdent);
 
-            $this->updateSchool($modelSchoolIdent);
+                return;
+            }
+            SchoolStages::model()->deleteAll($criteriaStages);
         }
     }
 
