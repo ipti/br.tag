@@ -16,14 +16,14 @@ class SchoolController extends Controller
      * @return array action filters
      */
 
-     public function filters()
-     {
-         return array(
-             'accessControl', // perform access control for CRUD operations
-         );
-     }
+    public function filters()
+    {
+        return array(
+            'accessControl', // perform access control for CRUD operations
+        );
+    }
 
-     /**
+    /**
      * Specifies the access control rules.
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
@@ -142,7 +142,9 @@ class SchoolController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view', array(
+        $this->render(
+            'view',
+            array(
                 'modelSchoolIdentification' => $this->loadModel($id, $this->schoolIdent),
                 'modelSchoolStructure' => $this->loadModel($id, $this->schoolStructure),
             )
@@ -162,7 +164,7 @@ class SchoolController extends Controller
 
         echo $result;
     }
-    private function boolDefinedSchoolAndManager():bool
+    private function boolDefinedSchoolAndManager(): bool
     {
         return
             isset($_POST[$this->schoolIdent])
@@ -173,8 +175,8 @@ class SchoolController extends Controller
     private function setAttributesModels(
         $modelSchoolIdent,
         $modelSchoolStructure,
-        $modelManagerIdent)
-    {
+        $modelManagerIdent
+    ) {
         $modelSchoolIdent->attributes = $_POST[$this->schoolIdent];
         $modelSchoolStructure->attributes = $_POST[$this->schoolStructure];
         $modelManagerIdent->attributes = $_POST[$this->managerIdent];
@@ -240,8 +242,8 @@ class SchoolController extends Controller
     private function boolValidateModels(
         $modelSchoolIdent,
         $modelSchoolStructure,
-        $modelManagerIdent): bool
-    {
+        $modelManagerIdent
+    ): bool {
         return
             $modelSchoolIdent->validate()
             && $modelSchoolStructure->validate()
@@ -251,12 +253,13 @@ class SchoolController extends Controller
     private function validateModels(
         $modelSchoolIdent,
         $modelSchoolStructure,
-        $modelManagerIdent)
-    {
+        $modelManagerIdent
+    ) {
         if (!$this->isOperationLocationSpecified($modelSchoolStructure)) {
             $modelSchoolStructure->addError(
                 'operation_location_building',
-                Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank'));
+                Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank')
+            );
             return;
         }
 
@@ -279,7 +282,8 @@ class SchoolController extends Controller
                 [
                     ":school_fk" => $modelSchoolIdent->inep_id,
                     ":edcenso_stage_vs_modality_fk" => $stage
-                ]);
+                ]
+            );
             if ($schoolStages == null) {
                 $schoolStages = new SchoolStages();
                 $schoolStages->school_fk = $modelSchoolIdent->inep_id;
@@ -295,7 +299,8 @@ class SchoolController extends Controller
             "school",
             $modelSchoolIdent->inep_id,
             "U",
-            $modelSchoolIdent->name);
+            $modelSchoolIdent->name
+        );
         Yii::app()->user->setFlash('success', Yii::t('default', 'Escola alterada com sucesso!'));
         $this->redirect(array('index'));
     }
@@ -303,13 +308,13 @@ class SchoolController extends Controller
     private function validateUpdateModels(
         $modelSchoolIdent,
         $modelSchoolStructure,
-        $modelManagerIdent)
-    {
-        if (!$this->isOperationLocationSpecified($modelSchoolStructure))
-        {
+        $modelManagerIdent
+    ) {
+        if (!$this->isOperationLocationSpecified($modelSchoolStructure)) {
             $modelSchoolStructure->addError(
                 'operation_location_building',
-                Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank'));
+                Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank')
+            );
         }
 
         if ($this->saveModels($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent)) {
@@ -321,11 +326,10 @@ class SchoolController extends Controller
 
             if ($_POST[$this->schoolStructure]["stages"] != "") {
 
-                $criteriaStages->addNotInCondition
-                (
-                    'edcenso_stage_vs_modality_fk',
-                    $_POST[$this->schoolStructure]["stages"]
-                );
+                $criteriaStages->addNotInCondition(
+                        'edcenso_stage_vs_modality_fk',
+                        $_POST[$this->schoolStructure]["stages"]
+                    );
                 SchoolStages::model()->deleteAll($criteriaStages);
                 $this->saveSchoolStageUpdate($modelSchoolIdent);
 
@@ -368,15 +372,17 @@ class SchoolController extends Controller
         $modelSchoolIdent,
         $modelSchoolStructure,
         $modelManagerIdent,
-        $disableFieldUBATUBA)
-    {
-        $this->render('update', array(
-            'modelSchoolIdentification' => $modelSchoolIdent,
-            'modelSchoolStructure' => $modelSchoolStructure,
-            'modelManagerIdentification' => $modelManagerIdent,
-            'disabledFields' => $disableFieldUBATUBA
-    )
-    );
+        $disableFieldUBATUBA
+    ) {
+        $this->render(
+            'update',
+            array(
+                'modelSchoolIdentification' => $modelSchoolIdent,
+                'modelSchoolStructure' => $modelSchoolStructure,
+                'modelManagerIdentification' => $modelManagerIdent,
+                'disabledFields' => $disableFieldUBATUBA
+            )
+        );
     }
 
     /**
@@ -456,7 +462,7 @@ class SchoolController extends Controller
 
         $this->renderUpdateSchool($modelSchoolIdent, $modelSchoolStructure, $modelManagerIdent, $disableFieldUBATUBA);
     }
-     /**
+    /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
@@ -487,7 +493,9 @@ class SchoolController extends Controller
             $filter->attributes = $_GET['SchoolIdentification'];
         }
         $dataProvider = new CActiveDataProvider($this->schoolIdent, array('pagination' => false));
-        $this->render('index', array(
+        $this->render(
+            'index',
+            array(
                 'dataProvider' => $dataProvider,
                 'filter' => $filter
             )
@@ -508,7 +516,9 @@ class SchoolController extends Controller
             $modelSchoolStructure->attributes = $_GET[$this->schoolStructure];
         }
 
-        $this->render('admin', array(
+        $this->render(
+            'admin',
+            array(
                 'modelSchoolIdentification' => $modelSchoolIdent,
                 'modelSchoolStructure' => $modelSchoolStructure,
             )
@@ -625,7 +635,9 @@ class SchoolController extends Controller
     {
         $this->layout = "reports";
         $model = $this->loadModel($id, $this->schoolIdent);
-        $this->render('MonthlySummary', array(
+        $this->render(
+            'MonthlySummary',
+            array(
                 'model' => $model
             )
         );
@@ -650,7 +662,9 @@ class SchoolController extends Controller
                 break;
         }
 
-        $this->render('MonthlyTransaction', array(
+        $this->render(
+            'MonthlyTransaction',
+            array(
                 'model' => $model,
                 'type' => $type,
                 'title' => $title
@@ -675,7 +689,9 @@ class SchoolController extends Controller
                 break;
         }
 
-        $this->render('Record', array(
+        $this->render(
+            'Record',
+            array(
                 'model' => $model,
                 'type' => $type,
                 'title' => $title
@@ -694,5 +710,4 @@ class SchoolController extends Controller
             Yii::app()->end();
         }
     }
-
 }
