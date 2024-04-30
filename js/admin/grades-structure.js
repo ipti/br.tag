@@ -352,7 +352,17 @@ function saveUnities(reply) {
             modalities: modalities,
         });
     });
-    $.ajax({
+    const partialRecoveries = [];
+    $('.partial-recovery-accordion-body').each(function (index, element) {
+        partialRecoveries.push({
+            name: $(element).find('.partial-recovery-name').val(),
+            order: index+1,
+            media: $(element).find('.partial-recovery-media').val(),
+            unities: []
+
+        })
+    })
+    /* $.ajax({
         type: "POST",
         url: "?r=admin/saveUnities",
         cache: false,
@@ -429,7 +439,7 @@ function saveUnities(reply) {
             );
             $(".save-unity-loading-gif").hide();
         },
-    });
+    }); */
 }
 
 function checkValidInputs() {
