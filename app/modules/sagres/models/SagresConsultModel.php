@@ -87,8 +87,8 @@ class SagresConsultModel
     public function getManagementUnit($managementUnitId, $referenceYear, $month): CabecalhoTType
     {
 
-        $finalDay = date('t', strtotime("$referenceYear-$month-01"));
-
+        $finalDay = (int) date('t', strtotime("$referenceYear-$month-01"));
+        $month = (int) $month;
         try {
             $query = "SELECT
                         pa.id AS managementUnitId,
@@ -106,6 +106,29 @@ class SagresConsultModel
                 ->queryRow();
 
             $headerType = new CabecalhoTType();
+            
+
+            $url = "https://brasilapi.com.br/api/feriados/v1/" . $referenceYear;
+            $responseFeriados = file_get_contents($url);
+
+            if($responseFeriados !== false) {
+                $datas = json_decode($responseFeriados, true);
+                if($datas !== null) {
+                    foreach($datas as $data){
+                        $mes = (int) substr($data['date'], 5, 2);
+                        if($mes < $month)
+                            continue;
+                        if($mes > $month)
+                            break;
+                        
+                        $day = (int) substr($data['date'], -2);
+                        if($day === $finalDay){
+                            $finalDay -= 1;
+                        }        
+                    }
+                }
+            }
+
 
             $headerType
                 ->setCodigoUnidGestora($managementUnit['managementUnitCode'])
@@ -113,10 +136,10 @@ class SagresConsultModel
                 ->setCpfResponsavel(str_replace([".", "-"], "", $managementUnit['responsibleCpf']))
                 ->setCpfGestor(str_replace([".", "-"], "", $managementUnit['managerCpf']))
                 ->setAnoReferencia((int) $referenceYear)
-                ->setMesReferencia((int) $month)
+                ->setMesReferencia($month)
                 ->setVersaoXml(1)
                 ->setDiaInicPresContas((int) 01)
-                ->setDiaFinaPresContas((int) $finalDay);
+                ->setDiaFinaPresContas($finalDay);
 
                 if (empty($managementUnit['managementUnitCode'])) {
                     $inconsistencyModel = new ValidationSagresModel();
