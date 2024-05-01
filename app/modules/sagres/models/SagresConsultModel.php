@@ -105,31 +105,8 @@ class SagresConsultModel
                 ->bindValue(':managementUnitId', $managementUnitId)
                 ->queryRow();
 
-            $headerType = new CabecalhoTType();
-            
-
-            $url = "https://brasilapi.com.br/api/feriados/v1/" . $referenceYear;
-            $responseFeriados = file_get_contents($url);
-
-            if($responseFeriados !== false) {
-                $datas = json_decode($responseFeriados, true);
-                if($datas !== null) {
-                    foreach($datas as $data){
-                        $mes = (int) substr($data['date'], 5, 2);
-                        if($mes < $month)
-                            continue;
-                        if($mes > $month)
-                            break;
-                        
-                        $day = (int) substr($data['date'], -2);
-                        if($day === $finalDay){
-                            $finalDay -= 1;
-                        }        
-                    }
-                }
-            }
-
-
+            $headerType = new CabecalhoTType();      
+            $finalDay = $this->ajustarUltimoDiaUtil($referenceYear, $month, $finalDay);
             $headerType
                 ->setCodigoUnidGestora($managementUnit['managementUnitCode'])
                 ->setNomeUnidGestora($managementUnit['managementUnitName'])
@@ -186,6 +163,31 @@ class SagresConsultModel
             throw new Exception("Ocorreu um erro ao buscar a unidade gestora");
         }
     }
+
+    private function ajustarUltimoDiaUtil($referenceYear, $month, $finalDay) {
+        $url = "https://brasilapi.com.br/api/feriados/v1/" . $referenceYear;
+        $responseFeriados = file_get_contents($url);
+    
+        if($responseFeriados !== false) {
+            $datas = json_decode($responseFeriados, true);
+            if($datas !== null) {
+                foreach($datas as $data) {
+                    $mes = (int) substr($data['date'], 5, 2);
+                    if($mes < $month)
+                        continue;
+                    if($mes > $month)
+                        break;
+                    
+                    $day = (int) substr($data['date'], -2);
+                    if($day === $finalDay){
+                        $finalDay -= 1;
+                    }        
+                }
+            }
+        }
+        return $finalDay;
+    }
+    
 
     /**
      * Summary of getManagementId

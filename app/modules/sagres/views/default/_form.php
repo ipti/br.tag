@@ -58,7 +58,7 @@ $cs->registerScriptFile($baseUrl, CClientScript::POS_END);
                                             <?php echo $form->labelEx($model, 'cod_unidade_gestora', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'cod_unidade_gestora', array('size' => 30, 'maxlength' => 30, 'placeholder' => 'Digite o Código da Unidade Gestora', 'disabled' => true, 'style'=> 'width: 50%')); ?>
+                                            <?php echo $form->textField($model, 'cod_unidade_gestora', array('size' => 30, 'maxlength' => 30, 'placeholder' => 'Digite o Código da Unidade Gestora', 'style'=> 'width: 50%')); ?>
                                             <?php echo $form->error($model, 'cod_unidade_gestora'); ?>
                                         </div>
                                     </div>
@@ -67,7 +67,7 @@ $cs->registerScriptFile($baseUrl, CClientScript::POS_END);
                                             <?php echo $form->labelEx($model, 'name_unidade_gestora', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($model, 'name_unidade_gestora', array('size' => 150, 'maxlength' => 150, 'placeholder' => 'Digite o Nome da Unidade Gestora', 'disabled' => true, 'style'=> 'width: 50%')); ?>
+                                            <?php echo $form->textField($model, 'name_unidade_gestora', array('size' => 150, 'maxlength' => 150, 'placeholder' => 'Digite o Nome da Unidade Gestora', 'style'=> 'width: 50%')); ?>
                                             <?php echo $form->error($model, 'name_unidade_gestora'); ?>
                                         </div>
                                     </div>
