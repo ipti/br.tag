@@ -355,14 +355,17 @@ function saveUnities(reply) {
     const partialRecoveries = [];
     $('.partial-recovery-accordion-body').each(function (index, element) {
         partialRecoveries.push({
+            id: $(element).find('.partial-recovery-id').val(),
+            operation: $(element).find('.partial-recovery-operation'),
             name: $(element).find('.partial-recovery-name').val(),
             order: index+1,
             media: $(element).find('.partial-recovery-media').val(),
-            unities: []
+            mediaCalculation: $(element).find('select.js-formula-select'),
+            unities: $(element).find('select.js-partial-recovery-unities').val()
 
         })
     })
-    /* $.ajax({
+    $.ajax({
         type: "POST",
         url: "?r=admin/saveUnities",
         cache: false,
@@ -384,6 +387,8 @@ function saveUnities(reply) {
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
             ruleType: $(".js-rule-type").select2("val"),
+            hasPartialRecovery: partialRecoveries.length > 0,
+            partialRecoveries: partialRecoveries
         },
         beforeSend: function (e) {
             $(".alert-media-fields")
@@ -439,7 +444,7 @@ function saveUnities(reply) {
             );
             $(".save-unity-loading-gif").hide();
         },
-    }); */
+    });
 }
 
 function checkValidInputs() {
@@ -706,6 +711,7 @@ $(document).on("keyup", ".approval-media, .final-recover-media, .partial-recover
         </div>
         <div id="partial-recovery-collapse-${partialRecovery}" class="collapse ${collapse}  partial-recovery-accordion-body">
             <input type='hidden' class="partial-recovery-id">
+            <input type="hidden" class="partial-recovery-operation" value="create">
             <div class="t-field-text js-recovery-media-visibility">
                 <label class="t-field-text__label--required">Média de Rec. Semestral</span></label>
                 <input type="text" class="partial-recovery-media t-field-text__input">

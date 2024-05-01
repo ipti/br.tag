@@ -12,7 +12,6 @@
  * @property bool $hasFinalRecoverys
  * @property string $ruleType
  * @property bool $hasPartialRecovery
- * @property [] $partialRecoveries
  */
 class UpdateGradeStructUsecase
 {
@@ -21,7 +20,7 @@ class UpdateGradeStructUsecase
     private const STAGES_FROM_SAME_MODALITY = "S";
 
     public function __construct($reply, $stage, $unities, $approvalMedia,
-        $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType, $hasPartialRecovery, $partialRecoveries)
+        $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType, $hasPartialRecovery)
     {
         $this->reply = $reply;
         $this->stage = $stage;
@@ -32,7 +31,6 @@ class UpdateGradeStructUsecase
         $this->hasFinalRecovery = $hasFinalRecovery;
         $this->ruleType = $ruleType;
         $this->hasPartialRecovery = $hasPartialRecovery;
-        $this->partialRecoveries = $partialRecoveries;
     }
 
     public function exec()
@@ -46,8 +44,7 @@ class UpdateGradeStructUsecase
                 $this->calculationFinalMedia,
                 $this->hasFinalRecovery,
                 $this->ruleType,
-                $this->hasPartialRecovery,
-                $this->partialRecoveries
+                $this->hasPartialRecovery
             );
             $justOneUsecase->exec();
         } elseif ($this->reply === self::ALL_STAGES) {
