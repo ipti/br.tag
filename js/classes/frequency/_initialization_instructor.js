@@ -34,22 +34,46 @@ function generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSp
     }
     return checkboxItem;
 }
-function generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit, date) {
+
+function generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit, date, daysFaults) {
     return data.students.reduce((line, student) => {
-        return line + `
-            <div class='justify-content--space-between t-padding-small--top t-padding-small--bottom' style="border-bottom:1px #e8e8e8 solid;">
-                <div>${student.studentName}</div>
-                <div style='display:flex;'>
-                    ${generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSplit, date)}
-                </div>
-            </div>`;
+        
+        arrayFaults = [];
+
+        $.each(daysFaults, function (index, daysF) {
+            arrayFaults.push(parseInt(daysF, 10));
+        });
+
+        let disabledRow = (arrayFaults.includes(parseInt(dia, 10))) ? true : false;
+
+        if (disabledRow) {
+            return line + `
+                <fieldset disabled>
+                    <div class='justify-content--space-between t-padding-small--top t-padding-small--bottom' style="border-bottom:1px #e8e8e8 solid;opacity: 0.5; pointer-events: none;">
+                        <div>${student.studentName}</div>
+                        <div style='display:flex;'>
+                            ${generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSplit, date)}
+                        </div>
+                    </div>
+                </fieldset>`;
+        } else {
+            return line + `
+                <div class='justify-content--space-between t-padding-small--top t-padding-small--bottom' style="border-bottom:1px #e8e8e8 solid;">
+                    <div>${student.studentName}</div>
+                    <div style='display:flex;'>
+                        ${generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSplit, date)}
+                    </div>
+                </div>`;
+        }
     }, '');
 }
+
 function generateScheduleDays(data, monthSplit, fundamentalMaior) {
     return data.scheduleDays.reduce((acc, scheduleDays) => {
         let dia = scheduleDays.day;
         let mes = monthSplit[1];
         let ano = monthSplit[0];
+        let arrayFaultss = data.daysFaults;
         return acc + `
             <div class="ui-accordion-header justify-content--space-between">
                 <div>Aula do dia ${scheduleDays.date}</div>
@@ -59,7 +83,7 @@ function generateScheduleDays(data, monthSplit, fundamentalMaior) {
             </div>
             <div class='ui-accordion-content'>
                 <div style='width: 100%; overflow-x:auto;'>
-                    ${generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit, scheduleDays.date)}
+                    ${generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit, scheduleDays.date, arrayFaultss)}
                 </div>
             </div>`;
     }, '');
