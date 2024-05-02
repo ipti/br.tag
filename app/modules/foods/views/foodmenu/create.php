@@ -17,3 +17,9 @@ $title = "Criar Cardápio";
 
 
 <?php $this->renderPartial('_form', array('model'=>$model,'stages'=>$stages, 'title' => $title)); ?>
+
+<script type="text/javascript">
+	 var mealTypeList = <?php echo CJSON::encode($mealTypeList); ?>;
+	 var tacoFoodList = <?php echo CJSON::encode($tacoFoodsList); ?>;
+	 var foodMeasurementList = <?php echo CJSON::encode($foodMeasurementList); ?>;
+</script>

@@ -1,16 +1,32 @@
+<<<<<<< HEAD
 ## [Versão 3.77.135]
 - Foram feitas modificações para garantir que os professores não possam adicionar um plano de aula para os dias em que estão marcados com falta.
+=======
+## [Versão 3.78.136]
+- Datepicker modificado para apresentar as informações em português
+
+## [Versão 3.78.135]
+- Adicionando funcionalidade de validação de planos de aula
+- Criando novo tipo de usuário e visibilidade "Coordenador"
+
+## [Versão 3.77.135]
+- Adicionado novas inconsistências para a falta de componentes curriculasres
+- Consertado lentidão na tela de estoque
+>>>>>>> dev
 
 ## [Versão 3.77.134]
 - Consertado tela de frequencia para os professores
-- 
+-
 ## [Versão 3.77.133]
 - Realizado correções nas validações das datas para Professor, Estudante e Escola
-
+- Correção no id da classe para as inconsistências
+- 
 ## [Versão 3.78.132]
 - Adicionado campo para a assinatura do diretor 
+- Adicionado unidades de medida para o lançamento no estoque
 
 ## [Versão 3.77.132]
+- Adicionado correção para a tamanho da descrição da merenda
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
 
 ## [Versão 3.76.131]
@@ -20,7 +36,8 @@
 - Correção no conteúdo ministrado em sala de aula
 
 ## [Versão 3.76.129]
-- Correção na descrição da séries para as inconsistências sagres
+- Corrigir a funcionalidade de cadastrar porções em refeições de cardápio
+- Ajustar banco de dados para adequar ao novo fluxo da tela de atualizar cardápio
 
 ## [Versão 3.76.128]
 - Corrigido erro que não mostrava o nome da escola e das turmas nas inconsistências sagres

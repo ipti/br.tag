@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bfgk6knmncv5n"
+
+[deps]
+
+files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/seeds/de_para_cursos_educacenso_2020.142A01.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/seeds/de_para_cursos_educacenso_2020.Processos Escolares .translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/seeds/de_para_cursos_educacenso_2020.0111P013.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/seeds/de_para_cursos_educacenso_2020.Processos escolares .translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/seeds/de_para_cursos_educacenso_2020.Tecnológico.translation"]
+
+source_file="res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/seeds/de_para_cursos_educacenso_2020.csv"
+dest_files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/seeds/de_para_cursos_educacenso_2020.142A01.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/seeds/de_para_cursos_educacenso_2020.Processos Escolares .translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/seeds/de_para_cursos_educacenso_2020.0111P013.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/seeds/de_para_cursos_educacenso_2020.Processos escolares .translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/seeds/de_para_cursos_educacenso_2020.Tecnológico.translation"]
+
+[params]
+
+compress=true
+delimiter=0
