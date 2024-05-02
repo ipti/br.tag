@@ -16,7 +16,7 @@ declare(strict_types=1);
 class UpdateGradeRulesUsecase
 {
     public function __construct($stage, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType,
-    $hasPartialRecovery)
+    $hasPartialRecovery, $partialRecoveries)
     {
         $this->stage = $stage;
         $this->approvalMedia = $approvalMedia;
@@ -25,6 +25,7 @@ class UpdateGradeRulesUsecase
         $this->hasFinalRecovery = $hasFinalRecovery;
         $this->ruleType = $ruleType;
         $this->hasPartialRecovery = $hasPartialRecovery;
+        $this->partialRecoveries = $partialRecoveries;
     }
 
     public function exec()
@@ -49,8 +50,12 @@ class UpdateGradeRulesUsecase
             Yii::log(TagUtils::stringfyValidationErrors($gradeRules), CLogger::LEVEL_ERROR);
             throw new CantSaveGradeRulesException();
         }
+        $gradeRules->save();
 
-        return $gradeRules->save();
+        if($this->hasPartialRecovery === true) {
+            $partialRecoveryUC = new UpdateGradePartialRecoveryUsecase($gradeRules->id, $this->partialRecoveries);
+            $partialRecoveryUC->exec();
+        }
     }
 }
 

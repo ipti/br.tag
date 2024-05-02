@@ -353,18 +353,18 @@ function saveUnities(reply) {
         });
     });
     const partialRecoveries = [];
-    $('.partial-recovery-accordion-body').each(function (index, element) {
-        partialRecoveries.push({
-            id: $(element).find('.partial-recovery-id').val(),
-            operation: $(element).find('.partial-recovery-operation'),
-            name: $(element).find('.partial-recovery-name').val(),
-            order: index+1,
-            media: $(element).find('.partial-recovery-media').val(),
-            mediaCalculation: $(element).find('select.js-formula-select'),
-            unities: $(element).find('select.js-partial-recovery-unities').val()
+        $('.partial-recovery-accordion-body').each(function (index, element) {
+            partialRecoveries.push({
+                id: '', //$(element).find('.partial-recovery-id').val(),
+                operation: "create", //$(element).find('.partial-recovery-operation'),
+                name: "teste" ,//$(element).find('.partial-recovery-name').val(),
+                order: 1, //index+1,
+                media: $(element).find('.partial-recovery-media').val(),
+                mediaCalculation: $(element).find('select.js-formula-select'),
+                unities: $(element).find('select.js-partial-recovery-unities').val()
 
+            })
         })
-    })
     $.ajax({
         type: "POST",
         url: "?r=admin/saveUnities",
