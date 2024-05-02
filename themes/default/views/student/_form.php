@@ -193,11 +193,11 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-text" id="dateOfBirth">
                                 <?php echo $form->label($modelStudentIdentification, 'birthday', array('class' => 't-field-text__label--required')); ?>
-								<?php 
+								<?php
                                     $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelStudentIdentification, 'birthday'));
                                     echo CHtml::link('	Limpar', '#', array(
                                         'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
-                                    ));		
+                                    ));
                                     echo $form->error($modelStudentIdentification, 'birthday');
 								?>
                             </div>

@@ -249,11 +249,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                     ); ?>
                                 </div>
                                 <div style="margin-left: 23px">
-									<?php 
+									<?php
 										$this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelInstructorIdentification, 'birthday_date'));
 										echo CHtml::link('	Limpar', '#', array(
 											'onclick' => '$("#' . CHtml::activeId($modelInstructorIdentification, 'birthday_date') . '").datepicker("setDate", null); return false;',
-										));		
+										));
 										echo $form->error($modelInstructorIdentification, 'birthday_date');
 									?>
 								</div>

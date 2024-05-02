@@ -1,5 +1,6 @@
 ## [Versão 3.78.136]
 - Datepicker modificado para apresentar as informações em português
+- Correção para inconsistências relacionadas a classes
 
 ## [Versão 3.78.135]
 - Adicionando funcionalidade de validação de planos de aula
@@ -8,6 +9,9 @@
 ## [Versão 3.77.135]
 - Adicionado novas inconsistências para a falta de componentes curriculasres
 - Consertado lentidão na tela de estoque
+- Adicionado novas inconsistências para a falta de componentes curriculasres
+- Correção ao pegar data de aniversário do estudante
+- Foi corrigido para incluir o intervalo de 1900 até o ano corrente
 
 ## [Versão 3.77.134]
 - Consertado tela de frequencia para os professores
@@ -15,9 +19,9 @@
 ## [Versão 3.77.133]
 - Realizado correções nas validações das datas para Professor, Estudante e Escola
 - Correção no id da classe para as inconsistências
-- 
+-
 ## [Versão 3.78.132]
-- Adicionado campo para a assinatura do diretor 
+- Adicionado campo para a assinatura do diretor
 - Adicionado unidades de medida para o lançamento no estoque
 
 ## [Versão 3.77.132]
@@ -60,6 +64,7 @@
 
 ## [Versão 3.74.121]
 - Correção no relatório de professores por escola
+- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
 
 ## [Versão 3.74.120]
 - Modificado a controler de grades, ao salvar as Grades Releases.
