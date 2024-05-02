@@ -2,6 +2,8 @@
 
 class TimesheetController extends Controller
 {
+
+    const CLASSROOM_ID = 'classroomId';
     /**
      * @return array action filters
      */
@@ -54,12 +56,12 @@ class TimesheetController extends Controller
         $this->render('instructors');
     }
 
-    public function actionGetTimesheet($classroomId = NULL)
+    public function actionGetTimesheet($classroomId = null)
     {
-        if ($classroomId == NULL) {
+        if ($classroomId == null) {
             $classroomId = $_POST["cid"];
         }
-        $classroom = Classroom::model()->find("id = :classroomId", [":classroomId" => $classroomId]);
+        $classroom = Classroom::model()->find("id = :" . self::CLASSROOM_ID, [":" . self::CLASSROOM_ID => $classroomId]);
 
         if ($classroom->calendar_fk !== null) {
             $calendarEvents = Yii::app()->db->createCommand("select ce.*, cet.* from calendar_event as ce inner join calendar_event_type as cet on cet.id = ce.calendar_event_type_fk where ce.calendar_fk = :calendar_fk")->bindParam(":calendar_fk", $classroom->calendar_fk)->queryAll();
@@ -119,28 +121,12 @@ class TimesheetController extends Controller
 
                         $response["schedules"] = [];
                         foreach ($schedules as $schedule) {
-//                    if (!isset($response["schedules"][$schedule->month])) {
-//                        $response["schedules"][$schedule->month] = [];
-//                    }
-//                    if ($schedule->instructor_fk != NULL) {
-//                        /** @var TimesheetInstructor $instructor */
-//                        $instructor = TimesheetInstructor::model()->find("id = :id", [":id" => $schedule->instructor_fk]);
-//                        $unavailable = $instructor->isUnavailable($schedule->week_day, $schedule->turn, $schedule->schedule);
-//                        $countConflicts = $instructor->countConflicts($schedule->week_day, $schedule->turn, $schedule->schedule);
-//                        $instructorInfo = [
-//                            "id" => $schedule->instructorFk->id,
-//                            "name" => $schedule->instructorFk->name,
-//                            "unavailable" => $unavailable,
-//                            "countConflicts" => $countConflicts
-//                        ];
-//                    } else {
                             $instructorInfo = [
                                 "id" => null,
                                 "name" => "Sem Instrutor",
                                 "unavailable" => false,
                                 "countConflicts" => 0
                             ];
-//                    }
 
                             if (!$schedule->unavailable) {
                                 $cmKey = array_search($schedule["discipline_fk"], array_column($response["disciplines"], 'disciplineId'));
@@ -175,15 +161,15 @@ class TimesheetController extends Controller
                     }
                     $response["daysPerMonth"] = $daysPerMonth;
 
-                    $response["valid"] = TRUE;
+                    $response["valid"] = true;
                 } else {
-                    $response["valid"] = NULL;
+                    $response["valid"] = null;
                 }
             } else {
-                $response = ["valid" => FALSE, "error" => "curricularMatrix"];
+                $response = ["valid" => false, "error" => "curricularMatrix"];
             }
         } else {
-            $response = ["valid" => FALSE, "error" => "calendar"];
+            $response = ["valid" => false, "error" => "calendar"];
         }
         echo json_encode($response);
     }
@@ -197,7 +183,7 @@ class TimesheetController extends Controller
             $firstDay = new Datetime($calendar->start_date);
             $lastDay = new Datetime($calendar->end_date);
             $unavailableEvents = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce where ce.calendar_fk = :calendar_fk and ce.calendar_event_type_fk = 102")->bindParam(":calendar_fk", $calendar->id)->queryAll();
-            $unavailableEventsArray = [];
+            $aUnavailableEvents = [];
             foreach ($unavailableEvents as $unavailableEvent) {
                 $startDate = new DateTime($unavailableEvent["start_date"]);
                 $endDate = new DateTime($unavailableEvent["end_date"]);
@@ -205,8 +191,8 @@ class TimesheetController extends Controller
                 $interval = DateInterval::createFromDateString('1 day');
                 $period = new DatePeriod($startDate, $interval, $endDate);
                 foreach ($period as $date) {
-                    if (!in_array($date->format("Y-m-d"), $unavailableEventsArray)) {
-                        array_push($unavailableEventsArray, $date->format("Y-m-d"));
+                    if (!in_array($date->format("Y-m-d"), $aUnavailableEvents)) {
+                        array_push($aUnavailableEvents, $date->format("Y-m-d"));
                     }
                 }
             }
@@ -217,7 +203,11 @@ class TimesheetController extends Controller
             $interval = DateInterval::createFromDateString('1 day');
             $period = new DatePeriod($begin, $interval, $end);
             foreach ($period as $date) {
-                if ($date->format("Ymd") < $firstDay->format("Ymd") || $date->format("Ymd") > $lastDay->format("Ymd") || in_array($date->format("Y-m-d"), $unavailableEventsArray)) {
+                if (
+                    $date->format("Ymd") < $firstDay->format("Ymd")
+                    || $date->format("Ymd") > $lastDay->format("Ymd")
+                    || in_array($date->format("Y-m-d"), $aUnavailableEvents)
+                ) {
                     if ($fullDate) {
                         if (!in_array($date->format("Y-m-d"), $unavailableDays)) {
                             array_push($unavailableDays, $date->format("Y-m-d"));
@@ -232,7 +222,7 @@ class TimesheetController extends Controller
                     }
                 }
             }
-        } else if ($level == "soft") {
+        } elseif ($level == "soft") {
             $unavailableEvents = Yii::app()->db->createCommand("select ce.start_date, ce.end_date from calendar_event as ce where ce.calendar_fk = :calendar_fk and (ce.calendar_event_type_fk = 101 or ce.calendar_event_type_fk = 104)")->bindParam(":calendar_fk", $calendar->id)->queryAll();
             foreach ($unavailableEvents as $unavailableEvent) {
                 $startDate = new DateTime($unavailableEvent["start_date"]);
@@ -266,7 +256,7 @@ class TimesheetController extends Controller
          * @var $instructorDisciplines InstructorDisciplines
          */
         $classroomId = $_POST["classroom"];
-        $classroom = Classroom::model()->find("id = :classroomId", [":classroomId" => $classroomId]);
+        $classroom = Classroom::model()->find("id = :" . self::CLASSROOM_ID, [":" . self::CLASSROOM_ID => $classroomId]);
         $calendar = $classroom->calendarFk;
 
         $criteria = new CDbCriteria();
@@ -326,62 +316,13 @@ class TimesheetController extends Controller
                 if ($classroom->week_days_saturday) {
                     array_push($weekDays, 6);
                 }
-
-//            $instructorDisciplines = InstructorDisciplines::model()->findAll("stage_vs_modality_fk = :svm", [":svm" => $classroom->edcenso_stage_vs_modality_fk]);
-//            $instructors = [];
-//            foreach ($instructorDisciplines as $instructorDiscipline) {
-//                if (!isset($instructors[$instructorDiscipline->instructor_fk])) {
-//                    $instructors[$instructorDiscipline->instructor_fk] = $instructorDiscipline->instructorFk;
-//                }
-//            }
-//
-//            $instructorsUnavailabilities = [];
-//            /** @var $instructor TimesheetInstructor */
-//            $i = 0;
-//            foreach ($instructors as $id => $instructor) {
-//                $unavailabilities = $instructor->getInstructorUnavailabilities($turn);
-//                if ($instructorsUnavailabilities == NULL) {
-//                    $instructorsUnavailabilities = [];
-//                }
-//                $instructorsUnavailabilities[$i++] = ['id' => $id, 'unavailabilities' => $unavailabilities];
-//            }
-//
-//            function compare($a, $b)
-//            {
-//                if ($a['unavailabilities']['count'] == $b['unavailabilities']['count']) {
-//                    return 0;
-//                }
-//                if ($a['unavailabilities']['count'] > $b['unavailabilities']['count']) {
-//                    return -1;
-//                }
-//
-//                return 1;
-//            }
-//
-//            usort($instructorsUnavailabilities, 'compare');
-
                 $disciplines = [];
                 $i = 0;
                 /** @var CurricularMatrix $cm */
                 foreach ($curricularMatrix as $cm) {
                     $disciplines[$i] = [
-                        "discipline" => $cm->discipline_fk, "instructor" => NULL, "credits" => $cm->credits
+                        "discipline" => $cm->discipline_fk, "instructor" => null, "credits" => $cm->credits
                     ];
-//                $needed = $cm->credits;
-//                if (count($instructors) > 0) {
-//                    $indexArray = array();
-//	                for ($idx = 0; $idx < count($instructors); $idx++) {
-//		                array_push($indexArray, $idx);
-//	                }
-//	                shuffle($indexArray);
-//		            for ($idx = 0; $idx < count($indexArray); $idx++) {
-//			            if ($instructorsUnavailabilities[$indexArray[$idx]]['unavailabilities']['count'] + $needed < $schedulesQuantity * 7) {
-//				            $disciplines[$i]["instructor"] = $instructorsUnavailabilities[$indexArray[$idx]]['id'];
-//				            $instructorsUnavailabilities[$indexArray[$idx]]['unavailabilities']['count'] += $needed;
-//				            break;
-//			            }
-//		            }
-//                }
                     $i++;
                 }
 
@@ -400,30 +341,6 @@ class TimesheetController extends Controller
                 foreach ($schedules as $schedule) {
                     shuffle($disciplines);
                     $rand = 0;
-//                foreach ($disciplines as $index => $d) {
-//                    if ($d["instructor"] == NULL) {
-//                        $rand = $index;
-//                        break;
-//                    }
-//                    $una = NULL;
-//                    foreach ($instructorsUnavailabilities as $iu) {
-//                        if ($iu == $d["instructor"]) {
-//                            $una = $iu['unavailabilities'];
-//                            break;
-//                        }
-//                    }
-//                    if ($una == NULL) {
-//                        $rand = $index;
-//                        break;
-//                    }
-//                    $wk = $schedule->week_day;
-//                    $sc = $schedule->schedule;
-//                    if (!in_array($sc, $una[$wk])) {
-//                        $rand = $index;
-//                        break;
-//                    }
-//                }
-//                $instructor = $disciplines[$rand]['instructor'];
                     $discipline = $disciplines[$rand]['discipline'];
                     $disciplines[$rand]['credits']--;
                     if ($disciplines[$rand]['credits'] <= 0) {
@@ -432,8 +349,8 @@ class TimesheetController extends Controller
 
                     if ($discipline !== null) {
                         $unavailableEvents = Yii::app()->db->createCommand("select ce.start_date, ce.end_date, ce.calendar_event_type_fk from calendar_event as ce where ce.calendar_fk = :calendar_fk and (ce.calendar_event_type_fk = 101 or ce.calendar_event_type_fk = 102 or ce.calendar_event_type_fk = 104)")->bindParam(":calendar_fk", $calendar->id)->queryAll();
-                        $hardUnavailableDaysArray = [];
-                        $softUnavailableDaysArray = [];
+                        $hardUnavailableDays = [];
+                        $softUnavailableDays = [];
                         foreach ($unavailableEvents as $unavailableEvent) {
                             $startDate = new DateTime($unavailableEvent["start_date"]);
                             $endDate = new DateTime($unavailableEvent["end_date"]);
@@ -442,12 +359,12 @@ class TimesheetController extends Controller
                             $period = new DatePeriod($startDate, $interval, $endDate);
                             foreach ($period as $date) {
                                 if ($unavailableEvent["calendar_event_type_fk"] == 102) {
-                                    if (!in_array($date, $hardUnavailableDaysArray)) {
-                                        array_push($hardUnavailableDaysArray, $date);
+                                    if (!in_array($date, $hardUnavailableDays)) {
+                                        array_push($hardUnavailableDays, $date);
                                     }
                                 } else {
-                                    if (!in_array($date, $softUnavailableDaysArray)) {
-                                        array_push($softUnavailableDaysArray, $date);
+                                    if (!in_array($date, $softUnavailableDays)) {
+                                        array_push($softUnavailableDays, $date);
                                     }
                                 }
                             }
@@ -459,7 +376,10 @@ class TimesheetController extends Controller
                         $interval = DateInterval::createFromDateString('1 day');
                         $period = new DatePeriod($firstDay, $interval, $lastDay);
                         foreach ($period as $date) {
-                            if ($schedule->week_day == date("w", strtotime($date->format("Y-m-d"))) && !in_array($date, $hardUnavailableDaysArray)) {
+                            if (
+                                $schedule->week_day == date("w", strtotime($date->format("Y-m-d")))
+                                && !in_array($date, $hardUnavailableDays)
+                            ) {
                                 $sc = new Schedule();
                                 $sc->discipline_fk = $discipline;
                                 $sc->classroom_fk = $classroomId;
@@ -469,7 +389,7 @@ class TimesheetController extends Controller
                                 $sc->week = $date->format("W");
                                 $sc->week_day = $schedule->week_day;
                                 $sc->schedule = $schedule->schedule;
-                                $sc->unavailable = in_array($date, $softUnavailableDaysArray) ? 1 : 0;
+                                $sc->unavailable = in_array($date, $softUnavailableDays) ? 1 : 0;
                                 $sc->turn = $turn;
                                 array_push($batchInsert, $sc->getAttributes());
                             }
@@ -480,9 +400,10 @@ class TimesheetController extends Controller
                 Log::model()->saveAction("timesheet", $classroom->id, "U", $classroom->name);
             }
             $this->actionGetTimesheet($classroomId);
-        } else {
-            echo json_encode(["valid" => false, "error" => "frequencyOrClassContentFilled"]);
+
+            return;
         }
+        echo json_encode(["valid" => false, "error" => "frequencyOrClassContentFilled"]);
     }
 
     public function actionChangeUnavailableSchedule()
@@ -500,7 +421,10 @@ class TimesheetController extends Controller
     {
         $changes = [];
 
-        $classroom = Classroom::model()->find("id = :classroomId", [":classroomId" => $_POST["classroomId"]]);
+        $classroom = Classroom::model()->find(
+            "id = :" . self::CLASSROOM_ID,
+            [":" . self::CLASSROOM_ID => $_POST["classroomId"]]
+        );
         $calendar = $classroom->calendarFk;
         $finalDate = new DateTime($calendar->end_date);
 
@@ -548,7 +472,7 @@ class TimesheetController extends Controller
 
                 array_push($schedulesToCheckHardUnavailability, $firstSchedule);
                 array_push($schedulesToCheckHardUnavailability, $secondSchedule);
-            } else if ($firstSchedule != null || $secondSchedule != null) {
+            } elseif ($firstSchedule != null || $secondSchedule != null) {
                 if ($secondSchedule != null) {
                     array_push($changes, [
                         "firstSchedule" => ["day" => $firstScheduleDate->format('j'), "month" => $firstScheduleDate->format('n'), "year" => $firstScheduleDate->format("Y"), "schedule" => $_POST["firstSchedule"]["schedule"]],
@@ -595,14 +519,15 @@ class TimesheetController extends Controller
 
         $workloads = Yii::app()->db->createCommand(
             " select " .
-            " edcenso_discipline.id as disciplineId, " .
-            " edcenso_discipline.name as disciplineName, " .
-            " (select count(schedule.id) from schedule where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 and schedule.discipline_fk = disciplineId) as workloadUsed, " .
-            " curricular_matrix.workload as workloadTotal, " .
-            " (select ii.name from teaching_matrixes tm join instructor_teaching_data itd on itd.id = tm.teaching_data_fk join instructor_identification ii on itd.instructor_fk = ii.id where itd.classroom_id_fk = " . $_POST["classroomId"] . " and tm.curricular_matrix_fk = curricular_matrix.id) as instructorName " .
-            " from curricular_matrix " .
-            " join edcenso_discipline on edcenso_discipline.id = curricular_matrix.discipline_fk " .
-            " where curricular_matrix.stage_fk = :stage and curricular_matrix.school_year = :year")
+                " edcenso_discipline.id as disciplineId, " .
+                " edcenso_discipline.name as disciplineName, " .
+                " (select count(schedule.id) from schedule where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 and schedule.discipline_fk = disciplineId) as workloadUsed, " .
+                " curricular_matrix.workload as workloadTotal, " .
+                " (select ii.name from teaching_matrixes tm join instructor_teaching_data itd on itd.id = tm.teaching_data_fk join instructor_identification ii on itd.instructor_fk = ii.id where itd.classroom_id_fk = " . $_POST["classroomId"] . " and tm.curricular_matrix_fk = curricular_matrix.id) as instructorName " .
+                " from curricular_matrix " .
+                " join edcenso_discipline on edcenso_discipline.id = curricular_matrix.discipline_fk " .
+                " where curricular_matrix.stage_fk = :stage and curricular_matrix.school_year = :year"
+        )
             ->bindParam(":stage", $classroom->edcenso_stage_vs_modality_fk)->bindParam(":year", Yii::app()->user->year)->queryAll();
         echo json_encode(["valid" => true, "changes" => $changes, "disciplines" => $workloads]);
     }
@@ -698,139 +623,4 @@ class TimesheetController extends Controller
         }
         echo json_encode(["valid" => true, "adds" => $adds, "disciplines" => $disciplines]);
     }
-
-//    public function actionGetInstructorDisciplines($id)
-//    {
-//        /** @var $istructorDisciplines InstructorDisciplines[]
-//         * @var $idisc InstructorDisciplines
-//         */
-//        $response = [];
-//        $instructorDisciplines = InstructorDisciplines::model()->findAllByAttributes(["instructor_fk" => $id]);
-//        foreach ($instructorDisciplines as $idisc) {
-//            array_push($response, [
-//                "instructor" => $id, "discipline" => $idisc->discipline_fk,
-//                "discipline_name" => $idisc->disciplineFk->name, "stage" => $idisc->stage_vs_modality_fk,
-//                "stage_name" => $idisc->stageVsModalityFk->name,
-//            ]);
-//        }
-//        echo json_encode($response);
-//    }
-//
-//    public function actionAddInstructors()
-//    {
-//        $ids = $_POST["add-instructors-ids"];
-//        $school = Yii::App()->user->school;
-//        foreach ($ids as $id) {
-//            $instructor = InstructorSchool::model()->findAllByAttributes([
-//                "instructor_fk" => $id, "school_fk" => $school
-//            ]);
-//            if (count($instructor) == 0) {
-//                $instructor = new InstructorSchool();
-//                $instructor->school_fk = $school;
-//                $instructor->instructor_fk = $id;
-//                if ($instructor->validate()) {
-//                    $instructor->save();
-//                }
-//            }
-//        }
-//        $this->render('instructors');
-//    }
-//
-//
-//    public function actionAddInstructorsUnavailability()
-//    {
-//        $instructorsIds = $_POST["add-instructors-unavailability-ids"];
-//        $turns = $_POST["add-instructors-unavailability-turn"];
-//        $schedules = $_POST["add-instructors-unavailability-schedule"];
-//        $weekDays = $_POST["add-instructors-unavailability-week-day"];
-//
-//        foreach ($instructorsIds as $instructorId) {
-//            foreach ($turns as $key => $turn) {
-//                $schedule = $schedules[$key];
-//                $weekDay = $weekDays[$key];
-//                $unavailability = new Unavailability();
-//                $unavailability->instructor_school_fk = $instructorId;
-//                $unavailability->week_day = $weekDay;
-//                $unavailability->turn = $turn;
-//                $unavailability->schedule = $schedule - 1;
-//                $unavailability->save();
-//            }
-//        }
-//        $this->render('instructors');
-//    }
-//
-//    public function actionAddInstructorsDisciplines()
-//    {
-//        if (isset($_POST["add-instructors-disciplines-discipline"]) && isset($_POST["add-instructors-disciplines-stage"]) && isset($_POST["add-instructors-disciplines-ids"])) {
-//            $instructors = $_POST["add-instructors-disciplines-ids"];
-//            $stagesDisciplines = $_POST["add-instructors-disciplines-stage"];
-//            $disciplines = $_POST["add-instructors-disciplines-discipline"];
-//            foreach ($instructors as $instructor) {
-//                foreach ($stagesDisciplines as $i => $stages) {
-//                    foreach ($stages as $stage) {
-//                        foreach ($disciplines[$i] as $discipline) {
-//                            $instructorDiscipline = InstructorDisciplines::model()->findAll("stage_vs_modality_fk = :stage and discipline_fk = :discipline and instructor_fk = :instructor", [
-//                                ":stage" => $stage, ":discipline" => $discipline, ":instructor" => $instructor
-//                            ]);
-//                            if ($instructorDiscipline == NULL) {
-//                                /**
-//                                 * @var $instructorDiscipline InstructorDisciplines
-//                                 */
-//                                $instructorDiscipline = new InstructorDisciplines();
-//                                $instructorDiscipline->stage_vs_modality_fk = $stage;
-//                                $instructorDiscipline->discipline_fk = $discipline;
-//                                $instructorDiscipline->instructor_fk = $instructor;
-//                                $instructorDiscipline->save();
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        $this->render('index');
-//    }
-//
-//    public function actionLoadUnavailability()
-//    {
-//        /** @var  $iu Unavailability */
-//        $instructorId = $_POST["id"];
-//        $instructorUnavailability = Unavailability::model()->findAll("instructor_school_fk = :instructorSchool", [":instructorSchool" => $instructorId]);
-//        $response = [];
-//        foreach ($instructorUnavailability as $iu) {
-//            if (!isset($response[$iu->week_day])) {
-//                $response[$iu->week_day] = ["0" => [], "1" => [], "2" => []];
-//            }
-//            array_push($response[$iu->week_day][$iu->turn], $iu->schedule);
-//        }
-//        echo json_encode($response);
-//    }
-//
-//    public function actionGetInstructors()
-//    {
-//        if (isset($_POST['discipline'])) {
-//            $id = $_POST['discipline'];
-//            $list = CHtml::listData(InstructorDisciplines::model()->findAllByAttributes(["discipline_fk" => $id]), "instructorFk.id", "instructorFk.name");
-//            echo htmlspecialchars(CHtml::tag('option', ["value" => "null"], "Sem Instrutor"));
-//            foreach ($list as $id => $name) {
-//                echo htmlspecialchars(CHtml::tag('option', ["value" => $id], $name));
-//            }
-//        }
-//    }
-//
-//    public function actionChangeInstructor()
-//    {
-//        if (isset($_POST['schedule'], $_POST['instructor'])) {
-//            $scheduleId = $_POST['schedule'];
-//            $instructorId = $_POST['instructor'];
-//            if ($instructorId == 'null') {
-//                $instructorId = null;
-//            }
-//            /** @var Schedule $schedule */
-//            $schedule = Schedule::model()->findByPk($scheduleId);
-//            $schedule->instructor_fk = $instructorId;
-//            $schedule->save();
-//
-//            $this->actionGetTimesheet($schedule->classroom_fk);
-//        }
-//    }
 }
