@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-## [Versão 3.77.135]
-- Foram feitas modificações para garantir que os professores não possam adicionar um plano de aula para os dias em que estão marcados com falta.
-=======
 ## [Versão 3.78.136]
 - Datepicker modificado para apresentar as informações em português
 
@@ -12,7 +8,6 @@
 ## [Versão 3.77.135]
 - Adicionado novas inconsistências para a falta de componentes curriculasres
 - Consertado lentidão na tela de estoque
->>>>>>> dev
 
 ## [Versão 3.77.134]
 - Consertado tela de frequencia para os professores
