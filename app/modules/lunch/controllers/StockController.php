@@ -14,7 +14,10 @@ class StockController extends CController{
     }
 
     public function actionIndex(){
-        $this->render('index');
+         $items = CHtml::listData(Item::model()->findAll(), 'id', 'concatName');
+         $this->render('index', [
+            "items" => $items
+         ]);
     }
 
     public function actionAddItem(){
@@ -120,6 +123,6 @@ class StockController extends CController{
             $item->delete();
             var_dump(Yii::app()->user->school);
         }
-        
+
     }
 }

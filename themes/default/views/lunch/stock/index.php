@@ -144,7 +144,8 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                                 <?= CHtml::dropDownList(
                                     'Inventory[item]',
                                     '',
-                                    CHtml::listData(Item::model()->findAll(), 'id', 'concatName'),
+                                    // [],
+                                    $items,
                                     ['class' => 'pull-left span12']
                                 ); ?>
 
@@ -197,8 +198,9 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                                 <?= CHtml::dropDownList(
                                     'Item[unity_fk]',
                                     '',
-                                    CHtml::listData(Unity::model()->findAll(), 'id', 'name'),
-                                    ['class' => ' span10', 'style' => 'width:100%']
+                                    // [],
+                                    CHtml::listData(Unity::model()->findAll(), 'id', 'acronym'),
+                                    ['class' => ' span8', 'style' => 'width:100%']
                                 ); ?>
                             </div>
                         </div>
@@ -245,7 +247,8 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                         <?= CHtml::dropDownList(
                             'Item',
                             '',
-                            CHtml::listData(Item::model()->findAll(), 'id', 'concatName'),
+                            // [],
+                            $items,
                             ['class' => 'span10', 'style' => 'width: 100%']
                         ); ?>
                     </div>
