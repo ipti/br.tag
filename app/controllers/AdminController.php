@@ -243,6 +243,22 @@ class AdminController extends Controller
         $result["ruleType"] = $gradeRules->rule_type;
         $result["hasFinalRecovery"] = (bool) $gradeRules->has_final_recovery;
 
+        $result["partialRecoveries"] = [];
+
+        $gPartialRecoveries = GradePartialRecovery::model()->findAllByAttributes(array('grade_rules_fk' => $gradeRules->id));
+        foreach ($gPartialRecoveries as $partialRecovery) {
+            $resultPartialRecovery = array();
+            $resultPartialRecovery["name"] = $partialRecovery->name;
+            $resultPartialRecovery["media"] = $partialRecovery->partial_recover_media;
+            $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
+            $resultPartialRecovery["grade_caculation_fk"] = $partialRecovery->name;
+
+            $unities = GradeUnity::model()->findAllByAttributes(array('parcial_recovery_fk' => $partialRecovery->id));
+            $resultPartialRecovery["unities"]  = $unities;
+
+            array_push($result["partialRecoveries"], $resultPartialRecovery);
+        }
+
         echo CJSON::encode($result);
     }
 

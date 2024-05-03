@@ -654,7 +654,24 @@ function loadStructure() {
                     });
                 }
                 if (data.partialRecoveries.length > 0) {
-                    addAccordion({})
+                    $.each(data.partialRecoveries, function (index, element) {
+                        let unities = element.unities;
+                        let unityOptions = [];
+                        $.each(unities, function (index, unity) {
+                            value = unity.name;
+                            name = unity.id;
+                            unityOptions += template`
+                                <option value="${value}">${name}</option>
+                            `
+                        });
+                        /* console.log(unities)
+                        console.log(unityOptions) */
+                        let newAccordion = addAccordion(element.media, element.name, element.mediaCalculation, unityOptions)
+
+                        $('#accordion-partial-recovery').append(newAccordion)
+                    });
+                    $(".js-partial-recovery-unities").select2()
+                    $(".js-partial-recovery-unities").trigger("change")
                 }
                 $(".grades-buttons").css("display", "flex");
                 $(
@@ -753,14 +770,15 @@ function getUnityOptions() {
             <option value="${value}">${name}</option>
         `
     });
+    console.log(unityOptions)
     return unityOptions;
 }
 
 $(document).on("click", ".js-new-partial-recovery", (e) => {
     if(!$(".js-new-partial-recovery").hasClass("disabled")){
 
-        newccordion = addAccordion("","","",[]);
-        $('#accordion-partial-recovery').append(newccordion)
+        newAccordion = addAccordion("","","",[]);
+        $('#accordion-partial-recovery').append(newAccordion)
         $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities").select2();
         $('.js-new-unity').addClass('disabled');
     }
