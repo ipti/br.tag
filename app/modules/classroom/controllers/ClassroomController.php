@@ -580,6 +580,81 @@ class ClassroomController extends Controller
         $modelClassroom = $this->loadModel($id, $this->modelClassroom);
         $modelTeachingData = $this->loadModel($id, $this->modelTeachingData);
         $studentsEnrollments = $modelClassroom->studentEnrollments;
+
+        $modelEnrollments = $this->saveModelEnrollments($studentsEnrollments);
+
+        $edcensoStageVsModalities = $this->getSchoolStagesModels();
+
+        $disableFieldWhenUbatuba = false;
+        if (Yii::app()->features->isEnable("FEAT_SEDSP") && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
+            $disableFieldWhenUbatuba = true;
+        }
+
+        if (isset($_POST['enrollments']) && isset($_POST['toclassroom'])) {
+            $enrollments = $_POST['enrollments'];
+            $toClassroom = $_POST['toclassroom'];
+            $this->handleEnrollments($enrollments, $toClassroom);
+        }
+
+        if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
+            foreach ($modelTeachingData as $key => $td) {
+                $td->delete();
+            }
+
+            $classroom = Yii::app()->request->getPost("Classroom");
+            $classroom = $this->saveComplementaryActivity($classroom);
+
+            $calendarFk = Yii::app()->request->getPost("calendar_fk");
+            $beforeChangeClassroom = new Classroom();
+            $beforeChangeClassroom->attributes = $modelClassroom->attributes;
+            $modelClassroom->attributes = $classroom;
+            $modelClassroom->calendar_fk = $calendarFk;
+            $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
+
+            if ($this->hasClassroomChanged($beforeChangeClassroom, $modelClassroom, $disableFieldWhenUbatuba)) {
+                $modelClassroom->sedsp_sync = 0;
+            }
+
+            $teachingData = json_decode($_POST['teachingData']);
+
+            if ($this->verifyWeekDays($modelClassroom) && $modelClassroom->validate() && $modelClassroom->save() &&
+            $this->saveTeachingData($teachingData, $modelTeachingData, $modelClassroom) && $this->saveTeachingMatrixes($modelTeachingData, $modelClassroom)) {
+                if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$modelClassroom->sedsp_sync) {
+                    $loginUseCase = new LoginUseCase();
+                    $loginUseCase->checkSEDToken();
+
+                    $inConsultaTurmaClasse = new InConsultaTurmaClasse(
+                        Yii::app()->user->year,
+                        $modelClassroom->gov_id
+                    );
+                    $dataSource = new ClassroomSEDDataSource();
+                    $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
+
+                    if (!property_exists($outConsultaTurmaClasse, "outErro")) {
+                        $result = $modelClassroom->syncToSEDSP("edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
+                    } else {
+                        $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
+                    }
+                } else {
+                    $result = ["flash" => "success", "message" => "Turma atualizada com sucesso!"];
+                }
+
+                Log::model()->saveAction("classroom", $modelClassroom->id, "U", $modelClassroom->name);
+                Yii::app()->user->setFlash($result["flash"], $result["message"]);
+                $this->redirect(array('index'));
+            }
+        }
+
+        $this->render('update', array(
+            'modelClassroom' => $modelClassroom,
+            'modelTeachingData' => $modelTeachingData,
+            'modelEnrollments' => $modelEnrollments,
+            'edcensoStageVsModalities' => $edcensoStageVsModalities,
+            'disabledFields' => $disableFieldWhenUbatuba
+        ));
+    }
+
+    private function saveModelEnrollments($studentsEnrollments) {
         $modelEnrollments = [];
         foreach ($studentsEnrollments as $studentEnrollment) {
             $array = [];
@@ -592,191 +667,93 @@ class ClassroomController extends Controller
             if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                 $array["synced"] = $studentEnrollment->studentFk->sedsp_sync && $studentEnrollment->sedsp_sync;
             }
-
             array_push($modelEnrollments, $array);
         }
+        return $modelEnrollments;
+    }
 
-        $edcensoStageVsModalities = $this->getSchoolStagesModels();
-
-
-        $disableFieldsWhenItsUBATUBA = false;
-        if (Yii::app()->features->isEnable("FEAT_SEDSP") && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
-            $disableFieldsWhenItsUBATUBA = true;
+    private function handleEnrollments($enrollments, $toClassroom)
+    {
+        if (!empty($toClassroom)) {
+            $this->moveEnrollmentsToClassroom($enrollments, $toClassroom);
         }
 
-        if (isset($_POST['enrollments']) && isset($_POST['toclassroom'])) {
-            $enrollments = $_POST['enrollments'];
-            if (!empty($_POST['toclassroom'])) {
-                $classroom = Classroom::model()->findByPk($_POST['toclassroom']);
-                foreach ($enrollments as $enrollment) {
-                    $enro = StudentEnrollment::model()->findByPk($enrollment);
-                    $enro->classroom_fk = $classroom->id;
-                    $enro->classroom_inep_id = $classroom->inep_id;
-                    $enro->status = 2;
-                    $enro->create_date = date('Y-m-d');
-                    $enro->update(array('classroom_fk', 'classroom_inep_id', 'status', 'create_date'));
-                }
-            } else {
-                foreach ($enrollments as $enrollment) {
-                    $studentEnrollment = StudentEnrollment::model()->findByPk($enrollment);
-                    $frequencyAndMean = FrequencyAndMeanByDiscipline::model()
-                        ->findAllByAttributes(array('enrollment_fk' => $studentEnrollment->id));
-                    $gradeResults = GradeResults::model()
-                        ->findAllByAttributes(array('enrollment_fk' => $studentEnrollment->id));
-                    $frequencyByExam = FrequencyByExam::model()
-                        ->findAllByAttributes(array('enrollment_fk' => $studentEnrollment->id));
-
-                    foreach ($gradeResults as $gradeResult) {
-                        $gradeResult->delete();
-                    }
-                    foreach ($frequencyAndMean as $eachFrequencyAndMean) {
-                        $eachFrequencyAndMean->delete();
-                    }
-                    foreach ($frequencyByExam as $frequencyExam) {
-                        $frequencyExam->delete();
-                    }
-                    $studentEnrollment->delete();
-                    Yii::app()->user->setFlash('success', 'Matrículas de alunos excluídas com sucesso');
-                }
-            }
-            $this->redirect(array('index'));
-        }
-        if (isset($_POST['Classroom']) && isset($_POST['teachingData']) && isset($_POST['disciplines'])) {
-
-            foreach ($modelTeachingData as $key => $td) {
-                $td->delete();
-            }
-
-            // Em adição, inserir a condição dos campos 25-35 (AEE activities)
-            // de nao deixar criar com todos os campos igual a 0
-            if (isset($_POST['Classroom']["complementary_activity_type_1"])) {
-                $compActs = $_POST['Classroom']["complementary_activity_type_1"];
-            }
-            $_POST['Classroom']["complementary_activity_type_1"] = isset($compActs[0]) ? $compActs[0] : null;
-            $_POST['Classroom']["complementary_activity_type_2"] = isset($compActs[1]) ? $compActs[1] : null;
-            $_POST['Classroom']["complementary_activity_type_3"] = isset($compActs[2]) ? $compActs[2] : null;
-            $_POST['Classroom']["complementary_activity_type_4"] = isset($compActs[3]) ? $compActs[3] : null;
-            $_POST['Classroom']["complementary_activity_type_5"] = isset($compActs[4]) ? $compActs[4] : null;
-            $_POST['Classroom']["complementary_activity_type_6"] = isset($compActs[5]) ? $compActs[5] : null;
-
-            $beforeChangeClassroom = new Classroom();
-            $beforeChangeClassroom->attributes = $modelClassroom->attributes;
-            $modelClassroom->attributes = $_POST['Classroom'];
-            $modelClassroom->calendar_fk = $_POST['calendar_fk'];
-            $modelClassroom->assistance_type = $this->defineAssistanceType($modelClassroom);
-
-            if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$disableFieldsWhenItsUBATUBA) {
-
-                if (
-                    $beforeChangeClassroom->turn != $modelClassroom->turn ||
-                    $beforeChangeClassroom->sedsp_acronym != $modelClassroom->sedsp_acronym ||
-                    $beforeChangeClassroom->sedsp_classnumber != $modelClassroom->sedsp_classnumber ||
-                    $beforeChangeClassroom->sedsp_max_physical_capacity != $modelClassroom->sedsp_max_physical_capacity ||
-                    $beforeChangeClassroom->initial_hour != $modelClassroom->initial_hour ||
-                    $beforeChangeClassroom->initial_minute != $modelClassroom->initial_minute ||
-                    $beforeChangeClassroom->final_hour != $modelClassroom->final_hour ||
-                    $beforeChangeClassroom->final_minute != $modelClassroom->final_minute ||
-                    $beforeChangeClassroom->week_days_monday != $modelClassroom->week_days_monday ||
-                    $beforeChangeClassroom->week_days_tuesday != $modelClassroom->week_days_tuesday ||
-                    $beforeChangeClassroom->week_days_wednesday != $modelClassroom->week_days_wednesday ||
-                    $beforeChangeClassroom->week_days_thursday != $modelClassroom->week_days_thursday ||
-                    $beforeChangeClassroom->week_days_friday != $modelClassroom->week_days_friday ||
-                    $beforeChangeClassroom->week_days_saturday != $modelClassroom->week_days_saturday
-                ) {
-
-                    $modelClassroom->sedsp_sync = 0;
-                }
-            }
-
-            $disciplines = json_decode($_POST['disciplines'], true);
-            $this->setDisciplines($modelClassroom, $disciplines);
-            $hasWeekDaySelected = $modelClassroom->week_days_sunday ||
-                $modelClassroom->week_days_monday ||
-                $modelClassroom->week_days_tuesday ||
-                $modelClassroom->week_days_wednesday ||
-                $modelClassroom->week_days_thursday ||
-                $modelClassroom->week_days_friday ||
-                $modelClassroom->week_days_saturday;
-
-            if (!$hasWeekDaySelected) {
-                $modelClassroom->addError('week_days_sunday', Yii::t('default', 'Week Days') . ' ' . Yii::t('default', 'cannot be blank'));
-            }
-
-            if ($hasWeekDaySelected && $modelClassroom->validate() && $modelClassroom->save()) {
-                $saved = true;
-                $teachingDataValidated = true;
-
-                $teachingData = json_decode($_POST['teachingData']);
-
-                foreach ($teachingData as $key => $td) {
-                    $modelTeachingData[$key] = new InstructorTeachingData;
-                    $modelTeachingData[$key]->classroom_id_fk = $modelClassroom->id;
-                    $modelTeachingData[$key]->school_inep_id_fk = $modelClassroom->school_inep_fk;
-                    $modelTeachingData[$key]->instructor_fk = $td->Instructor;
-                    $modelTeachingData[$key]->instructor_inep_id = $td->Inep;
-                    $modelTeachingData[$key]->role = $td->Role;
-                    $modelTeachingData[$key]->contract_type = $td->ContractType;
-                    $modelTeachingData[$key]->regent = $td->RegentTeacher;
-                    $modelTeachingData[$key]->disciplines = $td->Disciplines;
-                    $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
-                }
-
-                if ($teachingDataValidated) {
-                    foreach ($modelTeachingData as $key => $td) {
-                        if ($saved) {
-                            $saved = $modelTeachingData[$key]->save();
-                            foreach ($td->disciplines as $discipline) {
-                                $curricularMatrix = CurricularMatrix::model()->find(
-                                    "stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year",
-                                    [
-                                        "stage_fk" => $modelClassroom->edcenso_stage_vs_modality_fk,
-                                        "discipline_fk" => $discipline,
-                                        "year" => Yii::app()->user->year
-                                    ]
-                                );
-                                $teachingMatrixes = new TeachingMatrixes();
-                                $teachingMatrixes->curricular_matrix_fk = $curricularMatrix->id;
-                                $teachingMatrixes->teaching_data_fk = $modelTeachingData[$key]->id;
-                                $teachingMatrixes->save();
-                            }
-                        }
-                    }
-                    if ($saved) {
-                        if (Yii::app()->features->isEnable("FEAT_SEDSP") && !$modelClassroom->sedsp_sync) {
-                            $loginUseCase = new LoginUseCase();
-                            $loginUseCase->checkSEDToken();
-
-                            $inConsultaTurmaClasse = new InConsultaTurmaClasse(
-                                Yii::app()->user->year,
-                                $modelClassroom->gov_id
-                            );
-                            $dataSource = new ClassroomSEDDataSource();
-                            $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
-
-                            if (!property_exists($outConsultaTurmaClasse, "outErro")) {
-                                $result = $modelClassroom->syncToSEDSP("edit", $outConsultaTurmaClasse->outAnoLetivo != null ? "edit" : "create");
-                            } else {
-                                $result = ["flash" => "error", "message" => $outConsultaTurmaClasse->outErro];
-                            }
-                        } else {
-                            $result = ["flash" => "success", "message" => "Turma atualizada com sucesso!"];
-                        }
-
-                        Log::model()->saveAction("classroom", $modelClassroom->id, "U", $modelClassroom->name);
-                        Yii::app()->user->setFlash($result["flash"], $result["message"]);
-                        $this->redirect(array('index'));
-                    }
-                }
-            }
+        if (empty($toClassroom)) {
+            $this->deleteEnrollments($enrollments);
         }
 
-        $this->render('update', array(
-            'modelClassroom' => $modelClassroom,
-            'modelTeachingData' => $modelTeachingData,
-            'modelEnrollments' => $modelEnrollments,
-            'edcensoStageVsModalities' => $edcensoStageVsModalities,
-            'disabledFields' => $disableFieldsWhenItsUBATUBA
-        ));
+        $this->redirect(array('index'));
+    }
+
+    private function hasClassroomChanged($before, $after, $disableFieldWhenUbatuba)
+    {
+        if (!Yii::app()->features->isEnable("FEAT_SEDSP") || $disableFieldWhenUbatuba) {
+            return false;
+        }
+
+        if (
+            $before->turn != $after->turn ||
+            $before->sedsp_acronym != $after->sedsp_acronym ||
+            $before->sedsp_classnumber != $after->sedsp_classnumber ||
+            $before->sedsp_max_physical_capacity != $after->sedsp_max_physical_capacity ||
+            $before->initial_hour != $after->initial_hour ||
+            $before->initial_minute != $after->initial_minute ||
+            $before->final_hour != $after->final_hour ||
+            $before->final_minute != $after->final_minute ||
+            $before->week_days_monday != $after->week_days_monday ||
+            $before->week_days_tuesday != $after->week_days_tuesday ||
+            $before->week_days_wednesday != $after->week_days_wednesday ||
+            $before->week_days_thursday != $after->week_days_thursday ||
+            $before->week_days_friday != $after->week_days_friday ||
+            $before->week_days_saturday != $after->week_days_saturday
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function moveEnrollmentsToClassroom($enrollments, $classroomId)
+    {
+        $classroom = Classroom::model()->findByPk($classroomId);
+
+        foreach ($enrollments as $enrollmentId) {
+            $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
+            if ($enrollment) {
+                $enrollment->classroom_fk = $classroom->id;
+                $enrollment->classroom_inep_id = $classroom->inep_id;
+                $enrollment->status = 2;
+                $enrollment->create_date = date('Y-m-d');
+                $enrollment->update(array('classroom_fk', 'classroom_inep_id', 'status', 'create_date'));
+            }
+        }
+    }
+
+    private function deleteEnrollments($enrollments)
+    {
+        foreach ($enrollments as $enrollmentId) {
+            $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
+            if ($enrollment) {
+                $this->deleteAssociatedData($enrollment->id);
+                $enrollment->delete();
+                Yii::app()->user->setFlash('success', 'Matrículas de alunos excluídas com sucesso');
+            }
+        }
+    }
+
+    private function deleteAssociatedData($enrollmentId)
+    {
+        $this->deleteModelData(FrequencyAndMeanByDiscipline::model(), 'enrollment_fk', $enrollmentId);
+        $this->deleteModelData(GradeResults::model(), 'enrollment_fk', $enrollmentId);
+        $this->deleteModelData(FrequencyByExam::model(), 'enrollment_fk', $enrollmentId);
+    }
+
+    private function deleteModelData($model, $attribute, $value)
+    {
+        $items = $model->findAllByAttributes(array($attribute => $value));
+        foreach ($items as $item) {
+            $item->delete();
+        }
     }
 
     /**
