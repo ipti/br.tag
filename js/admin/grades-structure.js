@@ -719,13 +719,14 @@ $(document).on("keyup", ".approval-media, .final-recover-media, .partial-recover
          lastAccordion = Number($("#accordion-partial-recovery .partial-recovery:last").attr("data-index"));
          partialRecovery = lastAccordion+1
     }
+    const titleAccordion = name === "" ? "Recuperação Parcial:" : name
     const collapse = partialRecovery == 0 ? "in" : "";
     const unityOptions = getUnityOptions();
     return template`
     <div class="partial-recovery-container">
         <div class='row partial-recovery ui-accordion-header' data-index="${partialRecovery}">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-partial" href="#partial-recovery-collapse-${partialRecovery}">
-                <h2 class="partial-recovery-title accordion-heading">Recuperação Parcial: </h2>
+                <h2 class="partial-recovery-title accordion-heading">${titleAccordion}</h2>
             </a>
             <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="font-size: 20px;"></span>
         </div>
