@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @property int $calcFinalMedia
  * @property bool  $hasFinalRecovery
  * @property bool  $hasPartialRecovery
+ * @property []  $partialRecoveries
  * @property string  $ruleType
  */
 class UpdateGradeRulesUsecase
@@ -50,12 +51,45 @@ class UpdateGradeRulesUsecase
             Yii::log(TagUtils::stringfyValidationErrors($gradeRules), CLogger::LEVEL_ERROR);
             throw new CantSaveGradeRulesException();
         }
-        $gradeRules->save();
+       $result = $gradeRules->save();
 
         if($this->hasPartialRecovery === true) {
-            $partialRecoveryUC = new UpdateGradePartialRecoveryUsecase($gradeRules->id, $this->partialRecoveries);
-            $partialRecoveryUC->exec();
+
+            foreach ($this->partialRecoveries as  $partialRecovery) {
+            $modelPartialRecovery = GradePartialRecovery::model()->find($partialRecovery['id']);
+
+                if ($partialRecovery["operation"] === "delete") {
+                    $modelPartialRecovery->delete();
+                    echo json_encode(["valid" => true]);
+                    Yii::app()->end();
+                }
+
+                if ($modelPartialRecovery === null) {
+                    $modelPartialRecovery = new GradePartialRecovery();
+                }
+
+                $modelPartialRecovery->name = $partialRecovery["name"];
+                $modelPartialRecovery->partial_recover_media = $partialRecovery["media"];
+                $modelPartialRecovery->order_partial_recovery = $partialRecovery["order"];
+                $modelPartialRecovery->grade_rules_fk = $gradeRules->id;
+                $modelPartialRecovery->grade_caculation_fk = $partialRecovery["mediaCalculation"];
+
+                if (!$modelPartialRecovery->validate()) {
+                    $validationMessage = Yii::app()->utils->stringfyValidationErrors($modelPartialRecovery);
+                    throw new CHttpException(400, "Não foi possivel salvar dados da recuperação parcial: \n" . $validationMessage, 1);
+                }
+
+                $modelPartialRecovery->save();
+                foreach ($partialRecovery["unities"] as $unity) {
+                    $modelUnity = GradeUnity::model()->findByPk($unity);
+                    $modelUnity->parcial_recovery_fk = $modelPartialRecovery->id;
+
+                    $modelUnity->save();
+                }
+
+            }
         }
+        return $result;
     }
 }
 
