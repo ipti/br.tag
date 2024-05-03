@@ -425,7 +425,21 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>24 - Autorização do Termo de Consentimento da Imagem? </b></div>
+                <div class="span12"><b>24 - Portador de algum tipo de transtorno? </b></div>
+                <br>
+                <div class="padding-5"><b></b> Transtorno do déficit de atenção com hiperatividade (TDAH)</div>
+                <div class="padding-5"><b></b> Transtorno depressivo (depressão)</div>
+                <div class="padding-5"><b></b> Transtorno bipolar (TAB)</div>
+                <div class="padding-5"><b></b> Transtorno obsessivo compulsivo (TOC)</div>
+                <div class="padding-5"><b></b> Transtorno de ansiedade generalizada (TAG)</div>
+                <div class="padding-5"><b></b> Distúrbio desafiador e de oposição (TOD)</div>
+                <div class="padding-5"><b></b> Transtorno de conduta não especificado</div>
+                <div class="padding-5"><b></b> Outros transtornos de conduta</div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="span12"><b>25 - Autorização do Termo de Consentimento da Imagem? </b></div>
                 <br>
                 <div class="span2"><b><?= ($data['consent_form'] == '1') ? '☑' : '☐' ?></b> Sim</div>
                 <div class="span2"><b><?= ($data['consent_form'] == '0') ? '☑' : '☐' ?></b> Não</div>
