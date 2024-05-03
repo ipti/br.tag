@@ -2016,6 +2016,64 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </div>
                                 <?php endforeach; ?>
                             </div>
+                            <h3>
+                                Transtornos
+                            </h3>
+                            <div class="t-field-checkbox-group" id="transtorno-checkbox">
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentDisorder, 'tdah', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentRestrictions::model()->attributeLabels()['tdah']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentDisorder, 'depressao', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentRestrictions::model()->attributeLabels()['depressao']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentDisorder, 'tab', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentRestrictions::model()->attributeLabels()['tab']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentDisorder, 'toc', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentRestrictions::model()->attributeLabels()['toc']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentDisorder, 'tag', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentRestrictions::model()->attributeLabels()['tag']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentDisorder, 'tod', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentRestrictions::model()->attributeLabels()['tod']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentDisorder, 'tcne', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentRestrictions::model()->attributeLabels()['tcne']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $modelStudentDisorder->others != null ?
+                                        "<input type='checkbox' id='others-check' checked>" :
+                                        "<input type='checkbox' id='others-check'>" ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentRestrictions::model()->attributeLabels()['others']; ?>
+                                    </label>
+                                </div>
+                                <div class="row others-text-box" style="display: none;">
+                                    <?php echo $form->textArea($modelStudentDisorder, 'others', array('rows' => 6, 'cols' => 50)); ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <?php $this->endWidget(); ?>
