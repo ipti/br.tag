@@ -2241,43 +2241,43 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentDisorder, 'tdah', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo StudentDisorder::model()->attributeLabels()['tdah']; ?>
+                                        Transtorno do déficit de atenção com hiperatividade (TDAH)
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentDisorder, 'depressao', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo StudentDisorder::model()->attributeLabels()['depressao']; ?>
+                                        Transtorno depressivo (depressão)
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentDisorder, 'tab', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo StudentDisorder::model()->attributeLabels()['tab']; ?>
+                                        Transtorno bipolar (TAB)
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentDisorder, 'toc', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo StudentDisorder::model()->attributeLabels()['toc']; ?>
+                                        Transtorno obsessivo compulsivo (TOC)
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentDisorder, 'tag', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo StudentDisorder::model()->attributeLabels()['tag']; ?>
+                                        Transtorno de ansiedade generalizada (TAG)
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentDisorder, 'tod', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo StudentDisorder::model()->attributeLabels()['tod']; ?>
+                                        Distúrbio desafiador e de oposição (TOD)
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentDisorder, 'tcne', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo StudentDisorder::model()->attributeLabels()['tcne']; ?>
+                                        Transtorno de conduta não especificado
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
