@@ -10,5 +10,6 @@ CREATE TABLE `student_disorder` (
   `tcne` tinyint(1) NOT NULL DEFAULT '0',
   `others` varchar(200)  NULL DEFAULT "",
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`student_fk`) REFERENCES `student_identification` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `student_disorder_FK` (`student_fk`),
+  CONSTRAINT `student_disorder_FK` FOREIGN KEY (`student_fk`) REFERENCES `student_identification` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
