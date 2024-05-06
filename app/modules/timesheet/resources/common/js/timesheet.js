@@ -120,16 +120,10 @@ function getTimesheet(data) {
                         var softUnavailableDay = data.softUnavailableDays[year] !== undefined && data.softUnavailableDays[year][month] !== undefined && $.inArray(day.toString(), data.softUnavailableDays[year][month]) !== -1;
 
                         var iterationDate = new Date(year + "-" + pad(month, 2) + "-" + pad(day, 2));
-                        var isFrequencyUnavailableDay = data.frequencyUnavailableLastDay !== undefined
-                            && iterationDate <= new Date(data.frequencyUnavailableLastDay.year + "-" + pad(data.frequencyUnavailableLastDay.month, 2) + "-" + pad(data.frequencyUnavailableLastDay.day, 2));
-                        var isClassContentUnavailableDay = data.classContentUnavailableLastDay !== undefined
-                            && iterationDate <= new Date(data.classContentUnavailableLastDay.year + "-" + pad(data.classContentUnavailableLastDay.month, 2) + "-" + pad(data.classContentUnavailableLastDay.day, 2));
 
                         var tdClass = "";
                         if (hardUnavailableDay) {
-                            tdClass += "hard-unavailable" + (isFrequencyUnavailableDay || isClassContentUnavailableDay ? " hard-unavailable-unfillable" : " hard-unavailable-fillable");
-                        } else if (isFrequencyUnavailableDay || isClassContentUnavailableDay) {
-                            tdClass += "frequency-or-classcontent-unavailable";
+                            tdClass += "hard-unavailable";
                         } else if (softUnavailableDay) {
                             tdClass += "soft-unavailable";
                         }
@@ -143,14 +137,14 @@ function getTimesheet(data) {
                             var discipline = changeNameLength(data.schedules[year][month][schedule][day].disciplineName, 30);
 
                             html += "" +
-                                "<td class='" + tdClass + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "' " + (isFrequencyUnavailableDay || isClassContentUnavailableDay ? 'data-toggle="tooltip" data-placement="bottom" data-original-title="Não se pode mais editar esse horário, visto que já existe preenchimento de frequência ou aula ministrada neste ou após esse dia."' : "") + ">" +
+                                "<td class='" + tdClass + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "'>" +
                                 "<div schedule='" + data.schedules[year][month][schedule][day].id + "' discipline_id='" + data.schedules[year][month][schedule][day].disciplineId + "'class='schedule-block'>" +
                                 "<p class='discipline-name' title='" + data.schedules[year][month][schedule][day].disciplineName + "'>" + discipline + "</p>" +
-                                ((hardUnavailableDay || softUnavailableDay) && (!isFrequencyUnavailableDay && !isClassContentUnavailableDay) ? "<div class='availability-schedule' data-toggle='tooltip' data-placement='top' data-original-title='Alterar Estado da Aula '><i class='fa " + (Number(data.schedules[year][month][schedule][day].unavailable) ? "fa-user-times" : "fa-user-plus") + "'></i></div>" : "") +
+                                (hardUnavailableDay || softUnavailableDay ? "<div class='availability-schedule' data-toggle='tooltip' data-placement='top' data-original-title='Alterar Estado da Aula '><i class='fa " + (Number(data.schedules[year][month][schedule][day].unavailable) ? "fa-user-times" : "fa-user-plus") + "'></i></div>" : "") +
                                 "</div>" +
                                 "</td>";
                         } else {
-                            html += "<td class='" + tdClass + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "' " + (isFrequencyUnavailableDay || isClassContentUnavailableDay ? 'data-toggle="tooltip" data-placement="bottom" data-original-title="Não se pode mais editar esse horário, visto que já existe preenchimento de frequência ou aula ministrada neste ou após esse dia."' : "") + "></td>";
+                            html += "<td class='" + tdClass + "' day='" + day + "' week='" + week + "' week_day='" + weekDayCount + "'></td>";
                         }
 
                         if (weekDayCount === 6) {
@@ -299,10 +293,10 @@ $(document).on("click", ".tables-timesheet td", function () {
                 };
                 swapSchedule(firstSchedule, secondSchedule);
             }
-        } else if (!$(this).hasClass("hard-unavailable-unfillable") && !$(this).hasClass("frequency-or-classcontent-unavailable")) {
+        } else {
             //Primeira seleção
             $(this).addClass("schedule-selected");
-            $(this).closest(".tables-timesheet").find("td[week=" + $(this).attr("week") + "]:not(.hard-unavailable-unfillable):not(.frequency-or-classcontent-unavailable)").not(this).addClass("schedule-highlighted");
+            $(this).closest(".tables-timesheet").find("td[week=" + $(this).attr("week") + "]").not(this).addClass("schedule-highlighted");
             if ($(this).find(".schedule-block").length) {
                 $(this).append("<i class='schedule-remove fa fa-remove'></i>");
             } else {
@@ -356,7 +350,7 @@ $(document).on("click", ".schedule-remove", function (e) {
 
 $(document).on("click", ".schedule-add", function (e) {
     e.stopPropagation();
-    $(this).closest(".hard-unavailable-fillable").length
+    $(this).closest(".hard-unavailable").length
         ? $(".modal-replicate-actions-container").hide()
         : $(".modal-replicate-actions-container").show();
     $(".add-schedule-alert").addClass("no-show");
@@ -487,6 +481,10 @@ function swapSchedule(firstSchedule, secondSchedule) {
             });
             calculateWorkload(data.disciplines, false);
             $('.soft-unavailable .availability-schedule').tooltip({container: "body"});
+        } else {
+            $(".last-frequency-day").text(data.lastClassFaultDate);
+            $(".last-classcontent-day").text(data.lastClassContentDate);
+            $("#unallowedSchedulesSwap").modal("show");
         }
         $(".schedule-remove, .schedule-add").remove();
         $(".schedule-selected").removeClass("schedule-selected");
