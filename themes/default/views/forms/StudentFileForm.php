@@ -145,7 +145,12 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span4"><b>03 - Naturalidade: <span class="nationality"><?= $data['nation'] ?></span></b></div>
+                <div class="span4"><b>03 - Naturalidade: <span class="nationality"><?= $data['nationality'] ?></span></b></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="span4"><b>03 - País: <span class="nationality"><?= $data['nation'] ?></span></b></div>
                 <div class="span8"><b>Município: </b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span>/<?php echo $birth_uf ?> </div>
                 <div class="span12">
                     <b>ENDEREÇO: </b><span class="address"><?= $data['address'] ?></span>, <span class="number"><?= $data['number'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
