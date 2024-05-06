@@ -506,8 +506,8 @@ class TimesheetController extends Controller
         $lastClassFaultDate = new Datetime($lastClassFaultDay["year"] . "-" . str_pad($lastClassFaultDay["month"], 2, "0", STR_PAD_LEFT) . "-" . str_pad($lastClassFaultDay["day"], 2, "0", STR_PAD_LEFT));
         $lastClassContentDate = new Datetime($lastClassContentDay["year"] . "-" . str_pad($lastClassContentDay["month"], 2, "0", STR_PAD_LEFT) . "-" . str_pad($lastClassContentDay["day"], 2, "0", STR_PAD_LEFT));
 
-        if ($firstScheduleDate > $lastClassFaultDate && $firstScheduleDate > $lastClassContentDate &&
-            $secondScheduleDate > $lastClassFaultDate && $secondScheduleDate > $lastClassContentDate) {
+        if (($lastClassFaultDay == null || ($firstScheduleDate > $lastClassFaultDate && $secondScheduleDate > $lastClassFaultDate)) &&
+            ($lastClassContentDay == null || ($firstScheduleDate > $lastClassContentDate && $secondScheduleDate > $lastClassContentDate))) {
             $schedulesToCheckHardUnavailability = [];
             $softUnavailableDays = $this->getUnavailableDays($_POST["classroomId"], true, "soft");
             while ($firstScheduleDate <= $finalDate || $secondScheduleDate <= $finalDate) {
@@ -607,8 +607,8 @@ class TimesheetController extends Controller
         } else {
             echo json_encode([
                 "valid" => false,
-                "lastClassFaultDate" => str_pad($lastClassFaultDay["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($lastClassFaultDay["month"], 2, "0", STR_PAD_LEFT) . "/" . $lastClassFaultDay["year"],
-                "lastClassContentDate" => str_pad($lastClassContentDay["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($lastClassContentDay["month"], 2, "0", STR_PAD_LEFT) . "/" . $lastClassContentDay["year"]
+                "lastClassFaultDate" => $lastClassFaultDay != null ? str_pad($lastClassFaultDay["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($lastClassFaultDay["month"], 2, "0", STR_PAD_LEFT) . "/" . $lastClassFaultDay["year"] : "",
+                "lastClassContentDate" => $lastClassContentDay != null ? str_pad($lastClassContentDay["day"], 2, "0", STR_PAD_LEFT) . "/" . str_pad($lastClassContentDay["month"], 2, "0", STR_PAD_LEFT) . "/" . $lastClassContentDay["year"] : ""
             ]);
         }
     }
@@ -639,26 +639,42 @@ class TimesheetController extends Controller
                     }
                 }
 
-                if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) && !empty($schedule->classContents)) {
+                if (!empty($schedule->classContents)) {
                     //Verifica se o schedule a ser removido possui aula ministrada. Se possuir, vincula a aula ministrada ao próximo schedule
-                    //OBS1: Lembrando, a aula ministrada fica armazenada apenas no primeiro schedule do dia
+                    //OBS1: Lembrando, a aula ministrada fica armazenada apenas no primeiro schedule do dia (ou da disciplina no fundamental maior)
                     //OBS2: Para frequência não precisa, uma vez que o registro de frequência fica vinculado a todos os schedules do dia.
-                    $secondScheduleInTheDay = Schedule::model()->find("classroom_fk = :classroom_fk and year = :year and month = :month and day = :day and schedule != :schedule order by schedule",
-                        [
-                            "classroom_fk" => $_POST["classroomId"],
-                            "year" => $date->format("Y"),
-                            "month" => $date->format("n"),
-                            "day" => $date->format("j"),
-                            "schedule" => $_POST["schedule"]["schedule"]
-                        ]
-                    );
-                    foreach($schedule->classContents as $cc) {
+                    //OBS3: No fundamental maior, a regra é a mesma, mas com filtro de disciplina
+                    if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
+                        $secondScheduleInTheDay = Schedule::model()->find("classroom_fk = :classroom_fk and year = :year and month = :month and day = :day and schedule != :schedule order by schedule",
+                            [
+                                "classroom_fk" => $_POST["classroomId"],
+                                "year" => $date->format("Y"),
+                                "month" => $date->format("n"),
+                                "day" => $date->format("j"),
+                                "schedule" => $_POST["schedule"]["schedule"]
+                            ]
+                        );
+                    } else {
+                        $secondScheduleInTheDay = Schedule::model()->find("classroom_fk = :classroom_fk and year = :year and month = :month and day = :day and schedule != :schedule and discipline_fk = :discipline_fk order by schedule",
+                            [
+                                "classroom_fk" => $_POST["classroomId"],
+                                "year" => $date->format("Y"),
+                                "month" => $date->format("n"),
+                                "day" => $date->format("j"),
+                                "schedule" => $_POST["schedule"]["schedule"],
+                                "discipline_fk" => $schedule->discipline_fk
+                            ]
+                        );
+                    }
+                    foreach ($schedule->classContents as $cc) {
                         $classContent = new ClassContents();
                         $classContent->schedule_fk = $secondScheduleInTheDay->id;
                         $classContent->course_class_fk = $cc->course_class_fk;
                         $classContent->save();
                     }
                 }
+
+
                 $schedule->delete();
             }
         }

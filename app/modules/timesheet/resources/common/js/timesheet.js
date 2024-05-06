@@ -482,8 +482,8 @@ function swapSchedule(firstSchedule, secondSchedule) {
             calculateWorkload(data.disciplines, false);
             $('.soft-unavailable .availability-schedule').tooltip({container: "body"});
         } else {
-            $(".last-frequency-day").text(data.lastClassFaultDate);
-            $(".last-classcontent-day").text(data.lastClassContentDate);
+            $(".last-frequency-day").text(data.lastClassFaultDate === "" ? "Nenhum preenchimento" : data.lastClassFaultDate);
+            $(".last-classcontent-day").text(data.lastClassContentDate === "" ? "Nenhum preenchimento" : data.lastClassContentDate);
             $("#unallowedSchedulesSwap").modal("show");
         }
         $(".schedule-remove, .schedule-add").remove();

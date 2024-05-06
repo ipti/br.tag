@@ -297,8 +297,8 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
             <div class="modal-body">
                 <div class="row-fluid">
                     Não é possível alterar disciplinas com datas anteriores a da frequência ou aula ministrada mais recente.<br><br>
-                    <div>Frequência mais recente preenchida: <b class="last-frequency-day"></b></div>
-                    <div>Aula ministrada mais recente preenchida: <b class="last-classcontent-day"></b></div>
+                    <div>Frequência mais recente: <b class="last-frequency-day"></b></div>
+                    <div>Aula ministrada mais recente: <b class="last-classcontent-day"></b></div>
                 </div>
 
                 <div class="modal-footer" style="display:block">
