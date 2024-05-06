@@ -129,7 +129,7 @@
                                         'options' => array('class' => 'sync', 'style' => "width: 25px; display: inline-block")
                                     ),
                                     'unsync' => array(
-                                        'url' => 'Yii::app()->createUrl("classroom/syncToSedsp",array("id"=>$data->id))',
+                                        'url' => 'Yii::app()->createUrl("classroom/classroom/syncToSedsp",array("id"=>$data->id))',
                                         'imageUrl' => Yii::app()->theme->baseUrl . '/img/notSync.png',
                                         'visible' => '!$data->sedsp_sync',
                                         'options' => array('class' => 'unsync', 'style' => "width: 25px; display: inline-block")
