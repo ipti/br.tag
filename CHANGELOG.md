@@ -1,3 +1,6 @@
+## [Versão 3.78.137]
+- Realizado validação para quadro de horários sem componentes
+
 ## [Versão 3.77.136]
 - Correção para inconsistências relacionadas a classes
 
