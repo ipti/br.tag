@@ -638,6 +638,27 @@ class TimesheetController extends Controller
                         $disciplines[$key]["workloadUsed"]--;
                     }
                 }
+
+                if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) && !empty($schedule->classContents)) {
+                    //Verifica se o schedule a ser removido possui aula ministrada. Se possuir, vincula a aula ministrada ao próximo schedule
+                    //OBS1: Lembrando, a aula ministrada fica armazenada apenas no primeiro schedule do dia
+                    //OBS2: Para frequência não precisa, uma vez que o registro de frequência fica vinculado a todos os schedules do dia.
+                    $secondScheduleInTheDay = Schedule::model()->find("classroom_fk = :classroom_fk and year = :year and month = :month and day = :day and schedule != :schedule order by schedule",
+                        [
+                            "classroom_fk" => $_POST["classroomId"],
+                            "year" => $date->format("Y"),
+                            "month" => $date->format("n"),
+                            "day" => $date->format("j"),
+                            "schedule" => $_POST["schedule"]["schedule"]
+                        ]
+                    );
+                    foreach($schedule->classContents as $cc) {
+                        $classContent = new ClassContents();
+                        $classContent->schedule_fk = $secondScheduleInTheDay->id;
+                        $classContent->course_class_fk = $cc->course_class_fk;
+                        $classContent->save();
+                    }
+                }
                 $schedule->delete();
             }
         }
@@ -694,6 +715,7 @@ class TimesheetController extends Controller
 
                     if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
                         //Verifica quais alunos de fundamental menor tomou falta esse DIA. Nesse caso, para quem tomou, criar a falta também para esse schedule.
+                        //OBS: Para aulas ministradas não precisa, uma vez que o registro de aula ministrada fica vinculado apenas na primeira schedule do dia.
                         $anyOtherScheduleInTheDay = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'year' => $date->format("Y"), 'month' => $date->format("n"), 'day' => $date->format("j")), 'schedule != :schedule', [":schedule" => $_POST["schedule"]["schedule"]]);
                         if ($anyOtherScheduleInTheDay != null && !empty($anyOtherScheduleInTheDay->classFaults)) {
                             foreach ($anyOtherScheduleInTheDay->classFaults as $cf) {
@@ -703,7 +725,6 @@ class TimesheetController extends Controller
                                 $classFault->save();
                             }
                         }
-                        //OBS: Para aulas ministradas não precisa, uma vez que o registro de aula ministrada fica vinculado apenas na primeira schedule do dia.
                     }
 
                     array_push($adds, [
