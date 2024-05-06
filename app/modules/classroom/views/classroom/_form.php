@@ -959,7 +959,7 @@ $form = $this->beginWidget(
                 <h4 class="modal-title" id="myModalLabel">Importar turma da SEDSP</h4>
             </div>
             <form method="post"
-                action="<?php echo $this->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id, 'gov_id' => $modelClassroom->gov_id)); ?>">
+                action="<?php echo  Yii::app()->createUrl('sedsp/default/importClassroomFromSedsp', array('id' => $modelClassroom->id, 'gov_id' => $modelClassroom->gov_id)); ?>">
                 <div class="centered-loading-gif">
                     <i class="fa fa-spin fa-spinner"></i>
                 </div>
