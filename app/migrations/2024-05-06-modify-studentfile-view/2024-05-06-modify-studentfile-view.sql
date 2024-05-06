@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW `studentsfile` AS
+CREATE OR REPLACE
+VIEW `studentsfile` AS
 select
 	`s`.`id` AS `id`,
 	`se`.`id` AS `enrollment_id`,
@@ -32,6 +33,12 @@ select
 	end) AS `color`,
 	`s`.`birthday` AS `birthday`,
 	`eu`.`acronym` AS `birth_uf`,
+	(case
+        `s`.`nationality`
+            when '1' then 'Brasileira'
+            when '2' then 'Brasileira: Nascido no exterior ou Naturalizado'
+            when '3' then 'Estrangeira'
+    end) AS `nationality`,
 	`en`.`name` AS `nation`,
 	`sd`.`address` AS `address`,
 	`eca`.`name` AS `adddress_city`,
@@ -132,7 +139,7 @@ select
 	`se`.`vehicle_type_metro_or_train` AS `vehicle_type_metro_or_train`,
 	`se`.`status` AS `status`,
 	if((isnull(`se`.`vehicle_type_bus`)
-		or (`se`.`vehicle_type_bus` = 0)),
+	or (`se`.`vehicle_type_bus` = 0)),
 	'Não',
 	concat_ws(': ', 'Sim', concat_ws('; ', if((`se`.`vehicle_type_van` = 1), 'Van / Kombi', if(isnull(`se`.`vehicle_type_van`), 'Van / Kombi', NULL)), if((`se`.`vehicle_type_microbus` = 1), 'Microônibus', if(isnull(`se`.`vehicle_type_microbus`), 'Microônibus', NULL)), if((`se`.`vehicle_type_bus` = 1), 'Ônibus', if(isnull(`se`.`vehicle_type_bus`), 'Ônibus', NULL)), if((`se`.`vehicle_type_bike` = 1), 'Bicicleta', if(isnull(`se`.`vehicle_type_bike`), 'Bicicleta', NULL)), if((`se`.`vehicle_type_animal_vehicle` = 1), 'Tração animal', if(isnull(`se`.`vehicle_type_animal_vehicle`), 'Tração animal', NULL)), if((`se`.`vehicle_type_other_vehicle` = 1), 'Rodoviário - Outro', if(isnull(`se`.`vehicle_type_other_vehicle`), 'Rodoviário - Outro', NULL)), if((`se`.`vehicle_type_waterway_boat_5` = 1), 'Embarcação - Até 5 alunos', if(isnull(`se`.`vehicle_type_waterway_boat_5`), 'Embarcação - Até 5 alunos', NULL)), if((`se`.`vehicle_type_waterway_boat_5_15` = 1), 'Embarcação - De 5 a 15 alunos', if(isnull(`se`.`vehicle_type_waterway_boat_5_15`), 'Embarcação - De 5 a 15 alunos', NULL)), if((`se`.`vehicle_type_waterway_boat_15_35` = 1), 'Embarcação - De 15 a 35 alunos', if(isnull(`se`.`vehicle_type_waterway_boat_15_35`), 'Embarcação - De 15 a 35 alunos', NULL)), if((`se`.`vehicle_type_waterway_boat_35` = 1), 'Embarcação - Acima de 35 alunos', if(isnull(`se`.`vehicle_type_waterway_boat_35`), 'Embarcação - Acima de 35 alunos', NULL)), if((`se`.`vehicle_type_metro_or_train` = 1), 'Trem / Metrô', if(isnull(`se`.`vehicle_type_metro_or_train`), 'Trem / Metrô', NULL))))) AS `public_transport`,
 	`s`.`responsable_telephone` AS `responsable_telephone`,
