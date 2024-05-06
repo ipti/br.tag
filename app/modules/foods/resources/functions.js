@@ -160,7 +160,7 @@ function showErros(erros) {
             if(item.meal != "Selecione a refeição"){
                 return accumulator + `O campo <b>${item.field}</b> na refeição <b>${item.meal}</b> na <b>${days[item.day]}</b> é obrigatório<br>`;
             }
-            return accumulator + `O campo <b>${item.field}</b> em uma refeição <b>sem turno selecionado</b> na <b>${days[item.day]}</b> é obrigatório<br>`
+            return accumulator + `O campo <b>${item.field}</b> em uma refeição <b>sem tipo selecionado</b> na <b>${days[item.day]}</b> é obrigatório<br>`
          }
         return accumulator + `O campo <b>${item.field}</b> é obrigatório<br>`;
     }, '');

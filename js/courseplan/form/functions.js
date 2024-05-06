@@ -132,7 +132,7 @@ function format(d) {
         $.each(d.resources, function (i, v) {
             let resourceId = v.id;
             let resourceValue = v.value;
-            let resourceName = resourceValue.find("option[value=" + v.value + "]").text();
+            let resourceName = v.description;
             let resourceAmount = v.amount;
             let div = $('<div class="row t-badge-content course-class-resource"></div>');
             let values = $('<input class="resource-id" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][id]" value="' + resourceId + '"/>'

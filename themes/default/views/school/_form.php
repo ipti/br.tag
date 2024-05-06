@@ -247,30 +247,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array('class' => 't-field-text__label')
                                 ); ?>
 								<?php
-                                    $yearRange = (date('Y')-1) . ":";
-									$this->widget('zii.widgets.jui.CJuiDatePicker', array(
-                                        'model' => $modelSchoolIdentification,
-                                        'attribute' => 'initial_date',
-                                        'options' => array(
-                                            'dateFormat' => 'dd/mm/yy',
-                                            'changeYear' => true,
-                                            'changeMonth' => true,
-                                            'yearRange' => $yearRange . date('Y'),
-                                                'showOn' => 'focus',
-                                                'maxDate' => 0
-                                        ),
-                                        'htmlOptions' => array(
-                                            'id' => 'initial_date_picker',
-                                            'readonly' => 'readonly',
-                                                'style' => 'cursor: pointer;',
-                                                'placeholder' => 'Clique aqui para escolher a data'
-                                        ),
-                                    ));
-
+									$this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelSchoolIdentification, 'initial_date'));
                                     echo CHtml::link('	Limpar', '#', array(
                                         'onclick' => '$("#' . CHtml::activeId($modelSchoolIdentification, 'initial_date') . '").datepicker("setDate", null); return false;',
 									));
-
 									echo $form->error($modelSchoolIdentification, 'initial_date');
 								?>
                             </div>

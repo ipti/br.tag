@@ -25,5 +25,4 @@
 	<?php echo CHtml::encode($data->measurementUnit); ?>
 	<br />
 
-
 </div>

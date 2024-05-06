@@ -6,16 +6,17 @@
 ?>
 
 <?php
-$baseUrl = Yii::app()->baseUrl;
-$themeUrl = Yii::app()->theme->baseUrl;
+
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/courseplan/form/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
 // $cs->registerScriptFile($themeUrl . '/js/jquery/jquery.dataTables.min.js?v='.TAG_VERSION, CClientScript::POS_END);
 // $cs->registerCssFile($themeUrl . '/css/jquery.dataTables.min.css');
 // $cs->registerCssFile($themeUrl . '/css/dataTables.fontAwesome.css');
+
 
 
 
@@ -26,13 +27,15 @@ $form = $this->beginWidget('CActiveForm', array(
 ));
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
+
+<div class="row main">
+	<div class="column">
+		<h1>Validar Plano de Aula</h1>
+	</div>
+</div>
+
 <div class="main">
-    <?php echo $form->errorSummary($coursePlan); ?>
-    <div class="row-fluid hidden-print">
-        <div class="span12">
-            <h1><?php echo Yii::t('default', 'Create Plan'); ?></h1>
-        </div>
-    </div>
+    <div id="validate-index"></div>
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
@@ -41,7 +44,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <?php endif ?>
         <?php if (Yii::app()->user->hasFlash('error')) : ?>
             <div class="alert alert-danger">
-                <?php echo Yii::app()->user->getFlash('error') ?>
+                <?php echo Yii::app()->uSser->getFlash('error') ?>
             </div>
         <?php endif ?>
         <div class="widget border-bottom-none">
@@ -52,7 +55,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         <li id="tab-create-plan" class="t-tabs__item active">
                             <a class="t-tabs__link" href="#create-plan" data-toggle="tab">
                                 <span  class="t-tabs__numeration">1</span>
-                                <?php echo Yii::t('default', 'Create Plan') ?></a>
+                                <?php echo Yii::t('default', 'Plan Approval') ?></a>
                                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                         </li>
                         <li id="tab-class" class="t-tabs__item">
@@ -69,7 +72,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <a
                     data-toggle="tab" class='t-button-primary next'><?php echo Yii::t('default', 'Next') ?>
                     </a>
-                    <a id="save"
+                    <a id="save-approval"
                     class='t-button-primary last' style="display:none;"><?php echo Yii::t('default', 'Save') ?>
                     </a>
                 </div>
@@ -82,7 +85,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             <div class="column flex is-two-fifths">
                                 <div class="t-field-text">
                                     <?php echo CHtml::label(yii::t('default', 'Name'), 'name', array('class' => 'control-label t-field-text__label--required')); ?>
-                                    <?php echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Plano')); ?>
+                                    <?php echo $form->textField($coursePlan, 'name', array('size' => 400, 'maxlength' => 500, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Plano', 'readonly' => true)); ?>
                                 </div>
                             </div>
                         </div>
@@ -118,6 +121,17 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="column flex is-two-fifths">
+                            <div class="t-field-text">
+                                <?php echo CHtml::label(yii::t('default', 'Start Date'), 'start_date', array('class' => 'control-label t-field-select__label--required')); ?>
+                                <?php
+                                $coursePlan->start_date = $this->dataConverter($coursePlan->start_date, 1);
+                                echo $form->textField($coursePlan, 'start_date', array('size' => 400, 'maxlength' => 500, 'readonly' => true,
+                                'class' => 't-field-text__input js-date date js-start-date', 'id' => 'courseplan_start_date')); ?>
+                            </div>
+                            </div>
+                        </div>
                 </div>
                 <div class="tab-pane" id="class">
                     <table id="course-classes" class="t-accordion column display" cellspacing="0" width="100%">
@@ -137,11 +151,26 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </tbody>
                     </table>
 
+                    <div class="control-group column clearleft">
+                        <div>
+                            <?php echo CHtml::label(yii::t('default', 'Observation'), 'observation', array('class' => 't-field-tarea__label--required')); ?>
+                        </div>
+                        <?= $form->textArea($coursePlan, 'observation', array('rows' => 6, 'cols' => 60,
+                            'class' => 't-field-tarea__input validate-description', 'id' => 'courseplan_start_date',
+                            'placeholder' => "Digite a observação do Plano", 'style' => "height: 120px; width: 700px;")) ?>
+                    </div>
+                    <div class="t-field-checkbox">
+                        <input
+                            class="t-field-checkbox__input"
+                            type="checkbox"
+                            name="approved"
+                            id="approved_field"
+                            value="1">
+                        <label class="t-field-checkbox__label" for="approved">Aprovação do plano</label>
+                    </div>
                     <div class="row">
-                        <a href="#new-course-class" id="new-course-class"
-                            class="t-button-primary">
-                            <img alt="Novo plano de aula" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/buttonIcon/start.svg">
-                            <?= Yii::t('default', 'New'); ?>
+                        <a id="save-approval" class="t-button-primary">
+                            <?= Yii::t('default', 'Save Approval'); ?>
                         </a>
                     </div>
                     <div class="js-all-types no-show">
@@ -172,6 +201,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
     </div>
 </div>
+
 <div class="modal fade modal-content" id="js-selectAbilities" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
             <div class="modal-header">
@@ -208,44 +238,6 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
 </div>
 
-
-<div class="modal fade modal-content" id="js-createResource" tabindex="-1" role="dialog">
-    <div modal="modal-dialog" role="document">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
-            </button>
-            <h4 class="modal-title" id="modalLabelResources">Adicionar Recurso</h4>
-        </div>
-        <div class="alert alert-error t-badge-critical alert-resource hide control-group">
-            <p>É necessário inserir um recurso no campo</p>
-        </div>
-        <form>
-            <input type="hidden" class="course-class-index row">
-            <div class="modal-body">
-                <?php echo CHtml::label(yii::t('default', 'Add Resource') , array('class' => 'control-label t-field-text__label--required')); ?>
-                <div class="row">
-                    <?php
-                        $newResource = new CourseClassResources();
-                        echo $form->textField($newResource, 'name', array('size' => 400, 'maxlength' => 500,
-                                                                        'class' => 't-field-text__input new-resource',
-                                                                        'placeholder' => 'Digite o Nome do Recurso'));
-                    ?>
-                    <button class="t-button-secondary confirm-new-resource" style="margin: 0px">Adicionar</button>
-                </div>
-                <div id="new-resources-table" class="t-accordeon-primary"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal">Cancelar
-                    </button>
-                    <button type="button" class="btn btn-primary js-add-selected-resources save-new-resources"
-                            data-dismiss="modal">Adicionar
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
 <?php $this->endWidget(); ?>
 
 <style>
@@ -253,3 +245,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     margin: 10px 0;
 }
 </style>
+
+<script>
+
+</script>

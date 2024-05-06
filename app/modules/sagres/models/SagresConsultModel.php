@@ -38,6 +38,7 @@ class SagresConsultModel
 
 
 
+
     public function __construct()
     {
         $this->dbCommand = Yii::app()->db->createCommand();
@@ -127,7 +128,6 @@ class SagresConsultModel
                     $inconsistencyModel->insert();
                 }
 
-
                 if (empty($managementUnit['managementUnitName'])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'UNIDADE GESTORA';
@@ -137,7 +137,6 @@ class SagresConsultModel
                     $inconsistencyModel->insert();
                 }
 
-
                 if (empty($managementUnit['responsibleCpf'])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'UNIDADE GESTORA: ' . $managementUnit['managementUnitName'];
@@ -146,7 +145,6 @@ class SagresConsultModel
                     $inconsistencyModel->action = 'Por favor, informe um CPF válido para o responsável';
                     $inconsistencyModel->insert();
                 }
-
 
                 if (empty($managementUnit['managerCpf'])) {
                     $inconsistencyModel = new ValidationSagresModel();
@@ -642,20 +640,6 @@ class SagresConsultModel
             $inconsistencyModel->insert();
         }
 
-
-        $getTeachersForClass = $this->getTeachersForClass($classId);
-        if(empty($getTeachersForClass)) {
-            $inconsistencyModel = new ValidationSagresModel();
-            $inconsistencyModel->enrollment = TURMA_STRONG;
-            $inconsistencyModel->school = $school->name;
-            $inconsistencyModel->description = 'Não há professores registrados para a turma: <strong>' . $class->name . '<strong>';
-            $inconsistencyModel->action = 'Adicione os professores juntamente com os seus componentes curriculares';
-            $inconsistencyModel->identifier = '10';
-            $inconsistencyModel->idClass = $classId;
-            $inconsistencyModel->idSchool = $inepId;
-            $inconsistencyModel->insert();
-        }
-
         if(!empty($getTeachersForClass)) {
             foreach($getTeachersForClass as $teachers) {
                 $componentesCurriculares = $this->getComponentesCurriculares($classId, $teachers['instructor_fk']);
@@ -921,7 +905,8 @@ class SagresConsultModel
                         fm.start_date as data,
                         fm.description AS descricaoMerenda,
                         fm.adjusted AS ajustado,
-                        fmm.turn AS turno
+                        fmm.turn AS turno,
+                        fmm.menu_fk
                     FROM food_menu fm
                         JOIN food_menu_meal fmm on fmm.food_menuId = fm.id
                     WHERE YEAR(fm.start_date) = :year and month(fm.start_date) <= :month";
@@ -934,7 +919,8 @@ class SagresConsultModel
                     lm.date AS data,
                     lm.turn AS turno,
                     lm2.restrictions  AS descricaoMerenda,
-                    lm.adjusted AS ajustado
+                    lm.adjusted AS ajustado,
+                    lmm.menu_fk
                 FROM lunch_menu lm
                     JOIN lunch_menu_meal lmm ON lm.id = lmm.menu_fk
                     JOIN lunch_meal lm2 on lmm.meal_fk = lm2.id
@@ -969,6 +955,8 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Turno inválido';
                 $inconsistencyModel->action = 'Informar um turno válido para o cardápio';
+                $inconsistencyModel->identifier = '11';
+                $inconsistencyModel->idLunch = $menu['menu_fk'];
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
@@ -979,6 +967,8 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Descrição para merenda menor que 5 caracteres';
                 $inconsistencyModel->action = 'Informar uma descrição para merenda maior que 4 caracteres';
+                $inconsistencyModel->identifier = '11';
+                $inconsistencyModel->idLunch = $menu['menu_fk'];
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
@@ -989,6 +979,8 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Descrição para a merenda maior que 1000 caracteres';
                 $inconsistencyModel->action = 'Informar uma descrição para a merenda menor que 1000 caracteres';
+                $inconsistencyModel->identifier = '11';
+                $inconsistencyModel->idLunch = $menu['menu_fk'];
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
@@ -999,6 +991,8 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Valor inválido para o campo ajustado';
                 $inconsistencyModel->action = 'Marque ou desmarque o checkbox para o campo ajustado';
+                $inconsistencyModel->identifier = '11';
+                $inconsistencyModel->idLunch = $menu['menu_fk'];
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
@@ -1009,6 +1003,8 @@ class SagresConsultModel
                 $inconsistencyModel->school = $schoolRes['name'];
                 $inconsistencyModel->description = 'Data no formato inválido: <strong>' . $menuType->getData()->format('d/m/Y') . '</strong>';
                 $inconsistencyModel->action = 'Adicione uma data no formato válido';
+                $inconsistencyModel->identifier = '11';
+                $inconsistencyModel->idLunch = $menu['menu_fk'];
                 $inconsistencyModel->idSchool = $schoolId;
                 $inconsistencyModel->insert();
             }
@@ -1379,16 +1375,6 @@ class SagresConsultModel
                         $inconsistencyModel->insert();
                     }
 
-                    if (!is_int($enrollmentType->getNumeroFaltas())) {
-                        $inconsistencyModel = new ValidationSagresModel();
-                        $inconsistencyModel->enrollment = 'MATRÍCULA';
-                        $inconsistencyModel->school = $school->name;
-                        $inconsistencyModel->description = 'O valor para o número de faltas é inválido';
-                        $inconsistencyModel->action = 'Coloque um valor válido para o número de faltas';
-                        $inconsistencyModel->idClass = $classId;
-                        $inconsistencyModel->insert();
-                    }
-
                     if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
                         if (!is_bool($enrollmentType->getAprovado())) {
                             $inconsistencyModel = new ValidationSagresModel();
@@ -1575,7 +1561,6 @@ class SagresConsultModel
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
                     }
-
 
                     if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
                         if (!is_bool($enrollmentType->getAprovado())) {
