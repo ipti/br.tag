@@ -1,3 +1,6 @@
+## [Versão 3.78.137]
+- Permitido com que se adicione ou remova aulas no quadro de horário, mesmo quando houver preenchimento de frequência ou quadro de horário
+
 ## [Versão 3.78.136]
 - Datepicker modificado para apresentar as informações em português
 - Correção para inconsistências relacionadas a classes
