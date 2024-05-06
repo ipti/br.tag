@@ -2285,7 +2285,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         "<input type='checkbox' id='others-check' checked>" :
                                         "<input type='checkbox' id='others-check'>" ?>
                                     <label class="t-field-checkbox">
-                                        <?php echo StudentDisorder::model()->attributeLabels()['others']; ?>
+                                        Outros transtornos de conduta
                                     </label>
                                 </div>
                                 <div class="row others-text-box" style="display: none;">
