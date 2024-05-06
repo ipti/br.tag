@@ -370,7 +370,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     $modelStudentDisorder->student_fk = $modelStudentIdentification->id;
 
                     if ($modelStudentDocumentsAndAddress->validate()) {
-                        if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save()) {
+                        if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save() && $modelStudentDisorder->save()) {
                             $saved = true;
                             if (
                                 isset($_POST[$this->STUDENT_ENROLLMENT], $_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
