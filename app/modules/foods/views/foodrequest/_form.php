@@ -18,7 +18,7 @@ $form=$this->beginWidget('CActiveForm', array(
 <div class="form">
     <div class="mobile-row">
         <div class="column clearleft">
-            <h1 class="t-padding-none--bottom"><?php echo $model->isNewRecord ? 'Solicitações' : '' ?></h1>
+            <h1 class="t-padding-none--bottom"><?php echo $model->isNewRecord ? 'Gerar solicitação' : '' ?></h1>
         </div>
     </div>
     <div class="row">
@@ -31,19 +31,72 @@ $form=$this->beginWidget('CActiveForm', array(
         <a class="t-button-primary" id="js-entry-request-button" type="button">Gerar Solicitação</a>
     </div>
 
-	<div class="row">
-        <div class="t-field-select column is-two-fifths clearfix">
-            <select class="select-search-on t-field-select__input select2-container" id="foodRequestSelect">
-                <option value="total">Filtrar solicitações por alimento</option>
+    <h3>Dados da solicitação</h3>
+
+    <div class="row">
+        <div class="column clearleft t-margin-none--bottom t-field-text is-two-fifths">
+            <?php echo CHtml::label('Edital', 'notice', array('class' => 't-field-select__label--required')); ?>
+            <select class="select-search-on t-field-select__input select2-container" id="foodNotice" name="foodNotice">
+                <option value="selecione">Selecione</option>
             </select>
         </div>
     </div>
 
-	<div class="row">
-        <div class="column is-four-fifths clearfix">
-            <table id="foodRequestTable" class="tag-table-secondary align-start">
+    <div class="row">
+        <div class="column t-field-select t-multiselect clearfix is-two-fifths">
+            <?php echo CHtml::label('Selecione as escolas', 'school_fk', array('class' => 't-field-select__label--required')); ?>
+            <?php echo $form->dropDownList($model,'school_fk',
+                array(
+                    1 => 'escola 1',
+                    2 => 'escola 2',
+                    3 => 'escola 3'
+                ),
+                array(
+                    'multiple' => true,
+                    'class' => 'js-select-schools t-field-select__input multiselect'
+                )
+            ); ?>
+        </div>
+        <div class="column t-field-select t-multiselect clearleft--on-mobile clearfix is-two-fifths">
+            <?php echo CHtml::label('Selecione os agricultores', 'description', array('class' => 't-field-select__label--required')); ?>
+            <?php echo $form->dropDownList($model,'description',
+                array(
+                    1 => 'agricultor 1',
+                    2 => 'agricultor 2',
+                    3 => 'agricultor 3'
+                ),
+                array(
+                    'multiple' => true,
+                    'class' => 'js-select-farmer t-field-select__input multiselect'
+                )
+            ); ?>
+        </div>
+    </div>
 
-            </table>
+    <div class="row">
+        <h3>Relação de produtos</h3>
+    </div>
+
+    <div class="row">
+        <div class="column is-one-third t-field-select clearfix">
+            <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
+            <select class="select-search-on t-field-select__input select2-container clear-margin--all" id="food" name="food">
+                <option value="alimento">Selecione o Alimento</option>
+            </select>
+        </div>
+        <div class="column is-one-tenth clearleft--on-mobile t-field-text clearfix">
+            <?php echo $form->label($model,'amount', array('class' => 't-field-text__label--required')); ?>
+            <?php echo $form->textField($model,'amount', array('class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
+            <?php echo $form->error($model,'amount'); ?>
+        </div>
+        <div class="column is-one-tenth t-field-select clearfix">
+            <?php echo CHtml::label('Unidade', 'measurementUnit', array('class' => 't-field-select__label--required')); ?>
+            <select class="select-search-on t-field-select__input select2-container clear-margin--all" id="measurementUnit" name="measurementUnit">
+                <option value="selecione">Selecione</option>
+            </select>
+        </div>
+        <div class="column is-one-tenth clearleft t-buttons-container t-padding-none--bottom t-margin-none--bottom clearfix">
+            <button class="t-button-secondary t-margin-none--bottom full--width align-self--end" id="js-add-food" type="button">Adicionar</button>
         </div>
     </div>
 
@@ -133,4 +186,4 @@ $form=$this->beginWidget('CActiveForm', array(
 
 <?php $this->endWidget(); ?>
 
-</div><!-- form -->
+</div>

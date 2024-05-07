@@ -38,6 +38,10 @@ $(document).ready(function() {
             renderRequestTable(food_request, foodId);
         }
     });
+
+    $(".js-select-farmer, .js-select-schools").select2({
+        maximumSelectionSize: 6,
+    });
 })
 
 $(document).on("click", "#js-entry-request-button", function () {

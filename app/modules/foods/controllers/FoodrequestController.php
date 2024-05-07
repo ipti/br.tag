@@ -172,9 +172,10 @@ class FoodrequestController extends Controller
                 $this->redirect(array('view', 'id' => $model->id));
             }
         }
-
-        $this->render('create', array(
+        $dataProvider = new CActiveDataProvider('FoodRequest');
+        $this->render('index', array(
             'model' => $model,
+            'dataProvider' => $dataProvider,
         ));
     }
 
