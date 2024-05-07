@@ -25,13 +25,14 @@ $cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js?v=' . TAG_V
 $cs->registerScript("", '
     var sedspEnable = ' . Yii::app()->features->isEnable("FEAT_SEDSP") . '
     sedspEnable = sedspEnable || false;
-',  CClientScript::POS_HEAD);
+', CClientScript::POS_HEAD);
 
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student',
     'enableAjaxValidation' => false,
-));
+)
+);
 /**
  * @var CActiveForm $form CActiveForm
  */
@@ -41,21 +42,24 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="mobile-row ">
     <div class="column clearleft">
         <?php
-        if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable("FEAT_SEDSP")) :
+        if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable("FEAT_SEDSP")):
             $sedspSync = StudentIdentification::model()->findByPk($modelStudentIdentification->id)->sedsp_sync;
-        ?>
+            ?>
             <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
-                <?php if ($sedspSync) : ?>
+                <?php if ($sedspSync): ?>
                     <div style="font-weight: bold;margin-right: 20px;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png" style="width: 25px; margin-right: 2px;">Sincronizado
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
+                            style="width: 25px; margin-right: 2px;">Sincronizado
                     </div>
-                <?php else : ?>
+                <?php else: ?>
                     <div style="font-weight: bold;margin-right: 20px;">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" style="width: 25px;margin-right: 2px;">Não sincronizado
+                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
+                            style="width: 25px;margin-right: 2px;">Não sincronizado
                     </div>
                 <?php endif; ?>
 
-                <a class="update-student-from-sedsp" style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;cursor: pointer">
+                <a class="update-student-from-sedsp"
+                    style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;cursor: pointer">
                     Importar dados da SED
                 </a>
             </div>
@@ -63,7 +67,8 @@ $form = $this->beginWidget('CActiveForm', array(
         <h1><?php echo $title; ?></h1>
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
-        <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+        <a data-toggle="tab" class='hide-responsive t-button-secondary prev'
+            style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
         <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
 
         <button class="t-button-primary  last save-student" type="button">
@@ -155,12 +160,18 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text" id="nameStudents">
                                 <?php echo $form->label($modelStudentIdentification, 'name', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'name', array(
-                                    'size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input',
+                                    'size' => 60,
+                                    'maxlength' => 100,
+                                    'class' => 't-field-text__input',
                                     'placeholder' => 'Digite o Nome de Apresentação'
-                                )); ?>
-                                <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="warningNameIcon" onclick="displayRecords()" style="display: none;" src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
-                                    <img id="errorNameIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                )
+                                ); ?>
+                                <span id="similarMessage" data-toggle="tooltip" data-placement="top"
+                                    data-original-title="">
+                                    <img id="warningNameIcon" onclick="displayRecords()" style="display: none;"
+                                        src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
+                                    <img id="errorNameIcon" style="display: none;"
+                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                             </div>
@@ -168,17 +179,21 @@ $form = $this->beginWidget('CActiveForm', array(
                         <!-- Nome civil -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-checkbox js-hide-not-required" id="show-student-civil-name-box">
-                                <input type="checkbox" class="t-field-checkbox__input" id="show-student-civil-name" <?php if ($modelStudentIdentification->civil_name != null) {
-                                                                                                                        echo "checked";
-                                                                                                                    } ?>>
+                                <input type="checkbox" class="t-field-checkbox__input" id="show-student-civil-name"
+                                    <?php if ($modelStudentIdentification->civil_name != null) {
+                                        echo "checked";
+                                    } ?>>
                                 <label class="t-field-checkbox__label">Esse é um nome social?</label>
                             </div>
                             <div class="t-field-text student-civil-name" id="civilName" style="display: none;">
                                 <?php echo $form->label($modelStudentIdentification, 'civil_name', array('class' => 't-field-text__label--required')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'civil_name', array(
-                                    'size' => 60, 'maxlength' => 100,
-                                    'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome Civil'
-                                )); ?>
+                                    'size' => 60,
+                                    'maxlength' => 100,
+                                    'class' => 't-field-text__input',
+                                    'placeholder' => 'Digite o Nome Civil'
+                                )
+                                ); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
                             </div>
                         </div>
@@ -193,7 +208,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelStudentIdentification, 'birthday'));
                                 echo CHtml::link('	Limpar', '#', array(
                                     'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
-                                ));
+                                )
+                                );
                                 echo $form->error($modelStudentIdentification, 'birthday');
                                 ?>
                             </div>
@@ -204,10 +220,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "class" => "t-field-text__input")); ?>
                                 <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                    <img id="errorCPFIcon" style="display: none;"
+                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
-                                <?php if ($modelStudentDocumentsAndAddress->hasErrors(['cpf'])) : ?>
-                                    <div style='margin-top: 5px;color: red;'><?= CHtml::encode($modelStudentDocumentsAndAddress->getError(['cpf'])); ?></div>
+                                <?php if ($modelStudentDocumentsAndAddress->hasErrors(['cpf'])): ?>
+                                    <div style='margin-top: 5px;color: red;'>
+                                        <?= CHtml::encode($modelStudentDocumentsAndAddress->getError(['cpf'])); ?></div>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -258,11 +276,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'nationality',
                                     array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"),
                                     array('class' => 'select-search-off t-field-select__input select2-container'),
-                                    array('ajax' => array(
-                                        'type' => 'POST',
-                                        'url' => CController::createUrl('student/getnations'),
-                                        'update' => '#StudentIdentification_edcenso_nation_fk'
-                                    ))
+                                    array(
+                                        'ajax' => array(
+                                            'type' => 'POST',
+                                            'url' => CController::createUrl('student/getnations'),
+                                            'update' => '#StudentIdentification_edcenso_nation_fk'
+                                        )
+                                    )
                                 );
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'nationality'); ?>
@@ -300,7 +320,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     "prompt" => "Selecione um estado",
                                     "class" => "select-search-on nationality-sensitive br t-field-select__input select2-container",
                                     "disabled" => "disabled",
-                                ));
+                                )
+                                );
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'edcenso_uf_fk'); ?>
                             </div>
@@ -366,18 +387,188 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error($modelStudentIdentification, 'scholarity'); ?>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <!-- Deficiência -->
+                        <div class="column clearleft is-two-fifths">
+                            <div class=" t-field-text js-hide-not-required" id="deficiency">
+                                <h3>
+                                    Deficiência
+                                </h3>
+                                <!-- Deficiência -->
+                                <div class="t-field-checkbox" id="deficiency-checkbox">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
+                                    <?php echo $form->label($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label')); ?>
+                                    <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
+                                </div>
+                            </div>
+                            <!-- Tipos de deficiência -->
+                            <div id="StudentIdentification_deficiencies"
+                                class="t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
+                                <label
+                                    class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Deficiency Type'); ?>
+                                </label>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_low_vision']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafness']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_disability_hearing']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafblindness']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_phisical_disability']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_intelectual_disability']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_multiple_disabilities']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_autism']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_gifted']; ?>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column clearleft is-two-fifths">
+                            <div class=" t-field-text js-hide-not-required" id="deficiency">
+                                <!-- Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros) -->
+                                <div class="t-field-checkbox-group js-visibility-dresource hide-responsive resources-container"
+                                    id="resources-checkbox">
+                                    <label
+                                        class="t-field-checkbox__label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_lector']; ?>
+                                        </label>
+                                    </div>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_transcription', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_transcription']; ?>
+                                        </label>
+                                    </div>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_guide', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_guide']; ?>
+                                        </label>
+                                    </div>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_libras']; ?>
+                                        </label>
+                                    </div>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_lip_reading', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_lip_reading']; ?>
+                                        </label>
+                                    </div>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_18', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_18']; ?>
+                                        </label>
+                                    </div>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_24', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_24']; ?>
+                                        </label>
+                                    </div>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_braille_test']; ?>
+                                        </label>
+                                    </div>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_proof_language', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_proof_language']; ?>
+                                        </label>
+                                    </div>
+
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_cd_audio', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_cd_audio']; ?>
+                                        </label>
+                                    </div>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_video_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_video_libras']; ?>
+                                        </label>
+                                    </div>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
+                                        <label class="t-field-checkbox">
+                                            <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
-                    <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")) : ?>
+                    <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                         <!--Gov ID-->
                         <div class="row">
                             <div class="column clearleft is-two-fifths">
                                 <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->label($modelStudentIdentification, 'gov_id', array('class' => 't-field-text__label')); ?>
                                     <?php echo $form->textField($modelStudentIdentification, 'gov_id', array(
-                                        'size' => 60, 'maxlength' => 12,
-                                        'class' => 't-field-text__input', 'placeholder' => 'Não possui', 'disabled' => 'disabled'
-                                    )); ?>
+                                        'size' => 60,
+                                        'maxlength' => 12,
+                                        'class' => 't-field-text__input',
+                                        'placeholder' => 'Não possui',
+                                        'disabled' => 'disabled'
+                                    )
+                                    ); ?>
                                     <button type="button" id="copy-gov-id" class="t-button-icon">
                                         <span class="t-icon-copy"></span>
                                     </button>
@@ -438,7 +629,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 echo $form->dropDownList(
                                     $modelStudentIdentification,
                                     'responsable',
-                                    array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',),
+                                    array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro', ),
                                     array('class' => 'select-search-off t-field-select__input select2-container')
                                 );
                                 ?>
@@ -497,9 +688,12 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text js-hide-not-required" id="responsableJob">
                                 <?php echo $form->label($modelStudentIdentification, 'responsable_job', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'responsable_job', array(
-                                    'size' => 60, 'maxlength' => 100,
-                                    'class' => 't-field-text__input', 'placeholder' => 'Digite a Profissão do Responsável'
-                                )); ?>
+                                    'size' => 60,
+                                    'maxlength' => 100,
+                                    'class' => 't-field-text__input',
+                                    'placeholder' => 'Digite a Profissão do Responsável'
+                                )
+                                ); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
                             </div>
                         </div>
@@ -514,7 +708,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentIdentification,
                                     'responsable_scholarity',
                                     array(
-                                        null => "Selecione a escolaridade", "1" => "Formação Geral", "2" => "Modalidade Normal (Magistério)", "3" => "Curso Técnico",
+                                        null => "Selecione a escolaridade",
+                                        "1" => "Formação Geral",
+                                        "2" => "Modalidade Normal (Magistério)",
+                                        "3" => "Curso Técnico",
                                         "4" => "Magistério Indígena Modalidade Normal"
                                     ),
                                     array('class' => 'select-search-off t-field-select__input select2-container')
@@ -562,7 +759,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentIdentification,
                                     'filiation_1',
                                     array(
-                                        'size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
+                                        'size' => 60,
+                                        'maxlength' => 100,
+                                        "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
                                         'placeholder' => 'Digite o Nome Completo da Filiação'
                                     )
                                 ); ?>
@@ -585,7 +784,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Data de Nascimento da Mãe -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text js-hide-not-required js-disabled-finputs" id="dateOfBirthFiliation">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs"
+                                id="dateOfBirthFiliation">
                                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_birthday', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1_birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_birthday'); ?>
@@ -596,9 +796,12 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text  js-hide-not-required js-disabled-finputs" id="rgFiliation1">
                                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_rg', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array(
-                                    'size' => 60, 'maxlength' => 45,
-                                    "class" => "js-disabled-finputs js-finput-clear t-field-text__input", 'placeholder' => 'Digite o RG da Filiação 1'
-                                )); ?>
+                                    'size' => 60,
+                                    'maxlength' => 45,
+                                    "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
+                                    'placeholder' => 'Digite o RG da Filiação 1'
+                                )
+                                ); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_rg'); ?>
                             </div>
                         </div>
@@ -607,14 +810,20 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Escolaridade da Mãe -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-select js-hide-not-required js-disabled-finputs" id="scholarityFiliation1-select">
+                            <div class="t-field-select js-hide-not-required js-disabled-finputs"
+                                id="scholarityFiliation1-select">
                                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_scholarity', array('class' => 't-field-select__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
                                     null => "Não declarado",
-                                    0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
-                                    3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
-                                    6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
+                                    0 => 'Não sabe ler e escrever ',
+                                    1 => 'Sabe ler e escrever',
+                                    2 => 'Ens. Fund. Incompleto',
+                                    3 => 'Ens. Fund. Completo',
+                                    4 => 'Ens. Médio Incompleto',
+                                    5 => 'Ens. Médio Completo',
+                                    6 => 'Ens. Sup. Incompleto',
+                                    7 => 'Ens. Sup. Completo'
                                 ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input select2-container'));
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_scholarity'); ?>
@@ -622,13 +831,16 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!-- Profissão filiação 1 -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text js-hide-not-required js-disabled-finputs" id="professionFiliation1">
+                            <div class="t-field-text js-hide-not-required js-disabled-finputs"
+                                id="professionFiliation1">
                                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_job', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField(
                                     $modelStudentIdentification,
                                     'filiation_1_job',
                                     array(
-                                        'size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input select2-container",
+                                        'size' => 60,
+                                        'maxlength' => 100,
+                                        "class" => "js-disabled-finputs js-finput-clear t-field-text__input select2-container",
                                         'placeholder' => 'Digite a Profissão da Filiação 1'
                                     )
                                 ); ?>
@@ -653,7 +865,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentIdentification,
                                     'filiation_2',
                                     array(
-                                        'size' => 60, 'maxlength' => 100, "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
+                                        'size' => 60,
+                                        'maxlength' => 100,
+                                        "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
                                         'placeholder' => 'Digite o Nome Completo do Pai'
                                     )
                                 ); ?>
@@ -699,14 +913,20 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Escolaridade do pai -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-select js-hide-not-required js-disabled-finputs" id="scholarityFiliation2-select">
+                            <div class="t-field-select js-hide-not-required js-disabled-finputs"
+                                id="scholarityFiliation2-select">
                                 <?php echo $form->label($modelStudentIdentification, 'filiation_2_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', array(
                                     null => "Não declarado",
-                                    0 => 'Não sabe ler e escrever ', 1 => 'Sabe ler e escrever', 2 => 'Ens. Fund. Incompleto',
-                                    3 => 'Ens. Fund. Completo', 4 => 'Ens. Médio Incompleto', 5 => 'Ens. Médio Completo',
-                                    6 => 'Ens. Sup. Incompleto', 7 => 'Ens. Sup. Completo'
+                                    0 => 'Não sabe ler e escrever ',
+                                    1 => 'Sabe ler e escrever',
+                                    2 => 'Ens. Fund. Incompleto',
+                                    3 => 'Ens. Fund. Completo',
+                                    4 => 'Ens. Médio Incompleto',
+                                    5 => 'Ens. Médio Completo',
+                                    6 => 'Ens. Sup. Incompleto',
+                                    7 => 'Ens. Sup. Completo'
                                 ), array('class' => 'select-search-off js-disabled-finputs js-finput-clear t-field-select__input select2-container'));
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_2_scholarity'); ?>
@@ -745,7 +965,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'received_cc',
                                     array(
-                                        'value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0,
+                                        'value' => 1,
+                                        'class' => 't-field-checkbox__input',
+                                        'uncheckValue' => 0,
                                         'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_cc
                                     )
                                 ); ?>
@@ -758,7 +980,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'received_address',
                                     array(
-                                        'value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0,
+                                        'value' => 1,
+                                        'class' => 't-field-checkbox__input',
+                                        'uncheckValue' => 0,
                                         'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_address
                                     )
                                 ); ?>
@@ -773,7 +997,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'received_photo',
                                     array(
-                                        'value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0,
+                                        'value' => 1,
+                                        'class' => 't-field-checkbox__input',
+                                        'uncheckValue' => 0,
                                         'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_photo
                                     )
                                 ); ?>
@@ -786,7 +1012,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'received_nis',
                                     array(
-                                        'value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0,
+                                        'value' => 1,
+                                        'class' => 't-field-checkbox__input',
+                                        'uncheckValue' => 0,
                                         'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_nis
                                     )
                                 ); ?>
@@ -801,7 +1029,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'received_responsable_rg',
                                     array(
-                                        'value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0,
+                                        'value' => 1,
+                                        'class' => 't-field-checkbox__input',
+                                        'uncheckValue' => 0,
                                         'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_rg
                                     )
                                 ); ?>
@@ -814,7 +1044,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'received_responsable_cpf',
                                     array(
-                                        'value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0,
+                                        'value' => 1,
+                                        'class' => 't-field-checkbox__input',
+                                        'uncheckValue' => 0,
                                         'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_responsable_cpf
                                     )
                                 ); ?>
@@ -829,7 +1061,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'consent_form',
                                     array(
-                                        'value' => 1, 'class' => 't-field-checkbox__input', 'uncheckValue' => 0,
+                                        'value' => 1,
+                                        'class' => 't-field-checkbox__input',
+                                        'uncheckValue' => 0,
                                         'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->consent_form
                                     )
                                 ); ?>
@@ -881,12 +1115,17 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'civil_certification_term_number',
                                     array(
-                                        'size' => 8, 'maxlength' => 8, "disabled" => "disabled",
-                                        "class" => "t-field-text__input nationality-sensitive br no-br", 'placeholder' => 'Digite o Nº do Termo'
+                                        'size' => 8,
+                                        'maxlength' => 8,
+                                        "disabled" => "disabled",
+                                        "class" => "t-field-text__input nationality-sensitive br no-br",
+                                        'placeholder' => 'Digite o Nº do Termo'
                                     )
                                 ); ?>
-                                <span id="termMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="errorTermIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                <span id="termMessage" data-toggle="tooltip" data-placement="top"
+                                    data-original-title="">
+                                    <img id="errorTermIcon" style="display: none;"
+                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
                             </div>
@@ -922,7 +1161,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'civil_certification_date',
                                     array(
-                                        'size' => 10, 'maxlength' => 10, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br no-br",
+                                        'size' => 10,
+                                        'maxlength' => 10,
+                                        "disabled" => "disabled",
+                                        "class" => "t-field-text__input nationality-sensitive br no-br",
                                         'placeholder' => 'Digite a Data de Emissão da Certidão (Dia/Mês/Ano)'
                                     )
                                 ); ?>
@@ -995,7 +1237,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ), 'cod', 'name') + array('7177' => 'OUTROS'),
                                     array(
                                         "prompt" => "Selecione um cartório",
-                                        "class" => "select-search-on t-field-select__input select2-container nationality-sensitive br no-br", "disabled" => "disabled",
+                                        "class" => "select-search-on t-field-select__input select2-container nationality-sensitive br no-br",
+                                        "disabled" => "disabled",
                                     )
                                 );
                                 ?>
@@ -1010,8 +1253,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'civil_register_enrollment_number',
                                     array("disabled" => "disabled", "class" => "nationality-sensitive br no-br t-field-text__input select2-container")
                                 ); ?>
-                                <span id="registerMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="registerIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                <span id="registerMessage" data-toggle="tooltip" data-placement="top"
+                                    data-original-title="">
+                                    <img id="registerIcon" style="display: none;"
+                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
                             </div>
@@ -1034,7 +1279,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'cns',
                                     array(
-                                        'size' => 11, 'maxlength' => 15, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive br no-br",
+                                        'size' => 11,
+                                        'maxlength' => 15,
+                                        "disabled" => "disabled",
+                                        "class" => "t-field-text__input nationality-sensitive br no-br",
                                         'placeholder' => 'Digite o Nº do CNS'
                                     )
                                 ); ?>
@@ -1061,8 +1309,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'rg_number',
                                     array(
-                                        'size' => 20, 'maxlength' => 20, "disabled" => "disabled",
-                                        "class" => "t-field-text__input nationality-sensitive br no-br", 'placeholder' => 'Digite o Nº da Identidade'
+                                        'size' => 20,
+                                        'maxlength' => 20,
+                                        "disabled" => "disabled",
+                                        "class" => "t-field-text__input nationality-sensitive br no-br",
+                                        'placeholder' => 'Digite o Nº da Identidade'
                                     )
                                 ); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number'); ?>
@@ -1078,7 +1329,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     CHtml::listData(EdcensoOrganIdEmitter::model()->findAll(array('order' => 'name')), 'id', 'name'),
                                     array(
                                         "prompt" => "Selecione um órgão emissor da identidade",
-                                        "class" => "select-search-on t-field-select__input select2-container nationality-sensitive br no-br ", "disabled" => "disabled"
+                                        "class" => "select-search-on t-field-select__input select2-container nationality-sensitive br no-br ",
+                                        "disabled" => "disabled"
                                     )
                                 );
                                 ?>
@@ -1096,8 +1348,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'rg_number_expediction_date',
                                     array(
-                                        'size' => 10, 'maxlength' => 10, "disabled" => "disabled",
-                                        "class" => "t-field-text__input nationality-sensitive br no-br", 'placeholder' => 'Digite a Data de Expedição da Identidade dd/mm/aaaa'
+                                        'size' => 10,
+                                        'maxlength' => 10,
+                                        "disabled" => "disabled",
+                                        "class" => "t-field-text__input nationality-sensitive br no-br",
+                                        'placeholder' => 'Digite a Data de Expedição da Identidade dd/mm/aaaa'
                                     )
                                 ); ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'rg_number_expediction_date'); ?>
@@ -1112,7 +1367,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'rg_number_edcenso_uf_fk',
                                     CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'),
                                     array(
-                                        "prompt" => "Selecione um estado", "class" => "select-search-on t-field-select__input select2-container nationality-sensitive br no-br",
+                                        "prompt" => "Selecione um estado",
+                                        "class" => "select-search-on t-field-select__input select2-container nationality-sensitive br no-br",
                                         "disabled" => "disabled"
                                     )
                                 );
@@ -1147,7 +1403,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'foreign_document_or_passport',
                                     array(
-                                        'size' => 20, 'maxlength' => 20, "disabled" => "disabled", "class" => "t-field-text__input nationality-sensitive no-br",
+                                        'size' => 20,
+                                        'maxlength' => 20,
+                                        "disabled" => "disabled",
+                                        "class" => "t-field-text__input nationality-sensitive no-br",
                                         'placeholder' => 'Digite o Passaporte ou Documento Estrangeiro'
                                     )
                                 ); ?>
@@ -1174,7 +1433,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentIdentification,
                                     'no_document_desc',
                                     array(
-                                        null => "Selecione a justificativa", "1" => "O(a) aluno(a) não possui os documentos pessoais solicitados",
+                                        null => "Selecione a justificativa",
+                                        "1" => "O(a) aluno(a) não possui os documentos pessoais solicitados",
                                         "2" => "A escola não dispõe ou não recebeu os documentos pessoais do(a) aluno(a)"
                                     ),
                                     array("class" => "select-search-off t-field-select__input select2-container nationality-sensitive br no-br", "disabled" => "disabled")
@@ -1199,10 +1459,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'nis', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11, 'placeholder' => 'Digite o NIS')); ?>
                                 <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                    <img id="errorNisIcon" style="display: none;"
+                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                                    <img id="errorNisIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                    <img id="errorNisIcon" style="display: none;"
+                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
                             </div>
@@ -1286,7 +1548,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'size' => 8,
                                     'maxlength' => 9,
                                     'class' => 't-field-text_input'
-                                ));
+                                )
+                                );
                                 ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'cep'); ?>
                             </div>
@@ -1374,8 +1637,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelStudentDocumentsAndAddress,
                                     'diff_location',
                                     array(
-                                        null => 'Selecione a localização', 7 => 'Não reside em área de localização diferenciada',
-                                        3 => 'Área onde se localiza comunidade remanescente de quilombos', 2 => 'Terra indígena', 1 => 'Área de assentamento'
+                                        null => 'Selecione a localização',
+                                        7 => 'Não reside em área de localização diferenciada',
+                                        3 => 'Área onde se localiza comunidade remanescente de quilombos',
+                                        2 => 'Terra indígena',
+                                        1 => 'Área de assentamento'
                                     ),
                                     array("class" => "select-search-on t-field-select__input select2-container")
                                 ); ?>
@@ -1440,7 +1706,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'student/transfer',
                                     array('id' => $modelStudentIdentification->id)
                                 ) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
-                                ?>
+                                    ?>
                             </div>
                         </div>
                     </div>
@@ -1611,7 +1877,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 $("#StudentEnrollment_edcenso_stage_vs_modality_fk").html(decodeHtml(data));
                                             }'
                                     ),
-                                ));
+                                )
+                                );
                                 ?>
                             </div>
                         </div>
@@ -1647,7 +1914,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <!-- Tipo de Transporte * -->
                             <div class="t-field-checkbox-group hide-responsive" id="transport_type">
-                                <label class="t-field-checkbox__label"><?php echo Yii::t('default', 'Transport Type'); ?>
+                                <label
+                                    class="t-field-checkbox__label"><?php echo Yii::t('default', 'Transport Type'); ?>
                                     *</label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_van', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -1716,7 +1984,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             <h3>Atendimento especializado</h3>
                             <!-- Tipo de Atendimento Educacional Especializado -->
                             <div class="t-field-checkbox-group js-hide-not-required" id="typeOfService">
-                                <label class="t-field-checkbox__label"><?php echo Yii::t('default', 'Type of Specialized Educational Assistance'); ?></label>
+                                <label
+                                    class="t-field-checkbox__label"><?php echo Yii::t('default', 'Type of Specialized Educational Assistance'); ?></label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelEnrollment, 'aee_cognitive_functions', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
@@ -1794,8 +2063,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row-fluid">
                         <?php
                         $error = $modelEnrollment->getErrors('enrollment_id');
-                        if (!empty($error)) :
-                        ?>
+                        if (!empty($error)):
+                            ?>
                             <div class="alert alert-error">
                                 <?php echo $error[0]; ?>
                             </div>
@@ -1811,7 +2080,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <div id="accordion" class="t-accordeon-quaternary">
                                         <?php
                                         foreach ($modelStudentIdentification->studentEnrollments as $me) {
-                                        ?>
+                                            ?>
                                             <div class="ui-accordion-header justify-content--space-between">
                                                 <div>
                                                     <div class="mobile-row align-items--center">
@@ -1861,29 +2130,35 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         }
                                                         ?>
                                                         <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
-                                                            <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>' class="t-link-button--info">
+                                                            <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'
+                                                                class="t-link-button--info">
                                                                 <div class="t-icon-pencil t-icon"></div>
                                                             </a>
                                                         <?php } ?>
 
                                                     </div>
                                                     <div id="accordion-school-label" class="mobile-row">
-                                                        <label class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
+                                                        <label
+                                                            class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
                                                     </div>
                                                 </div>
                                                 <div class="align-items--center">
                                                     <?php
                                                     if (!$modelStudentIdentification->isNewRecord && Yii::app()->features->isEnable("FEAT_SEDSP")) {
                                                         $sedspSync = StudentEnrollment::model()->findByPk($me->id)->sedsp_sync;
-                                                    ?>
-                                                        <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
+                                                        ?>
+                                                        <div
+                                                            style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
                                                             <?php if ($sedspSync) { ?>
                                                                 <div style="font-weight: bold;margin-right: 20px;">
-                                                                    <img src="/themes/default/img/SyncTrue.png" title="Sincronizado" style="width: 20px;margin-right: 20px;">
+                                                                    <img src="/themes/default/img/SyncTrue.png" title="Sincronizado"
+                                                                        style="width: 20px;margin-right: 20px;">
                                                                 </div>
                                                             <?php } else { ?>
                                                                 <div style="font-weight: bold;margin-right: 20px;">
-                                                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png" title="Não Sincronizado" style="width: 20px;margin-right: 20px;">
+                                                                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
+                                                                        title="Não Sincronizado"
+                                                                        style="width: 20px;margin-right: 20px;">
                                                                 </div>
                                                             <?php } ?>
                                                         </div>
@@ -1894,7 +2169,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                             <div class="ui-accordion-content">
                                                 <div class="mobile-row">
                                                     <label class="accordion-label--title">Turma:</label>
-                                                    <a href='<?php echo Yii::app()->createUrl("classroom/update", array("id" => $me->classroomFk->id)); ?>' class="t-link-button--info accordion-label">
+                                                    <a href='<?php echo Yii::app()->createUrl("classroom/update", array("id" => $me->classroomFk->id)); ?>'
+                                                        class="t-link-button--info accordion-label">
                                                         <?php echo $me->classroomFk->name; ?>
                                                     </a>
                                                 </div>
@@ -1923,7 +2199,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 </div>
                                                 <div class="mobile-row">
                                                     <label class="accordion-label--title">Ano:</label>
-                                                    <label class="accordion-label"><?php echo $me->classroomFk->school_year ?></label>
+                                                    <label
+                                                        class="accordion-label"><?php echo $me->classroomFk->school_year ?></label>
                                                 </div>
                                                 <div class="mobile-row upper-margin">
                                                     <label class="accordion-label--title">Formulários:</label>
@@ -1933,22 +2210,25 @@ $form = $this->beginWidget('CActiveForm', array(
                                                     $forms = unserialize(FORMS);
                                                     foreach ($forms as $item) {
                                                         $link = Yii::app()->createUrl('forms/' . $item['action'], array('type' => $type, 'enrollment_id' => $me->id));
-                                                    ?>
-                                                        <a class="<?= $item['name'] == "Ficha de Matrícula" ? 't-button-primary' : 't-button-secondary' ?> mobile-margin" rel="noopener" target="_blank" href="<?= $link ?>">
+                                                        ?>
+                                                        <a class="<?= $item['name'] == "Ficha de Matrícula" ? 't-button-primary' : 't-button-secondary' ?> mobile-margin"
+                                                            rel="noopener" target="_blank" href="<?= $link ?>">
                                                             <span class="t-icon-printer"></span>
                                                             <?php echo $item['name'] ?>
                                                         </a>
-                                                    <?php
+                                                        <?php
                                                     }
                                                     ?>
-                                                    <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo @Yii::app()->createUrl(
-                                                                                                                            'forms/EnrollmentGradesReport',
-                                                                                                                            array('enrollment_id' => $me->id)
-                                                                                                                        ) ?>">
+                                                    <a class="t-button-secondary" rel="noopener" target="_blank"
+                                                        href="<?php echo @Yii::app()->createUrl(
+                                                            'forms/EnrollmentGradesReport',
+                                                            array('enrollment_id' => $me->id)
+                                                        ) ?>">
                                                         <span class="t-icon-printer"></span>
                                                         Ficha de Notas
                                                     </a>
-                                                    <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
+                                                    <a class="t-button-secondary" rel="noopener" target="_blank"
+                                                        href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
                                                         <span class="t-icon-printer"></span>
                                                         Ficha Individual
                                                     </a>
@@ -1969,12 +2249,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         if (count($quizs) > 0) {
                                                             foreach ($quizs as $quiz) {
                                                                 $link = Yii::app()->createUrl('quiz/default/answer', array('quizId' => $quiz->id, 'studentId' => $me->studentFk->id));
-                                                    ?>
-                                                                <a class="t-button-secondary mobile-margin" rel="noopener" target="_blank" href="<?= $link ?>">
+                                                                ?>
+                                                                <a class="t-button-secondary mobile-margin" rel="noopener"
+                                                                    target="_blank" href="<?= $link ?>">
                                                                     <span class="t-icon-printer"></span>
                                                                     <?php echo $quiz->name ?>
                                                                 </a>
-                                                    <?php
+                                                                <?php
                                                             }
                                                         }
                                                     }
@@ -1982,12 +2263,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 </div>
                                                 <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
                                                     <div class="row">
-                                                        <a href='#' id="delete-enrollment" class="t-link-button--warning" enrollment="<?= $me->id ?>">Cancelar
+                                                        <a href='#' id="delete-enrollment" class="t-link-button--warning"
+                                                            enrollment="<?= $me->id ?>">Cancelar
                                                             Matrícula</a>
                                                     </div>
                                                 <?php } ?>
                                             </div>
-                                        <?php
+                                            <?php
                                         }
                                         ?>
                                     </div>
@@ -2005,157 +2287,8 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <!-- Deficiência -->
                         <div class="column clearleft is-two-fifths">
-                            <h3>
-                                Deficiência
-                            </h3>
-                            <!-- Deficiência -->
-                            <div class="t-field-checkbox" id="deficiency-checkbox">
-                                <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
-                                <?php echo $form->label($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label')); ?>
-                                <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
-                            </div>
-                            <!-- Tipos de deficiência -->
-                            <div id="StudentIdentification_deficiencies" class="t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
-                                <label class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Deficiency Type'); ?>
-                                </label>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_blindness']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_low_vision', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_low_vision']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafness']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_disability_hearing', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_disability_hearing']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_deafblindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_deafblindness']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_phisical_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_phisical_disability']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_intelectual_disability', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_intelectual_disability']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_multiple_disabilities']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_autism']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_gifted', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_gifted']; ?>
-                                    </label>
-                                </div>
-                            </div>
-                            <!-- Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros) -->
-                            <div class="t-field-checkbox-group js-visibility-dresource hide-responsive resources-container" id="resources-checkbox">
-                                <label class="t-field-checkbox__label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_lector']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_transcription', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_aid_transcription']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_guide', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_guide']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_interpreter_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_interpreter_libras']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_lip_reading', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_lip_reading']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_18', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_18']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_zoomed_test_24', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_zoomed_test_24']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_braille_test', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_braille_test']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_proof_language', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_proof_language']; ?>
-                                    </label>
-                                </div>
 
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_cd_audio', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_cd_audio']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_video_libras', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_video_libras']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'resource_none', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['resource_none']; ?>
-                                    </label>
-                                </div>
-                            </div>
+
                             <h3>Restrições</h3>
                             <div class="t-field-checkbox-group" id="restrictions-checkbox">
                                 <div class="t-field-checkbox">
@@ -2225,7 +2358,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 Vacinas
                             </h3>
                             <div class="t-field-checkbox-group vaccines-container">
-                                <?php foreach ($vaccines as $vaccine) : ?>
+                                <?php foreach ($vaccines as $vaccine): ?>
                                     <div class="t-field-checkbox" id="vaccine-checkbox">
                                         <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
                                         <label class="t-field-checkbox">
@@ -2299,7 +2432,8 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="row reverse show--tablet">
                     <div class="t-buttons-container">
                         <div class="column clearfix">
-                            <a data-toggle="tab" class='t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+                            <a data-toggle="tab" class='t-button-secondary prev'
+                                style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                         </div>
                         <div class="column clearfix">
                             <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary nofloat next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
@@ -2317,11 +2451,13 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="modal-dialog" role="document">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
+                        style="vertical-align: -webkit-baseline-middle">
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Importar aluno da SEDSP</h4>
             </div>
-            <form method="post" action="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('id' => $modelStudentIdentification->id, 'gov_id' => $modelStudentIdentification->gov_id)); ?>">
+            <form method="post"
+                action="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('id' => $modelStudentIdentification->id, 'gov_id' => $modelStudentIdentification->gov_id)); ?>">
                 <div class="centered-loading-gif">
                     <i class="fa fa-spin fa-spinner"></i>
                 </div>
