@@ -146,14 +146,20 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <tr>
             <td>
                 <div class="span4"><b>03 - Naturalidade: <span class="nationality"><?= $data['nationality'] ?></span></b></div>
+                <div class="span4"><b>País: <span class="nationality"><?= $data['nation'] ?></span></b></div>
+                <span class="<?php echo $data['nationality'] !== 'Brasileira' ? 'hide':''; ?>">
+                    <div class="span12">
+                        <b>UF: </b><span class="address_uf"><?= $data['birth_uf'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>Município: </b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span>/<?php echo $birth_uf ?>
+                    </div>
+                </span>
             </td>
         </tr>
         <tr>
             <td>
-                <div class="span4"><b>03 - País: <span class="nationality"><?= $data['nation'] ?></span></b></div>
-                <div class="span8"><b>Município: </b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span>/<?php echo $birth_uf ?> </div>
+                <div class="span4"><b>04 - Endereço: </b></div><br>
                 <div class="span12">
-                    <b>ENDEREÇO: </b><span class="address"><?= $data['address'] ?></span>, <span class="number"><?= $data['number'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>Rua: </b><span class="address"><?= $data['address'] ?></span>, <span class="number"><?= $data['number'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <b>Cidade: </b><span class="adddress_city"><?= $data['adddress_city'] ?></span>&nbsp;&nbsp;&nbsp;
                     <b>UF: </b><span class="address_uf"><?= $data['address_uf'] ?></span>&nbsp;&nbsp;&nbsp;
                     <b>CEP: </b><span class="cep"><?= $data['cep'] ?></span>
@@ -162,13 +168,13 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span4"><b>04 - Gênero:</b>&nbsp;<span class="gender"><?= $data['gender'] ?></span></div>
-                <div class="span4"><b>05 - Etnia:</b>&nbsp;<span class="color"><?= $data['color'] ?></span></div>
+                <div class="span4"><b>05 - Gênero:</b>&nbsp;<span class="gender"><?= $data['gender'] ?></span></div>
+                <div class="span4"><b>06 - Etnia:</b>&nbsp;<span class="color"><?= $data['color'] ?></span></div>
             </td>
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>06 - Filiação 1</b></div>
+                <div class="span12"><b>07 - Filiação 1</b></div>
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['mother'] ?></span></div>
                 <div class="span4"><b>RG: </b><span class="cc_number"><?= $data['mother_rg'] ?></div>
                 <div class="span8"><b>CPF: </b><span class="cc_number"><?= $data['mother_cpf'] ?><span class="father"></span></div>
@@ -179,7 +185,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>07 - Pai</b></div>
+                <div class="span12"><b>08 - Pai</b></div>
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['father'] ?></span></div>
                 <div class="span4"><b>RG: </b><span class="cc_number"><?= $data['father_rg'] ?></span></div>
                 <div class="span8"><b>CPF: </b><span class="father"><span class="cc_number"><?= $data['father_cpf'] ?></span></div>
@@ -204,7 +210,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     </div>
                 <?php } else { ?>
                     <div id="new_cc">
-                        <div class="span9"><b>08 - Certidão Civil:</b>
+                        <div class="span9"><b>09 - Certidão Civil:</b>
                         </div>
                         <br />
                         <div class="span9"><b>Nº:</b><span class="cc_new"><?= $data['cc_new'] ?></span></div>
@@ -215,20 +221,20 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <tr>
             <td>
                 <div class="span4">
-                    <b>09 - RG: </b><span class="rg"><?= $data['rg'] ?></span>
+                    <b>10 - RG: </b><span class="rg"><?= $data['rg'] ?></span>
                 </div>
                 <div class="span4">
-                    <b>10 - CPF: </b><span class="cpf"><?= $data['cpf'] ?></span>
+                    <b>11 - CPF: </b><span class="cpf"><?= $data['cpf'] ?></span>
                 </div>
                 <div class="span4">
-                    <b>11 - CNS: </b><span class="cns"><?= $data['cns'] ?></span>
+                    <b>12 - CNS: </b><span class="cns"><?= $data['cns'] ?></span>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
                 <div class="span12">
-                    <b>12 - Nome do responsável e parentesco: </b><span class="responsable_name"><?= $data['responsable_name'] ?></span>
+                    <b>13 - Nome do responsável e parentesco: </b><span class="responsable_name"><?= $data['responsable_name'] ?></span>
                 </div>
                 <div class="span4">
                     <b>RG: </b><span class="responsable_rg"><?= $data['responsable_rg'] ?></span>
@@ -243,14 +249,14 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>13 - Grau de escolaridade do responsável:</b>
+                <div class="span10"><b>14 - Grau de escolaridade do responsável:</b>
                     <br><span class="responsable_scholarity"><?= $data['responsable_scholarity'] ?></span>
                     </<div>
             </td>
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>14 - Profissão do responsável: </b>
+                <div class="span10"><b>15 - Profissão do responsável: </b>
                     <br><span class="responsable_job"><?= $data['responsable_job'] ?></span>
                 </div>
             </td>
@@ -267,7 +273,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <?php if (GLOGALGROUP != 1) { ?>
             <tr>
                 <td>
-                    <div class="span12"><b>15 - Matrícula do aluno: </b></div>
+                    <div class="span12"><b>16 - Matrícula do aluno: </b></div>
                     <br>
                     <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
                     <div class="span4"><b>Série: </b><span><?= $enrollment->edcensoStageVsModalityFk->name ?></span></div>
@@ -283,7 +289,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <?php } ?>
         <tr>
             <td>
-                <div class="span10"><b>16 - Documentos(s) que habilita(m) matrícula no segmento: </b>
+                <div class="span10"><b>17 - Documentos(s) que habilita(m) matrícula no segmento: </b>
                     <!--CORRIGIR AQUI--->
                     <!--<div class="received_documents"></div>-->
                     <br>
@@ -294,13 +300,13 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span9"><b>17 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"><?= $data['school_admission_date'] ?></span></b>
+                <div class="span9"><b>18 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"><?= $data['school_admission_date'] ?></span></b>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
-                <div class="span9"><b>18 - Situação do aluno na série/etapa: </b>
+                <div class="span9"><b>19 - Situação do aluno na série/etapa: </b>
                     <br>
                     <div style="margin-right: -20px;">
                         <?php
@@ -323,7 +329,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>19 - Situação do Aluno no ano Anterior: </b></div>
+                <div class="span10"><b>20 - Situação do Aluno no ano Anterior: </b></div>
                 <br>
                 <div class="span3 padding-5" style="margin-right: -20px;">
                     <b><?= ($enrollment->previous_stage_situation == 0) ? '☑' : '☐' ?></b> Não Frequentou
@@ -351,7 +357,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>-->
         <tr>
             <td>
-                <div class="span12"><b>20 - Portador de Necessidades Especiais? </b></div>
+                <div class="span12"><b>21 - Portador de Necessidades Especiais? </b></div>
                 <br>
                 <div class="span2"><b><?= ($data['deficiency'] != 'Não') ? '☑' : '☐' ?></b> Sim</div>
                 <div class="span2"><b><?= ($data['deficiency'] == 'Não') ? '☑' : '☐' ?></b> Não</div>
@@ -362,7 +368,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>21 - Participa do Programa Bolsa Família? </b></div>
+                <div class="span12"><b>22 - Participa do Programa Bolsa Família? </b></div>
                 <!-- <br><span class="bf_participator"><?= $data['bf_participator'] ?></span> -->
                 <div class="span4"><b><?= ($data['bf_participator'] == 'Sim') ? '☑' : '☐' ?></b> Bolsa Família</div>
                 <div class="span4"><b>☐</b> PETI</div>
@@ -374,7 +380,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>22 - Utiliza transporte escolar? </b>
+                <div class="span10"><b>23 - Utiliza transporte escolar? </b>
                     <span class="public_transport">
                         <?= ($enrollment->public_transport == '0') ? 'Não' : 'Sim' ?>
                     </span>
@@ -383,7 +389,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>23 - Restrição alimentar ou alergia a: </b>
+                <div class="span10"><b>24 - Restrição alimentar ou alergia a: </b>
                     <?php
                     $result = '';
 
@@ -430,7 +436,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>24 - Autorização do Termo de Consentimento da Imagem? </b></div>
+                <div class="span12"><b>25 - Autorização do Termo de Consentimento da Imagem? </b></div>
                 <br>
                 <div class="span2"><b><?= ($data['consent_form'] == '1') ? '☑' : '☐' ?></b> Sim</div>
                 <div class="span2"><b><?= ($data['consent_form'] == '0') ? '☑' : '☐' ?></b> Não</div>
