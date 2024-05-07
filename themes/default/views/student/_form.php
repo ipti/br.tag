@@ -28,10 +28,12 @@ $cs->registerScript("", '
 ', CClientScript::POS_HEAD);
 
 
-$form = $this->beginWidget('CActiveForm', array(
-    'id' => 'student',
-    'enableAjaxValidation' => false,
-)
+$form = $this->beginWidget(
+    'CActiveForm',
+    array(
+        'id' => 'student',
+        'enableAjaxValidation' => false,
+    )
 );
 /**
  * @var CActiveForm $form CActiveForm
@@ -159,12 +161,15 @@ $form = $this->beginWidget('CActiveForm', array(
                             <!-- name student -->
                             <div class="t-field-text" id="nameStudents">
                                 <?php echo $form->label($modelStudentIdentification, 'name', array('class' => 't-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'name', array(
-                                    'size' => 60,
-                                    'maxlength' => 100,
-                                    'class' => 't-field-text__input',
-                                    'placeholder' => 'Digite o Nome de Apresentação'
-                                )
+                                <?php echo $form->textField(
+                                    $modelStudentIdentification,
+                                    'name',
+                                    array(
+                                        'size' => 60,
+                                        'maxlength' => 100,
+                                        'class' => 't-field-text__input',
+                                        'placeholder' => 'Digite o Nome de Apresentação'
+                                    )
                                 ); ?>
                                 <span id="similarMessage" data-toggle="tooltip" data-placement="top"
                                     data-original-title="">
@@ -187,12 +192,15 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="t-field-text student-civil-name" id="civilName" style="display: none;">
                                 <?php echo $form->label($modelStudentIdentification, 'civil_name', array('class' => 't-field-text__label--required')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'civil_name', array(
-                                    'size' => 60,
-                                    'maxlength' => 100,
-                                    'class' => 't-field-text__input',
-                                    'placeholder' => 'Digite o Nome Civil'
-                                )
+                                <?php echo $form->textField(
+                                    $modelStudentIdentification,
+                                    'civil_name',
+                                    array(
+                                        'size' => 60,
+                                        'maxlength' => 100,
+                                        'class' => 't-field-text__input',
+                                        'placeholder' => 'Digite o Nome Civil'
+                                    )
                                 ); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
                             </div>
@@ -206,9 +214,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->label($modelStudentIdentification, 'birthday', array('class' => 't-field-text__label--required')); ?>
                                 <?php
                                 $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelStudentIdentification, 'birthday'));
-                                echo CHtml::link('	Limpar', '#', array(
-                                    'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
-                                )
+                                echo CHtml::link(
+                                    '	Limpar',
+                                    '#',
+                                    array(
+                                        'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
+                                    )
                                 );
                                 echo $form->error($modelStudentIdentification, 'birthday');
                                 ?>
@@ -225,7 +236,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </span>
                                 <?php if ($modelStudentDocumentsAndAddress->hasErrors(['cpf'])): ?>
                                     <div style='margin-top: 5px;color: red;'>
-                                        <?= CHtml::encode($modelStudentDocumentsAndAddress->getError(['cpf'])); ?></div>
+                                        <?= CHtml::encode($modelStudentDocumentsAndAddress->getError(['cpf'])); ?>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -311,16 +323,20 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select js-hide-not-required js-change-required">
                                 <?php echo $form->label($modelStudentIdentification, 'edcenso_uf_fk', array('class' => 't-field-select__label--required')); ?>
                                 <?php
-                                echo $form->dropDownList($modelStudentIdentification, 'edcenso_uf_fk', CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'), array(
-                                    'ajax' => array(
-                                        'type' => 'POST',
-                                        'url' => CController::createUrl('student/getcities', array('rt' => 0)),
-                                        'update' => '#StudentIdentification_edcenso_city_fk'
-                                    ),
-                                    "prompt" => "Selecione um estado",
-                                    "class" => "select-search-on nationality-sensitive br t-field-select__input select2-container",
-                                    "disabled" => "disabled",
-                                )
+                                echo $form->dropDownList(
+                                    $modelStudentIdentification,
+                                    'edcenso_uf_fk',
+                                    CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'),
+                                    array(
+                                        'ajax' => array(
+                                            'type' => 'POST',
+                                            'url' => CController::createUrl('student/getcities', array('rt' => 0)),
+                                            'update' => '#StudentIdentification_edcenso_city_fk'
+                                        ),
+                                        "prompt" => "Selecione um estado",
+                                        "class" => "select-search-on nationality-sensitive br t-field-select__input select2-container",
+                                        "disabled" => "disabled",
+                                    )
                                 );
                                 ?>
                                 <?php echo $form->error($modelStudentIdentification, 'edcenso_uf_fk'); ?>
@@ -397,10 +413,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </h3>
                                 <!-- Deficiência -->
                                 <div class="t-field-checkbox" id="deficiency-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
-                                    <?php echo $form->label($modelStudentIdentification, 'deficiency', array('class' => 'control-label t-field-checkbox__label')); ?>
+                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency', ['value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input']); ?>
+                                    <?php echo $form->label($modelStudentIdentification, 'deficiency', ['class' => 'control-label t-field-checkbox__label', 'label' => 'Possui deficiência']); ?>
                                     <?php echo $form->error($modelStudentIdentification, 'deficiency'); ?>
                                 </div>
+
                             </div>
                             <!-- Tipos de deficiência -->
                             <div id="StudentIdentification_deficiencies"
@@ -561,13 +578,16 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="column clearleft is-two-fifths">
                                 <div class="t-field-text js-hide-not-required">
                                     <?php echo $form->label($modelStudentIdentification, 'gov_id', array('class' => 't-field-text__label')); ?>
-                                    <?php echo $form->textField($modelStudentIdentification, 'gov_id', array(
-                                        'size' => 60,
-                                        'maxlength' => 12,
-                                        'class' => 't-field-text__input',
-                                        'placeholder' => 'Não possui',
-                                        'disabled' => 'disabled'
-                                    )
+                                    <?php echo $form->textField(
+                                        $modelStudentIdentification,
+                                        'gov_id',
+                                        array(
+                                            'size' => 60,
+                                            'maxlength' => 12,
+                                            'class' => 't-field-text__input',
+                                            'placeholder' => 'Não possui',
+                                            'disabled' => 'disabled'
+                                        )
                                     ); ?>
                                     <button type="button" id="copy-gov-id" class="t-button-icon">
                                         <span class="t-icon-copy"></span>
@@ -687,12 +707,15 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text js-hide-not-required" id="responsableJob">
                                 <?php echo $form->label($modelStudentIdentification, 'responsable_job', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'responsable_job', array(
-                                    'size' => 60,
-                                    'maxlength' => 100,
-                                    'class' => 't-field-text__input',
-                                    'placeholder' => 'Digite a Profissão do Responsável'
-                                )
+                                <?php echo $form->textField(
+                                    $modelStudentIdentification,
+                                    'responsable_job',
+                                    array(
+                                        'size' => 60,
+                                        'maxlength' => 100,
+                                        'class' => 't-field-text__input',
+                                        'placeholder' => 'Digite a Profissão do Responsável'
+                                    )
                                 ); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'responsable_job'); ?>
                             </div>
@@ -795,12 +818,15 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text  js-hide-not-required js-disabled-finputs" id="rgFiliation1">
                                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_rg', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelStudentIdentification, 'filiation_1_rg', array(
-                                    'size' => 60,
-                                    'maxlength' => 45,
-                                    "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
-                                    'placeholder' => 'Digite o RG da Filiação 1'
-                                )
+                                <?php echo $form->textField(
+                                    $modelStudentIdentification,
+                                    'filiation_1_rg',
+                                    array(
+                                        'size' => 60,
+                                        'maxlength' => 45,
+                                        "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
+                                        'placeholder' => 'Digite o RG da Filiação 1'
+                                    )
                                 ); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_rg'); ?>
                             </div>
@@ -1544,11 +1570,14 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'cep', array('class' => 't-field-text__label')); ?>
                                 <?php
-                                echo $form->textField($modelStudentDocumentsAndAddress, 'cep', array(
-                                    'size' => 8,
-                                    'maxlength' => 9,
-                                    'class' => 't-field-text_input'
-                                )
+                                echo $form->textField(
+                                    $modelStudentDocumentsAndAddress,
+                                    'cep',
+                                    array(
+                                        'size' => 8,
+                                        'maxlength' => 9,
+                                        'class' => 't-field-text_input'
+                                    )
                                 );
                                 ?>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'cep'); ?>
@@ -1859,25 +1888,29 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-select js-hide-not-required" id="stage-select">
                                 <?php echo CHtml::label("Etapa", 'Stage', array('class' => 't-field-select__label')); ?>
                                 <?php
-                                echo CHtml::dropDownList("Stage", null, array(
-                                    "0" => "Selecione a Modalidade",
-                                    "1" => "Infantil",
-                                    "2" => "Fundamental Menor",
-                                    "3" => "Fundamental Maior",
-                                    "4" => "Médio",
-                                    "5" => "Profissional",
-                                    "6" => "EJA",
-                                    "7" => "Outros",
-                                ), array(
-                                    'class' => 'select-search-off t-field-select__input select2-container',
-                                    'ajax' => array(
-                                        'type' => 'POST',
-                                        'url' => CController::createUrl('enrollment/getmodalities'),
-                                        'success' => 'function(data){
+                                echo CHtml::dropDownList(
+                                    "Stage",
+                                    null,
+                                    array(
+                                        "0" => "Selecione a Modalidade",
+                                        "1" => "Infantil",
+                                        "2" => "Fundamental Menor",
+                                        "3" => "Fundamental Maior",
+                                        "4" => "Médio",
+                                        "5" => "Profissional",
+                                        "6" => "EJA",
+                                        "7" => "Outros",
+                                    ),
+                                    array(
+                                        'class' => 'select-search-off t-field-select__input select2-container',
+                                        'ajax' => array(
+                                            'type' => 'POST',
+                                            'url' => CController::createUrl('enrollment/getmodalities'),
+                                            'success' => 'function(data){
                                                 $("#StudentEnrollment_edcenso_stage_vs_modality_fk").html(decodeHtml(data));
                                             }'
-                                    ),
-                                )
+                                        ),
+                                    )
                                 );
                                 ?>
                             </div>
@@ -2219,11 +2252,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                                         <?php
                                                     }
                                                     ?>
-                                                    <a class="t-button-secondary" rel="noopener" target="_blank"
-                                                        href="<?php echo @Yii::app()->createUrl(
-                                                            'forms/EnrollmentGradesReport',
-                                                            array('enrollment_id' => $me->id)
-                                                        ) ?>">
+                                                    <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo @Yii::app()->createUrl(
+                                                        'forms/EnrollmentGradesReport',
+                                                        array('enrollment_id' => $me->id)
+                                                    ) ?>">
                                                         <span class="t-icon-printer"></span>
                                                         Ficha de Notas
                                                     </a>
@@ -2283,12 +2315,8 @@ $form = $this->beginWidget('CActiveForm', array(
                 <div class="tab-pane" id="student-health">
                     <!-- Titulo -->
 
-                    <!-- Deficiência -->
                     <div class="row">
-                        <!-- Deficiência -->
                         <div class="column clearleft is-two-fifths">
-
-
                             <h3>Restrições</h3>
                             <div class="t-field-checkbox-group" id="restrictions-checkbox">
                                 <div class="t-field-checkbox">
