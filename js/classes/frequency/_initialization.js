@@ -24,7 +24,7 @@ function load() {
                 var html = "";
                 html +=
                     `
-                        <div class='container-frequency-over'>
+                        <div class=''>
                         <table class='table-frequency table table-bordered table-striped table-hover'>
                         <thead class='t-accordion__head'>
                         <tr>
