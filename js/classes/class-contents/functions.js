@@ -14,9 +14,12 @@ function createTable(data) {
 
     arrayFaults = [];
 
-    $.each(data.daysFaults, function (index, daysFaults) {
-        arrayFaults.push(parseInt(daysFaults, 10));
-    });
+    if(data.daysFaults !== null){
+        $.each(data.daysFaults, function (index, daysFaults) {
+            arrayFaults.push(parseInt(daysFaults, 10));
+        });
+    }
+
 
     $.each(data.classContents, function (day, classContent) {
         let studentInputs = "";

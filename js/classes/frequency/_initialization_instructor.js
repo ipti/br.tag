@@ -39,12 +39,17 @@ function generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit,
     return data.students.reduce((line, student) => {
         
         arrayFaults = [];
+        let disabledRow;
 
-        $.each(daysFaults, function (index, daysF) {
-            arrayFaults.push(parseInt(daysF, 10));
-        });
+        if (daysFaults !== null) {
+            $.each(daysFaults, function (index, daysF) {
+                arrayFaults.push(parseInt(daysF, 10));
+            });
 
-        let disabledRow = (arrayFaults.includes(parseInt(dia, 10))) ? true : false;
+            disabledRow = (arrayFaults.includes(parseInt(dia, 10))) ? true : false;
+        }else{
+            disabledRow = false;
+        }
 
         if (disabledRow) {
             return line + `
