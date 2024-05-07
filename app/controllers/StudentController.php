@@ -166,11 +166,15 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $criteria->order = $sortColumn . " " . $sortDirection;
 
 
-        $students = StudentIdentification::model()->with("documentsFk")->findAll($criteria);
+
+        $criteria->select = ['id', 'name', 'filiation_1', 'birthday','inep_id', 'sedsp_sync'];
+
+        $students = StudentIdentification::model()->with(["documentsFk" => ['select' => "cpf"]])->findAll($criteria);
 
 
         // Formatar os dados de saída
         $data = array();
+        $isSedspEnable = Yii::app()->features->isEnable("FEAT_SEDSP");
         foreach ($students as $student) {
             $nestedData = array();
             $nestedData[] = "<a href='/?r=student/update&id=" . $student->id . "' cursor: pointer;>" . $student->name . "</a>";
@@ -185,7 +189,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             id='student-delete' href='/?r=student/delete&id=" . $student->id . "'>
                             <img src='" . Yii::app()->theme->baseUrl . '/img/deletar.svg' . "' alt='Excluir'></img>
                             </a>";
-            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+            if ($isSedspEnable) {
                 $sync = "<a style='cursor: pointer;display: inline-block' title='Sincronizar' id='student-sync' class='" . ($student->sedsp_sync ? "sync" : "unsync") . "' href='/?r=student/syncToSedsp&id=" . $student->id . "'>";
                 $sync .= $student->sedsp_sync
                     ? '<img src="' . Yii::app()->theme->baseUrl . '/img/SyncTrue.png" style="width: 25px;text-align: center">'
@@ -489,8 +493,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     Yii::app()->user->setFlash(
                         'error', Yii::t('default', 'Já existe um registro associado a este CPF de um aluno cadastrado!')
                     );
-                    $this->redirect(array('/student/update', 'id' => $modelStudentDocumentsAndAddress->id));    
-                }  
+                    $this->redirect(array('/student/update', 'id' => $modelStudentDocumentsAndAddress->id));
+                }
             }
 
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
@@ -540,7 +544,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                                 }
                             }
                         }
-                        
+
                         if ($saved) {
                             $flash = "success";
                             $msg = 'O Cadastro de ' . $modelStudentIdentification->name . ' foi alterado com sucesso!';
