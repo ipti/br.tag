@@ -471,7 +471,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                         <div class="column clearleft is-two-fifths">
-                            <div class=" t-field-text js-hide-not-required" id="deficiency">
+                            <div class=" t-field-text js-hide-not-required" style="margin-left: 12px;">
                                 <!-- Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros) -->
                                 <div class="t-field-checkbox-group js-visibility-dresource hide-responsive resources-container"
                                     id="resources-checkbox">
@@ -2367,6 +2367,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     </div>
                                 <?php endforeach; ?>
                             </div>
+                        </div>
+                        <div class="column clearleft--on-mobile is-two-fifths">
                             <h3>
                                 Transtornos
                             </h3>
