@@ -1,3 +1,6 @@
+## [Versão 3.78.137]
+- Correção no relatório de ficha individual
+
 ## [Versão 3.78.136]
 - Datepicker modificado para apresentar as informações em português
 - Correção para inconsistências relacionadas a classes
