@@ -115,12 +115,20 @@ function createCard(meal_component, meal, dayMeal) {
         return  item.amount + ' ' + item.foodName.replace(/,/g, '');
     })
 
+    const ingredientStatuses = meal_component.ingredients.map((item) => {
+        return item.statusInventoryFood;
+    });
 
-    testestatusIngrediente = meal_component.ingredients.map((item) => {
-        return  item.statusInventoryFood;
-    })
+    const hasMissingIngredients = ingredientStatuses.includes("Emfalta");
 
-    console.log(testestatusIngrediente)
+    const exclamationSpan = hasMissingIngredients ? `<span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span>` : '';
+
+
+
+    console.log('------>',ingredientStatuses)
+
+
+    // <span class="t-exclamation" style = "color: rgba(210, 28, 28, 1); font-size: 22px; " data-toggle="modal" id="myModal" data-target="#myModal"></span>
 
     return `<div class="t-cards ${dayMeal != day ? "hide" : ""}"  style=" max-width: none;" data-public-target="${meal.foodPublicTargetId}" data-turn="${turn}">
                 <div class="t-cards-content">
@@ -130,15 +138,17 @@ function createCard(meal_component, meal, dayMeal) {
                         </div>
                         <div style="margin:5px;" class="t-tag-secundary">
                             ${turn
-        }
+                        }
                         </div>
                         <div style="margin:5px;" class="t-tag-secundary">
                             ${meal.foodPublicTargetName}
                         </div>
                     </div>
-                    <div class="t-cards-title" style = "cursor: pointer;>
-                        <span class="t-exclamation" style = "color: rgba(210, 28, 28, 1); font-size: 22px; " data-toggle="modal" id="myModal" data-target="#myModal"></span>
-                        ${meal_component.description}
+                    <div class="t-cards-title">
+                        <div class="t-cards-container-custom">
+                            ${exclamationSpan}
+                            ${meal_component.description}
+                        </div>
                     </div>
                     <div class="t-cards-text clear-margin--left">
                         Ingredientes: ${igredients.join(', ')}
