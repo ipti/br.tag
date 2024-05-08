@@ -1,5 +1,6 @@
 let mealsOfWeek = []
 let mealsOfWeekFiltered = []
+let allCardsIngredientsStatus = [];
 const containerCards = $('.js-cards-meals')
 
 
@@ -124,11 +125,17 @@ function createCard(meal_component, meal, dayMeal) {
     const exclamationSpan = hasMissingIngredients ? `<span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span>` : '';
 
 
+    const returnMealsStatus = meal_component.ingredients.map((item) => {
+        return {
+            status: item.statusInventoryFood,
+            foodName: item.foodName.replace(/,/g, '')
+        };
+    });
 
-    console.log('------>',ingredientStatuses)
+    allCardsIngredientsStatus.push(returnMealsStatus);
 
+    console.log('------>',returnMealsStatus)
 
-    // <span class="t-exclamation" style = "color: rgba(210, 28, 28, 1); font-size: 22px; " data-toggle="modal" id="myModal" data-target="#myModal"></span>
 
     return `<div class="t-cards ${dayMeal != day ? "hide" : ""}"  style=" max-width: none;" data-public-target="${meal.foodPublicTargetId}" data-turn="${turn}">
                 <div class="t-cards-content">
@@ -137,8 +144,7 @@ function createCard(meal_component, meal, dayMeal) {
                             ${meal.foodMealTypeDescription}
                         </div>
                         <div style="margin:5px;" class="t-tag-secundary">
-                            ${turn
-                        }
+                            ${turn}
                         </div>
                         <div style="margin:5px;" class="t-tag-secundary">
                             ${meal.foodPublicTargetName}
@@ -154,7 +160,8 @@ function createCard(meal_component, meal, dayMeal) {
                         Ingredientes: ${igredients.join(', ')}
                     </div>
                 </div>
-            </div>`
+            </div>`;
+
 }
 
 $(".js-expansive-panel").on("click", function () {
@@ -162,14 +169,20 @@ $(".js-expansive-panel").on("click", function () {
 })
 
 
-$(document).on("click", ".food_menu_verificad", function () {
-    console.log("Clicou no ícone de exclamação.");
-    $('#myModal .modal-body').html('<p>Conteúdo Dinâmicoooooooooooooooo</p>');
-    $('#myModal').modal('show');
+$(document).on("click", '.t-cards-container-custom', function () {
+    // pegando os dados dos ingredientes e os status
+    const cardIndex = $(this).closest('.t-cards').index();
+    const clickedCardIngredientsStatus = allCardsIngredientsStatus[cardIndex];
+    console.log(clickedCardIngredientsStatus);
+
+    let modalContent = '';
+    clickedCardIngredientsStatus.forEach((ingredient) => {
+        modalContent += `<p>Ingredientes: ${ingredient.foodName}</p>`;
+        // modalContent += `<p>Ingrediente: ${ingredient.foodName}, Status: ${ingredient.status}</p>`;
+    });
+
+    $('#js-status-modal .modal-body').html(modalContent);
+    $('#js-status-modal').modal('show');
 });
-
-
-
-
 
 
