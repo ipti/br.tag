@@ -24,7 +24,7 @@ function load() {
                 var html = "";
                 html +=
                     `
-                        <div class=''>
+                        <div class='container-frequency-over'>
                         <table class='table-frequency table table-bordered table-striped table-hover'>
                         <thead class='t-accordion__head'>
                         <tr>
@@ -42,7 +42,7 @@ function load() {
                 html += "<tr class='day-row sticky'><th></th>" + dayRow + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
                 html += "</thead></div><tbody class='t-accordion__body'>";
                 $.each(data.students, function (indexStudent, student) {
-                    html += "<tr><td class='student-name'>" + student.studentName + "</td>";
+                    html += "<tr><td class='student-name sticky-column'>" + student.studentName + "</td>";
                     $.each(student.schedules, function (indexSchedule, schedule) {
                         var justificationContainer = "";
                         if (schedule.fault) {
