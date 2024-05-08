@@ -4524,7 +4524,7 @@ textarea {
 }
 .modal-backdrop,
 .modal-backdrop.fade.in {
-  opacity: 0.9;
+  opacity: 0.6;
   filter: alpha(opacity=90);
 }
 .modal {

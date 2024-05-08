@@ -376,6 +376,12 @@
     content: 'É';
         font-family: 'icone-tag', sans-serif
 }
+
+.t-exclamation::before{
+    content: 'È';
+        font-family: 'icone-tag', sans-serif
+}
+
 .t-hospital-user::before{
     content: '·';
         font-family: 'icone-tag', sans-serif

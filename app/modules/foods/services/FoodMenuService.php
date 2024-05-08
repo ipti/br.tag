@@ -71,6 +71,7 @@ class FoodMenuService
                     'name' => str_replace(',', '', $food["description"]),
                     'total' => 0, // Inicializa o total como 0
                     'measure' => $measure,
+                    'status' => $food["status"]
                 );
             }
 
@@ -139,18 +140,23 @@ class FoodMenuService
         f.id,
         SUM(fi.amount) as total_amount,
         SUM(fm2.value) as total_value,
-        SUM((fi.amount * fm2.value)) as total
+        SUM((fi.amount * fm2.value)) as total,
+        fi2.status
         FROM food_menu fm
         JOIN food_menu_meal fmm ON fmm.food_menuId = fm.id
         JOIN food_menu_meal_component fmmc ON fmm.id = fmmc.food_menu_mealId
         JOIN food_ingredient fi ON fmmc.id = fi.food_menu_meal_componentId
         JOIN food_measurement fm2 ON fm2.id = fi.food_measurement_fk
         JOIN food f ON f.id = fi.food_id_fk
+        LEFT JOIN food_inventory fi2 on fi2.food_id_fk = f.id and fi2.school_fk = :school
         WHERE fm.start_date <= :date AND fm.final_date >= :date
         GROUP BY turn, fi.food_id_fk ;";
 
-         return Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
+         return Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->bindParam(':school', Yii::app()->user->school)->queryAll();
     }
+
+
+
     public function getNutritionalValue($id)
     {
         $nutritionalValue = array();
@@ -325,6 +331,28 @@ class FoodMenuService
             }
         }
     }
+
+    // public function actionGetstatusFoodInventory()
+    // {
+    //     $schoolFk = Yii::app()->user->school;
+
+    //     $criteria = new CDbCriteria();
+    //     $criteria->with = array('foodRelation');
+    //     $criteria->compare('school_fk', $schoolFk);
+
+    //     $foodInventoryData = FoodInventory::model()->findAll($criteria);
+
+    //     $values = [];
+    //     foreach ($foodInventoryData as $stock) {
+    //         $values[] = array(
+    //             'id' => $stock->id,
+    //             'status' => $stock->status,
+    //             'food_fk' => $stock->food_fk
+    //         );
+    //     }
+
+    //     echo json_encode($values);
+    // }
 }
 /**
  * Classes that represents a foodMenu which will be manipulated and send as response to client request
@@ -378,6 +406,13 @@ class FoodMenuObject
         }
     }
 }
+
+
+
+
+
+
+
 /**
  * Classe that represents a meal from a foodMenu to be loaded in JSON response
  */
@@ -431,6 +466,10 @@ class MealComponentObject
     {
         foreach ($modelIngredients as $modelIngredient) {
             $foodModel = Food::model()->findByPk($modelIngredient->food_id_fk);
+            if(!isset($foodModel)){
+                CVarDumper::dump($modelIngredient, 10, true);
+                exit;
+            }
             $ingredient = new IngredientObject($modelIngredient, $foodModel);
             array_push($this->ingredients, (array) $ingredient);
         }
@@ -451,6 +490,7 @@ class IngredientObject
     public $kcal;
     public $nameFood;
     public $measurementUnit;
+    public $statusInventoryFood;
 
     public function __construct($model, $foodModel)
     {
@@ -465,6 +505,7 @@ class IngredientObject
         $this->kcal = is_numeric($foodModel->energy_kcal) ? round($foodModel->energy_kcal, 2) : $foodModel->energy_kcal;
         $this->nameFood = $foodModel->description;
         $this->measurementUnit = $foodModel->measurementUnit;
-
+        // $this->statusInventoryFood = $model->foodInventory->status;
+        $this->statusInventoryFood = $model->foodInventory->status ?? "Emfalta";
     }
 }

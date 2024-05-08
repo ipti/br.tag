@@ -1,6 +1,8 @@
 let mealsOfWeek = []
 let mealsOfWeekFiltered = []
 const containerCards = $('.js-cards-meals')
+
+
 $.ajax({
     url: "?r=foods/foodmenu/GetMealsOfWeek",
     type: "POST",
@@ -11,6 +13,7 @@ $.ajax({
     renderMeals(mealsOfWeek)
 })
 
+
 $(document).on("click", '.js-change-pagination', function () {
 
     let clicked = $(this)
@@ -20,6 +23,8 @@ $(document).on("click", '.js-change-pagination', function () {
     containerCards.html('')
     renderMeals(mealsOfWeekFiltered)
 })
+
+
 $(document).on("change", '.js-filter-turns, .js-filter-public-target', function (e) {
     const turnFilter = $(".js-filter-turns").select2("val");
     const publicTargetFilter = $(".js-filter-public-target").select2("val");
@@ -45,6 +50,7 @@ $(document).on("change", '.js-filter-turns, .js-filter-public-target', function 
     renderMeals(mealsOfWeekFiltered)
 })
 
+
 function renderMeals(mealsParam) {
 
     let cards = []
@@ -61,6 +67,7 @@ function renderMeals(mealsParam) {
         }, '')
 
     })
+
     containerCards.append(cards)
     cards = mealsParam.wednesday.map((meal) => {
         return meal.mealsComponent.reduce((accumulator, meal_component) => {
@@ -68,6 +75,7 @@ function renderMeals(mealsParam) {
         }, '')
 
     })
+
     containerCards.append(cards)
     cards = mealsParam.thursday.map((meal) => {
         return meal.mealsComponent.reduce((accumulator, meal_component) => {
@@ -75,6 +83,7 @@ function renderMeals(mealsParam) {
         }, '')
 
     })
+
     containerCards.append(cards)
     cards = mealsParam.friday.map((meal) => {
         return meal.mealsComponent.reduce((accumulator, meal_component) => {
@@ -105,6 +114,14 @@ function createCard(meal_component, meal, dayMeal) {
     igredients = meal_component.ingredients.map((item) => {
         return  item.amount + ' ' + item.foodName.replace(/,/g, '');
     })
+
+
+    testestatusIngrediente = meal_component.ingredients.map((item) => {
+        return  item.statusInventoryFood;
+    })
+
+    console.log(testestatusIngrediente)
+
     return `<div class="t-cards ${dayMeal != day ? "hide" : ""}"  style=" max-width: none;" data-public-target="${meal.foodPublicTargetId}" data-turn="${turn}">
                 <div class="t-cards-content">
                     <div class="mobile-row wrap">
@@ -119,11 +136,30 @@ function createCard(meal_component, meal, dayMeal) {
                             ${meal.foodPublicTargetName}
                         </div>
                     </div>
-                    <div class="t-cards-title">${meal_component.description}</div>
-                    <div class="t-cards-text clear-margin--left">Ingredientes: ${igredients.join(', ')} </div>
+                    <div class="t-cards-title" style = "cursor: pointer;>
+                        <span class="t-exclamation" style = "color: rgba(210, 28, 28, 1); font-size: 22px; " data-toggle="modal" id="myModal" data-target="#myModal"></span>
+                        ${meal_component.description}
+                    </div>
+                    <div class="t-cards-text clear-margin--left">
+                        Ingredientes: ${igredients.join(', ')}
+                    </div>
                 </div>
             </div>`
 }
+
 $(".js-expansive-panel").on("click", function () {
     $(".t-expansive-panel").toggle("expanded");
 })
+
+
+$(document).on("click", ".food_menu_verificad", function () {
+    console.log("Clicou no ícone de exclamação.");
+    $('#myModal .modal-body').html('<p>Conteúdo Dinâmicoooooooooooooooo</p>');
+    $('#myModal').modal('show');
+});
+
+
+
+
+
+

@@ -47,6 +47,37 @@ class FoodIngredient extends CActiveRecord
     /**
      * @return array relational rules.
      */
+    // public function relations()
+    // {
+    //     // NOTE: you may need to adjust the relation name and the related
+    //     // class name for the relations automatically generated below.
+    //     return array(
+    //         'foodMenuMealComponent' => array(self::BELONGS_TO, 'FoodMenuMealComponent', 'food_menu_meal_componentId'),
+    //         'foodMeasurementFk' => array(self::BELONGS_TO, 'FoodMeasurement', 'food_measurement_fk'),
+    //         'foodIdFk' => array(self::BELONGS_TO, 'Food', 'food_id_fk'),
+    //         'foodIngredientAlternatives' => array(self::HAS_MANY, 'FoodIngredientAlternatives', 'food_ingredient_fk'),
+    //     );
+    // }
+
+    // public function relations()
+    // {
+    //     // NOTE: you may need to adjust the relation name and the related
+    //     // class name for the relations automatically generated below.
+    //     return array(
+    //         'foodMenuMealComponent' => array(self::BELONGS_TO, 'FoodMenuMealComponent', 'food_menu_meal_componentId'),
+    //         'foodMeasurementFk' => array(self::BELONGS_TO, 'FoodMeasurement', 'food_measurement_fk'),
+    //         'foodIdFk' => array(self::BELONGS_TO, 'Food', 'food_id_fk'),
+    //         'foodIngredientAlternatives' => array(self::HAS_MANY, 'FoodIngredientAlternatives', 'food_ingredient_fk'),
+    //         'foodInventory' => array(
+    //             self::HAS_ONE,
+    //             FoodInventory::class,
+    //             'food_fk'
+    //         )
+
+    //     );
+    // }
+
+
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
@@ -56,6 +87,14 @@ class FoodIngredient extends CActiveRecord
             'foodMeasurementFk' => array(self::BELONGS_TO, 'FoodMeasurement', 'food_measurement_fk'),
             'foodIdFk' => array(self::BELONGS_TO, 'Food', 'food_id_fk'),
             'foodIngredientAlternatives' => array(self::HAS_MANY, 'FoodIngredientAlternatives', 'food_ingredient_fk'),
+            'foodInventory' => array(
+                self::BELONGS_TO,
+                FoodInventory::class,
+                ['food_id_fk' => 'food_fk' ],
+                'joinType' => "LEFT JOIN",
+                "together" => true,
+                'condition' => 'foodInventory.school_fk =' . Yii::app()->user->school,
+            )
         );
     }
 
