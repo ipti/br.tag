@@ -627,9 +627,12 @@ function loadStructure() {
                 ).show();
 
                 if (Object.keys(data.unities).length) {
+                    let newUnityButton = $(".js-new-unity");
                     $.each(data.unities, function (e) {
-                        debugger
-                        $(".js-new-unity").trigger("click");
+                        if(newUnityButton.hasClass('disabled')) {
+                            newUnityButton.removeClass("disabled");
+                        }
+                        newUnityButton.trigger("click");
                         const unity = $(".unity").last();
                         unity.find(".unity-name").val(this.name);
                         unity.find(".unity-title").html(this.name);
