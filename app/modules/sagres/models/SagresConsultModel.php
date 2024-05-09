@@ -583,7 +583,7 @@ class SagresConsultModel
         $scheduleList = [];
         $strlen = 3;
         $maxLength = 100;
-
+        
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
 
         $query = "SELECT DISTINCT
@@ -642,24 +642,39 @@ class SagresConsultModel
 
         if(!empty($getTeachersForClass)) {
             foreach($getTeachersForClass as $teachers) {
-                $componentesCurriculares = $this->getComponentesCurriculares($classId, $teachers['instructor_fk']);
-                if(empty($componentesCurriculares)){
+
+                $name = $teachers['name'];
+                $idTeacher = $teachers['instructor_fk'];
+                $infoTeacher = \InstructorDocumentsAndAddress::model()->findByPk($idTeacher, array('select' => 'id, cpf'));
+                $cpfInstructor = $infoTeacher['cpf'];
+
+                if($cpfInstructor === null){
                     $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = TURMA_STRONG;
+                    $inconsistencyModel->enrollment = '<strong>PROFESSOR<strong>';
                     $inconsistencyModel->school = $school->name;
-                    $inconsistencyModel->description = 'O professor <strong>' . $teachers['name'] . '</strong> está sem seus componentes curriculares para a turma: <strong>' . $class->name . '<strong>';
-                    $inconsistencyModel->action = 'Adicione os componentes curriculares para o professor: <strong>' . $teachers['name'] . '</strong>';
-                    $inconsistencyModel->identifier = '10';
+                    $inconsistencyModel->description = 'CPF não foi informado para o professor(a): <strong>' . $name .'</strong>';
+                    $inconsistencyModel->action = 'Informar um CPF válido para o professor';
+                    $inconsistencyModel->identifier = '3';
+                    $inconsistencyModel->idProfessional = $idTeacher;
                     $inconsistencyModel->idClass = $classId;
                     $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
+                }else {
+                    if (!$this->validaCPF($cpfInstructor)) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>PROFESSOR<strong>';
+                        $inconsistencyModel->school = $school->name;
+                        $inconsistencyModel->description = 'CPF do professor(a) <strong>'. $name . '</strong> é inválido: <strong>' . $cpfInstructor . '</strong>';
+                        $inconsistencyModel->action = 'Informar um CPF válido para o professor(a)';
+                        $inconsistencyModel->identifier = '3';
+                        $inconsistencyModel->idProfessional = $idTeacher;
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->idSchool = $inepId;
+                        $inconsistencyModel->insert();
+                    }
                 }
-            }
-        }
 
-        if(!empty($getTeachersForClass)) {
-            foreach($getTeachersForClass as $teachers) {
-                $componentesCurriculares = $this->getComponentesCurriculares($classId, $teachers['instructor_fk']);
+                $componentesCurriculares = $this->getComponentesCurriculares($classId, $idTeacher);
                 if(empty($componentesCurriculares)){
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = TURMA_STRONG;
@@ -734,20 +749,7 @@ class SagresConsultModel
                     $inconsistencyModel->idClass = $classId;
                     $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
-                }
-
-                $cpfInstructor = $scheduleType->getCpfProfessor();
-                if (!$this->validaCPF($cpfInstructor[0])) {
-                    $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = '<strong>HORÁRIO<strong>';
-                    $inconsistencyModel->school = $school->name;
-                    $inconsistencyModel->description = 'CPF do professor é inválido, vinculado a turma: ';
-                    $inconsistencyModel->action = 'Informar um CPF válido para o professor';
-                    $inconsistencyModel->identifier = '10';
-                    $inconsistencyModel->idClass = $classId;
-                    $inconsistencyModel->idSchool = $inepId;
-                    $inconsistencyModel->insert();
-                }
+                }             
 
                 if (strlen($scheduleType->getDisciplina()) < $strlen) {
                     $inconsistencyModel = new ValidationSagresModel();
@@ -997,7 +999,7 @@ class SagresConsultModel
                 $inconsistencyModel->insert();
             }
 
-            if (!$this->validateDate($menuType->getData(), 'Y-m-d', 1)) {
+            if (!$this->validateDate($menuType->getData(), 'Y-m-d', 2)) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'CARDÁPIO';
                 $inconsistencyModel->school = $schoolRes['name'];
