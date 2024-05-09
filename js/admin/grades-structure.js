@@ -628,6 +628,7 @@ function loadStructure() {
 
                 if (Object.keys(data.unities).length) {
                     $.each(data.unities, function (e) {
+                        debugger
                         $(".js-new-unity").trigger("click");
                         const unity = $(".unity").last();
                         unity.find(".unity-name").val(this.name);
@@ -654,24 +655,20 @@ function loadStructure() {
                     });
                 }
                 if (data.partialRecoveries.length > 0) {
+                    $('#accordion-partial-recovery').empty()
                     $.each(data.partialRecoveries, function (index, element) {
                         let unities = element.unities;
-                        let unityOptions = [];
+                        let unityOptionsSelected = [];
                         $.each(unities, function (index, unity) {
-                            value = unity.name;
-                            name = unity.id;
-                            unityOptions += template`
-                                <option value="${value}">${name}</option>
-                            `
+                            let value = unity.id;
+                            unityOptionsSelected.push(value);
                         });
-                        /* console.log(unities)
-                        console.log(unityOptions) */
-                        let newAccordion = addAccordion(element.media, element.name, element.mediaCalculation, unityOptions)
-
+                        let newAccordion = addAccordion(element.id, element.media, element.name, element.mediaCalculation)
                         $('#accordion-partial-recovery').append(newAccordion)
+
+                        $("select.js-partial-recovery-unities").last().select2();
+                        $("select.js-partial-recovery-unities").last().select2("val", unityOptionsSelected);
                     });
-                    $(".js-partial-recovery-unities").select2()
-                    $(".js-partial-recovery-unities").trigger("change")
                 }
                 $(".grades-buttons").css("display", "flex");
                 $(
@@ -713,7 +710,7 @@ $(document).on("keyup", ".approval-media, .final-recover-media, .partial-recover
     this.value = val;
 });
 
- function addAccordion(media, name, mediaCalculation, unities) {
+ function addAccordion(id, media, name, mediaCalculation) {
     let  partialRecovery = 0;
     if( $(".partial-recovery").length > 0){
          lastAccordion = Number($("#accordion-partial-recovery .partial-recovery:last").attr("data-index"));
@@ -731,7 +728,7 @@ $(document).on("keyup", ".approval-media, .final-recover-media, .partial-recover
             <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="font-size: 20px;"></span>
         </div>
         <div id="partial-recovery-collapse-${partialRecovery}" class="collapse ${collapse}  partial-recovery-accordion-body">
-            <input type='hidden' class="partial-recovery-id">
+            <input type='hidden' class="partial-recovery-id" value="${id}">
             <input type="hidden" class="partial-recovery-operation" value="create">
             <div class="t-field-text js-recovery-media-visibility">
                 <label class="t-field-text__label--required">Média de Rec. Semestral</span></label>
@@ -749,7 +746,7 @@ $(document).on("keyup", ".approval-media, .final-recover-media, .partial-recover
                 </select>
                 <div class="t-multiselect">
                     <label class='t-field-select__label--required'>Unidades:</label>
-                    <select class="t-field-select__input multiselect select-search-on js-partial-recovery-unities" multiple="multiple" value="${unities}">
+                    <select class="t-field-select__input multiselect select-search-on js-partial-recovery-unities" multiple="multiple">
                         ${unityOptions}
                     </select>
                 </div>
@@ -771,14 +768,13 @@ function getUnityOptions() {
             <option value="${value}">${name}</option>
         `
     });
-    console.log(unityOptions)
     return unityOptions;
 }
 
 $(document).on("click", ".js-new-partial-recovery", (e) => {
     if(!$(".js-new-partial-recovery").hasClass("disabled")){
 
-        newAccordion = addAccordion("","","",[]);
+        newAccordion = addAccordion("","","","");
         $('#accordion-partial-recovery').append(newAccordion)
         $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities").select2();
         $('.js-new-unity').addClass('disabled');

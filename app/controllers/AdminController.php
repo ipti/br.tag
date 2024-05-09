@@ -248,6 +248,7 @@ class AdminController extends Controller
         $gPartialRecoveries = GradePartialRecovery::model()->findAllByAttributes(array('grade_rules_fk' => $gradeRules->id));
         foreach ($gPartialRecoveries as $partialRecovery) {
             $resultPartialRecovery = array();
+            $resultPartialRecovery["id"] = $partialRecovery->id;
             $resultPartialRecovery["name"] = $partialRecovery->name;
             $resultPartialRecovery["media"] = $partialRecovery->partial_recover_media;
             $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;

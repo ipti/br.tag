@@ -56,7 +56,7 @@ class UpdateGradeRulesUsecase
         if($this->hasPartialRecovery === true) {
 
             foreach ($this->partialRecoveries as  $partialRecovery) {
-            $modelPartialRecovery = GradePartialRecovery::model()->find($partialRecovery['id']);
+            $modelPartialRecovery = GradePartialRecovery::model()->findByPk($partialRecovery['id']);
 
                 if ($partialRecovery["operation"] === "delete") {
                     $modelPartialRecovery->delete();
