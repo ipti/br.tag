@@ -17,7 +17,6 @@ $cs->registerScriptFile($baseUrl . '/js/student/form/validations.js?v=' . TAG_VE
 $cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/datepicker-pt-BR.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
-
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -212,17 +211,13 @@ $form = $this->beginWidget(
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-text" id="dateOfBirth">
                                 <?php echo $form->label($modelStudentIdentification, 'birthday', array('class' => 't-field-text__label--required')); ?>
-                                <?php
-                                $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelStudentIdentification, 'birthday'));
-                                echo CHtml::link(
-                                    '	Limpar',
-                                    '#',
-                                    array(
+								<?php
+                                    $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelStudentIdentification, 'birthday'));
+                                    echo CHtml::link('	Limpar', '#', array(
                                         'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
-                                    )
-                                );
-                                echo $form->error($modelStudentIdentification, 'birthday');
-                                ?>
+                                    ));
+                                    echo $form->error($modelStudentIdentification, 'birthday');
+								?>
                             </div>
                         </div>
                         <!-- CPF -->

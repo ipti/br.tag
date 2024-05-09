@@ -3,6 +3,7 @@
 
 ## [Versão 3.78.137]
 - corrigido erro na tela de estoque do novo módulo de merenda
+- Realizado validação para quadro de horários sem componentes
 
 ## [Versão 3.78.136]
 - Datepicker modificado para apresentar as informações em português
