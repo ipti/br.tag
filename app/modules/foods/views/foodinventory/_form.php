@@ -37,6 +37,7 @@ $form=$this->beginWidget('CActiveForm', array(
         <a class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</a>
         <a class="t-button-secondary hide"><span class="t-icon-printer"></span>Relatório de Estoque</a>
     </div>
+
     <div class="row">
         <div class="t-field-select column is-two-fifths clearfix">
             <select class="select-search-on t-field-select__input select2-container" id="foodStockSelect">
@@ -44,12 +45,14 @@ $form=$this->beginWidget('CActiveForm', array(
             </select>
         </div>
     </div>
+
     <div class="row show--tabletDesktop">
         <div class="column is-four-fifths clearfix">
             <table id="foodStockTable"  aria-describedby="FoodStockTable" class="tag-table-secondary align-start">
             </table>
         </div>
     </div>
+
     <div id="foodStockList" class="row show--mobile">
     </div>
 

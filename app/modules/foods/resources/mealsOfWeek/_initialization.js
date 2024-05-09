@@ -169,20 +169,45 @@ $(".js-expansive-panel").on("click", function () {
 })
 
 
-$(document).on("click", '.t-cards-container-custom', function () {
-    // pegando os dados dos ingredientes e os status
-    const cardIndex = $(this).closest('.t-cards').index();
-    const clickedCardIngredientsStatus = allCardsIngredientsStatus[cardIndex];
-    console.log(clickedCardIngredientsStatus);
 
-    let modalContent = '';
-    clickedCardIngredientsStatus.forEach((ingredient) => {
-        modalContent += `<p>Ingredientes: ${ingredient.foodName}</p>`;
-        // modalContent += `<p>Ingrediente: ${ingredient.foodName}, Status: ${ingredient.status}</p>`;
+$(document).on("click", '.t-cards-container-custom', function () {
+
+    $(function () {
+        $( "#accordion-item-food" ).accordion({
+            active: false,
+            collapsible: true,
+            icons: false,
+            heightStyle: "content",
+            animate: 600
+        });
     });
 
-    $('#js-status-modal .modal-body').html(modalContent);
+
+    const cardIndex = $(this).closest('.t-cards').index();
+    const clickedCardIngredientsStatus = allCardsIngredientsStatus[cardIndex];
+
+    let modalContent = '';
+    let hasMissingIngredients = false;
+
+    clickedCardIngredientsStatus.forEach((ingredient) => {
+        modalContent += `<p>Ingrediente: ${ingredient.foodName}</p>`;
+        if (ingredient.status === "Emfalta") {
+            hasMissingIngredients = true;
+        }
+    });
+
+    if (hasMissingIngredients) {
+        modalContent += "<p>Essa refeição tem ingredientes faltantes:</p>";
+
+        clickedCardIngredientsStatus.forEach((ingredient) => {
+            if (ingredient.status === "Emfalta") {
+                modalContent += `<p>Ingrediente: ${ingredient.foodName}, Status: ${ingredient.status}</p>`;
+            }
+        });
+    } else {
+        modalContent += "<p>Essa refeição não tem ingredientes faltantes</p>";
+    }
+
+    $('#js-status-modal .modal-x').html(modalContent);
     $('#js-status-modal').modal('show');
 });
-
-

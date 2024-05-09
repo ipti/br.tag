@@ -102,17 +102,22 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
     </div>
 
 
-    <div class="modal fade t-modal-container larger" id="js-status-modal" tabindex="-1" role="dialog">
+    <div class="modal fade t-modal-container" id="js-status-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Ingredientes de Cardápio</h4>
+                <div class="t-modal__header">
+                    <div class="header-content-left">
+                        <h4 class="modal-title" id="myModalLabel">Ingredientes de Cardápio</h4>
+                        <div class="modal-x"></div>
+                    </div>
+                    <div class="header-content-right">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
                     </button>
+                    </div>
                 </div>
                 <div class="modal-body">
-                    <!-- Conteúdo do modal será adicionado aqui dinamicamente -->
+                    <h3>OLHAAA</h3>
                 </div>
             </div>
         </div>
