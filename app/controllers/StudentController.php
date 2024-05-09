@@ -31,6 +31,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     private $STUDENT_DOCUMENTS_AND_ADDRESS = 'StudentDocumentsAndAddress';
     private $STUDENT_ENROLLMENT = 'StudentEnrollment';
     private $STUDENT_RESTRICTIONS = 'StudentRestrictions';
+    private $STUDENT_DISORDER = 'StudentDisorder';
 
     public function authenticateSedToken()
     {
@@ -313,6 +314,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $modelStudentDocumentsAndAddress = new StudentDocumentsAndAddress;
         $modelEnrollment = new StudentEnrollment;
         $modelStudentRestrictions = new StudentRestrictions;
+        $modelStudentDisorder = new StudentDisorder;
 
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $modelStudentIdentification->id]]);
@@ -326,11 +328,12 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         // $this->performAjaxValidation($model
         if (
             isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])
-            && isset($_POST[$this->STUDENT_RESTRICTIONS])
+            && isset($_POST[$this->STUDENT_RESTRICTIONS]) && isset($_POST[$this->STUDENT_DISORDER])
         ) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             $modelStudentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
+            $modelStudentDisorder->attributes = $_POST[$this->STUDENT_DISORDER];
 
             // Validação CPF->Certidão->Nome
             if ($modelStudentDocumentsAndAddress->cpf != null) {
@@ -364,9 +367,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 if ($modelStudentIdentification->save()) {
                     $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
                     $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
+                    $modelStudentDisorder->student_fk = $modelStudentIdentification->id;
 
                     if ($modelStudentDocumentsAndAddress->validate()) {
-                        if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save()) {
+                        if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save() && $modelStudentDisorder->save()) {
                             $saved = true;
                             if (
                                 isset($_POST[$this->STUDENT_ENROLLMENT], $_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
@@ -430,13 +434,12 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 }
             }
         }
-        //$modelEnrollment = array();
-        //array_push($modelEnrollment,  new StudentEnrollment);
 
         $this->render('create', array(
             'modelStudentIdentification' => $modelStudentIdentification,
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
             'modelStudentRestrictions' => $modelStudentRestrictions,
+            'modelStudentDisorder' => $modelStudentDisorder,
             'modelEnrollment' => $modelEnrollment,
             'vaccines' => $vaccines,
             'studentVaccinesSaves' => $studentVaccinesSaves
@@ -454,6 +457,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $modelStudentIdentification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
         $modelStudentRestrictions = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
+        $modelStudentDisorder = $this->loadModel($id, $this->STUDENT_DISORDER);
+
+        $oldCpf = $modelStudentDocumentsAndAddress->cpf;
 
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
         $studentVaccinesSaves = StudentVaccine::model()->findAll(['select' => 'vaccine_id', 'condition' => 'student_id=:student_id', 'params' => [':student_id' => $id]]);
@@ -466,11 +472,12 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
         if (
             isset($_POST[$this->STUDENT_IDENTIFICATION]) && isset($_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS])
-            && isset($_POST[$this->STUDENT_RESTRICTIONS])
+            && isset($_POST[$this->STUDENT_RESTRICTIONS]) && isset($_POST[$this->STUDENT_DISORDER])
         ) {
             $modelStudentIdentification->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
             $modelStudentDocumentsAndAddress->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
             $modelStudentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
+            $modelStudentDisorder->attributes = $_POST[$this->STUDENT_DISORDER];
             //Atributos comuns entre as tabelas
             $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
@@ -478,11 +485,25 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
 
+            $newCpf = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS]['cpf'];
+
+            if($oldCpf !== $newCpf && $newCpf !== "") {
+                $existCpf = StudentDocumentsAndAddress::model()->findByAttributes(array('cpf' => $modelStudentDocumentsAndAddress->cpf));
+
+                if($existCpf !== null) {
+                    Yii::app()->user->setFlash(
+                        'error', Yii::t('default', 'Já existe um registro associado a este CPF de um aluno cadastrado!')
+                    );
+                    $this->redirect(array('/student/update', 'id' => $modelStudentDocumentsAndAddress->id));
+                }
+            }
+
             if ($modelStudentIdentification->validate() && $modelStudentDocumentsAndAddress->validate()) {
                 if ($modelStudentIdentification->save()) {
                     $modelStudentRestrictions->student_fk = $modelStudentIdentification->id;
+                    $modelStudentDisorder->student_fk = $modelStudentIdentification->id;
                     $modelStudentDocumentsAndAddress->id = $modelStudentIdentification->id;
-                    if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save()) {
+                    if ($modelStudentDocumentsAndAddress->save() && $modelStudentRestrictions->save() && $modelStudentDisorder->save()) {
                         $saved = true;
                         if (
                             isset($_POST[$this->STUDENT_ENROLLMENT], $_POST[$this->STUDENT_ENROLLMENT]["classroom_fk"])
@@ -572,6 +593,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             'modelStudentIdentification' => $modelStudentIdentification,
             'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
             'modelStudentRestrictions' => $modelStudentRestrictions,
+            'modelStudentDisorder' => $modelStudentDisorder,
             'modelEnrollment' => $modelEnrollment,
             'vaccines' => $vaccines,
             'studentVaccinesSaves' => $studentVaccinesSaves
@@ -808,6 +830,11 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $return = StudentRestrictions::model()->findByAttributes(array('student_fk' => $id));
             if ($return === null) {
                 $return = new StudentRestrictions;
+            }
+        } elseif ($model == $this->STUDENT_DISORDER) {
+            $return = StudentDisorder::model()->findByAttributes(array('student_fk' => $id));
+            if ($return === null) {
+                $return = new StudentDisorder;
             }
         }
 

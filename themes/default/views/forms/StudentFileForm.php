@@ -425,7 +425,23 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>24 - Autorização do Termo de Consentimento da Imagem? </b></div>
+                <div class="span12"><b>24 - Portador de algum tipo de transtorno? </b></div>
+                <br>
+                <div style="margin-left: 10px;">
+                    <div class="padding-5"><b><?= ($data['tdah'] == '1') ? '☑' : '☐' ?></b> Transtorno do déficit de atenção com hiperatividade (TDAH)</div>
+                    <div class="padding-5"><b><?= ($data['depressao'] == '1') ? '☑' : '☐' ?></b> Transtorno depressivo (depressão)</div>
+                    <div class="padding-5"><b><?= ($data['tab'] == '1') ? '☑' : '☐' ?></b> Transtorno bipolar (TAB)</div>
+                    <div class="padding-5"><b><?= ($data['toc'] == '1') ? '☑' : '☐' ?></b> Transtorno obsessivo compulsivo (TOC)</div>
+                    <div class="padding-5"><b><?= ($data['tag'] == '1') ? '☑' : '☐' ?></b> Transtorno de ansiedade generalizada (TAG)</div>
+                    <div class="padding-5"><b><?= ($data['tod'] == '1') ? '☑' : '☐' ?></b> Distúrbio desafiador e de oposição (TOD)</div>
+                    <div class="padding-5"><b><?= ($data['tcne'] == '1') ? '☑' : '☐' ?></b> Transtorno de conduta não especificado</div>
+                    <div class="padding-5"><b>Outros transtornos de conduta: </b><?= ($data['disorder_others'])?></div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="span12"><b>25 - Autorização do Termo de Consentimento da Imagem? </b></div>
                 <br>
                 <div class="span2"><b><?= ($data['consent_form'] == '1') ? '☑' : '☐' ?></b> Sim</div>
                 <div class="span2"><b><?= ($data['consent_form'] == '0') ? '☑' : '☐' ?></b> Não</div>

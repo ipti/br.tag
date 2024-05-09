@@ -18,8 +18,14 @@ class FoodmenuController extends Controller
         // Verifica se há dados na requisição enviada
         // Caso negativo, renderiza o formulário
         if ($request === null) {
+            $mealTypeList = $this->actionGetMealType();
+            $tacoFoodsList = $this->actionGetTacoFoods();
+            $foodMeasurementList = $this->actionGetFoodMeasurement();
             $this->render('create', array(
                 'model' => $modelFoodMenu,
+                'mealTypeList' => $mealTypeList,
+                'tacoFoodsList' => $tacoFoodsList,
+                'foodMeasurementList' => $foodMeasurementList,
             ));
             Yii::app()->end();
         }
@@ -96,9 +102,14 @@ class FoodmenuController extends Controller
             $foodMenu  = $getFoodMenu->exec($modelFoodMenu, $publicTarget, $modelMenuMeals);
 
             // Convertendo objeto do cardápio em um JSON para enviar como resposta da requisição AJAX
-
+            $mealTypeList = $this->actionGetMealType();
+            $tacoFoodsList = $this->actionGetTacoFoods();
+            $foodMeasurementList = $this->actionGetFoodMeasurement();
             $this->render('update', array(
                 'model' => $foodMenu,
+                'mealTypeList' => $mealTypeList,
+                'tacoFoodsList' => $tacoFoodsList,
+                'foodMeasurementList' => $foodMeasurementList,
             ));
             Yii::app()->end();
         }
@@ -156,7 +167,7 @@ class FoodmenuController extends Controller
         foreach ($foods as $food) {
             $resultArray[$food->id] = $food->description;
         }
-        echo json_encode($resultArray);
+        return $resultArray;
     }
     public function actionGetFood()
     {
@@ -270,7 +281,13 @@ class FoodmenuController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new CActiveDataProvider('FoodMenu');
+        $dataProvider = new CActiveDataProvider(
+           'foodmenu',
+            array(
+                'pagination' => false
+            )
+        );
+
         $this->render('index', array(
             'dataProvider' => $dataProvider,
         ));
@@ -356,7 +373,7 @@ class FoodmenuController extends Controller
                 )
             );
         }
-        echo CJSON::encode($options);
+        return $options;
     }
 
     /**
@@ -377,6 +394,6 @@ class FoodmenuController extends Controller
                 )
             );
         }
-        echo CJSON::encode($options);
+        return $options;
     }
 }

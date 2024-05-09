@@ -246,20 +246,13 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'initial_date',
                                     array('class' => 't-field-text__label')
                                 ); ?>
-                                <?php echo $form->textField(
-                                    $modelSchoolIdentification,
-                                    'initial_date',
-                                    array(
-                                        'size' => 10,
-                                        'maxlength' => 10,
-                                        'placeholder' => 'Digite a Data Inicial (Dia/Mês/Ano)',
-                                        'class' => 't-field-text__input'
-                                    )
-                                ); ?>
-                                <?php echo $form->error(
-                                    $modelSchoolIdentification,
-                                    'initial_date'
-                                ); ?>
+								<?php
+									$this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelSchoolIdentification, 'initial_date'));
+                                    echo CHtml::link('	Limpar', '#', array(
+                                        'onclick' => '$("#' . CHtml::activeId($modelSchoolIdentification, 'initial_date') . '").datepicker("setDate", null); return false;',
+									));
+									echo $form->error($modelSchoolIdentification, 'initial_date');
+								?>
                             </div>
                         </div>
                     </div>
@@ -3463,7 +3456,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <label class="t-field-checkbox__label--required">
-                                <?php echo Yii::t('default', 'Internet Access'); ?> 
+                                <?php echo Yii::t('default', 'Internet Access'); ?>
                             </label>
                             <div class="t-field-checkbox-group internet-access-container">
                                 <div class="t-field-checkbox">

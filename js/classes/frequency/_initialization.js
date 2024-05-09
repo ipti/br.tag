@@ -232,6 +232,7 @@ $(document).on("click", ".btn-save-justification", function () {
         },
         success: function (data) {
             var justification = $(".table-frequency tbody .frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "][year=" + $("#justification-year").val() + "]").parent().find(".frequency-justification-icon");
+            console.log(justification)
             if ($(".justification-text").val() == "") {
                 justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
                 justification.attr("data-original-title", "").tooltip('hide');

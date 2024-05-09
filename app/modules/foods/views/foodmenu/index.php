@@ -2,6 +2,8 @@
 /* @var $this FoodMenuController */
 /* @var $model FoodMenu */
 
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Cardápios'));
+
 $this->breadcrumbs = array(
 	'Food Menus' => array('index'),
 	'Manage',

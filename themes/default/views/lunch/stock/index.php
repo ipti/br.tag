@@ -144,7 +144,8 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                                 <?= CHtml::dropDownList(
                                     'Inventory[item]',
                                     '',
-                                    CHtml::listData(Item::model()->findAll(), 'id', 'concatName'),
+                                    // [],
+                                    $items,
                                     ['class' => 'pull-left span12']
                                 ); ?>
 
@@ -173,7 +174,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                 </div>
                 <div class="widget-body" style="overflow: hidden;">
                     <div class="row-fluid">
-                        <div class=" span6" style="margin-right:12px">
+                        <div class=" span5" style="margin-right:12px">
                             <?= CHtml::label(Yii::t('lunchModule.labels', 'Name'), 'Name', array('class' => 'control-label')); ?>
                             <div class="controls span12">
                                 <?= CHtml::textField('Item[name]', '', ['class' => ' span10', 'style' => 'height:44px;width:100%;']); ?>
@@ -191,12 +192,13 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                                 <?= CHtml::numberField('Item[measure]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
                             </div>
                         </div>
-                        <div class=" span2" style="width: 10%;">
+                        <div class=" span2" style="">
                             <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label', 'style' => 'width:auto')); ?>
                             <div class="controls span12">
                                 <?= CHtml::dropDownList(
                                     'Item[unity_fk]',
                                     '',
+                                    // [],
                                     CHtml::listData(Unity::model()->findAll(), 'id', 'acronym'),
                                     ['class' => ' span8', 'style' => 'width:100%']
                                 ); ?>
@@ -245,7 +247,8 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                         <?= CHtml::dropDownList(
                             'Item',
                             '',
-                            CHtml::listData(Item::model()->findAll(), 'id', 'concatName'),
+                            // [],
+                            $items,
                             ['class' => 'span10', 'style' => 'width: 100%']
                         ); ?>
                     </div>

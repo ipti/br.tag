@@ -12,10 +12,11 @@
         'modelStudentIdentification' => $modelStudentIdentification,
         'modelStudentDocumentsAndAddress' => $modelStudentDocumentsAndAddress,
         'modelStudentRestrictions' => $modelStudentRestrictions,
+        'modelStudentDisorder' => $modelStudentDisorder,
         'modelEnrollment' => $modelEnrollment,
         'vaccines' => $vaccines,
         'studentVaccinesSaves' => $studentVaccinesSaves,
         'title' => $title
     ));
-    ?>        
+    ?>
 </div>
