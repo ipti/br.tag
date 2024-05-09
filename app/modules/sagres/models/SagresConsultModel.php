@@ -106,7 +106,7 @@ class SagresConsultModel
                 ->bindValue(':managementUnitId', $managementUnitId)
                 ->queryRow();
 
-            $headerType = new CabecalhoTType();      
+            $headerType = new CabecalhoTType();
             $finalDay = $this->ajustarUltimoDiaUtil($referenceYear, $month, $finalDay);
             $headerType
                 ->setCodigoUnidGestora($managementUnit['managementUnitCode'])
@@ -165,7 +165,7 @@ class SagresConsultModel
     private function ajustarUltimoDiaUtil($referenceYear, $month, $finalDay) {
         $url = "https://brasilapi.com.br/api/feriados/v1/" . $referenceYear;
         $responseFeriados = file_get_contents($url);
-    
+
         if($responseFeriados !== false) {
             $datas = json_decode($responseFeriados, true);
             if($datas !== null) {
@@ -175,17 +175,17 @@ class SagresConsultModel
                         continue;
                     if($mes > $month)
                         break;
-                    
+
                     $day = (int) substr($data['date'], -2);
                     if($day === $finalDay){
                         $finalDay -= 1;
-                    }        
+                    }
                 }
             }
         }
         return $finalDay;
     }
-    
+
 
     /**
      * Summary of getManagementId
@@ -583,7 +583,7 @@ class SagresConsultModel
         $scheduleList = [];
         $strlen = 3;
         $maxLength = 100;
-        
+
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
 
         $query = "SELECT DISTINCT
@@ -749,7 +749,7 @@ class SagresConsultModel
                     $inconsistencyModel->idClass = $classId;
                     $inconsistencyModel->idSchool = $inepId;
                     $inconsistencyModel->insert();
-                }             
+                }
 
                 if (strlen($scheduleType->getDisciplina()) < $strlen) {
                     $inconsistencyModel = new ValidationSagresModel();
@@ -1160,7 +1160,27 @@ class SagresConsultModel
                         ifnull(si.deficiency, 0) AS deficiency,
                         si.sex AS gender,
                         si.id,
-                        SUM(IF(cf.id is null, 0, 1)) AS faults
+                        CASE
+                            WHEN c.edcenso_stage_vs_modality_fk IN (2, 3, 4, 5, 6, 7, 8, 9, 14, 15, 16, 17, 18, 19, 75)  THEN
+                                (SELECT if(((SELECT COUNT(schedule) FROM class_faults cf
+                                    JOIN schedule s ON s.id = cf.schedule_fk
+                                    WHERE s.year = :referenceYear AND cf.student_fk = si.id) / (SELECT COUNT(DISTINCT day) FROM class_faults cf
+                                    JOIN schedule s ON s.id = cf.schedule_fk
+                                    WHERE s.year = :referenceYear AND cf.student_fk = si.id)) = (SELECT MAX(schedule)
+                                    FROM class_faults cf
+                                    JOIN schedule s ON s.id = cf.schedule_fk
+                                    WHERE s.year = :referenceYear AND classroom_fk = :classId), (SELECT COUNT(schedule) FROM class_faults cf
+                                    JOIN schedule s ON s.id = cf.schedule_fk
+                                    WHERE s.year = :referenceYear AND cf.student_fk = si.id) / (SELECT COUNT(schedule) / COUNT(DISTINCT day)  FROM class_faults cf
+                                    JOIN schedule s ON s.id = cf.schedule_fk
+                                    WHERE s.year = :referenceYear AND cf.student_fk = si.id), IF(count(day) IS NULL, 0, count(day))) FROM class_faults cf
+                                    JOIN schedule s ON s.id = cf.schedule_fk
+                                    WHERE s.year = :referenceYear AND cf.student_fk = si.id)
+                            ELSE
+                                (SELECT COUNT(*) FROM class_faults cf
+                                    JOIN schedule s ON s.id = cf.schedule_fk
+                                    WHERE s.year = :referenceYear AND cf.student_fk = si.id)
+                        END AS faults
                   FROM
                         student_enrollment se
                         join classroom c on se.classroom_fk = c.id
@@ -1225,7 +1245,7 @@ class SagresConsultModel
                                 $inconsistencyModel->idStudent = $enrollment['student_fk'];
                                 $inconsistencyModel->idClass = $classId;
                                 $inconsistencyModel->insert();
-                            }        
+                            }
                         } else {
                             $inconsistencyModel = new ValidationSagresModel();
                             $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
@@ -1413,7 +1433,7 @@ class SagresConsultModel
                                 $inconsistencyModel->idStudent = $enrollment['student_fk'];
                                 $inconsistencyModel->idClass = $classId;
                                 $inconsistencyModel->insert();
-                            }        
+                            }
                         } else {
                             $inconsistencyModel = new ValidationSagresModel();
                             $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
@@ -1722,7 +1742,7 @@ class SagresConsultModel
         /*
          * 1 - Data de nascimento
          * 2 - Data de matrícula
-        */ 
+        */
         if($type === 1) {
             if ($year < 1924 || $year >= $currentYear) {
                 return false;
@@ -1732,7 +1752,7 @@ class SagresConsultModel
                 return false;
             }
         }
-        
+
         return $d && $d->format($format) == $dat;
     }
 

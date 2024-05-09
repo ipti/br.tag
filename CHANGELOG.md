@@ -1,4 +1,8 @@
+## [Versão 3.78.138]
+- Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
+
 ## [Versão 3.78.137]
+- corrigido erro na tela de estoque do novo módulo de merenda
 - Realizado validação para quadro de horários sem componentes
 
 ## [Versão 3.78.136]

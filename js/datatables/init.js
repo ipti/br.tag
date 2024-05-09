@@ -128,6 +128,7 @@ function initDatatable() {
     }
 
     if ($(".js-tag-table").length) {
+        debugger;
         const isMobile = window.innerWidth <= 768;
         const numColumns = $(".js-tag-table th").length;
         const columnsIndex = new Array(numColumns - 1).fill(1).map((_, i) => i + 1);
