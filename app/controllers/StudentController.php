@@ -685,6 +685,11 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $documentsAndAddress->delete();
             }
 
+            $studentRestriction = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
+            if (isset($studentRestriction->id) && $studentRestriction->id > 0) {
+                $studentRestriction->delete();
+            }
+
             $identification = $this->loadModel($id, $this->STUDENT_IDENTIFICATION);
             $inNumRA = $identification->gov_id;
 
