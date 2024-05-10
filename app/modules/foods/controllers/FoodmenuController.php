@@ -6,10 +6,6 @@ class FoodmenuController extends Controller
     public $modelFoodMenu = 'FoodMenu';
     public $defaultAction = "viewlunch";
 
-    /**
-     * Creates a new model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     */
     public function actionCreate()
     {
         $modelFoodMenu = new FoodMenu;
@@ -396,4 +392,35 @@ class FoodmenuController extends Controller
         }
         return $options;
     }
+
+    public function actionGetItemReference()
+    {
+        $itemReferences = ItemReference::model()->findAll();
+
+        $result = array();
+
+        foreach ($itemReferences as $itemReference) {
+            $item = array(
+                'codigo' => $itemReference->codigo,
+                'nome' => $itemReference->nome,
+                'grupo' => $itemReference->grupo,
+                'caloria' => $itemReference->caloria,
+                'proteina' => $itemReference->proteina,
+                'lipidio' => $itemReference->lipidio,
+                'carboidrato' => $itemReference->carboidrato,
+                'sodium_mg' => $itemReference->sodium_mg,
+                'potassium_mg' => $itemReference->potassium_mg,
+                'calcium_mg' => $itemReference->calcium_mg,
+                'fiber_g' => $itemReference->fiber_g,
+                'gramsPortion' => $itemReference->gramsPortion,
+            );
+
+            $result[] = $item;
+        }
+
+        echo CJSON::encode($result);
+    }
+
+
+
 }

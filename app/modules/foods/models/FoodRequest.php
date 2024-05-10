@@ -40,8 +40,6 @@ class FoodRequest extends CActiveRecord
             array('status', 'length', 'max'=>12),
             array('school_fk', 'length', 'max'=>8),
             array('date', 'safe'),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, date, food_fk, amount, measurementUnit, description, status, school_fk', 'safe', 'on'=>'search'),
         );
     }

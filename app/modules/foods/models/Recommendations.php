@@ -1,23 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "food_inventory_received".
+ * This is the model class for table "recommendations".
  *
- * The followings are the available columns in table 'food_inventory_received':
- * @property integer $id
- * @property double $amount
- * @property string $foodSource
- * @property string $date
- * @property integer $food_inventory_fk
+ * The followings are the available columns in table 'recommendations':
+ * @property string $id
+ * @property integer $item_reference_id
+ * @property integer $item_codigo
+ * @property string $item_nome
+ * @property double $score
+ * @property double $normalized_score
+ * @property string $traffic_light_color
  */
-class FoodInventoryReceived extends CActiveRecord
+class Recommendations extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'food_inventory_received';
+		return 'recommendations';
 	}
 
 	/**
@@ -28,12 +30,12 @@ class FoodInventoryReceived extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('amount, food_inventory_fk', 'required'),
-			array('food_inventory_fk', 'numerical', 'integerOnly'=>true),
-			array('amount', 'numerical'),
-			array('foodSource', 'length', 'max'=>20),
-			array('date', 'safe'),
-			array('id, amount, foodSource, date, food_inventory_fk', 'safe', 'on'=>'search'),
+			array('item_reference_id, item_codigo, item_nome, score, normalized_score, traffic_light_color', 'required'),
+			array('item_reference_id, item_codigo', 'numerical', 'integerOnly'=>true),
+			array('score, normalized_score', 'numerical'),
+			array('item_nome', 'length', 'max'=>100),
+			array('traffic_light_color', 'length', 'max'=>25),
+			array('id, item_reference_id, item_codigo, item_nome, score, normalized_score, traffic_light_color', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -45,7 +47,6 @@ class FoodInventoryReceived extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'foodInventoryFk' => array(self::BELONGS_TO, 'FoodInventory', 'food_inventory_fk'),
 		);
 	}
 
@@ -56,10 +57,12 @@ class FoodInventoryReceived extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'amount' => 'Amount',
-			'foodSource' => 'Food Source',
-			'date' => 'Date',
-			'food_inventory_fk' => 'Food Inventory Fk',
+			'item_reference_id' => 'Item Reference',
+			'item_codigo' => 'Item Codigo',
+			'item_nome' => 'Item Nome',
+			'score' => 'Score',
+			'normalized_score' => 'Normalized Score',
+			'traffic_light_color' => 'Traffic Light Color',
 		);
 	}
 
@@ -77,15 +80,16 @@ class FoodInventoryReceived extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('amount',$this->amount);
-		$criteria->compare('foodSource',$this->foodSource,true);
-		$criteria->compare('date',$this->date,true);
-		$criteria->compare('food_inventory_fk',$this->food_inventory_fk);
+		$criteria->compare('id',$this->id,true);
+		$criteria->compare('item_reference_id',$this->item_reference_id);
+		$criteria->compare('item_codigo',$this->item_codigo);
+		$criteria->compare('item_nome',$this->item_nome,true);
+		$criteria->compare('score',$this->score);
+		$criteria->compare('normalized_score',$this->normalized_score);
+		$criteria->compare('traffic_light_color',$this->traffic_light_color,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -96,7 +100,7 @@ class FoodInventoryReceived extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return FoodInventoryReceived the static model class
+	 * @return Recommendations the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

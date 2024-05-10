@@ -182,6 +182,15 @@ $(document).on("click", '.t-cards-container-custom', function () {
         });
     });
 
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodmenu/getItemReference",
+        cache: false
+    }).success(function(response) {
+        food_data_recommendation_item = JSON.parse(response);
+        console.log(food_data_recommendation_item);
+    });
+
 
     const cardIndex = $(this).closest('.t-cards').index();
     const clickedCardIngredientsStatus = allCardsIngredientsStatus[cardIndex];
