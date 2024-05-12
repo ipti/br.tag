@@ -90,12 +90,18 @@ function loadStudentsFromDiscipline(disciplineId) {
             },
             error: function (xhr, status, error) {
                 const response = JSON.parse(xhr.responseText);
-                $(".js-grades-container").html("<div></div>");
+                const gradesNotFound = $('<img>');
+                gradesNotFound.attr('src', '/themes/default/img/notas/gradesNotFound.png');
+                gradesNotFound.attr('alt', 'Não foram encontrados dados correspondentes aos critérios definidos');
+                const imgContainer = $("<div class='row justify-content--center t-padding-large--top'></div>");
+                imgContainer.append(gradesNotFound)
+                $(".js-grades-container").append(imgContainer);
                 $(".js-grades-alert")
                     .addClass("alert-error")
                     .removeClass("alert-success")
                     .text(response.message || "Não foi possível listar o diário de notas dos alunos dessa turma, verifique se exsitem alunos ativos nessa turma")
                     .show();
+                $()
             },
             complete: function () {
                 $(".js-grades-loading").hide();
@@ -115,6 +121,10 @@ function loadStudentsFromDiscipline(disciplineId) {
 }
 
 function GradeTableBuilder(data) {
+
+}
+
+function _GradeTableBuilder(data) {
     function buildStundentsRows(students, isUnityConcept, conceptOptions) {
         return students
             .map(
