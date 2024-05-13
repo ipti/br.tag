@@ -1,4 +1,10 @@
-## [Versão 3.78.136]
+## [Versão 3.78.139]
+- Alterada de lugar a atribuição da option contendo select na GradesController.
+
+# [Versão 3.78.138]
+- Correção na barra de rolagem da tela de frequência de alunos.
+
+# [Versão 3.78.136]
 - Datepicker modificado para apresentar as informações em português
 - Correção para inconsistências relacionadas a classes
 
