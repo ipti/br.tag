@@ -267,14 +267,12 @@ class FoodmenuController extends Controller
 
         $getMelsOfWeek = new GetMelsOfWeek();
         $foodMenu  = $getMelsOfWeek->exec();
-
         $response = json_encode((array) $foodMenu);
+        // CVarDumper::dump($response, 10, true);
         echo $response;
     }
 
-    /**
-     * Lists all models.
-     */
+
     public function actionIndex()
     {
         $dataProvider = new CActiveDataProvider(
@@ -393,32 +391,64 @@ class FoodmenuController extends Controller
         return $options;
     }
 
+
+
     public function actionGetItemReference()
     {
-        $itemReferences = ItemReference::model()->findAll();
+        $schoolId = Yii::app()->user->school;
+
+        $foodInventoryItems = FoodInventory::model()->findAllByAttributes(array('school_fk' => $schoolId));
 
         $result = array();
 
-        foreach ($itemReferences as $itemReference) {
-            $item = array(
-                'codigo' => $itemReference->codigo,
-                'nome' => $itemReference->nome,
-                'grupo' => $itemReference->grupo,
-                'caloria' => $itemReference->caloria,
-                'proteina' => $itemReference->proteina,
-                'lipidio' => $itemReference->lipidio,
-                'carboidrato' => $itemReference->carboidrato,
-                'sodium_mg' => $itemReference->sodium_mg,
-                'potassium_mg' => $itemReference->potassium_mg,
-                'calcium_mg' => $itemReference->calcium_mg,
-                'fiber_g' => $itemReference->fiber_g,
-                'gramsPortion' => $itemReference->gramsPortion,
-            );
+        foreach ($foodInventoryItems as $foodInventoryItem) {
+            // Encontrar o item de referência usando o código em vez do id
+            $itemReference = ItemReference::model()->findByAttributes(array('codigo' => $foodInventoryItem->food_fk));
 
-            $result[] = $item;
+            if ($itemReference !== null) {
+                $item = array(
+                    'codigo' => $itemReference->codigo,
+                    'nome' => $itemReference->nome,
+                    'grupo' => $itemReference->grupo,
+                    'caloria' => $itemReference->caloria,
+                    'proteina' => $itemReference->proteina,
+                    'lipidio' => $itemReference->lipidio,
+                    'carboidrato' => $itemReference->carboidrato,
+                    'sodium_mg' => $itemReference->sodium_mg,
+                    'potassium_mg' => $itemReference->potassium_mg,
+                    'calcium_mg' => $itemReference->calcium_mg,
+                    'fiber_g' => $itemReference->fiber_g,
+                    'gramsPortion' => $itemReference->gramsPortion,
+                );
+
+                $result[] = $item;
+            }
         }
 
         echo CJSON::encode($result);
+    }
+
+
+    public function actionGetRecommendation()
+    {
+        $itemRecommendation = Recommendations::model()->findAll();
+        $resultRecommendation = array();
+
+        foreach ($itemRecommendation as $recommendationItem) {
+            $item = array(
+                'codigo' => $recommendationItem->item_codigo,
+                'nome' => $recommendationItem->item_nome,
+                'grupo' => $recommendationItem->score,
+                'caloria' => $recommendationItem->normalized_score,
+                'proteina' => $recommendationItem->traffic_light_color,
+            );
+
+            $resultRecommendation[] = $item;
+        }
+
+        // Retorna os resultados como JSON
+        header('Content-Type: application/json');
+        echo json_encode($resultRecommendation);
     }
 
 

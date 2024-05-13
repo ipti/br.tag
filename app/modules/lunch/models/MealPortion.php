@@ -44,8 +44,6 @@ class MealPortion extends CActiveRecord
 			array('meal_fk, portion_fk, amount', 'required'),
 			array('meal_fk, portion_fk', 'numerical', 'integerOnly'=>true),
 			array('amount', 'numerical'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, meal_fk, portion_fk, amount', 'safe', 'on'=>'search'),
 		);
 	}
@@ -82,9 +80,6 @@ class MealPortion extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
