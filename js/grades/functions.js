@@ -59,6 +59,26 @@ function loadDisciplinesFromClassroom(classroomId, disciplineId) {
     }
 }
 
+function loadUnitiesFromClassroom(classroomId) {
+    if(classroomId !== "")
+    {
+        $.ajax({
+            type: "POST",
+            url: "?r=grades/getUnities",
+            cache: false,
+            data: {
+                classroom: classroomId,
+            },
+            success: function (response) {
+                console.log(response)
+                $("#unities").html(decodeHtml(response)).show();
+            }
+        })
+    } else {
+        $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
+    }
+}
+
 function loadStudentsFromDiscipline(disciplineId) {
     $("#discipline").select2("val", disciplineId);
     if (disciplineId !== "") {
@@ -90,12 +110,17 @@ function loadStudentsFromDiscipline(disciplineId) {
             },
             error: function (xhr, status, error) {
                 const response = JSON.parse(xhr.responseText);
-                const gradesNotFound = $('<img>');
-                gradesNotFound.attr('src', '/themes/default/img/notas/gradesNotFound.png');
-                gradesNotFound.attr('alt', 'Não foram encontrados dados correspondentes aos critérios definidos');
-                const imgContainer = $("<div class='row justify-content--center t-padding-large--top'></div>");
-                imgContainer.append(gradesNotFound)
-                $(".js-grades-container").append(imgContainer);
+                const gradesNotFoundIMG = $("<img class='column'>");
+                gradesNotFoundIMG.attr('src', '/themes/default/img/grades/gradesNotFound.svg');
+                gradesNotFoundIMG.attr('alt', 'Não foram encontrados dados correspondentes aos critérios definidos');
+                const gradesNotFoundContainer = $("<div class='row flex-direction--column justify-content--center t-padding-large--top'></div>");
+                gradesNotFoundContainer.append(gradesNotFoundIMG)
+                gradesNotFoundContainer.append("<span class='column text-align--center' style='color:#a6b6c8' >Não foram encontrados dados correspondentes <br> aos critérios definidos.</span>");
+                gradesNotFoundContainer.append("<a class='column t-button-secondary t-margin-small--top  t-margin-none--right js-refresh' >Recarregar Página</a>");
+                gradesNotFoundContainer.find(".js-refresh").on("click", (e) => {
+                    location.reload();
+                })
+                $(".js-grades-container").append(gradesNotFoundContainer);
                 $(".js-grades-alert")
                     .addClass("alert-error")
                     .removeClass("alert-success")
@@ -119,11 +144,198 @@ function loadStudentsFromDiscipline(disciplineId) {
         $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     }
 }
+$('.js-refresh').on("click", function (e) {
+    location.reload();
+})
+
+
 
 function GradeTableBuilder(data) {
+    function buildStundentsRows(students, isUnityConcept, conceptOptions) {
+        return students
+            .map(
+                (student) => template`
+                    <tr>
+                        <td class="grade-student-name">
+                            <input
+                                type="hidden"
+                                class="enrollment-id"
+                                value="${student.enrollmentId}"
+                            />
+                            ${student.studentName}
+                        </td>
+                        ${buildUnities(
+                            student.unities,
+                            isUnityConcept,
+                            conceptOptions
+                        )}
+                        ${
+                            isUnityConcept
+                                ? ""
+                                : `<td class="final-media"> ${secureParseFloat(
+                                      student.finalMedia
+                                  )} </td>`
+                        }
+                        <td class="final-media">
+                            ${student.situation ?? ""}
+                        </td>
+                    </tr>
+                    <tr></tr>`
+            )
+            .join("\n");
+    }
 
+    function buildUnities(unities, isUnityConcept, conceptOptions) {
+        const unitesGrade = unities
+            .map((unity) => {
+                const unityRow = unity.grades.map((grade) => {
+                    return template`
+                    <td class="grade-td">
+                        ${buildInputOrSelect(
+                            isUnityConcept,
+                            grade,
+                            conceptOptions
+                        )}
+                    </td>`;
+                });
+
+                if (unity.grades.length > 1) {
+                    const unityMedia = template`
+                <td>${unity.unityMedia ?? ""}</td>
+            `;
+
+                    unityRow.push(unityMedia);
+                }
+
+                return unityRow.join("\n");
+            })
+            .join("\n");
+
+        return unitesGrade;
+    }
+
+    function buildInputOrSelect(isUnityConcept, grade, conceptOptions) {
+        if (isUnityConcept) {
+            const optionsValues = Object.values(conceptOptions);
+            const optionsKeys = Object.keys(conceptOptions);
+            return template`
+                <select class="grade-concept" gradeid="${
+                    grade.id
+                }" modalityid="${grade.modalityId}">
+                    <option value=""></option>
+                    ${optionsValues
+                        .map(
+                            (conceptOption, index) => template`
+                        <option value="${optionsKeys[index]}" ${
+                                optionsKeys[index] == grade.concept
+                                    ? "selected"
+                                    : ""
+                            }>
+                            ${conceptOption}
+                        </option>`
+                        )
+                        .join("")}
+                </select>`;
+        }
+
+        return template`<input type="text" gradeid="${
+            grade.id
+        }" class="grade" modalityid="${
+            grade.modalityId
+        }" value="${secureParseFloat(grade.value)}"/>`;
+    }
+
+    function secureParseFloat(val) {
+        const result = parseFloat(val).toFixed(1);
+        if (isNaN(result) || result == null) {
+            return "";
+        }
+        return result;
+    }
+
+    function build() {
+        const spaceByColumnGrade = !data.isUnityConcept ? 3 : 2;
+        const concept = data.isUnityConcept ? "1" : "0";
+        const modalityColumns = data.unityColumns.reduce((acc, e) => {
+            if (e.modalities.length > 1) {
+                return [
+                    ...acc,
+                    ...e.modalities,
+                    `Média da Unidade (${e.calculationName})`,
+                ];
+            }
+            return [...acc, ...e.modalities];
+        }, []);
+        const numModalities = modalityColumns.length;
+        const tableColspan = numModalities + spaceByColumnGrade;
+
+        return template`
+            <table class="grades-table tag-table-secondary remove-vertical-borders" concept="${concept}">
+            <colgroup>
+            </colgroup>
+            <colgroup>
+            ${data.unityColumns
+                .map(
+                    (element, index) =>
+                        `<col class="${
+                            index % 2 == 0 ? "odd" : "even"
+                        }" span='${
+                            element.colspan > 1
+                                ? parseInt(element.colspan) + 1
+                                : element.colspan
+                        }'/>`
+                )
+                .join("\n")}
+            </colgroup>
+            <colgroup>
+            <col span="2"/>
+            </colgroup>
+                <thead>
+                    <tr>
+                        <th style="min-width: 250px"></th>
+                        ${data.unityColumns
+                            .map(
+                                (element, index) => `<th colspan='${
+                                    element.colspan > 1
+                                        ? parseInt(element.colspan) + 1
+                                        : element.colspan
+                                }'>
+                                   ${element.name}
+                                </th>`
+                            )
+                            .join("\n")}
+                        ${!data.isUnityConcept ? `<th colspan='2'></th>` : ""}
+                    </tr>
+                    <tr class="modality-row">
+                        <th>Aluno(a)</th>
+                        ${modalityColumns
+                            .map(
+                                (element) =>
+                                    `<th style="min-width: 50px;  font-size: 80%">${element}</th>`
+                            )
+                            .join("\n")}
+                        ${
+                            !data.isUnityConcept
+                                ? `<th style="font-size: 80%; font-weight: bold;">Média Anual</th>`
+                                : ""
+                        }
+                        <th style="font-size: 80%; font-weight: bold;">Resultado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${buildStundentsRows(
+                        data.students,
+                        data.isUnityConcept,
+                        data.concepts
+                    )}
+                </tbody>
+            </table>`;
+    }
+
+    return {
+        build,
+    };
 }
-
 function _GradeTableBuilder(data) {
     function buildStundentsRows(students, isUnityConcept, conceptOptions) {
         return students

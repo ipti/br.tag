@@ -33,6 +33,7 @@ class GradesController extends Controller
                     'saveGrades',
                     'CheckEnrollmentDelete',
                     'getDisciplines',
+                    'getUnities',
                     'calculateFinalMedia',
                     'reportCard',
                     'getGradesRelease',
@@ -126,6 +127,14 @@ class GradesController extends Controller
                     echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
                 }
             }
+        }
+    }
+    public function actionGetUnities() {
+        $classroom = Classroom::model()->findByPk($_POST["classroom"]);
+        $unities  = GradeUnity::model()->findByAttributes(["edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk]);
+
+        foreach ($unities as $unity) {
+            echo htmlspecialchars(CHtml::tag('option', array('value' => $unity['id']), CHtml::encode($unity["name"]), true));
         }
     }
 

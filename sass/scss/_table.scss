@@ -1,4 +1,4 @@
-.tag-table {    
+.tag-table {
     border-collapse: initial;
     margin-top: $SizeMedium;
     width: 100%;
@@ -33,7 +33,7 @@
         --dt-row-selected: $colorsBaseProductLightActive;
         --dt-row-selected-text: var(--dt-row-selected);
         --dt-row-selected-link: var(--dt-row-selected);
-        
+
         .selected {
             background-color: $colorsBaseProductLightActive;
         }
@@ -81,7 +81,7 @@
         }
     }
     td {
-        
+
         a {
             color: $colorsBaseProductNormalActive;
         }
@@ -108,12 +108,12 @@
     }
     &.centralize {
         td {
-            text-align: center; 
+            text-align: center;
         }
     }
     &.align-start {
         td, th {
-            text-align: start; 
+            text-align: start;
         }
     }
 }
@@ -151,4 +151,12 @@
 
 .dt-body-nowrap {
     white-space: nowrap;
+}
+.remove-vertical-borders  {
+    border-collapse: initial;
+    td, th {
+        border-top: none;
+        border-right: none;
+        border-left: none;
+    }
 }

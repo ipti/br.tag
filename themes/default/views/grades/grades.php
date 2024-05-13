@@ -74,6 +74,17 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
                     ?>
                 </div>
             </div>
+            <div class="column">
+                    <?php echo CHtml::label(yii::t('default', 'Unidade'), 'unities', array('class'=> 't-field-select__label--required'))?>
+                    <?php
+                    echo CHtml::dropDownList('unities', '', array(), array(
+                        'key' => 'id',
+                        'class' => 'select-search-on t-field-select__input select2-container',
+                        'prompt' => 'Selecione...',
+                    )
+                    );
+                    ?>
+            </div>
             <div class="column ">
                 <img class="js-grades-loading" style="display:none;margin: 10px 20px;" height="30px" width="30px"
                     src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
