@@ -99,7 +99,6 @@ function renderStockTableRow(stock) {
 function renderMovementsTable(movements, foodName) {
     let table = $('#movementsTable');
     table.empty();
-
     let head = $('<tr>').addClass('');
     $('<th>').text('Tipo').appendTo(head);
     $('<th>').text('Item').appendTo(head);
