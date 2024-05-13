@@ -115,7 +115,7 @@ class ClassesController extends Controller
         $students = $this->getStudentsByClassroom($classroomId);
 
         if (!$isMinorEducation) {
-            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $disciplineId, $year);
+            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
 
         } else {
             $schedules = $this->getSchedulesFromMinorStage($classroomId, $month, $year);
@@ -278,18 +278,22 @@ class ClassesController extends Controller
 
     private function updateStudentAnottations($schedule, $students)
     {
-        $studentData = [
-            "id" => $student["id"],
-            "name" => $student["name"],
-            "diary" => ""
-        ];
+        $studentArray = [];
+        foreach ($students as $student) {
+            
+            $studentData = [
+                "id" => $student["id"],
+                "name" => $student["name"],
+                "diary" => ""
+            ];
 
-        foreach ($schedule->classDiaries as $classDiary) {
-            if ($classDiary->student_fk == $student["id"]) {
-                $studentData["diary"] = $classDiary->diary;
+            foreach ($schedule->classDiaries as $classDiary) {
+                if ($classDiary->student_fk == $student["id"]) {
+                    $studentData["diary"] = $classDiary->diary;
+                }
             }
+            $studentArray[] = $studentData;
         }
-        $studentArray[] = $studentData;
 
         return $studentArray;
     }
