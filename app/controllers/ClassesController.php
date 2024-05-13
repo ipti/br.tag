@@ -278,18 +278,18 @@ class ClassesController extends Controller
 
     private function updateStudentAnottations($schedule, $students)
     {
-        $studentArray = [];
-        foreach ($students as $student) {
-            $studentArray["id"] = $student["id"];
-            $studentArray["name"] = $student["name"];
-            $studentArray["diary"] = "";
+        $studentData = [
+            "id" => $student["id"],
+            "name" => $student["name"],
+            "diary" => ""
+        ];
 
-            foreach ($schedule->classDiaries as $classDiary) {
-                if ($classDiary->student_fk == $student["id"]) {
-                    $studentArray["diary"] = $classDiary->diary;
-                }
+        foreach ($schedule->classDiaries as $classDiary) {
+            if ($classDiary->student_fk == $student["id"]) {
+                $studentData["diary"] = $classDiary->diary;
             }
         }
+        $studentArray[] = $studentData;
 
         return $studentArray;
     }
