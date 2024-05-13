@@ -99,6 +99,7 @@ class GradesController extends Controller
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
             $disciplines = Yii::app()->db->createCommand(
                 "select ed.id from teaching_matrixes tm
                 join instructor_teaching_data itd on itd.id = tm.teaching_data_fk
