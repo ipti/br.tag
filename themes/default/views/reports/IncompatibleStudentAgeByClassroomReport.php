@@ -87,7 +87,7 @@ if(count($classroom) == 0){
         } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 8� S�rie')) {
             $min_age = 13;
             $max_age = 13;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 1� Ano')) {
+        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 1º Ano')) {
             $min_age = 6;
             $max_age = 6;
         } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 2� Ano')) {
@@ -285,7 +285,7 @@ if(count($classroom) == 0){
         $max_age = 0;
 
         $html .= "<tr>"
-            . "<td colspan= 4>" . " <b> Total de alunos nessa turma: </b>" . $total_alunos .
+            . "<td colspan= 5>" . " <b> Total de alunos nessa turma: </b>" . $total_alunos .
             "</td>"
             . "</tr>";
         $html .= "</table>" . "<br>";
