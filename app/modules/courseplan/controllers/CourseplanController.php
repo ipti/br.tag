@@ -311,7 +311,7 @@ class CourseplanController extends Controller
 
         // Caso 1: converte yyyy-mm-dd para dd/mm/yyyy
         if($case == 1){
-            $dataObj = date_create_from_format('Y-m-d', $data);
+            $dataObj = date_create_from_format('Y-m-d G:i:s', $data);
             if(!$dataObj == false)
                 return date_format($dataObj, 'd/m/Y');
         }
