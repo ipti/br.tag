@@ -131,11 +131,12 @@ class GradesController extends Controller
     }
     public function actionGetUnities() {
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
-        $unities  = GradeUnity::model()->findByAttributes(["edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk]);
-
+        $unities  = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk]);
+        $result = [];
         foreach ($unities as $unity) {
-            echo htmlspecialchars(CHtml::tag('option', array('value' => $unity['id']), CHtml::encode($unity["name"]), true));
+            $result[$unity['id']] = $unity["name"];
         }
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 
     public function actionReportCard()
@@ -510,9 +511,10 @@ class GradesController extends Controller
 
         $classroomId = Yii::app()->request->getPost("classroom");
         $disciplineId = Yii::app()->request->getPost("discipline");
+        $unityId = Yii::app()->request->getPost("unity");
 
         try {
-            $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId);
+            $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId);
             $result = $usecase->exec();
             echo CJSON::encode($result);
         } catch (Exception $e) {

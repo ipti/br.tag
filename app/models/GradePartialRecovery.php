@@ -9,10 +9,10 @@
  * @property double $partial_recover_media
  * @property integer $order_partial_recovery
  * @property integer $grade_rules_fk
- * @property integer $grade_caculation_fk
+ * @property integer $grade_calculation_fk
  *
  * The followings are the available model relations:
- * @property GradeCalculation $gradeCaculationFk
+ * @property GradeCalculation $gradeCalculationFk
  * @property GradeRules $gradeRulesFk
  * @property GradeUnity[] $gradeUnities
  */
@@ -34,13 +34,13 @@ class GradePartialRecovery extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, partial_recover_media, order_partial_recovery, grade_rules_fk, grade_caculation_fk', 'required'),
-			array('order_partial_recovery, grade_rules_fk, grade_caculation_fk', 'numerical', 'integerOnly'=>true),
+			array('name, partial_recover_media, order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'required'),
+			array('order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'numerical', 'integerOnly'=>true),
 			array('partial_recover_media', 'numerical'),
 			array('name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, partial_recover_media, order_partial_recovery, grade_rules_fk, grade_caculation_fk', 'safe', 'on'=>'search'),
+			array('id, name, partial_recover_media, order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,7 +52,7 @@ class GradePartialRecovery extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'gradeCaculationFk' => array(self::BELONGS_TO, 'GradeCalculation', 'grade_caculation_fk'),
+			'gradeCalculationFk' => array(self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'),
 			'gradeRulesFk' => array(self::BELONGS_TO, 'GradeRules', 'grade_rules_fk'),
 			'gradeUnities' => array(self::HAS_MANY, 'GradeUnity', 'parcial_recovery_fk'),
 		);
@@ -69,7 +69,7 @@ class GradePartialRecovery extends CActiveRecord
 			'partial_recover_media' => 'Partial Recover Media',
 			'order_partial_recovery' => 'Order Partial Recovery',
 			'grade_rules_fk' => 'Grade Rules Fk',
-			'grade_caculation_fk' => 'Grade Caculation Fk',
+			'grade_calculation_fk' => 'Grade Calculation Fk',
 		);
 	}
 
@@ -96,7 +96,7 @@ class GradePartialRecovery extends CActiveRecord
 		$criteria->compare('partial_recover_media',$this->partial_recover_media);
 		$criteria->compare('order_partial_recovery',$this->order_partial_recovery);
 		$criteria->compare('grade_rules_fk',$this->grade_rules_fk);
-		$criteria->compare('grade_caculation_fk',$this->grade_caculation_fk);
+		$criteria->compare('grade_calculation_fk',$this->grade_calculation_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

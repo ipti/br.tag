@@ -20,7 +20,7 @@ function initializeGradesMask() {
     });
 }
 
-function loadDisciplinesFromClassroom(classroomId, disciplineId) {
+function loadDisciplinesFromClassroom(classroomId, disciplineId, unityId) {
     $("#classroom").select2("val", classroomId);
     if (classroomId !== "") {
         $.ajax({
@@ -50,7 +50,7 @@ function loadDisciplinesFromClassroom(classroomId, disciplineId) {
                 $("#discipline").removeAttr("disabled");
 
                 if (disciplineId) {
-                    loadStudentsFromDiscipline(disciplineId);
+                    loadStudentsFromDiscipline(disciplineId, unityId);
                 }
             },
         });
@@ -70,8 +70,15 @@ function loadUnitiesFromClassroom(classroomId) {
                 classroom: classroomId,
             },
             success: function (response) {
-                console.log(response)
-                $("#unities").html(decodeHtml(response)).show();
+                const data = JSON.parse(DOMPurify.sanitize(response))
+                const unitiesSelect = $("#unities");
+
+                Object.keys(data).forEach(key => {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.text = data[key];
+                    unitiesSelect.append(option);
+                });
             }
         })
     } else {
@@ -79,9 +86,9 @@ function loadUnitiesFromClassroom(classroomId) {
     }
 }
 
-function loadStudentsFromDiscipline(disciplineId) {
+function loadStudentsFromDiscipline(disciplineId, unityId) {
     $("#discipline").select2("val", disciplineId);
-    if (disciplineId !== "") {
+    if (disciplineId !== "" && unityId !== "") {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
@@ -90,6 +97,7 @@ function loadStudentsFromDiscipline(disciplineId) {
             data: {
                 classroom: $("#classroom").val(),
                 discipline: $("#discipline").val(),
+                unity: $("#unities").val(),
             },
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");
@@ -151,7 +159,7 @@ $('.js-refresh').on("click", function (e) {
 
 
 function GradeTableBuilder(data) {
-    function buildStundentsRows(students, isUnityConcept, conceptOptions) {
+    function buildStundentsRows(students, isUnityConcept, conceptOptions, recoveryPartial) {
         return students
             .map(
                 (student) => template`
@@ -169,6 +177,12 @@ function GradeTableBuilder(data) {
                             isUnityConcept,
                             conceptOptions
                         )}
+                        ${recovery !== null ? buildPartialRecovery(
+                            recoveryPartial,
+                            student.unities,
+                            isUnityConcept,
+                            conceptOptions
+                        ) : ''}
                         ${
                             isUnityConcept
                                 ? ""
@@ -202,7 +216,7 @@ function GradeTableBuilder(data) {
                 if (unity.grades.length > 1) {
                     const unityMedia = template`
                 <td>${unity.unityMedia ?? ""}</td>
-            `;
+                `;
 
                     unityRow.push(unityMedia);
                 }
@@ -213,7 +227,17 @@ function GradeTableBuilder(data) {
 
         return unitesGrade;
     }
+    function buildPartialRecovery(student.unities, isUnityConcept,conceptOptions){
+        return  template`
+            <td class="grade-td">
+                ${buildInputOrSelect(
+                    isUnityConcept,
+                    grade,
+                    conceptOptions
+                )}
+            </td>`;
 
+    }
     function buildInputOrSelect(isUnityConcept, grade, conceptOptions) {
         if (isUnityConcept) {
             const optionsValues = Object.values(conceptOptions);
@@ -326,7 +350,8 @@ function GradeTableBuilder(data) {
                     ${buildStundentsRows(
                         data.students,
                         data.isUnityConcept,
-                        data.concepts
+                        data.concepts,
+                        data.partialRecoveryColumns
                     )}
                 </tbody>
             </table>`;
