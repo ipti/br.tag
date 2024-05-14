@@ -1,3 +1,6 @@
+## [Versão 3.78.139]
+- Correção para a modalidade no relatório de Alunos por Turma.
+
 ## [Versão 3.78.138]
 - Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
 
