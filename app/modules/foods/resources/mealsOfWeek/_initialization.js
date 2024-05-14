@@ -16,6 +16,16 @@ $.ajax({
 })
 
 
+$.ajax({
+    url: "?r=foods/foodmenu/GetMealsRecommendation",
+    type: "POST"
+}).done(function(response) {
+    console.log('Resultado: ', response);
+}).fail(function(jqXHR, textStatus, errorThrown) {
+    console.error("Erro na requisição:", errorThrown);
+});
+
+
 $(document).on("click", '.js-change-pagination', function () {
 
     let clicked = $(this)
