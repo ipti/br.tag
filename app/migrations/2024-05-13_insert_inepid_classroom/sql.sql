@@ -1,4 +1,4 @@
-create or replace VIEW `studentsfile` AS
+create or replace
 algorithm = UNDEFINED view `classroom_qtd_students` as
 select
     `c`.`school_inep_fk` as `school_inep_fk`,
