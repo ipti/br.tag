@@ -15,8 +15,10 @@ select
     end) as `assistance_type`,
     (case
         `c`.`modality` when 1 then 'REGULAR'
-        when 2 then 'ESPECIAL'
-        else 'EJA'
+        when 2 then 'EDUCAÇÃO ESPECIAL'
+        when 3 then 'EJA'
+        when 4 then 'NÃO SE APLICA'
+        else 'ATENDIMENTO EDUCACIONAL ESPECIALIZADO (AEE)'
     end) as `modality`,
     `esm`.`name` as `stage`,
     count(`c`.`id`) as `students`,
