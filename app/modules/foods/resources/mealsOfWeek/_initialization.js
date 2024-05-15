@@ -5,15 +5,25 @@ const containerCards = $('.js-cards-meals')
 
 
 $.ajax({
-    url: "?r=foods/foodmenu/GetMealsOfWeek",
+    url: "?r=foods/foodmenu/GetMealsRecommendation",
     type: "POST",
 }).success(function (response) {
     mealsOfWeek = JSON.parse(DOMPurify.sanitize(response))
-    console.log('aqui tem tudo ->',mealsOfWeek );
+    console.log('aqui tem tudo ->', mealsOfWeek);
     mealsOfWeekFiltered = mealsOfWeek;
     containerCards.html('')
     renderMeals(mealsOfWeek)
 })
+
+
+// $.ajax({
+//     url: "?r=foods/foodmenu/GetMealsRecommendation",
+//     type: "POST"
+// }).done(function (response) {
+//     console.log('Resultado: ', response);
+// }).fail(function (jqXHR, textStatus, errorThrown) {
+//     console.error("Erro na requisição:", errorThrown);
+// });
 
 
 $(document).on("click", '.js-change-pagination', function () {
@@ -115,7 +125,7 @@ function createCard(meal_component, meal, dayMeal) {
     }
     igredients = meal_component.ingredients.map((item) => {
 
-        return  item.amount + ' ' + item.foodName.replace(/,/g, '');
+        return item.amount + ' ' + item.foodName.replace(/,/g, '');
     })
 
     const ingredientStatuses = meal_component.ingredients.map((item) => {
@@ -176,7 +186,7 @@ $(".js-expansive-panel").on("click", function () {
 $(document).on("click", '.t-cards-container-custom', function () {
 
     $(function () {
-        $( "#accordion-item-food" ).accordion({
+        $("#accordion-item-food").accordion({
             active: false,
             collapsible: true,
             icons: false,
@@ -185,29 +195,29 @@ $(document).on("click", '.t-cards-container-custom', function () {
         });
     });
 
-    $.when(
-        $.ajax({
-            type: 'POST',
-            url: "?r=foods/foodmenu/getItemReference",
-            cache: false
-        }),
-        $.ajax({
-            type: 'GET',
-            url: "?r=foods/foodmenu/getRecommendation",
-            dataType: 'json'
-        })
-    ).then(function(itemReferenceResponse, recommendationResponse) {
-        // itemReferenceResponse[0] contém os dados da solicitação de item de referência
-        var itemReferenceData = JSON.parse(itemReferenceResponse[0]);
+    // $.when(
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: "?r=foods/foodmenu/getItemReference",
+    //         cache: false
+    //     }),
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: "?r=foods/foodmenu/getRecommendation",
+    //         dataType: 'json'
+    //     })
+    // ).then(function (itemReferenceResponse, recommendationResponse) {
+    //     // itemReferenceResponse[0] contém os dados da solicitação de item de referência
+    //     var itemReferenceData = JSON.parse(itemReferenceResponse[0]);
 
-        // recommendationResponse[0] contém os dados da solicitação de recomendação
-        var recommendationData = recommendationResponse[0];
+    //     // recommendationResponse[0] contém os dados da solicitação de recomendação
+    //     var recommendationData = recommendationResponse[0];
 
-        // console.log("Dados de Item de Referência:", itemReferenceData);
-        // console.log("Dados de Recomendação:", recommendationData);
-    }).fail(function(xhr, status, error) {
-        console.error("Erro ao obter dados:", error);
-    });
+    //     // console.log("Dados de Item de Referência:", itemReferenceData);
+    //     // console.log("Dados de Recomendação:", recommendationData);
+    // }).fail(function (xhr, status, error) {
+    //     console.error("Erro ao obter dados:", error);
+    // });
 
 
     const cardIndex = $(this).closest('.t-cards').index();

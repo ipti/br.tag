@@ -11,8 +11,7 @@ class FoodmenuController extends Controller
         $modelFoodMenu = new FoodMenu;
         $request = Yii::app()->request->getPost('foodMenu');
         $transaction = Yii::app()->db->beginTransaction();
-        // Verifica se há dados na requisição enviada
-        // Caso negativo, renderiza o formulário
+
         if ($request === null) {
             $mealTypeList = $this->actionGetMealType();
             $tacoFoodsList = $this->actionGetTacoFoods();
@@ -113,8 +112,7 @@ class FoodmenuController extends Controller
         // Trecho do código para excluir todos os registros associados ao cardápio
         $transaction = Yii::app()->db->beginTransaction();
 
-        if($modelFoodMenu != null)
-        {
+        if ($modelFoodMenu != null) {
             $modelFoodMenu->start_date = DateTime::createFromFormat('d/m/Y', $request["start_date"])->format("Y-m-d");
             $modelFoodMenu->final_date = DateTime::createFromFormat('d/m/Y', $request["final_date"])->format("Y-m-d");
             $modelFoodMenu->week = $request['week'];
@@ -254,7 +252,6 @@ class FoodmenuController extends Controller
 
 
             $result[$turn] = $totalStudents;
-
         }
 
         $this->render('viewlunch', array(
@@ -268,15 +265,117 @@ class FoodmenuController extends Controller
         $getMelsOfWeek = new GetMelsOfWeek();
         $foodMenu  = $getMelsOfWeek->exec();
         $response = json_encode((array) $foodMenu);
-        // CVarDumper::dump($response, 10, true);
         echo $response;
     }
+
+
+
+
+    public function actionGetMealsRecommendation()
+    {
+        $getMelsOfWeek = new GetMelsOfWeek();
+        $foodMenu  = $getMelsOfWeek->exec();
+        $response = json_encode((array) $foodMenu);
+        $data = json_decode($response, true);
+
+        $result = array();
+
+        $extraData = array(
+            'id' => $data['id'],
+            'week' => $data['week'],
+            'description' => $data['description'],
+            'observation' => $data['observation'],
+            'foodPublicTarget' => $data['foodPublicTarget'],
+            'startDate' => $data['startDate'],
+            'finalDate' => $data['finalDate'],
+        );
+
+        $result = array_merge($result, $extraData);
+
+        foreach ($data as $key => $day) {
+            if (!is_array($day)) {
+                continue;
+            }
+
+            $dayMeals = array();
+            foreach ($day as $meal) {
+                $mealData = array(
+                    // 'ingredients' => array(),
+                    'time' => $meal['time'],
+                    'sequence' => $meal['sequence'],
+                    'turn' => $meal['turn'],
+                    'foodMealType' => $meal['foodMealType'],
+                    'foodPublicTargetId' => $meal['foodPublicTargetId'],
+                    'foodPublicTargetName' => $meal['foodPublicTargetName'],
+                    'foodMealTypeDescription' => $meal['foodMealTypeDescription'],
+
+                );
+
+                foreach ($meal['mealsComponent'] as $component) {
+
+                    $mealData['mealsComponent'][] = array(
+                        'description' => $component['description'],
+                        'ingredients' => array_map(function ($ingredient) {
+                            $isInStock = ($ingredient['statusInventoryFood'] == 'Emfalta') ? false : true;
+                            $itemRecommendation = array();
+                            if ($isInStock) {
+                                $itemRecommendation = Recommendations::model()->findAllByAttributes(array('item_reference_id' => $ingredient['foodIdFk']));
+                            }
+                            return array(
+                                'foodIdFk' => $ingredient['foodIdFk'],
+                                'foodName' => $ingredient['foodName'],
+                                "amount" => $ingredient['amount'],
+                                "foodMeasureUnitId" => $ingredient['foodMeasureUnitId'],
+                                "lip" => $ingredient['lip'],
+                                "pt" => $ingredient['pt'],
+                                "cho" => $ingredient['cho'],
+                                "kcal" => $ingredient['kcal'],
+                                "nameFood" => $ingredient['nameFood'],
+                                "measurementUnit" => $ingredient['measurementUnit'],
+                                'statusInventoryFood' => $ingredient['statusInventoryFood'],
+                                'isInStock' => $isInStock,
+                                'itemReference' => $this->mapRecommendations($itemRecommendation),
+                            );
+                        }, $component['ingredients']),
+                    );
+                }
+
+                $dayMeals[] = $mealData;
+            }
+
+            $result[$key] = $dayMeals;
+        }
+
+        echo CJSON::encode($result);
+    }
+
+
+
+    private function mapRecommendations($itemRecommendation)
+    {
+        $resultRecommendation = array();
+
+        foreach ($itemRecommendation as $recommendationItem) {
+            $item = array(
+                'codigo' => $recommendationItem->item_codigo,
+                'item_nome' => $recommendationItem->item_nome,
+                'score' => $recommendationItem->score,
+                'normalized_score' => $recommendationItem->normalized_score,
+                'semaforo' => $recommendationItem->traffic_light_color,
+            );
+
+            $resultRecommendation[] = $item;
+        }
+        return $resultRecommendation;
+    }
+
+
 
 
     public function actionIndex()
     {
         $dataProvider = new CActiveDataProvider(
-           'foodmenu',
+            'foodmenu',
             array(
                 'pagination' => false
             )
@@ -442,7 +541,6 @@ class FoodmenuController extends Controller
                 'caloria' => $recommendationItem->normalized_score,
                 'proteina' => $recommendationItem->traffic_light_color,
             );
-
             $resultRecommendation[] = $item;
         }
 
@@ -450,7 +548,4 @@ class FoodmenuController extends Controller
         header('Content-Type: application/json');
         echo json_encode($resultRecommendation);
     }
-
-
-
 }
