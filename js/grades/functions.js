@@ -227,7 +227,7 @@ function GradeTableBuilder(data) {
 
         return unitesGrade;
     }
-    function buildPartialRecovery(student.unities, isUnityConcept,conceptOptions){
+    function buildPartialRecovery(recoveryPartial, unities, isUnityConcept,conceptOptions){
         return  template`
             <td class="grade-td">
                 ${buildInputOrSelect(
