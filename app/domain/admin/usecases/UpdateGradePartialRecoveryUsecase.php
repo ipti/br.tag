@@ -32,7 +32,7 @@ class UpdateGradePartialRecovery
             $modelPartialRecovery->partial_recover_media = $partialRecovery["media"];
             $modelPartialRecovery->order_partial_recovery = $partialRecovery["order"];
             $modelPartialRecovery->grade_rules_fk = $gradeRules->id;
-            $modelPartialRecovery->grade_caculation_fk = $partialRecovery["mediaCalculation"];
+            $modelPartialRecovery->grade_calculation_fk = $partialRecovery["mediaCalculation"];
 
             if (!$modelPartialRecovery->validate()) {
                 $validationMessage = Yii::app()->utils->stringfyValidationErrors($modelPartialRecovery);

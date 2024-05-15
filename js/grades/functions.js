@@ -177,12 +177,6 @@ function GradeTableBuilder(data) {
                             isUnityConcept,
                             conceptOptions
                         )}
-                        ${recovery !== null ? buildPartialRecovery(
-                            recoveryPartial,
-                            student.unities,
-                            isUnityConcept,
-                            conceptOptions
-                        ) : ''}
                         ${
                             isUnityConcept
                                 ? ""
@@ -190,6 +184,12 @@ function GradeTableBuilder(data) {
                                       student.finalMedia
                                   )} </td>`
                         }
+                        ${recoveryPartial !== null ? buildPartialRecovery(
+                            recoveryPartial,
+                            student.unities,
+                            isUnityConcept,
+                            conceptOptions
+                        ) : ''}
                         <td class="final-media">
                             ${student.situation ?? ""}
                         </td>
@@ -230,11 +230,7 @@ function GradeTableBuilder(data) {
     function buildPartialRecovery(recoveryPartial, unities, isUnityConcept,conceptOptions){
         return  template`
             <td class="grade-td">
-                ${buildInputOrSelect(
-                    isUnityConcept,
-                    grade,
-                    conceptOptions
-                )}
+                <input type="text" style="width:50px;text-align: center;" value="0.0" />
             </td>`;
 
     }
@@ -280,6 +276,7 @@ function GradeTableBuilder(data) {
     function build() {
         const spaceByColumnGrade = !data.isUnityConcept ? 3 : 2;
         const concept = data.isUnityConcept ? "1" : "0";
+        const partialRecoveryColumns = data.partialRecoveryColumns
         const modalityColumns = data.unityColumns.reduce((acc, e) => {
             if (e.modalities.length > 1) {
                 return [
@@ -294,7 +291,7 @@ function GradeTableBuilder(data) {
         const tableColspan = numModalities + spaceByColumnGrade;
 
         return template`
-            <table class="grades-table tag-table-secondary remove-vertical-borders" concept="${concept}">
+            <table class="grades-table tag-table-secondary remove-vertical-borders remove-border-radius" concept="${concept}">
             <colgroup>
             </colgroup>
             <colgroup>
@@ -315,23 +312,8 @@ function GradeTableBuilder(data) {
             <col span="2"/>
             </colgroup>
                 <thead>
-                    <tr>
-                        <th style="min-width: 250px"></th>
-                        ${data.unityColumns
-                            .map(
-                                (element, index) => `<th colspan='${
-                                    element.colspan > 1
-                                        ? parseInt(element.colspan) + 1
-                                        : element.colspan
-                                }'>
-                                   ${element.name}
-                                </th>`
-                            )
-                            .join("\n")}
-                        ${!data.isUnityConcept ? `<th colspan='2'></th>` : ""}
-                    </tr>
                     <tr class="modality-row">
-                        <th>Aluno(a)</th>
+                        <th style="width:266px">Aluno(a)</th>
                         ${modalityColumns
                             .map(
                                 (element) =>
@@ -343,6 +325,14 @@ function GradeTableBuilder(data) {
                                 ? `<th style="font-size: 80%; font-weight: bold;">Média Anual</th>`
                                 : ""
                         }
+
+                            ${partialRecoveryColumns !== null ?
+                                template`<th style="min-width: 50px; font-size: 80%; font-weight: bold;">
+                                ${partialRecoveryColumns.name}
+                                </th>`
+                                 :
+                                null}
+
                         <th style="font-size: 80%; font-weight: bold;">Resultado</th>
                     </tr>
                 </thead>

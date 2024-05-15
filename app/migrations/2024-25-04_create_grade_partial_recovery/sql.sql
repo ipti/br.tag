@@ -7,7 +7,7 @@ create table `grade_partial_recovery` (
 `grade_calculation_fk` INT NOT NULL,
 CONSTRAINT pk_grade_partial_recovery PRIMARY KEY (id),
 CONSTRAINT fk_grade_partial_recovery_rules FOREIGN KEY (grade_rules_fk) REFERENCES grade_rules(id),
-CONSTRAINT fk_grade_partial_recovery_calculation FOREIGN KEY (grade_caculation_fk) REFERENCES grade_calculation(id)
+CONSTRAINT fk_grade_partial_recovery_calculation FOREIGN KEY (grade_calculation_fk) REFERENCES grade_calculation(id)
 );
 
 

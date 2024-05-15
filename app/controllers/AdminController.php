@@ -252,7 +252,7 @@ class AdminController extends Controller
             $resultPartialRecovery["name"] = $partialRecovery->name;
             $resultPartialRecovery["media"] = $partialRecovery->partial_recover_media;
             $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
-            $resultPartialRecovery["grade_caculation_fk"] = $partialRecovery->name;
+            $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->name;
 
             $unities = GradeUnity::model()->findAllByAttributes(array('parcial_recovery_fk' => $partialRecovery->id));
             $resultPartialRecovery["unities"]  = $unities;

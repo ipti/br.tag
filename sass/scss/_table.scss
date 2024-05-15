@@ -160,3 +160,29 @@
         border-left: none;
     }
 }
+
+.tag-table-secondary.remove-border-radius {
+    thead {
+        tr th {
+            &:first-child {
+                border-radius: initial;
+            }
+
+            &:last-child {
+                border-radius: initial;
+            }
+        }
+
+    }
+    td {
+
+
+        &:first-child {
+            border-radius: initial;
+        }
+
+        &:last-child {
+            border-radius: initial;
+        }
+    }
+}
