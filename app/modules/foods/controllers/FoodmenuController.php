@@ -268,6 +268,76 @@ class FoodmenuController extends Controller
         echo $response;
     }
 
+    public function actionGetMealsRecommendation()
+    {
+        $getMelsOfWeek = new GetMelsOfWeek();
+        $foodMenu  = $getMelsOfWeek->exec();
+        $response = json_encode((array) $foodMenu);
+        $data = json_decode($response, true);
+
+        $result = array();
+
+        foreach ($data as $key => $day) {
+            if (!is_array($day)) {
+                continue;
+            }
+
+            $dayMeals = array();
+            foreach ($day as $meal) {
+                $mealData = array(
+                    'ingredients' => array(),
+                );
+
+                foreach ($meal['mealsComponent'] as $component) {
+                    $mealData['ingredients'][] = array(
+                        'foodName' => $component['description'],
+                        'ingredients_food' => array_map(function($ingredient) {
+                            $isInStock = ($ingredient['statusInventoryFood'] == 'Emfalta') ? false : true;
+                            $itemRecommendation = array();
+                            if ($isInStock) {
+                                // Buscar recomendações para este ingrediente
+                                $itemRecommendation = Recommendations::model()->findAllByAttributes(array('item_reference_id' => $ingredient['foodIdFk']));
+                            }
+                            return array(
+                                'foodIdFk' => $ingredient['foodIdFk'],
+                                'foodName' => $ingredient['foodName'],
+                                'statusInventoryFood' => $ingredient['statusInventoryFood'],
+                                'isInStock' => $isInStock,
+                                'itemReference' => $this->mapRecommendations($itemRecommendation),
+                            );
+                        }, $component['ingredients']),
+                    );
+                }
+
+                $dayMeals[] = $mealData;
+            }
+
+            $result[$key] = $dayMeals;
+        }
+
+        echo CJSON::encode($result);
+    }
+
+    private function mapRecommendations($itemRecommendation)
+    {
+        $resultRecommendation = array();
+
+        foreach ($itemRecommendation as $recommendationItem) {
+            $item = array(
+                'codigo' => $recommendationItem->item_codigo,
+                'item_nome' => $recommendationItem->item_nome,
+                'score' => $recommendationItem->score,
+                'normalized_score' => $recommendationItem->normalized_score,
+                'semaforo' => $recommendationItem->traffic_light_color,
+            );
+
+            $resultRecommendation[] = $item;
+        }
+        return $resultRecommendation;
+    }
+
+
+
 
 
 
