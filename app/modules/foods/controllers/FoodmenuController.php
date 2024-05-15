@@ -279,6 +279,18 @@ class FoodmenuController extends Controller
 
         $result = array();
 
+        $extraData = array(
+            'id' => $data['id'],
+            'week' => $data['week'],
+            'description' => $data['description'],
+            'observation' => $data['observation'],
+            'foodPublicTarget' => $data['foodPublicTarget'],
+            'startDate' => $data['startDate'],
+            'finalDate' => $data['finalDate'],
+        );
+
+        $result = array_merge($result, $extraData);
+
         foreach ($data as $key => $day) {
             if (!is_array($day)) {
                 continue;
@@ -287,22 +299,38 @@ class FoodmenuController extends Controller
             $dayMeals = array();
             foreach ($day as $meal) {
                 $mealData = array(
-                    'ingredients' => array(),
+                    // 'ingredients' => array(),
+                    'time' => $meal['time'],
+                    'sequence' => $meal['sequence'],
+                    'turn' => $meal['turn'],
+                    'foodMealType' => $meal['foodMealType'],
+                    'foodPublicTargetId' => $meal['foodPublicTargetId'],
+                    'foodPublicTargetName' => $meal['foodPublicTargetName'],
+                    'foodMealTypeDescription' => $meal['foodMealTypeDescription'],
+
                 );
 
                 foreach ($meal['mealsComponent'] as $component) {
-                    $mealData['ingredients'][] = array(
-                        'foodName' => $component['description'],
-                        'ingredients_food' => array_map(function($ingredient) {
+
+                    $mealData['mealsComponent'][] = array(
+                        'description' => $component['description'],
+                        'ingredients' => array_map(function ($ingredient) {
                             $isInStock = ($ingredient['statusInventoryFood'] == 'Emfalta') ? false : true;
                             $itemRecommendation = array();
                             if ($isInStock) {
-                                // Buscar recomendações para este ingrediente
                                 $itemRecommendation = Recommendations::model()->findAllByAttributes(array('item_reference_id' => $ingredient['foodIdFk']));
                             }
                             return array(
                                 'foodIdFk' => $ingredient['foodIdFk'],
                                 'foodName' => $ingredient['foodName'],
+                                "amount" => $ingredient['amount'],
+                                "foodMeasureUnitId" => $ingredient['foodMeasureUnitId'],
+                                "lip" => $ingredient['lip'],
+                                "pt" => $ingredient['pt'],
+                                "cho" => $ingredient['cho'],
+                                "kcal" => $ingredient['kcal'],
+                                "nameFood" => $ingredient['nameFood'],
+                                "measurementUnit" => $ingredient['measurementUnit'],
                                 'statusInventoryFood' => $ingredient['statusInventoryFood'],
                                 'isInStock' => $isInStock,
                                 'itemReference' => $this->mapRecommendations($itemRecommendation),
@@ -319,6 +347,8 @@ class FoodmenuController extends Controller
 
         echo CJSON::encode($result);
     }
+
+
 
     private function mapRecommendations($itemRecommendation)
     {
@@ -461,40 +491,8 @@ class FoodmenuController extends Controller
 
 
 
-    public function actionGetItemReference()
-    {
-        $schoolId = Yii::app()->user->school;
 
-        $foodInventoryItems = FoodInventory::model()->findAllByAttributes(array('school_fk' => $schoolId));
 
-        $result = array();
-
-        foreach ($foodInventoryItems as $foodInventoryItem) {
-            // Encontrar o item de referência usando o código em vez do id
-            $itemReference = ItemReference::model()->findByAttributes(array('codigo' => $foodInventoryItem->food_fk));
-
-            if ($itemReference !== null) {
-                $item = array(
-                    'codigo' => $itemReference->codigo,
-                    'nome' => $itemReference->nome,
-                    'grupo' => $itemReference->grupo,
-                    'caloria' => $itemReference->caloria,
-                    'proteina' => $itemReference->proteina,
-                    'lipidio' => $itemReference->lipidio,
-                    'carboidrato' => $itemReference->carboidrato,
-                    'sodium_mg' => $itemReference->sodium_mg,
-                    'potassium_mg' => $itemReference->potassium_mg,
-                    'calcium_mg' => $itemReference->calcium_mg,
-                    'fiber_g' => $itemReference->fiber_g,
-                    'gramsPortion' => $itemReference->gramsPortion,
-                );
-
-                $result[] = $item;
-            }
-        }
-
-        echo CJSON::encode($result);
-    }
 
 
     public function actionGetRecommendation()

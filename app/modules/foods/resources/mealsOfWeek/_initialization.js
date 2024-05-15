@@ -5,7 +5,7 @@ const containerCards = $('.js-cards-meals')
 
 
 $.ajax({
-    url: "?r=foods/foodmenu/GetMealsOfWeek",
+    url: "?r=foods/foodmenu/GetMealsRecommendation",
     type: "POST",
 }).success(function (response) {
     mealsOfWeek = JSON.parse(DOMPurify.sanitize(response))
@@ -16,14 +16,14 @@ $.ajax({
 })
 
 
-$.ajax({
-    url: "?r=foods/foodmenu/GetMealsRecommendation",
-    type: "POST"
-}).done(function(response) {
-    console.log('Resultado: ', response);
-}).fail(function(jqXHR, textStatus, errorThrown) {
-    console.error("Erro na requisição:", errorThrown);
-});
+// $.ajax({
+//     url: "?r=foods/foodmenu/GetMealsRecommendation",
+//     type: "POST"
+// }).done(function(response) {
+//     console.log('Resultado: ', response);
+// }).fail(function(jqXHR, textStatus, errorThrown) {
+//     console.error("Erro na requisição:", errorThrown);
+// });
 
 
 $(document).on("click", '.js-change-pagination', function () {
@@ -123,7 +123,7 @@ function createCard(meal_component, meal, dayMeal) {
         default:
             turn = ""
     }
-    igredients = meal_component.ingredients.map((item) => {
+    ingredients_food = meal_component.ingredients.map((item) => {
 
         return  item.amount + ' ' + item.foodName.replace(/,/g, '');
     })
@@ -170,7 +170,7 @@ function createCard(meal_component, meal, dayMeal) {
                         </div>
                     </div>
                     <div class="t-cards-text clear-margin--left">
-                        Ingredientes: ${igredients.join(', ')}
+                        Ingredientes: ${ingredients_food.join(', ')}
                     </div>
                 </div>
             </div>`;
