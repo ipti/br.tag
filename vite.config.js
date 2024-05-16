@@ -11,7 +11,7 @@ export default ({mode}) => {
         plugins: [
             // register live reload plugin, for refreshing the browser on file changes
             liveReload([
-                __dirname + '/templates/**/*.php',
+                __dirname + '/**/*.php',
             ]),
         ],
         base: '/',

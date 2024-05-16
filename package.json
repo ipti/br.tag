@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "selenium-standalone": "^9.3.3"
+    "dotenv": "^16.4.5",
+    "selenium-standalone": "^9.3.3",
+    "vite": "^5.2.11",
+    "vite-plugin-live-reload": "^3.0.3"
   }
 }
