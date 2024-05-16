@@ -119,6 +119,8 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     </script>
 </head>
 
+    <?php include BASE_PATH . '/_vite.php'; ?>
+
 <body>
     <!-- Main Container Fluid -->
     <div class="container-fluid fluid menu-left">
