@@ -240,7 +240,6 @@ class FarmerRegisterController extends Controller
 
         echo json_encode($values);
     }
-
     public function actionCreate()
     {
         $model = new FarmerRegister;

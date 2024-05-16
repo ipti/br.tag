@@ -192,7 +192,6 @@ $(document).on("click", "#save-farmer", function () {
                 foodsRelation: foodsRelation
             }
         }).success(function(response) {
-            debugger;
             if (response !== "") {
                 let data = DOMPurify.sanitize(response);
                 let result = JSON.parse(data);

@@ -25,11 +25,19 @@ $this->menu=array(
 			<h1 class="t-padding-none--bottom"><?php echo $model->isNewRecord ? 'Solicitações' : '' ?></h1>
 		</div>
 	</div>
-	<div class="row">
-		<div class="column clearfix">
-			<div id="info-alert" class="alert hide"></div>
-		</div>
-	</div>
+
+    <?php if (Yii::app()->user->hasFlash('success')): ?>
+        <div class="alert alert-success">
+            <?php echo Yii::app()->user->getFlash('success') ?>
+        </div>
+        <br/>
+    <?php endif ?>
+    <?php if (Yii::app()->user->hasFlash('error')): ?>
+        <div class="alert alert-error">
+            <?php echo Yii::app()->user->getFlash('error') ?>
+        </div>
+        <br/>
+    <?php endif ?>
 
 	<div class="row  t-buttons-container">
 		<a class="t-button-primary" id="js-entry-request-button" href="<?php echo yii::app()->createUrl('foods/foodRequest/create') ?>" type="button">Gerar Solicitação</a>
