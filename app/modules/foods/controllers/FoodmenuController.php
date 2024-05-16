@@ -346,34 +346,6 @@ class FoodmenuController extends Controller
 
         echo CJSON::encode($result);
     }
-
-
-    // private function mapRecommendations($itemRecommendation)
-    // {
-    //     $resultRecommendation = array();
-
-    //     foreach ($itemRecommendation as $recommendationItem) {
-    //         // Verifica se o código está presente na tabela food_inventory
-    //         $foodInventoryItem = FoodInventory::model()->findByAttributes(array('food_fk' => $recommendationItem->codigo));
-
-    //         // Se o código estiver presente, adiciona os detalhes do item ao resultado
-    //         if ($foodInventoryItem !== null) {
-    //             $item = array(
-    //                 'codigo' => $recommendationItem->codigo,
-    //                 'item_nome' => $recommendationItem->item_nome,
-    //                 'score' => $recommendationItem->score,
-    //                 'normalized_score' => $recommendationItem->normalized_score,
-    //                 'semaforo' => $recommendationItem->semaforo,
-    //             );
-
-    //             $resultRecommendation[] = $item;
-    //         }
-    //     }
-
-    //     return $resultRecommendation;
-    // }
-
-
     private function mapRecommendations($itemRecommendation)
     {
         $resultRecommendation = array();
@@ -520,12 +492,6 @@ class FoodmenuController extends Controller
         }
         return $options;
     }
-
-
-
-
-
-
 
     public function actionGetRecommendation()
     {

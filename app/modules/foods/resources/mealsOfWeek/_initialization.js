@@ -15,17 +15,6 @@ $.ajax({
     renderMeals(mealsOfWeek)
 })
 
-
-// $.ajax({
-//     url: "?r=foods/foodmenu/GetMealsRecommendation",
-//     type: "POST"
-// }).done(function (response) {
-//     console.log('Resultado: ', response);
-// }).fail(function (jqXHR, textStatus, errorThrown) {
-//     console.error("Erro na requisição:", errorThrown);
-// });
-
-
 $(document).on("click", '.js-change-pagination', function () {
 
     let clicked = $(this)
@@ -141,6 +130,7 @@ function createCard(meal_component, meal, dayMeal) {
         return {
             status: item.statusInventoryFood,
             id_food: item.foodIdFk,
+            itemReference: item.itemReference,
             foodName: item.foodName.replace(/,/g, '')
         };
     });
@@ -204,7 +194,6 @@ $(document).on("click", '.t-cards-container-custom', function () {
     let hasMissingIngredients = false;
 
     clickedCardIngredientsStatus.forEach((ingredient) => {
-        // console.log('okkkkkkkk->>>', ingredient);
         modalContent += `<p>Ingrediente: ${ingredient.foodName}, ${ingredient.id_food}</p>`;
         if (ingredient.status === "Emfalta") {
             hasMissingIngredients = true;
@@ -217,7 +206,10 @@ $(document).on("click", '.t-cards-container-custom', function () {
         clickedCardIngredientsStatus.forEach((ingredient) => {
             if (ingredient.status === "Emfalta") {
                 modalContent += `<p>Ingrediente: ${ingredient.foodName}, Status: ${ingredient.status}, Id_food: ${ingredient.id_food}</p>`;
-
+                ingredient.itemReference.forEach((item) => {
+                    modalContent += `<p>Código: ${item.codigo}, Semaforo: ${item.semaforo}</p>`;
+                    modalContent += `<a href="http://localhost/?r=foods">${item.item_nome}</a>`;
+                });
             }
         });
     } else {
@@ -227,3 +219,6 @@ $(document).on("click", '.t-cards-container-custom', function () {
     $('#js-status-modal .modal-x').html(modalContent);
     $('#js-status-modal').modal('show');
 });
+
+
+
