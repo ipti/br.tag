@@ -277,79 +277,6 @@ class FoodmenuController extends Controller
 
         $result = array();
 
-        foreach ($data as $key => $day) {
-            if (!is_array($day)) {
-                continue;
-            }
-
-            $dayMeals = array();
-            foreach ($day as $meal) {
-                $mealData = array(
-                    'ingredients' => array(),
-                );
-
-                foreach ($meal['mealsComponent'] as $component) {
-                    $mealData['ingredients'][] = array(
-                        'foodName' => $component['description'],
-                        'ingredients_food' => array_map(function($ingredient) {
-                            $isInStock = ($ingredient['statusInventoryFood'] == 'Emfalta') ? false : true;
-                            $itemRecommendation = array();
-                            if ($isInStock) {
-                                // Buscar recomendações para este ingrediente
-                                $itemRecommendation = Recommendations::model()->findAllByAttributes(array('item_reference_id' => $ingredient['foodIdFk']));
-                            }
-                            return array(
-                                'foodIdFk' => $ingredient['foodIdFk'],
-                                'foodName' => $ingredient['foodName'],
-                                'statusInventoryFood' => $ingredient['statusInventoryFood'],
-                                'isInStock' => $isInStock,
-                                'itemReference' => $this->mapRecommendations($itemRecommendation),
-                            );
-                        }, $component['ingredients']),
-                    );
-                }
-
-                $dayMeals[] = $mealData;
-            }
-
-            $result[$key] = $dayMeals;
-        }
-
-        echo CJSON::encode($result);
-    }
-
-    private function mapRecommendations($itemRecommendation)
-    {
-        $resultRecommendation = array();
-
-        foreach ($itemRecommendation as $recommendationItem) {
-            $item = array(
-                'codigo' => $recommendationItem->item_codigo,
-                'item_nome' => $recommendationItem->item_nome,
-                'score' => $recommendationItem->score,
-                'normalized_score' => $recommendationItem->normalized_score,
-                'semaforo' => $recommendationItem->traffic_light_color,
-            );
-
-            $resultRecommendation[] = $item;
-        }
-        return $resultRecommendation;
-    }
-
-
-
-
-
-
-    public function actionGetMealsRecommendation()
-    {
-        $getMelsOfWeek = new GetMelsOfWeek();
-        $foodMenu  = $getMelsOfWeek->exec();
-        $response = json_encode((array) $foodMenu);
-        $data = json_decode($response, true);
-
-        $result = array();
-
         $extraData = array(
             'id' => $data['id'],
             'week' => $data['week'],
@@ -388,9 +315,10 @@ class FoodmenuController extends Controller
                         'ingredients' => array_map(function ($ingredient) {
                             $isInStock = ($ingredient['statusInventoryFood'] == 'Emfalta') ? false : true;
                             $itemRecommendation = array();
-                            if ($isInStock) {
+                            if (!$isInStock) {
                                 $itemRecommendation = Recommendations::model()->findAllByAttributes(array('item_reference_id' => $ingredient['foodIdFk']));
                             }
+
                             return array(
                                 'foodIdFk' => $ingredient['foodIdFk'],
                                 'foodName' => $ingredient['foodName'],
@@ -420,24 +348,57 @@ class FoodmenuController extends Controller
     }
 
 
+    // private function mapRecommendations($itemRecommendation)
+    // {
+    //     $resultRecommendation = array();
+
+    //     foreach ($itemRecommendation as $recommendationItem) {
+    //         // Verifica se o código está presente na tabela food_inventory
+    //         $foodInventoryItem = FoodInventory::model()->findByAttributes(array('food_fk' => $recommendationItem->codigo));
+
+    //         // Se o código estiver presente, adiciona os detalhes do item ao resultado
+    //         if ($foodInventoryItem !== null) {
+    //             $item = array(
+    //                 'codigo' => $recommendationItem->codigo,
+    //                 'item_nome' => $recommendationItem->item_nome,
+    //                 'score' => $recommendationItem->score,
+    //                 'normalized_score' => $recommendationItem->normalized_score,
+    //                 'semaforo' => $recommendationItem->semaforo,
+    //             );
+
+    //             $resultRecommendation[] = $item;
+    //         }
+    //     }
+
+    //     return $resultRecommendation;
+    // }
+
 
     private function mapRecommendations($itemRecommendation)
     {
         $resultRecommendation = array();
 
         foreach ($itemRecommendation as $recommendationItem) {
-            $item = array(
-                'codigo' => $recommendationItem->item_codigo,
-                'item_nome' => $recommendationItem->item_nome,
-                'score' => $recommendationItem->score,
-                'normalized_score' => $recommendationItem->normalized_score,
-                'semaforo' => $recommendationItem->traffic_light_color,
-            );
+            // Busca o item na tabela food_inventory
+            $foodInventoryItem = FoodInventory::model()->findByAttributes(array('food_fk' => $recommendationItem->item_codigo));
 
-            $resultRecommendation[] = $item;
+            // Verifica se o item foi encontrado e está disponível ou acabando
+            if ($foodInventoryItem !== null && ($foodInventoryItem->status === 'Disponivel' || $foodInventoryItem->status === 'Acabando')) {
+                $item = array(
+                    'codigo' => $recommendationItem->item_codigo,
+                    'item_nome' => $recommendationItem->item_nome,
+                    'score' => $recommendationItem->score,
+                    'normalized_score' => $recommendationItem->normalized_score,
+                    'semaforo' => $recommendationItem->traffic_light_color,
+                );
+
+                $resultRecommendation[] = $item;
+            }
         }
+
         return $resultRecommendation;
     }
+
 
 
 
@@ -562,40 +523,8 @@ class FoodmenuController extends Controller
 
 
 
-    public function actionGetItemReference()
-    {
-        $schoolId = Yii::app()->user->school;
 
-        $foodInventoryItems = FoodInventory::model()->findAllByAttributes(array('school_fk' => $schoolId));
 
-        $result = array();
-
-        foreach ($foodInventoryItems as $foodInventoryItem) {
-            // Encontrar o item de referência usando o código em vez do id
-            $itemReference = ItemReference::model()->findByAttributes(array('codigo' => $foodInventoryItem->food_fk));
-
-            if ($itemReference !== null) {
-                $item = array(
-                    'codigo' => $itemReference->codigo,
-                    'nome' => $itemReference->nome,
-                    'grupo' => $itemReference->grupo,
-                    'caloria' => $itemReference->caloria,
-                    'proteina' => $itemReference->proteina,
-                    'lipidio' => $itemReference->lipidio,
-                    'carboidrato' => $itemReference->carboidrato,
-                    'sodium_mg' => $itemReference->sodium_mg,
-                    'potassium_mg' => $itemReference->potassium_mg,
-                    'calcium_mg' => $itemReference->calcium_mg,
-                    'fiber_g' => $itemReference->fiber_g,
-                    'gramsPortion' => $itemReference->gramsPortion,
-                );
-
-                $result[] = $item;
-            }
-        }
-
-        echo CJSON::encode($result);
-    }
 
 
     public function actionGetRecommendation()

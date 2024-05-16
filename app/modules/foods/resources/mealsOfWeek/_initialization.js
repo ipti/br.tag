@@ -195,29 +195,6 @@ $(document).on("click", '.t-cards-container-custom', function () {
         });
     });
 
-    // $.when(
-    //     $.ajax({
-    //         type: 'POST',
-    //         url: "?r=foods/foodmenu/getItemReference",
-    //         cache: false
-    //     }),
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: "?r=foods/foodmenu/getRecommendation",
-    //         dataType: 'json'
-    //     })
-    // ).then(function (itemReferenceResponse, recommendationResponse) {
-    //     // itemReferenceResponse[0] contém os dados da solicitação de item de referência
-    //     var itemReferenceData = JSON.parse(itemReferenceResponse[0]);
-
-    //     // recommendationResponse[0] contém os dados da solicitação de recomendação
-    //     var recommendationData = recommendationResponse[0];
-
-    //     // console.log("Dados de Item de Referência:", itemReferenceData);
-    //     // console.log("Dados de Recomendação:", recommendationData);
-    // }).fail(function (xhr, status, error) {
-    //     console.error("Erro ao obter dados:", error);
-    // });
 
 
     const cardIndex = $(this).closest('.t-cards').index();
