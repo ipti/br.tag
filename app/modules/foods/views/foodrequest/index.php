@@ -45,7 +45,7 @@ $this->menu=array(
 
 	<div class="row">
 		<div class="t-field-select column is-two-fifths clearfix">
-			<select class="select-search-on t-field-select__input select2-container" id="foodRequestSelect">
+			<select class="select-search-on t-field-select__input select2-container" id="searchByFoodSelect">
 				<option value="total">Filtrar solicitações por alimento</option>
 			</select>
 		</div>
@@ -58,6 +58,27 @@ $this->menu=array(
 			</table>
 		</div>
 	</div>
+
+    <div class="modal fade t-modal-container" id="js-request-information-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog " role="document">
+            <div class="t-modal__header">
+                <div class="column clearfix">
+                    <h4 class="t-title" id="myModalLabel">Informações da solicitação</h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                </button>
+            </div>
+            <form method="post">
+                <div class="t-modal__body">
+                    <div class="row">
+                        <h3>Dados da solicitação</h3>
+                    </div>
+                    <div class="requestData"></div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <!-- <?php $this->widget('zii.widgets.CListView', array(

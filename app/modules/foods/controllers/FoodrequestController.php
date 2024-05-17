@@ -62,21 +62,6 @@ class FoodrequestController extends Controller
         echo json_encode($values);
     }
 
-    public function actionSaveRequest()
-    {
-        $noticeId = Yii::app()->request->getPost('noticeId');
-        $requestSchools = Yii::app()->request->getPost('requestSchools');
-        $requestFarmers = Yii::app()->request->getPost('requestFarmers');
-        $requestItems = Yii::app()->request->getPost('requestItems');
-
-        $foodRequest = new FoodRequest();
-        $foodRequest->notice_fk = $noticeId;
-        if($foodRequest->save() && $this->saveRequestSchools($requestSchools, $foodRequest) &&
-        $this->saveRequestFarmers($requestFarmers, $foodRequest) && $this->saveRequestItems($requestItems, $foodRequest)) {
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Solicitação foi gerada com sucesso!'));
-        }
-    }
-
     private function saveRequestSchools($requestSchools, $foodRequest) {
         foreach($requestSchools as $school) {
             $requestSchool = new FoodRequestVsSchoolIdentification();
@@ -123,58 +108,117 @@ class FoodrequestController extends Controller
 
     public function actionGetFoodRequest()
     {
-        $schoolFk = Yii::app()->user->school;
+        $foodRequestData = FoodRequest::model()->findAll();
 
-        $criteria = new CDbCriteria();
-        $criteria->with = array('foodFk');
-        $criteria->compare('school_fk', $schoolFk);
-
-        $foodRequestData = FoodRequest::model()->findAll($criteria);
-
-        $values = [];
+        $requestsList = array();
         foreach ($foodRequestData as $request) {
-            $values[] = array(
-                'id' => $request->id,
-                'foodId' => $request->food_fk,
-                'foodName' => $request->foodFk->description,
-                'amount' => $request->amount,
-                'measurementUnit' => $request->measurementUnit,
-                'description' => $request->description,
-                'status' => $request->status,
-                'date' => date('d/m/Y', strtotime($request->date)),
+            $requestData = array(
+                "requestInfo" => array(
+                    'id' => $request->id,
+                    'status' => $request->status,
+                    'date' => date('d/m/Y', strtotime($request->date)),
+                ),
+                "items" => array(),
+                "farmers" => array(),
+                "schools" => array()
+
             );
+
+            $this->getFoodRequestItems($requestData, $request->id);
+            $this->getFoodRequestFarmers($requestData, $request->id);
+            $this->getFoodRequestSchools($requestData, $request->id);
+
+            $requestsList[] = $requestData;
         }
 
-        echo json_encode($values);
+        echo json_encode($requestsList);
+    }
+
+    private function getFoodRequestItems(&$requestDataArray, $requestId) {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.food_request_fk = :requestId';
+        $criteria->params = array(':requestId' => $requestId);
+
+        $requestItems = FoodRequestItem::model()->with(array(
+            'foodFk' => array(
+                'select' => 'description'
+            )
+        ))->findAll($criteria);
+
+        foreach ($requestItems as $item) {
+            $requestDataArray["items"][] = array(
+                'id' => $item->id,
+                'foodId' => $item->food_fk,
+                'foodName' => $item->foodFk->description,
+                'amount' => $item->amount,
+                'measurementUnit' => $item->measurementUnit
+            );
+        }
+    }
+
+    private function getFoodRequestFarmers(&$requestDataArray, $requestId) {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.food_request_fk = :requestId';
+        $criteria->params = array(':requestId' => $requestId);
+        $requestFarmers = FoodRequestVsFarmerRegister::model()->with(array(
+            'farmerFk' => array(
+                'select' => 'name'
+            )
+        ))->findAll($criteria);
+
+        foreach ($requestFarmers as $farmer) {
+            $requestDataArray["farmers"][] = array(
+                "id" => $farmer->farmer_fk,
+                "name" => $farmer->farmerFk->name,
+            );
+        }
+    }
+
+    public function getFoodRequestSchools(&$requestDataArray, $requestId) {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.food_request_fk = :requestId';
+        $criteria->params = array(':requestId' => $requestId);
+        $requestSchools = FoodRequestVsSchoolIdentification::model()->with(array(
+            'schoolFk' => array(
+                'select' => 'name'
+            )
+        ))->findAll($criteria);
+
+        foreach ($requestSchools as $school) {
+            $requestDataArray["schools"][] = array(
+                "id" => $school->school_fk,
+                "name" => $school->schoolFk->name,
+            );
+        }
     }
 
     public function actionCreate()
     {
+        if(Yii::app()->request->isAjaxRequest) {
+            $noticeId = Yii::app()->request->getPost('noticeId');
+            $requestSchools = Yii::app()->request->getPost('requestSchools');
+            $requestFarmers = Yii::app()->request->getPost('requestFarmers');
+            $requestItems = Yii::app()->request->getPost('requestItems');
+
+            $foodRequest = new FoodRequest;
+            $foodRequest->notice_fk = $noticeId;
+
+            if($foodRequest->save() && $this->saveRequestSchools($requestSchools, $foodRequest) &&
+            $this->saveRequestFarmers($requestFarmers, $foodRequest) && $this->saveRequestItems($requestItems, $foodRequest)) {
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Solicitação foi gerada com sucesso!'));
+            }
+        }
         $model = new FoodRequest;
         $requestFarmerModel = new FoodRequestVsFarmerRegister;
         $requestSchoolModel = new FoodRequestVsSchoolIdentification;
         $requestItemModel = new FoodRequestItem;
 
-        $noticeId = Yii::app()->request->getPost('noticeId');
-        $requestSchools = Yii::app()->request->getPost('requestSchools');
-        $requestFarmers = Yii::app()->request->getPost('requestFarmers');
-        $requestItems = Yii::app()->request->getPost('requestItems');
-
-        if ($noticeId == null && $requestSchools == null && $requestFarmers == null && $requestItems == null) {
-            $this->render('create', array(
-                'model' => $model,
-                'requestFarmerModel' => $requestFarmerModel,
-                'requestSchoolModel' => $requestSchoolModel,
-                'requestItemModel' => $requestItemModel,
-            ));
-        }
-        $foodRequest = new FoodRequest();
-        $foodRequest->notice_fk = $noticeId;
-
-        if($foodRequest->save() && $this->saveRequestSchools($requestSchools, $foodRequest) &&
-        $this->saveRequestFarmers($requestFarmers, $foodRequest) && $this->saveRequestItems($requestItems, $foodRequest)) {
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Solicitação foi gerada com sucesso!'));
-        }
+        $this->render('create', array(
+            'model' => $model,
+            'requestFarmerModel' => $requestFarmerModel,
+            'requestSchoolModel' => $requestSchoolModel,
+            'requestItemModel' => $requestItemModel,
+        ));
     }
 
     public function actionUpdate($id)
