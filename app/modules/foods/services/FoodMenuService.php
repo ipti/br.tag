@@ -454,11 +454,14 @@ class MealObject
  */
 class MealComponentObject
 {
+    public $idMeal;
     public $description;
     public $ingredients = [];
 
     public function __construct($model)
     {
+        $this->idMeal = $model->food_menu_mealId;
+
         $this->description = $model->description;
     }
 

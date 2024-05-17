@@ -311,6 +311,8 @@ class FoodmenuController extends Controller
                 foreach ($meal['mealsComponent'] as $component) {
 
                     $mealData['mealsComponent'][] = array(
+
+                        'id_meal_food' =>$component['idMeal'],
                         'description' => $component['description'],
                         'ingredients' => array_map(function ($ingredient) {
                             $isInStock = ($ingredient['statusInventoryFood'] == 'Emfalta') ? false : true;
@@ -351,10 +353,10 @@ class FoodmenuController extends Controller
         $resultRecommendation = array();
 
         foreach ($itemRecommendation as $recommendationItem) {
-            // Busca o item na tabela food_inventory
-            $foodInventoryItem = FoodInventory::model()->findByAttributes(array('food_fk' => $recommendationItem->item_codigo));
 
-            // Verifica se o item foi encontrado e está disponível ou acabando
+            $foodInventoryItem = FoodInventory::model()->findByAttributes(array('food_fk' => $recommendationItem->item_codigo));
+            // $school_acess = Yii::app()->user->school;
+        //    if($foodInventoryItem->status === $school_acess){
             if ($foodInventoryItem !== null && ($foodInventoryItem->status === 'Disponivel' || $foodInventoryItem->status === 'Acabando')) {
                 $item = array(
                     'codigo' => $recommendationItem->item_codigo,
@@ -366,13 +368,17 @@ class FoodmenuController extends Controller
 
                 $resultRecommendation[] = $item;
             }
+        // }
         }
 
         return $resultRecommendation;
     }
 
 
+    // public function actionUpdateFoodMeal($id_meal, $id_food){
 
+
+    // }
 
 
     public function actionIndex()

@@ -1,7 +1,8 @@
+Nesse código abaixo:
+
 let mealsOfWeek = []
 let mealsOfWeekFiltered = []
 let allCardsIngredientsStatus = [];
-let id_meal_indentification = [];
 const containerCards = $('.js-cards-meals')
 
 
@@ -97,8 +98,6 @@ function renderMeals(mealsParam) {
 }
 
 
-
-
 function createCard(meal_component, meal, dayMeal) {
     const day = $('.js-day-tab.active').attr("data-day-of-week")
     let turn = ""
@@ -142,7 +141,6 @@ function createCard(meal_component, meal, dayMeal) {
 
     allCardsIngredientsStatus.push(returnMealsStatus);
 
-    // console.log('------>',returnMealsStatus)
 
 
     return `<div class="t-cards ${dayMeal != day ? "hide" : ""}"  style=" max-width: none;" data-public-target="${meal.foodPublicTargetId}" data-turn="${turn}">
@@ -233,5 +231,14 @@ $(document).on("click", '.ingredient-link', function (e) {
     const idMealFood = $(this).data('id-meal-food');
     console.log('item_nome clicado:', itemNome);
     console.log('id_meal_food:', idMealFood);
+});
+
+
+Como fazer para que o valores de meal_component.id_meal_food em console.log(meal_component.id_meal_food) seja adicionado nessa parte quando clicar no botão:
+$(document).on("click", '.ingredient-link', function (e) {
+    e.preventDefault();
+    const itemNome = $(this).data('item-nome');
+    const idMealFood = $(this).data('id-meal-food');
+    console.log('item_nome clicado:', itemNome);
 });
 
