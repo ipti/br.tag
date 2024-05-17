@@ -14,6 +14,185 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
 
 ?>
 
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .container-report {
+            width: 980px;
+            margin: auto;
+        }
+
+        .container-report:after {
+            clear: both;
+        }
+
+        .container-report:before,
+        .container-report:after {
+            display: table;
+            content: "";
+            line-height: 0;
+        }
+
+        .mt-60 {
+            margin-top: 60px;
+        }
+
+        .mt-30 {
+            margin-top: 30px;
+        }
+
+        .mb-30 {
+            margin-bottom: 60px;
+        }
+
+        .blue-background {
+            background-color: #C6D9F1;
+        }
+
+        .contentEditable {
+            padding: 5px;
+        }
+
+
+        .titleBig {
+            font-size: 15px;
+            line-height: 25px;
+            font-weight: bold;
+        }
+
+        .text-uppercase {
+            text-transform: uppercase;
+        }
+
+        .table-border,
+        .table-border th,
+        .table-border td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .table-border td,
+        .table-border th {
+            padding: 8px;
+        }
+
+        .table-border {
+            width: 100%;
+        }
+
+        @media screen {
+            .pageA4V {
+                width: 980px;
+                height: 1400px;
+                margin: 0 auto;
+            }
+
+            .pageA4H {
+                width: 1400px;
+                height: 810px;
+                margin: 0 auto;
+            }
+
+            #header-report ul#info,
+            #header-report ul#addinfo {
+                float: right;
+                width: 970px;
+                margin: 0;
+                overflow: hidden;
+            }
+        }
+
+        @media print {
+            #no-break {
+                page-break-inside: avoid;
+            }
+
+            .pageA4V {
+                width: 960px;
+                height: 1200px;
+                margin: 0 auto;
+                font-size: 15px;
+            }
+
+            .pageA4H {
+                width: 1122px;
+                height: 810px;
+                margin: 0 auto;
+                font-size: 15px;
+            }
+
+            .padding-5 {
+                padding: 5px 0 0 0;
+            }
+
+            .margin-15 {
+                margin-top: 8px;
+                margin-bottom: 7px;
+            }
+
+            #header-report {
+                width: 820px;
+            }
+
+            #container-header {
+                width: 425px !important;
+            }
+
+            table,
+            td,
+            tr,
+            th {
+                border-color: black !important;
+            }
+
+            .report-table-empty td {
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+            }
+
+            .vertical-text {
+                height: 110px;
+                vertical-align: bottom !IMPORTANT;
+            }
+
+            .vertical-text div {
+                transform: translate(5px, 0px) rotate(270deg);
+                width: 5px;
+                line-height: 16px;
+                margin: 0px 10px 0px 0px;
+            }
+
+            #canvas-td {
+                background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 100% 100%, auto;
+            }
+
+            .blue-background {
+                --webkit-print-color-adjust: exact;
+                background-color: #C6D9F1 !important;
+            }
+
+            .titleBig {
+                border-right: 1px solid black !important;
+            }
+
+            .legend {
+                line-height: 40px;
+            }
+
+            .btn-print {
+                border-top: 1px solid black !important;
+            }
+
+        }
+    </style>
+
+</head>
+</body>
 
 <div id="body-students-file-form" class="pageA4V">
     <?php
@@ -252,375 +431,193 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
     </table>
 
-
-
-
-    <table style="margin-top:10px;" id="report-table" class="table table-bordered">
-        <tr>
-            <th style="text-align: center">CARACTERIZAÇÃO</th>
-        </tr>
-        <?php if (GLOGALGROUP != 1) { ?>
+    <div id="no-break">
+        <table id="report-table" class="table table-bordered">
+            <tr>
+                <th style="text-align: center">CARACTERIZAÇÃO</th>
+            </tr>
+            <?php if (GLOGALGROUP != 1) { ?>
+                <tr>
+                    <td>
+                        <div class="span12"><b>15 - Matrícula do aluno: </b></div>
+                        <br>
+                        <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
+                        <div class="span4"><b>Série: </b><span><?= $enrollment->edcensoStageVsModalityFk->name ?></span></div>
+                        <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
+                        <div class="span9"><b>Situação do aluno: </b><span>
+                                <?php
+                                echo $enrollment->getCurrentStatus();
+                                ?>
+                            </span></div>
+                        <div class="span3"><b>Turno: </b><span> <?php echo $turns[$enrollment->classroomFk->turn]; ?></span></div>
+                    </td>
+                </tr>
+            <?php } ?>
             <tr>
                 <td>
-                    <div class="span12"><b>15 - Matrícula do aluno: </b></div>
-                    <br>
-                    <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
-                    <div class="span4"><b>Série: </b><span><?= $enrollment->edcensoStageVsModalityFk->name ?></span></div>
-                    <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
-                    <div class="span9"><b>Situação do aluno: </b><span>
-                            <?php
-                            echo $enrollment->getCurrentStatus();
-                            ?>
-                        </span></div>
-                    <div class="span3"><b>Turno: </b><span> <?php echo $turns[$enrollment->classroomFk->turn]; ?></span></div>
+                    <div class="span10"><b>16 - Documentos(s) que habilita(m) matrícula no segmento: </b>
+                        <!--CORRIGIR AQUI--->
+                        <!--<div class="received_documents"></div>-->
+                        <br>
+                        <br>
+                        <b>OBS.</b>: <span> Se o requerente apresentar declaração, a matrícula ficará pendente no máximo 30 dias, até a entrega da guia de transferência. Após 30 dias a declaração perderá a validade ficando a matrícula sem efeito.</span>
+                    </div>
                 </td>
             </tr>
-        <?php } ?>
-        <tr>
-            <td>
-                <div class="span10"><b>16 - Documentos(s) que habilita(m) matrícula no segmento: </b>
-                    <!--CORRIGIR AQUI--->
-                    <!--<div class="received_documents"></div>-->
-                    <br>
-                    <br>
-                    <b>OBS.</b>: <span> Se o requerente apresentar declaração, a matrícula ficará pendente no máximo 30 dias, até a entrega da guia de transferência. Após 30 dias a declaração perderá a validade ficando a matrícula sem efeito.</span>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span9"><b>17 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"><?= $data['school_admission_date'] ?></span></b>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span9"><b>18 - Situação do aluno na série/etapa: </b>
-                    <br>
-                    <div style="margin-right: -20px;">
-                        <?php
-                        if ($_REQUEST['type'] == '0') { ?>
-                            <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>
-                        <?php
-                        } else {
-                            $firstRegistration = "Primeira matrícula no curso (nível e/ou modalidade de ensino)";
-                            $promoted = "Promovido na série anterior do mesmo curso (nível e/ou modalidade de ensino)";
-                            $repeatStudent = "Repetente";
-                        ?>
-                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $firstRegistration) ? '☑ ' : '☐ ' ?></b> <?php echo $firstRegistration ?></div>
-                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $promoted) ? '☑ ' : '☐ ' ?></b> <?php echo $promoted ?></div>
-                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $repeatStudent) ? '☑ ' : '☐ ' ?></b> <?php echo $repeatStudent ?></div>
-                        <?php } ?>
-
+            <tr>
+                <td>
+                    <div class="span9"><b>17 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"><?= $data['school_admission_date'] ?></span></b>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span10"><b>19 - Situação do Aluno no ano Anterior: </b></div>
-                <br>
-                <div class="span3 padding-5" style="margin-right: -20px;">
-                    <b><?= ($enrollment->previous_stage_situation == 0) ? '☑' : '☐' ?></b> Não Frequentou
-                    <br><b><?= ($enrollment->previous_stage_situation == 1) ? '☑' : '☐' ?></b> Reprovado
-                </div>
-                <div class="span4 padding-5" style="margin-right: -20px;">
-                    <b><?= ($enrollment->previous_stage_situation == 2) ? '☑' : '☐' ?></b> Afastado por transferência
-                    <br><b><?= ($enrollment->previous_stage_situation == 4) ? '☑' : '☐' ?></b> Matrícula final em Educação Infantil
-                </div>
-                <div class="span3 padding-5">
-                    <b><?= ($enrollment->previous_stage_situation == 3) ? '☑' : '☐' ?></b> Afastado por abandono
-                    <br><b><?= ($enrollment->previous_stage_situation == 5) ? '☑' : '☐' ?></b> Promovido
-                </div>
-            </td>
-        </tr>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span9"><b>18 - Situação do aluno na série/etapa: </b>
+                        <br>
+                        <div style="margin-right: -20px;">
+                            <?php
+                            if ($_REQUEST['type'] == '0') { ?>
+                                <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>
+                            <?php
+                            } else {
+                                $firstRegistration = "Primeira matrícula no curso (nível e/ou modalidade de ensino)";
+                                $promoted = "Promovido na série anterior do mesmo curso (nível e/ou modalidade de ensino)";
+                                $repeatStudent = "Repetente";
+                            ?>
+                                <div class="padding-5"><b><?= ($data['current_stage_situation'] == $firstRegistration) ? '☑ ' : '☐ ' ?></b> <?php echo $firstRegistration ?></div>
+                                <div class="padding-5"><b><?= ($data['current_stage_situation'] == $promoted) ? '☑ ' : '☐ ' ?></b> <?php echo $promoted ?></div>
+                                <div class="padding-5"><b><?= ($data['current_stage_situation'] == $repeatStudent) ? '☑ ' : '☐ ' ?></b> <?php echo $repeatStudent ?></div>
+                            <?php } ?>
 
-        <!--<tr>
-            <td>
-                <div class="span10"><b>17 - Situação do aluno no ano anterior: </b>
-                    <br/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span10"><b>19 - Situação do Aluno no ano Anterior: </b></div>
                     <br>
-                    <!--<br><span class="previous_stage_situation"></span>
-                </div>
-            </td>
-        </tr>-->
-        <tr>
-            <td>
-                <div class="span12"><b>20 - Portador de Necessidades Especiais? </b></div>
-                <br>
-                <div class="span2"><b><?= ($data['deficiency'] != 'Não') ? '☑' : '☐' ?></b> Sim</div>
-                <div class="span2"><b><?= ($data['deficiency'] == 'Não') ? '☑' : '☐' ?></b> Não</div>
-                <div class="span8" style="margin-bottom:8px;"><b>Tipo: </b>
-                    <span><?= ($data['deficiency'] != 'Não') ? $data['deficiency'] : '';?></span>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span12"><b>21 - Participa do Programa Bolsa Família? </b></div>
-                <!-- <br><span class="bf_participator"><?= $data['bf_participator'] ?></span> -->
-                <div class="span4"><b><?= ($data['bf_participator'] == 'Sim') ? '☑' : '☐' ?></b> Bolsa Família</div>
-                <div class="span4"><b>☐</b> PETI</div>
-                <div class="span4"><b>☐</b> Pro Jovem</div>
-                <br>
-                <div class="span12 margin-15"><b>Outro: </b>____________________________________________________</div>
+                    <div class="span3 padding-5" style="margin-right: -20px;">
+                        <b><?= ($enrollment->previous_stage_situation == 0) ? '☑' : '☐' ?></b> Não Frequentou
+                        <br><b><?= ($enrollment->previous_stage_situation == 1) ? '☑' : '☐' ?></b> Reprovado
+                    </div>
+                    <div class="span4 padding-5" style="margin-right: -20px;">
+                        <b><?= ($enrollment->previous_stage_situation == 2) ? '☑' : '☐' ?></b> Afastado por transferência
+                        <br><b><?= ($enrollment->previous_stage_situation == 4) ? '☑' : '☐' ?></b> Matrícula final em Educação Infantil
+                    </div>
+                    <div class="span3 padding-5">
+                        <b><?= ($enrollment->previous_stage_situation == 3) ? '☑' : '☐' ?></b> Afastado por abandono
+                        <br><b><?= ($enrollment->previous_stage_situation == 5) ? '☑' : '☐' ?></b> Promovido
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span12"><b>20 - Portador de Necessidades Especiais? </b></div>
+                    <br>
+                    <div class="span2"><b><?= ($data['deficiency'] != 'Não') ? '☑' : '☐' ?></b> Sim</div>
+                    <div class="span2"><b><?= ($data['deficiency'] == 'Não') ? '☑' : '☐' ?></b> Não</div>
+                    <div class="span8" style="margin-bottom:8px;"><b>Tipo: </b>
+                        <span><?= ($data['deficiency'] != 'Não') ? $data['deficiency'] : ''; ?></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span12"><b>21 - Participa do Programa Bolsa Família? </b></div>
+                    <!-- <br><span class="bf_participator"><?= $data['bf_participator'] ?></span> -->
+                    <div class="span4"><b><?= ($data['bf_participator'] == 'Sim') ? '☑' : '☐' ?></b> Bolsa Família</div>
+                    <div class="span4"><b>☐</b> PETI</div>
+                    <div class="span4"><b>☐</b> Pro Jovem</div>
+                    <br>
+                    <div class="span12 margin-15"><b>Outro: </b>____________________________________________________</div>
 
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span10"><b>22 - Utiliza transporte escolar? </b>
-                    <span class="public_transport">
-                        <?= ($enrollment->public_transport == '0') ? 'Não' : 'Sim' ?>
-                    </span>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span10"><b>23 - Restrição alimentar ou alergia a: </b>
-                    <?php
-                    $result = '';
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span10"><b>22 - Utiliza transporte escolar? </b>
+                        <span class="public_transport">
+                            <?= ($enrollment->public_transport == '0') ? 'Não' : 'Sim' ?>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span10"><b>23 - Restrição alimentar ou alergia a: </b>
+                        <?php
+                        $result = '';
 
-                    if ($data['celiac'] == '1') {
-                        $result .= 'Doença celíaca';
-                    }
+                        if ($data['celiac'] == '1') {
+                            $result .= 'Doença celíaca';
+                        }
 
-                    if ($data['diabetes'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Diabetes';
-                    }
+                        if ($data['diabetes'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Diabetes';
+                        }
 
-                    if ($data['hypertension'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Hipertensão';
-                    }
+                        if ($data['hypertension'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Hipertensão';
+                        }
 
-                    if ($data['iron_deficiency_anemia'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Anemia ferropriva';
-                    }
+                        if ($data['iron_deficiency_anemia'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Anemia ferropriva';
+                        }
 
-                    if ($data['sickle_cell_anemia'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Anemia falciforme';
-                    }
+                        if ($data['sickle_cell_anemia'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Anemia falciforme';
+                        }
 
-                    if ($data['lactose_intolerance'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Intolerância à lactose';
-                    }
+                        if ($data['lactose_intolerance'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Intolerância à lactose';
+                        }
 
-                    if ($data['malnutrition'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Desnutrição';
-                    }
+                        if ($data['malnutrition'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Desnutrição';
+                        }
 
-                    if ($data['obesity'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Obesidade';
-                    }
+                        if ($data['obesity'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Obesidade';
+                        }
 
-                    if (!empty($data['others'])) {
-                        $result .= ($result ? ', ' : '') . $data['others'];
-                    }
+                        if (!empty($data['others'])) {
+                            $result .= ($result ? ', ' : '') . $data['others'];
+                        }
 
-                    echo $result;
-                    ?>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span12"><b>24 - Portador de algum tipo de transtorno? </b></div>
-                <br>
-                <div style="margin-left: 10px;">
-                    <div class="padding-5"><b><?= ($data['tdah'] == '1') ? '☑' : '☐' ?></b> Transtorno do déficit de atenção com hiperatividade (TDAH)</div>
-                    <div class="padding-5"><b><?= ($data['depressao'] == '1') ? '☑' : '☐' ?></b> Transtorno depressivo (depressão)</div>
-                    <div class="padding-5"><b><?= ($data['tab'] == '1') ? '☑' : '☐' ?></b> Transtorno bipolar (TAB)</div>
-                    <div class="padding-5"><b><?= ($data['toc'] == '1') ? '☑' : '☐' ?></b> Transtorno obsessivo compulsivo (TOC)</div>
-                    <div class="padding-5"><b><?= ($data['tag'] == '1') ? '☑' : '☐' ?></b> Transtorno de ansiedade generalizada (TAG)</div>
-                    <div class="padding-5"><b><?= ($data['tod'] == '1') ? '☑' : '☐' ?></b> Distúrbio desafiador e de oposição (TOD)</div>
-                    <div class="padding-5"><b><?= ($data['tcne'] == '1') ? '☑' : '☐' ?></b> Transtorno de conduta não especificado</div>
-                    <div class="padding-5"><b>Outros transtornos de conduta: </b><?= ($data['disorder_others'])?></div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span12"><b>25 - Autorização do Termo de Consentimento da Imagem? </b></div>
-                <br>
-                <div class="span2"><b><?= ($data['consent_form'] == '1') ? '☑' : '☐' ?></b> Sim</div>
-                <div class="span2"><b><?= ($data['consent_form'] == '0') ? '☑' : '☐' ?></b> Não</div>
-            </td>
-        </tr>
-    </table>
+                        echo $result;
+                        ?>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span12"><b>24 - Portador de algum tipo de transtorno? </b></div>
+                    <br>
+                    <div style="margin-left: 10px;">
+                        <div class="padding-5"><b><?= ($data['tdah'] == '1') ? '☑' : '☐' ?></b> Transtorno do déficit de atenção com hiperatividade (TDAH)</div>
+                        <div class="padding-5"><b><?= ($data['depressao'] == '1') ? '☑' : '☐' ?></b> Transtorno depressivo (depressão)</div>
+                        <div class="padding-5"><b><?= ($data['tab'] == '1') ? '☑' : '☐' ?></b> Transtorno bipolar (TAB)</div>
+                        <div class="padding-5"><b><?= ($data['toc'] == '1') ? '☑' : '☐' ?></b> Transtorno obsessivo compulsivo (TOC)</div>
+                        <div class="padding-5"><b><?= ($data['tag'] == '1') ? '☑' : '☐' ?></b> Transtorno de ansiedade generalizada (TAG)</div>
+                        <div class="padding-5"><b><?= ($data['tod'] == '1') ? '☑' : '☐' ?></b> Distúrbio desafiador e de oposição (TOD)</div>
+                        <div class="padding-5"><b><?= ($data['tcne'] == '1') ? '☑' : '☐' ?></b> Transtorno de conduta não especificado</div>
+                        <div class="padding-5"><b>Outros transtornos de conduta: </b><?= ($data['disorder_others']) ?></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span12"><b>25 - Autorização do Termo de Consentimento da Imagem? </b></div>
+                    <br>
+                    <div class="span2"><b><?= ($data['consent_form'] == '1') ? '☑' : '☐' ?></b> Sim</div>
+                    <div class="span2"><b><?= ($data['consent_form'] == '0') ? '☑' : '☐' ?></b> Não</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
 </div>
+</body>
 
-
-<style>
-    .container-report {
-        width: 980px;
-        margin: auto;
-    }
-
-    .container-report:after {
-        clear: both;
-    }
-
-    .container-report:before,
-    .container-report:after {
-        display: table;
-        content: "";
-        line-height: 0;
-    }
-
-    .mt-60 {
-        margin-top: 60px;
-    }
-
-    .mt-30 {
-        margin-top: 30px;
-    }
-
-    .mb-30 {
-        margin-bottom: 60px;
-    }
-
-    .blue-background {
-        background-color: #C6D9F1;
-    }
-
-    .contentEditable {
-        padding: 5px;
-    }
-
-
-    .titleBig {
-        font-size: 15px;
-        line-height: 25px;
-        font-weight: bold;
-    }
-
-    .text-uppercase {
-        text-transform: uppercase;
-    }
-
-    .table-border,
-    .table-border th,
-    .table-border td {
-        border: 1px solid black;
-        border-collapse: collapse;
-    }
-
-    .table-border td,
-    .table-border th {
-        padding: 8px;
-    }
-
-    .table-border {
-        width: 100%;
-        page-break-inside: auto
-    }
-
-    @media screen {
-        .pageA4V {
-            width: 980px;
-            height: 1400px;
-            margin: 0 auto;
-        }
-
-        .pageA4H {
-            width: 1400px;
-            height: 810px;
-            margin: 0 auto;
-        }
-
-        #header-report ul#info,
-        #header-report ul#addinfo {
-            float: right;
-            width: 970px;
-            margin: 0;
-            overflow: hidden;
-        }
-    }
-
-    @media print {
-        .pageA4V {
-            width: 960px;
-            height: 1200px;
-            margin: 0 auto;
-            font-size: 15px;
-        }
-
-        .pageA4H {
-            width: 1122px;
-            height: 810px;
-            margin: 0 auto;
-            font-size: 15px;
-        }
-
-        .padding-5 {
-            padding: 5px 0 0 0;
-        }
-
-        .margin-15 {
-            margin-top: 8px;
-            margin-bottom: 7px;
-        }
-
-        #header-report {
-            width: 820px;
-        }
-
-        #container-header {
-            width: 425px !important;
-        }
-
-        table,
-        td,
-        tr,
-        th {
-            border-color: black !important;
-        }
-
-        .report-table-empty td {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-        }
-
-        .vertical-text {
-            height: 110px;
-            vertical-align: bottom !IMPORTANT;
-        }
-
-        .vertical-text div {
-            transform: translate(5px, 0px) rotate(270deg);
-            width: 5px;
-            line-height: 16px;
-            margin: 0px 10px 0px 0px;
-        }
-
-        #canvas-td {
-            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: 100% 100%, auto;
-        }
-
-        .blue-background {
-            --webkit-print-color-adjust: exact;
-            background-color: #C6D9F1 !important;
-        }
-
-        #body-students-file-form {
-            page-break-after: always;
-        }
-
-        .titleBig {
-            border-right: 1px solid black !important;
-        }
-
-        .legend {
-            line-height: 40px;
-        }
-
-        .btn-print {
-            border-top: 1px solid black !important;
-        }
-
-    }
-</style>
+</html>
