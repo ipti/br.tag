@@ -4,9 +4,13 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 
 export default ({mode}) => {
-    Object.assign(process.env, dotenv.parse(fs.readFileSync(`${__dirname}/.env`)));
-    const port = process.env.VITE_PORT;
-    const origin = `${process.env.VITE_ORIGIN}:${port}`;
+    // Object.assign(process.env, dotenv.parse(fs.readFileSync(`${__dirname}`)));
+
+
+    // const port = process.env.VITE_PORT;
+    const port = 433;
+    // const origin = `${process.env.VITE_ORIGIN}:${port}`;
+    const origin = '433:433';
     return defineConfig({
         plugins: [
             // register live reload plugin, for refreshing the browser on file changes
@@ -21,11 +25,12 @@ export default ({mode}) => {
             outDir: 'web/resources/',
             rollupOptions: {
                 input: {
-                    js: './js/',
-                    css: './sass/scss/',
+                    js: '/app/js/admin/auditory.js',
+                    js2: '/app/js/admin/instance-config.js',
+                    // css: '/app/sass/scss/_helper.scss',
                 },
                 output: {
-                    entryFileNames: `bundle/main.js`,
+                    entryFileNames: `entry[name].js`,
                     /* assetFileNames: `[ext]/app.[ext]`, */
                     assetFileNames: ({name}) => {
 
