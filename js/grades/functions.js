@@ -109,6 +109,11 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
             success: function (data) {
                 data = JSON.parse(data);
                 const html = GradeTableBuilder(data).build();
+                let hrefPrintGrades = `/?r=forms/AtaSchoolPerformance&id=${$("#classroom").val()}`
+                $('.js-print-grades').find('a').attr('href',hrefPrintGrades);
+                $('.js-print-grades').show();
+                $('.js-unity-title').text($('select#unities').find('option:selected').text());
+
                 $(".js-grades-container").html(html);
                 if (data.isUnityConcept) {
                     $("#close-grades-diary").hide();
@@ -177,6 +182,12 @@ function GradeTableBuilder(data) {
                             isUnityConcept,
                             conceptOptions
                         )}
+                        ${recoveryPartial !== null ? buildPartialRecovery(
+                            recoveryPartial,
+                            student.unities,
+                            isUnityConcept,
+                            conceptOptions
+                        ) : ''}
                         ${
                             isUnityConcept
                                 ? ""
@@ -184,12 +195,6 @@ function GradeTableBuilder(data) {
                                       student.finalMedia
                                   )} </td>`
                         }
-                        ${recoveryPartial !== null ? buildPartialRecovery(
-                            recoveryPartial,
-                            student.unities,
-                            isUnityConcept,
-                            conceptOptions
-                        ) : ''}
                         <td class="final-media">
                             ${student.situation ?? ""}
                         </td>
@@ -320,18 +325,19 @@ function GradeTableBuilder(data) {
                                     `<th style="min-width: 50px;  font-size: 80%">${element}</th>`
                             )
                             .join("\n")}
+                            ${partialRecoveryColumns !== null ?
+                                template`<th style="min-width: 50px; font-size: 80%; font-weight: bold;">
+                                ${partialRecoveryColumns.name}
+                                </th>`
+                                 :
+                                ''}
                         ${
                             !data.isUnityConcept
                                 ? `<th style="font-size: 80%; font-weight: bold;">Média Anual</th>`
                                 : ""
                         }
 
-                            ${partialRecoveryColumns !== null ?
-                                template`<th style="min-width: 50px; font-size: 80%; font-weight: bold;">
-                                ${partialRecoveryColumns.name}
-                                </th>`
-                                 :
-                                null}
+
 
                         <th style="font-size: 80%; font-weight: bold;">Resultado</th>
                     </tr>

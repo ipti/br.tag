@@ -39,6 +39,12 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
             </div>
         </div>
     </div>
+    <div class="row js-print-grades" style="display:none;">
+            <a href="column clearleft" class="column t-button-secondary">
+                <span class="t-icon-printer"></span>
+                Imprimir
+            </a>
+        </div>
     <?php if(Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
@@ -48,7 +54,7 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
     <hr class="row t-separator" />
     <div class="row justify-content--space-between">
         <div class="column clearleft  is-four-fifths row">
-            <div class="column  clearleft ">
+            <div class="column clearleft">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 't-field-select__label--required')); ?>
                     <?php
@@ -97,6 +103,7 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
     </div>
     <hr class="row t-separator" />
     <br>
+    <h2 class="js-unity-title"></h2>
     <div class="js-grades-container"></div>
     <?php $this->endWidget(); ?>
 

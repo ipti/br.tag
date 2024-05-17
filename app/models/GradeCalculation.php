@@ -9,17 +9,12 @@
  * @property string $formula
  *
  * The followings are the available model relations:
+ * @property GradePartialRecovery[] $gradePartialRecoveries
+ * @property GradeRules[] $gradeRules
  * @property GradeUnity[] $gradeUnities
  */
 class GradeCalculation extends CActiveRecord
 {
-
-    public const OP_SUM = 1;
-    public const OP_MEDIA = 2;
-    public const OP_MEDIA_BY_WEIGTH = 3;
-    public const OP_MAX = 4;
-    public const OP_MIN = 5;
-
 	/**
 	 * @return string the associated database table name
 	 */
@@ -52,6 +47,8 @@ class GradeCalculation extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'gradePartialRecoveries' => array(self::HAS_MANY, 'GradePartialRecovery', 'grade_calculation_fk'),
+			'gradeRules' => array(self::HAS_MANY, 'GradeRules', 'grade_calculation_fk'),
 			'gradeUnities' => array(self::HAS_MANY, 'GradeUnity', 'grade_calculation_fk'),
 		);
 	}
