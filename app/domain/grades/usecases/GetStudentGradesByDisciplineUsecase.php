@@ -173,10 +173,32 @@ class GetStudentGradesByDisciplineUsecase
             $studentGradeResult->addUnity($unityResult);
 
             if($unity->parcial_recovery_fk !== null){
+                $gradePartialRecovery = Grade::model()->find(
+                    "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk and grade_partial_recovery_fk = :grade_partial_recovery_fk",
+                    [
+                        "enrollment_fk" => $studentEnrollment->id,
+                        "discipline_fk" => $discipline,
+                        "grade_partial_recovery_fk" => $unity->parcial_recovery_fk
+                    ]
+                );
+
+                if($gradePartialRecovery == null) {
+                    $gradePartialRecovery = new Grade();
+                    $gradePartialRecovery->enrollment_fk = $studentEnrollment->id;
+                    $gradePartialRecovery->discipline_fk = $discipline;
+                    $gradePartialRecovery->grade = 0;
+                    $gradePartialRecovery->parcial_recovery_fk = $unity->parcial_recovery_fk;
+                    $grade->save();
+                }
+
+
                 $partialRecovery = $unity->parcialRecoveryFk;
                 $partialRecoveryResult = new GradePartialRecoveryResult($partialRecovery->name,
                 $partialRecovery->gradeCalculationFk->name);
                 $partialRecoveryResult->setPartialRecoverMedia($partialRecovery->partial_recover_media);
+                $partialRecoveryResult->addGrade($gradePartialRecovery);
+                $studentGradeResult->addPartialRecovery($partialRecoveryResult);
+
             }
         }
 
@@ -391,11 +413,11 @@ class StudentGradesResult
     {
         $this->unities[] = $unity;
     }
-    public function getRecoveries()
+    public function getpartialRecoveries()
     {
-        return $this->recoveries;
+        return $this->partialRecoveries;
     }
-    public function addRecoveries(GradePartialRecoveryResult $partialRecovery)
+    public function addPartialRecovery(GradePartialRecoveryResult $partialRecovery)
     {
         $this->partialRecoveries[] = $partialRecovery;
     }
@@ -410,6 +432,9 @@ class StudentGradesResult
             'unities' => array_map(function (GradeUnityResult $unity) {
                 return $unity->toArray();
             }, $this->unities),
+            'partialRecoveries' => array_map(function (GradePartialRecoveryResult $partialRecovery) {
+                return $partialRecovery->toArray();
+            }, $this->partialRecoveries),
         ];
     }
 }
@@ -457,7 +482,7 @@ class GradeUnityResult
 
 class GradePartialRecoveryResult {
     private $partialRecoveryName;
-    private $grades;
+    private $grade;
     private $partialRecoverMedia;
     private $calculationName;
     public function __construct($partialRecoveryName = null, $calculationName = null)
@@ -469,9 +494,18 @@ class GradePartialRecoveryResult {
     {
         $this->partialRecoverMedia = $partialRecoverMedia;
     }
-    public function addGrade(GradeByModalityResult $grade)
+    public function addGrade($grade)
     {
-        $this->grades[] = $grade;
+        $this->grade = $grade;
+    }
+    public function toArray(): array
+    {
+        return [
+            'partialRecoveryName' => $this->partialRecoveryName,
+            'grade' => $this->grade,
+            'partialRecoverMedia' => $this->partialRecoverMedia,
+            'calculationName' => $this->calculationName
+        ];
     }
 }
 
