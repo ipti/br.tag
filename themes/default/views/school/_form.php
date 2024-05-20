@@ -243,11 +243,13 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolIdentification,
-                                    'initial_date',
+                                    'Inicio do período letivo',
                                     array('class' => 't-field-text__label')
                                 ); ?>
 								<?php
-									$this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelSchoolIdentification, 'initial_date'));
+                                    $options = DatePickerWidget::renderDatePicker($modelSchoolIdentification, 'initial_date');
+                                    $options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : array(), array('style' => 'background-color: #fff;'));
+									$this->widget('zii.widgets.jui.CJuiDatePicker', $options);
                                     echo CHtml::link('	Limpar', '#', array(
                                         'onclick' => '$("#' . CHtml::activeId($modelSchoolIdentification, 'initial_date') . '").datepicker("setDate", null); return false;',
 									));
@@ -256,7 +258,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                         </div>
                     </div>
-                    <div class="row reverse">
+                    <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
@@ -279,6 +281,27 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
+                        <div class="column clearleft--on-mobile is-two-fifths">
+                            <div class="t-field-text">
+                                <?php echo $form->label(
+                                    $modelSchoolIdentification,
+                                    'Final do período letivo',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
+                                <?php
+                                    $options = DatePickerWidget::renderDatePickerFinal($modelSchoolIdentification, 'final_date');
+                                    $options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : array(), array('style' => 'background-color: #fff;'));
+                                    $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
+
+                                    echo CHtml::link('Limpar', '#', array(
+                                        'onclick' => '$("#' . CHtml::activeId($modelSchoolIdentification, 'final_date') . '").datepicker("setDate", null); return false;',
+                                    ));
+                                    echo $form->error($modelSchoolIdentification, 'final_date');
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select">
                                 <?php echo $form->label(
