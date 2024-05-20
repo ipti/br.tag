@@ -102,7 +102,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
     </div>
 
 
-    <div class="modal fade t-modal-container" id="js-status-modal" tabindex="-1" role="dialog">
+    <div class="modal fade t-modal-container t-modal-rec" id="js-status-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content" id="modal-recommendation">
                 <div class="t-modal__header">
@@ -117,10 +117,31 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
 
                 </div>
                 <div class="modal-x"></div>
-                <div class="modal-body ">
-                    <div class="ui-accordion-header">
+
+                <div class="modal-body">
+                    <div id="accordion-meal-recommendation" class="t-accordeon-quaternary">
+                        <div class="ui-accordion-header justify-content--space-between">
+                            <div class="mobile-row align-items--center">
+                                <h4 class="t-title">Oláaaaa</h4>
+                            </div>
+                        </div>
+                        <div class="ui-accordion-content">
+                            <p>nome 1 e por ai vai</p>
+                            <p>nome 1 e por ai vai</p>
+                            <p>nome 1 e por ai vai</p>
+                        </div>
+
+                    <!-- <div class="t-accordeon-tertiary " id="accordion-meal-recommendation"> -->
+                    <!-- <div class="ui-accordion-header">
                         <h3>OLHAAA</h3>
-                    </div>
+                    </div> -->
+                    <!-- <div class="ui-accordion-content">
+                        <p>nome 1 e por ai vai</p>
+                        <p>nome 1 e por ai vai</p>
+                        <p>nome 1 e por ai vai</p>
+
+                    </div> -->
+
                 </div>
             </div>
         </div>

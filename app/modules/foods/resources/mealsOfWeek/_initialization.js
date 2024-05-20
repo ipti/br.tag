@@ -4,6 +4,17 @@ let allCardsIngredientsStatus = [];
 let id_meal_indentification = [];
 const containerCards = $('.js-cards-meals')
 
+$(document).ready(function (){
+    $(function () {
+        $("#accordion-meal-recommendation").accordion({
+            active: false,
+            collapsible: true,
+            icons: false,
+            heightStyle: "content",
+            animate: 600
+        });
+    });
+})
 
 $.ajax({
     url: "?r=foods/foodmenu/GetMealsRecommendation",
@@ -183,15 +194,6 @@ $(".js-expansive-panel").on("click", function () {
 
 $(document).on("click", '.t-cards-container-custom', function () {
 
-    $(function () {
-        $("#accordion-item-food").accordion({
-            active: false,
-            collapsible: true,
-            icons: false,
-            heightStyle: "content",
-            animate: 600
-        });
-    });
     const cardIndex = $(this).closest('.t-cards').index();
     const clickedCardIngredientsStatus = allCardsIngredientsStatus[cardIndex];
 
@@ -212,16 +214,17 @@ $(document).on("click", '.t-cards-container-custom', function () {
     if (hasMissingIngredients) {
         modalContent += `<div class="content-information">
         <p class='text-information' style=" color: #E98305;">Essa refeição tem ingredientes faltantes</p>`;
-        var textoAviso = "Parece que alguns ingredientes desta refeição está em falta ou com pouco estoque.";
-        if (textoAviso.includes("ou")) {
-            textoAviso = textoAviso.replace("ou", "<br>");
+        var textoAviso = "Parece que alguns ingredientes desta refeição está em falta ou __ com pouco estoque.";
+        if (textoAviso.includes("__")) {
+            textoAviso = textoAviso.replace("__", "<br>");
         }
         modalContent += `<p class='text-aviso'>${textoAviso}</p>
             </div>`;
         modalContent += `<h4 class='text-h4'> Itens Faltantes</h4>`;
+        modalContent += `<hr class="linha-personalizada">`
         clickedCardIngredientsStatus.forEach((ingredient) => {
             if (ingredient.status === "Emfalta") {
-                modalContent += `<hr class="linha-personalizada">
+                modalContent += `
                                  <p><span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span> ${ingredient.foodName}</p>`;
                 ingredient.itemReference.forEach((item) => {
                     modalContent += `<p class="semaforo-line"> Semaforo: ${item.semaforo} Mudar ingrediente</p>`;
