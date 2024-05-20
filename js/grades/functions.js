@@ -164,7 +164,7 @@ $('.js-refresh').on("click", function (e) {
 
 
 function GradeTableBuilder(data) {
-    function buildStundentsRows(students, isUnityConcept, conceptOptions, recoveryPartial) {
+    function buildStundentsRows(students, isUnityConcept, conceptOptions, partialRecoveries) {
         return students
             .map(
                 (student) => template`
@@ -182,11 +182,8 @@ function GradeTableBuilder(data) {
                             isUnityConcept,
                             conceptOptions
                         )}
-                        ${recoveryPartial !== null ? buildPartialRecovery(
-                            recoveryPartial,
-                            student.unities,
-                            isUnityConcept,
-                            conceptOptions
+                        ${partialRecoveries !== null ? buildPartialRecovery(
+                            student.partialRecoveries[0],
                         ) : ''}
                         ${
                             isUnityConcept
@@ -232,10 +229,10 @@ function GradeTableBuilder(data) {
 
         return unitesGrade;
     }
-    function buildPartialRecovery(recoveryPartial, unities, isUnityConcept,conceptOptions){
+    function buildPartialRecovery(studentPartialRecoveries){
         return  template`
             <td class="grade-td">
-                <input type="text" style="width:50px;text-align: center;" value="0.0" />
+                <input type="text" style="width:50px;text-align: center;" value="${studentPartialRecoveries.grade.grade}" />
             </td>`;
 
     }

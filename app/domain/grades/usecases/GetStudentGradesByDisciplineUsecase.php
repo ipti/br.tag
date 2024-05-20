@@ -187,8 +187,8 @@ class GetStudentGradesByDisciplineUsecase
                     $gradePartialRecovery->enrollment_fk = $studentEnrollment->id;
                     $gradePartialRecovery->discipline_fk = $discipline;
                     $gradePartialRecovery->grade = 0;
-                    $gradePartialRecovery->parcial_recovery_fk = $unity->parcial_recovery_fk;
-                    $grade->save();
+                    $gradePartialRecovery->grade_partial_recovery_fk = $unity->parcial_recovery_fk;
+                    $gradePartialRecovery->save();
                 }
 
 
