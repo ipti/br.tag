@@ -1,3 +1,6 @@
+## [Versão 3.78.139]
+- Resolvido o problema de conflitos de CPF do mesmo usuário ao atualizar as informações de um estudante existente
+
 ## [Versão 3.78.138]
 - Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
 
