@@ -16,6 +16,7 @@ $.ajax({
     renderMeals(mealsOfWeek)
 })
 
+
 $(document).on("click", '.js-change-pagination', function () {
 
     let clicked = $(this)
@@ -134,6 +135,8 @@ function createCard(meal_component, meal, dayMeal) {
     const returnMealsStatus = meal_component.ingredients.map((item) => {
         return {
             status: item.statusInventoryFood,
+            id_food_alternative: item.id_food,
+            id_meal_componet: item.id_meal_food,
             id_food: item.foodIdFk,
             itemReference: item.itemReference,
             foodName: item.foodName.replace(/,/g, '')
@@ -189,38 +192,60 @@ $(document).on("click", '.t-cards-container-custom', function () {
             animate: 600
         });
     });
-
-
-
     const cardIndex = $(this).closest('.t-cards').index();
     const clickedCardIngredientsStatus = allCardsIngredientsStatus[cardIndex];
 
     let modalContent = '';
     let hasMissingIngredients = false;
 
+    let ingredientList = [];
+
     clickedCardIngredientsStatus.forEach((ingredient) => {
-        modalContent += `<p>Ingrediente: ${ingredient.foodName}, ${ingredient.id_food}</p>`;
+        ingredientList.push(ingredient.foodName);
         if (ingredient.status === "Emfalta") {
             hasMissingIngredients = true;
         }
     });
 
-    if (hasMissingIngredients) {
-        modalContent += "<p>Essa refeição tem ingredientes faltantes:</p>";
+    modalContent += `<p> <span class = "span-text">Ingrediente: </span> ${ingredientList.join(', ')}</p>`;
 
+    if (hasMissingIngredients) {
+        modalContent += `<div class="content-information">
+        <p class='text-information' style=" color: #E98305;">Essa refeição tem ingredientes faltantes</p>`;
+        var textoAviso = "Parece que alguns ingredientes desta refeição está em falta ou com pouco estoque.";
+        if (textoAviso.includes("ou")) {
+            textoAviso = textoAviso.replace("ou", "<br>");
+        }
+        modalContent += `<p class='text-aviso'>${textoAviso}</p>
+            </div>`;
+        modalContent += `<h4 class='text-h4'> Itens Faltantes</h4>`;
         clickedCardIngredientsStatus.forEach((ingredient) => {
             if (ingredient.status === "Emfalta") {
-                modalContent += `<p>Ingrediente: ${ingredient.foodName}, Status: ${ingredient.status}, Id_food: ${ingredient.id_food}</p>`;
+                modalContent += `<hr class="linha-personalizada">
+                                 <p><span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span> ${ingredient.foodName}</p>`;
                 ingredient.itemReference.forEach((item) => {
-                    modalContent += `<p>Código: ${item.codigo}, Semaforo: ${item.semaforo}</p>`;
-                    modalContent += `<a href="#" class="ingredient-link" data-item-nome="${item.item_nome}">${item.item_nome}</a>`;
-
+                    modalContent += `<p class="semaforo-line"> Semaforo: ${item.semaforo} Mudar ingrediente</p>`;
+                    // modalContent += `<p class="semaforo-line" style="color: ${semaforoColor};"> Semaforo: ${item.semaforo} Mudar ingrediente</p>`;
+                    modalContent += `<div class = "recommendation-ingredient">
+                        <p>Adicionar </p>
+                        <a href="#" class="ingredient-link" data-item-nome="${item.item_nome}" data-item-codigo="${item.codigo}" data-item-id_meal="${ingredient.id_meal_componet}" data-item-id-food="${ingredient.id_food_alternative}">
+                        ${item.item_nome}</a>
+                        </div>
+                        `;
 
                 });
             }
         });
     } else {
-        modalContent += "<p>Essa refeição não tem ingredientes faltantes</p>";
+        modalContent += `<div class="content-information">
+                       <p class='text-information' style=" color: #28a138;">Essa refeição não tem ingredientes faltantes</p>`;
+        var textoAviso = "Não há ingredientes desta refeição em falta ou com pouco estoque.";
+        if (textoAviso.includes("ou")) {
+            textoAviso = textoAviso.replace("ou", "<br>");
+        }
+        modalContent += `<p class='text-aviso'>${textoAviso}</p>
+                    </div>`;
+
     }
 
     $('#js-status-modal .modal-x').html(modalContent);
@@ -230,8 +255,36 @@ $(document).on("click", '.t-cards-container-custom', function () {
 $(document).on("click", '.ingredient-link', function (e) {
     e.preventDefault();
     const itemNome = $(this).data('item-nome');
-    const idMealFood = $(this).data('id-meal-food');
+    const idFood = $(this).data('item-codigo');
+    const idMealFood = $(this).data('item-id_meal');
     console.log('item_nome clicado:', itemNome);
+    console.log('id_food:', idFood);
     console.log('id_meal_food:', idMealFood);
 });
 
+$(document).on("click", '.ingredient-link', function (e) {
+    e.preventDefault();
+    const itemNome = $(this).data('item-nome');
+    const idFood = $(this).data('item-codigo');
+    const idMealFood = $(this).data('item-id_meal');
+    const idMealFoodComponent = $(this).data('item-id-food');
+
+    console.log('item_nome clicado:', itemNome);
+    console.log('id_food da comida recomendada:', idFood);
+    console.log('id_meal_food do prato:', idMealFood);
+    console.log('id_meal_food_subst da comida a ser substituida:', idMealFoodComponent);
+
+
+    $.ajax({
+        url: `?r=foods/foodMenu/UpdateFoodMeal&id=${idFood}&idMeal=${idMealFood}&idFoodSubst=${idMealFoodComponent}`,
+        data: {
+            id_meal: idMealFood, id_food: idFood, id_food_subst: idMealFoodComponent
+        },
+        type: "POST",
+        success: function (response) {
+            console.log(response);
+            location.reload();
+        }
+    });
+
+});

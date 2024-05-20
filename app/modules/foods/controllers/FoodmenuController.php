@@ -296,8 +296,10 @@ class FoodmenuController extends Controller
 
             $dayMeals = array();
             foreach ($day as $meal) {
+                $idMeal = $meal['idMeal'];
                 $mealData = array(
                     // 'ingredients' => array(),
+
                     'time' => $meal['time'],
                     'sequence' => $meal['sequence'],
                     'turn' => $meal['turn'],
@@ -312,9 +314,10 @@ class FoodmenuController extends Controller
 
                     $mealData['mealsComponent'][] = array(
 
-                        'id_meal_food' =>$component['idMeal'],
+                        'id_meal_food' => $component['idMeal'],
                         'description' => $component['description'],
-                        'ingredients' => array_map(function ($ingredient) {
+                        'ingredients' => array_map(function ($ingredient) use ($component) {
+                            $idMeal = $component['idMeal'];
                             $isInStock = ($ingredient['statusInventoryFood'] == 'Emfalta') ? false : true;
                             $itemRecommendation = array();
                             if (!$isInStock) {
@@ -322,7 +325,8 @@ class FoodmenuController extends Controller
                             }
 
                             return array(
-                                'foodIdFk' => $ingredient['foodIdFk'],
+                                'id_food' => $ingredient['foodIdFk'],
+                                'id_meal_food' => $idMeal,
                                 'foodName' => $ingredient['foodName'],
                                 "amount" => $ingredient['amount'],
                                 "foodMeasureUnitId" => $ingredient['foodMeasureUnitId'],
@@ -348,15 +352,17 @@ class FoodmenuController extends Controller
 
         echo CJSON::encode($result);
     }
+
+
+
+
     private function mapRecommendations($itemRecommendation)
     {
         $resultRecommendation = array();
 
         foreach ($itemRecommendation as $recommendationItem) {
-
             $foodInventoryItem = FoodInventory::model()->findByAttributes(array('food_fk' => $recommendationItem->item_codigo));
-            // $school_acess = Yii::app()->user->school;
-        //    if($foodInventoryItem->status === $school_acess){
+
             if ($foodInventoryItem !== null && ($foodInventoryItem->status === 'Disponivel' || $foodInventoryItem->status === 'Acabando')) {
                 $item = array(
                     'codigo' => $recommendationItem->item_codigo,
@@ -368,18 +374,27 @@ class FoodmenuController extends Controller
 
                 $resultRecommendation[] = $item;
             }
-        // }
         }
 
         return $resultRecommendation;
     }
 
+    public function actionUpdateFoodMeal($id, $idMeal, $idFoodSubst)
+    {
+        $foodIngredient = FoodIngredient::model()->findAllByAttributes(array(
+            'food_menu_meal_componentId' => $idMeal,
+            'food_id_fk' => $idFoodSubst
+        ));
 
-    // public function actionUpdateFoodMeal($id_meal, $id_food){
+        $result = array();
+        foreach ($foodIngredient as $ingredient) {
+            $ingredient->food_id_fk = $id;
+            $ingredient->save();
+            $result[] = $ingredient->id;
+        }
 
-
-    // }
-
+        echo json_encode($result);
+    }
 
     public function actionIndex()
     {

@@ -48,16 +48,16 @@
         width: 100%;
     }
 }
-  
 
-.lunch-box-container .title{
+
+.lunch-box-container .title {
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
     line-height: 27px;
 }
 
-.lunch-box-container .subtitle{
+.lunch-box-container .subtitle {
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -71,7 +71,7 @@ table {
     text-align: left !important;
 }
 
-table thead > tr {
+table thead>tr {
     border-bottom: 2px solid #BAC7D5 !important;
 }
 
@@ -79,11 +79,13 @@ table tbody tr {
     border-bottom: 2px solid #E8EDF1 !important;
 }
 
-table th, table td {
+table th,
+table td {
     padding: 10px !important;
 }
 
-.stock-container, .transactions-container {
+.stock-container,
+.transactions-container {
     width: 40% !important;
 }
 
@@ -113,20 +115,21 @@ table th, table td {
     width: 70% !important;
 }
 
-.stock-home .dataTables_filter > label {
+.stock-home .dataTables_filter>label {
     width: 100% !important;
     cursor: text;
 }
 
-.stock-home .dataTables_filter > label > img, .stock-home .dataTables_filter > label > input {
+.stock-home .dataTables_filter>label>img,
+.stock-home .dataTables_filter>label>input {
     float: left !important;
 }
 
-.stock-home .dataTables_filter > label > img {
+.stock-home .dataTables_filter>label>img {
     margin: 7px !important;
 }
 
-.stock-home .dataTables_filter > label > input {
+.stock-home .dataTables_filter>label>input {
     width: 52% !important;
 }
 
@@ -206,7 +209,8 @@ table th, table td {
     text-align: right;
 }
 
-.transactions-container .out, .stock-container .out {
+.transactions-container .out,
+.stock-container .out {
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -214,7 +218,8 @@ table th, table td {
     color: #D21C1C;
 }
 
-.transactions-container .in, .stock-container .in {
+.transactions-container .in,
+.stock-container .in {
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -222,7 +227,8 @@ table th, table td {
     color: #28A138;
 }
 
-.odd, .even {
+.odd,
+.even {
     background: none !important;
 }
 
@@ -235,7 +241,7 @@ table th, table td {
     width: auto;
 }
 
-.lunch-home .dataTables_filter > label > img {
+.lunch-home .dataTables_filter>label>img {
     margin-bottom: 10px !important;
 }
 

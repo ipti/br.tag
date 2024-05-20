@@ -39,7 +39,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
         </div>
     </div>
     <div class="t-buttons-container">
-        <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
+        <a class="t-button-primary" href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
             Preparar Cardápio
         </a>
         <div class="mobile-row">
@@ -65,13 +65,13 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
                 <option value="T">Tarde</option>
                 <option value="N">Noite</option>
             </select>
-		</div>
+        </div>
         <div class="t-field-select column clearleft--on-mobile t-multiselect">
             <label class="t-field-select__label">Filtrar etapa de ensino</label>
             <?= CHtml::dropDownList("stages", [], CHtml::listData(FoodPublicTarget::model()->findAll(), "id", "name"), [
                 "multiple" => "multiple", "class" => "select-search-on control-input multiselect js-filter-public-target select3-choices"
             ]) ?>
-		</div>
+        </div>
         <div Class="column show--desktop"></div>
     </div>
     <div class="row days-of-week row">
@@ -104,20 +104,23 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
 
     <div class="modal fade t-modal-container" id="js-status-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" id="modal-recommendation">
                 <div class="t-modal__header">
                     <div class="header-content-left">
                         <h4 class="modal-title" id="myModalLabel">Ingredientes de Cardápio</h4>
-                        <div class="modal-x"></div>
                     </div>
                     <div class="header-content-right">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
-                    </button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                        </button>
                     </div>
+
                 </div>
-                <div class="modal-body">
-                    <h3>OLHAAA</h3>
+                <div class="modal-x"></div>
+                <div class="modal-body ">
+                    <div class="ui-accordion-header">
+                        <h3>OLHAAA</h3>
+                    </div>
                 </div>
             </div>
         </div>

@@ -16,6 +16,7 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+
         .t-cards-title {
             display: flex;
             align-items: center;
@@ -28,7 +29,8 @@
             img {
                 margin-right: $SizeXSmall;
             }
-            .t-cards-container-custom{
+
+            .t-cards-container-custom {
                 display: flex;
                 cursor: pointer;
             }
@@ -38,6 +40,7 @@
             color: $colorsBaseInkLightActive;
             margin-left: $SizeXLarge;
             font-size: $FontSizeTextSmall;
+
             &.clear-margin {
                 &--left {
                     margin-left: 0;
@@ -46,18 +49,23 @@
         }
 
 
-        span{
+        span {
             margin: $spaceEmpty $spaceXXXSmall $spaceEmpty $spaceEmpty;
             font-size: $FontSizeHeadingTitle1;
         }
 
-        .t-cards-link{
+        .t-cards-link {
             display: flex;
             gap: 13px;
         }
     }
-      &:hover {
-            text-decoration: none;
-        }
+
+    &:hover {
+        text-decoration: none;
+    }
 
 }
+
+// .modal-x {
+//     background: red;
+// }

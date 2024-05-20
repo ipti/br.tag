@@ -45,7 +45,8 @@ class FoodMenuService
         }
         return $result;
     }
-    public function processFood($foods, $studentsTurn) {
+    public function processFood($foods, $studentsTurn)
+    {
         $result = array();
         foreach ($foods as $food) {
             // verifica se tem alunos nesse turno
@@ -78,15 +79,16 @@ class FoodMenuService
             // Atualiza o total
             $value = $food["total"];
 
-            if($food["measure"] == 'g' || $food["measure"]  == 'ml'){
-                $value = $food["total"]/1000;
+            if ($food["measure"] == 'g' || $food["measure"]  == 'ml') {
+                $value = $food["total"] / 1000;
             }
             $result[$idFood]['total'] +=
                 ($value * $studentsTurn[$turn]) + ($value * $studentsTurn["Integral"]);
         }
         return $result;
     }
-    private function getStudentsTurn($students){
+    private function getStudentsTurn($students)
+    {
         $studentsTurn = ['Manhã' => '0', 'Tarde' => '0', 'Noite' => '0', 'Integral' => '0'];
 
         foreach ($students as $element) {
@@ -98,7 +100,8 @@ class FoodMenuService
         }
         return  $studentsTurn;
     }
-    private function getStudents(){
+    private function getStudents()
+    {
         $sql = "SELECT
         COUNT(*) as total_students,
         CASE
@@ -122,7 +125,8 @@ class FoodMenuService
             ->bindParam(':user_year', Yii::app()->user->year)
             ->bindParam(':user_school', Yii::app()->user->school)->queryAll();
     }
-    private function getFoodFromTheMenu(){
+    private function getFoodFromTheMenu()
+    {
         date_default_timezone_set('America/Bahia');
         $date = date('Y-m-d', time());
 
@@ -152,7 +156,7 @@ class FoodMenuService
         WHERE fm.start_date <= :date AND fm.final_date >= :date
         GROUP BY turn, fi.food_id_fk ;";
 
-         return Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->bindParam(':school', Yii::app()->user->school)->queryAll();
+        return Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->bindParam(':school', Yii::app()->user->school)->queryAll();
     }
 
 
@@ -179,17 +183,17 @@ class FoodMenuService
         $daysOFWeek = 5;
         foreach ($nutritionalValue as $item) {
             $portion = $item["value"] * $item["amount"];
-            if( $item["measure"] == "g" ||  $item["measure"] == 'ml'){
-                $kcal += ($item["energy_kcal"] * $portion/100);
-                $calTotal += ($item["carbohydrate_g"] * $portion/100);
-                $ptnTotal += ($item["protein_g"] * $portion/100);
-                $lpdTotal += ($item["lipidius_g"] * $portion/100);
-            }  elseif ($item["measure"] == "Kg" || $item["measure"] == "L") {
-                $kgTog = $portion*1000;
-                $kcal += ($item["energy_kcal"] * $kgTog/100);
-                $calTotal += ($item["carbohydrate_g"] * $kgTog/100);
-                $ptnTotal += ($item["protein_g"] * $kgTog/100);
-                $lpdTotal += ($item["lipidius_g"] * $kgTog/100);
+            if ($item["measure"] == "g" ||  $item["measure"] == 'ml') {
+                $kcal += ($item["energy_kcal"] * $portion / 100);
+                $calTotal += ($item["carbohydrate_g"] * $portion / 100);
+                $ptnTotal += ($item["protein_g"] * $portion / 100);
+                $lpdTotal += ($item["lipidius_g"] * $portion / 100);
+            } elseif ($item["measure"] == "Kg" || $item["measure"] == "L") {
+                $kgTog = $portion * 1000;
+                $kcal += ($item["energy_kcal"] * $kgTog / 100);
+                $calTotal += ($item["carbohydrate_g"] * $kgTog / 100);
+                $ptnTotal += ($item["protein_g"] * $kgTog / 100);
+                $lpdTotal += ($item["lipidius_g"] * $kgTog / 100);
             }
         }
 
@@ -460,7 +464,7 @@ class MealComponentObject
 
     public function __construct($model)
     {
-        $this->idMeal = $model->food_menu_mealId;
+        $this->idMeal = $model->id;
 
         $this->description = $model->description;
     }
@@ -469,7 +473,7 @@ class MealComponentObject
     {
         foreach ($modelIngredients as $modelIngredient) {
             $foodModel = Food::model()->findByPk($modelIngredient->food_id_fk);
-            if(!isset($foodModel)){
+            if (!isset($foodModel)) {
                 CVarDumper::dump($modelIngredient, 10, true);
                 exit;
             }
@@ -504,7 +508,7 @@ class IngredientObject
         $this->lip =  is_numeric($foodModel->lipidius_g) ? round($foodModel->lipidius_g, 2) : $foodModel->lipidius_g;
         $this->pt = is_numeric($foodModel->protein_g) ? round($foodModel->protein_g, 2) : $foodModel->protein_g;
         $this->cho = is_numeric($foodModel->carbohydrate_g) ?
-             round($foodModel->carbohydrate_g, 2) : $foodModel->carbohydrate_g;
+            round($foodModel->carbohydrate_g, 2) : $foodModel->carbohydrate_g;
         $this->kcal = is_numeric($foodModel->energy_kcal) ? round($foodModel->energy_kcal, 2) : $foodModel->energy_kcal;
         $this->nameFood = $foodModel->description;
         $this->measurementUnit = $foodModel->measurementUnit;
