@@ -114,7 +114,6 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
                             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
                         </button>
                     </div>
-
                 </div>
                 <div class="modal-x"></div>
 
@@ -124,27 +123,17 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
                             <div class="mobile-row align-items--center">
                                 <h4 class="t-title">Oláaaaa</h4>
                             </div>
+                            <span class="t-icon-down_arrow accordion-arrow-icon"></span>
                         </div>
                         <div class="ui-accordion-content">
                             <p>nome 1 e por ai vai</p>
                             <p>nome 1 e por ai vai</p>
                             <p>nome 1 e por ai vai</p>
                         </div>
-
-                    <!-- <div class="t-accordeon-tertiary " id="accordion-meal-recommendation"> -->
-                    <!-- <div class="ui-accordion-header">
-                        <h3>OLHAAA</h3>
-                    </div> -->
-                    <!-- <div class="ui-accordion-content">
-                        <p>nome 1 e por ai vai</p>
-                        <p>nome 1 e por ai vai</p>
-                        <p>nome 1 e por ai vai</p>
-
-                    </div> -->
-
+                        <div class="modal-teste"></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</div>
+    </div>

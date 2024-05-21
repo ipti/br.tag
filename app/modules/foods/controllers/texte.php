@@ -1,128 +1,322 @@
-Obsevre esse codigo:
+Observe esse codigo
 
-.t-modal-container {
-    color: $colorsTextPrimary;
-    box-sizing: border-box;
-    height: auto;
-    max-height: 80vh;
-    background: $colorsBaseWhiteNormal;
-    border-radius: $borderRadiusNormal;
-    overflow-y: scroll;
-    &.larger {
-        min-width: 70vw;
-        right: 15vw;
-        left: 15vw;
-        margin: auto;
-    }
-    &.t-modal-rec{
-        overflow-y: hidden;
-        min-height: 500px;
-    }
-    .t-modal__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: $SizeLarge $SizeLarge;
-        .t-title {
-            font-size: $FontSizeHeadingTitle2;
-            color: $colorsTextPrimary;
-            font-weight: $fontWeightHeadingDisplay;
-            margin: 0;
-        }
-        #myModalLabel{
-            font-size: 18px;
-            color: $colorTextTitleModal;
-        }
-        .close {
-            opacity: 1;
-            font-size: $SizeNormal;
-        }
-    }
-    .t-modal__body {
-        padding: $SizeNormal $SizeLarge;
-    }
-    .t-modal__footer {
-        a, button {
-            flex: 1;
-            padding: $spaceNormal;
+let mealsOfWeek = []
+let mealsOfWeekFiltered = []
+let allCardsIngredientsStatus = [];
+let id_meal_indentification = [];
+const containerCards = $('.js-cards-meals')
 
+$(document).ready(function () {
+    $(".ui-accordion-header").click(function (event) {
+        if (!$(this).hasClass("ui-accordion-header-active")) {
+            $(this).find($(".accordion-arrow-icon")).addClass("rotate");
+        } else {
+            $(this).find($(".accordion-arrow-icon")).removeClass("rotate");
         }
-    }
-    &.height {
-        &--is-four-fifths {
-            height: 80vh;
-        }
-        &--is-three-fifths {
-            height: 60vh;
-        }
-    }
-    .modal-x{
-        display: flex;
-        align-items: initial;
-        justify-content: center;
-        flex-direction: column;
-        margin-bottom: 10px;
-        color: $colorTextTitleModal;
-        font-size: 14px;
-        font-weight: 500;
-        }
-        .span-text{
-            color: $colorsBaseInkLight;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 25px;
-            margin-left: 30px;
-            margin-right: 5px;
-            }
-        .text-information {
-            font-size: 14px;
-            font-weight: 500;
-        }
-    .text-aviso{
-        font-size: 14px;
-        font-weight: 700;
-        text-align: center;
-    }
-    .content-information{
-        text-align: center;
-    }
-    .linha-personalizada {
-        border: 0;
-        height: 1px;
-        background-color: $colorsBaseInkLighter;
-        margin: 20px 15px;
-        }
-        .text-h4{
-            margin: 21px 31px -16px;
-            }
+    });
+    $(function () {
+        $("#accordion-meal-recommendation").accordion({
+            active: false,
+            collapsible: true,
+            icons: false,
+            heightStyle: "content",
+            animate: 600
+        });
+    });
+})
 
-            .recommendation-ingredient{
-                display: flex;
-                gap: 4px;
-                margin-left: 10px;
+$.ajax({
+    url: "?r=foods/foodmenu/GetMealsRecommendation",
+    type: "POST",
+}).success(function (response) {
+    mealsOfWeek = JSON.parse(DOMPurify.sanitize(response))
+    console.log('aqui tem tudo ->', mealsOfWeek);
+    mealsOfWeekFiltered = mealsOfWeek;
+    containerCards.html('')
+    renderMeals(mealsOfWeek)
+})
 
-                p{
-                    color: $colorsBaseInkLight;
-                    font-size: 14px;
-                    font-weight: 500;
-                }
-            }
-                .ingredient-link{
-                    color: $colorsBaseProductNormal;
-                    font-size: 14px;
-                    font-weight: 500;
 
-                    &:hover{
-                        text-decoration: underline;
-                        }
+$(document).on("click", '.js-change-pagination', function () {
 
-                    }
-            .semaforo-line {
-                position: relative;
-            }
+    let clicked = $(this)
+    $('.js-change-pagination.active').removeClass('active');
+    clicked.addClass("active");
+
+    containerCards.html('')
+    renderMeals(mealsOfWeekFiltered)
+})
+
+
+$(document).on("change", '.js-filter-turns, .js-filter-public-target', function (e) {
+    const turnFilter = $(".js-filter-turns").select2("val");
+    const publicTargetFilter = $(".js-filter-public-target").select2("val");
+    mealsOfWeekFiltered = JSON.parse(JSON.stringify(mealsOfWeek));
+
+    const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+
+    days.forEach((day) => {
+        if (turnFilter.length > 0) {
+            mealsOfWeekFiltered[day] = mealsOfWeekFiltered[day].filter((item) => {
+                return turnFilter.some((i) => i === item.turn);
+            });
+        }
+
+        if (publicTargetFilter.length > 0) {
+            mealsOfWeekFiltered[day] = mealsOfWeekFiltered[day].filter((item) => {
+                return publicTargetFilter.some((i) => i === item.foodPublicTargetId);
+            });
+        }
+    });
+
+    containerCards.html('')
+    renderMeals(mealsOfWeekFiltered)
+})
+
+
+function renderMeals(mealsParam) {
+
+    let cards = []
+    cards = mealsParam.monday.map((meal) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
+            return accumulator + createCard(meal_component, meal, 1);
+        }, '')
+
+    })
+    containerCards.append(cards)
+    cards = mealsParam.tuesday.map((meal) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
+            return accumulator + createCard(meal_component, meal, 2);
+        }, '')
+
+    })
+
+    containerCards.append(cards)
+    cards = mealsParam.wednesday.map((meal) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
+            return accumulator + createCard(meal_component, meal, 3);
+        }, '')
+
+    })
+
+    containerCards.append(cards)
+    cards = mealsParam.thursday.map((meal) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
+            return accumulator + createCard(meal_component, meal, 4);
+        }, '')
+
+    })
+
+    containerCards.append(cards)
+    cards = mealsParam.friday.map((meal) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
+            return accumulator + createCard(meal_component, meal, 5);
+        }, '')
+
+    })
+    containerCards.append(cards)
 }
 
 
 
 
-com ofazer para se &.t-modal-rec onde min-height passar de 500px é necessário mostrar o overflow-y: scroll
+function createCard(meal_component, meal, dayMeal) {
+    const day = $('.js-day-tab.active').attr("data-day-of-week")
+    let turn = ""
+    switch (meal.turn) {
+        case 'M':
+            turn = "Manhã";
+            break;
+        case 'T':
+            turn = "Tarde";
+            break;
+        case 'N':
+            turn = "Noite";
+            break;
+        default:
+            turn = ""
+    }
+    igredients = meal_component.ingredients.map((item) => {
+
+        return item.amount + ' ' + item.foodName.replace(/,/g, '');
+    })
+
+    const ingredientStatuses = meal_component.ingredients.map((item) => {
+        return item.statusInventoryFood;
+    });
+
+    const hasMissingIngredients = ingredientStatuses.includes("Emfalta");
+
+    const exclamationSpan = hasMissingIngredients ? `<span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span>` : '';
+
+
+    console.log(meal_component.id_meal_food);
+
+    const returnMealsStatus = meal_component.ingredients.map((item) => {
+        return {
+            status: item.statusInventoryFood,
+            id_food_alternative: item.id_food,
+            id_meal_componet: item.id_meal_food,
+            id_food: item.foodIdFk,
+            itemReference: item.itemReference,
+            foodName: item.foodName.replace(/,/g, '')
+        };
+    });
+
+    allCardsIngredientsStatus.push(returnMealsStatus);
+
+    // console.log('------>',returnMealsStatus)
+
+
+    return `<div class="t-cards ${dayMeal != day ? "hide" : ""}"  style=" max-width: none;" data-public-target="${meal.foodPublicTargetId}" data-turn="${turn}">
+                <div class="t-cards-content">
+                    <div class="mobile-row wrap">
+                        <div style="margin:5px;" class="t-tag-primary clear-margin--left">
+                            ${meal.foodMealTypeDescription}
+                        </div>
+                        <div style="margin:5px;" class="t-tag-secundary">
+                            ${turn}
+                        </div>
+                        <div style="margin:5px;" class="t-tag-secundary">
+                            ${meal.foodPublicTargetName}
+                        </div>
+                    </div>
+                    <div class="t-cards-title">
+                        <div class="t-cards-container-custom">
+                            ${exclamationSpan}
+                            ${meal_component.description}
+                        </div>
+                    </div>
+                    <div class="t-cards-text clear-margin--left">
+                        Ingredientes: ${igredients.join(', ')}
+                    </div>
+                </div>
+            </div>`;
+
+}
+
+$(".js-expansive-panel").on("click", function () {
+    $(".t-expansive-panel").toggle("expanded");
+})
+
+
+$(document).on("click", '.t-cards-container-custom', function () {
+    const cardIndex = $(this).closest('.t-cards').index();
+    const clickedCardIngredientsStatus = allCardsIngredientsStatus[cardIndex];
+
+    let modalContent = '';
+    let hasMissingIngredients = false;
+
+    let ingredientList = [];
+
+    clickedCardIngredientsStatus.forEach((ingredient) => {
+        ingredientList.push(ingredient.foodName);
+        if (ingredient.status === "Emfalta") {
+            hasMissingIngredients = true;
+        }
+    });
+
+    modalContent += `<p> <span class = "span-text">Ingrediente: </span> ${ingredientList.join(', ')}</p>`;
+
+    let modalBodyContent = ''; // Variável para armazenar o conteúdo do modal-body
+
+    if (hasMissingIngredients) {
+        // Conteúdo para modal-x
+        modalContent += `<div class="content-information">
+        <p class='text-information' style=" color: #E98305;">Essa refeição tem ingredientes faltantes</p>`;
+        var textoAviso = "Parece que alguns ingredientes desta refeição está em falta ou __ com pouco estoque.";
+        if (textoAviso.includes("__")) {
+            textoAviso = textoAviso.replace("__", "<br>");
+        }
+        modalContent += `<p class='text-aviso'>${textoAviso}</p>
+            </div>`;
+        //  Adicionando o texto (itens faltantes) e linha cinza
+        modalContent += `<h4 class='text-h4'> Itens Faltantes</h4>`;
+        modalContent += `<hr class="linha-personalizada">`
+
+        // Conteúdo para modal-body
+        clickedCardIngredientsStatus.forEach((ingredient) => {
+            if (ingredient.status === "Emfalta") {
+                modalBodyContent += `
+                <div id="accordion-meal-recommendation" class="t-accordeon-quaternary">
+                        <div class="ui-accordion-header justify-content--space-between">
+                            <div class="mobile-row align-items--center">
+                                <h4 class="t-title">Oláaaaa</h4>
+                            </div>
+                            <span class="t-icon-down_arrow accordion-arrow-icon"></span>
+                        </div>
+                        <div class="ui-accordion-content">
+                            <p>nome 1 e por ai vai</p>
+                            <p>nome 1 e por ai vai</p>
+                            <p>nome 1 e por ai vai</p>
+                        </div>
+                    </div>
+                                     <p><span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span> ${ingredient.foodName}</p>`;
+                ingredient.itemReference.forEach((item) => {
+                    modalBodyContent += `<p class="semaforo-line"> Semaforo: ${item.semaforo} Mudar ingrediente</p>`;
+                    modalBodyContent += `<div class = "recommendation-ingredient">
+                        <p>Adicionar </p>
+                        <a href="#" class="ingredient-link" data-item-nome="${item.item_nome}" data-item-codigo="${item.codigo}" data-item-id_meal="${ingredient.id_meal_componet}" data-item-id-food="${ingredient.id_food_alternative}">
+                        ${item.item_nome}</a>
+                        </div>
+                        `;
+                });
+            }
+        });
+    } else {
+        modalContent += `<div class="content-information">
+                       <p class='text-information' style=" color: #28a138;">Essa refeição não tem ingredientes faltantes</p>`;
+        var textoAviso = "Não há ingredientes desta refeição em falta ou com pouco estoque.";
+        if (textoAviso.includes("ou")) {
+            textoAviso = textoAviso.replace("ou", "<br>");
+        }
+        modalContent += `<p class='text-aviso'>${textoAviso}</p>
+                    </div>`;
+    }
+
+    $('#js-status-modal .modal-x').html(modalContent); // Adiciona conteúdo à modal-x
+    $('#js-status-modal .modal-body').html(modalBodyContent); // Adiciona conteúdo à modal-body
+    $('#js-status-modal').modal('show');
+});
+
+
+$(document).on("click", '.ingredient-link', function (e) {
+    e.preventDefault();
+    const itemNome = $(this).data('item-nome');
+    const idFood = $(this).data('item-codigo');
+    const idMealFood = $(this).data('item-id_meal');
+    const idMealFoodComponent = $(this).data('item-id-food');
+
+    console.log('item_nome clicado:', itemNome);
+    console.log('id_food da comida recomendada:', idFood);
+    console.log('id_meal_food do prato:', idMealFood);
+    console.log('id_meal_food_subst da comida a ser substituida:', idMealFoodComponent);
+
+
+    $.ajax({
+        url: `?r=foods/foodMenu/UpdateFoodMeal&id=${idFood}&idMeal=${idMealFood}&idFoodSubst=${idMealFoodComponent}`,
+        data: {
+            id_meal: idMealFood, id_food: idFood, id_food_subst: idMealFoodComponent
+        },
+        type: "POST",
+        success: function (response) {
+            console.log(response);
+            location.reload();
+        }
+    });
+
+});
+
+
+
+
+
+pq essa parte não funiona
+
+$(".ui-accordion-header").click(function (event) {
+        if (!$(this).hasClass("ui-accordion-header-active")) {
+            $(this).find($(".accordion-arrow-icon")).addClass("rotate");
+        } else {
+            $(this).find($(".accordion-arrow-icon")).removeClass("rotate");
+        }
+    });

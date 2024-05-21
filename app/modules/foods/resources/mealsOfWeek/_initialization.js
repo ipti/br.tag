@@ -4,7 +4,14 @@ let allCardsIngredientsStatus = [];
 let id_meal_indentification = [];
 const containerCards = $('.js-cards-meals')
 
-$(document).ready(function (){
+$(document).ready(function () {
+    $(".ui-accordion-header").click(function (event) {
+        if (!$(this).hasClass("ui-accordion-header-active")) {
+            $(this).find($(".accordion-arrow-icon")).addClass("rotate");
+        } else {
+            $(this).find($(".accordion-arrow-icon")).removeClass("rotate");
+        }
+    });
     $(function () {
         $("#accordion-meal-recommendation").accordion({
             active: false,
@@ -191,9 +198,7 @@ $(".js-expansive-panel").on("click", function () {
 })
 
 
-
 $(document).on("click", '.t-cards-container-custom', function () {
-
     const cardIndex = $(this).closest('.t-cards').index();
     const clickedCardIngredientsStatus = allCardsIngredientsStatus[cardIndex];
 
@@ -211,7 +216,10 @@ $(document).on("click", '.t-cards-container-custom', function () {
 
     modalContent += `<p> <span class = "span-text">Ingrediente: </span> ${ingredientList.join(', ')}</p>`;
 
+    let modalBodyContent = ''; // Variável para armazenar o conteúdo do modal-body
+
     if (hasMissingIngredients) {
+        // Conteúdo para modal-x
         modalContent += `<div class="content-information">
         <p class='text-information' style=" color: #E98305;">Essa refeição tem ingredientes faltantes</p>`;
         var textoAviso = "Parece que alguns ingredientes desta refeição está em falta ou __ com pouco estoque.";
@@ -220,22 +228,23 @@ $(document).on("click", '.t-cards-container-custom', function () {
         }
         modalContent += `<p class='text-aviso'>${textoAviso}</p>
             </div>`;
+        //  Adicionando o texto (itens faltantes) e linha cinza
         modalContent += `<h4 class='text-h4'> Itens Faltantes</h4>`;
         modalContent += `<hr class="linha-personalizada">`
+
+        // Conteúdo para modal-body
         clickedCardIngredientsStatus.forEach((ingredient) => {
             if (ingredient.status === "Emfalta") {
-                modalContent += `
-                                 <p><span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span> ${ingredient.foodName}</p>`;
+                modalBodyContent += `
+                                     <p><span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span> ${ingredient.foodName}</p>`;
                 ingredient.itemReference.forEach((item) => {
-                    modalContent += `<p class="semaforo-line"> Semaforo: ${item.semaforo} Mudar ingrediente</p>`;
-                    // modalContent += `<p class="semaforo-line" style="color: ${semaforoColor};"> Semaforo: ${item.semaforo} Mudar ingrediente</p>`;
-                    modalContent += `<div class = "recommendation-ingredient">
+                    modalBodyContent += `<p class="semaforo-line"> Semaforo: ${item.semaforo} Mudar ingrediente</p>`;
+                    modalBodyContent += `<div class = "recommendation-ingredient">
                         <p>Adicionar </p>
                         <a href="#" class="ingredient-link" data-item-nome="${item.item_nome}" data-item-codigo="${item.codigo}" data-item-id_meal="${ingredient.id_meal_componet}" data-item-id-food="${ingredient.id_food_alternative}">
                         ${item.item_nome}</a>
                         </div>
                         `;
-
                 });
             }
         });
@@ -248,22 +257,13 @@ $(document).on("click", '.t-cards-container-custom', function () {
         }
         modalContent += `<p class='text-aviso'>${textoAviso}</p>
                     </div>`;
-
     }
 
-    $('#js-status-modal .modal-x').html(modalContent);
+    $('#js-status-modal .modal-x').html(modalContent); // Adiciona conteúdo à modal-x
+    $('#js-status-modal .modal-body').html(modalBodyContent); // Adiciona conteúdo à modal-body
     $('#js-status-modal').modal('show');
 });
 
-$(document).on("click", '.ingredient-link', function (e) {
-    e.preventDefault();
-    const itemNome = $(this).data('item-nome');
-    const idFood = $(this).data('item-codigo');
-    const idMealFood = $(this).data('item-id_meal');
-    console.log('item_nome clicado:', itemNome);
-    console.log('id_food:', idFood);
-    console.log('id_meal_food:', idMealFood);
-});
 
 $(document).on("click", '.ingredient-link', function (e) {
     e.preventDefault();
