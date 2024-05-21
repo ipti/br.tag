@@ -1,11 +1,15 @@
 import {defineConfig, loadEnv} from 'vite';
 import liveReload from 'vite-plugin-live-reload';
+import { globSync } from 'glob';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import commonjs from '@rollup/plugin-commonjs';
+
 
 export default ({mode}) => {
     // Object.assign(process.env, dotenv.parse(fs.readFileSync(`${__dirname}`)));
-
 
     // const port = process.env.VITE_PORT;
     const port = 433;
@@ -23,14 +27,23 @@ export default ({mode}) => {
         build: {
             manifest: "manifest.json",
             outDir: 'web/resources/',
+            filename: 'bundle',
             rollupOptions: {
-                input: {
-                    js: '/app/js/admin/auditory.js',
-                    js2: '/app/js/admin/instance-config.js',
-                    // css: '/app/sass/scss/_helper.scss',
-                },
+                input: Object.fromEntries(
+                    globSync('/app/js/**/*.js').map(file => [
+                        // This remove `src/` as well as the file extension from each
+                        // file, so e.g. src/nested/foo.js becomes nested/foo
+                        path.relative(
+                            'app/js',
+                            file.slice(0, file.length - path.extname(file).length)
+                        ),
+                        // This expands the relative paths to absolute paths, so e.g.
+                        // src/nested/foo becomes /project/src/nested/foo.js
+                        fileURLToPath(new URL(file, import.meta.url))
+                    ])
+                ),
                 output: {
-                    entryFileNames: `entry[name].js`,
+                    entryFileNames: `_[name].js`,
                     /* assetFileNames: `[ext]/app.[ext]`, */
                     assetFileNames: ({name}) => {
 
@@ -58,11 +71,8 @@ export default ({mode}) => {
             hmr: {
                 host: 'localhost',
             },
-        },
-        resolve: {
-            alias: {
-                vue: 'vue/dist/vue.esm-bundler.js'
-            }
         }
     })
 }
+
+
