@@ -1,3 +1,6 @@
+## [Versão 3.78.139]
+- O relatório do Diário Eletrônico foi atualizado para incluir o nome das turmas correspondentes para cada aluno.
+
 ## [Versão 3.78.138]
 - Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
 
