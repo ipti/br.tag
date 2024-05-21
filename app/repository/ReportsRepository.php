@@ -2375,7 +2375,18 @@ class ReportsRepository
                 );
             if ($schedules !== null) {
                 foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
-                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "total" => count($schedules), "faults" => [], "frequency" => ""]);
+
+                    $query = "SELECT esm.name 
+                            FROM student_enrollment se 
+                            JOIN edcenso_stage_vs_modality esm ON esm.id = se.edcenso_stage_vs_modality_fk
+                            WHERE se.student_fk = :studentFk AND classroom_fk = :classroomFk";
+
+                    $command = Yii::app()->db->createCommand($query);
+                    $command->bindValue(":studentFk", $studentEnrollment->student_fk);
+                    $command->bindValue(":classroomFk", $studentEnrollment->classroom_fk);
+                    $classroomName = $command->queryScalar();
+
+                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "classroom" => $classroomName, "total" => count($schedules), "faults" => [], "frequency" => ""]);
                 }
                 foreach ($schedules as $schedule) {
                     foreach ($schedule->classFaults as $classFault) {
