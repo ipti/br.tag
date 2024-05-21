@@ -2407,7 +2407,7 @@ class ReportsRepository
                 );
             if ($schedules !== null) {
                 foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
-                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "days" => 0, "faults" => [], "frequency" => ""]);
+                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "classroom" => null, "days" => 0, "faults" => [], "frequency" => ""]);
                 }
                 $days = [];
                 foreach ($schedules as $schedule) {
