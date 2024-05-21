@@ -35,10 +35,10 @@ function getUrlVars() {
     return vars;
 }
 
-$("#final_reset").click(function(e){
-    $("#final_date_picker").val("");
+$("#initial_reset").on("click", function(e){
+    $("#initial_date_picker").val("");
 });
 
-$("#initial_reset").click(function(e){
-    $("#initial_date_picker").val("");
+$("#final_reset").on("click", function(e){
+    $("#final_date_picker").val("");
 });
