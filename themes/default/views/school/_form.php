@@ -251,7 +251,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 $options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : array(), array('style' => 'background-color: #fff;'));
                                 $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
                                 echo CHtml::link('	Limpar', '#', array(
-                                    'onclick' => '$("#' . CHtml::activeId($modelSchoolIdentification, 'initial_date') . '").datepicker("setDate", null); return false;',
+                                    'id' => 'initial_reset'
                                 ));
                                 echo $form->error($modelSchoolIdentification, 'initial_date');
                                 ?>
@@ -272,7 +272,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
 
                                 echo CHtml::link('Limpar', '#', array(
-                                    'onclick' => '$("#' . CHtml::activeId($modelSchoolIdentification, 'final_date') . '").datepicker("setDate", null); return false;',
+                                    'id' => 'final_reset'
                                 ));
                                 echo $form->error($modelSchoolIdentification, 'final_date');
                                 ?>
