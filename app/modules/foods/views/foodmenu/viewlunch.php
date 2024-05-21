@@ -102,7 +102,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
     </div>
 
 
-    <div class="modal fade t-modal-container t-modal-rec" id="js-status-modal" tabindex="-1" role="dialog">
+    <div class="modal fade t-modal-container t-modal-rec" id="js-status-modal" tabindex="-1" role="dialog"  style="overflow-y: hidden;">
         <div class="modal-dialog" role="document">
             <div class="modal-content" id="modal-recommendation">
                 <div class="t-modal__header">
@@ -115,25 +115,16 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
                         </button>
                     </div>
                 </div>
-                <div class="modal-x"></div>
 
-                <div class="modal-body">
-                    <div id="accordion-meal-recommendation" class="t-accordeon-quaternary">
-                        <div class="ui-accordion-header justify-content--space-between">
-                            <div class="mobile-row align-items--center">
-                                <h4 class="t-title">Oláaaaa</h4>
-                            </div>
-                            <span class="t-icon-down_arrow accordion-arrow-icon"></span>
-                        </div>
-                        <div class="ui-accordion-content">
-                            <p>nome 1 e por ai vai</p>
-                            <p>nome 1 e por ai vai</p>
-                            <p>nome 1 e por ai vai</p>
-                        </div>
-                        <div class="modal-teste"></div>
-                    </div>
+                <div class="modal-body" >
+                    <div class="modal-x"></div>
+                    <div id="accordion-meal-recommendation" class="t-accordeon-quaternary"></div>
                 </div>
+
             </div>
         </div>
 
     </div>
+
+
+</div>

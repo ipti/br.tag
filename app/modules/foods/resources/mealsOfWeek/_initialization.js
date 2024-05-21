@@ -12,15 +12,7 @@ $(document).ready(function () {
             $(this).find($(".accordion-arrow-icon")).removeClass("rotate");
         }
     });
-    $(function () {
-        $("#accordion-meal-recommendation").accordion({
-            active: false,
-            collapsible: true,
-            icons: false,
-            heightStyle: "content",
-            animate: 600
-        });
-    });
+
 })
 
 $.ajax({
@@ -162,10 +154,6 @@ function createCard(meal_component, meal, dayMeal) {
     });
 
     allCardsIngredientsStatus.push(returnMealsStatus);
-
-    // console.log('------>',returnMealsStatus)
-
-
     return `<div class="t-cards ${dayMeal != day ? "hide" : ""}"  style=" max-width: none;" data-public-target="${meal.foodPublicTargetId}" data-turn="${turn}">
                 <div class="t-cards-content">
                     <div class="mobile-row wrap">
@@ -222,10 +210,14 @@ $(document).on("click", '.t-cards-container-custom', function () {
         // Conteúdo para modal-x
         modalContent += `<div class="content-information">
         <p class='text-information' style=" color: #E98305;">Essa refeição tem ingredientes faltantes</p>`;
+
+
         var textoAviso = "Parece que alguns ingredientes desta refeição está em falta ou __ com pouco estoque.";
         if (textoAviso.includes("__")) {
             textoAviso = textoAviso.replace("__", "<br>");
         }
+
+
         modalContent += `<p class='text-aviso'>${textoAviso}</p>
             </div>`;
         //  Adicionando o texto (itens faltantes) e linha cinza
@@ -236,32 +228,52 @@ $(document).on("click", '.t-cards-container-custom', function () {
         clickedCardIngredientsStatus.forEach((ingredient) => {
             if (ingredient.status === "Emfalta") {
                 modalBodyContent += `
-                                     <p><span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span> ${ingredient.foodName}</p>`;
+                <div class="ui-accordion-header justify-content--space-between">
+                <div class="mobile-row align-items--center">
+                    <p class="t-title"><span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span> ${ingredient.foodName}</p>
+                </div>
+                <span class="t-icon-down_arrow accordion-arrow-icon"></span>
+            </div>
+
+            <div class="ui-accordion-content">`;
+
+
+            if (ingredient.itemReference && ingredient.itemReference.length > 0) {
                 ingredient.itemReference.forEach((item) => {
-                    modalBodyContent += `<p class="semaforo-line"> Semaforo: ${item.semaforo} Mudar ingrediente</p>`;
-                    modalBodyContent += `<div class = "recommendation-ingredient">
+                    modalBodyContent += `<p class="semaforo-line"> Semaforo: ${item.semaforo} Mudar ingrediente</p>
+                    <div class="recommendation-ingredient">
                         <p>Adicionar </p>
                         <a href="#" class="ingredient-link" data-item-nome="${item.item_nome}" data-item-codigo="${item.codigo}" data-item-id_meal="${ingredient.id_meal_componet}" data-item-id-food="${ingredient.id_food_alternative}">
                         ${item.item_nome}</a>
-                        </div>
-                        `;
+                    </div>`;
                 });
+            } else {
+                modalBodyContent += '<p class="semaforo-line">Não possue itens recomendados no estoque</p>';
+            }
+                modalBodyContent += `</div>`;
             }
         });
     } else {
         modalContent += `<div class="content-information">
-                       <p class='text-information' style=" color: #28a138;">Essa refeição não tem ingredientes faltantes</p>`;
-        var textoAviso = "Não há ingredientes desta refeição em falta ou com pouco estoque.";
-        if (textoAviso.includes("ou")) {
-            textoAviso = textoAviso.replace("ou", "<br>");
+                            <p class='text-information' style=" color: #28a138;">Essa refeição não tem ingredientes faltantes</p>`;
+        var textoAviso = "Não há ingredientes desta refeição em falta ou __ com pouco estoque.";
+        if (textoAviso.includes("__")) {
+            textoAviso = textoAviso.replace("__", "<br>");
         }
-        modalContent += `<p class='text-aviso'>${textoAviso}</p>
-                    </div>`;
+        modalContent += `<p class='text-aviso'>${textoAviso}</p></div>`;
     }
 
     $('#js-status-modal .modal-x').html(modalContent); // Adiciona conteúdo à modal-x
-    $('#js-status-modal .modal-body').html(modalBodyContent); // Adiciona conteúdo à modal-body
+    $('#accordion-meal-recommendation').html(modalBodyContent); // Adiciona conteúdo à modal-body
     $('#js-status-modal').modal('show');
+
+    $("#accordion-meal-recommendation").accordion({
+        active: false,
+        collapsible: true,
+        icons: false,
+        heightStyle: "content",
+        animate: 600
+    });
 });
 
 
