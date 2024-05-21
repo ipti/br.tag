@@ -1,3 +1,14 @@
+## [Versão 3.79.140]
+- Retirada a cor de fundo cinza do input da data inicial
+- Adicionado input de data final
+- Corrigido link de limpar input das datas
+
+## [Versão 3.78.140]
+- Corrigida tela do educacenso, erro: Professores - Há professores sem componentes curriculares/eixos vinculados à Turma.
+
+## [Versão 3.78.139]
+- Alterada de lugar a atribuição da option contendo select na GradesController.
+
 ## [Versão 3.78.138]
 - Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
 
