@@ -167,7 +167,7 @@ $form = $this->beginWidget(
                                     '1' => 'Ensino Regular',
                                     '2' => 'Educação Especial - Modalidade Substitutiva',
                                     '3' => 'Educação de Jovens e Adultos (EJA)',
-                                    '4' => 'Profissional',
+                                    '4' => 'Educação Profissional',
                                     '5' => 'Atendimento Educacional Especializado',
                                     '100' => 'Não se aplica'
                                 ), array('prompt' => 'Selecione a Modalidade', 'class' => 'select-search-off t-field-select__input', 'style' => 'width: 100%'));
