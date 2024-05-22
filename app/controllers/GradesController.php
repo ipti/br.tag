@@ -497,6 +497,17 @@ class GradesController extends Controller
                 $gradeObject->save();
 
             }
+            foreach($student["partialRecoveriesGrades"] as $gradePartialRecovery) {
+                $gradePartialRecovery = Grade::model()->findByPk($gradePartialRecovery["id"]);
+
+                if ($gradeObject == null) {
+                    $gradeObject = new Grade();
+                    $gradeObject->enrollment_fk = $student["enrollmentId"];
+                    $gradeObject->discipline_fk = $disciplineId;
+                }
+                $gradeObject->grade = isset($gradePartialRecovery["value"]) && $gradePartialRecovery["value"] !== "" ? $gradePartialRecovery["value"] : 0;
+                $gradeObject->save();
+            }
         }
 
         self::saveGradeResults($classroomId, $disciplineId);

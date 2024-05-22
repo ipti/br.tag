@@ -36,6 +36,7 @@ $("#save").on("click", function (e) {
     let students = [];
     $(".grades-table tbody tr").each(function () {
         let grades = [];
+        let partialRecoveriesGrades = [];
         if ($(".grades-table").attr("concept") === "1") {
             $(this)
                 .find(".grade-concept")
@@ -56,13 +57,23 @@ $("#save").on("click", function (e) {
                         value: $(this).val(),
                     });
                 });
+
+                $(this)
+                .find(".grade-partial-reovery")
+                .each(function () {
+                    partialRecoveriesGrades.push({
+                        id: $(this).attr("gradeid"),
+                        value:$(this).val(),
+                    })
+                })
+
         }
         students.push({
             enrollmentId: $(this).find(".enrollment-id").val(),
             grades: grades,
+            partialRecoveriesGrades: partialRecoveriesGrades,
         });
     });
-
     $.ajax({
         type: "POST",
         url: "?r=grades/saveGrades",
