@@ -1,7 +1,12 @@
-.tag-table {    
+.tag-table {
     border-collapse: initial;
     margin-top: $SizeMedium;
     width: 100%;
+
+    &.no-margin {
+        margin-top: 0;
+    }
+
     td {
         background: $colorsBaseWhiteNormal;
         padding: $spaceMedium;
@@ -33,7 +38,7 @@
         --dt-row-selected: $colorsBaseProductLightActive;
         --dt-row-selected-text: var(--dt-row-selected);
         --dt-row-selected-link: var(--dt-row-selected);
-        
+
         .selected {
             background-color: $colorsBaseProductLightActive;
         }
@@ -81,7 +86,7 @@
         }
     }
     td {
-        
+
         a {
             color: $colorsBaseProductNormalActive;
         }
@@ -108,12 +113,12 @@
     }
     &.centralize {
         td {
-            text-align: center; 
+            text-align: center;
         }
     }
     &.align-start {
         td, th {
-            text-align: start; 
+            text-align: start;
         }
     }
 }

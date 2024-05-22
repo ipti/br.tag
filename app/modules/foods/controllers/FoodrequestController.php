@@ -66,7 +66,7 @@ class FoodrequestController extends Controller
         foreach($requestSchools as $school) {
             $requestSchool = new FoodRequestVsSchoolIdentification();
 
-            $requestSchool->school_fk = $school;
+            $requestSchool->school_fk = $school["id"];
             $requestSchool->food_request_fk = $foodRequest->id;
 
             if(!$requestSchool->save()) {
@@ -80,7 +80,7 @@ class FoodrequestController extends Controller
         foreach($requestFarmers as $farmer) {
             $requestFarmer = new FoodRequestVsFarmerRegister();
 
-            $requestFarmer->farmer_fk = $farmer;
+            $requestFarmer->farmer_fk = $farmer["id"];
             $requestFarmer->food_request_fk = $foodRequest->id;
 
             if(!$requestFarmer->save()) {
@@ -108,7 +108,11 @@ class FoodrequestController extends Controller
 
     public function actionGetFoodRequest()
     {
-        $foodRequestData = FoodRequest::model()->findAll();
+        $foodRequestData = FoodRequest::model()->with(array(
+            'noticeFk' => array(
+                'select' => 'name'
+            )
+        ))->findAll();
 
         $requestsList = array();
         foreach ($foodRequestData as $request) {
@@ -117,6 +121,7 @@ class FoodrequestController extends Controller
                     'id' => $request->id,
                     'status' => $request->status,
                     'date' => date('d/m/Y', strtotime($request->date)),
+                    'notice' => $request->noticeFk->name,
                 ),
                 "items" => array(),
                 "farmers" => array(),
@@ -205,6 +210,16 @@ class FoodrequestController extends Controller
 
             if($foodRequest->save() && $this->saveRequestSchools($requestSchools, $foodRequest) &&
             $this->saveRequestFarmers($requestFarmers, $foodRequest) && $this->saveRequestItems($requestItems, $foodRequest)) {
+                $requestSchoolNames = array_map(function($school) {
+                    return $school["name"];
+                }, $requestSchools);
+                $requestFarmerNames = array_map(function($farmer) {
+                    return $farmer["name"];
+                }, $requestFarmers);
+
+                $createFoodRequest = new CreateFoodRequest();
+                $createFoodRequest->exec($noticeId, $requestSchoolNames, $requestFarmerNames, $requestItems);
+
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Solicitação foi gerada com sucesso!'));
             }
         }

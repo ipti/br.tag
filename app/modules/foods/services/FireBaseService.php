@@ -23,6 +23,7 @@ class FireBaseService
         $this->firestoreClient = new FirestoreClient('br-nham-agrigultor', 'AIzaSyAf7EefR1VXllpmE60kiQwl6xictSDO-Tc', [
             'database' => '(default)',
         ]);
+        $this->firestoreClient->authenticator()->signInEmailPassword('testandorequest@thp.org.br', '123456');
     }
 
     public function createNotice()
@@ -164,25 +165,13 @@ class FireBaseService
         }
     }
 
-    public function createFoodRequest($food, $amount, $measurementUnit, $description, $status, $school, $farmerId) {
+    public function createFoodRequest($noticeId, $requestSchools, $requestFarmers, $requestItems) {
         $collection = 'food_request';
         $uuid = Uuid::uuid4();
 
         $document = new FirestoreDocument;
-        $document->fillValues([
-            'id'=> $uuid->toString(),
-            'foodName' => $food,
-            'amount' => $amount,
-            'measurementUnit' => $measurementUnit,
-            'description'=> $description,
-            'status'=> $status,
-            'school'=> $school,
-            'farmerId'=> $farmerId,
-            'dist_cpf'=> null,
-            'dist_food'=> null,
-            'dist_amount'=> null,
-            'dist_measurementUnit'=> null,
-        ]);
+        $document->setArray('schools', $requestSchools);
+        $document->setArray('farmers', $requestFarmers);
 
         $this->firestoreClient->addDocument($collection, $document, $uuid->toString());
     }

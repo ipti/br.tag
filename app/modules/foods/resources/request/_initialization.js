@@ -1,10 +1,11 @@
 let foodsRelation = [];
+let foodRequests;
 
 $(document).ready(function() {
     let foodSelect = $('#foodSelect');
     let searchByFoodSelect = $('#searchByFoodSelect');
     let foodNotice = $('#foodNotice');
-    let foodRequests;
+
 
     $.ajax({
         type: 'POST',
@@ -71,17 +72,67 @@ $(document).ready(function() {
 
 $(document).on("click", "#js-information-button", function () {
     $("#js-request-information-modal").modal("show");
-    let $requestData = `
-        <div class=""></div>
-    `;
+    let foodRequestId = $(this).attr('data-requestId');
 
-    $("#requestData").html
+    let requestData = foodRequests.find(request => request.requestInfo.id == foodRequestId);
+    let schools = requestData.schools.map(school =>
+        school.name
+    ).join(', ');
+    let farmers = requestData.farmers.map(farmer =>
+        farmer.name
+    ).join(', ');
+
+    let $requestData = `
+        <div class="row">
+            <div class="column clearfix">
+                <p><b>Edital:</b> ${requestData.requestInfo.notice}</p>
+                <p><b>Escolas:</b> ${schools}</p>
+                <p><b>Agricultores:</b> ${farmers}</p>
+            </div>
+        </div>
+    `;
+    let $requestItems = `
+        <div class="row">
+        <div class="column clearfix">
+        <table id="requestItemsTable"  aria-describedby="requestItemsTable" class="tag-table-secondary align-start no-margin">
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Unidade</th>
+            </tr>
+    `;
+    $.each(requestData.items, function(index, item) {
+        $requestItems += `
+            <tr>
+                <td>${item.foodName.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim()}</td>
+                <td>${item.amount}</td>
+                <td>${item.measurementUnit}</td>
+            </tr>
+        `;
+    });
+    $requestItems += `
+        </table>
+        </div>
+        </div>
+    `;
+    $("#requestData").html($requestData);
+    $("#requestItems").html($requestItems);
 });
 
 $(document).on("click", "#save-request", function () {
     let noticeId = $('#foodNotice').val();
-    let requestSchools = $('#requestSchools').val();
-    let requestFarmers = $('#requestFarmers').val();
+    var requestSchools = $('#requestSchools').find('option:selected').map(function() {
+        return {
+            id: $(this).val(),
+            name: $(this).text()
+        };
+    }).get();
+    let requestFarmers = $('#requestFarmers').find('option:selected').map(function() {
+        return {
+            id: $(this).val(),
+            name: $(this).text()
+        };
+    }).get();
 
     if(!requestSchools || !requestFarmers || foodsRelation.length == 0) {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");

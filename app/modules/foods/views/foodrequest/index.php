@@ -61,7 +61,7 @@ $this->menu=array(
 
     <div class="modal fade t-modal-container" id="js-request-information-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog " role="document">
-            <div class="t-modal__header">
+            <div class="t-modal__header no-bottom-padding">
                 <div class="column clearfix">
                     <h4 class="t-title" id="myModalLabel">Informações da solicitação</h4>
                 </div>
@@ -74,7 +74,11 @@ $this->menu=array(
                     <div class="row">
                         <h3>Dados da solicitação</h3>
                     </div>
-                    <div class="requestData"></div>
+                    <div id="requestData"></div>
+                    <div class="row">
+                        <h3>Relação de produtos</h3>
+                    </div>
+                    <div id="requestItems"></div>
                 </div>
             </form>
         </div>
