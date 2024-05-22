@@ -4,17 +4,6 @@ let allCardsIngredientsStatus = [];
 let id_meal_indentification = [];
 const containerCards = $('.js-cards-meals')
 
-$(document).ready(function () {
-    $(".ui-accordion-header").click(function (event) {
-        if (!$(this).hasClass("ui-accordion-header-active")) {
-            $(this).find($(".accordion-arrow-icon")).addClass("rotate");
-        } else {
-            $(this).find($(".accordion-arrow-icon")).removeClass("rotate");
-        }
-    });
-
-})
-
 $.ajax({
     url: "?r=foods/foodmenu/GetMealsRecommendation",
     type: "POST",
@@ -181,12 +170,14 @@ function createCard(meal_component, meal, dayMeal) {
 
 }
 
+
 $(".js-expansive-panel").on("click", function () {
     $(".t-expansive-panel").toggle("expanded");
 })
 
 
 $(document).on("click", '.t-cards-container-custom', function () {
+
     const cardIndex = $(this).closest('.t-cards').index();
     const clickedCardIngredientsStatus = allCardsIngredientsStatus[cardIndex];
 
@@ -204,19 +195,17 @@ $(document).on("click", '.t-cards-container-custom', function () {
 
     modalContent += `<p> <span class = "span-text">Ingrediente: </span> ${ingredientList.join(', ')}</p>`;
 
-    let modalBodyContent = ''; // Variável para armazenar o conteúdo do modal-body
+    let modalBodyContent = '';
 
     if (hasMissingIngredients) {
         // Conteúdo para modal-x
         modalContent += `<div class="content-information">
         <p class='text-information' style=" color: #E98305;">Essa refeição tem ingredientes faltantes</p>`;
 
-
         var textoAviso = "Parece que alguns ingredientes desta refeição está em falta ou __ com pouco estoque.";
         if (textoAviso.includes("__")) {
             textoAviso = textoAviso.replace("__", "<br>");
         }
-
 
         modalContent += `<p class='text-aviso'>${textoAviso}</p>
             </div>`;
@@ -230,29 +219,56 @@ $(document).on("click", '.t-cards-container-custom', function () {
                 modalBodyContent += `
                 <div class="ui-accordion-header justify-content--space-between">
                 <div class="mobile-row align-items--center">
-                    <p class="t-title"><span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span> ${ingredient.foodName}</p>
+                    <p class="t-title" id="title-id"><span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span> ${ingredient.foodName}</p>
                 </div>
                 <span class="t-icon-down_arrow accordion-arrow-icon"></span>
-            </div>
+                </div>
 
-            <div class="ui-accordion-content">`;
+                <div class="ui-accordion-content">`;
 
+                if (ingredient.itemReference && ingredient.itemReference.length > 0) {
+                    let itemCount = 1;  // Reinicia a contagem para cada ingrediente
+                    ingredient.itemReference.forEach((item) => {
+                        let semaforoColor;
+                        switch (item.semaforo) {
+                            case 'Verde':
+                                semaforoColor = 'rgba(40, 161, 56, 1)';
+                                break;
+                            case 'Amarelo':
+                                semaforoColor = 'rgba(233, 131, 5, 1)';
+                                break;
+                            case 'Vermelho':
+                                semaforoColor = 'rgba(210, 28, 28, 1)';
+                                break;
+                            default:
+                                semaforoColor = '';
+                        }
 
-            if (ingredient.itemReference && ingredient.itemReference.length > 0) {
-                ingredient.itemReference.forEach((item) => {
-                    modalBodyContent += `<p class="semaforo-line"> Semaforo: ${item.semaforo} Mudar ingrediente</p>
-                    <div class="recommendation-ingredient">
-                        <p>Adicionar </p>
-                        <a href="#" class="ingredient-link" data-item-nome="${item.item_nome}" data-item-codigo="${item.codigo}" data-item-id_meal="${ingredient.id_meal_componet}" data-item-id-food="${ingredient.id_food_alternative}">
-                        ${item.item_nome}</a>
-                    </div>`;
-                });
-            } else {
-                modalBodyContent += '<p class="semaforo-line">Não possue itens recomendados no estoque</p>';
-            }
+                        modalBodyContent += `
+                        <div class="container-semaforo">
+                            <p class="semaforo-line">
+                                <span class="semaforo-dot" style="background-color: ${semaforoColor};">${itemCount}</span>
+                                Mudar ingrediente - cor: ${item.semaforo}
+                            </p>
+                            <div class="recommendation-ingredient">
+                                <p>Adicionar </p>
+                                <a href="#" class="ingredient-link" data-item-nome="${item.item_nome}" data-item-codigo="${item.codigo}" data-item-id_meal="${ingredient.id_meal_componet}" data-item-id-food="${ingredient.id_food_alternative}">
+                                    ${item.item_nome}
+                                </a>
+                            </div>
+                        </div>`;
+
+                        itemCount++;  // Incrementa a contagem após cada item
+                    });
+                } else {
+                    modalBodyContent += '<p class="container-semaforo"><span style="background-color: rgba(210, 28, 28, 1);"></span> Não possui itens recomendados no estoque</p>';
+                }
+
                 modalBodyContent += `</div>`;
             }
         });
+
+
     } else {
         modalContent += `<div class="content-information">
                             <p class='text-information' style=" color: #28a138;">Essa refeição não tem ingredientes faltantes</p>`;
@@ -265,8 +281,12 @@ $(document).on("click", '.t-cards-container-custom', function () {
 
     $('#js-status-modal .modal-x').html(modalContent); // Adiciona conteúdo à modal-x
     $('#accordion-meal-recommendation').html(modalBodyContent); // Adiciona conteúdo à modal-body
-    $('#js-status-modal').modal('show');
 
+    // Destroi qualquer acordeon existente antes de recriar
+    if ($("#accordion-meal-recommendation").hasClass("ui-accordion")) {
+        $("#accordion-meal-recommendation").accordion("destroy");
+    }
+    initAccordionIcons();
     $("#accordion-meal-recommendation").accordion({
         active: false,
         collapsible: true,
@@ -274,32 +294,50 @@ $(document).on("click", '.t-cards-container-custom', function () {
         heightStyle: "content",
         animate: 600
     });
+    $('#js-status-modal').modal('show');
 });
 
 
-$(document).on("click", '.ingredient-link', function (e) {
-    e.preventDefault();
-    const itemNome = $(this).data('item-nome');
-    const idFood = $(this).data('item-codigo');
-    const idMealFood = $(this).data('item-id_meal');
-    const idMealFoodComponent = $(this).data('item-id-food');
 
-    console.log('item_nome clicado:', itemNome);
-    console.log('id_food da comida recomendada:', idFood);
-    console.log('id_meal_food do prato:', idMealFood);
-    console.log('id_meal_food_subst da comida a ser substituida:', idMealFoodComponent);
+$(document).ready(function () {
 
+    if (sessionStorage.getItem('substituicaoSucesso')) {
+        $('#info-alert').removeClass('hide').addClass('alert-success').html("Alimento(s) adicionado(s) ao estoque com sucesso.");
+        sessionStorage.removeItem('substituicaoSucesso');
+    }
 
-    $.ajax({
-        url: `?r=foods/foodMenu/UpdateFoodMeal&id=${idFood}&idMeal=${idMealFood}&idFoodSubst=${idMealFoodComponent}`,
-        data: {
-            id_meal: idMealFood, id_food: idFood, id_food_subst: idMealFoodComponent
-        },
-        type: "POST",
-        success: function (response) {
-            console.log(response);
-            location.reload();
+    $(document).on("click", '.ingredient-link', function (e) {
+        e.preventDefault();
+        const itemNome = $(this).data('item-nome');
+        const idFood = $(this).data('item-codigo');
+        const idMealFood = $(this).data('item-id_meal');
+        const idMealFoodComponent = $(this).data('item-id-food');
+
+        console.log('item_nome clicado:', itemNome);
+        console.log('id_food da comida recomendada:', idFood);
+        console.log('id_meal_food do prato:', idMealFood);
+        console.log('id_meal_food_subst da comida a ser substituida:', idMealFoodComponent);
+
+        $.ajax({
+            url: `?r=foods/foodMenu/UpdateFoodMeal&id=${idFood}&idMeal=${idMealFood}&idFoodSubst=${idMealFoodComponent}`,
+            data: {
+                id_meal: idMealFood, id_food: idFood, id_food_subst: idMealFoodComponent
+            },
+            type: "POST",
+            success: function (response) {
+                console.log(response);
+                sessionStorage.setItem('substituicaoSucesso', 'true');
+                location.reload();
+            }
+        });
+    });
+});
+
+function initAccordionIcons() {
+    $(".ui-accordion-header").click(function (event) {
+        $(".accordion-arrow-icon").removeClass("rotate");
+        if (!$(this).hasClass("ui-accordion-header-active")) {
+            $(this).find($(".accordion-arrow-icon")).addClass("rotate");
         }
     });
-
-});
+}

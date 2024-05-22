@@ -20,6 +20,13 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             </h1>
         </div>
     </div>
+
+    <div class="row">
+        <div class="column clearfix">
+            <div id="info-alert" class="alert hide"></div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="t-badge-info t-margin-none--left">
             <span class="t-info_positive"></span>
@@ -38,6 +45,8 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             Alunos Integral: <?php echo $studentsByTurn["Integral"] ?>
         </div>
     </div>
+
+
     <div class="t-buttons-container">
         <a class="t-button-primary" href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
             Preparar Cardápio
@@ -123,8 +132,5 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
 
             </div>
         </div>
-
     </div>
-
-
 </div>
