@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import commonjs from '@rollup/plugin-commonjs';
+import multiInput from 'rollup-plugin-multi-input';
 
 
 export default ({mode}) => {
@@ -15,6 +16,7 @@ export default ({mode}) => {
     const port = 433;
     // const origin = `${process.env.VITE_ORIGIN}:${port}`;
     const origin = '433:433';
+
     return defineConfig({
         plugins: [
             // register live reload plugin, for refreshing the browser on file changes
@@ -26,8 +28,9 @@ export default ({mode}) => {
         // config for the build
         build: {
             manifest: "manifest.json",
-            outDir: 'web/resources/',
-            filename: 'bundle',
+            // outDir: 'web/resources/',
+            // filename: 'bundle',
+            emptyOutDir: false,
             rollupOptions: {
                 input: Object.fromEntries(
                     globSync('/app/js/**/*.js').map(file => [
@@ -43,7 +46,11 @@ export default ({mode}) => {
                     ])
                 ),
                 output: {
-                    entryFileNames: `_[name].js`,
+                    inlineDynamicImports: false,
+                    entryFileNames: `bundle.js`,
+                    format: 'es',
+                    dir: path.resolve('web/resources'),
+                    manualChunks: {},
                     /* assetFileNames: `[ext]/app.[ext]`, */
                     assetFileNames: ({name}) => {
 
@@ -58,6 +65,9 @@ export default ({mode}) => {
                         return '[name].[ext]';
                       },
                 },
+                // plugins: [
+                //     combine()
+                // ]
             },
         },
         // config for the dev server

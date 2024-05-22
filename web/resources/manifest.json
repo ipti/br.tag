@@ -1,8 +1,0 @@
-{
-  "temp-entry.js": {
-    "file": "bundle/main.js",
-    "name": "temp-entry",
-    "src": "temp-entry.js",
-    "isEntry": true
-  }
-}
