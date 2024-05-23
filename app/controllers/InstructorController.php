@@ -197,7 +197,7 @@ class InstructorController extends Controller
         ]);
     }
     
-    function createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress) {
+    private function createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress) {
         $user = new Users();
         $user->name = $modelInstructorIdentification->name;
         $user->username = $modelInstructorDocumentsAndAddress->cpf;
@@ -205,13 +205,13 @@ class InstructorController extends Controller
         return $user;
     }
 
-    function hashBirthdayDate($birthdayDate) {
+    private function hashBirthdayDate($birthdayDate) {
         $passwordHasher = new PasswordHasher;
         $birthdayDate = str_replace("/", "", $birthdayDate);
         return $passwordHasher->bcriptHash($birthdayDate);
     }
     
-    function createUserSchool($user) {
+    private function createUserSchool($user) {
         $userSchool = new UsersSchool();
         $userSchool->user_fk = $user->id;
         $userSchool->school_fk = Yii::app()->user->school;
