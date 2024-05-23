@@ -75,7 +75,6 @@ function renderMeals(mealsParam) {
         return meal.mealsComponent.reduce((accumulator, meal_component) => {
             return accumulator + createCard(meal_component, meal, 3);
         }, '')
-
     })
 
     containerCards.append(cards)
@@ -83,9 +82,7 @@ function renderMeals(mealsParam) {
         return meal.mealsComponent.reduce((accumulator, meal_component) => {
             return accumulator + createCard(meal_component, meal, 4);
         }, '')
-
     })
-
     containerCards.append(cards)
     cards = mealsParam.friday.map((meal) => {
         return meal.mealsComponent.reduce((accumulator, meal_component) => {
@@ -95,9 +92,6 @@ function renderMeals(mealsParam) {
     })
     containerCards.append(cards)
 }
-
-
-
 
 function createCard(meal_component, meal, dayMeal) {
     const day = $('.js-day-tab.active').attr("data-day-of-week")
@@ -138,6 +132,7 @@ function createCard(meal_component, meal, dayMeal) {
             id_meal_componet: item.id_meal_food,
             id_food: item.foodIdFk,
             itemReference: item.itemReference,
+            itemAmount: item.amount,
             foodName: item.foodName.replace(/,/g, '')
         };
     });
@@ -167,10 +162,7 @@ function createCard(meal_component, meal, dayMeal) {
                     </div>
                 </div>
             </div>`;
-
 }
-
-
 $(".js-expansive-panel").on("click", function () {
     $(".t-expansive-panel").toggle("expanded");
 })
@@ -213,21 +205,25 @@ $(document).on("click", '.t-cards-container-custom', function () {
         modalContent += `<h4 class='text-h4'> Itens Faltantes</h4>`;
         modalContent += `<hr class="linha-personalizada">`
 
+        $('#accordion-meal-recommendation').html(modalBodyContent);
         // Conteúdo para modal-body
         clickedCardIngredientsStatus.forEach((ingredient) => {
             if (ingredient.status === "Emfalta") {
                 modalBodyContent += `
-                <div class="ui-accordion-header justify-content--space-between">
-                <div class="mobile-row align-items--center">
-                    <p class="t-title" id="title-id"><span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span> ${ingredient.foodName}</p>
-                </div>
-                <span class="t-icon-down_arrow accordion-arrow-icon"></span>
+
+                <div class="ui-accordion-header justify-content--space-between style-acordeon" style="background-color: #fafafe;">
+                    <div class="mobile-row align-items--center">
+                        <p class="t-title" id="title-id"><span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span> ${ingredient.foodName}</p>
+                    </div>
+                    <span class="t-icon-down_arrow accordion-arrow-icon"></span>
                 </div>
 
-                <div class="ui-accordion-content">`;
-
+                <div class="ui-accordion-content">
+                    <div class = "amount-container">
+                        <p>Quantidade total do item no cardápio: ${ingredient.itemAmount} </p>
+                    </div>`;
                 if (ingredient.itemReference && ingredient.itemReference.length > 0) {
-                    let itemCount = 1;  // Reinicia a contagem para cada ingrediente
+                    let itemCount = 1;
                     ingredient.itemReference.forEach((item) => {
                         let semaforoColor;
                         switch (item.semaforo) {
@@ -248,7 +244,7 @@ $(document).on("click", '.t-cards-container-custom', function () {
                         <div class="container-semaforo">
                             <p class="semaforo-line">
                                 <span class="semaforo-dot" style="background-color: ${semaforoColor};">${itemCount}</span>
-                                Mudar ingrediente - cor: ${item.semaforo}
+                                Mudar ingrediente
                             </p>
                             <div class="recommendation-ingredient">
                                 <p>Adicionar </p>
@@ -258,7 +254,7 @@ $(document).on("click", '.t-cards-container-custom', function () {
                             </div>
                         </div>`;
 
-                        itemCount++;  // Incrementa a contagem após cada item
+                        itemCount++;
                     });
                 } else {
                     modalBodyContent += '<p class="container-semaforo"><span style="background-color: rgba(210, 28, 28, 1);"></span> Não possui itens recomendados no estoque</p>';
@@ -267,8 +263,6 @@ $(document).on("click", '.t-cards-container-custom', function () {
                 modalBodyContent += `</div>`;
             }
         });
-
-
     } else {
         modalContent += `<div class="content-information">
                             <p class='text-information' style=" color: #28a138;">Essa refeição não tem ingredientes faltantes</p>`;
@@ -282,7 +276,6 @@ $(document).on("click", '.t-cards-container-custom', function () {
     $('#js-status-modal .modal-x').html(modalContent); // Adiciona conteúdo à modal-x
     $('#accordion-meal-recommendation').html(modalBodyContent); // Adiciona conteúdo à modal-body
 
-    // Destroi qualquer acordeon existente antes de recriar
     if ($("#accordion-meal-recommendation").hasClass("ui-accordion")) {
         $("#accordion-meal-recommendation").accordion("destroy");
     }
@@ -312,12 +305,6 @@ $(document).ready(function () {
         const idFood = $(this).data('item-codigo');
         const idMealFood = $(this).data('item-id_meal');
         const idMealFoodComponent = $(this).data('item-id-food');
-
-        console.log('item_nome clicado:', itemNome);
-        console.log('id_food da comida recomendada:', idFood);
-        console.log('id_meal_food do prato:', idMealFood);
-        console.log('id_meal_food_subst da comida a ser substituida:', idMealFoodComponent);
-
         $.ajax({
             url: `?r=foods/foodMenu/UpdateFoodMeal&id=${idFood}&idMeal=${idMealFood}&idFoodSubst=${idMealFoodComponent}`,
             data: {

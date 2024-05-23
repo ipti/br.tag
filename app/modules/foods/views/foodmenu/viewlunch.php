@@ -125,7 +125,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
                     </div>
                 </div>
 
-                <div class="modal-body" >
+                <div class="modal-body" style="margin-bottom:35px;">
                     <div class="modal-x"></div>
                     <div id="accordion-meal-recommendation" class="t-accordeon-quaternary"></div>
                 </div>
