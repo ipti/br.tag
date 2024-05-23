@@ -1,3 +1,6 @@
+## [Versão 3.78.139]
+- Efetuadas correções para o chaveamento do professor com o seu usuário
+
 ## [Versão 3.78.138]
 - Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
 
