@@ -157,24 +157,13 @@ class InstructorController extends Controller
                 if (    $modelInstructorIdentification->validate() &&
                         $modelInstructorDocumentsAndAddress->validate() &&
                         $modelInstructorVariableData->validate()) {
-                    $user = new Users();
-                    $user->name = $modelInstructorIdentification->name;
-                    $user->username = $modelInstructorDocumentsAndAddress->cpf;
-                    
-                    $passwordHasher = new PasswordHasher;
-                    $birthdayDate = str_replace("/", "", $modelInstructorIdentification->birthday_date);
-                    $user->password = $passwordHasher->bcriptHash($birthdayDate);
-                    
+                
+                    $user = $this->createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress);
+                                     
                     if ($user->save()) {
-                        $userSchool = new UsersSchool();
-                        $userSchool->user_fk = $user->id;
-                        $userSchool->school_fk = Yii::app()->user->school;
-                        if ($userSchool->save()) {
-                            $auth = Yii::app()->authManager;
-                            $auth->assign('instructor', $user->id);
-                            $modelInstructorIdentification->users_fk = $user->id;
-                        }
-                    }
+                        $modelInstructorIdentification->users_fk = $user->id;
+                        $this->createUserSchool($user, $modelInstructorIdentification);
+                    }                
 
                     if ($modelInstructorIdentification->save()) {
                         $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
@@ -207,7 +196,32 @@ class InstructorController extends Controller
             'modelInstructorVariableData' => $modelInstructorVariableData, 'error' => $error,
         ]);
     }
+    
+    function createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress) {
+        $user = new Users();
+        $user->name = $modelInstructorIdentification->name;
+        $user->username = $modelInstructorDocumentsAndAddress->cpf;
+        $user->password = $this->hashBirthdayDate($modelInstructorIdentification->birthday_date);
+        return $user;
+    }
 
+    function hashBirthdayDate($birthdayDate) {
+        $passwordHasher = new PasswordHasher;
+        $birthdayDate = str_replace("/", "", $birthdayDate);
+        return $passwordHasher->bcriptHash($birthdayDate);
+    }
+    
+    function createUserSchool($user) {
+        $userSchool = new UsersSchool();
+        $userSchool->user_fk = $user->id;
+        $userSchool->school_fk = Yii::app()->user->school;
+        
+        if ($userSchool->save()) {
+            $auth = Yii::app()->authManager;
+            $auth->assign('instructor', $user->id);
+        }
+    }
+    
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
