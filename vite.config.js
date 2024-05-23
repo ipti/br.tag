@@ -5,8 +5,6 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import commonjs from '@rollup/plugin-commonjs';
-
 
 export default ({mode}) => {
     // Object.assign(process.env, dotenv.parse(fs.readFileSync(`${__dirname}`)));
@@ -29,6 +27,7 @@ export default ({mode}) => {
     if (!fs.existsSync(entryDirPath)) {
         fs.mkdirSync(entryDirPath, { recursive: true });
     }
+
 
     const entryFileContent = jsFiles.map(file => `import '${file.replace(/\\/g, '/')}';`).join('\n');
     require('fs').writeFileSync(entryFilePath, entryFileContent);
