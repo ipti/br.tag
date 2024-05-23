@@ -9,7 +9,6 @@ $.ajax({
     type: "POST",
 }).success(function (response) {
     mealsOfWeek = JSON.parse(DOMPurify.sanitize(response))
-    console.log('aqui tem tudo ->', mealsOfWeek);
     mealsOfWeekFiltered = mealsOfWeek;
     containerCards.html('')
     renderMeals(mealsOfWeek)
@@ -222,6 +221,7 @@ $(document).on("click", '.t-cards-container-custom', function () {
                     <div class = "amount-container">
                         <p>Quantidade total do item no cardápio: ${ingredient.itemAmount} </p>
                     </div>`;
+
                 if (ingredient.itemReference && ingredient.itemReference.length > 0) {
                     let itemCount = 1;
                     ingredient.itemReference.forEach((item) => {
@@ -239,7 +239,6 @@ $(document).on("click", '.t-cards-container-custom', function () {
                             default:
                                 semaforoColor = '';
                         }
-
                         modalBodyContent += `
                         <div class="container-semaforo">
                             <p class="semaforo-line">

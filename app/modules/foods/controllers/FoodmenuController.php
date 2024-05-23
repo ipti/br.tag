@@ -276,8 +276,9 @@ class FoodmenuController extends Controller
         $data = json_decode($response, true);
 
         $result = array();
-
+        $userSchool = Yii::app()->user->school;
         $extraData = array(
+            'escola acionada' =>$userSchool,
             'id' => $data['id'],
             'week' => $data['week'],
             'description' => $data['description'],
@@ -359,20 +360,23 @@ class FoodmenuController extends Controller
     private function mapRecommendations($itemRecommendation)
     {
         $resultRecommendation = array();
+        $userSchool = Yii::app()->user->school;
 
         foreach ($itemRecommendation as $recommendationItem) {
             $foodInventoryItem = FoodInventory::model()->findByAttributes(array('food_fk' => $recommendationItem->item_codigo));
+            if ($foodInventoryItem !== null &&
+            ($foodInventoryItem->status === 'Disponivel' || $foodInventoryItem->status === 'Acabando') &&
+            $foodInventoryItem->school_fk === $userSchool) {
 
-            if ($foodInventoryItem !== null && ($foodInventoryItem->status === 'Disponivel' || $foodInventoryItem->status === 'Acabando')) {
                 $item = array(
-                    'codigo' => $recommendationItem->item_codigo,
-                    'item_nome' => $recommendationItem->item_nome,
-                    'score' => $recommendationItem->score,
-                    'normalized_score' => $recommendationItem->normalized_score,
-                    'semaforo' => $recommendationItem->traffic_light_color,
-                );
-
-                $resultRecommendation[] = $item;
+                'codigo' => $recommendationItem->item_codigo,
+                'item_nome' => $recommendationItem->item_nome,
+                'score' => $recommendationItem->score,
+                'normalized_score' => $recommendationItem->normalized_score,
+                'semaforo' => $recommendationItem->traffic_light_color,
+                'escola_banco' => $foodInventoryItem->school_fk,
+            );
+            $resultRecommendation[] = $item;
             }
         }
 
