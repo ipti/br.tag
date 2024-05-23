@@ -1,3 +1,6 @@
+## [Versão 3.78.139]
+- Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
+
 ## [Versão 3.78.138]
 - Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
 
