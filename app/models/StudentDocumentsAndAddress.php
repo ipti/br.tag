@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ ."/../extensions/Validator/StudentDocumentsAndAddressValidation.php";
 /**
  * This is the model class for table "student_documents_and_address".
  *
@@ -156,9 +157,10 @@ class StudentDocumentsAndAddress extends AltActiveRecord
     public function validateCivilRegister($civilRegisterNumber)
     {
         $civilRegister = $this->$civilRegisterNumber;
-        $modelIdentification = new StudentIdentification;
 
+        $modelIdentification = new StudentIdentification;
         $documentsValidation = new StudentDocumentsAndAddressValidation();
+
         $validatorRegister = $documentsValidation->isCivilRegisterNumberValid(
             $civilRegister,
             $modelIdentification->birthday
@@ -167,12 +169,13 @@ class StudentDocumentsAndAddress extends AltActiveRecord
         $statusRegisterCivil = $validatorRegister['status'];
         $errorRegisterCivil = $validatorRegister['erro'];
 
-        if ($statusRegisterCivil && $errorRegisterCivil == "") {
+        if ($statusRegisterCivil && empty($errorRegisterCivil)) {
             return true;
         }
 
-        //verificar casos de mensagem de erro e testar se o método está pegando o aniversário
-        $this->addError($civilRegister, 'A certidão de nascimento está invalida');
+        if (!empty($civilRegister)) {
+            $this->addError($civilRegister, 'Certidão de nascimento: ' . ucfirst($errorRegisterCivil));
+        }
     }
 
 
