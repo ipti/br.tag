@@ -6,7 +6,6 @@ import fs from 'fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import commonjs from '@rollup/plugin-commonjs';
-import multiInput from 'rollup-plugin-multi-input';
 
 
 export default ({mode}) => {
@@ -16,6 +15,25 @@ export default ({mode}) => {
     const port = 433;
     // const origin = `${process.env.VITE_ORIGIN}:${port}`;
     const origin = '433:433';
+
+    const jsFiles = globSync('js/**/*.js').map(file => {
+        // Create file URL from the path
+        return path.resolve(file);
+    });
+
+    // Create a single entry point file that imports all other JS files
+    const entryDirPath = path.resolve('js');
+    const entryFilePath = path.join(entryDirPath, 'index.js');
+
+    // Ensure the directory exists
+    if (!fs.existsSync(entryDirPath)) {
+        fs.mkdirSync(entryDirPath, { recursive: true });
+    }
+
+    const entryFileContent = jsFiles.map(file => `import '${file.replace(/\\/g, '/')}';`).join('\n');
+    require('fs').writeFileSync(entryFilePath, entryFileContent);
+
+    console.log('Entry file created with content:\n', entryFileContent);
 
     return defineConfig({
         plugins: [
@@ -32,19 +50,7 @@ export default ({mode}) => {
             // filename: 'bundle',
             emptyOutDir: false,
             rollupOptions: {
-                input: Object.fromEntries(
-                    globSync('/app/js/**/*.js').map(file => [
-                        // This remove `src/` as well as the file extension from each
-                        // file, so e.g. src/nested/foo.js becomes nested/foo
-                        path.relative(
-                            'app/js',
-                            file.slice(0, file.length - path.extname(file).length)
-                        ),
-                        // This expands the relative paths to absolute paths, so e.g.
-                        // src/nested/foo becomes /project/src/nested/foo.js
-                        fileURLToPath(new URL(file, import.meta.url))
-                    ])
-                ),
+                input: entryFilePath,
                 output: {
                     inlineDynamicImports: false,
                     entryFileNames: `bundle.js`,
@@ -65,9 +71,6 @@ export default ({mode}) => {
                         return '[name].[ext]';
                       },
                 },
-                // plugins: [
-                //     combine()
-                // ]
             },
         },
         // config for the dev server

@@ -1,0 +1,8 @@
+{
+  "app/js/index.js": {
+    "file": "bundle.js",
+    "name": "index",
+    "src": "app/js/index.js",
+    "isEntry": true
+  }
+}
