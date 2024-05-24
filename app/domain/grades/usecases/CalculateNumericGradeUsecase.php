@@ -46,7 +46,7 @@ class CalculateNumericGradeUsecase
         return $gradeResult;
     }
     private function calculatePartialRecovery($gradeResult, $gradePartialRecovery, $studentEnrollment, $discipline, $gradeUnity){
-        $partialRecoveryMedia = $this->calculatePartialRecoveryMedia($studentEnrollment, $discipline, $gradeUnity);
+        $partialRecoveryMedia = $this->calculatePartialRecoveryMedia($studentEnrollment, $discipline, $gradeUnity, $gradePartialRecovery);
         $graderesult["rec_partial_" + $gradePartialRecovery->order_partial_recovery] = is_nan($partialRecoveryMedia) ? "" : round($partialRecoveryMedia, 1);
 
         return $graderesult;
@@ -155,9 +155,16 @@ class CalculateNumericGradeUsecase
      *
      * @return float|null
      */
-    private function calculatePartialRecoveryMedia($enrollment, $disciplineId, $unity){
+    private function calculatePartialRecoveryMedia($enrollment, $disciplineId, $unity, $gradePartialRecovery){
 
-
+        $grades = $this->getStudentGradesFromUnity(
+            $enrollment->id,
+            $disciplineId,
+            $unity->id
+        );
+        $gradePartialRecovery = $this->getStudentGradesPartialRcoveryFromUnity($enrollment->id,
+        $disciplineId,
+        $gradePartialRecovery->id);
     }
     /**
      * @param StudentEnrollment $enrollment
@@ -242,6 +249,29 @@ class CalculateNumericGradeUsecase
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id= gum.grade_unity_fk
                 WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gu.id = :unity_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "'"
+        )->bindParam(":enrollment_id", $enrollmentId)
+            ->bindParam(":discipline_id", $discipline)
+            ->bindParam(":unity_id", $unityId)->queryAll(), "id");
+
+        if ($gradesIds == null) {
+            return [];
+        }
+
+        return Grade::model()->findAll(
+            array(
+                'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
+            )
+        );
+
+    }
+    private function getStudentGradesFromUnity($enrollmentId, $discipline, $unityId)
+    {
+
+        $gradesIds = array_column(Yii::app()->db->createCommand(
+            "SELECT
+                g.id
+                FROM grade g,
+                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and grade_partial_recovery_fk = "
         )->bindParam(":enrollment_id", $enrollmentId)
             ->bindParam(":discipline_id", $discipline)
             ->bindParam(":unity_id", $unityId)->queryAll(), "id");
