@@ -1,3 +1,6 @@
+## [Versão 3.78.143]
+- Correção no relatório de 'Alunos com Idade Incompatível por Turma'
+
 ## [Versão 3.78.142]
 - Adicionados estilos de overflow e altura ao contêiner do acordeão para uma melhor experiência de rolagem.
 - Ajustada a estrutura da iteração de dados do aluno para acomodar arrays multidimensionais potenciais.
