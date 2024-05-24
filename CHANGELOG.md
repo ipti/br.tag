@@ -1,3 +1,6 @@
+## [Versão 3.78.140]
+- Correção na barra de rolagem da tela de frequência de alunos.
+
 ## [Versão 3.78.139]
 - Correção no relatório de ficha individual
 
