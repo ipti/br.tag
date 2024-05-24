@@ -57,198 +57,197 @@ if(count($classroom) == 0){
         if ($c['stage'] == 'Educação Infantil - Creche (0 a 3 anos)') {
             $min_age = 0;
             $max_age = 3;
-        } else if ($c['stage'] == utf8_encode('Educa��o Infantil - Pr�-escola (4 e 5 anos)')) {
+        } else if ($c['stage'] == 'Educação Infantil - Pré-escola (4 e 5 anos)') {
             $min_age = 4;
             $max_age = 5;
-        } else if ($c['stage'] == utf8_encode('Educa��o Infantil - Unificada (0 a 5 anos)')) {
+        } else if ($c['stage'] == 'Educação Infantil - Unificada (0 a 5 anos)') {
             $min_age = 0;
             $max_age = 5;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 1� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 8 anos - 1ª Série') {
             $min_age = 6;
             $max_age = 6;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 2� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 8 anos - 2ª Série') {
             $min_age = 7;
             $max_age = 7;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 3� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 8 anos - 3ª Série') {
             $min_age = 8;
             $max_age = 8;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 4� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 8 anos - 4ª Série') {
             $min_age = 9;
             $max_age = 9;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 5� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 8 anos - 5ª Série') {
             $min_age = 10;
             $max_age = 10;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 6� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 8 anos - 6ª Série') {
             $min_age = 11;
             $max_age = 11;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 7� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 8 anos - 7ª Série') {
             $min_age = 12;
             $max_age = 12;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - 8� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 8 anos - 8ª Série') {
             $min_age = 13;
             $max_age = 13;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 1� Ano')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - 1º Ano'){
             $min_age = 6;
             $max_age = 6;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 2� Ano')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - 2º Ano') {
             $min_age = 7;
             $max_age = 7;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 3� Ano')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - 3º Ano') {
             $min_age = 8;
             $max_age = 8;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 4� Ano')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - 4º Ano') {
             $min_age = 9;
             $max_age = 9;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 5� Ano')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - 5º Ano') {
             $min_age = 10;
             $max_age = 10;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 6� Ano')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - 6º Ano') {
             $min_age = 11;
             $max_age = 11;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 7� Ano')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - 7º Ano') {
             $min_age = 12;
             $max_age = 12;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 8� Ano')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - 8º Ano') {
             $min_age = 13;
             $max_age = 13;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 9� Ano')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - 9º Ano') {
             $min_age = 14;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Ensino M�dio - 1� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Médio - 1ª Série') {
             $min_age = 15;
             $max_age = 15;
-        } else if ($c['stage'] == utf8_encode('Ensino M�dio - 2� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Médio - 2ª Série') {
             $min_age = 16;
             $max_age = 16;
-        } else if ($c['stage'] == utf8_encode('Ensino M�dio - 3� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Médio - 3ª Série') {
             $min_age = 17;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('Ensino M�dio - 4� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Médio - 4ª Série') {
             $min_age = 18;
             $max_age = 18;
-        } else if ($c['stage'] == utf8_encode('Ensino M�dio - N�o Seriada')) {
+        } else if ($c['stage'] == 'Ensino Médio - Não Seriada') {
             $min_age = 15;
             $max_age = 18;
-        } else if ($c['stage'] == utf8_encode('Curso T�cnico Integrado (Ensino M�dio Integrado) 1� S�rie')) {
+        } else if ($c['stage'] == 'Curso Técnico Integrado (Ensino Médio Integrado) 1ª Série') {
             $min_age = 15;
             $max_age = 15;
-        } else if ($c['stage'] == utf8_encode('Curso T�cnico Integrado (Ensino M�dio Integrado) 2� S�rie')) {
+        } else if ($c['stage'] == 'Curso Técnico Integrado (Ensino Médio Integrado) 2ª Série') {
             $min_age = 16;
             $max_age = 16;
-        } else if ($c['stage'] == utf8_encode('Curso T�cnico Integrado (Ensino M�dio Integrado) 3� S�rie')) {
+        } else if ($c['stage'] == 'Curso Técnico Integrado (Ensino Médio Integrado) 3ª Série') {
             $min_age = 17;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('Curso T�cnico Integrado (Ensino M�dio Integrado) 4� S�rie')) {
+        } else if ($c['stage'] == 'Curso Técnico Integrado (Ensino Médio Integrado) 4ª Série') {
             $min_age = 18;
             $max_age = 18;
-        } else if ($c['stage'] == utf8_encode('Curso T�cnico Integrado (Ensino M�dio Integrado) N�o Seriada')) {
+        } else if ($c['stage'] == 'Curso Técnico Integrado (Ensino Médio Integrado) Não Seriada') {
             $min_age = 15;
             $max_age = 18;
-        } else if ($c['stage'] == utf8_encode('Ensino M�dio - Normal/Magist�rio 1� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Médio - Normal/Magistério 1ª Série') {
             $min_age = 15;
             $max_age = 15;
-        } else if ($c['stage'] == utf8_encode('Ensino M�dio - Normal/Magist�rio 2� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Médio - Normal/Magistério 2ª Série') {
             $min_age = 16;
             $max_age = 16;
-        } else if ($c['stage'] == utf8_encode('Ensino M�dio - Normal/Magist�rio 3� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Médio - Normal/Magistério 3ª Série') {
             $min_age = 17;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('Ensino M�dio - Normal/Magist�rio 4� S�rie')) {
+        } else if ($c['stage'] == 'Ensino Médio - Normal/Magistério 4ª Série') {
             $min_age = 18;
             $max_age = 18;
-        } else if ($c['stage'] == utf8_encode('Curso T�cnico  - Concomitante')) {
+        } else if ($c['stage'] == 'Curso Técnico  - Concomitante') {
             $min_age = 15;
             $max_age = 16;
-        } else if ($c['stage'] == utf8_encode('Curso T�cnico  - Subsequente')) {
+        } else if ($c['stage'] == 'Curso Técnico  - Subsequente') {
             $min_age = 17;
             $max_age = 18;
-        } else if ($c['stage'] == utf8_encode('EJA Presencial - Anos iniciais')) {
+        } else if ($c['stage'] == 'EJA Presencial - Anos iniciais') {
             $min_age = 6;
             $max_age = 10;
-        } else if ($c['stage'] == utf8_encode('EJA Presencial - Anos finais')) {
+        } else if ($c['stage'] == 'EJA Presencial - Anos finais') {
             $min_age = 11;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('EJA Presencial - Ensino Médio')) {
+        } else if ($c['stage'] == 'EJA Presencial - Ensino Médio') {
             $min_age = 15;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('EJA Semi Presencial - Anos iniciais')) {
+        } else if ($c['stage'] == 'EJA Semi Presencial - Anos iniciais') {
             $min_age = 6;
             $max_age = 10;
-        } else if ($c['stage'] == utf8_encode('EJA Semi Presencial - Anos finais')) {
+        } else if ($c['stage'] == 'EJA Semi Presencial - Anos finais') {
             $min_age = 11;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('EJA Semi Presencial - Ensino Médio')) {
+        } else if ($c['stage'] == 'EJA Semi Presencial - Ensino Médio') {
             $min_age = 15;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('EJA Presencial - Anos iniciais e Anos finais')) {
+        } else if ($c['stage'] == 'EJA Presencial - Anos iniciais e Anos finais') {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('EJA Semi Presencial - Anos iniciais e Anos finais')) {
+        } else if ($c['stage'] == 'EJA Semi Presencial - Anos iniciais e Anos finais') {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('EJA Presencial - integrado à Educação Profissional de Nível Fundamental - FIC')) {
+        } else if ($c['stage'] == 'EJA Presencial - integrado à Educação Profissional de Nível Fundamental - FIC') {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('EJA Semi Presencial - integrado à Educação Profissional de Nível Fundamental - FIC')) {
+        } else if ($c['stage'] == 'EJA Semi Presencial - integrado à Educação Profissional de Nível Fundamental - FIC') {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('EJA Presencial - integrada à Educação Profissional de Nível Médio')) {
+        } else if ($c['stage'] == 'EJA Presencial - integrada à Educação Profissional de Nível Médio') {
             $min_age = 15;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('EJA Semi Presencial - integrada à Educação Profissional de Nível Médio')) {
+        } else if ($c['stage'] == 'EJA Semi Presencial - integrada à Educação Profissional de Nível Médio') {
             $min_age = 15;
             $max_age = 17;
         } //duvidas
-        else if ($c['stage'] == utf8_encode('Educa��o Profissional Mista - Concomitante e Subsequente')) {
+        else if ($c['stage'] == 'Educação Profissional Mista - Concomitante e Subsequente') {
             $min_age = 6;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('EJA Presencial - Ensino Fundamental - Projovem Urbano')) {
+        } else if ($c['stage'] == 'EJA Presencial - Ensino Fundamental - Projovem Urbano') {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Segmento Técnico da EJA integrada')) {
+        } else if ($c['stage'] == 'Segmento Técnico da EJA integrada') {
             $min_age = 6;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('EJA - Ensino Fundamental -  Anos iniciais')) {
+        } else if ($c['stage'] == 'EJA - Ensino Fundamental -  Anos iniciais') {
             $min_age = 6;
             $max_age = 10;
-        } else if ($c['stage'] == utf8_encode('EJA - Ensino Fundamental -  Anos finais')) {
+        } else if ($c['stage'] == 'EJA - Ensino Fundamental -  Anos finais') {
             $min_age = 11;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('EJA - Ensino M�dio')) {
+        } else if ($c['stage'] == 'EJA - Ensino Médio') {
             $min_age = 11;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('EJA - Ensino Fundamental  - Anos iniciais e Anos finais')) {
+        } else if ($c['stage'] == 'EJA - Ensino Fundamental  - Anos iniciais e Anos finais') {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Curso FIC integrado na modalidade EJA � N�vel Fundamental (EJA integrada � Educa��o Profissional de ')) {
+        } else if ($c['stage'] == 'Curso FIC integrado na modalidade EJA � N�vel Fundamental (EJA integrada � Educação Profissional de ') {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Curso T�cnico Integrado na Modalidade EJA (EJA integrada � Educa��o Profissional de N�vel M�dio)')) {
+        } else if ($c['stage'] == 'Curso Técnico Integrado na Modalidade EJA (EJA integrada � Educação Profissional de N�vel Médio)') {
             $min_age = 15;
             $max_age = 17;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - Multi')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 8 anos - Multi') {
             $min_age = 6;
             $max_age = 13;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 anos - Corre��o de Fluxo')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 8 anos - Correção de Fluxo') {
             $min_age = 6;
             $max_age = 13;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - Multi')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - Multi') {
             $min_age = 6;
             $max_age = 13;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - Corre��o de Fluxo')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - Correção de Fluxo') {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 8 e 9 anos - Multi 8 e 9 anos')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 8 e 9 anos - Multi 8 e 9 anos') {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Ensino Fundamental de 9 anos - 9� Ano')) {
+        } else if ($c['stage'] == 'Ensino Fundamental de 9 anos - 9º Ano') {
             $min_age = 6;
             $max_age = 14;
-        } else if ($c['stage'] == utf8_encode('Educa��o Infantil e Ensino Fundamental (8 e 9 anos) Multietapa')) {
+        } else if ($c['stage'] == 'Educação Infantil e Ensino Fundamental (8 e 9 anos) Multietapa') {
             $min_age = 6;
             $max_age = 14;
         }
-
         foreach ($students as $s) {
             if ($s['classroom_fk'] == $c['id']) {
                 // Declara a data! :P
@@ -285,7 +284,7 @@ if(count($classroom) == 0){
         $max_age = 0;
 
         $html .= "<tr>"
-            . "<td colspan= 4>" . " <b> Total de alunos nessa turma: </b>" . $total_alunos .
+            . "<td colspan= 5>" . " <b> Total de alunos nessa turma: </b>" . $total_alunos .
             "</td>"
             . "</tr>";
         $html .= "</table>" . "<br>";
