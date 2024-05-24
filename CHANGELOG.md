@@ -1,3 +1,6 @@
+## [Versão 3.78.144]
+- Correção para a modalidade no relatório de Alunos por Turma.
+
 ## [Versão 3.78.143]
 - Correção no relatório de 'Alunos com Idade Incompatível por Turma'
 
