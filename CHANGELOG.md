@@ -1,3 +1,6 @@
+## [Versão 3.78.145]
+- Corrigida tela do educacenso, erro: Professores - Há professores sem componentes curriculares/eixos vinculados à Turma.
+- 
 ## [Versão 3.78.144]
 - Correção para a modalidade no relatório de Alunos por Turma.
 
