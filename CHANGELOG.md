@@ -1,5 +1,12 @@
-## [Versão 3.78.137]
+## [Versão 3.78.139]
 - Correção no relatório de ficha individual
+
+## [Versão 3.78.138]
+- Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
+
+## [Versão 3.78.137]
+- corrigido erro na tela de estoque do novo módulo de merenda
+- Realizado validação para quadro de horários sem componentes
 
 ## [Versão 3.78.136]
 - Datepicker modificado para apresentar as informações em português

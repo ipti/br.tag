@@ -26,14 +26,20 @@ class CurricularmatrixController extends Controller
         return [
             [
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => [], 'users' => ['*'],
-            ], [
+                'actions' => [],
+                'users' => ['*'],
+            ],
+            [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['index', 'addMatrix', 'matrixReuse'], 'users' => ['@'],
-            ], [
+                'actions' => ['index', 'addMatrix', 'matrixReuse'],
+                'users' => ['@'],
+            ],
+            [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => [], 'users' => ['admin'],
-            ], [
+                'actions' => [],
+                'users' => ['admin'],
+            ],
+            [
                 'deny',  // deny all users
                 'users' => ['*'],
             ],
@@ -51,38 +57,43 @@ class CurricularmatrixController extends Controller
         $stages = $_POST['stages'];
         $disciplines = $_POST['disciplines'];
         $workload = $_POST['workload'];
-        $credits = $_POST['credits'];        
+        $credits = $_POST['credits'];
         if ($stages !== "" && $disciplines !== "" && $workload !== "" && $credits !== "") {
             foreach ($stages as $stage) {
                 foreach ($disciplines as $discipline) {
                     $matrix = CurricularMatrix::model()->find(
                         "stage_fk = :stage and discipline_fk = :discipline and school_year = :year",
                         [
-                            ":stage" => $stage, ":discipline" => $discipline, ":year" => Yii::app()->user->year
+                            ":stage" => $stage,
+                            ":discipline" => $discipline,
+                            ":year" => Yii::app()->user->year
                         ]
                     );
-                    $logSituation = "U";                    
+                    $logSituation = "U";
                     if ($matrix == null) {
                         $matrix = new CurricularMatrix();
                         $matrix->setAttributes(
                             [
-                              "stage_fk" => $stage, "discipline_fk" => $discipline, "school_year" => Yii::app()->user->year
+                                "stage_fk" => $stage,
+                                "discipline_fk" => $discipline,
+                                "school_year" => Yii::app()->user->year
                             ]
                         );
                         $logSituation = "C";
                     }
                     $matrix->setAttributes([
-                        "workload" => $workload, "credits" => $credits,
+                        "workload" => $workload,
+                        "credits" => $credits,
                     ]);
-                    
+
                     $stageName = EdcensoStageVsModality::model()->find("id = :stage", [":stage" => $stage])->name;
                     $disciplineName = EdcensoDiscipline::model()->find("id = :discipline", [":discipline" => $discipline])->name;
-                    
+
                     $result = $matrix->save();
 
-                    if($result){
+                    if ($result) {
                         Log::model()->saveAction("curricular_matrix", $stage . "|" . $discipline, $logSituation, $stageName . "|" . $disciplineName);
-                    } 
+                    }
                 }
             }
             echo json_encode(["valid" => true, "message" => "Matriz inserida com sucesso!"]);
@@ -140,38 +151,51 @@ class CurricularmatrixController extends Controller
      * @param integer $id the ID of the model to be deleted
      */
     //@done s1 - excluir Matrix Curricular
-    public function actionDelete($id)
+    public function actionDelete($id, $confirm = 0)
     {
+
+
+
         $curricularMatrix = $this->loadModel($id, $this->MODEL_CURRICULAR_MATRIX);
-        $schedules = Yii::app()->db->createCommand("
-            select count(s.id) as qtd from schedule s 
-            join classroom c on s.classroom_fk = c.id 
-            where s.discipline_fk = " . $curricularMatrix->discipline_fk . " and c.edcenso_stage_vs_modality_fk = " . $curricularMatrix->stage_fk)->queryRow();
-        $teachingDatas = Yii::app()->db->createCommand("
-            select count(tm.id) as qtd from teaching_matrixes tm 
-            where curricular_matrix_fk = :id")->bindParam(":id", $id)->queryRow();
-        if ((int)$schedules["qtd"] === 0 && (int)$teachingDatas["qtd"] === 0) {
-            try {
-                if ($curricularMatrix->delete()) {
-                   //  echo json_encode(["valid" => true, "message" => "Matriz excluída com sucesso!"]);
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Matriz excluída com sucesso!'));
-                    $this->redirect('?r=curricularmatrix');
-                }
-            } catch (Exception $e) {
-                //echo json_encode(["valid" => false, "message" => "Um erro aconteceu. Não foi possível remover a matriz curricular."]);
-                Yii::app()->user->setFlash('error', Yii::t('default', 'Um erro aconteceu. Não foi possível remover a matriz curricular.'));
+
+        // $schedules = Yii::app()->db->createCommand("
+        //     select count(s.id) as qtd from schedule s
+        //     join classroom c on s.classroom_fk = c.id
+        //     where s.discipline_fk = " . $curricularMatrix->discipline_fk . " and c.edcenso_stage_vs_modality_fk = " . $curricularMatrix->stage_fk)->queryScalar();
+
+        // $teachingDatas = Yii::app()->db->createCommand("
+        //     select count(tm.id) as qtd from teaching_matrixes tm
+        //     where curricular_matrix_fk = :id")->bindParam(":id", $id)->queryScalar();
+
+        if (!$confirm) {
+            Yii::app()->user->setFlash('error', Yii::t('default', '
+            Com grandes poderes vêm grandes responsabilidades!
+            <br>
+            <br>
+            <br>
+            Ao excluir essa matriz, você pode estar removendo <strong>aulas</strong>, <strong>frequência</strong> e dados do <strong>quadro de horário</strong> das turmas de todas as escolas que usam essa matriz, caso tenha certeza e deseje continuar clique <a data-id="' . $id . '" class="confirm-delete" href="/?r=curricularmatrix/curricularmatrix/delete&id='.$id.'&confirm=1"> <strong>>> aqui <<</strong></a>
+            <br>
+            <br>
+            <br>
+
+            *Essa alteração é permanente.
+            '));
+
+            $this->redirect('?r=curricularmatrix');
+        }
+
+        try {
+
+            $result = $curricularMatrix->delete();
+
+            if ($result) {
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Matriz excluída com sucesso!'));
                 $this->redirect('?r=curricularmatrix');
             }
-        } else {
-            if ((int)$schedules["qtd"] !== 0) {
-            //    echo json_encode(["valid" => false, "message" => "Não se pode remover uma matriz que está sendo utilizada no quadro de horário de alguma turma."], JSON_UNESCAPED_UNICODE);
-                Yii::app()->user->setFlash('error', Yii::t('default', 'Não se pode remover uma matriz que está sendo utilizada no quadro de horário de alguma turma.'));
-                $this->redirect('?r=curricularmatrix');
-            } else {
-               // echo json_encode(["valid" => false, "message" => "Não se pode remover uma matriz que está esteja vinculada a algum professor de alguma turma."]);
-                Yii::app()->user->setFlash('error', Yii::t('default', 'Não se pode remover uma matriz que está esteja vinculada a algum professor de alguma turma.'));
-                $this->redirect('?r=curricularmatrix');
-            }
+        } catch (Exception $e) {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Um erro aconteceu. Não foi possível remover a matriz curricular.'));
+            $this->redirect('?r=curricularmatrix');
+
         }
     }
 }
