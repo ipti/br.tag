@@ -1,8 +1,17 @@
-## [Versão 3.78.139]
+## [Versão 3.78.142]
 - Adicionados estilos de overflow e altura ao contêiner do acordeão para uma melhor experiência de rolagem.
 - Ajustada a estrutura da iteração de dados do aluno para acomodar arrays multidimensionais potenciais.
 - Adicionados estilos de redimensionamento e altura à área de texto para uma aparência mais consistente.
 - Refatorada a maneira como os dados do aluno são armazenados e atualizados.
+
+## [Versão 3.78.141]
+- Alterada de lugar a atribuição da option contendo select na GradesController.
+
+## [Versão 3.78.140]
+- Correção na barra de rolagem da tela de frequência de alunos.
+
+## [Versão 3.78.139]
+- Correção no relatório de ficha individual
 
 ## [Versão 3.78.138]
 - Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
