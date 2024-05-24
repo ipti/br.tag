@@ -34,12 +34,22 @@ class CalculateNumericGradeUsecase
             } elseif ($gradeUnity->type == GradeUnity::TYPE_FINAL_RECOVERY) {
                 $gradeResult = $this->calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity);
             }
+
+            if($gradeUnity->parcial_recovery_fk !== null){
+                $gradeResult = $this->calculatePartialRecovery($gradeResult, $gradeUnity->parcialRecoveryFk, $studentEnrollment, $discipline, $gradeUnity);
+            }
         }
         $gradeResult->setAttribute("final_media", null);
         $gradeResult->setAttribute("situation", null);
         $gradeResult->save();
 
         return $gradeResult;
+    }
+    private function calculatePartialRecovery($gradeResult, $gradePartialRecovery, $studentEnrollment, $discipline, $gradeUnity){
+        $partialRecoveryMedia = $this->calculatePartialRecoveryMedia($studentEnrollment, $discipline, $gradeUnity);
+        $graderesult["rec_partial_" + $gradePartialRecovery->order_partial_recovery] = is_nan($partialRecoveryMedia) ? "" : round($partialRecoveryMedia, 1);
+
+        return $graderesult;
     }
 
     private function calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $unity)
@@ -138,6 +148,17 @@ class CalculateNumericGradeUsecase
         return $gradeResult;
     }
 
+    /**
+     * @param StudentEnrollment $enrollment
+     * @param int $discipline
+     * @param GradeUnity $unity
+     *
+     * @return float|null
+     */
+    private function calculatePartialRecoveryMedia($enrollment, $disciplineId, $unity){
+
+
+    }
     /**
      * @param StudentEnrollment $enrollment
      * @param int $discipline

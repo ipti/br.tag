@@ -498,7 +498,7 @@ class GradesController extends Controller
 
             }
             foreach($student["partialRecoveriesGrades"] as $gradePartialRecovery) {
-                $gradePartialRecovery = Grade::model()->findByPk($gradePartialRecovery["id"]);
+                $gradeObject = Grade::model()->findByPk($gradePartialRecovery["id"]);
 
                 if ($gradeObject == null) {
                     $gradeObject = new Grade();
