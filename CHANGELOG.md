@@ -1,3 +1,6 @@
+## [Versão 3.78.146]
+- Resolvido o problema de conflitos de CPF do mesmo usuário ao atualizar as informações de um estudante existente
+
 ## [Versão 3.78.145]
 - Corrigida tela do educacenso, erro: Professores - Há professores sem componentes curriculares/eixos vinculados à Turma.
 - 
