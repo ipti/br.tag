@@ -10,25 +10,28 @@ function createTable(data) {
     });
     let accordionBuilt = false;
     let accordionHtml = "";
-    accordionHtml += `<div id='accordion' class='t-accordeon-primary'>`
+    accordionHtml += `<div id='accordion' class='t-accordeon-primary' style='overflow: auto; height: 400px;'>`
     $.each(data.classContents, function (day, classContent) {
         let studentInputs = "";
         if (Object.keys(classContent.students).length) {
-            $.each(classContent.students, function () {
-                studentInputs += "<input type='hidden' class='student-diary-of-the-day' studentid='" + this.id + "' value='" + this.diary + "'>";
-                if (!accordionBuilt) {
-                    accordionHtml +=
-                        `<div class='align-items--center'>
-                            <h4 class='t-title'>
-                                <span class='t-icon-person icon-color'></span>
-                                ${this.name}
-                            </h4>
-                        </div>
-                        <div class='ui-accordion-content js-std-classroom-diaries'>
-                            <textarea class='t-field-tarea__input js-student-classroom-diary' studentid='${this.id}'></textarea>
-                        </div>`
-                }
+            $.each(classContent.students, function (index, studentArray) {
+                $.each(studentArray, function (index, student) {
+                    studentInputs += "<input type='hidden' class='student-diary-of-the-day' studentid='" + this.id + "' value='" + this.diary + "'>";
+                    if (!accordionBuilt) {
+                        accordionHtml +=
+                            `<div class='align-items--center'>
+                                <h4 class='t-title'>
+                                    <span class='t-icon-person icon-color'></span>
+                                    ${this.name}
+                                </h4>
+                            </div>
+                            <div class='ui-accordion-content js-std-classroom-diaries'>
+                                <textarea class='t-field-tarea__input js-student-classroom-diary' studentid='${this.id}' style='resize: vertical;height: 37px;'></textarea>
+                            </div>`
+                    } 
+                });
             });
+            
             if (!accordionBuilt) {
                 $(".accordion-students").html(accordionHtml);
                 accordionBuilt = true;

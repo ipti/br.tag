@@ -1,13 +1,34 @@
-## [Versão 3.79.140]
+## [Versão 3.79.147]
 - Retirada a cor de fundo cinza do input da data inicial
 - Adicionado input de data final
 - Corrigido link de limpar input das datas
 
-## [Versão 3.78.140]
+## [Versão 3.78.146]
+- Resolvido o problema de conflitos de CPF do mesmo usuário ao atualizar as informações de um estudante existente
+
+## [Versão 3.78.145]
 - Corrigida tela do educacenso, erro: Professores - Há professores sem componentes curriculares/eixos vinculados à Turma.
+- 
+## [Versão 3.78.144]
+- Correção para a modalidade no relatório de Alunos por Turma.
+
+## [Versão 3.78.143]
+- Correção no relatório de 'Alunos com Idade Incompatível por Turma'
+
+## [Versão 3.78.142]
+- Adicionados estilos de overflow e altura ao contêiner do acordeão para uma melhor experiência de rolagem.
+- Ajustada a estrutura da iteração de dados do aluno para acomodar arrays multidimensionais potenciais.
+- Adicionados estilos de redimensionamento e altura à área de texto para uma aparência mais consistente.
+- Refatorada a maneira como os dados do aluno são armazenados e atualizados.
+
+## [Versão 3.78.141]
+- Alterada de lugar a atribuição da option contendo select na GradesController.
+
+## [Versão 3.78.140]
+- Correção na barra de rolagem da tela de frequência de alunos.
 
 ## [Versão 3.78.139]
-- Alterada de lugar a atribuição da option contendo select na GradesController.
+- Correção no relatório de ficha individual
 
 ## [Versão 3.78.138]
 - Efetuadas correções no SQL responsável pela contagem das faltas dos alunos

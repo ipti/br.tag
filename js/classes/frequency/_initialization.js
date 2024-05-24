@@ -39,10 +39,10 @@ function load() {
 
                     checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classroom").val() + "' day='" + this.day + "' month='" + monthSplit[1] + "' year='" + monthSplit[0] + "' schedule='" + this.schedule + "' fundamentalMaior='" + fundamentalMaior + "'></th>";
                 });
-                html += "<tr class='day-row sticky'><th></th>" + dayRow + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
+                html += "<tr class='day-row sticky'><th class='sticky-column'></th>" + dayRow + "<tr class='checkbox-row'><th class='checkbox-row sticky-column'></th>" + checkboxRow + "</tr>";
                 html += "</thead></div><tbody class='t-accordion__body'>";
                 $.each(data.students, function (indexStudent, student) {
-                    html += "<tr><td class='student-name'>" + student.studentName + "</td>";
+                    html += "<tr><td class='student-name sticky-column'>" + student.studentName + "</td>";
                     $.each(student.schedules, function (indexSchedule, schedule) {
                         var justificationContainer = "";
                         if (schedule.fault) {
