@@ -1,3 +1,8 @@
+## [Versão 3.79.147]
+- Retirada a cor de fundo cinza do input da data inicial
+- Adicionado input de data final
+- Corrigido link de limpar input das datas
+
 ## [Versão 3.78.146]
 - Resolvido o problema de conflitos de CPF do mesmo usuário ao atualizar as informações de um estudante existente
 
