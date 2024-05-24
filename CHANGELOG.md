@@ -1,3 +1,6 @@
+## [Versão 3.78.141]
+- Alterada de lugar a atribuição da option contendo select na GradesController.
+
 ## [Versão 3.78.140]
 - Correção na barra de rolagem da tela de frequência de alunos.
 
