@@ -14,7 +14,7 @@
         public function __construct($firebaseservice = null){
             $this->firebaseservice = $firebaseservice ?? new FireBaseService();
         }
-        public function exec($noticeId, $requestSchools, $requestFarmers, $requestItems){
-            return $this->firebaseservice->createFoodRequest($noticeId, $requestSchools, $requestFarmers, $requestItems);
+        public function exec($noticeId, $requestSchoolNames, $farmersReferenceId, $requestItems){
+            return $this->firebaseservice->createFoodRequest($noticeId, $requestSchoolNames, $farmersReferenceId, $requestItems);
         }
     }

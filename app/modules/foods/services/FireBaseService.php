@@ -165,13 +165,24 @@ class FireBaseService
         }
     }
 
-    public function createFoodRequest($noticeId, $requestSchools, $requestFarmers, $requestItems) {
+    public function createFoodRequest($noticeId, $requestSchoolNames, $farmersReferenceId, $requestItems) {
         $collection = 'food_request';
         $uuid = Uuid::uuid4();
 
         $document = new FirestoreDocument;
-        $document->setArray('schools', $requestSchools);
-        $document->setArray('farmers', $requestFarmers);
+        $document->setArray('schools', $requestSchoolNames);
+        $document->setArray('farmers', $farmersReferenceId);
+        $formattedItems = [];
+        foreach ($requestItems as $item) {
+            $formattedItems[] = [
+                'id' => $item['id'],
+                'foodDescription' => $item['foodDescription'],
+                'amount' => $item['amount'],
+                'measurementUnit' => $item['measurementUnit']
+            ];
+        }
+
+        $document->setObject('foods_requested', new FirestoreObject($formattedItems));
 
         $this->firestoreClient->addDocument($collection, $document, $uuid->toString());
     }

@@ -127,12 +127,7 @@ $(document).on("click", "#save-request", function () {
             name: $(this).text()
         };
     }).get();
-    let requestFarmers = $('#requestFarmers').find('option:selected').map(function() {
-        return {
-            id: $(this).val(),
-            name: $(this).text()
-        };
-    }).get();
+    let requestFarmers = $('#requestFarmers').val();
 
     if(!requestSchools || !requestFarmers || foodsRelation.length == 0) {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
@@ -148,7 +143,7 @@ $(document).on("click", "#save-request", function () {
                 requestItems: foodsRelation
             }
         }).success(function(response) {
-            window.location.href = "?r=foods/foodRequest/index";
+            // window.location.href = "?r=foods/foodRequest/index";
         })
     }
 });
