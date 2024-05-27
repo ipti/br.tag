@@ -340,7 +340,7 @@ class SagresConsultModel
             ':referenceYear' => $referenceYear
         ];
 
-        $turmas = Yii::app()->db->createCommand()->setText($query)
+        $turmas = Yii::app()->db->createCommand($query)
             ->bindValues($params)
             ->queryAll();
 
@@ -1200,10 +1200,11 @@ class SagresConsultModel
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
                 $inconsistencyModel->school = $school->name;
-                $inconsistencyModel->description = 'Data de nascimento inválida';
-                $inconsistencyModel->action = 'Altere o formato de data para DD/MM/AAAA';
+                $inconsistencyModel->description = 'Data de nascimento inválida: <strong>' . $enrollment['birthdate'] . "</strong>";
+                $inconsistencyModel->action = 'Altere para uma data válida';
                 $inconsistencyModel->identifier = '9';
                 $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idStudent = $enrollment['student_fk'];
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
                 continue;
@@ -1220,7 +1221,7 @@ class SagresConsultModel
                     $studentType = new AlunoTType();
                     $studentType
                         ->setNome($enrollment['name'])
-                        ->setDataNascimento($convertedBirthdate)
+                        ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $convertedBirthdate))
                         ->setCpfAluno(!empty($cpf) ? $cpf : null)
                         ->setPcd($enrollment['deficiency'])
                         ->setSexo($enrollment['gender']);
@@ -1409,7 +1410,7 @@ class SagresConsultModel
                     $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
                     $studentType
                         ->setNome($enrollment['name'])
-                        ->setDataNascimento($convertedBirthdate)
+                        ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $convertedBirthdate))
                         ->setCpfAluno(!empty($cpf) ? $cpf : null)
                         ->setPcd($enrollment['deficiency'])
                         ->setSexo($enrollment['gender']);
@@ -1737,9 +1738,6 @@ class SagresConsultModel
     public function validateDate($date, int $type): bool
     {
         $format = 'Y-m-d';
-        if($date === null)
-            return false;
-
         if ($date instanceof Datetime) {
             $dat = $date->format('Y-m-d');
         } else {
@@ -1776,8 +1774,7 @@ class SagresConsultModel
         return $d && $d->format($format) == $dat;
     }
 
-
-    public function validaCPF(String $cpf): bool
+    public function validaCPF($cpf):bool
     {
         $cpf = preg_replace('/[^0-9]/is', '', $cpf);
 
