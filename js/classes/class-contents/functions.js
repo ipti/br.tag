@@ -13,6 +13,15 @@ function createTable(data) {
     accordionHtml += `<div id='accordion' class='t-accordeon-primary'>`
     $.each(data.classContents, function (day, classContent) {
         let studentInputs = "";
+
+        arrayFaults = [];
+
+        if(data.daysFaults !== null){
+            $.each(data.daysFaults, function (index, daysFaults) {
+                arrayFaults.push(parseInt(daysFaults, 10));
+            });
+        }
+
         if (Object.keys(classContent.students).length) {
             $.each(classContent.students, function () {
                 studentInputs += "<input type='hidden' class='student-diary-of-the-day' studentid='" + this.id + "' value='" + this.diary + "'>";
@@ -39,14 +48,22 @@ function createTable(data) {
         }
 
         let head = '<th class="center vmiddle contents-day ">' + ((day < 10) ? '0' : '') + day + '</th>';
+        let disabledRow = (!classContent.available || arrayFaults.includes(parseInt(day, 10))) ? "disabled" : "";
+
         let body = '<td class="t-multiselect">'
             + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
             + studentInputs
             + '<span class="t-icon-annotation t-icon classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>'
-            + '<select id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
+            + '<select id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + disabledRow + ' multiple="yes">'
             + options
-            + '</select>'
-            + '</td>';
+            + '</select>';
+       
+        if (arrayFaults.includes(parseInt(day, 10))) {
+            body += '<div class="disabled-message">Não é possível registrar a aula, pois o professor não estava presente neste dia.</div>';
+        }
+
+        body += '</td>'; 
+
         $('#class-contents > tbody').append('<tr class="center day-row" day="' + day + '">' + head + body + '</tr>');
         let select = $("select.course-classes-select").last();
         select.children("option").each(function () {

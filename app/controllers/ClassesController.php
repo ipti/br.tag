@@ -182,9 +182,29 @@ class ClassesController extends Controller
                 "valid" => true,
                 "classContents" => $classContents,
                 "courseClasses" => $courseClasses,
+                "daysFaults" => $this->getInstructorFaultDays(Yii::app()->user->loginInfos->id)
             ]);
         } else {
             echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($_POST["fundamentalMaior"] == "1" ? "e Disciplina" : "") . " sem aula no Quadro de Horário."]);
+        }
+    }
+
+    private function getInstructorFaultDays($instructorId) {
+        $featuresComponent = new FeaturesComponent();
+        $isEnable = $featuresComponent->isEnable(strtoupper(INSTANCE));
+
+        if (true) {
+            $command = Yii::app()->db->createCommand("
+                SELECT s.day
+                FROM instructor_faults if2 
+                JOIN schedule s ON if2.schedule_fk = s.id 
+                WHERE if2.instructor_fk = (SELECT id from instructor_identification ii WHERE ii.users_fk = :instructor_id);"
+            );
+
+            $command->bindValue(':instructor_id', $instructorId);
+            $daysFaults = $command->queryColumn();
+
+            return $daysFaults;
         }
     }
 
@@ -487,8 +507,8 @@ class ClassesController extends Controller
                     }
                     array_push($students, $array);
                 }
-                echo json_encode(["valid" => true, "students" => $students, "scheduleDays"=>$scheduleDays, "schedulePerDays"=>$schedulePerDays]);
-
+                $daysFaults = $this->getInstructorFaultDays(Yii::app()->user->loginInfos->id);
+                echo json_encode(["valid" => true, "students" => $students, "scheduleDays" => $scheduleDays, "schedulePerDays"=>$schedulePerDays, "daysFaults" => $daysFaults]);
             } else {
                 echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o Quadro de Frequência."]);
             }
