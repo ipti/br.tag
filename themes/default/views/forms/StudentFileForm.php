@@ -19,6 +19,10 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
 
 <head>
     <style>
+        .table-bordered {
+            margin: 0px;
+        }
+
         .container-report {
             width: 980px;
             margin: auto;
@@ -431,86 +435,88 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
     </table>
 
-    <div id="no-break">
-        <table id="report-table" class="table table-bordered">
-            <tr>
-                <th style="text-align: center">CARACTERIZAÇÃO</th>
-            </tr>
-            <?php if (GLOGALGROUP != 1) { ?>
-                <tr>
-                    <td>
-                        <div class="span12"><b>15 - Matrícula do aluno: </b></div>
-                        <br>
-                        <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
-                        <div class="span4"><b>Série: </b><span><?= $enrollment->edcensoStageVsModalityFk->name ?></span></div>
-                        <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
-                        <div class="span9"><b>Situação do aluno: </b><span>
-                                <?php
-                                echo $enrollment->getCurrentStatus();
-                                ?>
-                            </span></div>
-                        <div class="span3"><b>Turno: </b><span> <?php echo $turns[$enrollment->classroomFk->turn]; ?></span></div>
-                    </td>
-                </tr>
-            <?php } ?>
+    <table id="report-table" class="table table-bordered">
+        <tr>
+            <th style="text-align: center">CARACTERIZAÇÃO</th>
+        </tr>
+        <?php if (GLOGALGROUP != 1) { ?>
             <tr>
                 <td>
-                    <div class="span10"><b>16 - Documentos(s) que habilita(m) matrícula no segmento: </b>
-                        <!--CORRIGIR AQUI--->
-                        <!--<div class="received_documents"></div>-->
-                        <br>
-                        <br>
-                        <b>OBS.</b>: <span> Se o requerente apresentar declaração, a matrícula ficará pendente no máximo 30 dias, até a entrega da guia de transferência. Após 30 dias a declaração perderá a validade ficando a matrícula sem efeito.</span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="span9"><b>17 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"><?= $data['school_admission_date'] ?></span></b>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="span9"><b>18 - Situação do aluno na série/etapa: </b>
-                        <br>
-                        <div style="margin-right: -20px;">
-                            <?php
-                            if ($_REQUEST['type'] == '0') { ?>
-                                <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>
-                            <?php
-                            } else {
-                                $firstRegistration = "Primeira matrícula no curso (nível e/ou modalidade de ensino)";
-                                $promoted = "Promovido na série anterior do mesmo curso (nível e/ou modalidade de ensino)";
-                                $repeatStudent = "Repetente";
-                            ?>
-                                <div class="padding-5"><b><?= ($data['current_stage_situation'] == $firstRegistration) ? '☑ ' : '☐ ' ?></b> <?php echo $firstRegistration ?></div>
-                                <div class="padding-5"><b><?= ($data['current_stage_situation'] == $promoted) ? '☑ ' : '☐ ' ?></b> <?php echo $promoted ?></div>
-                                <div class="padding-5"><b><?= ($data['current_stage_situation'] == $repeatStudent) ? '☑ ' : '☐ ' ?></b> <?php echo $repeatStudent ?></div>
-                            <?php } ?>
-
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="span10"><b>19 - Situação do Aluno no ano Anterior: </b></div>
+                    <div class="span12"><b>15 - Matrícula do aluno: </b></div>
                     <br>
-                    <div class="span3 padding-5" style="margin-right: -20px;">
+                    <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
+                    <div class="span4"><b>Série: </b><span><?= $enrollment->edcensoStageVsModalityFk->name ?></span></div>
+                    <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
+                    <div class="span9"><b>Situação do aluno: </b><span>
+                            <?php
+                            echo $enrollment->getCurrentStatus();
+                            ?>
+                        </span></div>
+                    <div class="span3"><b>Turno: </b><span> <?php echo $turns[$enrollment->classroomFk->turn]; ?></span></div>
+                </td>
+            </tr>
+        <?php } ?>
+        <tr>
+            <td>
+                <div class="span10"><b>16 - Documentos(s) que habilita(m) matrícula no segmento: </b>
+                    <br>
+                    <br>
+                    <b>OBS.</b>: <span> Se o requerente apresentar declaração, a matrícula ficará pendente no máximo 30 dias, até a entrega da guia de transferência. Após 30 dias a declaração perderá a validade ficando a matrícula sem efeito.</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="span9"><b>17 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"><?= $data['school_admission_date'] ?></span></b>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="span9"><b>18 - Situação do aluno na série/etapa: </b>
+                    <br>
+                    <div style="margin-right: -20px;">
+                        <?php
+                        if ($_REQUEST['type'] == '0') { ?>
+                            <span class="current_stage_situation"><?= $data['current_stage_situation'] ?></span>
+                        <?php
+                        } else {
+                            $firstRegistration = "Primeira matrícula no curso (nível e/ou modalidade de ensino)";
+                            $promoted = "Promovido na série anterior do mesmo curso (nível e/ou modalidade de ensino)";
+                            $repeatStudent = "Repetente";
+                        ?>
+                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $firstRegistration) ? '☑ ' : '☐ ' ?></b> <?php echo $firstRegistration ?></div>
+                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $promoted) ? '☑ ' : '☐ ' ?></b> <?php echo $promoted ?></div>
+                            <div class="padding-5"><b><?= ($data['current_stage_situation'] == $repeatStudent) ? '☑ ' : '☐ ' ?></b> <?php echo $repeatStudent ?></div>
+                        <?php } ?>
+
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="span9"><b>19 - Situação do Aluno no ano Anterior: </b>
+                    <br>
+                    <div class="padding-5" style="margin-right: -20px;">
                         <b><?= ($enrollment->previous_stage_situation == 0) ? '☑' : '☐' ?></b> Não Frequentou
                         <br><b><?= ($enrollment->previous_stage_situation == 1) ? '☑' : '☐' ?></b> Reprovado
                     </div>
-                    <div class="span4 padding-5" style="margin-right: -20px;">
+                    <div class="padding-5" style="margin-right: -20px;">
                         <b><?= ($enrollment->previous_stage_situation == 2) ? '☑' : '☐' ?></b> Afastado por transferência
                         <br><b><?= ($enrollment->previous_stage_situation == 4) ? '☑' : '☐' ?></b> Matrícula final em Educação Infantil
                     </div>
-                    <div class="span3 padding-5">
+                    <div class="padding-5">
                         <b><?= ($enrollment->previous_stage_situation == 3) ? '☑' : '☐' ?></b> Afastado por abandono
                         <br><b><?= ($enrollment->previous_stage_situation == 5) ? '☑' : '☐' ?></b> Promovido
                     </div>
-                </td>
-            </tr>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div id="no-break" style="margin: 0px">
+        <table id="report-table" class="table table-bordered">
             <tr>
                 <td>
                     <div class="span12"><b>20 - Portador de Necessidades Especiais? </b></div>
@@ -592,9 +598,8 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             </tr>
             <tr>
                 <td>
-                    <div class="span12"><b>24 - Portador de algum tipo de transtorno? </b></div>
-                    <br>
-                    <div style="margin-left: 10px;">
+                    <div class="span9"><b>24 - Portador de algum tipo de transtorno? </b>
+                        <br>
                         <div class="padding-5"><b><?= ($data['tdah'] == '1') ? '☑' : '☐' ?></b> Transtorno do déficit de atenção com hiperatividade (TDAH)</div>
                         <div class="padding-5"><b><?= ($data['depressao'] == '1') ? '☑' : '☐' ?></b> Transtorno depressivo (depressão)</div>
                         <div class="padding-5"><b><?= ($data['tab'] == '1') ? '☑' : '☐' ?></b> Transtorno bipolar (TAB)</div>
