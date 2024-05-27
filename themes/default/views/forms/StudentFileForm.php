@@ -34,6 +34,9 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <div style="border:1px solid black; float:left; width: 2.5cm; height: 3cm; text-align:center;margin-right: 15px;"><br><br><span>F O T O<br>3 x 4</span></div>
         <table style="border: 1px solid black;">
             <tr>
+                <th></th>
+            </tr>
+            <tr>
                 <?php
                 if ($_REQUEST['type'] == '0') {
                     echo '<th rowspan="4" style="border-right: 1px solid black; vertical-align: bottom;"><div style="transform: translate(5px, 0px) rotate(270deg);width: 15px;line-height: 53px;margin: 0px 10px 0px 0px;">REQUERIMENTO</div></th>';
@@ -59,7 +62,6 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     echo '<td colspan="3">O(A) ALUNO(A) REQUER SUA MATRÍCULA ';
                 ?>
                     NO_________ANO
-                    <!--<span class="class"></span>-->
                 <?php
                     echo ', DE ACORDO COM SITUAÇÃO APRESENTADA ABAIXO, A QUAL PEDE DEFERIMENTO.</td>';
                 } else {
@@ -116,10 +118,6 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </div>
     </div>
     <br>
-
-
-
-
 
     <table id="report-table" class="table table-bordered">
         <tr>
@@ -245,7 +243,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             <td>
                 <div class="span10"><b>15 - Grau de escolaridade do responsável:</b>
                     <br><span class="responsable_scholarity"><?= $data['responsable_scholarity'] ?></span>
-                    </<div>
+                    </t<div>
             </td>
         </tr>
         <tr>
@@ -320,19 +318,20 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span9"><b>21 - Situação do Aluno no ano Anterior: </b></div>
-                <br>
-                <div class="span3 padding-5" style="margin-right: -20px;">
-                    <b><?= ($enrollment->previous_stage_situation == 0) ? '☑' : '☐' ?></b> Não Frequentou
-                    <br><b><?= ($enrollment->previous_stage_situation == 1) ? '☑' : '☐' ?></b> Reprovado
-                </div>
-                <div class="span4 padding-5" style="margin-right: -20px;">
-                    <b><?= ($enrollment->previous_stage_situation == 2) ? '☑' : '☐' ?></b> Afastado por transferência
-                    <br><b><?= ($enrollment->previous_stage_situation == 4) ? '☑' : '☐' ?></b> Matrícula final em Educação Infantil
-                </div>
-                <div class="span3 padding-5">
-                    <b><?= ($enrollment->previous_stage_situation == 3) ? '☑' : '☐' ?></b> Afastado por abandono
-                    <br><b><?= ($enrollment->previous_stage_situation == 5) ? '☑' : '☐' ?></b> Promovido
+                <div class="span9"><b>21 - Situação do Aluno no ano Anterior: </b>
+                    <br>
+                    <div class="padding-5" style="margin-right: -20px;">
+                        <b><?= ($enrollment->previous_stage_situation == 0) ? '☑' : '☐' ?></b> Não Frequentou
+                        <br><b><?= ($enrollment->previous_stage_situation == 1) ? '☑' : '☐' ?></b> Reprovado
+                    </div>
+                    <div class="padding-5" style="margin-right: -20px;">
+                        <b><?= ($enrollment->previous_stage_situation == 2) ? '☑' : '☐' ?></b> Afastado por transferência
+                        <br><b><?= ($enrollment->previous_stage_situation == 4) ? '☑' : '☐' ?></b> Matrícula final em Educação Infantil
+                    </div>
+                    <div class="padding-5">
+                        <b><?= ($enrollment->previous_stage_situation == 3) ? '☑' : '☐' ?></b> Afastado por abandono
+                        <br><b><?= ($enrollment->previous_stage_situation == 5) ? '☑' : '☐' ?></b> Promovido
+                    </div>
                 </div>
             </td>
         </tr>
@@ -340,6 +339,9 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
 
     <div id="no-break" style="margin: 0px">
         <table id="report-table" class="table table-bordered">
+            <tr>
+                <th></th>
+            </tr>
             <tr>
                 <td>
                     <div class="span12"><b>22 - Portador de Necessidades Especiais? </b></div>
