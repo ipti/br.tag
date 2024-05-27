@@ -1,3 +1,6 @@
+## [Versão 3.79.149]
+- Efetuadas correções para o chaveamento do professor com o seu usuário
+
 ## [Versão 3.79.148]
 - Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
  
