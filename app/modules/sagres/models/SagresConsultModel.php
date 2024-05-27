@@ -34,15 +34,6 @@ define('SERIE_STRONG', '<strong>SÉRIE<strong>');
  */
 class SagresConsultModel
 {
-    private $dbCommand;
-
-
-
-
-    public function __construct()
-    {
-        $this->dbCommand = Yii::app()->db->createCommand();
-    }
 
     public function cleanInconsistences()
     {
@@ -349,7 +340,7 @@ class SagresConsultModel
             ':referenceYear' => $referenceYear
         ];
 
-        $turmas = $this->dbCommand->setText($query)
+        $turmas = Yii::app()->db->createCommand()->setText($query)
             ->bindValues($params)
             ->queryAll();
 
@@ -999,7 +990,7 @@ class SagresConsultModel
                 $inconsistencyModel->insert();
             }
 
-            if (!$this->validateDate($menuType->getData(), 'Y-m-d', 2)) {
+            if (!$this->validateDate($menuType->getData(), 2)) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'CARDÁPIO';
                 $inconsistencyModel->school = $schoolRes['name'];
@@ -1204,7 +1195,8 @@ class SagresConsultModel
 
         foreach ($enrollments as $enrollment) {
 
-            if (DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']) === false) {
+            $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
+            if ($convertedBirthdate === false) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
                 $inconsistencyModel->school = $school->name;
@@ -1228,7 +1220,7 @@ class SagresConsultModel
                     $studentType = new AlunoTType();
                     $studentType
                         ->setNome($enrollment['name'])
-                        ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']))
+                        ->setDataNascimento($convertedBirthdate)
                         ->setCpfAluno(!empty($cpf) ? $cpf : null)
                         ->setPcd($enrollment['deficiency'])
                         ->setSexo($enrollment['gender']);
@@ -1271,7 +1263,7 @@ class SagresConsultModel
                         $inconsistencyModel->insert();
                     }
 
-                    if (!$this->validateDate($studentType->getDataNascimento(), 'Y-m-d', 1)) {
+                    if (!$this->validateDate($studentType->getDataNascimento(), 1)) {
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
                         $inconsistencyModel->school = $school->name;
@@ -1378,7 +1370,7 @@ class SagresConsultModel
                         $inconsistencyModel->insert();
                     }
 
-                    if (!$this->validateDate($enrollmentType->getDataMatricula(), 'Y-m-d', 2)) {
+                    if (!$this->validateDate($enrollmentType->getDataMatricula(), 2)) {
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = 'MATRÍCULA';
                         $inconsistencyModel->school = $school->name;
@@ -1414,9 +1406,10 @@ class SagresConsultModel
                 }
             } else {
                 $studentType = new AlunoTType();
+                    $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
                     $studentType
                         ->setNome($enrollment['name'])
-                        ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $enrollment['birthdate']))
+                        ->setDataNascimento($convertedBirthdate)
                         ->setCpfAluno(!empty($cpf) ? $cpf : null)
                         ->setPcd($enrollment['deficiency'])
                         ->setSexo($enrollment['gender']);
@@ -1459,7 +1452,7 @@ class SagresConsultModel
                         $inconsistencyModel->insert();
                     }
 
-                    if (!$this->validateDate($studentType->getDataNascimento(), 'Y-m-d', 1)) {
+                    if (!$this->validateDate($studentType->getDataNascimento(), 1)) {
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
                         $inconsistencyModel->school = $school->name;
@@ -1565,7 +1558,7 @@ class SagresConsultModel
                         $inconsistencyModel->insert();
                     }
 
-                    if (!$this->validateDate($enrollmentType->getDataMatricula(), 'Y-m-d', 2)) {
+                    if (!$this->validateDate($enrollmentType->getDataMatricula(), 2)) {
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = 'MATRÍCULA';
                         $inconsistencyModel->school = $school->name;
@@ -1604,7 +1597,22 @@ class SagresConsultModel
         return $enrollmentList;
     }
 
-    public function getStudentSituation($situation)
+    public function convertBirthdate($birthdate) {
+        
+        $date = DateTime::createFromFormat('Y-m-d', $birthdate);
+        if ($date && $date->format('Y-m-d') === $birthdate) {
+            return $date->format('d/m/Y');
+        }
+    
+        $date = DateTime::createFromFormat('d/m/Y', $birthdate);
+        if ($date && $date->format('d/m/Y') === $birthdate) {
+            return $birthdate;
+        }
+
+        return false;
+    }
+
+    public function getStudentSituation($situation): bool
     {
         $situations = [
             0 => false, // Não frequentou
@@ -1726,17 +1734,28 @@ class SagresConsultModel
         }
     }
 
-    public function validateDate($date, $format, $type)
+    public function validateDate($date, int $type): bool
     {
-        $type = (int) $type;
+        $format = 'Y-m-d';
+        if($date === null)
+            return false;
+
         if ($date instanceof Datetime) {
             $dat = $date->format('Y-m-d');
         } else {
-            $dt = new DateTime($date);
+            
+            $dt = DateTime::createFromFormat($format, $date);
+            if ($dt === false) {
+                return false;
+            }
+
             $dat = $dt->format('Y-m-d');
         }
 
         $d = DateTime::createFromFormat($format, $dat);
+        if ($d === false) {
+            return false;
+        }
         $year = intval($d->format('Y'));
         $currentYear = intval(date('Y'));
 
@@ -1757,11 +1776,12 @@ class SagresConsultModel
         return $d && $d->format($format) == $dat;
     }
 
-    public function validaCPF($cpf)
+
+    public function validaCPF(String $cpf): bool
     {
         $cpf = preg_replace('/[^0-9]/is', '', $cpf);
 
-        if (strlen($cpf) != 11) {
+        if (!$this->cpfLength($cpf)) {
             return false;
         }
 
