@@ -115,7 +115,7 @@ class ClassesController extends Controller
         $students = $this->getStudentsByClassroom($classroomId);
 
         if (!$isMinorEducation) {
-            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $disciplineId, $year);
+            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
 
         } else {
             $schedules = $this->getSchedulesFromMinorStage($classroomId, $month, $year);
@@ -280,15 +280,19 @@ class ClassesController extends Controller
     {
         $studentArray = [];
         foreach ($students as $student) {
-            $studentArray["id"] = $student["id"];
-            $studentArray["name"] = $student["name"];
-            $studentArray["diary"] = "";
+            
+            $studentData = [
+                "id" => $student["id"],
+                "name" => $student["name"],
+                "diary" => ""
+            ];
 
             foreach ($schedule->classDiaries as $classDiary) {
                 if ($classDiary->student_fk == $student["id"]) {
-                    $studentArray["diary"] = $classDiary->diary;
+                    $studentData["diary"] = $classDiary->diary;
                 }
             }
+            $studentArray[] = $studentData;
         }
 
         return $studentArray;
