@@ -14,208 +14,16 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
 
 ?>
 
-<!DOCTYPE html>
-<html>
-
-<head>
-    <style>
-        .table-bordered {
-            margin: 0px;
-        }
-
-        .container-report {
-            width: 980px;
-            margin: auto;
-        }
-
-        .container-report:after {
-            clear: both;
-        }
-
-        .container-report:before,
-        .container-report:after {
-            display: table;
-            content: "";
-            line-height: 0;
-        }
-
-        .mt-60 {
-            margin-top: 60px;
-        }
-
-        .mt-30 {
-            margin-top: 30px;
-        }
-
-        .mb-30 {
-            margin-bottom: 60px;
-        }
-
-        .blue-background {
-            background-color: #C6D9F1;
-        }
-
-        .contentEditable {
-            padding: 5px;
-        }
-
-
-        .titleBig {
-            font-size: 15px;
-            line-height: 25px;
-            font-weight: bold;
-        }
-
-        .text-uppercase {
-            text-transform: uppercase;
-        }
-
-        .table-border,
-        .table-border th,
-        .table-border td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-
-        .table-border td,
-        .table-border th {
-            padding: 8px;
-        }
-
-        .table-border {
-            width: 100%;
-        }
-
-        @media screen {
-            .pageA4V {
-                width: 980px;
-                height: 1400px;
-                margin: 0 auto;
-            }
-
-            .pageA4H {
-                width: 1400px;
-                height: 810px;
-                margin: 0 auto;
-            }
-
-            #header-report ul#info,
-            #header-report ul#addinfo {
-                float: right;
-                width: 970px;
-                margin: 0;
-                overflow: hidden;
-            }
-        }
-
-        @media print {
-            .table-bordered{
-                margin: 0 0 20px;
-            }
-            #no-break {
-                page-break-inside: avoid;
-            }
-
-            .pageA4V {
-                width: 960px;
-                height: 1200px;
-                margin: 0 auto;
-                font-size: 15px;
-            }
-
-            .pageA4H {
-                width: 1122px;
-                height: 810px;
-                margin: 0 auto;
-                font-size: 15px;
-            }
-
-            .padding-5 {
-                padding: 5px 0 0 0;
-            }
-
-            .margin-15 {
-                margin-top: 8px;
-                margin-bottom: 7px;
-            }
-
-            #header-report {
-                width: 820px;
-            }
-
-            #container-header {
-                width: 425px !important;
-            }
-
-            table,
-            td,
-            tr,
-            th {
-                border-color: black !important;
-            }
-
-            .report-table-empty td {
-                padding-top: 0 !important;
-                padding-bottom: 0 !important;
-            }
-
-            .vertical-text {
-                height: 110px;
-                vertical-align: bottom !IMPORTANT;
-            }
-
-            .vertical-text div {
-                transform: translate(5px, 0px) rotate(270deg);
-                width: 5px;
-                line-height: 16px;
-                margin: 0px 10px 0px 0px;
-            }
-
-            #canvas-td {
-                background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
-                background-repeat: no-repeat;
-                background-position: center center;
-                background-size: 100% 100%, auto;
-            }
-
-            .blue-background {
-                --webkit-print-color-adjust: exact;
-                background-color: #C6D9F1 !important;
-            }
-
-            .titleBig {
-                border-right: 1px solid black !important;
-            }
-
-            .legend {
-                line-height: 40px;
-            }
-
-            .btn-print {
-                border-top: 1px solid black !important;
-            }
-
-        }
-    </style>
-
-</head>
-</body>
-
 <div id="body-students-file-form" class="pageA4V">
-    <?php
-    $this->renderPartial('head');
-    $data = StudentEnrollment::getFileInformation($enrollment->id);
-    $birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
-    ?>
+    <div id="head">
+        <?php
+        $this->renderPartial('head');
+        $data = StudentEnrollment::getFileInformation($enrollment->id);
+        $birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
+        ?>
+    </div>
     <br>
     <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
-        <?php
-        /* if ($_REQUEST['type'] == '3') {
-             echo '<div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">'
-             . 'PROCESSO DE RECONHECIMENTO NO CMEB Nº 216.02\2013 - RESOLUÇÃO CMEB Nº 75\2014'
-             . '</div>';
-         }*/
-        ?>
         <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
             <?php //echo $namereport
             ?>
@@ -333,7 +141,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             <td>
                 <div class="span4"><b>03 - Naturalidade: <span class="nationality"><?= $data['nationality'] ?></span></b></div>
                 <div class="span4"><b>País: <span class="nationality"><?= $data['nation'] ?></span></b></div>
-                <span class="<?php echo $data['nationality'] !== 'Brasileira' ? 'hide':''; ?>">
+                <span class="<?php echo $data['nationality'] !== 'Brasileira' ? 'hide' : ''; ?>">
                     <div class="span12">
                         <b>UF: </b><span class="address_uf"><?= $data['birth_uf'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <b>Município: </b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span>/<?php echo $birth_uf ?>
@@ -553,22 +361,22 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     <br>
                     <div class="span12 margin-15"><b>Outro: </b>____________________________________________________</div>
 
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span10"><b>24 - Utiliza transporte escolar? </b>
-                    <span class="public_transport">
-                        <?= ($enrollment->public_transport == '0') ? 'Não' : 'Sim' ?>
-                    </span>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span10"><b>25 - Restrição alimentar ou alergia a: </b>
-                    <?php
-                    $result = '';
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span10"><b>24 - Utiliza transporte escolar? </b>
+                        <span class="public_transport">
+                            <?= ($enrollment->public_transport == '0') ? 'Não' : 'Sim' ?>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span10"><b>25 - Restrição alimentar ou alergia a: </b>
+                        <?php
+                        $result = '';
 
                         if ($data['celiac'] == '1') {
                             $result .= 'Doença celíaca';
@@ -636,8 +444,192 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             </tr>
         </table>
     </div>
-
 </div>
-</body>
 
-</html>
+<style>
+    .table-bordered {
+        margin: 0px;
+    }
+
+    .container-report {
+        width: 980px;
+        margin: auto;
+    }
+
+    .container-report:after {
+        clear: both;
+    }
+
+    .container-report:before,
+    .container-report:after {
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+
+    .mt-60 {
+        margin-top: 60px;
+    }
+
+    .mt-30 {
+        margin-top: 30px;
+    }
+
+    .mb-30 {
+        margin-bottom: 60px;
+    }
+
+    .blue-background {
+        background-color: #C6D9F1;
+    }
+
+    .contentEditable {
+        padding: 5px;
+    }
+
+
+    .titleBig {
+        font-size: 15px;
+        line-height: 25px;
+        font-weight: bold;
+    }
+
+    .text-uppercase {
+        text-transform: uppercase;
+    }
+
+    .table-border,
+    .table-border th,
+    .table-border td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    .table-border td,
+    .table-border th {
+        padding: 8px;
+    }
+
+    .table-border {
+        width: 100%;
+    }
+
+    @media screen {
+        .pageA4V {
+            width: 980px;
+            height: 1400px;
+            margin: 0 auto;
+        }
+
+        .pageA4H {
+            width: 1400px;
+            height: 810px;
+            margin: 0 auto;
+        }
+
+        #header-report ul#info,
+        #header-report ul#addinfo {
+            float: right;
+            width: 970px;
+            margin: 0;
+            overflow: hidden;
+        }
+    }
+
+    @media print {
+
+        #head {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+        }
+        .table-bordered {
+            margin: 0 0 20px;
+        }
+
+        #no-break {
+            page-break-inside: avoid;
+        }
+
+        .pageA4V {
+            width: 960px;
+            height: 1200px;
+            margin: 0 auto;
+            font-size: 15px;
+        }
+
+        .pageA4H {
+            width: 1122px;
+            height: 810px;
+            margin: 0 auto;
+            font-size: 15px;
+        }
+
+        .padding-5 {
+            padding: 5px 0 0 0;
+        }
+
+        .margin-15 {
+            margin-top: 8px;
+            margin-bottom: 7px;
+        }
+
+        #header-report {
+            width: 820px;
+        }
+
+        #container-header {
+            width: 425px !important;
+        }
+
+        table,
+        td,
+        tr,
+        th {
+            border-color: black !important;
+        }
+
+        .report-table-empty td {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        .vertical-text {
+            height: 110px;
+            vertical-align: bottom !IMPORTANT;
+        }
+
+        .vertical-text div {
+            transform: translate(5px, 0px) rotate(270deg);
+            width: 5px;
+            line-height: 16px;
+            margin: 0px 10px 0px 0px;
+        }
+
+        #canvas-td {
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 10 10'> <path d='M0 0 L0 10 L10 10' fill='black' /></svg>");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 100% 100%, auto;
+        }
+
+        .blue-background {
+            --webkit-print-color-adjust: exact;
+            background-color: #C6D9F1 !important;
+        }
+
+        .titleBig {
+            border-right: 1px solid black !important;
+        }
+
+        .legend {
+            line-height: 40px;
+        }
+
+        .btn-print {
+            border-top: 1px solid black !important;
+        }
+
+    }
+</style>
