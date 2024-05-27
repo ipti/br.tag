@@ -1,3 +1,6 @@
+## [Versão 3.79.150]
+- Permitido com que se adicione ou remova aulas no quadro de horário, mesmo quando houver preenchimento de frequência ou quadro de horário
+
 ## [Versão 3.79.149]
 - Efetuadas correções para o chaveamento do professor com o seu usuário
 
