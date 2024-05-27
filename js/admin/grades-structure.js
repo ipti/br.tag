@@ -79,6 +79,9 @@ $(document).on("click", ".js-new-unity", function (e) {
         }
         $(".unity").last().find(".js-type-select, .js-formula-select").select2();
         if(!$(".js-new-partial-recovery").hasClass("disabled")){
+            $('.js-alert-salve-unities-first')
+                .text("Para cadastrar novas recuperações, conclua o cadastro da unidade")
+                .show();
             $(".js-new-partial-recovery").addClass("disabled");
         }
     }
@@ -218,6 +221,7 @@ $(document).on("click", ".js-remove-unity", function (e) {
     if (isNew) {
         unity.remove();
         if($("input[type='hidden'].unity-id:not([value])").length == 0){
+            $('.js-alert-salve-unities-first').hide();
             $(".js-new-partial-recovery").removeClass("disabled");
         }
     } else {
@@ -398,7 +402,7 @@ function saveUnities(reply) {
                     "Atualizando resultados dos alunos, o processo pode demorar..."
                 )
                 .show();
-            $(".buttons a, .js-grades-structure-container")
+            $(".buttons a, .js-grades-container")
                 .css("opacity", "0.4")
                 .css("pointer-events", "none");
             $("#GradeUnity_edcenso_stage_vs_modality_fk").attr(
@@ -415,6 +419,8 @@ function saveUnities(reply) {
                     .removeClass("alert-error")
                     .text("Estrutura de notas cadastrada com sucesso!")
                     .show();
+                $('.js-alert-salve-unities-first').hide();
+                $('.js-alert-salve-recovery-first').hide();
                 loadStructure();
             }
         },
@@ -436,7 +442,7 @@ function saveUnities(reply) {
                 .addClass("alert-success")
                 .text("Médias atualizadas com sucesso!");
             $("html, body").animate({ scrollTop: 0 }, "fast");
-            $(".buttons a, .js-grades-structure-container")
+            $(".buttons a, .js-grades-container")
                 .css("opacity", "1")
                 .css("pointer-events", "auto");
             $("#GradeUnity_edcenso_stage_vs_modality_fk").removeAttr(
@@ -656,6 +662,7 @@ function loadStructure() {
                             modality.find(".weight").val(this.weight);
                         });
                     });
+                    $('.js-alert-salve-unities-first').hide();
                 }
                 if (data.partialRecoveries.length > 0) {
                     $('#accordion-partial-recovery').empty()
@@ -776,7 +783,9 @@ function getUnityOptions() {
 
 $(document).on("click", ".js-new-partial-recovery", (e) => {
     if(!$(".js-new-partial-recovery").hasClass("disabled")){
-
+        $(".js-alert-salve-recovery-first")
+                .text("Para cadastrar novas unidades, conclua o cadastro da recuperação")
+                .show();
         newAccordion = addAccordion("","","","");
         $('#accordion-partial-recovery').append(newAccordion)
         $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities").select2();
@@ -787,7 +796,11 @@ $(document).on("click", ".js-remove-partial-recovery", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
     partialRecovery.remove();
 
-    if($("input[type='hidden'].partial-recovery-id:not([value]").length == 0){
+    let recoveriesNotSalved = $("input[type='hidden'].partial-recovery-id").filter(function() {
+        return !this.hasAttribute('value') || this.value === '';
+    }).length
+    if(recoveriesNotSalved == 0){
+        $(".js-alert-salve-recovery-first").hide();
         $(".js-new-unity").removeClass("disabled");
     }
 });

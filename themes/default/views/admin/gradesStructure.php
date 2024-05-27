@@ -28,14 +28,18 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
     );
     ?>
 
+<div class="row">
     <div class="column">
-        <div class="row">
+        <div class="column">
             <h1>Estrutura de Unidades e Avaliações</h1>
-            <div class="buttons row grades-buttons">
-                <!-- <a class='t-button-primary save-and-reply'>Salvar e Replicar</a> -->
-                <a class='t-button-primary save'>Salvar</a>
-            </div>
         </div>
+        <div class="buttons row grades-buttons">
+            <!-- <a class='t-button-primary save-and-reply'>Salvar e Replicar</a> -->
+            <a class='t-button-primary save' style="margin-right: 2.5em;">Salvar</a>
+        </div>
+    </div>
+</div>
+    <div class="column js-grades-container">
         <?php if (Yii::app()->user->hasFlash('success')): ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
@@ -103,6 +107,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <?php echo CHtml::label("Incluir recuperação final?", 'has_final_recovery', array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
             </div>
         </div>
+        <div class="js-alert-salve-recovery-first no-show alert"></div>
         <div class="column js-grades-rules-container" style="display: none;">
             <div class="row">
                 <h2>Definição das unidades</h2>
@@ -116,8 +121,9 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         </div>
         <div id="accordion js-grades-rules-container"
             class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion"
-            style="display: none;">
+           >
         </div>
+        <div class="js-alert-salve-unities-first no-show alert"></div>
         <div class="column js-grades-rules-container" style="display: none;">
             <div class="row">
                 <h2>Definição das Recuperações Parciais</h2>

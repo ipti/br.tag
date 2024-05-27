@@ -139,7 +139,6 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
                     .removeClass("alert-success")
                     .text(response.message || "Não foi possível listar o diário de notas dos alunos dessa turma, verifique se exsitem alunos ativos nessa turma")
                     .show();
-                $()
             },
             complete: function () {
                 $(".js-grades-loading").hide();

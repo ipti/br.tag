@@ -47,9 +47,9 @@ class CalculateNumericGradeUsecase
     }
     private function calculatePartialRecovery($gradeResult, $gradePartialRecovery, $studentEnrollment, $discipline, $gradeUnity){
         $partialRecoveryMedia = $this->calculatePartialRecoveryMedia($studentEnrollment, $discipline, $gradeUnity, $gradePartialRecovery);
-        $graderesult["rec_partial_" + $gradePartialRecovery->order_partial_recovery] = is_nan($partialRecoveryMedia) ? "" : round($partialRecoveryMedia, 1);
+        $gradeResult["rec_partial_" . $gradePartialRecovery->order_partial_recovery] = is_nan($partialRecoveryMedia) ? "" : round($partialRecoveryMedia, 1);
 
-        return $graderesult;
+        return $gradeResult;
     }
 
     private function calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $unity)
@@ -162,9 +162,13 @@ class CalculateNumericGradeUsecase
             $disciplineId,
             $unity->id
         );
-        $gradePartialRecovery = $this->getStudentGradesPartialRcoveryFromUnity($enrollment->id,
-        $disciplineId,
-        $gradePartialRecovery->id);
+        $gradePartialRecovery = $this->getStudentGradesPartialRcoveryFromUnity(
+            $enrollment->id,
+            $disciplineId,
+            $gradePartialRecovery->id
+        );
+        $gradesArray = array_merge($grades, $gradePartialRecovery);
+        return $this->applyStrategyComputeGradesByFormula($gradePartialRecovery, array_column($gradesArray, "grade"));
     }
     /**
      * @param StudentEnrollment $enrollment
@@ -264,17 +268,17 @@ class CalculateNumericGradeUsecase
         );
 
     }
-    private function getStudentGradesFromUnity($enrollmentId, $discipline, $unityId)
+    private function getStudentGradesPartialRcoveryFromUnity($enrollmentId, $discipline, $gradePartialRecoveryFk)
     {
 
         $gradesIds = array_column(Yii::app()->db->createCommand(
             "SELECT
                 g.id
-                FROM grade g,
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and grade_partial_recovery_fk = "
+                FROM grade g
+                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and grade_partial_recovery_fk = :grade_partial_recovery_fk"
         )->bindParam(":enrollment_id", $enrollmentId)
             ->bindParam(":discipline_id", $discipline)
-            ->bindParam(":unity_id", $unityId)->queryAll(), "id");
+            ->bindParam(":grade_partial_recovery_fk", $gradePartialRecoveryFk)->queryAll(), "id");
 
         if ($gradesIds == null) {
             return [];
