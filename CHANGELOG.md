@@ -1,3 +1,6 @@
+## [Versão 3.78.151]
+- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
+
 ## [Versão 3.79.150]
 - Permitido com que se adicione ou remova aulas no quadro de horário, mesmo quando houver preenchimento de frequência ou quadro de horário
 
@@ -6,7 +9,7 @@
 
 ## [Versão 3.79.148]
 - Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
- 
+
 ## [Versão 3.79.147]
 - Retirada a cor de fundo cinza do input da data inicial
 - Adicionado input de data final
@@ -17,7 +20,7 @@
 
 ## [Versão 3.78.145]
 - Corrigida tela do educacenso, erro: Professores - Há professores sem componentes curriculares/eixos vinculados à Turma.
-- 
+-
 ## [Versão 3.78.144]
 - Correção para a modalidade no relatório de Alunos por Turma.
 
