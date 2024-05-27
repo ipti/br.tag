@@ -627,6 +627,9 @@ li[instructor]:hover {
     height: 400px;
 }
 
-.container-frequency-over::-webkit-scrollbar {
-    display: none;
-}
+.sticky-column {
+	background-color: #fff;
+	position: sticky;
+	z-index: 1;
+	left: 0; /* Stick to the left edge */
+  }

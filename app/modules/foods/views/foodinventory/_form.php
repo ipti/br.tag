@@ -35,9 +35,9 @@ $form=$this->beginWidget('CActiveForm', array(
 
     <div class="row t-buttons-container">
         <a class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</a>
+        <a class="t-button-primary hide" href="?r=foods/foodRequest/create">Solicitações</a>
         <a class="t-button-secondary hide"><span class="t-icon-printer"></span>Relatório de Estoque</a>
     </div>
-
     <div class="row">
         <div class="t-field-select column is-two-fifths clearfix">
             <select class="select-search-on t-field-select__input select2-container" id="foodStockSelect">
@@ -45,19 +45,23 @@ $form=$this->beginWidget('CActiveForm', array(
             </select>
         </div>
     </div>
-
     <div class="row show--tabletDesktop">
         <div class="column is-four-fifths clearfix">
-            <table id="foodStockTable"  aria-describedby="FoodStockTable" class="tag-table-secondary align-start">
+            <table id="foodStockTable"  aria-describedby="FoodStockTable" role="table" class="tag-table-secondary align-start">
+             <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+             </tr>
             </table>
         </div>
     </div>
-
     <div id="foodStockList" class="row show--mobile">
     </div>
 
-    <div class="modal fade t-modal-container" id="js-movements-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog " role="document">
+    <div class="modal fade t-modal-container" id="js-movements-modal" tabindex="-1">
+        <div class="modal-dialog ">
             <div class="t-modal__header">
                 <h4 class="t-title" id="myModalLabel">Movimentações</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -68,15 +72,19 @@ $form=$this->beginWidget('CActiveForm', array(
                 <div class="t-modal__body">
                     <p>Entrada e saída de itens</p>
                     <table id="movementsTable" aria-describedby="MovementsTable" class="tag-table-secondary align-start">
-
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
                     </table>
                 </div>
             </form>
         </div>
     </div>
 
-    <div class="modal fade t-modal-container larger" id="js-entry-stock-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog " role="document">
+    <div class="modal fade t-modal-container larger" id="js-entry-stock-modal" tabindex="-1">
+        <div class="modal-dialog ">
             <div class="t-modal__header">
                 <h4 class="t-title" id="myModalLabel">Lançamento de Estoque</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -135,8 +143,8 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
-    <div class="modal fade t-modal-container" id="js-status-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog " role="document">
+    <div class="modal fade t-modal-container" id="js-status-modal" tabindex="-1">
+        <div class="modal-dialog ">
             <div class="t-modal__header">
                 <div class="column clearfix">
                     <h4 class="t-title" id="myModalLabel">Definir Status</h4>

@@ -11,7 +11,7 @@
  * @property integer $identifier;
  * @property integer $idStudent;
  * @property integer $idLunch
- * 
+ *
  */
 class ValidationSagresModel extends CActiveRecord
 {

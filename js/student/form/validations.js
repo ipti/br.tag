@@ -846,12 +846,13 @@ $(formDocumentsAndAddress + "cpf").focusout(function () {
     } else {
         removeError(id);
     }
-
-    existsStudentWithCPF($(id).cleanVal(), function (ret) {
+    
+    var idStudent = new URLSearchParams(window.location.search).get('id');
+    existsStudentWithCPF($(id).cleanVal(), idStudent, function (ret) {
         if (!ret[0] && $(id).val() != "") {
             addError(id);
             $(id_icon).css("display", "inline-block");
-            $(id_caixa).attr("data-original-title", ret[1]);
+            addError(id, "Cpf do estudante já cadastrado no sistema.");
         } else {
             removeError(id);
             $(id_icon).css("display", "none");
@@ -945,7 +946,8 @@ function checkCivilRegisterEnrollmentNumberValidity(element) {
         }
         if (valid) {
             let year = value.substring(10, 14);
-            let birthday = $(formIdentification + "birthday").cleanVal();
+            var selectedDate = $("#initial_date_picker").val();
+            let birthday = selectedDate.replace(/\//g, '');
             if (birthday !== "" && birthday.length === 8) {
                 let birthdayYear = birthday.substring(4, 8);
                 if (year < birthdayYear) {
