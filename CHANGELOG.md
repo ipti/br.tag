@@ -1,3 +1,6 @@
+## [Versão 3.79.148]
+- Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
+ 
 ## [Versão 3.79.147]
 - Retirada a cor de fundo cinza do input da data inicial
 - Adicionado input de data final
