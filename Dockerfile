@@ -8,6 +8,9 @@ RUN composer update with the "--no-plugins"
 RUN composer install
 WORKDIR /app
 RUN sass --no-source-map --style=compressed sass/scss:sass/css
+# COPY package.json ./ package-lock.json ./
+# RUN npm ci
+# RUN npx run build
 RUN composer update
 RUN composer update with the "--no-plugins"
 RUN composer install

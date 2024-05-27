@@ -14,13 +14,13 @@ export default ({mode}) => {
     // const origin = `${process.env.VITE_ORIGIN}:${port}`;
     const origin = '433:433';
 
-    const jsFiles = globSync('js/**/*.js').map(file => {
+    const jsFiles = globSync('themes/default/js/**/*.js').map(file => {
         // Create file URL from the path
         return path.resolve(file);
     });
 
     // Create a single entry point file that imports all other JS files
-    const entryDirPath = path.resolve('js');
+    const entryDirPath = path.resolve('themes/default/js');
     const entryFilePath = path.join(entryDirPath, 'index.js');
 
     // Ensure the directory exists
