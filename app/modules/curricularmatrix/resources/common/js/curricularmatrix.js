@@ -47,3 +47,21 @@ $(document).on("click", ".confirm-matrix-reuse", function () {
         $(".alert-container").show();
     });
 });
+
+$(".confirm-delete").on("click", function (e) {
+    e.preventDefault();
+    var th = this,
+        afterDelete = function () { };
+    jQuery('#matrizgridview').yiiGridView('update', {
+        type: 'POST',
+        url: jQuery(this).attr('href'),
+        success: function (data) {
+            jQuery('#matrizgridview').yiiGridView('update');
+            afterDelete(th, true, data);
+        },
+        error: function (XHR) {
+            return afterDelete(th, false, XHR);
+        }
+    });
+    return false;
+});
