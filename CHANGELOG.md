@@ -1,3 +1,6 @@
+## [Versão 3.79.148]
+- Corrigida ficha de matricula do aluno ao imprimir.
+
 ## [Versão 3.79.147]
 - Retirada a cor de fundo cinza do input da data inicial
 - Adicionado input de data final
@@ -8,7 +11,7 @@
 
 ## [Versão 3.78.145]
 - Corrigida tela do educacenso, erro: Professores - Há professores sem componentes curriculares/eixos vinculados à Turma.
-- 
+-
 ## [Versão 3.78.144]
 - Correção para a modalidade no relatório de Alunos por Turma.
 
