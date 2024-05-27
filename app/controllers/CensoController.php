@@ -682,7 +682,10 @@ class CensoController extends Controller
         if (!$result['status']) array_push($log, array('Turma' => $result['erro']));
 
         foreach($column->instructorTeachingDatas as $instructorTeachingData) {
-            if (empty($instructorTeachingData->teachingMatrixes)) {
+            if (in_array($instructorTeachingData->role, [1, 5])
+                && empty($instructorTeachingData->teachingMatrixes)
+            ) {
+
                 array_push($log, array('Professores' => "Há professores sem componentes curriculares/eixos vinculados à Turma."));
                 break;
             }

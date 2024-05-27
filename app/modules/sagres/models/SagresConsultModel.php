@@ -1407,6 +1407,7 @@ class SagresConsultModel
                 }
             } else {
                 $studentType = new AlunoTType();
+                    $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
                     $studentType
                         ->setNome($enrollment['name'])
                         ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $convertedBirthdate))
@@ -1740,11 +1741,19 @@ class SagresConsultModel
         if ($date instanceof Datetime) {
             $dat = $date->format('Y-m-d');
         } else {
-            $dt = new DateTime($date);
+            
+            $dt = DateTime::createFromFormat($format, $date);
+            if ($dt === false) {
+                return false;
+            }
+
             $dat = $dt->format('Y-m-d');
         }
 
         $d = DateTime::createFromFormat($format, $dat);
+        if ($d === false) {
+            return false;
+        }
         $year = intval($d->format('Y'));
         $currentYear = intval(date('Y'));
 

@@ -284,3 +284,27 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
         </form>
     </div>
 </div>
+
+<div class="modal fade modal-content" id="unallowedSchedulesSwap" tabindex="-1" role="dialog" aria-labelledby="Action Blocked">
+    <div class="modal-dialog" role="document">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Ação não permitida</h4>
+        </div>
+        <form method="post">
+            <div class="modal-body">
+                <div class="row-fluid">
+                    Não é possível alterar disciplinas com datas anteriores a da frequência ou aula ministrada mais recente.<br><br>
+                    <div>Frequência mais recente: <b class="last-frequency-day"></b></div>
+                    <div>Aula ministrada mais recente: <b class="last-classcontent-day"></b></div>
+                </div>
+
+                <div class="modal-footer" style="display:block">
+                    <button type="button" class="btn btn-primary" style="float: right;" data-dismiss="modal"><?= yii::t("timesheetModule.index", "Cancel") ?></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
