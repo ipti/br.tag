@@ -1,3 +1,6 @@
+## [Versão 3.78.139]
+- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
+
 ## [Versão 3.78.138]
 - Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
 
