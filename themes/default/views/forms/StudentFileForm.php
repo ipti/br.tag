@@ -109,6 +109,9 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         }
 
         @media print {
+            .table-bordered{
+                margin: 0 0 20px;
+            }
             #no-break {
                 page-break-inside: avoid;
             }
