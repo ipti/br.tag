@@ -1,0 +1,65 @@
+
+-- NÃO RODAR ISSO AQUI EM BOQUIM, POIS JÁ FOI FEITO ANTERIORMENTE
+INSERT INTO edcenso_alias (register,corder,attr,cdesc,`default`,stable,year)
+SELECT register,corder,attr,cdesc,`default`,stable,'2024' FROM edcenso_alias
+WHERE year = 2023;
+--
+
+update edcenso_alias set corder = (corder + 1) where corder >= 22 and register = 10 and year = 2024;
+
+insert into edcenso_alias values
+(10, 22, 'water_supply_car', 'Carro-pipa', null, null, 2024);
+
+update edcenso_alias set corder = (corder + 1) where corder >= 78 and register = 10 and year = 2024;
+
+insert into edcenso_alias values
+(10, 78, 'dependencies_garden_planting_agricultural', 'Área de horta, plantio e/ou produção agrícola', null, null, 2024);
+
+update edcenso_alias set corder = (corder + 1) where corder >= 85 and register = 10 and year = 2024;
+
+insert into edcenso_alias values
+(10, 85, 'acessability_light_signaling', 'Sinalização/alarme luminoso', null, null, 2024);
+
+update edcenso_alias set corder = (corder + 1) where corder >= 120 and register = 10 and year = 2024;
+
+insert into edcenso_alias values
+(10, 120, 'workers_garden_planting_agricultural', 'Agrônomos(as), horticultores(as), técnicos ou monitores(as) responsáveis pela gestão da área de horta, plantio e/ou produção agrícola', null, null, 2024);
+
+update edcenso_alias set corder = (corder + 1) where corder >= 137 and register = 10 and year = 2024;
+
+insert into edcenso_alias values
+(10, 137, 'workers_braille', 'Revisor de texto Braille, assistente vidente (assistente de revisão do texto em Braille)', null, null, 2024);
+
+update edcenso_alias set corder = (corder + 1) where corder >= 144 and register = 10 and year = 2024;
+
+insert into edcenso_alias values
+(10, 144, 'equipments_garden_planting_agricultural', 'Equipamentos e instrumentos para atividades em área de horta, plantio e/ou produção agrícola', null, null, 2024);
+
+update edcenso_alias set corder = (corder + 2) where corder >= 154 and register = 10 and year = 2024;
+
+insert into edcenso_alias values
+(10, 154, 'equipments_material_teachingquilombola', 'Materiais pedagógicos para a educação escolar quilombola', null, null, 2024);
+
+insert into edcenso_alias values
+(10, 155, 'equipments_material_teachingspecial', 'Materiais pedagógicos para a educação especial', null, null, 2024);
+
+insert into edcenso_alias values
+(10, 180, '', 'A escola desenvolve ações na área de educação ambiental?', 0, null, 2024);
+
+insert into edcenso_alias values
+(10, 181, '', 'Como conteúdo dos componentes/campos de experiências presentes no currículo', null, null, 2024);
+
+insert into edcenso_alias values
+(10, 182, '', 'Como um componente curricular especial, específico, flexível ou eletivo', null, null, 2024);
+
+insert into edcenso_alias values
+(10, 183, '', 'Como um eixo estruturante do currículo', null, null, 2024);
+
+insert into edcenso_alias values
+(10, 184, '', 'Em eventos', null, null, 2024);
+
+insert into edcenso_alias values
+(10, 185, '', 'Em projetos transversais ou interdisciplinares', null, null, 2024);
+
+insert into edcenso_alias values
+(10, 186, '', 'Nenhuma das opções listadas', null, null, 2024);
