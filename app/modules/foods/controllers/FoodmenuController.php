@@ -275,10 +275,13 @@ class FoodmenuController extends Controller
         $response = json_encode((array) $foodMenu);
         $data = json_decode($response, true);
 
-        $result = array();
+
         $userSchool = Yii::app()->user->school;
+
+        $result = array();
+
         $extraData = array(
-            'escola acionada' =>$userSchool,
+
             'id' => $data['id'],
             'week' => $data['week'],
             'description' => $data['description'],
@@ -300,7 +303,7 @@ class FoodmenuController extends Controller
                 $idMeal = $meal['idMeal'];
                 $mealData = array(
                     // 'ingredients' => array(),
-
+                    'escola_acionada' => $userSchool,
                     'time' => $meal['time'],
                     'sequence' => $meal['sequence'],
                     'turn' => $meal['turn'],
@@ -312,6 +315,8 @@ class FoodmenuController extends Controller
                 );
 
                 foreach ($meal['mealsComponent'] as $component) {
+
+
 
                     $mealData['mealsComponent'][] = array(
 
@@ -365,16 +370,19 @@ class FoodmenuController extends Controller
         foreach ($itemRecommendation as $recommendationItem) {
             $foodInventoryItem = FoodInventory::model()->findByAttributes(array('food_fk' => $recommendationItem->item_codigo));
             if ($foodInventoryItem !== null &&
-            ($foodInventoryItem->status === 'Disponivel' || $foodInventoryItem->status === 'Acabando') &&
-            $foodInventoryItem->school_fk === $userSchool) {
+            // ($foodInventoryItem->status === 'Disponivel' || $foodInventoryItem->status === 'Acabando')) {
+                ($foodInventoryItem->status === 'Disponivel' || $foodInventoryItem->status === 'Acabando') &&
+            ($foodInventoryItem->school_fk === $userSchool)) {
 
                 $item = array(
+                'escola_banco' => $foodInventoryItem->school_fk,
                 'codigo' => $recommendationItem->item_codigo,
                 'item_nome' => $recommendationItem->item_nome,
                 'score' => $recommendationItem->score,
                 'normalized_score' => $recommendationItem->normalized_score,
                 'semaforo' => $recommendationItem->traffic_light_color,
-                'escola_banco' => $foodInventoryItem->school_fk,
+                'amount' => $foodInventoryItem->amount,
+                'measurementUnit' => $foodInventoryItem->measurementUnit,
             );
             $resultRecommendation[] = $item;
             }

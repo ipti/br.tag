@@ -108,10 +108,11 @@ function createCard(meal_component, meal, dayMeal) {
         default:
             turn = ""
     }
-    igredients = meal_component.ingredients.map((item) => {
+    ingredients_meal = meal_component.ingredients.map((item) => {
 
-        return item.amount + ' ' + item.foodName.replace(/,/g, '');
+        return item.amount + item.measurementUnit +' ' + item.foodName.replace(/,/g, '');
     })
+
 
     const ingredientStatuses = meal_component.ingredients.map((item) => {
         return item.statusInventoryFood;
@@ -122,8 +123,6 @@ function createCard(meal_component, meal, dayMeal) {
     const exclamationSpan = hasMissingIngredients ? `<span class="t-exclamation" style="color: rgba(210, 28, 28, 1); font-size: 22px;"></span>` : '';
 
 
-    console.log(meal_component.id_meal_food);
-
     const returnMealsStatus = meal_component.ingredients.map((item) => {
         return {
             status: item.statusInventoryFood,
@@ -132,6 +131,7 @@ function createCard(meal_component, meal, dayMeal) {
             id_food: item.foodIdFk,
             itemReference: item.itemReference,
             itemAmount: item.amount,
+            itemType: item.measurementUnit,
             foodName: item.foodName.replace(/,/g, '')
         };
     });
@@ -157,7 +157,7 @@ function createCard(meal_component, meal, dayMeal) {
                         </div>
                     </div>
                     <div class="t-cards-text clear-margin--left">
-                        Ingredientes: ${igredients.join(', ')}
+                        Ingredientes: ${ingredients_meal.join(', ')}
                     </div>
                 </div>
             </div>`;
@@ -219,7 +219,7 @@ $(document).on("click", '.t-cards-container-custom', function () {
 
                 <div class="ui-accordion-content">
                     <div class = "amount-container">
-                        <p>Quantidade total do item no cardápio: ${ingredient.itemAmount} </p>
+                        <p>Quantidade total do item no prato: ${ingredient.itemAmount}${ingredient.itemType}</p>
                     </div>`;
 
                 if (ingredient.itemReference && ingredient.itemReference.length > 0) {
@@ -250,6 +250,7 @@ $(document).on("click", '.t-cards-container-custom', function () {
                                 <a href="#" class="ingredient-link" data-item-nome="${item.item_nome}" data-item-codigo="${item.codigo}" data-item-id_meal="${ingredient.id_meal_componet}" data-item-id-food="${ingredient.id_food_alternative}">
                                     ${item.item_nome}
                                 </a>
+                                - Quantidade no estoque: ${item.amount}${item.measurementUnit}
                             </div>
                         </div>`;
 
