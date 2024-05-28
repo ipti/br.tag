@@ -2290,9 +2290,13 @@ $form = $this->beginWidget(
                                                 </div>
                                                 <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
                                                     <div class="row">
-                                                        <a href='#' id="delete-enrollment" class="t-link-button--warning"
-                                                            enrollment="<?= $me->id ?>">Cancelar
-                                                            Matrícula</a>
+                                                        <a
+                                                            href='#'
+                                                            id="delete-enrollment"
+                                                            class="t-link-button--warning"
+                                                            enrollment="<?= $me->id ?>"
+                                                            >Excluir Matrícula
+                                                        </a>
                                                     </div>
                                                 <?php } ?>
                                             </div>
