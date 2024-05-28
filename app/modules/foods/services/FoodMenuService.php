@@ -4,10 +4,8 @@ class FoodMenuService
     public function getFoodMenu($modelFoodMenu, $publicTarget, $modelMenuMeals)
     {
         $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-        // Criando objeto de cardápio que será utilizado para armazenar informações sobre o cardápio
         $foodMenu = new FoodMenuObject($modelFoodMenu, $publicTarget);
         $foodMenu->setDateFormated($modelFoodMenu);
-        // Atribuindo refeições associadas ao cardápio de acordo com o dia
         foreach ($weekDays as $day) {
             $publicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk" => $modelFoodMenu->id));
             $foodMenu->setDayMeals($day, $modelMenuMeals, $publicTarget->food_public_target_fk);
@@ -224,16 +222,13 @@ class FoodMenuService
     }
     public function getMelsOfWeek()
     {
-        // Get the current date
         date_default_timezone_set('America/Bahia');
         $date = date('Y-m-d', time());
 
-        // Create a filter to select foodMenus
         $criteria = new CDbCriteria();
         $criteria->addCondition("start_date <= :date AND final_date >= :date");
         $criteria->params = array(':date' => $date);
 
-        // Select in database filtered foodMenus and assign it to models
         $modelFoodMenus = FoodMenu::model()->findAll($criteria);
         $foodMenu = new FoodMenuObject();
 
@@ -252,9 +247,7 @@ class FoodMenuService
     {
         $weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
         foreach ($weekDays as $day) {
-            // Verifica se existe alguma refeição para o dia
             if ($request[$day] !== null) {
-                // $meals se trata da lista de refeições que um dia da semana pode ter
                 $meals = $request[$day];
                 $this->createMeals($modelFoodMenu, $meals, $day, $transaction);
             }
@@ -275,15 +268,12 @@ class FoodMenuService
             $foodMenuMeal->meal_time = $meal["time"];
             $foodMenuMeal->food_meal_type_fk = $foodMealType->id;
 
-            // Verifica se a refeição foi salva com sucesso
             $saveMenuMealResult = $foodMenuMeal->save();
             if ($saveMenuMealResult === false) {
-                // Caso de erro: Falha quando ocorre um erro ao tentar salvar uma refeição
                 $message = 'Ocorreu um erro ao salvar uma refeição! Tente novamente';
                 $transaction->rollback();
                 throw new CHttpException(500, $message);
             }
-            // Caso de sucesso: a refeição foi salva com sucesso
             $this->createComponents($foodMenuMeal, $meal, $transaction);
         }
     }
@@ -297,7 +287,6 @@ class FoodMenuService
             $foodMenuMealComponent = new FoodMenuMealComponent;
             $foodMenuMealComponent->food_menu_mealId = $foodMenuMeal->id;
             $foodMenuMealComponent->description = $component["description"];
-            // Verifica se o prato foi salvo com sucesso
             $saveComponentResult = $foodMenuMealComponent->save();
             if ($saveComponentResult === false) {
                 $message = "Ocorreu um erro ao salvar um prato! Verifique as informações e tente novamente";
@@ -313,7 +302,6 @@ class FoodMenuService
      */
     private function createIngredients($modelComponent, $component, $transaction)
     {
-        // $component["food_ingredients"] se trata da lista de ingredientes que um prato possui
         foreach ($component["food_ingredients"] as $ingredient) {
             $foodIngredient = new FoodIngredient;
             $foodSearch = Food::model()->findByPk($ingredient["food_id_fk"]);
@@ -328,35 +316,12 @@ class FoodMenuService
 
 
             if ($saveIngredientResult === false) {
-                // Caso de erro: Falha quando ocorre um erro ao tentar salvar um ingrediente de um prato
                 $message = 'Ocorreu um erro ao salvar um ingrediente! Verifique as informações e tente novamente';
                 $transaction->rollback();
                 throw new CHttpException(500, $message);
             }
         }
     }
-
-    // public function actionGetstatusFoodInventory()
-    // {
-    //     $schoolFk = Yii::app()->user->school;
-
-    //     $criteria = new CDbCriteria();
-    //     $criteria->with = array('foodRelation');
-    //     $criteria->compare('school_fk', $schoolFk);
-
-    //     $foodInventoryData = FoodInventory::model()->findAll($criteria);
-
-    //     $values = [];
-    //     foreach ($foodInventoryData as $stock) {
-    //         $values[] = array(
-    //             'id' => $stock->id,
-    //             'status' => $stock->status,
-    //             'food_fk' => $stock->food_fk
-    //         );
-    //     }
-
-    //     echo json_encode($values);
-    // }
 }
 /**
  * Classes that represents a foodMenu which will be manipulated and send as response to client request
@@ -410,11 +375,6 @@ class FoodMenuObject
         }
     }
 }
-
-
-
-
-
 
 
 /**
@@ -512,7 +472,6 @@ class IngredientObject
         $this->kcal = is_numeric($foodModel->energy_kcal) ? round($foodModel->energy_kcal, 2) : $foodModel->energy_kcal;
         $this->nameFood = $foodModel->description;
         $this->measurementUnit = $foodModel->measurementUnit;
-        // $this->statusInventoryFood = $model->foodInventory->status;
         $this->statusInventoryFood = $model->foodInventory->status ?? "Emfalta";
     }
 }
