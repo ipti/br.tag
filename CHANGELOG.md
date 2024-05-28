@@ -1,8 +1,20 @@
-## [Versão 3.79.148]
+## [Versão 3.78.152]
 - Inserido opção de situação de matrícula "AVANÇADO" no campo "Situação de Matrícula"
 - Adequado o sistema para o Educacenso 2024
 
-## [Versão 3.79.147]
+## [Versão 3.78.151]
+- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
+
+## [Versão 3.78.150]
+- Permitido com que se adicione ou remova aulas no quadro de horário, mesmo quando houver preenchimento de frequência ou quadro de horário
+
+## [Versão 3.78.149]
+- Efetuadas correções para o chaveamento do professor com o seu usuário
+
+## [Versão 3.78.148]
+- Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
+
+## [Versão 3.78.147]
 - Retirada a cor de fundo cinza do input da data inicial
 - Adicionado input de data final
 - Corrigido link de limpar input das datas
@@ -12,7 +24,7 @@
 
 ## [Versão 3.78.145]
 - Corrigida tela do educacenso, erro: Professores - Há professores sem componentes curriculares/eixos vinculados à Turma.
-- 
+-
 ## [Versão 3.78.144]
 - Correção para a modalidade no relatório de Alunos por Turma.
 
