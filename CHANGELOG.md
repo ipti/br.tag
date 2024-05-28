@@ -1,3 +1,7 @@
+## [Versão 3.79.148]
+- Inserido opção de situação de matrícula "AVANÇADO" no campo "Situação de Matrícula"
+- Adequado o sistema para o Educacenso 2024
+
 ## [Versão 3.79.147]
 - Retirada a cor de fundo cinza do input da data inicial
 - Adicionado input de data final
