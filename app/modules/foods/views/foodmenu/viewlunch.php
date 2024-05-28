@@ -55,12 +55,16 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
                 Estoque
             </a>
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/Requisition/index') ?>">
+            Painel de Informações
+            </a>
             <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/farmerregister') ?>">
                 Agricultor
             </a>
             <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodnotice') ?>">
                 Editais
             </a>
+
             <a class="t-button-secondary js-expansive-panel show--mobile">
                 Filtros
             </a>
@@ -132,3 +136,4 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
         </div>
     </div>
 </div>
+
