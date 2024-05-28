@@ -312,7 +312,6 @@ $(document).ready(function () {
             },
             type: "POST",
             success: function (response) {
-                console.log(response);
                 sessionStorage.setItem('substituicaoSucesso', 'true');
                 location.reload();
             }

@@ -370,7 +370,7 @@ class FoodmenuController extends Controller
         foreach ($itemRecommendation as $recommendationItem) {
             $foodInventoryItem = FoodInventory::model()->findByAttributes(array('food_fk' => $recommendationItem->item_codigo));
             if ($foodInventoryItem !== null &&
-            // ($foodInventoryItem->status === 'Disponivel' || $foodInventoryItem->status === 'Acabando')) {
+            /* ($foodInventoryItem->status === 'Disponivel' || $foodInventoryItem->status === 'Acabando')) {*/
                 ($foodInventoryItem->status === 'Disponivel' || $foodInventoryItem->status === 'Acabando') &&
             ($foodInventoryItem->school_fk === $userSchool)) {
 
