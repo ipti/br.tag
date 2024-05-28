@@ -14,7 +14,7 @@ export default ({mode}) => {
     // const origin = `${process.env.VITE_ORIGIN}:${port}`;
     const origin = '433:433';
 
-    const jsFiles = globSync('themes/default/js/**/*.js').map(file => {
+    const jsFiles = globSync('themes/default/js/dependencies/**/*.js').map(file => {
         // Create file URL from the path
         return path.resolve(file);
     });

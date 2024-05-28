@@ -1,8 +1,8 @@
 {
-  "js/index.js": {
+  "themes/default/js/index.js": {
     "file": "bundle.js",
     "name": "index",
-    "src": "js/index.js",
+    "src": "themes/default/js/index.js",
     "isEntry": true
   }
 }

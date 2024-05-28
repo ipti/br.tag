@@ -514,18 +514,18 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap-datepicker.min.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap-datepicker.pt-BR.min.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
-        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js?v=<?= TAG_VERSION ?>"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2-locale-pt-BR.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.qrcode.min.js" type="text/javascript"></script>
         <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/fullcalendar/fullcalendar.min.js?v=<?= TAG_VERSION ?>'></script>
         <script src='<?php echo Yii::app()->theme->baseUrl; ?>/js/purify.min.js'></script>
-        <script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js?v=<?= TAG_VERSION ?>'></script>
-        <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js?v=<?= TAG_VERSION ?>'></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatables.min.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatablesptbr.js"></script>
     <?php else: ?>
         <script type="module" src="/web/resources/bundle.js"></script>
+        <script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js?v=<?= TAG_VERSION ?>'></script>
+        <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js?v=<?= TAG_VERSION ?>'></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js?v=<?= TAG_VERSION ?>"></script>
         <link rel="stylesheet" href="/sass/css/main.css">
     <?php endif; ?>
 </body>

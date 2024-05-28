@@ -1,0 +1,16 @@
+import '/app/themes/default/js/dependencies/select2.js';
+import '/app/themes/default/js/dependencies/select2-locale-pt-BR.js';
+import '/app/themes/default/js/dependencies/purify.min.js';
+import '/app/themes/default/js/dependencies/jquery-ui-1.9.2.custom.min.js';
+import '/app/themes/default/js/dependencies/datatablesptbr.js';
+import '/app/themes/default/js/dependencies/datatables.min.js';
+import '/app/themes/default/js/dependencies/common.js';
+import '/app/themes/default/js/dependencies/bootstrap.min.js';
+import '/app/themes/default/js/dependencies/bootstrap-datepicker.pt-BR.min.js';
+import '/app/themes/default/js/dependencies/bootstrap-datepicker.min.js';
+import '/app/themes/default/js/dependencies/jquery/jquery.qrcode.min.js';
+import '/app/themes/default/js/dependencies/jquery/jquery.mask.min.js';
+import '/app/themes/default/js/dependencies/jquery/jquery.dataTables.min.js';
+import '/app/themes/default/js/dependencies/fullcalendar/gcal.js';
+import '/app/themes/default/js/dependencies/fullcalendar/fullcalendar.min.js';
+import '/app/themes/default/js/dependencies/fullcalendar/fullcalendar.js';
