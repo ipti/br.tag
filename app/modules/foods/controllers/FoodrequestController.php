@@ -204,7 +204,7 @@ class FoodrequestController extends Controller
             $requestSchools = Yii::app()->request->getPost('requestSchools');
             $requestFarmers = Yii::app()->request->getPost('requestFarmers');
             $requestItems = Yii::app()->request->getPost('requestItems');
-            var_dump($requestItems);
+            $requestTitle = Yii::app()->request->getPost('requestTitle');
 
             $foodRequest = new FoodRequest;
             $foodRequest->notice_fk = $noticeId;
@@ -226,7 +226,7 @@ class FoodrequestController extends Controller
                 }
 
                 $createFoodRequest = new CreateFoodRequest();
-                $createFoodRequest->exec($noticeId, $requestSchoolNames, $farmersReferenceId, $requestItems);
+                $createFoodRequest->exec($requestTitle, $requestSchoolNames, $farmersReferenceId, $requestItems);
 
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Solicitação foi gerada com sucesso!'));
             }

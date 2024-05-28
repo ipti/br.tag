@@ -132,6 +132,9 @@ $(document).on("click", "#save-request", function () {
     if(!requestSchools || !requestFarmers || foodsRelation.length == 0) {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     } else {
+        let requestTitle = foodsRelation.map(item =>
+            item.foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim()
+        ).join(', ');
         $.ajax({
             type: 'POST',
             url: "?r=foods/foodrequest/create",
@@ -140,10 +143,11 @@ $(document).on("click", "#save-request", function () {
                 noticeId: noticeId,
                 requestSchools: requestSchools,
                 requestFarmers: requestFarmers,
-                requestItems: foodsRelation
+                requestItems: foodsRelation,
+                requestTitle: requestTitle
             }
         }).success(function(response) {
-            // window.location.href = "?r=foods/foodRequest/index";
+            window.location.href = "?r=foods/foodRequest/index";
         })
     }
 });
