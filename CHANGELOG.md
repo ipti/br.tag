@@ -1,5 +1,5 @@
 ## [Versão 3.80.151]
-- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
+- Realizadas correções no módulo de merenda, criando uma nova funcionalidade para recomendar itens faltantes do estoque.
 
 ## [Versão 3.79.151]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
