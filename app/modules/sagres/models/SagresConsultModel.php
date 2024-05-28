@@ -488,7 +488,8 @@ class SagresConsultModel
 
         $query = "SELECT
                     c.name AS serieDescription,
-                    c.modality AS serieModality
+                    c.modality AS serieModality,
+                    c.complementary_activity as complementaryActivity
                 FROM
                     classroom c
                 WHERE
@@ -499,9 +500,15 @@ class SagresConsultModel
         foreach ($series as $serie) {
             $serie = (object) $serie;
             $serieType = new SerieTType();
+
+            if($serie->complementaryActivity === '1')
+                $modality = 6;
+            else
+                $modality = $serie->serieModality;
+
             $serieType
                 ->setDescricao($serie->serieDescription)
-                ->setModalidade($serie->serieModality);
+                ->setModalidade($modality);
 
                 if (empty($serieType)) {
                     $inconsistencyModel = new ValidationSagresModel();
