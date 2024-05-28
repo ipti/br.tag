@@ -551,8 +551,9 @@ class SagresConsultModel
                  * 3 - Ensino Médio
                  * 4 - Educação de Jovens e Adultos
                  * 5 - Atendimento Educacional Especializado
+                 * 6 - Atividades Complementares
                  */
-                if (!in_array($serieType->getModalidade(), [1, 2, 3, 4, 5])) {
+                if (!in_array($serieType->getModalidade(), [1, 2, 3, 4, 5, 6])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = SERIE_STRONG;
                     $inconsistencyModel->school = $school->name;
