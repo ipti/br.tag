@@ -49,7 +49,7 @@ class FoodmenuController extends Controller
         // Verifica se a ação de salvar foodMenu ocorreu com sucesso, caso falhe encerra a aplicação
         $saveFoodMenuResult = $modelFoodMenu->save();
 
-        if ($saveFoodMenuResult == false) {
+        if (!$saveFoodMenuResult) {
             $message = 'Ocorreu um erro ao salvar o cardápio! Tente novamente.';
             $transaction->rollback();
             throw new CHttpException(500, $message);
@@ -58,14 +58,14 @@ class FoodmenuController extends Controller
         /* Atribui valores às propriedades do model FoodMenuVsFoodPublicTarget
         (Tabela N:N entre cardápio e publico alvo) */
         $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
-        $foodMenuVsPublicTarget = new FoodMenuVsFoodPublicTarget;
-        $foodMenuVsPublicTarget->food_menu_fk = $modelFoodMenu->id;
-        $foodMenuVsPublicTarget->food_public_target_fk = $publicTarget->id;
-        $foodMenuVsPublicTarget->save();
+        $foodMenuTarget = new FoodMenuVsFoodPublicTarget;
+        $foodMenuTarget->food_menu_fk = $modelFoodMenu->id;
+        $foodMenuTarget->food_public_target_fk = $publicTarget->id;
+        $foodMenuTarget->save();
 
         // Chamando método que irá adicionar novos registros relacionados ao cardápio
-        $createFoodMenuRelations = new CreateFoodMenuRelations();
-        $createFoodMenuRelations->exec($modelFoodMenu, $request, $transaction);
+        $createMenuRelations = new CreateFoodMenuRelations();
+        $createMenuRelations->exec($modelFoodMenu, $request, $transaction);
         // Salvar alterações no banco
         $transaction->commit();
         header('HTTP/1.1 201 Created');
@@ -121,11 +121,11 @@ class FoodmenuController extends Controller
             $modelFoodMenu->save();
 
             //atualiza FoodMenuvVsPublicTarget
-            $foodMenuVsPublicTarget = FoodMenuVsFoodPublicTarget::model()
+            $foodMenuTarget = FoodMenuVsFoodPublicTarget::model()
                 ->findByAttributes(array('food_menu_fk' => $modelFoodMenu->id));
             $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
-            $foodMenuVsPublicTarget->food_public_target_fk = $publicTarget->id;
-            $foodMenuVsPublicTarget->save();
+            $foodMenuTarget->food_public_target_fk = $publicTarget->id;
+            $foodMenuTarget->save();
         }
 
         foreach ($modelMenuMeals as $modelMenuMeal) {
@@ -144,8 +144,8 @@ class FoodmenuController extends Controller
             $modelMenuMeal->delete();
         }
         // Chamada de função que irá salvar as novas informações do cardápio
-        $createFoodMenuRelations = new CreateFoodMenuRelations();
-        $createFoodMenuRelations->exec($modelFoodMenu, $request, $transaction);
+        $createMenuRelations = new CreateFoodMenuRelations();
+        $createMenuRelations->exec($modelFoodMenu, $request, $transaction);
         $transaction->commit();
         header('HTTP/1.1 200 OK');
         Log::model()->saveAction("foodMenu", $modelFoodMenu->id, "U", $modelFoodMenu->description);
@@ -193,20 +193,20 @@ class FoodmenuController extends Controller
                 array('food_menuId' => $modelFoodMenu->id)
             );
             foreach ($modelFoodMenuMeals as $modelFoodMenuMeal) {
-                $modelFoodMealComponents = FoodMenuMealComponent::model()->findAllByAttributes(
+                $modelMealComponents = FoodMenuMealComponent::model()->findAllByAttributes(
                     array('food_menu_mealId' => $modelFoodMenuMeal->id)
                 );
-                foreach ($modelFoodMealComponents as $modelFoodMealComponent) {
+                foreach ($modelMealComponents as $modelMealComponent) {
                     FoodIngredient::model()->deleteAllByAttributes(
-                        array('food_menu_meal_componentId' => $modelFoodMealComponent->id)
+                        array('food_menu_meal_componentId' => $modelMealComponent->id)
                     );
                 }
                 $modelFoodMenuMeal->delete();
             }
-            $modelFoodMenuVsPublicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(
+            $modelFoodMenuTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(
                 array('food_menu_fk' => $modelFoodMenu->id)
             );
-            $modelFoodMenuVsPublicTarget->delete();
+            $modelFoodMenuTarget->delete();
             $modelFoodMenu->delete();
             $transaction->commit();
             header('HTTP/1.1 200 OK');
@@ -300,9 +300,8 @@ class FoodmenuController extends Controller
 
             $dayMeals = array();
             foreach ($day as $meal) {
-                $idMeal = $meal['idMeal'];
+                /*$idMeal = $meal['idMeal'];*/
                 $mealData = array(
-                    // 'ingredients' => array(),
                     'escola_acionada' => $userSchool,
                     'time' => $meal['time'],
                     'sequence' => $meal['sequence'],
