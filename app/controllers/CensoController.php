@@ -1454,12 +1454,17 @@ class CensoController extends Controller
         $log['school']['validate']['identification'] = $this->validateSchool($schoolcolumn, $managerIdentificationColumn);
         $log['school']['validate']['structure'] = $this->validateSchoolStructure($schoolstructurecolumn, $schoolcolumn);
         $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+
+        $processedInstructors = [];
         foreach ($classrooms as $iclass => $classroom) {
             $log['classroom'][$iclass]['info'] = $classroom->attributes;
             $log['classroom'][$iclass]['validate']['identification'] = $this->validateClassroom($classroom, $schoolcolumn, $schoolstructure);
-            // verificar para não cair no mesmo professor
             foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
                 $instructorId = $teachingData->instructor_fk;
+                if (in_array($instructorId, $processedInstructors)) {
+                    continue;
+                }
+                $processedInstructors[] = $instructorId;
                 $log['instructor'][$instructorId]['info'] = $teachingData->instructorFk->attributes;
                 $log['instructor'][$instructorId]['validate']['identification'][$iteaching] = $this->validateInstructor($teachingData->instructorFk->attributes, $teachingData->instructorFk->documents->attributes);
                 $log['instructor'][$instructorId]['validate']['documents'][$iteaching] = $this->validateInstructorDocuments($teachingData->instructorFk->documents->attributes);
