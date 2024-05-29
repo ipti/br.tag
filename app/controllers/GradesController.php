@@ -549,10 +549,11 @@ class GradesController extends Controller
 
         foreach ($classroom->activeStudentEnrollments as $enrollment) {
             $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);
+            $gradesStudent = $gradeUnities->exec();
             $countUnities = $gradeUnities->execCount();
 
             $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
-            (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities))->exec();
+            (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
             (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities))->exec();
 
         }
