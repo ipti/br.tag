@@ -13,6 +13,8 @@ ALTER TABLE food_request ADD COLUMN notice_fk int(11),
 ADD CONSTRAINT fk_notice_fk
 FOREIGN KEY (notice_fk) REFERENCES food_notice(id);
 
+ALTER TABLE food_request ADD COLUMN reference_id varchar(36) NULL;
+
 CREATE TABLE food_request_vs_farmer_register (
     id INT(11) NOT NULL AUTO_INCREMENT,
     farmer_fk INT(11),

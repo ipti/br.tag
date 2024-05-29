@@ -16,7 +16,7 @@ class FoodrequestController extends Controller
     public function actionGetFoodAlias()
     {
         $criteria = new CDbCriteria();
-        $criteria->select = 'id, description, measurementUnit';
+        $criteria->select = 'id, description, measurementUnit, category';
         $criteria->condition = 'alias_id = t.id';
 
         $foodsDescription = Food::model()->findAll($criteria);
@@ -25,7 +25,8 @@ class FoodrequestController extends Controller
         foreach ($foodsDescription as $food) {
             $values[$food->id] = (object) [
                 'description' => $food->description,
-                'measurementUnit' => $food->measurementUnit
+                'measurementUnit' => $food->measurementUnit,
+                'category' => $food->category
             ];
         }
 
@@ -226,7 +227,10 @@ class FoodrequestController extends Controller
                 }
 
                 $createFoodRequest = new CreateFoodRequest();
-                $createFoodRequest->exec($requestTitle, $requestSchoolNames, $farmersReferenceId, $requestItems);
+                $requestReferenceId = $createFoodRequest->exec($requestTitle, $requestSchoolNames, $farmersReferenceId, $requestItems);
+
+                $foodRequest->reference_id = $requestReferenceId;
+                $foodRequest->save();
 
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Solicitação foi gerada com sucesso!'));
             }

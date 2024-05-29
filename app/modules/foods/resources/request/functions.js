@@ -8,7 +8,6 @@ function renderRequestTable(foodRequests, id) {
     $('<th>').text('Data de solicitação').appendTo(head);
     $('<th>').text('Status').appendTo(head);
     $('<th>').text('Informações').appendTo(head);
-    $('<th>').text('Gráficos').appendTo(head);
 
     table.append(head);
 
@@ -25,7 +24,6 @@ function renderRequestTable(foodRequests, id) {
             .html('<button style="cursor: default" class="' + (request.requestInfo.status === "Finalizado" ? "t-button-success" : "t-button-secondary") + ' full--width t-margin-none--right" id="js-status-button" type="button">'+ request.requestInfo.status +'</button>')
             .appendTo(row);
             $('<td>').html('<div class="full justify-content--center"><span class="t-icon-search_icon t-badge-info__icon cursor-pointer" id="js-information-button" data-requestId="' + request.requestInfo.id + '"></span></div>').appendTo(row);
-            $('<td>').html('<div class="full justify-content--center"><span class="t-icon-column_graphi t-badge-info__icon cursor-pointer" id="js-progression-button"></span></div>').appendTo(row);
             table.append(row);
         })
     } else {
@@ -76,7 +74,7 @@ function renderFoodsTable(foodsRelation) {
 
     $.each(foodsRelation, function(index, food) {
         let row = $('<tr>').addClass('');
-        $('<td>').text(food.foodDescription).appendTo(row);
+        $('<td>').text(food.foodName).appendTo(row);
         $('<td>').text(food.amount).appendTo(row);
         $('<td>').text(food.measurementUnit).appendTo(row);
         $('<td>').html('<div class="justify-content--end"><span class="t-icon-close t-icon" data-foodId="'+ index +'" id="remove-food-button"></span></div>').appendTo(row);

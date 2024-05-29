@@ -27,7 +27,7 @@ $(document).ready(function() {
 
         Object.entries(foods_description).forEach(function([id, value]) {
             let description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
-            value = id + ',' + value.measurementUnit;
+            value = id + ',' + value.measurementUnit + ','+ value.category;
             foodSelect.append($('<option>', {
                 value: value,
                 text: description
@@ -133,7 +133,7 @@ $(document).on("click", "#save-request", function () {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     } else {
         let requestTitle = foodsRelation.map(item =>
-            item.foodDescription.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim()
+            item.foodName.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim()
         ).join(', ');
         $.ajax({
             type: 'POST',
@@ -155,6 +155,7 @@ $(document).on("click", "#save-request", function () {
 $(document).on("click", "#js-add-food", function () {
     let food = $('#foodSelect').find('option:selected').text();
     let foodId = $('#foodSelect').val().split(',')[0];
+    let foodCategory = $('#foodSelect').val().split(',')[2];
     let amount = $('#amount').val();
     let measurementUnit = $('#measurementUnit').find('option:selected').text();
 
@@ -168,7 +169,7 @@ $(document).on("click", "#js-add-food", function () {
         if(existingIndex !== undefined) {
             foodsRelation[existingIndex].amount = parseFloat(foodsRelation[existingIndex].amount) + parseFloat(amount);
         } else {
-            foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit});
+            foodsRelation.push({id: foodId, foodName: food, amount: amount, measurementUnit: measurementUnit, category: foodCategory});
         }
         renderFoodsTable(foodsRelation);
     } else {

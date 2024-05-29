@@ -8,6 +8,7 @@
  * @property string $date
  * @property string $status
  * @property integer $notice_fk
+ * @property string $reference_id
  *
  * The followings are the available model relations:
  * @property FoodNotice $noticeFk
@@ -35,10 +36,11 @@ class FoodRequest extends CActiveRecord
         return array(
             array('notice_fk', 'numerical', 'integerOnly'=>true),
             array('status', 'length', 'max'=>12),
+            array('reference_id', 'length', 'max'=>36),
             array('date', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, date, status, notice_fk', 'safe', 'on'=>'search'),
+            array('id, date, status, notice_fk, reference_id', 'safe', 'on'=>'search'),
         );
     }
 
@@ -67,6 +69,7 @@ class FoodRequest extends CActiveRecord
             'date' => 'Data',
             'status' => 'Status',
             'notice_fk' => 'Edital',
+            'reference_id' => 'Reference',
         );
     }
 
@@ -92,6 +95,7 @@ class FoodRequest extends CActiveRecord
         $criteria->compare('date',$this->date,true);
         $criteria->compare('status',$this->status,true);
         $criteria->compare('notice_fk',$this->notice_fk);
+        $criteria->compare('reference_id',$this->reference_id,true);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,

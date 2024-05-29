@@ -165,12 +165,41 @@ class FireBaseService
         }
     }
 
+    private function addCategoryUrl(&$requestItems) {
+
+        $obj = [
+            'Cereais e derivados' => "cereais_e_derivados",
+            'Verduras' => "verduras_hortalicas_e_derivados",
+            'Frutas e derivados' => "frutas_e_derivados",
+            'Gorduras e óleos' => "gorduras_e_oleos",
+            'Pescados e frutos do mar' => "pescados_e_frutos_do_mar",
+            'Carnes e derivados' => "carnes_e_derivados",
+            'Leite e derivados' => "leite_e_derivados",
+            'Bebidas (alcoólicas e não alcoólicas)' => "bebidas",
+            'Ovos e derivados' => "ovos_e_derivados",
+            'Produtos açucarados' => "produtos_acucarados",
+            'Miscelâneas' => "miscelaneas",
+            'Outros alimentos industrializados' => "alimentos_industrializados",
+            'Alimentos preparados' => "alimentos_preparados",
+            'Leguminosas e derivados' => "leguminosas_e_derivados",
+            'Nozes e sementes' => "nozes_e_sementes"
+        ];
+
+        foreach($requestItems as &$item) {
+            $item["amount"] = intval($item["amount"]);
+            $item["imageUrl"] = "https://firebasestorage.googleapis.com/v0/b/br-nham-agrigultor.appspot.com/o/food_image%2F" . $obj[$item['category']] . ".png?alt=media&token=3851a02b-d348-45ea-90f2-aab11fe6e52c";
+        }
+        unset($item);
+    }
+
     public function createFoodRequest($requestTitle, $requestSchoolNames, $farmersReferenceId, $requestItems) {
         $collection = 'food_request';
         $uuid = Uuid::uuid4();
+        $this->addCategoryUrl($requestItems);
 
         $document = new FirestoreDocument;
         $document->setString('title', $requestTitle);
+        $document->setString('id', $uuid->toString());
         $document->setArray('schools', $requestSchoolNames);
         $document->setArray('farmers', $farmersReferenceId);
 
@@ -188,6 +217,8 @@ class FireBaseService
         $document->setArray('foods_requested', new FirestoreArray($foodsRequestedArray));
 
         $this->firestoreClient->addDocument($collection, $document, $uuid->toString());
+
+        return $uuid->toString();
     }
 
 }
