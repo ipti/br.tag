@@ -1,4 +1,8 @@
-## [Versão 3.78.151]
+## [Versão 3.79.152]
+- Método actionValidate do CensoController refatorado, implementando váriaveis.
+- Processar instrutores, garantindo que cada instrutor seja validado apenas uma vez.
+
+## [Versão 3.79.151]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
 
 ## [Versão 3.79.150]
