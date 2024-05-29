@@ -79,9 +79,6 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
 <html><!-- <![endif]-->
 
 <head>
-    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
-    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ba-bbq.js"></script>
-
     <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
     <meta charset="UTF-8" />
@@ -503,11 +500,9 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
         </form>
     </div>
 
-    <?php // include BASE_PATH . '/_vite.php'; ?>
-
-    <?php // $isDev = isset($_ENV['YII_DEBUG']) && $_ENV['YII_DEBUG'] === 'dev' && isset($_ENV['VITE_PORT']) ?>
-
     <?php if(YII_DEBUG) : ?>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery.min.js"></script>
+        <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ba-bbq.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
@@ -522,7 +517,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatables.min.js"></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatablesptbr.js"></script>
     <?php else: ?>
-        <script type="module" src="/web/resources/bundle.js"></script>
+        <script src='<?php echo Yii::app()->baseUrl; ?>/web/resources/bundle.js'></script>
         <script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js?v=<?= TAG_VERSION ?>'></script>
         <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js?v=<?= TAG_VERSION ?>'></script>
         <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js?v=<?= TAG_VERSION ?>"></script>
