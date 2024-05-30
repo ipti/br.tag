@@ -62,7 +62,7 @@ $form = $this->beginWidget('CActiveForm', array(
             <?php $name = 'name'; ?>
             <?= CHTML::textField(chtml::resolveName($menuModel, $name), $menuModel->name,
             ['class' => "t-field-text__input", 'placeholder' => 'Digite o Nome do Cardápio']) ?>
-
+            <?php echo CHtml::error($menuModel, $name, ['class' => 'error']); ?>
         </div>
         <div class="t-field-select">
             <?= CHTML::activeLabel($menuModel, 'turn', ['class' => "t-field-select__label"])?>

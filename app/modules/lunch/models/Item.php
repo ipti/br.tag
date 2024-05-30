@@ -43,8 +43,8 @@ class Item extends CActiveRecord{
 			array('name, unity_fk, measure', 'required'),
 			array('unity_fk', 'numerical', 'integerOnly'=>true),
 			array('measure', 'numerical'),
-			array('name', 'length', 'max'=>45),
-			array('description', 'length', 'max'=>100),
+			array('name', 'length', 'max'=>45, 'min'=>5),
+			array('description', 'length', 'max'=>100, 'min'=>5),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, description, unity_fk, measure', 'safe', 'on'=>'search'),

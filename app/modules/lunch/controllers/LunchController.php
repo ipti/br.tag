@@ -85,7 +85,10 @@ class LunchController extends Controller {
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.lunch', 'Menu updated successfully!'));
                 $this->redirect(yii::app()->createUrl('lunch/lunch/update',["id"=>$menu->id]));
             }else{
-                Yii::app()->user->setFlash('error', Yii::t('lunchModule.lunch', 'Error when updating menu.'));
+                $errors = $menu->errors;
+                foreach($errors as $error){
+                    Yii::app()->user->setFlash('error', $error[0]);
+                }
                 $this->render('update', ["menu" => $menu]);
             }
         }else {

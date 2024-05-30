@@ -36,7 +36,7 @@ class Professional extends CActiveRecord
 			array('name, cpf_professional, speciality, inep_id_fk, fundeb', 'required'),
 			array('fundeb', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>200),
-			array('speciality', 'length', 'max'=>50),
+			array('speciality', 'length', 'max'=>50, 'min'=>5),
 			array('cpf_professional', 'length', 'max'=>14),
 			array('inep_id_fk', 'length', 'max'=>8),
 			// The following rule is used by search().

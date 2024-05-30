@@ -39,6 +39,7 @@ class Menu extends CActiveRecord{
 		// will receive user inputs.
 		return array(
 			array('school_fk, name', 'required'),
+			array('name', 'length','min'=>5),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, date, name, school_fk', 'safe', 'on'=>'search'),
