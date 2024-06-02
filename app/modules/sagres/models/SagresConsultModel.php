@@ -364,7 +364,7 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = '<strong>MATRÍCULA<strong>';
             $inconsistencyModel->school = $data['schoolName'];
-            $inconsistencyModel->description = 'Estudante <strong>' .  $data['studentName'] . '</strong> com CPF <strong>' . $cpf . '</strong> está matriculado em duas turmas';
+            $inconsistencyModel->description = 'Estudante <strong>' .  $data['studentName'] . '</strong> com CPF <strong>' . $cpf . '</strong> está matriculado em mais de uma turmas';
             $inconsistencyModel->action = 'Remova a matrícula do estudante de uma das seguintes turmas:  <strong>' . implode(' , ', $data['turmas']).'</strong>';
             $inconsistencyModel->identifier = '9';
             $inconsistencyModel->idStudent = $data['studentFk'];
@@ -1287,6 +1287,7 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'Data de nascimento inválida';
                 $inconsistencyModel->action = 'Altere o formato de data para DD/MM/AAAA';
                 $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idStudent = $enrollment['student_fk'];
                 $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
