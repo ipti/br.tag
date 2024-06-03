@@ -1,4 +1,8 @@
-## [Versão 3.78.151]
+## [Versão 3.79.152]
+- Refatoradas variáveis para utilizar o post, através de uma função do Yii.
+- Modificada a ordem dos parâmetros da função getSchedulesFromMajorStage.
+
+## [Versão 3.79.151]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
 
 ## [Versão 3.79.150]
