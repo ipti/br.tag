@@ -139,32 +139,66 @@ $(document).on("change", ".js-type-select", function (e) {
 $(document).on("change", ".js-rule-type", function (e) {
     initRuleType(e.target.value);
 });
+$(document).on("change", ".js-partial-recovery-unities", function (e) {
+    console.log(e.val)
+    let inputsWeight = ''
+    e.val.forEach(element => {
+        if($(`.InputWeight input[data-unity-id="${element}"]`).length == 0){
+            inputsWeight += createInputWeight(element, $(this).find('option[value="'+element+'"]').text())
+        }
+    })
+    $(this).closest('.partial-recovery-accordion-body').append(inputsWeight)
+})
 
 $(document).on("change", ".js-formula-select", function (e) {
     var unity = $(this).closest(".unity");
     const selectedValue = $(this).select2("data").text;
-    if (selectedValue === "Peso") {
-        unity
-            .find(".modality-name[modalitytype=C]")
-            .css("width", "calc(100% - 240px)");
-        unity
-            .find(".modality-name[modalitytype=C]")
-            .parent()
-            .append(
-                template`
-                    <div class="t-field-text">
-                        <label class='t-field-text__label--required'>Peso:</span></label>
-                        <input type='text' class='t-field-text__input weight' placeholder='Peso'>
-                    </div>
-                `
-            );
+
+    if(unity.length > 0) {
+        if (selectedValue === "Peso") {
+            unity
+                .find(".modality-name[modalitytype=C]")
+                .css("width", "calc(100% - 240px)");
+            unity
+                .find(".modality-name[modalitytype=C]")
+                .parent()
+                .append(
+                    template`
+                        <div class="t-field-text">
+                            <label class='t-field-text__label--required'>Peso:</span></label>
+                            <input type='text' class='t-field-text__input weight' placeholder='Peso'>
+                        </div>
+                    `
+                );
+        } else {
+            unity.find(".weight").remove();
+            unity
+                .find(".modality-name[modalitytype=C]")
+                .css("width", "calc(100% - 140px)");
+        }
     } else {
-        unity.find(".weight").remove();
-        unity
-            .find(".modality-name[modalitytype=C]")
-            .css("width", "calc(100% - 140px)");
+        const unities =  $(this).parent().parent().find("select.js-partial-recovery-unities");
+        if(selectedValue === "Peso"){
+            inputsWeight = '';
+            $('select.js-partial-recovery-unities').find('option[value="4"]').text();
+            unities.val().forEach(element => {
+                inputsWeight += createInputWeight(element, unities.find('option[value="'+element+'"]').text())
+            });
+            $(this).parent().parent().find('.InputWeight-container').html(inputsWeight)
+
+        }
+        console.log(unities)
     }
 });
+
+function createInputWeight(unityId, unityName) {
+    return template`
+        <div class="InputWeight">
+            <label>${unityName}</label>
+            <input type="text" placeholder='Peso' data-unity-id="${unityId}">
+        </div>
+    `
+}
 
 $(document).on("keyup", ".weight", function (e) {
     var val = this.value;
@@ -693,11 +727,12 @@ function loadStructure() {
                             let value = unity.id;
                             unityOptionsSelected.push(value);
                         });
-                        let newAccordion = addAccordion(element.id, element.media, element.name, element.mediaCalculation)
+                        let newAccordion = addAccordion(element.id, element.name, element.mediaCalculation)
                         $('#accordion-partial-recovery').append(newAccordion)
 
                         $("select.js-partial-recovery-unities").last().select2();
                         $("select.js-partial-recovery-unities").last().select2("val", unityOptionsSelected);
+                        $(".partial-recovery-accordion-body").last().find(".js-formula-select").select2();
                     });
                 }
                 $(".grades-buttons").css("display", "flex");
@@ -740,7 +775,7 @@ $(document).on("keyup", ".approval-media, .final-recover-media, .partial-recover
     this.value = val;
 });
 
- function addAccordion(id, media, name, mediaCalculation) {
+ function addAccordion(id, name, mediaCalculation) {
     let  partialRecovery = 0;
     if( $(".partial-recovery").length > 0){
          lastAccordion = Number($("#accordion-partial-recovery .partial-recovery:last").attr("data-index"));
@@ -776,6 +811,9 @@ $(document).on("keyup", ".approval-media, .final-recover-media, .partial-recover
                         ${unityOptions}
                     </select>
                 </div>
+                <div class="InputWeight-container">
+
+                <div>
             </div>
         </div>
     </div>
@@ -802,7 +840,7 @@ $(document).on("click", ".js-new-partial-recovery", (e) => {
         $(".js-alert-salve-recovery-first")
                 .text("Para cadastrar novas unidades, conclua o cadastro da recuperação")
                 .show();
-        newAccordion = addAccordion("","","","");
+        newAccordion = addAccordion("","","");
         $('#accordion-partial-recovery').append(newAccordion)
         $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities").select2();
         $('.js-new-unity').addClass('disabled');

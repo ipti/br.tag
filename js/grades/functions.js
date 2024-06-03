@@ -69,9 +69,13 @@ function loadUnitiesFromClassroom(classroomId) {
             data: {
                 classroom: classroomId,
             },
+            beforeSend: function () {
+            $("#unities").attr("disabled", "disabled")
+            },
             success: function (response) {
                 const data = JSON.parse(DOMPurify.sanitize(response))
                 const unitiesSelect = $("#unities");
+                unitiesSelect.html('');
 
                 Object.keys(data).forEach(key => {
                     const option = document.createElement('option');
@@ -79,6 +83,7 @@ function loadUnitiesFromClassroom(classroomId) {
                     option.text = data[key];
                     unitiesSelect.append(option);
                 });
+                unitiesSelect.removeAttr("disabled");
             }
         })
     } else {
