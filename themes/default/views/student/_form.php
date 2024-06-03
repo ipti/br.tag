@@ -1699,7 +1699,7 @@ $form = $this->beginWidget(
                 -->
                 <div class="tab-pane" id="student-enrollment">
                     <div class="row">
-                        <div class="column clearleft is-two-fifths">
+                        <div class="column clearleft is-two-six">
                             <div class="t-buttons-container">
                                 <?php
                                 if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
@@ -1725,12 +1725,16 @@ $form = $this->beginWidget(
                                 }
 
                                 ?>
-                                <?php
+                               <?php
                                 echo $modelStudentIdentification->isNewRecord ? "" : '<a href=' . @Yii::app()->createUrl(
                                     'student/transfer',
                                     array('id' => $modelStudentIdentification->id)
-                                ) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
-                                    ?>
+                                ) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>';
+
+                                echo $modelStudentIdentification->isNewRecord ? "" : '<a href=' . @Yii::app()->createUrl(
+                                    'student/printcertificate'
+                                ) . ' class="t-icon-printer t-button-secondary t-button-print-certificate" id="print-certificate">Imprimir Certificado</a>';
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -2306,6 +2310,8 @@ $form = $this->beginWidget(
                     </div>
 
                 </div>
+
+
                 <!--  Tab Student-Health -->
                 <div class="tab-pane" id="student-health">
                     <!-- Titulo -->
