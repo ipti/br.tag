@@ -82,7 +82,7 @@ class SagresConsultModel
             throw new ErrorException($e->getMessage());
         }
 
-        $this->checkDuplicateCpfs($referenceYear,  $month);
+        $this->checkDuplicateCpfs($referenceYear);
 
         return $education;
     }
@@ -299,13 +299,13 @@ class SagresConsultModel
         return $schoolList;
     }
 
-    private function checkDuplicateCpfs(int $year, int $month){
-        $query = $this->getDuplicateCpfs($year, $month);
+    private function checkDuplicateCpfs(int $year){
+        $query = $this->getDuplicateCpfs($year);
         $cpfTurmas = $this->processCpfData($query);
         $this->saveInconsistencies($cpfTurmas);
     }
 
-    private function getDuplicateCpfs(int $year, int $month){
+    private function getDuplicateCpfs(int $year){
         $sql = "SELECT se.student_fk ,
                     se.classroom_fk, 
                     se.school_inep_id_fk, 
@@ -319,12 +319,12 @@ class SagresConsultModel
         JOIN classroom c ON c.id = se.classroom_fk 
         JOIN student_identification si ON si.id = se.student_fk
         JOIN school_identification si2 on si2.inep_id = se.school_inep_id_fk
-        WHERE YEAR(se.create_date) = :year AND MONTH(se.create_date) = :month
+        WHERE YEAR(se.create_date) = :year
         AND sdaa.cpf IN (
             SELECT sdaa.cpf
             FROM student_documents_and_address sdaa 
             JOIN student_enrollment se ON se.student_fk = sdaa.student_fk
-            WHERE YEAR(se.create_date) = :year AND MONTH(se.create_date) = :month
+            WHERE YEAR(se.create_date) = :year
             AND sdaa.cpf IS NOT NULL AND sdaa.cpf != ''
             GROUP BY sdaa.cpf
             HAVING COUNT(sdaa.cpf) > 1
@@ -332,7 +332,6 @@ class SagresConsultModel
     
         return Yii::app()->db->createCommand($sql)
             ->bindValue(":year", $year)
-            ->bindValue(":month", $month)
             ->queryAll();
     }
     
