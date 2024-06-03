@@ -612,7 +612,8 @@ $(document).on("click", ".js-remove-meal", function () {
   let mealIdRemoved = $(this).attr("data-id-accordion")
   meals = meals.filter((e) => e.id != mealIdRemoved)
 
-  $(`.js-meals-accordion-header[data-id-accordion="${mealIdRemoved}"], .js-meals-accordion-content[data-id-accordion="${mealIdRemoved}"]`).remove();
+  $(`.js-meals-
+  [data-id-accordion="${mealIdRemoved}"], .js-meals-accordion-content[data-id-accordion="${mealIdRemoved}"]`).remove();
   initializeMealAccordion()
 });
 

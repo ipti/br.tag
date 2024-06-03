@@ -20,6 +20,13 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             </h1>
         </div>
     </div>
+
+    <div class="row">
+        <div class="column clearfix">
+            <div id="info-alert" class="alert hide"></div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="t-badge-info t-margin-none--left">
             <span class="t-info_positive"></span>
@@ -38,13 +45,18 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             Alunos Integral: <?php echo $studentsByTurn["Integral"] ?>
         </div>
     </div>
+
+
     <div class="t-buttons-container">
-        <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
+        <a class="t-button-primary" href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
             Preparar Cardápio
         </a>
         <div class="mobile-row">
             <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
                 Estoque
+            </a>
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/Requisition/index') ?>">
+            Painel de Informações
             </a>
             <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/farmerregister') ?>">
                 Agricultor
@@ -52,6 +64,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodnotice') ?>">
                 Editais
             </a>
+
             <a class="t-button-secondary js-expansive-panel show--mobile">
                 Filtros
             </a>
@@ -65,13 +78,13 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
                 <option value="T">Tarde</option>
                 <option value="N">Noite</option>
             </select>
-		</div>
+        </div>
         <div class="t-field-select column clearleft--on-mobile t-multiselect">
             <label class="t-field-select__label">Filtrar etapa de ensino</label>
             <?= CHtml::dropDownList("stages", [], CHtml::listData(FoodPublicTarget::model()->findAll(), "id", "name"), [
                 "multiple" => "multiple", "class" => "select-search-on control-input multiselect js-filter-public-target select3-choices"
             ]) ?>
-		</div>
+        </div>
         <div Class="column show--desktop"></div>
     </div>
     <div class="row days-of-week row">
@@ -100,4 +113,27 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
 
         </div>
     </div>
+
+
+    <div class="modal fade t-modal-container t-modal-rec" id="js-status-modal" tabindex="-1" role="dialog"  style="overflow-y: hidden;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="modal-recommendation">
+                <div class="t-modal__header">
+                    <div class="header-content-left">
+                        <h4 class="modal-title" id="myModalLabel">Ingredientes de Cardápio</h4>
+                    </div>
+                    <div class="header-content-right">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body" style="margin-bottom:35px;">
+                    <div class="modal-x"></div>
+                    <div id="accordion-meal-recommendation" class="t-accordeon-quaternary"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+

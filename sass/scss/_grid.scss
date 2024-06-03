@@ -147,6 +147,11 @@
             max-width: 40%;
         }
     }
+    &.is-two-six {
+        @include device(mobile) {
+            max-width: 45%;
+        }
+    }
 
     &.is-one-third {
         @include device(mobile) {

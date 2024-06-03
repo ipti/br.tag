@@ -246,6 +246,33 @@ class FoodinventoryController extends Controller
         echo json_encode($values);
     }
 
+    public function actionGetstatusFoodInventory(){
+
+        $schoolFk = Yii::app()->user->school;
+
+        $criteria = new CDbCriteria();
+        $criteria->with = array('foodRelation');
+        $criteria->compare('school_fk', $schoolFk);
+
+        $foodInventoryData = FoodInventory::model()->findAll($criteria);
+
+        $values = [];
+        foreach ($foodInventoryData as $stock) {
+            $values[] = array(
+                'id' => $stock->id,
+                'foodId' => $stock->food_fk,
+                'description' => $stock->foodRelation->description,
+                'amount' => $stock->amount,
+                'measurementUnit' => $stock->measurementUnit,
+                'expiration_date' => ($stock->expiration_date != null) ? date('d/m/Y', strtotime($stock->expiration_date)) : "Não informada",
+                'status' => $stock->status,
+                'spent' => ($stock->amount > 0) ? false : true
+            );
+        }
+
+        echo json_encode($values);
+    }
+
     public function actionUpdateFoodInventoryStatus()
     {
         $foodInventoryId = Yii::app()->request->getPost('foodInventoryId');
@@ -379,4 +406,6 @@ class FoodinventoryController extends Controller
             Yii::app()->end();
         }
     }
+
+
 }

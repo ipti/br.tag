@@ -33,8 +33,6 @@ class FoodInventoryReceived extends CActiveRecord
 			array('amount', 'numerical'),
 			array('foodSource', 'length', 'max'=>20),
 			array('date', 'safe'),
-			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, amount, foodSource, date, food_inventory_fk', 'safe', 'on'=>'search'),
 		);
 	}

@@ -2,30 +2,30 @@ let url = new URL(window.location.href);
 let menuId = url.searchParams.get('id');
 
 
-$( "#js-accordion" ).accordion({
+$("#js-accordion").accordion({
     active: false,
     collapsible: true,
     icons: false,
 });
 
-    $.ajax({
-        url: "?r=foods/foodmenu/getPublicTarget",
-        type: "GET",
-    }).success(function(response) {
-       const publicTarget = JSON.parse(response);
-        const select = $(`select.js-public-target`)
-        $.map(publicTarget, function (name, id) {
-            select.append($('<option>', {
-                value: id,
-                text: name,
-            }));
-        });
-        if(menuId){
-           select.select2('val' ,menuUpdate.foodPublicTarget)
-        }
-    })
+$.ajax({
+    url: "?r=foods/foodmenu/getPublicTarget",
+    type: "GET",
+}).success(function (response) {
+    const publicTarget = JSON.parse(response);
+    const select = $(`select.js-public-target`)
+    $.map(publicTarget, function (name, id) {
+        select.append($('<option>', {
+            value: id,
+            text: name,
+        }));
+    });
+    if (menuId) {
+        select.select2('val', menuUpdate.foodPublicTarget)
+    }
+})
 
-if(menuId)  {
+if (menuId) {
     const name = $('.js-menu-name');
     const startDate = $('.js-start-date');
     const finalDate = $('.js-final-date');
@@ -43,29 +43,29 @@ if(menuId)  {
     //segunda
     menuUpdate.monday.map((e) => {
         let plates = []
-        e.mealsComponent.forEach((mealComponent)=>{
-             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
+        e.mealsComponent.forEach((mealComponent) => {
+            let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
 
-               let food =  {
-                id: idIgredientes,
-                amount: foodIngredient.amount,
-                foodIdFk: foodIngredient.foodIdFk,
-                foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
-                lip: foodIngredient.lip,
-                pt: foodIngredient.pt,
-                cho: foodIngredient.cho,
-                kcal: foodIngredient.kcal,
-                nameFood: foodIngredient.nameFood,
-                measurementUnit: foodIngredient.measurementUnit,
+                let food = {
+                    id: idIgredientes,
+                    amount: foodIngredient.amount,
+                    foodIdFk: foodIngredient.foodIdFk,
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    lip: foodIngredient.lip,
+                    pt: foodIngredient.pt,
+                    cho: foodIngredient.cho,
+                    kcal: foodIngredient.kcal,
+                    nameFood: foodIngredient.nameFood,
+                    measurementUnit: foodIngredient.measurementUnit,
                 }
 
                 idIgredientes++
                 return food
             })
             plates.push({
-                    description: mealComponent.description,
-                    id: idplates,
-                    foodIngredients: foodIngredients
+                description: mealComponent.description,
+                id: idplates,
+                foodIngredients: foodIngredients
             })
             idplates++
         })
@@ -84,10 +84,10 @@ if(menuId)  {
     //terça
     menuUpdate.tuesday.map((e) => {
         let plates = []
-        e.mealsComponent.forEach((mealComponent)=>{
-             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
+        e.mealsComponent.forEach((mealComponent) => {
+            let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
 
-                let food =  {
+                let food = {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
@@ -98,14 +98,14 @@ if(menuId)  {
                     kcal: foodIngredient.kcal,
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
-                    }
-            idIgredientes++
-            return food
+                }
+                idIgredientes++
+                return food
             })
             plates.push({
-                    description: mealComponent.description,
-                    id: idplates,
-                    foodIngredients: foodIngredients
+                description: mealComponent.description,
+                id: idplates,
+                foodIngredients: foodIngredients
             })
             idplates++
         })
@@ -124,10 +124,10 @@ if(menuId)  {
     //Quarta
     menuUpdate.wednesday.map((e) => {
         let plates = []
-        e.mealsComponent.forEach((mealComponent)=>{
-             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
+        e.mealsComponent.forEach((mealComponent) => {
+            let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
 
-                let food =  {
+                let food = {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
@@ -138,14 +138,14 @@ if(menuId)  {
                     kcal: foodIngredient.kcal,
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
-                    }
-            idIgredientes++
-            return food
+                }
+                idIgredientes++
+                return food
             })
             plates.push({
-                    description: mealComponent.description,
-                    id: idplates,
-                    foodIngredients: foodIngredients
+                description: mealComponent.description,
+                id: idplates,
+                foodIngredients: foodIngredients
             })
             idplates++
         })
@@ -164,10 +164,10 @@ if(menuId)  {
     //Quinta
     menuUpdate.thursday.map((e) => {
         let plates = []
-        e.mealsComponent.forEach((mealComponent)=>{
-             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
+        e.mealsComponent.forEach((mealComponent) => {
+            let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
 
-                let food =  {
+                let food = {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
@@ -178,14 +178,14 @@ if(menuId)  {
                     kcal: foodIngredient.kcal,
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
-                    }
-            idIgredientes++
-            return food
+                }
+                idIgredientes++
+                return food
             })
             plates.push({
-                    description: mealComponent.description,
-                    id: idplates,
-                    foodIngredients: foodIngredients
+                description: mealComponent.description,
+                id: idplates,
+                foodIngredients: foodIngredients
             })
             idplates++
         })
@@ -204,10 +204,10 @@ if(menuId)  {
     //Sexta
     menuUpdate.friday.map((e) => {
         let plates = []
-        e.mealsComponent.forEach((mealComponent)=>{
-             let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
+        e.mealsComponent.forEach((mealComponent) => {
+            let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
 
-                let food =  {
+                let food = {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
@@ -218,14 +218,14 @@ if(menuId)  {
                     kcal: foodIngredient.kcal,
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
-                    }
-            idIgredientes++
-            return food
+                }
+                idIgredientes++
+                return food
             })
             plates.push({
-                    description: mealComponent.description,
-                    id: idplates,
-                    foodIngredients: foodIngredients
+                description: mealComponent.description,
+                id: idplates,
+                foodIngredients: foodIngredients
             })
             idplates++
         })
@@ -247,12 +247,12 @@ if(menuId)  {
             MealsComponent(e, day).actions.render();
         });
         $(".js-menu-meals-container").show()
-            $('.js-meals-component').accordion("destroy");
-            $( ".js-meals-component" ).accordion({
-              heightStyle: "content",
-              active: false,
-              collapsible: true,
-              icons: false,
-            });
-      };
+        $('.js-meals-component').accordion("destroy");
+        $(".js-meals-component").accordion({
+            heightStyle: "content",
+            active: false,
+            collapsible: true,
+            icons: false,
+        });
+    };
 }

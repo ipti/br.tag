@@ -35,8 +35,6 @@ class FoodInventory extends CActiveRecord
             array('school_fk', 'length', 'max'=>8),
             array('measurementUnit', 'length', 'max'=>7),
             array('expiration_date', 'safe'),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, school_fk, food_fk, amount, measurementUnit, expiration_date', 'safe', 'on'=>'search'),
         );
     }

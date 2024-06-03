@@ -1,8 +1,5 @@
 <?php
 /**
- * This is the model class for table "food_ingredient".
- *
- * The followings are the available columns in table 'food_ingredient':
  * @property integer $id
  * @property string $observation
  * @property integer $amount
@@ -32,21 +29,14 @@ class FoodIngredient extends CActiveRecord
      */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return array(
             array('amount', 'required'),
             array('replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'numerical', 'integerOnly'=>true),
             array('observation', 'length', 'max'=>191),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, observation, amount, replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'safe', 'on'=>'search'),
         );
     }
 
-    /**
-     * @return array relational rules.
-     */
     public function relations()
     {
         // NOTE: you may need to adjust the relation name and the related
@@ -56,6 +46,14 @@ class FoodIngredient extends CActiveRecord
             'foodMeasurementFk' => array(self::BELONGS_TO, 'FoodMeasurement', 'food_measurement_fk'),
             'foodIdFk' => array(self::BELONGS_TO, 'Food', 'food_id_fk'),
             'foodIngredientAlternatives' => array(self::HAS_MANY, 'FoodIngredientAlternatives', 'food_ingredient_fk'),
+            'foodInventory' => array(
+                self::BELONGS_TO,
+                FoodInventory::class,
+                ['food_id_fk' => 'food_fk' ],
+                'joinType' => "LEFT JOIN",
+                "together" => true,
+                'condition' => 'foodInventory.school_fk =' . Yii::app()->user->school,
+            )
         );
     }
 
@@ -76,21 +74,12 @@ class FoodIngredient extends CActiveRecord
     }
 
     /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     *
-     * Typical usecase:
-     * - Initialize the model fields with values from filter form.
-     * - Execute this method to get CActiveDataProvider instance which will filter
-     * models according to data in model fields.
-     * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
      * based on the search/filter conditions.
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria=new CDbCriteria;
 
         $criteria->compare('id',$this->id);

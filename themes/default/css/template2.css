@@ -369,10 +369,10 @@ table.dataTable.no-footer {
     border: none;
 }
 
-.grades-buttons{
-	align-items: end;
-	justify-content: end;
-	width: 300px;
+.grades-buttons {
+    align-items: end;
+    justify-content: end;
+    width: 300px;
 }
 
 
@@ -390,13 +390,13 @@ table.dataTable.no-footer {
 }
 
 .unity .remove-button {
-	font-size: 20px;
-	align-self: center;
-	cursor: pointer;
+    font-size: 20px;
+    align-self: center;
+    cursor: pointer;
 }
 
 .unity h3 {
-	color: #3f45ea;
+    color: #3f45ea;
 }
 
 .save-unity-loading-gif {
@@ -505,6 +505,10 @@ li[instructor]:hover {
     border: 1px solid #F7F7F8;
     box-shadow: 0px 0px 12px rgba(196, 196, 196, 0.5);
     border-radius: 3px;
+}
+
+#modal-recommendation {
+    width: auto;
 }
 
 .modal-content .modal-header,

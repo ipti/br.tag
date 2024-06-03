@@ -46,15 +46,15 @@
         width: 100%;
     }
 }
-  
-.admin-box-container .title{
+
+.admin-box-container .title {
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
     line-height: 27px;
 }
 
-.admin-box-container .subtitle{
+.admin-box-container .subtitle {
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -63,7 +63,8 @@
     margin-left: 0 !important;
 }
 
-.auditory-initial-date, .auditory-final-date {
+.auditory-initial-date,
+.auditory-final-date {
     width: 176px;
 }
 
