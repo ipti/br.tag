@@ -289,21 +289,13 @@ $(document).on("change", ".js-has-final-recovery", function (event) {
 
 $(document).on("change", ".js-has-partial-recovery", function (event) {
     const isChecked = $(this).is(":checked");
-    // const isNew = $(".final-recovery-unity-id").val() === "";
     if (isChecked) {
         $(".js-new-partial-recovery").removeClass("disabled");
         $(".js-partial-recovery-form").show();
-       /*  if (isNew) {
-            $(".final-recovery-unity-operation").val("create");
-        } else {
-            $(".final-recovery-unity-operation").val("update");
-        } */
+
     } else {
         $(".js-new-partial-recovery").addClass("disabled")
         $(".js-recovery-form").hide();
-       /*  if (!isNew) {
-            $(".final-recovery-unity-operation").val("delete");
-        } */
     }
 });
 
@@ -329,7 +321,22 @@ function initRuleType(ruleType) {
 
     $("select.js-type-select").select2();
 }
+function hasDuplicateUnities(partialRecoveries) {
+    const seenUnities = new Set();
 
+    for (const recovery of partialRecoveries) {
+        if(recovery.unities != null){
+            for (const unity of recovery.unities) {
+                if (seenUnities.has(unity)) {
+                    return true;  // Encontrou uma duplicata
+                }
+                seenUnities.add(unity);
+            }
+        }
+    }
+
+    return false;  // Não encontrou duplicatas
+}
 function saveUnities(reply) {
     const unities = [];
     $(".unity").each(function () {
@@ -369,6 +376,19 @@ function saveUnities(reply) {
 
             })
         })
+        if(hasDuplicateUnities(partialRecoveries)){
+            $(".alert-required-fields")
+                    .addClass("alert-error")
+                    .removeClass("alert-success")
+                    .text("Não é possivél salvar uma mesma unidade em recuperações parciais diferentes")
+                    .show();
+            window.scroll({
+                top: 0,
+                left: 0,
+                behavior: 'smooth' // Para um scroll suave
+            });
+            return
+        }
     $.ajax({
         type: "POST",
         url: "?r=admin/saveUnities",
@@ -740,10 +760,6 @@ $(document).on("keyup", ".approval-media, .final-recover-media, .partial-recover
         <div id="partial-recovery-collapse-${partialRecovery}" class="collapse ${collapse}  partial-recovery-accordion-body">
             <input type='hidden' class="partial-recovery-id" value="${id}">
             <input type="hidden" class="partial-recovery-operation" value="create">
-            <div class="t-field-text js-recovery-media-visibility">
-                <label class="t-field-text__label--required">Média de Rec. Semestral</span></label>
-                <input type="text" class="partial-recovery-media t-field-text__input" value="${media}">
-            </div>
             <div class="t-field-text" style="margin-top: 16px">
                 <label class='t-field-text__label--required'>Nome:</span></label>
                 <input type='text' class='t-field-text__input partial-recovery-name'

@@ -1,7 +1,6 @@
 create table `grade_partial_recovery` (
 `id` INT NOT NULL AUTO_INCREMENT,
 `name` varchar(50) NOT NULL,
-`partial_recover_media` float NOT NULL,
 `order_partial_recovery`INT NOT NULL,
 `grade_rules_fk` INT NOT NULL,
 `grade_calculation_fk` INT NOT NULL,

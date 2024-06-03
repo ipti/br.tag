@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'grade_partial_recovery':
  * @property integer $id
  * @property string $name
- * @property double $partial_recover_media
  * @property integer $order_partial_recovery
  * @property integer $grade_rules_fk
  * @property integer $grade_calculation_fk
@@ -34,13 +33,12 @@ class GradePartialRecovery extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, partial_recover_media, order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'required'),
+			array('name, order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'required'),
 			array('order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'numerical', 'integerOnly'=>true),
-			array('partial_recover_media', 'numerical'),
 			array('name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, partial_recover_media, order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'safe', 'on'=>'search'),
+			array('id, name, order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,7 +64,6 @@ class GradePartialRecovery extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => 'Name',
-			'partial_recover_media' => 'Partial Recover Media',
 			'order_partial_recovery' => 'Order Partial Recovery',
 			'grade_rules_fk' => 'Grade Rules Fk',
 			'grade_calculation_fk' => 'Grade Calculation Fk',
@@ -93,7 +90,6 @@ class GradePartialRecovery extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('partial_recover_media',$this->partial_recover_media);
 		$criteria->compare('order_partial_recovery',$this->order_partial_recovery);
 		$criteria->compare('grade_rules_fk',$this->grade_rules_fk);
 		$criteria->compare('grade_calculation_fk',$this->grade_calculation_fk);

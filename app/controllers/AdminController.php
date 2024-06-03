@@ -250,7 +250,6 @@ class AdminController extends Controller
             $resultPartialRecovery = array();
             $resultPartialRecovery["id"] = $partialRecovery->id;
             $resultPartialRecovery["name"] = $partialRecovery->name;
-            $resultPartialRecovery["media"] = $partialRecovery->partial_recover_media;
             $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
             $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->name;
 

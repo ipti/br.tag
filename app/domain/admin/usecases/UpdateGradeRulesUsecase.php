@@ -69,7 +69,6 @@ class UpdateGradeRulesUsecase
                 }
 
                 $modelPartialRecovery->name = $partialRecovery["name"];
-                $modelPartialRecovery->partial_recover_media = $partialRecovery["media"];
                 $modelPartialRecovery->order_partial_recovery = $partialRecovery["order"];
                 $modelPartialRecovery->grade_rules_fk = $gradeRules->id;
                 $modelPartialRecovery->grade_calculation_fk = $partialRecovery["mediaCalculation"];
