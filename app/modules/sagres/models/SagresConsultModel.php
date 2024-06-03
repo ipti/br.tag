@@ -364,7 +364,7 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = '<strong>MATRÍCULA<strong>';
             $inconsistencyModel->school = $data['schoolName'];
-            $inconsistencyModel->description = 'Estudante <strong>' .  $data['studentName'] . '</strong> com CPF <strong>' . $cpf . '</strong> está matriculado em mais de uma turmas';
+            $inconsistencyModel->description = 'Estudante <strong>' .  $data['studentName'] . '</strong> com CPF <strong>' . $cpf . '</strong> está matriculado em mais de uma turma';
             $inconsistencyModel->action = 'Remova a matrícula do estudante de uma das seguintes turmas:  <strong>' . implode(' , ', $data['turmas']).'</strong>';
             $inconsistencyModel->identifier = '9';
             $inconsistencyModel->idStudent = $data['studentFk'];
@@ -1266,6 +1266,7 @@ class SagresConsultModel
                         left join schedule s on cf.schedule_fk = s.id
                   WHERE
                         se.classroom_fk  =  :classId AND
+                        se.status = 1 AND
                         c.school_year = :referenceYear
                   GROUP BY se.id;
                 ";
@@ -1277,6 +1278,20 @@ class SagresConsultModel
         ]);
 
         $enrollments = $command->queryAll();
+
+        if(empty($enrollments)){        
+            $className = $this->getClassName($classId, $referenceYear);
+
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = TURMA_STRONG;
+            $inconsistencyModel->school = $school->name;
+            $inconsistencyModel->description = 'Não há matrículas ativas para a turma: <strong>'. $className . '</strong>';
+            $inconsistencyModel->action = 'Adicione alunos ou remova a turma: <strong>' . $className . '</strong>';
+            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->idClass = $classId;
+            $inconsistencyModel->idSchool = $inepId;
+            $inconsistencyModel->insert();
+        }
         
         foreach ($enrollments as $enrollment) {
 
@@ -1680,6 +1695,16 @@ class SagresConsultModel
 
         return $enrollmentList;
     }
+
+    private function getClassName($id, $year)
+    {
+        $sql = "SELECT c.name from classroom c WHERE c.id = :id and c.school_year = :year";
+        return Yii::app()->db->createCommand($sql)
+            ->bindParam(":id", $id)
+            ->bindParam(":year", $year)
+            ->queryScalar();
+    }
+
 
     public function getStudentSituation($situation)
     {
