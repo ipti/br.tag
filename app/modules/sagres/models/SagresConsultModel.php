@@ -73,6 +73,8 @@ class SagresConsultModel
             throw new ErrorException($e->getMessage());
         }
 
+        $this->checkDuplicateCpfs($referenceYear);
+
         return $education;
     }
 
@@ -288,6 +290,80 @@ class SagresConsultModel
         return $schoolList;
     }
 
+    private function checkDuplicateCpfs(int $year){
+        $query = $this->getDuplicateCpfs($year);
+        $cpfTurmas = $this->processCpfData($query);
+        $this->saveInconsistencies($cpfTurmas);
+    }
+
+    private function getDuplicateCpfs(int $year){
+        $sql = "SELECT se.student_fk ,
+                    se.classroom_fk, 
+                    se.school_inep_id_fk, 
+                    sdaa.cpf, 
+                    c.name as className, 
+                    si.name as studentName, 
+                    se.create_date, 
+                    si2.name as schoolName
+        FROM student_documents_and_address sdaa 
+        JOIN student_enrollment se ON se.student_fk = sdaa.student_fk
+        JOIN classroom c ON c.id = se.classroom_fk 
+        JOIN student_identification si ON si.id = se.student_fk
+        JOIN school_identification si2 on si2.inep_id = se.school_inep_id_fk
+        WHERE YEAR(se.create_date) = :year
+        AND sdaa.cpf IN (
+            SELECT sdaa.cpf
+            FROM student_documents_and_address sdaa 
+            JOIN student_enrollment se ON se.student_fk = sdaa.student_fk
+            WHERE YEAR(se.create_date) = :year
+            AND sdaa.cpf IS NOT NULL AND sdaa.cpf != ''
+            GROUP BY sdaa.cpf
+            HAVING COUNT(sdaa.cpf) > 1
+        );";
+    
+        return Yii::app()->db->createCommand($sql)
+            ->bindValue(":year", $year)
+            ->queryAll();
+    }
+    
+    private function processCpfData($query){
+        $cpfTurmas = array();
+    
+        foreach($query as $cpfs){
+            $cpf = $cpfs['cpf'];
+    
+            if (!isset($cpfTurmas[$cpf])) {
+                $cpfTurmas[$cpf] = array(
+                    'turmas' => array(),
+                    'studentFk' => $cpfs['student_fk'],
+                    'classId' => $cpfs['classroom_fk'],
+                    'inepId' => $cpfs['school_inep_id_fk'],
+                    'studentName' => $cpfs['studentName'],
+                    'schoolName' => $cpfs['schoolName']
+                );
+            }
+    
+            $cpfTurmas[$cpf]['turmas'][] = $cpfs['className'];
+        }
+    
+        return $cpfTurmas;
+    }
+    
+    private function saveInconsistencies($cpfTurmas){
+        foreach($cpfTurmas as $cpf => $data){
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = '<strong>MATRÍCULA<strong>';
+            $inconsistencyModel->school = $data['schoolName'];
+            $inconsistencyModel->description = 'Estudante <strong>' .  $data['studentName'] . '</strong> com CPF <strong>' . $cpf . '</strong> está matriculado em mais de uma turma';
+            $inconsistencyModel->action = 'Remova a matrícula do estudante de uma das seguintes turmas:  <strong>' . implode(' , ', $data['turmas']).'</strong>';
+            $inconsistencyModel->identifier = '9';
+            $inconsistencyModel->idStudent = $data['studentFk'];
+            $inconsistencyModel->idClass = $data['classId'];
+            $inconsistencyModel->idSchool = $data['inepId'];
+            $inconsistencyModel->save();
+        }
+    }
+    
     public function getInconsistenciesCount()
     {
         $authAssignment = \AuthAssignment::model()->find(
@@ -1201,6 +1277,20 @@ class SagresConsultModel
 
         $enrollments = $command->queryAll();
 
+        if(empty($enrollments)){        
+            $className = $this->getClassName($classId, $referenceYear);
+
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = TURMA_STRONG;
+            $inconsistencyModel->school = $school->name;
+            $inconsistencyModel->description = 'Não há matrículas ativas para a turma: <strong>'. $className . '</strong>';
+            $inconsistencyModel->action = 'Adicione alunos ou remova a turma: <strong>' . $className . '</strong>';
+            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->idClass = $classId;
+            $inconsistencyModel->idSchool = $inepId;
+            $inconsistencyModel->insert();
+        }
+        
         foreach ($enrollments as $enrollment) {
 
             $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
@@ -1604,6 +1694,15 @@ class SagresConsultModel
         }
 
         return $enrollmentList;
+    }
+
+    private function getClassName($id, $year)
+    {
+        $sql = "SELECT c.name from classroom c WHERE c.id = :id and c.school_year = :year";
+        return Yii::app()->db->createCommand($sql)
+            ->bindParam(":id", $id)
+            ->bindParam(":year", $year)
+            ->queryScalar();
     }
 
     public function convertBirthdate($birthdate) {
