@@ -1,4 +1,7 @@
-## [Versão 3.78.151]
+## [Versão 3.79.152]
+- Realizada correção do turno no quadro de horário. 
+
+## [Versão 3.79.152]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
 
 ## [Versão 3.79.150]
