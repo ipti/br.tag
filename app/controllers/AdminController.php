@@ -18,7 +18,8 @@ class AdminController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure', 'instanceConfig', 'editInstanceConfigs'
+                    'syncImport', 'exportToMaster', 'exportStudents', 'exportGrades', 'exportFaults', 'clearMaster', 'importFromMaster',
+                    'gradesStructure', 'instanceConfig', 'editInstanceConfigs'
                 ], 'users' => ['@'],
             ],
         ];
@@ -30,6 +31,11 @@ class AdminController extends Controller
     public function actionIndex()
     {
         $this->render('index');
+    }
+
+    public function actionExports()
+    {
+        $this->render('exports');
     }
 
     public function actionExportMaster()
@@ -68,6 +74,68 @@ class AdminController extends Controller
         header("Content-Length: " . filesize($pathFileJson));
         header("Connection: close");
         readfile($pathFileJson);
+    }
+
+    public function actionExportStudents()
+    {
+
+        $pathFile = "./app/export/InfoTagCSV/students_" . Yii::app()->user->year . ".csv";
+
+        $data = [
+            ['Nome', 'Email', 'Idade'],
+            ['João Silva', 'joao@example.com', 25],
+            ['Maria Oliveira', 'maria@example.com', 32],
+            ['Carlos Santos', 'carlos@example.com', 28],
+        ];
+
+        $this->exportToCSV($data, $pathFile);
+    }
+
+    public function actionExportGrades()
+    {
+    }
+
+    public function actionExportFaults()
+    {
+    }
+
+    private function exportToCSV($data, $path)
+    {
+        try {
+            // Start the output buffer.
+            ob_start();
+
+            // Set PHP headers for CSV output.
+            header('Content-Type: text/csv; charset=utf-8');
+            header("Content-Disposition: attachment; filename=\"" . basename($path) . "\"");
+
+            // Clean up output buffer before writing anything to CSV file.
+            ob_end_clean();
+
+            // Create a file pointer with PHP.
+            $output = fopen($path, 'w');
+
+            if ($output !== false) {
+                // Escrever os dados no arquivo CSV
+                foreach ($data as $row) {
+                    fputcsv($output, $row);
+                }
+
+                // Fechar o arquivo
+                fclose($output);
+            }
+
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo CSV Gerado: ' . $path));
+
+            header("Content-Type: application/force-download");
+            header("Content-Length: " . filesize($path));
+            header("Connection: close");
+            readfile($path);
+        } catch (Exception $e) {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Error na exportação: ' . $e->getMessage()));
+            $this->redirect(array('exports'));
+        }
+        Yii::app()->user->setFlash('error', Yii::t('default', 'Error na importação: ' . $e->getMessage()));
     }
 
     public function actionImportMaster()
