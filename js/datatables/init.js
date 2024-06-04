@@ -128,6 +128,7 @@ function initDatatable() {
     }
 
     if ($(".js-tag-table").length) {
+        debugger;
         const isMobile = window.innerWidth <= 768;
         const numColumns = $(".js-tag-table th").length;
         const columnsIndex = new Array(numColumns - 1).fill(1).map((_, i) => i + 1);
@@ -140,13 +141,13 @@ function initDatatable() {
                 indexActionButtons = [2];
             }
             if (action.includes("instructor")
+                || action.includes("courseplan")
                 || action.includes("manageUsers")) {
                 indexActionButtons = [3];
             }
             if (action.includes("classroom")
                 || action.includes("student")
                 || action.includes("curricularmatrix")
-                || action.includes("courseplan")
                 || action.includes("professional")) {
                 indexActionButtons = [4];
             }

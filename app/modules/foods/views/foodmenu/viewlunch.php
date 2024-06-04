@@ -70,7 +70,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
             </select>
 		</div>
         <div class="t-field-select column clearleft--on-mobile t-multiselect">
-            <label class="t-field-select__label">Filtrar tipo de aluno</label>
+            <label class="t-field-select__label">Filtrar etapa de ensino</label>
             <?= CHtml::dropDownList("stages", [], CHtml::listData(FoodPublicTarget::model()->findAll(), "id", "name"), [
                 "multiple" => "multiple", "class" => "select-search-on control-input multiselect js-filter-public-target select3-choices"
             ]) ?>

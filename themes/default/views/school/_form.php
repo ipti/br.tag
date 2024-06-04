@@ -7,10 +7,10 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/school/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/school/form/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/school/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school',
@@ -243,47 +243,39 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolIdentification,
-                                    'initial_date',
+                                    'Inicio do período letivo',
                                     array('class' => 't-field-text__label')
                                 ); ?>
-                                <?php echo $form->textField(
-                                    $modelSchoolIdentification,
-                                    'initial_date',
-                                    array(
-                                        'size' => 10,
-                                        'maxlength' => 10,
-                                        'placeholder' => 'Digite a Data Inicial (Dia/Mês/Ano)',
-                                        'class' => 't-field-text__input'
-                                    )
-                                ); ?>
-                                <?php echo $form->error(
-                                    $modelSchoolIdentification,
-                                    'initial_date'
-                                ); ?>
+                                <?php
+                                $options = DatePickerWidget::renderDatePicker($modelSchoolIdentification, 'initial_date');
+                                $options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : array(), array('style' => 'background-color: #fff;'));
+                                $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
+                                echo CHtml::link('	Limpar', '#', array(
+                                    'id' => 'initial_reset'
+                                ));
+                                echo $form->error($modelSchoolIdentification, 'initial_date');
+                                ?>
                             </div>
                         </div>
                     </div>
-                    <div class="row reverse">
+                    <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolIdentification,
-                                    'logo_file_content',
+                                    'Final do período letivo',
                                     array('class' => 't-field-text__label')
                                 ); ?>
-                                <button class="btn btn-icon glyphicons upload upload-logo-button" type="button">
-                                    <i></i>Anexar
-                                </button>
-                                <span class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ?
-                                                                        $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)) . '" class="deleteTeachingData" title="Excluir"></a>' : '' ?> </span>
-                                <?php echo $form->fileField(
-                                    $modelSchoolIdentification,
-                                    'logo_file_content'
-                                ); ?>
-                                <?php echo $form->error(
-                                    $modelSchoolIdentification,
-                                    'logo_file_content'
-                                ); ?>
+                                <?php
+                                $options = DatePickerWidget::renderDatePickerFinal($modelSchoolIdentification, 'final_date');
+                                $options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : array(), array('style' => 'background-color: #fff;'));
+                                $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
+
+                                echo CHtml::link('Limpar', '#', array(
+                                    'id' => 'final_reset'
+                                ));
+                                echo $form->error($modelSchoolIdentification, 'final_date');
+                                ?>
                             </div>
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
@@ -305,6 +297,30 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error(
                                     $modelSchoolIdentification,
                                     'regulation'
+                                ); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
+                            <div class="t-field-text">
+                                <?php echo $form->label(
+                                    $modelSchoolIdentification,
+                                    'logo_file_content',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
+                                <button class="btn btn-icon glyphicons upload upload-logo-button" type="button">
+                                    <i></i>Anexar
+                                </button>
+                                <span class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ?
+                                                                        $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)) . '" class="deleteTeachingData" title="Excluir"></a>' : '' ?> </span>
+                                <?php echo $form->fileField(
+                                    $modelSchoolIdentification,
+                                    'logo_file_content'
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'logo_file_content'
                                 ); ?>
                             </div>
                         </div>
@@ -3463,7 +3479,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <label class="t-field-checkbox__label--required">
-                                <?php echo Yii::t('default', 'Internet Access'); ?> 
+                                <?php echo Yii::t('default', 'Internet Access'); ?>
                             </label>
                             <div class="t-field-checkbox-group internet-access-container">
                                 <div class="t-field-checkbox">
@@ -3703,7 +3719,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox-group internet-access-local-container">
                                 <label class="t-field-checkbox-group__label--required">
                                     <?php echo Yii::t('default', 'Internet Access Local'); ?>
-                                    </label>
+                                </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
