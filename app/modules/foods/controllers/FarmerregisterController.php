@@ -278,11 +278,6 @@ class FarmerRegisterController extends Controller
 
     public function actionDelete($id)
     {
-        $farmerRegister = FarmerRegister::model()->findByPk($id);
-
-        $deleteFarmerRegister = new DeleteFarmerRegister();
-        $deleteFarmerRegister->exec($farmerRegister->reference_id);
-
         FarmerFoods::model()->deleteAll('farmer_fk = :id', array(':id' => $id));
         $this->loadModel($id)->delete();
 
