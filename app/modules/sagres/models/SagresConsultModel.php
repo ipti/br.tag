@@ -337,9 +337,23 @@ class SagresConsultModel
     
     private function processCpfData($query){
         $cpfTurmas = array();
+        $cpfCount = array();
+
+        foreach($query as $cpfs){
+            $cpf = $cpfs['cpf'];
+            if (!isset($cpfCount[$cpf])) {
+                $cpfCount[$cpf] = 0;
+            }
+            $cpfCount[$cpf]++;
+        }
     
         foreach($query as $cpfs){
             $cpf = $cpfs['cpf'];
+
+            // Não considera como inconsistência quando um CPF aparece exatamente duas vezes e for uma turma complementar
+            if ($cpfCount[$cpf] != 2 || $cpfs['complementary_activity'] == 1) {
+                continue;
+            }
     
             if (!isset($cpfTurmas[$cpf])) {
                 $cpfTurmas[$cpf] = array(
