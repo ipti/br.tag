@@ -50,7 +50,7 @@ $this->setPageTitle('TAG - Exportações');
                 <div class="row-fluid">
                     <div class="container-box">7
 
-                        <a href="<?php echo Yii::app()->createUrl('admin/exportmaster') ?>">
+                        <a href="<?php echo Yii::app()->createUrl('admin/exportMaster') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
                                     <span class="t-icon-submit-form t-reports_icons"></span>

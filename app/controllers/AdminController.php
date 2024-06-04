@@ -78,25 +78,44 @@ class AdminController extends Controller
 
     public function actionExportStudents()
     {
-
         $pathFile = "./app/export/InfoTagCSV/students_" . Yii::app()->user->year . ".csv";
 
-        $data = [
-            ['Nome', 'Email', 'Idade'],
-            ['João Silva', 'joao@example.com', 25],
-            ['Maria Oliveira', 'maria@example.com', 32],
-            ['Carlos Santos', 'carlos@example.com', 28],
-        ];
+        $data = array(
+            array('Nome', 'Email', 'Idade'),
+            array('1', 'Test 1', 'test1@test.com'),
+            array('2', 'Test 2', 'test2@test.com'),
+            array('3', 'Test 3', 'test3@test.com'),
+        );
 
         $this->exportToCSV($data, $pathFile);
     }
 
     public function actionExportGrades()
     {
+        $pathFile = "./app/export/InfoTagCSV/grades_" . Yii::app()->user->year . ".csv";
+
+        $data = array(
+            array('Nome', 'Email', 'Idade'),
+            array('1', 'Test 1', 'test1@test.com'),
+            array('2', 'Test 2', 'test2@test.com'),
+            array('3', 'Test 3', 'test3@test.com'),
+        );
+
+        $this->exportToCSV($data, $pathFile);
     }
 
     public function actionExportFaults()
     {
+        $pathFile = "./app/export/InfoTagCSV/faults_" . Yii::app()->user->year . ".csv";
+
+        $data = array(
+            array('Nome', 'Email', 'Idade'),
+            array('1', 'Test 1', 'test1@test.com'),
+            array('2', 'Test 2', 'test2@test.com'),
+            array('3', 'Test 3', 'test3@test.com'),
+        );
+
+        $this->exportToCSV($data, $pathFile);
     }
 
     private function exportToCSV($data, $path)
@@ -118,7 +137,7 @@ class AdminController extends Controller
             if ($output !== false) {
                 // Escrever os dados no arquivo CSV
                 foreach ($data as $row) {
-                    fputcsv($output, $row);
+                    fputcsv($output, $row, ";");
                 }
 
                 // Fechar o arquivo
