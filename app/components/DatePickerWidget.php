@@ -48,9 +48,9 @@ class DatePickerWidget
                 'dateFormat' => 'dd/mm/yy',
                 'changeYear' => true,
                 'changeMonth' => true,
-                'yearRange' => '1930:' . date('Y'),
+                'yearRange' => '1930:2025',
                 'showOn' => 'focus',
-                'maxDate' => 0,
+                'maxDate' => '31/12/2025',
                 'monthNamesShort' => [
                     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
                     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
