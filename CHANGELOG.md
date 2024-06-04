@@ -1,4 +1,7 @@
-## [Versão 3.78.151]
+## [Versão 3.79.152]
+- Correção na opção da data máxima da função renderDatePickerFinal.
+
+## [Versão 3.79.151]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
 
 ## [Versão 3.79.150]
