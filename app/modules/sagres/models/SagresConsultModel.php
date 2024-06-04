@@ -93,7 +93,7 @@ class SagresConsultModel
                 FROM student_documents_and_address sdaa
                 JOIN student_enrollment se ON se.student_fk = sdaa.student_fk
                 JOIN classroom c ON c.id = se.classroom_fk
-                WHERE c.aee = 1 AND YEAR(se.create_date) = :referenceYear
+                WHERE c.aee = 1 AND se.status = 1 AND YEAR(se.create_date) = :referenceYear
             ) AND YEAR(se.create_date) = :referenceYear
             AND se.status = 1
             GROUP BY se.student_fk
