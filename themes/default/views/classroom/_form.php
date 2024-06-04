@@ -919,6 +919,7 @@ $form = $this->beginWidget(
                     echo CHtml::DropDownList("Role", '', array(
                         null => 'Selecione um Cargo',
                         1 => 'Docente',
+                        9 => 'Docente Folguista',
                         2 => 'Auxiliar/assistente educacional',
                         3 => 'Profissional/monitor de atividade complementar',
                         4 => 'Tradutor e Intérprete de Libras',
