@@ -74,8 +74,46 @@ class SagresConsultModel
         }
 
         $this->checkDuplicateCpfs($referenceYear);
+        $this->getStudentAEE($referenceYear);
 
         return $education;
+    }
+
+    private function getStudentAEE($referenceYear){
+        $query = "SELECT se.student_fk as studentFk, 
+                        se.classroom_fk as classId, 
+                        si.name as studentName, 
+                        si2.name as schoolName, 
+                        si2.inep_id as inepId , COUNT(*) as numEnrollments
+            FROM student_enrollment se
+            join student_identification si on si.id = se.student_fk 
+            JOIN school_identification si2 ON si2.inep_id  = se.school_inep_id_fk 
+            WHERE se.student_fk IN (
+                SELECT se.student_fk
+                FROM student_documents_and_address sdaa
+                JOIN student_enrollment se ON se.student_fk = sdaa.student_fk
+                JOIN classroom c ON c.id = se.classroom_fk
+                WHERE c.aee = 1 AND YEAR(se.create_date) = :referenceYear
+            ) AND YEAR(se.create_date) = :referenceYear
+            GROUP BY se.student_fk
+            HAVING numEnrollments = 1";
+
+        $command = Yii::app()->db->createCommand($query);
+        $command->bindValues([':referenceYear' => $referenceYear]);
+        $students = $command->queryAll();
+    
+        foreach($students as $student){
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = '<strong>MATRÍCULA<strong>';
+            $inconsistencyModel->school = $student['schoolName'];
+            $inconsistencyModel->description = 'Estudante <strong>'. $student['studentName'] . '</strong> matriculado apenas em turmas <strong> AEE </strong>';
+            $inconsistencyModel->action = 'Estudante dever estar matriculada em outra turma alem da <strong> AEE </strong>';
+            $inconsistencyModel->identifier = '9';
+            $inconsistencyModel->idStudent = $student['studentFk'];
+            $inconsistencyModel->idClass = $student['classId']; 
+            $inconsistencyModel->idSchool = $student['inepId']; 
+            $inconsistencyModel->save();
+        }  
     }
 
     public function getManagementUnit($managementUnitId, $referenceYear, $month): CabecalhoTType
@@ -304,7 +342,9 @@ class SagresConsultModel
                     c.name as className, 
                     si.name as studentName, 
                     se.create_date, 
-                    si2.name as schoolName
+                    si2.name as schoolName,
+                    c.complementary_activity,
+                    c.aee
         FROM student_documents_and_address sdaa 
         JOIN student_enrollment se ON se.student_fk = sdaa.student_fk
         JOIN classroom c ON c.id = se.classroom_fk 
@@ -328,9 +368,23 @@ class SagresConsultModel
     
     private function processCpfData($query){
         $cpfTurmas = array();
+        $cpfCount = array();
+
+        foreach($query as $cpfs){
+            $cpf = $cpfs['cpf'];
+            if (!isset($cpfCount[$cpf])) {
+                $cpfCount[$cpf] = 0;
+            }
+            $cpfCount[$cpf]++;
+        }
     
         foreach($query as $cpfs){
             $cpf = $cpfs['cpf'];
+
+            // Não considera como inconsistência quando um CPF aparece exatamente duas vezes e for uma turma complementar
+            if ($cpfCount[$cpf] != 2 || $cpfs['complementary_activity'] == 1) {
+                continue;
+            }
     
             if (!isset($cpfTurmas[$cpf])) {
                 $cpfTurmas[$cpf] = array(
