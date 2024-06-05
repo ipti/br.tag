@@ -81,40 +81,49 @@ class SagresConsultModel
     }
 
     private function getStudentAEE($referenceYear){
-        $query = "SELECT se.student_fk as studentFk, 
-                        se.classroom_fk as classId, 
-                        si.name as studentName, 
-                        si2.name as schoolName, 
-                        si2.inep_id as inepId , COUNT(*) as numEnrollments
-            FROM student_enrollment se
-            join student_identification si on si.id = se.student_fk 
-            JOIN school_identification si2 ON si2.inep_id  = se.school_inep_id_fk 
-            WHERE se.student_fk IN (
-                SELECT se.student_fk
-                FROM student_documents_and_address sdaa
-                JOIN student_enrollment se ON se.student_fk = sdaa.student_fk
+        $query = "SELECT distinct se.student_fk
+                FROM student_enrollment se
                 JOIN classroom c ON c.id = se.classroom_fk
-                WHERE c.aee = 1 AND se.status = 1 AND YEAR(se.create_date) = :referenceYear
-            ) AND YEAR(se.create_date) = :referenceYear
-            AND se.status = 1
-            GROUP BY se.student_fk
-            HAVING numEnrollments = 1";
+                WHERE c.aee = 1 AND se.status = 1 AND c.school_year = :referenceYear";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([':referenceYear' => $referenceYear]);
-        $students = $command->queryAll();
+        $studentsIds = $command->queryAll();
     
-        foreach($students as $student){
-            $inconsistencyModel = new ValidationSagresModel();
-            $inconsistencyModel->enrollment = '<strong>MATRÍCULA<strong>';
-            $inconsistencyModel->school = $student['schoolName'];
-            $inconsistencyModel->description = 'Estudante <strong>'. $student['studentName'] . '</strong> matriculado apenas em turmas <strong> AEE </strong>';
-            $inconsistencyModel->action = 'Estudante dever estar matriculada em outra turma além da <strong> AEE </strong>';
-            $inconsistencyModel->identifier = '9';
-            $inconsistencyModel->idStudent = $student['studentFk'];
-            $inconsistencyModel->idClass = $student['classId']; 
-            $inconsistencyModel->idSchool = $student['inepId']; 
-            $inconsistencyModel->save();
+        foreach($studentsIds as $id){
+
+            $sql = "SELECT 
+                        si.name as schoolName, 
+                        si.inep_id as inepId, 
+                        se.student_fk as studentFk, 
+                        c.name as className, 
+                        c.aee, 
+                        c.id as classId, 
+                        sti.name as studentName
+                    from classroom c 
+                    join student_enrollment se on se.classroom_fk  = c.id
+                    join student_identification sti on sti.id = se.student_fk 
+                    join school_identification si on si.inep_id = se.school_inep_id_fk 
+                    WHERE se.student_fk = :id and c.school_year = :referenceYear";
+
+            $command = Yii::app()->db->createCommand($sql);
+            $command->bindValue(":id", $id['student_fk']);
+            $command->bindValue(":referenceYear", $referenceYear);
+            $results = $command->queryAll();
+
+            if(count($results) == 1 && $results[0]['aee'] == 1){
+                $student = $results[0];
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = '<strong>MATRÍCULA<strong>';
+                $inconsistencyModel->school = $student['schoolName'];
+                $inconsistencyModel->description = 'Estudante <strong>'. $student['studentName'] . '</strong> matriculado apenas em turma <strong> AEE </strong>';
+                $inconsistencyModel->action = 'Estudante dever estar matriculada em outra turma alem da <strong> AEE: ' . $student['className'].'</strong>';
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idStudent = $student['studentFk'];
+                $inconsistencyModel->idClass = $student['classId']; 
+                $inconsistencyModel->idSchool = $student['inepId']; 
+                $inconsistencyModel->save();
+            }
         }  
     }
 
