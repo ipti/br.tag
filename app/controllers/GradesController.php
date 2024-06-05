@@ -94,6 +94,26 @@ class GradesController extends Controller
         $this->render('grades', ['classrooms' => $classroom]);
     }
 
+    public function getInstructorRole($classroom)
+    {
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $userId = Yii::app()->user->loginInfos->id;
+
+            $identification = InstructorIdentification::model()->findByAttributes(['users_fk' => $userId]);
+            $instructorId = $identification->id;
+            $teachingData = InstructorTeachingData::model()->findByAttributes([
+                'classroom_id_fk' => $classroom,
+                'instructor_fk' => $instructorId
+            ]);
+
+            if ($teachingData !== null) {
+                return $teachingData->role;
+            }
+
+            return '';
+        }
+    }
+
     public function actionGetDisciplines()
     {
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
@@ -502,15 +522,21 @@ class GradesController extends Controller
         $classroomId = Yii::app()->request->getPost("classroom");
         $disciplineId = Yii::app()->request->getPost("discipline");
 
-        try {
-            $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId);
-            $result = $usecase->exec();
-            echo CJSON::encode($result);
-        } catch (Exception $e) {
-            header('HTTP/1.1 500 ' . $e->getMessage());
-            echo json_encode(['valid' => false, 'message' => $e->getMessage()]);
+        $role = $this->getInstructorRole($classroomId);
+
+        if ($role != 9) {
+            try {
+                $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId);
+                $result = $usecase->exec();
+                echo CJSON::encode($result);
+            } catch (Exception $e) {
+                header('HTTP/1.1 500 ' . $e->getMessage());
+                echo json_encode(['valid' => false, 'message' => $e->getMessage()]);
+            }
+            return;
         }
 
+        echo json_encode(['valid' => false, 'message' => 'Acesso negado']);
     }
 
     public function actionCalculateFinalMedia()
