@@ -184,8 +184,9 @@ class CalculateNumericGradeUsecase
             $gradeRecoveryAndUnities["partialRecovery"]->id
         );
         $gradePartialRecovery = array_column($gradePartialRecovery, "grade");
-        $gradesArray = array_merge($grades, $gradePartialRecovery);
-        return $this->applyStrategyComputeGradesByFormula($gradeRecoveryAndUnities["partialRecovery"], $gradesArray);
+        $gradesArray = array_merge($gradePartialRecovery, $grades);
+        $isRecovery = true;
+        return $this->applyStrategyComputeGradesByFormula($gradeRecoveryAndUnities["partialRecovery"], $gradesArray, $isRecovery);
     }
     /**
      * @param StudentEnrollment $enrollment
@@ -202,18 +203,18 @@ class CalculateNumericGradeUsecase
             $disciplineId,
             $unity->id
         );
-
-        return $this->applyStrategyComputeGradesByFormula($unity, array_column($grades, "grade"));
+        $isRecovery = false;
+        return $this->applyStrategyComputeGradesByFormula($unity, array_column($grades, "grade"), $isRecovery);
     }
 
     /**
      * @param GradeUnity $unity
      * @param float[] $grades
      */
-    private function applyStrategyComputeGradesByFormula($unity, $grades)
+    private function applyStrategyComputeGradesByFormula($unityOrRecovery, $grades, $isRecovery)
     {
         $result = 0;
-        switch ($unity->gradeCalculationFk->name) {
+        switch ($unityOrRecovery->gradeCalculationFk->name) {
             default:
             case 'Soma':
                 $result = array_reduce($grades, function ($acc, $grade) {
@@ -238,11 +239,15 @@ class CalculateNumericGradeUsecase
                 break;
             case 'Peso':
                 $acc = [0, 0];
-                $modalities = $unity->gradeUnityModalities;
+                if ($isRecovery == false) {
+                    $weights = $unityOrRecovery->gradeUnityModalities;
+                } else {
+                    $weights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk" => $unityOrRecovery->id]);
+                }
 
                 foreach ($grades as $key => $grade) {
-                    $acc[0] += $grade * $modalities[$key]->weight;
-                    $acc[1] += $modalities[$key]->weight;
+                    $acc[0] += $grade * $weights[$key]->weight;
+                    $acc[1] += $weights[$key]->weight;
                 }
 
                 $result = $acc[0] / $acc[1];

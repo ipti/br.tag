@@ -251,7 +251,21 @@ class AdminController extends Controller
             $resultPartialRecovery["id"] = $partialRecovery->id;
             $resultPartialRecovery["name"] = $partialRecovery->name;
             $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
-            $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->name;
+            $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->grade_calculation_fk;
+            $resultPartialRecovery["weights"] = [];
+            if($partialRecovery->gradeCalculationFk->name == "Peso") {
+                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk"=>$partialRecovery->id]);
+                foreach($gradeRecoveryWeights as $weight){
+                    array_push($resultPartialRecovery["weights"],
+                    [
+                     "id" => $weight["id"],
+                     "unity_fk" => $weight["unity_fk"],
+                     "weight" => $weight["weight"],
+                     "name" => $weight["unity_fk"] !== null ? $weight->unityFk->name : 'recuperação'
+                     ]
+                    );
+                }
+            }
 
             $unities = GradeUnity::model()->findAllByAttributes(array('parcial_recovery_fk' => $partialRecovery->id));
             $resultPartialRecovery["unities"]  = $unities;

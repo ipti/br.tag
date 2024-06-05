@@ -78,12 +78,28 @@ class UpdateGradeRulesUsecase
                     throw new CHttpException(400, "Não foi possivel salvar dados da recuperação parcial: \n" . $validationMessage, 1);
                 }
 
-                $modelPartialRecovery->save();
-                foreach ($partialRecovery["unities"] as $unity) {
-                    $modelUnity = GradeUnity::model()->findByPk($unity);
-                    $modelUnity->parcial_recovery_fk = $modelPartialRecovery->id;
+                if($modelPartialRecovery->save()){
+                    if($partialRecovery["weights"] != null){
+                        foreach($partialRecovery["weights"] as $partialRecoveryWeights){
+                            $modelPartialRecoveryWeights =  GradePartialRecoveryWeights::model()->findByPk($partialRecoveryWeights["id"]);
+                            if($modelPartialRecoveryWeights == null){
 
-                    $modelUnity->save();
+                                $modelPartialRecoveryWeights = new GradePartialRecoveryWeights();
+                            }
+                            $modelPartialRecoveryWeights->weight = $partialRecoveryWeights["weight"];
+                            $modelPartialRecoveryWeights->partial_recovery_fk = $modelPartialRecovery->id;
+                            $modelPartialRecoveryWeights->unity_fk = $partialRecoveryWeights["unityId"];
+                            $modelPartialRecoveryWeights->save();
+
+                        }
+                    }
+
+                    foreach ($partialRecovery["unities"] as $unity) {
+                        $modelUnity = GradeUnity::model()->findByPk($unity);
+                        $modelUnity->parcial_recovery_fk = $modelPartialRecovery->id;
+
+                        $modelUnity->save();
+                    }
                 }
 
             }

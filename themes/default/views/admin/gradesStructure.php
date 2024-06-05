@@ -107,7 +107,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <?php echo CHtml::label("Incluir recuperação final?", 'has_final_recovery', array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
             </div>
         </div>
-        <div class="js-alert-salve-recovery-first no-show alert"></div>
+        <div class="js-alert-save-recovery-first no-show alert"></div>
         <div class="column js-grades-rules-container" style="display: none;">
             <div class="row">
                 <h2>Definição das unidades</h2>
@@ -123,7 +123,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion"
            >
         </div>
-        <div class="js-alert-salve-unities-first no-show alert"></div>
+        <div class="js-alert-save-unities-first no-show alert"></div>
         <div class="column js-grades-rules-container" style="display: none;">
             <div class="row">
                 <h2>Definição das Recuperações Parciais</h2>

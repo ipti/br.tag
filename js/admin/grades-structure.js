@@ -1,5 +1,5 @@
-function hasUnitiesSalved(){
-    if($("input[type='hidden'].unity-id[value]").length > 0){
+function hasUnitiesSaved() {
+    if ($("input[type='hidden'].unity-id[value]").length > 0) {
         $(".js-new-partial-recovery").removeClass("disabled");
         return
     }
@@ -20,7 +20,7 @@ $(document).on("keyup", ".unity-name", function (e) {
 });
 
 $(document).on("click", ".js-new-unity", function (e) {
-    if(!$('.js-new-unity').hasClass('disabled')){
+    if (!$('.js-new-unity').hasClass('disabled')) {
         const unities = $(".unity").length;
         const isUnityConcept = $(".js-rule-type").select2("val") === "C";
         const unityHtml = template`
@@ -41,17 +41,15 @@ $(document).on("click", ".js-new-unity", function (e) {
                     <div class="t-field-select">
                         <label class='t-field-select__label--required'>Modelo: </label>
                         <select class='t-field-select__input js-type-select select-search-on control-input'>
-                            ${
-                                isUnityConcept
-                                    ? `<option value='UC'>Unidade por conceito</option>`
-                                    : `<option value='U'>Unidade</option>
+                            ${isUnityConcept
+                ? `<option value='UC'>Unidade por conceito</option>`
+                : `<option value='U'>Unidade</option>
                                     <option value='UR'>Unidade com recuperação</option>`
-                            }
+            }
                         </select>
                     </div>
-                    <div class="t-field-select js-calculation ${
-                        isUnityConcept ? "hide" : "show"
-                    }" >
+                    <div class="t-field-select js-calculation ${isUnityConcept ? "hide" : "show"
+            }" >
                         <label class='t-field-select__label--required'>Forma de cálculo:  </label>
                         <select class='t-field-select__input js-formula-select select-search-on control-input'>
                             ${$(".formulas")[0].innerHTML}
@@ -78,8 +76,8 @@ $(document).on("click", ".js-new-unity", function (e) {
             $(".remove-modality").last().hide();
         }
         $(".unity").last().find(".js-type-select, .js-formula-select").select2();
-        if(!$(".js-new-partial-recovery").hasClass("disabled")){
-            $('.js-alert-salve-unities-first')
+        if (!$(".js-new-partial-recovery").hasClass("disabled")) {
+            $('.js-alert-save-unities-first')
                 .text("Para cadastrar novas recuperações, conclua o cadastro da unidade")
                 .show();
             $(".js-new-partial-recovery").addClass("disabled");
@@ -139,22 +137,37 @@ $(document).on("change", ".js-type-select", function (e) {
 $(document).on("change", ".js-rule-type", function (e) {
     initRuleType(e.target.value);
 });
+
 $(document).on("change", ".js-partial-recovery-unities", function (e) {
-    console.log(e.val)
-    let inputsWeight = ''
-    e.val.forEach(element => {
-        if($(`.InputWeight input[data-unity-id="${element}"]`).length == 0){
-            inputsWeight += createInputWeight(element, $(this).find('option[value="'+element+'"]').text())
-        }
-    })
-    $(this).closest('.partial-recovery-accordion-body').append(inputsWeight)
-})
+    const $accordionBody = $(this).closest('.partial-recovery-accordion-body');
+    const calculateName = $accordionBody.find('.js-formula-select').select2("data").text;
+
+    if (calculateName === "Peso") {
+        let inputsWeight = '';
+
+        const $recoveryWeight = $accordionBody.find(".InputWeight input[data-unity-id='']");
+        const recoveryWeightValue = $recoveryWeight.length > 0 ? $recoveryWeight.val() : '';
+
+        inputsWeight += createInputWeight($recoveryWeight.attr('data-weight-id'), '', 'Recuperação', recoveryWeightValue);
+
+        const selectedValues = e.val;
+        selectedValues.forEach(element => {
+            const nameUnity = $(this).find(`option[value="${element}"]`).text();
+            const $oldInputWeight = $accordionBody.find(`.InputWeight input[data-unity-id="${element}"]`);
+            const oldInputWeightValue = $oldInputWeight.length > 0 ? $oldInputWeight.val() : '';
+            const oldInputWeightID = $oldInputWeight.length > 0 ? $oldInputWeight.attr('data-weight-id') : '';
+            inputsWeight += createInputWeight(oldInputWeightID ,element, nameUnity, oldInputWeightValue);
+        });
+
+        $accordionBody.find('.InputWeight-container').html(inputsWeight);
+    }
+});
 
 $(document).on("change", ".js-formula-select", function (e) {
     var unity = $(this).closest(".unity");
     const selectedValue = $(this).select2("data").text;
 
-    if(unity.length > 0) {
+    if (unity.length > 0) {
         if (selectedValue === "Peso") {
             unity
                 .find(".modality-name[modalitytype=C]")
@@ -177,25 +190,33 @@ $(document).on("change", ".js-formula-select", function (e) {
                 .css("width", "calc(100% - 140px)");
         }
     } else {
-        const unities =  $(this).parent().parent().find("select.js-partial-recovery-unities");
-        if(selectedValue === "Peso"){
-            inputsWeight = '';
-            $('select.js-partial-recovery-unities').find('option[value="4"]').text();
-            unities.val().forEach(element => {
-                inputsWeight += createInputWeight(element, unities.find('option[value="'+element+'"]').text())
-            });
-            $(this).parent().parent().find('.InputWeight-container').html(inputsWeight)
+        const $accordionBody = $(this).closest('.partial-recovery-accordion-body');
+        const unities = $accordionBody.find("select.js-partial-recovery-unities");
 
+        if (selectedValue === "Peso") {
+            let inputsWeight = '';
+
+            const $recoveryWeight = $accordionBody.find(".InputWeight input[data-unity-id='']");
+            const recoveryWeightValue = $recoveryWeight.length > 0 ? $recoveryWeight.val() : '';
+            inputsWeight += createInputWeight('', 'Recuperação', recoveryWeightValue);
+
+            unities.val().forEach(element => {
+                const unityText = unities.find(`option[value="${element}"]`).text();
+                inputsWeight += createInputWeight(element, unityText, '');
+            });
+
+            $accordionBody.find('.InputWeight-container').html(inputsWeight);
+        } else {
+            $accordionBody.find('.InputWeight-container').html('');
         }
-        console.log(unities)
     }
 });
 
-function createInputWeight(unityId, unityName) {
+function createInputWeight(id, unityId, unityName, inputVal) {
     return template`
         <div class="InputWeight">
             <label>${unityName}</label>
-            <input type="text" placeholder='Peso' data-unity-id="${unityId}">
+            <input type="text" placeholder='Peso' data-weight-id="${id}" data-unity-id="${unityId == null ? "" : unityId}" value='${inputVal}'>
         </div>
     `
 }
@@ -231,15 +252,14 @@ $(document).on("click", ".js-new-modality", function (e) {
                 <div class="t-field-text">
                     <label class='t-field-text__label--required'>Nome da modalidade avaliativa: </label>
                     <input type='text' class='modality-name t-field-text__input' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.' style='width: calc(100% - 222px);'>
-                    ${
-                        formula === "Peso"
-                            ? template`
+                    ${formula === "Peso"
+            ? template`
                                 <div class="t-field-text">
                                     <label class='t-field-text__label--required'>Peso:</span></label>
                                     <input type='text' class='t-field-text__input weight form-control' placeholder='Peso'>
                                 </div>`
-                            : ""
-                    }
+            : ""
+        }
                 </div>
                 <span class="remove-modality remove-button t-button-icon-danger t-icon-trash"></span>
             </div>
@@ -254,8 +274,8 @@ $(document).on("click", ".js-remove-unity", function (e) {
 
     if (isNew) {
         unity.remove();
-        if($("input[type='hidden'].unity-id:not([value])").length == 0){
-            $('.js-alert-salve-unities-first').hide();
+        if ($("input[type='hidden'].unity-id:not([value])").length == 0) {
+            $('.js-alert-save-unities-first').hide();
             $(".js-new-partial-recovery").removeClass("disabled");
         }
     } else {
@@ -313,7 +333,6 @@ $(document).on("change", ".js-has-final-recovery", function (event) {
             $(".final-recovery-unity-operation").val("update");
         }
     } else {
-        // debugger
         $(".js-recovery-form").hide();
         if (!isNew) {
             $(".final-recovery-unity-operation").val("delete");
@@ -359,7 +378,7 @@ function hasDuplicateUnities(partialRecoveries) {
     const seenUnities = new Set();
 
     for (const recovery of partialRecoveries) {
-        if(recovery.unities != null){
+        if (recovery.unities != null) {
             for (const unity of recovery.unities) {
                 if (seenUnities.has(unity)) {
                     return true;  // Encontrou uma duplicata
@@ -398,31 +417,34 @@ function saveUnities(reply) {
         });
     });
     const partialRecoveries = [];
-        $('.partial-recovery-accordion-body').each(function (index, element) {
-            partialRecoveries.push({
-                id: $(element).find('.partial-recovery-id').val(),
-                operation: $(element).find('.partial-recovery-operation').val(),
-                name: $(element).find('.partial-recovery-name').val(),
-                order: index+1,
-                media: $(element).find('.partial-recovery-media').val(),
-                mediaCalculation: $(element).find('select.js-formula-select').val(),
-                unities: $(element).find('select.js-partial-recovery-unities').val()
+    $('.partial-recovery-accordion-body').each(function (index, element) {
 
-            })
+        partialRecoveries.push({
+            id: $(element).find('.partial-recovery-id').val(),
+            operation: $(element).find('.partial-recovery-operation').val(),
+            name: $(element).find('.partial-recovery-name').val(),
+            order: index + 1,
+            weights: $(element).find('.InputWeight input').length > 0
+                ? getInputWeight(element)
+                : null,
+            mediaCalculation: $(element).find('select.js-formula-select').val(),
+            unities: $(element).find('select.js-partial-recovery-unities').val()
+
         })
-        if(hasDuplicateUnities(partialRecoveries)){
-            $(".alert-required-fields")
-                    .addClass("alert-error")
-                    .removeClass("alert-success")
-                    .text("Não é possivél salvar uma mesma unidade em recuperações parciais diferentes")
-                    .show();
-            window.scroll({
-                top: 0,
-                left: 0,
-                behavior: 'smooth' // Para um scroll suave
-            });
-            return
-        }
+    })
+    if (hasDuplicateUnities(partialRecoveries)) {
+        $(".alert-required-fields")
+            .addClass("alert-error")
+            .removeClass("alert-success")
+            .text("Não é possivél salvar uma mesma unidade em recuperações parciais diferentes")
+            .show();
+        window.scroll({
+            top: 0,
+            left: 0,
+            behavior: 'smooth' // Para um scroll suave
+        });
+        return
+    }
     $.ajax({
         type: "POST",
         url: "?r=admin/saveUnities",
@@ -473,8 +495,8 @@ function saveUnities(reply) {
                     .removeClass("alert-error")
                     .text("Estrutura de notas cadastrada com sucesso!")
                     .show();
-                $('.js-alert-salve-unities-first').hide();
-                $('.js-alert-salve-recovery-first').hide();
+                $('.js-alert-save-unities-first').hide();
+                $('.js-alert-save-recovery-first').hide();
                 loadStructure();
             }
         },
@@ -506,7 +528,15 @@ function saveUnities(reply) {
         },
     });
 }
-
+function getInputWeight(partialRecovery) {
+    return $(partialRecovery).find('.InputWeight input').map(function () {
+        return {
+            id: this.getAttribute('data-weight-id') === "" ?  null : this.getAttribute('data-weight-id'),
+            unityId: this.getAttribute('data-unity-id'),
+            weight: this.value
+        };
+    }).get();
+}
 function checkValidInputs() {
     $(".alert-required-fields, .alert-media-fields").hide();
     let valid = true;
@@ -689,7 +719,7 @@ function loadStructure() {
                 if (Object.keys(data.unities).length) {
                     let newUnityButton = $(".js-new-unity");
                     $.each(data.unities, function (e) {
-                        if(newUnityButton.hasClass('disabled')) {
+                        if (newUnityButton.hasClass('disabled')) {
                             newUnityButton.removeClass("disabled");
                         }
                         newUnityButton.trigger("click");
@@ -716,7 +746,7 @@ function loadStructure() {
                             modality.find(".weight").val(this.weight);
                         });
                     });
-                    $('.js-alert-salve-unities-first').hide();
+                    $('.js-alert-save-unities-first').hide();
                 }
                 if (data.partialRecoveries.length > 0) {
                     $('#accordion-partial-recovery').empty()
@@ -727,12 +757,20 @@ function loadStructure() {
                             let value = unity.id;
                             unityOptionsSelected.push(value);
                         });
-                        let newAccordion = addAccordion(element.id, element.name, element.mediaCalculation)
+                        let newAccordion = addAccordion(element.id, element.name)
                         $('#accordion-partial-recovery').append(newAccordion)
-
+                        let calculationSelect = $("select.js-formula-select").last();
+                        calculationSelect.select2();
+                        calculationSelect.select2("val", element.grade_calculation_fk);
+                        if(calculationSelect.select2("data").text == "Peso"){
+                           let inputsWeight = '';
+                           element.weights.forEach(weight => {
+                                inputsWeight += createInputWeight(weight.id, weight.unity_fk, weight.name, weight.weight)
+                            });
+                            $('.InputWeight-container').last().html(inputsWeight)
+                        }
                         $("select.js-partial-recovery-unities").last().select2();
                         $("select.js-partial-recovery-unities").last().select2("val", unityOptionsSelected);
-                        $(".partial-recovery-accordion-body").last().find(".js-formula-select").select2();
                     });
                 }
                 $(".grades-buttons").css("display", "flex");
@@ -745,7 +783,7 @@ function loadStructure() {
                     .css("opacity", "1");
 
                 initRuleType(data.ruleType);
-                hasUnitiesSalved();
+                hasUnitiesSaved();
             },
         });
     } else {
@@ -756,7 +794,7 @@ function loadStructure() {
     $("#accordion").accordion();
 }
 
-$(document).on("keyup", ".approval-media, .final-recover-media, .partial-recovery-media", function (e) {
+$(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
     let val = this.value;
     if (!$.isNumeric(val)) {
         e.preventDefault();
@@ -775,11 +813,11 @@ $(document).on("keyup", ".approval-media, .final-recover-media, .partial-recover
     this.value = val;
 });
 
- function addAccordion(id, name, mediaCalculation) {
-    let  partialRecovery = 0;
-    if( $(".partial-recovery").length > 0){
-         lastAccordion = Number($("#accordion-partial-recovery .partial-recovery:last").attr("data-index"));
-         partialRecovery = lastAccordion+1
+function addAccordion(id, name) {
+    let partialRecovery = 0;
+    if ($(".partial-recovery").length > 0) {
+        lastAccordion = Number($("#accordion-partial-recovery .partial-recovery:last").attr("data-index"));
+        partialRecovery = lastAccordion + 1
     }
     const titleAccordion = name === "" ? "Recuperação Parcial:" : name
     const collapse = partialRecovery == 0 ? "in" : "";
@@ -802,18 +840,20 @@ $(document).on("keyup", ".approval-media, .final-recover-media, .partial-recover
             </div>
             <div class="t-field-select js-calculation">
                 <label class='t-field-select__label--required'>Forma de cálculo:</label>
-                <select class='t-field-select__input js-formula-select select-search-on' value="${mediaCalculation}">
+                <select class='t-field-select__input js-formula-select select-search-on'>
                     ${$(".formulas")[0].innerHTML}
                 </select>
+            </div>
+            <div class="InputWeight-container">
+
+            </div>
+            <div class="t-field-select">
                 <div class="t-multiselect">
                     <label class='t-field-select__label--required'>Unidades:</label>
                     <select class="t-field-select__input multiselect select-search-on js-partial-recovery-unities" multiple="multiple">
                         ${unityOptions}
                     </select>
                 </div>
-                <div class="InputWeight-container">
-
-                <div>
             </div>
         </div>
     </div>
@@ -836,11 +876,11 @@ function getUnityOptions() {
 }
 
 $(document).on("click", ".js-new-partial-recovery", (e) => {
-    if(!$(".js-new-partial-recovery").hasClass("disabled")){
-        $(".js-alert-salve-recovery-first")
-                .text("Para cadastrar novas unidades, conclua o cadastro da recuperação")
-                .show();
-        newAccordion = addAccordion("","","");
+    if (!$(".js-new-partial-recovery").hasClass("disabled")) {
+        $(".js-alert-save-recovery-first")
+            .text("Para cadastrar novas unidades, conclua o cadastro da recuperação")
+            .show();
+        newAccordion = addAccordion("", "");
         $('#accordion-partial-recovery').append(newAccordion)
         $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities").select2();
         $('.js-new-unity').addClass('disabled');
@@ -850,11 +890,11 @@ $(document).on("click", ".js-remove-partial-recovery", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
     partialRecovery.remove();
 
-    let recoveriesNotSalved = $("input[type='hidden'].partial-recovery-id").filter(function() {
+    let recoveriesNotSaved = $("input[type='hidden'].partial-recovery-id").filter(function () {
         return !this.hasAttribute('value') || this.value === '';
     }).length
-    if(recoveriesNotSalved == 0){
-        $(".js-alert-salve-recovery-first").hide();
+    if (recoveriesNotSaved == 0) {
+        $(".js-alert-save-recovery-first").hide();
         $(".js-new-unity").removeClass("disabled");
     }
 });
