@@ -93,6 +93,11 @@ class UpdateGradeRulesUsecase
 
                         }
                     }
+                        $modelPartialRecoveryWeights =  GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk" =>$modelPartialRecovery->id]);
+                        foreach($modelPartialRecoveryWeights as $partialRecoveryWeights) {
+                            $partialRecoveryWeights->delete();
+                        }
+
 
                     foreach ($partialRecovery["unities"] as $unity) {
                         $modelUnity = GradeUnity::model()->findByPk($unity);

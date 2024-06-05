@@ -144,7 +144,6 @@ $(document).on("change", ".js-partial-recovery-unities", function (e) {
 
     if (calculateName === "Peso") {
         let inputsWeight = '';
-
         const $recoveryWeight = $accordionBody.find(".InputWeight input[data-unity-id='']");
         const recoveryWeightValue = $recoveryWeight.length > 0 ? $recoveryWeight.val() : '';
 
@@ -192,17 +191,15 @@ $(document).on("change", ".js-formula-select", function (e) {
     } else {
         const $accordionBody = $(this).closest('.partial-recovery-accordion-body');
         const unities = $accordionBody.find("select.js-partial-recovery-unities");
-
         if (selectedValue === "Peso") {
             let inputsWeight = '';
-
             const $recoveryWeight = $accordionBody.find(".InputWeight input[data-unity-id='']");
             const recoveryWeightValue = $recoveryWeight.length > 0 ? $recoveryWeight.val() : '';
-            inputsWeight += createInputWeight('', 'Recuperação', recoveryWeightValue);
+            inputsWeight += createInputWeight('', '', 'Recuperação', recoveryWeightValue);
 
             unities.val().forEach(element => {
                 const unityText = unities.find(`option[value="${element}"]`).text();
-                inputsWeight += createInputWeight(element, unityText, '');
+                inputsWeight += createInputWeight('', element, unityText, '');
             });
 
             $accordionBody.find('.InputWeight-container').html(inputsWeight);
@@ -888,16 +885,58 @@ $(document).on("click", ".js-new-partial-recovery", (e) => {
 })
 $(document).on("click", ".js-remove-partial-recovery", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
-    partialRecovery.remove();
+    const isNew = partialRecovery.find("input[type='hidden'].partial-recovery-id") === ""
 
-    let recoveriesNotSaved = $("input[type='hidden'].partial-recovery-id").filter(function () {
-        return !this.hasAttribute('value') || this.value === '';
-    }).length
-    if (recoveriesNotSaved == 0) {
-        $(".js-alert-save-recovery-first").hide();
-        $(".js-new-unity").removeClass("disabled");
+
+
+        if(isNew) {
+            partialRecovery.remove();
+        } else {
+            const response = confirm(
+                "Ao remover uma recueração, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
+            );
+            if(response) {
+                partialRecovery.hide();
+                $(partialRecovery).find('.partial-recovery-operation').val("delete");
+            }
+        }
+
+
+        let recoveriesNotSaved = $("input[type='hidden'].partial-recovery-id").filter(function () {
+            return !this.hasAttribute('value') || this.value === '';
+        }).length
+        if (recoveriesNotSaved == 0) {
+            $(".js-alert-save-recovery-first").hide();
+            $(".js-new-unity").removeClass("disabled");
+        }
+
+});
+
+$(document).on("click", ".js-remove-unity", function (e) {
+    const unity = $(this).closest(".unity");
+    const isNew = unity.find(".unity-id").val() === "";
+
+    if (isNew) {
+        unity.remove();
+        if ($("input[type='hidden'].unity-id:not([value])").length == 0) {
+            $('.js-alert-save-unities-first').hide();
+            $(".js-new-partial-recovery").removeClass("disabled");
+        }
+    } else {
+        const response = confirm(
+            "Ao remover um unidade, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
+        );
+        if (response) {
+            $(this)
+                .children(".modality")
+                .find(".modality-operation")
+                .val("remove");
+            unity.find(".unity-operation").val("remove");
+            unity.hide();
+        }
     }
 });
+
 $(document).on("keyup", ".partial-recovery-name", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
     partialRecovery.find(".partial-recovery-title").html($(this).val());
