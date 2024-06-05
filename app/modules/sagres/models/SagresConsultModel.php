@@ -332,44 +332,70 @@ class SagresConsultModel
 
     private function checkDuplicateCpfs(int $year){
         $query = "SELECT school_inep_id_fk, student_fk, classroom_fk
-            FROM student_enrollment se
-            WHERE year(se.create_date) = 2024 AND se.status = 1 AND student_fk IN (
-                SELECT student_fk
-                FROM student_enrollment
-                WHERE year(create_date) = 2024 AND status = 1
-                GROUP BY student_fk
-                HAVING COUNT(*) > 1
-            )";
+                    FROM student_enrollment se
+                    WHERE year(se.create_date) = :year AND se.status = 1 AND student_fk IN (
+                        SELECT student_fk
+                        FROM student_enrollment
+                        WHERE year(create_date) = :year AND status = 1
+                        GROUP BY student_fk
+                        HAVING COUNT(*) > 1
+                    )";
 
         $command = Yii::app()->db->createCommand($query);
+        $command->bindValue(":year", $year);
         $students = $command->queryAll();
 
-        foreach($students as $student){
-            $query = "SELECT COUNT(*) as count
-            FROM classroom
-            WHERE id = :classroom_fk AND complementary_activity = 0 AND aee = 0";
-
-            $command = Yii::app()->db->createCommand($query);
-            $command->bindValue(":classroom_fk", $student['classroom_fk']);
-            $count = $command->queryScalar();
-
-            if($count >= 2){
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = '<strong>TEST<strong>';
-                $inconsistencyModel->school = 'ffdfds';
-                $inconsistencyModel->description = 'Estudante <strong>' .  'fssdf' . '</strong> com CPF <strong>' . 'dsads' . '</strong> está matriculado em mais de uma turma';
-                $inconsistencyModel->action = 'Remova a matrícula do estudante de uma das seguintes turmas: ';
-                $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idStudent = $student['student_fk'];
-                $inconsistencyModel->idClass = $student['classroom_fk'];
-                $inconsistencyModel->idSchool = $student['school_inep_id_fk'];
-                $inconsistencyModel->save();
-            }
+        foreach($students as $student){  
+            $this->getCountOfClassrooms($student['classroom_fk']);
+            $infoStudent = $this->getStudentInfo($student['student_fk']);
+            $this->createInconsistencyModel($student, $infoStudent);
         }
-
     }
 
+    private function getCountOfClassrooms($classroom_fk) {
+        $query = "SELECT COUNT(*) as count
+                  FROM classroom
+                  WHERE id = :classroom_fk AND complementary_activity = 0 AND aee = 0";
     
+        $command = Yii::app()->db->createCommand($query);
+        $command->bindValue(":classroom_fk", $classroom_fk);
+        return $command->queryScalar();
+    }
+    
+    private function getStudentInfo($student_fk) {
+        $sql = "SELECT si.name, sdaa.cpf FROM student_identification si 
+                JOIN student_documents_and_address sdaa ON sdaa.student_fk = si.id 
+                WHERE si.id = :id";
+    
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindValue(":id", $student_fk);
+        return $command->queryRow();
+    }
+
+    private function getSchoolName($inepId){
+        $sql = "SELECT si.name FROM school_identification si WHERE si.inep_id = :inepId";
+    
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindValue(":inepId", $inepId);
+        return $command->queryScalar();
+    }
+    
+    public function createInconsistencyModel($student, $infoStudent) {
+        
+        if($this->getCountOfClassrooms($student['classroom_fk']) >= 2){
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = '<strong>MATRÍCULA<strong>';
+            $inconsistencyModel->school = $this->getSchoolName($student['school_inep_id_fk']);
+            $inconsistencyModel->description = 'Estudante <strong>' .  $infoStudent['name'] . '</strong> com CPF <strong>' . $infoStudent['cpf'] . '</strong> está matriculado em mais de uma turma';
+            $inconsistencyModel->action = 'Remova a matrícula do estudante de uma das seguintes turmas: ';
+            $inconsistencyModel->identifier = '9';
+            $inconsistencyModel->idStudent = $student['student_fk'];
+            $inconsistencyModel->idClass = $student['classroom_fk'];
+            $inconsistencyModel->idSchool = $student['school_inep_id_fk'];
+            $inconsistencyModel->save();
+        }
+    }    
+     
     public function getInconsistenciesCount()
     {
         $authAssignment = \AuthAssignment::model()->find(
