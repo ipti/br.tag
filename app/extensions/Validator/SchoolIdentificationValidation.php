@@ -399,7 +399,7 @@ class SchoolIdentificationValidation extends Register
     //campo 26
     public function isEmailValid($email)
     {
-        if (strlen($email) > 50) {
+        if (strlen($email) > 100) {
             return array("status" => false, "erro" => "Email com tamanho invalido");
         }
 
