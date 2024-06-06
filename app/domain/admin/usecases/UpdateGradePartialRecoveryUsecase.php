@@ -83,7 +83,7 @@ class UpdateGradePartialRecoveryUseCase
     }
     private function savePartialRecoveryWeights($weights, $partialRecoveryId) {
         foreach ($weights as $recoveryWeight) {
-            $recoveryWeights =  GradePartialRecoveryWeights::model()->findByPk($partialRecoveryId);
+            $recoveryWeights =  GradePartialRecoveryWeights::model()->findByPk($recoveryWeight->id);
             if ($recoveryWeights == null) {
 
                 $recoveryWeights = new GradePartialRecoveryWeights();

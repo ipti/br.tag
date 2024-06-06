@@ -49,9 +49,10 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         <div class="alert-required-fields no-show alert alert-error"></div>
         <div class="column">
             <div class="row margin-bottom-none">
-                <div class="t-field-select">
+                <div class="t-field-select row">
+                    <div class="column no-grow clearfix">
+
                     <?php echo CHtml::label(yii::t('default', 'Stage'), 'modality_fk', array('class' => 't-field-select__label--required', 'style' => 'width: 54px;')); ?>
-                    <div>
                         <?php
                         echo $form->dropDownList(
                             $gradeUnity,
@@ -61,13 +62,15 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                                 'key' => 'id',
                                 'class' => ' t-field-select__input select-search-on',
                                 'prompt' => 'Selecione o estágio...',
+                                'style' => 'width: 100%;'
+
                             )
                         );
                         ?>
                     </div>
+                    <img class="js-grades-structure-loading column no-grow" style="display:none; margin:initial; width:40px; height:40px; margin-top: auto;"
+                     src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                 </div>
-                <img class="js-grades-structure-loading" style="display:none;margin: 10px 20px;" height="30px"
-                    width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
         </div>
         <div class="column js-grades-rules-container is-three-fifths" style="display: none;">
@@ -124,7 +127,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
            >
         </div>
         <div class="js-alert-save-unities-first no-show alert"></div>
-        <div class="column js-grades-rules-container" style="display: none;">
+        <div class="column js-grades-rules-container js-partial-recoveries-header" style="display: none;">
             <div class="row">
                 <h2>Definição das Recuperações Parciais</h2>
                 <a id="new-partial-recovery" class="js-new-partial-recovery t-button-primary disabled">
@@ -137,7 +140,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         </div>
         <div class="row">
             <div class="column is-three-fifths">
-                <div id="accordion-partial-recovery" class="t-accordeon-quaternary">
+                <div id="accordion-partial-recovery" class="t-accordeon-quaternary js-partial-recoveries-container">
                 </div>
             </div>
         </div>

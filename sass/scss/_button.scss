@@ -33,6 +33,12 @@
         font-size: $FontSizeHeadingTitle4;
     }
 
+    &.mobile-width {
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+    }
+
     &.mobile-margin {
         margin-right: $spaceMedium;
     }

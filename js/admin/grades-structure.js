@@ -29,7 +29,7 @@ $(document).on("click", ".js-new-unity", function (e) {
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collaps-${unities}">
                         <h2 class="unity-title accordion-heading">Unidade: </h2>
                     </a>
-                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor"></span>
+                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor" style="margin-top:0;"></span>
                 </div>
                 <div id="collaps-${unities}"class=" collapse ${unities == 0 ? "in" : ""} js-unity-body">
                     <input type='hidden' class="unity-id">
@@ -359,6 +359,13 @@ function initRuleType(ruleType) {
         );
         $(".js-calculation").hide();
         $(".remove-modality").hide();
+        $('.js-partial-recoveries-header').hide();
+        $(".js-alert-save-recovery-first").hide();
+        $(".js-new-unity").removeClass("disabled");
+        $('.partial-recovery-container').each((index, e)=>{
+            deletePartialRecovery(e);
+        })
+
     } else if (ruleType === "N") {
         $(".numeric-fields").show();
         $(".js-has-final-recovery").trigger("change");
@@ -367,6 +374,15 @@ function initRuleType(ruleType) {
         $(".js-calculation").show();
         $(".js-new-modality").show();
         $(".remove-modality").show();
+        $('.js-partial-recoveries-header').show();
+        let partialRecoveries = $('.partial-recovery-container');
+        if(partialRecoveries.length > 0){
+
+            partialRecoveries.each((index, partialRecovery)=>{
+                $(partialRecovery).show();
+                $(partialRecovery).find('.partial-recovery-operation').val("create");
+            })
+        }
     }
 
     $("select.js-type-select").select2();
@@ -825,7 +841,7 @@ function addAccordion(id, name) {
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-partial" href="#partial-recovery-collapse-${partialRecovery}">
                 <h2 class="partial-recovery-title accordion-heading">${titleAccordion}</h2>
             </a>
-            <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="font-size: 20px;"></span>
+            <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="font-size: 20px;margin-top:0;"></span>
         </div>
         <div id="partial-recovery-collapse-${partialRecovery}" class="collapse ${collapse}  partial-recovery-accordion-body">
             <input type='hidden' class="partial-recovery-id" value="${id}">
@@ -885,8 +901,7 @@ $(document).on("click", ".js-new-partial-recovery", (e) => {
 })
 $(document).on("click", ".js-remove-partial-recovery", function (e) {
     const partialRecovery = $(this).closest(".partial-recovery-container");
-    const isNew = partialRecovery.find("input[type='hidden'].partial-recovery-id") === ""
-
+    const isNew = partialRecovery.find("input[type='hidden'].partial-recovery-id").val() === ""
 
 
         if(isNew) {
@@ -911,7 +926,16 @@ $(document).on("click", ".js-remove-partial-recovery", function (e) {
         }
 
 });
+ function deletePartialRecovery(partialRecovery) {
+    const isNew = $(partialRecovery).find("input[type='hidden'].partial-recovery-id").val() === "";
+    if(isNew) {
+        $(partialRecovery).remove();
+    } else {
+        $(partialRecovery).hide();
+        $(partialRecovery).find('.partial-recovery-operation').val("delete");
+    }
 
+ }
 $(document).on("click", ".js-remove-unity", function (e) {
     const unity = $(this).closest(".unity");
     const isNew = unity.find(".unity-id").val() === "";

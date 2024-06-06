@@ -34,17 +34,20 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
             </h1>
         </div>
         <div class="column clearfix align-items--center justify-content--end">
-            <div class="row justify-content--end">
-                <button type="button" id="close-grades-diary" class='t-button-secondary calculate-media'>Calc. média anual</button>
-            </div>
+                    <button type="button" id="close-grades-diary" class='t-button-secondary mobile-width calculate-media'>
+                        Calc. média anual
+                    </button>
         </div>
     </div>
-    <div class="row js-print-grades" style="display:none;">
-            <a href="column clearleft" class="column t-button-secondary">
-                <span class="t-icon-printer"></span>
-                Imprimir
-            </a>
+    <div class="row">
+    <div class="column clearfix align-items--center justify-content--start js-print-grades" style="display:none;">
+                    <a href="" class='t-button-secondary mobile-width calculate-media'>
+                    <span class="t-icon-printer"></span>
+                    Imprimir
+                    </a>
         </div>
+
+    </div>
     <?php if(Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
@@ -67,7 +70,7 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
                     ?>
                 </div>
             </div>
-            <div class="column">
+            <div class="column clearleft">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 't-field-select__label--required')); ?>
                     <?php
@@ -80,7 +83,7 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
                     ?>
                 </div>
             </div>
-            <div class="column">
+            <div class="column clearleft">
                     <?php echo CHtml::label(yii::t('default', 'Unidade'), 'unities', array('class'=> 't-field-select__label--required'))?>
                     <?php
                     echo CHtml::dropDownList('unities', '', array(), array(
@@ -91,12 +94,12 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
                     );
                     ?>
             </div>
-            <div class="column ">
-                <img class="js-grades-loading" style="display:none;margin: 10px 20px;" height="30px" width="30px"
+            <div class="column clearleft">
+                <img class="js-grades-loading" style="margin: 10px 20px;" height="30px" width="30px"
                     src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
         </div>
-        <button id="save" class='t-button-primary column hidden-print no-show'>
+        <button id="save" class='t-button-primary mobile-width column hidden-print no-show'>
                     <?php echo Yii::t('default', 'Save') ?>
         </button>
 
