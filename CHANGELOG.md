@@ -1,3 +1,7 @@
+## [Versão 3.80.154]
+- Método actionValidate do CensoController refatorado, implementando váriaveis.
+- Processar instrutores, garantindo que cada instrutor seja validado apenas uma vez.
+
 ## [Versão 3.80.153]
 - Alterado o botão Cancelar Matrícula por Excluir Matricula.
 

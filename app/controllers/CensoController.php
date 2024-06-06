@@ -1460,26 +1460,35 @@ class CensoController extends Controller
         $log['school']['validate']['identification'] = $this->validateSchool($schoolcolumn, $managerIdentificationColumn);
         $log['school']['validate']['structure'] = $this->validateSchoolStructure($schoolstructurecolumn, $schoolcolumn);
         $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+
+        $processedInstructors = [];
         foreach ($classrooms as $iclass => $classroom) {
             $log['classroom'][$iclass]['info'] = $classroom->attributes;
             $log['classroom'][$iclass]['validate']['identification'] = $this->validateClassroom($classroom, $schoolcolumn, $schoolstructure);
             foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
-                $log['instructor'][$teachingData->instructor_fk]['info'] = $teachingData->instructorFk->attributes;
-                $log['instructor'][$teachingData->instructor_fk]['validate']['identification'][$iteaching] = $this->validateInstructor($teachingData->instructorFk->attributes, $teachingData->instructorFk->documents->attributes);
-                $log['instructor'][$teachingData->instructor_fk]['validate']['documents'][$iteaching] = $this->validateInstructorDocuments($teachingData->instructorFk->documents->attributes);
-                $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['id'] = $teachingData->classroomIdFk->id;
-                $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['turma'] = $teachingData->classroomIdFk->name;
-                $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['errors'] = $this->validateInstructorData($teachingData->attributes);
+                $instructorId = $teachingData->instructor_fk;
+                if (in_array($instructorId, $processedInstructors)) {
+                    continue;
+                }
+                $processedInstructors[] = $instructorId;
+                $log['instructor'][$instructorId]['info'] = $teachingData->instructorFk->attributes;
+                $log['instructor'][$instructorId]['validate']['identification'][$iteaching] = $this->validateInstructor($teachingData->instructorFk->attributes, $teachingData->instructorFk->documents->attributes);
+                $log['instructor'][$instructorId]['validate']['documents'][$iteaching] = $this->validateInstructorDocuments($teachingData->instructorFk->documents->attributes);
+                $log['instructor'][$instructorId]['validate']['variabledata'][$iteaching]['id'] = $teachingData->classroomIdFk->id;
+                $log['instructor'][$instructorId]['validate']['variabledata'][$iteaching]['turma'] = $teachingData->classroomIdFk->name;
+                $log['instructor'][$instructorId]['validate']['variabledata'][$iteaching]['errors'] = $this->validateInstructorData($teachingData->attributes);
             }
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-                $log['student'][$enrollment->student_fk]['info'] = $enrollment->studentFk->attributes;
-                $log['student'][$enrollment->student_fk]['validate']['identification'][$ienrollment] = $this->validateStudentIdentification($enrollment->studentFk->attributes, $enrollment->studentFk->documentsFk->attributes, $enrollment->classroomFk->attributes);
-                @$log['student'][$enrollment->student_fk]['validate']['documents'][$ienrollment] = $this->validateStudentDocumentsAddress($enrollment->studentFk->documentsFk->attributes, $enrollment->studentFk->attributes);
-                $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['id'] = $enrollment->id;
-                $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['turma'] = $enrollment->classroomFk->name;
-                $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['errors'] = $this->validateEnrollment($enrollment->attributes);
+                $studentId = $enrollment->student_fk;
+                $log['student'][$studentId]['info'] = $enrollment->studentFk->attributes;
+                $log['student'][$studentId]['validate']['identification'][$ienrollment] = $this->validateStudentIdentification($enrollment->studentFk->attributes, $enrollment->studentFk->documentsFk->attributes, $enrollment->classroomFk->attributes);
+                @$log['student'][$studentId]['validate']['documents'][$ienrollment] = $this->validateStudentDocumentsAddress($enrollment->studentFk->documentsFk->attributes, $enrollment->studentFk->attributes);
+                $log['student'][$studentId]['validate']['enrollment'][$ienrollment]['id'] = $enrollment->id;
+                $log['student'][$studentId]['validate']['enrollment'][$ienrollment]['turma'] = $enrollment->classroomFk->name;
+                $log['student'][$studentId]['validate']['enrollment'][$ienrollment]['errors'] = $this->validateEnrollment($enrollment->attributes);
             }
         }
+
         $this->render('validate', ['log' => $log]);
     }
 
