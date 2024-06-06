@@ -24,7 +24,7 @@ $title = "Agricultores";
     <div class="row">
         <div class="t-buttons-container">
             <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('foods/farmerregister/create')?>">Adicionar Agricultor</a>
-            <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/farmerregister/activateFarmers')?>">Exibir Inativos</a>
+            <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/farmerregister/index&showAll=1')?>">Exibir Inativos</a>
         </div>
     </div>
 
@@ -58,18 +58,17 @@ $title = "Agricultores";
                         array(
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
-                            'template' => '{update}{delete}',
+                            'template' => '{activate}',
                             'buttons' => array(
-                                'update' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
-                                ),
-                                'delete' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                'activate' => array(
+                                    'label' => 'Activate',
+                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/' . ($data->status == "Inativo" ? "disable" : "active") . 'User.svg',
+                                    'options' => array(
+                                        'style' => 'cursor: pointer;',
+                                        'class' => 'stageDelete',
+                                    ),
                                 )
                             ),
-                            'afterDelete' => 'window.location.href = "?r=foods/farmerregister/index";',
-                            'updateButtonOptions' => array('style' => 'margin-right: 20px;', 'class'=>"stageUpdate"),
-                            'deleteButtonOptions' => array('style' => 'cursor: pointer;', 'class'=>"stageDelete"),
                             'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
                         ),
                     ),

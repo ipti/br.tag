@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -10,9 +11,11 @@
  * @property string $phone
  * @property string $group_type
  * @property string $reference_id
+ * @property string $status
  *
  * The followings are the available model relations:
  * @property FarmerFoods[] $farmerFoods
+ * @property FoodRequestVsFarmerRegister[] $foodRequestVsFarmerRegisters
  */
 class FarmerRegister extends CActiveRecord
 {
@@ -37,8 +40,10 @@ class FarmerRegister extends CActiveRecord
             array('cpf, phone', 'length', 'max'=>11),
             array('group_type', 'length', 'max'=>21),
             array('reference_id', 'length', 'max'=>36),
+            array('status', 'length', 'max'=>7),
             // The following rule is used by search().
-            array('id, name, cpf, phone, group_type, reference_id', 'safe', 'on'=>'search'),
+            // @todo Please remove those attributes that should not be searched.
+            array('id, name, cpf, phone, group_type, reference_id, status', 'safe', 'on'=>'search'),
         );
     }
 
@@ -46,17 +51,19 @@ class FarmerRegister extends CActiveRecord
      * @return array relational rules.
      */
     public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
-	}
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'farmerFoods' => array(self::HAS_MANY, 'FarmerFoods', 'farmer_fk'),
+            'foodRequestVsFarmerRegisters' => array(self::HAS_MANY, 'FoodRequestVsFarmerRegister', 'farmer_fk'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
 	{
 		return array(
 			'id' => 'ID',
@@ -65,8 +72,10 @@ class FarmerRegister extends CActiveRecord
 			'phone' => 'Telefone',
 			'group_type' => 'Tipo do grupo',
 			'reference_id' => 'Reference Id',
+			'status' => 'Status',
 		);
 	}
+
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -80,7 +89,7 @@ class FarmerRegister extends CActiveRecord
      * @return CActiveDataProvider the data provider that can return the models
      * based on the search/filter conditions.
      */
-    public function search()
+    public function search($showAll)
     {
 
         $criteria=new CDbCriteria;
@@ -91,6 +100,9 @@ class FarmerRegister extends CActiveRecord
         $criteria->compare('phone',$this->phone,true);
         $criteria->compare('group_type',$this->group_type,true);
         $criteria->compare('reference_id',$this->reference_id,true);
+        if(!$showAll){
+            $criteria->compare('status', $this->status);
+        }
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
