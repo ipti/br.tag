@@ -68,8 +68,7 @@ class Register20
         $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
 
         foreach ($classrooms as $iclass => $attributes) {
-//            COMENTÁRIO TEMPORÁRIO PARA CONSEGUIR INTEGRAR OS DADOS DE BOQUIM
-//            if (count($attributes->instructorTeachingDatas) >= 1 && count($attributes->studentEnrollments) >= 1) {
+            if (count($attributes->instructorTeachingDatas) >= 1 && count($attributes->studentEnrollments) >= 1) {
 
                 $register = [];
 
@@ -239,7 +238,7 @@ class Register20
                 }
 
                 array_push($registers, implode('|', $register));
-//            }
+            }
         }
 
         return $registers;
