@@ -893,7 +893,7 @@ $(document).on("click", ".js-remove-partial-recovery", function (e) {
             partialRecovery.remove();
         } else {
             const response = confirm(
-                "Ao remover uma recueração, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
+                "Ao remover uma recuperação, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
             );
             if(response) {
                 partialRecovery.hide();

@@ -1,11 +1,12 @@
 <?php
+
 /**
  * Caso de uso para atualização dos parametros para calculo de média
  *
  * @property int $gradeRules
  * @property [] $partialRecoveries
  */
-class UpdateGradePartialRecovery
+class UpdateGradePartialRecoveryUseCase
 {
     public function __construct($gradeRules, $partialRecoveries)
     {
@@ -14,12 +15,11 @@ class UpdateGradePartialRecovery
     }
     public function exec()
     {
-        $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $this->stage]);
         foreach ($this->partialRecoveries as  $partialRecovery) {
-        $modelPartialRecovery = GradePartialRecovery::model()->find($partialRecovery['id']);
+            $modelPartialRecovery = GradePartialRecovery::model()->findByPk($partialRecovery['id']);
 
             if ($partialRecovery["operation"] === "delete") {
-                $modelPartialRecovery->delete();
+                $this->deleteRecovery($modelPartialRecovery);
                 echo json_encode(["valid" => true]);
                 Yii::app()->end();
             }
@@ -30,7 +30,7 @@ class UpdateGradePartialRecovery
 
             $modelPartialRecovery->name = $partialRecovery["name"];
             $modelPartialRecovery->order_partial_recovery = $partialRecovery["order"];
-            $modelPartialRecovery->grade_rules_fk = $gradeRules->id;
+            $modelPartialRecovery->grade_rules_fk = $this->gradeRules;
             $modelPartialRecovery->grade_calculation_fk = $partialRecovery["mediaCalculation"];
 
             if (!$modelPartialRecovery->validate()) {
@@ -38,14 +38,68 @@ class UpdateGradePartialRecovery
                 throw new CHttpException(400, "Não foi possivel salvar dados da recuperação parcial: \n" . $validationMessage, 1);
             }
 
-            foreach ($partialRecovery["unities"] as $unity) {
-                $modelUnity = GradeUnity::model()->findByPk($unity);
-                $modelUnity->parcial_recovery_fk = $modelPartialRecovery->id;
+            if ($modelPartialRecovery->save()) {
+                if ($partialRecovery["weights"] != null) {
+                    $this->savePartialRecoveryWeights($partialRecovery["weights"], $modelPartialRecovery->id);
+                }
 
-                $modelUnity->save();
+                if ($modelPartialRecovery->gradeCalculationFk->name !== "Peso") {
+                    $this->deletePartialRecoveryWeights($modelPartialRecovery->id);
+                }
+
+                $this->savePartialRecoveryOnUnities($partialRecovery["unities"], $modelPartialRecovery->id);
+
             }
+        }
+    }
+    private function deleteRecovery($modelPartialRecovery)
+    {
+        $this->removePartialRecoveryFromUnity($modelPartialRecovery->id);
+        $this->deleteGradesPartialRecovery($modelPartialRecovery->id);
+        $this->deletePartialRecoveryWeights($modelPartialRecovery->id);
+        $modelPartialRecovery->delete();
+    }
+    private function removePartialRecoveryFromUnity($recoveryId)
+    {
+        $unities = GradeUnity::model()->findAllByAttributes(["parcial_recovery_fk" => $recoveryId]);
+        foreach ($unities as $unity) {
+            $unity->parcial_recovery_fk = null;
+            $unity->save();
+        }
+    }
+    private function deleteGradesPartialRecovery($recoveryId)
+    {
+        $grades = Grade::model()->findAllByAttributes(["grade_partial_recovery_fk" => $recoveryId]);
+        foreach ($grades as $grade) {
+            $grade->delete();
+        }
+    }
+    private function deletePartialRecoveryWeights($recoveryId)
+    {
+        $recoveryWeights =  GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk" => $recoveryId]);
+        foreach ($recoveryWeights as $recoveryWeight) {
+            $recoveryWeight->delete();
+        }
+    }
+    private function savePartialRecoveryWeights($weights, $partialRecoveryId) {
+        foreach ($weights as $recoveryWeight) {
+            $recoveryWeights =  GradePartialRecoveryWeights::model()->findByPk($partialRecoveryId);
+            if ($recoveryWeights == null) {
 
-            $modelPartialRecovery->save();
+                $recoveryWeights = new GradePartialRecoveryWeights();
+            }
+            $recoveryWeights->weight = $recoveryWeight["weight"];
+            $recoveryWeights->partial_recovery_fk = $partialRecoveryId;
+            $recoveryWeights->unity_fk = $recoveryWeight["unityId"];
+            $recoveryWeights->save();
+        }
+    }
+    private function savePartialRecoveryOnUnities($unities, $partialRecoveryId) {
+        foreach ($unities as $unity) {
+            $modelUnity = GradeUnity::model()->findByPk($unity);
+            $modelUnity->parcial_recovery_fk = $partialRecoveryId;
+
+            $modelUnity->save();
         }
     }
 }
