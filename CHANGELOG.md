@@ -1,3 +1,6 @@
+## [Versão 3.78.152]
+- Realizada correção na funcionalidade de frequência para o caso de alunos com situação de matrícula como transferido em turma.
+
 ## [Versão 3.78.151]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
 
