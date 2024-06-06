@@ -358,7 +358,7 @@ class SagresConsultModel
 
         foreach($students as $student){  
             $infoStudent = $this->getStudentInfo($student['student_fk']);
-            $count = $this->getCountOfClassrooms($student['student_fk']);
+            $count = $this->getCountOfClassrooms($student['student_fk'], $year);
 
             if (!in_array($student['student_fk'], $processedStudents)) {
                 $this->createInconsistencyModel($student, $infoStudent, $count);
@@ -367,14 +367,15 @@ class SagresConsultModel
         }
     }
 
-    private function getCountOfClassrooms($student_fk) {
+    private function getCountOfClassrooms($student_fk, $year) {
         $query = "SELECT COUNT(*) as count
                   FROM student_enrollment se
                   JOIN classroom c ON se.classroom_fk = c.id
-                  WHERE se.student_fk = :student_fk AND c.complementary_activity = 0 AND c.school_year = 2024";
+                  WHERE se.student_fk = :student_fk AND c.school_year = :year";
     
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":student_fk", $student_fk);
+        $command->bindValue(":year", $year);
         return $command->queryScalar();
     }
     
@@ -398,9 +399,9 @@ class SagresConsultModel
     
     public function createInconsistencyModel($student, $infoStudent, $count) {
         
-        if($count >= 2){
+        if($count >= 3){
             $inconsistencyModel = new ValidationSagresModel();
-            $inconsistencyModel->enrollment = '<strong>MATRÍCULA<strong>';
+            $inconsistencyModel->enrollment = '<strong>MATRÍCULA</strong>';
             $inconsistencyModel->school = $this->getSchoolName($student['school_inep_id_fk']);
             $inconsistencyModel->description = 'Estudante <strong>' .  $infoStudent['name'] . '</strong> com CPF <strong>' . $infoStudent['cpf'] . '</strong> está matriculado em mais de uma turma regular ou regular e AEE';
             $inconsistencyModel->action = 'Um aluno não deve estar matriculado simultaneamente em turmas regulares e turmas AEE';
