@@ -1,3 +1,6 @@
+## [Versão 3.80.155]
+- Correção na opção da data máxima da função renderDatePickerFinal.
+
 ## [Versão 3.80.154]
 - Método actionValidate do CensoController refatorado, implementando váriaveis.
 - Processar instrutores, garantindo que cada instrutor seja validado apenas uma vez.
