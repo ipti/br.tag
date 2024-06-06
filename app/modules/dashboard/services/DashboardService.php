@@ -3,9 +3,9 @@ class DashboardService
 {
      public function getAccessToken() {
         $url = 'https://login.microsoftonline.com/common/oauth2/token';
-        $username = 'ti.pauloh@ipti.org.br';
-        $pss = '81260235Ph.';
-        $clientId = 'fdc41ef1-199b-475a-adfd-408fb1a53937';
+        $username = getenv('USER_NAME_POWER_BI');
+        $pss = getenv('PSS_POWER_BI');
+        $clientId = getenv('CLIENT_ID_POWER_BI');
 
         $headers = array(
             'Content-Type: application/x-www-form-urlencoded'
