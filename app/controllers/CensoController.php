@@ -654,8 +654,8 @@ class CensoController extends Controller
         if (!$result['status']) array_push($log, array('stage' => $result['erro']));
 
         //campo 39
-        $result = $crv->isValidProfessionalEducation($column['course'], $column['edcenso_stage_vs_modality_fk']);
-        if (!$result['status']) array_push($log, array('course' => $result['erro']));
+        $result = $crv->isValidProfessionalEducation($column['modality'], $column['course'], $column['edcenso_stage_vs_modality_fk']);
+        if ( !$result['status']) array_push($log, array('course' => $result['erro']));
 
         //campos 40 a 65
 //        $disciplinesArray = array($column['discipline_chemistry'], $column['discipline_physics'], $column['discipline_mathematics'], $column['discipline_biology'], $column['discipline_science'],

@@ -1,8 +1,11 @@
-## [Versão 3.78.152]
+## [Versão 3.80.152]
 - Inserido opção de situação de matrícula "AVANÇADO" no campo "Situação de Matrícula"
 - Adequado o sistema para o Educacenso 2024
 
-## [Versão 3.78.151]
+## [Versão 3.79.152]
+- Corrigida ficha de matricula do aluno ao imprimir.
+
+## [Versão 3.79.151]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
 
 ## [Versão 3.78.150]
