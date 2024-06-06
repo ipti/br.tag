@@ -1,3 +1,6 @@
+## [Versão 3.78.152]
+- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes duplicados.
+
 ## [Versão 3.78.151]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
 
