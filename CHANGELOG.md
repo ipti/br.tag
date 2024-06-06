@@ -1,3 +1,6 @@
+## [Versão 3.80.153]
+- Alterado o botão Cancelar Matrícula por Excluir Matricula.
+
 ## [Versão 3.80.152]
 - Inserido opção de situação de matrícula "AVANÇADO" no campo "Situação de Matrícula"
 - Adequado o sistema para o Educacenso 2024
