@@ -1,7 +1,41 @@
-## [Versão 3.78.152]
+## [Versão 3.80.161]
+- Refatoradas variáveis para utilizar o post, através de uma função do Yii.
+- Modificada a ordem dos parâmetros da função getSchedulesFromMajorStage.
+- 
+## [Versão 3.80.160]
+- Correção na opção da data máxima da função renderDatePickerFinal.
+
+## [Versão 3.80.159]
+- Método actionValidate do CensoController refatorado, implementando váriaveis.
+- Processar instrutores, garantindo que cada instrutor seja validado apenas uma vez.
+
+## [Versão 3.80.158]
+- Alterado o botão Cancelar Matrícula por Excluir Matricula.
+
+## [Versão 3.80.157]
+- Inserido opção de situação de matrícula "AVANÇADO" no campo "Situação de Matrícula"
+- Adequado o sistema para o Educacenso 2024
+
+## [Versão 3.79.157]
+- Corrigida ficha de matricula do aluno ao imprimir.
+
+## [Versão 3.79.156]
+- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
+
+## [Versão 3.79.156]
+- Permitido com que se adicione ou remova aulas no quadro de horário, mesmo quando houver preenchimento de frequência ou quadro de horário
+
+## [Versão 3.79.155]
+- Efetuadas correções para o chaveamento do professor com o seu usuário
+
+## [Versão 3.79.154]
+- Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
+
+## [Versão 3.79.153]
+## [Versão 3.79.152]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes duplicados.
 
-## [Versão 3.78.151]
+## [Versão 3.79.151]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
 
 ## [Versão 3.79.150]
