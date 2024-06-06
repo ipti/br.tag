@@ -1,3 +1,7 @@
+## [Versão 3.80.156]
+- Refatoradas variáveis para utilizar o post, através de uma função do Yii.
+- Modificada a ordem dos parâmetros da função getSchedulesFromMajorStage.
+- 
 ## [Versão 3.80.155]
 - Correção na opção da data máxima da função renderDatePickerFinal.
 
