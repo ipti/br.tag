@@ -99,6 +99,7 @@ class GradesController extends Controller
     {
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
                 "select ed.id from teaching_matrixes tm
@@ -113,7 +114,6 @@ class GradesController extends Controller
                 echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['id']), CHtml::encode($disciplinesLabels[$discipline['id']]), true));
             }
         } else {
-            echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
             $classr = Yii::app()->db->createCommand(
                 "select curricular_matrix.discipline_fk
                 from curricular_matrix

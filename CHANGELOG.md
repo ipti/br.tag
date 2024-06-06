@@ -1,13 +1,99 @@
+## [Versão 3.80.155]
+- Correção na opção da data máxima da função renderDatePickerFinal.
+
+## [Versão 3.80.154]
+- Método actionValidate do CensoController refatorado, implementando váriaveis.
+- Processar instrutores, garantindo que cada instrutor seja validado apenas uma vez.
+
+## [Versão 3.80.153]
+- Alterado o botão Cancelar Matrícula por Excluir Matricula.
+
+## [Versão 3.80.152]
+- Inserido opção de situação de matrícula "AVANÇADO" no campo "Situação de Matrícula"
+- Adequado o sistema para o Educacenso 2024
+
+## [Versão 3.79.152]
+- Corrigida ficha de matricula do aluno ao imprimir.
+
+## [Versão 3.79.151]
+- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
+
+## [Versão 3.78.150]
+- Permitido com que se adicione ou remova aulas no quadro de horário, mesmo quando houver preenchimento de frequência ou quadro de horário
+
+## [Versão 3.78.149]
+- Efetuadas correções para o chaveamento do professor com o seu usuário
+
+## [Versão 3.78.148]
+- Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
+
+## [Versão 3.78.147]
+- Retirada a cor de fundo cinza do input da data inicial
+- Adicionado input de data final
+- Corrigido link de limpar input das datas
+
+## [Versão 3.78.146]
+- Resolvido o problema de conflitos de CPF do mesmo usuário ao atualizar as informações de um estudante existente
+
+## [Versão 3.78.145]
+- Corrigida tela do educacenso, erro: Professores - Há professores sem componentes curriculares/eixos vinculados à Turma.
+-
+## [Versão 3.78.144]
+- Correção para a modalidade no relatório de Alunos por Turma.
+
+## [Versão 3.78.143]
+- Correção no relatório de 'Alunos com Idade Incompatível por Turma'
+
+## [Versão 3.78.142]
+- Adicionados estilos de overflow e altura ao contêiner do acordeão para uma melhor experiência de rolagem.
+- Ajustada a estrutura da iteração de dados do aluno para acomodar arrays multidimensionais potenciais.
+- Adicionados estilos de redimensionamento e altura à área de texto para uma aparência mais consistente.
+- Refatorada a maneira como os dados do aluno são armazenados e atualizados.
+
+## [Versão 3.78.141]
+- Alterada de lugar a atribuição da option contendo select na GradesController.
+
+## [Versão 3.78.140]
+- Correção na barra de rolagem da tela de frequência de alunos.
+
+## [Versão 3.78.139]
+- Correção no relatório de ficha individual
+
+## [Versão 3.78.138]
+- Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
+
+## [Versão 3.78.137]
+- corrigido erro na tela de estoque do novo módulo de merenda
+- Realizado validação para quadro de horários sem componentes
+
+## [Versão 3.78.136]
+- Datepicker modificado para apresentar as informações em português
+- Correção para inconsistências relacionadas a classes
+
+## [Versão 3.78.135]
+- Adicionando funcionalidade de validação de planos de aula
+- Criando novo tipo de usuário e visibilidade "Coordenador"
+
+## [Versão 3.77.135]
+- Adicionado novas inconsistências para a falta de componentes curriculasres
+- Consertado lentidão na tela de estoque
+- Adicionado novas inconsistências para a falta de componentes curriculasres
+- Correção ao pegar data de aniversário do estudante
+- Foi corrigido para incluir o intervalo de 1900 até o ano corrente
+
 ## [Versão 3.77.134]
 - Consertado tela de frequencia para os professores
-- 
+-
 ## [Versão 3.77.133]
 - Realizado correções nas validações das datas para Professor, Estudante e Escola
-
+- Correção no id da classe para as inconsistências
+-
 ## [Versão 3.78.132]
-- Adicionado campo para a assinatura do diretor 
+- Adicionado campo para a assinatura do diretor
+- Adicionado unidades de medida para o lançamento no estoque
 
 ## [Versão 3.77.132]
+- Adicionado correção para a tamanho da descrição da merenda
 - Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
 
 ## [Versão 3.76.131]
@@ -17,7 +103,8 @@
 - Correção no conteúdo ministrado em sala de aula
 
 ## [Versão 3.76.129]
-- Correção na descrição da séries para as inconsistências sagres
+- Corrigir a funcionalidade de cadastrar porções em refeições de cardápio
+- Ajustar banco de dados para adequar ao novo fluxo da tela de atualizar cardápio
 
 ## [Versão 3.76.128]
 - Corrigido erro que não mostrava o nome da escola e das turmas nas inconsistências sagres
@@ -45,6 +132,7 @@
 
 ## [Versão 3.74.121]
 - Correção no relatório de professores por escola
+- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
 
 ## [Versão 3.74.120]
 - Modificado a controler de grades, ao salvar as Grades Releases.

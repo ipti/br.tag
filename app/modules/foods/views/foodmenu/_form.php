@@ -120,7 +120,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row js-menu-meals-container" style="display: none;">
 			<div class="column">
 				<div id="js-accordion" class="js-meals-component t-accordeon-secondary"></div>
 			</div>
@@ -149,7 +149,6 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
   .alert-error b {
         font-weight: bold;
   }
-  
   .t-field-select__input.measurement-unit  {
       width: 60px !important;
       margin: 0px;

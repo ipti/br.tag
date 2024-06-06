@@ -67,7 +67,14 @@ class Item extends CActiveRecord{
 
 	public function getConcatName(){
         $school = School::model()->findByPk(yii::app()->user->school);
-        $amount = isset($school->itemsAmount()[$this->id]["amount"])?$school->itemsAmount()[$this->id]["amount"]:0;
+
+        $criteria = new CDbCriteria;
+        $criteria->select = 'SUM(amount) as amount';
+        $criteria->condition = "school_fk = :schoolId AND item_fk = :itemId";
+        $criteria->params = array(':schoolId' => $school->inep_id, ':itemId' => $this->id);
+
+        $inventory = Inventory::model()->find($criteria);
+        $amount = isset($inventory->amount)? floatval($inventory->amount):0;
 
 		return $this->name.' ('.$amount.' x '.$this->measure.$this->unity->acronym.')';
 	}

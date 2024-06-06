@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dxx6deuwh2kvc"
+
+[deps]
+
+files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/História. presente.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/História. futuro);(EF01HI01) Identificar aspectos do seu crescimento por meio do registro das lembranças particulares ou de lembranças dos membros de sua família e/ou de sua comunidade..translation"]
+
+source_file="res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/História.csv"
+dest_files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/História. presente.translation", "res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/História. futuro);(EF01HI01) Identificar aspectos do seu crescimento por meio do registro das lembranças particulares ou de lembranças dos membros de sua família e/ou de sua comunidade..translation"]
+
+[params]
+
+compress=true
+delimiter=0

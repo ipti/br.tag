@@ -14,22 +14,16 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
 
 ?>
 
-
 <div id="body-students-file-form" class="pageA4V">
-    <?php
-    $this->renderPartial('head');
-    $data = StudentEnrollment::getFileInformation($enrollment->id);
-    $birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
-    ?>
+    <div id="head">
+        <?php
+        $this->renderPartial('head');
+        $data = StudentEnrollment::getFileInformation($enrollment->id);
+        $birth_uf = $enrollment->studentFk->edcensoUfFk->acronym;
+        ?>
+    </div>
     <br>
     <div style="width: 100%; margin: 0 auto; text-align:center;margin-top: -15px;">
-        <?php
-        /* if ($_REQUEST['type'] == '3') {
-             echo '<div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">'
-             . 'PROCESSO DE RECONHECIMENTO NO CMEB Nº 216.02\2013 - RESOLUÇÃO CMEB Nº 75\2014'
-             . '</div>';
-         }*/
-        ?>
         <div style=" height:100%;  border: 1px solid black; background-color: lightgray; margin-bottom: 5px;">
             <?php //echo $namereport
             ?>
@@ -39,6 +33,9 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <span style="clear:both;display:block"></span>
         <div style="border:1px solid black; float:left; width: 2.5cm; height: 3cm; text-align:center;margin-right: 15px;"><br><br><span>F O T O<br>3 x 4</span></div>
         <table style="border: 1px solid black;">
+            <tr>
+                <th></th>
+            </tr>
             <tr>
                 <?php
                 if ($_REQUEST['type'] == '0') {
@@ -65,7 +62,6 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     echo '<td colspan="3">O(A) ALUNO(A) REQUER SUA MATRÍCULA ';
                 ?>
                     NO_________ANO
-                    <!--<span class="class"></span>-->
                 <?php
                     echo ', DE ACORDO COM SITUAÇÃO APRESENTADA ABAIXO, A QUAL PEDE DEFERIMENTO.</td>';
                 } else {
@@ -123,10 +119,6 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
     </div>
     <br>
 
-
-
-
-
     <table id="report-table" class="table table-bordered">
         <tr>
             <th style="text-align: center">BLOCO 1 - IDENTIFICAÇÃO E CADASTRO</th>
@@ -145,10 +137,21 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span4"><b>03 - Naturalidade:</b></div>
-                <div class="span8"><b>Município: </b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span>/<?php echo $birth_uf ?> </div>
+                <div class="span4"><b>03 - Naturalidade: <span class="nationality"><?= $data['nationality'] ?></span></b></div>
+                <div class="span4"><b>País: <span class="nationality"><?= $data['nation'] ?></span></b></div>
+                <span class="<?php echo $data['nationality'] !== 'Brasileira' ? 'hide' : ''; ?>">
+                    <div class="span12">
+                        <b>UF: </b><span class="address_uf"><?= $data['birth_uf'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <b>Município: </b>&nbsp;<span class="birth_city"><?= $data['birth_city'] ?></span>/<?php echo $birth_uf ?>
+                    </div>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="span4"><b>04 - Endereço: </b></div><br>
                 <div class="span12">
-                    <b>ENDEREÇO: </b><span class="address"><?= $data['address'] ?></span>, <span class="number"><?= $data['number'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>Rua: </b><span class="address"><?= $data['address'] ?></span>, <span class="number"><?= $data['number'] ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <b>Cidade: </b><span class="adddress_city"><?= $data['adddress_city'] ?></span>&nbsp;&nbsp;&nbsp;
                     <b>UF: </b><span class="address_uf"><?= $data['address_uf'] ?></span>&nbsp;&nbsp;&nbsp;
                     <b>CEP: </b><span class="cep"><?= $data['cep'] ?></span>
@@ -157,13 +160,13 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span4"><b>04 - Gênero:</b>&nbsp;<span class="gender"><?= $data['gender'] ?></span></div>
-                <div class="span4"><b>05 - Etnia:</b>&nbsp;<span class="color"><?= $data['color'] ?></span></div>
+                <div class="span4"><b>05 - Gênero:</b>&nbsp;<span class="gender"><?= $data['gender'] ?></span></div>
+                <div class="span4"><b>06 - Etnia:</b>&nbsp;<span class="color"><?= $data['color'] ?></span></div>
             </td>
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>06 - Filiação 1</b></div>
+                <div class="span12"><b>07 - Filiação 1</b></div>
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['mother'] ?></span></div>
                 <div class="span4"><b>RG: </b><span class="cc_number"><?= $data['mother_rg'] ?></div>
                 <div class="span8"><b>CPF: </b><span class="cc_number"><?= $data['mother_cpf'] ?><span class="father"></span></div>
@@ -174,7 +177,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span12"><b>07 - Pai</b></div>
+                <div class="span12"><b>08 - Pai</b></div>
                 <div class="span12"><b>Nome: </b><span class="mother"><?= $data['father'] ?></span></div>
                 <div class="span4"><b>RG: </b><span class="cc_number"><?= $data['father_rg'] ?></span></div>
                 <div class="span8"><b>CPF: </b><span class="father"><span class="cc_number"><?= $data['father_cpf'] ?></span></div>
@@ -187,7 +190,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             <td>
                 <?php if ($data['cc'] == 1) { ?>
                     <div id="old_cc">
-                        <div class="span9"><b>08 - Certidão Civil de <span class="cc_type"><?= $data['cc_type'] ?></span></b></div>
+                        <div class="span9"><b>09 - Certidão Civil de <span class="cc_type"><?= $data['cc_type'] ?></span></b></div>
                         <br />
                         <div class="span2"><b>Nº: </b><span class="cc_number"><?= $data['cc_number'] ?></span></div>
                         <div class="span2"><b>Livro: </b><span class="cc_book"><?= $data['cc_book'] ?></span></div>
@@ -199,7 +202,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     </div>
                 <?php } else { ?>
                     <div id="new_cc">
-                        <div class="span9"><b>08 - Certidão Civil:</b>
+                        <div class="span9"><b>10 - Certidão Civil:</b>
                         </div>
                         <br />
                         <div class="span9"><b>Nº:</b><span class="cc_new"><?= $data['cc_new'] ?></span></div>
@@ -210,20 +213,20 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <tr>
             <td>
                 <div class="span4">
-                    <b>09 - RG: </b><span class="rg"><?= $data['rg'] ?></span>
+                    <b>11 - RG: </b><span class="rg"><?= $data['rg'] ?></span>
                 </div>
                 <div class="span4">
-                    <b>10 - CPF: </b><span class="cpf"><?= $data['cpf'] ?></span>
+                    <b>12 - CPF: </b><span class="cpf"><?= $data['cpf'] ?></span>
                 </div>
                 <div class="span4">
-                    <b>11 - CNS: </b><span class="cns"><?= $data['cns'] ?></span>
+                    <b>13 - CNS: </b><span class="cns"><?= $data['cns'] ?></span>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
                 <div class="span12">
-                    <b>12 - Nome do responsável e parentesco: </b><span class="responsable_name"><?= $data['responsable_name'] ?></span>
+                    <b>14 - Nome do responsável e parentesco: </b><span class="responsable_name"><?= $data['responsable_name'] ?></span>
                 </div>
                 <div class="span4">
                     <b>RG: </b><span class="responsable_rg"><?= $data['responsable_rg'] ?></span>
@@ -238,31 +241,28 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>13 - Grau de escolaridade do responsável:</b>
+                <div class="span10"><b>15 - Grau de escolaridade do responsável:</b>
                     <br><span class="responsable_scholarity"><?= $data['responsable_scholarity'] ?></span>
-                    </<div>
+                    </t<div>
             </td>
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>14 - Profissão do responsável: </b>
+                <div class="span10"><b>16 - Profissão do responsável: </b>
                     <br><span class="responsable_job"><?= $data['responsable_job'] ?></span>
                 </div>
             </td>
         </tr>
     </table>
 
-
-
-
-    <table style="margin-top:10px;" id="report-table" class="table table-bordered">
+    <table id="report-table" class="table table-bordered">
         <tr>
             <th style="text-align: center">CARACTERIZAÇÃO</th>
         </tr>
         <?php if (GLOGALGROUP != 1) { ?>
             <tr>
                 <td>
-                    <div class="span12"><b>15 - Matrícula do aluno: </b></div>
+                    <div class="span12"><b>17 - Matrícula do aluno: </b></div>
                     <br>
                     <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
                     <div class="span4"><b>Série: </b><span><?= $enrollment->edcensoStageVsModalityFk->name ?></span></div>
@@ -278,7 +278,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         <?php } ?>
         <tr>
             <td>
-                <div class="span10"><b>16 - Documentos(s) que habilita(m) matrícula no segmento: </b>
+                <div class="span10"><b>18 - Documentos(s) que habilita(m) matrícula no segmento: </b>
                     <!--CORRIGIR AQUI--->
                     <!--<div class="received_documents"></div>-->
                     <br>
@@ -289,13 +289,13 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span9"><b>17 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"><?= $data['school_admission_date'] ?></span></b>
+                <div class="span9"><b>19 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"><?= $data['school_admission_date'] ?></span></b>
                 </div>
             </td>
         </tr>
         <tr>
             <td>
-                <div class="span9"><b>18 - Situação do aluno na série/etapa: </b>
+                <div class="span9"><b>20 - Situação do aluno na série/etapa: </b>
                     <br>
                     <div style="margin-right: -20px;">
                         <?php
@@ -318,124 +318,141 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span10"><b>19 - Situação do Aluno no ano Anterior: </b></div>
-                <br>
-                <div class="span3 padding-5" style="margin-right: -20px;">
-                    <b><?= ($enrollment->previous_stage_situation == 0) ? '☑' : '☐' ?></b> Não Frequentou
-                    <br><b><?= ($enrollment->previous_stage_situation == 1) ? '☑' : '☐' ?></b> Reprovado
-                </div>
-                <div class="span4 padding-5" style="margin-right: -20px;">
-                    <b><?= ($enrollment->previous_stage_situation == 2) ? '☑' : '☐' ?></b> Afastado por transferência
-                    <br><b><?= ($enrollment->previous_stage_situation == 4) ? '☑' : '☐' ?></b> Matrícula final em Educação Infantil
-                </div>
-                <div class="span3 padding-5">
-                    <b><?= ($enrollment->previous_stage_situation == 3) ? '☑' : '☐' ?></b> Afastado por abandono
-                    <br><b><?= ($enrollment->previous_stage_situation == 5) ? '☑' : '☐' ?></b> Promovido
-                </div>
-            </td>
-        </tr>
-
-        <!--<tr>
-            <td>
-                <div class="span10"><b>17 - Situação do aluno no ano anterior: </b>
-                    <br/>
+                <div class="span9"><b>21 - Situação do Aluno no ano Anterior: </b>
                     <br>
-                    <!--<br><span class="previous_stage_situation"></span>
+                    <div class="padding-5" style="margin-right: -20px;">
+                        <b><?= ($enrollment->previous_stage_situation == 0) ? '☑' : '☐' ?></b> Não Frequentou
+                        <br><b><?= ($enrollment->previous_stage_situation == 1) ? '☑' : '☐' ?></b> Reprovado
+                    </div>
+                    <div class="padding-5" style="margin-right: -20px;">
+                        <b><?= ($enrollment->previous_stage_situation == 2) ? '☑' : '☐' ?></b> Afastado por transferência
+                        <br><b><?= ($enrollment->previous_stage_situation == 4) ? '☑' : '☐' ?></b> Matrícula final em Educação Infantil
+                    </div>
+                    <div class="padding-5">
+                        <b><?= ($enrollment->previous_stage_situation == 3) ? '☑' : '☐' ?></b> Afastado por abandono
+                        <br><b><?= ($enrollment->previous_stage_situation == 5) ? '☑' : '☐' ?></b> Promovido
+                    </div>
                 </div>
-            </td>
-        </tr>-->
-        <tr>
-            <td>
-                <div class="span12"><b>20 - Portador de Necessidades Especiais? </b></div>
-                <br>
-                <div class="span2"><b><?= ($data['deficiency'] != 'Não') ? '☑' : '☐' ?></b> Sim</div>
-                <div class="span2"><b><?= ($data['deficiency'] == 'Não') ? '☑' : '☐' ?></b> Não</div>
-                <div class="span8" style="margin-bottom:8px;"><b>Tipo: </b>
-                    <span><?= ($data['deficiency'] != 'Não') ? $data['deficiency'] : '';?></span>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span12"><b>21 - Participa do Programa Bolsa Família? </b></div>
-                <!-- <br><span class="bf_participator"><?= $data['bf_participator'] ?></span> -->
-                <div class="span4"><b><?= ($data['bf_participator'] == 'Sim') ? '☑' : '☐' ?></b> Bolsa Família</div>
-                <div class="span4"><b>☐</b> PETI</div>
-                <div class="span4"><b>☐</b> Pro Jovem</div>
-                <br>
-                <div class="span12 margin-15"><b>Outro: </b>____________________________________________________</div>
-
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span10"><b>22 - Utiliza transporte escolar? </b>
-                    <span class="public_transport">
-                        <?= ($enrollment->public_transport == '0') ? 'Não' : 'Sim' ?>
-                    </span>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span10"><b>23 - Restrição alimentar ou alergia a: </b>
-                    <?php
-                    $result = '';
-
-                    if ($data['celiac'] == '1') {
-                        $result .= 'Doença celíaca';
-                    }
-
-                    if ($data['diabetes'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Diabetes';
-                    }
-
-                    if ($data['hypertension'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Hipertensão';
-                    }
-
-                    if ($data['iron_deficiency_anemia'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Anemia ferropriva';
-                    }
-
-                    if ($data['sickle_cell_anemia'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Anemia falciforme';
-                    }
-
-                    if ($data['lactose_intolerance'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Intolerância à lactose';
-                    }
-
-                    if ($data['malnutrition'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Desnutrição';
-                    }
-
-                    if ($data['obesity'] == '1') {
-                        $result .= ($result ? ', ' : '') . 'Obesidade';
-                    }
-
-                    if (!empty($data['others'])) {
-                        $result .= ($result ? ', ' : '') . $data['others'];
-                    }
-
-                    echo $result;
-                    ?>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="span12"><b>24 - Autorização do Termo de Consentimento da Imagem? </b></div>
-                <br>
-                <div class="span2"><b><?= ($data['consent_form'] == '1') ? '☑' : '☐' ?></b> Sim</div>
-                <div class="span2"><b><?= ($data['consent_form'] == '0') ? '☑' : '☐' ?></b> Não</div>
             </td>
         </tr>
     </table>
+
+    <div id="no-break" style="margin: 0px">
+        <table id="report-table" class="table table-bordered">
+            <tr>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span12"><b>22 - Portador de Necessidades Especiais? </b></div>
+                    <br>
+                    <div class="span2"><b><?= ($data['deficiency'] != 'Não') ? '☑' : '☐' ?></b> Sim</div>
+                    <div class="span2"><b><?= ($data['deficiency'] == 'Não') ? '☑' : '☐' ?></b> Não</div>
+                    <div class="span8" style="margin-bottom:8px;"><b>Tipo: </b>
+                        <span><?= ($data['deficiency'] != 'Não') ? $data['deficiency'] : ''; ?></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span12"><b>23 - Participa do Programa Bolsa Família? </b></div>
+                    <!-- <br><span class="bf_participator"><?= $data['bf_participator'] ?></span> -->
+                    <div class="span4"><b><?= ($data['bf_participator'] == 'Sim') ? '☑' : '☐' ?></b> Bolsa Família</div>
+                    <div class="span4"><b>☐</b> PETI</div>
+                    <div class="span4"><b>☐</b> Pro Jovem</div>
+                    <br>
+                    <div class="span12 margin-15"><b>Outro: </b>____________________________________________________</div>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span10"><b>24 - Utiliza transporte escolar? </b>
+                        <span class="public_transport">
+                            <?= ($enrollment->public_transport == '0') ? 'Não' : 'Sim' ?>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span10"><b>25 - Restrição alimentar ou alergia a: </b>
+                        <?php
+                        $result = '';
+
+                        if ($data['celiac'] == '1') {
+                            $result .= 'Doença celíaca';
+                        }
+
+                        if ($data['diabetes'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Diabetes';
+                        }
+
+                        if ($data['hypertension'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Hipertensão';
+                        }
+
+                        if ($data['iron_deficiency_anemia'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Anemia ferropriva';
+                        }
+
+                        if ($data['sickle_cell_anemia'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Anemia falciforme';
+                        }
+
+                        if ($data['lactose_intolerance'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Intolerância à lactose';
+                        }
+
+                        if ($data['malnutrition'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Desnutrição';
+                        }
+
+                        if ($data['obesity'] == '1') {
+                            $result .= ($result ? ', ' : '') . 'Obesidade';
+                        }
+
+                        if (!empty($data['others'])) {
+                            $result .= ($result ? ', ' : '') . $data['others'];
+                        }
+
+                        echo $result;
+                        ?>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span9"><b>26 - Portador de algum tipo de transtorno? </b>
+                        <br>
+                        <div class="padding-5"><b><?= ($data['tdah'] == '1') ? '☑' : '☐' ?></b> Transtorno do déficit de atenção com hiperatividade (TDAH)</div>
+                        <div class="padding-5"><b><?= ($data['depressao'] == '1') ? '☑' : '☐' ?></b> Transtorno depressivo (depressão)</div>
+                        <div class="padding-5"><b><?= ($data['tab'] == '1') ? '☑' : '☐' ?></b> Transtorno bipolar (TAB)</div>
+                        <div class="padding-5"><b><?= ($data['toc'] == '1') ? '☑' : '☐' ?></b> Transtorno obsessivo compulsivo (TOC)</div>
+                        <div class="padding-5"><b><?= ($data['tag'] == '1') ? '☑' : '☐' ?></b> Transtorno de ansiedade generalizada (TAG)</div>
+                        <div class="padding-5"><b><?= ($data['tod'] == '1') ? '☑' : '☐' ?></b> Distúrbio desafiador e de oposição (TOD)</div>
+                        <div class="padding-5"><b><?= ($data['tcne'] == '1') ? '☑' : '☐' ?></b> Transtorno de conduta não especificado</div>
+                        <div class="padding-5"><b>Outros transtornos de conduta: </b><?= ($data['disorder_others']) ?></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="span12"><b>27 - Autorização do Termo de Consentimento da Imagem? </b></div>
+                    <br>
+                    <div class="span2"><b><?= ($data['consent_form'] == '1') ? '☑' : '☐' ?></b> Sim</div>
+                    <div class="span2"><b><?= ($data['consent_form'] == '0') ? '☑' : '☐' ?></b> Não</div>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
-
 <style>
+    .table-bordered {
+        margin: 0px;
+    }
+
     .container-report {
         width: 980px;
         margin: auto;
@@ -497,7 +514,6 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
 
     .table-border {
         width: 100%;
-        page-break-inside: auto
     }
 
     @media screen {
@@ -523,6 +539,21 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
     }
 
     @media print {
+
+        #head {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+        }
+        .table-bordered {
+            margin: 0 0 20px;
+        }
+
+        #no-break {
+            page-break-inside: avoid;
+        }
+
         .pageA4V {
             width: 960px;
             height: 1200px;
@@ -588,10 +619,6 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         .blue-background {
             --webkit-print-color-adjust: exact;
             background-color: #C6D9F1 !important;
-        }
-
-        #body-students-file-form {
-            page-break-after: always;
         }
 
         .titleBig {

@@ -413,18 +413,18 @@ class ClassroomValidation extends Register
     }
 
     //campo 39
-    function isValidProfessionalEducation($professionalEducation, $stage)
+    function isValidProfessionalEducation($modality, $professionalEducation, $stage)
     {
-        $emptyProfessionalEducation = $this->isEmpty($professionalEducation);
+        // $emptyProfessionalEducation = $this->isEmpty($professionalEducation);
 
-        if (strlen($professionalEducation) > 8) {
-            return array('status' => false, 'erro' => 'O campo deve ter no maximo 8 caracteres');
-        }
+        // if (strlen($professionalEducation) > 8) {
+        //     return array('status' => false, 'erro' => 'O campo deve ter no maximo 8 caracteres');
+        // }
 
-        if ($emptyProfessionalEducation['status'] && in_array($stage, array(30, 31, 32, 33, 34, 39, 40, 64, 74))) {
-            return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo deve ser preenchido quando a etapa for 30, 31, 32, 33, 34, 39, 40, 64 ou 74'));
-        }
-        if (!$emptyProfessionalEducation['status'] && !in_array($stage, array(30, 31, 32, 33, 34, 39, 40, 64, 74))) {
+        // if ($emptyProfessionalEducation['status'] && in_array($stage, array(30, 31, 32, 33, 34, 39, 40, 64, 74))) {
+        //     return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo deve ser preenchido quando a etapa for 30, 31, 32, 33, 34, 39, 40, 64 ou 74'));
+        // }
+        if ($modality == 4 && !in_array($stage, array(30, 31, 32, 33, 34, 39, 40, 73, 74, 64, 67, 68))) {
             return array('status' => false, 'erro' => $this->replaceCodeModalities('O campo nao pode ser preenchido quando a etapa for 30, 31, 32, 33, 34, 39, 40, 64 ou 74'));
         }
 

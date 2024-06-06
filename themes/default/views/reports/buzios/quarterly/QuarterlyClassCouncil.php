@@ -8,14 +8,23 @@ $cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initializa
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 $turno =  $classroom[0]['turno'];
-if ($turno == 'M') {
-    $turno = "Matutino";
-}else if ($turno == 'T') {
-    $turno = "Vesperitino";
-}else if ($turno == 'N') {
-    $turno = "Noturno";
-}else if ($turno == '' || $turno == null) {
-    $turno = "___________";
+switch ($turno) {
+    case 'M':
+        $turno = "Matutino";
+        break;
+    case 'T':
+        $turno = "Vesperitino";
+        break;
+    case 'N':
+        $turno = "Noturno";
+        break;
+    case 'I':
+        $turno = "Integral";
+        break;
+    case $turno == '' || $turno == null:
+        $turno = "___________";
+        break;
+    default:
 }
 ?>
 <?php if (!empty($classroom)) { ?>
@@ -34,7 +43,7 @@ if ($turno == 'M') {
     <p style="font-size: 19px;">Aos <?php echo $count_days?> dias do mês de <?php echo $mounth?> de
     <?php echo $year?>, às <?php echo $hour?>, realizou-se a
     reunião de Conselho de Classe referente ao <br> <?php echo $quarterly?> Trimestre,
-        <?php echo $classroom[0]['school_name']?>, do(a) <?php echo $classroom[0]['classroom_name']?>, do turno <?php echo $turno?>, presidido por _____________________________________________&nbsp,&nbsp_____________________
+        <?php echo $classroom[0]['school_name']?>, do(a) <?php echo $classroom[0]['classroom_name']?>, do Turno <?php echo $turno?>, presidido por _____________________________________________&nbsp,&nbsp_____________________
         desta Unidade Escolar</p>
 
     <div class="container-box global-analysis">
@@ -94,7 +103,6 @@ if ($turno == 'M') {
                     <th colspan="2" scope="col">Área Cognitiva (AC)</th>
                     <th colspan="2" scope="col">Área Socioafetiva (AS)</th>
                     <th rowspan="2" scope="col">Movimentação do Aluno</th>
-                    <th rowspan="2" scope="col">Observações</th>
                 </tr>
                 <tr>
                     <th scope="col"><span class="vertical-head">Destaque</span></th>
@@ -146,11 +154,7 @@ if ($turno == 'M') {
                             }else {
                                 echo '';
                             }
-                            ?>
-                        </td>
-                        <td style="text-align: center;">
-                            <?php
-                                echo $c['observation'];
+                            echo $c['observation'];
                             ?>
                         </td>
                     </tr>

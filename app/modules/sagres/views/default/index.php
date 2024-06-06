@@ -71,7 +71,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				<label for="semMovimentacao" style="vertical-align: middle;">Sem movimentação</label>
 			</div>
 			<div style="display: flex;align-items: center, margin: 3px 5px 0 0;">
-				<input type="checkbox" name="generateWithoutCPF" value="1" id="generateWithoutCPF" style="margin: 3px 5px 0 0;">
+				<input type="checkbox" name="generateWithoutCPF" value="1" id="generateWithoutCPF" style="margin: 3px 5px 0 0;" checked>
 				<label for="generateWithoutCPF" style="vertical-align: middle;">Gerar arquivo excluindo alunos sem CPF</label>
 			</div>
 		</div>
@@ -151,7 +151,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	let checkboxWithoutCPF = document.getElementById("generateWithoutCPF"); 
 	let checkboxValue = false;
 	let checkboxValueSem = false;
-	let checkboxWithoutCPFValue = false;
+	let checkboxWithoutCPFValue = true;
 
 	function updateExportLink() {
 		const month = parseInt(selectedValue, 10);

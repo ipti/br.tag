@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://ohp31advqjuq"
+
+[deps]
+
+files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Matemática. mas sim código de identificação..translation"]
+
+source_file="res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Matemática.csv"
+dest_files=["res://OneDrive - Instituto de Pesquisas em Tecnologia e Inovação/Documentos/GitHub/br.tag/app/extensions/bncc-import/Matemática. mas sim código de identificação..translation"]
+
+[params]
+
+compress=true
+delimiter=0
