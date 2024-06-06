@@ -1663,9 +1663,10 @@ $form = $this->beginWidget(
                                     array(
                                         null => 'Selecione a localização',
                                         7 => 'Não reside em área de localização diferenciada',
-                                        3 => 'Área onde se localiza comunidade remanescente de quilombos',
+                                        1 => 'Área de assentamento',
                                         2 => 'Terra indígena',
-                                        1 => 'Área de assentamento'
+                                        3 => 'Comunidade quilombola',
+                                        8 => 'Área onde se localizam povos e comunidades tradicionais'
                                     ),
                                     array("class" => "select-search-on t-field-select__input select2-container")
                                 ); ?>
@@ -2153,6 +2154,9 @@ $form = $this->beginWidget(
                                                             case "11":
                                                                 echo "<label class='t-badge-critical'>Falecido</label>";
                                                                 break;
+                                                            case "12":
+                                                                echo "<label class='t-badge-success'>Avançado</label>";
+                                                                break;
                                                             default:
                                                                 echo "";
                                                         }
@@ -2290,9 +2294,13 @@ $form = $this->beginWidget(
                                                 </div>
                                                 <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
                                                     <div class="row">
-                                                        <a href='#' id="delete-enrollment" class="t-link-button--warning"
-                                                            enrollment="<?= $me->id ?>">Cancelar
-                                                            Matrícula</a>
+                                                        <a
+                                                            href='#'
+                                                            id="delete-enrollment"
+                                                            class="t-link-button--warning"
+                                                            enrollment="<?= $me->id ?>"
+                                                            >Excluir Matrícula
+                                                        </a>
                                                     </div>
                                                 <?php } ?>
                                             </div>
