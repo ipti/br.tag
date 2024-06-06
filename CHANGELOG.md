@@ -1,3 +1,6 @@
+## [Versão 3.81.155]
+- Adicionado recuperações parciais
+
 ## [Versão 3.80.155]
 - Correção na opção da data máxima da função renderDatePickerFinal.
 
