@@ -402,8 +402,8 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = '<strong>MATRÍCULA<strong>';
             $inconsistencyModel->school = $this->getSchoolName($student['school_inep_id_fk']);
-            $inconsistencyModel->description = 'Estudante <strong>' .  $infoStudent['name'] . '</strong> com CPF <strong>' . $infoStudent['cpf'] . '</strong> está matriculado em mais de uma turma';
-            $inconsistencyModel->action = 'Remova a matrícula do estudante de uma das seguintes turmas: ';
+            $inconsistencyModel->description = 'Estudante <strong>' .  $infoStudent['name'] . '</strong> com CPF <strong>' . $infoStudent['cpf'] . '</strong> está matriculado em mais de uma turma regular ou regular e AEE';
+            $inconsistencyModel->action = 'Um aluno não deve estar matriculado simultaneamente em turmas regulares e turmas AEE';
             $inconsistencyModel->identifier = '9';
             $inconsistencyModel->idStudent = $student['student_fk'];
             $inconsistencyModel->idClass = $student['classroom_fk'];
