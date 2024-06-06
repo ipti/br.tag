@@ -378,7 +378,8 @@ class CensoController extends Controller
             $collumn["water_supply_artesian_well"],
             $collumn["water_supply_well"],
             $collumn["water_supply_river"],
-            $collumn["water_supply_inexistent"]);
+            $collumn["water_supply_inexistent"],
+            $collumn["water_supply_car"]);
         $result = $ssv->supply($water_supplys);
         if (!$result["status"]) array_push($log, array("Suprimento de Agua" => $result["erro"]));
 
@@ -449,6 +450,7 @@ class CensoController extends Controller
             $collumn["dependencies_yardzao"],
             $collumn["dependencies_vivarium"],
             $collumn["dependencies_vocational_education_workshop"],
+            $collumn["dependencies_garden_planting_agricultural"],
             $collumn["dependencies_none"]);
         $result = $ssv->supply($dependencies);
         if (!$result["status"]) array_push($log, array("Dependencias" => $result["erro"]));
@@ -458,6 +460,7 @@ class CensoController extends Controller
             $collumn["acessability_tactile_floor"],
             $collumn["acessability_doors_80cm"],
             $collumn["acessability_ramps"],
+            $collumn["acessability_light_signaling"],
             $collumn["acessability_sound_signaling"],
             $collumn["acessability_tactile_singnaling"],
             $collumn["acessability_visual_signaling"],
@@ -486,6 +489,7 @@ class CensoController extends Controller
             $collumn["equipments_toys_early"],
             $collumn["equipments_scientific_materials"],
             $collumn["equipments_equipment_amplification"],
+            $collumn["equipments_garden_planting_agricultural"],
             $collumn["equipments_musical_instruments"],
             $collumn["equipments_educational_games"],
             $collumn["equipments_material_cultural"],
@@ -493,6 +497,8 @@ class CensoController extends Controller
             $collumn["equipments_material_teachingindian"],
             $collumn["equipments_material_teachingethnic"],
             $collumn["equipments_material_teachingrural"],
+            $collumn["equipments_material_teachingquilombola"],
+            $collumn["equipments_material_teachingspecial"],
             $collumn["instruments_inexistent"]);
         $result = $ssv->atLeastOne($instruments);
         if (!$result["status"]) array_push($log, array("Instrumentos, materiais socioculturais e/ou pedagogicos em uso na escola para o desenvolvimento de atividades de ensino aprendizagem" => $result["erro"]));

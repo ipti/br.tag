@@ -98,7 +98,7 @@ class SchoolStructureValidation extends Register
             for ($i = 0; $i < ($len - 1); $i++) { //primeiros campos
                 if ($supply_locations[$i] == "1") {
                     return array("status" => false,
-                        "erro" => "Já que ultimo campo 1 não pode haver outros campos marcados como 1");
+                        "erro" => "Quando o campo de inexistência é marcado, nenhum outro deve estar.");
                 }
             }
         }

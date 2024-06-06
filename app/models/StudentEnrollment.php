@@ -81,6 +81,7 @@ class StudentEnrollment extends AltActiveRecord
     public const STATUS_CONCLUDED = "CONCLUINTE";
     public const STATUS_INDETERMINED = "INDETERMINADO";
     public const STATUS_DEATH = "OBITO";
+    public const STATUS_ADVANCED = "AVANÇADO";
 
     public $school_year;
     public $sedsp_sync;
@@ -590,6 +591,7 @@ class StudentEnrollment extends AltActiveRecord
             "9" => StudentEnrollment::STATUS_CONCLUDED,
             "10" => StudentEnrollment::STATUS_INDETERMINED,
             "11" => StudentEnrollment::STATUS_DEATH,
+            "12" => StudentEnrollment::STATUS_ADVANCED
         ];
 
         return $status;
@@ -609,6 +611,7 @@ class StudentEnrollment extends AltActiveRecord
             "9" => StudentEnrollment::STATUS_CONCLUDED,
             "10" => StudentEnrollment::STATUS_INDETERMINED,
             "11" => StudentEnrollment::STATUS_DEATH,
+            "12" => StudentEnrollment::STATUS_ADVANCED
         ];
 
         return $status[$this->status];
@@ -636,6 +639,7 @@ class StudentEnrollment extends AltActiveRecord
              StudentEnrollment::STATUS_CONCLUDED => "9" ,
              StudentEnrollment::STATUS_INDETERMINED => "10" ,
              StudentEnrollment::STATUS_DEATH => "11" ,
+             StudentEnrollment::STATUS_ADVANCED => "12"
         ];
 
         return $statusList[$status];

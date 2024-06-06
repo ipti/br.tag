@@ -183,6 +183,7 @@ class ReportsRepository
                 WHEN 9 THEN 'Concluinte'
                 WHEN 10 THEN 'Indeterminado'
                 WHEN 11 THEN 'Obito'
+                WHEN 12 THEN 'Avançado'
                 ELSE ''
                 END AS status_descricao
                 FROM
@@ -232,6 +233,7 @@ class ReportsRepository
                 WHEN 9 THEN 'Concluinte'
                 WHEN 10 THEN 'Indeterminado'
                 WHEN 11 THEN 'Obito'
+                WHEN 12 THEN 'Avançado'
                 ELSE ''
                 END AS status_descricao
                 FROM
@@ -282,6 +284,7 @@ class ReportsRepository
                 WHEN 9 THEN 'Concluinte'
                 WHEN 10 THEN 'Indeterminado'
                 WHEN 11 THEN 'Obito'
+                WHEN 12 THEN 'Avançado'
                 ELSE ''
                 END AS status_descricao
                 FROM

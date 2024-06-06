@@ -11,8 +11,7 @@ class Register60
         $students = [];
 
         foreach ($classrooms as $iclass => $classroom) {
-//            COMENTÁRIO TEMPORÁRIO PARA CONSEGUIR MIGRAR OS DADOS DE BOQUIM
-//            if (count($classroom->instructorTeachingDatas) >= 1) {
+            if (count($classroom->instructorTeachingDatas) >= 1) {
                 foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
                     if (!isset($students[$enrollment->student_fk])) {
                         $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
@@ -24,7 +23,7 @@ class Register60
                     $enrollment->school_inep_id_fk = $school->inep_id;
                     $students[$enrollment->student_fk]['enrollments'][$ienrollment][] = $enrollment->attributes;
                 }
-//            }
+            }
         }
 
         foreach ($students as $student) {
