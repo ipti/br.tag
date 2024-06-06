@@ -212,7 +212,7 @@ $(document).on("change", ".js-formula-select", function (e) {
 function createInputWeight(id, unityId, unityName, inputVal) {
     return template`
         <div class="InputWeight">
-            <label>${unityName}</label>
+            <label class="t-field-text__label--required">${unityName}</label>
             <input type="text" placeholder='Peso' data-weight-id="${id}" data-unity-id="${unityId == null ? "" : unityId}" value='${inputVal}'>
         </div>
     `
@@ -569,8 +569,12 @@ function checkValidInputs() {
     ) {
         valid = false;
         message = "A média de recuperação final não pode ser superior à de aprovação.";
+    } else if (partialRecoveryValid() == false) {
+        alert("aaa")
+        valid = false;
+        message = "Os campos de recuperação parciais são obrigatórios.";
     }
-
+    console.log(partialRecoveryValid())
     if (valid) {
         if ($(".unity").length) {
             let ucCount = 0;
@@ -670,6 +674,26 @@ function checkValidInputs() {
             .show();
         $("html, body").animate({ scrollTop: 0 }, "fast");
     }
+    return valid;
+}
+function partialRecoveryValid() {
+    let valid = true
+    $('.partial-recovery-container').each((index, partialRecoveries)=>{
+        let name =  $(partialRecoveries).find('.partial-recovery-name').val()
+        let formula =  $(partialRecoveries).find('select.js-formula-select').val()
+        let unities =  $(partialRecoveries).find('select.js-partial-recovery-unities').val()
+        let weights =  true
+
+        $(partialRecoveries).find('.InputWeight input').each((index, weight)=>{
+            if($(weight).val() ==""){
+                weights = false
+            }
+        })
+
+        if(name ==="" || formula === "" || unities === null ||  weights === false){
+            valid = false
+        }
+    })
     return valid;
 }
 
