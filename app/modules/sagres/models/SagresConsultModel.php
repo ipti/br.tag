@@ -354,20 +354,27 @@ class SagresConsultModel
         $command->bindValue(":year", $year);
         $students = $command->queryAll();
 
+        $processedStudents = [];
+
         foreach($students as $student){  
-            $this->getCountOfClassrooms($student['classroom_fk']);
             $infoStudent = $this->getStudentInfo($student['student_fk']);
-            $this->createInconsistencyModel($student, $infoStudent);
+            $count = $this->getCountOfClassrooms($student['student_fk']);
+
+            if (!in_array($student['student_fk'], $processedStudents)) {
+                $this->createInconsistencyModel($student, $infoStudent, $count);
+                $processedStudents[] = $student['student_fk'];
+            }
         }
     }
 
-    private function getCountOfClassrooms($classroom_fk) {
+    private function getCountOfClassrooms($student_fk) {
         $query = "SELECT COUNT(*) as count
-                  FROM classroom
-                  WHERE id = :classroom_fk AND complementary_activity = 0 AND aee = 0";
+                  FROM student_enrollment se
+                  JOIN classroom c ON se.classroom_fk = c.id
+                  WHERE se.student_fk = :student_fk AND c.complementary_activity = 0 AND c.school_year = 2024";
     
         $command = Yii::app()->db->createCommand($query);
-        $command->bindValue(":classroom_fk", $classroom_fk);
+        $command->bindValue(":student_fk", $student_fk);
         return $command->queryScalar();
     }
     
@@ -389,9 +396,9 @@ class SagresConsultModel
         return $command->queryScalar();
     }
     
-    public function createInconsistencyModel($student, $infoStudent) {
+    public function createInconsistencyModel($student, $infoStudent, $count) {
         
-        if($this->getCountOfClassrooms($student['classroom_fk']) >= 2){
+        if($count >= 2){
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = '<strong>MATRÍCULA<strong>';
             $inconsistencyModel->school = $this->getSchoolName($student['school_inep_id_fk']);
