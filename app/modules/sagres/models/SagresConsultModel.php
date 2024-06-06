@@ -76,7 +76,7 @@ class SagresConsultModel
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
         }
-
+        
         return $education;
     }
 
