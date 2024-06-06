@@ -516,7 +516,6 @@ class GradesController extends Controller
 
     public function actionGetGrades()
     {
-
         Yii::import("application.domain.grades.usecases.GetStudentGradesByDisciplineUsecase");
 
         $classroomId = Yii::app()->request->getPost("classroom");
@@ -533,10 +532,13 @@ class GradesController extends Controller
                 header('HTTP/1.1 500 ' . $e->getMessage());
                 echo json_encode(['valid' => false, 'message' => $e->getMessage()]);
             }
-            return;
+            Yii::app()->end();
         }
 
-        echo json_encode(['valid' => false, 'message' => 'Acesso negado']);
+        header('HTTP/1.1 403 Forbidden');
+        echo CJSON::encode(['valid' => false, 'message' => 'Usuário não possui acesso a tela de notas.']);
+
+        Yii::app()->end();
     }
 
     public function actionCalculateFinalMedia()
