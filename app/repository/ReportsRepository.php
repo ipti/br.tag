@@ -2376,16 +2376,7 @@ class ReportsRepository
             if ($schedules !== null) {
                 foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
 
-                    $query = "SELECT esm.name 
-                            FROM student_enrollment se 
-                            JOIN edcenso_stage_vs_modality esm ON esm.id = se.edcenso_stage_vs_modality_fk
-                            WHERE se.student_fk = :studentFk AND classroom_fk = :classroomFk";
-
-                    $command = Yii::app()->db->createCommand($query);
-                    $command->bindValue(":studentFk", $studentEnrollment->student_fk);
-                    $command->bindValue(":classroomFk", $studentEnrollment->classroom_fk);
-                    $classroomName = $command->queryScalar();
-
+                    $classroomName = $this->getEjaClassroomNameForReport($studentEnrollment);
                     array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "classroom" => $classroomName, "total" => count($schedules), "faults" => [], "frequency" => ""]);
                 }
                 foreach ($schedules as $schedule) {
@@ -2432,6 +2423,43 @@ class ReportsRepository
         $result["students"] = $students;
 
         return $result;
+    }
+
+    public function getEjaClassroomNameForReport($studentEnrollment) {
+        $classroomDetails = $this->getClassroomDetails($studentEnrollment->classroom_fk);
+        if($classroomDetails){
+            $classroomName = $this->getStudentEnrollmentDetails($studentEnrollment);
+        } else {
+            $classroomName = null;
+        }
+    
+        return $classroomName;
+    }
+
+    private function getClassroomDetails($classroomFk) {
+        $query = "SELECT * FROM classroom c 
+                  JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk 
+                  WHERE esvm.stage = 6 AND c.id = :id";
+    
+        $command = Yii::app()->db->createCommand($query);
+        $command->bindValue(":id", $classroomFk);
+        $classroomDetails = $command->queryRow();
+    
+        return $classroomDetails;
+    }
+    
+    private function getStudentEnrollmentDetails($studentEnrollment) {
+        $query = "SELECT esm.name 
+                  FROM student_enrollment se 
+                  JOIN edcenso_stage_vs_modality esm ON esm.id = se.edcenso_stage_vs_modality_fk
+                  WHERE se.student_fk = :studentFk AND classroom_fk = :classroomFk";
+    
+        $command = Yii::app()->db->createCommand($query);
+        $command->bindValue(":studentFk", $studentEnrollment->student_fk);
+        $command->bindValue(":classroomFk", $studentEnrollment->classroom_fk);
+        $enrollmentDetails = $command->queryScalar();
+    
+        return $enrollmentDetails;
     }
 
     /**
