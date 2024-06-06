@@ -536,7 +536,7 @@ class GradesController extends Controller
         }
 
         header('HTTP/1.1 403 Forbidden');
-        echo CJSON::encode(['valid' => false, 'message' => 'Usuário não possui acesso a tela de notas.']);
+        echo CJSON::encode(['valid' => false, 'message' => 'Professor folguista não possui acesso a tela de notas.']);
 
         Yii::app()->end();
     }
