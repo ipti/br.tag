@@ -7,7 +7,7 @@ $(document).ready(function () {
     myTeachingDataDialog = $("#teachingdata-dialog-form").dialog({
         autoOpen: false,
         height: 530,
-        width: 402,
+        width: 452,
         modal: true,
         draggable: false,
         resizable: false,
@@ -42,4 +42,4 @@ $(document).ready(function () {
 $("#newDiscipline").click(function () {
     $("#teachingdata-dialog-form select").val('').trigger('change');
     $("#teachingdata-dialog-form").dialog('open');
-});    
+});
