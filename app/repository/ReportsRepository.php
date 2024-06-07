@@ -2376,8 +2376,8 @@ class ReportsRepository
             if ($schedules !== null) {
                 foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
 
-                    $classroomName = $this->getEjaClassroomNameForReport($studentEnrollment);
-                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "classroom" => $classroomName, "total" => count($schedules), "faults" => [], "frequency" => ""]);
+                    $classroomName = $this->getEjaClassroomNameForReport($studentEnrollment, Yii::app()->user->year);
+                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "infoClassroom" => $classroomName, "total" => count($schedules), "faults" => [], "frequency" => ""]);
                 }
                 foreach ($schedules as $schedule) {
                     foreach ($schedule->classFaults as $classFault) {
@@ -2425,8 +2425,8 @@ class ReportsRepository
         return $result;
     }
 
-    public function getEjaClassroomNameForReport($studentEnrollment) {
-        $classroomDetails = $this->getClassroomDetails($studentEnrollment->classroom_fk);
+    public function getEjaClassroomNameForReport($studentEnrollment, $year) {
+        $classroomDetails = $this->getClassroomDetails($studentEnrollment->classroom_fk, $year);
         if($classroomDetails){
             $classroomName = $this->getStudentEnrollmentDetails($studentEnrollment);
         } else {
@@ -2436,13 +2436,14 @@ class ReportsRepository
         return $classroomName;
     }
 
-    private function getClassroomDetails($classroomFk) {
+    private function getClassroomDetails($classroomFk, $year) {
         $query = "SELECT * FROM classroom c 
                   JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk 
-                  WHERE c.id = :id and esvm.stage = 6 OR (esvm.name LIKE '%multi%' OR esvm.name LIKE '%Multi%')";
+                  WHERE c.id = :id and c.school_year = :year and (esvm.stage = 6 OR esvm.name LIKE '%multi%' OR esvm.name LIKE '%Multi%')";
     
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":id", $classroomFk);
+        $command->bindValue(":year", $year);
         $classroomDetails = $command->queryRow();
     
         return $classroomDetails;
