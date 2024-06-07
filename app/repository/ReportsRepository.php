@@ -1396,6 +1396,37 @@ class ReportsRepository
 
     }
 
+
+    /**
+     * Buscar dados do certificado de alunos específicos
+     */
+    public function getStudentCertificate(): array
+    {
+        $sql = "SELECT *, d.name as nome_aluno, d.inep_id as inep_id
+                    FROM student_enrollment se
+                    JOIN classroom b ON(se.`classroom_fk`=b.id)
+                    JOIN student_documents_and_address c ON(se.`student_fk`=c.`id`)
+                    JOIN student_identification d ON(c.`id`=d.`id`)
+                    WHERE b.`school_inep_fk` = :school_inep_fk AND
+                          b.school_year = :school_year AND
+                          ((`se`.`status` IN (1, 6, 7, 8, 9, 10) or `se`.`status` is null)) AND
+                          (received_cc = 0 OR received_address = 0 OR received_photo = 0
+                    OR received_nis = 0 OR received_responsable_rg = 0 OR received_responsable_cpf = 0)";
+
+        $result = Yii::app()->db->createCommand($sql)
+            ->bindParam(':school_inep_fk', $this->currentSchool)
+            ->bindParam(':school_year', $this->currentYear)
+            ->queryAll();
+
+        return array('report' => $result, );
+    }
+
+
+
+
+
+
+
     /**
      * Lista de Alunos
      */

@@ -31,7 +31,7 @@ class ReportsController extends Controller
                     'NumberOfStudentsEnrolledPerPeriodPerSchool', 'NumberOfStudentsEnrolledPerPeriodAllSchools',
                     'AllSchoolsReportOfStudentsBenefitingFromTheBF','AllClassroomsReportOfStudentsBenefitingFromTheBF',
                     'ReportOfStudentsBenefitingFromTheBFPerClassroom', 'TeachersByStage', 'TeachersBySchool', 'StatisticalData',
-                    'NumberOfClassesPerSchool', 'NumberOfClassesPerSchool', 'StudentCpfRgNisPerClassroom','FoodMenu'),
+                    'NumberOfClassesPerSchool', 'NumberOfClassesPerSchool', 'StudentCpfRgNisPerClassroom','FoodMenu', 'StudentCertificate'),
                 'users' => array('@'),
             ),
             array('deny', // deny all users
@@ -292,6 +292,13 @@ class ReportsController extends Controller
         $repository = new ReportsRepository;
         $query = $repository->getStudentPendingDocument();
         $this->render('StudentPendingDocument', $query);
+    }
+
+    public function actionStudentCertificate()
+    {
+        $repository = new ReportsRepository;
+        $query = $repository->getStudentCertificate();
+        $this->render('StudentCertificate', $query);
     }
 
     public function actionStudentPerClassroom($id)
