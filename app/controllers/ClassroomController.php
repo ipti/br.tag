@@ -1101,4 +1101,24 @@ class ClassroomController extends Controller
         }
         echo json_encode($result);
     }
+
+    public function getInstructorPerClassroom()
+    {
+        $classroomId = Yii::app()->request->getParam("id");
+        $instructors = [];
+
+        $teachingData = InstructorTeachingData::model()->findAllByAttributes([
+            'classroom_id_fk' => $classroomId
+        ]);
+
+        foreach ($teachingData as $teacher) {
+            $instructor = InstructorIdentification::model()->findByPk($teacher->instructor_fk);
+            if ($instructor !== null) {
+                $instructors[] = $instructor;
+            }
+        }
+
+        return $instructors;
+    }
+
 }
