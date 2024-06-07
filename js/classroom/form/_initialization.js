@@ -28,6 +28,7 @@ $(document).ready(function() {
     } else {
         $("#diff_location_container").hide();
     }
+
 });
 
 //Ao clicar ENTER no formulário adicionar aula
@@ -36,6 +37,13 @@ $('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypres
         e.preventDefault();
     }
 });
+
+$("#instructorRelever").hide();
+$('#Role').change(function() {
+    instructorPerClassroom();
+});
+
+instructorPerClassroom();
 
 $('.heading-buttons').css('width', $('#content').width());
 

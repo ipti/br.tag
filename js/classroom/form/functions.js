@@ -464,3 +464,13 @@ $(document).on("click", ".sync-enrollments", function (e) {
         $(".loading-sync").hide();
     })
 });
+
+var instructorPerClassroom = function () {
+    var role = $('#Role').val();
+
+    if (role === '9') {
+        $("#instructorRelever").show();
+    } else {
+        $("#instructorRelever").hide();
+    }
+}

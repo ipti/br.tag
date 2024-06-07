@@ -931,14 +931,6 @@ $form = $this->beginWidget(
                     ?>
                 </div>
                 <div class="control-group">
-                    <?php echo CHtml::label(Yii::t("default", "Professor Regente"), "Instructor", array('class' => 't-field-text__label')) ?>
-                    <?php
-                    $instructors = $this->getInstructorPerClassroom();
-                    $data = CHtml::listData($instructors, 'id', 'name');
-                    echo CHtml::DropDownList("Instructors", '', $data, array('prompt' => 'Selecione o professor regente', 'class' => 'select-search-on control-input'));
-                    ?>
-                </div>
-                <div class="control-group">
                     <?php echo CHtml::label(Yii::t("default", "Contract Type"), "ContractType", array('class' => 't-field-text__label')) ?>
                     <?php
                     echo CHtml::DropDownList("ContractType", '', array(
@@ -948,6 +940,14 @@ $form = $this->beginWidget(
                         3 => 'Terceirizado',
                         4 => 'CLT',
                     ), array('class' => 'select-search-off'));
+                    ?>
+                </div>
+                <div class="control-group" id="instructorRelever">
+                    <?php echo CHtml::label(Yii::t("default", "Professor Regente"), "Instructor", array('class' => 't-field-text__label')) ?>
+                    <?php
+                    $instructors = $this->getInstructorPerClassroom();
+                    $data = CHtml::listData($instructors, 'id', 'name');
+                    echo CHtml::DropDownList("Instructors", '', $data, array('prompt' => 'Selecione o professor regente', 'class' => 'select-search-on control-input'));
                     ?>
                 </div>
                 <div class="control-group regent-teacher-container" style="display:none">
