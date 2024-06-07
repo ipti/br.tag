@@ -2439,7 +2439,7 @@ class ReportsRepository
     private function getClassroomDetails($classroomFk) {
         $query = "SELECT * FROM classroom c 
                   JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk 
-                  WHERE esvm.stage = 6 AND c.id = :id";
+                  WHERE c.id = :id and esvm.stage = 6 OR (esvm.name LIKE '%multi%' OR esvm.name LIKE '%Multi%')";
     
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":id", $classroomFk);
