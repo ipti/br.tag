@@ -129,6 +129,10 @@
     }
 }
 
+.t-button-certificate{
+    gap: 5px;
+}
+
 .t-button-tertiary {
     @extend .t-button;
     background-color: $colorsBaseInkLighterActive;

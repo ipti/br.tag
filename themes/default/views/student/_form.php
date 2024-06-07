@@ -1700,7 +1700,7 @@ $form = $this->beginWidget(
                 -->
                 <div class="tab-pane" id="student-enrollment">
                     <div class="row">
-                        <div class="column clearleft is-two-fifths">
+                        <div class="column clearleft is-two-sixs">
                             <div class="t-buttons-container">
                                 <?php
                                 if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
@@ -1732,6 +1732,11 @@ $form = $this->beginWidget(
                                     array('id' => $modelStudentIdentification->id)
                                 ) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
                                     ?>
+
+                                <a class="t-button-secondary t-icon-printer t-button-certificate" id="transfer-student" href="
+                                <?php echo Yii::app()->createUrl('reports/studentpendingdocument') ?>
+                                " target="_blank" rel="noopener"> Certificado de Conclusão</a>
+
                             </div>
                         </div>
                     </div>
