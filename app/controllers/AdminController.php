@@ -80,14 +80,40 @@ class AdminController extends Controller
     {
         $pathFile = "./app/export/InfoTagCSV/students_" . Yii::app()->user->year . ".csv";
 
-        $data = array(
-            array('Nome', 'Email', 'Idade'),
-            array('1', 'Test 1', 'test1@test.com'),
-            array('2', 'Test 2', 'test2@test.com'),
-            array('3', 'Test 3', 'test3@test.com'),
-        );
+        $sql = "select 
+            if (si.inep_id is null, '', si.inep_id) inep_aluno, 
+            if (si.name is null, '', si.name) nome_aluno, 
+            if (si.birthday is null, '', si.birthday) data_nascimento, 
+            if (si.gov_id is null, '', si.gov_id) cpf, 
+            if (si.sex is null, '', si.sex) sexo,
+            if (concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement) is null 
+                or trim(concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement)) = ', , ', 
+                '', 
+                concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement)) endereco,
+            if (sdaa.neighborhood is null, '', sdaa.neighborhood) bairro,
+            if (sdaa.cep is null, '', sdaa.cep) localizacao,
+            if (se.public_transport is null, '', se.public_transport) usa_transporte,
+            if (sdaa.nis IS NULL OR TRIM(sdaa.nis ) = '', 0, 1) as recebe_bolsa_familia,
+            if (si2.name is null, '', si2.name) nome_da_escola,
+            if (esvm.alias is null, '', esvm.alias) etapa,
+            if (c.name is null, '', c.name) turma
+        from student_enrollment se 
+            left join student_identification si 
+            on (se.student_fk = si.id)
+            left join student_documents_and_address sdaa 
+            on (se.student_fk = sdaa.student_fk)
+            left join classroom c 
+            on (se.classroom_fk = c.id)
+            left join school_identification si2 
+            on (se.school_inep_id_fk = si2.inep_id)
+            left join edcenso_stage_vs_modality esvm 
+            on (se.edcenso_stage_vs_modality_fk = esvm.id)
+        where 1=1
+        and c.school_year = " . Yii::app()->user->year;
 
-        $this->exportToCSV($data, $pathFile);
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $this->exportToCSV($result, $pathFile);
     }
 
     public function actionExportGrades()
@@ -118,7 +144,7 @@ class AdminController extends Controller
         $this->exportToCSV($data, $pathFile);
     }
 
-    private function exportToCSV($data, $path)
+    private function exportToCSV($result, $path)
     {
         try {
             // Start the output buffer.
@@ -130,6 +156,25 @@ class AdminController extends Controller
 
             // Clean up output buffer before writing anything to CSV file.
             ob_end_clean();
+
+            // Inicializando o array
+            $data = array();
+
+            // Verificando se a consulta retornou algum resultado
+            if ($result->num_rows > 0) {
+                // Adicionando os nomes das colunas como a primeira linha do array
+                $fields = $result->fetch_fields();
+                $colunas = array();
+                foreach ($fields as $field) {
+                    $colunas[] = $field->name;
+                }
+                $data[] = $colunas;
+
+                // Iterando sobre os resultados e adicionando-os ao array
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+            }
 
             // Create a file pointer with PHP.
             $output = fopen($path, 'w');
@@ -150,6 +195,7 @@ class AdminController extends Controller
             header("Content-Length: " . filesize($path));
             header("Connection: close");
             readfile($path);
+            $this->redirect(array('exports'));
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Error na exportação: ' . $e->getMessage()));
             $this->redirect(array('exports'));
