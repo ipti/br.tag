@@ -1,7 +1,10 @@
+## [Versão 3.80.162]
+- Adicionando o código na exibição da tabela de professores
+
 ## [Versão 3.80.161]
 - Refatoradas variáveis para utilizar o post, através de uma função do Yii.
 - Modificada a ordem dos parâmetros da função getSchedulesFromMajorStage.
-- 
+-
 ## [Versão 3.80.160]
 - Correção na opção da data máxima da função renderDatePickerFinal.
 
