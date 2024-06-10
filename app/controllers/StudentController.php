@@ -128,14 +128,15 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
     {
         $requestData = $_POST;
 
-        $columns[0] = 'name';
-        $columns[1] = 'filiation_1';
-        $columns[2] = 'birthday';
-        $columns[3] = 'cpf';
-        $columns[4] = 'inep_id';
-        $columns[5] = 'actions';
+        $columns[0] = 't.id';
+        $columns[1] = 'name';
+        $columns[2] = 'filiation_1';
+        $columns[3] = 'birthday';
+        $columns[4] = 'cpf';
+        $columns[5] = 'inep_id';
+        $columns[6] = 'actions';
         if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
-            $columns[5] = 'sedsp_sync';
+            $columns[6] = 'sedsp_sync';
         }
 
         $criteria = new CDbCriteria();
@@ -143,7 +144,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
         // Filtrar a pesquisa
         if (!empty($requestData['search']['value'])) {
-            $criteria->condition = "name LIKE '%" . $requestData['search']['value'] . "%' OR " .
+            $criteria->condition = "t.id LIKE '%" . $requestData['search']['value'] . "%' OR " .
+                "name LIKE '%" . $requestData['search']['value'] . "%' OR " .
                 "filiation_1 LIKE '%" . $requestData['search']['value'] . "%' OR " .
                 "birthday LIKE '%" . $requestData['search']['value'] . "%' OR " .
                 "documentsFk.cpf LIKE '%" . $requestData['search']['value'] . "%' OR " .
@@ -174,6 +176,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $data = array();
         foreach ($students as $student) {
             $nestedData = array();
+            $nestedData[] = $student->id;
             $nestedData[] = "<a href='/?r=student/update&id=" . $student->id . "' cursor: pointer;>" . $student->name . "</a>";
             $nestedData[] = $student->filiation_1;
             $nestedData[] = $student->birthday;
