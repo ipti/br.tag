@@ -176,13 +176,14 @@ class CalculateNumericGradeUsecase
 
         foreach($gradeRecoveryAndUnities["unities"] as $unity){
             array_push($grades, $gradeResult['grade_'.$unity]);
-
         }
-        $gradePartialRecovery = $this->getStudentGradesPartialRcoveryFromUnity(
+
+        $gradePartialRecovery = $this->getStudentGradesPartialRecoveryFromUnity(
             $enrollment->id,
             $disciplineId,
             $gradeRecoveryAndUnities["partialRecovery"]->id
         );
+
         $gradePartialRecovery = array_column($gradePartialRecovery, "grade");
         $gradesArray = array_merge($gradePartialRecovery, $grades);
         $isRecovery = true;
@@ -290,7 +291,7 @@ class CalculateNumericGradeUsecase
         );
 
     }
-    private function getStudentGradesPartialRcoveryFromUnity($enrollmentId, $discipline, $gradePartialRecoveryFk)
+    private function getStudentGradesPartialRecoveryFromUnity($enrollmentId, $discipline, $gradePartialRecoveryFk)
     {
 
         $gradesIds = array_column(Yii::app()->db->createCommand(

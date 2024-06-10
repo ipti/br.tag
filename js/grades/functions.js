@@ -242,9 +242,10 @@ function GradeTableBuilder(data) {
         return unitesGrade;
     }
     function buildPartialRecovery(studentPartialRecoveries){
+        const grade = studentPartialRecoveries.grade.grade === null ? "" : studentPartialRecoveries.grade.grade
         return  template`
             <td class="grade-td">
-                <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;" value="${studentPartialRecoveries.grade.grade}" />
+                <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;" value="${grade}" />
             </td>`;
 
     }
