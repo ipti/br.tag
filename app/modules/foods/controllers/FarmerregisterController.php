@@ -33,6 +33,7 @@ class FarmerRegisterController extends Controller
                     'index',
                     'view',
                     'activateFarmers',
+                    'toggleFarmerStatus',
                     'createFarmerRegister',
                     'updateFarmerRegister',
                     'getFarmerRegister',
@@ -316,11 +317,27 @@ class FarmerRegisterController extends Controller
 
     public function actionActivateFarmers()
     {
-        $dataProvider = new CActiveDataProvider('FarmerRegister');
+        $farmers = FarmerRegister::model()->findAll();
         $this->render('activateFarmers', array(
-            'dataProvider' => $dataProvider
+            'farmers' => $farmers
         ));
     }
+    public function actionToggleFarmerStatus()
+    {
+        $id = Yii::app()->request->getPost('id');
+        $status = Yii::app()->request->getPost('status');
+        $farmer = FarmerRegister::model()->findByPk($id);
+
+        $farmer->status = $status == "Ativo" ? "Inativo" : "Ativo";
+
+        if ($farmer->save()) {
+            $message = $status === "Ativo" ? 'Agricutor ativado com sucesso!' : 'Agricutor inativado com sucesso!';
+            Yii::app()->user->setFlash('success', Yii::t('default', $message));
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
+        }
+    }
+
 
     public function actionAdmin()
     {

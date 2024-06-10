@@ -6,16 +6,15 @@ $this->breadcrumbs=array(
 	'Farmer Registers',
 );
 
-$this->menu=array(
-	array('label'=>'Create FarmerRegister', 'url'=>array('create')),
-	array('label'=>'Manage FarmerRegister', 'url'=>array('admin')),
-);
+$baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseScriptUrl . '/farmer/activateFarmers.js', CClientScript::POS_END);
 
 $this->setPageTitle('TAG - Agricultores');
 $title = "Agricultores";
 ?>
-
-
 
 <div id="mainPage" class="main">
     <div class="row">
@@ -23,8 +22,7 @@ $title = "Agricultores";
     </div>
     <div class="row">
         <div class="t-buttons-container">
-            <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('foods/farmerregister/create')?>">Adicionar Agricultor</a>
-            <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/farmerregister/index&showAll=1')?>">Exibir Inativos</a>
+            <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/farmerregister/index')?>">Agricultores</a>
         </div>
     </div>
 
@@ -41,39 +39,34 @@ $title = "Agricultores";
         <br/>
     <?php endif ?>
 
-    <div class="tag-inner">
-        <div class="widget clearmargin">
-            <div class="widget-body">
-                <?php $this->widget('zii.widgets.grid.CGridView', array(
-                    'id'=>'farmer-register-grid',
-                    'dataProvider' => $dataProvider,
-                    'enablePagination' => false,
-                    'enableSorting' => false,
-                    'itemsCssClass' => 'js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
-                    'columns'=>array(
-                        'id',
-                        'name',
-                        'cpf',
-                        'status',
-                        array(
-                            'header' => 'Ações',
-                            'class' => 'CButtonColumn',
-                            'template' => '{activate}',
-                            'buttons' => array(
-                                'activate' => array(
-                                    'label' => 'Activate',
-                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/' . ($data->status == "Inativo" ? "disable" : "active") . 'User.svg',
-                                    'options' => array(
-                                        'style' => 'cursor: pointer;',
-                                        'class' => 'stageDelete',
-                                    ),
-                                )
-                            ),
-                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
-                        ),
-                    ),
-                )); ?>
-            </div>
+    <div class="widget-body">
+        <div class="grid-view">
+            <table class="js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">CPF</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" style="text-align: center">Ativar/Inativar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($farmers as $farmer) {?>
+                        <tr>
+                            <td class="link-update-grid-view" tabindex="0">
+                                <p style="cursor: pointer;"><?=$farmer->name?></p>
+                            </td>
+                            <td><?=$farmer->cpf?></td>
+                            <td><?=$farmer->status?></td>
+                            <td style="text-align:center;">
+                                <a id="js-change-farmer-status" data-farmerId="<?= $farmer->id?>" data-farmerStatus="<?= $farmer->status?>" style="cursor: pointer;">
+                                    <img src="/themes/default/img/<?php echo $farmer->status == "Inativo" ? "disable" : "active"?>User.svg" alt="Link">
+                                </a>
+                            </td>
+                        </tr>
+                    <?php }?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
