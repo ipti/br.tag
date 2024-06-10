@@ -561,7 +561,7 @@ $form = $this->beginWidget(
                             foreach ($instructors as $instructor) {
                                 $teachingDataNames[$instructor->id] = $instructor->name;
                             }
-                            $roleName = [null, "Docente", "Auxiliar/assistente educacional", "Profissional/monitor de atividade complementar", "Tradutor e Intérprete de Libras", "EAD - Docente Titular", "EAD - Docente Tutor", "Guia-Intérprete", "Profissional de apoio escolar para aluno(a)s com deficiência"];
+                            $roleName = [null, "Docente", "Auxiliar/assistente educacional", "Profissional/monitor de atividade complementar", "Tradutor e Intérprete de Libras", "EAD - Docente Titular", "EAD - Docente Tutor", "Guia-Intérprete", "Profissional de apoio escolar para aluno(a)s com deficiência", "Docente Folguista"];
                             $contractTypeName = [null, "Concursado/Efetivo", "Temporário", "Terceirizado", "CLT"];
                             $i = 0;
                             foreach ($modelTeachingData as $key => $model) {
@@ -947,7 +947,7 @@ $form = $this->beginWidget(
                     <?php
                     $instructors = $this->getInstructorPerClassroom();
                     $data = CHtml::listData($instructors, 'id', 'name');
-                    echo CHtml::DropDownList("Instructors", '', $data, array('prompt' => 'Selecione o professor regente', 'class' => 'select-search-on control-input'));
+                    echo CHtml::DropDownList("RegentFk", '', $data, array('prompt' => 'Selecione o professor regente', 'class' => 'select-search-on control-input'));
                     ?>
                 </div>
                 <div class="control-group regent-teacher-container" style="display:none">

@@ -365,6 +365,8 @@ class CourseplanController extends Controller
     {
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
         {
+            $this->getInstructorRegent();
+            // Verificar condição para entrar tbm do professor titular
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
                 'criteria' => array(
                     'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id,
@@ -457,6 +459,27 @@ class CourseplanController extends Controller
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
+    }
+
+    public function getInstructorRegent()
+    {
+        $usersFk = Yii::app()->user->loginInfos->id;
+        $instructor = InstructorIdentification::model()->findByAttributes([
+            'users_fk' => $usersFk
+        ]);
+        $instructorID = $instructor->id;
+
+        $teachingData = InstructorTeachingData::model()->findAllByAttributes([
+            'instructor_fk' => $instructorID
+        ]);
+        foreach ($teachingData as $teacher)
+        {
+            $role = $teacher->role;
+            $teacherRegent = $teacher->instructor_regent_fk;
+
+            if ($role === '9'){return $teacherRegent;}
+        }
+
     }
 
 }
