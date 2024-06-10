@@ -63,6 +63,13 @@
                     $columns = [];
                     array_push($columns,
                         array(
+                            'name' => 'id',
+                            'type' => 'raw',
+                            'value' => '$data->id',
+                        )
+                    );
+                    array_push($columns,
+                        array(
                             'name' => 'name',
                             'type' => 'raw',
                             'value' => 'CHtml::link($data->name,Yii::app()->createUrl("classroom/update",array("id"=>$data->id)))',
