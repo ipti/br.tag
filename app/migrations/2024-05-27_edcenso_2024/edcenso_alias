@@ -8,17 +8,17 @@ WHERE year = 2023;
 update edcenso_alias set corder = (corder + 1) where corder >= 22 and register = 10 and year = 2024;
 
 insert into edcenso_alias values
-(10, 22, 'water_supply_car', 'Carro-pipa', null, null, 2024);
+(10, 22, 'water_supply_car', 'Carro-pipa', 0, null, 2024);
 
 update edcenso_alias set corder = (corder + 1) where corder >= 78 and register = 10 and year = 2024;
 
 insert into edcenso_alias values
-(10, 78, 'dependencies_garden_planting_agricultural', 'Área de horta, plantio e/ou produção agrícola', null, null, 2024);
+(10, 78, 'dependencies_garden_planting_agricultural', 'Área de horta, plantio e/ou produção agrícola', 0, null, 2024);
 
 update edcenso_alias set corder = (corder + 1) where corder >= 85 and register = 10 and year = 2024;
 
 insert into edcenso_alias values
-(10, 85, 'acessability_light_signaling', 'Sinalização/alarme luminoso', null, null, 2024);
+(10, 85, 'acessability_light_signaling', 'Sinalização/alarme luminoso', 0   , null, 2024);
 
 update edcenso_alias set corder = (corder + 1) where corder >= 120 and register = 10 and year = 2024;
 
