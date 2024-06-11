@@ -120,81 +120,93 @@ class AdminController extends Controller
     {
         $pathFile = "./app/export/InfoTagCSV/grades_" . Yii::app()->user->year . ".csv";
 
-        $data = array(
-            array('Nome', 'Email', 'Idade'),
-            array('1', 'Test 1', 'test1@test.com'),
-            array('2', 'Test 2', 'test2@test.com'),
-            array('3', 'Test 3', 'test3@test.com'),
-        );
+        $sql = "select 
+            if (si.inep_id is null, '', si.inep_id) inep_aluno, 
+            if (si.name is null, '', si.name) nome_aluno, 
+            if (c.name is null, '', c.name) turma,
+            if (ed.name  is null, '', ed.name) disciplina,
+            if (gr.grade_1 is null, '', gr.grade_1) nota_01,
+            if (gr.grade_2  is null, '', gr.grade_2) nota_02,
+            if (gr.rec_sem_1 is null, '', gr.rec_sem_1) recuperacao_semestral_I,
+            if (gr.grade_3  is null, '', gr.grade_3) nota_03,
+            if (gr.grade_4  is null, '', gr.grade_4) nota_04,
+            if (gr.rec_sem_2  is null, '', gr.rec_sem_2) recuperacao_semestral_II,
+            if (gr.rec_final  is null, '', gr.rec_final) recuperacao_final
+        from student_enrollment se 
+            left join student_identification si 
+            on (se.student_fk = si.id)
+            left join classroom c 
+            on (se.classroom_fk = c.id)
+            left join grade_results gr 
+            on (gr.enrollment_fk = se.enrollment_id)
+            left join edcenso_discipline ed 
+            on (gr.discipline_fk = ed.id)
+        where 1=1
+        and c.school_year = " . Yii::app()->user->year;
 
-        $this->exportToCSV($data, $pathFile);
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $this->exportToCSV($result, $pathFile);
     }
 
     public function actionExportFaults()
     {
         $pathFile = "./app/export/InfoTagCSV/faults_" . Yii::app()->user->year . ".csv";
 
-        $data = array(
-            array('Nome', 'Email', 'Idade'),
-            array('1', 'Test 1', 'test1@test.com'),
-            array('2', 'Test 2', 'test2@test.com'),
-            array('3', 'Test 3', 'test3@test.com'),
-        );
+        $sql = "select 
+            if (si.inep_id is null, '', si.inep_id) inep_aluno, 
+            if (si.name is null, '', si.name) nome_aluno, 
+            if (c.name is null, '', c.name) turma,
+            if (s.`month` is null, '', s.`month`) mes,
+            if (count(cf.id) is null, 0, count(cf.id)) total_faltas
+        from student_enrollment se 
+            left join student_identification si 
+            on (se.student_fk = si.id)
+            left join classroom c 
+            on (se.classroom_fk = c.id)
+            left join class_faults cf  
+            on (se.student_fk = cf.student_fk)
+            left join schedule s
+            on (cf.schedule_fk = s.id)
+        where 1=1
+        and c.school_year = " . Yii::app()->user->year . "
+        group by inep_aluno, nome_aluno, turma, mes;";
 
-        $this->exportToCSV($data, $pathFile);
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $this->exportToCSV($result, $pathFile);
     }
 
     private function exportToCSV($result, $path)
     {
         try {
-            // Start the output buffer.
-            ob_start();
-
-            // Set PHP headers for CSV output.
-            header('Content-Type: text/csv; charset=utf-8');
-            header("Content-Disposition: attachment; filename=\"" . basename($path) . "\"");
-
-            // Clean up output buffer before writing anything to CSV file.
-            ob_end_clean();
-
-            // Inicializando o array
-            $data = array();
-
-            // Verificando se a consulta retornou algum resultado
-            if ($result->num_rows > 0) {
-                // Adicionando os nomes das colunas como a primeira linha do array
-                $fields = $result->fetch_fields();
-                $colunas = array();
-                foreach ($fields as $field) {
-                    $colunas[] = $field->name;
-                }
-                $data[] = $colunas;
-
-                // Iterando sobre os resultados e adicionando-os ao array
-                while ($row = $result->fetch_assoc()) {
-                    $data[] = $row;
-                }
-            }
 
             // Create a file pointer with PHP.
             $output = fopen($path, 'w');
 
             if ($output !== false) {
+                // Escrever os cabeçalhos no arquivo CSV
+                fputcsv($output, array_keys($result[0]), ';');
+
                 // Escrever os dados no arquivo CSV
-                foreach ($data as $row) {
+                foreach ($result as $row) {
+                    $row = array_map('strval', $row); // Converter todos os valores para string
                     fputcsv($output, $row, ";");
                 }
-
                 // Fechar o arquivo
                 fclose($output);
             }
 
             Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo CSV Gerado: ' . $path));
 
+            // Set PHP headers for CSV output.
+            header('Content-Type: text/csv');
+            header("Content-Disposition: attachment; filename=\"" . basename($path) . "\"");
             header("Content-Type: application/force-download");
             header("Content-Length: " . filesize($path));
             header("Connection: close");
             readfile($path);
+
             $this->redirect(array('exports'));
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Error na exportação: ' . $e->getMessage()));

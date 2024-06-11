@@ -27,17 +27,12 @@ $HOST = getenv("HOST_DB_TAG");
 $USER = getenv("USER_DB_TAG");
 $PWD = getenv("PWD_DB_TAG");
 
-define("DBCONFIG", serialize(
-    array(
-        'connectionString' => "mysql:host=$HOST;dbname=$newdb",
-        'emulatePrepare' => true,
-        'enableProfiling' => YII_DEBUG,
-        'enableParamLogging' => YII_DEBUG,
-        'username' => $USER,
-        'password' => $PWD,
-        'charset' => 'utf8',
-    )
-)
-);
+define ("DBCONFIG", serialize (array(
+    'connectionString' => "mysql:host=localhost;dbname=demo.tag.ong.br",
+    'emulatePrepare' => true,
+    'username' => "user.tag",
+    'password' => "123456",
+    'charset' => 'utf8',
+)));
 
 define('INSTANCE', strtoupper($domain));
