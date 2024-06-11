@@ -1,3 +1,6 @@
+## [Versão 3.80.165]
+- Adicionando redirecionamento para inconsistências de Unidade Gestora para o Sagres
+
 ## [Versão 3.80.164]
 - Adicionando o código na exibição da tabela de alunos
 
