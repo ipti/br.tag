@@ -2557,6 +2557,8 @@ class CensoController extends Controller
         $result = $fm->write($fileDir, $export);
 
         if ($result) {
+            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+            Log::model()->saveAction("educacenso", Yii::app()->user->school, "E", $school->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));

@@ -1,3 +1,12 @@
+## [Versão 3.81.164]
+- Adicionando o código na exibição da tabela de alunos
+
+## [Versão 3.81.163]
+- Adicionando o código na exibição da tabela de turmas
+
+## [Versão 3.81.162]
+- Adicionando o código na exibição da tabela de professores
+
 ## [Versão 3.81.161]
 - Adicionado recuperações parciais
 
