@@ -505,7 +505,7 @@ class GradesController extends Controller
                     $gradeObject->enrollment_fk = $student["enrollmentId"];
                     $gradeObject->discipline_fk = $disciplineId;
                 }
-                $gradeObject->grade = isset($gradePartialRecovery["value"]) && $gradePartialRecovery["value"] !== "" ? $gradePartialRecovery["value"] : 0;
+                $gradeObject->grade = isset($gradePartialRecovery["value"]) && $gradePartialRecovery["value"] !== "" ? $gradePartialRecovery["value"] : null;
                 $gradeObject->save();
             }
         }
@@ -551,10 +551,13 @@ class GradesController extends Controller
             $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);
             $gradesStudent = $gradeUnities->exec();
             $countUnities = $gradeUnities->execCount();
+            $totalFaults =  ClassFaults::model()->countByAttributes(["student_fk" => $enrollment->id]);
+            $givenClasses = Schedule::model()->countByAttributes(["classroom_fk"=>$classroomId]);
+            $frequency = (($givenClasses - $totalFaults) / $givenClasses)*100;
 
             $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
             (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
-            (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities))->exec();
+            (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities, $frequency))->exec();
 
         }
 

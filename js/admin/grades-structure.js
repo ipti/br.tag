@@ -565,7 +565,7 @@ function checkValidInputs() {
     } else if (
         $(".js-rule-type").select2("val") === "N" &&
         $(".js-has-final-recovery").is(":checked") &&
-        $(".approval-media").val() < $(".final-recover-media").val()
+        Number($(".approval-media").val()) < Number($(".final-recover-media").val())
     ) {
         valid = false;
         message = "A média de recuperação final não pode ser superior à de aprovação.";

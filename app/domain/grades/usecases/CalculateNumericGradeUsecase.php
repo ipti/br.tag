@@ -61,7 +61,10 @@ class CalculateNumericGradeUsecase
     private function calculatePartialRecovery($gradeResult, $studentEnrollment, $discipline, $gradesRecoveries){
         foreach($gradesRecoveries as $gradeRecoveryAndUnities) {
             $partialRecoveryMedia = $this->calculatePartialRecoveryMedia($studentEnrollment, $discipline, $gradeRecoveryAndUnities, $gradeResult);
-            $gradeResult["rec_partial_" . $gradeRecoveryAndUnities["partialRecovery"]->order_partial_recovery] = is_nan($partialRecoveryMedia) ? "" : round($partialRecoveryMedia, 1);
+            if($partialRecoveryMedia != null) {
+                $partialRecoveryMedia =   is_nan($partialRecoveryMedia) ? "" : round($partialRecoveryMedia, 1);
+            }
+            $gradeResult["rec_partial_" . $gradeRecoveryAndUnities["partialRecovery"]->order_partial_recovery] = $partialRecoveryMedia;
         }
 
         return $gradeResult;
@@ -178,16 +181,22 @@ class CalculateNumericGradeUsecase
             array_push($grades, $gradeResult['grade_'.$unity]);
         }
 
-        $gradePartialRecovery = $this->getStudentGradesPartialRecoveryFromUnity(
-            $enrollment->id,
-            $disciplineId,
-            $gradeRecoveryAndUnities["partialRecovery"]->id
-        );
+        $gradePartialRecovery = Grade::model()->findByAttributes([
+            "enrollment_fk"=>$enrollment->id,
+            "discipline_fk"=>$disciplineId,
+            "grade_partial_recovery_fk"=>$gradeRecoveryAndUnities["partialRecovery"]->id
+        ]);
 
-        $gradePartialRecovery = array_column($gradePartialRecovery, "grade");
-        $gradesArray = array_merge($gradePartialRecovery, $grades);
-        $isRecovery = true;
-        return $this->applyStrategyComputeGradesByFormula($gradeRecoveryAndUnities["partialRecovery"], $gradesArray, $isRecovery);
+        $result = null;
+        if ($gradePartialRecovery !== null && $gradePartialRecovery->grade !== null) {
+            // Adiciona o valor de gradePartialRecovery->grade na primeira posição do array grades
+            array_unshift($grades, $gradePartialRecovery->grade);
+            $isRecovery = true;
+
+            $result = $this->applyStrategyComputeGradesByFormula($gradeRecoveryAndUnities["partialRecovery"], $grades, $isRecovery);
+        }
+
+        return $result;
     }
     /**
      * @param StudentEnrollment $enrollment
@@ -279,29 +288,6 @@ class CalculateNumericGradeUsecase
         )->bindParam(":enrollment_id", $enrollmentId)
             ->bindParam(":discipline_id", $discipline)
             ->bindParam(":unity_id", $unityId)->queryAll(), "id");
-
-        if ($gradesIds == null) {
-            return [];
-        }
-
-        return Grade::model()->findAll(
-            array(
-                'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
-            )
-        );
-
-    }
-    private function getStudentGradesPartialRecoveryFromUnity($enrollmentId, $discipline, $gradePartialRecoveryFk)
-    {
-
-        $gradesIds = array_column(Yii::app()->db->createCommand(
-            "SELECT
-                g.id
-                FROM grade g
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and grade_partial_recovery_fk = :grade_partial_recovery_fk"
-        )->bindParam(":enrollment_id", $enrollmentId)
-            ->bindParam(":discipline_id", $discipline)
-            ->bindParam(":grade_partial_recovery_fk", $gradePartialRecoveryFk)->queryAll(), "id");
 
         if ($gradesIds == null) {
             return [];
