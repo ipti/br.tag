@@ -2,18 +2,18 @@
 
 class ImportModel
 {
-    public function saveSchoolIdentificationsDB($jsonSchools) 
+    public function saveSchoolIdentificationsDB($jsonSchools)
     {
         foreach ($jsonSchools as $school) {
             $schoolIdentificationModel = new SchoolIdentification();
             $schoolIdentificationModel->setDb2Connection(true);
             $schoolIdentificationModel->refreshMetaData();
             $schoolIdentificationModel->attributes = $school;
-            $schoolIdentificationModel->save();        
+            $schoolIdentificationModel->save();
         }
     }
-    
-    public function saveSchoolStructureDB($schoolStructures) 
+
+    public function saveSchoolStructureDB($schoolStructures)
     {
         foreach ($schoolStructures as $schoolStructure) {
             $schoolStructureModel =  new SchoolStructure();
@@ -86,7 +86,7 @@ class ImportModel
     {
         $instructorIdentificationModels = [];
         $instructorDocumentsAndAddressModels = [];
-    
+
         // Criar instâncias dos modelos e associar os dados corretos
         foreach ($instructorIdentificationDatas as $instructorIdentificationData) {
             $instructorIdentificationModel = new InstructorIdentification();
@@ -94,7 +94,7 @@ class ImportModel
             $instructorIdentificationModel->refreshMetaData();
             $instructorIdentificationModel->attributes = $instructorIdentificationData;
             $instructorIdentificationModel->id = $instructorIdentificationData['id'];
-    
+
             $instructorIdentificationModels[$instructorIdentificationData['id']] = $instructorIdentificationModel;
 
             // Salvar os dados da tabela instructor_variable_data no banco de dados
@@ -105,29 +105,37 @@ class ImportModel
                     $instructorVariableDataModel->refreshMetaData();
                     $instructorVariableDataModel->attributes = $instructorVariableData;
                     $instructorVariableDataModel->id = $instructorVariableData['id'];
-    
+
                     // Salvar o dado no banco de dados
                     $instructorVariableDataModel->save();
                 }
             }
         }
-    
+
         foreach ($instructorDocumentsAndAddressDatas as $instructorDocumentsAndAddressData) {
             $instructorDocumentsAndAddressModel = new InstructorDocumentsAndAddress();
             $instructorDocumentsAndAddressModel->setDb2Connection(true);
             $instructorDocumentsAndAddressModel->refreshMetaData();
             $instructorDocumentsAndAddressModel->attributes = $instructorDocumentsAndAddressData;
             $instructorDocumentsAndAddressModel->id = $instructorDocumentsAndAddressData['id'];
-    
+
             $instructorDocumentsAndAddressModels[$instructorDocumentsAndAddressData['id']] = $instructorDocumentsAndAddressModel;
         }
-    
+
         // Associar os modelos corretos e salvar no banco de dados
         foreach ($instructorIdentificationModels as $id => $instructorIdentificationModel) {
             if (isset($instructorDocumentsAndAddressModels[$id])) {
                 $instructorDocumentsAndAddressModel = $instructorDocumentsAndAddressModels[$id];
                 $instructorIdentificationModel->hash = $instructorDocumentsAndAddressModel->hash;
-    
+
+                // Criando usuário e atualizando o instructorIdentification
+                $importInstructorUserUseCase = new importInstructorUserUseCase(
+                    $instructorIdentificationModel,
+                    $instructorDocumentsAndAddressModel
+                );
+                $importInstructorUserUseCase->exec();
+                $instructorIdentificationModel = $importInstructorUserUseCase->getUpdatedInstructorIdentificationModel();
+
                 // Salvar os dados no banco de dados
                 $instructorIdentificationModel->save();
                 $instructorDocumentsAndAddressModel->save();
@@ -136,7 +144,7 @@ class ImportModel
     }
 
 
-    public function saveTeachingMatrixes($teachingMatrixes)  
+    public function saveTeachingMatrixes($teachingMatrixes)
     {
         foreach ($teachingMatrixes as $teachingMatrixe) {
             $teachingMatrixeModel = new TeachingMatrixes();
