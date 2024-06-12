@@ -172,8 +172,8 @@ class Register20
 
                 $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 20 order by corder', [":year" => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
-                    
-                    $register[$edcensoAlias->corder] = $edcensoAlias->default;                  
+
+                    $register[$edcensoAlias->corder] = $edcensoAlias->default;
 
                     if ($edcensoAlias->corder == 21 || $edcensoAlias->corder == 22 || $edcensoAlias->corder == 23) {
                         if ($attributes["schooling"] == '0') {
@@ -228,13 +228,13 @@ class Register20
                         }
                     } else if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
-                    } 
-                    
+                    }
+
                     if ($edcensoAlias->corder >= 49 && $edcensoAlias->corder <= 75){
                         if($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1' && $attributes["schooling"] == '0')){
                             $register[$edcensoAlias->corder] = '';
                         }
-                    }                   
+                    }
                 }
 
                 array_push($registers, implode('|', $register));
@@ -274,6 +274,8 @@ class Register20
                 return "31016";
             case "39999":
                 return "39999";
+            case "61007":
+                return "14999";
         }
     }
 }
