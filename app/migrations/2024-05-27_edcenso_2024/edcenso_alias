@@ -18,7 +18,7 @@ insert into edcenso_alias values
 update edcenso_alias set corder = (corder + 1) where corder >= 85 and register = 10 and year = 2024;
 
 insert into edcenso_alias values
-(10, 85, 'acessability_light_signaling', 'Sinalização/alarme luminoso', 0   , null, 2024);
+(10, 85, 'acessability_light_signaling', 'Sinalização/alarme luminoso',  0, null, 2024);
 
 update edcenso_alias set corder = (corder + 1) where corder >= 120 and register = 10 and year = 2024;
 

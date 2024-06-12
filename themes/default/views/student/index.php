@@ -55,6 +55,7 @@
                            style="width:100%" aria-label="students table">
                         <thead>
                         <tr>
+                            <th>Código</th>
                             <th>Nome</th>
                             <th>Filiação Principal</th>
                             <th>Data de Nascimento</th>
