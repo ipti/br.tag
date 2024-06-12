@@ -36,11 +36,11 @@ class Register50
 
             foreach ($instructor['teaching'] as $teaching) {
                 $register = [];
-                
+
                 // ignora professor de apoio
-                if($teaching['role'] == '8'){
-                    continue;
-                }
+                // if($teaching['role'] == '8'){
+                //     continue;
+                // }
 
                 $teaching['register_type'] = '50';
                 $teaching['instructor_fk'] = $id;
@@ -48,7 +48,7 @@ class Register50
                 $classroom = Classroom::model()->findByPk($teaching['classroom_id_fk']);
 
                 $classroom->edcenso_stage_vs_modality_fk = $classroom->edcenso_stage_vs_modality_fk % 10000;
-                
+
                 $codigos = [];
                 $alreadyHave99 = false;
                 $n = 0;
@@ -99,7 +99,7 @@ class Register50
                         $register[$edcensoAlias->corder] = '';
                     }
                 }
-                
+
                 array_push($registers, implode('|', $register));
             }
         }
