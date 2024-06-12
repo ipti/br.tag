@@ -54,7 +54,7 @@ class Register50
                 $n = 0;
                 for ($i = 9; $i <= 33; $i++) {
                     if ($classroom->edcenso_stage_vs_modality_fk == 1 || $classroom->edcenso_stage_vs_modality_fk == 2 || $classroom->edcenso_stage_vs_modality_fk == 3
-                        || ($teaching["role"] != '1' && $teaching["role"] != '5')) {
+                        || ($teaching["role"] != '1' && $teaching["role"] != '5') || ($classroom->complementary_activity == '1' && $classroom->schooling == '0')) {
                         $codigos[$i] = "";
                     } else {
                         $value = $teaching["disciplines"][$n] != null ? $teaching["disciplines"][$n] : "";
