@@ -80,6 +80,7 @@ var addTeachingData = function () {
     var role = $("#Role").val();
     var contract = $("#ContractType").val();
     var regent = $("#RegentTeacher").is(':checked') ? 1 : 0;
+    var instructorRegentFk = $("#RegentFk").val();
 
     $.each($("#s2id_Disciplines li.select2-search-choice"), function (i, v) {
         disciplineNameList[i] = $(v).text();
@@ -103,7 +104,8 @@ var addTeachingData = function () {
             Role: role,
             ContractType: contract,
             RegentTeacher: regent,
-            Disciplines: []
+            Disciplines: [],
+            RegentFk: instructorRegentFk
         };
         var html = "";
         var tag = "";

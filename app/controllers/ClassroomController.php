@@ -739,6 +739,7 @@ class ClassroomController extends Controller
                     $modelTeachingData[$key]->contract_type = $td->ContractType;
                     $modelTeachingData[$key]->regent = $td->RegentTeacher;
                     $modelTeachingData[$key]->disciplines = $td->Disciplines;
+                    $modelTeachingData[$key]->instructor_regent_fk = $td->RegentFk;
                     $teachingDataValidated = $teachingDataValidated && $modelTeachingData[$key]->validate();
                 }
 

@@ -583,6 +583,7 @@ $form = $this->beginWidget(
                                 $teachingDataArray[$i]['Role'] = $model->role;
                                 $teachingDataArray[$i]['ContractType'] = $model->contract_type;
                                 $teachingDataArray[$i]['RegentTeacher'] = $model->regent;
+                                $teachingDataArray[$i]['RegentFk'] = $model->instructor_regent_fk;
                                 $teachingDataArray[$i]['Disciplines'] = array();
 
                                 foreach ($model->teachingMatrixes as $teachingMatrix) {
