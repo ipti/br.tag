@@ -52,9 +52,13 @@ function createTable(data) {
 
         let body = '<td class="t-multiselect">'
             + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
-            + studentInputs
-            + '<span class="t-icon-annotation t-icon classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>'
-            + '<select id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + disabledRow + ' multiple="yes">'
+            + studentInputs;
+
+        if (disabledRow !== "disabled") {
+            body += '<span class="t-icon-annotation t-icon classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>';
+        }
+
+        body += '<select id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + disabledRow + ' multiple="yes">'
             + options
             + '</select>';
        
