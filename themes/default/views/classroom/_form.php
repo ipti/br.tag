@@ -944,7 +944,7 @@ $form = $this->beginWidget(
                     ?>
                 </div>
                 <div class="control-group" id="instructorRelever">
-                    <?php echo CHtml::label(Yii::t("default", "Professor Regente"), "Instructor", array('class' => 't-field-text__label')) ?>
+                    <?php echo CHtml::label(Yii::t("default", "Professor Regente"), "RegentFk", array('class' => 't-field-text__label')) ?>
                     <?php
                     $instructors = $this->getInstructorPerClassroom();
                     $data = CHtml::listData($instructors, 'id', 'name');
@@ -1025,6 +1025,7 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
     var discipline = $("#discipline");
     var role = $("#Role");
     var instructors = $("#Instructors");
+    var instructorRegentFk = $("#RegentFk");
     var uDiscipline = $("#update-discipline");
 
     var classroomId = '<?php echo $modelClassroom->id; ?>';

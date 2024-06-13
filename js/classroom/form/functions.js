@@ -104,8 +104,8 @@ var addTeachingData = function () {
             Role: role,
             ContractType: contract,
             RegentTeacher: regent,
-            Disciplines: [],
-            RegentFk: instructorRegentFk
+            RegentFk: instructorRegentFk,
+            Disciplines: []
         };
         var html = "";
         var tag = "";
@@ -156,7 +156,6 @@ var addTeachingData = function () {
         $(".regent-teacher-container").hide();
     }
     $('#RegentTeacher').prop('checked', false);
-    console.log(RegentTeacherCount)
 }
 
 //Cria estrutura de uma aula
