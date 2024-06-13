@@ -1,0 +1,25 @@
+@import '_functions.scss';
+
+
+.pageA4H {
+    border-radius: 10px;
+    padding: 40px;
+    border: 2px solid #000;
+    font-family: 'Arial', sans-serif;
+   width: 90%; 
+   height: 100%; 
+   position: relative; 
+   box-sizing: border-box; 
+   margin-top: 40px;
+
+    h2, h4 {
+        margin: 0;
+    }
+
+    p {
+        margin: 10px 0;
+        font-size: 16px;
+    }
+
+}
+

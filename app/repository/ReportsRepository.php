@@ -1421,12 +1421,6 @@ class ReportsRepository
         return array('report' => $result, );
     }
 
-
-
-
-
-
-
     /**
      * Lista de Alunos
      */
