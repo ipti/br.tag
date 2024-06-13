@@ -70,7 +70,7 @@ class Register20
         foreach ($classrooms as $iclass => $attributes) {
             $hasEnrolledStudent = false;
             foreach ($attributes->studentEnrollments as $enrollment) {
-                if ($enrollment->status == 1) {
+                if ($enrollment->status == 1 || $enrollment->status == null) {
                     $hasEnrolledStudent = true;
                     break;
                 }

@@ -106,7 +106,7 @@ class Register30
     private static function getStudents($classroom, $students, $school)
     {        
         foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-            if ($enrollment->status == 1) {
+            if ($enrollment->status == 1 || $enrollment->status == null) {
                 if (!isset($students[$enrollment->student_fk])) {
                     $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
                     $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
