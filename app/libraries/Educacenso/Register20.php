@@ -16,7 +16,7 @@ class Register20
 
         $teachingDatasOfClassroom = Classroom::model()->findByPk($id)->instructorTeachingDatas;
         foreach ($teachingDatasOfClassroom as $key => $teachingData) {
-            foreach($teachingData->teachingMatrixes as $teachingMatrix) {
+            foreach ($teachingData->teachingMatrixes as $teachingMatrix) {
                 if ($teachingMatrix->curricularMatrixFk->discipline_fk > 99 || $teachingMatrix->curricularMatrixFk->discipline_fk == 20 || $teachingMatrix->curricularMatrixFk->discipline_fk == 21) {
                     $teachingDataDisciplines[99] = 99;
                 } else {
@@ -68,7 +68,14 @@ class Register20
         $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
 
         foreach ($classrooms as $iclass => $attributes) {
-            if (count($attributes->instructorTeachingDatas) >= 1 && count($attributes->studentEnrollments) >= 1) {
+            $hasEnrolledStudent = false;
+            foreach ($attributes->studentEnrollments as $enrollment) {
+                if ($enrollment->status == 1) {
+                    $hasEnrolledStudent = true;
+                    break;
+                }
+            }
+            if (count($attributes->instructorTeachingDatas) >= 1 && $hasEnrolledStudent) {
 
                 $register = [];
 
@@ -230,8 +237,8 @@ class Register20
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
                     }
 
-                    if ($edcensoAlias->corder >= 49 && $edcensoAlias->corder <= 75){
-                        if($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1' && $attributes["schooling"] == '0')){
+                    if ($edcensoAlias->corder >= 49 && $edcensoAlias->corder <= 75) {
+                        if ($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1' && $attributes["schooling"] == '0')) {
                             $register[$edcensoAlias->corder] = '';
                         }
                     }
@@ -244,8 +251,9 @@ class Register20
         return $registers;
     }
 
-    private static function convertComplementaryActivityTypes($code) {
-        switch($code) {
+    private static function convertComplementaryActivityTypes($code)
+    {
+        switch ($code) {
             case "13106":
                 return "13104";
             case "16101":
