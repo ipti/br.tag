@@ -95,6 +95,7 @@ class UpdateGradePartialRecoveryUseCase
         }
     }
     private function savePartialRecoveryOnUnities($unities, $partialRecoveryId) {
+        $this->removePartialRecoveryFromUnity($partialRecoveryId);
         foreach ($unities as $unity) {
             $modelUnity = GradeUnity::model()->findByPk($unity);
             $modelUnity->parcial_recovery_fk = $partialRecoveryId;

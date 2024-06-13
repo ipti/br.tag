@@ -245,7 +245,7 @@ function GradeTableBuilder(data) {
         const grade = studentPartialRecoveries.grade.grade === null ? "" : studentPartialRecoveries.grade.grade
         return  template`
             <td class="grade-td">
-                <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;" value="${grade}" />
+                <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
             </td>`;
 
     }
@@ -332,24 +332,24 @@ function GradeTableBuilder(data) {
                         ${modalityColumns
                             .map(
                                 (element) =>
-                                    `<th style="min-width: 50px;  font-size: 80%">${element}</th>`
+                                    `<th style="min-width: 50px;%">${element}</th>`
                             )
                             .join("\n")}
                             ${partialRecoveryColumns !== null ?
-                                template`<th style="min-width: 50px; font-size: 80%; font-weight: bold;">
+                                template`<th style="min-width: 50px; font-weight: bold;">
                                 ${partialRecoveryColumns.name}
                                 </th>`
                                  :
                                 ''}
                         ${
                             !data.isUnityConcept
-                                ? `<th style="font-size: 80%; font-weight: bold;">Média Anual</th>`
+                                ? `<th style="font-weight: bold;">Média Anual</th>`
                                 : ""
                         }
 
 
 
-                        <th style="font-size: 80%; font-weight: bold;">Resultado</th>
+                        <th style="font-weight: bold;">Resultado</th>
                     </tr>
                 </thead>
                 <tbody>
