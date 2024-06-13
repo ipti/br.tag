@@ -46,22 +46,36 @@ function generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit)
     }, '');
 }
 function generateScheduleDays(data, monthSplit, fundamentalMaior) {
+    daysFaltsTeacher = data.daysFaults;
+
     return data.scheduleDays.reduce((acc, scheduleDays) => {
         let dia = scheduleDays.day;
         let mes = monthSplit[1];
         let ano = monthSplit[0];
-        return acc + `
-            <div class="ui-accordion-header justify-content--space-between">
-                <div>Aula do dia ${scheduleDays.date}</div>
+
+        if(daysFaltsTeacher.includes(dia)){
+            acc += `
+                <div class="ui-accordion-header justify-content--space-between" style="pointer-events: none;">
+                    <div>Professor(a) ausente para o dia: ${scheduleDays.date}</div>
+                    <div></div>
+                </div>
+                <div></div>`;
+        }else{
+            acc += `
+                <div class="ui-accordion-header justify-content--space-between">
+                    <div>Aula do dia ${scheduleDays.date}</div>
+                    <div>
+                        <span class="t-icon-down_arrow arrow"></span>
+                    </div>
+                </div>
                 <div>
-                    <span class="t-icon-down_arrow arrow"></span>
-                </div>
-            </div>
-            <div class='ui-accordion-content'>
-                <div style='width: 100%; overflow-x:auto;'>
-                    ${generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit)}
-                </div>
-            </div>`;
+                    <div'>
+                        ${generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit)}
+                    </div>
+                </div>`;
+        }
+
+        return acc;
     }, '');
 }
 
@@ -104,6 +118,7 @@ function load() {
                     $(function () {
                         $("#accordion").accordion({
                             collapsible: true,
+                            active: false,
                             icons: null,
                         });
                     });
