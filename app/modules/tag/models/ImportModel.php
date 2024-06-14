@@ -128,13 +128,16 @@ class ImportModel
                 $instructorDocumentsAndAddressModel = $instructorDocumentsAndAddressModels[$id];
                 $instructorIdentificationModel->hash = $instructorDocumentsAndAddressModel->hash;
 
-                // Criando usuário e atualizando o instructorIdentification
-                $importInstructorUserUseCase = new importInstructorUserUseCase(
-                    $instructorIdentificationModel,
-                    $instructorDocumentsAndAddressModel
-                );
-                $importInstructorUserUseCase->exec();
-                $instructorIdentificationModel = $importInstructorUserUseCase->getUpdatedInstructorIdentificationModel();
+                if($instructorDocumentsAndAddressModel->cpf)
+                {
+                    // Criando usuário e atualizando o instructorIdentification
+                    $instructorUserUseCase = new ImportInstructorUserUseCase(
+                        $instructorIdentificationModel,
+                        $instructorDocumentsAndAddressModel
+                    );
+                    $instructorUserUseCase->exec();
+                    $instructorIdentificationModel = $instructorUserUseCase->getUpdatedInstructorIdentificationModel();
+                }
 
                 // Salvar os dados no banco de dados
                 $instructorIdentificationModel->save();

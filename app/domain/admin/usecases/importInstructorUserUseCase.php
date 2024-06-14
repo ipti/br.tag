@@ -4,7 +4,7 @@
  * Caso de uso para importação de professor do edcenso e criação de usuário
  *
  */
-class importInstructorUserUseCase
+class ImportInstructorUserUseCase
 {
     private $modelInstructorIdentification = new InstructorIdentification();
     private $modelInstructorDocumentsAndAddress = new InstructorDocumentsAndAddress();

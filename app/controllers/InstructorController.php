@@ -157,13 +157,13 @@ class InstructorController extends Controller
                 if (    $modelInstructorIdentification->validate() &&
                         $modelInstructorDocumentsAndAddress->validate() &&
                         $modelInstructorVariableData->validate()) {
-                
+
                     $user = $this->createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress);
-                                     
+
                     if ($user->save()) {
                         $modelInstructorIdentification->users_fk = $user->id;
                         $this->createUserSchool($user, $modelInstructorIdentification);
-                    }                
+                    }
 
                     if ($modelInstructorIdentification->save()) {
                         $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
@@ -196,7 +196,7 @@ class InstructorController extends Controller
             'modelInstructorVariableData' => $modelInstructorVariableData, 'error' => $error,
         ]);
     }
-    
+
     private function createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress) {
         $user = new Users();
         $user->name = $modelInstructorIdentification->name;
@@ -210,18 +210,32 @@ class InstructorController extends Controller
         $birthdayDate = str_replace("/", "", $birthdayDate);
         return $passwordHasher->bcriptHash($birthdayDate);
     }
-    
+
     private function createUserSchool($user) {
         $userSchool = new UsersSchool();
         $userSchool->user_fk = $user->id;
         $userSchool->school_fk = Yii::app()->user->school;
-        
+
         if ($userSchool->save()) {
             $auth = Yii::app()->authManager;
             $auth->assign('instructor', $user->id);
         }
     }
-    
+
+    private function checkHasUser($instructorIdentification, $instructorDocumentsAndAddress)
+    {
+        $modelUser = Users::model()->findByAttributes(['username' => $instructorDocumentsAndAddress->cpf]);
+        if(!$modelUser)
+        {
+           $user = $this->createUser($instructorIdentification, $instructorDocumentsAndAddress);
+           if($user->save()){
+                $this->createUserSchool($user);
+                $instructorIdentification->users_fk = $user->id;
+           }
+        }
+        return $instructorIdentification;
+    }
+
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -246,7 +260,8 @@ class InstructorController extends Controller
         //==================================
 
         $error[] = '';
-        if (isset($_POST['InstructorIdentification'], $_POST['InstructorDocumentsAndAddress'], $_POST['InstructorVariableData'])) {
+        if (isset($_POST['InstructorIdentification'], $_POST['InstructorDocumentsAndAddress'], $_POST['InstructorVariableData']))
+        {
             $modelInstructorIdentification->attributes = $_POST['InstructorIdentification'];
             $modelInstructorDocumentsAndAddress->attributes = $_POST['InstructorDocumentsAndAddress'];
             $modelInstructorVariableData->attributes = $_POST['InstructorVariableData'];
@@ -322,6 +337,7 @@ preenchidos";
                         $modelInstructorIdentification->save()) {
                     $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
                     $modelInstructorVariableData->id = $modelInstructorIdentification->id;
+                    $modelInstructorIdentification = $this->checkHasUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress);
 
                     $modelInstructorVariableData->high_education_course_code_1_fk =
                         empty($modelInstructorVariableData->high_education_course_code_1_fk) ? NULL :
