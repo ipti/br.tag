@@ -108,13 +108,13 @@ function renderClasroomsCards(){
              var cardsClassrooms = result.reduce((acc, element) =>
                 acc += `
                 <div class="column clearfix no-grow">
-                    <div class="t-cards">
+                     <a href="${window.location.host}?r=classroom/update&id=${element["id"]}" class="t-cards">
                         <div class="t-cards-content">
                             <div class="t-tag-primary">${element["discipline_name"]}</div>
                             <div class="t-cards-title">${element["name"]}</div>
                             <div class="t-cards-text clear-margin--left">${element["stage_name"]}</div>
                         </div>
-                    </div>
+                    </a>
                 </div>`, "");
             classrooms.html(DOMPurify.sanitize(cardsClassrooms));
         })
