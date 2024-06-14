@@ -1,3 +1,6 @@
+## [Versão 3.81.164]
+- Adicionada aba para visualização das turmas dos professores na tela do professor
+
 ## [Versão 3.80.164]
 - Adicionando o código na exibição da tabela de alunos
 
