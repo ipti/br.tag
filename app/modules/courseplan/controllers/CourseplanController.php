@@ -400,7 +400,7 @@ class CourseplanController extends Controller
          }
 
          $this->render('index', array(
-             'dataProvider' => $dataProvider,
+             'dataProvider' => $dataProvider
          ));
      }
 
@@ -508,6 +508,18 @@ class CourseplanController extends Controller
         ]);
 
         return $instructor->users_fk;
+    }
+
+    public function deletePerInstructorRegent($coursePlan): bool
+    {
+        $createUserCoursePlan = $coursePlan->user_fk;
+        $userInstructorRegent = $this->getUserInstructorRegent();
+
+        if ($createUserCoursePlan === $userInstructorRegent) {
+            return true;
+        }
+
+        return false;
     }
 
 }
