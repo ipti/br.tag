@@ -116,7 +116,7 @@ function renderClasroomsCards(){
                         </div>
                     </div>
                 </div>`, "");
-            classrooms.html(cardsClassrooms);
+            classrooms.html(DOMPurify.sanitize(cardsClassrooms));
         })
     }
  }
