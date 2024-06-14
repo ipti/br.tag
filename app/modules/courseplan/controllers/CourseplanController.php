@@ -361,31 +361,48 @@ class CourseplanController extends Controller
      * Lists all models.
      */
 
-    public function actionIndex()
-    {
-        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
-        {
-            $this->getInstructorRegent();
-            // Verificar condição para entrar tbm do professor titular
-            $dataProvider = new CActiveDataProvider('CoursePlan', array(
-                'criteria' => array(
-                    'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id,
-                ),
-                'pagination' => false
-            ));
-        }
+     public function actionIndex()
+     {
+         $userId = Yii::app()->user->loginInfos->id;
+         $isInstructor = Yii::app()->getAuthManager()->checkAccess('instructor', $userId);
 
-        if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
-        {
-            $dataProvider = new CActiveDataProvider('CoursePlan', array(
-                'pagination' => false
-            ));
-        }
+         if ($isInstructor) {
+             $userInstructorRegent = $this->getUserInstructorRegent();
 
-        $this->render('index', array(
-            'dataProvider' => $dataProvider,
-        ));
-    }
+             if (!empty($userInstructorRegent)) {
+                 $ids = [$userId, $userInstructorRegent];
+                 $placeholders = implode(',', array_fill(0, count($ids), '?'));
+                 $condition = 'users_fk IN (' . $placeholders . ')';
+
+                 $criteria = new CDbCriteria();
+                 $criteria->condition = $condition;
+                 $criteria->params = $ids;
+
+                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                     'criteria' => $criteria,
+                     'pagination' => false,
+                 ));
+             } else {
+                 $criteria = new CDbCriteria();
+                 $criteria->condition = 'users_fk = ?';
+                 $criteria->params = [$userId];
+
+                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                     'criteria' => $criteria,
+                     'pagination' => false,
+                 ));
+             }
+         } else {
+             // Usuário não é instrutor
+             $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                 'pagination' => false
+             ));
+         }
+
+         $this->render('index', array(
+             'dataProvider' => $dataProvider,
+         ));
+     }
 
     public function actionPendingPlans()
     {
@@ -477,9 +494,20 @@ class CourseplanController extends Controller
             $role = $teacher->role;
             $teacherRegent = $teacher->instructor_regent_fk;
 
+            // 9 representa o cargo de professor folguista
             if ($role === '9'){return $teacherRegent;}
         }
 
+    }
+
+    public function getUserInstructorRegent()
+    {
+        $instructorRegent = $this->getInstructorRegent();
+        $instructor = InstructorIdentification::model()->findByAttributes([
+            'id' => $instructorRegent
+        ]);
+
+        return $instructor->users_fk;
     }
 
 }
