@@ -347,14 +347,16 @@ class Register30
         }
 
         foreach ($instructor as $key => $attr) {
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            if ($key !== "inep_id") {
+                $alias_index = array_search($key, array_column($aliases, 'attr'));
+                $alias = $alias_index !== false ? $aliases[$alias_index] : null;
 
-            if (isset($alias["corder"])) {
-                if ($key == 'edcenso_city_fk') {
-                    $register[43] = $attr;
-                } else {
-                    $register[$alias["corder"]] = $attr;
+                if (isset($alias["corder"])) {
+                    if ($key == 'edcenso_city_fk') {
+                        $register[43] = $attr;
+                    } else {
+                        $register[$alias["corder"]] = $attr;
+                    }
                 }
             }
         }
