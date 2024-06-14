@@ -95,6 +95,13 @@ $isModel = isset($modelInstructorIdentification->id);
                         <span class="t-tabs__numeration">3</span>
                         <?php echo Yii::t('default', 'Variable Data') ?>
                     </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                </li>
+                <li id="tab-instructor-data" class="t-tabs__item">
+                    <a href="#instructor-classroom" data-toggle="tab" class="t-tabs__link">
+                        <span class="t-tabs__numeration">4</span>
+                        <?php echo Yii::t('default', 'Classroom') ?>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -1931,6 +1938,7 @@ $isModel = isset($modelInstructorIdentification->id);
                         <?php $this->endWidget(); ?>
                     </div>
                 </div>
+                <div class="tab-pane" id="instructor-classroom"></div>
             </div>
         </div>
     </div>
