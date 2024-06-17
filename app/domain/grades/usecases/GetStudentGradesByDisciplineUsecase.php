@@ -211,6 +211,7 @@ class GetStudentGradesByDisciplineUsecase
                 $partialRecoveryResult = new GradePartialRecoveryResult($partialRecovery->name,
                 $partialRecovery->gradeCalculationFk->name);
                 $partialRecoveryResult->addGrade($gradePartialRecovery);
+                $partialRecoveryResult->addRecPartialResult($gradeResult['rec_partial_'.$partialRecovery->order_partial_recovery]);
                 $studentGradeResult->addPartialRecovery($partialRecoveryResult);
 
             }
@@ -498,6 +499,7 @@ class GradePartialRecoveryResult {
     private $partialRecoveryName;
     private $grade;
     private $calculationName;
+    private $recPartialResult;
     public function __construct($partialRecoveryName = null, $calculationName = null)
     {
         $this->partialRecoveryName = $partialRecoveryName;
@@ -507,12 +509,16 @@ class GradePartialRecoveryResult {
     {
         $this->grade = $grade;
     }
+    public function addRecPartialResult($recPartialResult) {
+        $this->recPartialResult = $recPartialResult;
+
+    }
     public function toArray(): array
     {
         return [
             'partialRecoveryName' => $this->partialRecoveryName,
             'grade' => $this->grade,
-            'partialRecoverMedia' => $this->partialRecoverMedia,
+            'recPartialResult' => $this->recPartialResult,
             'calculationName' => $this->calculationName
         ];
     }

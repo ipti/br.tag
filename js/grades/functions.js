@@ -146,7 +146,7 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
                 gradesNotFoundContainer.find(".js-refresh").on("click", (e) => {
                     location.reload();
                 })
-                $(".js-grades-container").append(gradesNotFoundContainer);
+                $(".js-grades-container").html(gradesNotFoundContainer);
                 $(".js-grades-alert")
                     .addClass("alert-error")
                     .removeClass("alert-success")
@@ -246,6 +246,9 @@ function GradeTableBuilder(data) {
         return  template`
             <td class="grade-td">
                 <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
+            </td>
+            <td class="grade-td">
+                ${studentPartialRecoveries.recPartialResult != null ?studentPartialRecoveries.recPartialResult : ''}
             </td>`;
 
     }
@@ -338,6 +341,9 @@ function GradeTableBuilder(data) {
                             ${partialRecoveryColumns !== null ?
                                 template`<th style="min-width: 50px; font-weight: bold;">
                                 ${partialRecoveryColumns.name}
+                                </th>
+                                <th style="min-width: 50px; font-weight: bold;">
+                                    Média pós recuperação
                                 </th>`
                                  :
                                 ''}
