@@ -1,3 +1,6 @@
+## [Versão 3.80.165]
+- Modificando a visualização da etapa relacionada ao educacenso no formulário de etapas
+
 ## [Versão 3.80.164]
 - Adicionando o código na exibição da tabela de alunos
 
