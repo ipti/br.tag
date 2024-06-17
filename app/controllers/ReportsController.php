@@ -294,13 +294,14 @@ class ReportsController extends Controller
         $this->render('StudentPendingDocument', $query);
     }
 
-    public function actionStudentCertificate()
+    public function actionStudentCertificate($id)
     {
         $repository = new ReportsRepository;
-        $query = $repository->getStudentCertificate();
+        $query = $repository->getStudentCertificate($id);
         $this->render('StudentCertificate', $query);
     }
-
+    
+    
     public function actionStudentPerClassroom($id)
     {
         $this->layout = "reports";

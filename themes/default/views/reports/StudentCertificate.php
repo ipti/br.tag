@@ -6,13 +6,23 @@ $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_in
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
-// Certifique-se de que $school está definido
 if (!isset($school)) {
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 }
 
-?>
+// CVarDumper::dump($school, 10, true);
+// CVarDumper::dump($student, 10, true);
 
+list($day, $month, $year) = explode('/', $student['birthday']);
+
+$months = array(
+    '01' => 'Janeiro', '02' => 'Fevereiro', '03' => 'Março', '04' => 'Abril',
+    '05' => 'Maio', '06' => 'Junho', '07' => 'Julho', '08' => 'Agosto',
+    '09' => 'Setembro', '10' => 'Outubro', '11' => 'Novembro', '12' => 'Dezembro'
+);
+$monthName = $months[$month];
+
+?>
 <div class="pageA4H">
     <div style="text-align: center;">
         <div style="position: relative; display: inline-block;">
@@ -24,17 +34,14 @@ if (!isset($school)) {
         <h1>CERTIFICADO</h1>
     </div>
 
-<div class="container-certificate">
-    <!-- <p>O(A) Diretor(a) da: ____________________________________</p> -->
-    <p>O(A) Diretor(a) da <?php echo $school->name ?>
-    no uso de suas atribuições legais, confere o presente Certificado do ___(ano de ensino)___ do ___(tipo de ensino)___ a</p>
-    <p>filho(a) de ______________________________________</p>
-    <p>e de ____________________________________________</p>
-    <p>Nascido(a) em ____ de _______________ de ________, no Município de _______________________________</p>
-    <p>Estado do _______________________________</p>
-</div>
-
-
+    <div class="container-certificate">
+        <p>O(A) Diretor(a) da Escola <?php echo $school->name ?>,
+        no uso de suas atribuições legais, confere o presente. Certificado do ___(ano de ensino)___ do ___(tipo de ensino)___ a <b><?php echo $student['name']; ?></b>
+       filho(a) de <?php echo $student['filiation_1']; ?>
+        e de <?php echo $student['filiation_2']; ?>.</p>
+        <p>Nascido(a) em <?php echo $day; ?> de <?php echo $monthName; ?> de <?php echo $year; ?>, no Município de _______________________________</p>
+        <p>Estado do _______________________________</p>
+    </div>
 
     <div class ="content-data">
         <div style="display: inline-block; width: 45%; text-align: center;">
@@ -42,18 +49,18 @@ if (!isset($school)) {
             <p>Secretário(a)</p>
         </div>
         <div style="display: inline-block; width: 45%; text-align: center;">
-            <p>______________ (MA) de ______________ de _____</p>
+            <p>______________ (MA) ______________ de ______________ de _____________</p>
         </div>
     </div>
 
     <div class="signature-section">
-        <p>_______________________________</p>
+        <p>_______________________________________________</p>
         <p>Aluno(a)</p>
     </div>
     <div class="content-data-signature">
     <div>
-        <p>Reconhecida pela Resolução: ___________ de ____/____/______</p>
-        <p>Reconhecida pela Resolução do: _______________________________</p>
+        <p>Reconhecida pela Resolução nº 005/2023-CME de 28/09/2023</p>
+        <p>Reconhecida pela Resolução do CME Conselho Municipal de Educação</p>
     </div>
 
     <div style="text-align: center;">
@@ -79,6 +86,7 @@ if (!isset($school)) {
         window.print();
     }
 </script>
+
 
 <style>
     .pageA4H {
@@ -126,8 +134,8 @@ h1{
 }
     p {
         margin: 5px 0;
-    font-size: 14px;
-    font-weight: 500;
+        font-size: 14px;
+        font-weight: 500;
 
     }
     .signature-section{
@@ -140,16 +148,16 @@ h1{
     }
     .container-certificate{
         display: flex;
-    justify-content: center;
-    flex-direction: column;
-    text-align: justify;
-    padding: 10px 60px;
+        justify-content: center;
+        flex-direction: column;
+        text-align: justify;
+        padding: 10px 60px;
     }
     .content-data-signature{
         display: flex;
-    justify-content: space-around;
-    gap: 200px;
-    margin-top: 20px;
+        justify-content: space-around;
+        gap: 200px;
+        margin-top: 20px;
     }
 
     @media print {

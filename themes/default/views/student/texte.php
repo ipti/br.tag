@@ -1,523 +1,266 @@
-Observe esse codigos abaixo:
-
-codiog 01:
+Observe esse código 
 <?php
+/* @var $this ReportsController */
+/* @var $enrollment StudentEnrollment */
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl . '/js/reports/IndividualReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
-class FormsRepository {
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
-    private $currentSchool;
-    private $currentYear;
+$turn = "";
+if($enrollment->classroomFk->turn == "M") {
+    $turn = "Matutino";
+}else if ($enrollment->classroomFk->turn == "T") {
+    $turn = "Vespertino";
+}else if ($enrollment->classroomFk->turn == "N") {
+    $turn = "Noturno";
+}
 
-    public function __construct()
-    {
-        $this->currentSchool = Yii::app()->user->school;
-        $this->currentYear = Yii::app()->user->year;
+$gradeOneTotalFaults = 0;
+$gradeTwoTotalFaults = 0;
+$gradeThreeTotalFaults = 0;
+$gradeTotalFaults = 0;
+
+$portugueseCount = !empty($portuguese) ? 1 : 0;
+$historyCount = !empty($history) ? 1 : 0;
+$geographyCount = !empty($geography) ? 1 : 0;
+
+$mathematicsCount = !empty($mathematics) ? 1 : 0;
+$sciencesCount = !empty($sciences) ? 1 : 0;
+
+$rOneDisiciplinesCount = $portugueseCount + $historyCount + $geographyCount;
+$rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
+
+?>
+
+<div class="row-fluid hidden-print">
+    <div class="span12">
+        <div class="buttons">
+            <a id="print" onclick="imprimirPagina()" class='btn btn-icon hidden-print' style="padding: 10px;"><img alt="impressora" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg" class="img_cards" /> <?php echo Yii::t('default', 'Print') ?><i></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="pageA4V">
+    <?php
+    if (TagUtils::isInstance("BUZIOS")){
+        $this->renderPartial('../reports/buzios/headers/headBuziosVI');
     }
 
+    if(!TagUtils::isInstance("BUZIOS") || TagUtils::isInstance("LOCALHOST")){
+        $this->renderPartial('../reports/buzios/headers/head');
+    }
+    ?>
 
-    /**
-     * Declaração de ano cursado na escola
-     */
-    public function getStatementAttended($enrollmentId) : array
+    <hr>
+    <h3 style="text-align:center;">FICHA INDIVIDUAL DE ENSINO FUNDAMENTAL <?php echo $minorFundamental ? "1º" : "2º"?> SEGMENTO</h3>
+    <hr>
+    <div class="container-box">
+        <p>
+            <span><?= "Nome do aluno(a): <u>".$enrollment->studentFk->name?></u></span>
+            <span style="float:right;margin-right:100px;"><?= "Ano Letivo(a): <u>".$enrollment->classroomFk->school_year ?></u></span>
+        </p>
+        <p>
+            <p><?= "Filiação: ".$enrollment->studentFk->filiation_1 ?></p>
+            <p style="margin-left:60px;"><?= $enrollment->studentFk->filiation_2 ?></p>
+        </p>
+        <p>
+            <span><?= "Nascimento: ".$enrollment->studentFk->birthday?></span>
+            <span style="float:right;margin-right:100px;"><?= "Naturalidade: ".$enrollment->studentFk->edcensoCityFk->name." - ".$enrollment->studentFk->edcensoUfFk->acronym?></span>
+        </p>
+        <p>
+            <span><?= "Identidade: ".$enrollment->studentFk->documentsFk->rg_number ?></span>
+            <span style="float:right;margin-right:100px;"><?= "Orgão Expedidor: ".$enrollment->studentFk->documentsFk->rgNumberEdcensoOrganIdEmitterFk->name?></span>
+        </p>
+        <?php
+            if($enrollment->studentFk->deficiency) {
+                echo "<p>Atendimento Educacional Especializado: &nbsp(&nbspX&nbsp)&nbspSim &nbsp(&nbsp&nbsp)&nbspNão</p>";
+            }else {
+                echo "<p>Atendimento Educacional Especializado: &nbsp(&nbsp&nbsp)&nbspSim &nbsp(&nbspX&nbsp)&nbspNão</p>";
+            }
+        ?>
+        <p>Etapa: <?= $enrollment->classroomFk->edcensoStageVsModalityFk->name?></p>
+    </div>
+</div>
+
+Agora observe o código 02:
+
+public function getIndividualRecord($enrollmentId) : array
     {
-        $sql = "SELECT si.name name_student, si.birthday, si.filiation_1, si.filiation_2, svm.name class,
-                        svm.*, c.modality, c.school_year, svm.stage stage, svm.id class
-                    FROM student_enrollment se
-                JOIN student_identification si ON si.id = se.student_fk
-                JOIN classroom c on se.classroom_fk = c.id
-                JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id
-                WHERE se.id = :enrollment_id;";
-
-        $data = Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
-
-        $modality = array(
-            '1' => 'Ensino Regular',
-            '2' => 'Educação Especial - Modalidade Substitutiva',
-            '3' => 'Educação de Jovens e Adultos (EJA)'
-        );
-
-        $c = '';
-        switch ($data['class']) {
-            case '4':
-                $c = '1º';
-                break;
-            case '5':
-                $c = '2º';
-                break;
-            case '6':
-                $c = '3º';
-                break;
-            case '7':
-                $c = '4º';
-                break;
-            case '8':
-                $c = '5º';
-                break;
-            case '9':
-                $c = '6º';
-                break;
-            case '10':
-                $c = '7º';
-                break;
-            case '11':
-                $c = '8º';
-                break;
-            case '14':
-                $c = '1º';
-                break;
-            case '15':
-                $c = '2º';
-                break;
-            case '16':
-                $c = '3º';
-                break;
-            case '17':
-                $c = '4º';
-                break;
-            case '18':
-                $c = '5º';
-                break;
-            case '19':
-                $c = '6º';
-                break;
-            case '20':
-                $c = '7º';
-                break;
-            case '21':
-                $c = '8º';
-                break;
-            case '41':
-                $c = '9º';
-                break;
-            case '35':
-                $c = '1º';
-                break;
-            case '36':
-                $c = '2º';
-                break;
-            case '37':
-                $c = '3º';
-                break;
-            case '38':
-                $c = '4º';
-                break;
+        $disciplines = array();
+        $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
+        $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]); // medias do aluno na turma
+        $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
+        $scheduleSql = "SELECT `month`, `day`c FROM schedule s JOIN classroom c on c.id = s.classroom_fk
+        WHERE c.school_year = :year AND c.id = :classroom
+        GROUP BY s.`month`, s.`day`";
+        $scheduleParams = array(':year' => Yii::app()->user->year, ':classroom' => $enrollment->classroom_fk);
+        $schedules = Schedule::model()->findAllBySql($scheduleSql, $scheduleParams);
+        $gradeRules = GradeRules::model()->findByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcensoStageVsModalityFk->id]);
+        $portuguese = array(); $history = array(); $geography = array(); $mathematics = array(); $sciences = array();
+        $stage = isset($enrollment->edcenso_stage_vs_modality_fk) ? $enrollment->edcenso_stage_vs_modality_fk : $enrollment->classroomFk->edcenso_stage_vs_modality_fk;
+        $minorFundamental = Yii::app()->utils->isStageMinorEducation($stage);
+        $workload = 0;
+        foreach ($curricularMatrix as $c) {
+            $workload += $c->workload;
         }
-
-        $descCategory = '';
-        switch ($data['stage']) {
-            case '1':
-                $descCategory = "na Educação Infantil";
-                break;
-            case '3':
-                $descCategory = "no " . $c . " Ano do Ensino Fundamental";
-                break;
-            case '4':
-                $descCategory = "no " . $c . " Ano do Ensino Médio";
-                break;
+        foreach ($curricularMatrix as $c) {
+            foreach ($gradesResult as $g) {
+                if($c->disciplineFk->id == $g->discipline_fk) {
+                    if($c->disciplineFk->id == 6 && $minorFundamental) {
+                        array_push($portuguese, [
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "givenClasses1" => $g->given_classes_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "givenClasses2" => $g->given_classes_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "givenClasses3" => $g->given_classes_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "givenClasses4" => $g->given_classes_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 12 && $minorFundamental) {
+                        array_push($history, [
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "givenClasses1" => $g->given_classes_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "givenClasses2" => $g->given_classes_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "givenClasses3" => $g->given_classes_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "givenClasses4" => $g->given_classes_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 13 && $minorFundamental) {
+                        array_push($geography, [
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "givenClasses1" => $g->given_classes_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "givenClasses2" => $g->given_classes_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "givenClasses3" => $g->given_classes_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "givenClasses4" => $g->given_classes_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 3 && $minorFundamental) {
+                        array_push($mathematics, [
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "givenClasses1" => $g->given_classes_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "givenClasses2" => $g->given_classes_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "givenClasses3" => $g->given_classes_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "givenClasses4" => $g->given_classes_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else if ($c->disciplineFk->id == 5 && $minorFundamental) {
+                        array_push($sciences, [
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "givenClasses1" => $g->given_classes_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "givenClasses2" => $g->given_classes_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "givenClasses3" => $g->given_classes_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "givenClasses4" => $g->given_classes_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }else {
+                        array_push($disciplines, [
+                            "name" => $c->disciplineFk->name,
+                            "grade1" => $g->grade_1,
+                            "faults1" => $g->grade_faults_1,
+                            "givenClasses1" => $g->given_classes_1,
+                            "grade2" => $g->grade_2,
+                            "faults2" => $g->grade_faults_2,
+                            "givenClasses2" => $g->given_classes_2,
+                            "grade3" => $g->grade_3,
+                            "faults3" => $g->grade_faults_3,
+                            "givenClasses3" => $g->given_classes_3,
+                            "grade4" => $g->grade_4,
+                            "faults4" => $g->grade_faults_4,
+                            "givenClasses4" => $g->given_classes_4,
+                            "final_media" => $g->final_media
+                        ]);
+                    }
+                }
+            }
         }
-
+        $totalFaults = 0;
+        foreach ($disciplines as $d) {
+            $totalFaults += $d["faults1"] + $d["faults2"] + $d["faults3"] + $d["faults4"];
+        }
+        $totalFaults += $portuguese[0]["faults1"] + $portuguese[0]["faults2"] + $portuguese[0]["faults3"] + $portuguese[0]["faults4"];
+        $totalFaults += $history[0]["faults1"] + $history[0]["faults2"] + $history[0]["faults3"] + $history[0]["faults4"];
+        $totalFaults += $geography[0]["faults1"] + $geography[0]["faults2"] + $geography[0]["faults3"] + $geography[0]["faults4"];
+        $totalFaults += $mathematics[0]["faults1"] + $mathematics[0]["faults2"] + $mathematics[0]["faults3"] + $mathematics[0]["faults4"];
+        $totalFaults += $sciences[0]["faults1"] + $sciences[0]["faults2"] + $sciences[0]["faults3"] + $sciences[0]["faults4"];
+        $frequency = $this->calculateFrequency($workload, $totalFaults);
         $response = array(
-            'student' => $data,
-            'modality' => $modality,
-            'descCategory' => $descCategory
+            'gradeRules' => $gradeRules,
+            'enrollment' => $enrollment,
+            'disciplines' => $disciplines,
+            'portuguese' => $portuguese,
+            'history' => $history,
+            'geography' => $geography,
+            'mathematics' => $mathematics,
+            'sciences' => $sciences,
+            'workload' => $workload,
+            'schedules' => $schedules,
+            'frequency' => $frequency,
+            'minorFundamental' => $minorFundamental
         );
-
         return $response;
     }
 
-}
 
-    Código 02:
-    <?php
 
-require_once __DIR__.'/../repository/FormsRepository.php';
 
-class FormsController extends Controller {
+    Como fazer para modificar o código abaixo, para pegar os dados da nacionalidade no código abaixo:
 
-    public $layout = 'fullmenu';
-    public $year = 0;
 
-    public function accessRules() {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'EnrollmentGradesReport', 'StudentsFileReport','EnrollmentDeclarationReport',
-                    'EnrollmentGradesReportBoquim','EnrollmentGradesReportBoquimCiclo',
-                    'GetEnrollmentDeclarationInformation','TransferRequirement','GetTransferRequirementInformation',
-                    'EnrollmentNotification','GetEnrollmentNotificationInformation','StudentsDeclarationReport',
-                    'GetStudentsFileInformation','AtaSchoolPerformance','StudentFileForm',
-                    'TransferForm','GetTransferFormInformation', 'StudentStatementAttended', 'IndividualRecord'),
-                'users' => array('@'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
+        public function getStudentCertificate($enrollment_id): array
+    {
+        $studentIdent = StudentIdentification::model()->findByPk($enrollment_id);
+
+        if (!$studentIdent) {
+            return array("student" => null);
+        }
+
+
+        $studentData = array(
+            'name' => $studentIdent->name,
+            'civil_name' => $studentIdent->civil_name,
+            'birthday' => $studentIdent->birthday,
+            'sex' => $studentIdent->sex,
+            'color_race' => $studentIdent->color_race,
+            'filiation' => $studentIdent->filiation,
+            'filiation_1' => $studentIdent->filiation_1,
+            'filiation_2' => $studentIdent->filiation_2,
         );
+
+        return array("student" => $studentData);
     }
-
-    public function beforeAction($action){
-
-        if (Yii::app()->user->isGuest){
-            $this->redirect(yii::app()->createUrl('site/login'));
-        }
-
-        $this->year = Yii::app()->user->year;
-
-        return true;
-    }
-
-    public function actionIndex() {
-        $this->render('index');
-    }
-
-    public function actionEnrollmentGradesReport($enrollment_id)
-    {
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getEnrollmentGrades($enrollment_id);
-        $this->render('EnrollmentGradesReport', $query);
-    }
-
-    public function actionIndividualRecord($enrollment_id)
-    {
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getIndividualRecord($enrollment_id);
-        $this->render('IndividualRecord', $query);
-    }
-
-    public function actionEnrollmentGradesReportBoquim($enrollment_id)
-    {
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getEnrollmentGradesBoquim($enrollment_id);
-        $this->render('EnrollmentGradesReportBoquim', $query);
-    }
-    public function actionEnrollmentGradesReportBoquimCiclo($enrollment_id)
-    {
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getEnrollmentGradesBoquimCiclo($enrollment_id);
-        $this->render('EnrollmentGradesReportBoquimCiclo', $query);
-    }
-
-    public function actionEnrollmentDeclarationReport($enrollment_id)
-    {
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getEnrollmentDeclaration($enrollment_id);
-        $this->render('EnrollmentDeclarationReport', $query);
-    }
-
-    public function actionGetEnrollmentDeclarationInformation($enrollment_id)
-    {
-        $repository = new FormsRepository;
-        $result = $repository->getEnrollmentDeclarationInformation($enrollment_id);
-
-        echo CJSON::encode($result);
-    }
-
-    public function actionTransferRequirement($enrollment_id)
-    {
-        $this->layout = 'reports';
-        $repository = new FormsRepository;
-        $query = $repository->getTransferRequirement($enrollment_id);
-        $this->render('TransferRequirement', $query);
-    }
-
-    public function actionGetTransferRequirementInformation($enrollment_id)
-    {
-        $repository = new FormsRepository;
-        $result = $repository->getTransferRequirementInformation($enrollment_id);
-
-        echo CJSON::encode($result);
-    }
-
-    public function actionEnrollmentNotification($enrollment_id)
-    {
-        $this->layout = 'reports';
-        $repository = new FormsRepository;
-        $query = $repository->getEnrollmentNotification($enrollment_id);
-        $this->render('EnrollmentNotification', $query);
-    }
-
-    public function actionGetEnrollmentNotificationInformation($enrollment_id)
-    {
-        $repository = new FormsRepository;
-        $result = $repository->getEnrollmentNotificationInformation($enrollment_id);
-
-        echo CJSON::encode($result);
-    }
-
-    public function actionStudentsDeclarationReport($enrollment_id)
-    {
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getStudentsDeclaration($enrollment_id);
-        $this->render('StudentsDeclarationReport', $query);
-    }
-
-    public function actionGetStudentsFileInformation($enrollment_id)
-    {
-        $repository = new FormsRepository;
-        $result = $repository->getStudentsFileInformation($enrollment_id);
-
-        echo CJSON::encode($result);
-    }
-
-    public function actionAtaSchoolPerformance($id) {
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getAtaSchoolPerformance($id);
-        $this->render('AtaSchoolPerformance', $query);
-    }
-
-    public function actionStudentFileForm($enrollment_id) {
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getStudentFileForm($enrollment_id);
-        $this->render('StudentFileForm', $query);
-    }
-
-    public function actionStudentsFileForm($classroom_id) {
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getStudentsFileForm($classroom_id);
-        $this->render('StudentsFileForm', $query);
-    }
-
-    public function actionTransferForm($enrollment_id){
-        $this->layout = 'reports';
-        $repository = new FormsRepository;
-        $query = $repository->getTransferForm($enrollment_id);
-        $this->render('TransferForm', $query);
-    }
-
-    public function actionGetTransferFormInformation($enrollment_id){
-        $repository = new FormsRepository;
-        $result = $repository->getTransferFormInformation($enrollment_id);
-
-        echo CJSON::encode($result);
-    }
-
-    public function actionStatementAttended($enrollment_id) {
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getStatementAttended($enrollment_id);
-        $this->render('StudentStatementAttended', $query);
-    }
-
-    public function actionWarningTerm($enrollment_id) {
-
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getWarningTerm($enrollment_id);
-        $this->render('WarningTerm', $query);
-    }
-}
-
-mais especificamente essa parte:
-
-    public function actionStatementAttended($enrollment_id) {
-        $this->layout = "reports";
-        $repository = new FormsRepository;
-        $query = $repository->getStatementAttended($enrollment_id);
-        $this->render('StudentStatementAttended', $query);
-    }
-
-    Código 03:
-    <?php
-/* @var $this ReportsController */
-/* @var $report Mixed */
-/* @var $school SchoolIdentification*/
-$baseUrl = Yii::app()->baseUrl;
-$cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentsDeclarationReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-$school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-?>
-
-<div class="pageA4V">
-    <?php $this->renderPartial('head'); ?>
-    <div id="report" style="font-size: 14px">
-        <div style="width: 100%; margin: 0 auto; text-align:justify;margin-top: -15px;">
-            <br><br/><br/><br/>
-            <div id="report_type_container" style="text-align: center">
-                <span id="report_type_label" style="font-size: 16px">DECLARAÇÃO</span>
-            </div>
-            <br><br><br/>
-            <p class="text-indent">Declaro para os devidos fins de direito e comprovação que o(a) aluno(a) <?= $student['name_student'] ?>, nascido(a) em <?= $student['birthday'] ?>,
-            filho(a) de <?= $student['filiation_1'] ?> e <?= $student['filiation_2'] ?>, cursou neste estabelecimento de ensino <?= $descCategory ?>
-            na modalidade <?= $modality[$student['modality']] ?> no ano letivo de <?= $student['school_year'] ?>.</p>
-            <br><br>
-            <p class="text-center"><strong>Situação do(a) aluno(a):</strong>           <span class="ml-30"> <span class="mr-10">(</span>) Aprovado(a) </span><span class="ml-30"><span class="mr-10">(</span>) Retido(a)</span></p>
-            <br><br><br/>
-            <p class="text-center">Este documento não contém rasuras e terá validade de 30 (trinta) dias, a contar da data de expedição.</p>
-            <br><br><br><br>
-            <span class="pull-right">
-                <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
-            </span>
-            <br/><br/><br><br><br>
-            <div style="text-align: center">
-                <div class="signature">Gestor</div>
-            </div>
-        </div>
-    </div>
-    <br/><br/><br/><br/><br/><br/><br/><br/>
-    <?php $this->renderPartial('footer'); ?>
-</div>
-<style>
-    .ml-30 {
-        margin-left: 30px
-    }
-    .mr-10 {
-        margin-right: 10px;
-    }
-
-    .text-center {
-        text-align: center;
-    }
-
-    .text-indent {
-        text-indent: 50px;
-    }
-
-    .signature {
-        width: 500px;
-        border-top: solid 1px #000;
-        margin: auto;
-    }
-
-    @media screen{
-        .pageA4V{width:980px; height:1400px; margin:0 auto;}
-        .pageA4H{width:1400px; height:810px; margin:0 auto;}
-        #header-report ul#info, #header-report ul#addinfo {
-            width: 100%;
-            margin: 0;
-            display: block;
-            overflow: hidden;
-        }
-    }
-
-    @media print {
-        #header-report ul#info, #header-report ul#addinfo {
-            width:100%;
-            margin: auto;
-            display: block;
-            text-align: center;
-        }
-
-        #report {
-            margin: 0 50px 0 100px;
-        }
-
-        #report_type_container{
-            border-color: white !important;
-        }
-        #report_type_label{
-            border-bottom: 1px solid black !important;
-            font-size: 22px !important;
-            font-weight: 500;
-            font-family: serif;
-        }
-        table, td, tr, th {
-            border-color: black !important;
-        }
-        .report-table-empty td {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-        }
-    }
-</style>
-
-
-
-Mais especificamnete essa parte:
-    <p class="text-indent">Declaro para os devidos fins de direito e comprovação que o(a) aluno(a) <?= $student['name_student'] ?>, nascido(a) em <?= $student['birthday'] ?>,
-            filho(a) de <?= $student['filiation_1'] ?> e <?= $student['filiation_2'] ?>, cursou neste estabelecimento de ensino <?= $descCategory ?>
-            na modalidade <?= $modality[$student['modality']] ?> no ano letivo de <?= $student['school_year'] ?>.</p>
-            <br><br>
-
-Preciso que a partir dessa informações responda minhas perguntas
-
-
-
-Eu tenho esse código
-codigo 01:
-public function getStudentCertificate(/* add aqui*/): array
-    {
-
-    }
-codigo 02:
-
-<?php
-
-require_once __DIR__.'/../repository/ReportsRepository.php';
-
-class ReportsController extends Controller
-{
-    public $layout = 'reportsclean';
-    public $year = 0;
-
-    public function accessRules()
-    {
-        return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'BFReport', 'numberStudentsPerClassroomReport',
-                    'EnrollmentStatisticsByYearReport','InstructorsPerClassroomReport', 'StudentsFileReport',
-                    'getStudentsFileInformation', 'ResultBoardReport',
-                    'StatisticalDataReport', 'StudentsDeclarationReport',
-                    'EnrollmentPerClassroomReport', 'AtaSchoolPerformance',
-                    'EnrollmentDeclarationReport', 'TransferForm',
-                    'StudentsWithDisabilitiesPerClassroom', 'StudentsWithDisabilitiesPerSchool',
-                    'EnrollmentNotification', 'TransferRequirement',
-                    'EnrollmentComparativeAnalysisReport', 'SchoolProfessionalNumberByClassroomReport',
-                    'ComplementarActivityAssistantByClassroomReport', 'EducationalAssistantPerClassroomReport',
-                    'DisciplineAndInstructorRelationReport', 'ClassroomWithoutInstructorRelationReport',
-                    'StudentInstructorNumbersRelationReport', 'StudentPendingDocument',
-                    'BFRStudentReport', 'ElectronicDiary', 'OutOfTownStudentsReport', 'StudentSpecialFood',
-                    'ClassCouncilReport', 'QuarterlyReport', 'GetStudentClassrooms', 'QuarterlyFollowUpReport',
-                    'EvaluationFollowUpStudentsReport', 'CnsPerClassroomReport', 'CnsSchools', 'CnsPerSchool',
-                    'TeacherTrainingReport','ClassroomTransferReport', 'SchoolTransferReport', 'AllSchoolsTransferReport',
-                    'TeachersByStage', 'TeachersBySchool', 'StatisticalData', 'NumberOfStudentsEnrolledPerPeriodPerClassroom',
-                    'NumberOfStudentsEnrolledPerPeriodPerSchool', 'NumberOfStudentsEnrolledPerPeriodAllSchools',
-                    'AllSchoolsReportOfStudentsBenefitingFromTheBF','AllClassroomsReportOfStudentsBenefitingFromTheBF',
-                    'ReportOfStudentsBenefitingFromTheBFPerClassroom', 'TeachersByStage', 'TeachersBySchool', 'StatisticalData',
-                    'NumberOfClassesPerSchool', 'NumberOfClassesPerSchool', 'StudentCpfRgNisPerClassroom','FoodMenu', 'StudentCertificate'),
-                'users' => array('@'),
-            ),
-            array('deny', // deny all users
-                'users' => array('*'),
-            ),
-        );
-    }
-
-    public function actionStudentCertificate()
-    {
-        $repository = new ReportsRepository;
-        $query = $repository->getStudentCertificate();
-        $this->render('StudentCertificate', $query);
-    }
-}
-
-
-Como faço para modificar o código para receber o id do aluno e fazer a mesma coisa que o código mostrado no chat anterior adicionar as informações do aluno no codiog abaixo:
-
-    
-<div class="container-certificate">
-<!-- <p>O(A) Diretor(a) da: ____________________________________</p> -->
-<p>O(A) Diretor(a) da <?php echo $school->name ?>
-no uso de suas atribuições legais, confere o presente Certificado do ___(ano de ensino)___ do ___(tipo de ensino)___ a</p>
-<p>filho(a) de ______________________________________</p>
-<p>e de ____________________________________________</p>
-<p>Nascido(a) em ____ de _______________ de ________, no Município de _______________________________</p>
-<p>Estado do _______________________________</p>
-</div>
-
-
-
-<a class="t-button-secondary mobile-margin" rel="noopener" target="_blank" href="/?r=forms/StatementAttended&amp;type=&amp;enrollment_id=9807">
-                                                            <span class="t-icon-printer"></span>
-                                                            Declaração de Cursou                                                        </a>

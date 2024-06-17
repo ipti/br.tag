@@ -1734,13 +1734,10 @@ $form = $this->beginWidget(
                                     ?>
 
                                 <a class="t-button-secondary t-icon-printer t-button-certificate" id="transfer-student" href="
-                                <?php echo Yii::app()->createUrl('reports/StudentCertificate') ?>
+                                <?php echo Yii::app()->createUrl('reports/studentCertificate',  array('id' => $modelStudentIdentification->id)) ?>
                                 " target="_blank" rel="noopener">
                                             Certificado de Conclusão
                                 </a>
-
-
-
 
                             </div>
                         </div>

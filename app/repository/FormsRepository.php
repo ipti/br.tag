@@ -810,7 +810,7 @@ class FormsRepository {
     /**
      * Declaração de ano cursado na escola
      */
-    public function getStatementAttendedgetStatementAttended($enrollmentId) : array
+    public function getStatementAttended($enrollmentId) : array
     {
         $sql = "SELECT si.name name_student, si.birthday, si.filiation_1, si.filiation_2, svm.name class,
                         svm.*, c.modality, c.school_year, svm.stage stage, svm.id class
@@ -831,6 +831,8 @@ class FormsRepository {
         );
 
         $c = '';
+
+        
         switch ($data['class']) {
             case '4':
                 $c = '1º';

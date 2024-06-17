@@ -1397,29 +1397,51 @@ class ReportsRepository
     }
 
 
-    /**
-     * Buscar dados do certificado de alunos específicos
-     */
-    public function getStudentCertificate(): array
+    public function getStudentCertificate($enrollment_id): array
     {
-        $sql = "SELECT *, d.name as nome_aluno, d.inep_id as inep_id
-                    FROM student_enrollment se
-                    JOIN classroom b ON(se.`classroom_fk`=b.id)
-                    JOIN student_documents_and_address c ON(se.`student_fk`=c.`id`)
-                    JOIN student_identification d ON(c.`id`=d.`id`)
-                    WHERE b.`school_inep_fk` = :school_inep_fk AND
-                          b.school_year = :school_year AND
-                          ((`se`.`status` IN (1, 6, 7, 8, 9, 10) or `se`.`status` is null)) AND
-                          (received_cc = 0 OR received_address = 0 OR received_photo = 0
-                    OR received_nis = 0 OR received_responsable_rg = 0 OR received_responsable_cpf = 0)";
+        $studentIdent = StudentIdentification::model()->findByPk($enrollment_id);
 
-        $result = Yii::app()->db->createCommand($sql)
-            ->bindParam(':school_inep_fk', $this->currentSchool)
-            ->bindParam(':school_year', $this->currentYear)
-            ->queryAll();
+        if (!$studentIdent) {
+            return array("student" => null);
+        }
 
-        return array('report' => $result, );
+        // Obtém o nome da cidade onde o aluno mora
+        $studentAddress = StudentDocumentsAndAddress::model()->findByPk($enrollment_id);
+        $studentCityName = null;
+        if ($studentAddress) {
+            $studentCity = EdcensoCity::model()->findByPk($studentAddress->edcenso_city_fk);
+            if ($studentCity) {
+                $studentCityName = $studentCity->name;
+            }
+        }
+
+        // // Obtém o nome da cidade onde a escola está localizada
+        // $school = SchoolIdentification::model()->findByPk($studentIdent->school_id);
+        // $schoolCityName = null;
+        // if ($school) {
+        //     $schoolCity = EdcensoCity::model()->findByPk($school->edcenso_city_fk);
+        //     if ($schoolCity) {
+        //         $schoolCityName = $schoolCity->name;
+        //     }
+        // }
+
+        $studentData = array(
+            'name' => $studentIdent->name,
+            'civil_name' => $studentIdent->civil_name,
+            'birthday' => $studentIdent->birthday,
+            'sex' => $studentIdent->sex,
+            'color_race' => $studentIdent->color_race,
+            'filiation' => $studentIdent->filiation,
+            'filiation_1' => $studentIdent->filiation_1,
+            'filiation_2' => $studentIdent->filiation_2,
+            'student_city' => $studentCityName, // Adiciona o nome da cidade do aluno aos dados do aluno
+            // 'school_city' => $schoolCityName,   // Adiciona o nome da cidade da escola aos dados do aluno
+        );
+
+        return array("student" => $studentData);
     }
+
+
 
     /**
      * Lista de Alunos
