@@ -65,6 +65,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <span class="city"></span>,
                 matriculou-se no(a) <?php echo $school->name ?> no ano de
                 <span class="enrollment_date"></span>,
+                
                 <?php
                 $c;
                 //$stage = '7';

@@ -1395,36 +1395,47 @@ class ReportsRepository
 
 
     }
-
-
     public function getStudentCertificate($enrollment_id): array
     {
+        // Busca a identificação do estudante
         $studentIdent = StudentIdentification::model()->findByPk($enrollment_id);
-
+    
         if (!$studentIdent) {
             return array("student" => null);
         }
-
-        // Obtém o nome da cidade onde o aluno mora
-        $studentAddress = StudentDocumentsAndAddress::model()->findByPk($enrollment_id);
-        $studentCityName = null;
-        if ($studentAddress) {
-            $studentCity = EdcensoCity::model()->findByPk($studentAddress->edcenso_city_fk);
-            if ($studentCity) {
-                $studentCityName = $studentCity->name;
+    
+        // Inicializa as variáveis
+        $city = null;
+        $uf_acronym = null;
+        $uf_name = null;
+        $stage_name = null;
+        $class_name = null;
+    
+        // Busca a cidade usando a chave estrangeira da cidade na identificação do estudante
+        $cityObj = EdcensoCity::model()->findByPk($studentIdent->edcenso_city_fk);
+    
+        if ($cityObj) {
+            $city = $cityObj->name;
+    
+            // Busca a UF (estado) usando a chave estrangeira da UF da cidade
+            $ufObj = EdcensoUf::model()->findByPk($cityObj->edcenso_uf_fk);
+    
+            if ($ufObj) {
+                $uf_acronym = $ufObj->acronym;
+                $uf_name = $ufObj->name;
             }
         }
-
-        // // Obtém o nome da cidade onde a escola está localizada
-        // $school = SchoolIdentification::model()->findByPk($studentIdent->school_id);
-        // $schoolCityName = null;
-        // if ($school) {
-        //     $schoolCity = EdcensoCity::model()->findByPk($school->edcenso_city_fk);
-        //     if ($schoolCity) {
-        //         $schoolCityName = $schoolCity->name;
-        //     }
-        // }
-
+    
+        // Busca a matrícula do estudante
+        $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
+    
+        if ($enrollment) {
+            // Obtém o nome da etapa (stage) da turma do estudante
+            $stage_name = $enrollment->classroomFk->edcensoStageVsModalityFk->name;
+            $class_name = $enrollment->classroomFk->name;
+        }
+    
+        // Constrói os dados do estudante
         $studentData = array(
             'name' => $studentIdent->name,
             'civil_name' => $studentIdent->civil_name,
@@ -1434,15 +1445,131 @@ class ReportsRepository
             'filiation' => $studentIdent->filiation,
             'filiation_1' => $studentIdent->filiation_1,
             'filiation_2' => $studentIdent->filiation_2,
-            'student_city' => $studentCityName, // Adiciona o nome da cidade do aluno aos dados do aluno
-            // 'school_city' => $schoolCityName,   // Adiciona o nome da cidade da escola aos dados do aluno
+            'city' => $city,
+            'uf_acronym' => $uf_acronym,
+            'uf_name' => $uf_name,
+            'stage_name' => $stage_name,
+            'class_name' => $class_name, // Adiciona o nome da turma
         );
-
+    
         return array("student" => $studentData);
     }
+    
+/**
+     * Declaração de ano cursado na escola
+     */
+    public function getStatementAttended($enrollmentId) : array
+    {
+        $sql = "SELECT si.name name_student, si.birthday, si.filiation_1, si.filiation_2, svm.name class,
+                        svm.*, c.modality, c.school_year, svm.stage stage, svm.id class
+                    FROM student_enrollment se
+                JOIN student_identification si ON si.id = se.student_fk
+                JOIN classroom c on se.classroom_fk = c.id
+                JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id
+                WHERE se.id = :enrollment_id;";
 
+        $data = Yii::app()->db->createCommand($sql)
+                ->bindParam(':enrollment_id', $enrollmentId)
+                ->queryRow();
 
+        $modality = array(
+            '1' => 'Ensino Regular',
+            '2' => 'Educação Especial - Modalidade Substitutiva',
+            '3' => 'Educação de Jovens e Adultos (EJA)'
+        );
 
+        $c = '';
+
+        
+        switch ($data['class']) {
+            case '4':
+                $c = '1º';
+                break;
+            case '5':
+                $c = '2º';
+                break;
+            case '6':
+                $c = '3º';
+                break;
+            case '7':
+                $c = '4º';
+                break;
+            case '8':
+                $c = '5º';
+                break;
+            case '9':
+                $c = '6º';
+                break;
+            case '10':
+                $c = '7º';
+                break;
+            case '11':
+                $c = '8º';
+                break;
+            case '14':
+                $c = '1º';
+                break;
+            case '15':
+                $c = '2º';
+                break;
+            case '16':
+                $c = '3º';
+                break;
+            case '17':
+                $c = '4º';
+                break;
+            case '18':
+                $c = '5º';
+                break;
+            case '19':
+                $c = '6º';
+                break;
+            case '20':
+                $c = '7º';
+                break;
+            case '21':
+                $c = '8º';
+                break;
+            case '41':
+                $c = '9º';
+                break;
+            case '35':
+                $c = '1º';
+                break;
+            case '36':
+                $c = '2º';
+                break;
+            case '37':
+                $c = '3º';
+                break;
+            case '38':
+                $c = '4º';
+                break;
+        }
+
+        $descCategory = '';
+        switch ($data['stage']) {
+            case '1':
+                $descCategory = "na Educação Infantil";
+                break;
+            case '3':
+                $descCategory = "no " . $c . " Ano do Ensino Fundamental";
+                break;
+            case '4':
+                $descCategory = "no " . $c . " Ano do Ensino Médio";
+                break;
+        }
+
+        $response = array(
+            'student' => $data,
+            'modality' => $modality,
+            'descCategory' => $descCategory
+        );
+
+        return $response;
+    }
+
+    
     /**
      * Lista de Alunos
      */

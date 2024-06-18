@@ -1,3 +1,4 @@
+
 <?php
 
 $baseUrl = Yii::app()->baseUrl;
@@ -11,7 +12,7 @@ if (!isset($school)) {
 }
 
 // CVarDumper::dump($school, 10, true);
-// CVarDumper::dump($student, 10, true);
+CVarDumper::dump($student, 10, true);
 
 list($day, $month, $year) = explode('/', $student['birthday']);
 
@@ -39,8 +40,9 @@ $monthName = $months[$month];
         no uso de suas atribuições legais, confere o presente. Certificado do ___(ano de ensino)___ do ___(tipo de ensino)___ a <b><?php echo $student['name']; ?></b>
        filho(a) de <?php echo $student['filiation_1']; ?>
         e de <?php echo $student['filiation_2']; ?>.</p>
-        <p>Nascido(a) em <?php echo $day; ?> de <?php echo $monthName; ?> de <?php echo $year; ?>, no Município de _______________________________</p>
-        <p>Estado do _______________________________</p>
+        <p>Nascido(a) em <?php echo $day; ?> de <?php echo $monthName; ?> de <?php echo $year; ?>, no Município de <?php echo $student['city']; ?>
+        Estado de <?php echo $student['uf_name']; ?>.</p>
+  
     </div>
 
     <div class ="content-data">
@@ -87,7 +89,6 @@ $monthName = $months[$month];
     }
 </script>
 
-
 <style>
     .pageA4H {
         border-radius: 10px;
@@ -106,32 +107,32 @@ $monthName = $months[$month];
     h1, h4, h5 {
 
         margin-top:5px;
+        }
+    h4{
+        font-size: 13.99px;
+        font-weight: 700;
+        color: #252A31;
     }
-h4{
-    font-size: 13.99px;
-    font-weight: 700;
-    color: #252A31;
-}
-h5{
-    font-size: 13.99px;
-    font-weight: 400;
-    color: #252A31;
-}
-h1{
-    font-weight: 900;
-    font-size: 35.13px;
-    color: #16205B;
-    margin: 20px;
+    h5{
+        font-size: 13.99px;
+        font-weight: 400;
+        color: #252A31;
+    }
+    h1{
+        font-weight: 900;
+        font-size: 35.13px;
+        color: #16205B;
+        margin: 20px;
 
-}
-.content-data{
+    }
+    .content-data{
 
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-items: center;
-}
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-items: center;
+    }
     p {
         margin: 5px 0;
         font-size: 14px;
