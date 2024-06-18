@@ -3,10 +3,14 @@
     /* @var $model EdcensoStageVsModality */
     /* @var $form CActiveForm */
 
+    $cs = Yii::app()->getClientScript();
+    $cs->registerScriptFile('app\modules\stages\resources\_initialization.js', CClientScript::POS_END);
+
     $form=$this->beginWidget('CActiveForm', array(
         'id'=>'edcenso-stage-vs-modality-form',
         'enableAjaxValidation'=>false,
     ));
+
     ?>
 
     <div class="form">
@@ -41,7 +45,7 @@
                         Chtml::listData(EdcensoStageVsModality::model()->findAll("id < 99"), 'id', 'name'),
                         array(
                             'id' => "stage",
-                            'class' => 't-field-select__input'
+                            'class' => 't-field-select__input select2-container'
                         )
                     ); ?>
                     <?php echo $form->error($model,'stage'); ?>
