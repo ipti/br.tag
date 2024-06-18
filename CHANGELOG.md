@@ -1,3 +1,6 @@
+## [Versão 3.81.165]
+- Adicionando redirecionamento para inconsistências de Unidade Gestora para o Sagres
+
 ## [Versão 3.81.164]
 - Adicionada aba para visualização das turmas dos professores na tela do professor
 
