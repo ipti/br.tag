@@ -36,11 +36,11 @@ class Register50
 
             foreach ($instructor['teaching'] as $teaching) {
                 $register = [];
-                
+
                 // ignora professor de apoio
-                if($teaching['role'] == '8'){
-                    continue;
-                }
+                // if($teaching['role'] == '8'){
+                //     continue;
+                // }
 
                 $teaching['register_type'] = '50';
                 $teaching['instructor_fk'] = $id;
@@ -48,13 +48,13 @@ class Register50
                 $classroom = Classroom::model()->findByPk($teaching['classroom_id_fk']);
 
                 $classroom->edcenso_stage_vs_modality_fk = $classroom->edcenso_stage_vs_modality_fk % 10000;
-                
+
                 $codigos = [];
                 $alreadyHave99 = false;
                 $n = 0;
                 for ($i = 9; $i <= 33; $i++) {
                     if ($classroom->edcenso_stage_vs_modality_fk == 1 || $classroom->edcenso_stage_vs_modality_fk == 2 || $classroom->edcenso_stage_vs_modality_fk == 3
-                        || ($teaching["role"] != '1' && $teaching["role"] != '5')) {
+                        || ($teaching["role"] != '1' && $teaching["role"] != '5') || ($classroom->complementary_activity == '1' && $classroom->schooling == '0')) {
                         $codigos[$i] = "";
                     } else {
                         $value = $teaching["disciplines"][$n] != null ? $teaching["disciplines"][$n] : "";
@@ -99,7 +99,7 @@ class Register50
                         $register[$edcensoAlias->corder] = '';
                     }
                 }
-                
+
                 array_push($registers, implode('|', $register));
             }
         }
