@@ -300,7 +300,7 @@ class ReportsController extends Controller
         $query = $repository->getStudentCertificate($id);
         $this->render('StudentCertificate', $query);
     }
-    
+
     
     public function actionStudentPerClassroom($id)
     {

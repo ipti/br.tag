@@ -12,7 +12,7 @@ if (!isset($school)) {
 }
 
 // CVarDumper::dump($school, 10, true);
-CVarDumper::dump($student, 10, true);
+// CVarDumper::dump($student, 10, true);
 
 list($day, $month, $year) = explode('/', $student['birthday']);
 
@@ -37,7 +37,7 @@ $monthName = $months[$month];
 
     <div class="container-certificate">
         <p>O(A) Diretor(a) da Escola <?php echo $school->name ?>,
-        no uso de suas atribuições legais, confere o presente. Certificado do ___(ano de ensino)___ do ___(tipo de ensino)___ a <b><?php echo $student['name']; ?></b>
+        no uso de suas atribuições legais, confere o presente. Certificado do  <?php echo $student['ano']; ?>  do  <?php echo $student['tipo_ensino']; ?> a <b><?php echo $student['name']; ?></b>
        filho(a) de <?php echo $student['filiation_1']; ?>
         e de <?php echo $student['filiation_2']; ?>.</p>
         <p>Nascido(a) em <?php echo $day; ?> de <?php echo $monthName; ?> de <?php echo $year; ?>, no Município de <?php echo $student['city']; ?>

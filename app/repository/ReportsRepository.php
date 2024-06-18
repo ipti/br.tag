@@ -1393,50 +1393,57 @@ class ReportsRepository
 
         return array('report' => $result, );
 
-
     }
-    public function getStudentCertificate($enrollment_id): array
+
+    public function getStudentCertificate ($enrollment_id): array
     {
-        // Busca a identificação do estudante
         $studentIdent = StudentIdentification::model()->findByPk($enrollment_id);
     
         if (!$studentIdent) {
-            return array("student" => null);
+            return ["student" => null];
         }
     
-        // Inicializa as variáveis
         $city = null;
         $uf_acronym = null;
         $uf_name = null;
-        $stage_name = null;
         $class_name = null;
+        $tipo_ensino = '';
+        $ano = '';
     
-        // Busca a cidade usando a chave estrangeira da cidade na identificação do estudante
-        $cityObj = EdcensoCity::model()->findByPk($studentIdent->edcenso_city_fk);
-    
-        if ($cityObj) {
+        if ($cityObj = EdcensoCity::model()->findByPk($studentIdent->edcenso_city_fk)) {
             $city = $cityObj->name;
-    
-            // Busca a UF (estado) usando a chave estrangeira da UF da cidade
-            $ufObj = EdcensoUf::model()->findByPk($cityObj->edcenso_uf_fk);
-    
-            if ($ufObj) {
+            if ($ufObj = EdcensoUf::model()->findByPk($cityObj->edcenso_uf_fk)) {
                 $uf_acronym = $ufObj->acronym;
                 $uf_name = $ufObj->name;
             }
         }
     
-        // Busca a matrícula do estudante
-        $enrollment = StudentEnrollment::model()->findByPk($enrollment_id);
+        $command = Yii::app()->db->createCommand("
+            SELECT c.name, esv.name as etapa
+            FROM classroom c 
+            JOIN student_enrollment se ON c.id = se.classroom_fk
+            JOIN edcenso_stage_vs_modality esv ON c.edcenso_stage_vs_modality_fk = esv.id
+            WHERE se.student_fk = :student_fk AND se.status = 1 
+            ORDER BY se.id DESC
+            LIMIT 1
+        ");
+        $command->bindValue(':student_fk', $enrollment_id);
+        $row = $command->queryRow();
+        if ($row) {
+            $class_name = $row['name'];
+            $etapa = $row['etapa'];
     
-        if ($enrollment) {
-            // Obtém o nome da etapa (stage) da turma do estudante
-            $stage_name = $enrollment->classroomFk->edcensoStageVsModalityFk->name;
-            $class_name = $enrollment->classroomFk->name;
+            // Dividir a string da etapa pelo delimitador '-'
+            $etapa_parts = explode(' - ', $etapa);
+    
+            // Verificar se a divisão funcionou corretamente e obter as partes separadas
+            if (count($etapa_parts) == 2) {
+                $tipo_ensino = $etapa_parts[0];
+                $ano = $etapa_parts[1];
+            }
         }
     
-        // Constrói os dados do estudante
-        $studentData = array(
+        $studentData = [
             'name' => $studentIdent->name,
             'civil_name' => $studentIdent->civil_name,
             'birthday' => $studentIdent->birthday,
@@ -1448,14 +1455,17 @@ class ReportsRepository
             'city' => $city,
             'uf_acronym' => $uf_acronym,
             'uf_name' => $uf_name,
-            'stage_name' => $stage_name,
-            'class_name' => $class_name, // Adiciona o nome da turma
-        );
+            'class_name' => $class_name,
+            'tipo_ensino' => $tipo_ensino, // Adicionando o tipo de ensino separado
+            'ano' => $ano, // Adicionando o ano separado
+        ];
     
-        return array("student" => $studentData);
+        return ["student" => $studentData];
     }
     
-/**
+    
+    
+    /**
      * Declaração de ano cursado na escola
      */
     public function getStatementAttended($enrollmentId) : array

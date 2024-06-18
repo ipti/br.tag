@@ -6,7 +6,7 @@ $_FORMS[1] = array('name' => 'Declaração de Matrícula', 'action' => 'Enrollme
 $_FORMS[4] = array('name' => 'Declaração de Aluno', 'action' => 'StudentsDeclarationReport');
 $_FORMS[5] = array('name' => 'Formulário de Transferência', 'action' => 'TransferForm');
 $_FORMS[6] = array('name' => 'Requerimento de Transferência', 'action' => 'TransferRequirement');
-$_FORMS[8] = array('name' => 'Declaração de Cursou', 'action' => 'StatementAttended');
+$_FORMS[8] = array('name' => 'Declaração de Cursou', 'action' => 'StudentsDeclarationReport');
 $_FORMS[9] = array('name' => 'Termo de Advertência', 'action' => 'WarningTerm');
 
 $host_array = explode(".", $_SERVER['HTTP_HOST']);
