@@ -1,3 +1,6 @@
+## [Versão 3.81.170]
+- O relatório do Diário Eletrônico foi atualizado para incluir o nome das turmas correspondentes para cada aluno.
+
 ## [Versão 3.81.169]
 - Modificando a visualização da etapa relacionada ao educacenso no formulário de etapas
 
@@ -61,7 +64,6 @@
 ## [Versão 3.79.154]
 - Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
 
-## [Versão 3.79.153]
 ## [Versão 3.79.152]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes duplicados.
 
