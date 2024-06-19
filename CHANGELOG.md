@@ -1,3 +1,6 @@
+## [Versão 3.81.168]
+- View "enrollment_classroom" e relatórios de matrícula atualizadas.
+
 ## [Versão 3.81.167]
 - Realizada correção na funcionalidade de frequência para o caso de alunos com situação de matrícula como transferido em turma.
 
