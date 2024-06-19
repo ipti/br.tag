@@ -429,7 +429,9 @@ class ClassesController extends Controller
 
     public function actionGetFrequency()
     {
-        if ($_POST["fundamentalMaior"] == "1") {
+        $classroom = Classroom::model()->findByPk($_POST["classroom"]);
+        $isMinor = $this->checkIsStageMinorEducation($classroom);
+        if ($isMinor == false) {
             $schedules = Schedule::model()->findAll(
                 "classroom_fk = :classroom_fk and year = :year and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
                 [
@@ -619,6 +621,7 @@ class ClassesController extends Controller
     {
         $result = [];
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
+        $isMinor = $this->checkIsStageMinorEducation($classroom);
         if ($classroom->calendar_fk != null) {
 
             $result["months"] = [];
@@ -635,7 +638,7 @@ class ClassesController extends Controller
             }
 
             $result["disciplines"] = [];
-            if ($_POST["fundamentalMaior"] == "1") {
+            if ($isMinor == false) {
                 if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                     $disciplines = Yii::app()->db->createCommand(
                         "select ed.id, ed.name from teaching_matrixes tm
@@ -657,9 +660,27 @@ class ClassesController extends Controller
         } else {
             $result = ["valid" => false, "error" => "A Turma está sem Calendário Escolar vinculado."];
         }
+
+        $result["isMinor"] = $isMinor;
         echo json_encode($result);
     }
+    private function checkIsStageMinorEducation($classroom) {
+        $isMinor = TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk);
 
+        if (!$isMinor && TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
+            $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
+
+            foreach ($enrollments as $enrollment) {
+                if (!TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)) {
+                    return false;
+                }
+            }
+
+            $isMinor = true;
+        }
+
+        return $isMinor;
+    }
     /**
      * Get all disciplines by classroom
      */
