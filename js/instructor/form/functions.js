@@ -72,7 +72,6 @@ function loadCitiesTo(emmiter , citySelector){
 
 
 function loadIES(iesUfDropDown, iesDropDownPath, currentIES) {
-    console.log(currentIES)
     $.ajax({
         type: "POST",
         url: "?r=instructor/getinstitution",
@@ -92,3 +91,34 @@ function loadIES(iesUfDropDown, iesDropDownPath, currentIES) {
         }
     });
 }
+
+function renderClasroomsCards(){
+    let params = new URLSearchParams(document.location.search);
+    let instructorId = params.get("id");
+    if(instructorId) {
+        $.ajax({
+            url: "?r=instructor/getclassrooms",
+            type: "POST",
+            data: {
+                instructorId: instructorId
+            }
+        }).success(function (response) {
+             const result = JSON.parse(response);
+            const classrooms = $(".js-add-classrooms-cards");
+             var cardsClassrooms = result.reduce((acc, element) =>
+                acc += `
+                <div class="column clearfix no-grow">
+                     <a href="${window.location.host}?r=classroom/update&id=${element["id"]}" class="t-cards">
+                        <div class="t-cards-content">
+                            <div class="t-tag-primary">${element["discipline_name"]}</div>
+                            <div class="t-cards-title">${element["name"]}</div>
+                            <div class="t-cards-text clear-margin--left">${element["stage_name"]}</div>
+                        </div>
+                    </a>
+                </div>`, "");
+            classrooms.html(DOMPurify.sanitize(cardsClassrooms));
+        })
+    }
+ }
+
+ renderClasroomsCards();

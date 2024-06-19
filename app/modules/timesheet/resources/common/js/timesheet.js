@@ -97,7 +97,6 @@ function getTimesheet(data) {
         buildTimesheetStructure(data);
         $(".tables-timesheet tbody").children().remove();
         $(".calendar-icons th").children().remove();
-        var turn = "";
         var lastMonthWeek = 1;
         $.each(data.calendarEvents, function () {
             $(".calendar-icons th[icon-year=" + this.year + "][icon-month=" + this.month + "][icon-day=" + this.day + "]").append(
@@ -119,8 +118,6 @@ function getTimesheet(data) {
                         var hardUnavailableDay = data.hardUnavailableDays[year] !== undefined && data.hardUnavailableDays[year][month] !== undefined && $.inArray(day.toString(), data.hardUnavailableDays[year][month]) !== -1;
                         var softUnavailableDay = data.softUnavailableDays[year] !== undefined && data.softUnavailableDays[year][month] !== undefined && $.inArray(day.toString(), data.softUnavailableDays[year][month]) !== -1;
 
-                        var iterationDate = new Date(year + "-" + pad(month, 2) + "-" + pad(day, 2));
-
                         var tdClass = "";
                         if (hardUnavailableDay) {
                             tdClass += "hard-unavailable";
@@ -129,11 +126,6 @@ function getTimesheet(data) {
                         }
 
                         if (data.schedules[year] !== undefined && data.schedules[year][month] !== undefined && data.schedules[year][month][schedule] !== undefined && data.schedules[year][month][schedule][day] !== undefined) {
-                            if (turn === "") {
-                                if (data.schedules[year][month][schedule][day].turn === "0") turn = "Manhã";
-                                if (data.schedules[year][month][schedule][day].turn === "1") turn = "Tarde";
-                                if (data.schedules[year][month][schedule][day].turn === "2") turn = "Noite";
-                            }
                             var discipline = changeNameLength(data.schedules[year][month][schedule][day].disciplineName, 30);
 
                             html += "" +
@@ -164,7 +156,27 @@ function getTimesheet(data) {
             });
         });
         calculateWorkload(data.disciplines, false);
+
+        let turn = "";
+        switch (data.turn) {
+            case "M":
+                turn = "Manhã";
+                break;
+            case "T":
+                turn = "Tarde";
+                break;
+            case "N":
+                turn = "Noite";
+                break;
+            case "I":
+                turn = "Integral";
+                break;
+            default:
+                turn = "";
+
+        }
         $("#turn").text(turn).show();
+
         $(".table-container").show();
     }
 }

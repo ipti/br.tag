@@ -106,11 +106,11 @@ class ClassesController extends Controller
      */
     public function actionGetClassContents()
     {
-        $classroomId = $_POST["classroom"];
+        $classroomId = Yii::app()->request->getPost('classroom');
         $isMinorEducation = TagUtils::isStageMinorEducation(Classroom::model()->findByPk($classroomId)->edcenso_stage_vs_modality_fk);
-        $month = $_POST["month"];
-        $year = $_POST["year"];
-        $disciplineId = $_POST["discipline"];
+        $month = Yii::app()->request->getPost('month');
+        $year = Yii::app()->request->getPost('year');
+        $disciplineId = Yii::app()->request->getPost('discipline');
 
         $students = $this->getStudentsByClassroom($classroomId);
 
@@ -188,15 +188,7 @@ class ClassesController extends Controller
         }
     }
 
-
-    /**
-     * Summary of getSchedulesFromMajorStage
-     * @param integer $classroomId
-     * @param integer $month
-     * @param integer $disciplineId
-     * @return Schedule[]
-     */
-    private function getSchedulesFromMajorStage($classroomId, $month, $disciplineId, $year)
+    private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
     {
         return Schedule::model()->findAll(
             "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",

@@ -1,36 +1,74 @@
-## [Versão 3.80.156]
+## [Versão 3.81.167]
 - Realizada correção na funcionalidade de frequência para o caso de alunos com situação de matrícula como transferido em turma.
 
-## [Versão 3.80.155]
+## [Versão 3.81.166]
+- Realizada correção do turno no quadro de horário. 
+
+## [Versão 3.81.165]
+- Adicionando redirecionamento para inconsistências de Unidade Gestora para o Sagres
+
+## [Versão 3.81.164]
+- Adicionada aba para visualização das turmas dos professores na tela do professor
+
+## [Versão 3.80.164]
+- Adicionando o código na exibição da tabela de alunos
+
+## [Versão 3.80.163]
+- Adicionando o código na exibição da tabela de turmas
+
+## [Versão 3.80.162]
+- Adicionando o código na exibição da tabela de professores
+
+## [Versão 3.80.161]
+- Refatoradas variáveis para utilizar o post, através de uma função do Yii.
+- Modificada a ordem dos parâmetros da função getSchedulesFromMajorStage.
+-
+## [Versão 3.80.160]
 - Correção na opção da data máxima da função renderDatePickerFinal.
 
-## [Versão 3.80.154]
+## [Versão 3.80.159]
 - Método actionValidate do CensoController refatorado, implementando váriaveis.
 - Processar instrutores, garantindo que cada instrutor seja validado apenas uma vez.
 
-## [Versão 3.80.153]
+## [Versão 3.80.158]
 - Alterado o botão Cancelar Matrícula por Excluir Matricula.
 
-## [Versão 3.80.152]
+## [Versão 3.80.157]
 - Inserido opção de situação de matrícula "AVANÇADO" no campo "Situação de Matrícula"
 - Adequado o sistema para o Educacenso 2024
 
-## [Versão 3.79.152]
+## [Versão 3.79.157]
 - Corrigida ficha de matricula do aluno ao imprimir.
+
+## [Versão 3.79.156]
+- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
+
+## [Versão 3.79.156]
+- Permitido com que se adicione ou remova aulas no quadro de horário, mesmo quando houver preenchimento de frequência ou quadro de horário
+
+## [Versão 3.79.155]
+- Efetuadas correções para o chaveamento do professor com o seu usuário
+
+## [Versão 3.79.154]
+- Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
+
+## [Versão 3.79.153]
+## [Versão 3.79.152]
+- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes duplicados.
 
 ## [Versão 3.79.151]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
 
-## [Versão 3.78.150]
+## [Versão 3.79.150]
 - Permitido com que se adicione ou remova aulas no quadro de horário, mesmo quando houver preenchimento de frequência ou quadro de horário
 
-## [Versão 3.78.149]
+## [Versão 3.79.149]
 - Efetuadas correções para o chaveamento do professor com o seu usuário
 
-## [Versão 3.78.148]
+## [Versão 3.79.148]
 - Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
 
-## [Versão 3.78.147]
+## [Versão 3.79.147]
 - Retirada a cor de fundo cinza do input da data inicial
 - Adicionado input de data final
 - Corrigido link de limpar input das datas
