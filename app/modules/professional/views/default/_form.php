@@ -78,7 +78,7 @@
                                             <?php echo $form->label($modelProfessional, 'speciality', array('class' => 'control-label')); ?>
                                         </div>
                                         <div class="controls">
-                                            <?php echo $form->textField($modelProfessional, 'speciality', array('size' => 100)); ?>
+                                            <?php echo $form->textField($modelProfessional, 'speciality', array('size' => 50)); ?>
                                             <?php echo $form->error($modelProfessional, 'speciality'); ?>
                                         </div>
                                     </div>

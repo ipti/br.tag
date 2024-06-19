@@ -269,14 +269,14 @@ function validateNamePerson(personName, handler) {
 
 }
 
-function existsStudentWithCPF(cpf, callback) {
+function existsStudentWithCPF(cpf, studentId, callback) {
     var ret = new Array();
     var passCpf = false;
     $.ajax({
         url: `${origin}${pathname}?r=student/comparestudentcpf&student_cpf=${cpf}`,
     }).success(function (response) {
         $.each($.parseJSON(response), function (student_fk, id) {
-            if (student_fk != '') passCpf = true
+            if (student_fk != '' && student_fk != studentId) passCpf = true
         });
         
         if (passCpf) {

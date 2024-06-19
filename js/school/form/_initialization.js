@@ -34,3 +34,11 @@ function getUrlVars() {
     let vars = {};
     return vars;
 }
+
+$("#initial_reset").on("click", function(e){
+    $("#initial_date_picker").val("");
+});
+
+$("#final_reset").on("click", function(e){
+    $("#final_date_picker").val("");
+});
