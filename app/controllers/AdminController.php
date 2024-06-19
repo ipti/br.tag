@@ -197,10 +197,7 @@ class AdminController extends Controller
                 fclose($output);
             }
 
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Arquivo CSV Gerado: ' . $path));
-
             // Set PHP headers for CSV output.
-            header('Content-Type: text/csv');
             header("Content-Disposition: attachment; filename=\"" . basename($path) . "\"");
             header("Content-Type: application/force-download");
             header("Content-Length: " . filesize($path));
