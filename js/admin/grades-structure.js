@@ -1,3 +1,10 @@
+function hasUnitiesSaved() {
+    if ($("input[type='hidden'].unity-id[value]").length > 0) {
+        $(".js-new-partial-recovery").removeClass("disabled");
+        return
+    }
+    $(".js-new-partial-recovery").addClass("disabled");
+}
 $(document).on(
     "change",
     "#GradeUnity_edcenso_stage_vs_modality_fk",
@@ -13,65 +20,69 @@ $(document).on("keyup", ".unity-name", function (e) {
 });
 
 $(document).on("click", ".js-new-unity", function (e) {
-    const unities = $(".unity").length;
-    const isUnityConcept = $(".js-rule-type").select2("val") === "C";
-    const unityHtml = template`
-        <div class='unity column is-three-fifths'>
-            <div class='row unity-heading ui-accordion-header'>
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collaps-${unities}">
-                    <h2 class="unity-title accordion-heading">Unidade: </h2>
-                </a>
-                <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor"></span>
-            </div>
-            <div id="collaps-${unities}"class=" collapse ${
-        unities == 0 ? "in" : ""
-    }">
-                <input type='hidden' class="unity-id">
-                <input type="hidden" class="unity-operation" value="create">
-                <div class="t-field-text" style="margin-top: 16px">
-                    <label class='t-field-text__label--required'>Nome: </label>
-                    <input type='text' class='t-field-text__input unity-name' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
-                </div>
-                <div class="t-field-select">
-                    <label class='t-field-select__label--required'>Modelo: </label>
-                    <select class='t-field-select__input js-type-select select-search-on control-input'>
-                        ${
-                            isUnityConcept
-                                ? `<option value='UC'>Unidade por conceito</option>`
-                                : `<option value='U'>Unidade</option>
-                                   <option value='UR'>Unidade com recuperação</option>`
-                        }
-                    </select>
-                </div>
-                <div class="t-field-select js-calculation ${
-                    isUnityConcept ? "hide" : "show"
-                }" >
-                    <label class='t-field-select__label--required'>Forma de cálculo:  </label>
-                    <select class='t-field-select__input js-formula-select select-search-on control-input'>
-                        ${$(".formulas")[0].innerHTML}
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="column">
-                        <h4>Modalidades avaliativas: </h4>
-                        <p class="subheading">
-                        Gerencie todas as formas de avalição que compõe as notas dessa unidade avaliativa
-                        </p>
-                    </div>
-                    <a href="#new-modality" id="new-modality" class="js-new-modality t-button-primary">
-                        <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Modalidade
+    if (!$('.js-new-unity').hasClass('disabled')) {
+        const unities = $(".unity").length;
+        const isUnityConcept = $(".js-rule-type").select2("val") === "C";
+        const unityHtml = template`
+            <div class='unity column is-three-fifths'>
+                <div class='row unity-heading ui-accordion-header'>
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collaps-${unities}">
+                        <h2 class="unity-title accordion-heading">Unidade: </h2>
                     </a>
+                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor" style="margin-top:0;"></span>
                 </div>
-                <div class="t-cards js-modality-container"></div>
-            </div>
-        </div>`;
+                <div id="collaps-${unities}"class=" collapse ${unities == 0 ? "in" : ""} js-unity-body">
+                    <input type='hidden' class="unity-id">
+                    <input type="hidden" class="unity-operation" value="create">
+                    <div class="t-field-text" style="margin-top: 16px">
+                        <label class='t-field-text__label--required'>Nome: </label>
+                        <input type='text' class='t-field-text__input unity-name' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
+                    </div>
+                    <div class="t-field-select">
+                        <label class='t-field-select__label--required'>Modelo: </label>
+                        <select class='t-field-select__input js-type-select select-search-on control-input'>
+                            ${isUnityConcept
+                ? `<option value='UC'>Unidade por conceito</option>`
+                : `<option value='U'>Unidade</option>
+                                    <option value='UR'>Unidade com recuperação</option>`
+            }
+                        </select>
+                    </div>
+                    <div class="t-field-select js-calculation ${isUnityConcept ? "hide" : "show"
+            }" >
+                        <label class='t-field-select__label--required'>Forma de cálculo:  </label>
+                        <select class='t-field-select__input js-formula-select select-search-on control-input'>
+                            ${$(".formulas")[0].innerHTML}
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <h4>Modalidades avaliativas: </h4>
+                            <p class="subheading">
+                            Gerencie todas as formas de avalição que compõe as notas dessa unidade avaliativa
+                            </p>
+                        </div>
+                        <a href="#new-modality" id="new-modality" class="js-new-modality t-button-primary">
+                            <img alt="Unidade" src="/themes/default/img/buttonIcon/start.svg">Modalidade
+                        </a>
+                    </div>
+                    <div class="t-cards js-modality-container"></div>
+                </div>
+            </div>`;
 
-    $(".js-grades-structure-container").append(unityHtml);
-    if ($(".js-rule-type").select2("val") === "C") {
-        $(".js-new-modality").last().trigger("click").hide();
-        $(".remove-modality").last().hide();
+        $(".js-grades-structure-container").append(unityHtml);
+        if ($(".js-rule-type").select2("val") === "C") {
+            $(".js-new-modality").last().trigger("click").hide();
+            $(".remove-modality").last().hide();
+        }
+        $(".unity").last().find(".js-type-select, .js-formula-select").select2();
+        if (!$(".js-new-partial-recovery").hasClass("disabled")) {
+            $('.js-alert-save-unities-first')
+                .text("Para cadastrar novas recuperações, conclua o cadastro da unidade")
+                .show();
+            $(".js-new-partial-recovery").addClass("disabled");
+        }
     }
-    $(".unity").last().find(".js-type-select, .js-formula-select").select2();
 });
 
 $(document).on("change", ".js-type-select", function (e) {
@@ -127,31 +138,85 @@ $(document).on("change", ".js-rule-type", function (e) {
     initRuleType(e.target.value);
 });
 
+$(document).on("change", ".js-partial-recovery-unities", function (e) {
+    const $accordionBody = $(this).closest('.partial-recovery-accordion-body');
+    const calculateName = $accordionBody.find('.js-formula-select').select2("data").text;
+
+    if (calculateName === "Peso") {
+        let inputsWeight = '';
+        const $recoveryWeight = $accordionBody.find(".InputWeight input[data-unity-id='']");
+        const recoveryWeightValue = $recoveryWeight.length > 0 ? $recoveryWeight.val() : '';
+
+        inputsWeight += createInputWeight($recoveryWeight.attr('data-weight-id'), '', 'Recuperação', recoveryWeightValue);
+
+        const selectedValues = e.val;
+        selectedValues.forEach(element => {
+            const nameUnity = $(this).find(`option[value="${element}"]`).text();
+            const $oldInputWeight = $accordionBody.find(`.InputWeight input[data-unity-id="${element}"]`);
+            const oldInputWeightValue = $oldInputWeight.length > 0 ? $oldInputWeight.val() : '';
+            const oldInputWeightID = $oldInputWeight.length > 0 ? $oldInputWeight.attr('data-weight-id') : '';
+            inputsWeight += createInputWeight(oldInputWeightID ,element, nameUnity, oldInputWeightValue);
+        });
+
+        $accordionBody.find('.InputWeight-container').html(inputsWeight);
+    }
+});
+
 $(document).on("change", ".js-formula-select", function (e) {
     var unity = $(this).closest(".unity");
     const selectedValue = $(this).select2("data").text;
-    if (selectedValue === "Peso") {
-        unity
-            .find(".modality-name[modalitytype=C]")
-            .css("width", "calc(100% - 240px)");
-        unity
-            .find(".modality-name[modalitytype=C]")
-            .parent()
-            .append(
-                template`
-                    <div class="t-field-text">
-                        <label class='t-field-text__label--required'>Peso:</span></label>
-                        <input type='text' class='t-field-text__input weight' placeholder='Peso'>
-                    </div>
-                `
-            );
+
+    if (unity.length > 0) {
+        if (selectedValue === "Peso") {
+            unity
+                .find(".modality-name[modalitytype=C]")
+                .css("width", "calc(100% - 240px)");
+            unity
+                .find(".modality-name[modalitytype=C]")
+                .parent()
+                .append(
+                    template`
+                        <div class="t-field-text">
+                            <label class='t-field-text__label--required'>Peso:</span></label>
+                            <input type='text' class='t-field-text__input weight' placeholder='Peso'>
+                        </div>
+                    `
+                );
+        } else {
+            unity.find(".weight").remove();
+            unity
+                .find(".modality-name[modalitytype=C]")
+                .css("width", "calc(100% - 140px)");
+        }
     } else {
-        unity.find(".weight").remove();
-        unity
-            .find(".modality-name[modalitytype=C]")
-            .css("width", "calc(100% - 140px)");
+        const $accordionBody = $(this).closest('.partial-recovery-accordion-body');
+        const unities = $accordionBody.find("select.js-partial-recovery-unities");
+        if (selectedValue === "Peso") {
+            let inputsWeight = '';
+            const $recoveryWeight = $accordionBody.find(".InputWeight input[data-unity-id='']");
+            const recoveryWeightValue = $recoveryWeight.length > 0 ? $recoveryWeight.val() : '';
+            inputsWeight += createInputWeight('', '', 'Recuperação', recoveryWeightValue);
+
+            unities.val().forEach(element => {
+                const unityText = unities.find(`option[value="${element}"]`).text();
+                inputsWeight += createInputWeight('', element, unityText, '');
+            });
+
+            $accordionBody.find('.InputWeight-container').html(inputsWeight);
+        } else {
+            $accordionBody.find('.InputWeight-container').html('');
+        }
     }
 });
+
+function createInputWeight(id, unityId, unityName, inputVal) {
+    return template`
+        <div class="InputWeight">
+            <label class="t-field-text__label--required">${unityName}</label>
+            <input type="text" placeholder='Peso' data-weight-id="${id}" data-unity-id="${unityId == null ? "" : unityId}" value='${inputVal}'>
+        </div>
+    `
+}
 
 $(document).on("keyup", ".weight", function (e) {
     var val = this.value;
@@ -184,15 +249,14 @@ $(document).on("click", ".js-new-modality", function (e) {
                 <div class="t-field-text">
                     <label class='t-field-text__label--required'>Nome da modalidade avaliativa: </label>
                     <input type='text' class='modality-name t-field-text__input' modalitytype='C' placeholder='Prova, Avaliação, Trabalho, etc.' style='width: calc(100% - 222px);'>
-                    ${
-                        formula === "Peso"
-                            ? template`
+                    ${formula === "Peso"
+            ? template`
                                 <div class="t-field-text">
                                     <label class='t-field-text__label--required'>Peso:</span></label>
                                     <input type='text' class='t-field-text__input weight form-control' placeholder='Peso'>
                                 </div>`
-                            : ""
-                    }
+            : ""
+        }
                 </div>
                 <span class="remove-modality remove-button t-button-icon-danger t-icon-trash"></span>
             </div>
@@ -207,6 +271,10 @@ $(document).on("click", ".js-remove-unity", function (e) {
 
     if (isNew) {
         unity.remove();
+        if ($("input[type='hidden'].unity-id:not([value])").length == 0) {
+            $('.js-alert-save-unities-first').hide();
+            $(".js-new-partial-recovery").removeClass("disabled");
+        }
     } else {
         const response = confirm(
             "Ao remover um unidade, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
@@ -262,11 +330,22 @@ $(document).on("change", ".js-has-final-recovery", function (event) {
             $(".final-recovery-unity-operation").val("update");
         }
     } else {
-        // debugger
         $(".js-recovery-form").hide();
         if (!isNew) {
             $(".final-recovery-unity-operation").val("delete");
         }
+    }
+});
+
+$(document).on("change", ".js-has-partial-recovery", function (event) {
+    const isChecked = $(this).is(":checked");
+    if (isChecked) {
+        $(".js-new-partial-recovery").removeClass("disabled");
+        $(".js-partial-recovery-form").show();
+
+    } else {
+        $(".js-new-partial-recovery").addClass("disabled")
+        $(".js-recovery-form").hide();
     }
 });
 
@@ -280,6 +359,13 @@ function initRuleType(ruleType) {
         );
         $(".js-calculation").hide();
         $(".remove-modality").hide();
+        $('.js-partial-recoveries-header').hide();
+        $(".js-alert-save-recovery-first").hide();
+        $(".js-new-unity").removeClass("disabled");
+        $('.partial-recovery-container').each((index, e)=>{
+            deletePartialRecovery(e);
+        })
+
     } else if (ruleType === "N") {
         $(".numeric-fields").show();
         $(".js-has-final-recovery").trigger("change");
@@ -288,11 +374,35 @@ function initRuleType(ruleType) {
         $(".js-calculation").show();
         $(".js-new-modality").show();
         $(".remove-modality").show();
+        $('.js-partial-recoveries-header').show();
+        let partialRecoveries = $('.partial-recovery-container');
+        if(partialRecoveries.length > 0){
+
+            partialRecoveries.each((index, partialRecovery)=>{
+                $(partialRecovery).show();
+                $(partialRecovery).find('.partial-recovery-operation').val("create");
+            })
+        }
     }
 
     $("select.js-type-select").select2();
 }
+function hasDuplicateUnities(partialRecoveries) {
+    const seenUnities = new Set();
 
+    for (const recovery of partialRecoveries) {
+        if (recovery.unities != null) {
+            for (const unity of recovery.unities) {
+                if (seenUnities.has(unity)) {
+                    return true;  // Encontrou uma duplicata
+                }
+                seenUnities.add(unity);
+            }
+        }
+    }
+
+    return false;  // Não encontrou duplicatas
+}
 function saveUnities(reply) {
     const unities = [];
     $(".unity").each(function () {
@@ -319,6 +429,35 @@ function saveUnities(reply) {
             modalities: modalities,
         });
     });
+    const partialRecoveries = [];
+    $('.partial-recovery-accordion-body').each(function (index, element) {
+
+        partialRecoveries.push({
+            id: $(element).find('.partial-recovery-id').val(),
+            operation: $(element).find('.partial-recovery-operation').val(),
+            name: $(element).find('.partial-recovery-name').val(),
+            order: index + 1,
+            weights: $(element).find('.InputWeight input').length > 0
+                ? getInputWeight(element)
+                : null,
+            mediaCalculation: $(element).find('select.js-formula-select').val(),
+            unities: $(element).find('select.js-partial-recovery-unities').val()
+
+        })
+    })
+    if (hasDuplicateUnities(partialRecoveries)) {
+        $(".alert-required-fields")
+            .addClass("alert-error")
+            .removeClass("alert-success")
+            .text("Não é possivél salvar uma mesma unidade em recuperações parciais diferentes")
+            .show();
+        window.scroll({
+            top: 0,
+            left: 0,
+            behavior: 'smooth' // Para um scroll suave
+        });
+        return
+    }
     $.ajax({
         type: "POST",
         url: "?r=admin/saveUnities",
@@ -341,6 +480,8 @@ function saveUnities(reply) {
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
             ruleType: $(".js-rule-type").select2("val"),
+            hasPartialRecovery: partialRecoveries.length > 0,
+            partialRecoveries: partialRecoveries
         },
         beforeSend: function (e) {
             $(".alert-media-fields")
@@ -350,7 +491,7 @@ function saveUnities(reply) {
                     "Atualizando resultados dos alunos, o processo pode demorar..."
                 )
                 .show();
-            $(".buttons a, .js-grades-structure-container")
+            $(".buttons a, .js-grades-container")
                 .css("opacity", "0.4")
                 .css("pointer-events", "none");
             $("#GradeUnity_edcenso_stage_vs_modality_fk").attr(
@@ -367,6 +508,8 @@ function saveUnities(reply) {
                     .removeClass("alert-error")
                     .text("Estrutura de notas cadastrada com sucesso!")
                     .show();
+                $('.js-alert-save-unities-first').hide();
+                $('.js-alert-save-recovery-first').hide();
                 loadStructure();
             }
         },
@@ -388,7 +531,7 @@ function saveUnities(reply) {
                 .addClass("alert-success")
                 .text("Médias atualizadas com sucesso!");
             $("html, body").animate({ scrollTop: 0 }, "fast");
-            $(".buttons a, .js-grades-structure-container")
+            $(".buttons a, .js-grades-container")
                 .css("opacity", "1")
                 .css("pointer-events", "auto");
             $("#GradeUnity_edcenso_stage_vs_modality_fk").removeAttr(
@@ -398,7 +541,15 @@ function saveUnities(reply) {
         },
     });
 }
-
+function getInputWeight(partialRecovery) {
+    return $(partialRecovery).find('.InputWeight input').map(function () {
+        return {
+            id: this.getAttribute('data-weight-id') === "" ?  null : this.getAttribute('data-weight-id'),
+            unityId: this.getAttribute('data-unity-id'),
+            weight: this.value
+        };
+    }).get();
+}
 function checkValidInputs() {
     $(".alert-required-fields, .alert-media-fields").hide();
     let valid = true;
@@ -414,12 +565,15 @@ function checkValidInputs() {
     } else if (
         $(".js-rule-type").select2("val") === "N" &&
         $(".js-has-final-recovery").is(":checked") &&
-        $(".approval-media").val() < $(".final-recover-media").val()
+        Number($(".approval-media").val()) < Number($(".final-recover-media").val())
     ) {
         valid = false;
         message = "A média de recuperação final não pode ser superior à de aprovação.";
+    } else if (partialRecoveryValid() == false) {
+        valid = false;
+        message = "Os campos de recuperação parciais são obrigatórios.";
     }
-
+    console.log(partialRecoveryValid())
     if (valid) {
         if ($(".unity").length) {
             let ucCount = 0;
@@ -521,6 +675,26 @@ function checkValidInputs() {
     }
     return valid;
 }
+function partialRecoveryValid() {
+    let valid = true
+    $('.partial-recovery-container').each((index, partialRecoveries)=>{
+        let name =  $(partialRecoveries).find('.partial-recovery-name').val()
+        let formula =  $(partialRecoveries).find('select.js-formula-select').val()
+        let unities =  $(partialRecoveries).find('select.js-partial-recovery-unities').val()
+        let weights =  true
+
+        $(partialRecoveries).find('.InputWeight input').each((index, weight)=>{
+            if($(weight).val() ==""){
+                weights = false
+            }
+        })
+
+        if(name ==="" || formula === "" || unities === null ||  weights === false){
+            valid = false
+        }
+    })
+    return valid;
+}
 
 function loadStructure() {
     if ($("#GradeUnity_edcenso_stage_vs_modality_fk").val() !== "") {
@@ -579,8 +753,12 @@ function loadStructure() {
                 ).show();
 
                 if (Object.keys(data.unities).length) {
+                    let newUnityButton = $(".js-new-unity");
                     $.each(data.unities, function (e) {
-                        $(".js-new-unity").trigger("click");
+                        if (newUnityButton.hasClass('disabled')) {
+                            newUnityButton.removeClass("disabled");
+                        }
+                        newUnityButton.trigger("click");
                         const unity = $(".unity").last();
                         unity.find(".unity-name").val(this.name);
                         unity.find(".unity-title").html(this.name);
@@ -604,6 +782,32 @@ function loadStructure() {
                             modality.find(".weight").val(this.weight);
                         });
                     });
+                    $('.js-alert-save-unities-first').hide();
+                }
+                if (data.partialRecoveries.length > 0) {
+                    $('#accordion-partial-recovery').empty()
+                    $.each(data.partialRecoveries, function (index, element) {
+                        let unities = element.unities;
+                        let unityOptionsSelected = [];
+                        $.each(unities, function (index, unity) {
+                            let value = unity.id;
+                            unityOptionsSelected.push(value);
+                        });
+                        let newAccordion = addAccordion(element.id, element.name)
+                        $('#accordion-partial-recovery').append(newAccordion)
+                        let calculationSelect = $("select.js-formula-select").last();
+                        calculationSelect.select2();
+                        calculationSelect.select2("val", element.grade_calculation_fk);
+                        if(calculationSelect.select2("data").text == "Peso"){
+                           let inputsWeight = '';
+                           element.weights.forEach(weight => {
+                                inputsWeight += createInputWeight(weight.id, weight.unity_fk, weight.name, weight.weight)
+                            });
+                            $('.InputWeight-container').last().html(inputsWeight)
+                        }
+                        $("select.js-partial-recovery-unities").last().select2();
+                        $("select.js-partial-recovery-unities").last().select2("val", unityOptionsSelected);
+                    });
                 }
                 $(".grades-buttons").css("display", "flex");
                 $(
@@ -615,6 +819,7 @@ function loadStructure() {
                     .css("opacity", "1");
 
                 initRuleType(data.ruleType);
+                hasUnitiesSaved();
             },
         });
     } else {
@@ -642,4 +847,144 @@ $(document).on("keyup", ".approval-media, .final-recover-media", function (e) {
         }
     }
     this.value = val;
+});
+
+function addAccordion(id, name) {
+    let partialRecovery = 0;
+    if ($(".partial-recovery").length > 0) {
+        lastAccordion = Number($("#accordion-partial-recovery .partial-recovery:last").attr("data-index"));
+        partialRecovery = lastAccordion + 1
+    }
+    const titleAccordion = name === "" ? "Recuperação Parcial:" : name
+    const collapse = partialRecovery == 0 ? "in" : "";
+    const unityOptions = getUnityOptions();
+    return template`
+    <div class="partial-recovery-container">
+        <div class='row partial-recovery ui-accordion-header' data-index="${partialRecovery}">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-partial" href="#partial-recovery-collapse-${partialRecovery}">
+                <h2 class="partial-recovery-title accordion-heading">${titleAccordion}</h2>
+            </a>
+            <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="font-size: 20px;margin-top:0;"></span>
+        </div>
+        <div id="partial-recovery-collapse-${partialRecovery}" class="collapse ${collapse}  partial-recovery-accordion-body">
+            <input type='hidden' class="partial-recovery-id" value="${id}">
+            <input type="hidden" class="partial-recovery-operation" value="create">
+            <div class="t-field-text" style="margin-top: 16px">
+                <label class='t-field-text__label--required'>Nome:</span></label>
+                <input type='text' class='t-field-text__input partial-recovery-name'
+                    placeholder='Recuperação Semestral' value="${name}">
+            </div>
+            <div class="t-field-select js-calculation">
+                <label class='t-field-select__label--required'>Forma de cálculo:</label>
+                <select class='t-field-select__input js-formula-select select-search-on'>
+                    ${$(".formulas")[0].innerHTML}
+                </select>
+            </div>
+            <div class="InputWeight-container">
+
+            </div>
+            <div class="t-field-select">
+                <div class="t-multiselect">
+                    <label class='t-field-select__label--required'>Unidades:</label>
+                    <select class="t-field-select__input multiselect select-search-on js-partial-recovery-unities" multiple="multiple">
+                        ${unityOptions}
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+}
+
+function getUnityOptions() {
+    const unities = $('.js-unity-body')
+    let unityOptions = '';
+    let value = '';
+    let name = '';
+    unities.each(function (index, element) {
+        value = $(element).find("input[type='hidden'].unity-id").val();
+        name = $(element).find("input.unity-name").val();
+        unityOptions += template`
+            <option value="${value}">${name}</option>
+        `
+    });
+    return unityOptions;
+}
+
+$(document).on("click", ".js-new-partial-recovery", (e) => {
+    if (!$(".js-new-partial-recovery").hasClass("disabled")) {
+        $(".js-alert-save-recovery-first")
+            .text("Para cadastrar novas unidades, conclua o cadastro da recuperação")
+            .show();
+        newAccordion = addAccordion("", "");
+        $('#accordion-partial-recovery').append(newAccordion)
+        $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities").select2();
+        $('.js-new-unity').addClass('disabled');
+    }
+})
+$(document).on("click", ".js-remove-partial-recovery", function (e) {
+    const partialRecovery = $(this).closest(".partial-recovery-container");
+    const isNew = partialRecovery.find("input[type='hidden'].partial-recovery-id").val() === ""
+
+
+        if(isNew) {
+            partialRecovery.remove();
+        } else {
+            const response = confirm(
+                "Ao remover uma recuperação, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
+            );
+            if(response) {
+                partialRecovery.hide();
+                $(partialRecovery).find('.partial-recovery-operation').val("delete");
+            }
+        }
+
+
+        let recoveriesNotSaved = $("input[type='hidden'].partial-recovery-id").filter(function () {
+            return !this.hasAttribute('value') || this.value === '';
+        }).length
+        if (recoveriesNotSaved == 0) {
+            $(".js-alert-save-recovery-first").hide();
+            $(".js-new-unity").removeClass("disabled");
+        }
+
+});
+ function deletePartialRecovery(partialRecovery) {
+    const isNew = $(partialRecovery).find("input[type='hidden'].partial-recovery-id").val() === "";
+    if(isNew) {
+        $(partialRecovery).remove();
+    } else {
+        $(partialRecovery).hide();
+        $(partialRecovery).find('.partial-recovery-operation').val("delete");
+    }
+
+ }
+$(document).on("click", ".js-remove-unity", function (e) {
+    const unity = $(this).closest(".unity");
+    const isNew = unity.find(".unity-id").val() === "";
+
+    if (isNew) {
+        unity.remove();
+        if ($("input[type='hidden'].unity-id:not([value])").length == 0) {
+            $('.js-alert-save-unities-first').hide();
+            $(".js-new-partial-recovery").removeClass("disabled");
+        }
+    } else {
+        const response = confirm(
+            "Ao remover um unidade, você está pagando TODAS as notas vinculadas a ela, em todas as disciplinas. Tem certeza que deseja seguir?"
+        );
+        if (response) {
+            $(this)
+                .children(".modality")
+                .find(".modality-operation")
+                .val("remove");
+            unity.find(".unity-operation").val("remove");
+            unity.hide();
+        }
+    }
+});
+
+$(document).on("keyup", ".partial-recovery-name", function (e) {
+    const partialRecovery = $(this).closest(".partial-recovery-container");
+    partialRecovery.find(".partial-recovery-title").html($(this).val());
 });

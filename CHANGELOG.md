@@ -10,19 +10,22 @@
 ## [Versão 3.81.164]
 - Adicionada aba para visualização das turmas dos professores na tela do professor
 
-## [Versão 3.80.164]
+## [Versão 3.81.164]
 - Adicionando o código na exibição da tabela de alunos
 
-## [Versão 3.80.163]
+## [Versão 3.81.163]
 - Adicionando o código na exibição da tabela de turmas
 
-## [Versão 3.80.162]
+## [Versão 3.81.162]
 - Adicionando o código na exibição da tabela de professores
+
+## [Versão 3.81.161]
+- Adicionado recuperações parciais
 
 ## [Versão 3.80.161]
 - Refatoradas variáveis para utilizar o post, através de uma função do Yii.
 - Modificada a ordem dos parâmetros da função getSchedulesFromMajorStage.
--
+
 ## [Versão 3.80.160]
 - Correção na opção da data máxima da função renderDatePickerFinal.
 
