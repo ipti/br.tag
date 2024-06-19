@@ -35,3 +35,7 @@ function toggleDisabledInputs(idForm, value) {
 $(document).on('change', '#reasonDropdown select', function () {
     checkDropdownValue();
 });
+
+$(document).on('change', function () {
+
+})

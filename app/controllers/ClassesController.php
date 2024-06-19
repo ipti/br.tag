@@ -469,7 +469,11 @@ class ClassesController extends Controller
                     foreach ($schedules as $schedule) {
                         $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                         $available = date("Y-m-d") >= $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
-                        $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year);
+                        $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
+
+                        $startDate = date_create_from_format('d/m/Y', $enrollment->school_admission_date);
+                        $scheduleDate = date_create_from_format('d/m/Y', $date);
+
                         array_push($array["schedules"], [
                             "available" => $available,
                             "day" => $schedule->day,
@@ -477,7 +481,8 @@ class ClassesController extends Controller
                             "schedule" => $schedule->schedule,
                             "fault" => $classFault != null,
                             "justification" => $classFault->justification,
-                            "date" => $date
+                            "date" => $date,
+                            "valid" => !($scheduleDate <= $startDate && $enrollment->status == '5') ? true : false
                         ]);
                     }
                     array_push($students, $array);
@@ -516,15 +521,24 @@ class ClassesController extends Controller
             $this->saveFrequency($schedule);
         }
     }
-    private function gerateDate($day, $month, $year){
-            $day = ($day < 10) ? '0' . $day : $day;
-            $month = ($month < 10) ? '0' . $month : $month;
-            return $day . "/" . $month . "/" . $year;
+    private function gerateDate($day, $month, $year, $usecase){
+        switch($usecase){
+            case 0:
+                $day = ($day < 10) ? '0' . $day : $day;
+                $month = ($month < 10) ? '0' . $month : $month;
+                return $day . "/" . $month . "/" . $year;
+            case 1:
+                $day = ($day < 10) ? '0' . $day : $day;
+                $month = ($month < 10) ? '0' . $month : $month;
+                return $day . "-" . $month . "-" . $year;
+            default:
+                break;
+        }
     }
     private function getSchedulePerDays($schedules) {
         $result = [];
         foreach ($schedules as $schedule) {
-            $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year);
+            $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
             $index = array_search($date, array_column($result, 'date'));
             if ($index === false) {
                 array_push($result, [
