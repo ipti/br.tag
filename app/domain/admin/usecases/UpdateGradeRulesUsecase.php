@@ -10,11 +10,14 @@ declare(strict_types=1);
  * @property float $finalRecoverMedia
  * @property int $calcFinalMedia
  * @property bool  $hasFinalRecovery
+ * @property bool  $hasPartialRecovery
+ * @property []  $partialRecoveries
  * @property string  $ruleType
  */
 class UpdateGradeRulesUsecase
 {
-    public function __construct($stage, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType)
+    public function __construct($stage, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType,
+    $hasPartialRecovery, $partialRecoveries)
     {
         $this->stage = $stage;
         $this->approvalMedia = $approvalMedia;
@@ -22,6 +25,8 @@ class UpdateGradeRulesUsecase
         $this->calcFinalMedia = $calcFinalMedia;
         $this->hasFinalRecovery = $hasFinalRecovery;
         $this->ruleType = $ruleType;
+        $this->hasPartialRecovery = $hasPartialRecovery;
+        $this->partialRecoveries = $partialRecoveries;
     }
 
     public function exec()
@@ -39,14 +44,20 @@ class UpdateGradeRulesUsecase
         $gradeRules->final_recover_media = $this->finalRecoverMedia;
         $gradeRules->grade_calculation_fk = $this->calcFinalMedia;
         $gradeRules->has_final_recovery = (int) $this->hasFinalRecovery;
+        $gradeRules->has_partial_recovery = (int) $this->hasPartialRecovery;
         $gradeRules->rule_type = $this->ruleType;
 
         if(!$gradeRules->validate()){
             Yii::log(TagUtils::stringfyValidationErrors($gradeRules), CLogger::LEVEL_ERROR);
             throw new CantSaveGradeRulesException();
         }
+       $result = $gradeRules->save();
 
-        return $gradeRules->save();
+        if($this->hasPartialRecovery === true) {
+            $pRecoveryUseCase = new UpdateGradePartialRecoveryUseCase($gradeRules->id, $this->partialRecoveries);
+            $pRecoveryUseCase->exec();
+        }
+        return $result;
     }
 }
 

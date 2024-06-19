@@ -144,7 +144,6 @@ class TimesheetController extends Controller
                                 "instructorInfo" => $instructorInfo,
                                 "disciplineId" => $schedule->discipline_fk,
                                 "disciplineName" => $schedule->disciplineFk->name,
-                                "turn" => $schedule->turn,
                                 "unavailable" => $schedule->unavailable,
                             ];
                         }
@@ -165,7 +164,7 @@ class TimesheetController extends Controller
                         $daysPerMonth[$dt->format("Y")][$dt->format("n")]["weekDayOfTheFirstDay"] = $dt->format("w");
                     }
                     $response["daysPerMonth"] = $daysPerMonth;
-
+                    $response["turn"] = $classroom->turn;
                     $response["valid"] = TRUE;
                 } else {
                     $response["valid"] = NULL;
@@ -282,17 +281,17 @@ class TimesheetController extends Controller
                 Schedule::model()->deleteAll("classroom_fk = :classroom", [":classroom" => $classroomId]);
 
                 $schedulesQuantity = 10;
-                $turn = 0;
 
-                if ($classroom->initial_hour < 12) {
-                    $turn = 0;
-                }
-                if ($classroom->initial_hour >= 12 && $classroom->initial_hour < 19) {
-                    $turn = 1;
-                }
-                if ($classroom->initial_hour >= 19) {
-                    $turn = 2;
-                }
+//                $turn = 0;
+//                if ($classroom->initial_hour < 12) {
+//                    $turn = 0;
+//                }
+//                if ($classroom->initial_hour >= 12 && $classroom->initial_hour < 19) {
+//                    $turn = 1;
+//                }
+//                if ($classroom->initial_hour >= 19) {
+//                    $turn = 2;
+//                }
 
 
                 $weekDays = [];
@@ -461,7 +460,7 @@ class TimesheetController extends Controller
                                 $sc->week_day = $schedule->week_day;
                                 $sc->schedule = $schedule->schedule;
                                 $sc->unavailable = in_array($date, $softUnavailableDaysArray) ? 1 : 0;
-                                $sc->turn = $turn;
+                                $sc->turn = $classroom->turn;
                                 array_push($batchInsert, $sc->getAttributes());
                             }
                         }
@@ -641,7 +640,7 @@ class TimesheetController extends Controller
 
                 if (!empty($schedule->classContents)) {
                     //Verifica se o schedule a ser removido possui aula ministrada. Se possuir, vincula a aula ministrada ao próximo schedule
-                    //OBS1: Lembrando, a aula ministrada fica armazenada apenas no primeiro schedule do dia (ou da disciplina no fundamental maior)
+                    //OBS1: Lembrando: a aula ministrada fica armazenada apenas no primeiro schedule do dia (ou da disciplina no fundamental maior)
                     //OBS2: Para frequência não precisa, uma vez que o registro de frequência fica vinculado a todos os schedules do dia.
                     //OBS3: No fundamental maior, a regra é a mesma, mas com filtro de disciplina
                     if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
@@ -687,8 +686,6 @@ class TimesheetController extends Controller
         $disciplines = [];
 
         $classroom = Classroom::model()->find("id = :classroomId", [":classroomId" => $_POST["classroomId"]]);
-        $turn = $classroom->initial_hour < 12 ? 0 : ($classroom->initial_hour >= 12 && $classroom->initial_hour < 19 ? 1 : 2);
-
 
         $softUnavailableDays = $this->getUnavailableDays($_POST["classroomId"], true, "soft");
         $hardUnavailableDays = $this->getUnavailableDays($_POST["classroomId"], true, "hard");
@@ -726,7 +723,7 @@ class TimesheetController extends Controller
                             $disciplines[$key]["workloadUsed"]++;
                         }
                     }
-                    $schedule->turn = $turn;
+                    $schedule->turn = $classroom->turn;
                     $schedule->save();
 
                     if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {

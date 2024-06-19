@@ -1,30 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "grade_rules".
+ * This is the model class for table "grade_partial_recovery".
  *
- * The followings are the available columns in table 'grade_rules':
+ * The followings are the available columns in table 'grade_partial_recovery':
  * @property integer $id
- * @property integer $edcenso_stage_vs_modality_fk
- * @property double $approvation_media
- * @property double $final_recover_media
+ * @property string $name
+ * @property integer $order_partial_recovery
+ * @property integer $grade_rules_fk
  * @property integer $grade_calculation_fk
- * @property integer $has_final_recovery
- * @property integer $has_partial_recovery
- * @property string $rule_type
  *
  * The followings are the available model relations:
  * @property GradeCalculation $gradeCalculationFk
- * @property EdcensoStageVsModality $edcensoStageVsModalityFk
+ * @property GradeRules $gradeRulesFk
+ * @property GradeUnity[] $gradeUnities
  */
-class GradeRules extends CActiveRecord
+class GradePartialRecovery extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'grade_rules';
+		return 'grade_partial_recovery';
 	}
 
 	/**
@@ -35,14 +33,12 @@ class GradeRules extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('edcenso_stage_vs_modality_fk', 'required'),
-			array('approvation_media', 'required', 'on' => "numericGrade"),
-			array('edcenso_stage_vs_modality_fk, grade_calculation_fk, has_final_recovery, has_partial_recovery', 'numerical', 'integerOnly'=>true),
-			array('approvation_media, final_recover_media', 'numerical'),
-			array('rule_type', 'length', 'max'=>1),
+			array('name, order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'required'),
+			array('order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, edcenso_stage_vs_modality_fk, approvation_media, final_recover_media, grade_calculation_fk, has_final_recovery, has_partial_recovery, rule_type', 'safe', 'on'=>'search'),
+			array('id, name, order_partial_recovery, grade_rules_fk, grade_calculation_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +51,8 @@ class GradeRules extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'gradeCalculationFk' => array(self::BELONGS_TO, 'GradeCalculation', 'grade_calculation_fk'),
-			'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+			'gradeRulesFk' => array(self::BELONGS_TO, 'GradeRules', 'grade_rules_fk'),
+			'gradeUnities' => array(self::HAS_MANY, 'GradeUnity', 'parcial_recovery_fk'),
 		);
 	}
 
@@ -66,13 +63,10 @@ class GradeRules extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'edcenso_stage_vs_modality_fk' => 'Edcenso Stage Vs Modality Fk',
-			'approvation_media' => 'Approvation Media',
-			'final_recover_media' => 'Final Recover Media',
+			'name' => 'Name',
+			'order_partial_recovery' => 'Order Partial Recovery',
+			'grade_rules_fk' => 'Grade Rules Fk',
 			'grade_calculation_fk' => 'Grade Calculation Fk',
-			'has_final_recovery' => 'Has Final Recovery',
-			'has_partial_recovery' => 'Has Partial Recovery',
-			'rule_type' => 'Rule Type',
 		);
 	}
 
@@ -95,13 +89,10 @@ class GradeRules extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
-		$criteria->compare('approvation_media',$this->approvation_media);
-		$criteria->compare('final_recover_media',$this->final_recover_media);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('order_partial_recovery',$this->order_partial_recovery);
+		$criteria->compare('grade_rules_fk',$this->grade_rules_fk);
 		$criteria->compare('grade_calculation_fk',$this->grade_calculation_fk);
-		$criteria->compare('has_final_recovery',$this->has_final_recovery);
-		$criteria->compare('has_partil_recovery',$this->has_partial_recovery);
-		$criteria->compare('rule_type',$this->rule_type,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -112,7 +103,7 @@ class GradeRules extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return GradeRules the static model class
+	 * @return GradePartialRecovery the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
