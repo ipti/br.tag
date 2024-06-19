@@ -1,3 +1,15 @@
+## [Versão 3.81.167]
+- Realizada correção na funcionalidade de frequência para o caso de alunos com situação de matrícula como transferido em turma.
+
+## [Versão 3.81.166]
+- Realizada correção do turno no quadro de horário. 
+
+## [Versão 3.81.165]
+- Adicionando redirecionamento para inconsistências de Unidade Gestora para o Sagres
+
+## [Versão 3.81.164]
+- Adicionada aba para visualização das turmas dos professores na tela do professor
+
 ## [Versão 3.81.164]
 - Adicionando o código na exibição da tabela de alunos
 

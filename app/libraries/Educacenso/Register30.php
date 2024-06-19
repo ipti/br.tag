@@ -106,16 +106,18 @@ class Register30
     private static function getStudents($classroom, $students, $school)
     {        
         foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-            if (!isset($students[$enrollment->student_fk])) {
-                $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
-                $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
-                $students[$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
-                $students[$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
-                $students[$enrollment->student_fk]['classroom'] = $classroom->attributes;
-            }
+            if ($enrollment->status == 1 || $enrollment->status == null) {
+                if (!isset($students[$enrollment->student_fk])) {
+                    $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
+                    $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
+                    $students[$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
+                    $students[$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
+                    $students[$enrollment->student_fk]['classroom'] = $classroom->attributes;
+                }
 
-            $enrollment->school_inep_id_fk = $school->inep_id;
-            $students[$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
+                $enrollment->school_inep_id_fk = $school->inep_id;
+                $students[$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
+            }
         }
 
         return $students;
@@ -345,14 +347,16 @@ class Register30
         }
 
         foreach ($instructor as $key => $attr) {
-            $alias_index = array_search($key, array_column($aliases, 'attr'));
-            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            if ($key !== "inep_id") {
+                $alias_index = array_search($key, array_column($aliases, 'attr'));
+                $alias = $alias_index !== false ? $aliases[$alias_index] : null;
 
-            if (isset($alias["corder"])) {
-                if ($key == 'edcenso_city_fk') {
-                    $register[43] = $attr;
-                } else {
-                    $register[$alias["corder"]] = $attr;
+                if (isset($alias["corder"])) {
+                    if ($key == 'edcenso_city_fk') {
+                        $register[43] = $attr;
+                    } else {
+                        $register[$alias["corder"]] = $attr;
+                    }
                 }
             }
         }
