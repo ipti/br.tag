@@ -1,3 +1,6 @@
+## [Versão 3.81.169]
+- Modificando a visualização da etapa relacionada ao educacenso no formulário de etapas
+
 ## [Versão 3.81.168]
 - View "enrollment_classroom" e relatórios de matrícula atualizadas.
 
