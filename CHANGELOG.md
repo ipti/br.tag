@@ -1,4 +1,7 @@
-## [Versão 3.79.152]
+## [Versão 3.81.167]
+- Realizada correção na funcionalidade de frequência para o caso de alunos com situação de matrícula como transferido em turma.
+
+## [Versão 3.81.166]
 - Realizada correção do turno no quadro de horário. 
 
 ## [Versão 3.81.165]
