@@ -14,7 +14,7 @@
  * @property integer $week
  * @property integer $week_day
  * @property integer $schedule
- * @property integer $turn
+ * @property string $turn
  * @property integer $unavailable
  * @property string $diary
  * @property string $fkid
@@ -48,8 +48,9 @@ class Schedule extends CActiveRecord
         // will receive user inputs.
         return array(
             array('discipline_fk, classroom_fk, day, month, year, week, week_day, unavailable', 'required'),
-            array('instructor_fk, discipline_fk, classroom_fk, day, month, year, week, week_day, schedule, turn, unavailable', 'numerical', 'integerOnly'=>true),
+            array('instructor_fk, discipline_fk, classroom_fk, day, month, year, week, week_day, schedule, unavailable', 'numerical', 'integerOnly'=>true),
             array('fkid', 'length', 'max'=>40),
+            array('turn', 'length', 'max'=>45),
             array('hash', 'length', 'max'=>20),
             array('diary', 'safe'),
             // The following rule is used by search().

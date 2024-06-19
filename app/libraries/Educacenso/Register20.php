@@ -16,7 +16,7 @@ class Register20
 
         $teachingDatasOfClassroom = Classroom::model()->findByPk($id)->instructorTeachingDatas;
         foreach ($teachingDatasOfClassroom as $key => $teachingData) {
-            foreach($teachingData->teachingMatrixes as $teachingMatrix) {
+            foreach ($teachingData->teachingMatrixes as $teachingMatrix) {
                 if ($teachingMatrix->curricularMatrixFk->discipline_fk > 99 || $teachingMatrix->curricularMatrixFk->discipline_fk == 20 || $teachingMatrix->curricularMatrixFk->discipline_fk == 21) {
                     $teachingDataDisciplines[99] = 99;
                 } else {
@@ -68,7 +68,14 @@ class Register20
         $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
 
         foreach ($classrooms as $iclass => $attributes) {
-            if (count($attributes->instructorTeachingDatas) >= 1 && count($attributes->studentEnrollments) >= 1) {
+            $hasEnrolledStudent = false;
+            foreach ($attributes->studentEnrollments as $enrollment) {
+                if ($enrollment->status == 1 || $enrollment->status == null) {
+                    $hasEnrolledStudent = true;
+                    break;
+                }
+            }
+            if (count($attributes->instructorTeachingDatas) >= 1 && $hasEnrolledStudent) {
 
                 $register = [];
 
@@ -172,8 +179,8 @@ class Register20
 
                 $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 20 order by corder', [":year" => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
-                    
-                    $register[$edcensoAlias->corder] = $edcensoAlias->default;                  
+
+                    $register[$edcensoAlias->corder] = $edcensoAlias->default;
 
                     if ($edcensoAlias->corder == 21 || $edcensoAlias->corder == 22 || $edcensoAlias->corder == 23) {
                         if ($attributes["schooling"] == '0') {
@@ -228,13 +235,13 @@ class Register20
                         }
                     } else if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
-                    } 
-                    
-                    if ($edcensoAlias->corder >= 49 && $edcensoAlias->corder <= 75){
-                        if($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1' && $attributes["schooling"] == '0')){
+                    }
+
+                    if ($edcensoAlias->corder >= 49 && $edcensoAlias->corder <= 75) {
+                        if ($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1' && $attributes["schooling"] == '0')) {
                             $register[$edcensoAlias->corder] = '';
                         }
-                    }                   
+                    }
                 }
 
                 array_push($registers, implode('|', $register));
@@ -244,8 +251,9 @@ class Register20
         return $registers;
     }
 
-    private static function convertComplementaryActivityTypes($code) {
-        switch($code) {
+    private static function convertComplementaryActivityTypes($code)
+    {
+        switch ($code) {
             case "13106":
                 return "13104";
             case "16101":
@@ -274,6 +282,8 @@ class Register20
                 return "31016";
             case "39999":
                 return "39999";
+            case "61007":
+                return "14999";
         }
     }
 }
