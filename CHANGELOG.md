@@ -1,3 +1,219 @@
+## [Versão 3.81.170]
+- O relatório do Diário Eletrônico foi atualizado para incluir o nome das turmas correspondentes para cada aluno.
+
+## [Versão 3.81.169]
+- Modificando a visualização da etapa relacionada ao educacenso no formulário de etapas
+
+## [Versão 3.81.168]
+- View "enrollment_classroom" e relatórios de matrícula atualizadas.
+
+## [Versão 3.81.167]
+- Realizada correção na funcionalidade de frequência para o caso de alunos com situação de matrícula como transferido em turma.
+
+## [Versão 3.81.166]
+- Realizada correção do turno no quadro de horário. 
+
+## [Versão 3.81.165]
+- Adicionando redirecionamento para inconsistências de Unidade Gestora para o Sagres
+
+## [Versão 3.81.164]
+- Adicionada aba para visualização das turmas dos professores na tela do professor
+
+## [Versão 3.81.164]
+- Adicionando o código na exibição da tabela de alunos
+
+## [Versão 3.81.163]
+- Adicionando o código na exibição da tabela de turmas
+
+## [Versão 3.81.162]
+- Adicionando o código na exibição da tabela de professores
+
+## [Versão 3.81.161]
+- Adicionado recuperações parciais
+
+## [Versão 3.80.161]
+- Refatoradas variáveis para utilizar o post, através de uma função do Yii.
+- Modificada a ordem dos parâmetros da função getSchedulesFromMajorStage.
+
+## [Versão 3.80.160]
+- Correção na opção da data máxima da função renderDatePickerFinal.
+
+## [Versão 3.80.159]
+- Método actionValidate do CensoController refatorado, implementando váriaveis.
+- Processar instrutores, garantindo que cada instrutor seja validado apenas uma vez.
+
+## [Versão 3.80.158]
+- Alterado o botão Cancelar Matrícula por Excluir Matricula.
+
+## [Versão 3.80.157]
+- Inserido opção de situação de matrícula "AVANÇADO" no campo "Situação de Matrícula"
+- Adequado o sistema para o Educacenso 2024
+
+## [Versão 3.79.157]
+- Corrigida ficha de matricula do aluno ao imprimir.
+
+## [Versão 3.79.156]
+- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
+
+## [Versão 3.79.156]
+- Permitido com que se adicione ou remova aulas no quadro de horário, mesmo quando houver preenchimento de frequência ou quadro de horário
+
+## [Versão 3.79.155]
+- Efetuadas correções para o chaveamento do professor com o seu usuário
+
+## [Versão 3.79.154]
+- Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
+
+## [Versão 3.79.152]
+- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes duplicados.
+
+## [Versão 3.79.151]
+- Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes, evitando duplicações.
+
+## [Versão 3.79.150]
+- Permitido com que se adicione ou remova aulas no quadro de horário, mesmo quando houver preenchimento de frequência ou quadro de horário
+
+## [Versão 3.79.149]
+- Efetuadas correções para o chaveamento do professor com o seu usuário
+
+## [Versão 3.79.148]
+- Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
+
+## [Versão 3.79.147]
+- Retirada a cor de fundo cinza do input da data inicial
+- Adicionado input de data final
+- Corrigido link de limpar input das datas
+
+## [Versão 3.78.146]
+- Resolvido o problema de conflitos de CPF do mesmo usuário ao atualizar as informações de um estudante existente
+
+## [Versão 3.78.145]
+- Corrigida tela do educacenso, erro: Professores - Há professores sem componentes curriculares/eixos vinculados à Turma.
+-
+## [Versão 3.78.144]
+- Correção para a modalidade no relatório de Alunos por Turma.
+
+## [Versão 3.78.143]
+- Correção no relatório de 'Alunos com Idade Incompatível por Turma'
+
+## [Versão 3.78.142]
+- Adicionados estilos de overflow e altura ao contêiner do acordeão para uma melhor experiência de rolagem.
+- Ajustada a estrutura da iteração de dados do aluno para acomodar arrays multidimensionais potenciais.
+- Adicionados estilos de redimensionamento e altura à área de texto para uma aparência mais consistente.
+- Refatorada a maneira como os dados do aluno são armazenados e atualizados.
+
+## [Versão 3.78.141]
+- Alterada de lugar a atribuição da option contendo select na GradesController.
+
+## [Versão 3.78.140]
+- Correção na barra de rolagem da tela de frequência de alunos.
+
+## [Versão 3.78.139]
+- Correção no relatório de ficha individual
+
+## [Versão 3.78.138]
+- Efetuadas correções no SQL responsável pela contagem das faltas dos alunos
+
+## [Versão 3.78.137]
+- corrigido erro na tela de estoque do novo módulo de merenda
+- Realizado validação para quadro de horários sem componentes
+
+## [Versão 3.78.136]
+- Datepicker modificado para apresentar as informações em português
+- Correção para inconsistências relacionadas a classes
+
+## [Versão 3.78.135]
+- Adicionando funcionalidade de validação de planos de aula
+- Criando novo tipo de usuário e visibilidade "Coordenador"
+
+## [Versão 3.77.135]
+- Adicionado novas inconsistências para a falta de componentes curriculasres
+- Consertado lentidão na tela de estoque
+- Adicionado novas inconsistências para a falta de componentes curriculasres
+- Correção ao pegar data de aniversário do estudante
+- Foi corrigido para incluir o intervalo de 1900 até o ano corrente
+
+## [Versão 3.77.134]
+- Consertado tela de frequencia para os professores
+-
+## [Versão 3.77.133]
+- Realizado correções nas validações das datas para Professor, Estudante e Escola
+- Correção no id da classe para as inconsistências
+-
+## [Versão 3.78.132]
+- Adicionado campo para a assinatura do diretor
+- Adicionado unidades de medida para o lançamento no estoque
+
+## [Versão 3.77.132]
+- Adicionado correção para a tamanho da descrição da merenda
+- Criando as telas relacionadas a agricultor no novo módulo de merenda escolar
+
+## [Versão 3.76.131]
+- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
+
+## [Versão 3.76.130]
+- Correção no conteúdo ministrado em sala de aula
+
+## [Versão 3.76.129]
+- Corrigir a funcionalidade de cadastrar porções em refeições de cardápio
+- Ajustar banco de dados para adequar ao novo fluxo da tela de atualizar cardápio
+
+## [Versão 3.76.128]
+- Corrigido erro que não mostrava o nome da escola e das turmas nas inconsistências sagres
+- Corrigido na busca por profissional na mesma escola
+
+## [Versão 3.76.127]
+- Corrigido erro que não saía do painel de cadastros pendentes, referente à matriz curricular e estrutura de notas
+
+## [Versão 3.76.126]
+- Gestor autorizado para gerar os relatórios da escola.
+- Correção no redireccionamento para o aluno nas incoerências sagres
+
+## [Versão 3.76.125]
+- Adicionado registro de profissional em mais de uma escola
+
+## [Versão 3.75.125]
+- Integrado os bancos utilizados por Boquim/SE.
+
+## [Versão 3.75.123]
+- Correção do inep_id para a escola.
+- Alteração na seleção do mês no calendário: agora só é possível selecionar até o mês corrente.
+
+## [Versão 3.75.122]
+- Adicionada lógica, para que ao reaproveitar turmas, os alunos do ano de 2023 entrarão como matriculados.
+
+## [Versão 3.74.121]
+- Correção no relatório de professores por escola
+- Adicionado gerência de editais anuais de aquisição de gêneros alimentícios da agricultura familiar e empreendedor familiar rural
+
+## [Versão 3.74.120]
+- Modificado a controler de grades, ao salvar as Grades Releases.
+- Adicionado um novo parametro ao contrutor de ChageStudentStatusByGradeUsecase.
+- Melhorado o initialization da tela.
+
+## [Versão 3.74.119]
+- Inserido painel de cadastros pendentes na tela inicial
+
+## [Versão 3.73.119]
+- Renomeado o head dos relatórios do municipio de Poço Dantas.
+- Adicionado cep formatado da escola.
+
+## [Versão 3.73.118]
+- Inserido painel de cadastros pendentes na tela inicial
+
+## [Versão 3.73.118]
+- Removido acesso para edição do calendário pelo gestor
+
+## [Versão 3.73.117]
+- Foi adicionado o case para selecionar o alias para a modalidade
+
+## [Versão 3.73.116]
+- Funcionaldide gerenciar "Aulas Ministradas" corrigida, agora são apresentados somente os dias em que há aula daquela disciplina
+- Adicionado ckeckbox: Gerar arquivo excluindo alunos sem CPF
+- Correções nas anotações do arquivo sagres.
+## [Versão 3.73.115]
+- Adicionado novas medidas para os pratos do cardápio
+
 ## [Versão 3.72.115]
 - Adicionado Modal para adicionar novos recursos na tela de plano de aula.
 - Alteração na estrutura do banco de dados referente ao tipo de recurso cadastrado em um plano
@@ -11,8 +227,8 @@
 ## [Versão 3.71.113]
 - Calendário ajustado para permitir sua extensão para ano(s) seguinte(s).
 - Eventos de início e fim de ano letivo removidos. O intervalo letivo será definido no momento da criação/edição do calendário.
-- Adicionado seletor de calendário na turma. 
-- 
+- Adicionado seletor de calendário na turma.
+
 ## [Versão 3.71.113]
 - Adicionado módulo de dashboard
 

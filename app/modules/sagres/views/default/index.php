@@ -30,18 +30,35 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 			<h5>Mês</h5>
 			<select id="mes" name="mes">
 				<option value="0">Selecione um mês</option>
-				<option value="1">Janeiro</option>
-				<option value="2">Fevereiro</option>
-				<option value="3">Março</option>
-				<option value="4">Abril</option>
-				<option value="5">Maio</option>
-				<option value="6">Junho</option>
-				<option value="7">Julho</option>
-				<option value="8">Agosto</option>
-				<option value="9">Setembro</option>
-				<option value="10">Outubro</option>
-				<option value="11">Novembro</option>
-				<option value="12">Dezembro</option>
+				<?php
+					$anoAtual = date('Y');
+					$mesAtual = date('n');
+
+					$meses = [
+						1 => 'Janeiro',
+						2 => 'Fevereiro',
+						3 => 'Março',
+						4 => 'Abril',
+						5 => 'Maio',
+						6 => 'Junho',
+						7 => 'Julho',
+						8 => 'Agosto',
+						9 => 'Setembro',
+						10 => 'Outubro',
+						11 => 'Novembro',
+						12 => 'Dezembro'
+					];
+			
+					if ($anoAtual == Yii::app()->user->year) {
+						for ($mes = 1; $mes <= $mesAtual; $mes++) {
+							echo "<option value='$mes'>$meses[$mes]</option>";
+						}
+					} else {
+						for ($mes = 1; $mes <= 12; $mes++) {
+							echo "<option value='$mes'>$meses[$mes]</option>";
+						}
+					}
+				?>
 			</select>
 		</div>
 		<div class="column" style=" display: flex;flex-direction: column; display: flex;align-items: left">
@@ -52,6 +69,10 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 			<div style="display: flex;align-items: center, margin: 3px 5px 0 0;">
 				<input type="checkbox" name="semMovimentacao" value="1" id="semMovimentacao" style="margin: 3px 5px 0 0;">
 				<label for="semMovimentacao" style="vertical-align: middle;">Sem movimentação</label>
+			</div>
+			<div style="display: flex;align-items: center, margin: 3px 5px 0 0;">
+				<input type="checkbox" name="generateWithoutCPF" value="1" id="generateWithoutCPF" style="margin: 3px 5px 0 0;" checked>
+				<label for="generateWithoutCPF" style="vertical-align: middle;">Gerar arquivo excluindo alunos sem CPF</label>
 			</div>
 		</div>
 	</div>
@@ -127,14 +148,16 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	let selectedValue;
 	let checkbox = document.getElementById("finalTurma");
 	let checkboxSemMovi = document.getElementById("semMovimentacao");
+	let checkboxWithoutCPF = document.getElementById("generateWithoutCPF"); 
 	let checkboxValue = false;
 	let checkboxValueSem = false;
+	let checkboxWithoutCPFValue = true;
 
 	function updateExportLink() {
 		const month = parseInt(selectedValue, 10);
 
 		const exportLink = document.getElementById('exportLink');
-		const newHref = `?r=sagres/default/export&month=${month}&finalClass=${checkboxValue}&noMovement=${checkboxValueSem}`;
+		const newHref = `?r=sagres/default/export&month=${month}&finalClass=${checkboxValue}&noMovement=${checkboxValueSem}&withoutCpf=${checkboxWithoutCPFValue}`;
 		exportLink.setAttribute('href', newHref);
 	}
 
@@ -152,6 +175,17 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 		if (checkboxValueSem) {
 			checkbox.checked = false;
 			checkboxValue = false;
+			checkboxWithoutCPF.checked = false;
+			checkboxWithoutCPFValue = false;
+		}
+		updateExportLink();
+	});
+
+	checkboxWithoutCPF.addEventListener('change', function() {
+		checkboxWithoutCPFValue = checkboxWithoutCPF.checked;
+		if (checkboxValueSem) {
+			checkboxSemMovi.checked = false;
+			checkboxValueSem = false;
 		}
 		updateExportLink();
 	});

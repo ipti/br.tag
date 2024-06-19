@@ -9,7 +9,7 @@ $( "#js-accordion" ).accordion({
 });
 
     $.ajax({
-        url: "?r=foods/foodMenu/getPublicTarget",
+        url: "?r=foods/foodmenu/getPublicTarget",
         type: "GET",
     }).success(function(response) {
        const publicTarget = JSON.parse(response);
@@ -50,10 +50,17 @@ if(menuId)  {
                 id: idIgredientes,
                 amount: foodIngredient.amount,
                 foodIdFk: foodIngredient.foodIdFk,
-                foodMeasureUnitId: foodIngredient.foodMeasureUnitId
-            }
-            idIgredientes++
-            return food
+                foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                lip: foodIngredient.lip,
+                pt: foodIngredient.pt,
+                cho: foodIngredient.cho,
+                kcal: foodIngredient.kcal,
+                nameFood: foodIngredient.nameFood,
+                measurementUnit: foodIngredient.measurementUnit,
+                }
+
+                idIgredientes++
+                return food
             })
             plates.push({
                     description: mealComponent.description,
@@ -84,8 +91,14 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
-                }
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    lip: foodIngredient.lip,
+                    pt: foodIngredient.pt,
+                    cho: foodIngredient.cho,
+                    kcal: foodIngredient.kcal,
+                    nameFood: foodIngredient.nameFood,
+                    measurementUnit: foodIngredient.measurementUnit,
+                    }
             idIgredientes++
             return food
             })
@@ -118,8 +131,14 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
-                }
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    lip: foodIngredient.lip,
+                    pt: foodIngredient.pt,
+                    cho: foodIngredient.cho,
+                    kcal: foodIngredient.kcal,
+                    nameFood: foodIngredient.nameFood,
+                    measurementUnit: foodIngredient.measurementUnit,
+                    }
             idIgredientes++
             return food
             })
@@ -152,8 +171,14 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
-                }
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    lip: foodIngredient.lip,
+                    pt: foodIngredient.pt,
+                    cho: foodIngredient.cho,
+                    kcal: foodIngredient.kcal,
+                    nameFood: foodIngredient.nameFood,
+                    measurementUnit: foodIngredient.measurementUnit,
+                    }
             idIgredientes++
             return food
             })
@@ -186,8 +211,14 @@ if(menuId)  {
                     id: idIgredientes,
                     amount: foodIngredient.amount,
                     foodIdFk: foodIngredient.foodIdFk,
-                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId
-                }
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    lip: foodIngredient.lip,
+                    pt: foodIngredient.pt,
+                    cho: foodIngredient.cho,
+                    kcal: foodIngredient.kcal,
+                    nameFood: foodIngredient.nameFood,
+                    measurementUnit: foodIngredient.measurementUnit,
+                    }
             idIgredientes++
             return food
             })
@@ -211,11 +242,17 @@ if(menuId)  {
 
     })
     const day = $('.js-day-tab.active').attr("data-day-of-week")
-    meals.map((e) => MealsComponent(e, day).actions.render())
-    $('.js-meals-component').accordion("destroy");
-    $( ".js-meals-component" ).accordion({
-      active: false,
-      collapsible: true,
-      icons: false,
-    });
+    window.onload = (event) => {
+        meals.forEach((e) => {
+            MealsComponent(e, day).actions.render();
+        });
+        $(".js-menu-meals-container").show()
+            $('.js-meals-component').accordion("destroy");
+            $( ".js-meals-component" ).accordion({
+              heightStyle: "content",
+              active: false,
+              collapsible: true,
+              icons: false,
+            });
+      };
 }

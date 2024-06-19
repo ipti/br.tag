@@ -1,6 +1,13 @@
 $(".js-save-menu").on("click", function () {
     const form = $('#food-menu-form')
-    if(form[0].checkValidity()) {
+    const erros = []
+    form.find(':input[required]').each(function () {
+        if (!this.validity.valid && !this.classList.contains('js-ignore-validation')) {
+            if(!erros.includes(this.name))
+            erros.push(this.name)
+        }
+    });
+    if(erros.length === 0 ) {
         let foodMenu = {
             "description": "",
             "week": "",
@@ -56,18 +63,18 @@ $(".js-save-menu").on("click", function () {
                 },
                 type: "POST",
             }).done(function (response) {
-                window.location.href = "?r=foods/foodMenu/index";
+                window.location.href = "?r=foods/foodmenu/index";
             })
          } else
         {
             $.ajax({
-                url: "?r=foods/foodMenu/create",
+                url: "?r=foods/foodmenu/create",
                 data: {
                     foodMenu: foodMenu
                 },
                 type: "POST",
             }).done(function (response) {
-                window.location.href = "?r=foods/foodMenu/index";
+                window.location.href = "?r=foods/foodmenu/index";
             })
         }
 
@@ -75,15 +82,21 @@ $(".js-save-menu").on("click", function () {
         const erros = []
         form.find(':input[required]').each(function () {
             if (!this.validity.valid) {
-                if(!erros.includes(this.name))
-                erros.push(this.name)
+                if (!erros.some(function (erro) {
+                    return erro.field === this.name && erro.day === "" && erro.meal === "";
+                }, this)) {
+                    let mealError = $(this).closest('.js-meals-accordion-content');
+                    let mealName = mealError.find("select.js-meal-type").find('option:selected').text()
+                    erros.push({
+                        field: this.name,
+                        day: mealError.attr("data-day-of-week"),
+                        meal: mealName == "" ? undefined : mealName
+                    });
+                }
             }
         });
-
         showErros(erros)
     }
-
-
 });
 
 function getMealsByDay(day) {
@@ -133,15 +146,28 @@ function getFoodIngredients(idPlateAccordion) {
         foodIngredient.food_id_fk = $(row).attr('data-idTaco')
         foodIngredient.food_measure_unit_id = $(row).find('.js-measure select').val()
         foodIngredient.amount = $(row).find('.js-unit input').val()
+
         foodIngredients.push(foodIngredient)
     })
     return foodIngredients
 }
 function showErros(erros) {
+    const days = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"]
     const menuError = $('.js-menu-error')
-    const message  = erros.reduce((accumulator, campo) => {
-        return accumulator + `O campo ${campo} é obrigatório<br>`;
+    const message  = erros.reduce((accumulator, item) => {
+        console.log(item)
+         if(item.day != undefined &&  item.meal != undefined) {
+            if(item.meal != "Selecione a refeição"){
+                return accumulator + `O campo <b>${item.field}</b> na refeição <b>${item.meal}</b> na <b>${days[item.day]}</b> é obrigatório<br>`;
+            }
+            return accumulator + `O campo <b>${item.field}</b> em uma refeição <b>sem tipo selecionado</b> na <b>${days[item.day]}</b> é obrigatório<br>`
+         }
+        return accumulator + `O campo <b>${item.field}</b> é obrigatório<br>`;
     }, '');
     menuError.html(message)
     menuError.removeClass('hide')
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
 }

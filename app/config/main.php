@@ -94,7 +94,8 @@ return array(
         'curricularcomponents',
         'stages',
         'foods',
-        'dashboard'
+        'dashboard',
+        'courseplan'
     ),
     // application components
     'components' => array(
@@ -140,8 +141,8 @@ return array(
                 'merenda-escolar/menu/<action:\w+>/<id:\d+>' => 'lunch/lunch/<action>',
 
                 'merenda/' => 'foods/',
-                'merenda/cardapio' => 'foods/foodMenu/',
-                'merenda/cardapio/<action:\w+>' => 'foods/foodMenu/<action>',
+                'merenda/cardapio' => 'foods/foodmenu/',
+                'merenda/cardapio/<action:\w+>' => 'foods/foodmenu/<action>',
 
                 'boletim-escolar/' => 'schoolreport/',
                 'boletim-escolar/' => 'schoolreport/default/select',

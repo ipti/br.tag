@@ -10,6 +10,7 @@
  * @property double $final_recover_media
  * @property integer $grade_calculation_fk
  * @property integer $has_final_recovery
+ * @property integer $has_partial_recovery
  * @property string $rule_type
  *
  * The followings are the available model relations:
@@ -36,12 +37,12 @@ class GradeRules extends CActiveRecord
 		return array(
 			array('edcenso_stage_vs_modality_fk', 'required'),
 			array('approvation_media', 'required', 'on' => "numericGrade"),
-			array('edcenso_stage_vs_modality_fk, grade_calculation_fk, has_final_recovery', 'numerical', 'integerOnly'=>true),
+			array('edcenso_stage_vs_modality_fk, grade_calculation_fk, has_final_recovery, has_partial_recovery', 'numerical', 'integerOnly'=>true),
 			array('approvation_media, final_recover_media', 'numerical'),
 			array('rule_type', 'length', 'max'=>1),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, edcenso_stage_vs_modality_fk, approvation_media, final_recover_media, grade_calculation_fk, has_final_recovery, rule_type', 'safe', 'on'=>'search'),
+			array('id, edcenso_stage_vs_modality_fk, approvation_media, final_recover_media, grade_calculation_fk, has_final_recovery, has_partial_recovery, rule_type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,6 +71,7 @@ class GradeRules extends CActiveRecord
 			'final_recover_media' => 'Final Recover Media',
 			'grade_calculation_fk' => 'Grade Calculation Fk',
 			'has_final_recovery' => 'Has Final Recovery',
+			'has_partial_recovery' => 'Has Partial Recovery',
 			'rule_type' => 'Rule Type',
 		);
 	}
@@ -98,6 +100,7 @@ class GradeRules extends CActiveRecord
 		$criteria->compare('final_recover_media',$this->final_recover_media);
 		$criteria->compare('grade_calculation_fk',$this->grade_calculation_fk);
 		$criteria->compare('has_final_recovery',$this->has_final_recovery);
+		$criteria->compare('has_partil_recovery',$this->has_partial_recovery);
 		$criteria->compare('rule_type',$this->rule_type,true);
 
 		return new CActiveDataProvider($this, array(

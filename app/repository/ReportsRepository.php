@@ -183,6 +183,7 @@ class ReportsRepository
                 WHEN 9 THEN 'Concluinte'
                 WHEN 10 THEN 'Indeterminado'
                 WHEN 11 THEN 'Obito'
+                WHEN 12 THEN 'Avançado'
                 ELSE ''
                 END AS status_descricao
                 FROM
@@ -232,6 +233,7 @@ class ReportsRepository
                 WHEN 9 THEN 'Concluinte'
                 WHEN 10 THEN 'Indeterminado'
                 WHEN 11 THEN 'Obito'
+                WHEN 12 THEN 'Avançado'
                 ELSE ''
                 END AS status_descricao
                 FROM
@@ -282,6 +284,7 @@ class ReportsRepository
                 WHEN 9 THEN 'Concluinte'
                 WHEN 10 THEN 'Indeterminado'
                 WHEN 11 THEN 'Obito'
+                WHEN 12 THEN 'Avançado'
                 ELSE ''
                 END AS status_descricao
                 FROM
@@ -637,12 +640,9 @@ class ReportsRepository
                 ii.name,
                 ii.birthday_date,
                 ii.inep_id,
-                ivd.scholarity,
                 ii.school_inep_id_fk
             FROM instructor_identification ii
-            JOIN instructor_variable_data ivd ON ii.id = ivd.id
-            GROUP BY ii.name
-            ORDER BY ii.name;";
+            GROUP BY ii.name;";
         $instructors = Yii::app()->db->createCommand($sql)->queryAll();
 
         $schools = SchoolIdentification::model()->findAll();
@@ -2378,7 +2378,9 @@ class ReportsRepository
                 );
             if ($schedules !== null) {
                 foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
-                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "total" => count($schedules), "faults" => [], "frequency" => ""]);
+
+                    $classroomName = $this->getEjaClassroomNameForReport($studentEnrollment, Yii::app()->user->year);
+                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "infoClassroom" => $classroomName, "total" => count($schedules), "faults" => [], "frequency" => ""]);
                 }
                 foreach ($schedules as $schedule) {
                     foreach ($schedule->classFaults as $classFault) {
@@ -2399,7 +2401,7 @@ class ReportsRepository
                 );
             if ($schedules !== null) {
                 foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
-                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "days" => 0, "faults" => [], "frequency" => ""]);
+                    array_push($students, ["id" => $studentEnrollment->student_fk, "name" => $studentEnrollment->studentFk->name, "classroom" => null, "days" => 0, "faults" => [], "frequency" => ""]);
                 }
                 $days = [];
                 foreach ($schedules as $schedule) {
@@ -2424,6 +2426,44 @@ class ReportsRepository
         $result["students"] = $students;
 
         return $result;
+    }
+
+    public function getEjaClassroomNameForReport($studentEnrollment, $year) {
+        $classroomDetails = $this->getClassroomDetails($studentEnrollment->classroom_fk, $year);
+        if($classroomDetails){
+            $classroomName = $this->getStudentEnrollmentDetails($studentEnrollment);
+        } else {
+            $classroomName = null;
+        }
+    
+        return $classroomName;
+    }
+
+    private function getClassroomDetails($classroomFk, $year) {
+        $query = "SELECT * FROM classroom c 
+                  JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk 
+                  WHERE c.id = :id and c.school_year = :year and (esvm.stage = 6 OR esvm.name LIKE '%multi%' OR esvm.name LIKE '%Multi%')";
+    
+        $command = Yii::app()->db->createCommand($query);
+        $command->bindValue(":id", $classroomFk);
+        $command->bindValue(":year", $year);
+        $classroomDetails = $command->queryRow();
+    
+        return $classroomDetails;
+    }
+    
+    private function getStudentEnrollmentDetails($studentEnrollment) {
+        $query = "SELECT esm.name 
+                  FROM student_enrollment se 
+                  JOIN edcenso_stage_vs_modality esm ON esm.id = se.edcenso_stage_vs_modality_fk
+                  WHERE se.student_fk = :studentFk AND classroom_fk = :classroomFk";
+    
+        $command = Yii::app()->db->createCommand($query);
+        $command->bindValue(":studentFk", $studentEnrollment->student_fk);
+        $command->bindValue(":classroomFk", $studentEnrollment->classroom_fk);
+        $enrollmentDetails = $command->queryScalar();
+    
+        return $enrollmentDetails;
     }
 
     /**

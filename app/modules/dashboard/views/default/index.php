@@ -33,11 +33,47 @@ $cs->registerScriptFile($baseScriptUrl . '\powerbi.js', CClientScript::POS_END);
 			tokenType: models.TokenType.Embed,
 			accessToken: embedToken,
 			embedUrl: '<?= $embedUrl ?>',
-			id: '<?= $reportId ?>'
-		};
-		// Get a reference to the embedded dashboard HTML element 
-		const reportContainer = $('#reportContainer')[0];
-		// Embed the dashboard and display it within the div container. 
+			id: '<?= $reportId ?>',
+            settings: {
+                panes: {
+                    filters: {
+                        visible: false // Hide the filter pane
+                    },
+                    pageNavigation: {
+                        visible: true
+                    }
+                },
+                bars: {
+                    statusBar: {
+                        visible: true
+                    }
+                }
+            }
+        };
+        const reportContainer = document.getElementById('reportContainer');
+        const report = powerbi.embed(reportContainer, config);
+
+        const currentHost = window.location.hostname;
+
+        const filter = {
+            $schema: "http://powerbi.com/product/schema#basic",
+            target: {
+                table: "Accumulated_Data",
+                column: "Database_name"
+            },
+            operator: "In",
+            values: [currentHost]
+        };
+		// Embed the dashboard and display it within the div container.
 		powerbi.embed(reportContainer, config);
+        report.on('loaded', function() {
+            report.updateFilters(models.FiltersOperations.Add, [filter])
+                .then(function() {
+                    console.log('Filter applied');
+                })
+                .catch(function(errors) {
+                    console.error('Error applying filter:', errors);
+                });
 	});
+})
 </script>

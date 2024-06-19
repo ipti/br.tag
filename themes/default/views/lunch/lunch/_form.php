@@ -1,9 +1,13 @@
 <?php
 /* @var $menuModel Menu
+ * @var $meals Meals
  * @var $form CActiveForm
  * @var $isUpdate Boolean
  */
 
+ Yii::import('application.modules.foods.models.Food', true);
+ Yii::import('application.modules.foods.models.FoodMeasurement', true);
+ Yii::import('application.modules.lunch.controllers.LunchController', true);
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
 $cs = Yii::app()->getClientScript();
@@ -101,15 +105,15 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <th class="span1">Código</th>
                                 <th class="span4">Restrições</th>
                                 <th>Porções</th>
-                                <th class="span1">Quantidade</th>
                                 <th class="span1">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             $odd = false;
-                            foreach ($menuModel->menuMeals as $menuMeal) :
-                                $meal = $menuMeal->meal;
+                            foreach ($meals as $meal) :
+                                $portions = $meal["portions"];
+                                $meal = $meal["meal"];
                                 $odd = !$odd;
                             ?>
                                 <tr class="<?= $odd ? "odd" : "" ?>">
@@ -118,15 +122,28 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <td id="portions">
                                         <table class="table table-clear">
                                             <tbody>
-                                                <?php foreach ($meal->mealPortions as $mealPortion) :
-                                                    $portion = $mealPortion->portion ?>
+                                                <?php
+                                                $lunchController = new LunchController(null);
+
+                                                foreach ($portions as $portion) :
+                                                    $foodModel = Food::model()->findByPk($portion->food_fk);
+                                                    $foodAlias = $lunchController->actionGetFoodAlias();
+                                                    $food = array_filter($foodAlias,
+                                                    function($f) use ($foodModel) {return $f->id == $foodModel->id;});
+                                                    $foodUnity = FoodMeasurement::model()->findByPk($portion->unity_fk);
+                                                    $food = array_pop($food); ?>
                                                     <tr class="<?= $odd ? "odd" : "" ?>">
-                                                        <td><?= $portion->item->name ?></td>
-                                                        <td class="span2"><?= (floatval($mealPortion->amount) . "x " .
-                                                        floatval($portion->measure)). " " .
-                                                        $portion->unity->acronym ?></td>
+                                                        <td><?= $food->description ?></td>
+                                                        <td class="span2"><?= (floatval($portion->amount) . " " . $foodUnity->unit . " x " .
+                                                        floatval($foodUnity->value)). " " .
+                                                        $foodUnity->measure ?></td>
                                                         <td class="span1 text-right">
-                                                            <a data-toggle="modal" href="#removePortion" data-meal-portion-id="<?= $mealPortion->id ?>" class="button-remove-portion btn btn-danger btn-mini hidden-print">
+                                                            <a
+                                                                href="#removePortion"
+                                                                data-meal-portion-id="<?= $portion->id ?>"
+                                                                data-menu-id="<?= $menuModel->id ?>"
+                                                                class="button-remove-portion btn btn-danger btn-mini hidden-print"
+                                                            >
                                                                 <i class="fa fa-times"></i>
                                                             </a>
                                                         </td>
@@ -134,8 +151,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                                 <?php endforeach ?>
                                                 <tr>
                                                     <td colspan="3" class="<?= $odd ? "odd" : "" ?>">
-
-                                                        <a data-toggle="modal" href="#addPortion" data-meal-id="<?= $menuMeal->meal_fk ?>" class="pull-left button-add-portion btn btn-success btn-small hidden-print">
+                                                        <a data-toggle="modal" href="#addPortion" data-meal-id="<?= $meal->id ?>" class="pull-left button-add-portion btn btn-success btn-small hidden-print">
                                                             <i class="fa fa-plus-circle"></i>
                                                             <?= Yii::t('lunchModule.stock', 'Add Portion'); ?>
                                                         </a>
@@ -144,9 +160,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                             </tbody>
                                         </table>
                                     </td>
-                                    <td id="amount" class="text-center"><?= $menuMeal->amount ?></td>
                                     <td id="actions" class="text-center">
-                                        <a data-toggle="modal" href="#changeMeal" data-meal-id="<?= $menuMeal->meal_fk ?>" class="button-change-meal btn btn-primary btn-small hidden-print">
+                                        <a data-toggle="modal" href="#changeMeal" data-meal-id="<?= $meal->id ?>" class="button-change-meal btn btn-primary btn-small hidden-print">
                                             <i class="fa fa-pencil-square-o"></i>
                                         </a>
                                     </td>
@@ -183,77 +198,51 @@ $form = $this->beginWidget('CActiveForm', array(
                             </h4>
                         </div>
                         <div class="widget-body">
-                            <div class="row-fluid">
+                            <div class="row-fluid row">
                                 <div class=" span8">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Portion'), 'MealPortion[portion_fk]', array('class' => 'control-label')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::dropDownList(
-                                            'MealPortion[portion_fk]',
-                                            '',
-                                            CHtml::listData(Portion::model()->findAll(), 'id', 'concatName'),
-                                            ['class' => 'span12']
-                                        ); ?>
+                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Portion'), 'MealPortion[food_fk]', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php
+                                            $lunchController = new LunchController(null);
+                                            $lunchController->init();
+                                            echo CHtml::dropDownList(
+                                                'MealPortion[food_fk]',
+                                                '',
+                                                CHtml::listData($lunchController->actionGetFoodAlias(), 'id', 'description'),
+                                            );
+                                        ?>
                                     </div>
-                                </div>
-                                <div class="span2" style="width: 8%;">
-                                    <label class="control-label" style="margin: 0 0 10px 0; width: 10px;">&nbsp;</label>
-                                    <div class="controls span6" style="width: 100%;">
-                                        <a href="#" id="new-portion" class="btn btn-success btn-small" style="background:none; border:none;">
-                                            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/addItem.svg" alt="Adicionar Novo Item">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class=" span2" style="width: 23%;">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', array('class' => 'control-label', 'style' => 'width: 100%')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::numberField('MealPortion[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="is-new-portion" class="widget widget-scroll margin-bottom-none">
-                        <div class="widget-head" style="background: none;">
-                            <h4 class="heading">
-                                <i></i><?= yii::t('lunchModule.stock', 'New Portion') ?>
-                            </h4>
-                        </div>
-                        <div class="widget-body" style="overflow: hidden;">
-                            <div class="row-fluid">
-                                <div class=" span6" style="margin-right:12px">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', array('class' => 'control-label')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::dropDownList(
-                                            'Portion[item_fk]',
-                                            '',
-                                            CHtml::listData(Item::model()->with(["inventories" => ["select" => "amount", 'condition' => 'amount > 0']])->findAll(), 'id', 'concatName'),
-                                            ['class' => 'pull-left span10', 'style' => 'height:44px;width:100%;']
-                                        ); ?>
 
+                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Unity'), 'MealPortion[unity_fk]', array('class' => 'control-label')); ?>
+                                    <div class="controls">
+                                        <?php
+                                            echo CHtml::dropDownList(
+                                                'MealPortion[unity_fk]',
+                                                '',
+                                                CHtml::listData($lunchController->actionGetFoodMeasurement(), 'id', 'unit'),
+                                                array('id' => 'unityDropdown')
+                                            );
+                                        ?>
                                     </div>
                                 </div>
-
-                                <div class=" span2" style="margin-right:10px">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', array('class' => 'control-label')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::numberField('MealPortion[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
+                                <div class="row" style="flex-direction: column;">
+                                    <div class="column" style="width: 23%;">
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MealPortion[amount]', array('class' => 'control-label', 'style' => 'width: 100%')); ?>
+                                        <div class="controls span12">
+                                            <?= CHtml::numberField('MealPortion[amount]', '1',
+                                            ['min' => '0', 'step' => '1', 'class' => 'span10',
+                                            'style' => 'height:44px;width:100%;',
+                                            'id' => 'foodAmount']);
+                                            ?>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class=" span2" style="margin-right:10px">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::numberField('Portion[measure]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
-                                    </div>
-                                </div>
-                                <div class=" span2" style="width: 10%;">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label', 'style' => 'width:auto')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::dropDownList(
-                                            'Portion[unity_fk]',
-                                            '',
-                                            CHtml::listData(Unity::model()->findAll(['order' => 'acronym']), 'id', 'acronym'),
-                                            ['class' => ' span10', 'style' => 'width:100%']
-                                        ); ?>
+                                    <div class="column">
+                                        <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'MealPortion[measure]', array('class' => 'control-label', 'style' => 'width: 100%')); ?>
+                                        <?= CHtml::hiddenField('MealPortion[measure]', '1', [
+                                            'class' => 'hide',
+                                            'id' => 'measureInput'
+                                        ]); ?>
+                                        <div id="lunchUnityMeasure"><span></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -342,12 +331,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                         <?= CHtml::textArea('Meal[restrictions]', '', ['style' => 'resize: vertical;', 'class' => 'span10', 'style' => 'height:44px;width: 100%']); ?>
                                     </div>
                                 </div>
-                                <div class=" span6" style="width: 20%;">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MenuMeal[amount]', array('class' => 'control-label')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::numberField('MenuMeal[amount]', '1', ['min' => '1', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px; width:99%;']); ?>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -389,12 +372,6 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?= CHtml::label(Yii::t('lunchModule.labels', 'Restrictions'), 'Meal[restrictions]', array('class' => 'control-label')); ?>
                                     <div class="controls span12" style="margin-left: 0;">
                                         <?= CHtml::textArea('Meal[restrictions]', '', ['style' => 'resize: vertical;', 'class' => 'span10', 'style' => 'height:44px;width: 100%']); ?>
-                                    </div>
-                                </div>
-                                <div class=" span6" style="width: 20%;">
-                                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'MenuMeal[amount]', array('class' => 'control-label')); ?>
-                                    <div class="controls span12">
-                                        <?= CHtml::numberField('MenuMeal[amount]', '1', ['min' => '1', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px; width:99%;']); ?>
                                     </div>
                                 </div>
                             </div>

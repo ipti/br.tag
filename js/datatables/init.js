@@ -140,13 +140,13 @@ function initDatatable() {
                 indexActionButtons = [2];
             }
             if (action.includes("instructor")
+                || action.includes("courseplan")
                 || action.includes("manageUsers")) {
                 indexActionButtons = [3];
             }
             if (action.includes("classroom")
                 || action.includes("student")
                 || action.includes("curricularmatrix")
-                || action.includes("courseplan")
                 || action.includes("professional")) {
                 indexActionButtons = [4];
             }

@@ -1,11 +1,11 @@
 .t-accordeon {
 
     .ui-accordion-header {
+        height: $SizeXXLarge;
         display: flex !important;
         align-items: center;
         background: $colorsBaseCloudLight;
         cursor: pointer;
-        padding: $SizeXXXSmall $SizeSmall !important;
         border-radius: 0;
         border: none;
         color: $colorsTextPrimary;
@@ -21,6 +21,7 @@
             box-shadow: none;
             margin-bottom: 0;
             padding: 0;
+            font-family: 'Inter', sans-serif !important;
         }
 
         &.hide {
@@ -44,7 +45,6 @@
     &--header {
        font-weight: $fontWeightBold;
        border-bottom: $borderWidthCard solid $colorsBaseInkLighter;
-       padding: $SizeXXXSmall $SizeSmall;
     }
 }
 

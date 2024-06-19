@@ -39,10 +39,11 @@ function load() {
 
                     checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classroom").val() + "' day='" + this.day + "' month='" + monthSplit[1] + "' year='" + monthSplit[0] + "' schedule='" + this.schedule + "' fundamentalMaior='" + fundamentalMaior + "'></th>";
                 });
-                html += "<tr class='day-row sticky'><th></th>" + dayRow + "<tr class='checkbox-row'><th></th>" + checkboxRow + "</tr>";
+                html += "<tr class='day-row sticky'><th class='sticky-column'></th>" + dayRow + "<tr class='checkbox-row'><th class='checkbox-row sticky-column'></th>" + checkboxRow + "</tr>";
                 html += "</thead></div><tbody class='t-accordion__body'>";
                 $.each(data.students, function (indexStudent, student) {
-                    html += "<tr><td class='student-name'>" + student.studentName + "</td>";
+
+                    html += "<tr><td class='student-name sticky-column'>" + student.studentName + "</td>";
                     $.each(student.schedules, function (indexSchedule, schedule) {
                         var justificationContainer = "";
                         if (schedule.fault) {
@@ -52,7 +53,7 @@ function load() {
                                 justificationContainer += "<a href='javascript:;' data-toggle='tooltip' class='frequency-justification-icon'><i class='fa fa-file-o'></i><i class='fa fa-file'></i></a>";
                             }
                         }
-                        html += "<td class='frequency-checkbox-student frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() +
+                        html += "<td class='frequency-checkbox-student frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available || student.status == 2 ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() +
                             "' studentId='" + student.studentId + "' day='" + schedule.day + "' month='" + monthSplit[1] + "' year='" + monthSplit[0] + "' schedule='" + schedule.schedule + "' fundamentalMaior='" + fundamentalMaior + "'>" + justificationContainer + "</td>";
                     });
                     html += "</tr>";
@@ -79,7 +80,7 @@ function load() {
 }
 
 $(document).on("click", ".frequency-checkbox-container", function (e) {
-    if (e.target === this && !$(this).hasClass("disabled")) {
+    if (e.target === this && !$(this).hasClass("disabled") && !$(this).find('input').attr('disabled')) {
         $(this).find(".frequency-checkbox").prop("checked", !$(this).find(".frequency-checkbox").is(":checked")).trigger("change");
     }
 });
@@ -232,6 +233,7 @@ $(document).on("click", ".btn-save-justification", function () {
         },
         success: function (data) {
             var justification = $(".table-frequency tbody .frequency-checkbox[studentid=" + $("#justification-studentid").val() + "][day=" + $("#justification-day").val() + "][month=" + $("#justification-month").val() + "][year=" + $("#justification-year").val() + "]").parent().find(".frequency-justification-icon");
+            console.log(justification)
             if ($(".justification-text").val() == "") {
                 justification.html("<i class='fa fa-file-o'></i><i class='fa fa-file'></i>");
                 justification.attr("data-original-title", "").tooltip('hide');

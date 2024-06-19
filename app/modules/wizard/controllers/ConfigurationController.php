@@ -123,6 +123,7 @@ class ConfigurationController extends Controller
                 foreach ($emrollments as $e) {
                     $enrollment = new StudentEnrollment();
                     $enrollment->attributes = $_POST["StudentEnrollment"];
+                    $enrollment->status = 1;
 
                     $st = StudentIdentification::model()->findByPk($e->student_fk);
                     $c = Classroom::model()->findByPk($enrollment->classroom_fk);
@@ -152,6 +153,7 @@ class ConfigurationController extends Controller
             ));
         }
     }
+
 
     public function actionGetStudents()
     {

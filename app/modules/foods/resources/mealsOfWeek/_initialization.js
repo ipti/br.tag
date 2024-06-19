@@ -2,7 +2,7 @@ let mealsOfWeek = []
 let mealsOfWeekFiltered = []
 const containerCards = $('.js-cards-meals')
 $.ajax({
-    url: "?r=foods/foodMenu/GetMealsOfWeek",
+    url: "?r=foods/foodmenu/GetMealsOfWeek",
     type: "POST",
 }).success(function (response) {
     mealsOfWeek = JSON.parse(DOMPurify.sanitize(response))
@@ -36,7 +36,7 @@ $(document).on("change", '.js-filter-turns, .js-filter-public-target', function 
 
         if (publicTargetFilter.length > 0) {
             mealsOfWeekFiltered[day] = mealsOfWeekFiltered[day].filter((item) => {
-                return publicTargetFilter.some((i) => i === item.food_public_target_id);
+                return publicTargetFilter.some((i) => i === item.foodPublicTargetId);
             });
         }
     });

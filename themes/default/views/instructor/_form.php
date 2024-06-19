@@ -95,7 +95,17 @@ $isModel = isset($modelInstructorIdentification->id);
                         <span class="t-tabs__numeration">3</span>
                         <?php echo Yii::t('default', 'Variable Data') ?>
                     </a>
+                    <?= !$modelInstructorIdentification->isNewRecord ? '<img src="'.Yii::app()->theme->baseUrl.'/img/seta-tabs.svg" alt="seta">' : ''?>
+
                 </li>
+                <?= !$modelInstructorIdentification->isNewRecord ?
+                '<li id="tab-instructor-data" class="t-tabs__item">
+                    <a href="#instructor-classroom" data-toggle="tab" class="t-tabs__link">
+                        <span class="t-tabs__numeration">4</span>'
+                        . Yii::t('default', 'Classrooms') .
+                    '</a>
+                </li>' : ''
+                ?>
             </ul>
         </div>
 
@@ -248,19 +258,15 @@ $isModel = isset($modelInstructorIdentification->id);
                                         array('class' => 'control-label')
                                     ); ?>
                                 </div>
-                                <div class="controls">
-                                    <?php echo $form->textField(
-                                        $modelInstructorIdentification,
-                                        'birthday_date',
-                                        array(
-                                            'size' => 10,
-                                            'maxlength' => 10,
-                                            'class' => 'control-label'
-                                        )
-                                    );
-                                    ?>
-                                    <br><?php echo $form->error($modelInstructorIdentification, 'birthday_date'); ?>
-                                </div>
+                                <div style="margin-left: 23px">
+									<?php
+										$this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelInstructorIdentification, 'birthday_date'));
+										echo CHtml::link('	Limpar', '#', array(
+											'onclick' => '$("#' . CHtml::activeId($modelInstructorIdentification, 'birthday_date') . '").datepicker("setDate", null); return false;',
+										));
+										echo $form->error($modelInstructorIdentification, 'birthday_date');
+									?>
+								</div>
                             </div>
 
                             <div class="control-group" id="gender-select">
@@ -1935,6 +1941,20 @@ $isModel = isset($modelInstructorIdentification->id);
                         <?php $this->endWidget(); ?>
                     </div>
                 </div>
+                <?php
+                    if(!$modelInstructorIdentification->isNewRecord):
+                ?>
+                <div class="tab-pane" id="instructor-classroom">
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <div class="js-add-classrooms-cards">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                    endif;
+                ?>
             </div>
         </div>
     </div>

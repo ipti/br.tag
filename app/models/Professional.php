@@ -34,10 +34,9 @@ class Professional extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, cpf_professional, speciality, inep_id_fk, fundeb', 'required'),
-			array('cpf_professional', 'unique', 'className' => 'Professional'),
 			array('fundeb', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>200),
-			array('speciality', 'length', 'max'=>100),
+			array('speciality', 'length', 'max'=>50),
 			array('cpf_professional', 'length', 'max'=>14),
 			array('inep_id_fk', 'length', 'max'=>8),
 			// The following rule is used by search().

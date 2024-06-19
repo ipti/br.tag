@@ -35,34 +35,69 @@ class FoodMenuService
     {
         $result = array();
 
-        date_default_timezone_set('America/Bahia');
-        $date = date('Y-m-d', time());
+        $foods = $this->getFoodFromTheMenu();
 
-        $sql = "SELECT
-        CASE
-            WHEN fmm.turn = 'M' THEN 'Manhã'
-            WHEN fmm.turn = 'T' THEN 'Tarde'
-            WHEN fmm.turn = 'N' THEN 'Noite'
-            ELSE ''
-        END AS turn,
-        fi.food_id_fk,
-        f.description,
-        fm2.measure,
-        f.id,
-        SUM(fi.amount) as total_amount,
-        SUM(fm2.value) as total_value,
-        SUM((fi.amount * fm2.value)) as total
-        FROM food_menu fm
-        JOIN food_menu_meal fmm ON fmm.food_menuId = fm.id
-        JOIN food_menu_meal_component fmmc ON fmm.id = fmmc.food_menu_mealId
-        JOIN food_ingredient fi ON fmmc.id = fi.food_menu_meal_componentId
-        JOIN food_measurement fm2 ON fm2.id = fi.food_measurement_fk
-        JOIN food f ON f.id = fi.food_id_fk
-        WHERE fm.start_date <= :date AND fm.final_date >= :date
-        GROUP BY turn, fi.food_id_fk;";
+        $students = $this->getStudents();
+        $studentsTurn = $this->getStudentsTurn($students);
 
-        $foods = Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
+        if ($students != null && $foods != null) {
+            $result = $this->processFood($foods, $studentsTurn);
+        }
+        return $result;
+    }
+    public function processFood($foods, $studentsTurn) {
+        $result = array();
+        foreach ($foods as $food) {
+            // verifica se tem alunos nesse turno
+            $turn = $food["turn"];
 
+            $idFood = $food["id"];
+            if (!array_key_exists($idFood, $result)) {
+                $measure = '';
+
+                switch ($food["measure"]) {
+                    case 'g':
+                        $measure = "Kg";
+                        break;
+                    case 'ml':
+                        $measure = ($food["measurementUnit"] == "g") ? "kg" : "L";
+                        break;
+                    default:
+                        $measure = $food["measure"];
+                        break;
+                }
+                $result[$idFood] = array(
+                    'id' => $idFood,
+                    'name' => str_replace(',', '', $food["description"]),
+                    'total' => 0, // Inicializa o total como 0
+                    'measure' => $measure,
+                );
+            }
+
+            // Atualiza o total
+            $value = $food["total"];
+
+            if($food["measure"] == 'g' || $food["measure"]  == 'ml'){
+                $value = $food["total"]/1000;
+            }
+            $result[$idFood]['total'] +=
+                ($value * $studentsTurn[$turn]) + ($value * $studentsTurn["Integral"]);
+        }
+        return $result;
+    }
+    private function getStudentsTurn($students){
+        $studentsTurn = ['Manhã' => '0', 'Tarde' => '0', 'Noite' => '0', 'Integral' => '0'];
+
+        foreach ($students as $element) {
+            $turn = $element['turn'];
+            $totalStudents = $element['total_students'];
+
+
+            $studentsTurn[$turn] = $totalStudents;
+        }
+        return  $studentsTurn;
+    }
+    private function getStudents(){
         $sql = "SELECT
         COUNT(*) as total_students,
         CASE
@@ -82,50 +117,51 @@ class FoodMenuService
         c.turn;
     ";
 
-        $students = Yii::app()->db->createCommand($sql)
+        return Yii::app()->db->createCommand($sql)
             ->bindParam(':user_year', Yii::app()->user->year)
             ->bindParam(':user_school', Yii::app()->user->school)->queryAll();
-        $studentsTurn = ['Manhã' => '0', 'Tarde' => '0', 'Noite' => '0', 'Integral' => '0'];
+    }
+    private function getFoodFromTheMenu(){
+        date_default_timezone_set('America/Bahia');
+        $date = date('Y-m-d', time());
 
-        foreach ($students as $element) {
-            $turn = $element['turn'];
-            $totalStudents = $element['total_students'];
+        $sql = "SELECT
+        CASE
+            WHEN fmm.turn = 'M' THEN 'Manhã'
+            WHEN fmm.turn = 'T' THEN 'Tarde'
+            WHEN fmm.turn = 'N' THEN 'Noite'
+            ELSE ''
+        END AS turn,
+        fi.food_id_fk,
+        f.description,
+        f.measurementUnit,
+        fm2.measure,
+        f.id,
+        SUM(fi.amount) as total_amount,
+        SUM(fm2.value) as total_value,
+        SUM((fi.amount * fm2.value)) as total
+        FROM food_menu fm
+        JOIN food_menu_meal fmm ON fmm.food_menuId = fm.id
+        JOIN food_menu_meal_component fmmc ON fmm.id = fmmc.food_menu_mealId
+        JOIN food_ingredient fi ON fmmc.id = fi.food_menu_meal_componentId
+        JOIN food_measurement fm2 ON fm2.id = fi.food_measurement_fk
+        JOIN food f ON f.id = fi.food_id_fk
+        WHERE fm.start_date <= :date AND fm.final_date >= :date
+        GROUP BY turn, fi.food_id_fk ;";
 
-
-            $studentsTurn[$turn] = $totalStudents;
-        }
-
-        if ($students != null && $foods != null) {
-            foreach ($foods as $food) {
-                // verifica se tem alunos nesse turno
-                $turn = $food["turn"];
-
-                $idFood = $food["id"];
-                if (!array_key_exists($idFood, $result)) {
-                    $result[$idFood] = array(
-                        'id' => $idFood,
-                        'name' => str_replace(',', '', $food["description"]),
-                        'total' => 0, // Inicializa o total como 0
-                        'measure' => $food["measure"]
-                    );
-                }
-
-                // Atualiza o total
-                $result[$idFood]['total'] +=
-                    ($food["total"] * $studentsTurn[$turn]) + ($food["total"] * $studentsTurn["Integral"]);
-            }
-        }
-        return $result;
+         return Yii::app()->db->createCommand($sql)->bindParam(':date', $date)->queryAll();
     }
     public function getNutritionalValue($id)
     {
         $nutritionalValue = array();
         $sql = '
-            select f.id, f.description, f.energy_kcal, f.protein_g, f.carbohydrate_g, f.lipidius_g from food as f
+            select f.id, f.description, fi.amount, fme.value, fme.measure,
+            f.energy_kcal, f.protein_g, f.carbohydrate_g, f.lipidius_g from food as f
             inner join food_ingredient as fi  on fi.food_id_fk= f.id
             inner join food_menu_meal_component as  fmmc on fmmc.id = fi.food_menu_meal_componentId
             inner join  food_menu_meal as fmm on fmm.id = fmmc.food_menu_mealId
             inner join food_menu as fm  on fm.id = food_menuId
+            inner join food_measurement as fme on fme.id = fi.food_measurement_fk
             where fm.id = :id
         ';
         $nutritionalValue = Yii::app()->db->createCommand($sql)->bindParam(':id', $id)->queryAll();
@@ -136,11 +172,21 @@ class FoodMenuService
         $lpdTotal = 0;
         $daysOFWeek = 5;
         foreach ($nutritionalValue as $item) {
-            $kcal += $item["energy_kcal"];
-            $calTotal += $item["carbohydrate_g"];
-            $ptnTotal += $item["protein_g"];
-            $lpdTotal += $item["lipidius_g"];
+            $portion = $item["value"] * $item["amount"];
+            if( $item["measure"] == "g" ||  $item["measure"] == 'ml'){
+                $kcal += ($item["energy_kcal"] * $portion/100);
+                $calTotal += ($item["carbohydrate_g"] * $portion/100);
+                $ptnTotal += ($item["protein_g"] * $portion/100);
+                $lpdTotal += ($item["lipidius_g"] * $portion/100);
+            }  elseif ($item["measure"] == "Kg" || $item["measure"] == "L") {
+                $kgTog = $portion*1000;
+                $kcal += ($item["energy_kcal"] * $kgTog/100);
+                $calTotal += ($item["carbohydrate_g"] * $kgTog/100);
+                $ptnTotal += ($item["protein_g"] * $kgTog/100);
+                $lpdTotal += ($item["lipidius_g"] * $kgTog/100);
+            }
         }
+
         $kcalAverage = $kcal / $daysOFWeek;
 
         $calAverage = $calTotal / $daysOFWeek;
@@ -344,6 +390,7 @@ class MealObject
 
     public $foodPublicTargetId;
     public $foodPublicTargetName;
+    public $foodMealTypeDescription;
     public $mealsComponent = [];
 
     public function __construct($model, $foodMenuPublicTarget, $mealDescription)
@@ -398,6 +445,12 @@ class IngredientObject
     public $foodName;
     public $amount;
     public $foodMeasureUnitId;
+    public $lip;
+    public $pt;
+    public $cho;
+    public $kcal;
+    public $nameFood;
+    public $measurementUnit;
 
     public function __construct($model, $foodModel)
     {
@@ -405,5 +458,13 @@ class IngredientObject
         $this->foodName = $foodModel->description;
         $this->amount = $model->amount;
         $this->foodMeasureUnitId = $model->food_measurement_fk;
+        $this->lip =  is_numeric($foodModel->lipidius_g) ? round($foodModel->lipidius_g, 2) : $foodModel->lipidius_g;
+        $this->pt = is_numeric($foodModel->protein_g) ? round($foodModel->protein_g, 2) : $foodModel->protein_g;
+        $this->cho = is_numeric($foodModel->carbohydrate_g) ?
+             round($foodModel->carbohydrate_g, 2) : $foodModel->carbohydrate_g;
+        $this->kcal = is_numeric($foodModel->energy_kcal) ? round($foodModel->energy_kcal, 2) : $foodModel->energy_kcal;
+        $this->nameFood = $foodModel->description;
+        $this->measurementUnit = $foodModel->measurementUnit;
+
     }
 }

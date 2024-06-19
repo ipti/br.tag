@@ -1,9 +1,11 @@
+
 <?php
 
 /**
  * @property GradeResults $gradeResult
  * @property GradeRules $gradeRule
  * @property integer $numUnities
+ * @property integer $frequency
  */
 class ChageStudentStatusByGradeUsecase
 {
@@ -12,11 +14,12 @@ class ChageStudentStatusByGradeUsecase
     private const SITUATION_RECOVERY = "RECUPERAÇÃO";
 
 
-    public function __construct($gradeResult, $gradeRule, $numUnities)
+    public function __construct($gradeResult, $gradeRule, $numUnities, $frequency = null)
     {
         $this->gradeResult = $gradeResult;
         $this->gradeRule = $gradeRule;
         $this->numUnities = $numUnities;
+        $this->frequency = $frequency;
     }
 
     public function exec()
@@ -85,10 +88,11 @@ class ChageStudentStatusByGradeUsecase
 
         $finalMedia = $this->gradeResult->final_media;
         $approvationMedia = $this->gradeRule->approvation_media;
+        $frequency = $this->frequency;
 
         $this->gradeResult->situation = $disapprovedSituation;
 
-        if ($finalMedia >= $approvationMedia) {
+        if ($finalMedia >= $approvationMedia && ($frequency >= '75' || $frequency == null)) {
             $this->gradeResult->situation = $approvedSituation;
         } elseif ($this->gradeRule->has_final_recovery) {
             $recoveryMedia = $this->gradeResult->rec_final;

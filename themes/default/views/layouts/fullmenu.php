@@ -243,9 +243,21 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 </a>
                             </li>
                         <?php endif ?>
-                        <?php if(!Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)):?>
+
+
+                        <?php if($i = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) :?>
+                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=calendar") ? 'active' : '' ?> hide-responsive">
+                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('calendar') ?> ">
+                                    <span class="t-icon-calendar t-menu-item__icon"></span>
+                                    <span class="t-menu-item__text">Calendário Escolar</span>
+                                </a>
+                            </li>
+                        <?php endif ?>
+
+                        <?php if(!Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id) &&
+                                !Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)):?>
                         <li id="menu-electronic-diary" class="t-menu-group <?=
-                                                                            strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
                                                                                 strpos($_SERVER['REQUEST_URI'], "?r=grades/grades") ||
@@ -258,14 +270,14 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 <span class="t-menu-group__text">Diário Eletrônico</span>
                             </a>
                             <ul class="collapse <?=
-                                                strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=grades/grades") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard") ? 'in' : '' ?>" id="submenu-electronic-diary">
 
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?>">
-                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('courseplan') ?>">
+                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('courseplan/courseplan') ?>">
                                         <span class="t-icon-diary t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Plano de Aula</span>
                                     </a>
@@ -309,6 +321,14 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                             </ul>
                             <?php endif?>
                         </li>
+                        <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)) : ?>
+                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?>">
+                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('courseplan/courseplan') ?>">
+                                    <span class="t-icon-diary t-menu-item__icon"></span>
+                                    <span class="t-menu-item__text">Plano de Aula</span>
+                                </a>
+                            </li>
+                         <?php endif ?>
                         <?php if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) : ?>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classdiary/default/") ? 'active' : '' ?>">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classdiary/default/') ?> ">
@@ -499,6 +519,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     <script src='<?php echo Yii::app()->baseUrl; ?>/js/layout/functions.js?v=<?= TAG_VERSION ?>'></script>
     <script src='<?php echo Yii::app()->baseUrl; ?>/js/datatables/init.js?v=<?= TAG_VERSION ?>'></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatables.min.js"></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/datatablesptbr.js"></script>
 </body>
 
 </html>

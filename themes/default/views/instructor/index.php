@@ -53,6 +53,11 @@
                     'itemsCssClass' => 'js-tag-table tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns' => array(
                         array(
+                            'name' => 'id',
+                            'type' => 'raw',
+                            'value' => '$data->id',
+                        ),
+                        array(
                             'name' => 'name',
                             'type' => 'raw',
                             'value' => 'CHtml::link($data->name,Yii::app()->createUrl("instructor/update",array("id"=>$data->id)))',

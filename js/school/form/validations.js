@@ -5,15 +5,13 @@
  */
 
 
-$(formIdentification + 'initial_date').mask("99/99/9999");
-$(formIdentification + 'initial_date').focusout(function () {
+$('#initial_date_picker').change(function () {
     var id = '#' + $(this).attr("id");
-    initial_date = stringToDate($(formIdentification + 'initial_date').val());
-    if (!validateDate($(formIdentification + 'initial_date').val())
-        || !(initial_date.year >= actual_year - 1
-            && initial_date.year <= actual_year)) {
-        $(formIdentification + 'initial_date').attr('value', '');
-        addError(id, "A data deve ser válida, no formato Dia/Mês/Ano e inferior a data final.");
+    var initial_date = stringToDate($(this).val());
+
+    if (!validateDate($(this).val()) || !((initial_date.year >= actual_year - 1) && (initial_date.year <= actual_year))) {
+        $(this).attr('value', '');
+        addError(id, "A data não pode ser anterior a " + (actual_year - 1));
     } else {
         removeError(id);
     }

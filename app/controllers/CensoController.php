@@ -378,7 +378,8 @@ class CensoController extends Controller
             $collumn["water_supply_artesian_well"],
             $collumn["water_supply_well"],
             $collumn["water_supply_river"],
-            $collumn["water_supply_inexistent"]);
+            $collumn["water_supply_inexistent"],
+            $collumn["water_supply_car"]);
         $result = $ssv->supply($water_supplys);
         if (!$result["status"]) array_push($log, array("Suprimento de Agua" => $result["erro"]));
 
@@ -449,6 +450,7 @@ class CensoController extends Controller
             $collumn["dependencies_yardzao"],
             $collumn["dependencies_vivarium"],
             $collumn["dependencies_vocational_education_workshop"],
+            $collumn["dependencies_garden_planting_agricultural"],
             $collumn["dependencies_none"]);
         $result = $ssv->supply($dependencies);
         if (!$result["status"]) array_push($log, array("Dependencias" => $result["erro"]));
@@ -458,6 +460,7 @@ class CensoController extends Controller
             $collumn["acessability_tactile_floor"],
             $collumn["acessability_doors_80cm"],
             $collumn["acessability_ramps"],
+            $collumn["acessability_light_signaling"],
             $collumn["acessability_sound_signaling"],
             $collumn["acessability_tactile_singnaling"],
             $collumn["acessability_visual_signaling"],
@@ -486,6 +489,7 @@ class CensoController extends Controller
             $collumn["equipments_toys_early"],
             $collumn["equipments_scientific_materials"],
             $collumn["equipments_equipment_amplification"],
+            $collumn["equipments_garden_planting_agricultural"],
             $collumn["equipments_musical_instruments"],
             $collumn["equipments_educational_games"],
             $collumn["equipments_material_cultural"],
@@ -493,6 +497,8 @@ class CensoController extends Controller
             $collumn["equipments_material_teachingindian"],
             $collumn["equipments_material_teachingethnic"],
             $collumn["equipments_material_teachingrural"],
+            $collumn["equipments_material_teachingquilombola"],
+            $collumn["equipments_material_teachingspecial"],
             $collumn["instruments_inexistent"]);
         $result = $ssv->atLeastOne($instruments);
         if (!$result["status"]) array_push($log, array("Instrumentos, materiais socioculturais e/ou pedagogicos em uso na escola para o desenvolvimento de atividades de ensino aprendizagem" => $result["erro"]));
@@ -648,8 +654,8 @@ class CensoController extends Controller
         if (!$result['status']) array_push($log, array('stage' => $result['erro']));
 
         //campo 39
-        $result = $crv->isValidProfessionalEducation($column['course'], $column['edcenso_stage_vs_modality_fk']);
-        if (!$result['status']) array_push($log, array('course' => $result['erro']));
+        $result = $crv->isValidProfessionalEducation($column['modality'], $column['course'], $column['edcenso_stage_vs_modality_fk']);
+        if ( !$result['status']) array_push($log, array('course' => $result['erro']));
 
         //campos 40 a 65
 //        $disciplinesArray = array($column['discipline_chemistry'], $column['discipline_physics'], $column['discipline_mathematics'], $column['discipline_biology'], $column['discipline_science'],
@@ -682,7 +688,10 @@ class CensoController extends Controller
         if (!$result['status']) array_push($log, array('Turma' => $result['erro']));
 
         foreach($column->instructorTeachingDatas as $instructorTeachingData) {
-            if (empty($instructorTeachingData->teachingMatrixes)) {
+            if (in_array($instructorTeachingData->role, [1, 5])
+                && empty($instructorTeachingData->teachingMatrixes)
+            ) {
+
                 array_push($log, array('Professores' => "Há professores sem componentes curriculares/eixos vinculados à Turma."));
                 break;
             }
@@ -702,10 +711,6 @@ class CensoController extends Controller
         $iiv = new InstructorIdentificationValidation();
         $school_inep_id_fk = $collumn["school_inep_id_fk"];
         $log = array();
-
-        //campo 1
-        $result = $iiv->isRegister("30", $collumn['register_type']);
-        if (!$result["status"]) array_push($log, array("register_type" => $result["erro"]));
 
         //campo 2
         $result = $iiv->isAllowedInepId($school_inep_id_fk,
@@ -811,10 +816,6 @@ class CensoController extends Controller
         $school_inep_id_fk = $collumn["school_inep_id_fk"];
         $instructor_inep_id = $collumn["inep_id"];
 
-        //campo 1
-        $result = $idav->isRegister("40", $collumn['register_type']);
-        if (!$result["status"]) array_push($log, array("register_type" => $result["erro"]));
-
         $sql = "SELECT inep_id FROM school_identification;";
         $inep_ids = Yii::app()->db->createCommand($sql)->queryAll();
         foreach ($inep_ids as $key => $value) {
@@ -862,10 +863,6 @@ class CensoController extends Controller
         $instructor_fk = $collumn['instructor_fk'];
         $classroom_fk = $collumn['classroom_id_fk'];
         $log = array();
-
-        //campo 1
-        $result = $itdv->isRegister("51", $collumn['register_type']);
-        if (!$result["status"]) array_push($log, array("register_type" => $result["erro"]));
 
         //campo 2
         $result = $itdv->isAllowedInepId($school_inep_id_fk,
@@ -1005,10 +1002,6 @@ class CensoController extends Controller
         $stiv = new StudentIdentificationValidation();
         $school_inep_id_fk = $collumn["school_inep_id_fk"];
         $log = array();
-
-        //campo 1
-        $result = $stiv->isRegister("60", $collumn['register_type']);
-        //if(!$result["status"]) array_push($log, array("register_type"=>$result["erro"]));
 
         //campo 2
         $result = $stiv->isAllowedInepId($school_inep_id_fk,
@@ -1177,10 +1170,6 @@ class CensoController extends Controller
         $civil_certification = $collumn['civil_certification'];
 
 
-        //campo 1
-        $result = $sda->isRegister("70", $collumn['register_type']);
-        if (!$result["status"]) array_push($log, array("register_type" => $result["erro"]));
-
         //campo 2
         $result = $sda->isAllowedInepId($school_inep_id_fk,
             $allowed_school_inep_ids);
@@ -1312,10 +1301,6 @@ class CensoController extends Controller
         $student_inep_id_fk = $collumn["student_inep_id"];
         $classroom_fk = $collumn['classroom_fk'];
         $log = array();
-
-        //campo 1
-        $result = $sev->isRegister("80", $collumn['register_type']);
-        if (!$result["status"]) array_push($log, array("register_type" => $result["erro"]));
 
         //campo 2
         $result = $sev->isAllowedInepId($school_inep_id_fk,
@@ -1451,26 +1436,35 @@ class CensoController extends Controller
         $log['school']['validate']['identification'] = $this->validateSchool($schoolcolumn, $managerIdentificationColumn);
         $log['school']['validate']['structure'] = $this->validateSchoolStructure($schoolstructurecolumn, $schoolcolumn);
         $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+
+        $processedInstructors = [];
         foreach ($classrooms as $iclass => $classroom) {
             $log['classroom'][$iclass]['info'] = $classroom->attributes;
             $log['classroom'][$iclass]['validate']['identification'] = $this->validateClassroom($classroom, $schoolcolumn, $schoolstructure);
             foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
-                $log['instructor'][$teachingData->instructor_fk]['info'] = $teachingData->instructorFk->attributes;
-                $log['instructor'][$teachingData->instructor_fk]['validate']['identification'][$iteaching] = $this->validateInstructor($teachingData->instructorFk->attributes, $teachingData->instructorFk->documents->attributes);
-                $log['instructor'][$teachingData->instructor_fk]['validate']['documents'][$iteaching] = $this->validateInstructorDocuments($teachingData->instructorFk->documents->attributes);
-                $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['id'] = $teachingData->classroomIdFk->id;
-                $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['turma'] = $teachingData->classroomIdFk->name;
-                $log['instructor'][$teachingData->instructor_fk]['validate']['variabledata'][$iteaching]['errors'] = $this->validateInstructorData($teachingData->attributes);
+                $instructorId = $teachingData->instructor_fk;
+                if (in_array($instructorId, $processedInstructors)) {
+                    continue;
+                }
+                $processedInstructors[] = $instructorId;
+                $log['instructor'][$instructorId]['info'] = $teachingData->instructorFk->attributes;
+                $log['instructor'][$instructorId]['validate']['identification'][$iteaching] = $this->validateInstructor($teachingData->instructorFk->attributes, $teachingData->instructorFk->documents->attributes);
+                $log['instructor'][$instructorId]['validate']['documents'][$iteaching] = $this->validateInstructorDocuments($teachingData->instructorFk->documents->attributes);
+                $log['instructor'][$instructorId]['validate']['variabledata'][$iteaching]['id'] = $teachingData->classroomIdFk->id;
+                $log['instructor'][$instructorId]['validate']['variabledata'][$iteaching]['turma'] = $teachingData->classroomIdFk->name;
+                $log['instructor'][$instructorId]['validate']['variabledata'][$iteaching]['errors'] = $this->validateInstructorData($teachingData->attributes);
             }
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-                $log['student'][$enrollment->student_fk]['info'] = $enrollment->studentFk->attributes;
-                $log['student'][$enrollment->student_fk]['validate']['identification'][$ienrollment] = $this->validateStudentIdentification($enrollment->studentFk->attributes, $enrollment->studentFk->documentsFk->attributes, $enrollment->classroomFk->attributes);
-                @$log['student'][$enrollment->student_fk]['validate']['documents'][$ienrollment] = $this->validateStudentDocumentsAddress($enrollment->studentFk->documentsFk->attributes, $enrollment->studentFk->attributes);
-                $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['id'] = $enrollment->id;
-                $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['turma'] = $enrollment->classroomFk->name;
-                $log['student'][$enrollment->student_fk]['validate']['enrollment'][$ienrollment]['errors'] = $this->validateEnrollment($enrollment->attributes);
+                $studentId = $enrollment->student_fk;
+                $log['student'][$studentId]['info'] = $enrollment->studentFk->attributes;
+                $log['student'][$studentId]['validate']['identification'][$ienrollment] = $this->validateStudentIdentification($enrollment->studentFk->attributes, $enrollment->studentFk->documentsFk->attributes, $enrollment->classroomFk->attributes);
+                @$log['student'][$studentId]['validate']['documents'][$ienrollment] = $this->validateStudentDocumentsAddress($enrollment->studentFk->documentsFk->attributes, $enrollment->studentFk->attributes);
+                $log['student'][$studentId]['validate']['enrollment'][$ienrollment]['id'] = $enrollment->id;
+                $log['student'][$studentId]['validate']['enrollment'][$ienrollment]['turma'] = $enrollment->classroomFk->name;
+                $log['student'][$studentId]['validate']['enrollment'][$ienrollment]['errors'] = $this->validateEnrollment($enrollment->attributes);
             }
         }
+
         $this->render('validate', ['log' => $log]);
     }
 
@@ -2539,6 +2533,8 @@ class CensoController extends Controller
         $result = $fm->write($fileDir, $export);
 
         if ($result) {
+            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+            Log::model()->saveAction("educacenso", Yii::app()->user->school, "E", $school->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));

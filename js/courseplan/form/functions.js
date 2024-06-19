@@ -132,7 +132,7 @@ function format(d) {
         $.each(d.resources, function (i, v) {
             let resourceId = v.id;
             let resourceValue = v.value;
-            let resourceName = resourceValue.find("option[value=" + v.value + "]").text();
+            let resourceName = v.description;
             let resourceAmount = v.amount;
             let div = $('<div class="row t-badge-content course-class-resource"></div>');
             let values = $('<input class="resource-id" type="hidden" name="course-class[' + d.class + '][resource][' + i + '][id]" value="' + resourceId + '"/>'
@@ -256,8 +256,31 @@ function addResource(button) {
             div.append(values);
             div.append(label);
             resources.append(div);
-        }
+        };
     }
+    objective.append(objectiveLabel);
+    objective.append(objectiveInput);
+    ability.append(abilityLabel);
+    ability.append(abilityButton);
+    ability.append(abilitiesContainer);
+    resourceButtonContainer.append(resourceButton);
+    resourceInput.append(resourceValue);
+    resourceInput.append(resourceAmount);
+    resourceInput.append(resourceAdd);
+    resource.append(resourceButtonContainer);
+    resource.append(resourceLabel);
+    resource.append(resourceInput);
+    resource.append(resources);
+    type.append(typeLabel);
+    type.append(typeInput);
+    column1.append(objective);
+    column1.append(ability);
+    column1.append(type);
+    column1.append(resource);
+    column1.append(deleteButton);
+    div.append(id);
+    div.append(column1);
+    return div;
 }
 
 function removeResource(button) {

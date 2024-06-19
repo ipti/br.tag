@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ ."/../extensions/Validator/StudentDocumentsAndAddressValidation.php";
 /**
  * This is the model class for table "student_documents_and_address".
  *
@@ -115,8 +116,68 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('register_type, school_inep_id_fk, student_fk, id, rg_number, rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, rg_number_expediction_date, civil_certification, civil_certification_type, civil_certification_term_number, civil_certification_sheet, civil_certification_book, civil_certification_date, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, civil_register_enrollment_number, cpf, foreign_document_or_passport, nis, residence_zone, cep, address, number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, cns, fkid, justice_restriction, diff_location', 'safe', 'on'=>'search'),
+            array('cpf', 'validateCPF', 'except' => "censoimport"),
+            array('civil_register_enrollment_number', 'validateCivilRegister', 'except' => "censoimport")
         );
     }
+
+    public function validateCPF($cpfStudent)
+    {
+        $cpfStu = $this->$cpfStudent;
+
+        if($cpfStu === "") {
+            return true;
+        }
+
+        $cpf = preg_replace('/[^0-9]/', '', $cpfStu);
+
+        if (strlen($cpf) !== 11) {
+            $this->addError($cpfStudent, 'O CPF deve conter exatamente 11 números.');
+            return;
+        }
+
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+            $this->addError($cpfStudent, 'O CPF não pode ter todos os dígitos iguais.');
+            return;
+        }
+
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf[$c] * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf[$c] != $d) {
+                $this->addError($cpfStudent, 'O CPF é inválido.');
+                return;
+            }
+        }
+        return true;
+    }
+
+    public function validateCivilRegister($civilRegisterNumber)
+    {
+        $civilRegister = $this->$civilRegisterNumber;
+
+        $modelIdentification = new StudentIdentification;
+        $documentsValidation = new StudentDocumentsAndAddressValidation();
+
+        $validatorRegister = $documentsValidation->isCivilRegisterNumberValid(
+            $civilRegister,
+            $modelIdentification->birthday
+        );
+
+        $statusRegisterCivil = $validatorRegister['status'];
+        $errorRegisterCivil = $validatorRegister['erro'];
+
+        if ($statusRegisterCivil && empty($errorRegisterCivil)) {
+            return true;
+        }
+
+        if (!empty($civilRegister)) {
+            $this->addError($civilRegister, 'Certidão de nascimento: ' . ucfirst($errorRegisterCivil));
+        }
+    }
+
 
     /**
      * @return array relational rules.
