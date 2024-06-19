@@ -78,10 +78,18 @@ $(document).on("focusout", "#farmerCpf", function () {
                     farmerCpf: farmerCpf,
                 }
             }).success(function(response) {
+                console.log(response);
                 let data = DOMPurify.sanitize(response);
                 let farmerRegister = JSON.parse(data);
                 if("error" in farmerRegister) {
-                    $('#info-alert').removeClass('hide').addClass('alert-error').html(farmerRegister.error);
+                    if(farmerRegister.error == "Existente ativo") {
+                        $('#info-alert').removeClass('hide').addClass('alert-error').html("O CPF do agricultor informado já possui cadastro no TAG");
+                    } else {
+                        $('#info-alert').removeClass('hide').addClass('alert-error').html(
+                            `O CPF do agricultor informado já possui cadastro no TAG e está inativo. <br>
+                            Para ativar o agricultor, clique <a href="?r=foods/farmerregister/activateFarmers"> <strong>>> aqui <<</strong></a>`
+                        );
+                    }
                 } else {
                     $('#farmerName').removeAttr('disabled');
                     $('#farmerPhone').removeAttr('disabled');
@@ -192,15 +200,7 @@ $(document).on("click", "#save-farmer", function () {
                 foodsRelation: foodsRelation
             }
         }).success(function(response) {
-            console.log(response)
-            if (response !== "") {
-                let data = DOMPurify.sanitize(response);
-                let result = JSON.parse(data);
-
-                $('#info-alert').removeClass('hide').addClass('alert-error').html(result.error);
-            } else {
-                window.location.href = "?r=foods/farmerregister/index";
-            }
+            window.location.href = "?r=foods/farmerregister/index";
         })
     }
 })

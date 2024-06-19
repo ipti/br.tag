@@ -42,7 +42,6 @@ class FarmerRegister extends CActiveRecord
             array('reference_id', 'length', 'max'=>36),
             array('status', 'length', 'max'=>7),
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, name, cpf, phone, group_type, reference_id, status', 'safe', 'on'=>'search'),
         );
     }
@@ -100,9 +99,7 @@ class FarmerRegister extends CActiveRecord
         $criteria->compare('phone',$this->phone,true);
         $criteria->compare('group_type',$this->group_type,true);
         $criteria->compare('reference_id',$this->reference_id,true);
-        if(!$showAll){
-            $criteria->compare('status', $this->status);
-        }
+        $criteria->compare('status', $this->status, true);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,

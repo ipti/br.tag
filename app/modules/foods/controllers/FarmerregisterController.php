@@ -174,12 +174,24 @@ class FarmerRegisterController extends Controller
         return !empty($farmerRegister);
     }
 
+    private function verifyFarmerStatus($cpf)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.cpf = :cpf';
+        $criteria->params = array(':cpf' => $cpf);
+        $farmerRegister = FarmerRegister::model()->find($criteria);
+
+        return $farmerRegister->status;
+    }
+
     public function actionGetFarmerRegister()
     {
         $cpf = Yii::app()->request->getPost('farmerCpf');
 
-        if ($this->verifyFarmerCpf($cpf)) {
-            echo json_encode(['error' => 'O CPF do agricultor informado já possui cadastro no TAG']);
+        if ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == "Ativo") {
+            echo json_encode(['error' => 'Existente ativo']);
+        } else if ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == "Inativo") {
+            echo json_encode(['error' => 'Existente inativo']);
         } else {
             $getFarmerRegister = new GetFarmerRegister();
             $farmerRegister = $getFarmerRegister->exec($cpf);
@@ -331,7 +343,7 @@ class FarmerRegisterController extends Controller
         $farmer->status = $status == "Ativo" ? "Inativo" : "Ativo";
 
         if ($farmer->save()) {
-            $message = $status === "Ativo" ? 'Agricutor ativado com sucesso!' : 'Agricutor inativado com sucesso!';
+            $message = $status === "Ativo" ? 'Agricutor inativado com sucesso!' : 'Agricutor ativado com sucesso!';
             Yii::app()->user->setFlash('success', Yii::t('default', $message));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
