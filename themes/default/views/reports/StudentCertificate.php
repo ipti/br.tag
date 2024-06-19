@@ -1,4 +1,3 @@
-
 <?php
 
 $baseUrl = Yii::app()->baseUrl;
@@ -10,9 +9,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 if (!isset($school)) {
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 }
-
-// CVarDumper::dump($school, 10, true);
-// CVarDumper::dump($student, 10, true);
 
 list($day, $month, $year) = explode('/', $student['birthday']);
 
@@ -42,7 +38,7 @@ $monthName = $months[$month];
         e de <?php echo $student['filiation_2']; ?>.</p>
         <p>Nascido(a) em <?php echo $day; ?> de <?php echo $monthName; ?> de <?php echo $year; ?>, no Município de <?php echo $student['city']; ?>
         Estado de <?php echo $student['uf_name']; ?>.</p>
-  
+
     </div>
 
     <div class ="content-data">
@@ -82,6 +78,46 @@ $monthName = $months[$month];
 
     <?php $this->renderPartial('footer'); ?>
 </div>
+<div class="container-school-record" style="page-break-before: always;">
+    <table style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+        <thead>
+            <tr>
+                <td rowspan="2"></th>
+                <td rowspan="2"></td>
+                <td rowspan="2"></td>
+                <td rowspan="2"></td>
+                <td rowspan="2"></td>
+                <td rowspan="2"></td>
+                <td colspan="10">VIDA ESCOLAR</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="1">VIDA ESCOLAR</td>
+                <td rowspan="1">VIDA ESCOLAR</td>>
+                <td rowspan="1">VIDA ESCOLAR</td>
+                <td rowspan="1">VIDA ESCOLAR</td>
+                <td rowspan="1">VIDA ESCOLAR</td>
+                <td rowspan="1">VIDA ESCOLAR</td>
+
+                <td rowspan="10">VIDA ESCOLAR</td>
+                <td rowspan="10">VIDA ESCOLAR</td>>
+                <td rowspan="10">VIDA ESCOLAR</td>
+                <td rowspan="10">VIDA ESCOLAR</td>
+                <td rowspan="10">VIDA ESCOLAR</td>
+                <td rowspan="10">VIDA ESCOLAR</td>
+                <td rowspan="10">VIDA ESCOLAR</td>
+                <td rowspan="10">VIDA ESCOLAR</td>>
+                <td rowspan="10">VIDA ESCOLAR</td>
+                <td rowspan="10">VIDA ESCOLAR</td>
+            </tr>
+          
+        </tbody>
+    </table>
+    <div style="margin-top: 20px; text-align: right;">
+        <p>AUTENTICAÇÃO</p>
+    </div>
+</div>
 
 <script>
     function imprimirPagina() {
@@ -100,33 +136,28 @@ $monthName = $months[$month];
         position: relative;
         box-sizing: border-box;
         margin: 23px 60px 23px 60px;
-
-
     }
 
     h1, h4, h5 {
-
-        margin-top:5px;
-        }
-    h4{
+        margin-top: 5px;
+    }
+    h4 {
         font-size: 13.99px;
         font-weight: 700;
         color: #252A31;
     }
-    h5{
+    h5 {
         font-size: 13.99px;
         font-weight: 400;
         color: #252A31;
     }
-    h1{
+    h1 {
         font-weight: 900;
         font-size: 35.13px;
         color: #16205B;
         margin: 20px;
-
     }
-    .content-data{
-
+    .content-data {
         margin-top: 10px;
         display: flex;
         align-items: center;
@@ -137,9 +168,8 @@ $monthName = $months[$month];
         margin: 5px 0;
         font-size: 14px;
         font-weight: 500;
-
     }
-    .signature-section{
+    .signature-section {
         margin-top: 25px;
         text-align: center;
     }
@@ -147,27 +177,49 @@ $monthName = $months[$month];
     .signature-section p {
         margin: 20px 0;
     }
-    .container-certificate{
+    .container-certificate {
         display: flex;
         justify-content: center;
         flex-direction: column;
         text-align: justify;
         padding: 10px 60px;
     }
-    .content-data-signature{
+    .content-data-signature {
         display: flex;
-        justify-content: space-around;
-        gap: 200px;
-        margin-top: 20px;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 0 60px;
+    }
+    .content-data-signature p {
+        text-align: left;
     }
 
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        text-align: center;
+        padding: 8px;
+        font-size: 10px;
+    }
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+    .container-school-record {
+        padding: 20px 60px;
+    }
     @media print {
         .hidden-print {
-            display: none;
+            display: none !important;
         }
-
-        @page {
-            size: landscape;
+        .pageA4H {
+            border: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
         }
     }
 </style>

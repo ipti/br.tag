@@ -1398,18 +1398,18 @@ class ReportsRepository
     public function getStudentCertificate ($enrollment_id): array
     {
         $studentIdent = StudentIdentification::model()->findByPk($enrollment_id);
-    
+
         if (!$studentIdent) {
             return ["student" => null];
         }
-    
+
         $city = null;
         $uf_acronym = null;
         $uf_name = null;
         $class_name = null;
         $tipo_ensino = '';
         $ano = '';
-    
+
         if ($cityObj = EdcensoCity::model()->findByPk($studentIdent->edcenso_city_fk)) {
             $city = $cityObj->name;
             if ($ufObj = EdcensoUf::model()->findByPk($cityObj->edcenso_uf_fk)) {
@@ -1417,13 +1417,13 @@ class ReportsRepository
                 $uf_name = $ufObj->name;
             }
         }
-    
+
         $command = Yii::app()->db->createCommand("
             SELECT c.name, esv.name as etapa
-            FROM classroom c 
+            FROM classroom c
             JOIN student_enrollment se ON c.id = se.classroom_fk
             JOIN edcenso_stage_vs_modality esv ON c.edcenso_stage_vs_modality_fk = esv.id
-            WHERE se.student_fk = :student_fk AND se.status = 1 
+            WHERE se.student_fk = :student_fk AND se.status = 1
             ORDER BY se.id DESC
             LIMIT 1
         ");
@@ -1432,17 +1432,15 @@ class ReportsRepository
         if ($row) {
             $class_name = $row['name'];
             $etapa = $row['etapa'];
-    
-            // Dividir a string da etapa pelo delimitador '-'
+
             $etapa_parts = explode(' - ', $etapa);
-    
-            // Verificar se a divisão funcionou corretamente e obter as partes separadas
+
             if (count($etapa_parts) == 2) {
                 $tipo_ensino = $etapa_parts[0];
                 $ano = $etapa_parts[1];
             }
         }
-    
+
         $studentData = [
             'name' => $studentIdent->name,
             'civil_name' => $studentIdent->civil_name,
@@ -1456,15 +1454,15 @@ class ReportsRepository
             'uf_acronym' => $uf_acronym,
             'uf_name' => $uf_name,
             'class_name' => $class_name,
-            'tipo_ensino' => $tipo_ensino, // Adicionando o tipo de ensino separado
-            'ano' => $ano, // Adicionando o ano separado
+            'tipo_ensino' => $tipo_ensino,
+            'ano' => $ano,
         ];
-    
+
         return ["student" => $studentData];
     }
-    
-    
-    
+
+
+
     /**
      * Declaração de ano cursado na escola
      */
@@ -1490,7 +1488,7 @@ class ReportsRepository
 
         $c = '';
 
-        
+
         switch ($data['class']) {
             case '4':
                 $c = '1º';
@@ -1579,7 +1577,7 @@ class ReportsRepository
         return $response;
     }
 
-    
+
     /**
      * Lista de Alunos
      */
