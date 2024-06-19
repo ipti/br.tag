@@ -1,3 +1,6 @@
+## [Versão 3.79.152]
+- Realizada correção do turno no quadro de horário. 
+
 ## [Versão 3.81.165]
 - Adicionando redirecionamento para inconsistências de Unidade Gestora para o Sagres
 
