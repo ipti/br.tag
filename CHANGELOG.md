@@ -1,3 +1,6 @@
+## [Versão 3.81.171]
+- Foram inseridas três exportações em csv na tela do administrador, para alunos, notas e faltas
+
 ## [Versão 3.81.170]
 - O relatório do Diário Eletrônico foi atualizado para incluir o nome das turmas correspondentes para cada aluno.
 
