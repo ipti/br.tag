@@ -93,7 +93,7 @@ class AdminController extends Controller
             if (sdaa.neighborhood is null, '', sdaa.neighborhood) bairro,
             if (sdaa.cep is null, '', sdaa.cep) localizacao,
             if (se.public_transport is null, '', se.public_transport) usa_transporte,
-            if (sdaa.nis IS NULL OR TRIM(sdaa.nis ) = '', 0, 1) as recebe_bolsa_familia,
+            if (si.bf_participator  IS NULL OR TRIM(si.bf_participator ) = '', 0, si.bf_participator) as recebe_bolsa_familia,
             if (si2.name is null, '', si2.name) nome_da_escola,
             if (esvm.alias is null, '', esvm.alias) etapa,
             if (c.name is null, '', c.name) turma
@@ -180,6 +180,8 @@ class AdminController extends Controller
     private function exportToCSV($result, $path)
     {
         try {
+            // Create Directories
+            $this->createDirectoriesIfNotExist($path);
 
             // Create a file pointer with PHP.
             $output = fopen($path, 'w');
@@ -210,6 +212,20 @@ class AdminController extends Controller
             $this->redirect(array('exports'));
         }
         Yii::app()->user->setFlash('error', Yii::t('default', 'Error na importação: ' . $e->getMessage()));
+    }
+
+    private function createDirectoriesIfNotExist($filePath) {
+        // Extrai o diretório do caminho do arquivo
+        $directoryPath = dirname($filePath);
+
+        // Verifica se o diretório já existe
+        if (!is_dir($directoryPath)) {
+            // Tenta criar o diretório recursivamente
+            if (!mkdir($directoryPath, 0777, true)) {
+                // Caso falhe, lança uma exceção
+                throw new Exception("Falha ao criar diretórios: $directoryPath");
+            }
+        }
     }
 
     public function actionImportMaster()
