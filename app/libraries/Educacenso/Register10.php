@@ -42,6 +42,7 @@ class Register10
             $attributes['water_supply_artesian_well'] = '0';
             $attributes['water_supply_well'] = '0';
             $attributes['water_supply_river'] = '0';
+            $attributes['water_supply_car'] = '0';
         }
 
         if ($attributes['energy_supply_inexistent'] == '1') {
@@ -70,6 +71,7 @@ class Register10
             $attributes['acessability_tactile_floor'] = '0';
             $attributes['acessability_doors_80cm'] = '0';
             $attributes['acessability_ramps'] = '0';
+            $attributes['acessability_light_signaling'] = '0';
             $attributes['acessability_sound_signaling'] = '0';
             $attributes['acessability_tactile_singnaling'] = '0';
             $attributes['acessability_visual_signaling'] = '0';
@@ -132,6 +134,9 @@ class Register10
             $attributes['internet_access_broadband'] = '';
         }
 
+        if ($attributes['workers_garden_planting_agricultural'] == '0') {
+            $attributes['workers_garden_planting_agricultural'] = null;
+        }
         if ($attributes['workers_administrative_assistant'] == '0') {
             $attributes['workers_administrative_assistant'] = null;
         }
@@ -171,6 +176,9 @@ class Register10
         if ($attributes['workers_monitors'] == '0') {
             $attributes['workers_monitors'] = null;
         }
+        if ($attributes['workers_braille'] == '0') {
+            $attributes['workers_braille'] = null;
+        }
 
         $attributes['native_education'] = 0;
         if ($attributes['native_education'] != 1) {
@@ -208,24 +216,25 @@ class Register10
 
         $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 10 order by corder', [":year" => $year]);
         foreach ($edcensoAliases as $edcensoAlias) {
-            if ($edcensoAlias->corder == 43) {
+            if ($edcensoAlias->corder == 44) {
                 $register[$edcensoAlias->corder] =
                     $attributes["dependencies_prysical_disability_bathroom"] == 1 || $attributes["dependencies_child_bathroom"] == 1 ||
                     $attributes["dependencies_bathroom_workes"] == 1 || $attributes["dependencies_bathroom_with_shower"] == 1
                         ? 1 : 0;
-            } else if ($edcensoAlias->corder == 133) {
+            } else if ($edcensoAlias->corder == 138) {
                 $register[$edcensoAlias->corder] = null;
-                if ($attributes["workers_administrative_assistant"] == null && $attributes["workers_service_assistant"] == null && $attributes["workers_librarian"] == null
+                if ($attributes["workers_garden_planting_agricultural"] == null && $attributes["workers_administrative_assistant"] == null
+                    && $attributes["workers_service_assistant"] == null && $attributes["workers_librarian"] == null
                     && $attributes["workers_firefighter"] == null && $attributes["workers_coordinator_shift"] == null && $attributes["workers_speech_therapist"] == null
                     && $attributes["workers_nutritionist"] == null && $attributes["workers_psychologist"] == null && $attributes["workers_cooker"] == null
                     && $attributes["workers_support_professionals"] == null && $attributes["workers_school_secretary"] == null && $attributes["workers_security_guards"] == null
-                    && $attributes["workers_monitors"] == null) {
+                    && $attributes["workers_monitors"] == null && $attributes["workers_braille"] == null) {
                     $register[$edcensoAlias->corder] = 1;
                 }
             } else {
                 $register[$edcensoAlias->corder] = $edcensoAlias->default;
                 if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
-                    $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
+                    $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]] ?? $edcensoAlias->default;
                 }
             }
         }

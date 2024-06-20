@@ -28,6 +28,7 @@
  * @property integer $water_supply_artesian_well
  * @property integer $water_supply_well
  * @property integer $water_supply_river
+ * @property integer $water_supply_car
  * @property integer $water_supply_inexistent
  * @property integer $energy_supply_public
  * @property integer $energy_supply_generator
@@ -76,6 +77,7 @@
  * @property integer $dependencies_professional_specific_lab
  * @property integer $dependencies_vocational_education_workshop
  * @property integer $dependencies_recording_and_editing_studio
+ * @property integer $dependencies_garden_planting_agricultural
  * @property integer $dependencies_none
  * @property integer $classroom_count
  * @property integer $used_classroom_count
@@ -171,6 +173,7 @@ class SchoolStructure extends AltActiveRecord
                 water_supply_artesian_well,
                 water_supply_well,
                 water_supply_river,
+                water_supply_car,
                 water_supply_inexistent,
                 energy_supply_public,
                 energy_supply_generator,
@@ -219,6 +222,7 @@ class SchoolStructure extends AltActiveRecord
                 dependencies_professional_specific_lab,
                 dependencies_vocational_education_workshop,
                 dependencies_recording_and_editing_studio,
+                dependencies_garden_planting_agricultural,
                 dependencies_none,
                 classroom_count,
                 used_classroom_count,
@@ -286,6 +290,7 @@ class SchoolStructure extends AltActiveRecord
                 acessability_tactile_floor,
                 acessability_doors_80cm,
                 acessability_ramps,
+                acessability_light_signaling,
                 acessability_sound_signaling,
                 acessability_tactile_singnaling,
                 acessability_visual_signaling,
@@ -299,6 +304,7 @@ class SchoolStructure extends AltActiveRecord
                 equipments_toys_early,
                 equipments_scientific_materials,
                 equipments_equipment_amplification,
+                equipments_garden_planting_agricultural,
                 equipments_musical_instruments,
                 equipments_educational_games,
                 equipments_material_cultural,
@@ -307,6 +313,8 @@ class SchoolStructure extends AltActiveRecord
                 equipments_material_teachingindian,
                 equipments_material_teachingethnic,
                 equipments_material_teachingrural,
+                equipments_material_teachingquilombola,
+                equipments_material_teachingspecial,
                 internet_access_administrative,
                 internet_access_educative_process,
                 internet_access_student,
@@ -318,6 +326,7 @@ class SchoolStructure extends AltActiveRecord
                 internet_access_local_cable,
                 internet_access_local_wireless,
                 internet_access_local_inexistet,
+                workers_garden_planting_agricultural,
                 workers_administrative_assistant,
                 workers_service_assistant,
                 workers_librarian,
@@ -331,6 +340,7 @@ class SchoolStructure extends AltActiveRecord
                 workers_school_secretary,
                 workers_security_guards,
                 workers_monitors,
+                workers_braille,
                 org_teaching_series_year,
                 org_teaching_semester_periods,
                 org_teaching_elementary_cycle,
@@ -371,7 +381,7 @@ class SchoolStructure extends AltActiveRecord
             ),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, shared_school_inep_id_1, shared_school_inep_id_2, shared_school_inep_id_3, shared_school_inep_id_4, shared_school_inep_id_5, shared_school_inep_id_6, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_professional_specific_lab, dependencies_vocational_education_workshop, dependencies_recording_and_editing_studio, dependencies_none, classroom_count, used_classroom_count, instruments_inexistent, equipments_material_professional_education, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, equipments_multifunctional_printer, equipments_inexistent, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, modalities_professional, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'safe', 'on' => 'search'),
+            array('register_type, school_inep_id_fk, operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, shared_school_inep_id_1, shared_school_inep_id_2, shared_school_inep_id_3, shared_school_inep_id_4, shared_school_inep_id_5, shared_school_inep_id_6, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_car, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_professional_specific_lab, dependencies_vocational_education_workshop, dependencies_recording_and_editing_studio, dependencies_garden_planting_agricultural, dependencies_none, classroom_count, used_classroom_count, instruments_inexistent, equipments_material_professional_education, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, equipments_multifunctional_printer, equipments_inexistent, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, modalities_professional, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'safe', 'on' => 'search'),
         );
     }
 
@@ -415,6 +425,7 @@ class SchoolStructure extends AltActiveRecord
             'water_supply_artesian_well' => Yii::t('default', 'Water Supply Artesian Well'),
             'water_supply_well' => Yii::t('default', 'Water Supply Well'),
             'water_supply_river' => Yii::t('default', 'Water Supply River'),
+            'water_supply_car' => Yii::t('default', 'Water Supply Car'),
             'water_supply_inexistent' => Yii::t('default', 'Water Supply Inexistent'),
             'energy_supply_public' => Yii::t('default', 'Energy Supply Public'),
             'energy_supply_generator' => Yii::t('default', 'Energy Supply Generator'),
@@ -461,6 +472,7 @@ class SchoolStructure extends AltActiveRecord
             'dependencies_professional_specific_lab' => Yii::t('default', 'Dependencies Professional Specific Lab'),
             'dependencies_vocational_education_workshop' => Yii::t('default', 'Dependencies Vocational Education Workshop'),
             'dependencies_recording_and_editing_studio' => Yii::t('default', 'Dependencies Recording And Editing Studio'),
+            'dependencies_garden_planting_agricultural' => Yii::t('default', 'Dependencies Garden Planting Agricultural'),
             'dependencies_none' => Yii::t('default', 'Dependencies None'),
             'classroom_count' => Yii::t('default', 'Classroom Count'),
             'used_classroom_count' => Yii::t('default', 'Used Classroom Count'),
@@ -531,6 +543,7 @@ class SchoolStructure extends AltActiveRecord
             'acessability_tactile_floor' => Yii::t('default', 'Tactile Floor'),
             'acessability_doors_80cm' => Yii::t('default', 'Doors 80'),
             'acessability_ramps' => Yii::t('default', 'Ramps'),
+            'acessability_light_signaling' => Yii::t('default', 'Light Signaling'),
             'acessability_sound_signaling' => Yii::t('default', 'Sound Signaling'),
             'acessability_tactile_singnaling' => Yii::t('default', 'Tactile Signaling'),
             'acessability_visual_signaling' => Yii::t('default', 'Visual Signaling'),
@@ -544,6 +557,7 @@ class SchoolStructure extends AltActiveRecord
             'equipments_toys_early' => Yii::t('default', 'Toys Early'),
             'equipments_scientific_materials' => Yii::t('default', 'Scientific Materials'),
             'equipments_equipment_amplification' => Yii::t('default', 'Equipment Amplification'),
+            'equipments_garden_planting_agricultural' => Yii::t('default', 'Garden Planting Agricultural Activities'),
             'equipments_musical_instruments' => Yii::t('default', 'Musical Instruments'),
             'equipments_educational_games' => Yii::t('default', 'Educational Games'),
             'equipments_material_cultural' => Yii::t('default', 'Equipments Material Cultural'),
@@ -552,6 +566,8 @@ class SchoolStructure extends AltActiveRecord
             'equipments_material_teachingindian' => Yii::t('default', 'Material Teaching Indian'),
             'equipments_material_teachingethnic' => Yii::t('default', 'Material Teaching Ethinic'),
             'equipments_material_teachingrural' => Yii::t('default', 'Material Teaching Rural'),
+            'equipments_material_teachingquilombola' => Yii::t('default', 'Material Teaching Quilombola'),
+            'equipments_material_teachingspecial' => Yii::t('default', 'Material Teaching Special'),
             'internet_access_administrative' => Yii::t('default', 'Internet Access Administrative'),
             'internet_access_educative_process' => Yii::t('default', 'Internet Access Educative'),
             'internet_access_student' => Yii::t('default', 'Internet Access Student'),
@@ -563,6 +579,7 @@ class SchoolStructure extends AltActiveRecord
             'internet_access_local_cable' => Yii::t('default', 'Internet Access Cable'),
             'internet_access_local_wireless' => Yii::t('default', 'Internet Access Wireless'),
             'internet_access_local_inexistet' => Yii::t('default', 'Internet Access Inexistent'),
+            'workers_garden_planting_agricultural' => Yii::t('default', 'Garden Planting Agricultural'),
             'workers_administrative_assistant' => Yii::t('default', 'Administrative Assistant'),
             'workers_service_assistant' => Yii::t('default', 'Service Assistant'),
             'workers_librarian' => Yii::t('default', 'Librarian'),
@@ -576,6 +593,7 @@ class SchoolStructure extends AltActiveRecord
             'workers_school_secretary' => Yii::t('default', 'School Secretary'),
             'workers_security_guards' => Yii::t('default', 'Security Gaurds'),
             'workers_monitors' => Yii::t('default', 'Monitors'),
+            'workers_braille' => Yii::t('default', 'Braille'),
             'org_teaching_series_year' => Yii::t('default', 'Series Year'),
             'org_teaching_semester_periods' => Yii::t('default', 'Semester Periods'),
             'org_teaching_elementary_cycle' => Yii::t('default', 'Elementary Cycle'),
@@ -690,6 +708,7 @@ class SchoolStructure extends AltActiveRecord
         $criteria->compare('dependencies_professional_specific_lab', $this->dependencies_professional_specific_lab);
         $criteria->compare('dependencies_vocational_education_workshop', $this->dependencies_vocational_education_workshop);
         $criteria->compare('dependencies_recording_and_editing_studio', $this->dependencies_recording_and_editing_studio);
+        $criteria->compare('dependencies_garden_planting_agricultural', $this->dependencies_garden_planting_agricultural);
         $criteria->compare('dependencies_none', $this->dependencies_none);
         $criteria->compare('classroom_count', $this->classroom_count);
         $criteria->compare('used_classroom_count', $this->used_classroom_count);

@@ -730,8 +730,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array(
                                         null => 'Selecione a localização', 1 => 'Área de assentamento',
                                         2 => 'Terra indígena',
-                                        3 => 'Área onde se localiza a comunidade remanescente de quilombos',
-                                        7 => 'A escola não está em área diferenciada'
+                                        3 => 'Comunidade quilombola',
+                                        7 => 'A escola não está em área diferenciada',
+                                        8 => 'Área onde se localizam povos e comunidades tradicionais'
                                     ),
                                     array('class' => 'select-search-off t-field-select__input select2-container')
                                 ); ?>
@@ -1091,6 +1092,27 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
+                                    'workers_garden_planting_agricultural',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
+                                <?php echo $form->textField(
+                                    $modelSchoolStructure,
+                                    'workers_garden_planting_agricultural',
+                                    array(
+                                        'placeholder' => 'Digite o Número de Técnicos em Horta/Plantio/Agricultura',
+                                        'class' => 't-field-text__input'
+                                    )
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolStructure,
+                                    'workers_garden_planting_agricultural'
+                                ); ?>
+                            </div>
+                        </div>
+                        <div class="column clearleft--on-mobile is-two-fifths">
+                            <div class="t-field-text">
+                                <?php echo $form->label(
+                                    $modelSchoolStructure,
                                     'workers_administrative_assistant',
                                     array('class' => 't-field-text__label')
                                 ); ?>
@@ -1108,7 +1130,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1131,9 +1155,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="column is-two-fifths clearleft">
+                        <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1156,7 +1178,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1177,9 +1201,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="column is-two-fifths clearleft">
+                        <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1200,7 +1222,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1221,9 +1245,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="column is-two-fifths clearleft">
+                        <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1244,7 +1266,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1265,9 +1289,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="column is-two-fifths clearleft">
+                        <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1288,7 +1310,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1309,9 +1333,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="column is-two-fifths clearleft">
+                        <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1332,7 +1354,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1350,6 +1374,27 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error(
                                     $modelSchoolStructure,
                                     'workers_monitors'
+                                ); ?>
+                            </div>
+                        </div>
+                        <div class="column clearleft--on-mobile is-two-fifths">
+                            <div class="t-field-text">
+                                <?php echo $form->label(
+                                    $modelSchoolStructure,
+                                    'workers_braille',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
+                                <?php echo $form->textField(
+                                    $modelSchoolStructure,
+                                    'workers_braille',
+                                    array(
+                                        'placeholder' => 'Digite o Número de Assistentes ou Revisores em Braille',
+                                        'class' => 't-field-text__input'
+                                    )
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolStructure,
+                                    'workers_braille'
                                 ); ?>
                             </div>
                         </div>
@@ -1680,6 +1725,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
+                                        'dependencies_garden_planting_agricultural',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_garden_planting_agricultural']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
                                         'dependencies_none',
                                         array('value' => 1, 'uncheckValue' => 0)
                                     ); ?>
@@ -1918,6 +1973,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['water_supply_river']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
+                                        'water_supply_car',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_car']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
@@ -2306,6 +2371,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                                 <label class="t-field-checkbox">
                                     <?php echo SchoolStructure::model()->attributeLabels()['acessability_ramps']; ?>
+                                </label>
+                            </div>
+                            <div class="t-field-checkbox">
+                                <?php echo $form->checkBox(
+                                    $modelSchoolStructure,
+                                    'acessability_light_signaling',
+                                    array('value' => 1, 'uncheckValue' => 0)
+                                ); ?>
+                                <label class="t-field-checkbox">
+                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_light_signaling']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
@@ -3583,6 +3658,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
+                                        'equipments_garden_planting_agricultural',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_garden_planting_agricultural']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
                                         'equipments_musical_instruments',
                                         array('value' => 1, 'uncheckValue' => 0)
                                     ); ?>
@@ -3668,6 +3753,26 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingrural']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
+                                        'equipments_material_teachingquilombola',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingquilombola']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
+                                        'equipments_material_teachingspecial',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingspecial']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
