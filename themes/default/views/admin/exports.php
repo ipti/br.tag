@@ -48,7 +48,7 @@ $this->setPageTitle('TAG - Exportações');
             <?php endif ?>
             <div class="span12">
                 <div class="row-fluid">
-                    <div class="container-box">7
+                    <div class="container-box">
 
                         <a href="<?php echo Yii::app()->createUrl('admin/exportMaster') ?>">
                             <button type="button" class="admin-box-container">
@@ -93,7 +93,7 @@ $this->setPageTitle('TAG - Exportações');
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Exportar Faltas</span><br>
-                                    <span class="subtitle">Exporte as informações do faltas dos alunos em CSV</span>
+                                    <span class="subtitle">Exporte as informações de faltas dos alunos em CSV</span>
                                 </div>
                             </button>
                         </a>
