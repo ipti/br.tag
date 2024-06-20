@@ -69,7 +69,7 @@ $("#classroom").on("change", function () {
                     });
                     $("#month option:first").attr("selected", "selected").trigger("change.select2");
 
-                    if ($("#classroom > option:selected").attr("fundamentalMaior") === "1") {
+                    if (data.isMinor == false) {
                         $("#disciplines").children().remove();
                         $("#disciplines").append(new Option("Selecione a Disciplina", ""));
                         $.each(data.disciplines, function (index, value) {
