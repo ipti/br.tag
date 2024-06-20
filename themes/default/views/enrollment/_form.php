@@ -218,6 +218,23 @@ $form = $this->beginWidget('CActiveForm', array(
                                     <?php echo $form->error($model, 'school_admission_date'); ?>
                             </div>
 
+                        <!--  Data de transferência externa na escola -->
+                        <div class="column clearleft is-two-fifths">
+                            <div class="t-field-text js-hide-not-required" id="ticketDate">
+                                <?php echo $form->label($model, 'class_transfer_date', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->textField($model, 'class_transfer_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($model, 'class_transfer_date'); ?>
+                            </div>
+                        </div>
+                        <!--  Data de rematrícula na escola -->
+                        <div class="column clearleft is-two-fifths">
+                            <div class="t-field-text js-hide-not-required" id="ticketDate">
+                                <?php echo $form->label($model, 'school_readmission_date', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->textField($model, 'school_readmission_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($model, 'school_readmission_date'); ?>
+                            </div>
+                        </div>
+
                             <div class="t-field-checkbox">
                                 <?php echo $form->checkBox($model, 'public_transport', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                 <?php echo $form->error($model, 'public_transport'); ?>
