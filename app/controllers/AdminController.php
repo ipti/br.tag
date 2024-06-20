@@ -18,7 +18,8 @@ class AdminController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                    'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'gradesStructure', 'instanceConfig', 'editInstanceConfigs'
+                    'syncImport', 'exportToMaster', 'exportStudents', 'exportGrades', 'exportFaults', 'clearMaster', 'importFromMaster',
+                    'gradesStructure', 'instanceConfig', 'editInstanceConfigs'
                 ], 'users' => ['@'],
             ],
         ];
@@ -30,6 +31,11 @@ class AdminController extends Controller
     public function actionIndex()
     {
         $this->render('index');
+    }
+
+    public function actionExports()
+    {
+        $this->render('exports');
     }
 
     public function actionExportMaster()
@@ -68,6 +74,158 @@ class AdminController extends Controller
         header("Content-Length: " . filesize($pathFileJson));
         header("Connection: close");
         readfile($pathFileJson);
+    }
+
+    public function actionExportStudents()
+    {
+        $pathFile = "./app/export/InfoTagCSV/students_" . Yii::app()->user->year . ".csv";
+
+        $sql = "select 
+            if (si.inep_id is null, '', si.inep_id) inep_aluno, 
+            if (si.name is null, '', si.name) nome_aluno, 
+            if (si.birthday is null, '', si.birthday) data_nascimento, 
+            if (si.gov_id is null, '', si.gov_id) cpf, 
+            if (si.sex is null, '', si.sex) sexo,
+            if (concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement) is null 
+                or trim(concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement)) = ', , ', 
+                '', 
+                concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement)) endereco,
+            if (sdaa.neighborhood is null, '', sdaa.neighborhood) bairro,
+            if (sdaa.cep is null, '', sdaa.cep) localizacao,
+            if (se.public_transport is null, '', se.public_transport) usa_transporte,
+            if (si.bf_participator  IS NULL OR TRIM(si.bf_participator ) = '', 0, si.bf_participator) as recebe_bolsa_familia,
+            if (si2.name is null, '', si2.name) nome_da_escola,
+            if (esvm.alias is null, '', esvm.alias) etapa,
+            if (c.name is null, '', c.name) turma
+        from student_enrollment se 
+            left join student_identification si 
+            on (se.student_fk = si.id)
+            left join student_documents_and_address sdaa 
+            on (se.student_fk = sdaa.student_fk)
+            left join classroom c 
+            on (se.classroom_fk = c.id)
+            left join school_identification si2 
+            on (se.school_inep_id_fk = si2.inep_id)
+            left join edcenso_stage_vs_modality esvm 
+            on (se.edcenso_stage_vs_modality_fk = esvm.id)
+        where 1=1
+        and c.school_year = " . Yii::app()->user->year;
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $this->exportToCSV($result, $pathFile);
+    }
+
+    public function actionExportGrades()
+    {
+        $pathFile = "./app/export/InfoTagCSV/grades_" . Yii::app()->user->year . ".csv";
+
+        $sql = "select 
+            if (si.inep_id is null, '', si.inep_id) inep_aluno, 
+            if (si.name is null, '', si.name) nome_aluno, 
+            if (c.name is null, '', c.name) turma,
+            if (ed.name  is null, '', ed.name) disciplina,
+            if (gr.grade_1 is null, '', gr.grade_1) nota_01,
+            if (gr.grade_2  is null, '', gr.grade_2) nota_02,
+            if (gr.rec_sem_1 is null, '', gr.rec_sem_1) recuperacao_semestral_I,
+            if (gr.grade_3  is null, '', gr.grade_3) nota_03,
+            if (gr.grade_4  is null, '', gr.grade_4) nota_04,
+            if (gr.rec_sem_2  is null, '', gr.rec_sem_2) recuperacao_semestral_II,
+            if (gr.rec_final  is null, '', gr.rec_final) recuperacao_final
+        from student_enrollment se 
+            left join student_identification si 
+            on (se.student_fk = si.id)
+            left join classroom c 
+            on (se.classroom_fk = c.id)
+            left join grade_results gr 
+            on (gr.enrollment_fk = se.enrollment_id)
+            left join edcenso_discipline ed 
+            on (gr.discipline_fk = ed.id)
+        where 1=1
+        and c.school_year = " . Yii::app()->user->year;
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $this->exportToCSV($result, $pathFile);
+    }
+
+    public function actionExportFaults()
+    {
+        $pathFile = "./app/export/InfoTagCSV/faults_" . Yii::app()->user->year . ".csv";
+
+        $sql = "select 
+            if (si.inep_id is null, '', si.inep_id) inep_aluno, 
+            if (si.name is null, '', si.name) nome_aluno, 
+            if (c.name is null, '', c.name) turma,
+            if (s.`month` is null, '', s.`month`) mes,
+            if (count(cf.id) is null, 0, count(cf.id)) total_faltas
+        from student_enrollment se 
+            left join student_identification si 
+            on (se.student_fk = si.id)
+            left join classroom c 
+            on (se.classroom_fk = c.id)
+            left join class_faults cf  
+            on (se.student_fk = cf.student_fk)
+            left join schedule s
+            on (cf.schedule_fk = s.id)
+        where 1=1
+        and c.school_year = " . Yii::app()->user->year . "
+        group by inep_aluno, nome_aluno, turma, mes;";
+
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $this->exportToCSV($result, $pathFile);
+    }
+
+    private function exportToCSV($result, $path)
+    {
+        try {
+            // Create Directories
+            $this->createDirectoriesIfNotExist($path);
+
+            // Create a file pointer with PHP.
+            $output = fopen($path, 'w');
+
+            if ($output !== false) {
+                // Escrever os cabeçalhos no arquivo CSV
+                fputcsv($output, array_keys($result[0]), ';');
+
+                // Escrever os dados no arquivo CSV
+                foreach ($result as $row) {
+                    $row = array_map('strval', $row); // Converter todos os valores para string
+                    fputcsv($output, $row, ";");
+                }
+                // Fechar o arquivo
+                fclose($output);
+            }
+
+            // Set PHP headers for CSV output.
+            header("Content-Disposition: attachment; filename=\"" . basename($path) . "\"");
+            header("Content-Type: application/force-download");
+            header("Content-Length: " . filesize($path));
+            header("Connection: close");
+            readfile($path);
+
+            $this->redirect(array('exports'));
+        } catch (Exception $e) {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Error na exportação: ' . $e->getMessage()));
+            $this->redirect(array('exports'));
+        }
+        Yii::app()->user->setFlash('error', Yii::t('default', 'Error na importação: ' . $e->getMessage()));
+    }
+
+    private function createDirectoriesIfNotExist($filePath) {
+        // Extrai o diretório do caminho do arquivo
+        $directoryPath = dirname($filePath);
+
+        // Verifica se o diretório já existe
+        if (!is_dir($directoryPath)) {
+            // Tenta criar o diretório recursivamente
+            if (!mkdir($directoryPath, 0777, true)) {
+                // Caso falhe, lança uma exceção
+                throw new Exception("Falha ao criar diretórios: $directoryPath");
+            }
+        }
     }
 
     public function actionImportMaster()

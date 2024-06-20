@@ -90,14 +90,14 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             </button>
                         </a>
 
-                        <a href="<?php echo Yii::app()->createUrl('admin/exportmaster') ?>">
+                        <a href="<?php echo Yii::app()->createUrl('admin/exports') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
                                     <span class="t-icon-submit-form t-reports_icons"></span>
                                 </div>
                                 <div class="pull-left">
                                     <span class="title">Exportar</span><br>
-                                    <span class="subtitle">Exporte as informações do TAG em JSON</span>
+                                    <span class="subtitle">Exporte as informações do TAG</span>
                                 </div>
                             </button>
                         </a>
