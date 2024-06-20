@@ -15,7 +15,7 @@ services:
       HOST_DB_TAG: 'mysql'
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
-      YII_DEBUG: 1
+      YII_DEBUG: 0
       PHP_ENABLE_XDEBUG: 1
       SEDSP_URL: "https://homologacaointegracaosed.educacao.sp.gov.br"
     volumes:

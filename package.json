@@ -1,5 +1,14 @@
 {
   "dependencies": {
-    "selenium-standalone": "^9.3.3"
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "dotenv": "^16.4.5",
+    "glob": "^10.3.16",
+    "selenium-standalone": "^9.3.3",
+    "vite": "^5.2.12",
+    "vite-plugin-live-reload": "^3.0.3"
+  },
+  "devDependencies": {
+    "rollup-plugin-glob-import": "^0.5.0",
+    "rollup-plugin-multi-input": "^1.4.1"
   }
 }

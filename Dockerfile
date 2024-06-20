@@ -8,6 +8,8 @@ RUN composer update with the "--no-plugins"
 RUN composer install
 WORKDIR /app
 RUN sass --no-source-map --style=compressed sass/scss:sass/css
+RUN npm ci
+RUN npx vite build
 RUN composer update
 RUN composer update with the "--no-plugins"
 RUN composer install
