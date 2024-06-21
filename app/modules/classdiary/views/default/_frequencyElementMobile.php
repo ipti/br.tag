@@ -12,7 +12,7 @@ $command = Yii::app()->db->createCommand("
     WHERE if2.instructor_fk = (SELECT id from instructor_identification ii WHERE ii.users_fk = :instructor_id);"
 );
 
-$command->bindValue(':instructor_id', 611);
+$command->bindValue(':instructor_id', Yii::app()->user->loginInfos->id);
 $daysFaults = $command->queryColumn();
 $dateParts = explode('/', $date); 
 $usFormattedDate = $dateParts[1] . '/' . $dateParts[0] . '/' . $dateParts[2];
