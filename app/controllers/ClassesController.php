@@ -681,7 +681,8 @@ class ClassesController extends Controller
             $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
 
             foreach ($enrollments as $enrollment) {
-                if (!TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)) {
+                if (!$enrollment->edcenso_stage_vs_modality_fk ||
+                    !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)) {
                     return false;
                 }
             }
