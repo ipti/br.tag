@@ -95,7 +95,7 @@ class FoodrequestController extends Controller
         foreach($requestItems as $item) {
             $requestItem = new FoodRequestItem();
 
-            $requestItem->food_fk = $item['id'];
+            $requestItem->food_fk = $item['food_id'];
             $requestItem->amount = $item['amount'];
             $requestItem->measurementUnit = $item['measurementUnit'];
             $requestItem->food_request_fk = $foodRequest->id;

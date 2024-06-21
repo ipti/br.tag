@@ -186,6 +186,8 @@ class FireBaseService
         ];
 
         foreach($requestItems as &$item) {
+            $item["accepted_amount"] = 0;
+            $item["delivered_amount"] = 0;
             $item["amount"] = intval($item["amount"]);
             $item["imageUrl"] = "https://firebasestorage.googleapis.com/v0/b/br-nham-agrigultor.appspot.com/o/food_image%2F" . $obj[$item['category']] . ".png?alt=media&token=3851a02b-d348-45ea-90f2-aab11fe6e52c";
         }

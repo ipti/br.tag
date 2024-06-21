@@ -14,9 +14,13 @@ function renderRequestTable(foodRequests, id) {
     if (typeof id === 'undefined') {
         $.each(foodRequests, function(index, request) {
             let row = $('<tr>').addClass('');
-            let requestItems = request.items.map(item =>
-                item.foodName.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim()
-            ).join(', ');
+            let requestItems = request.items.map(item =>{
+                if (item.foodName) {
+                    return item.foodName.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim();
+                } else {
+                    return '';
+                }
+            }).join(', ');
             $('<td>').text(request.requestInfo.id).appendTo(row);
             $('<td>').text(requestItems).appendTo(row);
             $('<td>').text(request.requestInfo.date).appendTo(row);

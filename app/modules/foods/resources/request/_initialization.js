@@ -169,7 +169,7 @@ $(document).on("click", "#js-add-food", function () {
         if(existingIndex !== undefined) {
             foodsRelation[existingIndex].amount = parseFloat(foodsRelation[existingIndex].amount) + parseFloat(amount);
         } else {
-            foodsRelation.push({id: foodId, foodName: food, amount: amount, measurementUnit: measurementUnit, category: foodCategory});
+            foodsRelation.push({food_id: foodId, foodName: food, amount: amount, measurementUnit: measurementUnit, category: foodCategory});
         }
         renderFoodsTable(foodsRelation);
     } else {
