@@ -1742,6 +1742,16 @@ $form = $this->beginWidget(
                             <?php echo $form->hiddenField($modelEnrollment, 'school_inep_id_fk', array('value' => Yii::app()->user->school)); ?>
                             <div class="t-field-select" id="class-select">
                                 <?php echo $form->label($modelEnrollment, 'classroom_fk', array('class' => 't-fild-select--required')); ?>
+                                <select class="select-search-on frequency-input t-field-select__input" id="classroom">
+                                    <option value="">Selecione a turma</option>
+                                    <?php foreach ($classrooms as $classroom) : ?>
+                                        <option value="<?= $classroom->id ?>"
+                                                fundamentalMaior="<?= (int)(!TagUtils::isStageMinorEducation(
+                                                    $classroom->edcenso_stage_vs_modality_fk)) . "" ?>">
+                                            <?= $classroom->name ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
                                 <?php
                                 $stage = $modelStudentIdentification->getCurrentStageVsModality();
                                 $stages = implode(",", EdcensoStageVsModality::getNextStages($stage));

@@ -1,6 +1,5 @@
 function load() {
     $(".alert-incomplete-data").hide();
-    var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
     var monthSplit = $("#month").val().split("-");
     jQuery.ajax({
         type: "POST",
@@ -8,7 +7,6 @@ function load() {
         cache: false,
         data: {
             classroom: $("#classroom").val(),
-            fundamentalMaior: fundamentalMaior,
             discipline: $("#disciplines").val(),
             month: monthSplit[1],
             year: monthSplit[0]
@@ -95,7 +93,6 @@ $("#classroom").on("change", function () {
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
-                fundamentalMaior: $("#classroom > option:selected").attr("fundamentalMaior")
             },
             beforeSend: function () {
                 $(".loading-frequency").css("display", "inline-block");
@@ -160,7 +157,6 @@ $(document).on("change", ".frequency-checkbox", function () {
             schedule: $(this).attr("schedule"),
             studentId: $(this).attr("studentId"),
             fault: $(this).is(":checked") ? 1 : 0,
-            fundamentalMaior: $(this).attr("fundamentalMaior")
         },
         beforeSend: function () {
             $(".loading-frequency").css("display", "inline-block");
@@ -223,7 +219,6 @@ $(document).on("click", ".btn-save-justification", function () {
             month: $("#justification-month").val(),
             year: $("#justification-year").val(),
             schedule: $("#justification-schedule").val(),
-            fundamentalMaior: $("#justification-fundamentalmaior").val(),
             justification: $(".justification-text").val()
         },
         beforeSend: function () {
