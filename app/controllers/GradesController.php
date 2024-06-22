@@ -33,6 +33,7 @@ class GradesController extends Controller
                     'saveGrades',
                     'CheckEnrollmentDelete',
                     'getDisciplines',
+                    'getUnities',
                     'calculateFinalMedia',
                     'reportCard',
                     'getGradesRelease',
@@ -127,6 +128,15 @@ class GradesController extends Controller
                 }
             }
         }
+    }
+    public function actionGetUnities() {
+        $classroom = Classroom::model()->findByPk($_POST["classroom"]);
+        $unities  = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk]);
+        $result = [];
+        foreach ($unities as $unity) {
+            $result[$unity['id']] = $unity["name"];
+        }
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 
     public function actionReportCard()
@@ -487,6 +497,17 @@ class GradesController extends Controller
                 $gradeObject->save();
 
             }
+            foreach($student["partialRecoveriesGrades"] as $gradePartialRecovery) {
+                $gradeObject = Grade::model()->findByPk($gradePartialRecovery["id"]);
+
+                if ($gradeObject == null) {
+                    $gradeObject = new Grade();
+                    $gradeObject->enrollment_fk = $student["enrollmentId"];
+                    $gradeObject->discipline_fk = $disciplineId;
+                }
+                $gradeObject->grade = isset($gradePartialRecovery["value"]) && $gradePartialRecovery["value"] !== "" ? $gradePartialRecovery["value"] : null;
+                $gradeObject->save();
+            }
         }
 
         self::saveGradeResults($classroomId, $disciplineId);
@@ -501,9 +522,10 @@ class GradesController extends Controller
 
         $classroomId = Yii::app()->request->getPost("classroom");
         $disciplineId = Yii::app()->request->getPost("discipline");
+        $unityId = Yii::app()->request->getPost("unity");
 
         try {
-            $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId);
+            $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId);
             $result = $usecase->exec();
             echo CJSON::encode($result);
         } catch (Exception $e) {
@@ -527,10 +549,11 @@ class GradesController extends Controller
 
         foreach ($classroom->activeStudentEnrollments as $enrollment) {
             $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);
+            $gradesStudent = $gradeUnities->exec();
             $countUnities = $gradeUnities->execCount();
 
             $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
-            (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities))->exec();
+            (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
             (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities))->exec();
 
         }

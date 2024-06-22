@@ -2,14 +2,16 @@
 /**
  * @property int $classroomId
  * @property int $disciplineId
+ * @property int $unityId
  */
 class GetStudentGradesByDisciplineUsecase
 {
 
-    public function __construct(int $classroomId, int $disciplineId)
+    public function __construct(int $classroomId, int $disciplineId, int $unityId)
     {
         $this->classroomId = $classroomId;
         $this->disciplineId = $disciplineId;
+        $this->unityId = $unityId;
     }
     public function exec()
     {
@@ -19,7 +21,13 @@ class GetStudentGradesByDisciplineUsecase
             "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
         ]);
         $studentEnrollments = $classroom->activeStudentEnrollments;
-        $unitiesByDiscipline = $this->getGradeUnitiesByDiscipline($classroom->edcenso_stage_vs_modality_fk);
+
+        $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline($classroom->edcenso_stage_vs_modality_fk);
+        $unitiesByDiscipline = array_filter($unitiesByDisciplineResult, function ($item){
+            return $item["id"] == $this->unityId;
+        });
+
+        $unityOrder = $this->searchUnityById($unitiesByDisciplineResult);
 
         if ($studentEnrollments == null) {
             throw new NoActiveStudentsException();
@@ -30,7 +38,8 @@ class GetStudentGradesByDisciplineUsecase
             $classroomGrades[] = $this->getStudentGradeByDicipline(
                 $enrollment,
                 $this->disciplineId,
-                $unitiesByDiscipline
+                $unitiesByDiscipline,
+                $unityOrder
             );
         }
 
@@ -41,14 +50,28 @@ class GetStudentGradesByDisciplineUsecase
                 "name" => $unity->name,
                 "colspan" => $unity->countGradeUnityModalities + ($unity->type === GradeUnity::TYPE_UNITY_WITH_RECOVERY ? 1 : 0),
                 "modalities" => array_column($unity->gradeUnityModalities, 'name'),
-                "calculationName" => $unity->gradeCalculationFk->name
+                "calculationName" => $unity->gradeCalculationFk->name,
+                "recoveryPartialFk" => $unity->parcial_recovery_fk == null ? "" : $unity->parcial_recovery_fk
+            ];
+        }
+        $partialRecoveryColumns = null;
+        $partialRecovery = $this->getpartialRecoveriesByUnity();
+
+        if( $partialRecovery != null) {
+            $partialRecoveryColumns = [
+                    "id" => $partialRecovery->id,
+                    "name" => $partialRecovery->name,
+                    "colspan" => 0,
+                    "modalities" => $partialRecovery->name,
+                    "calculationName" => $partialRecovery->gradeCalculationFk->name,
             ];
         }
 
         $result = new StructClassromGradeResult();
         $result->setStudents($classroomGrades)
             ->setIsUnityConcept(false)
-            ->setUnityColumns($unityColumns);
+            ->setUnityColumns($unityColumns)
+            ->setPartialRecoveryColumns($partialRecoveryColumns);
 
         if ($rules->rule_type === "C") {
             $concepts = GradeConcept::model()->findAll();
@@ -59,6 +82,14 @@ class GetStudentGradesByDisciplineUsecase
         return $result->toArray();
     }
 
+    private function searchUnityById($unities) {
+        foreach ($unities as $key => $unity) {
+            if ($unity->id == $this->unityId) {
+                return $key ;
+            }
+        }
+        return false;
+    }
     /**
      * @return GradeUnity[]
      */
@@ -75,13 +106,26 @@ class GetStudentGradesByDisciplineUsecase
     }
 
     /**
+     * @return GradePartialRecovery
+     */
+    private function getpartialRecoveriesByUnity() {
+        $criteria = new CDbCriteria();
+        $criteria->alias = "gpr";
+        $criteria->select = "distinct gpr.id, gpr.*";
+        $criteria->join = "join grade_unity gu on gu.parcial_recovery_fk = gpr.id";
+        $criteria->condition = "gu.id = :unitId";
+        $criteria->params = array(":unitId"=>$this->unityId);
+        return GradePartialRecovery::model()->find($criteria);
+    }
+
+    /**
      * Get Student grades by discipline
      *
      * @var GradeUnity $unitiesByDiscipline
      *
      * @return StudentGradesResult
      */
-    private function getStudentGradeByDicipline($studentEnrollment, $discipline, $unitiesByDiscipline)
+    private function getStudentGradeByDicipline($studentEnrollment, $discipline, $unitiesByDiscipline, $unityOrder)
     {
         $studentGradeResult = new StudentGradesResult($studentEnrollment->studentFk->name, $studentEnrollment->id);
 
@@ -109,11 +153,11 @@ class GetStudentGradesByDisciplineUsecase
             $unityResult = new GradeUnityResult($unity->name, $unity->gradeCalculationFk->name);
 
             if ($unity->type == GradeUnity::TYPE_UNITY || $unity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
-                $unityResult->setUnityMedia($gradeResult["grade_" . ($key + 1)]);
+                $unityResult->setUnityMedia($gradeResult["grade_" . ($unityOrder + 1)]);
             } elseif ($unity->type == GradeUnity::TYPE_FINAL_RECOVERY) {
                 $unityResult->setUnityMedia($gradeResult["rec_final"]);
             } elseif ($unity->type == GradeUnity::TYPE_UNITY_BY_CONCEPT) {
-                $unityResult->setUnityMedia($gradeResult["grade_concept_" . ($key + 1)]);
+                $unityResult->setUnityMedia($gradeResult["grade_concept_" . ($unityOrder + 1)]);
             }
 
 
@@ -142,6 +186,35 @@ class GetStudentGradesByDisciplineUsecase
 
 
             $studentGradeResult->addUnity($unityResult);
+
+            if($unity->parcial_recovery_fk !== null){
+                $gradePartialRecovery = Grade::model()->find(
+                    "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk and grade_partial_recovery_fk = :grade_partial_recovery_fk",
+                    [
+                        "enrollment_fk" => $studentEnrollment->id,
+                        "discipline_fk" => $discipline,
+                        "grade_partial_recovery_fk" => $unity->parcial_recovery_fk
+                    ]
+                );
+
+                if($gradePartialRecovery == null) {
+                    $gradePartialRecovery = new Grade();
+                    $gradePartialRecovery->enrollment_fk = $studentEnrollment->id;
+                    $gradePartialRecovery->discipline_fk = $discipline;
+                    $gradePartialRecovery->grade = null;
+                    $gradePartialRecovery->grade_partial_recovery_fk = $unity->parcial_recovery_fk;
+                    $gradePartialRecovery->save();
+                }
+
+
+                $partialRecovery = $unity->parcialRecoveryFk;
+                $partialRecoveryResult = new GradePartialRecoveryResult($partialRecovery->name,
+                $partialRecovery->gradeCalculationFk->name);
+                $partialRecoveryResult->addGrade($gradePartialRecovery);
+                $partialRecoveryResult->addRecPartialResult($gradeResult['rec_partial_'.$partialRecovery->order_partial_recovery]);
+                $studentGradeResult->addPartialRecovery($partialRecoveryResult);
+
+            }
         }
 
         return $studentGradeResult;
@@ -180,6 +253,7 @@ class GetStudentGradesByDisciplineUsecase
  * @property StudentGradesResult[] $students
  * @property array $concepts
  * @property array $unityColumns
+ * @property array $partialRecoveryColumns
  * @property bool $isUnityConcept
  */
 class StructClassromGradeResult
@@ -189,6 +263,7 @@ class StructClassromGradeResult
     private $isUnityConcept;
 
     private $unityColumns;
+    private $partialRecoveryColumns;
 
     /**
      * Get the value of students
@@ -239,6 +314,26 @@ class StructClassromGradeResult
     }
 
     /**
+     * Set the value of partialRecoveryColumns
+     *
+     * @return  self
+     */
+    public function setPartialRecoveryColumns($partialRecoveryColumns)
+    {
+        $this->partialRecoveryColumns = $partialRecoveryColumns;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of partialRecoveryColumns
+     */
+    public function getPartialRecoveryColumns()
+    {
+        return $this->partialRecoveryColumns;
+    }
+
+    /**
      * Set the value of concepts
      *
      * @return  self
@@ -278,7 +373,8 @@ class StructClassromGradeResult
             }, $this->students),
             'unityColumns' => $this->unityColumns,
             'concepts' => $this->concepts,
-            'isUnityConcept' => $this->isUnityConcept
+            'isUnityConcept' => $this->isUnityConcept,
+            'partialRecoveryColumns' => $this->partialRecoveryColumns
         ];
     }
 
@@ -298,6 +394,7 @@ class StudentGradesResult
     private $finalMedia;
     private $situation;
     private $unities;
+    private $partialRecoveries;
 
     public function __construct($studentName, $enrollmentId)
     {
@@ -331,6 +428,14 @@ class StudentGradesResult
     {
         $this->unities[] = $unity;
     }
+    public function getpartialRecoveries()
+    {
+        return $this->partialRecoveries;
+    }
+    public function addPartialRecovery(GradePartialRecoveryResult $partialRecovery)
+    {
+        $this->partialRecoveries[] = $partialRecovery;
+    }
 
     public function toArray(): array
     {
@@ -342,6 +447,9 @@ class StudentGradesResult
             'unities' => array_map(function (GradeUnityResult $unity) {
                 return $unity->toArray();
             }, $this->unities),
+            'partialRecoveries' => array_map(function (GradePartialRecoveryResult $partialRecovery) {
+                return $partialRecovery->toArray();
+            }, $this->partialRecoveries),
         ];
     }
 }
@@ -383,6 +491,35 @@ class GradeUnityResult
                 return $grade->toArray();
             }, $this->grades),
             'unityMedia' => $this->unityMedia
+        ];
+    }
+}
+
+class GradePartialRecoveryResult {
+    private $partialRecoveryName;
+    private $grade;
+    private $calculationName;
+    private $recPartialResult;
+    public function __construct($partialRecoveryName = null, $calculationName = null)
+    {
+        $this->partialRecoveryName = $partialRecoveryName;
+        $this->calculationName = $calculationName;
+    }
+    public function addGrade($grade)
+    {
+        $this->grade = $grade;
+    }
+    public function addRecPartialResult($recPartialResult) {
+        $this->recPartialResult = $recPartialResult;
+
+    }
+    public function toArray(): array
+    {
+        return [
+            'partialRecoveryName' => $this->partialRecoveryName,
+            'grade' => $this->grade,
+            'recPartialResult' => $this->recPartialResult,
+            'calculationName' => $this->calculationName
         ];
     }
 }
