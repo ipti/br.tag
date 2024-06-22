@@ -379,6 +379,12 @@ class ClassroomValidation extends Register
         if ($complementaryActivity == 1 && $modality == 3) {
             return array('status' => false, 'erro' => 'Não deve ser selecionada a opção "EJA" quando o tipo de atendimento for "Atividade Complementar".');
         }
+        if ($modality == 5) {
+            return array('status' => false, 'erro' => 'A opção de modalidade "Atendimento Educacional Especializado" não é válida para exportação. Altere-a.');
+        }
+        if ($modality == 100) {
+            return array('status' => false, 'erro' => 'A opção de modalidade "Não se aplica" não é válida para exportação. Altere-a.');
+        }
         return array('status' => true, 'erro' => '');
     }
 
