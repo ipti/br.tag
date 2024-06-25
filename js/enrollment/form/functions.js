@@ -36,6 +36,6 @@ $(document).on('change', '#reasonDropdown select', function () {
     checkDropdownValue();
 });
 
-$(document).on('change', function () {
-
+$('#statusDropdown').on('change' , function () {
+    console.log('worked');
 })

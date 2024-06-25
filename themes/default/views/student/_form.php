@@ -1834,7 +1834,7 @@ $form = $this->beginWidget(
                                     $modelEnrollment,
                                     'status',
                                     StudentEnrollment::getListStatus(),
-                                    array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off t-field-select__input select2-container')
+                                    array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off t-field-select__input select2-container', 'id' => "statusDropdown")
                                 ); ?>
                                 <?php echo $form->error($modelEnrollment, 'status'); ?>
                             </div>

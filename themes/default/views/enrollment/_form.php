@@ -220,7 +220,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         <!--  Data de transferência externa na escola -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text js-hide-not-required" id="ticketDate">
+                            <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->label($model, 'class_transfer_date', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($model, 'class_transfer_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($model, 'class_transfer_date'); ?>
@@ -228,7 +228,7 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <!--  Data de rematrícula na escola -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text js-hide-not-required" id="ticketDate">
+                            <div class="t-field-text js-hide-not-required">
                                 <?php echo $form->label($model, 'school_readmission_date', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($model, 'school_readmission_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($model, 'school_readmission_date'); ?>
