@@ -1370,6 +1370,21 @@ class ReportsRepository
 
     }
 
+
+        // private function calculateFrequency($diasLetivos, $totalFaltas): int
+    // {
+    //     if ($diasLetivos === 0) {
+    //         return 0;
+    //     }
+
+    //     $frequencia = (($diasLetivos - $totalFaltas) / $diasLetivos) * 100;
+
+    //     return round($frequencia);
+    // }
+
+
+    
+
     /**
      * Alunos com documentos pendentes
      */
