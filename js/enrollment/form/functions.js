@@ -36,6 +36,11 @@ $(document).on('change', '#reasonDropdown select', function () {
     checkDropdownValue();
 });
 
-$('#statusDropdown').on('change' , function () {
-    console.log('worked');
+$('#StudentEnrollment_status').change(function(){
+    const currentStatus = $('#StudentEnrollment_status').val();
+    console.log(currentStatus);
+    if(currentStatus == '5'){
+        $('transferDiv').removeClass('hide');
+        $('readmissionDiv').removeClass('hide');
+    }
 })

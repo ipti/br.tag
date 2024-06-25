@@ -4,6 +4,7 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 //@done S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'student-enrollment-form',
@@ -128,7 +129,7 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'status', array('class' => 't-field-select__label')); ?>
-                                <?php echo $form->DropDownList($model, 'status', StudentEnrollment::getListStatus(), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off t-field-select__input', 'style'=>'width:100%', 'id' => 'statusDropdown')); ?>
+                                <?php echo $form->DropDownList($model, 'status', StudentEnrollment::getListStatus(), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off t-field-select__input', 'style'=>'width:100%')); ?>
                                 <?php echo $form->error($model, 'status'); ?>
                             </div>
 
@@ -220,16 +221,16 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         <!--  Data de transferência externa na escola -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->label($model, 'class_transfer_date', array('class' => 't-field-text__label')); ?>
+                            <div id="transferDiv" class="t-field-text js-hide-not-required hide">
+                                <?php echo $form->label($model, 'class_transfer_date', array('class' => 't-field-text__label hide')); ?>
                                 <?php echo $form->textField($model, 'class_transfer_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($model, 'class_transfer_date'); ?>
                             </div>
                         </div>
                         <!--  Data de rematrícula na escola -->
                         <div class="column clearleft is-two-fifths">
-                            <div class="t-field-text js-hide-not-required">
-                                <?php echo $form->label($model, 'school_readmission_date', array('class' => 't-field-text__label')); ?>
+                            <div id="readmissionDiv" class="t-field-text js-hide-not-required hide">
+                                <?php echo $form->label($model, 'school_readmission_date', array('class' => 't-field-text__label hide')); ?>
                                 <?php echo $form->textField($model, 'school_readmission_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($model, 'school_readmission_date'); ?>
                             </div>
