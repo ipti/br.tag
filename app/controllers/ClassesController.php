@@ -492,7 +492,7 @@ class ClassesController extends Controller
                     }
                     array_push($students, $array);
                 }
-                echo json_encode(["valid" => true, "students" => $students, "scheduleDays"=>$scheduleDays, "schedulePerDays"=>$schedulePerDays]);
+                echo json_encode(["valid" => true, "students" => $students, "scheduleDays"=>$scheduleDays, "schedulePerDays"=>$schedulePerDays, "isMinor"=> $isMinor]);
 
             } else {
                 echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o Quadro de Frequência."]);
