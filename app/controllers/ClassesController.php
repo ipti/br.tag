@@ -482,7 +482,7 @@ class ClassesController extends Controller
                             "fault" => $classFault != null,
                             "justification" => $classFault->justification,
                             "date" => $date,
-                            "valid" => !($scheduleDate <= $startDate && $enrollment->status == '5') ? true : false
+                            "valid" => !($scheduleDate <= $startDate && $enrollment->status == '13') ? true : false
                         ]);
                     }
                     array_push($students, $array);

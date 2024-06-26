@@ -57,8 +57,8 @@
  * @property integer $stage
  * @property integer $reenrollment
  * @property integer $sedsp_sync
- * @property integer $class_transfer_date
- * @property integer $school_readmission_date
+ * @property string $class_transfer_date
+ * @property string $school_readmission_date
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -84,6 +84,7 @@ class StudentEnrollment extends AltActiveRecord
     public const STATUS_INDETERMINED = "INDETERMINADO";
     public const STATUS_DEATH = "OBITO";
     public const STATUS_ADVANCED = "AVANÇADO";
+    public const STATUS_REINTEGRATED = "REINTEGRADO";
 
     public $school_year;
     public $sedsp_sync;
@@ -596,7 +597,8 @@ class StudentEnrollment extends AltActiveRecord
             "9" => StudentEnrollment::STATUS_CONCLUDED,
             "10" => StudentEnrollment::STATUS_INDETERMINED,
             "11" => StudentEnrollment::STATUS_DEATH,
-            "12" => StudentEnrollment::STATUS_ADVANCED
+            "12" => StudentEnrollment::STATUS_ADVANCED,
+            "13" => StudentEnrollment::STATUS_REINTEGRATED
         ];
 
         return $status;
@@ -616,7 +618,8 @@ class StudentEnrollment extends AltActiveRecord
             "9" => StudentEnrollment::STATUS_CONCLUDED,
             "10" => StudentEnrollment::STATUS_INDETERMINED,
             "11" => StudentEnrollment::STATUS_DEATH,
-            "12" => StudentEnrollment::STATUS_ADVANCED
+            "12" => StudentEnrollment::STATUS_ADVANCED,
+            "13" => StudentEnrollment::STATUS_REINTEGRATED
         ];
 
         return $status[$this->status];
@@ -644,7 +647,8 @@ class StudentEnrollment extends AltActiveRecord
              StudentEnrollment::STATUS_CONCLUDED => "9" ,
              StudentEnrollment::STATUS_INDETERMINED => "10" ,
              StudentEnrollment::STATUS_DEATH => "11" ,
-             StudentEnrollment::STATUS_ADVANCED => "12"
+             StudentEnrollment::STATUS_ADVANCED => "12",
+             StudentEnrollment::STATUS_REINTEGRATED => "13"
         ];
 
         return $statusList[$status];

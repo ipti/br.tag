@@ -1792,7 +1792,7 @@ $form = $this->beginWidget(
                         <!--  Data de transferência externa na escola -->
                         <div class="column clearleft is-two-fifths">
                             <div id="transferDiv" class="t-field-text js-hide-not-required hide">
-                                <?php echo $form->label($modelEnrollment, 'class_transfer_date', array('class' => 't-field-text__label hide')); ?>
+                                <?php echo $form->label($modelEnrollment, 'class_transfer_date', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelEnrollment, 'class_transfer_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelEnrollment, 'class_transfer_date'); ?>
                             </div>
