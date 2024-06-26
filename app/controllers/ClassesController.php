@@ -106,11 +106,11 @@ class ClassesController extends Controller
      */
     public function actionGetClassContents()
     {
-        $classroomId = $_POST["classroom"];
+        $classroomId = Yii::app()->request->getPost('classroom');
         $isMinorEducation = TagUtils::isStageMinorEducation(Classroom::model()->findByPk($classroomId)->edcenso_stage_vs_modality_fk);
-        $month = $_POST["month"];
-        $year = $_POST["year"];
-        $disciplineId = $_POST["discipline"];
+        $month = Yii::app()->request->getPost('month');
+        $year = Yii::app()->request->getPost('year');
+        $disciplineId = Yii::app()->request->getPost('discipline');
 
         $students = $this->getStudentsByClassroom($classroomId);
 
@@ -188,15 +188,7 @@ class ClassesController extends Controller
         }
     }
 
-
-    /**
-     * Summary of getSchedulesFromMajorStage
-     * @param integer $classroomId
-     * @param integer $month
-     * @param integer $disciplineId
-     * @return Schedule[]
-     */
-    private function getSchedulesFromMajorStage($classroomId, $month, $disciplineId, $year)
+    private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
     {
         return Schedule::model()->findAll(
             "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
@@ -280,7 +272,7 @@ class ClassesController extends Controller
     {
         $studentArray = [];
         foreach ($students as $student) {
-            
+
             $studentData = [
                 "id" => $student["id"],
                 "name" => $student["name"],
@@ -475,6 +467,7 @@ class ClassesController extends Controller
                     $array["studentId"] = $enrollment->student_fk;
                     $array["studentName"] = $enrollment->studentFk->name;
                     $array["schedules"] = [];
+                    $array["status"] = $enrollment->status;
                     foreach ($schedules as $schedule) {
                         $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                         $available = date("Y-m-d") >= $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);

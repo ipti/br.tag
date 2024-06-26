@@ -157,3 +157,37 @@
 .dt-body-nowrap {
     white-space: nowrap;
 }
+.remove-vertical-borders  {
+    border-collapse: initial;
+    td, th {
+        border-top: none;
+        border-right: none;
+        border-left: none;
+    }
+}
+
+.tag-table-secondary.remove-border-radius {
+    thead {
+        tr th {
+            &:first-child {
+                border-radius: initial;
+            }
+
+            &:last-child {
+                border-radius: initial;
+            }
+        }
+
+    }
+    td {
+
+
+        &:first-child {
+            border-radius: initial;
+        }
+
+        &:last-child {
+            border-radius: initial;
+        }
+    }
+}

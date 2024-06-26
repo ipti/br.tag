@@ -33,6 +33,12 @@
         font-size: $FontSizeHeadingTitle4;
     }
 
+    &.mobile-width {
+        @media (max-width: 768px) {
+            width: 100%;
+        }
+    }
+
     &.mobile-margin {
         margin-right: $spaceMedium;
     }
@@ -102,8 +108,18 @@
 
     &:hover,
     &--active {
-        color: $colorsBaseWhiteNormal;
-        background-color: $colorsBaseProductNormalActive;
+       /*  color: $colorsBaseWhiteNormal;
+        background-color: $colorsBaseProductNormalActive; */
+    }
+    &.disabled {
+        background-color: $colorsBaseCloudNormal;
+        color: $colorsBaseInkLighterActive;
+        &:hover,
+        &:active,
+        &:focus{
+            background-color: $colorsBaseCloudNormal;
+            color: $colorsBaseInkLighterActive;
+        }
     }
 
     &:link,
