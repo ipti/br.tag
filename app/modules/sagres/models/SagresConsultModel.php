@@ -76,7 +76,7 @@ class SagresConsultModel
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
         }
-        
+
         return $education;
     }
 
@@ -84,26 +84,26 @@ class SagresConsultModel
         $query = "SELECT distinct se.student_fk
                 FROM student_enrollment se
                 JOIN classroom c ON c.id = se.classroom_fk
-                WHERE c.aee = 1 AND se.status = 1 AND c.school_year = :referenceYear";
+                WHERE c.aee = 1 AND (se.status = 1 or se.status is null) AND c.school_year = :referenceYear";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([':referenceYear' => $referenceYear]);
         $studentsIds = $command->queryAll();
-    
+
         foreach($studentsIds as $id){
 
-            $sql = "SELECT 
-                        si.name as schoolName, 
-                        si.inep_id as inepId, 
-                        se.student_fk as studentFk, 
-                        c.name as className, 
-                        c.aee, 
-                        c.id as classId, 
+            $sql = "SELECT
+                        si.name as schoolName,
+                        si.inep_id as inepId,
+                        se.student_fk as studentFk,
+                        c.name as className,
+                        c.aee,
+                        c.id as classId,
                         sti.name as studentName
-                    from classroom c 
+                    from classroom c
                     join student_enrollment se on se.classroom_fk  = c.id
-                    join student_identification sti on sti.id = se.student_fk 
-                    join school_identification si on si.inep_id = se.school_inep_id_fk 
+                    join student_identification sti on sti.id = se.student_fk
+                    join school_identification si on si.inep_id = se.school_inep_id_fk
                     WHERE se.student_fk = :id and c.school_year = :referenceYear";
 
             $command = Yii::app()->db->createCommand($sql);
@@ -120,11 +120,11 @@ class SagresConsultModel
                 $inconsistencyModel->action = 'Estudante dever estar matriculada em outra turma alem da <strong> AEE: ' . $student['className'].'</strong>';
                 $inconsistencyModel->identifier = '9';
                 $inconsistencyModel->idStudent = $student['studentFk'];
-                $inconsistencyModel->idClass = $student['classId']; 
-                $inconsistencyModel->idSchool = $student['inepId']; 
+                $inconsistencyModel->idClass = $student['classId'];
+                $inconsistencyModel->idSchool = $student['inepId'];
                 $inconsistencyModel->save();
             }
-        }  
+        }
     }
 
     public function getManagementUnit($managementUnitId, $referenceYear, $month): CabecalhoTType
@@ -346,7 +346,7 @@ class SagresConsultModel
     private function checkDuplicateCpfs(int $year){
         $query = "SELECT school_inep_id_fk, student_fk, classroom_fk
                     FROM student_enrollment se
-                    WHERE year(se.create_date) = :year AND se.status = 1 AND student_fk IN (
+                    WHERE year(se.create_date) = :year AND (se.status = 1 or se.status is null) AND student_fk IN (
                         SELECT student_fk
                         FROM student_enrollment
                         WHERE year(create_date) = :year AND status = 1
@@ -360,7 +360,7 @@ class SagresConsultModel
 
         $processedStudents = [];
 
-        foreach($students as $student){  
+        foreach($students as $student){
             $infoStudent = $this->getStudentInfo($student['student_fk']);
             $count = $this->getCountOfClassrooms($student['student_fk'], $year);
 
@@ -376,18 +376,18 @@ class SagresConsultModel
                   FROM student_enrollment se
                   JOIN classroom c ON se.classroom_fk = c.id
                   WHERE se.student_fk = :student_fk AND c.school_year = :year";
-    
+
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":student_fk", $student_fk);
         $command->bindValue(":year", $year);
         return $command->queryScalar();
     }
-    
+
     private function getStudentInfo($student_fk) {
-        $sql = "SELECT si.name, sdaa.cpf FROM student_identification si 
-                JOIN student_documents_and_address sdaa ON sdaa.student_fk = si.id 
+        $sql = "SELECT si.name, sdaa.cpf FROM student_identification si
+                JOIN student_documents_and_address sdaa ON sdaa.student_fk = si.id
                 WHERE si.id = :id";
-    
+
         $command = Yii::app()->db->createCommand($sql);
         $command->bindValue(":id", $student_fk);
         return $command->queryRow();
@@ -395,14 +395,14 @@ class SagresConsultModel
 
     private function getSchoolName($inepId){
         $sql = "SELECT si.name FROM school_identification si WHERE si.inep_id = :inepId";
-    
+
         $command = Yii::app()->db->createCommand($sql);
         $command->bindValue(":inepId", $inepId);
         return $command->queryScalar();
     }
-    
+
     public function createInconsistencyModel($student, $infoStudent, $count) {
-        
+
         if($count >= 3){
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = '<strong>MATRÍCULA</strong>';
@@ -415,8 +415,8 @@ class SagresConsultModel
             $inconsistencyModel->idSchool = $student['school_inep_id_fk'];
             $inconsistencyModel->save();
         }
-    }    
-     
+    }
+
     public function getInconsistenciesCount()
     {
         $authAssignment = \AuthAssignment::model()->find(
@@ -1317,7 +1317,7 @@ class SagresConsultModel
                         left join schedule s on cf.schedule_fk = s.id
                   WHERE
                         se.classroom_fk  =  :classId AND
-                        se.status = 1 AND
+                        (se.status = 1 or se.status is null) AND
                         c.school_year = :referenceYear
                   GROUP BY se.id;
                 ";
@@ -1330,7 +1330,7 @@ class SagresConsultModel
 
         $enrollments = $command->queryAll();
 
-        if(empty($enrollments)){        
+        if(empty($enrollments)){
             $className = $this->getClassName($classId, $referenceYear);
 
             $inconsistencyModel = new ValidationSagresModel();
@@ -1343,7 +1343,7 @@ class SagresConsultModel
             $inconsistencyModel->idSchool = $inepId;
             $inconsistencyModel->insert();
         }
-        
+
         foreach ($enrollments as $enrollment) {
 
             $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
@@ -1759,12 +1759,12 @@ class SagresConsultModel
     }
 
     public function convertBirthdate($birthdate) {
-        
+
         $date = DateTime::createFromFormat('Y-m-d', $birthdate);
         if ($date && $date->format('Y-m-d') === $birthdate) {
             return $date->format('d/m/Y');
         }
-    
+
         $date = DateTime::createFromFormat('d/m/Y', $birthdate);
         if ($date && $date->format('d/m/Y') === $birthdate) {
             return $birthdate;
@@ -1901,7 +1901,7 @@ class SagresConsultModel
         if ($date instanceof Datetime) {
             $dat = $date->format('Y-m-d');
         } else {
-            
+
             $dt = DateTime::createFromFormat($format, $date);
             if ($dt === false) {
                 return false;
