@@ -247,6 +247,8 @@ class FarmerRegisterController extends Controller
     {
         $criteria = new CDbCriteria();
         $criteria->select = 'id, name';
+        $criteria->condition = 't.status = :status';
+        $criteria->params = array(':status' => "Ativo");
 
         $foodNotices =  FoodNotice::model()->findAll($criteria);
 

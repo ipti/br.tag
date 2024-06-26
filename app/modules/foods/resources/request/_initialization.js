@@ -163,11 +163,11 @@ $(document).on("click", "#js-add-food", function () {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     } else if(amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
         let existingIndex = $.map(foodsRelation, function(obj, index) {
-            return obj.id === foodId ? index : null;
+            return obj.food_id === foodId ? index : null;
         })[0];
 
         if(existingIndex !== undefined) {
-            foodsRelation[existingIndex].amount = parseFloat(foodsRelation[existingIndex].amount) + parseFloat(amount);
+            foodsRelation[existingIndex].amount = amountCalculation(foodsRelation[existingIndex].amount, amount, measurementUnit, foodsRelation[existingIndex].measurementUnit);
         } else {
             foodsRelation.push({food_id: foodId, foodName: food, amount: amount, measurementUnit: measurementUnit, category: foodCategory});
         }

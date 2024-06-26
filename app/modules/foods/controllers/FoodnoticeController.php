@@ -29,7 +29,12 @@ class FoodNoticeController extends Controller
         return array(
             array(
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'getTacoFoods', 'getNotice'),
+                'actions' => array('index',
+                'view',
+                'getTacoFoods',
+                'getNotice',
+                'activateNotice',
+                'toggleNoticeStatus'),
                 'users' => array('*'),
             ),
             array(
@@ -197,23 +202,41 @@ class FoodNoticeController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = $this->loadModel($id);
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'id=:id';
+        $criteria->params = array(':id' => $id);
 
-        $modelNoticeItems = FoodNoticeItem::model()->findAllByAttributes(
-            ["foodNotice_fk" => $id]
-        );
-        foreach ($modelNoticeItems as $modelNoticeItem) {
-            $modelNoticeItem->delete();
-        }
-        $modelFarmerFoods = FarmerFoods::model()->findAllByAttributes(
-            ["foodNotice_fk" => $id]
-        );
-        foreach ($modelFarmerFoods as $farmerFood) {
-            $farmerFood->delete();
-        }
-        $model->delete();
+        $foodNotice = FoodNotice::model()->find($criteria);
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if ($foodNotice !== null) {
+            $foodNotice->status = 'Inativo';
+            $foodNotice->save();
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Edital inativado com sucesso!'));
+        }
+    }
+
+    public function actionActivateNotice()
+    {
+        $notices = FoodNotice::model()->findAll();
+        $this->render('activateNotice', array(
+            'notices' => $notices
+        ));
+    }
+
+    public function actionToggleNoticeStatus()
+    {
+        $id = Yii::app()->request->getPost('id');
+        $status = Yii::app()->request->getPost('status');
+        $notice = FoodNotice::model()->findByPk($id);
+
+        $notice->status = $status == "Ativo" ? "Inativo" : "Ativo";
+
+        if ($notice->save()) {
+            $message = $status === "Ativo" ? 'Edital inativado com sucesso!' : 'Edital ativado com sucesso!';
+            Yii::app()->user->setFlash('success', Yii::t('default', $message));
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
+        }
     }
 
     /**
@@ -221,7 +244,11 @@ class FoodNoticeController extends Controller
      */
     public function actionIndex()
     {
+        $criteria=new CDbCriteria;
+        $criteria->compare('status', "Ativo");
+
         $dataProvider = new CActiveDataProvider('FoodNotice');
+        $dataProvider->setCriteria($criteria);
         $this->render('index', array(
             'dataProvider' => $dataProvider,
         )

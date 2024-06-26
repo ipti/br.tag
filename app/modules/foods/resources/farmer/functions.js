@@ -22,3 +22,17 @@ function renderFoodsTable(foodsRelation) {
         table.append(row);
     });
 }
+
+function amountCalculation(existingAmount, amount, existingUnit, measurementUnit) {
+    existingAmount = parseFloat(existingAmount);
+    amount = parseFloat(amount);
+    let finalAmount = 0;
+    if(measurementUnit == "Kg" && existingUnit == "g") {
+        finalAmount = existingAmount + (amount/1000);
+    } else if (measurementUnit == "g" && existingUnit == "Kg") {
+        finalAmount = existingAmount + (amount*1000);
+    } else {
+        finalAmount = existingAmount + amount
+    }
+    return finalAmount.toFixed(2);
+}
