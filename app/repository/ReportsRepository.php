@@ -1367,7 +1367,6 @@ class ReportsRepository
 
         return array('report' => $result, 'classroom' => $classroom);
 
-
     }
 
 
@@ -1381,9 +1380,6 @@ class ReportsRepository
 
     //     return round($frequencia);
     // }
-
-
-    
 
     /**
      * Alunos com documentos pendentes
@@ -1475,8 +1471,6 @@ class ReportsRepository
 
         return ["student" => $studentData];
     }
-
-
 
     /**
      * Declaração de ano cursado na escola

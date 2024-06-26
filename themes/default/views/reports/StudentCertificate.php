@@ -82,9 +82,71 @@ $monthName = $months[$month];
 
     <?php $this->renderPartial('footer'); ?>
 </div>
+
 <div class="container-school-record" style="page-break-before: always;">
-    <p>-----------------------------------------------hello word---------------------------------------------</p>
-</div>
+<table class="school-record-table">
+
+        <tr>
+            <th rowspan="8" class="vertical-header">VIDA ESCOLAR</th>
+            <th colspan="20">DISCIPLINAS</th>
+
+            <th colspan="20" rowspan="1">NOME DO ESTABELECIMENTO</th>
+        </tr>
+        <tr>
+            <th class="vertical-header">IDADE</th>
+            <th class="vertical-header">SÉRIE</th>
+            <th class="vertical-header">LÍNGUA PORTUGUESA</th>
+            <th class="vertical-header">MATEMÁTICA</th>
+            <th class="vertical-header">CIÊNCIAS</th>
+            <th class="vertical-header">HISTÓRIA</th>
+            <th class="vertical-header">GEOGRAFIA</th>
+            <th class="vertical-header">LÍNGUA ESTRANGEIRA</th>
+            <th class="vertical-header">ARTE</th>
+            <th class="vertical-header">FILOSOFIA</th>
+            <th class="vertical-header">ÉTICA E CIDADANIA</th>
+            <th class="vertical-header">ENSINO RELIGIOSO</th>
+            <th class="vertical-header">EDUCAÇÃO FÍSICA</th>
+            <th class="vertical-header"></th>
+            <th class="vertical-header"></th>
+            <th class="vertical-header"></th>
+            <th class="vertical-header"></th>
+            <th class="vertical-header"></th>
+            <th class="vertical-header">MÉDIA ANUAL</th>
+            <th class="vertical-header">ANO</th>
+
+            <th rowspan="5" colspan="" class="vertical-header"></th>
+
+
+
+        </tr>
+        <?php for ($i = 0; $i < 6; $i++): ?>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            
+        </tr>
+        <?php endfor; ?>
+    </table>
+<br> <br> <br> <br> <br> 
+
 
 <script>
     function imprimirPagina() {
@@ -157,6 +219,63 @@ $monthName = $months[$month];
         gap: 200px;
         margin-top: 20px;
     }
+    .school-record-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+    border: 2px solid #000;
+}
+
+.school-record-table th, .school-record-table td {
+    border: 1px solid #000;
+    text-align: center;
+    padding: 5px;
+}
+
+.school-record-table th.vertical-header {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    width: 40px;
+}
+
+.school-record-table th, .school-record-table td {
+    width: 80px; /* Adjust as needed */
+}
+
+.school-record-table thead th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.school-record-table tbody td {
+    height: 40px; /* Adjust as needed */
+}
+
+.container-school-record {
+    page-break-before: always;
+    margin-top: 20px;
+}
+
+.signature-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signature-section p {
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.school-record-table thead th[rowspan="2"] {
+    height: 80px;
+}
+
+.school-record-table thead th[colspan="12"] {
+    text-align: center;
+}
+
 
     @media print {
         .hidden-print {
