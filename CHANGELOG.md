@@ -1,3 +1,6 @@
+## [Versão 3.81.171]
+- Retirando a obrigatóriedade do código da escola sede no formulário de escola
+
 ## [Versão 3.81.170]
 - O relatório do Diário Eletrônico foi atualizado para incluir o nome das turmas correspondentes para cada aluno.
 
