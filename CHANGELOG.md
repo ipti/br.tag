@@ -1,5 +1,5 @@
 ## [Versão 3.81.172]
-- Unificada a frequência para turmas multiseriadas
+- Unificada a frequência para turmas multisseriadas
 
 ## [Versão 3.81.171]
 - Retirando a obrigatóriedade do código da escola sede no formulário de escola
