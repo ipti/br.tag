@@ -1789,22 +1789,6 @@ $form = $this->beginWidget(
                                 <?php echo $form->error($modelEnrollment, 'school_admission_date'); ?>
                             </div>
                         </div>
-                        <!--  Data de transferência externa na escola -->
-                        <div class="column clearleft is-two-fifths">
-                            <div id="transferDiv" class="t-field-text js-hide-not-required hide">
-                                <?php echo $form->label($modelEnrollment, 'class_transfer_date', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelEnrollment, 'class_transfer_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
-                                <?php echo $form->error($modelEnrollment, 'class_transfer_date'); ?>
-                            </div>
-                        </div>
-                        <!--  Data de rematrícula na escola -->
-                        <div class="column clearleft is-two-fifths">
-                            <div id="readmissionDiv" class="t-field-text js-hide-not-required hide">
-                                <?php echo $form->label($modelEnrollment, 'school_readmission_date', array('class' => 't-field-text__label')); ?>
-                                <?php echo $form->textField($modelEnrollment, 'school_readmission_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
-                                <?php echo $form->error($modelEnrollment, 'school_readmission_date'); ?>
-                            </div>
-                        </div>
                         <!-- Situação na série/etapa atual -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-select js-hide-not-required" id="situationSerie-select">
@@ -1821,6 +1805,24 @@ $form = $this->beginWidget(
                                     array('class' => 'select-search-off t-field-select__input select2-container')
                                 ); ?>
                                 <?php echo $form->error($modelEnrollment, 'current_stage_situation'); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row new-enrollment-form" style="display: none;">
+                        <!--  Data de transferência externa na escola -->
+                        <div id="transferDiv" class="column clearleft is-two-fifths hide">
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->label($modelEnrollment, 'class_transfer_date', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->textField($modelEnrollment, 'class_transfer_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($modelEnrollment, 'class_transfer_date'); ?>
+                            </div>
+                        </div>
+                        <!--  Data de rematrícula na escola -->
+                        <div id="readmissionDiv" class="column clearleft--on-mobile is-two-fifths">
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->label($modelEnrollment, 'school_readmission_date', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->textField($modelEnrollment, 'school_readmission_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($modelEnrollment, 'school_readmission_date'); ?>
                             </div>
                         </div>
                     </div>
