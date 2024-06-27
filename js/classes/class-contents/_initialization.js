@@ -1,5 +1,4 @@
 function loadClassContents() {
-    var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
     var monthSplit = $("#month").val().split("-");
     $.ajax({
         type: 'POST',
@@ -9,7 +8,6 @@ function loadClassContents() {
             classroom: $("#classroom").val(),
             month: monthSplit[1],
             year: monthSplit[0],
-            fundamentalMaior: fundamentalMaior,
             discipline: $("#disciplines").val()
         },
         beforeSend: function () {
@@ -53,7 +51,6 @@ $("#classroom").on("change", function () {
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
-                fundamentalMaior: $("#classroom > option:selected").attr("fundamentalMaior")
             },
             beforeSend: function () {
                 $(".loading-frequency").css("display", "inline-block");
@@ -69,7 +66,7 @@ $("#classroom").on("change", function () {
                     });
                     $("#month option:first").attr("selected", "selected").trigger("change.select2");
 
-                    if ($("#classroom > option:selected").attr("fundamentalMaior") === "1") {
+                    if (data.isMinor == false) {
                         $("#disciplines").children().remove();
                         $("#disciplines").append(new Option("Selecione a Disciplina", ""));
                         $.each(data.disciplines, function (index, value) {
@@ -144,7 +141,6 @@ $("#save, #save-button-mobile").on('click', function () {
             month: $("#class-contents").attr("month"),
             year: $("#class-contents").attr("year"),
             discipline: $("#class-contents").attr("discipline"),
-            fundamentalMaior: $("#class-contents").attr("fundamentalmaior"),
             classContents: classContents
         },
         beforeSend: function () {

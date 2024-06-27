@@ -1,4 +1,4 @@
-function generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSplit) {
+function generateCheckboxItems(student, dia, mes, ano, monthSplit, isMinor) {
     return student.schedules.reduce((acc, schedule) => {
         let checkboxItem = '';
         if (dia == schedule.day && mes == monthSplit[1] && ano == monthSplit[0]) {
@@ -14,7 +14,7 @@ function generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSp
                     <a href='javascript:;' style='margin-left:5px;' studentId=${student.studentId} day=${dia} data-toggle='tooltip' class='frequency-justification-icon  ${!schedule.fault ? 'hide' : ''}' title=''>
                         <span class='t-icon-annotation icon-color'></span>
                     </a>
-                    ${fundamentalMaior == 1 ? schedule.schedule+'°': ''}
+                    ${isMinor == false ? schedule.schedule+'°': ''}
                     <span class="frequency-checkbox-container" ${(!schedule.available ? "disabled" : "")}>
                         <input class='frequency-checkbox' type='checkbox'
                             ${(!schedule.available ? "disabled" : "")}
@@ -25,7 +25,7 @@ function generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSp
                             month='${mes}'
                             year='${ano}'
                             schedule='${schedule.schedule}'
-                            fundamentalMaior='${fundamentalMaior}'
+                            isMinor='${isMinor}'
                             ${justificationContainer}
                         />
                     </span>
@@ -34,18 +34,18 @@ function generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSp
         return acc + checkboxItem;
     }, '');
 }
-function generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit) {
+function generateStudentLines(data, dia, mes, ano, monthSplit, isMinor) {
     return data.students.reduce((line, student) => {
         return line + `
             <div class='justify-content--space-between t-padding-small--top t-padding-small--bottom' style="border-bottom:1px #e8e8e8 solid;">
                 <div>${student.studentName}</div>
                 <div style='display:flex;'>
-                    ${generateCheckboxItems(student, dia, mes, ano, fundamentalMaior, monthSplit)}
+                    ${generateCheckboxItems(student, dia, mes, ano, monthSplit, isMinor)}
                 </div>
             </div>`;
     }, '');
 }
-function generateScheduleDays(data, monthSplit, fundamentalMaior) {
+function generateScheduleDays(data, monthSplit, isMinor) {
     return data.scheduleDays.reduce((acc, scheduleDays) => {
         let dia = scheduleDays.day;
         let mes = monthSplit[1];
@@ -59,7 +59,7 @@ function generateScheduleDays(data, monthSplit, fundamentalMaior) {
             </div>
             <div class='ui-accordion-content'>
                 <div style='width: 100%; overflow-x:auto;'>
-                    ${generateStudentLines(data, dia, mes, ano, fundamentalMaior, monthSplit)}
+                    ${generateStudentLines(data, dia, mes, ano, monthSplit, isMinor)}
                 </div>
             </div>`;
     }, '');
@@ -69,16 +69,12 @@ function load() {
     if ($("#classroom").val() !== "Selecione a turma" && $("#month").val() !== "" && (!$("#disciplines").is(":visible") || $("#disciplines").val() !== "")) {
         $(".alert-required-fields, .alert-incomplete-data").hide();
         let monthSplit = $("#month").val().split("-");
-        let fundamentalMaior = Number(
-            $("#classroom option:selected").attr("fundamentalmaior")
-        );
         jQuery.ajax({
             type: "POST",
             url: "?r=classes/getFrequency",
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
-                fundamentalMaior: fundamentalMaior,
                 discipline: $("#disciplines").val(),
                 month: monthSplit[1],
                 year: monthSplit[0]
@@ -98,7 +94,7 @@ function load() {
                 if (data.valid) {
                     let accordion = $('<div id="accordion" class="t-accordeon-secondary"></div>');
 
-                    accordion.append(generateScheduleDays(data, monthSplit, fundamentalMaior))
+                    accordion.append(generateScheduleDays(data, monthSplit, data.isMinor))
                     $("#frequency-container").html(accordion).show();
 
                     $(function () {
@@ -148,8 +144,7 @@ $("#classroom").on("change", function () {
             url: "?r=classes/getMonthsAndDisciplines",
             cache: false,
             data: {
-                classroom: $("#classroom").val(),
-                fundamentalMaior: $("#classroom > option:selected").attr("fundamentalMaior")
+                classroom: $("#classroom").val()
             },
             beforeSend: function () {
                 $(".loading-frequency").css("display", "inline-block");
@@ -165,7 +160,7 @@ $("#classroom").on("change", function () {
                     });
                     $("#month option:first").attr("selected", "selected").trigger("change.select2");
 
-                    if ($("#classroom > option:selected").attr("fundamentalMaior") === "1") {
+                    if (data.isMinor == false) {
                         $("#disciplines").children().remove();
                         $("#disciplines").append(new Option("Selecione a Disciplina", ""));
                         $.each(data.disciplines, function (index, value) {
@@ -210,8 +205,7 @@ $(document).on("change", ".frequency-checkbox", function () {
             year: monthSplit[0],
             schedule: $(this).attr("schedule"),
             studentId: $(this).attr("studentId"),
-            fault: $(this).is(":checked") ? 1 : 0,
-            fundamentalMaior: $(this).attr("fundamentalMaior"),
+            fault: $(this).is(":checked") ? 1 : 0
         },
 
         beforeSend: function () {
@@ -245,7 +239,6 @@ $(document).on("click", ".frequency-justification-icon", function () {
     $("#justification-month").val(checkbox.attr("month"));
     $("#justification-year").val(checkbox.attr("year"));
     $("#justification-schedule").val(checkbox.attr("schedule"));
-    $("#justification-fundamentalmaior").val(checkbox.attr("fundamentalmaior"));
     $(".justification-text").val($(this).parent().find(".frequency-checkbox").attr("title"));
     $("#save-justification-modal").modal("show");
 });
@@ -266,7 +259,6 @@ $(document).on("click", ".btn-save-justification", function () {
             month: $("#justification-month").val(),
             year: $("#justification-year").val(),
             schedule: $("#justification-schedule").val(),
-            fundamentalMaior: $("#justification-fundamentalmaior").val(),
             justification: $(".justification-text").val(),
         },
         beforeSend: function () {

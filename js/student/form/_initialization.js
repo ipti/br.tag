@@ -144,7 +144,6 @@ $(document).on("change", "#show-student-civil-name", function () {
         $("#show-student-civil-name-box").hide();
     }
 });
-
 $('#copy-gov-id').click(function() {
     let govId = $('#StudentIdentification_gov_id').val();
     navigator.clipboard.writeText(govId);
