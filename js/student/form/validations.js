@@ -1107,7 +1107,7 @@ $(".save-student").click(function () {
     ) {
         error = true;
         message +=
-            "O campo <b>Etapa de ensino</b> é obrigatório.<br>";
+            "Quando a turma é multiseriada o campo <b>Etapa de Ensino</b> é obrigatório.<br>";
     }
 
     if ($("#errorNameIcon").css("display") == "inline-block") {
