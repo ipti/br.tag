@@ -2173,6 +2173,9 @@ $form = $this->beginWidget(
                                                             case "12":
                                                                 echo "<label class='t-badge-success'>Avançado</label>";
                                                                 break;
+                                                            case "13":
+                                                                echo "<label class='t-badge-success'>Reintegrado</label>";
+                                                                break;
                                                             default:
                                                                 echo "";
                                                         }
