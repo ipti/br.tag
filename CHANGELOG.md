@@ -1,6 +1,24 @@
-## [Versão 3.82.165]
+## [Versão 3.82.172]
 - Adicionado funcionalidade que permite manter informações na matrícula do aluno
 de um período no qual o aluno ficou afastado.
+
+## [Versão 3.81.171]
+- Retirando a obrigatóriedade do código da escola sede no formulário de escola
+
+## [Versão 3.81.170]
+- O relatório do Diário Eletrônico foi atualizado para incluir o nome das turmas correspondentes para cada aluno.
+
+## [Versão 3.81.169]
+- Modificando a visualização da etapa relacionada ao educacenso no formulário de etapas
+
+## [Versão 3.81.168]
+- View "enrollment_classroom" e relatórios de matrícula atualizadas.
+
+## [Versão 3.81.167]
+- Realizada correção na funcionalidade de frequência para o caso de alunos com situação de matrícula como transferido em turma.
+
+## [Versão 3.81.166]
+- Realizada correção do turno no quadro de horário.
 
 ## [Versão 3.81.165]
 - Adicionando redirecionamento para inconsistências de Unidade Gestora para o Sagres
@@ -8,19 +26,22 @@ de um período no qual o aluno ficou afastado.
 ## [Versão 3.81.164]
 - Adicionada aba para visualização das turmas dos professores na tela do professor
 
-## [Versão 3.80.164]
+## [Versão 3.81.164]
 - Adicionando o código na exibição da tabela de alunos
 
-## [Versão 3.80.163]
+## [Versão 3.81.163]
 - Adicionando o código na exibição da tabela de turmas
 
-## [Versão 3.80.162]
+## [Versão 3.81.162]
 - Adicionando o código na exibição da tabela de professores
+
+## [Versão 3.81.161]
+- Adicionado recuperações parciais
 
 ## [Versão 3.80.161]
 - Refatoradas variáveis para utilizar o post, através de uma função do Yii.
 - Modificada a ordem dos parâmetros da função getSchedulesFromMajorStage.
--
+
 ## [Versão 3.80.160]
 - Correção na opção da data máxima da função renderDatePickerFinal.
 
@@ -50,7 +71,6 @@ de um período no qual o aluno ficou afastado.
 ## [Versão 3.79.154]
 - Adicionada uma regra de validação para mostrar um erro caso tente cadastrar uma certidão inválida.
 
-## [Versão 3.79.153]
 ## [Versão 3.79.152]
 - Realizadas correções no módulo Sagres para evitar a contagem de CPFs de estudantes duplicados.
 

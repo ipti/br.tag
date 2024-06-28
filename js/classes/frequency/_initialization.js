@@ -42,6 +42,7 @@ function load() {
                 html += "<tr class='day-row sticky'><th class='sticky-column'></th>" + dayRow + "<tr class='checkbox-row'><th class='checkbox-row sticky-column'></th>" + checkboxRow + "</tr>";
                 html += "</thead></div><tbody class='t-accordion__body'>";
                 $.each(data.students, function (indexStudent, student) {
+
                     html += "<tr><td class='student-name sticky-column'>" + student.studentName + "</td>";
                     $.each(student.schedules, function (indexSchedule, schedule) {
                         var justificationContainer = "";
@@ -79,7 +80,7 @@ function load() {
 }
 
 $(document).on("click", ".frequency-checkbox-container", function (e) {
-    if (e.target === this && !$(this).hasClass("disabled")) {
+    if (e.target === this && !$(this).hasClass("disabled") && !$(this).find('input').attr('disabled')) {
         $(this).find(".frequency-checkbox").prop("checked", !$(this).find(".frequency-checkbox").is(":checked")).trigger("change");
     }
 });

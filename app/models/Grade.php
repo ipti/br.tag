@@ -10,9 +10,10 @@
  * @property integer $enrollment_fk
  * @property integer $discipline_fk
  * @property integer $grade_unity_modality_fk
+ * @property integer $grade_partial_recovery_fk
  *
  * The followings are the available model relations:
- * @property StudentEnrollment $enrollmentFk
+ * @property GradePartialRecovery $gradePartialRecoveryFk
  * @property GradeUnityModality $gradeUnityModalityFk
  * @property EdcensoDiscipline $disciplineFk
  * @property GradeConcept $gradeConceptFk
@@ -35,12 +36,12 @@ class Grade extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('enrollment_fk, discipline_fk, grade_unity_modality_fk', 'required'),
-			array('grade_concept_fk, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'numerical', 'integerOnly'=>true),
+			array('enrollment_fk, discipline_fk', 'required'),
+			array('grade_concept_fk, enrollment_fk, discipline_fk, grade_unity_modality_fk, grade_partial_recovery_fk', 'numerical', 'integerOnly'=>true),
 			array('grade', 'numerical'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, grade, grade_concept_fk, enrollment_fk, discipline_fk, grade_unity_modality_fk', 'safe', 'on'=>'search'),
+			array('id, grade, grade_concept_fk, enrollment_fk, discipline_fk, grade_unity_modality_fk, grade_partial_recovery_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -52,7 +53,7 @@ class Grade extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'enrollmentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'enrollment_fk'),
+			'gradePartialRecoveryFk' => array(self::BELONGS_TO, 'GradePartialRecovery', 'grade_partial_recovery_fk'),
 			'gradeUnityModalityFk' => array(self::BELONGS_TO, 'GradeUnityModality', 'grade_unity_modality_fk'),
 			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
 			'gradeConceptFk' => array(self::BELONGS_TO, 'GradeConcept', 'grade_concept_fk'),
@@ -71,6 +72,7 @@ class Grade extends CActiveRecord
 			'enrollment_fk' => 'Enrollment Fk',
 			'discipline_fk' => 'Discipline Fk',
 			'grade_unity_modality_fk' => 'Grade Unity Modality Fk',
+			'grade_partial_recovery_fk' => 'Grade Partial Recovery Fk',
 		);
 	}
 
@@ -98,6 +100,7 @@ class Grade extends CActiveRecord
 		$criteria->compare('enrollment_fk',$this->enrollment_fk);
 		$criteria->compare('discipline_fk',$this->discipline_fk);
 		$criteria->compare('grade_unity_modality_fk',$this->grade_unity_modality_fk);
+		$criteria->compare('grade_partial_recovery_fk',$this->grade_partial_recovery_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

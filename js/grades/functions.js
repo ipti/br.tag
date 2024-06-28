@@ -20,7 +20,7 @@ function initializeGradesMask() {
     });
 }
 
-function loadDisciplinesFromClassroom(classroomId, disciplineId) {
+function loadDisciplinesFromClassroom(classroomId, disciplineId, unityId) {
     $("#classroom").select2("val", classroomId);
     if (classroomId !== "") {
         $.ajax({
@@ -50,7 +50,7 @@ function loadDisciplinesFromClassroom(classroomId, disciplineId) {
                 $("#discipline").removeAttr("disabled");
 
                 if (disciplineId) {
-                    loadStudentsFromDiscipline(disciplineId);
+                    loadStudentsFromDiscipline(disciplineId, unityId);
                 }
             },
         });
@@ -59,9 +59,49 @@ function loadDisciplinesFromClassroom(classroomId, disciplineId) {
     }
 }
 
-function loadStudentsFromDiscipline(disciplineId) {
+function loadUnitiesFromClassroom(classroomId) {
+    if(classroomId !== "")
+    {
+        $.ajax({
+            type: "POST",
+            url: "?r=grades/getUnities",
+            cache: false,
+            data: {
+                classroom: classroomId,
+            },
+            beforeSend: function () {
+            $("#unities").attr("disabled", "disabled")
+            },
+            success: function (response) {
+                const data = JSON.parse(DOMPurify.sanitize(response));
+                const unitiesSelect = $("#unities");
+                unitiesSelect.empty();
+
+                const defaultOption = $('<option>', {
+                    value: "",
+                    text: "Selecione"
+                });
+                unitiesSelect.append(defaultOption);
+
+                $.each(data, function (key, value) {
+                    const option = $('<option>', {
+                        value: key,
+                        text: value
+                    });
+                    unitiesSelect.append(option);
+                });
+
+                unitiesSelect.prop("disabled", false);
+            }
+        })
+    } else {
+        $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
+    }
+}
+
+function loadStudentsFromDiscipline(disciplineId, unityId) {
     $("#discipline").select2("val", disciplineId);
-    if (disciplineId !== "") {
+    if (disciplineId !== "" && unityId !== "") {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
@@ -70,6 +110,7 @@ function loadStudentsFromDiscipline(disciplineId) {
             data: {
                 classroom: $("#classroom").val(),
                 discipline: $("#discipline").val(),
+                unity: $("#unities").val(),
             },
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");
@@ -81,6 +122,11 @@ function loadStudentsFromDiscipline(disciplineId) {
             success: function (data) {
                 data = JSON.parse(data);
                 const html = GradeTableBuilder(data).build();
+                let hrefPrintGrades = `/?r=forms/AtaSchoolPerformance&id=${$("#classroom").val()}`
+                $('.js-print-grades').find('a').attr('href',hrefPrintGrades);
+                $('.js-print-grades').show();
+                $('.js-unity-title').text($('select#unities').find('option:selected').text());
+
                 $(".js-grades-container").html(html);
                 if (data.isUnityConcept) {
                     $("#close-grades-diary").hide();
@@ -90,7 +136,17 @@ function loadStudentsFromDiscipline(disciplineId) {
             },
             error: function (xhr, status, error) {
                 const response = JSON.parse(xhr.responseText);
-                $(".js-grades-container").html("<div></div>");
+                const gradesNotFoundIMG = $("<img class='column'>");
+                gradesNotFoundIMG.attr('src', '/themes/default/img/grades/gradesNotFound.svg');
+                gradesNotFoundIMG.attr('alt', 'Não foram encontrados dados correspondentes aos critérios definidos');
+                const gradesNotFoundContainer = $("<div class='row flex-direction--column justify-content--center t-padding-large--top'></div>");
+                gradesNotFoundContainer.append(gradesNotFoundIMG)
+                gradesNotFoundContainer.append("<span class='column text-align--center' style='color:#a6b6c8' >Não foram encontrados dados correspondentes <br> aos critérios definidos.</span>");
+                gradesNotFoundContainer.append("<a class='column t-button-secondary t-margin-small--top  t-margin-none--right js-refresh' >Recarregar Página</a>");
+                gradesNotFoundContainer.find(".js-refresh").on("click", (e) => {
+                    location.reload();
+                })
+                $(".js-grades-container").html(gradesNotFoundContainer);
                 $(".js-grades-alert")
                     .addClass("alert-error")
                     .removeClass("alert-success")
@@ -113,9 +169,14 @@ function loadStudentsFromDiscipline(disciplineId) {
         $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     }
 }
+$('.js-refresh').on("click", function (e) {
+    location.reload();
+})
+
+
 
 function GradeTableBuilder(data) {
-    function buildStundentsRows(students, isUnityConcept, conceptOptions) {
+    function buildStundentsRows(students, isUnityConcept, conceptOptions, partialRecoveries) {
         return students
             .map(
                 (student) => template`
@@ -133,6 +194,9 @@ function GradeTableBuilder(data) {
                             isUnityConcept,
                             conceptOptions
                         )}
+                        ${partialRecoveries !== null ? buildPartialRecovery(
+                            student.partialRecoveries[0],
+                        ) : ''}
                         ${
                             isUnityConcept
                                 ? ""
@@ -166,7 +230,7 @@ function GradeTableBuilder(data) {
                 if (unity.grades.length > 1) {
                     const unityMedia = template`
                 <td>${unity.unityMedia ?? ""}</td>
-            `;
+                `;
 
                     unityRow.push(unityMedia);
                 }
@@ -177,7 +241,17 @@ function GradeTableBuilder(data) {
 
         return unitesGrade;
     }
+    function buildPartialRecovery(studentPartialRecoveries){
+        const grade = studentPartialRecoveries.grade.grade === null ? "" : studentPartialRecoveries.grade.grade
+        return  template`
+            <td class="grade-td">
+                <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
+            </td>
+            <td class="grade-td">
+                ${studentPartialRecoveries.recPartialResult != null ?studentPartialRecoveries.recPartialResult : ''}
+            </td>`;
 
+    }
     function buildInputOrSelect(isUnityConcept, grade, conceptOptions) {
         if (isUnityConcept) {
             const optionsValues = Object.values(conceptOptions);
@@ -220,6 +294,7 @@ function GradeTableBuilder(data) {
     function build() {
         const spaceByColumnGrade = !data.isUnityConcept ? 3 : 2;
         const concept = data.isUnityConcept ? "1" : "0";
+        const partialRecoveryColumns = data.partialRecoveryColumns
         const modalityColumns = data.unityColumns.reduce((acc, e) => {
             if (e.modalities.length > 1) {
                 return [
@@ -234,7 +309,7 @@ function GradeTableBuilder(data) {
         const tableColspan = numModalities + spaceByColumnGrade;
 
         return template`
-            <table class="grades-table" concept="${concept}">
+            <table class="grades-table tag-table-secondary remove-vertical-borders remove-border-radius" concept="${concept}">
             <colgroup>
             </colgroup>
             <colgroup>
@@ -255,47 +330,40 @@ function GradeTableBuilder(data) {
             <col span="2"/>
             </colgroup>
                 <thead>
-                    <tr>
-                        <th colspan="${tableColspan}" class="table-title">
-                            Notas
-                        </th>
-                    </tr>
-                    <tr>
-                        <th style="min-width: 250px"></th>
-                        ${data.unityColumns
-                            .map(
-                                (element, index) => `<th colspan='${
-                                    element.colspan > 1
-                                        ? parseInt(element.colspan) + 1
-                                        : element.colspan
-                                }'>
-                                   ${element.name}
-                                </th>`
-                            )
-                            .join("\n")}
-                        ${!data.isUnityConcept ? `<th colspan='2'></th>` : ""}
-                    </tr>
                     <tr class="modality-row">
-                        <th>Aluno(a)</th>
+                        <th style="width:266px">Aluno(a)</th>
                         ${modalityColumns
                             .map(
                                 (element) =>
-                                    `<th style="min-width: 50px;  font-size: 80%">${element}</th>`
+                                    `<th style="min-width: 50px;%">${element}</th>`
                             )
                             .join("\n")}
+                            ${partialRecoveryColumns !== null ?
+                                template`<th style="min-width: 50px; font-weight: bold;">
+                                ${partialRecoveryColumns.name}
+                                </th>
+                                <th style="min-width: 50px; font-weight: bold;">
+                                    Média pós recuperação
+                                </th>`
+                                 :
+                                ''}
                         ${
                             !data.isUnityConcept
-                                ? `<th style="font-size: 80%; font-weight: bold;">Média Anual</th>`
+                                ? `<th style="font-weight: bold;">Média Anual</th>`
                                 : ""
                         }
-                        <th style="font-size: 80%; font-weight: bold;">Resultado</th>
+
+
+
+                        <th style="font-weight: bold;">Resultado</th>
                     </tr>
                 </thead>
                 <tbody>
                     ${buildStundentsRows(
                         data.students,
                         data.isUnityConcept,
-                        data.concepts
+                        data.concepts,
+                        data.partialRecoveryColumns
                     )}
                 </tbody>
             </table>`;
