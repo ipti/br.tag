@@ -88,7 +88,10 @@ class DefaultController extends Controller
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
             if ($model->save()) {
-                $this->redirect(array('update', 'id' => $model->id));
+                $msg = 'Etapa atualizada com sucesso!';
+
+                Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+                $this->redirect(array('index'));
             }
         }
 

@@ -44,6 +44,7 @@
                     <?php echo $form->dropDownList($model,'edcenso_associated_stage_id',
                         Chtml::listData(EdcensoStageVsModality::model()->findAll("is_edcenso_stage = 1"), 'id', 'name'),
                         array(
+                            'prompt' => "Selecione...",
                             'id' => "stage",
                             'class' => 't-field-select__input select2-container'
                         )
