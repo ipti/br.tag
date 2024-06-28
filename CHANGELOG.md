@@ -1,3 +1,7 @@
+## [Versão 3.82.172]
+- Adicionado funcionalidade que permite manter informações na matrícula do aluno
+de um período no qual o aluno ficou afastado.
+
 ## [Versão 3.81.171]
 - Retirando a obrigatóriedade do código da escola sede no formulário de escola
 
@@ -14,7 +18,7 @@
 - Realizada correção na funcionalidade de frequência para o caso de alunos com situação de matrícula como transferido em turma.
 
 ## [Versão 3.81.166]
-- Realizada correção do turno no quadro de horário. 
+- Realizada correção do turno no quadro de horário.
 
 ## [Versão 3.81.165]
 - Adicionando redirecionamento para inconsistências de Unidade Gestora para o Sagres

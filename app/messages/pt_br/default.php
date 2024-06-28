@@ -597,6 +597,8 @@ return array(
     'Observation' => 'Observação',
     'daily_order' => 'Ordem no Diário',
     'Transfer Date' => 'Data da Transferência',
+    'Class Transfer Date' => 'Data de Transferência Externa',
+    'School Readmission Date' => 'Data de Rematrícula',
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',

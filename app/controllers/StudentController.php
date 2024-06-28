@@ -523,7 +523,6 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
 
                             $hasDuplicate = $modelEnrollment->alreadyExists();
-
                             if ($modelEnrollment->validate() && !$hasDuplicate) {
                                 $saved = $modelEnrollment->save();
                             }
