@@ -88,12 +88,16 @@ class FoodNoticeController extends Controller
     {
         $model = new FoodNotice;
         $request = Yii::app()->request->getPost('notice');
+        $name = Yii::app()->request->getPost('name');
+        $date1 = Yii::app()->request->getPost('date');
+        $noticeItems = Yii::app()->request->getPost('noticeItems');
+        $noticePdfFile = $_FILES['noticePdf'];
 
         if ($request != null) {
             $date = strtotime(str_replace('/', '-', $request["date"]));
-
             $model->name = $request["name"];
             $model->date = date('Y-m-d', $date);
+
             if ($model->save()) {
                 foreach ($request["noticeItems"] as $item) {
                     $modelNoticeItem = new FoodNoticeItem;

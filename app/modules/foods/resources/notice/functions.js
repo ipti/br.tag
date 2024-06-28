@@ -45,10 +45,18 @@ $(".js-submit").on("click", function () {
             'food_fk': item[4]
         });
     });
+    let noticePdfFile = $(".js-notice_pdf")[0].files[0];
+
+    var formData = new FormData();
+    formData.append("name", $(".js-notice-name").val());
+    formData.append("date", $(".js-date").val());
+    formData.append("noticePdf", noticePdfFile);
+    formData.append("noticeItems", JSON.stringify(transformedData));
 
     let notice = {
         name: $(".js-notice-name").val(),
         date: $(".js-date").val(),
+        noticePdf: noticePdfFile,
         noticeItems: transformedData,
     }
 
@@ -67,11 +75,13 @@ $(".js-submit").on("click", function () {
     $.ajax({
         url: "?r=foods/foodnotice/create",
         type: "POST",
-        data: {
-            notice: notice
-        }
+        data : formData,
+        contentType : false,
+		processData : false
     }).success(function (response) {
          window.location.href = "?r=foods/foodnotice/index";
+    }).error(function (jqXHR, textStatus, errorThrown) {
+        console.error("Erro: " + textStatus, errorThrown);
     })
 
 })
