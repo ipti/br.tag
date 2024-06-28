@@ -473,9 +473,10 @@ class ClassesController extends Controller
                         $available = date("Y-m-d") >= $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
                         $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
 
-                        $startDate = date_create_from_format('d/m/Y', $enrollment->school_readmission_date);
-                        $transferedDate = date_create_from_format('d/m/Y', $enrollment->class_transfer_date);
-                        $scheduleDate = date_create_from_format('d/m/Y', $date);
+                        $dateFormat = 'd/m/Y';
+                        $startDate = date_create_from_format($dateFormat, $enrollment->school_readmission_date);
+                        $transferedDate = date_create_from_format($dateFormat, $enrollment->class_transfer_date);
+                        $scheduleDate = date_create_from_format($dateFormat, $date);
 
                         array_push($array["schedules"], [
                             "available" => $available,
