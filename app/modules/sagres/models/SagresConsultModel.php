@@ -375,7 +375,7 @@ class SagresConsultModel
         $query = "SELECT COUNT(*) as count
                   FROM student_enrollment se
                   JOIN classroom c ON se.classroom_fk = c.id
-                  WHERE se.student_fk = :student_fk AND c.school_year = :year";
+                  WHERE se.student_fk = :student_fk and c.aee = 1 and se.status = 1 and c.school_year = :year";
     
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":student_fk", $student_fk);
@@ -407,7 +407,7 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = '<strong>MATRÍCULA</strong>';
             $inconsistencyModel->school = $this->getSchoolName($student['school_inep_id_fk']);
-            $inconsistencyModel->description = 'Estudante <strong>' .  $infoStudent['name'] . '</strong> com CPF <strong>' . $infoStudent['cpf'] . '</strong> está matriculado em mais de uma turma regular ou regular e AEE';
+            $inconsistencyModel->description = 'Estudante <strong>' .  $infoStudent['name'] . '</strong> com CPF <strong>' . $infoStudent['cpf'] . '</strong> está matriculado em mais de uma turma regular ou regular e AEE ou em escolas diferentes';
             $inconsistencyModel->action = 'Um aluno não deve estar matriculado simultaneamente em turmas regulares e turmas AEE';
             $inconsistencyModel->identifier = '9';
             $inconsistencyModel->idStudent = $student['student_fk'];
@@ -1201,7 +1201,7 @@ class SagresConsultModel
                 ->setEspecialidade($professional['especialidade'])
                 ->setIdEscola($professional['idEscola'])
                 ->setFundeb($professional['fundeb'])
-                ->setAtendimento($this->getAttendances($professional['id_professional'], $month));
+                ->setAtendimento($this->getAttendances($professional['id_professional'], $month, $referenceYear));
 
             $professionalList[] = $professionalType;
 
@@ -1237,7 +1237,7 @@ class SagresConsultModel
         return $professionalList;
     }
 
-    public function getAttendances($professionalId, $month)
+    public function getAttendances($professionalId, $month, $year)
     {
         $attendanceList = [];
 
@@ -1248,9 +1248,15 @@ class SagresConsultModel
                     attendance
                 WHERE
                     professional_fk = :professionalId
-                    and MONTH(`date`) = " . $month . ";";
+                    AND YEAR(date) = :year
+                    AND MONTH(date) = :month";
 
-        $attendances = Yii::app()->db->createCommand($query)->bindValue(":professionalId", $professionalId)->queryAll();
+        $command = Yii::app()->db->createCommand($query);
+        $command->bindValue(":professionalId", $professionalId);
+        $command->bindValue(":year", $year);
+        $command->bindValue(":month", $month);
+
+        $attendances = $command->queryAll();
 
         foreach ($attendances as $attendance) {
             $attendanceType = new AtendimentoTType();
@@ -1821,8 +1827,14 @@ class SagresConsultModel
         });
         $serializer = $serializerBuilder->build();
 
-        return $serializer->serialize($sagresEduObject, 'xml'); // serialize the Object and return SagresEdu XML
+        $xmlString = $serializer->serialize($sagresEduObject, 'xml');
 
+        return $this->clearSpecialCharacters($xmlString);
+
+    }
+
+    function clearSpecialCharacters($string) {
+        return preg_replace('/[^\x09\x0A\x0D\x20-\x7E]/', '', $string);
     }
 
     public function actionExportSagresXML($xml)
