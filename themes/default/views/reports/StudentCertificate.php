@@ -4,7 +4,7 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
-$this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
+// $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 if (!isset($school)) {
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -21,7 +21,6 @@ $months = array(
     '09' => 'Setembro', '10' => 'Outubro', '11' => 'Novembro', '12' => 'Dezembro'
 );
 $monthName = $months[$month];
-
 
 ?>
 <div class="pageA4H">
@@ -83,14 +82,13 @@ $monthName = $months[$month];
     <?php $this->renderPartial('footer'); ?>
 </div>
 
-<div class="container-school-record" style="page-break-before: always;">
-<table class="school-record-table">
-
+<div class="container-school-record"> <!--  style="page-break-before: always;" -->
+    <div class = "table-contant" style="display: flex; align-items: center; justify-content: center;">
+    <table class="school-record-table" >
         <tr>
-            <th rowspan="8" class="vertical-header">VIDA ESCOLAR</th>
-            <th colspan="20">DISCIPLINAS</th>
-
-            <th colspan="20" rowspan="1">NOME DO ESTABELECIMENTO</th>
+            <th rowspan="11" class="vertical-header vida-escolar"> VIDA ESCOLAR </th>
+            <th colspan="20" class="th-disciplinas"> DISCIPLINAS </th>
+            <th rowspan="1" class="estabelecimento"> NOME DO ESTABELECIMENTO </th>
         </tr>
         <tr>
             <th class="vertical-header">IDADE</th>
@@ -113,13 +111,9 @@ $monthName = $months[$month];
             <th class="vertical-header"></th>
             <th class="vertical-header">MÉDIA ANUAL</th>
             <th class="vertical-header">ANO</th>
-
-            <th rowspan="5" colspan="" class="vertical-header"></th>
-
-
-
         </tr>
-        <?php for ($i = 0; $i < 6; $i++): ?>
+
+        <?php for ($i = 0; $i < 9; $i++): ?>
         <tr>
             <td></td>
             <td></td>
@@ -141,11 +135,35 @@ $monthName = $months[$month];
             <td></td>
             <td></td>
             <td></td>
-            
+            <td></td>           
         </tr>
         <?php endfor; ?>
+            <tr>
+                <td></td>
+                <td colspan="20" ></td>
+                <th></th>
+            </tr>
+            <tr class = "testerows">
+                <td></td>
+                <td colspan="20" ></td>
+                <th rowspan="1" > Autentificação </th>
+            </tr>
+            <?php for ($i = 0; $i < 9; $i++): ?>
+            <tr>
+                <td></td>
+                <td colspan="20" ></td>
+            </tr>
+        <?php endfor; ?>
+
+
+
+
+
     </table>
-<br> <br> <br> <br> <br> 
+            </div>
+
+    
+<br> <br> <br> <br> <br>
 
 
 <script>
@@ -191,7 +209,6 @@ $monthName = $months[$month];
         display: flex;
         align-items: center;
         justify-content: center;
-        align-items: center;
     }
     p {
         margin: 5px 0;
@@ -220,61 +237,71 @@ $monthName = $months[$month];
         margin-top: 20px;
     }
     .school-record-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    table-layout: fixed;
-    border: 2px solid #000;
-}
+        width: 90%;
+        border-collapse: collapse;
+        margin: 50px;
+        /* table-layout: fixed; */
+        border: 2px solid #000;
+    }
 
-.school-record-table th, .school-record-table td {
-    border: 1px solid #000;
-    text-align: center;
-    padding: 5px;
-}
+    .school-record-table th, .school-record-table td {
+        border: 1px solid #000;
+        text-align: center;
+        padding: 5px;
+        width: 40px;
+    }
 
-.school-record-table th.vertical-header {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    width: 40px;
-}
+    .school-record-table th.vertical-header {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        min-width: 10px;
+    }
 
-.school-record-table th, .school-record-table td {
-    width: 80px; /* Adjust as needed */
-}
+    .school-record-table thead th {
+        background-color: #f0f0f0;
+        font-weight: bold;
+        vertical-align: middle;
+    }
 
-.school-record-table thead th {
-    background-color: #f0f0f0;
-    font-weight: bold;
-    vertical-align: middle;
-}
+    .school-record-table tbody td {
+        height: 11px;
+    }
 
-.school-record-table tbody td {
-    height: 40px; /* Adjust as needed */
-}
+    .container-school-record {
+        page-break-before: always;
+        margin-top: 20px;
+        display: flex;
 
-.container-school-record {
-    page-break-before: always;
-    margin-top: 20px;
-}
+    }
 
-.signature-section {
-    text-align: center;
-    margin-top: 20px;
-}
+    .signature-section {
+        text-align: center;
+        margin-top: 20px;
+    }
 
-.signature-section p {
-    margin: 5px 0;
-    font-weight: bold;
-}
+    .signature-section p {
+        margin: 5px 0;
+        font-weight: bold;
+    }
 
-.school-record-table thead th[rowspan="2"] {
-    height: 80px;
-}
+    .school-record-table thead th[rowspan="2"] {
+        height: 80px;
+    }
 
-.school-record-table thead th[colspan="12"] {
-    text-align: center;
-}
+    .school-record-table thead th[colspan="12"] {
+        text-align: center;
+    }
+
+    .school-record-table th.estabelecimento {
+        width: 387px;
+    }
+    .school-record-table th.th-disciplinas {
+        width: 300px;
+    }
+
+    .school-record-table th.vida-escolar {
+        width: 42px;
+    }
 
 
     @media print {

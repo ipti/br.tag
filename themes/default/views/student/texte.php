@@ -1,162 +1,4 @@
 Observe esse código abaixo:
-<table style="margin: 0 0 0 25px; font-size: 8px; width: calc(100% - 51px);"
-                   class="table table-bordered report-table-empty">
-                <thead>
-                    <tr>
-    <td colspan="<?= $diciplinesColumnsCount ?>" style="text-align: center">VIDA ESCOLAR</td>
-    <td colspan="4">&nbsp;</td>
-    <td colspan="2" style="text-align: center">NOME DO ESTABELECIMENTO</td>
-</tr>
-                    <tr>
-                        <td style="text-align: center; min-width: 90px !important;">PARTESDO CURRÍCULO</td>
-                        <?php if (count($baseDisciplines) > 0) {?>
-                        <td colspan="<?= count($baseDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:150px;">BASE
-                            NACIONAL
-                            COMUM
-                        </td>
-                        <?php } ?>
-                        <?php if (count($diversifiedDisciplines) > 0) {?>
-                        <td colspan="<?= count($diversifiedDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:100px;">PARTE
-                            DIVERSIFICADA
-                        </td>
-                        <?php } ?>
-                        <td rowspan="2" class="vertical-text">
-                            <div>DIAS&nbsp;LETIVOS</div>
-                        </td>
-                        <td rowspan="2" class="vertical-text">
-                            <div>CARGA&nbsp;HORÁRIA</div>
-                        </td>
-                        <td rowspan="2" class="vertical-text">
-                            <div>Nº&nbsp;DE&nbsp;FALTAS</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="vertical-text">
-                            <?php if(TagUtils::isInstance("BUZIOS")): ?>
-                                <div>TRIMESTRES</div>
-                            <?php else: ?>
-                                <div>UNIDADES</div>
-                            <?php endif; ?>
-                        </td>
-                        <?php foreach ($baseDisciplines as $name): ?>
-                            <td class="vertical-text">
-                                <div><?= classroomDisciplineLabelResumeArray($name) ?></div>
-                            </td>
-                        <?php endforeach; ?>
-                        <?php foreach ($diversifiedDisciplines as $name): ?>
-                            <td class="vertical-text">
-                                <div><?= classroomDisciplineLabelResumeArray($name) ?></div>
-                            </td>
-                        <?php endforeach; ?>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $conceptUnities = false;
-                    for($i=1;$i<=count($unities);$i++) {?>
-                        <tr>
-                            <td><?= strtoupper($unities[$i-1]->name) ?></td>
-                            <?php
-                            $gradeResultFaults = 0;
-                            if ($unities[$i-1]->type == 'UC') {
-                                $conceptUnities = true;
-
-                            }
-                            for($j=0; $j < $diciplinesColumnsCount; $j++) {
-                                $gradeResultFaults += $result[$j]['grade_result']['grade_faults_'.$i];
-                                ?>
-                                <?php if ($unities[$i-1]->type == 'RF') { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['rec_final'] ?></td>
-                                <?php } else if ($unities[$i-1]->type == 'UC') { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['grade_concept_'.$i] ?></td>
-                                <?php } else if ($result[$j]['grade_result']['grade_'.$i] < $result[$j]['grade_result']['rec_bim_'.$i]) { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['rec_bim_'.$i] ?></td>
-                                <?php } else { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['grade_'.$i] ?></td>
-                                <?php } ?>
-                            <?php }?>
-                            <?php if ($unities[$i-1]->type != 'RF') { ?>
-                                <td style="text-align: center;"><?= $school_days[$i-1]?></td>
-                                <td style="text-align: center;"><?= $workload[$i-1]?></td>
-                                <td style="text-align: center;"><?= $gradeResultFaults == 0 ? $faults[$i-1] : $gradeResultFaults ?></td>
-                            <?php } else { ?>
-                                <td style="text-align: center;"></td>
-                                <td style="text-align: center;"></td>
-                                <td style="text-align: center;"></td>
-                            <?php } ?>
-                        </tr>
-                    <?php }?>
-                </tbody>
-
-                <!-- <tr>
-                    <td colspan="1">MÉDIA ANUAL</td>
-                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;"><?= $result[$i]['final_media']?></td>
-                    <?php }?>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr> -->
-                <!-- <tr>
-                    <td colspan="1">NOTA DA PROVA FINAL</td>
-                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;"><?= end($result[$i]['grades'])->grade?></td>
-                    <?php }?>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr> -->
-                <tr>
-                    <td colspan="1">MÉDIA FINAL</td>
-                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;font-weight:bold;"><?= ($conceptUnities ? '' : $result[$i]['final_media']) ?></td>
-                    <?php }?>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td style="text-align:right;" colspan="1">TOTAL DE AULAS DADAS</td>
-                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;"><?= $result[$i]['total_number_of_classes']?></td>
-                    <?php }?>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td style="text-align:right;" colspan="1">TOTAL DE FALTAS</td>
-                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;"><?= $result[$i]['total_faults']?></td>
-                    <?php }?>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td style="text-align:right;" colspan="1">FREQUÊNCIAS %</td>
-                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) {?>
-                        <td style="text-align: center;"><?= is_nan($result[$i]['frequency_percentage']) || $result[$i]['frequency_percentage'] < 0 ? "" : ceil($result[$i]['frequency_percentage']) . "%" ?></td>
-                    <?php }?>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-        
-    </table>
-
-    Como modificar o código:<tr>
-                        <td colspan="<?= $diciplinesColumnsCount+4 ?>" style="text-align: center">FICHA DE NOTAS</td>
-                    </tr>
-
-
-    para deixar a tabela assim:
-
-| vida escolar|_____|_____|___________________________________________________________________________________|_____________________________________|________________________________________________________|____________|__________|nome do estabelecimento|
-
-
-
-Observe o código abaixo:
 
 <?php
 
@@ -181,7 +23,6 @@ $months = array(
     '09' => 'Setembro', '10' => 'Outubro', '11' => 'Novembro', '12' => 'Dezembro'
 );
 $monthName = $months[$month];
-
 
 ?>
 <div class="pageA4H">
@@ -242,9 +83,90 @@ $monthName = $months[$month];
 
     <?php $this->renderPartial('footer'); ?>
 </div>
-<div class="container-school-record" style="page-break-before: always;">
-    <p>-----------------------------------------------hello word---------------------------------------------</p>
-</div>
+
+<div class="container-school-record" style="page-break-before: always;"> <!--  style="page-break-before: always;" -->
+    <div class = "table-contant" style="display: flex; align-items: center; justify-content: center;">
+    <table class="school-record-table" >
+        <tr>
+            <th rowspan="11" class="vertical-header vida-escolar"> VIDA ESCOLAR </th>
+            <th colspan="20" class="th-disciplinas"> DISCIPLINAS </th>
+            <th rowspan="1" class="estabelecimento"> NOME DO ESTABELECIMENTO </th>
+        </tr>
+        <tr>
+            <th class="vertical-header">IDADE</th>
+            <th class="vertical-header">SÉRIE</th>
+            <th class="vertical-header">LÍNGUA PORTUGUESA</th>
+            <th class="vertical-header">MATEMÁTICA</th>
+            <th class="vertical-header">CIÊNCIAS</th>
+            <th class="vertical-header">HISTÓRIA</th>
+            <th class="vertical-header">GEOGRAFIA</th>
+            <th class="vertical-header">LÍNGUA ESTRANGEIRA</th>
+            <th class="vertical-header">ARTE</th>
+            <th class="vertical-header">FILOSOFIA</th>
+            <th class="vertical-header">ÉTICA E CIDADANIA</th>
+            <th class="vertical-header">ENSINO RELIGIOSO</th>
+            <th class="vertical-header">EDUCAÇÃO FÍSICA</th>
+            <th class="vertical-header"></th>
+            <th class="vertical-header"></th>
+            <th class="vertical-header"></th>
+            <th class="vertical-header"></th>
+            <th class="vertical-header"></th>
+            <th class="vertical-header">MÉDIA ANUAL</th>
+            <th class="vertical-header">ANO</th>
+        </tr>
+
+        <?php for ($i = 0; $i < 9; $i++): ?>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>           
+        </tr>
+        <?php endfor; ?>
+            <tr>
+                <td></td>
+                <td colspan="20" ></td>
+                <th></th>
+            </tr>
+            <tr class = "testerows">
+                <td></td>
+                <td colspan="20" ></td>
+                <th rowspan="1" > Autentificação </th>
+            </tr>
+            <?php for ($i = 0; $i < 9; $i++): ?>
+            <tr>
+                <td></td>
+                <td colspan="20" ></td>
+            </tr>
+        <?php endfor; ?>
+
+
+
+
+
+    </table>
+            </div>
+
+    
+<br> <br> <br> <br> <br>
+
 
 <script>
     function imprimirPagina() {
@@ -289,7 +211,6 @@ $monthName = $months[$month];
         display: flex;
         align-items: center;
         justify-content: center;
-        align-items: center;
     }
     p {
         margin: 5px 0;
@@ -317,6 +238,73 @@ $monthName = $months[$month];
         gap: 200px;
         margin-top: 20px;
     }
+    .school-record-table {
+        width: 90%;
+        border-collapse: collapse;
+        margin: 50px;
+        /* table-layout: fixed; */
+        border: 2px solid #000;
+    }
+
+    .school-record-table th, .school-record-table td {
+        border: 1px solid #000;
+        text-align: center;
+        padding: 5px;
+        width: 40px;
+    }
+
+    .school-record-table th.vertical-header {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        min-width: 10px;
+    }
+
+    .school-record-table thead th {
+        background-color: #f0f0f0;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+
+    .school-record-table tbody td {
+        height: 15px;
+    }
+
+    .container-school-record {
+        page-break-before: always;
+        margin-top: 20px;
+        display: flex;
+
+    }
+
+    .signature-section {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .signature-section p {
+        margin: 5px 0;
+        font-weight: bold;
+    }
+
+    .school-record-table thead th[rowspan="2"] {
+        height: 80px;
+    }
+
+    .school-record-table thead th[colspan="12"] {
+        text-align: center;
+    }
+
+    .school-record-table th.estabelecimento {
+        width: 387px;
+    }
+    .school-record-table th.th-disciplinas {
+        width: 300px;
+    }
+
+    .school-record-table th.vida-escolar {
+        width: 42px;
+    }
+
 
     @media print {
         .hidden-print {
@@ -330,167 +318,4 @@ $monthName = $months[$month];
 </style>
 
 
-
-Como fazer para adicionar uma tabela com as seguintes configurações, observe que existe uma separa~]ao entre linhas ___ e entre colunas |
-
-| vida escolar|_____|_____|___________________________________________________________________________________|_____________________________________|________________________________________________________|____________|__________|nome do estabelecimento|
-|             |idade|série|Língua Portuguesa| matemática|ciências| história | Geografia|LÍNGUA ESTRANGEIRA    | arte | filosofia |ÉTICA E CIDADANIA | ENSINO RELIGIOSO | EDUCAÇÃO FÍSICA |   |   |   |   |   |Média Anual |Ano       |                       |
-|             |_____|_____|_________________|___________|________|__________|__________|______________________|______|___________|__________________|__________________|_________________|___|___|___|___|___|____________|__________|_______________________|
-|             |_____|_____|_________________|___________|________|__________|__________|______________________|______|___________|__________________|__________________|_________________|___|___|___|___|___|____________|__________|_______________________|
-|             |_____|_____|_________________|___________|________|__________|__________|______________________|______|___________|__________________|__________________|_________________|___|___|___|___|___|____________|__________|_______________________|
-|             |_____|_____|_________________|___________|________|__________|__________|______________________|______|___________|__________________|__________________|_________________|___|___|___|___|___|____________|__________|_______________________|
-|             |_____|_____|_________________|___________|________|__________|__________|______________________|______|___________|__________________|__________________|_________________|___|___|___|___|___|____________|__________|_______________________|
-|             |_____|_____|_________________|___________|________|__________|__________|______________________|______|___________|__________________|__________________|_________________|___|___|___|___|___|____________|__________|_______________________|
-|             |_____|_____|_________________|___________|________|__________|__________|______________________|______|___________|__________________|__________________|_________________|___|___|___|___|___|____________|__________|_______________________|
-|_____________|_____|_____|_________________|___________|________|__________|__________|______________________|______|___________|__________________|__________________|_________________|___|___|___|___|___|____________|__________|_______________________|
-|_____________|______________________________________________________________________________________________________________________________________________________________________________________________________________________|_______________________|
-|_____________|______________________________________________________________________________________________________________________________________________________________________________________________________________________|  Autentificação       |
-|_____________|______________________________________________________________________________________________________________________________________________________________________________________________________________________|                       |
-|_____________|______________________________________________________________________________________________________________________________________________________________________________________________________________________|                       |
-|_____________|______________________________________________________________________________________________________________________________________________________________________________________________________________________|                       |
-|_____________|______________________________________________________________________________________________________________________________________________________________________________________________________________________|_______________________|
-
-Colocar<div class="container-school-record" style="page-break-before: always;">
-    <p>-----------------------------------------------hello word---------------------------------------------</p>
-</div>
-
-
-Observe esse código:
-<table class="school-record-table">
-            <tr>
-                <th rowspan="8" class="vertical-header">VIDA ESCOLAR</th>
-                <th colspan="20">DISCIPLINAS</th>
-                <th colspan="20" >NOME DO ESTABELECIMENTO</th>
-            </tr>
-            <tr>
-                <th class="vertical-header">IDADE</th>
-                <th class="vertical-header">SÉRIE</th>
-                <th class="vertical-header">LÍNGUA PORTUGUESA</th>
-                <th class="vertical-header">MATEMÁTICA</th>
-                <th class="vertical-header">CIÊNCIAS</th>
-                <th class="vertical-header">HISTÓRIA</th>
-                <th class="vertical-header">GEOGRAFIA</th>
-                <th class="vertical-header">LÍNGUA ESTRANGEIRA</th>
-                <th class="vertical-header">ARTE</th>
-                <th class="vertical-header">FILOSOFIA</th>
-                <th class="vertical-header">ÉTICA E CIDADANIA</th>
-                <th class="vertical-header">ENSINO RELIGIOSO</th>
-                <th class="vertical-header">EDUCAÇÃO FÍSICA</th>
-                <th class="vertical-header"></th>
-                <th class="vertical-header"></th>
-                <th class="vertical-header"></th>
-                <th class="vertical-header"></th>
-                <th class="vertical-header"></th>
-                <th class="vertical-header">MÉDIA ANUAL</th>
-                <th class="vertical-header">ANO</th>
-
-            </tr>
-
-        <?php for ($i = 0; $i < 6; $i++): ?>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            <?php endfor; ?>
-    </table>
-
-    <br><br><br><br>
-</div>
-
-
-
-Observe esse código:
-
-
-<div class="container-school-record" style="page-break-before: always;">
-<table class="school-record-table">
-
-        <tr>
-            <th rowspan="8" class="vertical-header">VIDA ESCOLAR</th>
-            <th colspan="20">DISCIPLINAS</th>
-
-            <th colspan="20" rowspan="1">NOME DO ESTABELECIMENTO</th>
-        </tr>
-        <tr>
-            <th class="vertical-header">IDADE</th>
-            <th class="vertical-header">SÉRIE</th>
-            <th class="vertical-header">LÍNGUA PORTUGUESA</th>
-            <th class="vertical-header">MATEMÁTICA</th>
-            <th class="vertical-header">CIÊNCIAS</th>
-            <th class="vertical-header">HISTÓRIA</th>
-            <th class="vertical-header">GEOGRAFIA</th>
-            <th class="vertical-header">LÍNGUA ESTRANGEIRA</th>
-            <th class="vertical-header">ARTE</th>
-            <th class="vertical-header">FILOSOFIA</th>
-            <th class="vertical-header">ÉTICA E CIDADANIA</th>
-            <th class="vertical-header">ENSINO RELIGIOSO</th>
-            <th class="vertical-header">EDUCAÇÃO FÍSICA</th>
-            <th class="vertical-header"></th>
-            <th class="vertical-header"></th>
-            <th class="vertical-header"></th>
-            <th class="vertical-header"></th>
-            <th class="vertical-header"></th>
-            <th class="vertical-header">MÉDIA ANUAL</th>
-            <th class="vertical-header">ANO</th>
-        </tr>
-        
-        <?php for ($i = 0; $i < 6; $i++): ?>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <?php endfor; ?>
-    </table>
-<br> <br> <br> <br> <br> 
-
-Como fazer para adicionar as linhas embaixo do NOME DO ESTABELECIMENTO
-assim como em DISCIPLINAS.
-
-Além disso, preciso adicionar mais linha embaixo de vida escolar. Observe a imagem para mais detalhes
-
+Como fazer para que quando imprimir, imprima uma embaixo da outra pois imprime duas outras forlhas brancas e eu não quero isso
