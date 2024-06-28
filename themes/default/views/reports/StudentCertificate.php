@@ -23,6 +23,9 @@ $months = array(
 $monthName = $months[$month];
 
 ?>
+
+
+
 <div class="pageA4H">
     <div style="text-align: center;">
         <div style="position: relative; display: inline-block;">
@@ -154,17 +157,10 @@ $monthName = $months[$month];
                 <td colspan="20" ></td>
             </tr>
         <?php endfor; ?>
-
-
-
-
-
     </table>
-            </div>
-
-    
-<br> <br> <br> <br> <br>
-
+</div>
+ 
+<br>
 
 <script>
     function imprimirPagina() {

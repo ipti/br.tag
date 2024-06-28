@@ -7,6 +7,8 @@ $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentGradesReport/_initiali
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
+
+
 function classroomDisciplineLabelResumeArray($id) {
     $disciplinas = array(
         1 => 'Química',
@@ -55,9 +57,19 @@ function classroomDisciplineLabelResumeArray($id) {
         return EdcensoDiscipline::model()->findByPk($id)->name;
     }
 }
-$diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines); // contador com a soma do total de disciplinas da matriz
+$diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines);
 ?>
 
+
+<?php
+foreach ($baseDisciplines as $name):
+
+$dados = classroomDisciplineLabelResumeArray($name);
+CVarDumper::dump($dados, 10, true);
+endforeach;
+
+
+?>
 <div class="row-fluid hidden-print">
     <div class="span12">
         <div class="buttons">
