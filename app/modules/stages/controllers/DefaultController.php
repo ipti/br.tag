@@ -59,6 +59,8 @@ class DefaultController extends Controller
 
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
+            $model->stage = 0;
+            $model->is_edcenso_stage = 0;
             if ($model->save()) {
                 $msg = 'O Cadastro foi criado com sucesso!';
 
