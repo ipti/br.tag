@@ -70,7 +70,7 @@ class SagresConsultModel
                 ->setEscola($this->getSchools($referenceYear, $month, $finalClass, $withoutCpf))
                 ->setProfissional($this->getProfessionals($referenceYear, $month));
 
-            $this->checkDuplicateCpfs($referenceYear);
+            $this->checkAndLogDuplicates();
             $this->getStudentAEE($referenceYear);
 
         } catch (Exception $e) {
@@ -343,54 +343,94 @@ class SagresConsultModel
         return $schoolList;
     }
 
-    private function checkDuplicateCpfs(int $year){
-        $query = "SELECT school_inep_id_fk, student_fk, classroom_fk
-                    FROM student_enrollment se
-                    WHERE year(se.create_date) = :year AND se.status = 1 AND student_fk IN (
-                        SELECT student_fk
-                        FROM student_enrollment
-                        WHERE year(create_date) = :year AND status = 1
-                        GROUP BY student_fk
-                        HAVING COUNT(*) > 1
-                    )";
+    private function getDuplicateCPFs()
+    {
+        $connection = Yii::app()->db;
+        $sql = "SELECT sdaa.cpf, COUNT(*) as count
+                FROM student_documents_and_address sdaa
+                JOIN student_identification si ON si.id = sdaa.student_fk
+                GROUP BY sdaa.cpf
+                HAVING COUNT(*) > 1";
+        $command = $connection->createCommand($sql);
+        return $command->queryAll();
+    }
 
-        $command = Yii::app()->db->createCommand($query);
-        $command->bindValue(":year", $year);
-        $students = $command->queryAll();
+    public function checkAndLogDuplicates()
+    {
+        $duplicateCpfs = $this->getDuplicateCPFs();
 
-        $processedStudents = [];
-
-        foreach($students as $student){  
-            $infoStudent = $this->getStudentInfo($student['student_fk']);
-            $count = $this->getCountOfClassrooms($student['student_fk'], $year);
-
-            if (!in_array($student['student_fk'], $processedStudents)) {
-                $this->createInconsistencyModel($student, $infoStudent, $count);
-                $processedStudents[] = $student['student_fk'];
+        foreach ($duplicateCpfs as $row) {
+            $cpf = $row['cpf'];
+            if($cpf == ""){
+                continue;
             }
+            $this->checkDuplicateCPFForDifentesStudents($cpf);
         }
     }
 
-    private function getCountOfClassrooms($student_fk, $year) {
-        $query = "SELECT COUNT(*) as count
-                  FROM student_enrollment se
-                  JOIN classroom c ON se.classroom_fk = c.id
-                  WHERE se.student_fk = :student_fk and c.aee = 1 and se.status = 1 and c.school_year = :year";
-    
-        $command = Yii::app()->db->createCommand($query);
-        $command->bindValue(":student_fk", $student_fk);
-        $command->bindValue(":year", $year);
-        return $command->queryScalar();
+    private function checkDuplicateCPFForDifentesStudents($cpf)
+    {
+        $connection = Yii::app()->db;
+        $sql = "SELECT * FROM student_documents_and_address sdaa 
+                JOIN student_identification si ON si.id = sdaa.student_fk 
+                WHERE sdaa.cpf = :cpf";
+        $command = $connection->createCommand($sql);
+        $command->bindParam(":cpf", $cpf);
+        $students = $command->queryAll();
+
+        if (count($students) >= 2) { 
+            $this->logInconsistency($students); 
+        }
     }
-    
-    private function getStudentInfo($student_fk) {
-        $sql = "SELECT si.name, sdaa.cpf FROM student_identification si 
-                JOIN student_documents_and_address sdaa ON sdaa.student_fk = si.id 
-                WHERE si.id = :id";
-    
-        $command = Yii::app()->db->createCommand($sql);
-        $command->bindValue(":id", $student_fk);
-        return $command->queryRow();
+
+    private function removeAccents($str) {
+        return preg_replace( '/[`^~\'"]/', null, iconv( 'UTF-8', 'ASCII//TRANSLIT', $str ) );
+    }
+
+    private function logInconsistency($students)
+    {
+        $descriptions = [];
+        $normalizedFirstName = $this->removeAccents(trim($students[0]['name']));
+        $sameName = true;
+        foreach ($students as $student) {
+            $normalizedName = $this->removeAccents(trim($student['name']));
+            if ($normalizedName !== $normalizedFirstName) {
+                $sameName = false;
+            }
+            $descriptions[] = '<strong>' . $student['name'] .'</strong> e ';
+        }
+
+        if($sameName){
+            $this->sameName($students);
+        }else{
+            $msg = implode('', $descriptions);
+            $msg = preg_replace('/ e (?!.* e )/', '', $msg);
+
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = '<strong>MATRÍCULA</strong>';
+            $inconsistencyModel->school = 'Diversas escolas';
+            $inconsistencyModel->description = 'Estudantes com CPF <strong>' . $students[0]['cpf'] . '</strong>:<br>' . $msg;
+            $inconsistencyModel->action = 'Os alunos possuem o mesmo cpf. Por favor, corrija o CPF de um dos alunos para garantir a precisão dos registros.';
+            $inconsistencyModel->identifier = '9';
+            $inconsistencyModel->idStudent = $students[0]['student_fk'];
+            $inconsistencyModel->idClass = null;
+            $inconsistencyModel->idSchool = null;
+            $inconsistencyModel->save();
+        }
+    }
+
+
+    private function sameName($students){
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = '<strong>MATRÍCULA</strong>';
+            $inconsistencyModel->school = 'Diversas escolas';
+            $inconsistencyModel->description = 'Estudante <strong>' . $students[0]['name'] . '</strong> com CPF <strong>' . $students[0]['cpf'] . '</strong> duplicado no sistema.';
+            $inconsistencyModel->action = 'Remova um dos registros do sistema';
+            $inconsistencyModel->identifier = '9';
+            $inconsistencyModel->idStudent = $students[0]['student_fk'];
+            $inconsistencyModel->idClass = null;
+            $inconsistencyModel->idSchool = null;
+            $inconsistencyModel->save();
     }
 
     private function getSchoolName($inepId){
