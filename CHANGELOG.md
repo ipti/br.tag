@@ -1,3 +1,7 @@
+## [Versão 3.82.165]
+- Adicionado funcionalidade que permite manter informações na matrícula do aluno
+de um período no qual o aluno ficou afastado.
+
 ## [Versão 3.81.165]
 - Adicionando redirecionamento para inconsistências de Unidade Gestora para o Sagres
 
