@@ -23,16 +23,21 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 	); ?>
 
 	<div class="main form-content">
-		<h1>
-			<?php echo $title; ?>
-		</h1>
+        <div class="row">
+            <div class="column">
+                <h1>
+                    <?php echo $title; ?>
+                </h1>
+            </div>
+        </div>
+
 		<div class="row">
 			<div class="alert alert-error js-menu-error hide column"></div>
 		</div>
 		<div class="t-tabs row">
 			<div class="column">
 				<ul class="tab-instructor t-tabs__list ">
-					<li class="active t-tabs__item"><a data-toggle="tab" class="t-tabs__link">
+					<li class="active t-tabs__item"><a data-toggle="tab" class="t-tabs__link" style="padding-left:0;">
 							<span class="t-tabs__numeration">1</span>
 							<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
 						</a>
@@ -46,7 +51,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 			</h3>
 		</div>
 		<?php if(!$model->isNewRecord): ?>
-			<div class="row t-margin-medium--bottom">
+			<div class="row column t-margin-medium--bottom">
 					<a class="t-button-secondary" target="_blank" href="<?php echo Yii::app()->createUrl('foods/reports/FoodMenuReport', array('id'=>$model->id)) ?>">
 						<span class="t-icon-printer"></span>imprimir cardápio
 					</a>
@@ -120,13 +125,19 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 				</div>
 			</div>
 		</div>
-		<div class="row js-menu-meals-container" style="display: none;">
+		<div class="row js-menu-meals-container">
 			<div class="column">
 				<div id="js-accordion" class="js-meals-component t-accordeon-secondary"></div>
 			</div>
 		</div>
+        <!-- <div class="row">
+            <div class="column justify-content--center t-margin-large--top">
+                <img class=" column no-grow" style=" margin:initial; width:80px; height:80px; margin-top: auto;"
+                src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+            </div>
+        </div> -->
 	</div>
-	<div class="row buttons">
+	<div class="row buttons" style="width:165px;">
 		<a class="t-button-primary js-save-menu show--desktop">
 			<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
 		</a>
