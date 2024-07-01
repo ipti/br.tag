@@ -837,7 +837,7 @@ class SagresConsultModel
             $duration = Yii::app()->db->createCommand($queryGetDuration)->queryRow();
 
             $scheduleType
-                ->setDiaSemana(((int) $schedule['weekDay']) + 1)
+                ->setDiaSemana(((int) $schedule['weekDay']))
                 ->setDuracao(2)
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
                 ->setDisciplina(substr($schedule['disciplineName'], 0, 50))
@@ -1821,8 +1821,14 @@ class SagresConsultModel
         });
         $serializer = $serializerBuilder->build();
 
-        return $serializer->serialize($sagresEduObject, 'xml'); // serialize the Object and return SagresEdu XML
+        $xmlString = $serializer->serialize($sagresEduObject, 'xml');
 
+        return $this->clearSpecialCharacters($xmlString);
+
+    }
+
+    function clearSpecialCharacters($string) {
+        return preg_replace('/[^\x09\x0A\x0D\x20-\x7E]/', '', $string);
     }
 
     public function actionExportSagresXML($xml)
