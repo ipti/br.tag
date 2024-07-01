@@ -24,8 +24,6 @@ $monthName = $months[$month];
 
 ?>
 
-
-
 <div class="pageA4H">
     <div style="text-align: center;">
         <div style="position: relative; display: inline-block;">
@@ -44,7 +42,6 @@ $monthName = $months[$month];
         e de <?php echo $student['filiation_2']; ?>.</p>
         <p>Nascido(a) em <?php echo $day; ?> de <?php echo $monthName; ?> de <?php echo $year; ?>, no Município de <?php echo $student['city']; ?>
         Estado de <?php echo $student['uf_name']; ?>.</p>
-
     </div>
 
     <div class ="content-data">
@@ -138,7 +135,7 @@ $monthName = $months[$month];
             <td></td>
             <td></td>
             <td></td>
-            <td></td>           
+            <td></td>
         </tr>
         <?php endfor; ?>
             <tr>
@@ -146,7 +143,7 @@ $monthName = $months[$month];
                 <td colspan="20" ></td>
                 <th></th>
             </tr>
-            <tr class = "testerows">
+            <tr>
                 <td></td>
                 <td colspan="20" ></td>
                 <th rowspan="1" > Autentificação </th>
@@ -159,7 +156,7 @@ $monthName = $months[$month];
         <?php endfor; ?>
     </table>
 </div>
- 
+
 <br>
 
 <script>

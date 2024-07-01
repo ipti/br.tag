@@ -8,7 +8,6 @@ $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentGradesReport/_initiali
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 
-
 function classroomDisciplineLabelResumeArray($id) {
     $disciplinas = array(
         1 => 'Química',
@@ -60,16 +59,15 @@ function classroomDisciplineLabelResumeArray($id) {
 $diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines);
 ?>
 
-
 <?php
 foreach ($baseDisciplines as $name):
 
 $dados = classroomDisciplineLabelResumeArray($name);
-CVarDumper::dump($dados, 10, true);
-endforeach;
-
-
+    CVarDumper::dump($dados, 10, true);
+    endforeach;
 ?>
+
+
 <div class="row-fluid hidden-print">
     <div class="span12">
         <div class="buttons">
