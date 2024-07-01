@@ -1,0 +1,2 @@
+ALTER TABLE food_menu
+ADD COLUMN include_saturday TINYINT(1) DEFAULT 0 NULL;

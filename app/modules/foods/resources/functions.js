@@ -14,6 +14,7 @@ $(".js-save-menu").on("click", function () {
             "food_public_target": "",
             "start_date": "",
             "final_date": "",
+            "include_saturday": "",
             "sunday" :{
                 "meals":[]
             },
@@ -43,6 +44,7 @@ $(".js-save-menu").on("click", function () {
         foodMenu.final_date = $('.js-final-date').val()
         foodMenu.week = $('select.js-week').val()
         foodMenu.observation = $('.js-observation').val()
+        foodMenu.include_saturday = $('.js-include-saturday').is(':checked') ? 1 : 0
 
         //get meals
         foodMenu.sunday = getMealsByDay(0)
@@ -51,9 +53,11 @@ $(".js-save-menu").on("click", function () {
         foodMenu.wednesday = getMealsByDay(3)
         foodMenu.thursday = getMealsByDay(4)
         foodMenu.friday = getMealsByDay(5)
-        foodMenu.saturday = getMealsByDay(6)
+        if($('.js-include-saturday').is(':checked')) {
+            foodMenu.saturday = getMealsByDay(6)
+        }
 
-        //  console.log(foodMenu)
+        // console.log(foodMenu)
         if(menuId)
         {
             $.ajax({
@@ -98,6 +102,14 @@ $(".js-save-menu").on("click", function () {
         showErros(erros)
     }
 });
+
+$('.js-include-saturday').on("change", function(){
+    if($(this).is(':checked')) {
+        $('.js-saturday').removeClass('hide')
+    } else {
+        $('.js-saturday').addClass('hide')
+    }
+})
 
 function getMealsByDay(day) {
     let meals = []

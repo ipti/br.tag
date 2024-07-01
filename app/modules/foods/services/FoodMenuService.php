@@ -338,6 +338,7 @@ class FoodMenuObject
     public $foodPublicTarget;
     public $startDate;
     public $finalDate;
+    public $includeSaturday;
     public $sunday = [];
     public $monday = [];
     public $tuesday = [];
@@ -353,6 +354,7 @@ class FoodMenuObject
             $this->week = $model->week;
             $this->description = $model->description;
             $this->observation = $model->observation;
+            $this->includeSaturday = $model->include_saturday;
             $this->foodPublicTarget = $foodPublicTarget['id'];
         }
     }

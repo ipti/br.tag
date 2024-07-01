@@ -23,7 +23,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 	); ?>
 
 	<div class="main form-content">
-        <div class="row">
+        <div class="row js-form-active">
             <div class="column">
                 <h1>
                     <?php echo $title; ?>
@@ -31,7 +31,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
             </div>
         </div>
 
-		<div class="row">
+		<div class="row js-form-active">
 			<div class="alert alert-error js-menu-error hide column"></div>
 		</div>
 		<div class="t-tabs row">
@@ -102,6 +102,15 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 				<input type="text" id="menu_observation" name="Observação" class="t-field-select__input js-observation">
 			</div>
 		</div>
+        <div class="row">
+            <div class="column">
+                <div class="t-field-checkbox t-margin-none--top">
+                    <input class="t-field-checkbox__input js-include-saturday" type="checkbox" id="include-saturday" name="Sabado Letivo" style="margin-right:5px;">
+                    <label class="t-field-checkbox__label" for="include-saturday">Incluir Sábado Letivo</label>
+                </div>
+            </div>
+            <div class="column"></div>
+        </div>
 		<div class="row">
 			<div class="column clearleft--on-mobile t-buttons-container">
 				<a class="t-button-primary js-add-meal">
@@ -130,12 +139,6 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 				<div id="js-accordion" class="js-meals-component t-accordeon-secondary"></div>
 			</div>
 		</div>
-        <!-- <div class="row">
-            <div class="column justify-content--center t-margin-large--top">
-                <img class=" column no-grow" style=" margin:initial; width:80px; height:80px; margin-top: auto;"
-                src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
-            </div>
-        </div> -->
 	</div>
 	<div class="row buttons" style="width:165px;">
 		<a class="t-button-primary js-save-menu show--desktop">

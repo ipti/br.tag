@@ -11,6 +11,8 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CClientScript::POS_END);
 
+$isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id);
+
 ?>
 <div id="mainPage" class="main">
     <div class="row">
@@ -39,17 +41,29 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
         </div>
     </div>
     <div class="t-buttons-container">
+        <?php
+            if($isNutritionist):
+        ?>
         <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
             Preparar Cardápio
         </a>
+        <?php
+            endif;
+        ?>
         <div class="mobile-row">
-            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
-                Estoque
-            </a>
-            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/farmerregister') ?>">
+            <?php
+                if(!$isNutritionist):
+            ?>
+                <a class="t-button-primary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
+                    Estoque
+                </a>
+            <?php
+                endif;
+            ?>
+            <a class="t-button-secondary" style="margin-right:10px;display:none;" href="<?php echo yii::app()->createUrl('foods/farmerregister') ?>">
                 Agricultor
             </a>
-            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodnotice') ?>">
+            <a class="t-button-secondary" style="margin-right:10px;display:none;" href="<?php echo yii::app()->createUrl('foods/foodnotice') ?>">
                 Editais
             </a>
             <a class="t-button-secondary js-expansive-panel show--mobile">
@@ -58,7 +72,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
         </div>
     </div>
     <div class="row t-expansive-panel expanded">
-        <div class="t-field-select column clearleft--on-mobile t-multiselect">
+        <div class="t-field-select column t-margin-none--left t-multiselect">
             <label class="t-field-select__label">Mostrar turnos</label>
             <select class="select-search-on t-field-select__input js-filter-turns multiselect" multiple="multiple" name='Turno' required='required'>
                 <option value="M">Manhã</option>
@@ -76,7 +90,7 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
     </div>
     <div class="row days-of-week row">
         <div class="t-tabs-secondary">
-            <ul class="t-tabs__list column">
+            <ul class="t-tabs__list column t-margin-none--left">
                 <li class="t-tabs__item js-day-tab js-change-pagination active" data-day-of-week="1">
                     Segunda-feira
                 </li>
@@ -92,11 +106,14 @@ $cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CCli
                 <li class="t-tabs__item js-day-tab js-change-pagination" data-day-of-week="5">
                     Sexta-feira
                 </li>
+                <li class="t-tabs__item js-day-tab js-change-pagination" data-day-of-week="6">
+                    Sábado
+                </li>
             </ul>
         </div>
     </div>
     <div class="row">
-        <div class="js-cards-meals  column is-half">
+        <div class="js-cards-meals column t-margin-none--left is-half">
 
         </div>
     </div>

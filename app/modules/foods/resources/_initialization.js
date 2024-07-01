@@ -27,7 +27,7 @@ $.ajax({
 
 if (menuId) {
 
-    $(".form-content")
+    $(".form-content > *:not(.js-form-active)")
         .css("pointer-events", "none")
         .css("opacity", "0.4");
     $(".alert")
@@ -43,12 +43,21 @@ if (menuId) {
     const finalDate = $('.js-final-date');
     const week = $('.js-week');
     const observation = $('.js-observation');
+    const include_saturday = $('.js-include-saturday');
     name.val(menuUpdate.description);
 
     startDate.val(menuUpdate.startDate);
     finalDate.val(menuUpdate.finalDate);
     week.val(menuUpdate.week);
     observation.val(menuUpdate.observation);
+
+    if (menuUpdate.includeSaturday == 1)
+    {
+        $(include_saturday).prop('checked', true);
+        $('.js-saturday').removeClass('hide')
+    }
+    console.log(menuUpdate)
+
 
     //renderizando refeições
 
@@ -253,6 +262,48 @@ if (menuId) {
         idMeals++
 
     })
+
+    menuUpdate.saturday.map((e) => {
+        let plates = []
+        e.mealsComponent.forEach((mealComponent) => {
+            let foodIngredients = mealComponent.ingredients.map((foodIngredient) => {
+
+                let food = {
+                    id: idIgredientes,
+                    amount: foodIngredient.amount,
+                    foodIdFk: foodIngredient.foodIdFk,
+                    foodMeasureUnitId: foodIngredient.foodMeasureUnitId,
+                    lip: foodIngredient.lip,
+                    pt: foodIngredient.pt,
+                    cho: foodIngredient.cho,
+                    kcal: foodIngredient.kcal,
+                    nameFood: foodIngredient.nameFood,
+                    measurementUnit: foodIngredient.measurementUnit,
+                }
+
+                idIgredientes++
+                return food
+            })
+            plates.push({
+                description: mealComponent.description,
+                id: idplates,
+                foodIngredients: foodIngredients
+            })
+            idplates++
+        })
+        meals.push({
+            id: idMeals,
+            mealDay: 6,
+            mealTime: e.time,
+            mealTypeId: e.foodMealType,
+            mealType: 'Turno da refeição',
+            shift: e.turn,
+            plates: plates
+        })
+        idMeals++
+
+    })
+
     const day = $('.js-day-tab.active').attr("data-day-of-week")
     window.onload = (event) => {
         meals.forEach((e) => {
@@ -266,7 +317,7 @@ if (menuId) {
             collapsible: true,
             icons: false,
         });
-        $(".form-content")
+        $(".form-content > *:not(.js-form-active)")
         .css("pointer-events", "auto")
         .css("opacity", "1");
         $(".alert")

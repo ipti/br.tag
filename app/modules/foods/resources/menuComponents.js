@@ -52,11 +52,12 @@ const DateComponent = function () {
     const container = $(".js-days-of-week-component");
     const template = daysOfWeek.reduce((html, day, index) => {
       const isActive = index === 1 ? "active" : ""; // Adiciona a classe "active" à segunda-feira
-      const isWeekend = index === 0 || index === 6; // Verifica se é sábado ou domingo
+      const isSaturday = index === 6 ? "hide js-saturday" : "";
+      const isWeekend = index === 0;
 
       if (!isWeekend) {
         return html +
-          `<li class="t-tabs__item js-day-tab js-change-pagination ${isActive}" data-day-of-week=${index} >
+          `<li class="t-tabs__item js-day-tab js-change-pagination ${isActive} ${isSaturday}" data-day-of-week=${index} >
             <div class="text-primary">${day}</div>
           </li>`;
       } else {
