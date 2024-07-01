@@ -20,6 +20,8 @@ class FormsRepository {
             ":enrollment_fk" => $enrollmentId,
             ":discipline_fk" => $disciplineId
         ]);
+
+        
         if ($gradeResult != null) {
             for ( $i = 1; $i <= 8; $i++ ) {
                 $totalContents += $gradeResult['given_classes_'.$i];
@@ -187,6 +189,8 @@ class FormsRepository {
 
         return $workloadsPerUnity;
     }
+
+
 
     private function separateBaseDisciplines($disciplineId)
     {

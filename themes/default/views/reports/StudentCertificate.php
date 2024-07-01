@@ -10,8 +10,6 @@ if (!isset($school)) {
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 }
 
-// CVarDumper::dump($school, 10, true);
-// CVarDumper::dump($student, 10, true);
 
 list($day, $month, $year) = explode('/', $student['birthday']);
 
@@ -22,6 +20,8 @@ $months = array(
 );
 $monthName = $months[$month];
 
+
+    CVarDumper::dump($student, 10, true);
 ?>
 
 <div class="pageA4H">
