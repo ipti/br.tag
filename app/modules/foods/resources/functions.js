@@ -57,7 +57,7 @@ $(".js-save-menu").on("click", function () {
             foodMenu.saturday = getMealsByDay(6)
         }
 
-        // console.log(foodMenu)
+        //console.log(foodMenu)
         if(menuId)
         {
             $.ajax({
@@ -153,11 +153,17 @@ function getFoodIngredients(idPlateAccordion) {
         let foodIngredient = {
             "food_id_fk": "",
             "food_measure_unit_id": "",
+            "measurement_for_unit": "",
             "amount": "",
         }
         foodIngredient.food_id_fk = $(row).attr('data-idTaco')
         foodIngredient.food_measure_unit_id = $(row).find('.js-measure select').val()
         foodIngredient.amount = $(row).find('.js-unit input').val()
+
+        if($(row).find('.js-measure select option:selected').text() == "unidade") {
+            foodIngredient.amount = $(row).find(".js-amount-for-unit").val()
+            foodIngredient.measurement_for_unit = $(row).find(".js-measurement-for-unit").select2("val")
+        }
 
         foodIngredients.push(foodIngredient)
     })

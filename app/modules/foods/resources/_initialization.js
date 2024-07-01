@@ -78,6 +78,7 @@ if (menuId) {
                     kcal: foodIngredient.kcal,
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
+                    measurementForUnit: foodIngredient.measurementForUnit,
                 }
 
                 idIgredientes++
@@ -119,6 +120,7 @@ if (menuId) {
                     kcal: foodIngredient.kcal,
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
+                    measurementForUnit: foodIngredient.measurementForUnit,
                 }
                 idIgredientes++
                 return food
@@ -159,6 +161,7 @@ if (menuId) {
                     kcal: foodIngredient.kcal,
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
+                    measurementForUnit: foodIngredient.measurementForUnit,
                 }
                 idIgredientes++
                 return food
@@ -199,6 +202,7 @@ if (menuId) {
                     kcal: foodIngredient.kcal,
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
+                    measurementForUnit: foodIngredient.measurementForUnit,
                 }
                 idIgredientes++
                 return food
@@ -239,6 +243,7 @@ if (menuId) {
                     kcal: foodIngredient.kcal,
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
+                    measurementForUnit: foodIngredient.measurementForUnit,
                 }
                 idIgredientes++
                 return food
@@ -279,6 +284,7 @@ if (menuId) {
                     kcal: foodIngredient.kcal,
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
+                    measurementForUnit: foodIngredient.measurementForUnit,
                 }
 
                 idIgredientes++

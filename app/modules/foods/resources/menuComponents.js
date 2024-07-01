@@ -276,8 +276,27 @@ const PlateComponent = function (plate) {
             calculateNutritionalValue(table)
 
     })
+    td.find(".js-amount-for-unit").on("input", function (event) {
+        let value = Number(td.find(".js-amount-for-unit").val())
+        let measure = td.find(".js-measurement-for-unit").select2("val")
+        updateNutritionalValues(value, measure, food, line);
+        calculateNutritionalValue(table)
+    })
+    td.find(".js-measurement-for-unit").on("change", function (event) {
+        let value = Number(td.find(".js-amount-for-unit").val())
+        let measure = td.find(".js-measurement-for-unit").select2("val")
+        updateNutritionalValues(value, measure, food, line);
+        calculateNutritionalValue(table)
+    })
       select.on('change', function (event) {
           food.foodMeasureUnitId = select.val()
+          if(select.find('option:selected').text() == "unidade") {
+            td.find(".js-amount-for-unit, .js-measurement-for-unit").show()
+            td.find(".js-amount-value").hide()
+          } else {
+            td.find(".js-amount-for-unit, .js-measurement-for-unit").hide()
+            td.find(".js-amount-value").show()
+          }
           let newAmount = calculateAmount(
               select.find('option:selected').attr('data-value'),
               food,
@@ -304,9 +323,9 @@ const PlateComponent = function (plate) {
 
     let result = (Number(amount) * Number(value)).toFixed(2)
 
-    if(measure == 'u') {
+   /*  if(measure == 'u') {
         result = parseInt(result);
-    }
+    } */
     updateNutritionalValues(result, measure, food, line)
     if(food.measurementUnit !="l" && measure == 'ml') {
         return result + 'g'
@@ -329,6 +348,7 @@ const PlateComponent = function (plate) {
       line.find(".js-kcal").text(((food.kcal * kgTog)/100).toFixed(2))
      }
   }
+
   function calculateNutritionalValue(table) {
     let total_pt = total_lip = total_cho = total_kcal = 0;
     table.find('.js-pt').each((_, pt) => {
@@ -365,7 +385,14 @@ const PlateComponent = function (plate) {
                 <select class="js-initialize-select2 t-field-select__input js-food-measurement" style='width:100px !important;' required='required'>
                 </select>
             </td>`)
-      .append(`<td class='js-amount'>
+      .append(`<td class='js-amount justify-content--center align-items--center' style="height:43.5833px;">
+                <input type='text' class="js-amount-for-unit t-field-text__input hide" style='width:50px !important;margin-top:0px;display:none;'>
+                <select class="js-initialize-select2 t-field-select__input js-measurement-for-unit hide" style='width:50px !important;display:none;'>
+                    <option value="g">g</option>
+                    <option value="kg">kg</option>
+                    <option value="ml">ml</option>
+                    <option value="L">L</option>
+                </select>
                 <span class="js-amount-value"></span>
              </td>`)
       .append(`<td class='js-pt'>${food.pt}</td>`)

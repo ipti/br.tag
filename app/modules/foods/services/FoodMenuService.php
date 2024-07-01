@@ -312,6 +312,7 @@ class FoodMenuService
             $foodIngredient->food_menu_meal_componentId = $modelComponent->id;
             $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measure_unit_id"]);
             $foodIngredient->food_measurement_fk = $foodMeasurement->id;
+            $foodIngredient->measurement_for_unit = $ingredient["measurement_for_unit"] != ""? $ingredient["measurement_for_unit"] : null;
             $foodIngredient->validate();
             CVarDumper::dump($foodIngredient->getErrors());
             $saveIngredientResult = $foodIngredient->save();
@@ -453,6 +454,7 @@ class IngredientObject
     public $kcal;
     public $nameFood;
     public $measurementUnit;
+    public $measurementForUnit;
 
     public function __construct($model, $foodModel)
     {
@@ -467,6 +469,7 @@ class IngredientObject
         $this->kcal = is_numeric($foodModel->energy_kcal) ? round($foodModel->energy_kcal, 2) : $foodModel->energy_kcal;
         $this->nameFood = $foodModel->description;
         $this->measurementUnit = $foodModel->measurementUnit;
+        $this->measurementForUnit = $model->measurement_for_unit;
 
     }
 }
