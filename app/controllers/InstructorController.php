@@ -43,7 +43,7 @@ class InstructorController extends Controller
                     'index', 'view', 'create', 'update', 'updateEmails', 'frequency',
                     'saveEmails', 'getCity', 'getCityByCep','getInstitutions', 'getInstitution',
                     'getCourses', 'delete', 'getFrequency', 'getFrequencyDisciplines', 'getFrequencyClassroom',
-                    'saveFrequency', 'saveJustification'
+                    'saveFrequency', 'saveJustification', "getClassrooms"
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -158,11 +158,14 @@ class InstructorController extends Controller
                         $modelInstructorDocumentsAndAddress->validate() &&
                         $modelInstructorVariableData->validate()) {
 
+
                     $user = $this->createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress);
+
 
                     if ($user->save()) {
                         $modelInstructorIdentification->users_fk = $user->id;
                         $this->createUserSchool($user, $modelInstructorIdentification);
+                    }
                     }
 
                     if ($modelInstructorIdentification->save()) {
@@ -197,6 +200,7 @@ class InstructorController extends Controller
         ]);
     }
 
+
     private function createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress) {
         $user = new Users();
         $user->name = $modelInstructorIdentification->name;
@@ -211,10 +215,12 @@ class InstructorController extends Controller
         return $passwordHasher->bcriptHash($birthdayDate);
     }
 
+
     private function createUserSchool($user) {
         $userSchool = new UsersSchool();
         $userSchool->user_fk = $user->id;
         $userSchool->school_fk = Yii::app()->user->school;
+
 
         if ($userSchool->save()) {
             $auth = Yii::app()->authManager;
@@ -756,5 +762,27 @@ preenchidos";
         $instructorFault = InstructorFaults::model()->find("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $_POST["instructorId"]]);
         $instructorFault->justification = $_POST["justification"] == "" ? null : $_POST["justification"];
         $instructorFault->save();
+    }
+
+    public function actionGetClassrooms() {
+        $instructorId = Yii::app()->request->getPost('instructorId', NULL);
+        $sql = "SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name
+        from instructor_teaching_data itd
+        join teaching_matrixes tm ON itd.id = tm.teaching_data_fk
+        join instructor_identification ii on itd.instructor_fk = ii.id
+        join curricular_matrix cm on tm.curricular_matrix_fk = cm.id
+        JOIN edcenso_discipline ed on ed.id = cm.discipline_fk
+        join classroom c on c.id = itd.classroom_id_fk
+        Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
+        WHERE c.school_year = :user_year and ii.id = :intructorId
+        ORDER BY ii.name";
+
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindValue(':user_year', Yii::app()->user->year, PDO::PARAM_INT)
+        ->bindValue(':intructorId', $instructorId, PDO::PARAM_INT);
+
+        $classrooms = $command->queryAll();
+
+        echo json_encode($classrooms);
     }
 }

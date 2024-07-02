@@ -712,10 +712,6 @@ class CensoController extends Controller
         $school_inep_id_fk = $collumn["school_inep_id_fk"];
         $log = array();
 
-        //campo 1
-        $result = $iiv->isRegister("30", $collumn['register_type']);
-        if (!$result["status"]) array_push($log, array("register_type" => $result["erro"]));
-
         //campo 2
         $result = $iiv->isAllowedInepId($school_inep_id_fk,
             $allowed_school_inep_ids);
@@ -820,10 +816,6 @@ class CensoController extends Controller
         $school_inep_id_fk = $collumn["school_inep_id_fk"];
         $instructor_inep_id = $collumn["inep_id"];
 
-        //campo 1
-        $result = $idav->isRegister("40", $collumn['register_type']);
-        if (!$result["status"]) array_push($log, array("register_type" => $result["erro"]));
-
         $sql = "SELECT inep_id FROM school_identification;";
         $inep_ids = Yii::app()->db->createCommand($sql)->queryAll();
         foreach ($inep_ids as $key => $value) {
@@ -871,10 +863,6 @@ class CensoController extends Controller
         $instructor_fk = $collumn['instructor_fk'];
         $classroom_fk = $collumn['classroom_id_fk'];
         $log = array();
-
-        //campo 1
-        $result = $itdv->isRegister("51", $collumn['register_type']);
-        if (!$result["status"]) array_push($log, array("register_type" => $result["erro"]));
 
         //campo 2
         $result = $itdv->isAllowedInepId($school_inep_id_fk,
@@ -1014,10 +1002,6 @@ class CensoController extends Controller
         $stiv = new StudentIdentificationValidation();
         $school_inep_id_fk = $collumn["school_inep_id_fk"];
         $log = array();
-
-        //campo 1
-        $result = $stiv->isRegister("60", $collumn['register_type']);
-        //if(!$result["status"]) array_push($log, array("register_type"=>$result["erro"]));
 
         //campo 2
         $result = $stiv->isAllowedInepId($school_inep_id_fk,
@@ -1186,10 +1170,6 @@ class CensoController extends Controller
         $civil_certification = $collumn['civil_certification'];
 
 
-        //campo 1
-        $result = $sda->isRegister("70", $collumn['register_type']);
-        if (!$result["status"]) array_push($log, array("register_type" => $result["erro"]));
-
         //campo 2
         $result = $sda->isAllowedInepId($school_inep_id_fk,
             $allowed_school_inep_ids);
@@ -1321,10 +1301,6 @@ class CensoController extends Controller
         $student_inep_id_fk = $collumn["student_inep_id"];
         $classroom_fk = $collumn['classroom_fk'];
         $log = array();
-
-        //campo 1
-        $result = $sev->isRegister("80", $collumn['register_type']);
-        if (!$result["status"]) array_push($log, array("register_type" => $result["erro"]));
 
         //campo 2
         $result = $sev->isAllowedInepId($school_inep_id_fk,
