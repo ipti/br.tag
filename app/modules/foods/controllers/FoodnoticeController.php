@@ -1,5 +1,6 @@
 <?php
 Yii::import('application.modules.foods.usecases.*');
+use Ramsey\Uuid\Uuid;
 class FoodNoticeController extends Controller
 {
     /**
@@ -87,19 +88,19 @@ class FoodNoticeController extends Controller
     public function actionCreate()
     {
         $model = new FoodNotice;
-        $request = Yii::app()->request->getPost('notice');
-        $name = Yii::app()->request->getPost('name');
-        $date1 = Yii::app()->request->getPost('date');
-        $noticeItems = Yii::app()->request->getPost('noticeItems');
-        $noticePdfFile = $_FILES['noticePdf'];
+        $noticeData = json_decode(Yii::app()->request->getPost('notice'), true);
 
-        if ($request != null) {
-            $date = strtotime(str_replace('/', '-', $request["date"]));
-            $model->name = $request["name"];
-            $model->date = date('Y-m-d', $date);
+        if ($noticeData != null) {
+            $date = date('Y-m-d', strtotime(str_replace('/', '-', $noticeData["date"])));
+            $uuid = Uuid::uuid4();
+            $model->name = $noticeData["name"];
+            $model->date = $date;
+            $model->file_name = $_FILES["noticePdf"]["name"];
+            $model->reference_id = $uuid->toString();
+            $noticePdfFile = $_FILES['noticePdf'];
 
             if ($model->save()) {
-                foreach ($request["noticeItems"] as $item) {
+                foreach ($noticeData["noticeItems"] as $item) {
                     $modelNoticeItem = new FoodNoticeItem;
                     $modelNoticeItem->name = $item["name"];
                     $modelNoticeItem->description = $item["description"];
@@ -110,11 +111,36 @@ class FoodNoticeController extends Controller
 
                     $modelNoticeItem->save();
                 }
+
+                $this->getClient()->request("POST", "/api/input_data", [
+                    'headers' => [
+                        'Content-Type' => 'multipart/form-data',
+                        'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
+                    ],
+                    'multipart' => [
+                        [
+                            'name' => 'id',
+                            'contents' => $uuid->toString()
+                        ],
+                        [
+                            'name' => 'name',
+                            'contents' => $noticeData["name"]
+                        ],
+                        [
+                            'name' => 'date',
+                            'contents' => date('Y-m-d', $date)
+                        ],
+                        [
+                            'name' => 'notice_pdf',
+                            'contents' => $noticePdfFile,
+                        ]
+                    ]
+                ]);
             }
 
 
-            $createNotice = new CreateNotice($request["pdf"]);
-            $createNotice->exec();
+            // $createNotice = new CreateNotice($request["pdf"]);
+            // $createNotice->exec();
         }
 
         $this->render('create', array(
@@ -131,16 +157,13 @@ class FoodNoticeController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-        $request = Yii::app()->request->getPost('notice');
+        $noticeData = json_decode(Yii::app()->request->getPost('notice'), true);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        if ($noticeData != null) {
 
-        if ($request != null) {
+            $date = strtotime(str_replace('/', '-', $noticeData["date"]));
 
-            $date = strtotime(str_replace('/', '-', $request["date"]));
-
-            $model->name = $request["name"];
+            $model->name = $noticeData["name"];
             $model->date = date('Y-m-d', $date);
 
             $modelNoticeItems = FoodNoticeItem::model()->findAllByAttributes(
@@ -151,7 +174,7 @@ class FoodNoticeController extends Controller
             }
 
             if ($model->save()) {
-                foreach ($request["noticeItems"] as $item) {
+                foreach ($noticeData["noticeItems"] as $item) {
                     $modelNoticeItem = new FoodNoticeItem;
                     $modelNoticeItem->name = $item["name"];
                     $modelNoticeItem->description = $item["description"];

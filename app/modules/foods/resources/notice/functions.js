@@ -47,26 +47,23 @@ $(".js-submit").on("click", function () {
     });
     let noticePdfFile = $(".js-notice_pdf")[0].files[0];
 
-    var formData = new FormData();
-    formData.append("name", $(".js-notice-name").val());
-    formData.append("date", $(".js-date").val());
-    formData.append("noticePdf", noticePdfFile);
-    formData.append("noticeItems", JSON.stringify(transformedData));
-
     let notice = {
         name: $(".js-notice-name").val(),
         date: $(".js-date").val(),
-        noticePdf: noticePdfFile,
         noticeItems: transformedData,
-    }
+    };
+
+    let formData = new FormData();
+    formData.append("noticePdf", noticePdfFile);
+    formData.append("notice", JSON.stringify(notice));
 
     if (noticeID) {
         $.ajax({
             url: `?r=foods/foodnotice/update&id=${noticeID}`,
             type: "POST",
-            data: {
-                notice: notice
-            }
+            data : formData,
+            contentType : false,
+            processData : false
         }).success(function (response) {
             window.location.href = "?r=foods/foodnotice/index";
         })
@@ -104,4 +101,8 @@ $('table tbody').on('click', 'a.delete-btn', function () {
             }
         ]
     });
+});
+
+$(document).on("change", ".js-notice_pdf", function(e) {
+    $(".uploaded-notice-name").text(e.target.files[0].name);
 });

@@ -54,6 +54,7 @@ $form = $this->beginWidget(
         <div class="column clearleft">
             <label for="notice_pdf" class="t-field-file__label t-button-secondary">Anexar PDF</label>
             <input type="file" id="notice_pdf" name="notice_pdf" accept=".pdf" class="t-field-file__input js-notice_pdf">
+            <span class="uploaded-notice-name"><?php echo $model->file_name !== null ? $model->file_name : '' ?></span>
         </div>
     </div>
     <div class="row">

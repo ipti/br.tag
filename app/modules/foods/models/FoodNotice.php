@@ -8,10 +8,14 @@
  * @property integer $id
  * @property string $name
  * @property string $date
+ * @property string $status
+ * @property string $reference_id
+ * @property string $file_name
  *
  * The followings are the available model relations:
  * @property FarmerFoods[] $farmerFoods
  * @property FoodNoticeItem[] $foodNoticeItems
+ * @property FoodRequest[] $foodRequests
  */
 class FoodNotice extends CActiveRecord
 {
@@ -33,8 +37,12 @@ class FoodNotice extends CActiveRecord
         return array(
             array('name, date', 'required'),
             array('name', 'length', 'max'=>255),
+            array('status', 'length', 'max'=>7),
+            array('reference_id', 'length', 'max'=>36),
+            array('file_name', 'length', 'max'=>100),
             // The following rule is used by search().
-            array('id, name, date', 'safe', 'on'=>'search'),
+            // @todo Please remove those attributes that should not be searched.
+            array('id, name, date, status, reference_id, file_name', 'safe', 'on'=>'search'),
         );
     }
 
@@ -48,6 +56,7 @@ class FoodNotice extends CActiveRecord
         return array(
             'farmerFoods' => array(self::HAS_MANY, 'FarmerFoods', 'foodNotice_fk'),
             'foodNoticeItems' => array(self::HAS_MANY, 'FoodNoticeItem', 'foodNotice_fk'),
+            'foodRequests' => array(self::HAS_MANY, 'FoodRequest', 'notice_fk'),
         );
     }
 
@@ -60,6 +69,9 @@ class FoodNotice extends CActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'date' => 'Date',
+            'status' => 'Status',
+            'reference_id' => 'Reference',
+            'file_name' => 'File Name',
         );
     }
 
@@ -77,12 +89,16 @@ class FoodNotice extends CActiveRecord
      */
     public function search()
     {
+        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria=new CDbCriteria;
 
         $criteria->compare('id',$this->id);
         $criteria->compare('name',$this->name,true);
         $criteria->compare('date',$this->date,true);
+        $criteria->compare('status',$this->status,true);
+        $criteria->compare('reference_id',$this->reference_id,true);
+        $criteria->compare('file_name',$this->file_name,true);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
