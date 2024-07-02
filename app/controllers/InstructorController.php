@@ -166,7 +166,6 @@ class InstructorController extends Controller
                         $modelInstructorIdentification->users_fk = $user->id;
                         $this->createUserSchool($user, $modelInstructorIdentification);
                     }
-                    }
 
                     if ($modelInstructorIdentification->save()) {
                         $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;

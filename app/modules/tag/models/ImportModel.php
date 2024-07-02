@@ -128,7 +128,7 @@ class ImportModel
                 $instructorDocumentsAndAddressModel = $instructorDocumentsAndAddressModels[$id];
                 $instructorIdentificationModel->hash = $instructorDocumentsAndAddressModel->hash;
 
-                if($instructorDocumentsAndAddressModel->cpf)
+                if(isset($instructorDocumentsAndAddressModel->cpf))
                 {
                     // Criando usuário e atualizando o instructorIdentification
                     $instructorUserUseCase = new ImportInstructorUserUseCase(
