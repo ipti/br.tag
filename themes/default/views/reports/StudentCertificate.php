@@ -19,9 +19,7 @@ $months = array(
     '09' => 'Setembro', '10' => 'Outubro', '11' => 'Novembro', '12' => 'Dezembro'
 );
 $monthName = $months[$month];
-
-
-    CVarDumper::dump($student, 10, true);
+    CVarDumper::dump($baseDisciplines, 10, true);
 ?>
 
 <div class="pageA4H">
@@ -82,7 +80,7 @@ $monthName = $months[$month];
     <?php $this->renderPartial('footer'); ?>
 </div>
 
-<div class="container-school-record"> <!--  style="page-break-before: always;" -->
+<div class="container-school-record"> 
     <div class = "table-contant" style="display: flex; align-items: center; justify-content: center;">
     <table class="school-record-table" >
         <tr>

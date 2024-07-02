@@ -224,6 +224,9 @@ class FormsRepository {
         array_splice($unities, $recFinalIndex, 1);
         array_push($unities, $recFinalObject);
 
+
+        CVarDumper::dump($enrollment);
+        exit();
         // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho
         foreach ($curricularMatrix as $matrix) {
             if($this->separateBaseDisciplines($matrix->discipline_fk)) { // se for disciplina da BNCC

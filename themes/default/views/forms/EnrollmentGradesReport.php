@@ -57,14 +57,12 @@ function classroomDisciplineLabelResumeArray($id) {
     }
 }
 $diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines);
-?>
 
-<?php
 foreach ($baseDisciplines as $name):
 
 $dados = classroomDisciplineLabelResumeArray($name);
-    CVarDumper::dump($dados, 10, true);
-    endforeach;
+CVarDumper::dump($name, 10, true);
+endforeach;
 ?>
 
 
