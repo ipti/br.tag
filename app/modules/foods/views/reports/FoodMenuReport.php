@@ -4,6 +4,10 @@ $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/sass/css/main.css');
 
 $days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
+
+if($include_saturday){
+    array_push($days, "saturday");
+}
 ?>
 <style>
     table {
@@ -75,7 +79,7 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
         <table aria-describedby="title-page" class="column table table-bordered">
             <thead class="background-dark font-bold">
                 <tr>
-                    <th id="title" colspan="6" class="text-align--center">
+                    <th id="title" colspan="<?= $include_saturday ? "7" : "6" ?>" class="text-align--center">
                         <div>SECRETARIA MUNICIPAL DE
                             <?= $schoolCity ?>
                         </div>
@@ -84,7 +88,7 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
                     </th>
                 </tr>
                 <tr>
-                    <th id="food-menu-infos" colspan="6" class="text-align--center">
+                    <th id="food-menu-infos" colspan="<?= $include_saturday ? "7" : "6" ?>" class="text-align--center">
                         <div>
                             <?= $foodMenu->description . " - " . $publicTarget["name"] ?>
                         </div>
@@ -138,6 +142,9 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
                     <td>4ª FEIRA</td>
                     <td>5ª FEIRA</td>
                     <td>6ª FEIRA</td>
+                    <?php if($include_saturday): ?>
+                        <td>SÁBADO</td>
+                    <?php endif ?>
                 </tr>
                 <?php foreach ($mealTypes as $mealType) : ?>
                     <tr>
@@ -196,7 +203,7 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
                     <td>
                         PTN(g)
                     </td>
-                    <td>
+                    <td colspan="<?= $include_saturday ? "2" : "1" ?>">
                         LPD(g)
                     </td>
                 </tr>
@@ -204,9 +211,9 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
                     <td class="nowrap">55% a %65 do VET</td>
                     <td class="nowrap">10% a 15% do VET</td>
                     <?php if ($publicTarget["id"] != 7) : ?>
-                        <td class="nowrap">25% a 35% do VET</td>
+                        <td class="nowrap" colspan="<?= $include_saturday ? "2" : "1" ?>">25% a 35% do VET</td>
                     <?php else : ?>
-                        <td class="nowrap">15% a 30% do VET</td>
+                        <td class="nowrap" colspan="<?= $include_saturday ? "2" : "1" ?>">15% a 30% do VET</td>
                     <?php endif; ?>
 
                 </tr>
@@ -220,7 +227,7 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
                     <td>
                         <?= $nutritionalValue["ptnpct"] . "%" ?>
                     </td>
-                    <td>
+                    <td colspan="<?= $include_saturday ? "2" : "1" ?>">
                         <?= $nutritionalValue["lpdpct"] . "%" ?>
                     </td>
                 </tr>
@@ -231,7 +238,7 @@ $days = ["monday", "tuesday", "wednesday", "thursday", "friday"];
                     <td>
                         <?= $nutritionalValue["ptnAvarage"] . "g" ?>
                     </td>
-                    <td>
+                    <td colspan="<?= $include_saturday ? "2" : "1" ?>">
                         <?= $nutritionalValue["lpdAvarage"] . "g" ?>
                     </td>
                 </tr>

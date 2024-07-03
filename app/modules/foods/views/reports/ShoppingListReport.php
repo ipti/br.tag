@@ -66,6 +66,10 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
                             <?= $schoolCity ?>
                         </div>
                         <br />
+                        <div>
+                            <?= $schoolName ?>
+                        </div>
+                        <br>
                         <div>PROGRAMA NACIONAL DE ALIMENTAÇÃO ESCOLAR - PNAE</div>
                     </th>
                 </tr>
@@ -91,6 +95,10 @@ $turns = ["Manhã", "Tarde", "Noite", "Integral"];
                             endif;
                         endforeach;
                     ?>
+                    <tr>
+                    <td class="font-bold subtitle">Total de Estudantes</td>
+                    <td><?= $totalStudents ?></td>
+                </tr>
             </tbody>
         </table>
     </div>

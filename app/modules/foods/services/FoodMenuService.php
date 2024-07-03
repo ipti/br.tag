@@ -39,9 +39,14 @@ class FoodMenuService
 
         $students = $this->getStudents();
         $studentsTurn = $this->getStudentsTurn($students);
+        $totalStudents = 0;
+        foreach ($students as $element) {
+            $totalStudents +=  $element['total_students'];
+        }
 
+        $result["totalStudents"] = $totalStudents;
         if ($students != null && $foods != null) {
-            $result = $this->processFood($foods, $studentsTurn);
+            $result["processFood"] = $this->processFood($foods, $studentsTurn);
         }
         return $result;
     }
@@ -155,7 +160,7 @@ class FoodMenuService
     {
         $nutritionalValue = array();
         $sql = '
-            select f.id, f.description, fi.amount, fme.value, fme.measure,
+            select f.id, f.description, fi.amount, fi.amount_for_unit, fi.measurement_for_unit,  fme.value, fme.measure,
             f.energy_kcal, f.protein_g, f.carbohydrate_g, f.lipidius_g from food as f
             inner join food_ingredient as fi  on fi.food_id_fk= f.id
             inner join food_menu_meal_component as  fmmc on fmmc.id = fi.food_menu_meal_componentId
@@ -165,20 +170,25 @@ class FoodMenuService
             where fm.id = :id
         ';
         $nutritionalValue = Yii::app()->db->createCommand($sql)->bindParam(':id', $id)->queryAll();
-
+        $includeSatruday = FoodMenu::model()->findByPk($id, array('select' => 'include_saturday'))->include_saturday;
         $kcal = 0;
         $calTotal = 0;
         $ptnTotal = 0;
         $lpdTotal = 0;
-        $daysOFWeek = 5;
+        $daysOFWeek = $includeSatruday == 1 ? 6 : 5;
         foreach ($nutritionalValue as $item) {
-            $portion = $item["value"] * $item["amount"];
-            if( $item["measure"] == "g" ||  $item["measure"] == 'ml'){
+
+            $isUnit = $item["measure"] == "u";
+            $value = $isUnit  ? $item["amount_for_unit"] : $item["value"];
+            $portion =  $value * $item["amount"];
+
+            $measure =  $isUnit ? $item["measurement_for_unit"] : $item["measure"];
+            if($measure == "g" ||  $measure == 'ml'){
                 $kcal += ($item["energy_kcal"] * $portion/100);
                 $calTotal += ($item["carbohydrate_g"] * $portion/100);
                 $ptnTotal += ($item["protein_g"] * $portion/100);
                 $lpdTotal += ($item["lipidius_g"] * $portion/100);
-            }  elseif ($item["measure"] == "Kg" || $item["measure"] == "L") {
+            }  elseif ($measure == "Kg" ||  $measure == "L") {
                 $kgTog = $portion*1000;
                 $kcal += ($item["energy_kcal"] * $kgTog/100);
                 $calTotal += ($item["carbohydrate_g"] * $kgTog/100);
@@ -208,7 +218,6 @@ class FoodMenuService
 
         $result["lpdAvarage"] = round($lpdAvarage);
         $result["lpdpct"] = round($lpdpct);
-
 
         return $result;
     }

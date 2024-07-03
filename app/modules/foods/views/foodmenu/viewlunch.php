@@ -90,7 +90,7 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
     </div>
     <div class="row days-of-week row">
         <div class="t-tabs-secondary">
-            <ul class="t-tabs__list column t-margin-none--left">
+            <ul class="t-tabs__list column">
                 <li class="t-tabs__item js-day-tab js-change-pagination active" data-day-of-week="1">
                     Segunda-feira
                 </li>
