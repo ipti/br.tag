@@ -362,7 +362,7 @@ class SagresConsultModel
 
         foreach($students as $student){
             $infoStudent = $this->getStudentInfo($student['student_fk']);
-            $count = $this->getCountOfClassrooms($student['student_fk'], $year);
+            $count = $this->getCountOfClassrooms($student, $infoStudent, $year);
 
             if (!in_array($student['student_fk'], $processedStudents)) {
                 $this->createInconsistencyModel($student, $infoStudent, $count);
@@ -371,16 +371,71 @@ class SagresConsultModel
         }
     }
 
-    private function getCountOfClassrooms($student_fk, $year) {
-        $query = "SELECT COUNT(*) as count
+    private function getCountOfClassrooms($student, $infoStudent, $year) {
+        $query = "SELECT complementary_activity, aee, school_inep_id_fk, c.name
                   FROM student_enrollment se
                   JOIN classroom c ON se.classroom_fk = c.id
-                  WHERE se.student_fk = :student_fk AND c.school_year = :year";
-
+                  WHERE se.student_fk = :student_fk and se.status = 1 and c.school_year = :year";
+    
         $command = Yii::app()->db->createCommand($query);
-        $command->bindValue(":student_fk", $student_fk);
+        $command->bindValue(":student_fk", $student['student_fk']);
         $command->bindValue(":year", $year);
-        return $command->queryScalar();
+        $result = $command->queryAll();
+    
+        $count = count($result);
+        $classNames = [];
+        $schoolInepIds = [];
+    
+        foreach ($result as $row) {
+            $classNames[] = $row['name'];
+            $schoolInepIds[] = $row['school_inep_id_fk'];
+        }
+
+        if (count(array_unique($schoolInepIds)) > 1) {
+            $this->duplicatedSchool($student, $infoStudent);
+        }
+    
+        if ($count > 2) {
+            $classNamesString = implode(", ", $classNames);
+            return [
+                'count' => $count,
+                'classNames' => $classNamesString
+            ];
+        } elseif ($count == 2) {
+            $allComplementaryZero = true;
+            foreach ($result as $row) {
+                if ($row['complementary_activity'] != '0' || $row['aee'] != '0') {
+                    $allComplementaryZero = false;
+                    break;
+                }
+            }
+    
+            if ($allComplementaryZero) {
+                $classNamesString = implode(", ", $classNames);
+                return [
+                    'count' => 3,
+                    'classNames' => $classNamesString
+                ];
+            }
+        }
+    
+        return [
+            'count' => $count,
+            'classNames' => implode(", ", $classNames)
+        ];
+    }
+
+    private function duplicatedSchool($student, $infoStudent){
+        $inconsistencyModel = new ValidationSagresModel();
+        $inconsistencyModel->enrollment = '<strong>MATRÍCULA</strong>';
+        $inconsistencyModel->school = $this->getSchoolName($student['school_inep_id_fk']);
+        $inconsistencyModel->description = 'Estudante <strong>' .  $infoStudent['name'] . '</strong> com CPF <strong>' . $infoStudent['cpf'] . '</strong> está matriculado em escolas diferentes';
+        $inconsistencyModel->action = 'Um aluno não deve estar matriculado simultaneamente em mais de uma escola';
+        $inconsistencyModel->identifier = '9';
+        $inconsistencyModel->idStudent = $student['student_fk'];
+        $inconsistencyModel->idClass = $student['classroom_fk'];
+        $inconsistencyModel->idSchool = $student['school_inep_id_fk'];
+        $inconsistencyModel->save();
     }
 
     private function getStudentInfo($student_fk) {
@@ -403,12 +458,12 @@ class SagresConsultModel
 
     public function createInconsistencyModel($student, $infoStudent, $count) {
 
-        if($count >= 3){
+        if($count['count'] >= 3){
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = '<strong>MATRÍCULA</strong>';
             $inconsistencyModel->school = $this->getSchoolName($student['school_inep_id_fk']);
-            $inconsistencyModel->description = 'Estudante <strong>' .  $infoStudent['name'] . '</strong> com CPF <strong>' . $infoStudent['cpf'] . '</strong> está matriculado em mais de uma turma regular ou regular e AEE';
-            $inconsistencyModel->action = 'Um aluno não deve estar matriculado simultaneamente em turmas regulares e turmas AEE';
+            $inconsistencyModel->description = 'Estudante <strong>' .  $infoStudent['name'] . '</strong> com CPF <strong>' . $infoStudent['cpf'] . '</strong> está matriculado em mais de uma turma regular';
+            $inconsistencyModel->action = 'Um aluno não deve estar matriculado simultaneamente em mais de uma turma regular';
             $inconsistencyModel->identifier = '9';
             $inconsistencyModel->idStudent = $student['student_fk'];
             $inconsistencyModel->idClass = $student['classroom_fk'];
