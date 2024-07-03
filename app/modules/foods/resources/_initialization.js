@@ -79,6 +79,7 @@ if (menuId) {
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
                     measurementForUnit: foodIngredient.measurementForUnit,
+                    amountForUnit: foodIngredient.amountForUnit == null ? "" : foodIngredient.amountForUnit,
                 }
 
                 idIgredientes++
@@ -121,6 +122,7 @@ if (menuId) {
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
                     measurementForUnit: foodIngredient.measurementForUnit,
+                    amountForUnit: foodIngredient.amountForUnit == null ? "" : foodIngredient.amountForUnit,
                 }
                 idIgredientes++
                 return food
@@ -162,6 +164,7 @@ if (menuId) {
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
                     measurementForUnit: foodIngredient.measurementForUnit,
+                    amountForUnit: foodIngredient.amountForUnit == null ? "" : foodIngredient.amountForUnit,
                 }
                 idIgredientes++
                 return food
@@ -203,6 +206,7 @@ if (menuId) {
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
                     measurementForUnit: foodIngredient.measurementForUnit,
+                    amountForUnit: foodIngredient.amountForUnit == null ? "" : foodIngredient.amountForUnit,
                 }
                 idIgredientes++
                 return food
@@ -244,6 +248,7 @@ if (menuId) {
                     nameFood: foodIngredient.nameFood,
                     measurementUnit: foodIngredient.measurementUnit,
                     measurementForUnit: foodIngredient.measurementForUnit,
+                    amountForUnit: foodIngredient.amountForUnit == null ? "" : foodIngredient.amountForUnit,
                 }
                 idIgredientes++
                 return food
@@ -283,8 +288,8 @@ if (menuId) {
                     cho: foodIngredient.cho,
                     kcal: foodIngredient.kcal,
                     nameFood: foodIngredient.nameFood,
-                    measurementUnit: foodIngredient.measurementUnit,
                     measurementForUnit: foodIngredient.measurementForUnit,
+                    amountForUnit: foodIngredient.amountForUnit == null ? "" : foodIngredient.amountForUnit,
                 }
 
                 idIgredientes++

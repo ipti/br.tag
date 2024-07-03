@@ -154,6 +154,7 @@ function getFoodIngredients(idPlateAccordion) {
             "food_id_fk": "",
             "food_measure_unit_id": "",
             "measurement_for_unit": "",
+            "amount_for_unit": "",
             "amount": "",
         }
         foodIngredient.food_id_fk = $(row).attr('data-idTaco')
@@ -161,8 +162,8 @@ function getFoodIngredients(idPlateAccordion) {
         foodIngredient.amount = $(row).find('.js-unit input').val()
 
         if($(row).find('.js-measure select option:selected').text() == "unidade") {
-            foodIngredient.amount = $(row).find(".js-amount-for-unit").val()
-            foodIngredient.measurement_for_unit = $(row).find(".js-measurement-for-unit").select2("val")
+            foodIngredient.amount_for_unit = $(row).find(".js-amount-for-unit").val()
+            foodIngredient.measurement_for_unit = $(row).find(".js-measurement-for-unit").val()
         }
 
         foodIngredients.push(foodIngredient)

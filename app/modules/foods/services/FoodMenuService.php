@@ -313,6 +313,7 @@ class FoodMenuService
             $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient["food_measure_unit_id"]);
             $foodIngredient->food_measurement_fk = $foodMeasurement->id;
             $foodIngredient->measurement_for_unit = $ingredient["measurement_for_unit"] != ""? $ingredient["measurement_for_unit"] : null;
+            $foodIngredient->amount_for_unit = $ingredient["amount_for_unit"] != ""? $ingredient["amount_for_unit"] : null;
             $foodIngredient->validate();
             CVarDumper::dump($foodIngredient->getErrors());
             $saveIngredientResult = $foodIngredient->save();
@@ -455,6 +456,7 @@ class IngredientObject
     public $nameFood;
     public $measurementUnit;
     public $measurementForUnit;
+    public $amountForUnit;
 
     public function __construct($model, $foodModel)
     {
@@ -470,6 +472,7 @@ class IngredientObject
         $this->nameFood = $foodModel->description;
         $this->measurementUnit = $foodModel->measurementUnit;
         $this->measurementForUnit = $model->measurement_for_unit;
+        $this->amountForUnit = $model->amount_for_unit;
 
     }
 }

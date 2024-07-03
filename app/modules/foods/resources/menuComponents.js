@@ -218,7 +218,6 @@ const PlateComponent = function (plate) {
       type: "GET",
     }).success(function (response) {
       response = JSON.parse(DOMPurify.sanitize(response))
-
       food.pt = response.pt
       food.lip = response.lip
       food.cho = response.cho
@@ -252,6 +251,7 @@ const PlateComponent = function (plate) {
       })
       table.find('.js-total').remove()
       addFoodMeasurement(line, food)
+      addFoodMeasurementForUnit(line, food)
       addUnitMask(line)
       changeAmount(line, food, table)
       table.append(line)
@@ -278,13 +278,13 @@ const PlateComponent = function (plate) {
     })
     td.find(".js-amount-for-unit").on("input", function (event) {
         let value = Number(td.find(".js-amount-for-unit").val())
-        let measure = td.find(".js-measurement-for-unit").select2("val")
+        let measure = td.find(".js-measurement-for-unit").val()
         updateNutritionalValues(value, measure, food, line);
         calculateNutritionalValue(table)
     })
     td.find(".js-measurement-for-unit").on("change", function (event) {
         let value = Number(td.find(".js-amount-for-unit").val())
-        let measure = td.find(".js-measurement-for-unit").select2("val")
+        let measure = td.find(".js-measurement-for-unit").val()
         updateNutritionalValues(value, measure, food, line);
         calculateNutritionalValue(table)
     })
@@ -307,15 +307,28 @@ const PlateComponent = function (plate) {
               calculateNutritionalValue(table)
               td.find(".js-amount-value").text(newAmount)
     })
-      let newAmount = calculateAmount(
-      select.find('option:selected').attr('data-value'),
-      food,
-      input.val(),
-      select.find('option:selected').attr('data-measure'),
-      line
-      )
-      td.find(".js-amount-value").text(newAmount)
-      calculateNutritionalValue(table)
+    if(select.find('option:selected').text() == "unidade") {
+        td.find(".js-amount-for-unit, .js-measurement-for-unit").show()
+        td.find(".js-amount-value").hide()
+
+        let value = Number(td.find(".js-amount-for-unit").val())
+        let measure = td.find(".js-measurement-for-unit").val()
+        updateNutritionalValues(value, measure, food, line);
+        calculateNutritionalValue(table)
+    } else {
+        let newAmount = calculateAmount(
+        select.find('option:selected').attr('data-value'),
+        food,
+        input.val(),
+        select.find('option:selected').attr('data-measure'),
+        line
+        )
+        td.find(".js-amount-value").text(newAmount)
+        calculateNutritionalValue(table)
+        td.find(".js-amount-for-unit, .js-measurement-for-unit").hide()
+        td.find(".js-amount-value").show()
+    }
+
 
   }
   function calculateAmount(value, food, amount, measure, line) {
@@ -386,8 +399,8 @@ const PlateComponent = function (plate) {
                 </select>
             </td>`)
       .append(`<td class='js-amount justify-content--center align-items--center' style="height:43.5833px;">
-                <input type='text' class="js-amount-for-unit t-field-text__input hide" style='width:50px !important;margin-top:0px;display:none;'>
-                <select class="js-initialize-select2 t-field-select__input js-measurement-for-unit hide" style='width:50px !important;display:none;'>
+                <input type='text' class="js-amount-for-unit t-field-text__input" value="${food.amountForUnit}" style='width:50px !important;margin-top:0px;display:none;'>
+                <select class="t-field-select__input js-measurement-for-unit" style='width:50px !important;display:none;margin-bottom:0.2em;'>
                     <option value="g">g</option>
                     <option value="kg">kg</option>
                     <option value="ml">ml</option>
@@ -402,6 +415,11 @@ const PlateComponent = function (plate) {
       .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon' data-id-plate='${plate.id}' data-id-food-ingredients="${food.id}"><span></td>`)
 
     return line;
+  }
+  function addFoodMeasurementForUnit(line, food){
+    const select = line.find('.js-measurement-for-unit')
+    select.val(food.measurementForUnit).trigger('change')
+
   }
   function addFoodMeasurement(line, food) {
       const select = line.find('.js-food-measurement')
