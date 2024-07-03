@@ -127,10 +127,10 @@ class AdminController extends Controller
             if (ed.name  is null, '', ed.name) disciplina,
             if (gr.grade_1 is null, '', gr.grade_1) nota_01,
             if (gr.grade_2  is null, '', gr.grade_2) nota_02,
-            if (gr.rec_partial_9 is null, '', gr.rec_partial_9) recuperacao_semestral_I,
+            if (gr.rec_partial_1 is null, '', gr.rec_partial_1) recuperacao_semestral_I,
             if (gr.grade_3  is null, '', gr.grade_3) nota_03,
             if (gr.grade_4  is null, '', gr.grade_4) nota_04,
-            if (gr.rec_partial_10  is null, '', gr.rec_partial_10) recuperacao_semestral_II,
+            if (gr.rec_partial_2  is null, '', gr.rec_partial_2) recuperacao_semestral_II,
             if (gr.rec_final  is null, '', gr.rec_final) recuperacao_final
         from student_enrollment se 
             left join student_identification si 
