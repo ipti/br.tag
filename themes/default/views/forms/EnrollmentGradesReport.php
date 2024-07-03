@@ -59,9 +59,8 @@ function classroomDisciplineLabelResumeArray($id) {
 $diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines);
 
 foreach ($baseDisciplines as $name):
-
-$dados = classroomDisciplineLabelResumeArray($name);
-CVarDumper::dump($name, 10, true);
+    $dados = classroomDisciplineLabelResumeArray($name);
+    CVarDumper::dump($dados, 10, true);
 endforeach;
 ?>
 
@@ -146,7 +145,6 @@ endforeach;
                             $gradeResultFaults = 0;
                             if ($unities[$i-1]->type == 'UC') {
                                 $conceptUnities = true;
-
                             }
                             for($j=0; $j < $diciplinesColumnsCount; $j++) {
                                 $gradeResultFaults += $result[$j]['grade_result']['grade_faults_'.$i];
@@ -161,6 +159,7 @@ endforeach;
                                     <td style="text-align: center;"><?= $result[$j]['grade_result']['grade_'.$i] ?></td>
                                 <?php } ?>
                             <?php }?>
+
                             <?php if ($unities[$i-1]->type != 'RF') { ?>
                                 <td style="text-align: center;"><?= $school_days[$i-1]?></td>
                                 <td style="text-align: center;"><?= $workload[$i-1]?></td>
@@ -171,8 +170,10 @@ endforeach;
                                 <td style="text-align: center;"></td>
                             <?php } ?>
                         </tr>
+                                           
                     <?php }?>
                 </tbody>
+
 
                 <!-- <tr>
                     <td colspan="1">MÉDIA ANUAL</td>

@@ -21,7 +21,7 @@ class FormsRepository {
             ":discipline_fk" => $disciplineId
         ]);
 
-        
+
         if ($gradeResult != null) {
             for ( $i = 1; $i <= 8; $i++ ) {
                 $totalContents += $gradeResult['given_classes_'.$i];
@@ -224,9 +224,6 @@ class FormsRepository {
         array_splice($unities, $recFinalIndex, 1);
         array_push($unities, $recFinalObject);
 
-
-        CVarDumper::dump($enrollment);
-        exit();
         // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho
         foreach ($curricularMatrix as $matrix) {
             if($this->separateBaseDisciplines($matrix->discipline_fk)) { // se for disciplina da BNCC
@@ -288,7 +285,9 @@ class FormsRepository {
                 ]);
             }
         }
+        
 
+   
         // Aqui eu ordeno o array de notas de acordo com a ordem da coluna de disciplinas
         $report = [];
         foreach ($totalDisciplines as $disciplineId) {
@@ -301,6 +300,7 @@ class FormsRepository {
             }
         }
 
+
         $response = array(
             'enrollment' => $enrollment,
             'result' => $report,
@@ -311,7 +311,6 @@ class FormsRepository {
             "faults" => $faultsPerUnity,
             "workload" => $workloadPerUnity,
         );
-
         return $response;
     }
 
@@ -839,7 +838,7 @@ class FormsRepository {
 
         $c = '';
 
-        
+
         switch ($data['class']) {
             case '4':
                 $c = '1º';

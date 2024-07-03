@@ -474,7 +474,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         }
 
 
-
         echo CJSON::encode(["valid" => true]);
     }
 

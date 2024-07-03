@@ -19,7 +19,63 @@ $months = array(
     '09' => 'Setembro', '10' => 'Outubro', '11' => 'Novembro', '12' => 'Dezembro'
 );
 $monthName = $months[$month];
-    CVarDumper::dump($baseDisciplines, 10, true);
+
+
+
+function classroomDisciplineLabelResumeArray($id) {
+    $disciplinas = array(
+        1 => 'Química',
+        2 => 'Física',
+        3 => 'Matemática',
+        4 => 'Biologia',
+        5 => 'Ciências',
+        6 => 'Português',
+        7 => 'Inglês',
+        8 => 'Espanhol',
+        9 => 'Outro Idioma',
+        10 => 'Artes',
+        11 => 'Educação Física',
+        12 => 'História',
+        13 => 'Geografia',
+        14 => 'Filosofia',
+        16 => 'Informática',
+        17 => 'Disc. Profissionalizante',
+        20 => 'Educação Especial',
+        21 => 'Sociedade&nbspe Cultura',
+        23 => 'Libras',
+        25 => 'Disciplinas pedagógicas',
+        26 => 'Ensino religioso',
+        27 => 'Língua indígena',
+        28 => 'Estudos Sociais',
+        29 => 'Sociologia',
+        30 => 'Francês',
+        99 => 'Outras Disciplinas',
+        10001 => 'Redação',
+        10002 => 'Linguagem oral e escrita',
+        10003 => 'Natureza e sociedade',
+        10004 => 'Movimento',
+        10005 => 'Música',
+        10006 => 'Artes visuais',
+        10007 => 'Acompanhamento Pedagógico',
+        10008 => 'Teatro',
+        10009 => 'Canteiro Sustentável',
+        10010 => 'Dança',
+        10011 => 'Cordel',
+        10012 => 'Física'
+    );
+
+    if (array_key_exists($id, $disciplinas)) {
+        return $disciplinas[$id];
+    } else {
+        return EdcensoDiscipline::model()->findByPk($id)->name;
+    }
+}
+$diciplinesColumnsCount = count($student['baseDisciplines'])+count($student['diversifiedDisciplines']);
+
+foreach ($student['baseDisciplines'] as $name):
+    $dados = classroomDisciplineLabelResumeArray($name);
+    CVarDumper::dump($dados, 10, true);
+endforeach;
 ?>
 
 <div class="pageA4H">
@@ -80,80 +136,65 @@ $monthName = $months[$month];
     <?php $this->renderPartial('footer'); ?>
 </div>
 
-<div class="container-school-record"> 
-    <div class = "table-contant" style="display: flex; align-items: center; justify-content: center;">
-    <table class="school-record-table" >
-        <tr>
-            <th rowspan="11" class="vertical-header vida-escolar"> VIDA ESCOLAR </th>
-            <th colspan="20" class="th-disciplinas"> DISCIPLINAS </th>
-            <th rowspan="1" class="estabelecimento"> NOME DO ESTABELECIMENTO </th>
-        </tr>
-        <tr>
-            <th class="vertical-header">IDADE</th>
-            <th class="vertical-header">SÉRIE</th>
-            <th class="vertical-header">LÍNGUA PORTUGUESA</th>
-            <th class="vertical-header">MATEMÁTICA</th>
-            <th class="vertical-header">CIÊNCIAS</th>
-            <th class="vertical-header">HISTÓRIA</th>
-            <th class="vertical-header">GEOGRAFIA</th>
-            <th class="vertical-header">LÍNGUA ESTRANGEIRA</th>
-            <th class="vertical-header">ARTE</th>
-            <th class="vertical-header">FILOSOFIA</th>
-            <th class="vertical-header">ÉTICA E CIDADANIA</th>
-            <th class="vertical-header">ENSINO RELIGIOSO</th>
-            <th class="vertical-header">EDUCAÇÃO FÍSICA</th>
-            <th class="vertical-header"></th>
-            <th class="vertical-header"></th>
-            <th class="vertical-header"></th>
-            <th class="vertical-header"></th>
-            <th class="vertical-header"></th>
-            <th class="vertical-header">MÉDIA ANUAL</th>
-            <th class="vertical-header">ANO</th>
-        </tr>
+<?php
+$numCols = $diciplinesColumnsCount+4 ;
+$numRows = 9;
+?>
 
-        <?php for ($i = 0; $i < 9; $i++): ?>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <?php endfor; ?>
+<div class="container-school-record"> 
+    <div class="table-contant" style="display: flex; align-items: center; justify-content: center;">
+        <table class="school-record-table">
+            <tr>
+                <th rowspan="11" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
+                <th colspan="<?= $numCols?>" style="text-align: center">DISCIPLINAS</th>
+
+                <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
+            </tr>
+            <tr>
+                <th class="vertical-header">IDADE</th>
+                <th class="vertical-header">SÉRIE</th>
+                
+
+               <?php foreach ($student['baseDisciplines'] as $name): ?>
+                            <th class="vertical-header">
+                                <div><?= strtoupper(classroomDisciplineLabelResumeArray($name)) ?></div>
+                            </th>
+                        <?php endforeach; ?>
+
+
+                <th class="vertical-header">MÉDIA ANUAL</th>
+                <th class="vertical-header">ANO</th>
+            </tr>
+            
+            <?php for ($i = 0; $i < $numRows; $i++): ?>
+                <tr>
+                    <?php for ($j = 0; $j < $numCols; $j++): ?>
+                        <td></td>
+                    <?php endfor; ?>
+                </tr>
+            <?php endfor; ?>
+            
             <tr>
                 <td></td>
-                <td colspan="20" ></td>
+                <td colspan="<?= $numCols ?>"></td>
                 <th></th>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="20" ></td>
-                <th rowspan="1" > Autentificação </th>
+                <td colspan="<?= $numCols ?>"></td>
+                <th rowspan="1">Autentificação</th>
             </tr>
-            <?php for ($i = 0; $i < 9; $i++): ?>
-            <tr>
-                <td></td>
-                <td colspan="20" ></td>
-            </tr>
-        <?php endfor; ?>
-    </table>
+            
+            <?php for ($i = 0; $i < $numRows; $i++): ?>
+                <tr>
+                    <td></td>
+                    <td colspan="<?= $numCols ?>"></td>
+                </tr>
+            <?php endfor; ?>
+        </table>
+    </div>
 </div>
+
 
 <br>
 
