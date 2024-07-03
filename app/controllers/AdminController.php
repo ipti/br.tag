@@ -133,14 +133,18 @@ class AdminController extends Controller
             if (gr.rec_partial_2  is null, '', gr.rec_partial_2) recuperacao_semestral_II,
             if (gr.rec_final  is null, '', gr.rec_final) recuperacao_final
         from student_enrollment se 
-            left join student_identification si 
+            join student_identification si 
             on (se.student_fk = si.id)
-            left join classroom c 
+            join classroom c 
             on (se.classroom_fk = c.id)
-            left join grade_results gr 
-            on (gr.enrollment_fk = se.id)
+            left join edcenso_stage_vs_modality esvm
+            on (c.edcenso_stage_vs_modality_fk = esvm.id)
+            left join curricular_matrix cm
+            on (cm.stage_fk = esvm.id)
             left join edcenso_discipline ed 
-            on (gr.discipline_fk = ed.id)
+            on (cm.discipline_fk = ed.id)
+            left join grade_results gr 
+            on (gr.enrollment_fk = se.id and gr.discipline_fk = ed.id)
         where 1=1
         and c.school_year = " . Yii::app()->user->year;
 
