@@ -138,7 +138,7 @@ class AdminController extends Controller
             left join classroom c 
             on (se.classroom_fk = c.id)
             left join grade_results gr 
-            on (gr.enrollment_fk = se.enrollment_id)
+            on (gr.enrollment_fk = se.id)
             left join edcenso_discipline ed 
             on (gr.discipline_fk = ed.id)
         where 1=1
