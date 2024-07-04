@@ -115,11 +115,15 @@ class FoodNoticeController extends Controller
 
                 $requestResult = $this->getClient()->post("/app/upload", [
                     'headers' => [
-                        'Accept'     => 'application/json',
-                        'Content-Type' => 'multipart/form-data',
                         'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
                     ],
                     'multipart' => [
+                        [
+                            'name' => 'notice_pdf',
+                            'Content-Type' => 'multipart/form-data',
+                            'contents' => \GuzzleHttp\Psr7\Utils::streamFor($file),
+                            'filename' => $fileUploaded->name
+                        ],
                         [
                             'name' => 'id',
                             'contents' => $uuid->toString()
@@ -131,12 +135,8 @@ class FoodNoticeController extends Controller
                         [
                             'name' => 'date',
                             'contents' => date('Y-m-d', $date)
-                        ],
-                        [
-                            'name' => 'notice_pdf',
-                            'contents' => \GuzzleHttp\Psr7\Utils::streamFor($file),
-                            'filename' => $fileUploaded->name
                         ]
+
                     ]
                 ]);
 
@@ -163,12 +163,12 @@ class FoodNoticeController extends Controller
                 );
             } catch (\GuzzleHttp\Exception\RequestException $e) {
 
-                CVarDumper::dump($requestResult);
+                CVarDumper::dump("Entrei aqui:" + $requestResult);
                 $request = $e->getRequest();
                 CVarDumper::dump($request, 10, true);
             } catch (Exception $e) {
                 //other errors
-                CVarDumper::dump($requestResult);
+                CVarDumper::dump("Entrei aqui 2:" + $requestResult);
                 CVarDumper::dump($e, 10, true);
 
             }
