@@ -540,7 +540,7 @@ const MealsComponent = function (meal, day) {
         </div>
       </div>
       <div class="row">
-        <div class="js-plate-accordion column">
+        <div class="js-plate-accordion t-accordeon-secondary column">
         </div>
       </div>
     </div>

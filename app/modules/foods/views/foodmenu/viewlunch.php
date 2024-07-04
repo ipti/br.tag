@@ -51,15 +51,11 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
             endif;
         ?>
         <div class="mobile-row">
-            <?php
-                if(!$isNutritionist):
-            ?>
-                <a class="t-button-primary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
+
+                <a class="<?= $isNutritionist ? 't-button-secondary' : 't-button-primary' ?>" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
                     Estoque
                 </a>
-            <?php
-                endif;
-            ?>
+
             <a class="t-button-secondary" style="margin-right:10px;display:none;" href="<?php echo yii::app()->createUrl('foods/farmerregister') ?>">
                 Agricultor
             </a>

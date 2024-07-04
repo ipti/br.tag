@@ -136,7 +136,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		</div>
 		<div class="row js-menu-meals-container">
 			<div class="column">
-				<div id="js-accordion" class="js-meals-component t-accordeon-secondary"></div>
+				<div id="js-accordion" class="js-meals-component t-accordeon-primary"></div>
 			</div>
 		</div>
 	</div>

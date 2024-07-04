@@ -184,6 +184,7 @@ function showErros(erros) {
         return accumulator + `O campo <b>${item.field}</b> é obrigatório<br>`;
     }, '');
     menuError.html(message)
+    menuError.show()
     menuError.removeClass('hide')
     window.scrollTo({
         top: 0,
