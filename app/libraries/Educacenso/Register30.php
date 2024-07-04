@@ -207,6 +207,19 @@ class Register30
                 $student['resource_zoomed_test_24'] = '';
                 $student['resource_braille_test'] = '';
             }
+
+            $deficiencyCount = 0;
+            $deficiencyCount = $student['deficiency_type_blindness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_low_vision'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_monocular_vision'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_deafness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_disability_hearing'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_deafblindness'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_phisical_disability'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            $deficiencyCount = $student['deficiency_type_intelectual_disability'] == '1' ? $deficiencyCount + 1 : $deficiencyCount;
+            if ($deficiencyCount >= 2) {
+                $student['deficiency_type_multiple_disabilities'] = '1';
+            }
         }
 
         if ($student['nationality'] == '1' && !isset($student['edcenso_city_fk'])) {

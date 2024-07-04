@@ -463,12 +463,6 @@ $form = $this->beginWidget(
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_multiple_disabilities']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_autism']; ?>
