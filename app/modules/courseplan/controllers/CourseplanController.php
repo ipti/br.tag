@@ -363,11 +363,21 @@ class CourseplanController extends Controller
 
     public function actionIndex()
     {
+        $coursePlanRequest = Yii::app()->request->getPost('stage');
+        if(!isset($coursePlanRequest))
+        {
+            $this->render(
+                'index',
+                array(
+                    'stages' => $this->getStages(),
+                ));
+        }
+
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
         {
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
                 'criteria' => array(
-                    'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id,
+                    'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id . 'AND school_inep_fk=' . Yii::app()->user->school,
                 ),
                 'pagination' => false
             ));
@@ -376,6 +386,9 @@ class CourseplanController extends Controller
         if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
         {
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                'criteria' => array(
+                    'condition' => 'school_inep_fk=' . Yii::app()->user->school,
+                ),
                 'pagination' => false
             ));
         }

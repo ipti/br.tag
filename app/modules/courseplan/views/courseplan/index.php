@@ -56,6 +56,52 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
         </div>
     </div>
 
+        <?php if (Yii::app()->user->hasFlash('success')) : ?>
+            <div class="alert alert-success">
+                <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php endif ?>
+        <div id="select-container" class="tablet-row align-items--center-on-desktop">
+            <div class="mobile-row">
+                <div class="column clearleft">
+                    <div class="t-field-select">
+                        <?php echo CHtml::label(yii::t('default', 'Stage'), 'stage', array('class' => 't-field-select__label--required'));?>
+                        <select class="select-search-on t-field-select__input" id="stage">
+                            <option value="">Selecione a etapa</option>
+                            <?php foreach ($schoolStages as $stage) : ?>
+                                <option value="<?= $stage->id ?>">
+                                    <?= $stage->name ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <!-- diciplina -->
+                </div>
+                <div class="column month-container">
+                    <div class="t-field-select">
+                        <?php echo CHtml::label(yii::t('default', 'Month') . "/Ano",
+                            'month', array('class' => 't-field-select__label--required')); ?>
+                        <select class="select-search-on t-field-select__input js-load-frequency" id="month"
+                                style="min-width: 185px;"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="mobile-row helper">
+                <div class="column  clearleft on-tablet disciplines-container">
+                    <div class="t-field-select js-load-frequency">
+                        <?php echo CHtml::label(yii::t('default', 'Discipline'),
+                            'disciplines', array('class' => 't-field-select__label--required')); ?>
+                        <?php
+                        echo CHtml::dropDownList('disciplines', '', array(), array(
+                            'key' => 'id',
+                            'class' => 'select-search-on t-field-select__input',
+                        ));
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <div class="tag-inner">
         <div class="columnone" style="padding-right: 1em">
             <div class="widget clearmargin">
