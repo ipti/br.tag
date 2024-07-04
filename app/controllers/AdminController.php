@@ -84,7 +84,7 @@ class AdminController extends Controller
             if (si.inep_id is null, '', si.inep_id) inep_aluno, 
             if (si.name is null, '', si.name) nome_aluno, 
             if (si.birthday is null, '', si.birthday) data_nascimento, 
-            if (si.gov_id is null, '', si.gov_id) cpf, 
+            if (sdaa.cpf is null, '', sdaa.cpf) cpf, 
             if (si.sex is null, '', si.sex) sexo,
             if (concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement) is null 
                 or trim(concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement)) = ', , ', 
@@ -157,27 +157,51 @@ class AdminController extends Controller
     {
         $pathFile = "./app/export/InfoTagCSV/faults_" . Yii::app()->user->year . ".csv";
 
-        $sql = "select 
-            if (si.inep_id is null, '', si.inep_id) inep_aluno, 
-            if (si.name is null, '', si.name) nome_aluno, 
-            if (c.name is null, '', c.name) turma,
-            if (s.`month` is null, '', s.`month`) mes,
-            if (count(cf.id) is null, 0, count(cf.id)) total_faltas
-        from student_enrollment se 
-            left join student_identification si 
-            on (se.student_fk = si.id)
-            left join classroom c 
-            on (se.classroom_fk = c.id)
-            left join class_faults cf  
-            on (se.student_fk = cf.student_fk)
-            left join schedule s
-            on (cf.schedule_fk = s.id)
-        where 1=1
-        and c.school_year = " . Yii::app()->user->year . "
-        group by inep_aluno, nome_aluno, turma, mes;";
+        $result = [];
 
-        $result = Yii::app()->db->createCommand($sql)->queryAll();
+        $classrooms = Classroom::model()->findAllByAttributes(["school_year" => Yii::app()->user->year]);
+        foreach ($classrooms as $classroom) {
+            if ($classroom->calendar_fk != null) {
 
+                $dates = Yii::app()->db->createCommand("select start_date, end_date from calendar join classroom on calendar.id = classroom.calendar_fk where classroom.id = " . $classroom->id)->queryRow();
+                $start    = (new DateTime($dates["start_date"]))->modify('first day of this month');
+                $end      = (new DateTime($dates["end_date"]))->modify('first day of next month');
+                $interval = DateInterval::createFromDateString('1 month');
+                $period   = new DatePeriod($start, $interval, $end);
+                $months = [];
+                foreach ($period as $dt) {
+                    array_push($months, $dt->format("m/Y"));
+                }
+
+                foreach($classroom->studentEnrollments as $studentEnrollment) {
+                    $usedDaysForMinorEducation = [];
+                    foreach($months as $month) {
+                        $studentIdentification = $studentEnrollment->studentFk;
+                        $row["inep_aluno"] = $studentIdentification->inep_id;
+                        $row["nome_aluno"] = $studentIdentification->name;
+                        $row["turma"] = $classroom->name;
+                        $row["mes"] = $month;
+                        $row["total_faltas"] = 0;
+                        $classFaults = ClassFaults::model()->findAllBySql("select cf.* from class_faults cf join schedule s on s.id = cf.schedule_fk where s.classroom_fk = :classroom_fk and cf.student_fk = :student_fk", ["classroom_fk" => $classroom->id, "student_fk" => $studentIdentification->id]);
+                        foreach($classFaults as $classFault) {
+                            $schedule = $classFault->scheduleFk;
+                            if ($month == str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "/" . $schedule->year) {
+                                if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
+                                    if (!in_array($schedule->day . $schedule->month . $schedule->year, $usedDaysForMinorEducation)) {
+                                        $row["total_faltas"]++;
+                                        array_push($usedDaysForMinorEducation, $schedule->day . $schedule->month . $schedule->year);
+                                    }
+                                } else {
+                                    $row["total_faltas"]++;
+                                }
+                            }
+                        }
+
+                        array_push($result, $row);
+                    }
+                }
+            }
+        }
         $this->exportToCSV($result, $pathFile);
     }
 
@@ -218,7 +242,8 @@ class AdminController extends Controller
         Yii::app()->user->setFlash('error', Yii::t('default', 'Error na importação: ' . $e->getMessage()));
     }
 
-    private function createDirectoriesIfNotExist($filePath) {
+    private function createDirectoriesIfNotExist($filePath)
+    {
         // Extrai o diretório do caminho do arquivo
         $directoryPath = dirname($filePath);
 
@@ -290,7 +315,7 @@ class AdminController extends Controller
             if (!isset($modelValidate)) {
                 $model->attributes = $_POST['Users'];
                 if ($model->validate()) {
-                    $passwordHasher =  new PasswordHasher;
+                    $passwordHasher = new PasswordHasher;
                     $password = $passwordHasher->bcriptHash($_POST['Users']['password']);
 
                     $model->password = $password;
@@ -371,7 +396,6 @@ class AdminController extends Controller
             ->findAll($criteria);
 
 
-
         foreach ($gradeUnities as $gradeUnity) {
             $arr = $gradeUnity->attributes;
             $arr["modalities"] = [];
@@ -403,7 +427,7 @@ class AdminController extends Controller
         $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
         $result["mediaCalculation"] = $gradeRules->grade_calculation_fk;
         $result["ruleType"] = $gradeRules->rule_type;
-        $result["hasFinalRecovery"] = (bool) $gradeRules->has_final_recovery;
+        $result["hasFinalRecovery"] = (bool)$gradeRules->has_final_recovery;
 
         $result["partialRecoveries"] = [];
 
@@ -415,22 +439,22 @@ class AdminController extends Controller
             $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
             $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->grade_calculation_fk;
             $resultPartialRecovery["weights"] = [];
-            if($partialRecovery->gradeCalculationFk->name == "Peso") {
-                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk"=>$partialRecovery->id]);
-                foreach($gradeRecoveryWeights as $weight){
+            if ($partialRecovery->gradeCalculationFk->name == "Peso") {
+                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk" => $partialRecovery->id]);
+                foreach ($gradeRecoveryWeights as $weight) {
                     array_push($resultPartialRecovery["weights"],
-                    [
-                     "id" => $weight["id"],
-                     "unity_fk" => $weight["unity_fk"],
-                     "weight" => $weight["weight"],
-                     "name" => $weight["unity_fk"] !== null ? $weight->unityFk->name : 'recuperação'
-                     ]
+                        [
+                            "id" => $weight["id"],
+                            "unity_fk" => $weight["unity_fk"],
+                            "weight" => $weight["weight"],
+                            "name" => $weight["unity_fk"] !== null ? $weight->unityFk->name : 'recuperação'
+                        ]
                     );
                 }
             }
 
             $unities = GradeUnity::model()->findAllByAttributes(array('parcial_recovery_fk' => $partialRecovery->id));
-            $resultPartialRecovery["unities"]  = $unities;
+            $resultPartialRecovery["unities"] = $unities;
 
             array_push($result["partialRecoveries"], $resultPartialRecovery);
         }
@@ -467,7 +491,7 @@ class AdminController extends Controller
                 $ruleType,
                 $hasPartialRecovery,
                 $partialRecoveries
-                );
+            );
             $usecase->exec();
 
             if ($hasFinalRecovery === true) {
@@ -508,7 +532,6 @@ class AdminController extends Controller
     }
 
 
-
     public function actionActiveDisableUser()
     {
         $criteria = new CDbCriteria();
@@ -525,6 +548,7 @@ class AdminController extends Controller
         echo phpinfo();
 
     }
+
     public function actionDisableUser($id)
     {
         $model = Users::model()->findByPk($id);
@@ -856,6 +880,7 @@ class AdminController extends Controller
         }
         echo json_encode(["valid" => $changed, "text" => "Configurações alteradas com sucesso.</br>"]);
     }
+
     public function actionAuditory()
     {
         $schools = Yii::app()->db->createCommand("select inep_id, `name` from school_identification order by `name`")->queryAll();
