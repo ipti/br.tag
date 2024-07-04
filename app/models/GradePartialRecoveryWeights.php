@@ -1,32 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "grade_calculation".
+ * This is the model class for table "grade_partial_recovery_weights".
  *
- * The followings are the available columns in table 'grade_calculation':
+ * The followings are the available columns in table 'grade_partial_recovery_weights':
  * @property integer $id
- * @property string $name
- * @property string $formula
+ * @property integer $weight
+ * @property integer $unity_fk
+ * @property integer $partial_recovery_fk
  *
  * The followings are the available model relations:
- * @property GradePartialRecovery[] $gradePartialRecoveries
- * @property GradeRules[] $gradeRules
- * @property GradeUnity[] $gradeUnities
+ * @property GradeUnity $unityFk
+ * @property GradePartialRecovery $partialRecoveryFk
  */
-class GradeCalculation extends CActiveRecord
+class GradePartialRecoveryWeights extends CActiveRecord
 {
-    public const OP_SUM = 1;
-    public const OP_MEDIA = 2;
-    public const OP_MEDIA_BY_WEIGTH = 3;
-    public const OP_MAX = 4;
-    public const OP_MIN = 5;
-
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'grade_calculation';
+		return 'grade_partial_recovery_weights';
 	}
 
 	/**
@@ -37,11 +31,11 @@ class GradeCalculation extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, formula', 'required'),
-			array('name, formula', 'length', 'max'=>50),
+			array('weight, partial_recovery_fk', 'required'),
+			array('weight, unity_fk, partial_recovery_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, formula', 'safe', 'on'=>'search'),
+			array('id, weight, unity_fk, partial_recovery_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,9 +47,8 @@ class GradeCalculation extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'gradePartialRecoveries' => array(self::HAS_MANY, 'GradePartialRecovery', 'grade_calculation_fk'),
-			'gradeRules' => array(self::HAS_MANY, 'GradeRules', 'grade_calculation_fk'),
-			'gradeUnities' => array(self::HAS_MANY, 'GradeUnity', 'grade_calculation_fk'),
+			'unityFk' => array(self::BELONGS_TO, 'GradeUnity', 'unity_fk'),
+			'partialRecoveryFk' => array(self::BELONGS_TO, 'GradePartialRecovery', 'partial_recovery_fk'),
 		);
 	}
 
@@ -66,8 +59,9 @@ class GradeCalculation extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'formula' => 'Formula',
+			'weight' => 'Weight',
+			'unity_fk' => 'Unity Fk',
+			'partial_recovery_fk' => 'Partial Recovery Fk',
 		);
 	}
 
@@ -90,8 +84,9 @@ class GradeCalculation extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('formula',$this->formula,true);
+		$criteria->compare('weight',$this->weight);
+		$criteria->compare('unity_fk',$this->unity_fk);
+		$criteria->compare('partial_recovery_fk',$this->partial_recovery_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -102,7 +97,7 @@ class GradeCalculation extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return GradeCalculation the static model class
+	 * @return GradePartialRecoveryWeights the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

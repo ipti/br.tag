@@ -28,14 +28,18 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
     );
     ?>
 
+<div class="row">
     <div class="column">
-        <div class="row">
+        <div class="column">
             <h1>Estrutura de Unidades e Avaliações</h1>
-            <div class="buttons row grades-buttons">
-                <!-- <a class='t-button-primary save-and-reply'>Salvar e Replicar</a> -->
-                <a class='t-button-primary save'>Salvar</a>
-            </div>
         </div>
+        <div class="buttons row grades-buttons">
+            <!-- <a class='t-button-primary save-and-reply'>Salvar e Replicar</a> -->
+            <a class='t-button-primary save' style="margin-right: 2.5em;">Salvar</a>
+        </div>
+    </div>
+</div>
+    <div class="column js-grades-container">
         <?php if (Yii::app()->user->hasFlash('success')): ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
@@ -45,9 +49,10 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         <div class="alert-required-fields no-show alert alert-error"></div>
         <div class="column">
             <div class="row margin-bottom-none">
-                <div class="t-field-select">
+                <div class="t-field-select row">
+                    <div class="column no-grow clearfix">
+
                     <?php echo CHtml::label(yii::t('default', 'Stage'), 'modality_fk', array('class' => 't-field-select__label--required', 'style' => 'width: 54px;')); ?>
-                    <div>
                         <?php
                         echo $form->dropDownList(
                             $gradeUnity,
@@ -57,13 +62,15 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                                 'key' => 'id',
                                 'class' => ' t-field-select__input select-search-on',
                                 'prompt' => 'Selecione o estágio...',
+                                'style' => 'width: 100%;'
+
                             )
                         );
                         ?>
                     </div>
+                    <img class="js-grades-structure-loading column no-grow" style="display:none; margin:initial; width:40px; height:40px; margin-top: auto;"
+                     src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                 </div>
-                <img class="js-grades-structure-loading" style="display:none;margin: 10px 20px;" height="30px"
-                    width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
             </div>
         </div>
         <div class="column js-grades-rules-container is-three-fifths" style="display: none;">
@@ -103,6 +110,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 <?php echo CHtml::label("Incluir recuperação final?", 'has_final_recovery', array('class' => 't-field-checkbox__label', 'id' => 'active-label')); ?>
             </div>
         </div>
+        <div class="js-alert-save-recovery-first no-show alert"></div>
         <div class="column js-grades-rules-container" style="display: none;">
             <div class="row">
                 <h2>Definição das unidades</h2>
@@ -116,8 +124,28 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         </div>
         <div id="accordion js-grades-rules-container"
             class="grades-structure-container t-accordeon-quaternary js-grades-structure-container accordion"
-            style="display: none;">
+           >
         </div>
+        <div class="js-alert-save-unities-first no-show alert"></div>
+        <div class="column js-grades-rules-container js-partial-recoveries-header" style="display: none;">
+            <div class="row">
+                <h2>Definição das Recuperações Parciais</h2>
+                <a id="new-partial-recovery" class="js-new-partial-recovery t-button-primary disabled">
+                    <img alt="Recuperação" src="/themes/default/img/buttonIcon/start.svg">Recuperação Parcial
+                </a>
+            </div>
+            <p class="subheading">
+                Gerencie a quantidade de recuperações parciais
+            </p>
+        </div>
+        <div class="row">
+            <div class="column is-three-fifths">
+                <div id="accordion-partial-recovery" class="t-accordeon-quaternary js-partial-recoveries-container">
+                </div>
+            </div>
+        </div>
+
+
         <div class="column js-recovery-form  is-three-fifths" style="display: none;">
             <h2>Regras de recuperação final</h2>
             <p class="subheading">

@@ -3,18 +3,23 @@ $(function () {
     const classroomId = urlParams.get("classroom_id");
     if (classroomId) {
         const disciplineId = urlParams.get("discipline_id");
-        loadDisciplinesFromClassroom(classroomId, disciplineId);
+        const unityId = urlParams.get("unity_id");
+        loadDisciplinesFromClassroom(classroomId, disciplineId, unityId);
     }
 });
 
 $("#classroom").change(function (e) {
     const disciplineId = urlParams.get("discipline_id");
+    const unityId = urlParams.get("unity_id");
     $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
-    loadDisciplinesFromClassroom(e.target.value, disciplineId);
+    loadDisciplinesFromClassroom(e.target.value, disciplineId, unityId);
+    loadUnitiesFromClassroom(e.target.value)
 });
 
-$("#discipline").change(function (e,triggerEvent ) {
-    loadStudentsFromDiscipline(e.target.value);
+$("#discipline, #unities").change(function (e,triggerEvent ) {
+    const unityId = $("#unities").val();
+    const disciplineId =  $("#discipline").val();
+    loadStudentsFromDiscipline(disciplineId, unityId);
     if (triggerEvent === "saveGrades") {
         $(".js-grades-alert")
             .removeClass("alert-error")
@@ -31,6 +36,7 @@ $("#save").on("click", function (e) {
     let students = [];
     $(".grades-table tbody tr").each(function () {
         let grades = [];
+        let partialRecoveriesGrades = [];
         if ($(".grades-table").attr("concept") === "1") {
             $(this)
                 .find(".grade-concept")
@@ -51,13 +57,23 @@ $("#save").on("click", function (e) {
                         value: $(this).val(),
                     });
                 });
+
+                $(this)
+                .find(".grade-partial-reovery")
+                .each(function () {
+                    partialRecoveriesGrades.push({
+                        id: $(this).attr("gradeid"),
+                        value:$(this).val(),
+                    })
+                })
+
         }
         students.push({
             enrollmentId: $(this).find(".enrollment-id").val(),
             grades: grades,
+            partialRecoveriesGrades: partialRecoveriesGrades,
         });
     });
-
     $.ajax({
         type: "POST",
         url: "?r=grades/saveGrades",
