@@ -41,18 +41,12 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
         </div>
     </div>
     <div class="t-buttons-container">
-        <?php
-            if($isNutritionist):
-        ?>
         <a class="t-button-primary"  href="<?php echo yii::app()->createUrl('foods/foodmenu/index') ?>">
             Preparar Cardápio
         </a>
-        <?php
-            endif;
-        ?>
         <div class="mobile-row">
 
-                <a class="<?= $isNutritionist ? 't-button-secondary' : 't-button-primary' ?>" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
+                <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
                     Estoque
                 </a>
 
