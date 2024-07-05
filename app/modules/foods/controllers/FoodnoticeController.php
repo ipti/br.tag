@@ -40,7 +40,8 @@ class FoodNoticeController extends Controller
                     'getTacoFoods',
                     'getNotice',
                     'activateNotice',
-                    'toggleNoticeStatus'
+                    'toggleNoticeStatus',
+                    'getNoticePdfUrl'
                 ),
                 'users' => array('*'),
             ),
@@ -106,13 +107,24 @@ class FoodNoticeController extends Controller
             $model->file_name = $_FILES["noticePdf"]["name"];
             $model->reference_id = $uuid->toString();
 
+            if ($model->save()) {
+                foreach ($noticeData["noticeItems"] as $item) {
+                    $modelNoticeItem = new FoodNoticeItem;
+                    $modelNoticeItem->name = $item["name"];
+                    $modelNoticeItem->description = $item["description"];
+                    $modelNoticeItem->measurement = $item["measurement"];
+                    $modelNoticeItem->year_amount = $item["yearAmount"];
+                    $modelNoticeItem->food_id = $item["food_fk"];
+                    $modelNoticeItem->foodNotice_fk = $model->id;
 
-            try {
+                    $modelNoticeItem->save();
+                }
+
                 $fileUploaded = CUploadedFile::getInstanceByName("noticePdf");
                 $file = fopen($fileUploaded->tempName, 'r');
                 $fileStream = \GuzzleHttp\Psr7\Utils::streamFor($file);
 
-
+                try {
                 $requestResult = $this->getClient()->post("/app/upload", [
                     'headers' => [
                         'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
@@ -141,40 +153,19 @@ class FoodNoticeController extends Controller
                 ]);
 
                 fclose($file);
+                } catch (\GuzzleHttp\Exception\RequestException $e) {
 
-                if ($model->save()) {
-                    foreach ($noticeData["noticeItems"] as $item) {
-                        $modelNoticeItem = new FoodNoticeItem;
-                        $modelNoticeItem->name = $item["name"];
-                        $modelNoticeItem->description = $item["description"];
-                        $modelNoticeItem->measurement = $item["measurement"];
-                        $modelNoticeItem->year_amount = $item["yearAmount"];
-                        $modelNoticeItem->food_id = $item["food_fk"];
-                        $modelNoticeItem->foodNotice_fk = $model->id;
+                    CVarDumper::dump($requestResult);
+                    $request = $e->getRequest();
+                    CVarDumper::dump($request, 10, true);
+                } catch (Exception $e) {
+                    //other errors
+                    CVarDumper::dump($requestResult);
+                    CVarDumper::dump($e, 10, true);
 
-                        $modelNoticeItem->save();
-                    }
                 }
-                $this->render(
-                    'create',
-                    array(
-                        'model' => $model,
-                    )
-                );
-            } catch (\GuzzleHttp\Exception\RequestException $e) {
-
-                CVarDumper::dump("Entrei aqui:" + $requestResult);
-                $request = $e->getRequest();
-                CVarDumper::dump($request, 10, true);
-            } catch (Exception $e) {
-                //other errors
-                CVarDumper::dump("Entrei aqui 2:" + $requestResult);
-                CVarDumper::dump($e, 10, true);
-
             }
         } else {
-
-
             $this->render(
                 'create',
                 array(
@@ -194,6 +185,23 @@ class FoodNoticeController extends Controller
             ]);
         }
         return $this->client;
+    }
+
+    public function actionGetNoticePdfUrl() {
+        $noticeId = Yii::app()->request->getPost('id');
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.id = :id';
+        $criteria->params = array(':id' => $noticeId);
+
+        $existingNotice = FoodNotice::model()->find($criteria);
+        $pdfUrlPath = '/app/url/' . $existingNotice->reference_id;
+
+        $result = $this->getClient()->request("GET", $pdfUrlPath);
+
+        $finalUrl = CJSON::decode($result->getBody()->getContents());
+
+        echo CJSON::encode($finalUrl['url']);
     }
 
     /**

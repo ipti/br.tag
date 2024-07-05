@@ -106,3 +106,19 @@ $('table tbody').on('click', 'a.delete-btn', function () {
 $(document).on("change", ".js-notice_pdf", function(e) {
     $(".uploaded-notice-name").text(e.target.files[0].name);
 });
+
+$(document).on("click", "#js-view-pdf", function () {
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodnotice/getNoticePdfUrl",
+        cache: false,
+        data: {
+            id: noticeID,
+        }
+    }).success(function(response) {
+        let data = DOMPurify.sanitize(response);
+        let url = JSON.parse(data);
+
+        window.open(url, '_blank');
+    });
+});

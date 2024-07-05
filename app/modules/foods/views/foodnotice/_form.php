@@ -52,7 +52,10 @@ $form = $this->beginWidget(
     </div>
     <div class="row">
         <div class="column clearleft">
-            <label for="notice_pdf" class="t-field-file__label t-button-secondary">Anexar PDF</label>
+            <div class="row t-buttons-container">
+                <label for="notice_pdf" class="t-field-file__label t-button-secondary">Anexar PDF</label>
+                <a title="" id="js-view-pdf" class="t-button-secondary <?= $model->isNewRecord ? 'hide' : '' ?>">Visualizar PDF</a>
+            </div>
             <input type="file" id="notice_pdf" name="notice_pdf" accept=".pdf" class="t-field-file__input js-notice_pdf">
             <span class="uploaded-notice-name"><?php echo $model->file_name !== null ? $model->file_name : '' ?></span>
         </div>
