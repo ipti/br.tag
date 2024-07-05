@@ -164,36 +164,40 @@ class SagresConsultModel
                 if (empty($managementUnit['managementUnitCode'])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'UNIDADE GESTORA: ' . $managementUnit['managementUnitName'];
-                    $inconsistencyModel->school = '';
+                    $inconsistencyModel->school = 'Unidade Gestora';
                     $inconsistencyModel->description = 'Código da Unidade Gestora não informado';
                     $inconsistencyModel->action = 'Por favor, informe o código de identificação da Unidade Gestora';
+                    $inconsistencyModel->identifier = '0';
                     $inconsistencyModel->insert();
                 }
 
                 if (empty($managementUnit['managementUnitName'])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'UNIDADE GESTORA';
-                    $inconsistencyModel->school = '';
+                    $inconsistencyModel->school = 'Unidade Gestora';
                     $inconsistencyModel->description = 'Nome da Unidade Gestora não informado';
                     $inconsistencyModel->action = 'Por favor, informe um nome para a Unidade Gestora';
+                    $inconsistencyModel->identifier = '0';
                     $inconsistencyModel->insert();
                 }
 
                 if (empty($managementUnit['responsibleCpf'])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'UNIDADE GESTORA: ' . $managementUnit['managementUnitName'];
-                    $inconsistencyModel->school = '';
+                    $inconsistencyModel->school = 'Unidade Gestora';
                     $inconsistencyModel->description = 'CPF do responsável não informado';
                     $inconsistencyModel->action = 'Por favor, informe um CPF válido para o responsável';
+                    $inconsistencyModel->identifier = '0';
                     $inconsistencyModel->insert();
                 }
 
                 if (empty($managementUnit['managerCpf'])) {
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = 'UNIDADE GESTORA: ' . $managementUnit['managementUnitName'];
-                    $inconsistencyModel->school = '';
+                    $inconsistencyModel->school = 'Unidade Gestora';
                     $inconsistencyModel->description = 'CPF do gestor não informado';
                     $inconsistencyModel->action = 'Por favor, informe um CPF válido para o gestor';
+                    $inconsistencyModel->identifier = '0';
                     $inconsistencyModel->insert();
                 }
 

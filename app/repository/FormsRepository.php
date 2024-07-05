@@ -285,9 +285,7 @@ class FormsRepository {
                 ]);
             }
         }
-        
 
-   
         // Aqui eu ordeno o array de notas de acordo com a ordem da coluna de disciplinas
         $report = [];
         foreach ($totalDisciplines as $disciplineId) {
@@ -299,7 +297,6 @@ class FormsRepository {
                 }
             }
         }
-
 
         $response = array(
             'enrollment' => $enrollment,

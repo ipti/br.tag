@@ -148,6 +148,8 @@ endforeach;
                             }
                             for($j=0; $j < $diciplinesColumnsCount; $j++) {
                                 $gradeResultFaults += $result[$j]['grade_result']['grade_faults_'.$i];
+                                CVarDumper::dump($result[$j]['grade_result']['grade_' . $i], 10, true);
+
                                 ?>
                                 <?php if ($unities[$i-1]->type == 'RF') { ?>
                                     <td style="text-align: center;"><?= $result[$j]['grade_result']['rec_final'] ?></td>

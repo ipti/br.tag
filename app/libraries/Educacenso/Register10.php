@@ -234,7 +234,7 @@ class Register10
             } else {
                 $register[$edcensoAlias->corder] = $edcensoAlias->default;
                 if ($edcensoAlias["attr"] != null && $attributes[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
-                    $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
+                    $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]] ?? $edcensoAlias->default;
                 }
             }
         }
