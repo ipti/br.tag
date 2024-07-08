@@ -389,14 +389,16 @@ function changeAmount(line, food, table) {
                 <select class="js-initialize-select2 t-field-select__input js-food-measurement" style='width:100px !important;' required='required'>
                 </select>
             </td>`)
-      .append(`<td class='js-amount justify-content--center align-items--center' style="height:43.5833px;">
-                <input type='text' class="js-amount-for-unit t-field-text__input js-ignore-validation" name="Quantidade" required='required'value="${food.amountForUnit}" style='width:50px !important;margin-top:0px;display:none;'>
-                <select class="t-field-select__input js-measurement-for-unit" style='width:50px !important;display:none;margin-bottom:0.2em;'>
-                    <option value="g">g</option>
-                    <option value="Kg">kg</option>
-                    <option value="ml">ml</option>
-                    <option value="L">L</option>
-                </select>
+      .append(`<td class='js-amount'>
+                <div class='justify-content--center align-items--center'>
+                    <input type='text' class="js-amount-for-unit t-field-text__input js-ignore-validation" name="Quantidade" required='required'value="${food.amountForUnit}" style='width:50px !important;margin-top:0px;display:none;'>
+                    <select class="t-field-select__input js-measurement-for-unit" style='width:50px !important;display:none;margin-bottom:0.2em;'>
+                        <option value="g">g</option>
+                        <option value="Kg">kg</option>
+                        <option value="ml">ml</option>
+                        <option value="L">L</option>
+                    </select>
+                </div>
                 <span class="js-amount-value"></span>
              </td>`)
       .append(`<td class='js-pt'>${food.pt}</td>`)
