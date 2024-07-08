@@ -26,7 +26,8 @@ class FoodmenuController extends Controller
                 'mealTypeList' => $mealTypeList,
                 'tacoFoodsList' => $tacoFoodsList,
                 'foodMeasurementList' => $foodMeasurementList,
-            ));
+            )
+            );
             Yii::app()->end();
         }
 
@@ -50,7 +51,7 @@ class FoodmenuController extends Controller
         $modelFoodMenu->week = $request['week'];
         $modelFoodMenu->observation = $request['observation'];
         $modelFoodMenu->description = $request['description'];
-        $modelFoodMenu->include_saturday  = $request['include_saturday'];
+        $modelFoodMenu->include_saturday = $request['include_saturday'];
 
         // Verifica se a ação de salvar foodMenu ocorreu com sucesso, caso falhe encerra a aplicação
         $saveFoodMenuResult = $modelFoodMenu->save();
@@ -100,7 +101,7 @@ class FoodmenuController extends Controller
                 ->queryRow();
 
             $getFoodMenu = new GetFoodMenu();
-            $foodMenu  = $getFoodMenu->exec($modelFoodMenu, $publicTarget, $modelMenuMeals);
+            $foodMenu = $getFoodMenu->exec($modelFoodMenu, $publicTarget, $modelMenuMeals);
 
             // Convertendo objeto do cardápio em um JSON para enviar como resposta da requisição AJAX
             $mealTypeList = $this->actionGetMealType();
@@ -111,15 +112,15 @@ class FoodmenuController extends Controller
                 'mealTypeList' => $mealTypeList,
                 'tacoFoodsList' => $tacoFoodsList,
                 'foodMeasurementList' => $foodMeasurementList,
-            ));
+            )
+            );
             Yii::app()->end();
         }
 
         // Trecho do código para excluir todos os registros associados ao cardápio
         $transaction = Yii::app()->db->beginTransaction();
 
-        if($modelFoodMenu != null)
-        {
+        if ($modelFoodMenu != null) {
             $modelFoodMenu->start_date = DateTime::createFromFormat('d/m/Y', $request["start_date"])->format("Y-m-d");
             $modelFoodMenu->final_date = DateTime::createFromFormat('d/m/Y', $request["final_date"])->format("Y-m-d");
             $modelFoodMenu->week = $request['week'];
@@ -162,9 +163,11 @@ class FoodmenuController extends Controller
 
     public function actionGetTacoFoods()
     {
-        $foods = Food::model()->findAll(array(
-            'select' => 'id, description'
-        ));
+        $foods = Food::model()->findAll(
+            array(
+                'select' => 'id, description'
+            )
+        );
         $resultArray = array();
         foreach ($foods as $food) {
             $resultArray[$food->id] = $food->description;
@@ -265,14 +268,15 @@ class FoodmenuController extends Controller
 
         $this->render('viewlunch', array(
             "studentsByTurn" => $result
-        ));
+        )
+        );
         Yii::app()->end();
     }
     public function actionGetMealsOfWeek()
     {
 
         $getMelsOfWeek = new GetMelsOfWeek();
-        $foodMenu  = $getMelsOfWeek->exec();
+        $foodMenu = $getMelsOfWeek->exec();
 
         $response = json_encode((array) $foodMenu);
         echo $response;
@@ -284,7 +288,7 @@ class FoodmenuController extends Controller
     public function actionIndex()
     {
         $dataProvider = new CActiveDataProvider(
-           'foodmenu',
+            FoodMenu::class,
             array(
                 'pagination' => false
             )
@@ -292,7 +296,8 @@ class FoodmenuController extends Controller
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
-        ));
+        )
+        );
     }
 
     /**
@@ -309,7 +314,8 @@ class FoodmenuController extends Controller
 
         $this->render('admin', array(
             'model' => $model,
-        ));
+        )
+        );
     }
 
     /**
