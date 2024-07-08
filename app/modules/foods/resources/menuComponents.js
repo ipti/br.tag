@@ -287,9 +287,11 @@ function handleSelectChange(select, td, input, food, line, table) {
 
     if (isUnit) {
         updateNutritionalValuesForUnit(td, input, food, line, table);
+        td.find('.js-amount-for-unit').removeClass('js-ignore-validation');
     } else {
         updateAmount(td, select, food, input, line);
         calculateNutritionalValue(table);
+        td.find('.js-amount-for-unit').addClass('js-ignore-validation');
     }
 }
 function changeAmount(line, food, table) {
@@ -388,7 +390,7 @@ function changeAmount(line, food, table) {
                 </select>
             </td>`)
       .append(`<td class='js-amount justify-content--center align-items--center' style="height:43.5833px;">
-                <input type='text' class="js-amount-for-unit t-field-text__input" value="${food.amountForUnit}" style='width:50px !important;margin-top:0px;display:none;'>
+                <input type='text' class="js-amount-for-unit t-field-text__input js-ignore-validation" name="Quantidade" required='required'value="${food.amountForUnit}" style='width:50px !important;margin-top:0px;display:none;'>
                 <select class="t-field-select__input js-measurement-for-unit" style='width:50px !important;display:none;margin-bottom:0.2em;'>
                     <option value="g">g</option>
                     <option value="Kg">kg</option>

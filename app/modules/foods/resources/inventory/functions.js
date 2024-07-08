@@ -1,3 +1,12 @@
+let isNutritionist = null
+
+$.ajax({
+    type:'POST',
+    url:'?r=foods/foodinventory/getIsNutritionist'
+}).success(function(response) {
+    isNutritionist = response;
+    console.log(isNutritionist)
+})
 function renderSelectedFoods(foodsOnStock) {
     let foodsStockDiv = document.getElementById("foods_stock");
     foodsStockDiv.innerHTML = '';
@@ -87,9 +96,9 @@ function renderStockTableRow(stock) {
     $('<td>').text(stock.amount + measurementUnit).appendTo(row);
     $('<td>').text(stock.expiration_date).appendTo(row);
     if(stock.status == "Emfalta") {
-        $('<td style="padding-right: 25px">').html(`<button disabled class="t-button-quaternary full--width t-margin-none--right" id="js-status-button" ${isNutritionist ? 'disabled': null} type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}">${statusValue}</button>`).appendTo(row);
+        $('<td style="padding-right: 25px">').html(`<button disabled class="t-button-quaternary full--width t-margin-none--right" id="js-status-button" ${isNutritionist ? 'disabled': ''} type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}">${statusValue}</button>`).appendTo(row);
     } else {
-    $('<td style="padding-right: 25px">').html(`<button class="t-button-secondary full--width t-margin-none--right" id="js-status-button"  ${isNutritionist ? 'disabled': null} type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}"><span class="t-icon-pencil text-color--ink"></span>${statusValue}</button>`).appendTo(row);
+    $('<td style="padding-right: 25px">').html(`<button class="t-button-secondary full--width t-margin-none--right" id="js-status-button"  ${isNutritionist ? 'disabled': ''} type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}"><span class="t-icon-pencil text-color--ink"></span>${statusValue}</button>`).appendTo(row);
     }
     $('<td>').html('<button id="js-movements-button" type="button" class="t-button-secondary" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"><span class="t-icon-cart-arrow-down cursor-pointer text-color--ink"></span>Movimentações</button>').appendTo(row);
 

@@ -184,5 +184,4 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
 <?php $this->endWidget(); ?>
 </div>
 <script type="text/javascript">
-	 var isNutritionist = <?php echo $isNutritionist ?>;
 </script>

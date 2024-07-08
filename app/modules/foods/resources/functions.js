@@ -83,19 +83,36 @@ $(".js-save-menu").on("click", function () {
         }
 
     } else {
-        const erros = []
-        form.find(':input[required]').each(function () {
+        const erros = [];
+        const inputs = form.find(':input[required]');
+        inputs.each(function () {
             if (!this.validity.valid) {
-                if (!erros.some(function (erro) {
-                    return erro.field === this.name && erro.day === "" && erro.meal === "";
-                }, this)) {
-                    let mealError = $(this).closest('.js-meals-accordion-content');
-                    let mealName = mealError.find("select.js-meal-type").find('option:selected').text()
-                    erros.push({
-                        field: this.name,
-                        day: mealError.attr("data-day-of-week"),
-                        meal: mealName == "" ? undefined : mealName
-                    });
+                const isQuantity = this.name === "Quantidade";
+                const mealError = $(this).closest('.js-meals-accordion-content');
+                const mealName = mealError.find("select.js-meal-type option:selected").text();
+                const dayOfWeek = mealError.attr("data-day-of-week");
+
+                const errorExists = erros.some(erro =>
+                    erro.field === this.name && erro.day === dayOfWeek && erro.meal === mealName
+                );
+
+                if (!errorExists) {
+                    if (isQuantity) {
+                        const measure = $(this).closest('.js-food-ingredient').find('.js-measure select option:selected').attr('data-measure');
+                        if (measure === 'u') {
+                            erros.push({
+                                field: this.name,
+                                day: dayOfWeek,
+                                meal: mealName || undefined
+                            });
+                        }
+                    } else {
+                        erros.push({
+                            field: this.name,
+                            day: dayOfWeek,
+                            meal: mealName || undefined
+                        });
+                    }
                 }
             }
         });
