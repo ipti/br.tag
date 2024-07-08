@@ -288,7 +288,7 @@ class FoodmenuController extends Controller
     public function actionIndex()
     {
         $dataProvider = new CActiveDataProvider(
-            FoodMenu::class,
+           'FoodMenu',
             array(
                 'pagination' => false
             )
