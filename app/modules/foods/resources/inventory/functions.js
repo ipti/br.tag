@@ -38,7 +38,7 @@ function renderSelectedFoods(foodsOnStock) {
     });
 };
 
-function renderStockTable(foodsOnStock, id) {
+function renderStockTable(foodsOnStock, id, status) {
     let table = $('#foodStockTable');
     table.empty();
 
@@ -51,28 +51,24 @@ function renderStockTable(foodsOnStock, id) {
 
     table.append(head);
 
-    if (typeof id === 'undefined') {
-        $.each(foodsOnStock, function(index, stock) {
+    let found = false;
+
+    $.each(foodsOnStock, function(index, stock) {
+        if ((typeof id === 'undefined' || stock.foodId == id) && 
+            (typeof status === 'undefined' || stock.status == status)) {
+            found = true;
             table.append(renderStockTableRow(stock));
-        });
-    } else {
-        let found = false;
-        $.each(foodsOnStock, function(index, stock) {
-            if (stock.foodId == id) {
-                found = true;
-                table.append(renderStockTableRow(stock));
-            }
-        });
-
-        if (!found) {
-            let row = $('<tr>').addClass('');
-            let infoAlert = $('<td colspan="5">').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>');
-            infoAlert.appendTo(row);
-
-            table.append(row);
         }
+    });
+
+    if (!found) {
+        let row = $('<tr>').addClass('');
+        let infoAlert = $('<td colspan="5">').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>');
+        infoAlert.appendTo(row);
+        table.append(row);
     }
-};
+}
+
 
 function renderStockTableRow(stock) {
     let row = $('<tr>').addClass('');
@@ -130,40 +126,23 @@ function renderMovementsTable(movements, foodName) {
     });
 };
 
-function getFoodInventory() {
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/foodinventory/getFoodInventory",
-        cache: false
-    }).success(function(response) {
-        food_inventory = JSON.parse(response);
-        food_inventory.sort((a, b) => b.amount - a.amount);
-        renderStockTable(food_inventory);
-        renderStockList(food_inventory);
-    })
-};
-
-function renderStockList(foodsOnStock, id) {
+function renderStockList(foodsOnStock, id, status) {
     let foodStockList = document.getElementById("foodStockList");
     foodStockList.innerHTML = '';
 
-    if (typeof id === 'undefined') {
-        $.each(foodsOnStock, function(index, stock) {
-            foodStockList.innerHTML += renderStockListRow(stock);
-        });
-    } else {
-        let found = false;
+    let found = false;
 
-        $.each(foodsOnStock, function(index, stock) {
-            if (stock.foodId == id) {
-                found = true;
-                foodStockList.innerHTML += renderStockListRow(stock);
-            }
-        });
-        if (!found) {
-            let foodStock = '<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>';
-            foodStockList.innerHTML += foodStock;
+    $.each(foodsOnStock, function(index, stock) {
+        if ((typeof id === 'undefined' || stock.foodId == id) && 
+            (typeof status === 'undefined' || stock.status == status)) {
+            found = true;
+            foodStockList.innerHTML += renderStockListRow(stock);
         }
+    });
+
+    if (!found) {
+        let foodStock = '<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>';
+        foodStockList.innerHTML += foodStock;
     }
 };
 

@@ -44,9 +44,17 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
         <a class="t-button-secondary hide"><span class="t-icon-printer"></span>Relatório de Estoque</a>
     </div>
     <div class="row">
-        <div class="t-field-select column is-two-fifths clearfix">
+        <div class="t-field-select column is-one-fifth clearfix">
             <select class="select-search-on t-field-select__input select2-container" id="foodStockSelect">
-                <option value="total">Busque no estoque</option>
+                <option value="total">Filtrar por alimento</option>
+            </select>
+        </div>
+        <div class="t-field-select column is-one-fifth clearfix">
+            <select class="select-search-on t-field-select__input select2-container" id="foodStatusFilter">
+                <option value="total">Filtrar por status</option>
+                <option value="Disponivel">Disponível</option>
+                <option value="Acabando">Acabando</option>
+                <option value="Emfalta">Em falta</option>
             </select>
         </div>
     </div>
