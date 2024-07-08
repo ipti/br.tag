@@ -50,6 +50,7 @@ class FoodmenuController extends Controller
         $modelFoodMenu->week = $request['week'];
         $modelFoodMenu->observation = $request['observation'];
         $modelFoodMenu->description = $request['description'];
+        $modelFoodMenu->include_saturday  = $request['include_saturday'];
 
         // Verifica se a ação de salvar foodMenu ocorreu com sucesso, caso falhe encerra a aplicação
         $saveFoodMenuResult = $modelFoodMenu->save();
@@ -124,6 +125,7 @@ class FoodmenuController extends Controller
             $modelFoodMenu->week = $request['week'];
             $modelFoodMenu->observation = $request['observation'];
             $modelFoodMenu->description = $request['description'];
+            $modelFoodMenu->include_saturday = intval($request['include_saturday']);
             $modelFoodMenu->save();
 
             //atualiza FoodMenuvVsPublicTarget
