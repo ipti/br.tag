@@ -1112,9 +1112,6 @@ class CensoController extends Controller
             $collumn['deficiency_type_phisical_disability'],
             $collumn['deficiency_type_intelectual_disability']);
 
-        $result = $stiv->checkMultiple($collumn['deficiency'], $collumn['deficiency_type_multiple_disabilities'], $deficiencies_sample);
-        if (!$result["status"]) array_push($log, array("Tipos de Deficiencia" => $result["erro"]));
-
         $resources = array(
             $collumn['resource_aid_lector'],
             $collumn['resource_aid_transcription'],
