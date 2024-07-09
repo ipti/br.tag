@@ -1,3 +1,6 @@
+## [Versão 3.81.173]
+- Modificado campo para Tipo de atividade no relatório de Alunos por Turmas.
+
 ## [Versão 3.81.172]
 - Adicionado Sábado letivo aos cardápios
 
