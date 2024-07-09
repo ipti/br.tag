@@ -74,7 +74,7 @@ $diciplinesColumnsCount = count($student['baseDisciplines'])+count($student['div
 
 foreach ($student['baseDisciplines'] as $name):
     $dados = classroomDisciplineLabelResumeArray($name);
-    CVarDumper::dump($dados, 10, true);
+    CVarDumper::dump($name, 10, true);
 endforeach;
 ?>
 
@@ -132,16 +132,18 @@ endforeach;
             </div>
         </div>
     </div>
-
     <?php $this->renderPartial('footer'); ?>
 </div>
 
 <?php
 $numCols = $diciplinesColumnsCount+4 ;
 $numRows = 9;
-?>
 
-<div class="container-school-record"> 
+
+$unities = $student['unities'];
+$result = $student['result'];
+?>
+<div class="container-school-record">
     <div class="table-contant" style="display: flex; align-items: center; justify-content: center;">
         <table class="school-record-table">
             <tr>
@@ -153,7 +155,7 @@ $numRows = 9;
             <tr>
                 <th class="vertical-header">IDADE</th>
                 <th class="vertical-header">SÉRIE</th>
-                
+
 
                <?php foreach ($student['baseDisciplines'] as $name): ?>
                             <th class="vertical-header">
@@ -161,19 +163,32 @@ $numRows = 9;
                             </th>
                         <?php endforeach; ?>
 
-
                 <th class="vertical-header">MÉDIA ANUAL</th>
                 <th class="vertical-header">ANO</th>
             </tr>
-            
+
+        <?php
+            $conceptUnities = false;
+            $gradeResultFaults = 0;
+            if ($unities[$i-1]->type == 'UC') {
+                $conceptUnities = true;
+            }
+            for($j=0; $j < $diciplinesColumnsCount; $j++) {
+                CVarDumper::dump($result[$j]['final_media'], 10, true);
+            }
+        ?>
+                        
+
+
+
             <?php for ($i = 0; $i < $numRows; $i++): ?>
                 <tr>
                     <?php for ($j = 0; $j < $numCols; $j++): ?>
-                        <td></td>
+                        <td>----</td>
                     <?php endfor; ?>
                 </tr>
             <?php endfor; ?>
-            
+
             <tr>
                 <td></td>
                 <td colspan="<?= $numCols ?>"></td>
@@ -184,7 +199,7 @@ $numRows = 9;
                 <td colspan="<?= $numCols ?>"></td>
                 <th rowspan="1">Autentificação</th>
             </tr>
-            
+
             <?php for ($i = 0; $i < $numRows; $i++): ?>
                 <tr>
                     <td></td>

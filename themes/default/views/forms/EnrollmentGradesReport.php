@@ -137,41 +137,43 @@ endforeach;
                 </thead>
                 <tbody>
                     <?php
-                    $conceptUnities = false;
-                    for($i=1;$i<=count($unities);$i++) {?>
-                        <tr>
-                            <td><?= strtoupper($unities[$i-1]->name) ?></td>
-                            <?php
-                            $gradeResultFaults = 0;
-                            if ($unities[$i-1]->type == 'UC') {
-                                $conceptUnities = true;
-                            }
-                            for($j=0; $j < $diciplinesColumnsCount; $j++) {
-                                $gradeResultFaults += $result[$j]['grade_result']['grade_faults_'.$i];
-                                CVarDumper::dump($result[$j]['grade_result']['grade_' . $i], 10, true);
+                        $conceptUnities = false;
+                        for($i=1;$i<=count($unities);$i++) {?>
+                        
+                            <tr>
+                                <td><?= strtoupper($unities[$i-1]->name) ?></td>
+              
+                                <?php
+                                $gradeResultFaults = 0;
+                                if ($unities[$i-1]->type == 'UC') {
+                                    $conceptUnities = true;
+                                }
+                                for($j=0; $j < $diciplinesColumnsCount; $j++) {
+                                    $gradeResultFaults += $result[$j]['grade_result']['grade_faults_'.$i];
+                                    CVarDumper::dump($result[$j]['grade_result']['grade_' . $i], 10, true);
 
-                                ?>
-                                <?php if ($unities[$i-1]->type == 'RF') { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['rec_final'] ?></td>
-                                <?php } else if ($unities[$i-1]->type == 'UC') { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['grade_concept_'.$i] ?></td>
-                                <?php } else if ($result[$j]['grade_result']['grade_'.$i] < $result[$j]['grade_result']['rec_bim_'.$i]) { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['rec_bim_'.$i] ?></td>
+                                    ?>
+                                    <?php if ($unities[$i-1]->type == 'RF') { ?>
+                                        <td style="text-align: center;"><?= $result[$j]['grade_result']['rec_final'] ?></td>
+                                    <?php } else if ($unities[$i-1]->type == 'UC') { ?>
+                                        <td style="text-align: center;"><?= $result[$j]['grade_result']['grade_concept_'.$i] ?></td>
+                                    <?php } else if ($result[$j]['grade_result']['grade_'.$i] < $result[$j]['grade_result']['rec_bim_'.$i]) { ?>
+                                        <td style="text-align: center;"><?= $result[$j]['grade_result']['rec_bim_'.$i] ?></td>
+                                    <?php } else { ?>
+                                        <td style="text-align: center;"><?= $result[$j]['grade_result']['grade_'.$i] ?></td>
+                                    <?php } ?>
+                                <?php }?>
+
+                                <?php if ($unities[$i-1]->type != 'RF') { ?>
+                                    <td style="text-align: center;"><?= $school_days[$i-1]?></td>
+                                    <td style="text-align: center;"><?= $workload[$i-1]?></td>
+                                    <td style="text-align: center;"><?= $gradeResultFaults == 0 ? $faults[$i-1] : $gradeResultFaults ?></td>
                                 <?php } else { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['grade_'.$i] ?></td>
+                                    <td style="text-align: center;"></td>
+                                    <td style="text-align: center;"></td>
+                                    <td style="text-align: center;"></td>
                                 <?php } ?>
-                            <?php }?>
-
-                            <?php if ($unities[$i-1]->type != 'RF') { ?>
-                                <td style="text-align: center;"><?= $school_days[$i-1]?></td>
-                                <td style="text-align: center;"><?= $workload[$i-1]?></td>
-                                <td style="text-align: center;"><?= $gradeResultFaults == 0 ? $faults[$i-1] : $gradeResultFaults ?></td>
-                            <?php } else { ?>
-                                <td style="text-align: center;"></td>
-                                <td style="text-align: center;"></td>
-                                <td style="text-align: center;"></td>
-                            <?php } ?>
-                        </tr>
+                            </tr>
                                            
                     <?php }?>
                 </tbody>

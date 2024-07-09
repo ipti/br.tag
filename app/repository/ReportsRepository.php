@@ -1598,7 +1598,6 @@ private function separateBaseDisciplines($disciplineId)
 
 
 
-
     public function getStudentCertificate($enrollment_id): array
 {
     $studentIdent = StudentIdentification::model()->findByPk($enrollment_id);
@@ -1648,7 +1647,7 @@ private function separateBaseDisciplines($disciplineId)
 
     // Ajusta ordem das unidades se houver rec. Final
     $recFinalIndex = array_search('RF', array_column($unities, 'type'));
-    $recFinalObject = $unities[$recFinalIndex];
+    $recFinalObject = $unities[$recFinalIndex]; // obs
     array_splice($unities, $recFinalIndex, 1);
     array_push($unities, $recFinalObject);
 
@@ -1775,17 +1774,9 @@ private function separateBaseDisciplines($disciplineId)
         "faults" => $faultsPerUnity,
         "workload" => $workloadPerUnity,    ];
 
-        // CVarDumper::dump($studentData);
-        // exit();
-
     return ["student" => $studentData];
 }
 
-
-
-    /**
-     * Declaração de ano cursado na escola
-     */
     public function getStatementAttended($enrollmentId) : array
     {
         $sql = "SELECT si.name name_student, si.birthday, si.filiation_1, si.filiation_2, svm.name class,
