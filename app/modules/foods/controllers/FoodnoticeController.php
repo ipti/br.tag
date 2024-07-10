@@ -197,11 +197,15 @@ class FoodNoticeController extends Controller
         $existingNotice = FoodNotice::model()->find($criteria);
         $pdfUrlPath = '/app/url/' . $existingNotice->reference_id;
 
-        $result = $this->getClient()->request("GET", $pdfUrlPath);
-
-        $finalUrl = CJSON::decode($result->getBody()->getContents());
-
-        echo CJSON::encode($finalUrl['url']);
+        try {
+            $result = $this->getClient()->request("GET", $pdfUrlPath);
+            $finalUrl = CJSON::decode($result->getBody()->getContents());
+            echo CJSON::encode($finalUrl['url']);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            $requestError = $e->getRequest();
+            echo CJSON::encode(array('error' => 'Erro ao recuperar URL'));
+            Yii::app()->end();
+        }
     }
 
     /**

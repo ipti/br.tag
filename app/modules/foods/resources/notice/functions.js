@@ -119,6 +119,10 @@ $(document).on("click", "#js-view-pdf", function () {
         let data = DOMPurify.sanitize(response);
         let url = JSON.parse(data);
 
-        window.open(url, '_blank');
+        if (url.error) {
+            $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível acessar a URL do PDF.");
+        } else {
+            window.open(url, '_blank');
+        }
     });
 });

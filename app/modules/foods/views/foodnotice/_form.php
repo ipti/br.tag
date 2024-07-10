@@ -32,6 +32,11 @@ $form = $this->beginWidget(
         </div>
     </div>
     <div class="row">
+        <div class="column clearfix">
+            <div id="info-alert" class="alert hide"></div>
+        </div>
+    </div>
+    <div class="row">
         <h3 class="column clearleft">
             Informações do Edital
         </h3>
