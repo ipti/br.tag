@@ -15,6 +15,7 @@ $form=$this->beginWidget('CActiveForm', array(
 	'enableAjaxValidation'=>false,
 ));
 
+$isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id);
 ?>
 
 <div class="form">
@@ -34,13 +35,24 @@ $form=$this->beginWidget('CActiveForm', array(
     </div>
 
     <div class="row t-buttons-container">
+        <?php
+            if(!$isNutritionist):
+        ?>
         <a class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</a>
         <a class="t-button-secondary hide"><span class="t-icon-printer"></span>Relatório de Estoque</a>
     </div>
     <div class="row">
-        <div class="t-field-select column is-two-fifths clearfix">
+        <div class="t-field-select column is-one-fifth clearfix">
             <select class="select-search-on t-field-select__input select2-container" id="foodStockSelect">
-                <option value="total">Busque no estoque</option>
+                <option value="total">Filtrar por alimento</option>
+            </select>
+        </div>
+        <div class="t-field-select column is-one-fifth clearfix">
+            <select class="select-search-on t-field-select__input select2-container" id="foodStatusFilter">
+                <option value="total">Filtrar por status</option>
+                <option value="Disponivel">Disponível</option>
+                <option value="Acabando">Acabando</option>
+                <option value="Emfalta">Em falta</option>
             </select>
         </div>
     </div>
@@ -177,3 +189,5 @@ $form=$this->beginWidget('CActiveForm', array(
 
 <?php $this->endWidget(); ?>
 </div>
+<script type="text/javascript">
+</script>

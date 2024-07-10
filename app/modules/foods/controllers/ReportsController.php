@@ -27,6 +27,9 @@ class ReportsController extends Controller
         $getNutritionalValue = new GetNutritionalValue();
         $nutritionalValue = $getNutritionalValue->exec($id);
 
+        $includeSatruday = FoodMenu::model()->findByPk($id, array('select' => 'include_saturday'))->include_saturday;
+
+
 
 
         $this->layout = 'webroot.themes.default.views.layouts.reportsclean';
@@ -36,19 +39,30 @@ class ReportsController extends Controller
             "publicTarget" => $publicTarget,
             "schoolLocation" => $schoolLocation,
             "schoolCity" => $schoolCity,
-            "nutritionalValue" => $nutritionalValue
+            "nutritionalValue" => $nutritionalValue,
+            "include_saturday" => $includeSatruday
         )
         );
     }
     public function actionShoppingListReport()
     {
         $getFoodIngredientsList = new GetFoodIngredientsList();
-        $foodIngredientsList = $getFoodIngredientsList->exec();
+        $resultFoodIngredientsList = $getFoodIngredientsList->exec();
+        $foodIngredientsList = $resultFoodIngredientsList["processFood"];
+        $totalStudents = $resultFoodIngredientsList["totalStudents"];
+
 
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         $schoolCity = EdcensoCity::model()->findByPk($school->edcenso_city_fk)->name;
+        $schoolName = $school->name;
 
         $this->layout = 'webroot.themes.default.views.layouts.reportsclean';
-        $this->render('ShoppingListReport', array('foodIngredientsList' => $foodIngredientsList, "schoolCity" => $schoolCity));
+        $this->render('ShoppingListReport',
+        array(
+            'foodIngredientsList' => $foodIngredientsList,
+            "schoolCity" => $schoolCity,
+            "totalStudents"=>$totalStudents,
+            "schoolName"=>$schoolName,
+        ));
     }
 }

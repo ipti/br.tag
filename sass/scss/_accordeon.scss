@@ -52,16 +52,16 @@
     @extend .t-accordeon;
 
     .ui-accordion-header {
-        background: $colorsBaseCloudLight;
+        background: $colorsBaseProductLight;
 
-        &:hover,
-        &--active {
-            background-color: $colorsBaseCloudLightHover;
-        }
+
     }
 
     .ui-accordion-content {
         background: $colorsBaseCloudLight !important;
+    }
+    .ui-widget-content{
+        background: none !important;
     }
 
     .icon-color {

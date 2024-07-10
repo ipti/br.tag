@@ -39,7 +39,8 @@ class FoodinventoryController extends Controller
                     'deleteStockSpent',
                     'checkFoodInventorySpent',
                     'getStockMovement',
-                    'updateFoodInventoryStatus'
+                    'updateFoodInventoryStatus',
+                    'GetIsNutritionist'
                 ),
                 'users' => array('@'),
             ),
@@ -144,6 +145,9 @@ class FoodinventoryController extends Controller
                 }
             }
         }
+    }
+    public function actionGetIsNutritionist() {
+        echo Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id);
     }
     public function actionSaveStockReceived()
     {

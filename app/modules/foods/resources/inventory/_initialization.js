@@ -1,18 +1,9 @@
 let foodsOnStock = [];
 let table = $('#foodStockTable');
+let food_inventory = [];
 
 $(document).ready(function() {
-    let food_inventory;
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/foodinventory/getFoodInventory",
-        cache: false
-    }).success(function(response) {
-        food_inventory = JSON.parse(response);
-        food_inventory.sort((a, b) => b.amount - a.amount);
-        renderStockTable(food_inventory);
-        renderStockList(food_inventory);
-    })
+    getFoodInventory();
     let foodSelect = $('#foodStockSelect');
     $.ajax({
         type: 'POST',
@@ -29,18 +20,30 @@ $(document).ready(function() {
             }));
         });
     })
+});
 
-    $('#foodStockSelect').on('change', function() {
-        var foodId = $(this).val();
+function getFoodInventory() {
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodinventory/getFoodInventory",
+        cache: false
+    }).success(function(response) {
+        food_inventory = JSON.parse(response);
+        food_inventory.sort((a, b) => b.amount - a.amount);
+        renderStockTable(food_inventory);
+        renderStockList(food_inventory);
+    })
+};
 
-        if(foodId == "total") {
-            renderStockTable(food_inventory);
-            renderStockList(food_inventory);
-        } else {
-            renderStockTable(food_inventory, foodId);
-            renderStockList(food_inventory, foodId);
-        }
-    });
+$(document).on("change", "#foodStockSelect, #foodStatusFilter", function () {
+    var foodId = $('#foodStockSelect').val();
+    var statusValue = $('#foodStatusFilter').val();
+
+    let id = foodId === "total" ? undefined : foodId;
+    let status = statusValue === "total" ? undefined : statusValue;
+
+    renderStockTable(food_inventory, id, status);
+    renderStockList(food_inventory, id, status);
 });
 
 $(document).on("click", "#js-movements-button", function () {

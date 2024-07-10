@@ -1,3 +1,12 @@
+let isNutritionist = null
+
+$.ajax({
+    type:'POST',
+    url:'?r=foods/foodinventory/getIsNutritionist'
+}).success(function(response) {
+    isNutritionist = response;
+    console.log(isNutritionist)
+})
 function renderSelectedFoods(foodsOnStock) {
     let foodsStockDiv = document.getElementById("foods_stock");
     foodsStockDiv.innerHTML = '';
@@ -29,7 +38,7 @@ function renderSelectedFoods(foodsOnStock) {
     });
 };
 
-function renderStockTable(foodsOnStock, id) {
+function renderStockTable(foodsOnStock, id, status) {
     let table = $('#foodStockTable');
     table.empty();
 
@@ -42,28 +51,24 @@ function renderStockTable(foodsOnStock, id) {
 
     table.append(head);
 
-    if (typeof id === 'undefined') {
-        $.each(foodsOnStock, function(index, stock) {
+    let found = false;
+
+    $.each(foodsOnStock, function(index, stock) {
+        if ((typeof id === 'undefined' || stock.foodId == id) && 
+            (typeof status === 'undefined' || stock.status == status)) {
+            found = true;
             table.append(renderStockTableRow(stock));
-        });
-    } else {
-        let found = false;
-        $.each(foodsOnStock, function(index, stock) {
-            if (stock.foodId == id) {
-                found = true;
-                table.append(renderStockTableRow(stock));
-            }
-        });
-
-        if (!found) {
-            let row = $('<tr>').addClass('');
-            let infoAlert = $('<td colspan="5">').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>');
-            infoAlert.appendTo(row);
-
-            table.append(row);
         }
+    });
+
+    if (!found) {
+        let row = $('<tr>').addClass('');
+        let infoAlert = $('<td colspan="5">').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>');
+        infoAlert.appendTo(row);
+        table.append(row);
     }
-};
+}
+
 
 function renderStockTableRow(stock) {
     let row = $('<tr>').addClass('');
@@ -87,9 +92,9 @@ function renderStockTableRow(stock) {
     $('<td>').text(stock.amount + measurementUnit).appendTo(row);
     $('<td>').text(stock.expiration_date).appendTo(row);
     if(stock.status == "Emfalta") {
-        $('<td style="padding-right: 25px">').html('<button disabled class="t-button-quaternary full--width t-margin-none--right" id="js-status-button" type="button" data-foodStatus="' + stock.status + '" data-foodInventoryId="' + stock.id + '" data-amount="'+ stock.amount +'">'+ statusValue +'</button>').appendTo(row);
+        $('<td style="padding-right: 25px">').html(`<button disabled class="t-button-quaternary full--width t-margin-none--right" id="js-status-button" ${isNutritionist ? 'disabled': ''} type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}">${statusValue}</button>`).appendTo(row);
     } else {
-    $('<td style="padding-right: 25px">').html('<button class="t-button-secondary full--width t-margin-none--right" id="js-status-button" type="button" data-foodStatus="' + stock.status + '" data-foodInventoryId="' + stock.id + '" data-amount="'+ stock.amount +'"><span class="t-icon-pencil text-color--ink"></span>'+ statusValue +'</button>').appendTo(row);
+    $('<td style="padding-right: 25px">').html(`<button class="t-button-secondary full--width t-margin-none--right" id="js-status-button"  ${isNutritionist ? 'disabled': ''} type="button" data-foodStatus="${stock.status}" data-foodInventoryId="${stock.id}" data-amount="${stock.amount}"><span class="t-icon-pencil text-color--ink"></span>${statusValue}</button>`).appendTo(row);
     }
     $('<td>').html('<button id="js-movements-button" type="button" class="t-button-secondary" data-foodInventoryFoodId="' + stock.foodId + '" data-foodInventoryFoodName="'  + foodDescription + '"><span class="t-icon-cart-arrow-down cursor-pointer text-color--ink"></span>Movimentações</button>').appendTo(row);
 
@@ -121,40 +126,23 @@ function renderMovementsTable(movements, foodName) {
     });
 };
 
-function getFoodInventory() {
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/foodinventory/getFoodInventory",
-        cache: false
-    }).success(function(response) {
-        food_inventory = JSON.parse(response);
-        food_inventory.sort((a, b) => b.amount - a.amount);
-        renderStockTable(food_inventory);
-        renderStockList(food_inventory);
-    })
-};
-
-function renderStockList(foodsOnStock, id) {
+function renderStockList(foodsOnStock, id, status) {
     let foodStockList = document.getElementById("foodStockList");
     foodStockList.innerHTML = '';
 
-    if (typeof id === 'undefined') {
-        $.each(foodsOnStock, function(index, stock) {
-            foodStockList.innerHTML += renderStockListRow(stock);
-        });
-    } else {
-        let found = false;
+    let found = false;
 
-        $.each(foodsOnStock, function(index, stock) {
-            if (stock.foodId == id) {
-                found = true;
-                foodStockList.innerHTML += renderStockListRow(stock);
-            }
-        });
-        if (!found) {
-            let foodStock = '<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>';
-            foodStockList.innerHTML += foodStock;
+    $.each(foodsOnStock, function(index, stock) {
+        if ((typeof id === 'undefined' || stock.foodId == id) && 
+            (typeof status === 'undefined' || stock.status == status)) {
+            found = true;
+            foodStockList.innerHTML += renderStockListRow(stock);
         }
+    });
+
+    if (!found) {
+        let foodStock = '<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span> Esse alimento não está no estoque </div>';
+        foodStockList.innerHTML += foodStock;
     }
 };
 

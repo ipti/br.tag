@@ -23,16 +23,21 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 	); ?>
 
 	<div class="main form-content">
-		<h1>
-			<?php echo $title; ?>
-		</h1>
-		<div class="row">
+        <div class="row js-form-active">
+            <div class="column">
+                <h1>
+                    <?php echo $title; ?>
+                </h1>
+            </div>
+        </div>
+
+		<div class="row js-form-active">
 			<div class="alert alert-error js-menu-error hide column"></div>
 		</div>
 		<div class="t-tabs row">
 			<div class="column">
 				<ul class="tab-instructor t-tabs__list ">
-					<li class="active t-tabs__item"><a data-toggle="tab" class="t-tabs__link">
+					<li class="active t-tabs__item"><a data-toggle="tab" class="t-tabs__link" style="padding-left:0;">
 							<span class="t-tabs__numeration">1</span>
 							<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
 						</a>
@@ -47,9 +52,11 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		</div>
 		<?php if(!$model->isNewRecord): ?>
 			<div class="row t-margin-medium--bottom">
-					<a class="t-button-secondary" target="_blank" href="<?php echo Yii::app()->createUrl('foods/reports/FoodMenuReport', array('id'=>$model->id)) ?>">
-						<span class="t-icon-printer"></span>imprimir cardápio
-					</a>
+                <div class="column clearleft--on-mobile t-buttons-container">
+                        <a class="t-button-secondary" target="_blank" href="<?php echo Yii::app()->createUrl('foods/reports/FoodMenuReport', array('id'=>$model->id)) ?>">
+                            <span class="t-icon-printer"></span>imprimir cardápio
+                        </a>
+                </div>
 			</div>
 		<?php endif; ?>
 		<div class="row">
@@ -97,6 +104,15 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 				<input type="text" id="menu_observation" name="Observação" class="t-field-select__input js-observation">
 			</div>
 		</div>
+        <div class="row">
+            <div class="column">
+                <div class="t-field-checkbox t-margin-none--top">
+                    <input class="t-field-checkbox__input js-include-saturday" type="checkbox" id="include-saturday" name="Sabado Letivo" style="margin-right:5px;">
+                    <label class="t-field-checkbox__label" for="include-saturday">Incluir Sábado Letivo</label>
+                </div>
+            </div>
+            <div class="column"></div>
+        </div>
 		<div class="row">
 			<div class="column clearleft--on-mobile t-buttons-container">
 				<a class="t-button-primary js-add-meal">
@@ -120,13 +136,13 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 				</div>
 			</div>
 		</div>
-		<div class="row js-menu-meals-container" style="display: none;">
+		<div class="row js-menu-meals-container">
 			<div class="column">
-				<div id="js-accordion" class="js-meals-component t-accordeon-secondary"></div>
+				<div id="js-accordion" class="js-meals-component t-accordeon-primary"></div>
 			</div>
 		</div>
 	</div>
-	<div class="row buttons">
+	<div class="row buttons" style="width:165px;">
 		<a class="t-button-primary js-save-menu show--desktop">
 			<?= $model->isNewRecord ? 'Criar Cardápio' : 'Salvar Cardápio' ?>
 		</a>
