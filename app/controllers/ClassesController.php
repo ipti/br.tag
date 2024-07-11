@@ -193,7 +193,7 @@ class ClassesController extends Controller
         $featuresComponent = new FeaturesComponent();
         $isEnable = $featuresComponent->isEnable(strtoupper(INSTANCE));
 
-        if (true) {
+        if ($isEnable) {
             $command = Yii::app()->db->createCommand("
                 SELECT s.day
                 FROM instructor_faults if2 
