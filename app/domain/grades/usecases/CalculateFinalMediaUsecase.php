@@ -3,15 +3,17 @@
 /**
  * @property GradeResults $gradesResult
  * @property GradeRules $gradeRule
+ * @property GradeUnity[] $gradesStudent
  * @property int $countUnities
  */
 class CalculateFinalMediaUsecase
 {
-    public function __construct($gradesResult, $gradeRule, $countUnities)
+    public function __construct($gradesResult, $gradeRule, $countUnities, $gradesStudent = null)
     {
         $this->gradesResult = $gradesResult;
         $this->gradeRule = $gradeRule;
         $this->countUnities = $countUnities;
+        $this->gradesStudent = $gradesStudent;
     }
 
     public function exec()
@@ -70,7 +72,16 @@ class CalculateFinalMediaUsecase
     {
         $grades = [];
         for ($i = 0; $i < $countUnities; $i++) {
-            array_push($grades, $gradesResult->attributes["grade_" . ($i + 1)]);
+            $grade = $gradesResult->attributes["grade_" . ($i + 1)];
+
+            if($this->gradesStudent[$i]->parcialRecoveryFk !== null)
+            {
+                $gradePartialRecovery =$gradesResult->attributes["rec_partial_" . $this->gradesStudent[$i]->parcialRecoveryFk->order_partial_recovery];
+
+
+                $grade = $grade < $gradePartialRecovery  ? $gradePartialRecovery : $grade;
+            }
+            array_push($grades, $grade);
         }
         return $grades;
     }

@@ -79,7 +79,8 @@ class Register20
 
                 $register = [];
 
-                $attributes["edcenso_stage_vs_modality_fk"] = $attributes["edcenso_stage_vs_modality_fk"] % 10000;
+                $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($attributes["edcenso_stage_vs_modality_fk"]);
+                $attributes["edcenso_stage_vs_modality_fk"] = $edcensoStageVsModality->edcenso_associated_stage_id;
 
                 $attributes['name'] = trim(strtoupper(self::sanitizeString($attributes['name'])));
 

@@ -3,10 +3,14 @@
     /* @var $model EdcensoStageVsModality */
     /* @var $form CActiveForm */
 
+    $cs = Yii::app()->getClientScript();
+    $cs->registerScriptFile('app\modules\stages\resources\_initialization.js', CClientScript::POS_END);
+
     $form=$this->beginWidget('CActiveForm', array(
         'id'=>'edcenso-stage-vs-modality-form',
         'enableAjaxValidation'=>false,
     ));
+
     ?>
 
     <div class="form">
@@ -35,10 +39,17 @@
 
         <div class="row">
             <div class="column is-two-fifths clearfix">
-                <div class="t-field-text">
-                    <?php echo $form->label($model,'stage', array('class' => 't-field-text__label--required')); ?>
-                    <?php echo $form->textField($model,'stage', array('id' => 'stage','class' => 't-field-text__input')); ?>
-                    <?php echo $form->error($model,'stage'); ?>
+                <div class="t-field-select">
+                    <?php echo $form->label($model,'edcenso_associated_stage_id', array('class' => 't-field-select__label--required')); ?>
+                    <?php echo $form->dropDownList($model,'edcenso_associated_stage_id',
+                        Chtml::listData(EdcensoStageVsModality::model()->findAll("is_edcenso_stage = 1"), 'id', 'name'),
+                        array(
+                            'prompt' => "Selecione...",
+                            'id' => "stage",
+                            'class' => 't-field-select__input select2-container'
+                        )
+                    ); ?>
+                    <?php echo $form->error($model,'edcenso_associated_stage_id'); ?>
                 </div>
             </div>
         </div>

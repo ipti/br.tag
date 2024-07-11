@@ -1,3 +1,4 @@
+
 <?php
 
 /**
@@ -13,7 +14,7 @@ class ChageStudentStatusByGradeUsecase
     private const SITUATION_RECOVERY = "RECUPERAÇÃO";
 
 
-    public function __construct($gradeResult, $gradeRule, $numUnities, $frequency)
+    public function __construct($gradeResult, $gradeRule, $numUnities, $frequency = null)
     {
         $this->gradeResult = $gradeResult;
         $this->gradeRule = $gradeRule;
@@ -91,7 +92,7 @@ class ChageStudentStatusByGradeUsecase
 
         $this->gradeResult->situation = $disapprovedSituation;
 
-        if ($finalMedia >= $approvationMedia && $frequency >= '75') {
+        if ($finalMedia >= $approvationMedia && ($frequency >= '75' || $frequency == null)) {
             $this->gradeResult->situation = $approvedSituation;
         } elseif ($this->gradeRule->has_final_recovery) {
             $recoveryMedia = $this->gradeResult->rec_final;

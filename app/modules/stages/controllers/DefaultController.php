@@ -59,6 +59,8 @@ class DefaultController extends Controller
 
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
+            $model->stage = 0;
+            $model->is_edcenso_stage = 0;
             if ($model->save()) {
                 $msg = 'O Cadastro foi criado com sucesso!';
 
@@ -86,7 +88,10 @@ class DefaultController extends Controller
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
             if ($model->save()) {
-                $this->redirect(array('update', 'id' => $model->id));
+                $msg = 'Etapa atualizada com sucesso!';
+
+                Yii::app()->user->setFlash('success', Yii::t('default', $msg));
+                $this->redirect(array('index'));
             }
         }
 
@@ -109,7 +114,7 @@ class DefaultController extends Controller
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($ajax)) {
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Aluno excluído com sucesso!'));
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Etapa excluída com sucesso!'));
             $this->redirect(isset($returnUrl) ? $returnUrl : array('admin'));
         }
     }

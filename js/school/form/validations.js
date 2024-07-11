@@ -303,10 +303,6 @@ $(".save-school-button").click(function () {
         error = true;
         message += "Campo <b>Órgão ao qual a escola pública está vinculada</b> é obrigatório. Selecione ao menos uma opção.<br>";
     }
-    if ($("#SchoolIdentification_offer_or_linked_unity").val() === "1" && $("#SchoolIdentification_inep_head_school").val() === "") {
-        error = true;
-        message += "Campo <b>Código da Escola Sede</b> é obrigatório.<br>";
-    }
     if ($("#SchoolIdentification_offer_or_linked_unity").val() === "2" && $("#SchoolIdentification_ies_code").val() === "") {
         error = true;
         message += "Campo <b>Código da IES</b> é obrigatório.<br>";
