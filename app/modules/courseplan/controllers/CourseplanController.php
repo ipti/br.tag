@@ -364,13 +364,11 @@ class CourseplanController extends Controller
     public function actionIndex()
     {
         $coursePlanRequest = Yii::app()->request->getPost('stage');
-        if(!isset($coursePlanRequest))
+
+        if(isset($coursePlanRequest))
         {
-            $this->render(
-                'index',
-                array(
-                    'stages' => $this->getStages(),
-                ));
+            $this->actionGetDisciplines();
+            return;
         }
 
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
@@ -395,6 +393,7 @@ class CourseplanController extends Controller
 
         $this->render('index', array(
             'dataProvider' => $dataProvider,
+            'stages' => $this->getStages(),
         ));
     }
 

@@ -66,37 +66,24 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                 <div class="column clearleft">
                     <div class="t-field-select">
                         <?php echo CHtml::label(yii::t('default', 'Stage'), 'stage', array('class' => 't-field-select__label--required'));?>
-                        <select class="select-search-on t-field-select__input" id="stage">
+                        <select class="select-search-on t-field-select__input" id="stage" style="min-width: 185px;">
                             <option value="">Selecione a etapa</option>
-                            <?php foreach ($schoolStages as $stage) : ?>
-                                <option value="<?= $stage->id ?>">
-                                    <?= $stage->name ?>
-                                </option>
+                            <?php
+                                $stages = array_map("unserialize", array_unique(array_map("serialize", $stages)));
+                                foreach ($stages as $stage) :
+                            ?>
+                                <option value="<?=$stage['id']?>"><?=$stage['name']?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <!-- diciplina -->
                 </div>
-                <div class="column month-container">
+                <div class="column discipline-container hide">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Month') . "/Ano",
-                            'month', array('class' => 't-field-select__label--required')); ?>
-                        <select class="select-search-on t-field-select__input js-load-frequency" id="month"
-                                style="min-width: 185px;"></select>
-                    </div>
-                </div>
-            </div>
-            <div class="mobile-row helper">
-                <div class="column  clearleft on-tablet disciplines-container">
-                    <div class="t-field-select js-load-frequency">
                         <?php echo CHtml::label(yii::t('default', 'Discipline'),
-                            'disciplines', array('class' => 't-field-select__label--required')); ?>
-                        <?php
-                        echo CHtml::dropDownList('disciplines', '', array(), array(
-                            'key' => 'id',
-                            'class' => 'select-search-on t-field-select__input',
-                        ));
-                        ?>
+                            'month', array('class' => 't-field-select__label--required')); ?>
+                        <select class="select-search-on t-field-select__input" id="discipline"
+                                style="min-width: 185px;"></select>
                     </div>
                 </div>
             </div>

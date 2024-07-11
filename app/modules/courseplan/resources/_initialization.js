@@ -278,3 +278,26 @@ $(document).on('click', '#save-approval', function(e){
         },
     });
 })
+
+$(document).on('change', '#stage', function () {
+    $.ajax({
+        url: '?r=courseplan/courseplan/index',
+        type: "POST",
+        data: {
+            stage: $(this).val()
+        }
+    }).success(function (data){
+        // console.log('mandou');
+        // console.log(data);
+
+        data = JSON.parse(data);
+        const disciplineContainer = $('#discipline');
+        data.forEach(discipline => {
+            const optionElement = `<option value="${discipline['id']}">${discipline['name']}</option>`;
+            console.log(optionElement);
+            disciplineContainer.append(optionElement);
+        });
+    })
+ })
+
+ $(document)
