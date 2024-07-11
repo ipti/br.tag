@@ -1,3 +1,6 @@
+## [Versão 3.81.173]
+- Validações foram realizadas para impedir que professores registrem suas aulas nos dias em que estiveram ausentes
+
 ## [Versão 3.81.172]
 - Adicionado Sábado letivo aos cardápios
 
