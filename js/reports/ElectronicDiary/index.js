@@ -201,11 +201,17 @@ function loadReport() {
                     "</thead>" +
                     "<tbody>";
                 $.each(data.students, function (i, student) {
+         
                     var faultDaysContainer = "";
                     $.each(this.faults, function (j, faultDays) {
                         faultDaysContainer += faultDays + (j < Object.keys(student.faults).length - 1 ? "; " : "");
                     });
-                    html += "<tr><td>" + student.name + "</td><td>" + student.total + "</td><td>" + Object.keys(student.faults).length + "</td><td>" + student.frequency + "</td><td>" + faultDaysContainer + "</td></tr>";
+                    if (student.infoClassroom === null || student.infoClassroom === false) {
+                        html += "<tr><td>" + student.name  + "</td><td>" + student.total + "</td><td>" + Object.keys(student.faults).length + "</td><td>" + student.frequency + "</td><td>" + faultDaysContainer + "</td></tr>";
+                    } else {
+                        html += "<tr><td>" + student.name +"  |  " + student.infoClassroom + "</td><td>" + student.total + "</td><td>" + Object.keys(student.faults).length + "</td><td>" + student.frequency + "</td><td>" + faultDaysContainer + "</td></tr>";
+                    }
+                    
                 });
                 html += "</tbody></table>";
                 $(".report-container").html(html);

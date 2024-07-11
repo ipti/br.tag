@@ -180,15 +180,6 @@ table.table-timesheet td {
     background: #ccc !important;
 }
 
-.tables-timesheet .hard-unavailable.hard-unavailable-unfillable {
-    cursor: default;
-}
-
-.tables-timesheet .frequency-or-classcontent-unavailable {
-    background: beige !important;
-    cursor: default;
-}
-
 .tables-timesheet .soft-unavailable {
     background: #ddd !important;
 }

@@ -7,10 +7,10 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/school/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/school/form/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/school/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/school/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'school',
@@ -243,40 +243,39 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolIdentification,
-                                    'initial_date',
+                                    'Inicio do período letivo',
                                     array('class' => 't-field-text__label')
                                 ); ?>
-								<?php
-									$this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelSchoolIdentification, 'initial_date'));
-                                    echo CHtml::link('	Limpar', '#', array(
-                                        'onclick' => '$("#' . CHtml::activeId($modelSchoolIdentification, 'initial_date') . '").datepicker("setDate", null); return false;',
-									));
-									echo $form->error($modelSchoolIdentification, 'initial_date');
-								?>
+                                <?php
+                                $options = DatePickerWidget::renderDatePicker($modelSchoolIdentification, 'initial_date');
+                                $options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : array(), array('style' => 'background-color: #fff;'));
+                                $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
+                                echo CHtml::link('	Limpar', '#', array(
+                                    'id' => 'initial_reset'
+                                ));
+                                echo $form->error($modelSchoolIdentification, 'initial_date');
+                                ?>
                             </div>
                         </div>
                     </div>
-                    <div class="row reverse">
+                    <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolIdentification,
-                                    'logo_file_content',
+                                    'Final do período letivo',
                                     array('class' => 't-field-text__label')
                                 ); ?>
-                                <button class="btn btn-icon glyphicons upload upload-logo-button" type="button">
-                                    <i></i>Anexar
-                                </button>
-                                <span class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ?
-                                                                        $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)) . '" class="deleteTeachingData" title="Excluir"></a>' : '' ?> </span>
-                                <?php echo $form->fileField(
-                                    $modelSchoolIdentification,
-                                    'logo_file_content'
-                                ); ?>
-                                <?php echo $form->error(
-                                    $modelSchoolIdentification,
-                                    'logo_file_content'
-                                ); ?>
+                                <?php
+                                $options = DatePickerWidget::renderDatePickerFinal($modelSchoolIdentification, 'final_date');
+                                $options['htmlOptions'] = array_merge(isset($options['htmlOptions']) ? $options['htmlOptions'] : array(), array('style' => 'background-color: #fff;'));
+                                $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
+
+                                echo CHtml::link('Limpar', '#', array(
+                                    'id' => 'final_reset'
+                                ));
+                                echo $form->error($modelSchoolIdentification, 'final_date');
+                                ?>
                             </div>
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
@@ -298,6 +297,30 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error(
                                     $modelSchoolIdentification,
                                     'regulation'
+                                ); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
+                            <div class="t-field-text">
+                                <?php echo $form->label(
+                                    $modelSchoolIdentification,
+                                    'logo_file_content',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
+                                <button class="btn btn-icon glyphicons upload upload-logo-button" type="button">
+                                    <i></i>Anexar
+                                </button>
+                                <span class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ?
+                                                                        $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)) . '" class="deleteTeachingData" title="Excluir"></a>' : '' ?> </span>
+                                <?php echo $form->fileField(
+                                    $modelSchoolIdentification,
+                                    'logo_file_content'
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolIdentification,
+                                    'logo_file_content'
                                 ); ?>
                             </div>
                         </div>
@@ -707,8 +730,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array(
                                         null => 'Selecione a localização', 1 => 'Área de assentamento',
                                         2 => 'Terra indígena',
-                                        3 => 'Área onde se localiza a comunidade remanescente de quilombos',
-                                        7 => 'A escola não está em área diferenciada'
+                                        3 => 'Comunidade quilombola',
+                                        7 => 'A escola não está em área diferenciada',
+                                        8 => 'Área onde se localizam povos e comunidades tradicionais'
                                     ),
                                     array('class' => 'select-search-off t-field-select__input select2-container')
                                 ); ?>
@@ -1068,6 +1092,27 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
+                                    'workers_garden_planting_agricultural',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
+                                <?php echo $form->textField(
+                                    $modelSchoolStructure,
+                                    'workers_garden_planting_agricultural',
+                                    array(
+                                        'placeholder' => 'Digite o Número de Técnicos em Horta/Plantio/Agricultura',
+                                        'class' => 't-field-text__input'
+                                    )
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolStructure,
+                                    'workers_garden_planting_agricultural'
+                                ); ?>
+                            </div>
+                        </div>
+                        <div class="column clearleft--on-mobile is-two-fifths">
+                            <div class="t-field-text">
+                                <?php echo $form->label(
+                                    $modelSchoolStructure,
                                     'workers_administrative_assistant',
                                     array('class' => 't-field-text__label')
                                 ); ?>
@@ -1085,7 +1130,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1108,9 +1155,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="column is-two-fifths clearleft">
+                        <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1133,7 +1178,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1154,9 +1201,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="column is-two-fifths clearleft">
+                        <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1177,7 +1222,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1198,9 +1245,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="column is-two-fifths clearleft">
+                        <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1221,7 +1266,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1242,9 +1289,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="column is-two-fifths clearleft">
+                        <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1265,7 +1310,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1286,9 +1333,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="column is-two-fifths clearleft">
+                        <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1309,7 +1354,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                             </div>
                         </div>
-                        <div class="column clearleft--on-mobile is-two-fifths">
+                    </div>
+                    <div class="row">
+                        <div class="column is-two-fifths clearleft">
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
@@ -1327,6 +1374,27 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php echo $form->error(
                                     $modelSchoolStructure,
                                     'workers_monitors'
+                                ); ?>
+                            </div>
+                        </div>
+                        <div class="column clearleft--on-mobile is-two-fifths">
+                            <div class="t-field-text">
+                                <?php echo $form->label(
+                                    $modelSchoolStructure,
+                                    'workers_braille',
+                                    array('class' => 't-field-text__label')
+                                ); ?>
+                                <?php echo $form->textField(
+                                    $modelSchoolStructure,
+                                    'workers_braille',
+                                    array(
+                                        'placeholder' => 'Digite o Número de Assistentes ou Revisores em Braille',
+                                        'class' => 't-field-text__input'
+                                    )
+                                ); ?>
+                                <?php echo $form->error(
+                                    $modelSchoolStructure,
+                                    'workers_braille'
                                 ); ?>
                             </div>
                         </div>
@@ -1657,6 +1725,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
+                                        'dependencies_garden_planting_agricultural',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['dependencies_garden_planting_agricultural']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
                                         'dependencies_none',
                                         array('value' => 1, 'uncheckValue' => 0)
                                     ); ?>
@@ -1895,6 +1973,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                     ); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo SchoolStructure::model()->attributeLabels()['water_supply_river']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
+                                        'water_supply_car',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['water_supply_car']; ?>
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
@@ -2283,6 +2371,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                                 <label class="t-field-checkbox">
                                     <?php echo SchoolStructure::model()->attributeLabels()['acessability_ramps']; ?>
+                                </label>
+                            </div>
+                            <div class="t-field-checkbox">
+                                <?php echo $form->checkBox(
+                                    $modelSchoolStructure,
+                                    'acessability_light_signaling',
+                                    array('value' => 1, 'uncheckValue' => 0)
+                                ); ?>
+                                <label class="t-field-checkbox">
+                                    <?php echo SchoolStructure::model()->attributeLabels()['acessability_light_signaling']; ?>
                                 </label>
                             </div>
                             <div class="t-field-checkbox">
@@ -3560,6 +3658,16 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
+                                        'equipments_garden_planting_agricultural',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_garden_planting_agricultural']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
                                         'equipments_musical_instruments',
                                         array('value' => 1, 'uncheckValue' => 0)
                                     ); ?>
@@ -3650,6 +3758,26 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
+                                        'equipments_material_teachingquilombola',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingquilombola']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
+                                        'equipments_material_teachingspecial',
+                                        array('value' => 1, 'uncheckValue' => 0)
+                                    ); ?>
+                                    <label class="t-field-checkbox">
+                                        <?php echo SchoolStructure::model()->attributeLabels()['equipments_material_teachingspecial']; ?>
+                                    </label>
+                                </div>
+                                <div class="t-field-checkbox">
+                                    <?php echo $form->checkBox(
+                                        $modelSchoolStructure,
                                         'instruments_inexistent',
                                         array('value' => 1, 'uncheckValue' => 0)
                                     ); ?>
@@ -3696,7 +3824,7 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-checkbox-group internet-access-local-container">
                                 <label class="t-field-checkbox-group__label--required">
                                     <?php echo Yii::t('default', 'Internet Access Local'); ?>
-                                    </label>
+                                </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
