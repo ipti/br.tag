@@ -285,6 +285,39 @@ class Register20
                 return "39999";
             case "61007":
                 return "14999";
+            case "10101":
+            case "10102":
+            case "10999":
+                return "10103";
+            case "11001":
+            case "11003":
+            case "11005":
+            case "11007":
+            case "11008":
+            case "11009":
+            case "11010":
+                return "11011";
+            case "11004":
+                return "11006";
+            case "11101":
+                return "14104";
+            case "11102":
+                return "14103";
+            case "11103":
+                return "14102";
+            case "11104":
+                return "14105";
+            case "11999":
+            case "11105":
+                return "14101";
+            case "12001":
+            case "12002":
+            case "12006":
+                return "12007";
+            case "12101":
+                return "17102";
+            default:
+                return $code;
         }
     }
 }
