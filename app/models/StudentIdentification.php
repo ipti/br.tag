@@ -117,16 +117,27 @@ class StudentIdentification extends AltActiveRecord
 
     public function behaviors()
     {
-        if (isset (Yii::app()->user->school)) {
-            return [
-                'afterSave' => [
-                    'class' => 'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
+        // Define os comportamentos padrão
+        $behaviors = [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
+
+        // Verifica se o usuário está associado a uma escola
+        if (isset(Yii::app()->user->school)) {
+            // Adiciona o comportamento CAfterSaveBehavior se a escola estiver definida
+            $behaviors['CAfterSaveBehavior'] = [
+                'class' => 'application.behaviors.CAfterSaveBehavior',
+                'schoolInepId' => Yii::app()->user->school,
             ];
         }
-        return [];
 
+        return $behaviors;
     }
 
     /**

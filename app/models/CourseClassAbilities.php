@@ -28,6 +28,19 @@ class CourseClassAbilities extends CActiveRecord
 		return 'course_class_abilities';
 	}
 
+    public function behaviors()
+    {
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -39,7 +52,7 @@ class CourseClassAbilities extends CActiveRecord
 			array('description, edcenso_discipline_fk', 'required'),
 			array('edcenso_discipline_fk, edcenso_stage_vs_modality_fk, parent_fk', 'numerical', 'integerOnly'=>true),
 			array('description', 'length', 'max'=>1500),
-			array('code', 'length', 'max'=>20),			
+			array('code', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, description, code, edcenso_discipline_fk, edcenso_stage_vs_modality_fk, parent_fk', 'safe', 'on'=>'search'),
