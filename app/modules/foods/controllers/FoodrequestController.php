@@ -107,26 +107,26 @@ class FoodrequestController extends Controller
         return true;
     }
 
-    public function actionUpdateRequestStatus() {
-        $requestId = Yii::app()->request->getParam('requestId');
-        $token = Yii::app()->request->getParam('token');
+    // public function actionUpdateRequestStatus() {
+    //     $requestId = Yii::app()->request->getParam('requestId');
+    //     $token = Yii::app()->request->getParam('token');
 
-        if($token == "123") {
-            $criteria = new CDbCriteria();
-            $criteria->condition = 't.id = :id';
-            $criteria->params = array(':id' => $requestId);
+    //     if($token == "123") {
+    //         $criteria = new CDbCriteria();
+    //         $criteria->condition = 't.id = :id';
+    //         $criteria->params = array(':id' => $requestId);
 
-            $request = FoodRequest::model()->find($criteria);
-            $request->status = "Finalizado";
-            if($request->save()) {
-                return json_encode(['success' => 'Status da solicitação modificado com sucesso']);
-            } else {
-                return json_encode(['error' => 'Não foi possível modificar o status da solicitação']);
-            }
-        } else {
-            return json_encode(['error' => 'Token inválido']);
-        }
-    }
+    //         $request = FoodRequest::model()->find($criteria);
+    //         $request->status = "Finalizado";
+    //         if($request->save()) {
+    //             return json_encode(['success' => 'Status da solicitação modificado com sucesso']);
+    //         } else {
+    //             return json_encode(['error' => 'Não foi possível modificar o status da solicitação']);
+    //         }
+    //     } else {
+    //         return json_encode(['error' => 'Token inválido']);
+    //     }
+    // }
 
     public function actionGetFoodRequest()
     {

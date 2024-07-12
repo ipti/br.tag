@@ -108,62 +108,11 @@ class FoodNoticeController extends Controller
             $model->reference_id = $uuid->toString();
 
             if ($model->save()) {
-                foreach ($noticeData["noticeItems"] as $item) {
-                    $modelNoticeItem = new FoodNoticeItem;
-                    $modelNoticeItem->name = $item["name"];
-                    $modelNoticeItem->description = $item["description"];
-                    $modelNoticeItem->measurement = $item["measurement"];
-                    $modelNoticeItem->year_amount = $item["yearAmount"];
-                    $modelNoticeItem->food_id = $item["food_fk"];
-                    $modelNoticeItem->foodNotice_fk = $model->id;
-
-                    $modelNoticeItem->save();
-                }
+                $this->saveNoticeItems($noticeData["noticeItems"], $model->id);
 
                 $fileUploaded = CUploadedFile::getInstanceByName("noticePdf");
-                $file = fopen($fileUploaded->tempName, 'r');
-                $fileStream = \GuzzleHttp\Psr7\Utils::streamFor($file);
 
-                try {
-                $requestResult = $this->getClient()->post("/app/upload", [
-                    'headers' => [
-                        'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
-                    ],
-                    'multipart' => [
-                        [
-                            'name' => 'notice_pdf',
-                            'Content-Type' => 'multipart/form-data',
-                            'contents' => \GuzzleHttp\Psr7\Utils::streamFor($file),
-                            'filename' => $fileUploaded->name
-                        ],
-                        [
-                            'name' => 'id',
-                            'contents' => $uuid->toString()
-                        ],
-                        [
-                            'name' => 'name',
-                            'contents' => $noticeData["name"]
-                        ],
-                        [
-                            'name' => 'date',
-                            'contents' => date('Y-m-d', $date)
-                        ]
-
-                    ]
-                ]);
-
-                fclose($file);
-                } catch (\GuzzleHttp\Exception\RequestException $e) {
-
-                    CVarDumper::dump($requestResult);
-                    $request = $e->getRequest();
-                    CVarDumper::dump($request, 10, true);
-                } catch (Exception $e) {
-                    //other errors
-                    CVarDumper::dump($requestResult);
-                    CVarDumper::dump($e, 10, true);
-
-                }
+                $this->uploadFile($fileUploaded, $uuid->toString(), $noticeData, $date);
             }
         } else {
             $this->render(
@@ -195,17 +144,13 @@ class FoodNoticeController extends Controller
         $criteria->params = array(':id' => $noticeId);
 
         $existingNotice = FoodNotice::model()->find($criteria);
-        $pdfUrlPath = '/app/url/' . $existingNotice->reference_id;
+        $pdfUrl = $this->fetchPdfUrl($existingNotice->reference_id);
 
-        try {
-            $result = $this->getClient()->request("GET", $pdfUrlPath);
-            $finalUrl = CJSON::decode($result->getBody()->getContents());
-            echo CJSON::encode($finalUrl['url']);
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
-            $requestError = $e->getRequest();
+        if(empty($pdfUrl)) {
             echo CJSON::encode(array('error' => 'Erro ao recuperar URL'));
             Yii::app()->end();
         }
+        echo CJSON::encode($pdfUrl);
     }
 
     /**
@@ -224,6 +169,9 @@ class FoodNoticeController extends Controller
 
             $model->name = $noticeData["name"];
             $model->date = date('Y-m-d', $date);
+            if($_FILES["noticePdf"]["name"]) {
+                $model->file_name = $_FILES["noticePdf"]["name"];
+            }
 
             $modelNoticeItems = FoodNoticeItem::model()->findAllByAttributes(
                 ["foodNotice_fk" => $id]
@@ -233,17 +181,11 @@ class FoodNoticeController extends Controller
             }
 
             if ($model->save()) {
-                foreach ($noticeData["noticeItems"] as $item) {
-                    $modelNoticeItem = new FoodNoticeItem;
-                    $modelNoticeItem->name = $item["name"];
-                    $modelNoticeItem->description = $item["description"];
-                    $modelNoticeItem->measurement = $item["measurement"];
-                    $modelNoticeItem->year_amount = $item["yearAmount"];
-                    $modelNoticeItem->food_id = $item["food_fk"];
-                    $modelNoticeItem->foodNotice_fk = $id;
+                $this->saveNoticeItems($noticeData["noticeItems"], $id);
 
-                    $modelNoticeItem->save();
-                }
+                $pdfUrl = $this->fetchPdfUrl($model->reference_id);
+
+                $this->updatePdfFile($noticeData, $model->reference_id, $pdfUrl);
             }
         }
 
@@ -254,6 +196,99 @@ class FoodNoticeController extends Controller
             )
         );
     }
+
+    private function fetchPdfUrl($referenceId)
+    {
+        $pdfUrlPath = '/app/url/' . $referenceId;
+        try {
+            $result = $this->getClient()->request("GET", $pdfUrlPath);
+            $pdfUrl = CJSON::decode($result->getBody()->getContents());
+            return $pdfUrl["url"];
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            return '';
+        }
+    }
+    private function saveNoticeItems($noticeItems, $id)
+    {
+        foreach ($noticeItems as $item) {
+            $modelNoticeItem = new FoodNoticeItem;
+            $modelNoticeItem->name = $item["name"];
+            $modelNoticeItem->description = $item["description"];
+            $modelNoticeItem->measurement = $item["measurement"];
+            $modelNoticeItem->year_amount = $item["yearAmount"];
+            $modelNoticeItem->food_id = $item["food_fk"];
+            $modelNoticeItem->foodNotice_fk = $id;
+            $modelNoticeItem->save();
+        }
+    }
+    private function updatePdfFile($noticeData, $existingId, $pdfUrl)
+    {
+        $fileUploaded = CUploadedFile::getInstanceByName("noticePdf");
+        $file = fopen($fileUploaded->tempName, 'r');
+        $fileStream = \GuzzleHttp\Psr7\Utils::streamFor($file);
+
+        try {
+            $this->getClient()->put("/app/edit/pdf", [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
+                ],
+                'multipart' => [
+                    ['name' => 'notice_pdf', 'Content-Type' => 'multipart/form-data', 'contents' => $fileStream, 'filename' => $fileUploaded->name],
+                    ['name' => 'id', 'contents' => $existingId],
+                    ['name' => 'name', 'contents' => $noticeData["name"]],
+                    ['name' => 'date', 'contents' => date('Y-m-d', strtotime(str_replace('/', '-', $noticeData["date"])))],
+                    ['name' => 'url', 'contents' => $pdfUrl]
+                ]
+            ]);
+            fclose($file);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            $request = $e->getRequest();
+            CVarDumper::dump($request, 10, true);
+        } catch (Exception $e) {
+            CVarDumper::dump($e, 10, true);
+        }
+    }
+    private function uploadFile($fileUploaded, $id, $noticeData, $date)
+    {
+        $file = fopen($fileUploaded->tempName, 'r');
+        $fileStream = \GuzzleHttp\Psr7\Utils::streamFor($file);
+
+        try {
+            $this->getClient()->post("/app/upload", [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
+                ],
+                'multipart' => [
+                    [
+                        'name' => 'notice_pdf',
+                        'Content-Type' => 'multipart/form-data',
+                        'contents' => $fileStream,
+                        'filename' => $fileUploaded->name
+                    ],
+                    [
+                        'name' => 'id',
+                        'contents' => $id
+                    ],
+                    [
+                        'name' => 'name',
+                        'contents' => $noticeData["name"]
+                    ],
+                    [
+                        'name' => 'date',
+                        'contents' => $date
+                    ]
+                ]
+            ]);
+
+            fclose($file);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            $request = $e->getRequest();
+            CVarDumper::dump($request, 10, true);
+        } catch (Exception $e) {
+            CVarDumper::dump($e, 10, true);
+        }
+    }
+
     public function actionGetNotice($id)
     {
         $model = $this->loadModel($id);
