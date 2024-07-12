@@ -127,7 +127,7 @@ class ClassesController extends Controller
             if (TagUtils::isInstructor()) {
                 if (!$isMinorEducation) {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk and cp.users_fk = :users_fk
@@ -140,7 +140,7 @@ class ClassesController extends Controller
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
@@ -154,7 +154,7 @@ class ClassesController extends Controller
             } else {
                 if (!$isMinorEducation) {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk
@@ -166,7 +166,7 @@ class ClassesController extends Controller
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk
