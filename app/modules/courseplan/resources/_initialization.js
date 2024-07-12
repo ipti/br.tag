@@ -287,17 +287,29 @@ $(document).on('change', '#stage', function () {
             stage: $(this).val()
         }
     }).success(function (data){
-        // console.log('mandou');
-        // console.log(data);
-
         data = JSON.parse(data);
+        $('.discipline-container').removeClass('hide');
         const disciplineContainer = $('#discipline');
+        disciplineContainer.select2("val","");
+        let htmlElement = '';
         data.forEach(discipline => {
             const optionElement = `<option value="${discipline['id']}">${discipline['name']}</option>`;
-            console.log(optionElement);
-            disciplineContainer.append(optionElement);
+            htmlElement += optionElement;
         });
+        disciplineContainer.html(htmlElement);
     })
  })
 
- $(document)
+ $(document).on('change', '#discipline', function(){
+    $.ajax({
+        url: '?r=courseplan/courseplan/index',
+        type: "POST",
+        data: {
+            discipline: $(this).val(),
+            stage: $('#stage').val()
+        }
+    }).success(function (data){
+        $('.courseplan_table_div').html('');
+        $('.courseplan_table_div').append(data);
+    })
+ })
