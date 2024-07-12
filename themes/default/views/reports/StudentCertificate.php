@@ -10,7 +10,6 @@ if (!isset($school)) {
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 }
 
-
 list($day, $month, $year) = explode('/', $student['birthday']);
 
 $months = array(
@@ -19,8 +18,6 @@ $months = array(
     '09' => 'Setembro', '10' => 'Outubro', '11' => 'Novembro', '12' => 'Dezembro'
 );
 $monthName = $months[$month];
-
-
 
 function classroomDisciplineLabelResumeArray($id) {
     $disciplinas = array(
@@ -70,11 +67,17 @@ function classroomDisciplineLabelResumeArray($id) {
         return EdcensoDiscipline::model()->findByPk($id)->name;
     }
 }
-$diciplinesColumnsCount = count($student['baseDisciplines'])+count($student['diversifiedDisciplines']);
+
+$n = ($student['enrollment']->classroomFk->name);
+
+
+CVarDumper::dump($student['enrollment']->classroomFk->name, 10, true);
+
+$diciplinesColumnsCount = count($student['baseDisciplines']) + count($student['diversifiedDisciplines']);
 
 foreach ($student['baseDisciplines'] as $name):
     $dados = classroomDisciplineLabelResumeArray($name);
-    CVarDumper::dump($name, 10, true);
+    // CVarDumper::dump($name, 10, true);
 endforeach;
 ?>
 
@@ -91,14 +94,14 @@ endforeach;
 
     <div class="container-certificate">
         <p>O(A) Diretor(a) da Escola <?php echo $school->name ?>,
-        no uso de suas atribuições legais, confere o presente. Certificado do  <?php echo $student['ano']; ?>  do  <?php echo $student['tipo_ensino']; ?> a <b><?php echo $student['name']; ?></b>
+        no uso de suas atribuições legais, confere o presente Certificado do <?php echo $student['ano']; ?> do <?php echo $student['tipo_ensino']; ?> a <b><?php echo $student['name']; ?></b>
        filho(a) de <?php echo $student['filiation_1']; ?>
         e de <?php echo $student['filiation_2']; ?>.</p>
         <p>Nascido(a) em <?php echo $day; ?> de <?php echo $monthName; ?> de <?php echo $year; ?>, no Município de <?php echo $student['city']; ?>
         Estado de <?php echo $student['uf_name']; ?>.</p>
     </div>
 
-    <div class ="content-data">
+    <div class="content-data">
         <div style="display: inline-block; width: 45%; text-align: center;">
             <p>_______________________________</p>
             <p>Secretário(a)</p>
@@ -113,15 +116,15 @@ endforeach;
         <p>Aluno(a)</p>
     </div>
     <div class="content-data-signature">
-    <div>
-        <p>Reconhecida pela Resolução nº 005/2023-CME de 28/09/2023</p>
-        <p>Reconhecida pela Resolução do CME Conselho Municipal de Educação</p>
-    </div>
+        <div>
+            <p>Reconhecida pela Resolução nº 005/2023-CME de 28/09/2023</p>
+            <p>Reconhecida pela Resolução do CME Conselho Municipal de Educação</p>
+        </div>
 
-    <div style="text-align: center;">
-        <p>_______________________________</p>
-        <p>Diretor(a) da Unidade de Ensino</p>
-    </div>
+        <div style="text-align: center;">
+            <p>_______________________________</p>
+            <p>Diretor(a) da Unidade de Ensino</p>
+        </div>
     </div>
     <div class="row-fluid hidden-print" style="margin-top: 20px;">
         <div class="span12">
@@ -136,55 +139,56 @@ endforeach;
 </div>
 
 <?php
-$numCols = $diciplinesColumnsCount+4 ;
+$numCols = $diciplinesColumnsCount + 4;
 $numRows = 9;
-
 
 $unities = $student['unities'];
 $result = $student['result'];
 ?>
+
 <div class="container-school-record">
     <div class="table-contant" style="display: flex; align-items: center; justify-content: center;">
+        
         <table class="school-record-table">
             <tr>
                 <th rowspan="11" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
-                <th colspan="<?= $numCols?>" style="text-align: center">DISCIPLINAS</th>
-
+                <th colspan="<?= $numCols ?>" style="text-align: center">DISCIPLINAS</th>
                 <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
             </tr>
             <tr>
-                <th class="vertical-header">IDADE</th>
-                <th class="vertical-header">SÉRIE</th>
+    <th class="vertical-header">IDADE</th>
+    <th class="vertical-header">SÉRIE</th>
 
+    <?php foreach ($student['baseDisciplines'] as $name): ?>
+        <th class="vertical-header">
+            <div><?= strtoupper(classroomDisciplineLabelResumeArray($name)) ?></div>
+        </th>
+    <?php endforeach; ?>
 
-               <?php foreach ($student['baseDisciplines'] as $name): ?>
-                            <th class="vertical-header">
-                                <div><?= strtoupper(classroomDisciplineLabelResumeArray($name)) ?></div>
-                            </th>
-                        <?php endforeach; ?>
-
-                <th class="vertical-header">MÉDIA ANUAL</th>
-                <th class="vertical-header">ANO</th>
-            </tr>
-
-        <?php
-            $conceptUnities = false;
-            $gradeResultFaults = 0;
-            if ($unities[$i-1]->type == 'UC') {
-                $conceptUnities = true;
+    <th class="vertical-header">MÉDIA ANUAL</th>
+    <th class="vertical-header">ANO</th> 
+</tr>
+<tr>
+    <td></td>
+    <td><?php echo substr($student['enrollment']->classroomFk->name, 0, strpos($student['enrollment']->classroomFk->name, ' ')); ?></td>
+    <?php for ($j = 0; $j < $diciplinesColumnsCount; $j++): ?>
+        <td>
+            <?php
+            if (isset($result[$j]['final_media'])) {
+                echo CHtml::encode($result[$j]['final_media']);
+            } else {
+                echo '';
             }
-            for($j=0; $j < $diciplinesColumnsCount; $j++) {
-                CVarDumper::dump($result[$j]['final_media'], 10, true);
-            }
-        ?>
-                        
-
-
-
-            <?php for ($i = 0; $i < $numRows; $i++): ?>
+            ?>
+        </td>
+    <?php endfor; ?>
+    <td><?php echo isset($student['annual_average']) ? number_format($student['annual_average'], 1) : '---'; ?></td>
+    <td><?php echo CHtml::encode($student['enrollment']->classroomFk->school_year) ?></td> <!-- Exibindo o ANO aqui -->
+    </tr>
+            <?php for ($i = 1; $i < $numRows; $i++): ?>
                 <tr>
                     <?php for ($j = 0; $j < $numCols; $j++): ?>
-                        <td>----</td>
+                        <td></td>
                     <?php endfor; ?>
                 </tr>
             <?php endfor; ?>
@@ -209,8 +213,6 @@ $result = $student['result'];
         </table>
     </div>
 </div>
-
-
 <br>
 
 <script>

@@ -204,6 +204,24 @@ class FormsRepository {
         return false;
     }
 
+    private function calculateAnnualAverage($results) {
+        $sum = 0;
+        $count = 0;
+    
+        foreach ($results as $result) {
+            if (!is_null($result['final_media'])) {
+                $sum += $result['final_media'];
+                $count++;
+            }
+        }
+    
+        return $count > 0 ? $sum / $count : null;
+    }
+
+    
+
+    
+
     /**
      * Ficha de Notas
      */
@@ -310,7 +328,6 @@ class FormsRepository {
         );
         return $response;
     }
-
 
     private function calculateFrequency($diasLetivos, $totalFaltas): int
     {
@@ -475,6 +492,8 @@ class FormsRepository {
         );
         return $response;
     }
+
+    
 
     /**
      * Relatório de Notas de Boquim
