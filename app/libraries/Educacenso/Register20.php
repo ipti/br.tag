@@ -159,24 +159,51 @@ class Register20
                     }
                 }
 
+                $complementaryActivitiesArray = [];
                 if ($attributes["complementary_activity_type_1"] != null) {
                     $attributes["complementary_activity_type_1"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_1"]);
+                    array_push($complementaryActivitiesArray, $attributes["complementary_activity_type_1"]);
                 }
                 if ($attributes["complementary_activity_type_2"] != null) {
                     $attributes["complementary_activity_type_2"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_2"]);
+                    if (in_array($attributes["complementary_activity_type_2"], $complementaryActivitiesArray)) {
+                        $attributes["complementary_activity_type_2"] = "";
+                    } else {
+                        array_push($complementaryActivitiesArray, $attributes["complementary_activity_type_2"]);
+                    }
                 }
                 if ($attributes["complementary_activity_type_3"] != null) {
                     $attributes["complementary_activity_type_3"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_3"]);
+                    if (in_array($attributes["complementary_activity_type_3"], $complementaryActivitiesArray)) {
+                        $attributes["complementary_activity_type_3"] = "";
+                    } else {
+                        array_push($complementaryActivitiesArray, $attributes["complementary_activity_type_3"]);
+                    }
                 }
                 if ($attributes["complementary_activity_type_4"] != null) {
                     $attributes["complementary_activity_type_4"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_4"]);
+                    if (in_array($attributes["complementary_activity_type_4"], $complementaryActivitiesArray)) {
+                        $attributes["complementary_activity_type_4"] = "";
+                    } else {
+                        array_push($complementaryActivitiesArray, $attributes["complementary_activity_type_4"]);
+                    }
                 }
                 if ($attributes["complementary_activity_type_5"] != null) {
                     $attributes["complementary_activity_type_5"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_5"]);
+                    if (in_array($attributes["complementary_activity_type_5"], $complementaryActivitiesArray)) {
+                        $attributes["complementary_activity_type_5"] = "";
+                    } else {
+                        array_push($complementaryActivitiesArray, $attributes["complementary_activity_type_5"]);
+                    }
                 }
                 if ($attributes["complementary_activity_type_6"] != null) {
                     $attributes["complementary_activity_type_6"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_6"]);
+                    if (in_array($attributes["complementary_activity_type_6"], $complementaryActivitiesArray)) {
+                        $attributes["complementary_activity_type_6"] = "";
+                    }
                 }
+
+
 
                 $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 20 order by corder', [":year" => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
