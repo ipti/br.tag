@@ -1,3 +1,10 @@
+## [Versão 3.82.172]
+- Modificações nos cadastros de editais e agricultores.
+- Permitindo o envio de PDF para o aplicativo do agricultor ao cadastrar ou alterar um edital.
+- Modificações no processo de gerar uma solicitação, adicionadas as possibilidades de estabelecer a relação entre uma solicitação e várias escolas e vários agricultores.
+- Adicionado um modal para exibir os detalhes de uma solicitação.
+- Adicionada a tela de ativar e inativar tanto editais como agricultores.
+
 ## [Versão 3.81.172]
 - Adicionado Sábado letivo aos cardápios
 
