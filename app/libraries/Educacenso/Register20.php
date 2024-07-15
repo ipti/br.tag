@@ -350,6 +350,7 @@ class Register20
             case "99999":
             case "31003":
                 return "39999";
+
             default:
                 return $code;
         }
