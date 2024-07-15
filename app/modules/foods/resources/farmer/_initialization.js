@@ -16,9 +16,9 @@ $(document).ready(function() {
                 id: $id,
             }
         }).success(function(response) {
-            let data = DOMPurify.sanitize(response);
-            let farmerFoods = JSON.parse(data);
-            foodsRelation = farmerFoods
+            let farmerFoods = JSON.parse(response);
+            foodsRelation = farmerFoods;
+            foodsRelation = DOMPurify.sanitize(foodsRelation);
             renderFoodsTable(foodsRelation);
         });
         $('#farmerName').removeAttr('disabled');
