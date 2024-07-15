@@ -308,8 +308,6 @@ class Register20
                 return "31017";
             case "31002":
                 return "31016";
-            case "39999":
-                return "39999";
             case "61007":
                 return "14999";
             case "10101":
@@ -343,6 +341,15 @@ class Register20
                 return "12007";
             case "12101":
                 return "17102";
+            case "71004":
+                return "19106";
+            case "91002":
+                return "29999";
+            case "22001":
+                return "22018";
+            case "99999":
+            case "31003":
+                return "39999";
             default:
                 return $code;
         }
