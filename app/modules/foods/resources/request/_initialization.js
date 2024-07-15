@@ -56,7 +56,7 @@ $(document).ready(function() {
     });
 
     $('#searchByFoodSelect').on('change', function() {
-        var foodId = $(this).val().split(',')[0];
+        let foodId = $(this).val().split(',')[0];
 
         if(foodId == "total") {
             renderRequestTable(foodRequests);
@@ -121,7 +121,7 @@ $(document).on("click", "#js-information-button", function () {
 
 $(document).on("click", "#save-request", function () {
     let noticeId = $('#foodNotice').val();
-    var requestSchools = $('#requestSchools').find('option:selected').map(function() {
+    let requestSchools = $('#requestSchools').find('option:selected').map(function() {
         return {
             id: $(this).val(),
             name: $(this).text()

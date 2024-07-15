@@ -41,7 +41,6 @@ class FoodNotice extends CActiveRecord
             array('reference_id', 'length', 'max'=>36),
             array('file_name', 'length', 'max'=>100),
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, name, date, status, reference_id, file_name', 'safe', 'on'=>'search'),
         );
     }
@@ -89,7 +88,6 @@ class FoodNotice extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria=new CDbCriteria;
 

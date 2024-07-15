@@ -32,7 +32,6 @@ class FoodRequestVsFarmerRegister extends CActiveRecord
 		return array(
 			array('farmer_fk, food_request_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, farmer_fk, food_request_fk', 'safe', 'on'=>'search'),
 		);
 	}
@@ -76,7 +75,6 @@ class FoodRequestVsFarmerRegister extends CActiveRecord
 	 */
 	public function search()
 	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
 

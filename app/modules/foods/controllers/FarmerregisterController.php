@@ -190,7 +190,7 @@ class FarmerRegisterController extends Controller
 
         if ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == "Ativo") {
             echo json_encode(['error' => 'Existente ativo']);
-        } else if ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == "Inativo") {
+        } elseif ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == "Inativo") {
             echo json_encode(['error' => 'Existente inativo']);
         } else {
             $getFarmerRegister = new GetFarmerRegister();
