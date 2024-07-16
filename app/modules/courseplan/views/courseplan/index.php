@@ -84,7 +84,6 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                             'month', array('class' => 't-field-select__label--required')); ?>
                         <select class="select-search-on t-field-select__input" id="discipline"
                                 style="min-width: 185px;">
-                                    <option value="">Selecione a disciplina</option>
                         </select>
                     </div>
                 </div>

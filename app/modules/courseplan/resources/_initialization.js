@@ -60,7 +60,7 @@ $(document).on("click", ".js-remove-course-class", function () {
 });
 
 $(document).on("keyup", ".course-class-objective", function () {
-     var objective = $(this).val();
+    var objective = $(this).val();
     $(this).parents("tr").prev().children(".dt-justify").html(objective);
 });
 
@@ -188,7 +188,7 @@ $(document).on("click", ".add-abilities", function (e) {
     if (options.length) {
         var selected = options.clone().appendTo(".js-abilities-selected");
         selected.find("i").removeClass("fa-check-square").addClass("fa-minus-square");
-        options.each(function() {
+        options.each(function () {
             var optionIdInPanel = $(".js-abilities-panel").find(".ability-panel-option-id[value=" + $(this).find(".ability-panel-option-id").val() + "]");
             if (optionIdInPanel.length) {
                 optionIdInPanel.closest(".ability-panel-option").addClass("selected");
@@ -202,27 +202,27 @@ $(document).on("click", ".add-abilities", function (e) {
     $("#js-selectAbilities").modal("show");
 });
 
-$(document).on("click", ".add-new-resource", function(e){
+$(document).on("click", ".add-new-resource", function (e) {
     e.preventDefault();
     $('#js-createResource').modal("show");
 })
 
-$(document).on("click", ".remove-new-resource", function(e){
+$(document).on("click", ".remove-new-resource", function (e) {
     e.preventDefault();
     removeNewResource(this);
 })
 
-$(document).on('click', '.confirm-new-resource', function(e){
+$(document).on('click', '.confirm-new-resource', function (e) {
     e.preventDefault();
     addNewResources();
 })
 
-$(document).on('click', '.save-new-resources', function(e){
+$(document).on('click', '.save-new-resources', function (e) {
     e.preventDefault();
     saveNewResources();
 })
 
-$(document).on("click", ".ability-panel-option", function() {
+$(document).on("click", ".ability-panel-option", function () {
     if ($(this).closest(".js-abilities-panel").length) {
         if (!$(this).hasClass("selected")) {
             var selected = $(this).clone().appendTo(".js-abilities-selected");
@@ -240,11 +240,11 @@ $(document).on("click", ".ability-panel-option", function() {
     }
 });
 
-$(document).on("click", ".js-add-selected-abilities", function() {
+$(document).on("click", ".js-add-selected-abilities", function () {
     var div = $(".course-class-" + $(".course-class-index").val());
     div.find(".courseplan-abilities-selected").html($(".js-abilities-selected").find(".ability-panel-option").clone());
     div.find(".courseplan-abilities-selected").find(".ability-panel-option i").removeClass("fa-minus-square").addClass("fa-check-square");
-    div.find(".ability-panel-option-id").each(function(index) {
+    div.find(".ability-panel-option-id").each(function (index) {
         $(this).attr("name", "course-class[" + $(".course-class-index").val() + "][ability][" + index + "]");
     })
 });
@@ -260,14 +260,14 @@ $("#save").on('click', function () {
     }
 });
 
-$(document).on('click', '#save-approval', function(e){
+$(document).on('click', '#save-approval', function (e) {
     e.preventDefault();
     const courseplanId = $('#course-plan-form')[0][0].value;
     const observation = $('.validate-description').val();
     const approval = $('#approved_field')[0].checked;
     $.ajax({
         type: "POST",
-        url: "?r=courseplan/courseplan/validatePlan&id="+courseplanId,
+        url: "?r=courseplan/courseplan/validatePlan&id=" + courseplanId,
         cache: false,
         data: {
             approval_field: approval,
@@ -286,30 +286,37 @@ $(document).on('change', '#stage', function () {
         data: {
             stage: $(this).val()
         }
-    }).success(function (data){
+    }).success(function (data) {
         data = JSON.parse(data);
         $('.discipline-container').removeClass('hide');
         const disciplineContainer = $('#discipline');
-        disciplineContainer.select2("val","");
-        let htmlElement = '';
-        data.forEach(discipline => {
-            const optionElement = `<option value="${discipline['id']}">${discipline['name']}</option>`;
-            htmlElement += optionElement;
-        });
+        const htmlElement = data.reduce(
+            (acc, discipline) =>
+                concatenateHtmlOptions(acc, discipline),
+                '<option val="default">Selecione a disciplina</option>');
         disciplineContainer.html(htmlElement);
+        disciplineContainer.select2("val", "");
     })
- })
+})
 
- $(document).on('change', '#discipline', function(){
-    $.ajax({
-        url: '?r=courseplan/courseplan/index',
-        type: "POST",
-        data: {
-            discipline: $(this).val(),
-            stage: $('#stage').val()
-        }
-    }).success(function (data){
-        $('.courseplan_table_div').html('');
-        $('.courseplan_table_div').append(data);
-    })
- })
+$('#discipline').on('change', function () {
+    if($('#discipline option:selected').index() != 0)
+    {
+        $.ajax({
+            url: '?r=courseplan/courseplan/index',
+            type: "POST",
+            data: {
+                discipline: $(this).val(),
+                stage: $('#stage').val()
+            }
+        }).success(function (data) {
+            $('.courseplan_table_div').html(data);
+        })
+    }
+})
+
+function concatenateHtmlOptions(htmlElement, discipline){
+    const optionElement = `<option value="${discipline['id']}">${discipline['name']}</option>`;
+    htmlElement += optionElement;
+    return htmlElement;
+}

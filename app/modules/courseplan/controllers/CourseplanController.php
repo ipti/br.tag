@@ -374,7 +374,7 @@ class CourseplanController extends Controller
                     'criteria' => array(
                         'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id .
                         'AND school_inep_fk=' . Yii::app()->user->school.
-                        ' AND modality_fk='. $stageRequest,
+                        ' AND modality_fk='. $stageRequest .
                         ' AND discipline_fk=' . $disciplineRequest,
                     ),
                     'pagination' => false
@@ -386,7 +386,7 @@ class CourseplanController extends Controller
                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
                     'criteria' => array(
                         'condition' => 'school_inep_fk=' . Yii::app()->user->school .
-                        ' AND modality_fk='. $stageRequest,
+                        ' AND modality_fk='. $stageRequest .
                         ' AND discipline_fk=' . $disciplineRequest,
                     ),
                     'pagination' => false
@@ -395,7 +395,6 @@ class CourseplanController extends Controller
 
             $this->renderPartial('_table', array(
                 'dataProvider' => $dataProvider,
-                // 'stages' => $this->getStages(),
             ));
             Yii::app()->end();
         }
