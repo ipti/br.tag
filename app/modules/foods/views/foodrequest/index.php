@@ -54,13 +54,18 @@ $this->menu=array(
 	<div class="row">
 		<div class="column is-four-fifths clearfix">
 			<table id="foodRequestTable" class="tag-table-secondary align-start">
-
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
 			</table>
 		</div>
 	</div>
 
-    <div class="modal fade t-modal-container" id="js-request-information-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog " role="document">
+    <div class="modal fade t-modal-container" id="js-request-information-modal" tabindex="-1">
+        <div class="modal-dialog">
             <div class="t-modal__header no-bottom-padding">
                 <div class="column clearfix">
                     <h4 class="t-title" id="myModalLabel">Informações da solicitação</h4>
