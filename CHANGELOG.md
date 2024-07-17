@@ -1,3 +1,7 @@
+## [Versão 3.81.173]
+- Adicionado filtro por escola, etapa e disciplina na listagem de plano de aula.
+- Adicionado validação para cadastro de novos usuários no sistema.
+
 ## [Versão 3.81.172]
 - Adicionado Sábado letivo aos cardápios
 
