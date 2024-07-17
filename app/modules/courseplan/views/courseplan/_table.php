@@ -45,6 +45,7 @@
                                         'label' => '',
                                         'options' => [
                                             'class' => 't-course-plan-canceled',
+                                            'title' => 'Desabilitado para Edição',
                                             'style' => 'font-size: 20px; padding-right: 3 3 0 0;'
                                         ],
                                         'url' => 'Yii::app()->createUrl("courseplan/courseplan/enableCoursePlanEdition",array("id"=>$data->id))',
@@ -54,6 +55,7 @@
                                         'label' => '',
                                         'options' => [
                                             'class' => 't-course-plan-approved',
+                                            'title' => 'Habilitado para Edição',
                                             'style' => 'font-size: 20px; padding: 3 3 0 0;'
                                         ],
                                         'url' => 'Yii::app()->createUrl("courseplan/courseplan/enableCoursePlanEdition",array("id"=>$data->id))',

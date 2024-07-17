@@ -373,7 +373,7 @@ class CourseplanController extends Controller
                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
                     'criteria' => array(
                         'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id .
-                        'AND school_inep_fk=' . Yii::app()->user->school.
+                        ' AND school_inep_fk=' . Yii::app()->user->school.
                         ' AND modality_fk='. $stageRequest .
                         ' AND discipline_fk=' . $disciplineRequest,
                     ),
