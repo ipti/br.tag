@@ -21,6 +21,15 @@ $(document).on("keyup", ".unity-name", function (e) {
 
 $(document).on("click", ".js-new-unity", function (e) {
     if (!$('.js-new-unity').hasClass('disabled')) {
+        const options = $(".formulas > option").toArray();
+
+        const filteredOptions = options.reduce((accumulator, option) => {
+            if (!$(option).text().includes("Média Semestral")) {
+                accumulator.push(option);
+            }
+            return accumulator;
+        }, []);
+        console.log(filteredOptions.join(''))
         const unities = $(".unity").length;
         const isUnityConcept = $(".js-rule-type").select2("val") === "C";
         const unityHtml = template`
