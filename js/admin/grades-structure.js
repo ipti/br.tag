@@ -689,6 +689,7 @@ function partialRecoveryValid() {
         let name =  $(partialRecoveries).find('.partial-recovery-name').val()
         let formula =  $(partialRecoveries).find('select.js-formula-select').val()
         let unities =  $(partialRecoveries).find('select.js-partial-recovery-unities').val()
+        let operation = $(partialRecoveries).find('.partial-recovery-operation').val()
         let weights =  true
 
         $(partialRecoveries).find('.InputWeight input').each((index, weight)=>{
@@ -696,8 +697,7 @@ function partialRecoveryValid() {
                 weights = false
             }
         })
-
-        if(name ==="" || formula === "" || unities === null ||  weights === false){
+        if((name ==="" || formula === "" || unities === null ||  weights === false) && operation != 'delete'){
             valid = false
         }
     })
