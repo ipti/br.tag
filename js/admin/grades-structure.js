@@ -25,11 +25,10 @@ $(document).on("click", ".js-new-unity", function (e) {
 
         const filteredOptions = options.reduce((accumulator, option) => {
             if (!$(option).text().includes("Média Semestral")) {
-                accumulator.push(option);
+                accumulator += option.outerHTML;
             }
             return accumulator;
-        }, []);
-        console.log(filteredOptions.join(''))
+        }, "");
         const unities = $(".unity").length;
         const isUnityConcept = $(".js-rule-type").select2("val") === "C";
         const unityHtml = template`
@@ -61,7 +60,7 @@ $(document).on("click", ".js-new-unity", function (e) {
             }" >
                         <label class='t-field-select__label--required'>Forma de cálculo:  </label>
                         <select class='t-field-select__input js-formula-select select-search-on control-input'>
-                            ${$(".formulas")[0].innerHTML}
+                            ${filteredOptions}
                         </select>
                     </div>
                     <div class="row">
