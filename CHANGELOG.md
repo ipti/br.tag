@@ -1,3 +1,6 @@
+## [Versão 3.81.173]
+- Corrigindo o relatório de professores por escola para que o mesmo exiba somente os professores da escola que estão ligados a turmas
+
 ## [Versão 3.81.172]
 - Adicionado Sábado letivo aos cardápios
 
