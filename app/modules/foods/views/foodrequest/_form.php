@@ -58,7 +58,7 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="column t-field-select t-multiselect clearleft--on-mobile clearfix is-two-fifths">
             <?php echo CHtml::label('Selecione os agricultores', 'farmer_fk', array('class' => 't-field-select__label--required')); ?>
             <?php echo $form->dropDownList($requestFarmerModel,'farmer_fk',
-                Chtml::listData(FarmerRegister::model()->findAll(), 'id', 'name'),
+                Chtml::listData(FarmerRegister::model()->findAll('status="Ativo"'), 'id', 'name'),
                 array(
                     'id' => "requestFarmers",
                     'multiple' => true,

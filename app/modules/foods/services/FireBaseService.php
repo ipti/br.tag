@@ -23,7 +23,7 @@ class FireBaseService
         $this->firestoreClient = new FirestoreClient('br-nham-agrigultor', 'AIzaSyAf7EefR1VXllpmE60kiQwl6xictSDO-Tc', [
             'database' => '(default)',
         ]);
-        $this->firestoreClient->authenticator()->signInEmailPassword('testandorequest@thp.org.br', '123456');
+        $this->firestoreClient->authenticator()->signInEmailPassword('usertag@thp.org.br', '123456');
     }
 
     public function createNotice()

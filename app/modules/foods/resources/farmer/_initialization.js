@@ -167,11 +167,15 @@ $(document).on("click", "#save-farmer", function () {
     let cpf = $("#farmerCpf").val().replace(/\D/g, '');
     let phone = $("#farmerPhone").val().replace(/\D/g, '');
     let groupType = $('#farmerGroupType').find('option:selected').text();
+    $(this).prop('disabled', true);
 
     let params = new URLSearchParams(window.location.search);
     let id = params.get('id');
 
-    if(id != null) {
+    if(name == "" || cpf == "" || phone == "") {
+        $(this).prop('disabled', false);
+        $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
+    } else if(id != null) {
         $.ajax({
             type: 'POST',
             url: "?r=foods/farmerRegister/updateFarmerRegister",
