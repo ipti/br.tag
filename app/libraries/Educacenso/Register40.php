@@ -22,7 +22,7 @@ class Register40
         $inepId = '';
         
         if ($instructor != null) {
-            $system_id = $instructor['id'];
+            $system_id = "II" . $instructor['id'];
             $inepId = $instructor["inep_id"];
         }
 
