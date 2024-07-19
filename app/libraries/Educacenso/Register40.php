@@ -20,7 +20,6 @@ class Register40
         
         $system_id = "II90999";
         $inepId = '';
-        
         if ($instructor != null) {
             $system_id = "II" . $instructor['id'];
             $inepId = $instructor["inep_id"];
