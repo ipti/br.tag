@@ -2,58 +2,6 @@
 
 class FoodrequestController extends Controller
 {
-
-    public function actionSaveRequest()
-    {
-        $foodRequests = Yii::app()->request->getPost('foodRequests');
-
-        if (!empty($foodRequests)) {
-            foreach ($foodRequests as $request) {
-                $FoodRequest = new FoodRequest;
-
-                $FoodRequest->food_fk = $request['id'];
-                $FoodRequest->amount = $request['amount'];
-                $FoodRequest->measurementUnit = $request['measurementUnit'];
-                $FoodRequest->description = $request['description'];
-                $FoodRequest->school_fk = Yii::app()->user->school;
-
-                if (!$FoodRequest->save()) {
-                    Yii::app()->request->sendStatusCode(400);
-                    $errors = $FoodRequest->getErrors();
-                    echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
-                }
-            }
-        }
-    }
-
-    public function actionGetFoodRequest()
-    {
-        $schoolFk = Yii::app()->user->school;
-
-        $criteria = new CDbCriteria();
-        $criteria->with = array('foodFk');
-        $criteria->compare('school_fk', $schoolFk);
-
-        $foodRequestData = FoodRequest::model()->findAll($criteria);
-
-        $values = [];
-        foreach ($foodRequestData as $request) {
-            $values[] = array(
-                'id' => $request->id,
-                'foodId' => $request->food_fk,
-                'foodName' => $request->foodFk->description,
-                'amount' => $request->amount,
-                'measurementUnit' => $request->measurementUnit,
-                'description' => $request->description,
-                'status' => $request->status,
-                'date' => date('d/m/Y', strtotime($request->date)),
-            );
-        }
-
-        echo json_encode($values);
-    }
-
-
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -65,40 +13,265 @@ class FoodrequestController extends Controller
         ));
     }
 
-    /**
-     * Creates a new model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     */
-    public function actionCreate()
+    public function actionGetFoodAlias()
     {
-        $model = new FoodRequest;
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, description, measurementUnit, category';
+        $criteria->condition = 'alias_id = t.id';
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        $foodsDescription = Food::model()->findAll($criteria);
 
-        if (isset($_POST['FoodRequest'])) {
-            $model->attributes = $_POST['FoodRequest'];
-            if ($model->save())  {
-                $this->redirect(array('view', 'id' => $model->id));
+        $values = [];
+        foreach ($foodsDescription as $food) {
+            $values[$food->id] = (object) [
+                'description' => $food->description,
+                'measurementUnit' => $food->measurementUnit,
+                'category' => $food->category
+            ];
+        }
+
+        echo json_encode($values);
+    }
+
+    public function actionGetFoodNotice()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, name';
+
+        $foodNotices =  FoodNotice::model()->findAll($criteria);
+
+        $values = [];
+        foreach ($foodNotices as $notice) {
+            $values[$notice->id] = (object) [
+                'name' => $notice->name
+            ];
+        }
+
+        echo json_encode($values);
+    }
+
+    public function actionGetFarmerRegister() {
+        $farmerRegisters = FarmerRegister::model()->findAll();
+
+        $values = [];
+        foreach ($farmerRegisters as $farmer) {
+            $values[$farmer->id] = (object) [
+                'name' => $farmer->name,
+            ];
+        }
+
+        echo json_encode($values);
+    }
+
+    private function saveRequestSchools($requestSchools, $foodRequest) {
+        foreach($requestSchools as $school) {
+            $requestSchool = new FoodRequestVsSchoolIdentification();
+
+            $requestSchool->school_fk = $school["id"];
+            $requestSchool->food_request_fk = $foodRequest->id;
+
+            if(!$requestSchool->save()) {
+                return false;
             }
         }
+        return true;
+    }
+
+    private function saveRequestFarmers($requestFarmers, $foodRequest) {
+        foreach($requestFarmers as $farmer) {
+            $requestFarmer = new FoodRequestVsFarmerRegister();
+
+            $requestFarmer->farmer_fk = $farmer;
+            $requestFarmer->food_request_fk = $foodRequest->id;
+
+            if(!$requestFarmer->save()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private function saveRequestItems($requestItems, $foodRequest) {
+        foreach($requestItems as $item) {
+            $requestItem = new FoodRequestItem();
+
+            $requestItem->food_fk = $item['food_id'];
+            $requestItem->amount = $item['amount'];
+            $requestItem->measurementUnit = $item['measurementUnit'];
+            $requestItem->food_request_fk = $foodRequest->id;
+
+            if(!$requestItem->save()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // public function actionUpdateRequestStatus() {
+    //     $requestId = Yii::app()->request->getParam('requestId');
+    //     $token = Yii::app()->request->getParam('token');
+
+    //     if($token == "123") {
+    //         $criteria = new CDbCriteria();
+    //         $criteria->condition = 't.id = :id';
+    //         $criteria->params = array(':id' => $requestId);
+
+    //         $request = FoodRequest::model()->find($criteria);
+    //         $request->status = "Finalizado";
+    //         if($request->save()) {
+    //             return json_encode(['success' => 'Status da solicitação modificado com sucesso']);
+    //         } else {
+    //             return json_encode(['error' => 'Não foi possível modificar o status da solicitação']);
+    //         }
+    //     } else {
+    //         return json_encode(['error' => 'Token inválido']);
+    //     }
+    // }
+
+    public function actionGetFoodRequest()
+    {
+        $foodRequestData = FoodRequest::model()->with(array(
+            'noticeFk' => array(
+                'select' => 'name'
+            )
+        ))->findAll();
+
+        $requestsList = array();
+        foreach ($foodRequestData as $request) {
+            $requestData = array(
+                "requestInfo" => array(
+                    'id' => $request->id,
+                    'status' => $request->status,
+                    'date' => date('d/m/Y', strtotime($request->date)),
+                    'notice' => $request->noticeFk->name,
+                ),
+                "items" => array(),
+                "farmers" => array(),
+                "schools" => array()
+
+            );
+
+            $this->getFoodRequestItems($requestData, $request->id);
+            $this->getFoodRequestFarmers($requestData, $request->id);
+            $this->getFoodRequestSchools($requestData, $request->id);
+
+            $requestsList[] = $requestData;
+        }
+
+        echo json_encode($requestsList);
+    }
+
+    private function getFoodRequestItems(&$requestDataArray, $requestId) {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.food_request_fk = :requestId';
+        $criteria->params = array(':requestId' => $requestId);
+
+        $requestItems = FoodRequestItem::model()->with(array(
+            'foodFk' => array(
+                'select' => 'description'
+            )
+        ))->findAll($criteria);
+
+        foreach ($requestItems as $item) {
+            $requestDataArray["items"][] = array(
+                'id' => $item->id,
+                'foodId' => $item->food_fk,
+                'foodName' => $item->foodFk->description,
+                'amount' => $item->amount,
+                'measurementUnit' => $item->measurementUnit
+            );
+        }
+    }
+
+    private function getFoodRequestFarmers(&$requestDataArray, $requestId) {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.food_request_fk = :requestId';
+        $criteria->params = array(':requestId' => $requestId);
+        $requestFarmers = FoodRequestVsFarmerRegister::model()->with(array(
+            'farmerFk' => array(
+                'select' => 'name'
+            )
+        ))->findAll($criteria);
+
+        foreach ($requestFarmers as $farmer) {
+            $requestDataArray["farmers"][] = array(
+                "id" => $farmer->farmer_fk,
+                "name" => $farmer->farmerFk->name,
+            );
+        }
+    }
+
+    public function getFoodRequestSchools(&$requestDataArray, $requestId) {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.food_request_fk = :requestId';
+        $criteria->params = array(':requestId' => $requestId);
+        $requestSchools = FoodRequestVsSchoolIdentification::model()->with(array(
+            'schoolFk' => array(
+                'select' => 'name'
+            )
+        ))->findAll($criteria);
+
+        foreach ($requestSchools as $school) {
+            $requestDataArray["schools"][] = array(
+                "id" => $school->school_fk,
+                "name" => $school->schoolFk->name,
+            );
+        }
+    }
+
+    public function actionCreate()
+    {
+        if(Yii::app()->request->isAjaxRequest) {
+            $noticeId = Yii::app()->request->getPost('noticeId');
+            $requestSchools = Yii::app()->request->getPost('requestSchools');
+            $requestFarmers = Yii::app()->request->getPost('requestFarmers');
+            $requestItems = Yii::app()->request->getPost('requestItems');
+            $requestTitle = Yii::app()->request->getPost('requestTitle');
+
+            $foodRequest = new FoodRequest;
+            $foodRequest->notice_fk = $noticeId;
+
+            if($foodRequest->save() && $this->saveRequestSchools($requestSchools, $foodRequest) &&
+            $this->saveRequestFarmers($requestFarmers, $foodRequest) && $this->saveRequestItems($requestItems, $foodRequest)) {
+                $requestSchoolNames = array_map(function($school) {
+                    return $school["name"];
+                }, $requestSchools);
+
+                $criteria = new CDbCriteria();
+                $criteria->addInCondition('id', $requestFarmers);
+                $farmers = FarmerRegister::model()->findAll($criteria);
+
+                $farmersReferenceId = [];
+
+                foreach ($farmers as $farmer) {
+                    $farmersReferenceId[] = $farmer->reference_id;
+                }
+
+                $createFoodRequest = new CreateFoodRequest();
+                $requestReferenceId = $createFoodRequest->exec($requestTitle, $requestSchoolNames, $farmersReferenceId, $requestItems);
+
+                $foodRequest->reference_id = $requestReferenceId;
+                $foodRequest->save();
+
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Solicitação foi gerada com sucesso!'));
+            }
+        }
+        $model = new FoodRequest;
+        $requestFarmerModel = new FoodRequestVsFarmerRegister;
+        $requestSchoolModel = new FoodRequestVsSchoolIdentification;
+        $requestItemModel = new FoodRequestItem;
 
         $this->render('create', array(
             'model' => $model,
+            'requestFarmerModel' => $requestFarmerModel,
+            'requestSchoolModel' => $requestSchoolModel,
+            'requestItemModel' => $requestItemModel,
         ));
     }
 
-    /**
-     * Updates a particular model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
-     */
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
 
         if (isset($_POST['FoodRequest'])) {
             $model->attributes = $_POST['FoodRequest'];
@@ -112,31 +285,19 @@ class FoodrequestController extends Controller
         ));
     }
 
-    /**
-     * Deletes a particular model.
-     * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
-     */
     public function actionDelete($id)
     {
         $this->loadModel($id)->delete();
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
         if (!isset($_GET['ajax'])) {
             $url = Yii::app()->createUrl(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
             $this->redirect($url);
         }
     }
 
-    /**
-     * Lists all models.
-     */
     public function actionIndex()
     {
         $model = new FoodRequest;
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
 
         if (isset($_POST['FoodRequest'])) {
             $model->attributes = $_POST['FoodRequest'];
@@ -144,19 +305,17 @@ class FoodrequestController extends Controller
                 $this->redirect(array('view', 'id' => $model->id));
             }
         }
-
-        $this->render('create', array(
+        $dataProvider = new CActiveDataProvider('FoodRequest');
+        $this->render('index', array(
             'model' => $model,
+            'dataProvider' => $dataProvider,
         ));
     }
 
-    /**
-     * Manages all models.
-     */
     public function actionAdmin()
     {
         $model = new FoodRequest('search');
-        $model->unsetAttributes();  // clear any default values
+        $model->unsetAttributes();
         if (isset($_GET['FoodRequest'])) {
             $model->attributes = $_GET['FoodRequest'];
         }
@@ -166,13 +325,6 @@ class FoodrequestController extends Controller
         ));
     }
 
-    /**
-     * Returns the data model based on the primary key given in the GET variable.
-     * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
-     * @return FoodRequest the loaded model
-     * @throws CHttpException
-     */
     public function loadModel($id)
     {
         $model = FoodRequest::model()->findByPk($id);
@@ -182,10 +334,6 @@ class FoodrequestController extends Controller
         return $model;
     }
 
-    /**
-     * Performs the AJAX validation.
-     * @param FoodRequest $model the model to be validated
-     */
     protected function performAjaxValidation($model)
     {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'food-request-form') {

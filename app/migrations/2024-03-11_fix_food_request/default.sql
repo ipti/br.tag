@@ -9,3 +9,5 @@ ADD CONSTRAINT food_request_school_fk
 FOREIGN KEY (school_fk) REFERENCES school_identification(inep_id)
 ON DELETE NO ACTION
 ON UPDATE CASCADE;
+
+ALTER TABLE farmer_foods ADD deliveredAmount float DEFAULT 0;

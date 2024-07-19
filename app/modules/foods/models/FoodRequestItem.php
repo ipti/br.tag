@@ -1,25 +1,27 @@
 <?php
 
 /**
- * This is the model class for table "food_notice_vs_food_notice_item".
+ * This is the model class for table "food_request_item".
  *
- * The followings are the available columns in table 'food_notice_vs_food_notice_item':
+ * The followings are the available columns in table 'food_request_item':
  * @property integer $id
- * @property integer $food_notice_id
- * @property integer $food_notice_item_id
+ * @property integer $food_fk
+ * @property double $amount
+ * @property string $measurementUnit
+ * @property integer $food_request_fk
  *
  * The followings are the available model relations:
- * @property FoodNotice $foodNotice
- * @property FoodNoticeItem $foodNoticeItem
+ * @property Food $foodFk
+ * @property FoodRequest $foodRequestFk
  */
-class FoodNoticeVsFoodNoticeItem extends CActiveRecord
+class FoodRequestItem extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'food_notice_vs_food_notice_item';
+		return 'food_request_item';
 	}
 
 	/**
@@ -30,9 +32,11 @@ class FoodNoticeVsFoodNoticeItem extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('food_notice_id, food_notice_item_id', 'numerical', 'integerOnly'=>true),
+			array('food_fk, food_request_fk', 'numerical', 'integerOnly'=>true),
+			array('amount', 'numerical'),
+			array('measurementUnit', 'length', 'max'=>7),
 			// The following rule is used by search().
-			array('id, food_notice_id, food_notice_item_id', 'safe', 'on'=>'search'),
+			array('id, food_fk, amount, measurementUnit, food_request_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -44,8 +48,8 @@ class FoodNoticeVsFoodNoticeItem extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'foodNotice' => array(self::BELONGS_TO, 'FoodNotice', 'food_notice_id'),
-			'foodNoticeItem' => array(self::BELONGS_TO, 'FoodNoticeItem', 'food_notice_item_id'),
+			'foodFk' => array(self::BELONGS_TO, 'Food', 'food_fk'),
+			'foodRequestFk' => array(self::BELONGS_TO, 'FoodRequest', 'food_request_fk'),
 		);
 	}
 
@@ -56,8 +60,10 @@ class FoodNoticeVsFoodNoticeItem extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'food_notice_id' => 'Food Notice',
-			'food_notice_item_id' => 'Food Notice Item',
+			'food_fk' => 'Food Fk',
+			'amount' => 'Quantidade',
+			'measurementUnit' => 'Unidade',
+			'food_request_fk' => 'Food Request Fk',
 		);
 	}
 
@@ -79,8 +85,10 @@ class FoodNoticeVsFoodNoticeItem extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('food_notice_id',$this->food_notice_id);
-		$criteria->compare('food_notice_item_id',$this->food_notice_item_id);
+		$criteria->compare('food_fk',$this->food_fk);
+		$criteria->compare('amount',$this->amount);
+		$criteria->compare('measurementUnit',$this->measurementUnit,true);
+		$criteria->compare('food_request_fk',$this->food_request_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -91,7 +99,7 @@ class FoodNoticeVsFoodNoticeItem extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return FoodNoticeVsFoodNoticeItem the static model class
+	 * @return FoodRequestItem the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

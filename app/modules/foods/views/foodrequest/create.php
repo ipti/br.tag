@@ -14,5 +14,9 @@ $this->menu=array(
 ?>
 
 <div id="mainPage" class="main">
-    <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+    <?php $this->renderPartial('_form',
+    array('model'=>$model,
+    'requestFarmerModel'=>$requestFarmerModel,
+    'requestSchoolModel'=>$requestSchoolModel,
+    'requestItemModel'=>$requestItemModel)); ?>
 </div>

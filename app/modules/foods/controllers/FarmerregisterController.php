@@ -32,11 +32,14 @@ class FarmerRegisterController extends Controller
                 'actions' => array(
                     'index',
                     'view',
+                    'activateFarmers',
+                    'toggleFarmerStatus',
                     'createFarmerRegister',
                     'updateFarmerRegister',
                     'getFarmerRegister',
                     'getFoodAlias',
-                    'getFarmerFoods'
+                    'getFarmerFoods',
+                    'getFoodNotice'
                 ),
                 'users' => array('*'),
             ),
@@ -73,45 +76,51 @@ class FarmerRegisterController extends Controller
         $groupType = Yii::app()->request->getPost('groupType');
         $foodsRelation = Yii::app()->request->getPost('foodsRelation');
 
-        if (!empty($name) && !empty($cpf) && !empty($phone) && !empty($groupType)) {
-            if ($this->verifyFarmerCpf($cpf)) {
-                echo json_encode(['error' => 'O CPF do agricultor informado já possui cadastro no TAG']);
-            } else {
-                $farmerRegister = new FarmerRegister();
+        if ($this->verifyFarmerCpf($cpf)) {
+            $criteria = new CDbCriteria();
+            $criteria->condition = 't.cpf = :cpf';
+            $criteria->params = array(':cpf' => $cpf);
+            $existingFarmer = FarmerRegister::model()->findAll($criteria);
 
-                $farmerRegister->name = $name;
-                $farmerRegister->cpf = $cpf;
-                $farmerRegister->phone = $phone;
-                $farmerRegister->group_type = $groupType;
+            $existingFarmer->status = "Ativo";
+            $existingFarmer->save();
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Agricultor reativado com sucesso!'));
+        } else {
+            $farmerRegister = new FarmerRegister();
 
-                if ($farmerRegister->save()) {
-                    foreach ($foodsRelation as $foodData) {
-                        $farmerFoods =  new FarmerFoods;
+            $farmerRegister->name = $name;
+            $farmerRegister->cpf = $cpf;
+            $farmerRegister->phone = $phone;
+            $farmerRegister->group_type = $groupType;
 
-                        $farmerFoods->food_fk = $foodData['id'];
-                        $farmerFoods->farmer_fk = $farmerRegister->id;
-                        $farmerFoods->amount = $foodData['amount'];
-                        $farmerFoods->measurementUnit = $foodData['measurementUnit'];
+            if ($farmerRegister->save()) {
+                foreach ($foodsRelation as $foodData) {
+                    $farmerFoods =  new FarmerFoods;
 
-                        $farmerFoods->save();
-                    }
-                    Yii::app()->user->setFlash('success', Yii::t('default', 'Cadastro do agricultor criado com sucesso!'));
-                    $getFarmerRegister = new GetFarmerRegister();
-                    $existingFarmerRegister = $getFarmerRegister->exec($cpf);
+                    $farmerFoods->food_fk = $foodData['id'];
+                    $farmerFoods->farmer_fk = $farmerRegister->id;
+                    $farmerFoods->amount = $foodData['amount'];
+                    $farmerFoods->measurementUnit = $foodData['measurementUnit'];
+                    $farmerFoods->foodNotice_fk = $foodData['noticeId'];
 
-                    if (empty($existingFarmerRegister)) {
-                        $createFarmerRegister = new CreateFarmerRegister();
-                        $farmerReferenceId = $createFarmerRegister->exec($name, $cpf, $phone, $groupType, $foodsRelation);
+                    $farmerFoods->save();
+                }
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Cadastro do agricultor criado com sucesso!'));
+                $getFarmerRegister = new GetFarmerRegister();
+                $existingFarmer = $getFarmerRegister->exec($cpf);
 
-                        $farmerRegister->reference_id = $farmerReferenceId;
-                        $farmerRegister->save();
-                    } else {
-                        $updateFarmerRegister = new UpdateFarmerRegister();
-                        $updateFarmerRegister->exec($existingFarmerRegister["id"], $name, $cpf, $phone, $groupType, $foodsRelation);
+                if (empty($existingFarmer)) {
+                    $createFarmerRegister = new CreateFarmerRegister();
+                    $farmerReferenceId = $createFarmerRegister->exec($name, $cpf, $phone, $groupType, $foodsRelation);
 
-                        $farmerRegister->reference_id = $existingFarmerRegister["id"];
-                        $farmerRegister->save();
-                    }
+                    $farmerRegister->reference_id = $farmerReferenceId;
+                    $farmerRegister->save();
+                } else {
+                    $updateFarmerRegister = new UpdateFarmerRegister();
+                    $updateFarmerRegister->exec($existingFarmer["id"], $name, $cpf, $phone, $groupType, $foodsRelation);
+
+                    $farmerRegister->reference_id = $existingFarmer["id"];
+                    $farmerRegister->save();
                 }
             }
         }
@@ -144,6 +153,7 @@ class FarmerRegisterController extends Controller
                     $farmerFoods->farmer_fk = $existingFarmer->id;
                     $farmerFoods->amount = $foodData['amount'];
                     $farmerFoods->measurementUnit = $foodData['measurementUnit'];
+                    $farmerFoods->foodNotice_fk = $foodData['noticeId'];
 
                     $farmerFoods->save();
                 }
@@ -154,7 +164,7 @@ class FarmerRegisterController extends Controller
         }
     }
 
-    public function verifyFarmerCpf($cpf)
+    private function verifyFarmerCpf($cpf)
     {
         $criteria = new CDbCriteria();
         $criteria->condition = 't.cpf = :cpf';
@@ -164,12 +174,24 @@ class FarmerRegisterController extends Controller
         return !empty($farmerRegister);
     }
 
+    private function verifyFarmerStatus($cpf)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.cpf = :cpf';
+        $criteria->params = array(':cpf' => $cpf);
+        $farmerRegister = FarmerRegister::model()->find($criteria);
+
+        return $farmerRegister->status;
+    }
+
     public function actionGetFarmerRegister()
     {
         $cpf = Yii::app()->request->getPost('farmerCpf');
 
-        if ($this->verifyFarmerCpf($cpf)) {
-            echo json_encode(['error' => 'O CPF do agricultor informado já possui cadastro no TAG']);
+        if ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == "Ativo") {
+            echo json_encode(['error' => 'Existente ativo']);
+        } elseif ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == "Inativo") {
+            echo json_encode(['error' => 'Existente inativo']);
         } else {
             $getFarmerRegister = new GetFarmerRegister();
             $farmerRegister = $getFarmerRegister->exec($cpf);
@@ -183,7 +205,7 @@ class FarmerRegisterController extends Controller
         $id = Yii::app()->request->getPost('id');
 
         $criteria = new CDbCriteria();
-        $criteria->with = array('foodFk');
+        $criteria->with = array('foodFk', 'foodNoticeFk');
         $criteria->condition = 't.farmer_fk = ' . $id;
         $farmerFoodsData = FarmerFoods::model()->findAll($criteria);
 
@@ -194,6 +216,8 @@ class FarmerRegisterController extends Controller
                 'foodDescription' => preg_replace('/,|\b(cru[ao]?)\b/', '', $foods->foodFk->description),
                 'amount' => $foods->amount,
                 'measurementUnit' => $foods->measurementUnit,
+                'notice' => $foods->foodNoticeFk ? $foods->foodNoticeFk->name : null,
+                'noticeId' => $foods->foodNotice_fk,
             );
         }
 
@@ -219,6 +243,24 @@ class FarmerRegisterController extends Controller
         echo json_encode($values);
     }
 
+    public function actionGetFoodNotice()
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, name';
+        $criteria->condition = 't.status = :status';
+        $criteria->params = array(':status' => "Ativo");
+
+        $foodNotices =  FoodNotice::model()->findAll($criteria);
+
+        $values = [];
+        foreach ($foodNotices as $notice) {
+            $values[$notice->id] = (object) [
+                'name' => $notice->name
+            ];
+        }
+
+        echo json_encode($values);
+    }
     public function actionCreate()
     {
         $model = new FarmerRegister;
@@ -257,31 +299,59 @@ class FarmerRegisterController extends Controller
 
     public function actionDelete($id)
     {
-        $farmerRegister = FarmerRegister::model()->findByPk($id);
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'id=:id';
+        $criteria->params = array(':id' => $id);
 
-        $deleteFarmerRegister = new DeleteFarmerRegister();
-        $deleteFarmerRegister->exec($farmerRegister->reference_id);
+        $farmerRegister = FarmerRegister::model()->find($criteria);
 
-        FarmerFoods::model()->deleteAll('farmer_fk = :id', array(':id' => $id));
-        $this->loadModel($id)->delete();
-
-
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Agricultor excluído com sucesso!'));
-
-        $returnUrl = Yii::app()->request->getPost('returnUrl');
-
-        if (!isset($_GET['ajax'])) {
-            $this->redirect(isset($returnUrl) ? $returnUrl : array('admin'));
+        if ($farmerRegister !== null) {
+            $farmerRegister->status = 'Inativo';
+            $farmerRegister->save();
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Agricultor inativado com sucesso!'));
         }
+
+        $this->redirect(array('index'));
     }
 
     public function actionIndex()
     {
+        $showAll = Yii::app()->request->getParam('showAll');
+        $criteria=new CDbCriteria;
+        if(!$showAll){
+            $criteria->compare('status', "Ativo");
+        }
+
         $dataProvider = new CActiveDataProvider('FarmerRegister');
+        $dataProvider->setCriteria($criteria);
         $this->render('index', array(
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider
         ));
     }
+
+    public function actionActivateFarmers()
+    {
+        $farmers = FarmerRegister::model()->findAll();
+        $this->render('activateFarmers', array(
+            'farmers' => $farmers
+        ));
+    }
+    public function actionToggleFarmerStatus()
+    {
+        $id = Yii::app()->request->getPost('id');
+        $status = Yii::app()->request->getPost('status');
+        $farmer = FarmerRegister::model()->findByPk($id);
+
+        $farmer->status = $status == "Ativo" ? "Inativo" : "Ativo";
+
+        if ($farmer->save()) {
+            $message = $status === "Ativo" ? 'Agricutor inativado com sucesso!' : 'Agricutor ativado com sucesso!';
+            Yii::app()->user->setFlash('success', Yii::t('default', $message));
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
+        }
+    }
+
 
     public function actionAdmin()
     {
