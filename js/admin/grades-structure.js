@@ -47,6 +47,13 @@ $(document).on("click", ".js-new-unity", function (e) {
                         <input type='text' class='t-field-text__input unity-name' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
                     </div>
                     <div class="t-field-select">
+                        <label class='t-field-select__label--required'>Semestre: </label>
+                       <select class='t-field-select__input js-semester select-search-on'>
+                            <option value="1">1° semestre</option>
+                            <option value="2">2° semestre</option>
+                       </select>
+                    </div>
+                    <div class="t-field-select">
                         <label class='t-field-select__label--required'>Modelo: </label>
                         <select class='t-field-select__input js-type-select select-search-on control-input'>
                             ${isUnityConcept
@@ -83,7 +90,7 @@ $(document).on("click", ".js-new-unity", function (e) {
             $(".js-new-modality").last().trigger("click").hide();
             $(".remove-modality").last().hide();
         }
-        $(".unity").last().find(".js-type-select, .js-formula-select").select2();
+        $(".unity").last().find(".js-type-select, .js-formula-select, .js-semester").select2();
         if (!$(".js-new-partial-recovery").hasClass("disabled")) {
             $('.js-alert-save-unities-first')
                 .text("Para cadastrar novas recuperações, conclua o cadastro da unidade")
@@ -431,6 +438,7 @@ function saveUnities(reply) {
         unities.push({
             id: $(this).find(".unity-id").val(),
             name: $(this).find(".unity-name").val(),
+            semester: $(this).find("select.js-semester").val(),
             type: $(this).find("select.js-type-select").val(),
             formula: $(this).find("select.js-formula-select").val(),
             operation: $(this).find(".unity-operation").val(),
@@ -771,6 +779,10 @@ function loadStructure() {
                         unity.find(".unity-name").val(this.name);
                         unity.find(".unity-title").html(this.name);
                         unity.find(".unity-id").val(this.id);
+                        unity
+                            .find("select.js-semester")
+                            .val(this.semester)
+                            .trigger("change")
                         unity
                             .find("select.js-type-select")
                             .val(this.type)
