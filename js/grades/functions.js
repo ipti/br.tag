@@ -196,6 +196,7 @@ function GradeTableBuilder(data) {
                         )}
                         ${partialRecoveries !== null ? buildPartialRecovery(
                             student.partialRecoveries[0],
+                            partialRecoveries
                         ) : ''}
                         ${
                             isUnityConcept
@@ -241,15 +242,22 @@ function GradeTableBuilder(data) {
 
         return unitesGrade;
     }
-    function buildPartialRecovery(studentPartialRecoveries){
+    function buildPartialRecovery(studentPartialRecoveries, partialRecoveries){
         const grade = studentPartialRecoveries.grade.grade === null ? "" : studentPartialRecoveries.grade.grade
-        return  template`
-            <td class="grade-td">
-                <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
-            </td>
-            <td class="grade-td">
-                ${studentPartialRecoveries.recPartialResult != null ?studentPartialRecoveries.recPartialResult : ''}
-            </td>`;
+
+        let partialRecoveryTD = ""
+        partialRecoveryTD += partialRecoveries.calculationName == "Média Semestral" ?
+        template`<td class="grade-td">
+
+                </td>` : ''
+        partialRecoveryTD +=
+        template`<td class="grade-td">
+                    <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
+                </td>
+                <td class="grade-td">
+                    ${studentPartialRecoveries.recPartialResult != null ?studentPartialRecoveries.recPartialResult : ''}
+                </td>`;
+        return  partialRecoveryTD
 
     }
     function buildInputOrSelect(isUnityConcept, grade, conceptOptions) {
@@ -292,6 +300,7 @@ function GradeTableBuilder(data) {
     }
 
     function build() {
+
         const spaceByColumnGrade = !data.isUnityConcept ? 3 : 2;
         const concept = data.isUnityConcept ? "1" : "0";
         const partialRecoveryColumns = data.partialRecoveryColumns
@@ -307,7 +316,24 @@ function GradeTableBuilder(data) {
         }, []);
         const numModalities = modalityColumns.length;
         const tableColspan = numModalities + spaceByColumnGrade;
+        let partialRecoveryHeader = ''
+        if(partialRecoveryColumns != null){
 
+            partialRecoveryHeader += partialRecoveryColumns.calculationName == "Média Semestral" ?
+                template`<th style="min-width: 50px; font-weight: bold;">
+                            Média Semestral
+                        </th>` : ''
+
+            partialRecoveryHeader +=
+                template`<th style="min-width: 50px; font-weight: bold;">
+                            ${partialRecoveryColumns.name}
+                        </th>
+                        <th style="min-width: 50px; font-weight: bold;">
+                            Média pós recuperação
+                        </th>`
+        }
+        console.log(partialRecoveryHeader)
+        console.log(partialRecoveryColumns.calculationName == "Média Semestral")
         return template`
             <table class="grades-table tag-table-secondary remove-vertical-borders remove-border-radius" concept="${concept}">
             <colgroup>
@@ -338,15 +364,8 @@ function GradeTableBuilder(data) {
                                     `<th style="min-width: 50px;%">${element}</th>`
                             )
                             .join("\n")}
-                            ${partialRecoveryColumns !== null ?
-                                template`<th style="min-width: 50px; font-weight: bold;">
-                                ${partialRecoveryColumns.name}
-                                </th>
-                                <th style="min-width: 50px; font-weight: bold;">
-                                    Média pós recuperação
-                                </th>`
-                                 :
-                                ''}
+                            ${partialRecoveryHeader}
+
                         ${
                             !data.isUnityConcept
                                 ? `<th style="font-weight: bold;">Média Anual</th>`
