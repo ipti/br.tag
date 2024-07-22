@@ -199,7 +199,10 @@ class CalculateNumericGradeUsecase
     private function calculatePartialRecoveryMedia($enrollment, $disciplineId, $gradeRecoveryAndUnities, $gradeResult){
 
         $grades = [];
+        $partialRecovery = $gradeRecoveryAndUnities["partialRecovery"];
+        if($unityOrRecovery->gradeCalculationFk->name == 'Média Semestral') {
 
+        }
         foreach($gradeRecoveryAndUnities["unities"] as $unity){
             array_push($grades, $gradeResult['grade_'.$unity]);
         }
@@ -216,7 +219,7 @@ class CalculateNumericGradeUsecase
             array_unshift($grades, $gradePartialRecovery->grade);
             $isRecovery = true;
 
-            $result = $this->applyStrategyComputeGradesByFormula($gradeRecoveryAndUnities["partialRecovery"], $grades, $isRecovery);
+            $result = $this->applyStrategyComputeGradesByFormula($partialRecovery, $grades, $isRecovery);
         }
 
         return $result;
