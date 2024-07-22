@@ -404,7 +404,7 @@ class ClassroomValidation extends Register
             if ($modality == 2 && !in_array($stage, array(1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 41, 56, 39, 40, 69, 70, 71, 72, 73, 74, 64, 67, 68))) {
                 return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação Especial - Modalidade Substitutiva" for selecionada.');
             }
-            if ($modality == 3 && !in_array($stage, array(69, 70, 71))) {
+            if ($modality == 3 && !in_array($stage, array(69, 70, 71, 72))) {
                 return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação de Jovens e Adultos (EJA)" for selecionada.');
             }
             if ($mediation == 2 && !in_array($stage, array(69, 70, 71, 72))) {
