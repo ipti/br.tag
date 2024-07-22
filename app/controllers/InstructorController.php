@@ -364,7 +364,7 @@ preenchidos";
         $modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
         $modelInstructorTeachingData = $this->loadModel($id, $this->InstructorTeachingData);
 
-        $delete = TRUE;
+        $delete = true;
 
         if (isset($modelInstructorDocumentsAndAddress)) {
             $modelInstructorDocumentsAndAddress->delete();
@@ -540,44 +540,26 @@ preenchidos";
     {
 
         $instructor = InstructorIdentification::model()->findByPk($id);
-        $instructor_inepid_id = isset($instructor->inep_id) && !empty($instructor->inep_id) ? $instructor->inep_id : $instructor->id;
-        $return = NULL;
+        $instructorId = $instructor->id;
+        $return = null;
         if ($model == $this->InstructorIdentification) {
-            $return = InstructorIdentification::model()->findByPk($id);
+            $return = InstructorIdentification::model()->findByPk($instructorId);
         } else if ($model == $this->InstructorDocumentsAndAddress) {
-            if (isset($instructor->inep_id) && !empty($instructor->inep_id)) {
-                $return = InstructorDocumentsAndAddress::model()->findByAttributes(['inep_id' => $instructor_inepid_id, "school_inep_id_fk" => Yii::app()->user->school]);
-                if ($return == null) {
-                    $return = InstructorDocumentsAndAddress::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
-                }
-            } else {
-                $return = InstructorDocumentsAndAddress::model()->findByPk($instructor_inepid_id);
-            }
+            $return = InstructorDocumentsAndAddress::model()->findByPk($instructorId);
         } else if ($model == $this->InstructorVariableData) {
-            if (isset($instructor->inep_id) && !empty($instructor->inep_id)) {
-                $return = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id, "school_inep_id_fk" => Yii::app()->user->school]);
-                if ($return == null) {
-                    $return = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
-                }
-            } else {
-                $return = InstructorVariableData::model()->findByPk($instructor_inepid_id);
-            }
+            $return = InstructorVariableData::model()->findByPk($instructorId);
         } else if ($model == $this->InstructorTeachingData) {
-            if (isset($instructor->inep_id) && !empty($instructor->inep_id)) { // VEr possível correção !!!!
-                $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_inep_id' => $instructor_inepid_id]);
-            } else {
-                $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_fk' => $instructor_inepid_id]);
-            }
+            $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_fk' => $instructorId]);
         }
 
-        if ($return === NULL && $model == $this->InstructorIdentification) {
+        if ($return === null && $model == $this->InstructorIdentification) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-        if ($return === NULL && $model == $this->InstructorDocumentsAndAddress) {
+        if ($return === null && $model == $this->InstructorDocumentsAndAddress) {
             $return = InstructorDocumentsAndAddress::model()->findByPk($id);
         }
 
-        if ($return === NULL && $model == $this->InstructorVariableData) {
+        if ($return === null && $model == $this->InstructorVariableData) {
             $return = InstructorVariableData::model()->findByPk($id);
         }
 
