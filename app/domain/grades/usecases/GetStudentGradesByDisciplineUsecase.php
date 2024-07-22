@@ -51,8 +51,12 @@ class GetStudentGradesByDisciplineUsecase
                 "colspan" => $unity->countGradeUnityModalities + ($unity->type === GradeUnity::TYPE_UNITY_WITH_RECOVERY ? 1 : 0),
                 "modalities" => array_column($unity->gradeUnityModalities, 'name'),
                 "calculationName" => $unity->gradeCalculationFk->name,
-                "recoveryPartialFk" => $unity->parcial_recovery_fk == null ? "" : $unity->parcial_recovery_fk
+                "recoveryPartialFk" => $unity->parcial_recovery_fk == null ? "" : $unity->parcial_recovery_fk,
             ];
+        }
+        $semester = null;
+        if(count($unitiesByDiscipline) == 1) {
+            $semester = $unitiesByDiscipline[0]->semester;
         }
         $partialRecoveryColumns = null;
         $partialRecovery = $this->getpartialRecoveriesByUnity();
@@ -66,12 +70,12 @@ class GetStudentGradesByDisciplineUsecase
                     "calculationName" => $partialRecovery->gradeCalculationFk->name,
             ];
         }
-
         $result = new StructClassromGradeResult();
         $result->setStudents($classroomGrades)
             ->setIsUnityConcept(false)
             ->setUnityColumns($unityColumns)
-            ->setPartialRecoveryColumns($partialRecoveryColumns);
+            ->setPartialRecoveryColumns($partialRecoveryColumns)
+            ->setSemester($semester);
 
         if ($rules->rule_type === "C") {
             $concepts = GradeConcept::model()->findAll();
@@ -145,6 +149,8 @@ class GetStudentGradesByDisciplineUsecase
         }
 
         $studentGradeResult->setFinalMedia($gradeResult->final_media);
+        $studentGradeResult->setSemAvarage1($gradeResult->sem_avarage_1);
+        $studentGradeResult->setSemAvarage2($gradeResult->sem_avarage_2);
         $studentGradeResult->setSituation($gradeResult->situation);
 
         foreach ($unitiesByDiscipline as $key => $unity) {
@@ -261,7 +267,7 @@ class StructClassromGradeResult
     private $students;
     private $concepts;
     private $isUnityConcept;
-
+    private $semester;
     private $unityColumns;
     private $partialRecoveryColumns;
 
@@ -281,6 +287,12 @@ class StructClassromGradeResult
     public function setStudents($students)
     {
         $this->students = $students;
+
+        return $this;
+    }
+    public function setSemester($semester)
+    {
+        $this->semester = $semester;
 
         return $this;
     }
@@ -374,7 +386,8 @@ class StructClassromGradeResult
             'unityColumns' => $this->unityColumns,
             'concepts' => $this->concepts,
             'isUnityConcept' => $this->isUnityConcept,
-            'partialRecoveryColumns' => $this->partialRecoveryColumns
+            'partialRecoveryColumns' => $this->partialRecoveryColumns,
+            'semester' => $this->semester
         ];
     }
 
@@ -392,6 +405,8 @@ class StudentGradesResult
     private $studentName;
     private $enrollmentId;
     private $finalMedia;
+    private $semAvarage1;
+    private $semAvarage2;
     private $situation;
     private $unities;
     private $partialRecoveries;
@@ -410,6 +425,16 @@ class StudentGradesResult
     public function setFinalMedia($finalMedia)
     {
         $this->finalMedia = $finalMedia;
+        return $this;
+    }
+    public function setSemAvarage1($semAvarage1)
+    {
+        $this->semAvarage1 = $semAvarage1;
+        return $this;
+    }
+    public function setSemAvarage2($semAvarage2)
+    {
+        $this->semAvarage2 = $semAvarage2;
         return $this;
     }
 
@@ -443,6 +468,8 @@ class StudentGradesResult
             'studentName' => $this->studentName,
             'enrollmentId' => $this->enrollmentId,
             'finalMedia' => $this->finalMedia,
+            'semAvarage1' => $this->semAvarage1,
+            'semAvarage2' => $this->semAvarage2,
             'situation' => $this->situation,
             'unities' => array_map(function (GradeUnityResult $unity) {
                 return $unity->toArray();

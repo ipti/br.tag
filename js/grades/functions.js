@@ -176,7 +176,7 @@ $('.js-refresh').on("click", function (e) {
 
 
 function GradeTableBuilder(data) {
-    function buildStundentsRows(students, isUnityConcept, conceptOptions, partialRecoveries) {
+    function buildStundentsRows(students, isUnityConcept, conceptOptions, partialRecoveries, semester) {
         return students
             .map(
                 (student) => template`
@@ -194,9 +194,18 @@ function GradeTableBuilder(data) {
                             isUnityConcept,
                             conceptOptions
                         )}
+                        ${
+                            isUnityConcept
+                            ? ''
+                            : `<td class="grade-td">
+                                ${buildSemesterAvarage(student, semester)}
+                            </td>`
+
+                        }
                         ${partialRecoveries !== null ? buildPartialRecovery(
                             student.partialRecoveries[0],
-                            partialRecoveries
+                            partialRecoveries,
+                            semester
                         ) : ''}
                         ${
                             isUnityConcept
@@ -213,7 +222,9 @@ function GradeTableBuilder(data) {
             )
             .join("\n");
     }
-
+    function buildSemesterAvarage(student, semester){
+        return semester == 1 ? student.semAvarage1 : student.semAvarage2
+    }
     function buildUnities(unities, isUnityConcept, conceptOptions) {
         const unitesGrade = unities
             .map((unity) => {
@@ -242,22 +253,27 @@ function GradeTableBuilder(data) {
 
         return unitesGrade;
     }
-    function buildPartialRecovery(studentPartialRecoveries, partialRecoveries){
+    function buildPartialRecovery(studentPartialRecoveries, partialRecoveries, semester){
         const grade = studentPartialRecoveries.grade.grade === null ? "" : studentPartialRecoveries.grade.grade
-
         let partialRecoveryTD = ""
-        partialRecoveryTD += partialRecoveries.calculationName == "Média Semestral" ?
+       /*  let semsterAvarage =
+        if(semester == 2) {
+
+        } */
+
+       /*  partialRecoveryTD += partialRecoveries.calculationName == "Média Semestral" ?
         template`<td class="grade-td">
 
                 </td>` : ''
         partialRecoveryTD +=
-        template`<td class="grade-td">
-                    <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
-                </td>
-                <td class="grade-td">
-                    ${studentPartialRecoveries.recPartialResult != null ?studentPartialRecoveries.recPartialResult : ''}
-                </td>`;
-        return  partialRecoveryTD
+         */
+        return template`
+            <td class="grade-td">
+                <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
+            </td>
+            <td class="grade-td">
+                ${studentPartialRecoveries.recPartialResult != null ?studentPartialRecoveries.recPartialResult : ''}
+            </td>`;
 
     }
     function buildInputOrSelect(isUnityConcept, grade, conceptOptions) {
@@ -304,6 +320,7 @@ function GradeTableBuilder(data) {
         const spaceByColumnGrade = !data.isUnityConcept ? 3 : 2;
         const concept = data.isUnityConcept ? "1" : "0";
         const partialRecoveryColumns = data.partialRecoveryColumns
+        const semester = data.semester
         const modalityColumns = data.unityColumns.reduce((acc, e) => {
             if (e.modalities.length > 1) {
                 return [
@@ -316,7 +333,7 @@ function GradeTableBuilder(data) {
         }, []);
         const numModalities = modalityColumns.length;
         const tableColspan = numModalities + spaceByColumnGrade;
-        let partialRecoveryHeader = ''
+       /*  let partialRecoveryHeader = ''
         if(partialRecoveryColumns != null){
 
             partialRecoveryHeader += partialRecoveryColumns.calculationName == "Média Semestral" ?
@@ -331,9 +348,7 @@ function GradeTableBuilder(data) {
                         <th style="min-width: 50px; font-weight: bold;">
                             Média pós recuperação
                         </th>`
-        }
-        console.log(partialRecoveryHeader)
-        console.log(partialRecoveryColumns.calculationName == "Média Semestral")
+        } */
         return template`
             <table class="grades-table tag-table-secondary remove-vertical-borders remove-border-radius" concept="${concept}">
             <colgroup>
@@ -364,7 +379,18 @@ function GradeTableBuilder(data) {
                                     `<th style="min-width: 50px;%">${element}</th>`
                             )
                             .join("\n")}
-                            ${partialRecoveryHeader}
+                            <th style="min-width: 50px; font-weight: bold;">
+                                    Média ${semester}° Semestre
+                            </th>
+                            ${partialRecoveryColumns !== null ?
+                                template`<th style="min-width: 50px; font-weight: bold;">
+                                ${partialRecoveryColumns.name}
+                                </th>
+                                <th style="min-width: 50px; font-weight: bold;">
+                                    Média pós recuperação
+                                </th>`
+                                 :
+                                ''}
 
                         ${
                             !data.isUnityConcept
@@ -382,7 +408,8 @@ function GradeTableBuilder(data) {
                         data.students,
                         data.isUnityConcept,
                         data.concepts,
-                        data.partialRecoveryColumns
+                        data.partialRecoveryColumns,
+                        data.semester
                     )}
                 </tbody>
             </table>`;
