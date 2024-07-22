@@ -473,10 +473,12 @@ class ClassesController extends Controller
                         $available = date("Y-m-d") >= $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
                         $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
 
-                        $dateFormat = 'd/m/Y';
-                        $startDate = date_create_from_format($dateFormat, $enrollment->school_readmission_date);
-                        $transferedDate = date_create_from_format($dateFormat, $enrollment->class_transfer_date);
-                        $scheduleDate = date_create_from_format($dateFormat, $date);
+                        // $dateFormat = 'd/m/Y';
+                        // $startDate = date_create_from_format($dateFormat, $enrollment->school_readmission_date);
+                        // $transferedDate = date_create_from_format($dateFormat, $enrollment->class_transfer_date);
+                        // $scheduleDate = date_create_from_format($dateFormat, $date);
+
+                        $valid = $this->verifyStatusEnrollment($enrollment, $schedule);
 
                         array_push($array["schedules"], [
                             "available" => $available,
@@ -486,7 +488,7 @@ class ClassesController extends Controller
                             "fault" => $classFault != null,
                             "justification" => $classFault->justification,
                             "date" => $date,
-                            "valid" => (($scheduleDate < $startDate && $scheduleDate > $transferedDate) && $enrollment->status == '13') ? false : true
+                            "valid" => $valid
                         ]);
                     }
                     array_push($students, $array);
@@ -590,7 +592,8 @@ class ClassesController extends Controller
 
                 foreach ($enrollments as $enrollment) {
                     $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
-                    if ($classFault == null) {
+                    $valid = $this->verifyStatusEnrollment($enrollment, $schedule);
+                    if ($classFault == null && $valid) {
                         $classFault = new ClassFaults();
                         $classFault->student_fk = $enrollment->student_fk;
                         $classFault->schedule_fk = $schedule->id;
@@ -601,6 +604,16 @@ class ClassesController extends Controller
                 ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
             }
         }
+    }
+
+    public function verifyStatusEnrollment($enrollment, $schedule)
+    {
+        $dateFormat = 'd/m/Y';
+        $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
+        $startDate = date_create_from_format($dateFormat, $enrollment->school_readmission_date);
+        $transferedDate = date_create_from_format($dateFormat, $enrollment->class_transfer_date);
+        $scheduleDate = date_create_from_format($dateFormat, $date);
+        return !(($scheduleDate < $startDate && $scheduleDate > $transferedDate) && $enrollment->status == '13');
     }
 
     public function actionSaveJustifications()
