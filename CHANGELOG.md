@@ -1,3 +1,9 @@
+## [Versão 3.81.174]
+- Modificando a forma como o professor é excluído, para que seja de acordo com o id do professor e não pelo id do inep
+
+## [Versão 3.81.173]
+- Corrigindo o relatório de professores por escola para que o mesmo exiba somente os professores da escola que estão ligados a turmas
+
 ## [Versão 3.81.172]
 - Adicionado Sábado letivo aos cardápios
 
