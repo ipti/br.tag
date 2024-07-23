@@ -200,18 +200,22 @@ class CalculateNumericGradeUsecase
 
         $grades = [];
         $partialRecovery = $gradeRecoveryAndUnities["partialRecovery"];
-        if($unityOrRecovery->gradeCalculationFk->name == 'Média Semestral') {
-
-        }
-        foreach($gradeRecoveryAndUnities["unities"] as $unity){
-            array_push($grades, $gradeResult['grade_'.$unity]);
-        }
-
+        $calculationName =  $partialRecovery->gradeCalculationFk->name;
         $gradePartialRecovery = Grade::model()->findByAttributes([
             "enrollment_fk"=>$enrollment->id,
             "discipline_fk"=>$disciplineId,
-            "grade_partial_recovery_fk"=>$gradeRecoveryAndUnities["partialRecovery"]->id
+            "grade_partial_recovery_fk"=>$partialRecovery->id
         ]);
+        if($calculationName == 'Média Semestral')
+        {
+            $semester = GradeUnity::model()->findByAttributes(["parcial_recovery_fk"=>$partialRecovery->id])->semester;
+            array_push($grades, $gradeResult['sem_avarage_'. $semester]);
+
+        } else {
+            foreach($gradeRecoveryAndUnities["unities"] as $unity){
+                array_push($grades, $gradeResult['grade_'.$unity]);
+            }
+        }
 
         $result = null;
         if ($gradePartialRecovery !== null && $gradePartialRecovery->grade !== null) {
@@ -219,7 +223,9 @@ class CalculateNumericGradeUsecase
             array_unshift($grades, $gradePartialRecovery->grade);
             $isRecovery = true;
 
-            $result = $this->applyStrategyComputeGradesByFormula($partialRecovery, $grades, $isRecovery);
+            $calculation = $calculationName == 'Média Semestral' ? 'Média' : $calculationName;
+
+            $result = $this->applyStrategyComputeGradesByFormula($calculation, $partialRecovery, $grades, $isRecovery);
         }
 
         return $result;
@@ -240,17 +246,17 @@ class CalculateNumericGradeUsecase
             $unity->id
         );
         $isRecovery = false;
-        return $this->applyStrategyComputeGradesByFormula($unity, array_column($grades, "grade"), $isRecovery);
+        return $this->applyStrategyComputeGradesByFormula($unity->gradeCalculationFk->name, $unity, array_column($grades, "grade"), $isRecovery);
     }
 
     /**
      * @param GradeUnity $unity
      * @param float[] $grades
      */
-    private function applyStrategyComputeGradesByFormula($unityOrRecovery, $grades, $isRecovery)
+    private function applyStrategyComputeGradesByFormula($calculation, $unityOrRecovery, $grades, $isRecovery)
     {
         $result = 0;
-        switch ($unityOrRecovery->gradeCalculationFk->name) {
+        switch ($calculation) {
             default:
             case 'Soma':
                 $result = array_reduce($grades, function ($acc, $grade) {

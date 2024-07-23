@@ -18,11 +18,27 @@ class CalculateFinalMediaUsecase
 
     public function exec()
     {
-        $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
-        $finalMedia = $this->applyCalculation($this->gradeRule->gradeCalculationFk, $grades);
+        $grades = [];
+        if($this->gradeRule->gradeCalculationFk->name == 'Média Semestral') {
+            array_push($grades, $this->gradesResult["sem_avarage_1"]);
+            array_push($grades, $this->gradesResult["sem_avarage_2"]);
+            $calculation = GradeCalculation::model()->findByAttributes(["name"=>"Média"]);
+            $finalMedia = $this->applyCalculation($calculation, $grades);
+        } else {
+            $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
+            $finalMedia = $this->applyCalculation($this->gradeRule->gradeCalculationFk, $grades);
+        }
 
         if ($this->shouldApplyFinalRecovery($this->gradesResult, $finalMedia)) {
-            $this->applyFinalRecovery($this->gradesResult, $finalMedia);
+            $gradesFinalRecovery = [];
+            if($this->gradeRule->gradeCalculationFk->name == 'Média semestral') {
+                array_push($gradesFinalRecovery, $this->gradesResult["sem_avarage_1"]);
+                array_push($gradesFinalRecovery, $this->gradesResult["sem_avarage_2"]);
+                $this->applyFinalRecovery($this->gradesResult, $gradesFinalRecovery);
+            } else {
+                array_push($gradesFinalRecovery, $finalMedia);
+                $this->applyFinalRecovery($this->gradesResult, $gradesFinalRecovery);
+            }
         }
 
         $this->saveFinalMedia($this->gradesResult, $finalMedia);
@@ -42,10 +58,20 @@ class CalculateFinalMediaUsecase
 
     }
 
-    private function applyFinalRecovery($gradesResult, $finalMedia)
+    private function applyFinalRecovery($gradesResult, $gradesFinalRecovery)
     {
+        $result = null;
+        array_push($gradesFinalRecovery, $gradesResult->rec_final);
         $finalRecovery = $this->getFinalRevovery($gradesResult->enrollment_fk, $gradesResult->discipline_fk);
-        return $this->applyCalculation($finalRecovery->gradeCalculationFk, [$finalMedia, $gradesResult->rec_final]);
+        if($finalRecovery->gradeCalculationFk->name == "Média Semestral")
+        {
+            $calculation = GradeCalculation::model()->findByAttributes(["name"=>"Média"]);
+            $result = $this->applyCalculation($calculation, $gradesFinalRecovery);
+        } else
+        {
+            $result = $this->applyCalculation($finalRecovery->gradeCalculationFk, $gradesFinalRecovery);
+        }
+        return $result;
     }
 
     private function getFinalRevovery($enrollmentId, $discipline)

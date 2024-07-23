@@ -256,17 +256,6 @@ function GradeTableBuilder(data) {
     function buildPartialRecovery(studentPartialRecoveries, partialRecoveries, semester){
         const grade = studentPartialRecoveries.grade.grade === null ? "" : studentPartialRecoveries.grade.grade
         let partialRecoveryTD = ""
-       /*  let semsterAvarage =
-        if(semester == 2) {
-
-        } */
-
-       /*  partialRecoveryTD += partialRecoveries.calculationName == "Média Semestral" ?
-        template`<td class="grade-td">
-
-                </td>` : ''
-        partialRecoveryTD +=
-         */
         return template`
             <td class="grade-td">
                 <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
@@ -333,22 +322,6 @@ function GradeTableBuilder(data) {
         }, []);
         const numModalities = modalityColumns.length;
         const tableColspan = numModalities + spaceByColumnGrade;
-       /*  let partialRecoveryHeader = ''
-        if(partialRecoveryColumns != null){
-
-            partialRecoveryHeader += partialRecoveryColumns.calculationName == "Média Semestral" ?
-                template`<th style="min-width: 50px; font-weight: bold;">
-                            Média Semestral
-                        </th>` : ''
-
-            partialRecoveryHeader +=
-                template`<th style="min-width: 50px; font-weight: bold;">
-                            ${partialRecoveryColumns.name}
-                        </th>
-                        <th style="min-width: 50px; font-weight: bold;">
-                            Média pós recuperação
-                        </th>`
-        } */
         return template`
             <table class="grades-table tag-table-secondary remove-vertical-borders remove-border-radius" concept="${concept}">
             <colgroup>
@@ -380,7 +353,7 @@ function GradeTableBuilder(data) {
                             )
                             .join("\n")}
                             <th style="min-width: 50px; font-weight: bold;">
-                                    Média ${semester}° Semestre
+                                    ${data.type == "RF" ? "Média dos Semestres" :`Média ${semester}° Semestre`}
                             </th>
                             ${partialRecoveryColumns !== null ?
                                 template`<th style="min-width: 50px; font-weight: bold;">

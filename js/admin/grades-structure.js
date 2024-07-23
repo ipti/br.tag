@@ -452,6 +452,7 @@ function saveUnities(reply) {
             id: $(element).find('.partial-recovery-id').val(),
             operation: $(element).find('.partial-recovery-operation').val(),
             name: $(element).find('.partial-recovery-name').val(),
+            semester: $(element).find('select.js-semester').val() == '' ? null : $(element).find('select.js-semester').val(),
             order: index + 1,
             weights: $(element).find('.InputWeight input').length > 0
                 ? getInputWeight(element)
@@ -818,6 +819,9 @@ function loadStructure() {
                         let calculationSelect = $("select.js-formula-select").last();
                         calculationSelect.select2();
                         calculationSelect.select2("val", element.grade_calculation_fk);
+                        let semesterSelect = $("select.js-semester").last();
+                        semesterSelect.select2();
+                        semesterSelect.select2("val", element.semester);
                         if(calculationSelect.select2("data").text == "Peso"){
                            let inputsWeight = '';
                            element.weights.forEach(weight => {
@@ -825,6 +829,7 @@ function loadStructure() {
                             });
                             $('.InputWeight-container').last().html(inputsWeight)
                         }
+                        $("select.js-semester").last().select2();
                         $("select.js-partial-recovery-unities").last().select2();
                         $("select.js-partial-recovery-unities").last().select2("val", unityOptionsSelected);
                     });
@@ -894,6 +899,14 @@ function addAccordion(id, name) {
                 <input type='text' class='t-field-text__input partial-recovery-name'
                     placeholder='Recuperação Semestral' value="${name}">
             </div>
+            <div class="t-field-select">
+            <label class='t-field-select__label'>Semestre: </label>
+           <select class='t-field-select__input js-semester select-search-on'>
+                <option value="">Selecione um semestre</option>
+                <option value="1">1° semestre</option>
+                <option value="2">2° semestre</option>
+           </select>
+        </div>
             <div class="t-field-select js-calculation">
                 <label class='t-field-select__label--required'>Forma de cálculo:</label>
                 <select class='t-field-select__input js-formula-select select-search-on'>
@@ -938,7 +951,7 @@ $(document).on("click", ".js-new-partial-recovery", (e) => {
             .show();
         newAccordion = addAccordion("", "");
         $('#accordion-partial-recovery').append(newAccordion)
-        $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities").select2();
+        $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities, .js-semester").select2();
         $('.js-new-unity').addClass('disabled');
     }
 })

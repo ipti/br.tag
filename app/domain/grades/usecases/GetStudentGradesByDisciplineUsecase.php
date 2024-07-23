@@ -20,12 +20,14 @@ class GetStudentGradesByDisciplineUsecase
         $rules = GradeRules::model()->findByAttributes([
             "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
         ]);
+        $semester = null;
         $studentEnrollments = $classroom->activeStudentEnrollments;
 
         $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline($classroom->edcenso_stage_vs_modality_fk);
         $unitiesByDiscipline = array_filter($unitiesByDisciplineResult, function ($item){
             return $item["id"] == $this->unityId;
         });
+        $unitiesByDiscipline = array_values($unitiesByDiscipline);
 
         $unityOrder = $this->searchUnityById($unitiesByDisciplineResult);
 
@@ -52,11 +54,15 @@ class GetStudentGradesByDisciplineUsecase
                 "modalities" => array_column($unity->gradeUnityModalities, 'name'),
                 "calculationName" => $unity->gradeCalculationFk->name,
                 "recoveryPartialFk" => $unity->parcial_recovery_fk == null ? "" : $unity->parcial_recovery_fk,
+                "type" => $unity->type
             ];
         }
         $semester = null;
+        $type = null;
         if(count($unitiesByDiscipline) == 1) {
             $semester = $unitiesByDiscipline[0]->semester;
+            $type = $unitiesByDiscipline[0]->type;
+
         }
         $partialRecoveryColumns = null;
         $partialRecovery = $this->getpartialRecoveriesByUnity();
@@ -75,7 +81,8 @@ class GetStudentGradesByDisciplineUsecase
             ->setIsUnityConcept(false)
             ->setUnityColumns($unityColumns)
             ->setPartialRecoveryColumns($partialRecoveryColumns)
-            ->setSemester($semester);
+            ->setSemester($semester)
+            ->setType($type);
 
         if ($rules->rule_type === "C") {
             $concepts = GradeConcept::model()->findAll();
@@ -268,6 +275,7 @@ class StructClassromGradeResult
     private $concepts;
     private $isUnityConcept;
     private $semester;
+    private $type;
     private $unityColumns;
     private $partialRecoveryColumns;
 
@@ -293,6 +301,12 @@ class StructClassromGradeResult
     public function setSemester($semester)
     {
         $this->semester = $semester;
+
+        return $this;
+    }
+    public function setType($type)
+    {
+        $this->type = $type;
 
         return $this;
     }
@@ -387,7 +401,8 @@ class StructClassromGradeResult
             'concepts' => $this->concepts,
             'isUnityConcept' => $this->isUnityConcept,
             'partialRecoveryColumns' => $this->partialRecoveryColumns,
-            'semester' => $this->semester
+            'semester' => $this->semester,
+            'type' => $this->type
         ];
     }
 
