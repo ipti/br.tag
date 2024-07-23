@@ -1,3 +1,6 @@
+## [Versão 3.81.172]
+- Implementado validações para detectar inconsistências em casos de alunos matriculados em escolas duplicadas ou em turmas regulares.
+
 ## [Versão 3.81.171]
 - Retirando a obrigatóriedade do código da escola sede no formulário de escola
 
