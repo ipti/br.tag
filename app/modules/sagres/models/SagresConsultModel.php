@@ -349,7 +349,7 @@ class SagresConsultModel
                     WHERE year(se.create_date) = :year AND (se.status = 1 or se.status is null) AND student_fk IN (
                         SELECT student_fk
                         FROM student_enrollment
-                        WHERE year(create_date) = :year AND status = 1
+                        WHERE year(create_date) = :year AND (status = 1 or status is null)
                         GROUP BY student_fk
                         HAVING COUNT(*) > 1
                     )";
@@ -375,7 +375,7 @@ class SagresConsultModel
         $query = "SELECT complementary_activity, aee, school_inep_id_fk, c.name
                   FROM student_enrollment se
                   JOIN classroom c ON se.classroom_fk = c.id
-                  WHERE se.student_fk = :student_fk and se.status = 1 and c.school_year = :year";
+                  WHERE se.student_fk = :student_fk and (se.status = 1 or se.status is null) and c.school_year = :year";
     
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":student_fk", $student['student_fk']);
