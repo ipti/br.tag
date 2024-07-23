@@ -68,16 +68,20 @@ function classroomDisciplineLabelResumeArray($id) {
     }
 }
 
+
+
+CVarDumper::dump($student['baseDisciplines'], 10, true);
+
+
+
 $n = ($student['enrollment']->classroomFk->name);
 
 
-CVarDumper::dump($student['enrollment']->classroomFk->name, 10, true);
 
 $diciplinesColumnsCount = count($student['baseDisciplines']) + count($student['diversifiedDisciplines']);
 
 foreach ($student['baseDisciplines'] as $name):
     $dados = classroomDisciplineLabelResumeArray($name);
-    // CVarDumper::dump($name, 10, true);
 endforeach;
 ?>
 
@@ -148,7 +152,7 @@ $result = $student['result'];
 
 <div class="container-school-record">
     <div class="table-contant" style="display: flex; align-items: center; justify-content: center;">
-        
+
         <table class="school-record-table">
             <tr>
                 <th rowspan="11" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
@@ -166,7 +170,7 @@ $result = $student['result'];
     <?php endforeach; ?>
 
     <th class="vertical-header">MÉDIA ANUAL</th>
-    <th class="vertical-header">ANO</th> 
+    <th class="vertical-header">ANO</th>
 </tr>
 <tr>
     <td></td>
