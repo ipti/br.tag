@@ -1,3 +1,6 @@
+## [Versão 3.81.173]
+- Realizado correção para inconsistência para alunos nascidos no ano corrente
+
 ## [Versão 3.81.172]
 - Adicionado Sábado letivo aos cardápios
 
