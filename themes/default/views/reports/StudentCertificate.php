@@ -1,17 +1,16 @@
 <?php
-
+// Inclua o script para inicialização
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
-// $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
-
+// Obtenha os dados da escola
 if (!isset($school)) {
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 }
 
+// Extraia a data de nascimento
 list($day, $month, $year) = explode('/', $student['birthday']);
-
 $months = array(
     '01' => 'Janeiro', '02' => 'Fevereiro', '03' => 'Março', '04' => 'Abril',
     '05' => 'Maio', '06' => 'Junho', '07' => 'Julho', '08' => 'Agosto',
@@ -19,70 +18,7 @@ $months = array(
 );
 $monthName = $months[$month];
 
-function classroomDisciplineLabelResumeArray($id) {
-    $disciplinas = array(
-        1 => 'Química',
-        2 => 'Física',
-        3 => 'Matemática',
-        4 => 'Biologia',
-        5 => 'Ciências',
-        6 => 'Português',
-        7 => 'Inglês',
-        8 => 'Espanhol',
-        9 => 'Outro Idioma',
-        10 => 'Artes',
-        11 => 'Educação Física',
-        12 => 'História',
-        13 => 'Geografia',
-        14 => 'Filosofia',
-        16 => 'Informática',
-        17 => 'Disc. Profissionalizante',
-        20 => 'Educação Especial',
-        21 => 'Sociedade&nbspe Cultura',
-        23 => 'Libras',
-        25 => 'Disciplinas pedagógicas',
-        26 => 'Ensino religioso',
-        27 => 'Língua indígena',
-        28 => 'Estudos Sociais',
-        29 => 'Sociologia',
-        30 => 'Francês',
-        99 => 'Outras Disciplinas',
-        10001 => 'Redação',
-        10002 => 'Linguagem oral e escrita',
-        10003 => 'Natureza e sociedade',
-        10004 => 'Movimento',
-        10005 => 'Música',
-        10006 => 'Artes visuais',
-        10007 => 'Acompanhamento Pedagógico',
-        10008 => 'Teatro',
-        10009 => 'Canteiro Sustentável',
-        10010 => 'Dança',
-        10011 => 'Cordel',
-        10012 => 'Física'
-    );
-
-    if (array_key_exists($id, $disciplinas)) {
-        return $disciplinas[$id];
-    } else {
-        return EdcensoDiscipline::model()->findByPk($id)->name;
-    }
-}
-
-
-
-CVarDumper::dump($student['baseDisciplines'], 10, true);
-
-
-
-$n = ($student['enrollment']->classroomFk->name);
-
-
-
-$diciplinesColumnsCount = count($student['baseDisciplines']) + count($student['diversifiedDisciplines']);
-
-foreach ($student['baseDisciplines'] as $name):
-    $dados = classroomDisciplineLabelResumeArray($name);
-endforeach;
+CVarDumper::dump(($day), 10, true);
 ?>
 
 <div class="pageA4H">
@@ -98,10 +34,10 @@ endforeach;
 
     <div class="container-certificate">
         <p>O(A) Diretor(a) da Escola <?php echo $school->name ?>,
-        no uso de suas atribuições legais, confere o presente Certificado do <?php echo $student['ano']; ?> do <?php echo $student['tipo_ensino']; ?> a <b><?php echo $student['name']; ?></b>
+        no uso de suas atribuições legais, confere o presente Certificado do <?php echo $student['school_year']; ?> do <?php echo $student['etapa_name']; ?> a <b><?php echo $student['name']; ?></b>
        filho(a) de <?php echo $student['filiation_1']; ?>
         e de <?php echo $student['filiation_2']; ?>.</p>
-        <p>Nascido(a) em <?php echo $day; ?> de <?php echo $monthName; ?> de <?php echo $year; ?>, no Município de <?php echo $student['city']; ?>
+        <p>Nascido(a) em <?php echo $day; ?> de <?php echo $monthName; ?> de <?php echo $year; ?>, no Município de <?php echo $student['city_name']; ?>
         Estado de <?php echo $student['uf_name']; ?>.</p>
     </div>
 
@@ -142,78 +78,45 @@ endforeach;
     <?php $this->renderPartial('footer'); ?>
 </div>
 
-<?php
-$numCols = $diciplinesColumnsCount + 4;
-$numRows = 9;
-
-$unities = $student['unities'];
-$result = $student['result'];
-?>
-
 <div class="container-school-record">
     <div class="table-contant" style="display: flex; align-items: center; justify-content: center;">
-
         <table class="school-record-table">
             <tr>
                 <th rowspan="11" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
-                <th colspan="<?= $numCols ?>" style="text-align: center">DISCIPLINAS</th>
+                <th colspan="10" style="text-align: center">DISCIPLINAS</th>
                 <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
             </tr>
             <tr>
-    <th class="vertical-header">IDADE</th>
-    <th class="vertical-header">SÉRIE</th>
+                <th class="vertical-header">IDADE</th>
+                <th class="vertical-header">SÉRIE</th>
 
-    <?php foreach ($student['baseDisciplines'] as $name): ?>
-        <th class="vertical-header">
-            <div><?= strtoupper(classroomDisciplineLabelResumeArray($name)) ?></div>
-        </th>
-    <?php endforeach; ?>
+                <?php foreach ($student['disciplines'] as $discipline): ?>
+                    <th class="vertical-header"><?php echo CHtml::encode($discipline); ?></th>
+                <?php endforeach; ?>
 
-    <th class="vertical-header">MÉDIA ANUAL</th>
-    <th class="vertical-header">ANO</th>
-</tr>
-<tr>
-    <td></td>
-    <td><?php echo substr($student['enrollment']->classroomFk->name, 0, strpos($student['enrollment']->classroomFk->name, ' ')); ?></td>
-    <?php for ($j = 0; $j < $diciplinesColumnsCount; $j++): ?>
-        <td>
-            <?php
-            if (isset($result[$j]['final_media'])) {
-                echo CHtml::encode($result[$j]['final_media']);
-            } else {
-                echo '';
-            }
-            ?>
-        </td>
-    <?php endfor; ?>
-    <td><?php echo isset($student['annual_average']) ? number_format($student['annual_average'], 1) : '---'; ?></td>
-    <td><?php echo CHtml::encode($student['enrollment']->classroomFk->school_year) ?></td> <!-- Exibindo o ANO aqui -->
-    </tr>
-            <?php for ($i = 1; $i < $numRows; $i++): ?>
-                <tr>
-                    <?php for ($j = 0; $j < $numCols; $j++): ?>
-                        <td></td>
-                    <?php endfor; ?>
-                </tr>
-            <?php endfor; ?>
-
+                <th class="vertical-header">MÉDIA ANUAL</th>
+                <th class="vertical-header">ANO</th>
+            </tr>
             <tr>
                 <td></td>
-                <td colspan="<?= $numCols ?>"></td>
+                <td><?php echo substr($student['class_name'], 0, strpos($student['class_name'], ' ')); ?></td>
+                <?php foreach ($student['grades'] as $grade): ?>
+                    <td><?php echo CHtml::encode($grade); ?></td>
+                <?php endforeach; ?>
+                <td><?php echo isset($student['annual_average']) ? number_format($student['annual_average'], 1) : '---'; ?></td>
+                <td><?php echo CHtml::encode($student['school_year']); ?></td>
+            </tr>
+            <!-- Adicione linhas adicionais se necessário -->
+            <tr>
+                <td></td>
+                <td colspan="10"></td>
                 <th></th>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="<?= $numCols ?>"></td>
+                <td colspan="10"></td>
                 <th rowspan="1">Autentificação</th>
             </tr>
-
-            <?php for ($i = 0; $i < $numRows; $i++): ?>
-                <tr>
-                    <td></td>
-                    <td colspan="<?= $numCols ?>"></td>
-                </tr>
-            <?php endfor; ?>
         </table>
     </div>
 </div>
@@ -355,7 +258,6 @@ $result = $student['result'];
     .school-record-table th.vida-escolar {
         width: 42px;
     }
-
 
     @media print {
         .hidden-print {
