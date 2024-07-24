@@ -1,5 +1,7 @@
 ## [Versão 3.81.172]
 - Modificando a forma como o professor é excluído, para que seja de acordo com o id do professor e não pelo id do inep
+- Implementado validações para detectar inconsistências em casos de alunos matriculados em escolas duplicadas ou em turmas regulares.
+
 
 ## [Versão 3.81.171]
 - Retirando a obrigatóriedade do código da escola sede no formulário de escola
