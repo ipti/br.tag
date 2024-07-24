@@ -27,6 +27,7 @@ use ZipArchive;
 
 define('TURMA_STRONG', '<strong>TURMA<strong>');
 define('SERIE_STRONG', '<strong>SÉRIE<strong>');
+define('DATA_MATRICULA_INV', 'Data da matrícula no formato inválido: ');
 
 
 /**
@@ -1131,7 +1132,7 @@ class SagresConsultModel
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'CARDÁPIO';
                 $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'Data da matrícula no formato inválido: <strong>' . $menuType->getData()->format('d/m/Y') . '</strong>';
+                $inconsistencyModel->description = DATA_MATRICULA_INV . '<strong>' . $menuType->getData()->format('d/m/Y') . '</strong>';
                 $inconsistencyModel->action = 'Adicione uma data no formato válido';
                 $inconsistencyModel->identifier = '11';
                 $inconsistencyModel->idLunch = $menu['menu_fk'];
@@ -1526,7 +1527,7 @@ class SagresConsultModel
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = 'MATRÍCULA';
                         $inconsistencyModel->school = $school->name;
-                        $inconsistencyModel->description = 'Data da matrícula no formato inválido: <strong>' . $enrollmentType->getDataMatricula()->format('d/m/Y') . '</strong>';
+                        $inconsistencyModel->description = DATA_MATRICULA_INV . '<strong>' . $enrollmentType->getDataMatricula()->format('d/m/Y') . '</strong>';
                         $inconsistencyModel->action = 'Adicione uma data no formato válido';
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
@@ -1714,7 +1715,7 @@ class SagresConsultModel
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = 'MATRÍCULA';
                         $inconsistencyModel->school = $school->name;
-                        $inconsistencyModel->description = 'Data da matrícula no formato inválido: <strong>' . $enrollmentType->getDataMatricula()->format('d/m/Y') . '</strong>';
+                        $inconsistencyModel->description = DATA_MATRICULA_INV . '<strong>' . $enrollmentType->getDataMatricula()->format('d/m/Y') . '</strong>';
                         $inconsistencyModel->action = 'Adicione uma data no formato válido';
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
