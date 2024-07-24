@@ -20,6 +20,25 @@ class CalculateFinalMediaUsecase
     {
         $grades = [];
         if($this->gradeRule->gradeCalculationFk->name == 'Média Semestral') {
+            /*
+                  $grades = [];
+                    for ($i = 0; $i < $countUnities; $i++) {
+                        $grade = $gradesResult->attributes["grade_" . ($i + 1)];
+
+                        if($this->gradesStudent[$i]->parcialRecoveryFk !== null)
+                        {
+                            $gradePartialRecovery =$gradesResult->attributes["rec_partial_" . $this->gradesStudent[$i]->parcialRecoveryFk->order_partial_recovery];
+
+
+                            $grade = $grade < $gradePartialRecovery  ? $gradePartialRecovery : $grade;
+                        }
+                        array_push($grades, $grade);
+                    }
+                    return $grades;
+            */
+            for ($i = 0; $i < $this->countUnities; $i++) {
+
+            }
             array_push($grades, $this->gradesResult["sem_avarage_1"]);
             array_push($grades, $this->gradesResult["sem_avarage_2"]);
             $calculation = GradeCalculation::model()->findByAttributes(["name"=>"Média"]);
