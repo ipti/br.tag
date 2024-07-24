@@ -1131,7 +1131,7 @@ class SagresConsultModel
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = 'CARDÁPIO';
                 $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'Data no formato inválido: <strong>' . $menuType->getData()->format('d/m/Y') . '</strong>';
+                $inconsistencyModel->description = 'Data da matrícula no formato inválido: <strong>' . $menuType->getData()->format('d/m/Y') . '</strong>';
                 $inconsistencyModel->action = 'Adicione uma data no formato válido';
                 $inconsistencyModel->identifier = '11';
                 $inconsistencyModel->idLunch = $menu['menu_fk'];
@@ -1526,7 +1526,7 @@ class SagresConsultModel
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = 'MATRÍCULA';
                         $inconsistencyModel->school = $school->name;
-                        $inconsistencyModel->description = 'Data no formato inválido: <strong>' . $enrollmentType->getDataMatricula()->format('d/m/Y') . '</strong>';
+                        $inconsistencyModel->description = 'Data da matrícula no formato inválido: <strong>' . $enrollmentType->getDataMatricula()->format('d/m/Y') . '</strong>';
                         $inconsistencyModel->action = 'Adicione uma data no formato válido';
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
@@ -1608,7 +1608,7 @@ class SagresConsultModel
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
                         $inconsistencyModel->school = $school->name;
-                        $inconsistencyModel->description = 'Data no formato inválido: <strong>' . $studentType->getDataNascimento()->format('d/m/Y') . '</strong>';
+                        $inconsistencyModel->description = 'Data de nascimento no formato inválido: <strong>' . $studentType->getDataNascimento()->format('d/m/Y') . '</strong>';
                         $inconsistencyModel->action = 'Adicione uma data no formato válido';
                         $inconsistencyModel->identifier = '9';
                         $inconsistencyModel->idStudent = $enrollment['student_fk'];
@@ -1714,7 +1714,7 @@ class SagresConsultModel
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = 'MATRÍCULA';
                         $inconsistencyModel->school = $school->name;
-                        $inconsistencyModel->description = 'Data no formato inválido: <strong>' . $enrollmentType->getDataMatricula()->format('d/m/Y') . '</strong>';
+                        $inconsistencyModel->description = 'Data da matrícula no formato inválido: <strong>' . $enrollmentType->getDataMatricula()->format('d/m/Y') . '</strong>';
                         $inconsistencyModel->action = 'Adicione uma data no formato válido';
                         $inconsistencyModel->idClass = $classId;
                         $inconsistencyModel->insert();
@@ -1922,7 +1922,7 @@ class SagresConsultModel
          * 2 - Data de matrícula
         */
         if($type === 1) {
-            if ($year < 1924 || $year >= $currentYear) {
+            if ($year < 1924 || $year > $currentYear) {
                 return false;
             }
         } elseif($type === 2) {
