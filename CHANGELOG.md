@@ -1,5 +1,7 @@
 ## [Versão 3.81.172]
+- Modificando a forma como o professor é excluído, para que seja de acordo com o id do professor e não pelo id do inep
 - Implementado validações para detectar inconsistências em casos de alunos matriculados em escolas duplicadas ou em turmas regulares.
+
 
 ## [Versão 3.81.171]
 - Retirando a obrigatóriedade do código da escola sede no formulário de escola
@@ -17,7 +19,7 @@
 - Realizada correção na funcionalidade de frequência para o caso de alunos com situação de matrícula como transferido em turma.
 
 ## [Versão 3.81.166]
-- Realizada correção do turno no quadro de horário. 
+- Realizada correção do turno no quadro de horário.
 
 ## [Versão 3.81.165]
 - Adicionando redirecionamento para inconsistências de Unidade Gestora para o Sagres
