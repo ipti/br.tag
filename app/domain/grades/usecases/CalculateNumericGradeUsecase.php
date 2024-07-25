@@ -87,7 +87,11 @@ class CalculateNumericGradeUsecase
             if($partialRecoveryMedia != null) {
                 $partialRecoveryMedia =   is_nan($partialRecoveryMedia) ? "" : round($partialRecoveryMedia, 1);
             }
-            $gradeResult["rec_partial_" . $gradeRecoveryAndUnities["partialRecovery"]->order_partial_recovery] = $partialRecoveryMedia;
+            if($gradeRecoveryAndUnities["partialRecovery"]->semester != null) {
+                $gradeResult["sem_rec_partial_" . $gradeRecoveryAndUnities["partialRecovery"]->semester] = $partialRecoveryMedia;
+            } else {
+                $gradeResult["rec_partial_" . $gradeRecoveryAndUnities["partialRecovery"]->order_partial_recovery] = $partialRecoveryMedia;
+            }
         }
 
         return $gradeResult;
@@ -223,7 +227,7 @@ class CalculateNumericGradeUsecase
             array_unshift($grades, $gradePartialRecovery->grade);
             $isRecovery = true;
 
-            $calculation = $calculationName == 'Média Semestral' ? 'Média' : $calculationName;
+            $calculation = $calculationName == 'Média Semestral' ? 'Maior' : $calculationName;
 
             $result = $this->applyStrategyComputeGradesByFormula($calculation, $partialRecovery, $grades, $isRecovery);
         }

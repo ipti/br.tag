@@ -176,7 +176,7 @@ $('.js-refresh').on("click", function (e) {
 
 
 function GradeTableBuilder(data) {
-    function buildStundentsRows(students, isUnityConcept, conceptOptions, partialRecoveries, semester) {
+    function buildStundentsRows(students, isUnityConcept, conceptOptions, partialRecoveries, semester, type) {
         return students
             .map(
                 (student) => template`
@@ -198,7 +198,7 @@ function GradeTableBuilder(data) {
                             isUnityConcept
                             ? ''
                             : `<td class="grade-td">
-                                ${buildSemesterAvarage(student, semester)}
+                                ${buildSemesterAvarage(student, semester, type)}
                             </td>`
 
                         }
@@ -222,7 +222,10 @@ function GradeTableBuilder(data) {
             )
             .join("\n");
     }
-    function buildSemesterAvarage(student, semester){
+    function buildSemesterAvarage(student, semester, type){
+        if(type == "RF"){
+            return student.semAvarage;
+        }
         return semester == 1 ? student.semAvarage1 : student.semAvarage2
     }
     function buildUnities(unities, isUnityConcept, conceptOptions) {
@@ -255,7 +258,6 @@ function GradeTableBuilder(data) {
     }
     function buildPartialRecovery(studentPartialRecoveries, partialRecoveries, semester){
         const grade = studentPartialRecoveries.grade.grade === null ? "" : studentPartialRecoveries.grade.grade
-        let partialRecoveryTD = ""
         return template`
             <td class="grade-td">
                 <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
@@ -382,7 +384,8 @@ function GradeTableBuilder(data) {
                         data.isUnityConcept,
                         data.concepts,
                         data.partialRecoveryColumns,
-                        data.semester
+                        data.semester,
+                        data.type
                     )}
                 </tbody>
             </table>`;

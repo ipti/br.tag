@@ -158,6 +158,14 @@ class GetStudentGradesByDisciplineUsecase
         $studentGradeResult->setFinalMedia($gradeResult->final_media);
         $studentGradeResult->setSemAvarage1($gradeResult->sem_avarage_1);
         $studentGradeResult->setSemAvarage2($gradeResult->sem_avarage_2);
+
+        $semRecPartial1 = is_numeric($gradeResult->sem_rec_partial_1) ? $gradeResult->sem_rec_partial_1 : 0;
+        $semRecPartial2 = is_numeric($gradeResult->sem_rec_partial_2) ? $gradeResult->sem_rec_partial_2 : 0;
+
+        $gradesSemAvarage1 =  max($gradeResult->sem_avarage_1, $semRecPartial1);
+        $gradesSemAvarage2 =  max($gradeResult->sem_avarage_2, $semRecPartial2);
+
+        $studentGradeResult->setSemAvarage($gradesSemAvarage1,$gradesSemAvarage2);
         $studentGradeResult->setSituation($gradeResult->situation);
 
         foreach ($unitiesByDiscipline as $key => $unity) {
@@ -224,7 +232,8 @@ class GetStudentGradesByDisciplineUsecase
                 $partialRecoveryResult = new GradePartialRecoveryResult($partialRecovery->name,
                 $partialRecovery->gradeCalculationFk->name);
                 $partialRecoveryResult->addGrade($gradePartialRecovery);
-                $partialRecoveryResult->addRecPartialResult($gradeResult['rec_partial_'.$partialRecovery->order_partial_recovery]);
+                $partialResult = $partialRecovery->gradeCalculationFk->name == 'Média Semestral' ? $gradeResult['sem_rec_partial_'.$partialRecovery->semester] :  $gradeResult['rec_partial_'.$partialRecovery->order_partial_recovery];
+                $partialRecoveryResult->addRecPartialResult($partialResult);
                 $studentGradeResult->addPartialRecovery($partialRecoveryResult);
 
             }
@@ -420,6 +429,7 @@ class StudentGradesResult
     private $studentName;
     private $enrollmentId;
     private $finalMedia;
+    private $semAvarage;
     private $semAvarage1;
     private $semAvarage2;
     private $situation;
@@ -440,6 +450,11 @@ class StudentGradesResult
     public function setFinalMedia($finalMedia)
     {
         $this->finalMedia = $finalMedia;
+        return $this;
+    }
+    public function setSemAvarage($gradesSemAvarage1,$gradesSemAvarage2)
+    {
+        $this->semAvarage = round((($gradesSemAvarage1 + $gradesSemAvarage2)/2), 1);
         return $this;
     }
     public function setSemAvarage1($semAvarage1)
@@ -483,6 +498,7 @@ class StudentGradesResult
             'studentName' => $this->studentName,
             'enrollmentId' => $this->enrollmentId,
             'finalMedia' => $this->finalMedia,
+            'semAvarage' => $this->semAvarage,
             'semAvarage1' => $this->semAvarage1,
             'semAvarage2' => $this->semAvarage2,
             'situation' => $this->situation,
