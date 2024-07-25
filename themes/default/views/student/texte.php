@@ -1,7 +1,6 @@
 Rascunho
 
 
-
 SELECT
 	si.name,
 	si.birthday,

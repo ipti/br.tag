@@ -1686,7 +1686,7 @@ public function getStudentCertificate($enrollment_id): array
         $class_name = $row['class_name'];
         $school_year = $row['school_year'];
         $discipline_id = $row['discipline_id'];
-        
+
         if (!isset($formattedResult[$class_name])) {
             $formattedResult[$class_name] = [
                 'school_year' => $school_year,
@@ -1704,6 +1704,7 @@ public function getStudentCertificate($enrollment_id): array
         if ($this->separateBaseDisciplines($discipline_id)) {
             $formattedResult[$class_name]['base_disciplines'][] = [
                 'discipline_name' => $row['discipline_name'],
+                'discipline_id' => $row['discipline_id'],
                 'grade_1' => $row['grade_1'],
                 'grade_2' => $row['grade_2'],
                 'grade_3' => $row['grade_3'],
@@ -1714,6 +1715,7 @@ public function getStudentCertificate($enrollment_id): array
         } else {
             $formattedResult[$class_name]['diversified_disciplines'][] = [
                 'discipline_name' => $row['discipline_name'],
+                'discipline_id' => $row['discipline_id'],
                 'grade_1' => $row['grade_1'],
                 'grade_2' => $row['grade_2'],
                 'grade_3' => $row['grade_3'],
@@ -1736,7 +1738,7 @@ public function getStudentCertificate($enrollment_id): array
         'diversifiedDisciplines' => array_unique($diversifiedDisciplines),
     ];
 
-    CVarDumper::dump($finalResult, 10, true);
+    // CVarDumper::dump($finalResult, 10, true);
 
     return ['student' => $finalResult];
 }
@@ -1748,15 +1750,6 @@ public function getStudentCertificate($enrollment_id): array
 
 
 
-
-
-
-
-
-
-
-
-    
     // ///////////////////////////////////////////////////////////////////////////////////////////
 
     //    public function getStudentCertificate($enrollment_id): array
@@ -1786,9 +1779,9 @@ public function getStudentCertificate($enrollment_id): array
     //         FROM student_enrollment
     //         WHERE student_fk = :student_fk AND status = 1
     //     ");
-    //     $commandMaxId->bindValue(':student_fk', $enrollment_id);   
+    //     $commandMaxId->bindValue(':student_fk', $enrollment_id);
     //     $maxId = $commandMaxId->queryScalar();
-        
+
     //     $result = array(); // array de notas
     //     $baseDisciplines = array(); // disciplinas da BNCC
     //     $diversifiedDisciplines = array(); //disciplinas diversas
@@ -1815,9 +1808,6 @@ public function getStudentCertificate($enrollment_id): array
 
     //     $totalDisciplines = array_unique(array_merge($baseDisciplines, $diversifiedDisciplines));
     //     $schedulesPerUnityPeriods = $this->getSchedulesPerUnityPeriods($enrollment->classroomFk, $unities);
-    //     $schoolDaysPerUnity = $this->schoolDaysCalculate($schedulesPerUnityPeriods);
-    //     $workloadPerUnity = $this->workloadsCalculate($schedulesPerUnityPeriods);
-    //     $faultsPerUnity = $this->faultsPerUnityCalculate($schedulesPerUnityPeriods, $classFaults, $enrollment->classroomFk);
 
     //     $sumFinalMedia = 0;
     //     $numFinalMedia = 0;
@@ -1825,8 +1815,6 @@ public function getStudentCertificate($enrollment_id): array
     //     foreach ($totalDisciplines as $discipline) { // aqui eu monto as notas das disciplinas, faltas, dias letivos e cargas horárias
 
     //         $mediaExists = false;
-    //         $totalContentsPerDiscipline = $this->contentsPerDisciplineCalculate($enrollment->classroomFk, $discipline, $enrollment->id);
-    //         $totalFaultsPerDicipline = $this->faultsPerDisciplineCalculate($schedulesPerUnityPeriods, $discipline, $classFaults, $enrollment->id);
 
     //         foreach ($gradesResult as $gradeResult) {
     //             if($gradeResult->disciplineFk->id == $discipline) {

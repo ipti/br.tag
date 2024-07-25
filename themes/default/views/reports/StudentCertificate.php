@@ -1,15 +1,11 @@
 <?php
-// Inclua o script para inicialização
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
-// Obtenha os dados da escola
 if (!isset($school)) {
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 }
-
-// Extraia a data de nascimento
 list($day, $month, $year) = explode('/', $student['birthday']);
 $months = array(
     '01' => 'Janeiro', '02' => 'Fevereiro', '03' => 'Março', '04' => 'Abril',
@@ -18,8 +14,117 @@ $months = array(
 );
 $monthName = $months[$month];
 
-CVarDumper::dump(($day), 10, true);
+$disciplinas = array(
+    1 => 'Química',
+    2 => 'Física',
+    3 => 'Matemática',
+    4 => 'Biologia',
+    5 => 'Ciências',
+    6 => 'Português',
+    7 => 'Inglês',
+    8 => 'Espanhol',
+    9 => 'Outro Idioma',
+    10 => 'Artes',
+    11 => 'Educação Física',
+    12 => 'História',
+    13 => 'Geografia',
+    14 => 'Filosofia',
+    16 => 'Informática',
+    17 => 'Disc. Profissionalizante',
+    20 => 'Educação Especial',
+    21 => 'Sociedade e Cultura',
+    23 => 'Libras',
+    25 => 'Disciplinas pedagógicas',
+    26 => 'Ensino religioso',
+    27 => 'Língua indígena',
+    28 => 'Estudos Sociais',
+    29 => 'Sociologia',
+    30 => 'Francês',
+    99 => 'Outras Disciplinas',
+    10001 => 'Redação',
+    10002 => 'Linguagem oral e escrita',
+    10003 => 'Natureza e sociedade',
+    10004 => 'Movimento',
+    10005 => 'Música',
+    10006 => 'Artes visuais',
+    10007 => 'Acompanhamento Pedagógico',
+    10008 => 'Teatro',
+    10009 => 'Canteiro Sustentável',
+    10010 => 'Dança',
+    10011 => 'Cordel',
+    10012 => 'Física'
+);
+
+function extractDisciplineIdsAndMedia($data) {
+    $result = [];
+
+    foreach ($data as $key => $info) {
+        $result[$key] = [
+            'base_disciplines' => array_map(function($discipline) {
+                return [
+                    'discipline_id' => $discipline['discipline_id'],
+                    'final_media' => $discipline['final_media'] !== null ? $discipline['final_media'] : 0
+                ];
+            }, $info['base_disciplines']),
+            'diversified_disciplines' => array_map(function($discipline) {
+                return [
+                    'discipline_id' => $discipline['discipline_id'],
+                    'final_media' => $discipline['final_media'] !== null ? $discipline['final_media'] : 0
+                ];
+            }, $info['diversified_disciplines']),
+        ];
+    }
+
+    return $result;
+}
+
+function getUniqueDisciplineIdsByType($data) {
+    $baseDisciplineIds = [];
+    $diversifiedDisciplineIds = [];
+
+    foreach ($data as $info) {
+        foreach ($info['base_disciplines'] as $discipline) {
+            $baseDisciplineIds[] = $discipline['discipline_id'];
+        }
+        foreach ($info['diversified_disciplines'] as $discipline) {
+            $diversifiedDisciplineIds[] = $discipline['discipline_id'];
+        }
+    }
+    $uniqueBaseDisciplineIds = array_unique($baseDisciplineIds);
+    $uniqueDiversifiedDisciplineIds = array_unique($diversifiedDisciplineIds);
+
+    return [
+        'base_disciplines' => $uniqueBaseDisciplineIds,
+        'diversified_disciplines' => $uniqueDiversifiedDisciplineIds
+    ];
+}
+
+function getDisciplineNames($ids, $disciplinas) {
+    $names = [];
+
+    foreach ($ids as $id) {
+        if (isset($disciplinas[$id])) {
+            $names[$id] = $disciplinas[$id];
+        } else {
+            $names[$id] = 'Desconhecida'; 
+        }
+    }
+
+    return $names;
+}
+
+$disciplineData = extractDisciplineIdsAndMedia($student['schoolData']);
+$uniqueDisciplineIdsByType = getUniqueDisciplineIdsByType($student['schoolData']);
+
+$baseDisciplinesNames = getDisciplineNames($uniqueDisciplineIdsByType['base_disciplines'], $disciplinas);
+$diversifiedDisciplinesNames = getDisciplineNames($uniqueDisciplineIdsByType['diversified_disciplines'], $disciplinas);
+
+CVarDumper::dump($disciplineData, 10, true);
+//  Separando as disciplinas .....
+CVarDumper::dump($baseDisciplinesNames, 10, true);
+CVarDumper::dump($diversifiedDisciplinesNames, 10, true);
 ?>
+
 
 <div class="pageA4H">
     <div style="text-align: center;">

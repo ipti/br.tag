@@ -1,317 +1,38 @@
-Observe o codigo abaixo:
-    //    public function getStudentCertificate($enrollment_id): array
-    // {
-    //     $studentIdent = StudentIdentification::model()->findByPk($enrollment_id);
-
-    //     if (!$studentIdent) {
-    //         return ["student" => null];
-    //     }
-
-    //     $city = null;
-    //     $uf_acronym = null;
-    //     $uf_name = null;
-    //     $class_name = null;
-    //     $tipo_ensino = '';
-    //     $ano = '';
-
-    //     if ($cityObj = EdcensoCity::model()->findByPk($studentIdent->edcenso_city_fk)) {
-    //         $city = $cityObj->name;
-    //         if ($ufObj = EdcensoUf::model()->findByPk($cityObj->edcenso_uf_fk)) {
-    //             $uf_acronym = $ufObj->acronym;
-    //             $uf_name = $ufObj->name;
-    //         }
-    //     }
-    //     $commandMaxId = Yii::app()->db->createCommand("
-    //         SELECT MAX(id) AS max_id
-    //         FROM student_enrollment
-    //         WHERE student_fk = :student_fk AND status = 1
-    //     ");
-    //     $commandMaxId->bindValue(':student_fk', $enrollment_id);   
-    //     $maxId = $commandMaxId->queryScalar();
-        
-    //     $result = array(); // array de notas
-    //     $baseDisciplines = array(); // disciplinas da BNCC
-    //     $diversifiedDisciplines = array(); //disciplinas diversas
-    //     $enrollment = StudentEnrollment::model()->findByPk($maxId);
-    //     // CVarDumper::dump($enrollment, 10, true);
-
-    //     $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $maxId]); // medias do aluno na turma
-    //     $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
-    //     $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
-    //     $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]); // unidades da turma
-
-    //     $recFinalIndex = array_search('RF', array_column($unities, 'type'));
-    //     $recFinalObject = $unities[$recFinalIndex]; // obs
-    //     array_splice($unities, $recFinalIndex, 1);
-    //     array_push($unities, $recFinalObject);
-
-    //     foreach ($curricularMatrix as $matrix) {
-    //         if($this->separateBaseDisciplines($matrix->discipline_fk)) { // se for disciplina da BNCC
-    //             array_push($baseDisciplines, $matrix->disciplineFk->id);
-    //         } else { // se for disciplina diversa
-    //             array_push($diversifiedDisciplines, $matrix->disciplineFk->id);
-    //         }
-    //     }
-
-    //     $totalDisciplines = array_unique(array_merge($baseDisciplines, $diversifiedDisciplines));
-    //     $schedulesPerUnityPeriods = $this->getSchedulesPerUnityPeriods($enrollment->classroomFk, $unities);
-    //     $schoolDaysPerUnity = $this->schoolDaysCalculate($schedulesPerUnityPeriods);
-    //     $workloadPerUnity = $this->workloadsCalculate($schedulesPerUnityPeriods);
-    //     $faultsPerUnity = $this->faultsPerUnityCalculate($schedulesPerUnityPeriods, $classFaults, $enrollment->classroomFk);
-
-    //     $sumFinalMedia = 0;
-    //     $numFinalMedia = 0;
-
-    //     foreach ($totalDisciplines as $discipline) { // aqui eu monto as notas das disciplinas, faltas, dias letivos e cargas horárias
-
-    //         $mediaExists = false;
-    //         $totalContentsPerDiscipline = $this->contentsPerDisciplineCalculate($enrollment->classroomFk, $discipline, $enrollment->id);
-    //         $totalFaultsPerDicipline = $this->faultsPerDisciplineCalculate($schedulesPerUnityPeriods, $discipline, $classFaults, $enrollment->id);
-
-    //         foreach ($gradesResult as $gradeResult) {
-    //             if($gradeResult->disciplineFk->id == $discipline) {
-    //                 $resultItem = [
-    //                     "discipline_id" => $gradeResult->disciplineFk->id,
-    //                     "final_media" => $gradeResult->final_media,
-    //                     "grade_result" => $gradeResult,
-    //                     "total_number_of_classes" => $totalContentsPerDiscipline,
-    //                     "total_faults" => $totalFaultsPerDicipline,
-    //                     "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
-    //                 ];
-    //                 array_push($result, $resultItem);
-
-    //                 if ($gradeResult->final_media !== null) {
-    //                     $sumFinalMedia += $gradeResult->final_media;
-    //                     $numFinalMedia++;
-    //                 }
-
-    //                 $mediaExists = true;
-    //                 break;
-    //             }
-    //         }
-
-    //         if(!$mediaExists) {
-    //             $resultItem = [
-    //                 "discipline_id" => $discipline,
-    //                 "final_media" => null,
-    //                 "grade_result" => null,
-    //                 "total_number_of_classes" => $totalContentsPerDiscipline,
-    //                 "total_faults" => $totalFaultsPerDicipline,
-    //                 "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
-    //             ];
-    //             array_push($result, $resultItem);
-    //         }
-    //     }
-
-    //     $totalDisciplinesCount = count($totalDisciplines);
-    //     $annualAverage = $totalDisciplinesCount > 0 ? round($sumFinalMedia / $totalDisciplinesCount, 1) : null;
+Observe esse código abaixo:
 
 
-    //     $report = [];
-    //     foreach ($totalDisciplines as $disciplineId) {
-    //         foreach ($result as $item) {
-    //             if ($item['discipline_id'] === $disciplineId) {
-    //                 $report[] = $item;
-    //                 break;
-    //             }
-    //         }
-    //     }
+preciso pegar essas informações de $baseDisciplines e colocar em cada uma das linhas abaixo da linha 
 
-    //     $command = Yii::app()->db->createCommand("
-    //         SELECT c.name, esv.name as etapa
-    //         FROM classroom c
-    //         JOIN student_enrollment se ON c.id = se.classroom_fk
-    //         JOIN edcenso_stage_vs_modality esv ON c.edcenso_stage_vs_modality_fk = esv.id
-    //         WHERE se.student_fk = :student_fk AND se.status = 1
-    //         ORDER BY se.id DESC
-    //         LIMIT 1
-    //     ");
-    //     $command->bindValue(':student_fk', $enrollment_id);
-    //     $row = $command->queryRow();
-    //     if ($row) {
-    //         $class_name = $row['name'];
-    //         $etapa = $row['etapa'];
+array
+(
+    5 => 'Ciências'
+    13 => 'Geografia'
+    10 => 'Artes'
+    3 => 'Matemática'
+    11 => 'Educação Física'
+    6 => 'Português'
+    12 => 'História'
+    7 => 'Inglês'
+)
 
-    //         $etapa_parts = explode(' - ', $etapa);
+colocar em cada uma colunas da tabela nessa parte:
+<tr>
+                <th class="vertical-header">IDADE</th>
+                <th class="vertical-header">SÉRIE</th>
 
-    //         if (count($etapa_parts) == 2) {
-    //             $tipo_ensino = $etapa_parts[0];
-    //             $ano = $etapa_parts[1];
-    //         }
-    //     }
+                <?php foreach ($student['disciplines'] as $discipline): ?>
+                    <th class="vertical-header"><?php echo CHtml::encode($discipline); ?></th>
+                <?php endforeach; ?>
 
-    //     $studentData = [
-    //         'name' => $studentIdent->name,
-    //         'civil_name' => $studentIdent->civil_name,
-    //         'birthday' => $studentIdent->birthday,
-    //         'sex' => $studentIdent->sex,
-    //         'color_race' => $studentIdent->color_race,
-    //         'filiation' => $studentIdent->filiation,
-    //         'filiation_1' => $studentIdent->filiation_1,
-    //         'filiation_2' => $studentIdent->filiation_2,
-    //         'city' => $city,
-    //         'uf_acronym' => $uf_acronym,
-    //         'uf_name' => $uf_name,
-    //         'class_name' => $class_name,
-    //         'tipo_ensino' => $tipo_ensino,
-    //         'ano' => $ano,
-    //         'enrollment' => $enrollment,
-    //         'result' => $report,
-    //         'baseDisciplines' => array_unique($baseDisciplines), //função usada para evitar repetição
-    //         'diversifiedDisciplines' => array_unique($diversifiedDisciplines), //função usada para evitar repetição
-    //         'unities' => $unities,
-    //         "school_days" => $schoolDaysPerUnity,
-    //         "faults" => $faultsPerUnity,
-    //         "workload" => $workloadPerUnity,
-    //         "annual_average" => $annualAverage
-    //     ];
+                <th class="vertical-header">MÉDIA ANUAL</th>
+                <th class="vertical-header">ANO</th>
+            </tr>
 
-    //     return ["student" => $studentData];
-    // }
+colcoar aqui:
 
+    <?php foreach ($student['disciplines'] as $discipline): ?>
+        <th class="vertical-header"><?php echo CHtml::encode($discipline); ?></th>
+    <?php endforeach; ?>
 
-
-
-
-    e o seguindo código:
-
-
-<div class="pageA4H">
-    <div style="text-align: center;">
-        <div style="position: relative; display: inline-block;">
-            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/brasao.png" alt="Brasão" style="width: 80px; position: absolute; top: -60px; left: 50%; transform: translateX(-50%);" />
-        </div>
-        <h4>ESTADO DO <?php echo strtoupper($school->edcensoUfFk->name); ?></h4>
-        <h5>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name; ?></h5>
-        <h5>SECRETARIA MUNICIPAL DE EDUCAÇÃO</h5>
-        <h1>CERTIFICADO</h1>
-    </div>
-
-    <div class="container-certificate">
-        <p>O(A) Diretor(a) da Escola <?php echo $school->name ?>,
-        no uso de suas atribuições legais, confere o presente Certificado do <?php echo $student['school_year']; ?> do <?php echo $student['etapa_name']; ?> a <b><?php echo $student['name']; ?></b>
-       filho(a) de <?php echo $student['filiation_1']; ?>
-        e de <?php echo $student['filiation_2']; ?>.</p>
-        <p>Nascido(a) em <?php echo $day; ?> de <?php echo $monthName; ?> de <?php echo $year; ?>, no Município de <?php echo $student['city_name']; ?>
-        Estado de <?php echo $student['uf_name']; ?>.</p>
-    </div>
-
-
-
-Como faço para adicionar as informações buscadas em banco sobre $student['city_name']  $student['uf_name']; busque essas informações e adicone no código abaixo
-
-public function getStudentCertificate($enrollment_id): array
-{
-    $command = Yii::app()->db->createCommand("
-        SELECT
-            si.name AS student_name,
-            si.birthday,
-            si.sex,
-            si.filiation_1,
-            si.filiation_2,
-            c.name AS class_name,
-            c.school_year,
-            ed.name AS discipline_name,
-            ed.id AS discipline_id,
-            gr.grade_1,
-            gr.grade_2,
-            gr.grade_3,
-            gr.grade_4,
-            gr.final_media,
-            sdaa.address,
-            ec.name AS city_name,
-            eu.acronym AS uf_acronym,
-            eu.name AS uf_name,
-            esv.name AS etapa_name
-        FROM
-            student_enrollment se
-        JOIN student_identification si ON si.id = se.student_fk
-        JOIN student_documents_and_address sdaa ON sdaa.id = si.id
-        JOIN classroom c ON c.id = se.classroom_fk
-        JOIN grade_results gr ON gr.enrollment_fk = se.id
-        JOIN edcenso_discipline ed ON ed.id = gr.discipline_fk
-        JOIN edcenso_city ec ON ec.id = si.edcenso_city_fk
-        JOIN edcenso_uf eu ON eu.id = ec.edcenso_uf_fk
-        JOIN edcenso_stage_vs_modality esv ON esv.id = c.edcenso_stage_vs_modality_fk
-        WHERE
-            se.student_fk = :student_fk
-    ");
-    $command->bindValue(':student_fk', $enrollment_id);
-
-    $results = $command->queryAll();
-
-    $formattedResult = [];
-    $baseDisciplines = [];
-    $diversifiedDisciplines = [];
-
-    foreach ($results as $row) {
-        $class_name = $row['class_name'];
-        $school_year = $row['school_year'];
-        $discipline_id = $row['discipline_id'];
-        
-        if (!isset($formattedResult[$class_name])) {
-            $formattedResult[$class_name] = [
-                'school_year' => $school_year,
-                'address' => $row['address'],
-                'city_name' => $row['city_name'],
-                'uf_acronym' => $row['uf_acronym'],
-                'uf_name' => $row['uf_name'],
-                'etapa_name' => $row['etapa_name'],
-                'base_disciplines' => [],
-                'diversified_disciplines' => [],
-            ];
-        }
-
-        // Separando as disciplinas ---------------------------
-        if ($this->separateBaseDisciplines($discipline_id)) {
-            $formattedResult[$class_name]['base_disciplines'][] = [
-                'discipline_name' => $row['discipline_name'],
-                'grade_1' => $row['grade_1'],
-                'grade_2' => $row['grade_2'],
-                'grade_3' => $row['grade_3'],
-                'grade_4' => $row['grade_4'],
-                'final_media' => $row['final_media'],
-            ];
-            $baseDisciplines[] = $discipline_id;
-        } else {
-            $formattedResult[$class_name]['diversified_disciplines'][] = [
-                'discipline_name' => $row['discipline_name'],
-                'grade_1' => $row['grade_1'],
-                'grade_2' => $row['grade_2'],
-                'grade_3' => $row['grade_3'],
-                'grade_4' => $row['grade_4'],
-                'final_media' => $row['final_media'],
-            ];
-            $diversifiedDisciplines[] = $discipline_id;
-        }
-    }
-
-    $finalResult = [
-        'name' => $results[0]['student_name'],
-        'civil_name' => $results[0]['student_name'],
-        'birthday' => $results[0]['birthday'],
-        'sex' => $results[0]['sex'],
-        'filiation_1' => $results[0]['filiation_1'],
-        'filiation_2' => $results[0]['filiation_2'],
-        'schoolData' => $formattedResult,
-        'baseDisciplines' => array_unique($baseDisciplines),
-        'diversifiedDisciplines' => array_unique($diversifiedDisciplines),
-    ];
-
-    CVarDumper::dump($finalResult, 10, true);
-
-    return ['student' => $finalResult];
-}
-
-Preciso adicionar aqui
-'name' => $results[0]['student_name'],
-        'civil_name' => $results[0]['student_name'],
-        'birthday' => $results[0]['birthday'],
-        'sex' => $results[0]['sex'],
-        'filiation_1' => $results[0]['filiation_1'],
-        'filiation_2' => $results[0]['filiation_2'],
-        'schoolData' => $formattedResult,
-        'baseDisciplines' => array_unique($baseDisciplines),
-        'diversifiedDisciplines' => array_unique($diversifiedDisciplines),
 
 
