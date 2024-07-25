@@ -111,8 +111,8 @@ class CourseplanController extends Controller
             $courseClasses[$order] = [];
             $courseClasses[$order]["class"] = $courseClass->order;
             $courseClasses[$order]['courseClassId'] = $courseClass->id;
-            $courseClasses[$order]['objective'] = $courseClass->objective;
-            $courseClasses[$order]['type'] = $courseClass->type;
+            $courseClasses[$order]['content'] = $courseClass->content;
+            $courseClasses[$order]['methodology'] = $courseClass->methodology;
             $courseClasses[$order]['resources'] = [];
             $courseClasses[$order]['abilities'] = [];
             foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
@@ -236,8 +236,8 @@ class CourseplanController extends Controller
                 $courseClass = CourseClass::model()->findByPk($cc["id"]);
             }
             $courseClass->order = $i++;
-            $courseClass->objective = $cc['objective'];
-            $courseClass->type = $cc['type'];
+            $courseClass->content = $cc['content'];
+            $courseClass->methodology = $cc['methodology'];
             $courseClass->save();
 
 
