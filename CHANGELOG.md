@@ -1,5 +1,14 @@
-## [Versão 3.81.171]
+## [Versão 3.82.172]
 - Foram inseridas três exportações em csv na tela do administrador, para alunos, notas e faltas
+
+## [Versão 3.81.172]
+- Ao adicionar CPF no registro de professor sem CPF, um novo usuário é criado.
+- Ao importar dados do Edcenso, professores com CPF terão seus usuários criados.
+- Adicionado Sábado letivo aos cardápios
+
+## [Versão 3.81.171]
+- Retirando a obrigatóriedade do código da escola sede no formulário de escola
+
 
 ## [Versão 3.81.170]
 - O relatório do Diário Eletrônico foi atualizado para incluir o nome das turmas correspondentes para cada aluno.
@@ -14,7 +23,7 @@
 - Realizada correção na funcionalidade de frequência para o caso de alunos com situação de matrícula como transferido em turma.
 
 ## [Versão 3.81.166]
-- Realizada correção do turno no quadro de horário. 
+- Realizada correção do turno no quadro de horário.
 
 ## [Versão 3.81.165]
 - Adicionando redirecionamento para inconsistências de Unidade Gestora para o Sagres

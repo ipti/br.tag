@@ -14,6 +14,7 @@ $(".js-save-menu").on("click", function () {
             "food_public_target": "",
             "start_date": "",
             "final_date": "",
+            "include_saturday": "",
             "sunday" :{
                 "meals":[]
             },
@@ -43,6 +44,7 @@ $(".js-save-menu").on("click", function () {
         foodMenu.final_date = $('.js-final-date').val()
         foodMenu.week = $('select.js-week').val()
         foodMenu.observation = $('.js-observation').val()
+        foodMenu.include_saturday = $('.js-include-saturday').is(':checked') ? 1 : 0
 
         //get meals
         foodMenu.sunday = getMealsByDay(0)
@@ -51,9 +53,11 @@ $(".js-save-menu").on("click", function () {
         foodMenu.wednesday = getMealsByDay(3)
         foodMenu.thursday = getMealsByDay(4)
         foodMenu.friday = getMealsByDay(5)
-        foodMenu.saturday = getMealsByDay(6)
+        if($('.js-include-saturday').is(':checked')) {
+            foodMenu.saturday = getMealsByDay(6)
+        }
 
-        //  console.log(foodMenu)
+        //console.log(foodMenu)
         if(menuId)
         {
             $.ajax({
@@ -79,25 +83,50 @@ $(".js-save-menu").on("click", function () {
         }
 
     } else {
-        const erros = []
-        form.find(':input[required]').each(function () {
+        const erros = [];
+        const inputs = form.find(':input[required]');
+        inputs.each(function () {
             if (!this.validity.valid) {
-                if (!erros.some(function (erro) {
-                    return erro.field === this.name && erro.day === "" && erro.meal === "";
-                }, this)) {
-                    let mealError = $(this).closest('.js-meals-accordion-content');
-                    let mealName = mealError.find("select.js-meal-type").find('option:selected').text()
-                    erros.push({
-                        field: this.name,
-                        day: mealError.attr("data-day-of-week"),
-                        meal: mealName == "" ? undefined : mealName
-                    });
+                const isQuantity = this.name === "Quantidade";
+                const mealError = $(this).closest('.js-meals-accordion-content');
+                const mealName = mealError.find("select.js-meal-type option:selected").text();
+                const dayOfWeek = mealError.attr("data-day-of-week");
+
+                const errorExists = erros.some(erro =>
+                    erro.field === this.name && erro.day === dayOfWeek && erro.meal === mealName
+                );
+
+                if (!errorExists) {
+                    if (isQuantity) {
+                        const measure = $(this).closest('.js-food-ingredient').find('.js-measure select option:selected').attr('data-measure');
+                        if (measure === 'u') {
+                            erros.push({
+                                field: this.name,
+                                day: dayOfWeek,
+                                meal: mealName || undefined
+                            });
+                        }
+                    } else {
+                        erros.push({
+                            field: this.name,
+                            day: dayOfWeek,
+                            meal: mealName || undefined
+                        });
+                    }
                 }
             }
         });
         showErros(erros)
     }
 });
+
+$('.js-include-saturday').on("change", function(){
+    if($(this).is(':checked')) {
+        $('.js-saturday').removeClass('hide')
+    } else {
+        $('.js-saturday').addClass('hide')
+    }
+})
 
 function getMealsByDay(day) {
     let meals = []
@@ -141,11 +170,18 @@ function getFoodIngredients(idPlateAccordion) {
         let foodIngredient = {
             "food_id_fk": "",
             "food_measure_unit_id": "",
+            "measurement_for_unit": "",
+            "amount_for_unit": "",
             "amount": "",
         }
         foodIngredient.food_id_fk = $(row).attr('data-idTaco')
         foodIngredient.food_measure_unit_id = $(row).find('.js-measure select').val()
         foodIngredient.amount = $(row).find('.js-unit input').val()
+
+        if($(row).find('.js-measure select option:selected').text() == "unidade") {
+            foodIngredient.amount_for_unit = $(row).find(".js-amount-for-unit").val()
+            foodIngredient.measurement_for_unit = $(row).find(".js-measurement-for-unit").val()
+        }
 
         foodIngredients.push(foodIngredient)
     })
@@ -165,6 +201,7 @@ function showErros(erros) {
         return accumulator + `O campo <b>${item.field}</b> é obrigatório<br>`;
     }, '');
     menuError.html(message)
+    menuError.show()
     menuError.removeClass('hide')
     window.scrollTo({
         top: 0,
