@@ -846,7 +846,7 @@ $(formDocumentsAndAddress + "cpf").focusout(function () {
     } else {
         removeError(id);
     }
-    
+
     var idStudent = new URLSearchParams(window.location.search).get('id');
     existsStudentWithCPF($(id).cleanVal(), idStudent, function (ret) {
         if (!ret[0] && $(id).val() != "") {
@@ -1100,6 +1100,14 @@ $(".save-student").click(function () {
         error = true;
         message +=
             "O campo <b>NIS</b> é obrigatório para alunos participantes do Bolsa Família.<br>";
+    }
+    if (
+        $("#StudentEnrollment_classroom_fk").find(":selected").data("ismulti") == 1 &&
+        $("#StudentEnrollment_edcenso_stage_vs_modality_fk").val() == ""
+    ) {
+        error = true;
+        message +=
+            "Quando a turma é multiseriada o campo <b>Etapa de Ensino</b> é obrigatório.<br>";
     }
 
     if ($("#errorNameIcon").css("display") == "inline-block") {

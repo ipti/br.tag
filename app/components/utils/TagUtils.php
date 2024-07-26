@@ -14,7 +14,13 @@ class TagUtils extends CApplicationComponent {
         $stages = new CList($refMinorStages, true);
         return $stages->contains($stage);
     }
-
+    public static function isMultiStage($stage){
+        $refMinorStages = [
+            '12','13','22','23','24','41','56','83', '84'
+        ];
+        $stages = new CList($refMinorStages, true);
+        return $stages->contains($stage);
+    }
     public static function convertDateFormat($date) {
          // Remove espaços em branco do início e do fim da string
         $date = trim($date);
