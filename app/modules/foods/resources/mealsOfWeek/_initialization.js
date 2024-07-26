@@ -83,6 +83,20 @@ function renderMeals(mealsParam) {
 
     })
     containerCards.append(cards)
+    cards = mealsParam.friday.map((meal) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
+            return accumulator + createCard(meal_component, meal, 5);
+        }, '')
+
+    })
+    containerCards.append(cards)
+    cards = mealsParam.saturday.map((meal) => {
+        return meal.mealsComponent.reduce((accumulator, meal_component) => {
+            return accumulator + createCard(meal_component, meal, 6);
+        }, '')
+
+    })
+    containerCards.append(cards)
 }
 
 
@@ -103,7 +117,7 @@ function createCard(meal_component, meal, dayMeal) {
             turn = ""
     }
     igredients = meal_component.ingredients.map((item) => {
-        return  item.amount + ' ' + item.foodName.replace(/,/g, '');
+        return  item.amount + item.measurementUnit +' ' + item.foodName.replace(/,/g, '');
     })
     return `<div class="t-cards ${dayMeal != day ? "hide" : ""}"  style=" max-width: none;" data-public-target="${meal.foodPublicTargetId}" data-turn="${turn}">
                 <div class="t-cards-content">

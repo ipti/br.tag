@@ -30,7 +30,7 @@ class UserIdentity extends CUserIdentity
 //			$this->errorCode=self::ERROR_NONE;
 //		return !$this->errorCode;
 //	}
-// 
+//
     public function isMd5($string) {
         $md5_pattern = '/^[a-fA-F0-9]{32}$/';
         return preg_match($md5_pattern, $string);
@@ -38,7 +38,7 @@ class UserIdentity extends CUserIdentity
 
     public function authenticate() {
         $record = Users::model()->findByAttributes(array('username' => $this->username));
-        
+
         if($this->isMd5($record->password)){
             if ($record->password === md5($this->password)) {
                 $passwordHasher =  new PasswordHasher;
@@ -48,13 +48,13 @@ class UserIdentity extends CUserIdentity
                 $this->errorCode = self::ERROR_PASSWORD_INVALID;
             }
         }
-        
+
         if ($record === null || !$record->active) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
         } elseif(!password_verify($this->password, $record->password)) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
-        }else {
-            if(Yii::app()->getAuthManager()->checkAccess('admin',$record->id)){
+        } else {
+            if(Yii::app()->getAuthManager()->checkAccess('admin',$record->id)|| Yii::app()->getAuthManager()->checkAccess('nutritionist',$record->id)){
                 $userSchools = [];
                 $this->setState('hardfoot',false);
                 //@done s2 - mostrar apenas escolas ativas
@@ -71,7 +71,7 @@ class UserIdentity extends CUserIdentity
             $this->setState('school',$school);
             $this->errorCode = self::ERROR_NONE;
             //AdminController::actionBackup(false);
-            
+
         }
         return !$this->errorCode;
     }
