@@ -1,3 +1,6 @@
+## [Versão 3.82.173]
+- Unificada a frequência para turmas multisseriadas
+
 ## [Versão 3.82.172]
 - Foram inseridas três exportações em csv na tela do administrador, para alunos, notas e faltas
 
@@ -5,6 +8,7 @@
 - Ao adicionar CPF no registro de professor sem CPF, um novo usuário é criado.
 - Ao importar dados do Edcenso, professores com CPF terão seus usuários criados.
 - Adicionado Sábado letivo aos cardápios
+
 
 ## [Versão 3.81.171]
 - Retirando a obrigatóriedade do código da escola sede no formulário de escola
