@@ -254,13 +254,47 @@ function addNewResources(){
     const newResourceP = `<p>${newResource.val()}</p>`
     const alert = $('.alert-resource');
     if(newResource.val() == ""){
-        console.log(alert);
         alert.removeClass('hide');
         alert.addClass('show');
+        if(!$('.alert-resource-exist').hasClass('hide'))
+            $('.alert-resource-exist').addClass('hide');
         return;
     }
     alert.removeClass('show');
     alert.addClass('hide');
+    // The following function will validate the resource input value and append a new resource if is valid
+    // The first param is a callback function which will append the new resource to the list of resources
+    // that'll be added to the list elem
+    validateResource(appendNewResource, newResource, newResourceP);
+}
+
+function validateResource(callback, newRes, newResP){
+    const resourceInput = $('.new-resource');
+    if(resourceInput !== '')
+        $.ajax({
+            type: "POST",
+            url: "?r=courseplan/courseplan/checkResourceExists",
+            cache: false,
+            data: {
+                resource: resourceInput.val()
+            },
+            success: function (response) {
+                const data = JSON.parse(response);
+                const alertResourceExist = $('.alert-resource-exist');
+                const validate = data['valid'];
+                if(!validate){
+                    alertResourceExist.removeClass('hide');
+                    return;
+                }
+                alertResourceExist.addClass('hide');
+                // callback(validate);
+                if(validate)
+                    callback(newRes, newResP);
+            }
+        })
+}
+
+function appendNewResource(newResource, newResourceP){
     const divResources = $('#new-resources-table');
     const closeBt = '<span class="remove-new-resource"><i class="t-icon-close"></i></span></div>';
     const newDivResource = `<div class='row ui-accordion-content mobile-row justify-content--space-between t-margin-small--top'>${newResourceP} ${closeBt}`;

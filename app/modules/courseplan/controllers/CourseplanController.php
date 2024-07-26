@@ -32,7 +32,7 @@ class CourseplanController extends Controller
                 'actions' => array('create', 'update', 'index', 'delete',
                     'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure',
                     'getAbilitiesNextStructure', 'addResources', 'getResources', 'pendingPlans',
-                    'validatePlan', 'enableCoursePlanEdition'),
+                    'validatePlan', 'enableCoursePlanEdition', 'checkResourceExists'),
                 'users' => array('*'),
             ),
             array('deny', // deny all users
@@ -428,6 +428,17 @@ class CourseplanController extends Controller
         $coursePlan->save();
         Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso Liberado para Edição!'));
         $this->redirect(array('index'));
+    }
+
+    public function actionCheckResourceExists(){
+        $resource = Yii::app()->request->getPost('resource');
+        $existingResources = CourseClassResources::model()->findAllByAttributes(array('name' => $resource));
+        if($existingResources == NULL){
+            echo json_encode(["valid" => true]);
+            Yii::app()->end();
+        }
+        echo json_encode(["valid" => false]);
+        Yii::app()->end();
     }
 
     /**
