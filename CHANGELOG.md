@@ -1,8 +1,13 @@
+
+## [Versão 3.82.174]
+- Modificado campo para Tipo de atividade no relatório de Alunos por Turmas.
+
 ## [Versão 3.82.173]
 - Unificada a frequência para turmas multisseriadas
 
 ## [Versão 3.82.172]
 - Foram inseridas três exportações em csv na tela do administrador, para alunos, notas e faltas
+
 
 ## [Versão 3.81.172]
 - Ao adicionar CPF no registro de professor sem CPF, um novo usuário é criado.
