@@ -197,9 +197,8 @@ function GradeTableBuilder(data) {
                         ${
                             isUnityConcept
                             ? ''
-                            : `<td class="grade-td">
-                                ${buildSemesterAvarage(student, semester, type)}
-                            </td>`
+                            : buildSemesterAvarage(student, semester, type)
+
 
                         }
                         ${partialRecoveries !== null ? buildPartialRecovery(
@@ -223,10 +222,21 @@ function GradeTableBuilder(data) {
             .join("\n");
     }
     function buildSemesterAvarage(student, semester, type){
-        if(type == "RF"){
-            return student.semAvarage;
+
+        if(student.semAvarage1 == null && student.semAvarage2 == null && student.semAvarage == 0){
+            return '';
         }
-        return semester == 1 ? student.semAvarage1 : student.semAvarage2
+        let semesterAvarage = 0
+        if(type == "RF"){
+            semesterAvarage = student.semAvarage;
+        } else {
+
+            semesterAvarage = semester == 1 ? student.semAvarage1 : student.semAvarage2
+        }
+
+        return `<td class="grade-td">
+                     ${semesterAvarage}
+                </td>`
     }
     function buildUnities(unities, isUnityConcept, conceptOptions) {
         const unitesGrade = unities
@@ -324,6 +334,15 @@ function GradeTableBuilder(data) {
         }, []);
         const numModalities = modalityColumns.length;
         const tableColspan = numModalities + spaceByColumnGrade;
+        let semesterAvarage = '';
+        if ((partialRecoveryColumns !== null && partialRecoveryColumns.calculationName === 'Média Semestral') || data.type === "RF") {
+            const semesterText = data.type === "RF" ? "Média dos Semestres" : `Média ${semester}° Semestre`;
+            semesterAvarage = `
+                <th style="min-width: 50px; font-weight: bold;">
+                    ${semesterText}
+                </th>
+            `;
+        }
         return template`
             <table class="grades-table tag-table-secondary remove-vertical-borders remove-border-radius" concept="${concept}">
             <colgroup>
@@ -354,9 +373,7 @@ function GradeTableBuilder(data) {
                                     `<th style="min-width: 50px;%">${element}</th>`
                             )
                             .join("\n")}
-                            <th style="min-width: 50px; font-weight: bold;">
-                                    ${data.type == "RF" ? "Média dos Semestres" :`Média ${semester}° Semestre`}
-                            </th>
+                            ${semesterAvarage}
                             ${partialRecoveryColumns !== null ?
                                 template`<th style="min-width: 50px; font-weight: bold;">
                                 ${partialRecoveryColumns.name}
