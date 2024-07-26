@@ -1,6 +1,7 @@
 ## [Versão 3.81.172]
 - Ao adicionar CPF no registro de professor sem CPF, um novo usuário é criado.
 - Ao importar dados do Edcenso, professores com CPF terão seus usuários criados.
+- Adicionado Sábado letivo aos cardápios
 
 ## [Versão 3.81.171]
 - Retirando a obrigatóriedade do código da escola sede no formulário de escola
