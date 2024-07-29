@@ -1,9 +1,8 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 $('#StudentEnrollment_school_admission_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
 $('#StudentEnrollment_school_admission_date').focusout(function () {
     var id = '#' + $(this).attr("id");
@@ -36,7 +35,15 @@ $(".save-enrollment").click(function () {
     var message = "";
     if ($("#StudentEnrollment_school_admission_date").val() === "") {
         error = true;
-        message += "Preencha o campo \"Data de Ingresso na Escola\"";
+        message += "Preencha o campo \"Data de Ingresso na Escola\" <br>";
+    }
+    if (
+        $("#StudentEnrollment_classroom_fk").find(":selected").data("ismulti") == 1 &&
+        $("#StudentEnrollment_edcenso_stage_vs_modality_fk").val() == ""
+    ) {
+        error = true;
+        message +=
+            "Quando a turma é multiseriada o campo <b>Etapa de Ensino</b> é obrigatório.<br>";
     }
     if ($("#reason").val() === '0' && $("#statusDropdown").val() === '4') {
         error = true;
