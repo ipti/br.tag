@@ -117,6 +117,7 @@ class DefaultController extends Controller
                 $isHardUnavailableEvent = !$isHardUnavailableEvent ? $event->calendar_event_type_fk == 102 : $isHardUnavailableEvent;
                 $isSoftUnavailableEvent = !$isSoftUnavailableEvent ? $event->calendar_event_type_fk == 101 || $event->calendar_event_type_fk == 104 : $isSoftUnavailableEvent;
                 $isPreviousDate = !$isPreviousDate ? strtotime($event->start_date) < strtotime('now') : $isPreviousDate;
+                $oldColor = $event->calendarEventTypeFk->color;
             }
             if (!$_POST["confirm"] && (int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
                 echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: adicionar ou modificar eventos de <b>férias</b> poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-save-event'>aqui</span> para confirmar."]);
@@ -151,24 +152,27 @@ class DefaultController extends Controller
                     array_push($datesToFill, ["year" => $dt->format("Y"), "month" => $dt->format("n"), "day" => $dt->format("j")]);
                 }
 
-                if ($isHardUnavailableEvent || $isSoftUnavailableEvent) {
-                    $interval = DateInterval::createFromDateString('1 day');
-                    $period = new DatePeriod($start, $interval, $end);
-                    foreach ($period as $dt) {
-                        $schedulesToAdjust = Yii::app()->db->createCommand("
+
+                $isHardUnavailableEvent = $_POST["eventTypeFk"] == 102;
+                $isSoftUnavailableEvent = $_POST["eventTypeFk"] == 101 || $_POST["eventTypeFk"] == 104;
+                $interval = DateInterval::createFromDateString('1 day');
+                $period = new DatePeriod($start, $interval, $end);
+                foreach ($period as $dt) {
+                    $schedulesToAdjust = Yii::app()->db->createCommand("
                             select s.id from schedule s 
                             join classroom cr on s.classroom_fk = cr.id 
                             join calendar c on cr.calendar_fk = c.id
                             where c.id = :id and s.day = :day and s.month = :month and s.year = :year")->bindParam(":id", $_POST["calendarFk"])->bindParam(":day", $dt->format("j"))->bindParam(":month", $dt->format("n"))->bindParam(":year", $dt->format("Y"))->queryAll();
-                        foreach ($schedulesToAdjust as $scheduleToAdjust) {
-                            if ($isHardUnavailableEvent) {
-                                Schedule::model()->deleteAll("id = :id", [":id" => $scheduleToAdjust["id"]]);
-                            } else {
-                                Schedule::model()->updateAll(["unavailable" => 1], "id = :id", [":id" => $scheduleToAdjust["id"]]);
-                                ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk", [":schedule_fk" => $scheduleToAdjust["id"]]);
-                                ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", [":schedule_fk" => $scheduleToAdjust["id"]]);
-                                ClassDiaries::model()->deleteAll("schedule_fk = :schedule_fk", [":schedule_fk" => $scheduleToAdjust["id"]]);
-                            }
+                    foreach ($schedulesToAdjust as $scheduleToAdjust) {
+                        if ($isHardUnavailableEvent) {
+                            Schedule::model()->deleteAll("id = :id", [":id" => $scheduleToAdjust["id"]]);
+                        } else if ($isSoftUnavailableEvent) {
+                            Schedule::model()->updateAll(["unavailable" => 1], "id = :id", [":id" => $scheduleToAdjust["id"]]);
+                            ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk", [":schedule_fk" => $scheduleToAdjust["id"]]);
+                            ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", [":schedule_fk" => $scheduleToAdjust["id"]]);
+                            ClassDiaries::model()->deleteAll("schedule_fk = :schedule_fk", [":schedule_fk" => $scheduleToAdjust["id"]]);
+                        } else {
+                            Schedule::model()->updateAll(["unavailable" => 0], "id = :id", [":id" => $scheduleToAdjust["id"]]);
                         }
                     }
                 }
@@ -179,6 +183,7 @@ class DefaultController extends Controller
                 echo json_encode([
                     "valid" => true,
                     "datesToFill" => $datesToFill,
+                    "oldColor" => $oldColor,
                     "color" => $calendarEventType->color,
                     "icon" => $calendarEventType->icon,
                     "eventId" => $event->id,

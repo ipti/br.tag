@@ -16,8 +16,6 @@ $("#StudentEnrollment_public_transport").trigger("change");
 $(document).on("click", "#delete-enrollment", function () {
     enrollment_id = $(this).attr('enrollment');
 
-    console.log(enrollment_id)
-
     $.ajax({
         url: `${window.location.host}?r=enrollment/checkenrollmentdelete&enrollmentId=${enrollment_id}`,
         success: function (data) {

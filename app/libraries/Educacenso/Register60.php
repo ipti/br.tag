@@ -36,15 +36,19 @@ class Register60
                     $enrollment['register_type'] = '60';
 
                     $classroom = Classroom::model()->findByPk($enrollment['classroom_fk']);
-                    $classroom->edcenso_stage_vs_modality_fk = $classroom->edcenso_stage_vs_modality_fk % 10000;
 
-                    if ($classroom->schooling == 0 || ($classroom->edcenso_stage_vs_modality_fk != 3 && $classroom->edcenso_stage_vs_modality_fk != 22 && $classroom->edcenso_stage_vs_modality_fk != 23
-                            && $classroom->edcenso_stage_vs_modality_fk != 72 && $classroom->edcenso_stage_vs_modality_fk != 56 && $classroom->edcenso_stage_vs_modality_fk != 64)) {
+                    $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk);
+                    $classroomAssociatedStage = $edcensoStageVsModality->edcenso_associated_stage_id;
+
+                    if ($classroom->schooling == 0 || ($classroomAssociatedStage != 3 && $classroomAssociatedStage != 22 && $classroomAssociatedStage != 23
+                            && $classroomAssociatedStage != 72 && $classroomAssociatedStage != 56 && $classroomAssociatedStage != 64)) {
                         $enrollment['edcenso_stage_vs_modality_fk'] = '';
                     }
 
-                    if ($enrollment['edcenso_stage_vs_modality_fk'] != "" && $enrollment['edcenso_stage_vs_modality_fk'] > 10000) {
-                        $enrollment['edcenso_stage_vs_modality_fk'] = $enrollment['edcenso_stage_vs_modality_fk'] % 10000;
+
+                    if ($enrollment['edcenso_stage_vs_modality_fk'] != "") {
+                        $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($enrollment['edcenso_stage_vs_modality_fk']);
+                        $enrollment['edcenso_stage_vs_modality_fk'] = $edcensoStageVsModality->edcenso_associated_stage_id;
                     }
 
                     if ($classroom->aee == 0) {
