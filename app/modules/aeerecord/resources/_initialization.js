@@ -2,6 +2,7 @@ let url = new URL(window.location.href);
 let recordId = url.searchParams.get('id');
 
 $(document).ready(function() {
+    console.log(recordId)
     $.ajax({
         type: 'POST',
         url: "?r=aeerecord/default/getInstructorClassrooms",
@@ -67,9 +68,9 @@ $(document).on("click", "#saveAeeRecord", function () {
     let learningNeeds = $('#learningNeeds').val();
     let characterization = $('#characterization').val();
 
-    if(classroomId == "" || studentId == "") {
+    if((classroomId == "" || studentId == "") && recordId == null) {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
-    } else {
+    } else if(recordId == null) {
         $.ajax({
             type: 'POST',
             url: "?r=aeerecord/default/create",
@@ -81,6 +82,20 @@ $(document).on("click", "#saveAeeRecord", function () {
                 characterization: characterization
             }
         }).success(function(response) {
+            window.location.href = "?r=aeerecord/default";
+        })
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: "?r=aeerecord/default/update",
+            cache: false,
+            data: {
+                recordId: recordId,
+                learningNeeds: learningNeeds,
+                characterization: characterization
+            }
+        }).success(function(response) {
+            window.location.href = "?r=aeerecord/default";
         })
     }
 });

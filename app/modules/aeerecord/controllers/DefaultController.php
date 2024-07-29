@@ -126,16 +126,9 @@ class DefaultController extends Controller
         echo json_encode($aeeRecord);
     }
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
 	public function actionCreate()
 	{
 		$model=new StudentAeeRecord;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
 
 		if(Yii::app()->request->isAjaxRequest)
 		{
@@ -164,23 +157,22 @@ class DefaultController extends Controller
 		));
 	}
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+        $recordId = Yii::app()->request->getPost('recordId');
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['StudentAeeRecord']))
+		if($recordId != null)
 		{
-			$model->attributes=$_POST['StudentAeeRecord'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+            $learningNeeds = Yii::app()->request->getPost('learningNeeds');
+			$characterization = Yii::app()->request->getPost('characterization');
+
+            $model->learning_needs = $learningNeeds;
+            $model->characterization = $characterization;
+
+			if($model->save()) {
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Ficha AEE foi atualizada com sucesso!'));
+            }
 		}
 
 		$this->render('update',array(
