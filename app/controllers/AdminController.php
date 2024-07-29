@@ -80,15 +80,15 @@ class AdminController extends Controller
     {
         $pathFile = "./app/export/InfoTagCSV/students_" . Yii::app()->user->year . ".csv";
 
-        $sql = "select 
-            if (si.inep_id is null, '', si.inep_id) inep_aluno, 
-            if (si.name is null, '', si.name) nome_aluno, 
-            if (si.birthday is null, '', si.birthday) data_nascimento, 
-            if (sdaa.cpf is null, '', sdaa.cpf) cpf, 
+        $sql = "select
+            if (si.inep_id is null, '', si.inep_id) inep_aluno,
+            if (si.name is null, '', si.name) nome_aluno,
+            if (si.birthday is null, '', si.birthday) data_nascimento,
+            if (sdaa.cpf is null, '', sdaa.cpf) cpf,
             if (si.sex is null, '', si.sex) sexo,
-            if (concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement) is null 
-                or trim(concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement)) = ', , ', 
-                '', 
+            if (concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement) is null
+                or trim(concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement)) = ', , ',
+                '',
                 concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement)) endereco,
             if (sdaa.neighborhood is null, '', sdaa.neighborhood) bairro,
             if (sdaa.cep is null, '', sdaa.cep) localizacao,
@@ -97,16 +97,16 @@ class AdminController extends Controller
             if (si2.name is null, '', si2.name) nome_da_escola,
             if (esvm.alias is null, '', esvm.alias) etapa,
             if (c.name is null, '', c.name) turma
-        from student_enrollment se 
-            left join student_identification si 
+        from student_enrollment se
+            left join student_identification si
             on (se.student_fk = si.id)
-            left join student_documents_and_address sdaa 
+            left join student_documents_and_address sdaa
             on (se.student_fk = sdaa.student_fk)
-            left join classroom c 
+            left join classroom c
             on (se.classroom_fk = c.id)
-            left join school_identification si2 
+            left join school_identification si2
             on (se.school_inep_id_fk = si2.inep_id)
-            left join edcenso_stage_vs_modality esvm 
+            left join edcenso_stage_vs_modality esvm
             on (se.edcenso_stage_vs_modality_fk = esvm.id)
         where 1=1
         and c.school_year = " . Yii::app()->user->year;
@@ -120,9 +120,9 @@ class AdminController extends Controller
     {
         $pathFile = "./app/export/InfoTagCSV/grades_" . Yii::app()->user->year . ".csv";
 
-        $sql = "select 
-            if (si.inep_id is null, '', si.inep_id) inep_aluno, 
-            if (si.name is null, '', si.name) nome_aluno, 
+        $sql = "select
+            if (si.inep_id is null, '', si.inep_id) inep_aluno,
+            if (si.name is null, '', si.name) nome_aluno,
             if (c.name is null, '', c.name) turma,
             if (ed.name  is null, '', ed.name) disciplina,
             if (gr.grade_1 is null, '', gr.grade_1) nota_01,
@@ -132,18 +132,18 @@ class AdminController extends Controller
             if (gr.grade_4  is null, '', gr.grade_4) nota_04,
             if (gr.rec_partial_2  is null, '', gr.rec_partial_2) recuperacao_semestral_II,
             if (gr.rec_final  is null, '', gr.rec_final) recuperacao_final
-        from student_enrollment se 
-            join student_identification si 
+        from student_enrollment se
+            join student_identification si
             on (se.student_fk = si.id)
-            join classroom c 
+            join classroom c
             on (se.classroom_fk = c.id)
             left join edcenso_stage_vs_modality esvm
             on (c.edcenso_stage_vs_modality_fk = esvm.id)
             left join curricular_matrix cm
             on (cm.stage_fk = esvm.id)
-            left join edcenso_discipline ed 
+            left join edcenso_discipline ed
             on (cm.discipline_fk = ed.id)
-            left join grade_results gr 
+            left join grade_results gr
             on (gr.enrollment_fk = se.id and gr.discipline_fk = ed.id)
         where 1=1
         and c.school_year = " . Yii::app()->user->year;
@@ -455,6 +455,36 @@ class AdminController extends Controller
 
             $unities = GradeUnity::model()->findAllByAttributes(array('parcial_recovery_fk' => $partialRecovery->id));
             $resultPartialRecovery["unities"] = $unities;
+
+            array_push($result["partialRecoveries"], $resultPartialRecovery);
+        }
+
+        $result["partialRecoveries"] = [];
+
+        $gPartialRecoveries = GradePartialRecovery::model()->findAllByAttributes(array('grade_rules_fk' => $gradeRules->id));
+        foreach ($gPartialRecoveries as $partialRecovery) {
+            $resultPartialRecovery = array();
+            $resultPartialRecovery["id"] = $partialRecovery->id;
+            $resultPartialRecovery["name"] = $partialRecovery->name;
+            $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
+            $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->grade_calculation_fk;
+            $resultPartialRecovery["weights"] = [];
+            if($partialRecovery->gradeCalculationFk->name == "Peso") {
+                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk"=>$partialRecovery->id]);
+                foreach($gradeRecoveryWeights as $weight){
+                    array_push($resultPartialRecovery["weights"],
+                    [
+                     "id" => $weight["id"],
+                     "unity_fk" => $weight["unity_fk"],
+                     "weight" => $weight["weight"],
+                     "name" => $weight["unity_fk"] !== null ? $weight->unityFk->name : 'recuperação'
+                     ]
+                    );
+                }
+            }
+
+            $unities = GradeUnity::model()->findAllByAttributes(array('parcial_recovery_fk' => $partialRecovery->id));
+            $resultPartialRecovery["unities"]  = $unities;
 
             array_push($result["partialRecoveries"], $resultPartialRecovery);
         }

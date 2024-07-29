@@ -47,13 +47,14 @@ class Register50
 
                 $classroom = Classroom::model()->findByPk($teaching['classroom_id_fk']);
 
-                $classroom->edcenso_stage_vs_modality_fk = $classroom->edcenso_stage_vs_modality_fk % 10000;
+                $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk);
+                $associatedStage = $edcensoStageVsModality->edcenso_associated_stage_id;
 
                 $codigos = [];
                 $alreadyHave99 = false;
                 $n = 0;
                 for ($i = 9; $i <= 33; $i++) {
-                    if ($classroom->edcenso_stage_vs_modality_fk == 1 || $classroom->edcenso_stage_vs_modality_fk == 2 || $classroom->edcenso_stage_vs_modality_fk == 3
+                    if ($associatedStage == 1 || $associatedStage == 2 || $associatedStage == 3
                         || ($teaching["role"] != '1' && $teaching["role"] != '5') || ($classroom->complementary_activity == '1' && $classroom->schooling == '0')) {
                         $codigos[$i] = "";
                     } else {

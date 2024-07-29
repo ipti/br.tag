@@ -1,7 +1,6 @@
 ## [Versão 3.82.175]
 - Realizado correção para inconsistência para alunos nascidos no ano corrente
 
-
 ## [Versão 3.82.174]
 - Modificado campo para Tipo de atividade no relatório de Alunos por Turmas.
 
@@ -15,11 +14,11 @@
 - Ao adicionar CPF no registro de professor sem CPF, um novo usuário é criado.
 - Ao importar dados do Edcenso, professores com CPF terão seus usuários criados.
 - Adicionado Sábado letivo aos cardápios
-
+- Modificando a forma como o professor é excluído, para que seja de acordo com o id do professor e não pelo id do inep
+- Implementado validações para detectar inconsistências em casos de alunos matriculados em escolas duplicadas ou em turmas regulares.
 
 ## [Versão 3.81.171]
 - Retirando a obrigatóriedade do código da escola sede no formulário de escola
-
 
 ## [Versão 3.81.170]
 - O relatório do Diário Eletrônico foi atualizado para incluir o nome das turmas correspondentes para cada aluno.

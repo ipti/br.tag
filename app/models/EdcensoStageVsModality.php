@@ -8,6 +8,8 @@
      * @property string $name
      * @property string $alias
      * @property integer $stage
+     * @property integer $edcenso_associated_stage_id
+     * @property integer $is_edcenso_stage
      *
      * The followings are the available model relations:
      * @property SchoolStages[] $schoolStages
@@ -121,12 +123,12 @@
             // NOTE: you should only define rules for those attributes that
             // will receive user inputs.
             return [
-                ['name, stage', 'required'],
-                ['stage', 'numerical', 'integerOnly' => TRUE],
+                ['name, stage, is_edcenso_stage', 'required'],
+                ['stage, edcenso_associated_stage_id, is_edcenso_stage', 'numerical', 'integerOnly' => TRUE],
                 ['name', 'length', 'max' => 100], // The following rule is used by search().
                 ['alias', 'length', 'max'=>20],
                 // Please remove those attributes that should not be searched.
-                ['id, name, alias, stage', 'safe', 'on' => 'search'],
+                ['id, name, alias, stage, edcenso_associated_stage_id, is_edcenso_stage', 'safe', 'on' => 'search'],
             ];
         }
 
@@ -150,7 +152,10 @@
         public function attributeLabels() {
             return [
                 'id' => Yii::t('default', 'ID'), 'name' => Yii::t('default', 'Name'),
-                'stage' => Yii::t('default', 'Stage'), 'alias' => 'Abreviação',
+                'stage' => Yii::t('default', 'Stage'),
+                'edcenso_associated_stage_id' => 'Etapa Associada ao Educacenso',
+                'is_edcenso_stage' => 'É uma Etapa do Educacenso',
+                'alias' => 'Abreviação',
             ];
         }
 

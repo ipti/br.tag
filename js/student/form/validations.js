@@ -330,7 +330,6 @@ let dtDisab = formIdentification + "deficiency_type_disability_hearing"; //21
 let dtDeafB = formIdentification + "deficiency_type_deafblindness"; //22
 let dtPhisi = formIdentification + "deficiency_type_phisical_disability"; //23
 let dtIntel = formIdentification + "deficiency_type_intelectual_disability"; //24
-let dtMulti = formIdentification + "deficiency_type_multiple_disabilities"; //25
 let dtAutis = formIdentification + "deficiency_type_autism"; //26
 let dtAspen = formIdentification + "deficiency_type_aspenger_syndrome"; //27
 let dtRettS = formIdentification + "deficiency_type_rett_syndrome"; //28
@@ -356,8 +355,6 @@ let allDeficiency =
     "," +
     dtIntel +
     "," +
-    dtMulti +
-    "," +
     dtAutis +
     "," +
     dtAspen +
@@ -379,8 +376,6 @@ let defLessGifited =
     dtPhisi +
     "," +
     dtIntel +
-    "," +
-    dtMulti +
     "," +
     dtAutis +
     "," +
@@ -710,20 +705,6 @@ $("#resource_type " + rNone).change(function () {
 
     if ($(this).is(":checked")) {
         $(allResource).attr("checked", false);
-    }
-});
-
-$(document).on("change", ".linked-deficiency", function (evt, indirect) {
-    if (indirect === undefined) {
-        if ($(".linked-deficiency:checked").length > 1) {
-            $(
-                formIdentification + "deficiency_type_multiple_disabilities"
-            ).prop("checked", "checked");
-        } else {
-            $(
-                formIdentification + "deficiency_type_multiple_disabilities"
-            ).removeAttr("checked");
-        }
     }
 });
 
@@ -1238,7 +1219,7 @@ $(".save-student").click(function () {
     ) {
         error = true;
         message +=
-            "Quando o campo <b>Tipos de Deficiência</b> (exceto a última opção) for preenchido, o campo <b>Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros)</b> se torna obrigatório. Selecione ao menos uma opção.<br>";
+            "Quando o campo <b>Tipos de Deficiência</b> (exceto Altas Habilidades / Super Dotação) for preenchido, o campo <b>Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros)</b> se torna obrigatório. Selecione ao menos uma opção.<br>";
     }
     if (
         $("#StudentDocumentsAndAddress_residence_zone").val() === "1" &&
