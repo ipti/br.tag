@@ -1,3 +1,6 @@
+let url = new URL(window.location.href);
+let recordId = url.searchParams.get('id');
+
 $(document).ready(function() {
     $.ajax({
         type: 'POST',
@@ -13,6 +16,22 @@ $(document).ready(function() {
             }));
         });
     })
+
+    if(recordId) {
+        $.ajax({
+            type: 'POST',
+            url: "?r=aeerecord/default/getAeeRecord",
+            cache: false,
+            data: {
+                recordId: recordId
+            }
+        }).success(function(response) {
+            let aeeRecord = JSON.parse(response);
+
+            $("#js-classroom-name").append(aeeRecord[0].classroomName);
+            $("#js-student-name").append(aeeRecord[0].studentName);
+        })
+    }
 });
 
 $(document).on("change", "#classroomSelect", function () {
@@ -29,6 +48,7 @@ $(document).on("change", "#classroomSelect", function () {
         let data = DOMPurify.sanitize(response);
         let students = JSON.parse(data);
         let studentsSelect = $('#studentSelect');
+        $('#studentContainer').removeClass("hide");
 
         studentsSelect.empty();
 
@@ -39,4 +59,28 @@ $(document).on("change", "#classroomSelect", function () {
             }));
         });
     })
+});
+
+$(document).on("click", "#saveAeeRecord", function () {
+    let classroomId = $('#classroomSelect').val();
+    let studentId = $('#studentSelect').val();
+    let learningNeeds = $('#learningNeeds').val();
+    let characterization = $('#characterization').val();
+
+    if(classroomId == "" || studentId == "") {
+        $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: "?r=aeerecord/default/create",
+            cache: false,
+            data: {
+                classroomId: classroomId,
+                studentId: studentId,
+                learningNeeds: learningNeeds,
+                characterization: characterization
+            }
+        }).success(function(response) {
+        })
+    }
 });

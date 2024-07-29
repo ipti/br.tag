@@ -31,7 +31,8 @@ class DefaultController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => array(
                     'getInstructorClassrooms',
-                    'getClassroomStudents'
+                    'getClassroomStudents',
+                    'getAeeRecord'
                 ),
                 'users' => array('@'),
             ),
@@ -98,6 +99,33 @@ class DefaultController extends Controller
         echo json_encode($students);
     }
 
+    public function actionGetAeeRecord() {
+        $completeRecord = [];
+        $recordId = Yii::app()->request->getPost('recordId');
+
+        $sql = "SELECT sar.id, si.name AS studentName, c.name AS classroomName
+                from student_aee_record sar
+                join student_identification si on si.id = sar.student_fk
+                join classroom c on c.id = sar.classroom_fk
+                WHERE sar.id = :record_id";
+
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindValue(':record_id', $recordId, PDO::PARAM_INT);
+
+        $aeeRecord = $command->queryAll();
+
+
+        foreach ($aeeRecord as $record) {
+            array_push($completeRecord, [
+                "id"=> $record["id"],
+                "studentName"=> $record["studentName"],
+                "classroomName"=> $record["classroomName"],
+            ]);
+        }
+
+        echo json_encode($aeeRecord);
+    }
+
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
@@ -109,11 +137,26 @@ class DefaultController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['StudentAeeRecord']))
+		if(Yii::app()->request->isAjaxRequest)
 		{
-			$model->attributes=$_POST['StudentAeeRecord'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			$classroomId = Yii::app()->request->getPost('classroomId');
+			$studentId = Yii::app()->request->getPost('studentId');
+			$learningNeeds = Yii::app()->request->getPost('learningNeeds');
+			$characterization = Yii::app()->request->getPost('characterization');
+
+            $instructor = InstructorIdentification::model()->findByAttributes(array('users_fk'=>Yii::app()->user->loginInfos->id));
+
+            $model->learning_needs = $learningNeeds;
+            $model->characterization = $characterization;
+            $model->student_fk = $studentId;
+            $model->classroom_fk = $classroomId;
+            $model->school_fk = Yii::app()->user->school;
+            $model->instructor_fk = $instructor->id;
+
+            if($model->save()) {
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Ficha AEE foi cadastrada com sucesso!'));
+            }
+
 		}
 
 		$this->render('create',array(

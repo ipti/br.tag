@@ -7,6 +7,13 @@ $this->breadcrumbs=array(
 	'Student Aee Records',
 );
 
+$baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END);
+
 $this->menu=array(
 	array('label'=>'Create StudentAeeRecord', 'url'=>array('create')),
 	array('label'=>'Manage StudentAeeRecord', 'url'=>array('admin')),
@@ -48,8 +55,16 @@ $this->menu=array(
                     'itemsCssClass' => 'js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns'=>array(
                         'id',
-                        'aluno',
-                        'turma',
+                        array(
+                            'name' => 'studentName',
+                            'header' => 'Aluno',
+                            'value' => '$data->studentFk->name',
+                        ),
+                        array(
+                            'name' => 'classroomName',
+                            'header' => 'Turma',
+                            'value' => '$data->classroomFk->name',
+                        ),
                         array(
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',

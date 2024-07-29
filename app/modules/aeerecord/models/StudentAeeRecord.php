@@ -95,20 +95,29 @@ class StudentAeeRecord extends CActiveRecord
 	public function search()
 	{
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('date',$this->date,true);
-		$criteria->compare('learning_needs',$this->learning_needs,true);
-		$criteria->compare('characterization',$this->characterization,true);
-		$criteria->compare('student_fk',$this->student_fk);
-		$criteria->compare('school_fk',$this->school_fk,true);
-		$criteria->compare('classroom_fk',$this->classroom_fk);
-		$criteria->compare('instructor_fk',$this->instructor_fk);
+        $criteria->compare('t.id', $this->id);
+        $criteria->compare('t.date', $this->date, true);
+        $criteria->compare('t.learning_needs', $this->learning_needs, true);
+        $criteria->compare('t.characterization', $this->characterization, true);
+        $criteria->compare('t.student_fk', $this->student_fk);
+        $criteria->compare('t.school_fk', $this->school_fk, true);
+        $criteria->compare('t.classroom_fk', $this->classroom_fk);
+        $criteria->compare('t.instructor_fk', $this->instructor_fk);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+        // Join com a tabela student_identification
+        $criteria->with = array(
+            'studentFk' => array('alias' => 'student'),
+            'classroomFk' => array('alias' => 'classroom')
+        );
+
+        $criteria->compare('student.name', $this->studentName, true);
+        $criteria->compare('classroom.name', $this->classroomName, true);
+
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
 	}
 
 	/**
