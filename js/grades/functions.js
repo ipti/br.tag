@@ -223,7 +223,7 @@ function GradeTableBuilder(data) {
     }
     function buildSemesterAvarage(student, semester, type){
 
-        if(student.semAvarage1 == null && student.semAvarage2 == null && student.semAvarage == 0){
+        /* if(student.semAvarage1 == null && student.semAvarage2 == null && student.semAvarage == 0){
             return '';
         }
         let semesterAvarage = 0
@@ -232,10 +232,10 @@ function GradeTableBuilder(data) {
         } else {
 
             semesterAvarage = semester == 1 ? student.semAvarage1 : student.semAvarage2
-        }
+        } */
 
         return `<td class="grade-td">
-                     ${semesterAvarage}
+                     ${student.semAvarage}
                 </td>`
     }
     function buildUnities(unities, isUnityConcept, conceptOptions) {
@@ -335,8 +335,13 @@ function GradeTableBuilder(data) {
         const numModalities = modalityColumns.length;
         const tableColspan = numModalities + spaceByColumnGrade;
         let semesterAvarage = '';
-        if ((partialRecoveryColumns !== null && partialRecoveryColumns.calculationName === 'Média Semestral') || data.type === "RF") {
-            const semesterText = data.type === "RF" ? "Média dos Semestres" : `Média ${semester}° Semestre`;
+        if (data.showSemAvarageColumn) {
+            let semesterText = ""
+            if(data.type === "RF") {
+                semesterText = "Média dos Semestres"
+            } else {
+                semesterText = `Média ${semester}° Semestre`
+            }
             semesterAvarage = `
                 <th style="min-width: 50px; font-weight: bold;">
                     ${semesterText}
