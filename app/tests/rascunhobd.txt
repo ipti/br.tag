@@ -1,38 +1,279 @@
-Observe esse código abaixo:
+Observe esse código:
+
+código 01:
+<?php
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+
+if (!isset($school)) {
+    $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+}
+list($day, $month, $year) = explode('/', $student['birthday']);
+$months = array(
+    '01' => 'Janeiro', '02' => 'Fevereiro', '03' => 'Março', '04' => 'Abril',
+    '05' => 'Maio', '06' => 'Junho', '07' => 'Julho', '08' => 'Agosto',
+    '09' => 'Setembro', '10' => 'Outubro', '11' => 'Novembro', '12' => 'Dezembro'
+);
+$monthName = $months[$month];
+
+$disciplinas = array(
+    1 => 'Química',
+    2 => 'Física',
+    3 => 'Matemática',
+    4 => 'Biologia',
+    5 => 'Ciências',
+    6 => 'Português',
+    7 => 'Inglês',
+    8 => 'Espanhol',
+    9 => 'Outro Idioma',
+    10 => 'Artes',
+    11 => 'Educação Física',
+    12 => 'História',
+    13 => 'Geografia',
+    14 => 'Filosofia',
+    16 => 'Informática',
+    17 => 'Disc. Profissionalizante',
+    20 => 'Educação Especial',
+    21 => 'Sociedade e Cultura',
+    23 => 'Libras',
+    25 => 'Disciplinas pedagógicas',
+    26 => 'Ensino religioso',
+    27 => 'Língua indígena',
+    28 => 'Estudos Sociais',
+    29 => 'Sociologia',
+    30 => 'Francês',
+    99 => 'Outras Disciplinas',
+    10001 => 'Redação',
+    10002 => 'Linguagem oral e escrita',
+    10003 => 'Natureza e sociedade',
+    10004 => 'Movimento',
+    10005 => 'Música',
+    10006 => 'Artes visuais',
+    10007 => 'Acompanhamento Pedagógico',
+    10008 => 'Teatro',
+    10009 => 'Canteiro Sustentável',
+    10010 => 'Dança',
+    10011 => 'Cordel',
+    10012 => 'Física'
+);
+
+$disciplineData = $student['schoolData'];
+
+CVarDumper::dump($disciplineData, 10, true);
+?>
 
 
-preciso pegar essas informações de $baseDisciplines e colocar em cada uma das linhas abaixo da linha 
 
+Código 02 ele retornar os dados de $disciplineData abaixo:
 array
 (
-    5 => 'Ciências'
-    13 => 'Geografia'
-    10 => 'Artes'
-    3 => 'Matemática'
-    11 => 'Educação Física'
-    6 => 'Português'
-    12 => 'História'
-    7 => 'Inglês'
-)
+    '1º ANO INTEGRAL' => array
+    (
+        'school_year' => '2023'
+        'address' => 'POV. BOA VISTA DO FUNDUNGA TV III'
+        'city_name' => 'ESTANCIA'
+        'uf_acronym' => 'SE'
+        'uf_name' => 'Sergipe'
+        'etapa_name' => 'Ensino Fundamental de 9 anos Integral - 1º Ano'
+        'base_disciplines' => array
+        (
+            0 => array
+            (
+                'discipline_name' => 'Ciências'
+                'discipline_id' => '5'
+                'grade_1' => '18'
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '18'
+            )
+            1 => array
+            (
+                'discipline_name' => 'Geografia'
+                'discipline_id' => '13'
+                'grade_1' => '1.8'
+                'grade_2' => '5'
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '1.8'
+            )
+            2 => array
+            (
+                'discipline_name' => 'Arte (Educação Artística, Teatro, Dança, Música, Artes Plásticas e outras)'
+                'discipline_id' => '10'
+                'grade_1' => '4.3'
+                'grade_2' => '5'
+                'grade_3' => '6'
+                'grade_4' => null
+                'final_media' => '4.3'
+            )
+            3 => array
+            (
+                'discipline_name' => 'Matemática'
+                'discipline_id' => '3'
+                'grade_1' => '10'
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '16.3'
+            )
+            4 => array
+            (
+                'discipline_name' => 'Educação Física'
+                'discipline_id' => '11'
+                'grade_1' => '10'
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '18.5'
+            )
+            5 => array
+            (
+                'discipline_name' => 'Língua /Literatura Portuguesa '
+                'discipline_id' => '6'
+                'grade_1' => null
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '0'
+            )
+        )
+        'diversified_disciplines' => array()
+    )
+    'TESTE ESTRUTURA DE NOTAS' => array
+    (
+        'school_year' => '2023'
+        'address' => 'POV. BOA VISTA DO FUNDUNGA TV III'
+        'city_name' => 'ESTANCIA'
+        'uf_acronym' => 'SE'
+        'uf_name' => 'Sergipe'
+        'etapa_name' => 'Ensino Fundamental de 9 anos Integral - 1º Ano'
+        'base_disciplines' => array
+        (
+            0 => array
+            (
+                'discipline_name' => 'Arte (Educação Artística, Teatro, Dança, Música, Artes Plásticas e outras)'
+                'discipline_id' => '10'
+                'grade_1' => '15'
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '15'
+            )
+        )
+        'diversified_disciplines' => array()
+    )
+    'EDUCACAO INFANTIL B' => array
+    (
+        'school_year' => '2023'
+        'address' => 'POV. BOA VISTA DO FUNDUNGA TV III'
+        'city_name' => 'ESTANCIA'
+        'uf_acronym' => 'SE'
+        'uf_name' => 'Sergipe'
+        'etapa_name' => 'Educação Infantil - Pré-escola (4 e 5 anos)'
+        'base_disciplines' => array
+        (
+            0 => array
+            (
+                'discipline_name' => 'Matemática'
+                'discipline_id' => '3'
+                'grade_1' => null
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '0'
+            )
+            1 => array
+            (
+                'discipline_name' => 'Ciências'
+                'discipline_id' => '5'
+                'grade_1' => null
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '0'
+            )
+            2 => array
+            (
+                'discipline_name' => 'Língua /Literatura Portuguesa '
+                'discipline_id' => '6'
+                'grade_1' => null
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '0'
+            )
+            3 => array
+            (
+                'discipline_name' => 'Arte (Educação Artística, Teatro, Dança, Música, Artes Plásticas e outras)'
+                'discipline_id' => '10'
+                'grade_1' => null
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '0'
+            )
+        )
+        'diversified_disciplines' => array
+        (
+            0 => array
+            (
+                'discipline_name' => 'Biologia II'
+                'discipline_id' => '4'
+                'grade_1' => null
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '0'
+            )
+            1 => array
+            (
+                'discipline_name' => 'Língua /Literatura estrangeira - Espanhol'
+                'discipline_id' => '8'
+                'grade_1' => null
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '0'
+            )
+            2 => array
+            (
+                'discipline_name' => 'Física'
+                'discipline_id' => '2'
+                'grade_1' => null
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '0'
+            )
+            3 => array
+            (
+                'discipline_name' => 'Teatro'
+                'discipline_id' => '10008'
+                'grade_1' => null
+                'grade_2' => null
+                'grade_3' => null
+                'grade_4' => null
+                'final_media' => '0'
+            )
+        )
+    )
 
-colocar em cada uma colunas da tabela nessa parte:
-<tr>
-                <th class="vertical-header">IDADE</th>
-                <th class="vertical-header">SÉRIE</th>
+Eu preciso varrer cada um desses dados e adicionar as informações como 'discipline_id' => '10008' e adicionar na parte onde tem o comentário das colunas
 
-                <?php foreach ($student['disciplines'] as $discipline): ?>
-                    <th class="vertical-header"><?php echo CHtml::encode($discipline); ?></th>
-                <?php endforeach; ?>
+        <tr>
+            <th class="vertical-header">IDADE</th>
+            <th class="vertical-header">SÉRIE</th>
 
-                <th class="vertical-header">MÉDIA ANUAL</th>
-                <th class="vertical-header">ANO</th>
-            </tr>
+        // adicionar nas colunas aqui
 
-colcoar aqui:
-
-    <?php foreach ($student['disciplines'] as $discipline): ?>
-        <th class="vertical-header"><?php echo CHtml::encode($discipline); ?></th>
-    <?php endforeach; ?>
+            <th class="vertical-header">MÉDIA ANUAL</th>
+            <th class="vertical-header">ANO</th>
+        </tr>
+        
 
 
+
+Agora preciso criar uma função para calcular a média anual. Ou seja, calcular a média em cada final_media
 

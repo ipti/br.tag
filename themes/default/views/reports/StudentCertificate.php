@@ -55,74 +55,21 @@ $disciplinas = array(
     10012 => 'Física'
 );
 
-function extractDisciplineIdsAndMedia($data) {
-    $result = [];
-
-    foreach ($data as $key => $info) {
-        $result[$key] = [
-            'base_disciplines' => array_map(function($discipline) {
-                return [
-                    'discipline_id' => $discipline['discipline_id'],
-                    'final_media' => $discipline['final_media'] !== null ? $discipline['final_media'] : 0
-                ];
-            }, $info['base_disciplines']),
-            'diversified_disciplines' => array_map(function($discipline) {
-                return [
-                    'discipline_id' => $discipline['discipline_id'],
-                    'final_media' => $discipline['final_media'] !== null ? $discipline['final_media'] : 0
-                ];
-            }, $info['diversified_disciplines']),
-        ];
-    }
-
-    return $result;
-}
-
-function getUniqueDisciplineIdsByType($data) {
-    $baseDisciplineIds = [];
-    $diversifiedDisciplineIds = [];
-
-    foreach ($data as $info) {
-        foreach ($info['base_disciplines'] as $discipline) {
-            $baseDisciplineIds[] = $discipline['discipline_id'];
-        }
-        foreach ($info['diversified_disciplines'] as $discipline) {
-            $diversifiedDisciplineIds[] = $discipline['discipline_id'];
-        }
-    }
-    $uniqueBaseDisciplineIds = array_unique($baseDisciplineIds);
-    $uniqueDiversifiedDisciplineIds = array_unique($diversifiedDisciplineIds);
-
-    return [
-        'base_disciplines' => $uniqueBaseDisciplineIds,
-        'diversified_disciplines' => $uniqueDiversifiedDisciplineIds
-    ];
-}
-
-function getDisciplineNames($ids, $disciplinas) {
-    $names = [];
-
-    foreach ($ids as $id) {
-        if (isset($disciplinas[$id])) {
-            $names[$id] = $disciplinas[$id];
-        } else {
-            $names[$id] = 'Desconhecida'; 
-        }
-    }
-
-    return $names;
-}
-
-$disciplineData = extractDisciplineIdsAndMedia($student['schoolData']);
-$uniqueDisciplineIdsByType = getUniqueDisciplineIdsByType($student['schoolData']);
-
-$baseDisciplinesNames = getDisciplineNames($uniqueDisciplineIdsByType['base_disciplines'], $disciplinas);
-$diversifiedDisciplinesNames = getDisciplineNames($uniqueDisciplineIdsByType['diversified_disciplines'], $disciplinas);
+$disciplineData = $student['schoolData'];
 
 CVarDumper::dump($disciplineData, 10, true);
-//  Separando as disciplinas .....
-CVarDumper::dump($baseDisciplinesNames, 10, true);
-CVarDumper::dump($diversifiedDisciplinesNames, 10, true);
+
+$disciplineIds = [];
+
+
+foreach ($disciplineData as $classData) {
+    foreach ($classData['base_disciplines'] as $discipline) {
+        if (!in_array($discipline['discipline_id'], $disciplineIds)) {
+            $disciplineIds[] = $discipline['discipline_id'];
+        }
+    }
+}
+
 ?>
 
 
@@ -188,30 +135,56 @@ CVarDumper::dump($diversifiedDisciplinesNames, 10, true);
         <table class="school-record-table">
             <tr>
                 <th rowspan="11" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
-                <th colspan="10" style="text-align: center">DISCIPLINAS</th>
+                <th colspan="<?php echo $colspan; ?>" style="text-align: center">DISCIPLINAS</th> <!-- Usando colspan dinâmico -->
                 <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
             </tr>
             <tr>
                 <th class="vertical-header">IDADE</th>
                 <th class="vertical-header">SÉRIE</th>
 
-                <?php foreach ($student['disciplines'] as $discipline): ?>
-                    <th class="vertical-header"><?php echo CHtml::encode($discipline); ?></th>
+                <?php foreach ($disciplineIds as $disciplineId): ?>
+                    <th class="vertical-header">
+                        <?php echo isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : "Disciplina $disciplineId"; ?>
+                    </th>
                 <?php endforeach; ?>
 
                 <th class="vertical-header">MÉDIA ANUAL</th>
                 <th class="vertical-header">ANO</th>
-            </tr>
+                </tr>
             <tr>
                 <td></td>
+                
+                
+
                 <td><?php echo substr($student['class_name'], 0, strpos($student['class_name'], ' ')); ?></td>
+
+
                 <?php foreach ($student['grades'] as $grade): ?>
                     <td><?php echo CHtml::encode($grade); ?></td>
                 <?php endforeach; ?>
+
+
+
                 <td><?php echo isset($student['annual_average']) ? number_format($student['annual_average'], 1) : '---'; ?></td>
+                
+                
                 <td><?php echo CHtml::encode($student['school_year']); ?></td>
+
+
+
+                    
+
+
+
+
+
+
+
+
+
+
+
             </tr>
-            <!-- Adicione linhas adicionais se necessário -->
             <tr>
                 <td></td>
                 <td colspan="10"></td>
@@ -225,8 +198,10 @@ CVarDumper::dump($diversifiedDisciplinesNames, 10, true);
         </table>
     </div>
 </div>
-<br>
 
+
+
+<br>
 <script>
     function imprimirPagina() {
         window.print();
