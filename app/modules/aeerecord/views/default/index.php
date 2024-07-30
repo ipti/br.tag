@@ -75,6 +75,7 @@ $this->menu=array(
                                 ),
                                 'delete' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    'options' => array('class' => 'delete-button'),
                                 )
                             ),
                             'updateButtonOptions' => array('style' => 'margin-right: 20px;', 'class'=>""),

@@ -32,7 +32,9 @@ class DefaultController extends Controller
                 'actions' => array(
                     'getInstructorClassrooms',
                     'getClassroomStudents',
-                    'getAeeRecord'
+                    'getAeeRecord',
+                    'checkStudentAeeRecord',
+                    'delete'
                 ),
                 'users' => array('@'),
             ),
@@ -126,6 +128,18 @@ class DefaultController extends Controller
         echo json_encode($aeeRecord);
     }
 
+    public function actionCheckStudentAeeRecord() {
+        $studentId = Yii::app()->request->getPost('studentId');
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.student_fk = :student';
+        $criteria->params = array(':student' => $studentId);
+        $existingAeeRecord = StudentAeeRecord::model()->find($criteria);
+
+        $response = $existingAeeRecord ? $existingAeeRecord->id : '';
+        echo json_encode($response);
+    }
+
 	public function actionCreate()
 	{
 		$model=new StudentAeeRecord;
@@ -189,9 +203,9 @@ class DefaultController extends Controller
 	{
 		$this->loadModel($id)->delete();
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        Yii::app()->user->setFlash('success', Yii::t('default', 'Ficha AEE excluída com sucesso!'));
+
+        $this->redirect(array('index'));
 	}
 
 	/**

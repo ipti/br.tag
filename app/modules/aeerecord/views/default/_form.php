@@ -23,6 +23,10 @@ $form=$this->beginWidget('CActiveForm', array(
             <p></p>
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
+            <a class="t-button-secondary <?php echo $model->isNewRecord ? 'hide' : '' ?>" target="_blank"  rel="noopener"
+                href="<?php echo Yii::app()->createUrl('aeerecord/reports/aeeRecordReport') ?>">
+                <span class="t-icon-printer"></span>Imprimir
+            </a>
             <button id="saveAeeRecord" class="t-button-primary" type="button">
                 <?= $model->isNewRecord ? Yii::t('default', 'Cadastrar') : Yii::t('default', 'Save') ?>
             </button>
@@ -39,8 +43,8 @@ $form=$this->beginWidget('CActiveForm', array(
 
     <div class="row <?php echo $model->isNewRecord ? 'hide' : '' ?>">
         <div class="column clearfix">
-            <p id="js-classroom-name"><b>Turma: </b></p>
-            <p id="js-student-name"><b>Aluno: </b></p>
+            <p id="js-classroom-name"><b class="text-bold">Turma: </b></p>
+            <p id="js-student-name"><b class="text-bold">Aluno: </b></p>
         </div>
     </div>
 
