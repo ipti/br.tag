@@ -1649,6 +1649,7 @@ public function getStudentCertificate($enrollment_id): array
             si.filiation_2,
             c.name AS class_name,
             c.school_year,
+            sch.name AS school_name,  -- Adiciona o nome da escola
             ed.name AS discipline_name,
             ed.id AS discipline_id,
             gr.grade_1,
@@ -1671,6 +1672,7 @@ public function getStudentCertificate($enrollment_id): array
         JOIN edcenso_city ec ON ec.id = si.edcenso_city_fk
         JOIN edcenso_uf eu ON eu.id = ec.edcenso_uf_fk
         JOIN edcenso_stage_vs_modality esv ON esv.id = c.edcenso_stage_vs_modality_fk
+        JOIN school_identification sch ON sch.inep_id = c.school_inep_fk  -- JOIN para obter o nome da escola
         WHERE
             se.student_fk = :student_fk
     ");
@@ -1690,6 +1692,7 @@ public function getStudentCertificate($enrollment_id): array
         if (!isset($formattedResult[$class_name])) {
             $formattedResult[$class_name] = [
                 'school_year' => $school_year,
+                'school_name' => $row['school_name'],  // Adiciona o nome da escola
                 'address' => $row['address'],
                 'city_name' => $row['city_name'],
                 'uf_acronym' => $row['uf_acronym'],
@@ -1742,11 +1745,6 @@ public function getStudentCertificate($enrollment_id): array
 
     return ['student' => $finalResult];
 }
-
-
-
-
-
 
 
 

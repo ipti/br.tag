@@ -57,7 +57,7 @@ $disciplinas = array(
 
 $disciplineData = $student['schoolData'];
 
-CVarDumper::dump($disciplineData, 10, true);
+// CVarDumper::dump($disciplineData, 10, true);
 
 $disciplineIds = [];
 
@@ -69,7 +69,6 @@ foreach ($disciplineData as $classData) {
         }
     }
 }
-
 ?>
 
 
@@ -130,76 +129,97 @@ foreach ($disciplineData as $classData) {
     <?php $this->renderPartial('footer'); ?>
 </div>
 
+<?php 
+$rowspanValue = count($disciplineData) + 2;
+?>
+
 <div class="container-school-record">
-    <div class="table-contant" style="display: flex; align-items: center; justify-content: center;">
+    <div class="table-content" style="display: flex; align-items: center; justify-content: center;">
         <table class="school-record-table">
             <tr>
-                <th rowspan="11" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
-                <th colspan="<?php echo $colspan; ?>" style="text-align: center">DISCIPLINAS</th> <!-- Usando colspan dinâmico -->
+                <th rowspan="<?php echo $rowspanValue; ?>" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
+                <th colspan="<?php echo count($disciplineIds) + 4; ?>" style="text-align: center">DISCIPLINAS</th>
                 <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
             </tr>
             <tr>
                 <th class="vertical-header">IDADE</th>
                 <th class="vertical-header">SÉRIE</th>
-
                 <?php foreach ($disciplineIds as $disciplineId): ?>
                     <th class="vertical-header">
-                        <?php echo isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : "Disciplina $disciplineId"; ?>
+                        <?php echo mb_strtoupper(isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : "Disciplina $disciplineId", 'UTF-8'); ?>
                     </th>
                 <?php endforeach; ?>
-
                 <th class="vertical-header">MÉDIA ANUAL</th>
                 <th class="vertical-header">ANO</th>
+            </tr>
+            <?php foreach ($disciplineData as $className => $classData): ?>
+                <tr>
+                    <td><?php echo ($classData['school_year'] - $year) . ' anos'; ?></td>
+                    <td><?php echo $className; ?></td>
+                    <?php
+                    $totalMedia = 0;
+                    $numDisciplines = 0;
+                    foreach ($disciplineIds as $disciplineId): ?>
+                        <?php
+                        $found = false;
+                        foreach ($classData['base_disciplines'] as $discipline) {
+                            if ($discipline['discipline_id'] == $disciplineId) {
+                                $finalMedia = $discipline['final_media'] !== null ? $discipline['final_media'] : 0;
+                                echo "<td>{$finalMedia}</td>";
+                                $totalMedia += $finalMedia;
+                                $numDisciplines++;
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            echo "<td>0</td>";
+                        }
+                        ?>
+                    <?php endforeach; ?>
+                    <td>
+                        <?php
+                        if ($numDisciplines > 0) {
+                            $mediaAnual = $totalMedia / $numDisciplines;
+                            echo number_format($mediaAnual, 2); // Formata a média para 2 casas decimais
+                        } else {
+                            echo "0";
+                        }
+                        ?>
+                    </td>
+                    <td><?php echo $classData['school_year']; ?></td>
+                    <!-- Adicionando o nome do estabelecimento -->
+                    <td><?php echo isset($classData['school_name']) ? $classData['school_name'] : ''; ?></td>
                 </tr>
+            <?php endforeach; ?>
             <tr>
-                <td></td>
-                
-                
-
-                <td><?php echo substr($student['class_name'], 0, strpos($student['class_name'], ' ')); ?></td>
-
-
-                <?php foreach ($student['grades'] as $grade): ?>
-                    <td><?php echo CHtml::encode($grade); ?></td>
-                <?php endforeach; ?>
-
-
-
-                <td><?php echo isset($student['annual_average']) ? number_format($student['annual_average'], 1) : '---'; ?></td>
-                
-                
-                <td><?php echo CHtml::encode($student['school_year']); ?></td>
-
-
-
-                    
-
-
-
-
-
-
-
-
-
-
-
-            </tr>
-            <tr>
-                <td></td>
-                <td colspan="10"></td>
                 <th></th>
+                <td colspan="<?php echo count($disciplineIds) + 4; ?>"></td>  
             </tr>
             <tr>
                 <td></td>
-                <td colspan="10"></td>
+                <td colspan="<?php echo count($disciplineIds) + 4; ?>"></td>
                 <th rowspan="1">Autentificação</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="12"></td>    
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="12"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="12"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="12"></td>
             </tr>
         </table>
     </div>
 </div>
-
-
 
 <br>
 <script>
@@ -278,6 +298,7 @@ foreach ($disciplineData as $classData) {
         margin: 50px;
         /* table-layout: fixed; */
         border: 2px solid #000;
+        
     }
 
     .school-record-table th, .school-record-table td {

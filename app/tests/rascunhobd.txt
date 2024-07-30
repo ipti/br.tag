@@ -271,9 +271,134 @@ Eu preciso varrer cada um desses dados e adicionar as informações como 'discip
             <th class="vertical-header">MÉDIA ANUAL</th>
             <th class="vertical-header">ANO</th>
         </tr>
-        
 
 
 
-Agora preciso criar uma função para calcular a média anual. Ou seja, calcular a média em cada final_media
+Observe esse código abaixo:
+<div class="container-school-record">
+    <div class="table-contant" style="display: flex; align-items: center; justify-content: center;">
+        <table class="school-record-table">
+            <tr>
+                <th rowspan="11" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
+                <th colspan="<?php echo $colspan; ?>" style="text-align: center">DISCIPLINAS</th> <!-- Usando colspan dinâmico -->
+                <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
+            </tr>
+            <tr>
+                <th class="vertical-header">IDADE</th>
+                <th class="vertical-header">SÉRIE</th>
 
+                <?php foreach ($disciplineIds as $disciplineId): ?>
+                    <th class="vertical-header">
+                        <?php echo isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : "Disciplina $disciplineId"; ?>
+                    </th>
+                <?php endforeach; ?>
+                <th class="vertical-header">MÉDIA ANUAL</th>
+                <th class="vertical-header">ANO</th>
+                </tr>
+            <tr>
+                <?php foreach ($disciplineData as $className => $classData): ?>
+                        <tr>
+                        <td></td>
+                            <td><?php echo $className; ?></td>
+
+                            <?php foreach ($disciplineIds as $disciplineId): ?>
+                                <?php
+                                $found = false;
+                                foreach ($classData['base_disciplines'] as $discipline) {
+                                    if ($discipline['discipline_id'] == $disciplineId) {
+                                        echo "<td>{$discipline['final_media']}</td>";
+                                        $found = true;
+                                        break;
+                                    }
+                                }
+                                if (!$found) {
+                                    echo "<td>0</td>";
+                                }
+                                ?>
+                            <?php endforeach; ?>
+
+                            <td><!-- Média anual, se necessário --></td>
+                            <td><?php echo $classData['school_year']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="10"></td>
+                <th></th>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="10"></td>
+                <th rowspan="1">Autentificação</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+Como fazer para organizar a tabela, o codigo abaixo eu preciso que 
+<div class="container-school-record">
+    <div class="table-contant" style="display: flex; align-items: center; justify-content: center;">
+        <table class="school-record-table">
+            <tr>
+                <th rowspan="11" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
+                <th colspan="<?php echo $colspan; ?>" style="text-align: center">DISCIPLINAS</th> <!-- Usando colspan dinâmico -->
+                <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
+            </tr>
+            <tr>
+                <th class="vertical-header">IDADE</th>
+                <th class="vertical-header">SÉRIE</th>
+
+                <?php foreach ($disciplineIds as $disciplineId): ?>
+                    <th class="vertical-header">
+                        <?php echo isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : "Disciplina $disciplineId"; ?>
+                    </th>
+                <?php endforeach; ?>
+                <th class="vertical-header">MÉDIA ANUAL</th>
+                <th class="vertical-header">ANO</th>
+                </tr>
+            <tr>
+                <?php foreach ($disciplineData as $className => $classData): ?>
+                        <tr>
+                        <td></td>
+                            <td><?php echo $className; ?></td>
+
+                            <?php foreach ($disciplineIds as $disciplineId): ?>
+                                <?php
+                                $found = false;
+                                foreach ($classData['base_disciplines'] as $discipline) {
+                                    if ($discipline['discipline_id'] == $disciplineId) {
+                                        echo "<td>{$discipline['final_media']}</td>";
+                                        $found = true;
+                                        break;
+                                    }
+                                }
+                                if (!$found) {
+                                    echo "<td>0</td>";
+                                }
+                                ?>
+                            <?php endforeach; ?>
+
+                            <td><!-- Média anual, se necessário --></td>
+                            <td><?php echo $classData['school_year']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="10"></td>
+                <th></th>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="10"></td>
+                <th rowspan="1">Autentificação</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+eu preciso que fique dentro da coluna de disciplinas, ou seja, (IDADE	SÉRIE	Ciências	Geografia	Artes	Matemática	Educação Física	Português	História	Inglês	MÉDIA ANUAL	A) fiquem na coluna de disciplina (essas atributos são informações recebidas do banco , ou seja, dados variados)

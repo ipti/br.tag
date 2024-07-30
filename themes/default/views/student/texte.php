@@ -263,9 +263,6 @@ foreach ($disciplineData as $classData) {
         }
     }
 }
-
-
-
 ?>
 
 
@@ -373,3 +370,5 @@ foreach ($disciplineData as $classData) {
     </div>
 </div>
 <br>
+
+Com ofazer para organizar na tabela, preciso que os dados acima fique 
