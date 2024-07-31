@@ -3178,7 +3178,7 @@ public function getStudentCertificate($enrollment_id): array
                             $gradeIndex++;
                             break;
                         case "RS":
-                            $grade["unityGrade"] = $gradeResult["rec_sem_" . ($recSemIndex + 1)] != null ? $gradeResult["rec_sem_" . ($recSemIndex + 1)] : "";
+                            $grade["unityGrade"] = $gradeResult["sem_rec_partial_" . ($recSemIndex + 1)] != null ? $gradeResult["sem_rec_partial_" . ($recSemIndex + 1)] : "";
                             $recSemIndex++;
                             break;
                         case "RF":

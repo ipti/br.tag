@@ -71,6 +71,18 @@ foreach ($disciplineData as $classData) {
         }
     }
 }
+
+
+$disciplineIdsDiversified = [];
+
+foreach ($disciplineData as $classData) {
+    foreach ($classData['diversified_disciplines'] as $discipline) {
+        if (!in_array($discipline['discipline_id'], $disciplineIdsDiversified)) {
+            $disciplineIdsDiversified[] = $discipline['discipline_id'];
+        }
+    }
+}
+
 ?>
 
 
@@ -136,11 +148,11 @@ $rowspanValue = count($disciplineData) + 2;
 ?>
 
 <div class="container-school-record">
-    <div class="table-content" style="display: flex; align-items: center; justify-content: center;">
+    <div class="table-content" style="display: flex; align-items: center; justify-content: center; width: 100%;">
         <table class="school-record-table">
             <tr>
                 <th rowspan="<?php echo $rowspanValue; ?>" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
-                <th colspan="<?php echo count($disciplineIds) + 4; ?>" style="text-align: center">DISCIPLINAS</th>
+                <th colspan="<?php echo count($disciplineIds) + 4; ?>" style="text-align: center">DISCIPLINAS BASE NACIONAL COMUM</th>
                 <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
             </tr>
             <tr>
@@ -201,7 +213,7 @@ $rowspanValue = count($disciplineData) + 2;
             <tr>
                 <td></td>
                 <td colspan="<?php echo count($disciplineIds) + 4; ?>"></td>
-                <th rowspan="1">Autentificação</th>
+                <th rowspan="5">Autentificação</th>
             </tr>
             <tr>
                 <td></td>
@@ -223,171 +235,22 @@ $rowspanValue = count($disciplineData) + 2;
     </div>
 </div>
 
-<br>
-<script>
-    function imprimirPagina() {
-        window.print();
-    }
-</script>
-
-<style>
-    .pageA4H {
-        border-radius: 10px;
-        padding: 10px;
-        border: 2px solid #000;
-        font-family: 'Arial', sans-serif;
-        width: 90%;
-        height: 100%;
-        position: relative;
-        box-sizing: border-box;
-        margin: 23px 60px 23px 60px;
-    }
-
-    h1, h4, h5 {
-        margin-top:5px;
-    }
-    h4 {
-        font-size: 13.99px;
-        font-weight: 700;
-        color: #252A31;
-    }
-    h5 {
-        font-size: 13.99px;
-        font-weight: 400;
-        color: #252A31;
-    }
-    h1 {
-        font-weight: 900;
-        font-size: 35.13px;
-        color: #16205B;
-        margin: 20px;
-    }
-    .content-data {
-        margin-top: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    p {
-        margin: 5px 0;
-        font-size: 14px;
-        font-weight: 500;
-    }
-    .signature-section {
-        margin-top: 25px;
-        text-align: center;
-    }
-
-    .signature-section p {
-        margin: 20px 0;
-    }
-    .container-certificate {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        text-align: justify;
-        padding: 10px 60px;
-    }
-    .content-data-signature {
-        display: flex;
-        justify-content: space-around;
-        gap: 200px;
-        margin-top: 20px;
-    }
-    .school-record-table {
-        width: 90%;
-        border-collapse: collapse;
-        margin: 50px;
-        /* table-layout: fixed; */
-        border: 2px solid #000;
-
-    }
-
-    .school-record-table th, .school-record-table td {
-        border: 1px solid #000;
-        text-align: center;
-        padding: 5px;
-        width: 40px;
-    }
-
-    .school-record-table th.vertical-header {
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-        min-width: 10px;
-    }
-
-    .school-record-table thead th {
-        background-color: #f0f0f0;
-        font-weight: bold;
-        vertical-align: middle;
-    }
-
-    .school-record-table tbody td {
-        height: 11px;
-    }
-
-    .container-school-record {
-        page-break-before: always;
-        margin-top: 20px;
-        display: flex;
-
-    }
-
-    .signature-section {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .signature-section p {
-        margin: 5px 0;
-        font-weight: bold;
-    }
-
-    .school-record-table thead th[rowspan="2"] {
-        height: 80px;
-    }
-
-    .school-record-table thead th[colspan="12"] {
-        text-align: center;
-    }
-
-    .school-record-table th.estabelecimento {
-        width: 387px;
-    }
-    .school-record-table th.th-disciplinas {
-        width: 300px;
-    }
-
-    .school-record-table th.vida-escolar {
-        width: 42px;
-    }
-
-    @media print {
-        .hidden-print {
-            display: none;
-        }
-
-        @page {
-            size: landscape;
-        }
-    }
-</style>
 
 
-Preciso que crie uma mesma tabela que essa:
 
+<!-- Nova tabela usando diversified_disciplines -->
 <div class="container-school-record">
-    <div class="table-content" style="display: flex; align-items: center; justify-content: center;">
+    <div class="table-content" style="display: flex; align-items: center; justify-content: center;     width: 100%;">
         <table class="school-record-table">
             <tr>
                 <th rowspan="<?php echo $rowspanValue; ?>" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
-                <th colspan="<?php echo count($disciplineIds) + 4; ?>" style="text-align: center">DISCIPLINAS</th>
+                <th colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>" style="text-align: center">DISCIPLINAS DIVERSIFICADAS</th>
                 <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
             </tr>
             <tr>
                 <th class="vertical-header">IDADE</th>
                 <th class="vertical-header">SÉRIE</th>
-                <?php foreach ($disciplineIds as $disciplineId): ?>
+                <?php foreach ($disciplineIdsDiversified as $disciplineId): ?>
                     <th class="vertical-header">
                         <?php echo mb_strtoupper(isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : "Disciplina $disciplineId", 'UTF-8'); ?>
                     </th>
@@ -402,10 +265,10 @@ Preciso que crie uma mesma tabela que essa:
                     <?php
                     $totalMedia = 0;
                     $numDisciplines = 0;
-                    foreach ($disciplineIds as $disciplineId): ?>
+                    foreach ($disciplineIdsDiversified as $disciplineId): ?>
                         <?php
                         $found = false;
-                        foreach ($classData['base_disciplines'] as $discipline) {
+                        foreach ($classData['diversified_disciplines'] as $discipline) {
                             if ($discipline['discipline_id'] == $disciplineId) {
                                 $finalMedia = $discipline['final_media'] !== null ? $discipline['final_media'] : 0;
                                 echo "<td>{$finalMedia}</td>";
@@ -431,18 +294,17 @@ Preciso que crie uma mesma tabela que essa:
                         ?>
                     </td>
                     <td><?php echo $classData['school_year']; ?></td>
-                    <!-- Adicionando o nome do estabelecimento -->
                     <td><?php echo isset($classData['school_name']) ? $classData['school_name'] : ''; ?></td>
                 </tr>
             <?php endforeach; ?>
             <tr>
                 <th></th>
-                <td colspan="<?php echo count($disciplineIds) + 4; ?>"></td>
+                <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="<?php echo count($disciplineIds) + 4; ?>"></td>
-                <th rowspan="1">Autentificação</th>
+                <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
+                <th rowspan="5">Autentificação</th>
             </tr>
             <tr>
                 <td></td>
@@ -464,4 +326,38 @@ Preciso que crie uma mesma tabela que essa:
     </div>
 </div>
 
-a diferença é que ao invés de usar a base_disciplines use diversified_disciplines
+Nessa parte eu preciso que colcoque esse nome Autentificação na primeira linha dessa coluna <th rowspan="5">Autentificação</th> e não fique no meio como esle está
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tr>
+    <th></th>
+    <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
+    <th rowspan="5" class="autenticacao">Autentificação</th> <!-- Mantenha o rowspan aqui -->
+</tr>
+<tr>
+    <td></td>
+    <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
+</tr>
+<tr>
+    <td></td>
+    <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
+</tr>
+<tr>
+    <td></td>
+    <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
+</tr>
+<tr>
+    <td></td>
+    <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
+</tr>

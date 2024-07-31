@@ -57,36 +57,26 @@ $disciplinas = array(
 
 $disciplineData = $student['schoolData'];
 
-// CVarDumper::dump($disciplineData, 10, true);
+CVarDumper::dump($disciplineData, 10, true);
 
 $disciplineIds = [];
-
-
-foreach ($disciplineData as $classData) {
-    foreach ($classData['base_disciplines'] as $discipline) {
-        if (!in_array($discipline['discipline_id'], $disciplineIds)) {
-            $disciplineIds[] = $discipline['discipline_id'];
-        }
-    }
-}
-
-
 $disciplineIdsDiversified = [];
 
 foreach ($disciplineData as $classData) {
-    foreach ($classData['diversified_disciplines'] as $discipline) {
-        if (!in_array($discipline['discipline_id'], $disciplineIdsDiversified)) {
-            $disciplineIdsDiversified[] = $discipline['discipline_id'];
+    foreach (['base_disciplines', 'diversified_disciplines'] as $type) {
+        foreach ($classData[$type] as $discipline) {
+            if ($type === 'base_disciplines') {
+                $disciplineIds[$discipline['discipline_id']] = true;
+            } else {
+                $disciplineIdsDiversified[$discipline['discipline_id']] = true;
+            }
         }
     }
 }
 
+$disciplineIds = array_keys($disciplineIds);
+$disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
 ?>
-
-
-
-
-
 
 <div class="pageA4H">
     <div style="text-align: center;">
@@ -145,12 +135,12 @@ foreach ($disciplineData as $classData) {
     <?php $this->renderPartial('footer'); ?>
 </div>
 
-<?php
-$rowspanValue = count($disciplineData) + 2;
-?>
+
+<?php $rowspanValue = count($disciplineData) + 2; ?>
+
 
 <div class="container-school-record">
-    <div class="table-content" style="display: flex; align-items: center; justify-content: center;">
+    <div class="table-content" style="display: flex; align-items: center; justify-content: center; width: 100%;">
         <table class="school-record-table">
             <tr>
                 <th rowspan="<?php echo $rowspanValue; ?>" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
@@ -197,52 +187,40 @@ $rowspanValue = count($disciplineData) + 2;
                         <?php
                         if ($numDisciplines > 0) {
                             $mediaAnual = $totalMedia / $numDisciplines;
-                            echo number_format($mediaAnual, 2); // Formata a média para 2 casas decimais
+                            echo number_format($mediaAnual, 2);
                         } else {
                             echo "0";
                         }
                         ?>
                     </td>
                     <td><?php echo $classData['school_year']; ?></td>
-                    <!-- Adicionando o nome do estabelecimento -->
                     <td><?php echo isset($classData['school_name']) ? $classData['school_name'] : ''; ?></td>
                 </tr>
             <?php endforeach; ?>
             <tr>
                 <th></th>
                 <td colspan="<?php echo count($disciplineIds) + 4; ?>"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td colspan="<?php echo count($disciplineIds) + 4; ?>"></td>
                 <th rowspan="1">Autentificação</th>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="12"></td>
+                <td colspan="<?php echo count($disciplineIds) + 4; ?>"></td>
+                <th rowspan="5"></th>
             </tr>
-            <tr>
-                <td></td>
-                <td colspan="12"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td colspan="12"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td colspan="12"></td>
-            </tr>
+            <?php for ($i = 0; $i < 4; $i++): ?>
+                <tr>
+                    <td></td>
+                    <td colspan="12"></td>
+                </tr>
+            <?php endfor; ?>
         </table>
     </div>
 </div>
 
 
-
-
 <!-- Nova tabela usando diversified_disciplines -->
 <div class="container-school-record">
-    <div class="table-content" style="display: flex; align-items: center; justify-content: center;">
+    <div class="table-content" style="display: flex; align-items: center; justify-content: center;     width: 100%;">
         <table class="school-record-table">
             <tr>
                 <th rowspan="<?php echo $rowspanValue; ?>" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
@@ -296,35 +274,26 @@ $rowspanValue = count($disciplineData) + 2;
                         ?>
                     </td>
                     <td><?php echo $classData['school_year']; ?></td>
-                    <!-- Adicionando o nome do estabelecimento -->
                     <td><?php echo isset($classData['school_name']) ? $classData['school_name'] : ''; ?></td>
                 </tr>
             <?php endforeach; ?>
             <tr>
                 <th></th>
                 <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
                 <th rowspan="1">Autentificação</th>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="12"></td>
+                <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
+                <th rowspan="5"></th>
+               
             </tr>
-            <tr>
-                <td></td>
-                <td colspan="12"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td colspan="12"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td colspan="12"></td>
-            </tr>
+            <?php for ($i = 0; $i < 4; $i++): ?>
+                <tr>
+                    <td></td>
+                    <td colspan="12"></td>
+                </tr>
+            <?php endfor; ?>
         </table>
     </div>
 </div>

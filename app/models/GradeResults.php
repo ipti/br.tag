@@ -21,10 +21,10 @@
  * @property double $rec_partial_6
  * @property double $rec_partial_7
  * @property double $rec_partial_8
- * @property double $rec_partial_9
- * @property double $rec_partial_10
- * @property double $rec_partial_11
- * @property double $rec_partial_12
+ * @property double $sem_rec_partial_1
+ * @property double $sem_rec_partial_2
+ * @property double $sem_rec_partial_3
+ * @property double $sem_rec_partial_4
  * @property double $rec_final
  * @property double $final_media
  * @property string $grade_concept_1
@@ -80,11 +80,11 @@ class GradeResults extends CActiveRecord
 		return array(
 			array('enrollment_fk, discipline_fk', 'required'),
 			array('enrollment_fk, discipline_fk, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6, grade_faults_7, grade_faults_8, given_classes_1, given_classes_2, given_classes_3, given_classes_4, given_classes_5, given_classes_6, given_classes_7, given_classes_8, final_concept', 'numerical', 'integerOnly'=>true),
-			array('grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_partial_1, rec_partial_2, rec_partial_3, rec_partial_4, rec_partial_5, rec_partial_6, rec_partial_7, rec_partial_8, rec_partial_9, rec_partial_10, rec_partial_11, rec_partial_12, rec_final, final_media', 'numerical'),
+			array('grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_partial_1, rec_partial_2, rec_partial_3, rec_partial_4, rec_partial_5, rec_partial_6, rec_partial_7, rec_partial_8, sem_rec_partial_1, sem_rec_partial_2, sem_rec_partial_3, sem_rec_partial_4, rec_final, final_media', 'numerical'),
 			array('grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_partial_1, rec_partial_2, rec_partial_3, rec_partial_4, rec_partial_5, rec_partial_6, rec_partial_7, rec_partial_8, rec_partial_9, rec_partial_10, rec_partial_11, rec_partial_12, rec_final, final_media, grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation, enrollment_fk, discipline_fk, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6, grade_faults_7, grade_faults_8, given_classes_1, given_classes_2, given_classes_3, given_classes_4, given_classes_5, given_classes_6, given_classes_7, given_classes_8, final_concept', 'safe', 'on'=>'search'),
+			array('id, grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_partial_1, rec_partial_2, rec_partial_3, rec_partial_4, rec_partial_5, rec_partial_6, rec_partial_7, rec_partial_8, sem_rec_partial_1, sem_rec_partial_2, sem_rec_partial_3, sem_rec_partial_4, rec_final, final_media, grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation, enrollment_fk, discipline_fk, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6, grade_faults_7, grade_faults_8, given_classes_1, given_classes_2, given_classes_3, given_classes_4, given_classes_5, given_classes_6, given_classes_7, given_classes_8, final_concept', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -124,10 +124,10 @@ class GradeResults extends CActiveRecord
 			'rec_partial_6' => 'Rec Partial 6',
 			'rec_partial_7' => 'Rec Partial 7',
 			'rec_partial_8' => 'Rec Partial 8',
-			'rec_partial_9' => 'Rec Partial 9',
-			'rec_partial_10' => 'Rec Partial 10',
-			'rec_partial_11' => 'Rec Partial 11',
-			'rec_partial_12' => 'Rec Partial 12',
+			'sem_rec_partial_1' => 'Sem Rec Partial 1',
+			'sem_rec_partial_2' => 'Sem Rec Partial 2',
+			'sem_rec_partial_3' => 'Sem Rec Partial 3',
+			'sem_rec_partial_4' => 'Sem Rec Partial 4',
 			'rec_final' => 'Rec Final',
 			'final_media' => 'Final Media',
 			'grade_concept_1' => 'Grade Concept 1',
@@ -196,10 +196,10 @@ class GradeResults extends CActiveRecord
 		$criteria->compare('rec_partial_6',$this->rec_partial_6);
 		$criteria->compare('rec_partial_7',$this->rec_partial_7);
 		$criteria->compare('rec_partial_8',$this->rec_partial_8);
-		$criteria->compare('rec_partial_9',$this->rec_partial_9);
-		$criteria->compare('rec_partial_10',$this->rec_partial_10);
-		$criteria->compare('rec_partial_11',$this->rec_partial_11);
-		$criteria->compare('rec_partial_12',$this->rec_partial_12);
+		$criteria->compare('sem_rec_partial_1',$this->sem_rec_partial_1);
+		$criteria->compare('sem_rec_partial_2',$this->sem_rec_partial_2);
+		$criteria->compare('sem_rec_partial_3',$this->sem_rec_partial_3);
+		$criteria->compare('sem_rec_partial_4',$this->sem_rec_partial_4);
 		$criteria->compare('rec_final',$this->rec_final);
 		$criteria->compare('final_media',$this->final_media);
 		$criteria->compare('grade_concept_1',$this->grade_concept_1,true);
