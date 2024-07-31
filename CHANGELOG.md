@@ -1,3 +1,7 @@
+## [Versão 3.81.173]
+- Nomes dos campos em plano de aula corrigidos e funcionalidade de recursos corrigida.
+- Campo metodologia agora suporta uma string maior.
+
 ## [Versão 3.81.172]
 - Adicionado Sábado letivo aos cardápios
 
