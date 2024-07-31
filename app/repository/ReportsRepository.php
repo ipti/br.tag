@@ -1736,6 +1736,8 @@ public function getStudentCertificate($enrollment_id): array
         'sex' => $results[0]['sex'],
         'filiation_1' => $results[0]['filiation_1'],
         'filiation_2' => $results[0]['filiation_2'],
+        'city_name' => $results[0]['city_name'],
+        'uf_name' => $results[0]['uf_name'],
         'schoolData' => $formattedResult,
         'baseDisciplines' => array_unique($baseDisciplines),
         'diversifiedDisciplines' => array_unique($diversifiedDisciplines),

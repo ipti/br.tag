@@ -69,7 +69,23 @@ foreach ($disciplineData as $classData) {
         }
     }
 }
+
+
+$disciplineIdsDiversified = [];
+
+foreach ($disciplineData as $classData) {
+    foreach ($classData['diversified_disciplines'] as $discipline) {
+        if (!in_array($discipline['discipline_id'], $disciplineIdsDiversified)) {
+            $disciplineIdsDiversified[] = $discipline['discipline_id'];
+        }
+    }
+}
+
 ?>
+
+
+
+
 
 
 <div class="pageA4H">
@@ -129,7 +145,7 @@ foreach ($disciplineData as $classData) {
     <?php $this->renderPartial('footer'); ?>
 </div>
 
-<?php 
+<?php
 $rowspanValue = count($disciplineData) + 2;
 ?>
 
@@ -138,7 +154,7 @@ $rowspanValue = count($disciplineData) + 2;
         <table class="school-record-table">
             <tr>
                 <th rowspan="<?php echo $rowspanValue; ?>" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
-                <th colspan="<?php echo count($disciplineIds) + 4; ?>" style="text-align: center">DISCIPLINAS</th>
+                <th colspan="<?php echo count($disciplineIds) + 4; ?>" style="text-align: center">DISCIPLINAS BASE NACIONAL COMUM</th>
                 <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
             </tr>
             <tr>
@@ -194,7 +210,7 @@ $rowspanValue = count($disciplineData) + 2;
             <?php endforeach; ?>
             <tr>
                 <th></th>
-                <td colspan="<?php echo count($disciplineIds) + 4; ?>"></td>  
+                <td colspan="<?php echo count($disciplineIds) + 4; ?>"></td>
             </tr>
             <tr>
                 <td></td>
@@ -203,7 +219,7 @@ $rowspanValue = count($disciplineData) + 2;
             </tr>
             <tr>
                 <td></td>
-                <td colspan="12"></td>    
+                <td colspan="12"></td>
             </tr>
             <tr>
                 <td></td>
@@ -221,7 +237,99 @@ $rowspanValue = count($disciplineData) + 2;
     </div>
 </div>
 
-<br>
+
+
+
+<!-- Nova tabela usando diversified_disciplines -->
+<div class="container-school-record">
+    <div class="table-content" style="display: flex; align-items: center; justify-content: center;">
+        <table class="school-record-table">
+            <tr>
+                <th rowspan="<?php echo $rowspanValue; ?>" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
+                <th colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>" style="text-align: center">DISCIPLINAS DIVERSIFICADAS</th>
+                <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
+            </tr>
+            <tr>
+                <th class="vertical-header">IDADE</th>
+                <th class="vertical-header">SÉRIE</th>
+                <?php foreach ($disciplineIdsDiversified as $disciplineId): ?>
+                    <th class="vertical-header">
+                        <?php echo mb_strtoupper(isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : "Disciplina $disciplineId", 'UTF-8'); ?>
+                    </th>
+                <?php endforeach; ?>
+                <th class="vertical-header">MÉDIA ANUAL</th>
+                <th class="vertical-header">ANO</th>
+            </tr>
+            <?php foreach ($disciplineData as $className => $classData): ?>
+                <tr>
+                    <td><?php echo ($classData['school_year'] - $year) . ' anos'; ?></td>
+                    <td><?php echo $className; ?></td>
+                    <?php
+                    $totalMedia = 0;
+                    $numDisciplines = 0;
+                    foreach ($disciplineIdsDiversified as $disciplineId): ?>
+                        <?php
+                        $found = false;
+                        foreach ($classData['diversified_disciplines'] as $discipline) {
+                            if ($discipline['discipline_id'] == $disciplineId) {
+                                $finalMedia = $discipline['final_media'] !== null ? $discipline['final_media'] : 0;
+                                echo "<td>{$finalMedia}</td>";
+                                $totalMedia += $finalMedia;
+                                $numDisciplines++;
+                                $found = true;
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            echo "<td>0</td>";
+                        }
+                        ?>
+                    <?php endforeach; ?>
+                    <td>
+                        <?php
+                        if ($numDisciplines > 0) {
+                            $mediaAnual = $totalMedia / $numDisciplines;
+                            echo number_format($mediaAnual, 2); // Formata a média para 2 casas decimais
+                        } else {
+                            echo "0";
+                        }
+                        ?>
+                    </td>
+                    <td><?php echo $classData['school_year']; ?></td>
+                    <!-- Adicionando o nome do estabelecimento -->
+                    <td><?php echo isset($classData['school_name']) ? $classData['school_name'] : ''; ?></td>
+                </tr>
+            <?php endforeach; ?>
+            <tr>
+                <th></th>
+                <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
+                <th rowspan="1">Autentificação</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="12"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="12"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="12"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="12"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
 <script>
     function imprimirPagina() {
         window.print();
@@ -298,7 +406,7 @@ $rowspanValue = count($disciplineData) + 2;
         margin: 50px;
         /* table-layout: fixed; */
         border: 2px solid #000;
-        
+
     }
 
     .school-record-table th, .school-record-table td {
@@ -328,6 +436,8 @@ $rowspanValue = count($disciplineData) + 2;
         page-break-before: always;
         margin-top: 20px;
         display: flex;
+        align-items: center;
+        justify-content: center;
 
     }
 
