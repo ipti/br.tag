@@ -46,9 +46,11 @@ $(document).on("click", ".js-new-unity", function (e) {
                         <label class='t-field-text__label--required'>Nome: </label>
                         <input type='text' class='t-field-text__input unity-name' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
                     </div>
-                    <div class="t-field-select">
+
+                    <div class="t-field-select js-mester-container ${isUnityConcept ? "hide": ""}">
                         <label class='t-field-select__label--required'>Semestre: </label>
                        <select class='t-field-select__input js-semester select-search-on'>
+                            <option value="">Selecione um semestre</option>
                             <option value="1">1° semestre</option>
                             <option value="2">2° semestre</option>
                        </select>
@@ -221,6 +223,10 @@ $(document).on("change", ".js-formula-select", function (e) {
         } else {
             $accordionBody.find('.InputWeight-container').html('');
         }
+
+        if(selectedValue === "Peso") {
+
+        }
     }
 });
 
@@ -372,6 +378,7 @@ function initRuleType(ruleType) {
         $("select.js-type-select").html(
             `<option value='UC' selected>Unidade por conceito</option>`
         );
+        $(".js-mester-container").hide();
         $(".js-calculation").hide();
         $(".remove-modality").hide();
         $('.js-partial-recoveries-header').hide();
@@ -387,6 +394,7 @@ function initRuleType(ruleType) {
         $("select.js-type-select").html(` <option value='U'>Unidade</option>
         <option value='UR'>Unidade com recuperação</option>`);
         $(".js-calculation").show();
+        $(".js-mester-container").show();
         $(".js-new-modality").show();
         $(".remove-modality").show();
         $('.js-partial-recoveries-header').show();
@@ -590,7 +598,6 @@ function checkValidInputs() {
         valid = false;
         message = "Os campos de recuperação parciais são obrigatórios.";
     }
-    console.log(partialRecoveryValid())
     if (valid) {
         if ($(".unity").length) {
             let ucCount = 0;

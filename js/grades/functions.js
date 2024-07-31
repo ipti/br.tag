@@ -176,7 +176,7 @@ $('.js-refresh').on("click", function (e) {
 
 
 function GradeTableBuilder(data) {
-    function buildStundentsRows(students, isUnityConcept, conceptOptions, partialRecoveries, semester, type) {
+    function buildStundentsRows(students, isUnityConcept, conceptOptions, partialRecoveries, showSemAvarageColumn) {
         return students
             .map(
                 (student) => template`
@@ -197,14 +197,12 @@ function GradeTableBuilder(data) {
                         ${
                             isUnityConcept
                             ? ''
-                            : buildSemesterAvarage(student, semester, type)
+                            : buildSemesterAvarage(student, showSemAvarageColumn)
 
 
                         }
                         ${partialRecoveries !== null ? buildPartialRecovery(
                             student.partialRecoveries[0],
-                            partialRecoveries,
-                            semester
                         ) : ''}
                         ${
                             isUnityConcept
@@ -221,22 +219,15 @@ function GradeTableBuilder(data) {
             )
             .join("\n");
     }
-    function buildSemesterAvarage(student, semester, type){
+    function buildSemesterAvarage(student, showSemAvarageColumn){
 
-        /* if(student.semAvarage1 == null && student.semAvarage2 == null && student.semAvarage == 0){
-            return '';
-        }
-        let semesterAvarage = 0
-        if(type == "RF"){
-            semesterAvarage = student.semAvarage;
-        } else {
 
-            semesterAvarage = semester == 1 ? student.semAvarage1 : student.semAvarage2
-        } */
 
-        return `<td class="grade-td">
+        return showSemAvarageColumn
+                ? `<td class="grade-td">
                      ${student.semAvarage}
-                </td>`
+                    </td>`
+                : ''
     }
     function buildUnities(unities, isUnityConcept, conceptOptions) {
         const unitesGrade = unities
@@ -266,7 +257,7 @@ function GradeTableBuilder(data) {
 
         return unitesGrade;
     }
-    function buildPartialRecovery(studentPartialRecoveries, partialRecoveries, semester){
+    function buildPartialRecovery(studentPartialRecoveries){
         const grade = studentPartialRecoveries.grade.grade === null ? "" : studentPartialRecoveries.grade.grade
         return template`
             <td class="grade-td">
@@ -406,8 +397,7 @@ function GradeTableBuilder(data) {
                         data.isUnityConcept,
                         data.concepts,
                         data.partialRecoveryColumns,
-                        data.semester,
-                        data.type
+                        data.showSemAvarageColumn
                     )}
                 </tbody>
             </table>`;

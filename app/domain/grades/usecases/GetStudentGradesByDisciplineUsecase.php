@@ -111,9 +111,9 @@ class GetStudentGradesByDisciplineUsecase
         ];
 
         $unities = GradeUnity::model()->findAll($criteria);
-
+        $unitiesTypeUC = count(GradeUnity::model()->findAllByAttributes(['edcenso_stage_vs_modality_fk' => $stage, "type"=>"UC"]));
         $unitiesCount = count($unities);
-        return $unitiesCount == 0;
+        return $unitiesCount == 0 && $unitiesTypeUC == 0;
     }
     private function searchUnityById($unities) {
         foreach ($unities as $key => $unity) {
