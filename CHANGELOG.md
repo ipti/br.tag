@@ -1,3 +1,5 @@
+## [Versão 3.83.175]
+- Adicionado cálculo de médias semestrais
 ## [Versão 3.82.175]
 - Realizado correção para inconsistência para alunos nascidos no ano corrente
 

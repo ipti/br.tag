@@ -223,8 +223,10 @@ $(document).on("change", ".js-formula-select", function (e) {
         } else {
             $accordionBody.find('.InputWeight-container').html('');
         }
-
-        if(selectedValue === "Peso") {
+        if(selectedValue === "Média Semestral") {
+            $accordionBody.find('.js-semester-container').show()
+        } else {
+            $accordionBody.find('.js-semester-container').hide()
 
         }
     }
@@ -836,6 +838,9 @@ function loadStructure() {
                             });
                             $('.InputWeight-container').last().html(inputsWeight)
                         }
+                        if(calculationSelect.select2("data").text != "Média Semestral") {
+                            semesterSelect.closest('.js-semester-container').hide();
+                        }
                         $("select.js-semester").last().select2();
                         $("select.js-partial-recovery-unities").last().select2();
                         $("select.js-partial-recovery-unities").last().select2("val", unityOptionsSelected);
@@ -906,7 +911,7 @@ function addAccordion(id, name) {
                 <input type='text' class='t-field-text__input partial-recovery-name'
                     placeholder='Recuperação Semestral' value="${name}">
             </div>
-            <div class="t-field-select">
+            <div class="t-field-select js-semester-container">
             <label class='t-field-select__label'>Semestre: </label>
            <select class='t-field-select__input js-semester select-search-on'>
                 <option value="">Selecione um semestre</option>
@@ -956,8 +961,9 @@ $(document).on("click", ".js-new-partial-recovery", (e) => {
         $(".js-alert-save-recovery-first")
             .text("Para cadastrar novas unidades, conclua o cadastro da recuperação")
             .show();
-        newAccordion = addAccordion("", "");
+        newAccordion = addAccordion("", "")
         $('#accordion-partial-recovery').append(newAccordion)
+        $(".partial-recovery-accordion-body").last().find('.js-semester-container').hide();
         $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities, .js-semester").select2();
         $('.js-new-unity').addClass('disabled');
     }

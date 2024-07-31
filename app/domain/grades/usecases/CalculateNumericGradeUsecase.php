@@ -227,7 +227,7 @@ class CalculateNumericGradeUsecase
             array_unshift($grades, $gradePartialRecovery->grade);
             $isRecovery = true;
 
-            $calculation = $calculationName == 'Média Semestral' ? 'Maior' : $calculationName;
+            $calculation = $calculationName == 'Média Semestral' ? 'Média' : $calculationName;
 
             $result = $this->applyStrategyComputeGradesByFormula($calculation, $partialRecovery, $grades, $isRecovery);
         }
