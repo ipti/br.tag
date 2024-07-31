@@ -105,6 +105,7 @@ class CourseplanController extends Controller
     public function actionGetCourseClasses()
     {
         $coursePlan = CoursePlan::model()->findByPk($_POST["coursePlanId"]);
+        $courseClasses = [];
         foreach ($coursePlan->courseClasses as $courseClass) {
             $order = $courseClass->order - 1;
             $courseClasses[$order]["class"] = $courseClass->order;
