@@ -1,6 +1,5 @@
 let url = new URL(window.location.href);
 let recordId = url.searchParams.get('id');
-let studentHasRecord = false;
 
 $(document).ready(function() {
     $.ajax({
@@ -63,31 +62,6 @@ $(document).on("change", "#classroomSelect", function () {
     })
 });
 
-$(document).on("change", "#studentSelect", function () {
-    var studentId = $('#studentSelect').val();
-
-    $.ajax({
-        type: 'POST',
-        url: "?r=aeerecord/default/checkStudentAeeRecord",
-        cache: false,
-        data: {
-            studentId: studentId
-        }
-    }).success(function(response) {
-        let aeeRecord = JSON.parse(response);
-        if(aeeRecord != "") {
-            $('#info-alert').removeClass('hide').addClass('alert-error').html(
-                `O aluno informado já possui ficha AEE cadastrada. <br>
-                Para acessar a ficha do aluno, clique <a href="?r=aeerecord/default/update&id=${aeeRecord}"> <strong>>> aqui <<</strong></a>`
-            );
-            studentHasRecord = true;
-        } else {
-            studentHasRecord = false;
-        }
-    })
-});
-
-
 $(document).on("click", "#saveAeeRecord", function () {
     let classroomId = $('#classroomSelect').val();
     let studentId = $('#studentSelect').val();
@@ -96,9 +70,7 @@ $(document).on("click", "#saveAeeRecord", function () {
 
     if((classroomId == "" || studentId == "") && recordId == null) {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
-    } else if(recordId == null && studentHasRecord == true){
-        $('#info-alert').removeClass('hide').addClass('alert-error').html("O estudante selecionado já possui ficha AEE cadastrada");
-    } else if(recordId == null && studentHasRecord == false) {
+    } else if(recordId == null) {
         $.ajax({
             type: 'POST',
             url: "?r=aeerecord/default/create",

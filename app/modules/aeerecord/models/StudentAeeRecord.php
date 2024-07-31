@@ -109,11 +109,16 @@ class StudentAeeRecord extends CActiveRecord
         // Join com a tabela student_identification
         $criteria->with = array(
             'studentFk' => array('alias' => 'student'),
-            'classroomFk' => array('alias' => 'classroom')
+            'classroomFk' => array('alias' => 'classroom'),
+            'instructorFk' => array('alias' => 'instructor')
         );
 
         $criteria->compare('student.name', $this->studentName, true);
         $criteria->compare('classroom.name', $this->classroomName, true);
+
+        // Adicionando a condição para instructor.user_fk
+        $loggedUser = Yii::app()->user->loginInfos->id;
+        $criteria->compare('instructor.users_fk', $loggedUser);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,

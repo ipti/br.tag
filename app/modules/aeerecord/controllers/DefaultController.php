@@ -72,7 +72,7 @@ class DefaultController extends Controller
                 from classroom c
                 join instructor_teaching_data itd on itd.classroom_id_fk = c.id
                 join instructor_identification ii on itd.instructor_fk = ii.id
-                WHERE ii.users_fk = :users_fk and c.school_year = :user_year
+                WHERE ii.users_fk = :users_fk and c.school_year = :user_year and c.aee = 1
                 ";
 
         $command = Yii::app()->db->createCommand($sql);

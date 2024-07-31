@@ -3,6 +3,8 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/sass/css/main.css');
 
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
+
 ?>
 <style>
     #info li {text-align:center;}
@@ -59,7 +61,7 @@ $cs->registerCssFile($baseUrl . '/sass/css/main.css');
         <span class="t-icon-printer"></span>imprimir
     </a>
 </div>
-<div class="pageA4H">
+<div id="page" class="pageA4H">
     <div id="header-report">
         <ul id="info">
             <?php if (isset($school->act_of_acknowledgement) && !empty($school->act_of_acknowledgement)) { ?>
@@ -99,38 +101,38 @@ $cs->registerCssFile($baseUrl . '/sass/css/main.css');
     <h2 id="title-page">
         FICHA AEE - Detalhe
     </h2>
-    <div id="content" class="content-text">
+    <div id="aeeContent" class="content-text">
         <div class="row t-margin-medium--bottom">
             <div class="column is-one-tenth font-bold">ID:</div>
-            <div class="column is-three-fifths"><?php echo $aeeRecord['id'];?></div>
+            <div class="column"><?php echo $aeeRecord['id'];?></div>
         </div>
         <div class="row t-margin-medium--bottom">
             <div class="column is-one-tenth font-bold">Data:</div>
-            <div class="column is-three-fifths"><?php echo date('d/m/Y', strtotime($aeeRecord['date']))?></div>
+            <div class="column"><?php echo date('d/m/Y', strtotime($aeeRecord['date']))?></div>
         </div>
         <div class="row t-margin-medium--bottom">
             <div class="column is-one-tenth font-bold">Aluno:</div>
-            <div class="column is-three-fifths"><?php echo $aeeRecord['studentName']?></div>
+            <div class="column"><?php echo $aeeRecord['studentName']?></div>
         </div>
         <div class="row t-margin-medium--bottom">
             <div class="column is-one-tenth font-bold">Necessidades de aprendizagem:</div>
-            <div class="column is-three-fifths text-align--justify"><?php echo $aeeRecord['learning_needs']?></div>
+            <div class="column text-align--justify"><?php echo $aeeRecord['learning_needs']?></div>
         </div>
         <div class="row t-margin-medium--bottom">
             <div class="column is-one-tenth font-bold">Caracterização pedagógica:</div>
-            <div class="column is-three-fifths text-align--justify"><?php echo $aeeRecord['characterization']?></div>
+            <div class="column text-align--justify"><?php echo $aeeRecord['characterization']?></div>
         </div>
         <div class="row t-margin-medium--bottom">
             <div class="column is-one-tenth font-bold">Escola:</div>
-            <div class="column is-three-fifths"><?php echo $school->name?></div>
+            <div class="column"><?php echo $school->name?></div>
         </div>
         <div class="row t-margin-medium--bottom">
             <div class="column is-one-tenth font-bold">Turma:</div>
-            <div class="column is-three-fifths"><?php echo $aeeRecord['classroomName']?></div>
+            <div class="column"><?php echo $aeeRecord['classroomName']?></div>
         </div>
         <div class="row t-margin-medium--bottom">
             <div class="column is-one-tenth font-bold">Professor:</div>
-            <div class="column is-three-fifths"><?php echo $aeeRecord['instructorName']?></div>
+            <div class="column"><?php echo $aeeRecord['instructorName']?></div>
         </div>
     </div>
 </div>

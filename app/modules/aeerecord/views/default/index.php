@@ -66,6 +66,11 @@ $this->menu=array(
                             'value' => '$data->classroomFk->name',
                         ),
                         array(
+                            'name' => 'date',
+                            'header' => 'Data',
+                            'value' => 'date("d/m/Y", strtotime($data->date))',
+                        ),
+                        array(
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
                             'template' => '{update}{delete}',

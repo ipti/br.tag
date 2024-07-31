@@ -3,8 +3,6 @@ class ReportsController extends Controller
 {
     public function actionAeeRecordReport($id) {
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $schoolCity = EdcensoCity::model()->findByPk($school->edcenso_city_fk)->name;
-        $schoolName = $school->name;
 
         $sql = "SELECT sar.*, si.name AS studentName, c.name AS classroomName, ii.name AS instructorName
                 from student_aee_record sar
