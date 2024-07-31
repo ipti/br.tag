@@ -24,7 +24,7 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
             <a class="t-button-secondary <?php echo $model->isNewRecord ? 'hide' : '' ?>" target="_blank"  rel="noopener"
-                href="<?php echo Yii::app()->createUrl('aeerecord/reports/aeeRecordReport') ?>">
+                href="<?php echo Yii::app()->createUrl('aeerecord/reports/aeeRecordReport&id='.$model->id) ?>">
                 <span class="t-icon-printer"></span>Imprimir
             </a>
             <button id="saveAeeRecord" class="t-button-primary" type="button">
