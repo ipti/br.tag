@@ -2435,34 +2435,34 @@ class ReportsRepository
         } else {
             $classroomName = null;
         }
-    
+
         return $classroomName;
     }
 
     private function getClassroomDetails($classroomFk, $year) {
-        $query = "SELECT * FROM classroom c 
-                  JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk 
+        $query = "SELECT * FROM classroom c
+                  JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk
                   WHERE c.id = :id and c.school_year = :year and (esvm.stage = 6 OR esvm.name LIKE '%multi%' OR esvm.name LIKE '%Multi%')";
-    
+
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":id", $classroomFk);
         $command->bindValue(":year", $year);
         $classroomDetails = $command->queryRow();
-    
+
         return $classroomDetails;
     }
-    
+
     private function getStudentEnrollmentDetails($studentEnrollment) {
-        $query = "SELECT esm.name 
-                  FROM student_enrollment se 
+        $query = "SELECT esm.name
+                  FROM student_enrollment se
                   JOIN edcenso_stage_vs_modality esm ON esm.id = se.edcenso_stage_vs_modality_fk
                   WHERE se.student_fk = :studentFk AND classroom_fk = :classroomFk";
-    
+
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":studentFk", $studentEnrollment->student_fk);
         $command->bindValue(":classroomFk", $studentEnrollment->classroom_fk);
         $enrollmentDetails = $command->queryScalar();
-    
+
         return $enrollmentDetails;
     }
 
@@ -2536,11 +2536,11 @@ class ReportsRepository
                             break;
                         case "UR":
                             $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
-                            $grade["unityRecoverGrade"] = $gradeResult["rec_bim_" . ($gradeIndex + 1)] != null ? $gradeResult["rec_bim_" . ($gradeIndex + 1)] : "";
+                            $grade["unityRecoverGrade"] = $gradeResult["rec_partial_" . ($gradeIndex + 1)] != null ? $gradeResult["rec_partial_" . ($gradeIndex + 1)] : "";
                             $gradeIndex++;
                             break;
                         case "RS":
-                            $grade["unityGrade"] = $gradeResult["rec_sem_" . ($recSemIndex + 1)] != null ? $gradeResult["rec_sem_" . ($recSemIndex + 1)] : "";
+                            $grade["unityGrade"] = $gradeResult["sem_rec_partial_" . ($recSemIndex + 1)] != null ? $gradeResult["sem_rec_partial_" . ($recSemIndex + 1)] : "";
                             $recSemIndex++;
                             break;
                         case "RF":
