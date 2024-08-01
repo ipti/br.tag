@@ -1,3 +1,6 @@
+## [Versão 3.83.175]
+- Criado o módulo de ficha AEE, permitindo o cadastro, alteração e relatórios de fichas de alunos pertencentes a turmas AEE
+
 ## [Versão 3.82.175]
 - Realizado correção para inconsistência para alunos nascidos no ano corrente
 
