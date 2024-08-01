@@ -403,7 +403,7 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
     }
     p {
         margin: 5px 0;
-        font-size: 17px;
+        font-size: 15px;
         font-weight: 500;
     }
     .signature-section {
