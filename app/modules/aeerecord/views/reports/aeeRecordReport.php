@@ -57,18 +57,14 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     }
 </style>
 <div class="row buttons">
-    <a id="print" class="t-button-secondary" onclick="imprimirPagina()">
+    <button id="print" class="t-button-secondary" onclick="imprimirPagina()">
         <span class="t-icon-printer"></span>imprimir
-    </a>
+    </button>
 </div>
 <div id="page" class="pageA4H">
     <div id="header-report">
         <ul id="info">
-            <?php if (isset($school->act_of_acknowledgement) && !empty($school->act_of_acknowledgement)) { ?>
-                <li><?php echo $school->name ?></li>
-            <?php } else { ?>
-                <li><?php echo $school->name ?></li>
-            <?php } ?>
+            <li><?php echo $school->name ?></li>
         </ul>
 
         <ul id="addinfo">
@@ -78,7 +74,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
                 if (empty($cep)){
                     $fieldCep = '';
-                } else if (ctype_digit($cep) && strlen($cep) === 8) {
+                } elseif (ctype_digit($cep) && strlen($cep) === 8) {
                     $formatted_cep = substr($cep, 0, 2) . '.' . substr($cep, 2, 3) . '-' . substr($cep, 5, 3);
                     $fieldCep = ', CEP: '. $formatted_cep;
                 } else {
@@ -93,7 +89,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 <?php
                 echo $school->edcensoCityFk->name . " - " . $school->edcensoUfFk->acronym . $fieldCep ?> </li>
             <li><?php echo $school->act_of_acknowledgement ?></li>
-            <!--<?php echo 'Email: '.(!empty($school->email) ? $school->email.' - ': (!empty($school->manager_email) ? $school->manager_email.' - ':'' ) ).'Tel: '.(!empty($school->phone_number) ? $school->phone_number:'' )?>-->
         </ul>
         <span class="clear"></span>
 

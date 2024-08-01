@@ -26,7 +26,8 @@ $(document).ready(function() {
                 recordId: recordId
             }
         }).success(function(response) {
-            let aeeRecord = JSON.parse(response);
+            let data = DOMPurify.sanitize(response);
+            let aeeRecord = JSON.parse(data);
 
             $("#js-classroom-name").append(aeeRecord[0].classroomName);
             $("#js-student-name").append(aeeRecord[0].studentName);
@@ -37,7 +38,7 @@ $(document).ready(function() {
 });
 
 $(document).on("change", "#classroomSelect", function () {
-    var classroomId = $('#classroomSelect').val();
+    let classroomId = $('#classroomSelect').val();
 
     $.ajax({
         type: 'POST',
