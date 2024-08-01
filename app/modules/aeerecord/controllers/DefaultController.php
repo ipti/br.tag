@@ -105,10 +105,11 @@ class DefaultController extends Controller
         $completeRecord = [];
         $recordId = Yii::app()->request->getPost('recordId');
 
-        $sql = "SELECT sar.id, si.name AS studentName, c.name AS classroomName
+        $sql = "SELECT sar.id, sar.date, si.name AS studentName, c.name AS classroomName, ii.name AS instructorName
                 from student_aee_record sar
                 join student_identification si on si.id = sar.student_fk
                 join classroom c on c.id = sar.classroom_fk
+                join instructor_identification ii on ii.id = sar.instructor_fk
                 WHERE sar.id = :record_id";
 
         $command = Yii::app()->db->createCommand($sql);
@@ -120,12 +121,14 @@ class DefaultController extends Controller
         foreach ($aeeRecord as $record) {
             array_push($completeRecord, [
                 "id"=> $record["id"],
+                "date" => date("d/m/Y", strtotime($record["date"])),
                 "studentName"=> $record["studentName"],
                 "classroomName"=> $record["classroomName"],
+                "instructorName"=> $record["instructorName"],
             ]);
         }
 
-        echo json_encode($aeeRecord);
+        echo json_encode($completeRecord);
     }
 
     public function actionCheckStudentAeeRecord() {
@@ -213,7 +216,25 @@ class DefaultController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('StudentAeeRecord');
+        if(Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $dataProvider = new CActiveDataProvider('StudentAeeRecord', array(
+                'criteria' => array(
+                    'with' => array(
+                        'instructorFk' => array(
+                            'together' => true,
+                            'condition' => 'instructorFk.users_fk=:userId',
+                            'params' => array(':userId' => Yii::app()->user->loginInfos->id),
+                        ),
+                        'schoolFk' => array(
+                            'together' => true,
+                            'condition' => 'schoolFk.inep_id=:schoolId',
+                            'params' => array(':schoolId' => Yii::app()->user->school),
+                        ),
+                    ),
+                ),
+            ));
+        }
+
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -224,14 +245,23 @@ class DefaultController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new StudentAeeRecord('search');
-		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['StudentAeeRecord']))
-			$model->attributes=$_GET['StudentAeeRecord'];
+		if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)){
+            $dataProvider = new CActiveDataProvider('StudentAeeRecord', array(
+                'criteria' => array(
+                    'with' => array(
+                        'schoolFk' => array(
+                            'together' => true,
+                            'condition' => 'schoolFk.inep_id=:schoolId',
+                            'params' => array(':schoolId' => Yii::app()->user->school),
+                        ),
+                    ),
+                ),
+            ));
+        }
 
-		$this->render('admin',array(
-			'model'=>$model,
-		));
+        $this->render('admin',array(
+            'dataProvider'=>$dataProvider,
+        ));
 	}
 
 	/**

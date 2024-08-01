@@ -45,6 +45,8 @@ $form=$this->beginWidget('CActiveForm', array(
         <div class="column clearfix">
             <p id="js-classroom-name"><b class="text-bold">Turma: </b></p>
             <p id="js-student-name"><b class="text-bold">Aluno: </b></p>
+            <p id="js-instructor-name"><b class="text-bold">Professor: </b></p>
+            <p id="js-date-name"><b class="text-bold">Data: </b></p>
         </div>
     </div>
 

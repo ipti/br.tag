@@ -30,6 +30,8 @@ $(document).ready(function() {
 
             $("#js-classroom-name").append(aeeRecord[0].classroomName);
             $("#js-student-name").append(aeeRecord[0].studentName);
+            $("#js-instructor-name").append(aeeRecord[0].instructorName);
+            $("#js-date-name").append(aeeRecord[0].date);
         })
     }
 });

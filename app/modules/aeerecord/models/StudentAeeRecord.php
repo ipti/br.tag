@@ -116,10 +116,6 @@ class StudentAeeRecord extends CActiveRecord
         $criteria->compare('student.name', $this->studentName, true);
         $criteria->compare('classroom.name', $this->classroomName, true);
 
-        // Adicionando a condição para instructor.user_fk
-        $loggedUser = Yii::app()->user->loginInfos->id;
-        $criteria->compare('instructor.users_fk', $loggedUser);
-
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
