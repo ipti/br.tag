@@ -391,31 +391,35 @@ class ClassroomValidation extends Register
     //campo 38
     function isValidStage($stage, $complementaryActivity, $mediation, $modality, $diffLocation)
     {
-        if (in_array($stage, [43, 44, 51, 65, 45, 62, 60, 47, 46, 58, 48, 63, 61])) {
-            return array('status' => false, 'erro' => 'A etapa de ensino selecionada não faz mais parte do censo. Modifique-a.');
+        if ($stage != null) {
+            if (in_array($stage, [43, 44, 51, 65, 45, 62, 60, 47, 46, 58, 48, 63, 61])) {
+                return array('status' => false, 'erro' => 'A etapa de ensino selecionada não faz mais parte do censo. Modifique-a.');
+            }
+            if ($complementaryActivity == 1 && in_array($stage, array(1, 2, 3, 39, 40, 56, 64, 67, 68, 69, 70, 71, 72, 73, 74))) {
+                return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando o tipo de atendimento "Atividade Complementar" for selecionado.');
+            }
+            if ($modality == 1 && !in_array($stage, array(1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 35, 36, 37, 38, 41, 56))) {
+                return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Ensino Regular" for selecionada.');
+            }
+            if ($modality == 2 && !in_array($stage, array(1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 41, 56, 39, 40, 69, 70, 71, 72, 73, 74, 64, 67, 68))) {
+                return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação Especial - Modalidade Substitutiva" for selecionada.');
+            }
+            if ($modality == 3 && !in_array($stage, array(69, 70, 71, 72))) {
+                return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação de Jovens e Adultos (EJA)" for selecionada.');
+            }
+            if ($mediation == 2 && !in_array($stage, array(69, 70, 71, 72))) {
+                return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a mediação didático-pedagócica "Semipresencial" for selecionada.');
+            }
+            if ($mediation == 3 && !in_array($stage, array(25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 70, 71, 73, 74, 64, 67, 68))) {
+                return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a mediação didático-pedagócica "Educação a distância" for selecionada.');
+            }
+            if (($diffLocation == 2 || $diffLocation == 3) && in_array($stage, array(1, 2, 3, 56))) {
+                return array('status' => false, 'erro' => 'Quando se trata de uma etapa de Educação Infantil, o local de funcionamento diferenciado NÃO PODE SER "Unidade de atendimento socioeducativo" ou "Unidade prisional".');
+            }
+            return array('status' => true, 'erro' => '');
+        } else {
+            return array('status' => false, 'erro' => 'A Etapa de Ensino não está associada a nenhuma etapa permitida do Censo. Modifique-a através do Gerenciador de Etapas no painel de administração.');
         }
-        if ($complementaryActivity == 1 && in_array($stage, array(1, 2, 3, 39, 40, 56, 64, 67, 68, 69, 70, 71, 72, 73, 74))) {
-            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando o tipo de atendimento "Atividade Complementar" for selecionado.');
-        }
-        if ($modality == 1 && !in_array($stage, array(1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 35, 36, 37, 38, 41, 56))) {
-            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Ensino Regular" for selecionada.');
-        }
-        if ($modality == 2 && !in_array($stage, array(1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 41, 56, 39, 40, 69, 70, 71, 72, 73, 74, 64, 67, 68))) {
-            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação Especial - Modalidade Substitutiva" for selecionada.');
-        }
-        if ($modality == 3 && !in_array($stage, array(69, 70, 71))) {
-            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação de Jovens e Adultos (EJA)" for selecionada.');
-        }
-        if ($mediation == 2 && !in_array($stage, array(69, 70, 71, 72))) {
-            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a mediação didático-pedagócica "Semipresencial" for selecionada.');
-        }
-        if ($mediation == 3 && !in_array($stage, array(25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 70, 71, 73, 74, 64, 67, 68))) {
-            return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a mediação didático-pedagócica "Educação a distância" for selecionada.');
-        }
-        if (($diffLocation == 2 || $diffLocation == 3) && in_array($stage, array(1, 2, 3, 56))) {
-            return array('status' => false, 'erro' => 'Quando se trata de uma etapa de Educação Infantil, o local de funcionamento diferenciado NÃO PODE SER "Unidade de atendimento socioeducativo" ou "Unidade prisional".');
-        }
-        return array('status' => true, 'erro' => '');
     }
 
     //campo 39

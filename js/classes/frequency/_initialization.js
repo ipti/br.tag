@@ -1,6 +1,5 @@
 function load() {
     $(".alert-incomplete-data").hide();
-    var fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
     var monthSplit = $("#month").val().split("-");
     jQuery.ajax({
         type: "POST",
@@ -8,7 +7,6 @@ function load() {
         cache: false,
         data: {
             classroom: $("#classroom").val(),
-            fundamentalMaior: fundamentalMaior,
             discipline: $("#disciplines").val(),
             month: monthSplit[1],
             year: monthSplit[0]
@@ -37,7 +35,7 @@ function load() {
                 $.each(data.students[0].schedules, function () {
                     dayRow += "<th>" + (pad(this.day, 2) + "/" + pad(monthSplit[1], 2)) + "/" + monthSplit[0] + "</th>";
 
-                    checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classroom").val() + "' day='" + this.day + "' month='" + monthSplit[1] + "' year='" + monthSplit[0] + "' schedule='" + this.schedule + "' fundamentalMaior='" + fundamentalMaior + "'></th>";
+                    checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!this.available ? "disabled" : "") + " classroomId='" + $("#classroom").val() + "' day='" + this.day + "' month='" + monthSplit[1] + "' year='" + monthSplit[0] + "' schedule='" + this.schedule + "'></th>";
                 });
                 html += "<tr class='day-row sticky'><th class='sticky-column'></th>" + dayRow + "<tr class='checkbox-row'><th class='checkbox-row sticky-column'></th>" + checkboxRow + "</tr>";
                 html += "</thead></div><tbody class='t-accordion__body'>";
@@ -54,7 +52,7 @@ function load() {
                             }
                         }
                         html += "<td class='frequency-checkbox-student frequency-checkbox-container " + (!this.available ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available || student.status == 2 ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() +
-                            "' studentId='" + student.studentId + "' day='" + schedule.day + "' month='" + monthSplit[1] + "' year='" + monthSplit[0] + "' schedule='" + schedule.schedule + "' fundamentalMaior='" + fundamentalMaior + "'>" + justificationContainer + "</td>";
+                        "' studentId='" + student.studentId + "' day='" + schedule.day + "' month='" + monthSplit[1] + "' year='" + monthSplit[0] + "' schedule='" + schedule.schedule + "' fundamentalMaior='" + fundamentalMaior + "'>" + justificationContainer + "</td>";
                     });
                     html += "</tr>";
                 });
@@ -95,7 +93,6 @@ $("#classroom").on("change", function () {
             cache: false,
             data: {
                 classroom: $("#classroom").val(),
-                fundamentalMaior: $("#classroom > option:selected").attr("fundamentalMaior")
             },
             beforeSend: function () {
                 $(".loading-frequency").css("display", "inline-block");
@@ -111,7 +108,7 @@ $("#classroom").on("change", function () {
                     });
                     $("#month option:first").attr("selected", "selected").trigger("change.select2");
 
-                    if ($("#classroom > option:selected").attr("fundamentalMaior") === "1") {
+                    if (data.isMinor == false) {
                         $("#disciplines").children().remove();
                         $("#disciplines").append(new Option("Selecione a Disciplina", ""));
                         $.each(data.disciplines, function (index, value) {
@@ -160,7 +157,6 @@ $(document).on("change", ".frequency-checkbox", function () {
             schedule: $(this).attr("schedule"),
             studentId: $(this).attr("studentId"),
             fault: $(this).is(":checked") ? 1 : 0,
-            fundamentalMaior: $(this).attr("fundamentalMaior")
         },
         beforeSend: function () {
             $(".loading-frequency").css("display", "inline-block");
@@ -202,7 +198,6 @@ $(document).on("click", ".frequency-justification-icon", function () {
     $("#justification-month").val(checkbox.attr("month"));
     $("#justification-year").val(checkbox.attr("year"));
     $("#justification-schedule").val(checkbox.attr("schedule"));
-    $("#justification-fundamentalmaior").val(checkbox.attr("fundamentalmaior"));
     $(".justification-text").val($(this).attr("data-original-title"));
     $("#save-justification-modal").modal("show");
 });
@@ -223,7 +218,6 @@ $(document).on("click", ".btn-save-justification", function () {
             month: $("#justification-month").val(),
             year: $("#justification-year").val(),
             schedule: $("#justification-schedule").val(),
-            fundamentalMaior: $("#justification-fundamentalmaior").val(),
             justification: $(".justification-text").val()
         },
         beforeSend: function () {

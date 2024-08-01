@@ -23,6 +23,19 @@ class WorkByExam extends CActiveRecord
 		return 'work_by_exam';
 	}
 
+    public function behaviors()
+    {
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */
