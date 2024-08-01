@@ -57,7 +57,26 @@ $disciplinas = array(
 
 $disciplineData = $student['schoolData'];
 
-CVarDumper::dump($disciplineData, 10, true);
+//  CVarDumper::dump($disciplineData, 10, true);
+
+
+// Encontrar o school_year mais recente
+$recentSchoolYear = null;
+foreach ($disciplineData as $classData) {
+    if ($recentSchoolYear === null || $classData['school_year'] > $recentSchoolYear) {
+        $recentSchoolYear = $classData['school_year'];
+    }
+}
+
+$etapaName = null;
+foreach ($disciplineData as $classData) {
+    if ($classData['school_year'] == $recentSchoolYear) {
+        $etapaName = $classData['etapa_name'];
+        break;
+    }
+}
+
+
 
 $disciplineIds = [];
 $disciplineIdsDiversified = [];
@@ -90,9 +109,13 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
     </div>
 
     <div class="container-certificate">
-        <p>O(A) Diretor(a) da Escola <?php echo $school->name ?>,
-        no uso de suas atribuições legais, confere o presente Certificado do <?php echo $student['school_year']; ?> do <?php echo $student['etapa_name']; ?> a <b><?php echo $student['name']; ?></b>
+
+       <p>O(A) Diretor(a) da Escola <?php echo $school->name ?>,
+        no uso de suas atribuições legais, confere o presente Certificado do <?php echo $etapaName; ?> a <b><?php echo $student['name']; ?></b>
        filho(a) de <?php echo $student['filiation_1']; ?>
+
+
+
         e de <?php echo $student['filiation_2']; ?>.</p>
         <p>Nascido(a) em <?php echo $day; ?> de <?php echo $monthName; ?> de <?php echo $year; ?>, no Município de <?php echo $student['city_name']; ?>
         Estado de <?php echo $student['uf_name']; ?>.</p>
@@ -137,8 +160,7 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
 
 
 <?php $rowspanValue = count($disciplineData) + 2; ?>
-
-
+<!-- Nova tabela usando disciplinas base-->
 <div class="container-school-record">
     <div class="table-content" style="display: flex; align-items: center; justify-content: center; width: 100%;">
         <table class="school-record-table">
@@ -146,17 +168,37 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
                 <th rowspan="<?php echo $rowspanValue; ?>" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
                 <th colspan="<?php echo count($disciplineIds) + 4; ?>" style="text-align: center">DISCIPLINAS BASE NACIONAL COMUM</th>
                 <th rowspan="1" class="estabelecimento">NOME DO ESTABELECIMENTO</th>
+                
             </tr>
             <tr>
                 <th class="vertical-header">IDADE</th>
                 <th class="vertical-header">SÉRIE</th>
+
                 <?php foreach ($disciplineIds as $disciplineId): ?>
                     <th class="vertical-header">
-                        <?php echo mb_strtoupper(isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : "Disciplina $disciplineId", 'UTF-8'); ?>
+                        <?php
+                        $disciplineName = isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : "Disciplina $disciplineId";
+                        foreach ($disciplineData as $classData) {
+                            foreach ($classData['base_disciplines'] as $discipline) {
+                                if ($discipline['discipline_id'] == $disciplineId) {
+                                    $disciplineName = isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : $discipline['discipline_name'];
+                                }
+                            }
+                        }
+                        echo mb_strtoupper($disciplineName, 'UTF-8');
+                        ?>
                     </th>
                 <?php endforeach; ?>
+
                 <th class="vertical-header">MÉDIA ANUAL</th>
                 <th class="vertical-header">ANO</th>
+                <th style="position:relative;">
+                    <table style="position: absolute; border: none; top: 10px; left: 20px;">
+                        <tr>
+                            <td style="border: none;">OBSERVAÇÕES</td>
+                        </tr>
+                    </table>
+                </th>
             </tr>
             <?php foreach ($disciplineData as $className => $classData): ?>
                 <tr>
@@ -179,7 +221,7 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
                             }
                         }
                         if (!$found) {
-                            echo "<td>0</td>";
+                            echo "<td>---</td>";
                         }
                         ?>
                     <?php endforeach; ?>
@@ -187,9 +229,9 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
                         <?php
                         if ($numDisciplines > 0) {
                             $mediaAnual = $totalMedia / $numDisciplines;
-                            echo number_format($mediaAnual, 2);
+                            echo number_format($mediaAnual, 1); // uma casa decimal
                         } else {
-                            echo "0";
+                            echo "---";
                         }
                         ?>
                     </td>
@@ -217,10 +259,9 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
     </div>
 </div>
 
-
-<!-- Nova tabela usando diversified_disciplines -->
+<!-- Nova tabela usando disciplinas diversificadas -->
 <div class="container-school-record">
-    <div class="table-content" style="display: flex; align-items: center; justify-content: center;     width: 100%;">
+    <div class="table-content" style="display: flex; align-items: center; justify-content: center; width: 100%;">
         <table class="school-record-table">
             <tr>
                 <th rowspan="<?php echo $rowspanValue; ?>" class="vertical-header vida-escolar">VIDA ESCOLAR</th>
@@ -230,13 +271,32 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
             <tr>
                 <th class="vertical-header">IDADE</th>
                 <th class="vertical-header">SÉRIE</th>
+
                 <?php foreach ($disciplineIdsDiversified as $disciplineId): ?>
                     <th class="vertical-header">
-                        <?php echo mb_strtoupper(isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : "Disciplina $disciplineId", 'UTF-8'); ?>
+                        <?php
+                        $disciplineName = isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : "Disciplina $disciplineId";
+                        foreach ($disciplineData as $classData) {
+                            foreach ($classData['diversified_disciplines'] as $discipline) {
+                                if ($discipline['discipline_id'] == $disciplineId) {
+                                    $disciplineName = isset($disciplinas[$disciplineId]) ? $disciplinas[$disciplineId] : $discipline['discipline_name'];
+                                }
+                            }
+                        }
+                        echo mb_strtoupper($disciplineName, 'UTF-8');
+                        ?>
                     </th>
                 <?php endforeach; ?>
+
                 <th class="vertical-header">MÉDIA ANUAL</th>
                 <th class="vertical-header">ANO</th>
+                <th style="position:relative;">
+                    <table style="position: absolute; border: none; top: 10px; left: 20px;">
+                        <tr>
+                            <td style="border: none;">OBSERVAÇÕES</td>
+                        </tr>
+                    </table>
+                </th>
             </tr>
             <?php foreach ($disciplineData as $className => $classData): ?>
                 <tr>
@@ -259,7 +319,7 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
                             }
                         }
                         if (!$found) {
-                            echo "<td>0</td>";
+                            echo "<td>---</td>";
                         }
                         ?>
                     <?php endforeach; ?>
@@ -267,9 +327,9 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
                         <?php
                         if ($numDisciplines > 0) {
                             $mediaAnual = $totalMedia / $numDisciplines;
-                            echo number_format($mediaAnual, 2); // Formata a média para 2 casas decimais
+                            echo number_format($mediaAnual, 2);
                         } else {
-                            echo "0";
+                            echo "---";
                         }
                         ?>
                     </td>
@@ -286,7 +346,6 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
                 <td></td>
                 <td colspan="<?php echo count($disciplineIdsDiversified) + 4; ?>"></td>
                 <th rowspan="5"></th>
-               
             </tr>
             <?php for ($i = 0; $i < 4; $i++): ?>
                 <tr>
@@ -297,7 +356,6 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
         </table>
     </div>
 </div>
-
 
 <script>
     function imprimirPagina() {
@@ -345,7 +403,7 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
     }
     p {
         margin: 5px 0;
-        font-size: 14px;
+        font-size: 17px;
         font-weight: 500;
     }
     .signature-section {

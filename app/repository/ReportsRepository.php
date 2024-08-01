@@ -1452,194 +1452,27 @@ private function separateBaseDisciplines($disciplineId)
         return $schedulesPerUnityPeriods;
     }
 
-
-
-//     public function getStudentCertificate($enrollment_id): array
-// {
-//     $studentIdent = StudentIdentification::model()->findByPk($enrollment_id);
-
-//     if (!$studentIdent) {
-//         return ["student" => null];
-//     }
-
-//     $city = null;
-//     $uf_acronym = null;
-//     $uf_name = null;
-//     $class_name = null;
-//     $tipo_ensino = '';
-//     $ano = '';
-
-//     if ($cityObj = EdcensoCity::model()->findByPk($studentIdent->edcenso_city_fk)) {
-//         $city = $cityObj->name;
-//         if ($ufObj = EdcensoUf::model()->findByPk($cityObj->edcenso_uf_fk)) {
-//             $uf_acronym = $ufObj->acronym;
-//             $uf_name = $ufObj->name;
-//         }
-//     }
-//     $commandMaxId = Yii::app()->db->createCommand("
-//         SELECT id AS max_id
-//         FROM student_enrollment
-//         WHERE student_fk = :student_fk AND status = 2
-//     ");
-
-//     $commandMaxId->bindValue(':student_fk', $enrollment_id);
-
-//     $maxIds = $commandMaxId->queryAll();
-//     CVarDumper::dump($maxIds, 10, true);
-
-//     $result = array(); // array de notas
-//     $baseDisciplines = array(); // disciplinas da BNCC
-//     $diversifiedDisciplines = array(); // disciplinas diversas
-
-//     foreach ($maxIds as $idArray) {
-//         $maxId = $idArray['max_id'];
-//         $enrollment = StudentEnrollment::model()->findByPk($maxId);
-//         CVarDumper::dump($enrollment, 10, true);
-//            }
-//         // $arr["serie"]["disicplines"]["nota"];
-
-
-
-//         $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $maxId]);
-//         $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
-//         $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
-//         $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]); // unidades da turma
-
-//         $recFinalIndex = array_search('RF', array_column($unities, 'type'));
-//         $recFinalObject = $unities[$recFinalIndex]; // obs
-//         array_splice($unities, $recFinalIndex, 1);
-//         array_push($unities, $recFinalObject);
-
-//         foreach ($curricularMatrix as $matrix) {
-//             if($this->separateBaseDisciplines($matrix->discipline_fk)) { // se for disciplina da BNCC
-//                 array_push($baseDisciplines, $matrix->disciplineFk->id);
-//             } else { // se for disciplina diversa
-//                 array_push($diversifiedDisciplines, $matrix->disciplineFk->id);
-//             }
-//         }
-
-//         $totalDisciplines = array_unique(array_merge($baseDisciplines, $diversifiedDisciplines));
-//         $schedulesPerUnityPeriods = $this->getSchedulesPerUnityPeriods($enrollment->classroomFk, $unities);
-//         $schoolDaysPerUnity = $this->schoolDaysCalculate($schedulesPerUnityPeriods);
-//         $workloadPerUnity = $this->workloadsCalculate($schedulesPerUnityPeriods);
-//         $faultsPerUnity = $this->faultsPerUnityCalculate($schedulesPerUnityPeriods, $classFaults, $enrollment->classroomFk);
-
-//         $sumFinalMedia = 0;
-//         $numFinalMedia = 0;
-
-//         foreach ($totalDisciplines as $discipline) { // aqui eu monto as notas das disciplinas, faltas, dias letivos e cargas horárias
-
-//             $mediaExists = false;
-//             $totalContentsPerDiscipline = $this->contentsPerDisciplineCalculate($enrollment->classroomFk, $discipline, $enrollment->id);
-//             $totalFaultsPerDicipline = $this->faultsPerDisciplineCalculate($schedulesPerUnityPeriods, $discipline, $classFaults, $enrollment->id);
-
-//             foreach ($gradesResult as $gradeResult) {
-//                 if($gradeResult->disciplineFk->id == $discipline) {
-//                     $resultItem = [
-//                         "discipline_id" => $gradeResult->disciplineFk->id,
-//                         "final_media" => $gradeResult->final_media,
-//                         "grade_result" => $gradeResult,
-//                         "total_number_of_classes" => $totalContentsPerDiscipline,
-//                         "total_faults" => $totalFaultsPerDicipline,
-//                         "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
-//                     ];
-//                     array_push($result, $resultItem);
-
-//                     if ($gradeResult->final_media !== null) {
-//                         $sumFinalMedia += $gradeResult->final_media;
-//                         $numFinalMedia++;
-//                     }
-
-//                     $mediaExists = true;
-//                     break;
-//                 }
-//             }
-
-//             if(!$mediaExists) {
-//                 $resultItem = [
-//                     "discipline_id" => $discipline,
-//                     "final_media" => null,
-//                     "grade_result" => null,
-//                     "total_number_of_classes" => $totalContentsPerDiscipline,
-//                     "total_faults" => $totalFaultsPerDicipline,
-//                     "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
-//                 ];
-//                 array_push($result, $resultItem);
-//             }
-//         }
-
-//         $totalDisciplinesCount = count($totalDisciplines);
-//         $annualAverage = $totalDisciplinesCount > 0 ? round($sumFinalMedia / $totalDisciplinesCount, 1) : null;
-
-
-//         $report = [];
-//         foreach ($totalDisciplines as $disciplineId) {
-//             foreach ($result as $item) {
-//                 if ($item['discipline_id'] === $disciplineId) {
-//                     $report[] = $item;
-//                     break;
-//                 }
-//             }
-//         }
-
-
-//         $command = Yii::app()->db->createCommand("
-//             SELECT c.name, esv.name as etapa
-//             FROM classroom c
-//             JOIN student_enrollment se ON c.id = se.classroom_fk
-//             JOIN edcenso_stage_vs_modality esv ON c.edcenso_stage_vs_modality_fk = esv.id
-//             WHERE se.student_fk = :student_fk AND se.status = 1
-//             ORDER BY se.id DESC
-//             LIMIT 1
-//         ");
-
-//         $command->bindValue(':student_fk', $enrollment_id);
-
-//         $row = $command->queryRow();
-//         if ($row) {
-//             $class_name = $row['name'];
-//             $etapa = $row['etapa'];
-
-//             $etapa_parts = explode(' - ', $etapa);
-
-//             if (count($etapa_parts) == 2) {
-//                 $tipo_ensino = $etapa_parts[0];
-//                 $ano = $etapa_parts[1];
-//             }
-//         }
-
-//         $studentData = [
-//             'name' => $studentIdent->name,
-//             'civil_name' => $studentIdent->civil_name,
-//             'birthday' => $studentIdent->birthday,
-//             'sex' => $studentIdent->sex,
-//             'filiation_1' => $studentIdent->filiation_1,
-//             'filiation_2' => $studentIdent->filiation_2,
-//             'city' => $city,
-//             'uf_acronym' => $uf_acronym,
-//             'uf_name' => $uf_name,
-//             'class_name' => $class_name,
-//             'tipo_ensino' => $tipo_ensino,
-//             'ano' => $ano,
-//             'enrollment' => $enrollment,
-//             'result' => $report,
-//             'baseDisciplines' => array_unique($baseDisciplines), //função usada para evitar repetição
-//             'diversifiedDisciplines' => array_unique($diversifiedDisciplines), //função usada para evitar repetição
-//             'unities' => $unities,
-//             "school_days" => $schoolDaysPerUnity,
-//             "faults" => $,
-//             "workload" => $workloadPerUnity,
-//             "annual_average" => $annualAverage
-//         ];
-
-//         return ["student" => $studentData];
-//     }
-
-
-
-
 public function getStudentCertificate($enrollment_id): array
 {
+    /*
+    
+    informações do status:
+            "1" => STATUS_ACTIVE,
+            "2" => STATUS_TRANSFERRED,
+            "3" => STATUS_CANCELED,
+            "4" => STATUS_ABANDONED,
+            "5" => STATUS_RESTORED,
+            "6" => STATUS_APPROVED,
+            "7" => STATUS_APPROVEDBYCOUNCIL,
+            "8" => STATUS_DISAPPROVED,
+            "9" => STATUS_CONCLUDED,
+            "10" => STATUS_INDETERMINED,
+            "11" => STATUS_DEATH,
+            "12" => STATUS_ADVANCED
+    */
+    
+    
+    
     $command = Yii::app()->db->createCommand("
         SELECT
             si.name AS student_name,
@@ -1647,6 +1480,7 @@ public function getStudentCertificate($enrollment_id): array
             si.sex,
             si.filiation_1,
             si.filiation_2,
+            se.status,
             c.name AS class_name,
             c.school_year,
             sch.name AS school_name,  -- Adiciona o nome da escola
@@ -1661,7 +1495,7 @@ public function getStudentCertificate($enrollment_id): array
             ec.name AS city_name,
             eu.acronym AS uf_acronym,
             eu.name AS uf_name,
-            esv.name AS etapa_name
+            esv.alias AS etapa_name
         FROM
             student_enrollment se
         JOIN student_identification si ON si.id = se.student_fk
@@ -1674,7 +1508,7 @@ public function getStudentCertificate($enrollment_id): array
         JOIN edcenso_stage_vs_modality esv ON esv.id = c.edcenso_stage_vs_modality_fk
         JOIN school_identification sch ON sch.inep_id = c.school_inep_fk  -- JOIN para obter o nome da escola
         WHERE
-            se.student_fk = :student_fk
+            se.student_fk = :student_fk AND se.status = 9; 
     ");
     $command->bindValue(':student_fk', $enrollment_id);
 
@@ -1692,18 +1526,19 @@ public function getStudentCertificate($enrollment_id): array
         if (!isset($formattedResult[$class_name])) {
             $formattedResult[$class_name] = [
                 'school_year' => $school_year,
-                'school_name' => $row['school_name'],  // Adiciona o nome da escola
+                'school_name' => $row['school_name'],
                 'address' => $row['address'],
                 'city_name' => $row['city_name'],
                 'uf_acronym' => $row['uf_acronym'],
                 'uf_name' => $row['uf_name'],
                 'etapa_name' => $row['etapa_name'],
+                'status_disciplina'=>$row['status'],
                 'base_disciplines' => [],
                 'diversified_disciplines' => [],
             ];
         }
 
-        // Separando as disciplinas
+
         if ($this->separateBaseDisciplines($discipline_id)) {
             $formattedResult[$class_name]['base_disciplines'][] = [
                 'discipline_name' => $row['discipline_name'],
@@ -1747,179 +1582,6 @@ public function getStudentCertificate($enrollment_id): array
 
     return ['student' => $finalResult];
 }
-
-
-
-    // ///////////////////////////////////////////////////////////////////////////////////////////
-
-    //    public function getStudentCertificate($enrollment_id): array
-    // {
-    //     $studentIdent = StudentIdentification::model()->findByPk($enrollment_id);
-
-    //     if (!$studentIdent) {
-    //         return ["student" => null];
-    //     }
-
-    //     $city = null;
-    //     $uf_acronym = null;
-    //     $uf_name = null;
-    //     $class_name = null;
-    //     $tipo_ensino = '';
-    //     $ano = '';
-
-    //     if ($cityObj = EdcensoCity::model()->findByPk($studentIdent->edcenso_city_fk)) {
-    //         $city = $cityObj->name;
-    //         if ($ufObj = EdcensoUf::model()->findByPk($cityObj->edcenso_uf_fk)) {
-    //             $uf_acronym = $ufObj->acronym;
-    //             $uf_name = $ufObj->name;
-    //         }
-    //     }
-    //     $commandMaxId = Yii::app()->db->createCommand("
-    //         SELECT MAX(id) AS max_id
-    //         FROM student_enrollment
-    //         WHERE student_fk = :student_fk AND status = 1
-    //     ");
-    //     $commandMaxId->bindValue(':student_fk', $enrollment_id);
-    //     $maxId = $commandMaxId->queryScalar();
-
-    //     $result = array(); // array de notas
-    //     $baseDisciplines = array(); // disciplinas da BNCC
-    //     $diversifiedDisciplines = array(); //disciplinas diversas
-    //     $enrollment = StudentEnrollment::model()->findByPk($maxId);
-    //     // CVarDumper::dump($enrollment, 10, true);
-
-    //     $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $maxId]); // medias do aluno na turma
-    //     $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
-    //     $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
-    //     $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]); // unidades da turma
-
-    //     $recFinalIndex = array_search('RF', array_column($unities, 'type'));
-    //     $recFinalObject = $unities[$recFinalIndex]; // obs
-    //     array_splice($unities, $recFinalIndex, 1);
-    //     array_push($unities, $recFinalObject);
-
-    //     foreach ($curricularMatrix as $matrix) {
-    //         if($this->separateBaseDisciplines($matrix->discipline_fk)) { // se for disciplina da BNCC
-    //             array_push($baseDisciplines, $matrix->disciplineFk->id);
-    //         } else { // se for disciplina diversa
-    //             array_push($diversifiedDisciplines, $matrix->disciplineFk->id);
-    //         }
-    //     }
-
-    //     $totalDisciplines = array_unique(array_merge($baseDisciplines, $diversifiedDisciplines));
-    //     $schedulesPerUnityPeriods = $this->getSchedulesPerUnityPeriods($enrollment->classroomFk, $unities);
-
-    //     $sumFinalMedia = 0;
-    //     $numFinalMedia = 0;
-
-    //     foreach ($totalDisciplines as $discipline) { // aqui eu monto as notas das disciplinas, faltas, dias letivos e cargas horárias
-
-    //         $mediaExists = false;
-
-    //         foreach ($gradesResult as $gradeResult) {
-    //             if($gradeResult->disciplineFk->id == $discipline) {
-    //                 $resultItem = [
-    //                     "discipline_id" => $gradeResult->disciplineFk->id,
-    //                     "final_media" => $gradeResult->final_media,
-    //                     "grade_result" => $gradeResult,
-    //                     "total_number_of_classes" => $totalContentsPerDiscipline,
-    //                     "total_faults" => $totalFaultsPerDicipline,
-    //                     "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
-    //                 ];
-    //                 array_push($result, $resultItem);
-
-    //                 if ($gradeResult->final_media !== null) {
-    //                     $sumFinalMedia += $gradeResult->final_media;
-    //                     $numFinalMedia++;
-    //                 }
-
-    //                 $mediaExists = true;
-    //                 break;
-    //             }
-    //         }
-
-    //         if(!$mediaExists) {
-    //             $resultItem = [
-    //                 "discipline_id" => $discipline,
-    //                 "final_media" => null,
-    //                 "grade_result" => null,
-    //                 "total_number_of_classes" => $totalContentsPerDiscipline,
-    //                 "total_faults" => $totalFaultsPerDicipline,
-    //                 "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
-    //             ];
-    //             array_push($result, $resultItem);
-    //         }
-    //     }
-
-    //     $totalDisciplinesCount = count($totalDisciplines);
-    //     $annualAverage = $totalDisciplinesCount > 0 ? round($sumFinalMedia / $totalDisciplinesCount, 1) : null;
-
-
-    //     $report = [];
-    //     foreach ($totalDisciplines as $disciplineId) {
-    //         foreach ($result as $item) {
-    //             if ($item['discipline_id'] === $disciplineId) {
-    //                 $report[] = $item;
-    //                 break;
-    //             }
-    //         }
-    //     }
-
-    //     $command = Yii::app()->db->createCommand("
-    //         SELECT c.name, esv.name as etapa
-    //         FROM classroom c
-    //         JOIN student_enrollment se ON c.id = se.classroom_fk
-    //         JOIN edcenso_stage_vs_modality esv ON c.edcenso_stage_vs_modality_fk = esv.id
-    //         WHERE se.student_fk = :student_fk AND se.status = 1
-    //         ORDER BY se.id DESC
-    //         LIMIT 1
-    //     ");
-    //     $command->bindValue(':student_fk', $enrollment_id);
-    //     $row = $command->queryRow();
-    //     if ($row) {
-    //         $class_name = $row['name'];
-    //         $etapa = $row['etapa'];
-
-    //         $etapa_parts = explode(' - ', $etapa);
-
-    //         if (count($etapa_parts) == 2) {
-    //             $tipo_ensino = $etapa_parts[0];
-    //             $ano = $etapa_parts[1];
-    //         }
-    //     }
-
-    //     $studentData = [
-    //         'name' => $studentIdent->name,
-    //         'civil_name' => $studentIdent->civil_name,
-    //         'birthday' => $studentIdent->birthday,
-    //         'sex' => $studentIdent->sex,
-    //         'color_race' => $studentIdent->color_race,
-    //         'filiation' => $studentIdent->filiation,
-    //         'filiation_1' => $studentIdent->filiation_1,
-    //         'filiation_2' => $studentIdent->filiation_2,
-    //         'city' => $city,
-    //         'uf_acronym' => $uf_acronym,
-    //         'uf_name' => $uf_name,
-    //         'class_name' => $class_name,
-    //         'tipo_ensino' => $tipo_ensino,
-    //         'ano' => $ano,
-    //         'enrollment' => $enrollment,
-    //         'result' => $report,
-    //         'baseDisciplines' => array_unique($baseDisciplines), //função usada para evitar repetição
-    //         'diversifiedDisciplines' => array_unique($diversifiedDisciplines), //função usada para evitar repetição
-    //         'unities' => $unities,
-    //         "school_days" => $schoolDaysPerUnity,
-    //         "faults" => $faultsPerUnity,
-    //         "workload" => $workloadPerUnity,
-    //         "annual_average" => $annualAverage
-    //     ];
-
-    //     return ["student" => $studentData];
-    // }
-
-
-
-    // ///////////////////////////////////////////////////////////////////////////////////////////
 
 
     public function getStatementAttended($enrollmentId) : array
@@ -2032,8 +1694,6 @@ public function getStudentCertificate($enrollment_id): array
 
         return $response;
     }
-
-
     /**
      * Lista de Alunos
      */
