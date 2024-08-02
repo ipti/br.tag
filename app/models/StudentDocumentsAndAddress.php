@@ -81,15 +81,18 @@ class StudentDocumentsAndAddress extends AltActiveRecord
         return 'student_documents_and_address';
     }
 
-  /*  public function behaviors()
+    public function behaviors()
     {
         return [
-            'afterSave' => [
-              //  'class' => 'application.behaviors.CAfterSaveBehavior',
-              //  'schoolInepId' => Yii::app()->user->school,
-            ],
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
         ];
-    }*/
+    }
 
     /**
      * @return array validation rules for model attributes.

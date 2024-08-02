@@ -71,19 +71,18 @@ class InstructorIdentification extends AltActiveRecord
     {
         return 'instructor_identification';
     }
-    /*
-    public function behaviors() {
-        if($this->scenario != self::SCENARIO_IMPORT){
-            return [
-                'afterSave'=>[
-                    'class'=>'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
-            ];
-
-        }
-        return [];
-    }*/
+    public function behaviors()
+    {
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
+    }
 
     /**
      * @return array validation rules for model attributes.
@@ -183,13 +182,13 @@ class InstructorIdentification extends AltActiveRecord
 
         // if (Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)) {
         //     $school = Yii::app()->user->school;
-        //     $criteria->compare('school_inep_id_fk', $school);   
+        //     $criteria->compare('school_inep_id_fk', $school);
         // }
 
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
-        
+
         return new CActiveDataProvider($this, array(
                     'criteria' => $criteria,
                     'sort' => array(

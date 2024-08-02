@@ -40,15 +40,16 @@
         <div class="row">
             <div class="column is-two-fifths clearfix">
                 <div class="t-field-select">
-                    <?php echo $form->label($model,'stage', array('class' => 't-field-select__label--required')); ?>
-                    <?php echo $form->dropDownList($model,'stage',
-                        Chtml::listData(EdcensoStageVsModality::model()->findAll("id < 99"), 'id', 'name'),
+                    <?php echo $form->label($model,'edcenso_associated_stage_id', array('class' => 't-field-select__label--required')); ?>
+                    <?php echo $form->dropDownList($model,'edcenso_associated_stage_id',
+                        Chtml::listData(EdcensoStageVsModality::model()->findAll("is_edcenso_stage = 1"), 'id', 'name'),
                         array(
+                            'prompt' => "Selecione...",
                             'id' => "stage",
                             'class' => 't-field-select__input select2-container'
                         )
                     ); ?>
-                    <?php echo $form->error($model,'stage'); ?>
+                    <?php echo $form->error($model,'edcenso_associated_stage_id'); ?>
                 </div>
             </div>
         </div>

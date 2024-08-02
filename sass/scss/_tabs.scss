@@ -2,7 +2,7 @@
 @import '_functions.scss';
 
 .t-tabs {
-    
+
     display: flex;
     list-style: none;
     margin: $spaceEmpty;
@@ -11,10 +11,10 @@
     overflow-y: hidden;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
-    
+
 
     @include device(tablet) {
-    
+
         padding: $spaceSmall $spaceMedium $spaceSmall $spaceEmpty;
         margin: $spaceEmpty $spaceMedium $spaceEmpty $spaceEmpty;
         overflow-x: hidden;
@@ -30,14 +30,14 @@
         list-style: none;
         padding: $spaceEmpty;
         margin: $spaceEmpty ;
-        
+
         .t-tabs__item {
             display: inline-flex;
             white-space: nowrap;
             padding: $spaceEmpty;
             margin: $spaceEmpty;
             text-align: center;
-            
+
 
             &.active {
                 font-weight: $fontWeightBold;
@@ -63,7 +63,7 @@
             a {
                 text-decoration: none;
             }
-            
+
             .t-tabs__link {
                 font-size: $FontSizeTextNormal;
                 height: auto;
@@ -81,14 +81,14 @@
                     &.first {
                         padding: $spaceXXXSmall $spaceMedium $spaceXXXSmall $spaceEmpty;
                     }
-            
+
                 }
                 @include device(desktop) {
                     padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceMedium;
                     &.first {
                         padding: $spaceXXSmall $spaceMedium $spaceXXSmall $spaceEmpty;
                     }
-                    
+
                 }
                 .t-tabs__numeration {
                     display: flex;
@@ -103,7 +103,7 @@
                 }
             }
 
-           
+
         }
     }
 
@@ -118,7 +118,6 @@
         list-style: none;
         text-align: center;
         padding: $spaceEmpty;
-        margin-left: $spaceEmpty;
         overflow-x: scroll;
         &::-webkit-scrollbar {
             display: none;
@@ -130,12 +129,12 @@
            font-size: $FontSizeTextNormal;
             cursor: pointer;
             @include device(mobile) {
-                font-size: $FontSizeTextNormal; 
+                font-size: $FontSizeTextNormal;
             }
             .text-primary {
                 color: $colorsBaseInkNormal;
             }
-            
+
             .text-secondary {
                 color: $colorsBaseInkLight;
             }
@@ -144,7 +143,7 @@
                 font-weight: $fontWeightSemiBold;
             }
         }
-        
-    }    
-    
+
+    }
+
 }

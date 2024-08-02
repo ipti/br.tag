@@ -50,8 +50,8 @@
  * @property integer $other_courses_other
  * @property integer $other_courses_none
  * @property integer $hash
- * 
- * 
+ *
+ *
  *
  * The followings are the available model relations:
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode1Fk
@@ -80,16 +80,18 @@ class InstructorVariableData extends AltActiveRecord
 	{
 		return 'instructor_variable_data';
 	}
-/*
-        public function behaviors() {
-            return [
-                'afterSave'=>[
-                    'class'=>'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
-            ];
-        }
-        */
+    public function behaviors()
+    {
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
+    }
 	/**
 	 * @return array validation rules for model attributes.
 	 */

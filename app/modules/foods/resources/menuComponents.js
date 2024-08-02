@@ -52,11 +52,12 @@ const DateComponent = function () {
     const container = $(".js-days-of-week-component");
     const template = daysOfWeek.reduce((html, day, index) => {
       const isActive = index === 1 ? "active" : ""; // Adiciona a classe "active" à segunda-feira
-      const isWeekend = index === 0 || index === 6; // Verifica se é sábado ou domingo
+      const isSaturday = index === 6 ? "hide js-saturday" : "";
+      const isWeekend = index === 0;
 
       if (!isWeekend) {
         return html +
-          `<li class="t-tabs__item js-day-tab js-change-pagination ${isActive}" data-day-of-week=${index} >
+          `<li class="t-tabs__item js-day-tab js-change-pagination ${isActive} ${isSaturday}" data-day-of-week=${index} >
             <div class="text-primary">${day}</div>
           </li>`;
       } else {
@@ -197,7 +198,9 @@ const PlateComponent = function (plate) {
         cho: "",
         kcal:"",
         nameFood:"",
-        measurementUnit: ""
+        measurementUnit: "",
+        measurementForUnit:"",
+        amountForUnit: ""
       })
       idIgredientes++
       plate.foodIngredients.map((e) => {
@@ -217,7 +220,6 @@ const PlateComponent = function (plate) {
       type: "GET",
     }).success(function (response) {
       response = JSON.parse(DOMPurify.sanitize(response))
-
       food.pt = response.pt
       food.lip = response.lip
       food.cho = response.cho
@@ -247,10 +249,12 @@ const PlateComponent = function (plate) {
         }
         removeIngrendientsName($(e.target).attr("data-id-plate"), line.find('.js-food-name').text())
         line.remove();
+        calculateNutritionalValue(table)
 
       })
       table.find('.js-total').remove()
       addFoodMeasurement(line, food)
+      addFoodMeasurementForUnit(line, food)
       addUnitMask(line)
       changeAmount(line, food, table)
       table.append(line)
@@ -258,54 +262,74 @@ const PlateComponent = function (plate) {
       calculateNutritionalValue(table)
       initializeSelect2()
   }
-  function changeAmount(line, food, table) {
-    const input = line.find('.js-unit input')
-    const select = line.find('.js-measure select')
-    const td = line.find('.js-amount')
+  function updateNutritionalValuesForUnit(td, input, food, line, table) {
+    const value = Number(td.find(".js-amount-for-unit").val()) * Number(input.val());
+    const measure = td.find(".js-measurement-for-unit").val();
+    updateNutritionalValues(value, measure, food, line);
+    calculateNutritionalValue(table);
+}
+function updateAmount(td, select, food, input, line) {
+    const newAmount = calculateAmount(
+        select.find('option:selected').attr('data-value'),
+        food,
+        input.val(),
+        select.find('option:selected').attr('data-measure'),
+        line
+    );
+    td.find(".js-amount-value").text(newAmount);
+}
+function handleSelectChange(select, td, input, food, line, table) {
+    food.foodMeasureUnitId = select.val();
+    const isUnit = select.find('option:selected').text() === "unidade";
 
-    input.on('input', function (event) {
-            let newAmount = calculateAmount(
-                select.find('option:selected').attr('data-value'),
-                food,
-                input.val(),
-                select.find('option:selected').attr('data-measure'),
-                line
-                )
-            td.find(".js-amount-value").text(newAmount)
-            calculateNutritionalValue(table)
+    td.find(".js-amount-for-unit, .js-measurement-for-unit").toggle(isUnit);
+    td.find(".js-amount-value").toggle(!isUnit);
 
-    })
-      select.on('change', function (event) {
-          food.foodMeasureUnitId = select.val()
-          let newAmount = calculateAmount(
-              select.find('option:selected').attr('data-value'),
-              food,
-              input.val(),
-              select.find('option:selected').attr('data-measure'),
-              line
-              )
-              calculateNutritionalValue(table)
-              td.find(".js-amount-value").text(newAmount)
-    })
-      let newAmount = calculateAmount(
-      select.find('option:selected').attr('data-value'),
-      food,
-      input.val(),
-      select.find('option:selected').attr('data-measure'),
-      line
-      )
-      td.find(".js-amount-value").text(newAmount)
-      calculateNutritionalValue(table)
+    if (isUnit) {
+        updateNutritionalValuesForUnit(td, input, food, line, table);
+        td.find('.js-amount-for-unit').removeClass('js-ignore-validation');
+    } else {
+        updateAmount(td, select, food, input, line);
+        calculateNutritionalValue(table);
+        td.find('.js-amount-for-unit').addClass('js-ignore-validation');
+    }
+}
+function changeAmount(line, food, table) {
+    const input = line.find('.js-unit input');
+    const select = line.find('.js-measure select');
+    const td = line.find('.js-amount');
 
-  }
+    input.on('input', function () {
+        if (select.find('option:selected').text() === "unidade") {
+            updateNutritionalValuesForUnit(td, input, food, line, table);
+        } else {
+            updateAmount(td, select, food, input, line);
+        }
+        calculateNutritionalValue(table);
+    });
+
+    td.find(".js-amount-for-unit").on("input", function () {
+        updateNutritionalValuesForUnit(td, input, food, line, table);
+    });
+
+    td.find(".js-measurement-for-unit").on("change", function () {
+        updateNutritionalValuesForUnit(td, input, food, line, table);
+    });
+
+    select.on('change', function () {
+        handleSelectChange(select, td, input, food, line, table);
+    });
+
+    handleSelectChange(select, td, input, food, line, table);
+}
   function calculateAmount(value, food, amount, measure, line) {
     amount = amount == "" ? 0 : amount
 
     let result = (Number(amount) * Number(value)).toFixed(2)
 
-    if(measure == 'u') {
+   /*  if(measure == 'u') {
         result = parseInt(result);
-    }
+    } */
     updateNutritionalValues(result, measure, food, line)
     if(food.measurementUnit !="l" && measure == 'ml') {
         return result + 'g'
@@ -328,6 +352,7 @@ const PlateComponent = function (plate) {
       line.find(".js-kcal").text(((food.kcal * kgTog)/100).toFixed(2))
      }
   }
+
   function calculateNutritionalValue(table) {
     let total_pt = total_lip = total_cho = total_kcal = 0;
     table.find('.js-pt').each((_, pt) => {
@@ -365,6 +390,15 @@ const PlateComponent = function (plate) {
                 </select>
             </td>`)
       .append(`<td class='js-amount'>
+                <div class='justify-content--center align-items--center'>
+                    <input type='text' class="js-amount-for-unit t-field-text__input js-ignore-validation" name="Quantidade" required='required'value="${food.amountForUnit}" style='width:50px !important;margin-top:0px;display:none;'>
+                    <select class="t-field-select__input js-measurement-for-unit" style='width:50px !important;display:none;margin-bottom:0.2em;'>
+                        <option value="g">g</option>
+                        <option value="Kg">kg</option>
+                        <option value="ml">ml</option>
+                        <option value="L">L</option>
+                    </select>
+                </div>
                 <span class="js-amount-value"></span>
              </td>`)
       .append(`<td class='js-pt'>${food.pt}</td>`)
@@ -374,6 +408,11 @@ const PlateComponent = function (plate) {
       .append(`<td class='js-remove-taco-food'><span class='t-icon-close t-button-icon' data-id-plate='${plate.id}' data-id-food-ingredients="${food.id}"><span></td>`)
 
     return line;
+  }
+  function addFoodMeasurementForUnit(line, food){
+    const select = line.find('.js-measurement-for-unit')
+    select.val(food.measurementForUnit).trigger('change')
+
   }
   function addFoodMeasurement(line, food) {
       const select = line.find('.js-food-measurement')
@@ -392,8 +431,8 @@ const PlateComponent = function (plate) {
       initializeSelect2()
   }
   function addUnitMask(line) {
-    const input = line.find('.js-unit input')
-    input.on('input', (e) => {
+    const inputs = line.find('.js-unit input, .js-amount .js-amount-for-unit')
+    inputs.on('input', (e) => {
       const inputValue = e.target.value;
 
       if (/[^0-9.]/.test(inputValue)) {
@@ -505,7 +544,7 @@ const MealsComponent = function (meal, day) {
         </div>
       </div>
       <div class="row">
-        <div class="js-plate-accordion column">
+        <div class="js-plate-accordion t-accordeon-secondary column">
         </div>
       </div>
     </div>
