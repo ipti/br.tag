@@ -1452,66 +1452,15 @@ private function separateBaseDisciplines($disciplineId)
         return $schedulesPerUnityPeriods;
     }
 
+
 public function getStudentCertificate($enrollment_id): array
 {
-    /*
-    
-    informações do status:
-            "1" => STATUS_ACTIVE,
-            "2" => STATUS_TRANSFERRED,
-            "3" => STATUS_CANCELED,
-            "4" => STATUS_ABANDONED,
-            "5" => STATUS_RESTORED,
-            "6" => STATUS_APPROVED,
-            "7" => STATUS_APPROVEDBYCOUNCIL,
-            "8" => STATUS_DISAPPROVED,
-            "9" => STATUS_CONCLUDED,
-            "10" => STATUS_INDETERMINED,
-            "11" => STATUS_DEATH,
-            "12" => STATUS_ADVANCED
-    */
-    
-    
-    
     $command = Yii::app()->db->createCommand("
-        SELECT
-            si.name AS student_name,
-            si.birthday,
-            si.sex,
-            si.filiation_1,
-            si.filiation_2,
-            se.status,
-            c.name AS class_name,
-            c.school_year,
-            sch.name AS school_name,  -- Adiciona o nome da escola
-            ed.name AS discipline_name,
-            ed.id AS discipline_id,
-            gr.grade_1,
-            gr.grade_2,
-            gr.grade_3,
-            gr.grade_4,
-            gr.final_media,
-            sdaa.address,
-            ec.name AS city_name,
-            eu.acronym AS uf_acronym,
-            eu.name AS uf_name,
-            esv.alias AS etapa_name
-        FROM
-            student_enrollment se
-        JOIN student_identification si ON si.id = se.student_fk
-        JOIN student_documents_and_address sdaa ON sdaa.id = si.id
-        JOIN classroom c ON c.id = se.classroom_fk
-        JOIN grade_results gr ON gr.enrollment_fk = se.id
-        JOIN edcenso_discipline ed ON ed.id = gr.discipline_fk
-        JOIN edcenso_city ec ON ec.id = si.edcenso_city_fk
-        JOIN edcenso_uf eu ON eu.id = ec.edcenso_uf_fk
-        JOIN edcenso_stage_vs_modality esv ON esv.id = c.edcenso_stage_vs_modality_fk
-        JOIN school_identification sch ON sch.inep_id = c.school_inep_fk  -- JOIN para obter o nome da escola
-        WHERE
-            se.student_fk = :student_fk AND se.status = 9; 
+        SELECT *
+        FROM student_certificates
+        WHERE student_fk = :student_id;
     ");
-    $command->bindValue(':student_fk', $enrollment_id);
-
+    $command->bindValue(':student_id', $enrollment_id); 
     $results = $command->queryAll();
 
     $formattedResult = [];
@@ -1519,6 +1468,7 @@ public function getStudentCertificate($enrollment_id): array
     $diversifiedDisciplines = [];
 
     foreach ($results as $row) {
+
         $class_name = $row['class_name'];
         $school_year = $row['school_year'];
         $discipline_id = $row['discipline_id'];
@@ -1532,12 +1482,11 @@ public function getStudentCertificate($enrollment_id): array
                 'uf_acronym' => $row['uf_acronym'],
                 'uf_name' => $row['uf_name'],
                 'etapa_name' => $row['etapa_name'],
-                'status_disciplina'=>$row['status'],
+                'status_disciplina' => $row['status'],
                 'base_disciplines' => [],
                 'diversified_disciplines' => [],
             ];
         }
-
 
         if ($this->separateBaseDisciplines($discipline_id)) {
             $formattedResult[$class_name]['base_disciplines'][] = [
@@ -1578,10 +1527,11 @@ public function getStudentCertificate($enrollment_id): array
         'diversifiedDisciplines' => array_unique($diversifiedDisciplines),
     ];
 
-    // CVarDumper::dump($finalResult, 10, true);
-
     return ['student' => $finalResult];
 }
+
+
+
 
 
     public function getStatementAttended($enrollmentId) : array
