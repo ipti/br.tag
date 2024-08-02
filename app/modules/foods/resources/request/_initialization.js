@@ -153,7 +153,7 @@ $(document).on("click", "#save-request", function () {
 });
 
 $(document).on("click", "#js-add-food", function () {
-    let food = $('#foodSelect').find('option:selected').text();
+    let food = $('#foodSelect').find('option:selected').text().trimEnd();
     let foodId = $('#foodSelect').val().split(',')[0];
     let foodCategory = $('#foodSelect').val().split(',')[2];
     let amount = $('#amount').val();
