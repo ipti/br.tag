@@ -1,3 +1,6 @@
+## [Versão 3.82.171]
+- Criado o módulo de Certificado, que permite acessar informações detalhadas sobre o aluno, incluindo disciplinas cursadas, notas finais, e escolas frequentadas.
+
 ## [Versão 3.81.171]
 - Retirando a obrigatóriedade do código da escola sede no formulário de escola
 
