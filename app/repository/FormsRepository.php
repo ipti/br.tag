@@ -200,6 +200,25 @@ class FormsRepository {
         return false;
     }
 
+    private function getPartialRecovery($stage)
+    {
+        $result = array();
+        $gradeRules = GradeRules::model()->findByAttributes(["edcenso_stage_vs_modality_fk"=>$stage]);
+        $partialRecoveries = GradePartialRecovery::model()->findAllByAttributes(["grade_rules_fk"=>$gradeRules->id, "semester"=> null]);
+        foreach ($partialRecoveries as $partialRecovery) {
+            $unities = GradeUnity::model()->findAll(
+                "parcial_recovery_fk IS NOT NULL AND edcenso_stage_vs_modality_fk = :stage",
+                array(':stage' => $stage)
+            );
+            $result["rec_partial_".$partialRecovery->order_partial_recovery] = [];
+            foreach($unities as $key => $unity){
+                if($unity->parcial_recovery_fk == $partialRecovery->id){
+                    array_push($result["rec_partial_".$partialRecovery->order_partial_recovery], ('grade_'.($key+1)));
+                }
+            }
+        }
+        return $result;
+    }
     /**
      * Ficha de Notas
      */
@@ -213,6 +232,7 @@ class FormsRepository {
         $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
         $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
         $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]); // unidades da turma
+        $partialRecovery = $this->getPartialRecovery($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
 
         // Ajusta ordem das unidades se houver rec. Final
         $recFinalIndex = array_search('RF', array_column($unities, 'type'));
@@ -261,6 +281,7 @@ class FormsRepository {
                         "discipline_id" => $gradeResult->disciplineFk->id,
                         "final_media" => $gradeResult->final_media,
                         "grade_result" => $gradeResult,
+                        "partial_recoveries" => $partialRecovery,
                         "total_number_of_classes" => $totalContentsPerDiscipline,
                         "total_faults" => $totalFaultsPerDicipline,
                         "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
@@ -275,6 +296,7 @@ class FormsRepository {
                     "discipline_id" => $discipline,
                     "final_media" => null,
                     "grade_result" => null,
+                    "partial_recoveries" => $partialRecovery,
                     "total_number_of_classes" => $totalContentsPerDiscipline,
                     "total_faults" => $totalFaultsPerDicipline,
                     "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100

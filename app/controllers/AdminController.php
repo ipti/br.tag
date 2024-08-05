@@ -312,6 +312,11 @@ class AdminController extends Controller
             ]
         );
         if (isset($_POST['Users'])) {
+            if(!isset($_POST['schools']) && ($_POST['Role']) != 'admin')
+            {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'É necessário atribuir uma escola para o novo usuário criado!'));
+                $this->redirect(['index']);
+            }
             if (!isset($modelValidate)) {
                 $model->attributes = $_POST['Users'];
                 if ($model->validate()) {
@@ -468,6 +473,7 @@ class AdminController extends Controller
             $resultPartialRecovery["name"] = $partialRecovery->name;
             $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
             $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->grade_calculation_fk;
+            $resultPartialRecovery["semester"] = $partialRecovery->semester;
             $resultPartialRecovery["weights"] = [];
             if($partialRecovery->gradeCalculationFk->name == "Peso") {
                 $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk"=>$partialRecovery->id]);
