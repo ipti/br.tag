@@ -52,6 +52,7 @@ class CourseClass extends CActiveRecord
 			array('order, course_plan_fk', 'numerical', 'integerOnly'=>true),
 			array('fkid', 'length', 'max'=>40),
 			array('methodology', 'length', 'max'=>1500),
+
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, order, content, course_plan_fk, fkid, methodology', 'safe', 'on'=>'search'),

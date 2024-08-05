@@ -108,7 +108,6 @@ class CourseplanController extends Controller
         $courseClasses = [];
         foreach ($coursePlan->courseClasses as $courseClass) {
             $order = $courseClass->order - 1;
-            $courseClasses[$order] = [];
             $courseClasses[$order]["class"] = $courseClass->order;
             $courseClasses[$order]['courseClassId'] = $courseClass->id;
             $courseClasses[$order]['content'] = $courseClass->content;
@@ -128,9 +127,9 @@ class CourseplanController extends Controller
                 $ability["description"] = $courseClassHasClassAbility->courseClassAbilityFk->description;
                 array_push($courseClasses[$order]['abilities'], $ability);
             }
-                $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents) ? "" : "js-unavailable";
-            }
-        echo json_encode(["data" => $courseClasses]);
+            $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents) ? "" : "js-unavailable";
+        }
+        echo json_encode(["data" => array_values($courseClasses)]);
     }
 
     public function actionGetDisciplines()
