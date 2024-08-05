@@ -463,12 +463,6 @@ $form = $this->beginWidget(
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_multiple_disabilities']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_autism']; ?>
@@ -1752,16 +1746,29 @@ $form = $this->beginWidget(
                                         ':school' => Yii::app()->user->school,
                                     ]
                                 );
+
+                                $classroomOptions = CHtml::listData($classrooms, 'id', 'name');
+                                $optionsDataAttributes = array();
+                                foreach($classrooms as $classroom) {
+                                    $optionsDataAttributes[$classroom->id] = array('data-isMulti' =>
+                                    (int)(TagUtils::isMultiStage(
+                                        $classroom->edcenso_stage_vs_modality_fk))
+                                );
+                                }
+
                                 echo $form->dropDownList(
                                     $modelEnrollment,
                                     'classroom_fk',
-                                    CHtml::listData(
-                                        $classrooms,
-                                        'id',
-                                        'name'
-                                    ),
-                                    array("prompt" => "Selecione uma Turma", 'class' => 'select-search-off t-field-select__input select2-container')
-                                ); ?>
+                                    $classroomOptions,
+                                    array(
+                                        "prompt" => "Selecione uma Turma",
+                                        'class' => 'select-search-off t-field-select__input select2-container js-classroom-is-multi',
+                                        'options' => $optionsDataAttributes,
+                                        'encode' => false
+                                    )
+                                );
+
+                                ?>
                                 <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
                             </div>
                         </div>
