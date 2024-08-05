@@ -637,26 +637,33 @@ class ReportsRepository
     public function getTeachersBySchool(): array
     {
         $sql = "SELECT
+                ii.id,
                 ii.name,
                 ii.birthday_date,
                 ii.inep_id,
-                ii.school_inep_id_fk
+                c.school_inep_fk
             FROM instructor_identification ii
-            GROUP BY ii.name;";
-        $instructors = Yii::app()->db->createCommand($sql)->queryAll();
+            JOIN instructor_teaching_data itd ON ii.id = itd.instructor_fk
+            JOIN classroom c ON c.id = itd.classroom_id_fk
+            WHERE c.school_year = :user_year
+            GROUP BY c.school_inep_fk,
+                ii.name
+            order by
+                ii.name";
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindValue(':user_year', Yii::app()->user->year, PDO::PARAM_INT);
+        $instructors = $command->queryAll();
 
         $schools = SchoolIdentification::model()->findAll();
         $result = [];
         foreach ($schools as $school) {
             $instructorBySchool = array_filter($instructors, function ($instructor) use ($school) {
-                return $instructor['school_inep_id_fk'] == $school->inep_id;
+                return $instructor['school_inep_fk'] == $school->inep_id;
             });
             array_push($result, ["school" => $school, "instructors" => $instructorBySchool]);
         }
 
         return array("report" => $result);
-
-
     }
 
     /**
@@ -2435,34 +2442,34 @@ class ReportsRepository
         } else {
             $classroomName = null;
         }
-    
+
         return $classroomName;
     }
 
     private function getClassroomDetails($classroomFk, $year) {
-        $query = "SELECT * FROM classroom c 
-                  JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk 
+        $query = "SELECT * FROM classroom c
+                  JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk
                   WHERE c.id = :id and c.school_year = :year and (esvm.stage = 6 OR esvm.name LIKE '%multi%' OR esvm.name LIKE '%Multi%')";
-    
+
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":id", $classroomFk);
         $command->bindValue(":year", $year);
         $classroomDetails = $command->queryRow();
-    
+
         return $classroomDetails;
     }
-    
+
     private function getStudentEnrollmentDetails($studentEnrollment) {
-        $query = "SELECT esm.name 
-                  FROM student_enrollment se 
+        $query = "SELECT esm.name
+                  FROM student_enrollment se
                   JOIN edcenso_stage_vs_modality esm ON esm.id = se.edcenso_stage_vs_modality_fk
                   WHERE se.student_fk = :studentFk AND classroom_fk = :classroomFk";
-    
+
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":studentFk", $studentEnrollment->student_fk);
         $command->bindValue(":classroomFk", $studentEnrollment->classroom_fk);
         $enrollmentDetails = $command->queryScalar();
-    
+
         return $enrollmentDetails;
     }
 
