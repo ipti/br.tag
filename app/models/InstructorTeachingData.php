@@ -75,18 +75,19 @@ class InstructorTeachingData extends AltActiveRecord
 		return 'instructor_teaching_data';
 	}
 
-        /*public function behaviors() {
-			if($this->scenario != self::SCENARIO_IMPORT){
-				return [
-					'afterSave'=>[
-						'class'=>'application.behaviors.CAfterSaveBehavior',
-						'schoolInepId' => Yii::app()->user->school,
-					],
-				];
-			}
-			return[];
-        }*/
-        
+    public function behaviors()
+    {
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
+    }
+
 	/**
 	 * @return array validation rules for model attributes.
 	 */

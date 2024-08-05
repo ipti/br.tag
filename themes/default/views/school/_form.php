@@ -3698,7 +3698,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
-                                        'equipments_material_cultural',
+                                        'equipments_material_professional_education',
                                         array('value' => 1, 'uncheckValue' => 0)
                                     ); ?>
                                     <label class="t-field-checkbox">

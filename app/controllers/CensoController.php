@@ -493,7 +493,9 @@ class CensoController extends Controller
             $collumn["equipments_musical_instruments"],
             $collumn["equipments_educational_games"],
             $collumn["equipments_material_cultural"],
+            $collumn["equipments_material_professional_education"],
             $collumn["equipments_material_sports"],
+            $collumn["equipments_material_teachingdeafs"],
             $collumn["equipments_material_teachingindian"],
             $collumn["equipments_material_teachingethnic"],
             $collumn["equipments_material_teachingrural"],
@@ -650,7 +652,8 @@ class CensoController extends Controller
         //campo 38
 
         //abaixo: $column['stage'] ou $column['edcenso_stage_vs_modality_fk']?
-        $result = $crv->isValidStage($column['edcenso_stage_vs_modality_fk'], $column['complementary_activity'], $column['pedagogical_mediation_type'], $column["modality"], $column["diff_location"]);
+        $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($column['edcenso_stage_vs_modality_fk']);
+        $result = $crv->isValidStage($edcensoStageVsModality->edcenso_associated_stage_id, $column['complementary_activity'], $column['pedagogical_mediation_type'], $column["modality"], $column["diff_location"]);
         if (!$result['status']) array_push($log, array('stage' => $result['erro']));
 
         //campo 39
@@ -1108,9 +1111,6 @@ class CensoController extends Controller
             $collumn['deficiency_type_deafblindness'],
             $collumn['deficiency_type_phisical_disability'],
             $collumn['deficiency_type_intelectual_disability']);
-
-        $result = $stiv->checkMultiple($collumn['deficiency'], $collumn['deficiency_type_multiple_disabilities'], $deficiencies_sample);
-        if (!$result["status"]) array_push($log, array("Tipos de Deficiencia" => $result["erro"]));
 
         $resources = array(
             $collumn['resource_aid_lector'],

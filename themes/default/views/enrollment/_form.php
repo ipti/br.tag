@@ -65,7 +65,23 @@ $form = $this->beginWidget('CActiveForm', array(
                                 echo $form->labelEx($model, 'classroom_fk', array('class' => 't-field-select__label')); ?>
 
                                     <?php
-                                    echo $form->dropDownList($model, 'classroom_fk', CHtml::listData($classrooms, 'id', 'name', 'schoolInepFk.name'), array('class' => 'select-search-on t-field-select__input', 'style' => 'width:100%'));
+                                    $options = [];
+                                    foreach ($classrooms as $classroom) {
+                                        $options[$classroom->id] = array('data-isMulti' =>
+                                        (int)(TagUtils::isMultiStage(
+                                            $classroom->edcenso_stage_vs_modality_fk))
+                                        );
+                                    }
+                                    echo $form->dropDownList(
+                                        $model,
+                                        'classroom_fk',
+                                        CHtml::listData($classrooms, 'id', 'name', 'schoolInepFk.name'),
+                                        array(
+                                            'class' => 'select-search-on t-field-select__input',
+                                            'style' => 'width:100%',
+                                            'options' => $options, // Adiciona os atributos data
+                                        )
+                                    );
                                     echo $form->error($model, 'classroom_fk');
 
                                     ?>

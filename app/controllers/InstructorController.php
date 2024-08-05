@@ -158,7 +158,9 @@ class InstructorController extends Controller
                         $modelInstructorDocumentsAndAddress->validate() &&
                         $modelInstructorVariableData->validate()) {
 
+
                     $user = $this->createUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress);
+
 
                     if ($user->save()) {
                         $modelInstructorIdentification->users_fk = $user->id;
@@ -222,6 +224,20 @@ class InstructorController extends Controller
         }
     }
 
+    private function checkHasUser($instructorIdentification, $instructorDocumentsAndAddress)
+    {
+        $modelUser = Users::model()->findByAttributes(['username' => $instructorDocumentsAndAddress->cpf]);
+        if(!$modelUser)
+        {
+           $user = $this->createUser($instructorIdentification, $instructorDocumentsAndAddress);
+           if($user->save()){
+                $this->createUserSchool($user);
+                $instructorIdentification->users_fk = $user->id;
+           }
+        }
+        return $instructorIdentification;
+    }
+
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -246,7 +262,8 @@ class InstructorController extends Controller
         //==================================
 
         $error[] = '';
-        if (isset($_POST['InstructorIdentification'], $_POST['InstructorDocumentsAndAddress'], $_POST['InstructorVariableData'])) {
+        if (isset($_POST['InstructorIdentification'], $_POST['InstructorDocumentsAndAddress'], $_POST['InstructorVariableData']))
+        {
             $modelInstructorIdentification->attributes = $_POST['InstructorIdentification'];
             $modelInstructorDocumentsAndAddress->attributes = $_POST['InstructorDocumentsAndAddress'];
             $modelInstructorVariableData->attributes = $_POST['InstructorVariableData'];
@@ -322,6 +339,7 @@ preenchidos";
                         $modelInstructorIdentification->save()) {
                     $modelInstructorDocumentsAndAddress->id = $modelInstructorIdentification->id;
                     $modelInstructorVariableData->id = $modelInstructorIdentification->id;
+                    $modelInstructorIdentification = $this->checkHasUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress);
 
                     $modelInstructorVariableData->high_education_course_code_1_fk =
                         empty($modelInstructorVariableData->high_education_course_code_1_fk) ? NULL :
@@ -540,44 +558,26 @@ preenchidos";
     {
 
         $instructor = InstructorIdentification::model()->findByPk($id);
-        $instructor_inepid_id = isset($instructor->inep_id) && !empty($instructor->inep_id) ? $instructor->inep_id : $instructor->id;
-        $return = NULL;
+        $instructorId = $instructor->id;
+        $return = null;
         if ($model == $this->InstructorIdentification) {
-            $return = InstructorIdentification::model()->findByPk($id);
+            $return = InstructorIdentification::model()->findByPk($instructorId);
         } else if ($model == $this->InstructorDocumentsAndAddress) {
-            if (isset($instructor->inep_id) && !empty($instructor->inep_id)) {
-                $return = InstructorDocumentsAndAddress::model()->findByAttributes(['inep_id' => $instructor_inepid_id, "school_inep_id_fk" => Yii::app()->user->school]);
-                if ($return == null) {
-                    $return = InstructorDocumentsAndAddress::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
-                }
-            } else {
-                $return = InstructorDocumentsAndAddress::model()->findByPk($instructor_inepid_id);
-            }
+            $return = InstructorDocumentsAndAddress::model()->findByPk($instructorId);
         } else if ($model == $this->InstructorVariableData) {
-            if (isset($instructor->inep_id) && !empty($instructor->inep_id)) {
-                $return = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id, "school_inep_id_fk" => Yii::app()->user->school]);
-                if ($return == null) {
-                    $return = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
-                }
-            } else {
-                $return = InstructorVariableData::model()->findByPk($instructor_inepid_id);
-            }
+            $return = InstructorVariableData::model()->findByPk($instructorId);
         } else if ($model == $this->InstructorTeachingData) {
-            if (isset($instructor->inep_id) && !empty($instructor->inep_id)) { // VEr possível correção !!!!
-                $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_inep_id' => $instructor_inepid_id]);
-            } else {
-                $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_fk' => $instructor_inepid_id]);
-            }
+            $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_fk' => $instructorId]);
         }
 
-        if ($return === NULL && $model == $this->InstructorIdentification) {
+        if ($return === null && $model == $this->InstructorIdentification) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-        if ($return === NULL && $model == $this->InstructorDocumentsAndAddress) {
+        if ($return === null && $model == $this->InstructorDocumentsAndAddress) {
             $return = InstructorDocumentsAndAddress::model()->findByPk($id);
         }
 
-        if ($return === NULL && $model == $this->InstructorVariableData) {
+        if ($return === null && $model == $this->InstructorVariableData) {
             $return = InstructorVariableData::model()->findByPk($id);
         }
 

@@ -32,9 +32,16 @@ class InstructorFaults extends CActiveRecord
 	{
 		return 'instructor_faults';
 	}
-        
+
         public function behaviors() {
             return [
+                'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+                ],
                 'afterSave'=>[
                     'class'=>'application.behaviors.CAfterSaveBehavior',
                     'schoolInepId' => Yii::app()->user->school,

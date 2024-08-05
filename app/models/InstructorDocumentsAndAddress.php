@@ -2,23 +2,23 @@
 
 /**
  * This is the model class for table "instructor_documents_and_address".
- * 
+ *
  * The followings are the available columns in table 'instructor_documents_and_address':
- * @property string $register_type    
+ * @property string $register_type
  * @property string $school_inep_id_fk
- * @property string $inep_id          
- * @property integer $id               
- * @property string $cpf              
+ * @property string $inep_id
+ * @property integer $id
+ * @property string $cpf
  * @property integer $area_of_residence
- * @property integer $diff_location    
- * @property string $cep              
- * @property string $address          
- * @property string $address_number   
- * @property string $complement       
- * @property string $neighborhood     
- * @property integer $edcenso_uf_fk    
- * @property integer $edcenso_city_fk  
- * @property integer $hash             
+ * @property integer $diff_location
+ * @property string $cep
+ * @property string $address
+ * @property string $address_number
+ * @property string $complement
+ * @property string $neighborhood
+ * @property integer $edcenso_uf_fk
+ * @property integer $edcenso_city_fk
+ * @property integer $hash
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
@@ -47,20 +47,19 @@ class InstructorDocumentsAndAddress extends AltActiveRecord
 	{
 		return 'instructor_documents_and_address';
 	}
-        /*
-        public function behaviors() {
-        if($this->scenario != self::SCENARIO_IMPORT){
-            return [
-                'afterSave'=>[
-                    'class'=>'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
-            ];
 
-        }
-        return [];
-
-    }*/
+        public function behaviors()
+    {
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
+    }
 
 	/**
 	 * @return array validation rules for model attributes.
