@@ -1,6 +1,7 @@
 function load() {
     $(".alert-incomplete-data").hide();
-    var monthSplit = $("#month").val().split("-");
+    const fundamentalMaior = Number($("#classroom option:selected").attr("fundamentalmaior"));
+    const monthSplit = $("#month").val().split("-");
     jQuery.ajax({
         type: "POST",
         url: "?r=classes/getFrequency",
@@ -8,6 +9,7 @@ function load() {
         data: {
             classroom: $("#classroom").val(),
             discipline: $("#disciplines").val(),
+            fundamentalMaior: fundamentalMaior,
             month: monthSplit[1],
             year: monthSplit[0]
         },
@@ -17,9 +19,9 @@ function load() {
             $("#classroom, #month, #disciplines, #classesSearch").attr("disabled", "disabled");
         },
         success: function (response) {
-            var data = JSON.parse(response);
+            let data = JSON.parse(response);
             if (data.valid) {
-                var html = "";
+                let html = "";
                 html +=
                     `
                         <div class='container-frequency-over'>
@@ -27,10 +29,10 @@ function load() {
                         <thead class='t-accordion__head'>
                         <tr>
                         </tr>`;
-                var daynameRow = "";
-                var dayRow = "";
-                var scheduleRow = "";
-                var checkboxRow = "";
+                let daynameRow = "";
+                let dayRow = "";
+                let scheduleRow = "";
+                let checkboxRow = "";
 
                 $.each(data.students[0].schedules, function () {
                     dayRow += "<th>" + (pad(this.day, 2) + "/" + pad(monthSplit[1], 2)) + "/" + monthSplit[0] + "</th>";

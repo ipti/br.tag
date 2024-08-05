@@ -1,6 +1,13 @@
 function createTable(data) {
     var monthSplit = $("#month").val().split("-");
-    $("#class-contents").attr("classroom", $("#classroom").val()).attr("month", monthSplit[1]).attr("year", monthSplit[0]).attr("discipline", $("#disciplines").val()).attr("fundamentalmaior", $("#classroom option:selected").attr("fundamentalmaior"));
+    $("#class-contents")
+        .attr("classroom", $("#classroom").val())
+        .attr("month", monthSplit[1])
+        .attr("year", monthSplit[0])
+        .attr("discipline", $("#disciplines").val())
+        .attr("fundamentalmaior", $("#classroom option:selected")
+        .attr("fundamentalmaior")
+    );
     $('#class-contents > thead').html('<tr><th class="center">Dias</th><th style="text-align:left">Conteúdo ministrado em sala de aula</th></tr>');
     $('#class-contents > tbody').html('');
 
@@ -32,10 +39,10 @@ function createTable(data) {
                             <div class='ui-accordion-content js-std-classroom-diaries'>
                                 <textarea class='t-field-tarea__input js-student-classroom-diary' studentid='${this.id}' style='resize: vertical;height: 37px;'></textarea>
                             </div>`
-                    } 
+                    }
                 });
             });
-            
+
             if (!accordionBuilt) {
                 $(".accordion-students").html(accordionHtml);
                 accordionBuilt = true;
