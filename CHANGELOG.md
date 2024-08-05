@@ -1,3 +1,6 @@
+## [Versão 3.84.178]
+- Criado o módulo de ficha AEE, permitindo o cadastro, alteração e relatórios de fichas de alunos pertencentes a turmas AEE
+
 ## [Versão 3.83.178]
 - Nomes dos campos em plano de aula corrigidos e funcionalidade de recursos corrigida.
 - Campo metodologia agora suporta uma string maior.
