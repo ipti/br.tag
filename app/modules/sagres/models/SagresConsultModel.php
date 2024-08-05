@@ -377,7 +377,7 @@ class SagresConsultModel
         $query = "SELECT complementary_activity, aee, school_inep_id_fk, c.name
                   FROM student_enrollment se
                   JOIN classroom c ON se.classroom_fk = c.id
-                  WHERE se.student_fk = :student_fk and (se.status = 1 or se.status is null) and c.school_year = :year";
+                  WHERE se.student_fk = :student_fk and (se.status = 1 or se.status is null) and c.school_year = :year and modality = 1;";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":student_fk", $student['student_fk']);
@@ -393,9 +393,11 @@ class SagresConsultModel
             $schoolInepIds[] = $row['school_inep_id_fk'];
         }
 
+        /*
         if (count(array_unique($schoolInepIds)) > 1) {
             $this->duplicatedSchool($student, $infoStudent);
         }
+        */
 
         if ($count > 2) {
             $classNamesString = implode(", ", $classNames);
@@ -427,6 +429,7 @@ class SagresConsultModel
         ];
     }
 
+    /*
     private function duplicatedSchool($student, $infoStudent){
         $inconsistencyModel = new ValidationSagresModel();
         $inconsistencyModel->enrollment = '<strong>MATRÍCULA</strong>';
@@ -437,8 +440,8 @@ class SagresConsultModel
         $inconsistencyModel->idStudent = $student['student_fk'];
         $inconsistencyModel->idClass = $student['classroom_fk'];
         $inconsistencyModel->idSchool = $student['school_inep_id_fk'];
-        $inconsistencyModel->save();
-    }
+        $inconsistencyModel->save(); 
+    }*/
 
     private function getStudentInfo($student_fk) {
         $sql = "SELECT si.name, sdaa.cpf FROM student_identification si
