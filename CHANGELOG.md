@@ -1,9 +1,36 @@
-## [Versão 3.81.173]
+## [Versão 3.83.178]
 - Nomes dos campos em plano de aula corrigidos e funcionalidade de recursos corrigida.
 - Campo metodologia agora suporta uma string maior.
 
+## [Versão 3.83.177]
+- Adicionado cálculo de médias semestrais
+
+## [Versão 3.83.176]
+- Corrigindo o relatório de professores por escola para que o mesmo exiba somente os professores da escola que estão ligados a turmas
+
+## [Versão 3.83.175]
+- Adicionado filtro por escola, etapa e disciplina na listagem de plano de aula.
+- Adicionado validação para cadastro de novos usuários no sistema.
+
+## [Versão 3.82.175]
+- Realizado correção para inconsistência para alunos nascidos no ano corrente
+
+## [Versão 3.82.174]
+- Modificado campo para Tipo de atividade no relatório de Alunos por Turmas.
+
+## [Versão 3.82.173]
+- Unificada a frequência para turmas multisseriadas
+
+## [Versão 3.82.172]
+- Foram inseridas três exportações em csv na tela do administrador, para alunos, notas e faltas
+
+
 ## [Versão 3.81.172]
+- Ao adicionar CPF no registro de professor sem CPF, um novo usuário é criado.
+- Ao importar dados do Edcenso, professores com CPF terão seus usuários criados.
 - Adicionado Sábado letivo aos cardápios
+- Modificando a forma como o professor é excluído, para que seja de acordo com o id do professor e não pelo id do inep
+- Implementado validações para detectar inconsistências em casos de alunos matriculados em escolas duplicadas ou em turmas regulares.
 
 ## [Versão 3.81.171]
 - Retirando a obrigatóriedade do código da escola sede no formulário de escola

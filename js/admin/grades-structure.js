@@ -21,6 +21,14 @@ $(document).on("keyup", ".unity-name", function (e) {
 
 $(document).on("click", ".js-new-unity", function (e) {
     if (!$('.js-new-unity').hasClass('disabled')) {
+        const options = $(".formulas > option").toArray();
+
+        const filteredOptions = options.reduce((accumulator, option) => {
+            if (!$(option).text().includes("Média Semestral")) {
+                accumulator += option.outerHTML;
+            }
+            return accumulator;
+        }, "");
         const unities = $(".unity").length;
         const isUnityConcept = $(".js-rule-type").select2("val") === "C";
         const unityHtml = template`
@@ -38,6 +46,15 @@ $(document).on("click", ".js-new-unity", function (e) {
                         <label class='t-field-text__label--required'>Nome: </label>
                         <input type='text' class='t-field-text__input unity-name' placeholder='1ª Unidade, 2ª Unidade, Recuperação Final, etc.'>
                     </div>
+
+                    <div class="t-field-select js-mester-container ${isUnityConcept ? "hide": ""}">
+                        <label class='t-field-select__label--required'>Semestre: </label>
+                       <select class='t-field-select__input js-semester select-search-on'>
+                            <option value="">Selecione um semestre</option>
+                            <option value="1">1° semestre</option>
+                            <option value="2">2° semestre</option>
+                       </select>
+                    </div>
                     <div class="t-field-select">
                         <label class='t-field-select__label--required'>Modelo: </label>
                         <select class='t-field-select__input js-type-select select-search-on control-input'>
@@ -52,7 +69,7 @@ $(document).on("click", ".js-new-unity", function (e) {
             }" >
                         <label class='t-field-select__label--required'>Forma de cálculo:  </label>
                         <select class='t-field-select__input js-formula-select select-search-on control-input'>
-                            ${$(".formulas")[0].innerHTML}
+                            ${filteredOptions}
                         </select>
                     </div>
                     <div class="row">
@@ -75,7 +92,7 @@ $(document).on("click", ".js-new-unity", function (e) {
             $(".js-new-modality").last().trigger("click").hide();
             $(".remove-modality").last().hide();
         }
-        $(".unity").last().find(".js-type-select, .js-formula-select").select2();
+        $(".unity").last().find(".js-type-select, .js-formula-select, .js-semester").select2();
         if (!$(".js-new-partial-recovery").hasClass("disabled")) {
             $('.js-alert-save-unities-first')
                 .text("Para cadastrar novas recuperações, conclua o cadastro da unidade")
@@ -205,6 +222,12 @@ $(document).on("change", ".js-formula-select", function (e) {
             $accordionBody.find('.InputWeight-container').html(inputsWeight);
         } else {
             $accordionBody.find('.InputWeight-container').html('');
+        }
+        if(selectedValue === "Média Semestral") {
+            $accordionBody.find('.js-semester-container').show()
+        } else {
+            $accordionBody.find('.js-semester-container').hide()
+
         }
     }
 });
@@ -357,6 +380,7 @@ function initRuleType(ruleType) {
         $("select.js-type-select").html(
             `<option value='UC' selected>Unidade por conceito</option>`
         );
+        $(".js-mester-container").hide();
         $(".js-calculation").hide();
         $(".remove-modality").hide();
         $('.js-partial-recoveries-header').hide();
@@ -372,6 +396,7 @@ function initRuleType(ruleType) {
         $("select.js-type-select").html(` <option value='U'>Unidade</option>
         <option value='UR'>Unidade com recuperação</option>`);
         $(".js-calculation").show();
+        $(".js-mester-container").show();
         $(".js-new-modality").show();
         $(".remove-modality").show();
         $('.js-partial-recoveries-header').show();
@@ -423,6 +448,7 @@ function saveUnities(reply) {
         unities.push({
             id: $(this).find(".unity-id").val(),
             name: $(this).find(".unity-name").val(),
+            semester: $(this).find("select.js-semester").val(),
             type: $(this).find("select.js-type-select").val(),
             formula: $(this).find("select.js-formula-select").val(),
             operation: $(this).find(".unity-operation").val(),
@@ -436,6 +462,7 @@ function saveUnities(reply) {
             id: $(element).find('.partial-recovery-id').val(),
             operation: $(element).find('.partial-recovery-operation').val(),
             name: $(element).find('.partial-recovery-name').val(),
+            semester: $(element).find('select.js-semester').val() == '' ? null : $(element).find('select.js-semester').val(),
             order: index + 1,
             weights: $(element).find('.InputWeight input').length > 0
                 ? getInputWeight(element)
@@ -573,7 +600,6 @@ function checkValidInputs() {
         valid = false;
         message = "Os campos de recuperação parciais são obrigatórios.";
     }
-    console.log(partialRecoveryValid())
     if (valid) {
         if ($(".unity").length) {
             let ucCount = 0;
@@ -681,6 +707,7 @@ function partialRecoveryValid() {
         let name =  $(partialRecoveries).find('.partial-recovery-name').val()
         let formula =  $(partialRecoveries).find('select.js-formula-select').val()
         let unities =  $(partialRecoveries).find('select.js-partial-recovery-unities').val()
+        let operation = $(partialRecoveries).find('.partial-recovery-operation').val()
         let weights =  true
 
         $(partialRecoveries).find('.InputWeight input').each((index, weight)=>{
@@ -688,8 +715,7 @@ function partialRecoveryValid() {
                 weights = false
             }
         })
-
-        if(name ==="" || formula === "" || unities === null ||  weights === false){
+        if((name ==="" || formula === "" || unities === null ||  weights === false) && operation != 'delete'){
             valid = false
         }
     })
@@ -764,6 +790,10 @@ function loadStructure() {
                         unity.find(".unity-title").html(this.name);
                         unity.find(".unity-id").val(this.id);
                         unity
+                            .find("select.js-semester")
+                            .val(this.semester)
+                            .trigger("change")
+                        unity
                             .find("select.js-type-select")
                             .val(this.type)
                             .trigger("change");
@@ -798,6 +828,9 @@ function loadStructure() {
                         let calculationSelect = $("select.js-formula-select").last();
                         calculationSelect.select2();
                         calculationSelect.select2("val", element.grade_calculation_fk);
+                        let semesterSelect = $("select.js-semester").last();
+                        semesterSelect.select2();
+                        semesterSelect.select2("val", element.semester);
                         if(calculationSelect.select2("data").text == "Peso"){
                            let inputsWeight = '';
                            element.weights.forEach(weight => {
@@ -805,6 +838,10 @@ function loadStructure() {
                             });
                             $('.InputWeight-container').last().html(inputsWeight)
                         }
+                        if(calculationSelect.select2("data").text != "Média Semestral") {
+                            semesterSelect.closest('.js-semester-container').hide();
+                        }
+                        $("select.js-semester").last().select2();
                         $("select.js-partial-recovery-unities").last().select2();
                         $("select.js-partial-recovery-unities").last().select2("val", unityOptionsSelected);
                     });
@@ -874,6 +911,14 @@ function addAccordion(id, name) {
                 <input type='text' class='t-field-text__input partial-recovery-name'
                     placeholder='Recuperação Semestral' value="${name}">
             </div>
+            <div class="t-field-select js-semester-container">
+            <label class='t-field-select__label'>Semestre: </label>
+           <select class='t-field-select__input js-semester select-search-on'>
+                <option value="">Selecione um semestre</option>
+                <option value="1">1° semestre</option>
+                <option value="2">2° semestre</option>
+           </select>
+        </div>
             <div class="t-field-select js-calculation">
                 <label class='t-field-select__label--required'>Forma de cálculo:</label>
                 <select class='t-field-select__input js-formula-select select-search-on'>
@@ -916,9 +961,10 @@ $(document).on("click", ".js-new-partial-recovery", (e) => {
         $(".js-alert-save-recovery-first")
             .text("Para cadastrar novas unidades, conclua o cadastro da recuperação")
             .show();
-        newAccordion = addAccordion("", "");
+        newAccordion = addAccordion("", "")
         $('#accordion-partial-recovery').append(newAccordion)
-        $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities").select2();
+        $(".partial-recovery-accordion-body").last().find('.js-semester-container').hide();
+        $(".partial-recovery-accordion-body").last().find(".js-formula-select, .js-partial-recovery-unities, .js-semester").select2();
         $('.js-new-unity').addClass('disabled');
     }
 })

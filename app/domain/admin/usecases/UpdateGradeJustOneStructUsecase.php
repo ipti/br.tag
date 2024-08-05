@@ -69,6 +69,7 @@ class UpdateGradeJustOneStructUsecase
                 }
                 $unityModel->edcenso_stage_vs_modality_fk = $stage;
                 $unityModel->name = $unity["name"];
+                $unityModel->semester = $unity["semester"];
                 $unityModel->type = $unity["type"];
                 $unityModel->grade_calculation_fk = $unity["formula"];
 

@@ -458,7 +458,7 @@ $(document).on("click", ".save-event", function (e, confirm = 0) {
                 }
                 var oldEventDays = $("a.change-event[data-id=" + data.eventId + "]");
                 oldEventDays.attr("data-id", "-1").removeAttr("data-toggle").removeAttr("data-placement").removeAttr("data-original-title");
-                oldEventDays.parent().removeClass("calendar-" + data.color);
+                oldEventDays.parent().removeClass("calendar-" + data.oldColor);
                 oldEventDays.find(".calendar-icon").remove();
                 $.each(data.datesToFill, function () {
                     var date = calendar.find(".change-event[data-year=" + this.year + "][data-month=" + this.month + "][data-day=" + this.day + "]");

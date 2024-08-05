@@ -142,15 +142,19 @@ $diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines)
                             }
                             for($j=0; $j < $diciplinesColumnsCount; $j++) {
                                 $gradeResultFaults += $result[$j]['grade_result']['grade_faults_'.$i];
+                                $gradeResult = $result[$j]['grade_result'];
                                 ?>
                                 <?php if ($unities[$i-1]->type == 'RF') { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['rec_final'] ?></td>
+                                    <td style="text-align: center;"><?= $gradeResult['rec_final'] ?></td>
                                 <?php } else if ($unities[$i-1]->type == 'UC') { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['grade_concept_'.$i] ?></td>
-                                <?php } else if ($result[$j]['grade_result']['grade_'.$i] < $result[$j]['grade_result']['rec_bim_'.$i]) { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['rec_bim_'.$i] ?></td>
+                                    <td style="text-align: center;"><?= $gradeResult['grade_concept_'.$i] ?></td>
+                                <?php
+                                } else if ($gradeResult['grade_'.$i] < $gradeResult['rec_partial_'.$i]
+                                && in_array(('grade_'.$i), $result[$j]["partial_recoveries"]["rec_partial_".$i])) {
+                                ?>
+                                    <td style="text-align: center;"><?= $gradeResult['rec_partial_'.$i] ?></td>
                                 <?php } else { ?>
-                                    <td style="text-align: center;"><?= $result[$j]['grade_result']['grade_'.$i] ?></td>
+                                    <td style="text-align: center;"><?= $gradeResult['grade_'.$i] ?></td>
                                 <?php } ?>
                             <?php }?>
                             <?php if ($unities[$i-1]->type != 'RF') { ?>
