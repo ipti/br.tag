@@ -1,3 +1,8 @@
+
+## [Versão 3.83.175]
+- Adicionado filtro por escola, etapa e disciplina na listagem de plano de aula.
+- Adicionado validação para cadastro de novos usuários no sistema.
+
 ## [Versão 3.82.175]
 - Realizado correção para inconsistência para alunos nascidos no ano corrente
 
