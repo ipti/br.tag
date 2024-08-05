@@ -1700,7 +1700,7 @@ $form = $this->beginWidget(
                 -->
                 <div class="tab-pane" id="student-enrollment">
                     <div class="row">
-                        <div class="column clearleft is-two-sixs">
+                        <div class="column clearleft">
                             <div class="t-buttons-container">
                                 <?php
                                 if (Yii::app()->features->isEnable("FEAT_SEDSP")) {

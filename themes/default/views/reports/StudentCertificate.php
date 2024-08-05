@@ -57,7 +57,7 @@ $disciplinas = array(
 
 $disciplineData = $student['schoolData'];
 
-//  CVarDumper::dump($disciplineData, 10, true);
+//  CVarDumper::dump($student, 10, true);
 
 
 // Encontrar o school_year mais recente

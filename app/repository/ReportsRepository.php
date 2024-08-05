@@ -1452,84 +1452,90 @@ private function separateBaseDisciplines($disciplineId)
         return $schedulesPerUnityPeriods;
     }
 
-
-public function getStudentCertificate($enrollment_id): array
-{
-    $command = Yii::app()->db->createCommand("
-        SELECT *
-        FROM student_certificates
-        WHERE student_fk = :student_id;
-    ");
-    $command->bindValue(':student_id', $enrollment_id); 
-    $results = $command->queryAll();
-
-    $formattedResult = [];
-    $baseDisciplines = [];
-    $diversifiedDisciplines = [];
-
-    foreach ($results as $row) {
-
-        $class_name = $row['class_name'];
-        $school_year = $row['school_year'];
-        $discipline_id = $row['discipline_id'];
-
-        if (!isset($formattedResult[$class_name])) {
-            $formattedResult[$class_name] = [
-                'school_year' => $school_year,
-                'school_name' => $row['school_name'],
-                'address' => $row['address'],
-                'city_name' => $row['city_name'],
-                'uf_acronym' => $row['uf_acronym'],
-                'uf_name' => $row['uf_name'],
-                'etapa_name' => $row['etapa_name'],
-                'status_disciplina' => $row['status'],
-                'base_disciplines' => [],
-                'diversified_disciplines' => [],
-            ];
+    public function getStudentCertificate($enrollment_id): array
+    {
+        $command = Yii::app()->db->createCommand("
+            SELECT *
+            FROM student_certificates
+            WHERE student_fk = :student_id;
+        ");
+        $command->bindValue(':student_id', $enrollment_id); 
+        $results = $command->queryAll();
+    
+        $formattedResult = [];
+        $baseDisciplines = [];
+        $diversifiedDisciplines = [];
+    
+        foreach ($results as $row) {
+    
+            $class_name = $row['class_name'];
+            $school_year = $row['school_year'];
+            $discipline_id = $row['discipline_id'];
+    
+            if (!isset($formattedResult[$class_name])) {
+                $formattedResult[$class_name] = [
+                    'school_year' => $school_year,
+                    'school_name' => $row['school_name'],
+                    'address' => $row['address'],
+                    'city_name' => $row['city_name'],
+                    'uf_acronym' => $row['uf_acronym'],
+                    'uf_name' => $row['uf_name'],
+                    'etapa_name' => $row['etapa_name'],
+                    'status_disciplina' => $row['status'],
+                    'base_disciplines' => [],
+                    'diversified_disciplines' => [],
+                ];
+            }
+    
+            if ($this->separateBaseDisciplines($discipline_id)) {
+                $formattedResult[$class_name]['base_disciplines'][] = [
+                    'discipline_name' => $row['discipline_name'],
+                    'discipline_id' => $row['discipline_id'],
+                    'grade_1' => $row['grade_1'],
+                    'grade_2' => $row['grade_2'],
+                    'grade_3' => $row['grade_3'],
+                    'grade_4' => $row['grade_4'],
+                    'final_media' => $row['final_media'],
+                ];
+                $baseDisciplines[] = $discipline_id;
+            } else {
+                $formattedResult[$class_name]['diversified_disciplines'][] = [
+                    'discipline_name' => $row['discipline_name'],
+                    'discipline_id' => $row['discipline_id'],
+                    'grade_1' => $row['grade_1'],
+                    'grade_2' => $row['grade_2'],
+                    'grade_3' => $row['grade_3'],
+                    'grade_4' => $row['grade_4'],
+                    'final_media' => $row['final_media'],
+                ];
+                $diversifiedDisciplines[] = $discipline_id;
+            }
         }
-
-        if ($this->separateBaseDisciplines($discipline_id)) {
-            $formattedResult[$class_name]['base_disciplines'][] = [
-                'discipline_name' => $row['discipline_name'],
-                'discipline_id' => $row['discipline_id'],
-                'grade_1' => $row['grade_1'],
-                'grade_2' => $row['grade_2'],
-                'grade_3' => $row['grade_3'],
-                'grade_4' => $row['grade_4'],
-                'final_media' => $row['final_media'],
-            ];
-            $baseDisciplines[] = $discipline_id;
-        } else {
-            $formattedResult[$class_name]['diversified_disciplines'][] = [
-                'discipline_name' => $row['discipline_name'],
-                'discipline_id' => $row['discipline_id'],
-                'grade_1' => $row['grade_1'],
-                'grade_2' => $row['grade_2'],
-                'grade_3' => $row['grade_3'],
-                'grade_4' => $row['grade_4'],
-                'final_media' => $row['final_media'],
-            ];
-            $diversifiedDisciplines[] = $discipline_id;
+    
+        // mudnado o formato da data de nascimento
+        $birthday = $results[0]['birthday'];
+        if (strpos($birthday, '-') !== false) {
+            $date = DateTime::createFromFormat('Y-m-d', $birthday);
+            $birthday = $date->format('d/m/Y');
         }
+    
+        $finalResult = [
+            'name' => $results[0]['student_name'],
+            'civil_name' => $results[0]['student_name'],
+            'birthday' => $birthday,
+            'sex' => $results[0]['sex'],
+            'filiation_1' => $results[0]['filiation_1'],
+            'filiation_2' => $results[0]['filiation_2'],
+            'city_name' => $results[0]['city_name'],
+            'uf_name' => $results[0]['uf_name'],
+            'schoolData' => $formattedResult,
+            'baseDisciplines' => array_unique($baseDisciplines),
+            'diversifiedDisciplines' => array_unique($diversifiedDisciplines),
+        ];
+    
+        return ['student' => $finalResult];
     }
-
-    $finalResult = [
-        'name' => $results[0]['student_name'],
-        'civil_name' => $results[0]['student_name'],
-        'birthday' => $results[0]['birthday'],
-        'sex' => $results[0]['sex'],
-        'filiation_1' => $results[0]['filiation_1'],
-        'filiation_2' => $results[0]['filiation_2'],
-        'city_name' => $results[0]['city_name'],
-        'uf_name' => $results[0]['uf_name'],
-        'schoolData' => $formattedResult,
-        'baseDisciplines' => array_unique($baseDisciplines),
-        'diversifiedDisciplines' => array_unique($diversifiedDisciplines),
-    ];
-
-    return ['student' => $finalResult];
-}
-
+    
 
 
 
