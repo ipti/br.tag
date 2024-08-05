@@ -274,7 +274,9 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                                     strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ||
                                                     strpos($_SERVER['REQUEST_URI'], "?r=grades/grades") ||
-                                                    strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard") ? 'in' : '' ?>" id="submenu-electronic-diary">
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=enrollment/reportCard") ||
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=enrollment/gradesRelease") ||
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=aeerecord") ? 'in' : '' ?>" id="submenu-electronic-diary">
 
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ? 'active' : '' ?>">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('courseplan/courseplan') ?>">
@@ -315,6 +317,22 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('enrollment/gradesRelease') ?> ">
                                             <span class="t-report_card t-menu-item__icon"></span>
                                             <span class="t-menu-item__text">Lançamento de Notas</span>
+                                        </a>
+                                    </li>
+                                <?php endif ?>
+                                <?php if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) : ?>
+                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=aeerecord") ? 'active' : '' ?>">
+                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('aeerecord/default/') ?> ">
+                                            <span class="t-icon-copy t-menu-item__icon"></span>
+                                            <span class="t-menu-item__text">Ficha AEE</span>
+                                        </a>
+                                    </li>
+                                <?php endif ?>
+                                <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) : ?>
+                                    <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=aeerecord") ? 'active' : '' ?>">
+                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('aeerecord/default/admin') ?> ">
+                                            <span class="t-icon-copy t-menu-item__icon"></span>
+                                            <span class="t-menu-item__text">Ficha AEE</span>
                                         </a>
                                     </li>
                                 <?php endif ?>

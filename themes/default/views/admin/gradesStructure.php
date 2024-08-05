@@ -88,11 +88,15 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <div class="numeric-fields t-field-select">
                 <label class="t-field-select__label--required">Calculo da média final</span></label>
                 <select class="calculation-final-media select-search-on t-field-select__input">
-                    <?php foreach ($formulas as $formula): ?>
+                    <?php foreach ($formulas as $formula):
+                    ?>
+
                         <option value="<?= $formula->id ?>">
                             <?= $formula->name ?>
                         </option>
-                    <?php endforeach; ?>
+                    <?php
+                          endforeach;
+                    ?>
                 </select>
             </div>
             <div class="numeric-fields t-field-text">
@@ -166,11 +170,14 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
             <div class="t-field-select js-calculation">
                 <label class='t-field-select__label--required'>Forma de cálculo:</span></label>
                 <select class='t-field-select__input select-search-on final-recovery-unity-calculation'>
-                    <?php foreach ($formulas as $formula): ?>
+                    <?php foreach ($formulas as $formula):?>
+
                         <option value="<?= $formula->id ?>">
                             <?= $formula->name ?>
                         </option>
-                    <?php endforeach; ?>
+                    <?php
+                          endforeach;
+                    ?>
                 </select>
             </div>
         </div>

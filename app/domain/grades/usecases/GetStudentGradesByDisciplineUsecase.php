@@ -20,12 +20,15 @@ class GetStudentGradesByDisciplineUsecase
         $rules = GradeRules::model()->findByAttributes([
             "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
         ]);
+
         $studentEnrollments = $classroom->activeStudentEnrollments;
+        $showSemAvarageColumn = $this->checkSemesterUnities($classroom->edcenso_stage_vs_modality_fk);
 
         $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline($classroom->edcenso_stage_vs_modality_fk);
         $unitiesByDiscipline = array_filter($unitiesByDisciplineResult, function ($item){
             return $item["id"] == $this->unityId;
         });
+        $unitiesByDiscipline = array_values($unitiesByDiscipline);
 
         $unityOrder = $this->searchUnityById($unitiesByDisciplineResult);
 
@@ -33,15 +36,7 @@ class GetStudentGradesByDisciplineUsecase
             throw new NoActiveStudentsException();
         }
 
-        $classroomGrades = [];
-        foreach ($studentEnrollments as $enrollment) {
-            $classroomGrades[] = $this->getStudentGradeByDicipline(
-                $enrollment,
-                $this->disciplineId,
-                $unitiesByDiscipline,
-                $unityOrder
-            );
-        }
+
 
         $unityColumns = [];
 
@@ -51,8 +46,29 @@ class GetStudentGradesByDisciplineUsecase
                 "colspan" => $unity->countGradeUnityModalities + ($unity->type === GradeUnity::TYPE_UNITY_WITH_RECOVERY ? 1 : 0),
                 "modalities" => array_column($unity->gradeUnityModalities, 'name'),
                 "calculationName" => $unity->gradeCalculationFk->name,
-                "recoveryPartialFk" => $unity->parcial_recovery_fk == null ? "" : $unity->parcial_recovery_fk
+                "recoveryPartialFk" => $unity->parcial_recovery_fk == null ? "" : $unity->parcial_recovery_fk,
+                "type" => $unity->type
             ];
+        }
+        $semester = null;
+        $type = null;
+        if(count($unitiesByDiscipline) == 1) {
+            $semester = $unitiesByDiscipline[0]->semester;
+            $type = $unitiesByDiscipline[0]->type;
+
+        }
+
+        $classroomGrades = [];
+        foreach ($studentEnrollments as $enrollment) {
+            $classroomGrades[] = $this->getStudentGradeByDicipline(
+                $enrollment,
+                $this->disciplineId,
+                $unitiesByDiscipline,
+                $unityOrder,
+                $semester,
+                $type,
+                $showSemAvarageColumn
+            );
         }
         $partialRecoveryColumns = null;
         $partialRecovery = $this->getpartialRecoveriesByUnity();
@@ -66,12 +82,14 @@ class GetStudentGradesByDisciplineUsecase
                     "calculationName" => $partialRecovery->gradeCalculationFk->name,
             ];
         }
-
         $result = new StructClassromGradeResult();
         $result->setStudents($classroomGrades)
             ->setIsUnityConcept(false)
             ->setUnityColumns($unityColumns)
-            ->setPartialRecoveryColumns($partialRecoveryColumns);
+            ->setPartialRecoveryColumns($partialRecoveryColumns)
+            ->setSemester($semester)
+            ->setType($type)
+            ->setShowSemAvarageColumn($showSemAvarageColumn);
 
         if ($rules->rule_type === "C") {
             $concepts = GradeConcept::model()->findAll();
@@ -81,7 +99,22 @@ class GetStudentGradesByDisciplineUsecase
 
         return $result->toArray();
     }
+    public function checkSemesterUnities($stage) {
 
+        $criteria = new CDbCriteria();
+        $criteria->addCondition("edcenso_stage_vs_modality_fk = :stage");
+        $criteria->addCondition("semester IS NULL");
+        $criteria->addCondition("type != :type");
+        $criteria->params = [
+            ':stage' => $stage,
+            ':type' => 'RF',
+        ];
+
+        $unities = GradeUnity::model()->findAll($criteria);
+        $unitiesTypeUC = count(GradeUnity::model()->findAllByAttributes(['edcenso_stage_vs_modality_fk' => $stage, "type"=>"UC"]));
+        $unitiesCount = count($unities);
+        return $unitiesCount == 0 && $unitiesTypeUC == 0;
+    }
     private function searchUnityById($unities) {
         foreach ($unities as $key => $unity) {
             if ($unity->id == $this->unityId) {
@@ -117,6 +150,27 @@ class GetStudentGradesByDisciplineUsecase
         $criteria->params = array(":unitId"=>$this->unityId);
         return GradePartialRecovery::model()->find($criteria);
     }
+    public function getSemRecPartial ($gradeResult, $semester, $type) {
+        if($type == "RF") {
+            if($gradeResult->sem_avarage_1 == null || $gradeResult->sem_avarage_2 == null) {
+                return "";
+            }
+            $semRecPartial1 = is_numeric($gradeResult->sem_rec_partial_1) ? $gradeResult->sem_rec_partial_1 : 0;
+            $semRecPartial2 = is_numeric($gradeResult->sem_rec_partial_2) ? $gradeResult->sem_rec_partial_2 : 0;
+
+            $gradesSemAvarage1 =  max($gradeResult->sem_avarage_1, $semRecPartial1);
+            $gradesSemAvarage2 =  max($gradeResult->sem_avarage_2, $semRecPartial2);
+
+            return round((($gradesSemAvarage1 + $gradesSemAvarage2)/2), 1);
+
+        } else {
+            if($semester == 1) {
+                return $gradeResult->sem_avarage_1 == null ? "" : $gradeResult->sem_avarage_1;
+            } elseif($semester == 2) {
+                return $gradeResult->sem_avarage_2 == null ? "" : $gradeResult->sem_avarage_2;
+            }
+        }
+    }
 
     /**
      * Get Student grades by discipline
@@ -125,7 +179,7 @@ class GetStudentGradesByDisciplineUsecase
      *
      * @return StudentGradesResult
      */
-    private function getStudentGradeByDicipline($studentEnrollment, $discipline, $unitiesByDiscipline, $unityOrder)
+    private function getStudentGradeByDicipline($studentEnrollment, $discipline, $unitiesByDiscipline, $unityOrder,$type, $semester, $showSemAvarageColumn)
     {
         $studentGradeResult = new StudentGradesResult($studentEnrollment->studentFk->name, $studentEnrollment->id);
 
@@ -144,8 +198,16 @@ class GetStudentGradesByDisciplineUsecase
             $gradeResult->save();
         }
 
+        $semRecPartial = null;
+        if($showSemAvarageColumn) {
+            $semRecPartial = $this->getSemRecPartial($gradeResult, $type, $semester);
+        } else {
+            $semRecPartial = "";
+        }
+        $studentGradeResult->setSemAvarage($semRecPartial);
         $studentGradeResult->setFinalMedia($gradeResult->final_media);
         $studentGradeResult->setSituation($gradeResult->situation);
+
 
         foreach ($unitiesByDiscipline as $key => $unity) {
             /** @var GradeUnity $unit */
@@ -211,7 +273,8 @@ class GetStudentGradesByDisciplineUsecase
                 $partialRecoveryResult = new GradePartialRecoveryResult($partialRecovery->name,
                 $partialRecovery->gradeCalculationFk->name);
                 $partialRecoveryResult->addGrade($gradePartialRecovery);
-                $partialRecoveryResult->addRecPartialResult($gradeResult['rec_partial_'.$partialRecovery->order_partial_recovery]);
+                $partialResult = $partialRecovery->gradeCalculationFk->name == 'Média Semestral' ? $gradeResult['sem_rec_partial_'.$partialRecovery->semester] :  $gradeResult['rec_partial_'.$partialRecovery->order_partial_recovery];
+                $partialRecoveryResult->addRecPartialResult($partialResult);
                 $studentGradeResult->addPartialRecovery($partialRecoveryResult);
 
             }
@@ -261,7 +324,9 @@ class StructClassromGradeResult
     private $students;
     private $concepts;
     private $isUnityConcept;
-
+    private $semester;
+    private $showSemAvarageColumn;
+    private $type;
     private $unityColumns;
     private $partialRecoveryColumns;
 
@@ -281,6 +346,24 @@ class StructClassromGradeResult
     public function setStudents($students)
     {
         $this->students = $students;
+
+        return $this;
+    }
+    public function setSemester($semester)
+    {
+        $this->semester = $semester;
+
+        return $this;
+    }
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+    public function setShowSemAvarageColumn($showSemAvarageColumn)
+    {
+        $this->showSemAvarageColumn = $showSemAvarageColumn;
 
         return $this;
     }
@@ -374,7 +457,10 @@ class StructClassromGradeResult
             'unityColumns' => $this->unityColumns,
             'concepts' => $this->concepts,
             'isUnityConcept' => $this->isUnityConcept,
-            'partialRecoveryColumns' => $this->partialRecoveryColumns
+            'partialRecoveryColumns' => $this->partialRecoveryColumns,
+            'semester' => $this->semester,
+            'showSemAvarageColumn' => $this->showSemAvarageColumn,
+            'type' => $this->type
         ];
     }
 
@@ -392,6 +478,7 @@ class StudentGradesResult
     private $studentName;
     private $enrollmentId;
     private $finalMedia;
+    private $semAvarage;
     private $situation;
     private $unities;
     private $partialRecoveries;
@@ -410,6 +497,11 @@ class StudentGradesResult
     public function setFinalMedia($finalMedia)
     {
         $this->finalMedia = $finalMedia;
+        return $this;
+    }
+    public function setSemAvarage($gradesSemAvarage)
+    {
+        $this->semAvarage = $gradesSemAvarage;
         return $this;
     }
 
@@ -443,6 +535,7 @@ class StudentGradesResult
             'studentName' => $this->studentName,
             'enrollmentId' => $this->enrollmentId,
             'finalMedia' => $this->finalMedia,
+            'semAvarage' => $this->semAvarage,
             'situation' => $this->situation,
             'unities' => array_map(function (GradeUnityResult $unity) {
                 return $unity->toArray();

@@ -11,6 +11,7 @@ $(function () {
 $("#classroom").change(function (e) {
     const disciplineId = urlParams.get("discipline_id");
     const unityId = urlParams.get("unity_id");
+    $(".js-unity-title").html('')
     $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     loadDisciplinesFromClassroom(e.target.value, disciplineId, unityId);
     loadUnitiesFromClassroom(e.target.value)

@@ -29,7 +29,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 </style>
 
 <div class="pageA4H">
-    <?php $this->renderPartial('HeadWithoutSchool'); ?>
+    <?php $this->renderPartial('head'); ?>
     <h3 id="report-title"><?php echo Yii::t('default', 'Matrículas Atuais') . ' - ' . Yii::app()->user->year; ?></h3>
     <div class="row-fluid hidden-print">
         <div class="span12">

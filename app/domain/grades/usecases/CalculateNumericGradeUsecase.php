@@ -27,11 +27,31 @@ class CalculateNumericGradeUsecase
     {
         $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $discipline);
         $gradesRecoveries = [];
+        $semAvarage1 = null;
+        $unitiesSem1 = 0;
+        $semAvarage2 = null;
+        $unitiesSem2 = 0;
         foreach ($unitiesByDiscipline as $index => $gradeUnity) {
-            if ($gradeUnity->type == GradeUnity::TYPE_UNITY) {
-                $gradeResult = $this->calculateCommonUnity($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
-            } elseif ($gradeUnity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
-                $gradeResult = $this->calculateUnityWithRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
+            if ($gradeUnity->type == GradeUnity::TYPE_UNITY || $gradeUnity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
+                $gradeResult = ($gradeUnity->type == GradeUnity::TYPE_UNITY) ?
+                               $this->calculateCommonUnity($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index) :
+                               $this->calculateUnityWithRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity, $index);
+
+                $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $gradeUnity);
+                $unityMedia = is_nan($unityMedia) ? 0 : round($unityMedia, 1);
+
+                if ($gradeUnity->type == GradeUnity::TYPE_UNITY_WITH_RECOVERY) {
+                    $recoveryGrade = $this->getRecoveryGradeFromUnity($studentEnrollment->id, $discipline, $gradeUnity->id)->grade;
+                    $unityMedia = max($unityMedia, (float) $recoveryGrade);
+                }
+
+                if ($gradeUnity->semester == 1) {
+                    $semAvarage1 += $unityMedia;
+                    $unitiesSem1++;
+                } elseif ($gradeUnity->semester == 2) {
+                    $semAvarage2 += $unityMedia;
+                    $unitiesSem2++;
+                }
             } elseif ($gradeUnity->type == GradeUnity::TYPE_FINAL_RECOVERY) {
                 $gradeResult = $this->calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $gradeUnity);
             }
@@ -48,9 +68,12 @@ class CalculateNumericGradeUsecase
                     array_push($gradesRecoveries, ["partialRecovery"=>$gradeUnity->parcialRecoveryFk, "unities"=>[$index+1]]);
                 }
             }
+
         }
 
-         $gradeResult = $this->calculatePartialRecovery($gradeResult, $studentEnrollment, $discipline, $gradesRecoveries);
+        $gradeResult["sem_avarage_1"] =  is_nan($semAvarage1/$unitiesSem1) ? null : round(($semAvarage1/$unitiesSem1), 1) ;
+        $gradeResult["sem_avarage_2"] =  is_nan($semAvarage2/$unitiesSem2) ? null : round(($semAvarage2/$unitiesSem2), 1);
+        $gradeResult = $this->calculatePartialRecovery($gradeResult, $studentEnrollment, $discipline, $gradesRecoveries);
 
         $gradeResult->setAttribute("final_media", null);
         $gradeResult->setAttribute("situation", null);
@@ -64,7 +87,11 @@ class CalculateNumericGradeUsecase
             if($partialRecoveryMedia != null) {
                 $partialRecoveryMedia =   is_nan($partialRecoveryMedia) ? "" : round($partialRecoveryMedia, 1);
             }
-            $gradeResult["rec_partial_" . $gradeRecoveryAndUnities["partialRecovery"]->order_partial_recovery] = $partialRecoveryMedia;
+            if($gradeRecoveryAndUnities["partialRecovery"]->semester != null) {
+                $gradeResult["sem_rec_partial_" . $gradeRecoveryAndUnities["partialRecovery"]->semester] = $partialRecoveryMedia;
+            } else {
+                $gradeResult["rec_partial_" . $gradeRecoveryAndUnities["partialRecovery"]->order_partial_recovery] = $partialRecoveryMedia;
+            }
         }
 
         return $gradeResult;
@@ -176,16 +203,23 @@ class CalculateNumericGradeUsecase
     private function calculatePartialRecoveryMedia($enrollment, $disciplineId, $gradeRecoveryAndUnities, $gradeResult){
 
         $grades = [];
-
-        foreach($gradeRecoveryAndUnities["unities"] as $unity){
-            array_push($grades, $gradeResult['grade_'.$unity]);
-        }
-
+        $partialRecovery = $gradeRecoveryAndUnities["partialRecovery"];
+        $calculationName =  $partialRecovery->gradeCalculationFk->name;
         $gradePartialRecovery = Grade::model()->findByAttributes([
             "enrollment_fk"=>$enrollment->id,
             "discipline_fk"=>$disciplineId,
-            "grade_partial_recovery_fk"=>$gradeRecoveryAndUnities["partialRecovery"]->id
+            "grade_partial_recovery_fk"=>$partialRecovery->id
         ]);
+        if($calculationName == 'Média Semestral')
+        {
+            $semester = GradeUnity::model()->findByAttributes(["parcial_recovery_fk"=>$partialRecovery->id])->semester;
+            array_push($grades, $gradeResult['sem_avarage_'. $semester]);
+
+        } else {
+            foreach($gradeRecoveryAndUnities["unities"] as $unity){
+                array_push($grades, $gradeResult['grade_'.$unity]);
+            }
+        }
 
         $result = null;
         if ($gradePartialRecovery !== null && $gradePartialRecovery->grade !== null) {
@@ -193,7 +227,9 @@ class CalculateNumericGradeUsecase
             array_unshift($grades, $gradePartialRecovery->grade);
             $isRecovery = true;
 
-            $result = $this->applyStrategyComputeGradesByFormula($gradeRecoveryAndUnities["partialRecovery"], $grades, $isRecovery);
+            $calculation = $calculationName == 'Média Semestral' ? 'Média' : $calculationName;
+
+            $result = $this->applyStrategyComputeGradesByFormula($calculation, $partialRecovery, $grades, $isRecovery);
         }
 
         return $result;
@@ -214,17 +250,17 @@ class CalculateNumericGradeUsecase
             $unity->id
         );
         $isRecovery = false;
-        return $this->applyStrategyComputeGradesByFormula($unity, array_column($grades, "grade"), $isRecovery);
+        return $this->applyStrategyComputeGradesByFormula($unity->gradeCalculationFk->name, $unity, array_column($grades, "grade"), $isRecovery);
     }
 
     /**
      * @param GradeUnity $unity
      * @param float[] $grades
      */
-    private function applyStrategyComputeGradesByFormula($unityOrRecovery, $grades, $isRecovery)
+    private function applyStrategyComputeGradesByFormula($calculation, $unityOrRecovery, $grades, $isRecovery)
     {
         $result = 0;
-        switch ($unityOrRecovery->gradeCalculationFk->name) {
+        switch ($calculation) {
             default:
             case 'Soma':
                 $result = array_reduce($grades, function ($acc, $grade) {

@@ -1,7 +1,23 @@
-
-## [Versão 3.82.176]
+## [Versão 3.85.178]
 - Adicionado funcionalidade que permite manter informações na matrícula do aluno
 de um período no qual o aluno ficou afastado.
+
+## [Versão 3.84.178]
+- Criado o módulo de ficha AEE, permitindo o cadastro, alteração e relatórios de fichas de alunos pertencentes a turmas AEE
+
+## [Versão 3.83.178]
+- Nomes dos campos em plano de aula corrigidos e funcionalidade de recursos corrigida.
+- Campo metodologia agora suporta uma string maior.
+
+## [Versão 3.83.177]
+- Adicionado cálculo de médias semestrais
+
+## [Versão 3.83.176]
+- Corrigindo o relatório de professores por escola para que o mesmo exiba somente os professores da escola que estão ligados a turmas
+
+## [Versão 3.83.175]
+- Adicionado filtro por escola, etapa e disciplina na listagem de plano de aula.
+- Adicionado validação para cadastro de novos usuários no sistema.
 
 ## [Versão 3.82.175]
 - Realizado correção para inconsistência para alunos nascidos no ano corrente
@@ -14,6 +30,7 @@ de um período no qual o aluno ficou afastado.
 
 ## [Versão 3.82.172]
 - Foram inseridas três exportações em csv na tela do administrador, para alunos, notas e faltas
+
 
 ## [Versão 3.81.172]
 - Ao adicionar CPF no registro de professor sem CPF, um novo usuário é criado.
