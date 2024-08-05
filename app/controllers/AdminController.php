@@ -312,6 +312,11 @@ class AdminController extends Controller
             ]
         );
         if (isset($_POST['Users'])) {
+            if(!isset($_POST['schools']) && ($_POST['Role']) != 'admin')
+            {
+                Yii::app()->user->setFlash('error', Yii::t('default', 'É necessário atribuir uma escola para o novo usuário criado!'));
+                $this->redirect(['index']);
+            }
             if (!isset($modelValidate)) {
                 $model->attributes = $_POST['Users'];
                 if ($model->validate()) {

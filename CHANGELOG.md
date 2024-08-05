@@ -1,5 +1,13 @@
-## [Versão 3.83.175]
+## [Versão 3.83.177]
 - Adicionado cálculo de médias semestrais
+
+## [Versão 3.83.176]
+- Corrigindo o relatório de professores por escola para que o mesmo exiba somente os professores da escola que estão ligados a turmas
+
+## [Versão 3.83.175]
+- Adicionado filtro por escola, etapa e disciplina na listagem de plano de aula.
+- Adicionado validação para cadastro de novos usuários no sistema.
+
 ## [Versão 3.82.175]
 - Realizado correção para inconsistência para alunos nascidos no ano corrente
 
