@@ -43,7 +43,7 @@ class ChageStudentStatusByGradeUsecase
 
     private function getStudentEnrollment($enrollmentId)
     {
-        return StudentEnrollment::model()->find($enrollmentId);
+        return StudentEnrollment::model()->findByPK($enrollmentId);
     }
 
     /**
@@ -57,7 +57,7 @@ class ChageStudentStatusByGradeUsecase
             StudentEnrollment::STATUS_APPROVED,
             StudentEnrollment::STATUS_DISAPPROVED
         ];
-        return in_array($enrollment->status, $allowedStatus);
+        return in_array($enrollment->getCurrentStatus(), $allowedStatus);
     }
 
     /**

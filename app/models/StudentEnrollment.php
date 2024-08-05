@@ -57,6 +57,8 @@
  * @property integer $stage
  * @property integer $reenrollment
  * @property integer $sedsp_sync
+ * @property string $class_transfer_date
+ * @property string $school_readmission_date
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -82,6 +84,7 @@ class StudentEnrollment extends AltActiveRecord
     public const STATUS_INDETERMINED = "INDETERMINADO";
     public const STATUS_DEATH = "OBITO";
     public const STATUS_ADVANCED = "AVANÇADO";
+    public const STATUS_REINTEGRATED = "REINTEGRADO";
 
     public $school_year;
     public $sedsp_sync;
@@ -107,16 +110,27 @@ class StudentEnrollment extends AltActiveRecord
 
     public function behaviors()
     {
+        // Define os comportamentos padrão
+        $behaviors = [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
+
+        // Verifica se o usuário está associado a uma escola
         if (isset(Yii::app()->user->school)) {
-            return [
-                'afterSave' => [
-                    'class' => 'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
+            // Adiciona o comportamento CAfterSaveBehavior se a escola estiver definida
+            $behaviors['CAfterSaveBehavior'] = [
+                'class' => 'application.behaviors.CAfterSaveBehavior',
+                'schoolInepId' => Yii::app()->user->school,
             ];
-        } else {
-            return [];
         }
+
+        return $behaviors;
     }
     public function TransportOptions()
     {
@@ -163,10 +177,10 @@ class StudentEnrollment extends AltActiveRecord
             array('school_admission_date', 'length', 'max' => 10),
             array('enrollment_id', 'validateMultiply'),
             array('observation', 'length', 'max' => 200),
-            array('reenrollment', 'safe'),
+            array('reenrollment, class_transfer_date, school_readmission_date', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, school_admission_date, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, aee_caa, aee_optical_nonoptical', 'safe', 'on' => 'search'),
+            array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, school_admission_date, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, class_transfer_date, school_readmission_date, aee_caa, aee_optical_nonoptical', 'safe', 'on' => 'search'),
         );
     }
 
@@ -243,7 +257,8 @@ class StudentEnrollment extends AltActiveRecord
             'daily_order' => Yii::t('default', 'daily_order'),
             'school-identifications' => Yii::t('default', 'School Identifications'),
             'transfer_date' => Yii::t('default', 'Transfer Date'),
-
+            'class_transfer_date' => Yii::t('default' ,'Class Transfer Date'),
+            'school_readmission_date' => Yii::t('default','School Readmission Date'),
         );
     }
 
@@ -270,6 +285,8 @@ class StudentEnrollment extends AltActiveRecord
         $criteria->compare('enrollment_id', $this->enrollment_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('classroomFk.school_year', Yii::app()->user->year);
+        $criteria->compare('class_transfer_date',$this->class_transfer_date);
+        $criteria->compare('school_readmission_date',$this->school_readmission_date);
         $school = Yii::app()->user->school;
         $criteria->compare('t.school_inep_id_fk', $school);
         $criteria->addCondition('studentFk.name like "%' . $this->student_fk . '%"');
@@ -591,7 +608,8 @@ class StudentEnrollment extends AltActiveRecord
             "9" => StudentEnrollment::STATUS_CONCLUDED,
             "10" => StudentEnrollment::STATUS_INDETERMINED,
             "11" => StudentEnrollment::STATUS_DEATH,
-            "12" => StudentEnrollment::STATUS_ADVANCED
+            "12" => StudentEnrollment::STATUS_ADVANCED,
+            "13" => StudentEnrollment::STATUS_REINTEGRATED
         ];
 
         return $status;
@@ -611,7 +629,8 @@ class StudentEnrollment extends AltActiveRecord
             "9" => StudentEnrollment::STATUS_CONCLUDED,
             "10" => StudentEnrollment::STATUS_INDETERMINED,
             "11" => StudentEnrollment::STATUS_DEATH,
-            "12" => StudentEnrollment::STATUS_ADVANCED
+            "12" => StudentEnrollment::STATUS_ADVANCED,
+            "13" => StudentEnrollment::STATUS_REINTEGRATED
         ];
 
         return $status[$this->status];
@@ -639,7 +658,8 @@ class StudentEnrollment extends AltActiveRecord
              StudentEnrollment::STATUS_CONCLUDED => "9" ,
              StudentEnrollment::STATUS_INDETERMINED => "10" ,
              StudentEnrollment::STATUS_DEATH => "11" ,
-             StudentEnrollment::STATUS_ADVANCED => "12"
+             StudentEnrollment::STATUS_ADVANCED => "12",
+             StudentEnrollment::STATUS_REINTEGRATED => "13"
         ];
 
         return $statusList[$status];

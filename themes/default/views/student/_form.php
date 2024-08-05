@@ -463,12 +463,6 @@ $form = $this->beginWidget(
                                     </label>
                                 </div>
                                 <div class="t-field-checkbox">
-                                    <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_multiple_disabilities', array('value' => 1, 'uncheckValue' => 0)); ?>
-                                    <label class="t-field-checkbox">
-                                        <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_multiple_disabilities']; ?>
-                                    </label>
-                                </div>
-                                <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_autism', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
                                         <?php echo StudentIdentification::model()->attributeLabels()['deficiency_type_autism']; ?>
@@ -1752,16 +1746,29 @@ $form = $this->beginWidget(
                                         ':school' => Yii::app()->user->school,
                                     ]
                                 );
+
+                                $classroomOptions = CHtml::listData($classrooms, 'id', 'name');
+                                $optionsDataAttributes = array();
+                                foreach($classrooms as $classroom) {
+                                    $optionsDataAttributes[$classroom->id] = array('data-isMulti' =>
+                                    (int)(TagUtils::isMultiStage(
+                                        $classroom->edcenso_stage_vs_modality_fk))
+                                );
+                                }
+
                                 echo $form->dropDownList(
                                     $modelEnrollment,
                                     'classroom_fk',
-                                    CHtml::listData(
-                                        $classrooms,
-                                        'id',
-                                        'name'
-                                    ),
-                                    array("prompt" => "Selecione uma Turma", 'class' => 'select-search-off t-field-select__input select2-container')
-                                ); ?>
+                                    $classroomOptions,
+                                    array(
+                                        "prompt" => "Selecione uma Turma",
+                                        'class' => 'select-search-off t-field-select__input select2-container js-classroom-is-multi',
+                                        'options' => $optionsDataAttributes,
+                                        'encode' => false
+                                    )
+                                );
+
+                                ?>
                                 <?php echo $form->error($modelEnrollment, 'classroom_fk'); ?>
                             </div>
                         </div>
@@ -1805,6 +1812,24 @@ $form = $this->beginWidget(
                                     array('class' => 'select-search-off t-field-select__input select2-container')
                                 ); ?>
                                 <?php echo $form->error($modelEnrollment, 'current_stage_situation'); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row new-enrollment-form" style="display: none;">
+                        <!--  Data de transferência externa na escola -->
+                        <div id="transferDiv" class="column clearleft is-two-fifths hide">
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->label($modelEnrollment, 'class_transfer_date', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->textField($modelEnrollment, 'class_transfer_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($modelEnrollment, 'class_transfer_date'); ?>
+                            </div>
+                        </div>
+                        <!--  Data de rematrícula na escola -->
+                        <div id="readmissionDiv" class="column clearleft--on-mobile is-two-fifths">
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->label($modelEnrollment, 'school_readmission_date', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->textField($modelEnrollment, 'school_readmission_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($modelEnrollment, 'school_readmission_date'); ?>
                             </div>
                         </div>
                     </div>
@@ -2156,6 +2181,9 @@ $form = $this->beginWidget(
                                                                 break;
                                                             case "12":
                                                                 echo "<label class='t-badge-success'>Avançado</label>";
+                                                                break;
+                                                            case "13":
+                                                                echo "<label class='t-badge-success'>Reintegrado</label>";
                                                                 break;
                                                             default:
                                                                 echo "";

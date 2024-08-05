@@ -6,10 +6,10 @@
  * The followings are the available columns in table 'course_class':
  * @property integer $id
  * @property integer $order
- * @property string $objective
+ * @property string $content
  * @property integer $course_plan_fk
  * @property string $fkid
- * @property string $type
+ * @property string $methodology
  *
  * The followings are the available model relations:
  * @property ClassContents[] $classContents
@@ -27,6 +27,18 @@ class CourseClass extends CActiveRecord
 	{
 		return 'course_class';
 	}
+    public function behaviors()
+    {
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
+    }
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -36,13 +48,14 @@ class CourseClass extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('order, objective, course_plan_fk', 'required'),
+			array('order, content, course_plan_fk', 'required'),
 			array('order, course_plan_fk', 'numerical', 'integerOnly'=>true),
 			array('fkid', 'length', 'max'=>40),
-			array('type', 'length', 'max'=>1000),
+			array('methodology', 'length', 'max'=>1500),
+
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, order, objective, course_plan_fk, fkid, type', 'safe', 'on'=>'search'),
+			array('id, order, content, course_plan_fk, fkid, methodology', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,10 +83,10 @@ class CourseClass extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'order' => 'Order',
-			'objective' => 'Objective',
+		    'content' => 'Content',
 			'course_plan_fk' => 'Course Plan Fk',
 			'fkid' => 'Fkid',
-			'type' => 'Type',
+			'methodology' => 'Methodology',
 		);
 	}
 
@@ -97,10 +110,10 @@ class CourseClass extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('order',$this->order);
-		$criteria->compare('objective',$this->objective,true);
+		$criteria->compare('content',$this->content,true);
 		$criteria->compare('course_plan_fk',$this->course_plan_fk);
 		$criteria->compare('fkid',$this->fkid,true);
-		$criteria->compare('type',$this->type,true);
+		$criteria->compare('methodology',$this->methodology,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

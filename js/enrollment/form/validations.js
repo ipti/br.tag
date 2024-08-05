@@ -1,9 +1,8 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 $('#StudentEnrollment_school_admission_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
 $('#StudentEnrollment_school_admission_date').focusout(function () {
     var id = '#' + $(this).attr("id");
@@ -36,7 +35,15 @@ $(".save-enrollment").click(function () {
     var message = "";
     if ($("#StudentEnrollment_school_admission_date").val() === "") {
         error = true;
-        message += "Preencha o campo \"Data de Ingresso na Escola\"";
+        message += "Preencha o campo \"Data de Ingresso na Escola\" <br>";
+    }
+    if (
+        $("#StudentEnrollment_classroom_fk").find(":selected").data("ismulti") == 1 &&
+        $("#StudentEnrollment_edcenso_stage_vs_modality_fk").val() == ""
+    ) {
+        error = true;
+        message +=
+            "Quando a turma é multiseriada o campo <b>Etapa de Ensino</b> é obrigatório.<br>";
     }
     if ($("#reason").val() === '0' && $("#statusDropdown").val() === '4') {
         error = true;
@@ -85,4 +92,31 @@ $(document).on("click", ".yes-update", function() {
 
 $(document).on("click", ".no-update", function() {
     $(this).closest("form").find(".enrollment-error").hide();
+});
+
+
+$('#StudentEnrollment_school_readmission_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$('#StudentEnrollment_school_readmission_date').focusout(function () {
+    let id = '#' + $(this).attr("id");
+    let school_readmission_date = stringToDate($('#StudentEnrollment_school_readmission_date').val());
+
+
+    if ((!validateDate($('#StudentEnrollment_school_readmission_date').val()) || !validateYear(school_readmission_date.year)) && ($(id).val() != '')) {
+        addError(id, "Informe uma data válida no formato Dia/Mês/Ano. Não pode ser superior a data atual.");
+    } else {
+        removeError(id);
+    }
+});
+
+$('#StudentEnrollment_class_transfer_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$('#StudentEnrollment_class_transfer_date').focusout(function () {
+    let id = '#' + $(this).attr("id");
+    let class_transfer_date = stringToDate($('#StudentEnrollment_class_transfer_date').val());
+
+
+    if ((!validateDate($('#StudentEnrollment_class_transfer_date').val()) || !validateYear(class_transfer_date.year)) && ($(id).val() != '')) {
+        addError(id, "Informe uma data válida no formato Dia/Mês/Ano. Não pode ser superior a data atual.");
+    } else {
+        removeError(id);
+    }
 });

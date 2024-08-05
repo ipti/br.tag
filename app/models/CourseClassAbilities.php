@@ -39,7 +39,7 @@ class CourseClassAbilities extends CActiveRecord
 			array('description, edcenso_discipline_fk', 'required'),
 			array('edcenso_discipline_fk, edcenso_stage_vs_modality_fk, parent_fk', 'numerical', 'integerOnly'=>true),
 			array('description', 'length', 'max'=>1500),
-			array('code', 'length', 'max'=>20),			
+			array('code', 'length', 'max'=>20),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, description, code, edcenso_discipline_fk, edcenso_stage_vs_modality_fk, parent_fk', 'safe', 'on'=>'search'),
