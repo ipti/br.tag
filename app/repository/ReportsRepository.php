@@ -2435,34 +2435,34 @@ class ReportsRepository
         } else {
             $classroomName = null;
         }
-    
+
         return $classroomName;
     }
 
     private function getClassroomDetails($classroomFk, $year) {
-        $query = "SELECT * FROM classroom c 
-                  JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk 
+        $query = "SELECT * FROM classroom c
+                  JOIN edcenso_stage_vs_modality esvm ON esvm.id = c.edcenso_stage_vs_modality_fk
                   WHERE c.id = :id and c.school_year = :year and (esvm.stage = 6 OR esvm.name LIKE '%multi%' OR esvm.name LIKE '%Multi%')";
-    
+
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":id", $classroomFk);
         $command->bindValue(":year", $year);
         $classroomDetails = $command->queryRow();
-    
+
         return $classroomDetails;
     }
-    
+
     private function getStudentEnrollmentDetails($studentEnrollment) {
-        $query = "SELECT esm.name 
-                  FROM student_enrollment se 
+        $query = "SELECT esm.name
+                  FROM student_enrollment se
                   JOIN edcenso_stage_vs_modality esm ON esm.id = se.edcenso_stage_vs_modality_fk
                   WHERE se.student_fk = :studentFk AND classroom_fk = :classroomFk";
-    
+
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":studentFk", $studentEnrollment->student_fk);
         $command->bindValue(":classroomFk", $studentEnrollment->classroom_fk);
         $enrollmentDetails = $command->queryScalar();
-    
+
         return $enrollmentDetails;
     }
 
@@ -2510,7 +2510,7 @@ class ReportsRepository
                 select ed.id, ed.name from curricular_matrix cm
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
                 join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
-                join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id
+                join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id and c.school_year = cm.school_year
                 where c.id = :classroom
                 order by ed.name
             ")->bindParam(":classroom", $classroomId)->queryAll();
@@ -2553,7 +2553,7 @@ class ReportsRepository
                     }
                 }
 
-                $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                $arr["finalMedia"] = $gradeResult != null ? ($gradeResult->final_media != null ? $gradeResult->final_media : "") : "";
                 $arr["situation"] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : "") : "";
                 array_push($result["rows"], $arr);
             }
