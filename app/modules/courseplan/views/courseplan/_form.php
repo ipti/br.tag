@@ -147,7 +147,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                                 <th class="t-accordion__head" style="width: 10px;"></th>
                                 <th class="t-accordion__head span1"><?= Yii::t('default', 'Class'); ?></th>
                                 <th class="t-accordion__head"></th>
-                                <th class="t-accordion__head span12"><?= Yii::t('default', 'Objective'); ?></th>
+                                <th class="t-accordion__head span12"><?= Yii::t('default', 'Content'); ?></th>
                                 <th class="t-accordion__head"></th>
                                 <th class="t-accordion__head"></th>
                                 <th class="t-accordion__head"></th>
@@ -249,8 +249,15 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </button>
             <h4 class="modal-title" id="modalLabelResources">Adicionar Recurso</h4>
         </div>
-        <div class="alert alert-error t-badge-critical alert-resource hide control-group">
-            <p>É necessário inserir um recurso no campo</p>
+        <div class="row-fluid">
+            <div class="alert alert-error alert-resource hide">
+                <p>É necessário inserir um recurso no campo</p>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="alert alert-info alert-resource-exist hide">
+                <p>Recurso já está cadastrado</p>
+            </div>
         </div>
         <form>
             <input type="hidden" class="course-class-index row">
@@ -271,7 +278,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             data-dismiss="modal">Cancelar
                     </button>
                     <button type="button" class="btn btn-primary js-add-selected-resources save-new-resources"
-                            data-dismiss="modal">Adicionar
+                            data-dismiss="modal">Salvar
                     </button>
                 </div>
             </div>

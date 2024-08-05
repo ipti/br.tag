@@ -32,7 +32,7 @@ class CourseplanController extends Controller
                 'actions' => array('create', 'update', 'index', 'delete',
                     'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure',
                     'getAbilitiesNextStructure', 'addResources', 'getResources', 'pendingPlans',
-                    'validatePlan', 'enableCoursePlanEdition'),
+                    'validatePlan', 'enableCoursePlanEdition', 'checkResourceExists'),
                 'users' => array('*'),
             ),
             array('deny', // deny all users
@@ -111,8 +111,8 @@ class CourseplanController extends Controller
             $courseClasses[$order] = [];
             $courseClasses[$order]["class"] = $courseClass->order;
             $courseClasses[$order]['courseClassId'] = $courseClass->id;
-            $courseClasses[$order]['objective'] = $courseClass->objective;
-            $courseClasses[$order]['type'] = $courseClass->type;
+            $courseClasses[$order]['content'] = $courseClass->content;
+            $courseClasses[$order]['methodology'] = $courseClass->methodology;
             $courseClasses[$order]['resources'] = [];
             $courseClasses[$order]['abilities'] = [];
             foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
@@ -236,8 +236,8 @@ class CourseplanController extends Controller
                 $courseClass = CourseClass::model()->findByPk($cc["id"]);
             }
             $courseClass->order = $i++;
-            $courseClass->objective = $cc['objective'];
-            $courseClass->type = $cc['type'];
+            $courseClass->content = $cc['content'];
+            $courseClass->methodology = $cc['methodology'];
             $courseClass->save();
 
 
@@ -363,25 +363,50 @@ class CourseplanController extends Controller
 
     public function actionIndex()
     {
-        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
+        $stageRequest = Yii::app()->request->getPost('stage');
+        $disciplineRequest = Yii::app()->request->getPost('discipline');
+
+        if(isset($disciplineRequest))
         {
-            $dataProvider = new CActiveDataProvider('CoursePlan', array(
-                'criteria' => array(
-                    'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id,
-                ),
-                'pagination' => false
+            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
+            {
+                $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                    'criteria' => array(
+                        'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id .
+                        ' AND school_inep_fk=' . Yii::app()->user->school.
+                        ' AND modality_fk='. $stageRequest .
+                        ' AND discipline_fk=' . $disciplineRequest,
+                    ),
+                    'pagination' => false
+                ));
+            }
+
+            if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
+            {
+                $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                    'criteria' => array(
+                        'condition' => 'school_inep_fk=' . Yii::app()->user->school .
+                        ' AND modality_fk='. $stageRequest .
+                        ' AND discipline_fk=' . $disciplineRequest,
+                    ),
+                    'pagination' => false
+                ));
+            }
+
+            $this->renderPartial('_table', array(
+                'dataProvider' => $dataProvider,
             ));
+            Yii::app()->end();
         }
 
-        if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
+        if(isset($stageRequest))
         {
-            $dataProvider = new CActiveDataProvider('CoursePlan', array(
-                'pagination' => false
-            ));
+            $this->actionGetDisciplines();
+            Yii::app()->end();
         }
 
         $this->render('index', array(
-            'dataProvider' => $dataProvider,
+            'stages' => $this->getStages()
         ));
     }
 
@@ -428,6 +453,17 @@ class CourseplanController extends Controller
         $coursePlan->save();
         Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso Liberado para Edição!'));
         $this->redirect(array('index'));
+    }
+
+    public function actionCheckResourceExists(){
+        $resource = Yii::app()->request->getPost('resource');
+        $existingResources = CourseClassResources::model()->findAllByAttributes(array('name' => $resource));
+        if($existingResources == NULL){
+            echo json_encode(["valid" => true]);
+            Yii::app()->end();
+        }
+        echo json_encode(["valid" => false]);
+        Yii::app()->end();
     }
 
     /**
