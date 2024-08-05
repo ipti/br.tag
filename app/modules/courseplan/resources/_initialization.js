@@ -59,9 +59,9 @@ $(document).on("click", ".js-remove-course-class", function () {
     }
 });
 
-$(document).on("keyup", ".course-class-objective", function () {
-    var objective = $(this).val();
-    $(this).parents("tr").prev().children(".dt-justify").html(objective);
+$(document).on("keyup", ".course-class-content", function () {
+     var content = $(this).val();
+    $(this).parents("tr").prev().children(".dt-justify").html(content);
 });
 
 $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) {

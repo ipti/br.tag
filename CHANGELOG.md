@@ -1,3 +1,7 @@
+## [Versão 3.83.178]
+- Nomes dos campos em plano de aula corrigidos e funcionalidade de recursos corrigida.
+- Campo metodologia agora suporta uma string maior.
+
 ## [Versão 3.83.177]
 - Adicionado cálculo de médias semestrais
 
@@ -19,6 +23,7 @@
 
 ## [Versão 3.82.172]
 - Foram inseridas três exportações em csv na tela do administrador, para alunos, notas e faltas
+
 
 ## [Versão 3.81.172]
 - Ao adicionar CPF no registro de professor sem CPF, um novo usuário é criado.
