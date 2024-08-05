@@ -473,6 +473,7 @@ class AdminController extends Controller
             $resultPartialRecovery["name"] = $partialRecovery->name;
             $resultPartialRecovery["order"] = $partialRecovery->order_partial_recovery;
             $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->grade_calculation_fk;
+            $resultPartialRecovery["semester"] = $partialRecovery->semester;
             $resultPartialRecovery["weights"] = [];
             if($partialRecovery->gradeCalculationFk->name == "Peso") {
                 $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk"=>$partialRecovery->id]);

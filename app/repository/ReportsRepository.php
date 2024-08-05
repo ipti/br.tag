@@ -2543,11 +2543,11 @@ class ReportsRepository
                             break;
                         case "UR":
                             $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
-                            $grade["unityRecoverGrade"] = $gradeResult["rec_bim_" . ($gradeIndex + 1)] != null ? $gradeResult["rec_bim_" . ($gradeIndex + 1)] : "";
+                            $grade["unityRecoverGrade"] = $gradeResult["rec_partial_" . ($gradeIndex + 1)] != null ? $gradeResult["rec_partial_" . ($gradeIndex + 1)] : "";
                             $gradeIndex++;
                             break;
                         case "RS":
-                            $grade["unityGrade"] = $gradeResult["rec_sem_" . ($recSemIndex + 1)] != null ? $gradeResult["rec_sem_" . ($recSemIndex + 1)] : "";
+                            $grade["unityGrade"] = $gradeResult["sem_rec_partial_" . ($recSemIndex + 1)] != null ? $gradeResult["sem_rec_partial_" . ($recSemIndex + 1)] : "";
                             $recSemIndex++;
                             break;
                         case "RF":

@@ -1,3 +1,5 @@
+## [Versão 3.83.177]
+- Adicionado cálculo de médias semestrais
 
 ## [Versão 3.83.176]
 - Corrigindo o relatório de professores por escola para que o mesmo exiba somente os professores da escola que estão ligados a turmas
