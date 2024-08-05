@@ -1484,6 +1484,30 @@ class SagresConsultModel
                         $inconsistencyModel->insert();
                     }
 
+                    if($this->dataMax($studentType->getDataNascimento())){
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $school->name;
+                        $inconsistencyModel->description = 'A data de nascimento não pode ser posterior a 30 de abril de 2024';
+                        $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if($this->dataMin($studentType->getDataNascimento())){
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $school->name;
+                        $inconsistencyModel->description = 'A data de nascimento não pode ser inferior a 01 de janeiro de 1930';
+                        $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
 
                     if (strlen($studentType->getNome()) < $strlen) {
                         $inconsistencyModel = new ValidationSagresModel();
@@ -1715,6 +1739,30 @@ class SagresConsultModel
                         $inconsistencyModel->school = $school->name;
                         $inconsistencyModel->description = 'Data de nascimento inválida';
                         $inconsistencyModel->action = 'Altere o formato de data para dd/mm/aaaa';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if($this->dataMax($studentType->getDataNascimento())){
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $school->name;
+                        $inconsistencyModel->description = 'A data de nascimento '. $studentType->getDataNascimento()->format(DATE_FORMAT) .' não pode ser posterior a 30 de abril de 2024';
+                        $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if($this->dataMin($studentType->getDataNascimento())){
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $school->name;
+                        $inconsistencyModel->description = 'A data de nascimento não pode ser inferior a 01 de janeiro de 1930';
+                        $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
                         $inconsistencyModel->identifier = '9';
                         $inconsistencyModel->idStudent = $enrollment['student_fk'];
                         $inconsistencyModel->idClass = $classId;
@@ -2020,6 +2068,27 @@ class SagresConsultModel
         }
         return true;
     }
+
+    private function dataMax(DateTime $data) {
+        $dataMaxima = new DateTime("2024-04-30");
+    
+        if ($data > $dataMaxima) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private function dataMin(DateTime $data) {
+        $dataMinima = new DateTime("1923-01-01");
+       
+        if ($data < $dataMinima) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 
     private function cpfLength($cpf){
         return strlen($cpf) === 11 ? true: false;
