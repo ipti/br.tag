@@ -1,7 +1,17 @@
 <?php
 $baseUrl = Yii::app()->baseUrl;
+$baseUrlTheme = Yii::app()->theme->baseUrl;
+
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentPerClassroomReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+
+
+if (Yii::app()->user->isGuest) {
+    $this->redirect(yii::app()->createUrl('site/login'));
+}
+
+$url_school_logo = '/?r=school/displayLogo&id=' . Yii::app()->user->school;
+
 
 if (!isset($school)) {
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
@@ -98,18 +108,25 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
 ?>
 
 <div class="pageA4H">
-    <div style="text-align: center;">
+        <div style="text-align: center;">
+            <div class="content-logo-text">
 
-    
-        <div style="position: relative; display: inline-block;">
-            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/brasao.png" alt="Brasão" style="width: 80px; position: absolute; top: -60px; left: 50%; transform: translateX(-50%);" />
+            <div>
+            <?php if (!empty($url_school_logo)) : ?>
+                <div id="school_logo_container">
+                    <img class="tag-topbar__school_logo hidden" id="school_logo_img" src="<?php echo $url_school_logo ?>" alt="emblema da escola" onerror="document.getElementById('school_logo_container').style.display = 'none';" onload="document.getElementById('alt-logo').classList.replace('show', 'hidden'); this.classList.replace('hidden', 'show')" />
+                </div>
+            <?php endif; ?>
         </div>
 
 
-        <h4>ESTADO DO <?php echo strtoupper($school->edcensoUfFk->name); ?></h4>
-        <h5>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name; ?></h5>
-        <h5>SECRETARIA MUNICIPAL DE EDUCAÇÃO</h5>
-        <h1>CERTIFICADO</h1>
+            <div class="content-text">
+                <h4>ESTADO DO <?php echo strtoupper($school->edcensoUfFk->name); ?></h4>
+                <h5>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name; ?></h5>
+                <h5>SECRETARIA MUNICIPAL DE EDUCAÇÃO</h5>
+                <h1>CERTIFICADO</h1>
+            </div>
+        </div>
     </div>
 
     <div class="container-certificate">
@@ -378,6 +395,26 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
         position: relative;
         box-sizing: border-box;
         margin: 23px 60px 23px 60px;
+    }
+
+    .content-logo-text{
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .content-text{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    #school_logo_img{
+        border: 0;
+        position: absolute;
+        top: 16px;
+        left: 80px;
+        width: 10%;
     }
 
     h1, h4, h5 {
