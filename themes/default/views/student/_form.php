@@ -1815,6 +1815,24 @@ $form = $this->beginWidget(
                             </div>
                         </div>
                     </div>
+                    <div class="row new-enrollment-form" style="display: none;">
+                        <!--  Data de transferência externa na escola -->
+                        <div id="transferDiv" class="column clearleft is-two-fifths hide">
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->label($modelEnrollment, 'class_transfer_date', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->textField($modelEnrollment, 'class_transfer_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($modelEnrollment, 'class_transfer_date'); ?>
+                            </div>
+                        </div>
+                        <!--  Data de rematrícula na escola -->
+                        <div id="readmissionDiv" class="column clearleft--on-mobile is-two-fifths">
+                            <div class="t-field-text js-hide-not-required">
+                                <?php echo $form->label($modelEnrollment, 'school_readmission_date', array('class' => 't-field-text__label')); ?>
+                                <?php echo $form->textField($modelEnrollment, 'school_readmission_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                                <?php echo $form->error($modelEnrollment, 'school_readmission_date'); ?>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Situação da matrícula e Situação na série/etapa atual -->
                     <div class="row new-enrollment-form" style="display: none;">
                         <!-- Situação da matrícula -->
@@ -2163,6 +2181,9 @@ $form = $this->beginWidget(
                                                                 break;
                                                             case "12":
                                                                 echo "<label class='t-badge-success'>Avançado</label>";
+                                                                break;
+                                                            case "13":
+                                                                echo "<label class='t-badge-success'>Reintegrado</label>";
                                                                 break;
                                                             default:
                                                                 echo "";

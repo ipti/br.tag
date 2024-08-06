@@ -23,6 +23,7 @@ $(window).on('load', function () {
             toggleDisabledInputs('#student-enrollment', false)
         }
     });
+    manageTransferedStudentFields();
 });
 
 function toggleDisabledInputs(idForm, value) {
@@ -35,3 +36,21 @@ function toggleDisabledInputs(idForm, value) {
 $(document).on('change', '#reasonDropdown select', function () {
     checkDropdownValue();
 });
+
+$('#StudentEnrollment_status').change(function(){
+    manageTransferedStudentFields();
+})
+
+function manageTransferedStudentFields(){
+    const currentStatus = $('#StudentEnrollment_status').val();
+    const transferDiv = $('#transferDiv');
+    const readmissionDiv = $('#readmissionDiv');
+    if(currentStatus == '13'){
+        transferDiv.removeClass('hide');
+        readmissionDiv.removeClass('hide');
+        return;
+    }
+    transferDiv.addClass('hide');
+    readmissionDiv.addClass('hide');
+}
+
