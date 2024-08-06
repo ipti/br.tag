@@ -461,6 +461,29 @@ class SagresConsultModel
         return $command->queryScalar();
     }
 
+    private function checkAge($age, $educationLevel, $student) {
+
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = '<strong>MATRÍCULA</strong>';
+            $inconsistencyModel->school = $this->getSchoolName($student['school_inep_id_fk']);
+            $inconsistencyModel->identifier = '9';
+            $inconsistencyModel->idStudent = $student['student_fk'];
+            $inconsistencyModel->idClass = $student['classroom_fk'];
+            $inconsistencyModel->idSchool = $student['school_inep_id_fk'];
+
+            // [2,3,7] -> Ensino fundamental
+            // 4 -> Ensino Médio
+            if (in_array($educationLevel, [2,3,7]) && $age < 15) {      
+                $inconsistencyModel->description = 'O aluno não tem a idade mínima de 15 anos para o Ensino Fundamental.';
+                $inconsistencyModel->action = 'O aluno deve der a idade compatível com a turma';
+            } elseif ($educationLevel === 4 && $age < 18) {
+                $inconsistencyModel->description = 'O aluno não tem a idade mínima de 18 anos para o Ensino Médio';
+                $inconsistencyModel->action = 'O aluno deve der a idade compatível com a turma';      
+            } 
+
+            $inconsistencyModel->save(); 
+    }
+
     public function createInconsistencyModel($student, $infoStudent, $count) {
 
         if($count['count'] >= 3){
