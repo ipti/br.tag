@@ -72,7 +72,7 @@ class SagresConsultModel
                 ->setEscola($this->getSchools($referenceYear, $month, $finalClass, $withoutCpf))
                 ->setProfissional($this->getProfessionals($referenceYear, $month));
 
-            $this->checkDuplicateCpfs($referenceYear);
+            $this->enrolledSimultaneouslyInRegularClasses($referenceYear);
             $this->getStudentAEE($referenceYear);
 
         } catch (Exception $e) {
@@ -345,7 +345,7 @@ class SagresConsultModel
         return $schoolList;
     }
 
-    private function checkDuplicateCpfs(int $year){
+    private function enrolledSimultaneouslyInRegularClasses(int $year){
         $query = "SELECT school_inep_id_fk, student_fk, classroom_fk
                     FROM student_enrollment se
                     WHERE year(se.create_date) = :year AND (se.status = 1 or se.status is null) AND student_fk IN (
@@ -863,7 +863,9 @@ class SagresConsultModel
                 }
 
                 $componentesCurriculares = $this->getComponentesCurriculares($classId, $idTeacher);
-                if(empty($componentesCurriculares)){
+                $roleType = (int) $this->getInstructorRole($classId, $idTeacher);
+
+                if(empty($componentesCurriculares) && $roleType === 1){
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = TURMA_STRONG;
                     $inconsistencyModel->school = $school->name;
@@ -876,7 +878,6 @@ class SagresConsultModel
                 }
             }
         }
-
 
         foreach ($schedules as $schedule) {
             $scheduleType = new HorarioTType();
@@ -968,6 +969,19 @@ class SagresConsultModel
         }
 
         return $scheduleList;
+    }
+
+    private function getInstructorRole($classroomIdFk, $instructorId) {
+        $sql = "SELECT itd.role 
+                FROM instructor_teaching_data itd 
+                WHERE itd.instructor_fk = :instructorId 
+                AND classroom_id_fk = :classroomIdFk";
+    
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindParam(":instructorId", $instructorId);
+        $command->bindParam(":classroomIdFk", $classroomIdFk);
+    
+        return $command->queryScalar();
     }
 
     private function getTimetableByClassroom($classId, $month) {
