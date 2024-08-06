@@ -99,9 +99,13 @@ $disciplineIdsDiversified = array_keys($disciplineIdsDiversified);
 
 <div class="pageA4H">
     <div style="text-align: center;">
+
+    
         <div style="position: relative; display: inline-block;">
             <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/brasao.png" alt="Brasão" style="width: 80px; position: absolute; top: -60px; left: 50%; transform: translateX(-50%);" />
         </div>
+
+
         <h4>ESTADO DO <?php echo strtoupper($school->edcensoUfFk->name); ?></h4>
         <h5>PREFEITURA MUNICIPAL DE <?php echo $school->edcensoCityFk->name; ?></h5>
         <h5>SECRETARIA MUNICIPAL DE EDUCAÇÃO</h5>

@@ -1453,88 +1453,124 @@ private function separateBaseDisciplines($disciplineId)
     }
 
     public function getStudentCertificate($enrollment_id): array
-    {
-        $command = Yii::app()->db->createCommand("
-            SELECT *
-            FROM student_certificates
-            WHERE student_fk = :student_id;
-        ");
-        $command->bindValue(':student_id', $enrollment_id); 
-        $results = $command->queryAll();
+{
+    // Substitua a instrução SQL pela nova consulta fornecida
+    $command = Yii::app()->db->createCommand("
+        SELECT
+            si.id AS student_fk,
+            si.name AS student_name,
+            si.birthday,
+            si.sex,
+            si.filiation_1,
+            si.filiation_2,
+            se.status,
+            c.name AS class_name,
+            c.school_year,
+            sch.name AS school_name,
+            ed.name AS discipline_name,
+            ed.id AS discipline_id,
+            gr.grade_1,
+            gr.grade_2,
+            gr.grade_3,
+            gr.grade_4,
+            gr.final_media,
+            sdaa.address,
+            ec.name AS city_name,
+            eu.acronym AS uf_acronym,
+            eu.name AS uf_name,
+            esv.alias AS etapa_name
+        FROM
+            student_enrollment se
+        JOIN student_identification si ON si.id = se.student_fk
+        JOIN student_documents_and_address sdaa ON sdaa.id = si.id
+        JOIN classroom c ON c.id = se.classroom_fk
+        JOIN grade_results gr ON gr.enrollment_fk = se.id
+        JOIN edcenso_discipline ed ON ed.id = gr.discipline_fk
+        JOIN edcenso_city ec ON ec.id = si.edcenso_city_fk
+        JOIN edcenso_uf eu ON eu.id = ec.edcenso_uf_fk
+        JOIN edcenso_stage_vs_modality esv ON esv.id = c.edcenso_stage_vs_modality_fk
+        JOIN school_identification sch ON sch.inep_id = c.school_inep_fk
+        WHERE
+            se.status = 9 AND si.id = :student_id
+    ");
     
-        $formattedResult = [];
-        $baseDisciplines = [];
-        $diversifiedDisciplines = [];
+    // Vincula o valor do parâmetro dinâmico
+    $command->bindValue(':student_id', $enrollment_id); 
+    $results = $command->queryAll();
+
+    // A partir daqui, o restante do código permanece o mesmo
+    $formattedResult = [];
+    $baseDisciplines = [];
+    $diversifiedDisciplines = [];
     
-        foreach ($results as $row) {
-    
-            $class_name = $row['class_name'];
-            $school_year = $row['school_year'];
-            $discipline_id = $row['discipline_id'];
-    
-            if (!isset($formattedResult[$class_name])) {
-                $formattedResult[$class_name] = [
-                    'school_year' => $school_year,
-                    'school_name' => $row['school_name'],
-                    'address' => $row['address'],
-                    'city_name' => $row['city_name'],
-                    'uf_acronym' => $row['uf_acronym'],
-                    'uf_name' => $row['uf_name'],
-                    'etapa_name' => $row['etapa_name'],
-                    'status_disciplina' => $row['status'],
-                    'base_disciplines' => [],
-                    'diversified_disciplines' => [],
-                ];
-            }
-    
-            if ($this->separateBaseDisciplines($discipline_id)) {
-                $formattedResult[$class_name]['base_disciplines'][] = [
-                    'discipline_name' => $row['discipline_name'],
-                    'discipline_id' => $row['discipline_id'],
-                    'grade_1' => $row['grade_1'],
-                    'grade_2' => $row['grade_2'],
-                    'grade_3' => $row['grade_3'],
-                    'grade_4' => $row['grade_4'],
-                    'final_media' => $row['final_media'],
-                ];
-                $baseDisciplines[] = $discipline_id;
-            } else {
-                $formattedResult[$class_name]['diversified_disciplines'][] = [
-                    'discipline_name' => $row['discipline_name'],
-                    'discipline_id' => $row['discipline_id'],
-                    'grade_1' => $row['grade_1'],
-                    'grade_2' => $row['grade_2'],
-                    'grade_3' => $row['grade_3'],
-                    'grade_4' => $row['grade_4'],
-                    'final_media' => $row['final_media'],
-                ];
-                $diversifiedDisciplines[] = $discipline_id;
-            }
+    foreach ($results as $row) {
+        $class_name = $row['class_name'];
+        $school_year = $row['school_year'];
+        $discipline_id = $row['discipline_id'];
+        
+        if (!isset($formattedResult[$class_name])) {
+            $formattedResult[$class_name] = [
+                'school_year' => $school_year,
+                'school_name' => $row['school_name'],
+                'address' => $row['address'],
+                'city_name' => $row['city_name'],
+                'uf_acronym' => $row['uf_acronym'],
+                'uf_name' => $row['uf_name'],
+                'etapa_name' => $row['etapa_name'],
+                'status_disciplina' => $row['status'],
+                'base_disciplines' => [],
+                'diversified_disciplines' => [],
+            ];
         }
-    
-        // mudnado o formato da data de nascimento
-        $birthday = $results[0]['birthday'];
-        if (strpos($birthday, '-') !== false) {
-            $date = DateTime::createFromFormat('Y-m-d', $birthday);
-            $birthday = $date->format('d/m/Y');
+
+        if ($this->separateBaseDisciplines($discipline_id)) {
+            $formattedResult[$class_name]['base_disciplines'][] = [
+                'discipline_name' => $row['discipline_name'],
+                'discipline_id' => $row['discipline_id'],
+                'grade_1' => $row['grade_1'],
+                'grade_2' => $row['grade_2'],
+                'grade_3' => $row['grade_3'],
+                'grade_4' => $row['grade_4'],
+                'final_media' => $row['final_media'],
+            ];
+            $baseDisciplines[] = $discipline_id;
+        } else {
+            $formattedResult[$class_name]['diversified_disciplines'][] = [
+                'discipline_name' => $row['discipline_name'],
+                'discipline_id' => $row['discipline_id'],
+                'grade_1' => $row['grade_1'],
+                'grade_2' => $row['grade_2'],
+                'grade_3' => $row['grade_3'],
+                'grade_4' => $row['grade_4'],
+                'final_media' => $row['final_media'],
+            ];
+            $diversifiedDisciplines[] = $discipline_id;
         }
-    
-        $finalResult = [
-            'name' => $results[0]['student_name'],
-            'civil_name' => $results[0]['student_name'],
-            'birthday' => $birthday,
-            'sex' => $results[0]['sex'],
-            'filiation_1' => $results[0]['filiation_1'],
-            'filiation_2' => $results[0]['filiation_2'],
-            'city_name' => $results[0]['city_name'],
-            'uf_name' => $results[0]['uf_name'],
-            'schoolData' => $formattedResult,
-            'baseDisciplines' => array_unique($baseDisciplines),
-            'diversifiedDisciplines' => array_unique($diversifiedDisciplines),
-        ];
-    
-        return ['student' => $finalResult];
     }
+
+    $birthday = $results[0]['birthday'];
+    if (strpos($birthday, '-') !== false) {
+        $date = DateTime::createFromFormat('Y-m-d', $birthday);
+        $birthday = $date->format('d/m/Y');
+    }
+
+    $finalResult = [
+        'name' => $results[0]['student_name'],
+        'civil_name' => $results[0]['student_name'],
+        'birthday' => $birthday,
+        'sex' => $results[0]['sex'],
+        'filiation_1' => $results[0]['filiation_1'],
+        'filiation_2' => $results[0]['filiation_2'],
+        'city_name' => $results[0]['city_name'],
+        'uf_name' => $results[0]['uf_name'],
+        'schoolData' => $formattedResult,
+        'baseDisciplines' => array_unique($baseDisciplines),
+        'diversifiedDisciplines' => array_unique($diversifiedDisciplines),
+    ];
+
+    return ['student' => $finalResult];
+}
+
     
 
 
