@@ -103,7 +103,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				</div>
 				<div id="loading-popup" style="display: none;">
 					<div class="loading-content">
-						<div class="loading-spinner"></div>
+						<div><img height="50px" width="50px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading"></div>
 						<div class="loading-text">Aguarde enquanto o arquivo é gerado...</div>
 					</div>
 				</div>
