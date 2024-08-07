@@ -101,7 +101,7 @@ $("#classroom").on("change", function () {
                 },
                 success: function (response) {
                     if (response === "") {
-                        $("#discipline").html("<option value='-1'></option>").trigger("change.select2").show();
+                        $("#discipline").html(DOMPurify.sanitize("<option value='-1'></option>")).trigger("change.select2").show();
                     } else {
                         $("#discipline").html(decodeHtml(response)).trigger("change.select2").show();
                     }
@@ -127,7 +127,7 @@ $("#classroom").on("change", function () {
             },
             success: function (response) {
                 if (response === "") {
-                    $("#student").html("<option value='-1'></option>").trigger("change.select2").show();
+                    $("#student").html(DOMPurify.sanitize("<option value='-1'></option>")).trigger("change.select2").show();
                 } else {
                     $("#student").html(decodeHtml(response)).trigger("change.select2").show();
                 }
