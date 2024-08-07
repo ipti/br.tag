@@ -461,27 +461,32 @@ class SagresConsultModel
         return $command->queryScalar();
     }
 
-    private function checkAge($age, $educationLevel, $student) {
-
-            $inconsistencyModel = new ValidationSagresModel();
-            $inconsistencyModel->enrollment = '<strong>MATRÍCULA</strong>';
-            $inconsistencyModel->school = $this->getSchoolName($student['school_inep_id_fk']);
-            $inconsistencyModel->identifier = '9';
-            $inconsistencyModel->idStudent = $student['student_fk'];
-            $inconsistencyModel->idClass = $student['classroom_fk'];
-            $inconsistencyModel->idSchool = $student['school_inep_id_fk'];
-
+    private function checkAge($age, $educationLevel, $arrayStudentInfo) {
             // [2,3,7] -> Ensino fundamental
             // 4 -> Ensino Médio
             if (in_array($educationLevel, [2,3,7]) && $age < 15) {      
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = '<strong>ALUNO</strong>';
+                $inconsistencyModel->school = $this->getSchoolName($arrayStudentInfo['schoolInepIdFk']);
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idStudent = $arrayStudentInfo['studentFk'];
+                $inconsistencyModel->idClass = $arrayStudentInfo['classroomFk'];
+                $inconsistencyModel->idSchool = $arrayStudentInfo['schoolInepIdFk'];
                 $inconsistencyModel->description = 'O aluno não tem a idade mínima de 15 anos para o Ensino Fundamental.';
                 $inconsistencyModel->action = 'O aluno deve der a idade compatível com a turma';
+                $inconsistencyModel->save();
             } elseif ($educationLevel === 4 && $age < 18) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = '<strong>ALUNO</strong>';
+                $inconsistencyModel->school = $this->getSchoolName($arrayStudentInfo['schoolInepIdFk']);
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idStudent = $arrayStudentInfo['studentFk'];
+                $inconsistencyModel->idClass = $arrayStudentInfo['classroomFk'];
+                $inconsistencyModel->idSchool = $arrayStudentInfo['schoolInepIdFk'];
                 $inconsistencyModel->description = 'O aluno não tem a idade mínima de 18 anos para o Ensino Médio';
-                $inconsistencyModel->action = 'O aluno deve der a idade compatível com a turma';      
-            } 
-
-            $inconsistencyModel->save(); 
+                $inconsistencyModel->action = 'O aluno deve der a idade compatível com a turma'; 
+                $inconsistencyModel->save();    
+            }  
     }
 
     public function createInconsistencyModel($student, $infoStudent, $count) {
@@ -1374,6 +1379,8 @@ class SagresConsultModel
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
 
         $query = "SELECT
+                        c.edcenso_stage_vs_modality_fk,
+                        c.modality,
                         se.id as numero,
                         se.student_fk,
                         se.create_date AS data_matricula,
@@ -1467,13 +1474,28 @@ class SagresConsultModel
             if($withoutCpf) {
                 if(!empty($cpf)) {
                     $studentType = new AlunoTType();
+                    $birthdate = DateTime::createFromFormat("d/m/Y", $convertedBirthdate);
                     $studentType
                         ->setNome($enrollment['name'])
-                        ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $convertedBirthdate))
+                        ->setDataNascimento($birthdate)
                         ->setCpfAluno(!empty($cpf) ? $cpf : null)
                         ->setPcd($enrollment['deficiency'])
                         ->setSexo($enrollment['gender']);
 
+                    $arrayStudentInfo = [
+                        "studentFk" => $enrollment['student_fk'],
+                        "classroomFk" => $classId,
+                        "schoolInepIdFk" => $inepId
+                    ];
+                    
+                    $modality = $enrollment['modality'];
+                    //3 - EJA
+                    if($modality === 3){
+                        $educationLevel = (int) $this->getStageById($enrollment['edcenso_stage_vs_modality_fk']);        
+                        $age = $this->calculateAge($birthdate);
+                        $this->checkAge($age, $educationLevel, $arrayStudentInfo);
+                    }
+                    
 
                     if (!is_null($studentType->getCpfAluno())) {
                         if($this->cpfLength($studentType->getCpfAluno())){
@@ -1892,6 +1914,20 @@ class SagresConsultModel
         }
 
         return $enrollmentList;
+    }
+
+    private function getStageById($id) {
+        $command = Yii::app()->db->createCommand('SELECT esvm.stage FROM edcenso_stage_vs_modality esvm WHERE id = :id');
+        $command->bindParam(':id', $id);
+        $stage = $command->queryScalar();
+
+        return $stage;
+    }
+
+    private function calculateAge($birthdate) {
+        $today = new DateTime();
+        $age = $today->diff($birthdate);
+        return (int) $age->y;
     }
 
     private function getClassName($id, $year)
