@@ -100,8 +100,9 @@ $("#classroom").on("change", function () {
                     $("#discipline").attr("disabled", "disabled");
                 },
                 success: function (response) {
+                    response = DOMPurify.sanitize(response)
                     if (response === "") {
-                        $("#discipline").html(DOMPurify.sanitize("<option value='-1'></option>")).trigger("change.select2").show();
+                        $("#discipline").html("<option value='-1'></option>").trigger("change.select2").show();
                     } else {
                         $("#discipline").html(decodeHtml(response)).trigger("change.select2").show();
                     }
@@ -126,8 +127,9 @@ $("#classroom").on("change", function () {
                 $("#student").attr("disabled", "disabled");
             },
             success: function (response) {
+                response = DOMPurify.sanitize(response)
                 if (response === "") {
-                    $("#student").html(DOMPurify.sanitize("<option value='-1'></option>")).trigger("change.select2").show();
+                    $("#student").html("<option value='-1'></option>").trigger("change.select2").show();
                 } else {
                     $("#student").html(decodeHtml(response)).trigger("change.select2").show();
                 }
