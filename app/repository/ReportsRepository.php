@@ -2466,6 +2466,27 @@ class ReportsRepository
         return $enrollmentDetails;
     }
 
+
+    private function getPartialRecovery($stage)
+    {
+        $result = array();
+        $gradeRules = GradeRules::model()->findByAttributes(["edcenso_stage_vs_modality_fk"=>$stage]);
+        $partialRecoveries = GradePartialRecovery::model()->findAllByAttributes(["grade_rules_fk"=>$gradeRules->id, "semester"=> null]);
+        foreach ($partialRecoveries as $partialRecovery) {
+            $unities = GradeUnity::model()->findAll(
+                "parcial_recovery_fk IS NOT NULL AND edcenso_stage_vs_modality_fk = :stage",
+                array(':stage' => $stage)
+            );
+            $result["rec_partial_".$partialRecovery->order_partial_recovery] = [];
+            foreach($unities as $key => $unity){
+                if($unity->parcial_recovery_fk == $partialRecovery->id){
+                    array_push($result["rec_partial_".$partialRecovery->order_partial_recovery], ('grade_'.($key+1)));
+                }
+            }
+        }
+        return $result;
+    }
+
     /**
      * Monta o relatório de notas
      */
@@ -2514,7 +2535,7 @@ class ReportsRepository
                 where c.id = :classroom
                 order by ed.name
             ")->bindParam(":classroom", $classroomId)->queryAll();
-
+            $partialRecoveries = $this->getPartialRecovery($classroom->edcensoStageVsModalityFk->id);
             foreach ($disciplines as $discipline) {
                 $arr["disciplineName"] = $discipline["name"];
 
