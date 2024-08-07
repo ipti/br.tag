@@ -1,12 +1,23 @@
 function createTable(data) {
     var monthSplit = $("#month").val().split("-");
-    $("#class-contents").attr("classroom", $("#classroom").val()).attr("month", monthSplit[1]).attr("year", monthSplit[0]).attr("discipline", $("#disciplines").val()).attr("fundamentalmaior", $("#classroom option:selected").attr("fundamentalmaior"));
+    $("#class-contents")
+        .attr("classroom", $("#classroom").val())
+        .attr("month", monthSplit[1])
+        .attr("year", monthSplit[0])
+        .attr("discipline", $("#disciplines").val())
+        .attr("fundamentalmaior", $("#classroom option:selected")
+        .attr("fundamentalmaior")
+    );
     $('#class-contents > thead').html('<tr><th class="center">Dias</th><th style="text-align:left">Conteúdo ministrado em sala de aula</th></tr>');
     $('#class-contents > tbody').html('');
 
     let options = "";
+    let i = 1;
+    let pivotChanger = "";
     $.each(data.courseClasses, function () {
-        options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.objective + "|" + this.edname + '</option>';
+        i = pivotChanger !== this.cpid ? 1 : i;
+        pivotChanger = this.cpid;
+        options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + i++ + "|" + this.objective + "|" + this.edname + '</option>';
     });
     let accordionBuilt = false;
     let accordionHtml = "";
@@ -28,10 +39,10 @@ function createTable(data) {
                             <div class='ui-accordion-content js-std-classroom-diaries'>
                                 <textarea class='t-field-tarea__input js-student-classroom-diary' studentid='${this.id}' style='resize: vertical;height: 37px;'></textarea>
                             </div>`
-                    } 
+                    }
                 });
             });
-            
+
             if (!accordionBuilt) {
                 $(".accordion-students").html(accordionHtml);
                 accordionBuilt = true;

@@ -32,6 +32,7 @@ class UpdateGradePartialRecoveryUseCase
             $modelPartialRecovery->order_partial_recovery = $partialRecovery["order"];
             $modelPartialRecovery->grade_rules_fk = $this->gradeRules;
             $modelPartialRecovery->grade_calculation_fk = $partialRecovery["mediaCalculation"];
+            $modelPartialRecovery->semester = $partialRecovery["semester"];
 
             if (!$modelPartialRecovery->validate()) {
                 $validationMessage = Yii::app()->utils->stringfyValidationErrors($modelPartialRecovery);

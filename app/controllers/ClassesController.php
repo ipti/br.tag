@@ -128,7 +128,7 @@ class ClassesController extends Controller
             if (TagUtils::isInstructor()) {
                 if (!$isMinorEducation) {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk and cp.users_fk = :users_fk
@@ -141,7 +141,7 @@ class ClassesController extends Controller
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
@@ -155,7 +155,7 @@ class ClassesController extends Controller
             } else {
                 if (!$isMinorEducation) {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk
@@ -167,7 +167,7 @@ class ClassesController extends Controller
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk
@@ -479,7 +479,10 @@ class ClassesController extends Controller
                     foreach ($schedules as $schedule) {
                         $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                         $available = date("Y-m-d") >= $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
-                        $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year);
+                        $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
+
+                        $valid = $this->verifyStatusEnrollment($enrollment, $schedule);
+
                         array_push($array["schedules"], [
                             "available" => $available,
                             "day" => $schedule->day,
@@ -487,7 +490,8 @@ class ClassesController extends Controller
                             "schedule" => $schedule->schedule,
                             "fault" => $classFault != null,
                             "justification" => $classFault->justification,
-                            "date" => $date
+                            "date" => $date,
+                            "valid" => $valid
                         ]);
                     }
                     array_push($students, $array);
@@ -526,15 +530,24 @@ class ClassesController extends Controller
             $this->saveFrequency($schedule);
         }
     }
-    private function gerateDate($day, $month, $year){
-            $day = ($day < 10) ? '0' . $day : $day;
-            $month = ($month < 10) ? '0' . $month : $month;
-            return $day . "/" . $month . "/" . $year;
+    private function gerateDate($day, $month, $year, $usecase){
+        switch($usecase){
+            case 0:
+                $day = ($day < 10) ? '0' . $day : $day;
+                $month = ($month < 10) ? '0' . $month : $month;
+                return $day . "/" . $month . "/" . $year;
+            case 1:
+                $day = ($day < 10) ? '0' . $day : $day;
+                $month = ($month < 10) ? '0' . $month : $month;
+                return $day . "-" . $month . "-" . $year;
+            default:
+                break;
+        }
     }
     private function getSchedulePerDays($schedules) {
         $result = [];
         foreach ($schedules as $schedule) {
-            $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year);
+            $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
             $index = array_search($date, array_column($result, 'date'));
             if ($index === false) {
                 array_push($result, [
@@ -584,7 +597,8 @@ class ClassesController extends Controller
 
                 foreach ($enrollments as $enrollment) {
                     $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
-                    if ($classFault == null) {
+                    $valid = $this->verifyStatusEnrollment($enrollment, $schedule);
+                    if ($classFault == null && $valid) {
                         $classFault = new ClassFaults();
                         $classFault->student_fk = $enrollment->student_fk;
                         $classFault->schedule_fk = $schedule->id;
@@ -595,6 +609,16 @@ class ClassesController extends Controller
                 ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
             }
         }
+    }
+
+    public function verifyStatusEnrollment($enrollment, $schedule)
+    {
+        $dateFormat = 'd/m/Y';
+        $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
+        $startDate = date_create_from_format($dateFormat, $enrollment->school_readmission_date);
+        $transferedDate = date_create_from_format($dateFormat, $enrollment->class_transfer_date);
+        $scheduleDate = date_create_from_format($dateFormat, $date);
+        return !(($scheduleDate < $startDate && $scheduleDate > $transferedDate) && $enrollment->status == '13');
     }
 
     public function actionSaveJustifications()

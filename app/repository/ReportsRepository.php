@@ -637,26 +637,33 @@ class ReportsRepository
     public function getTeachersBySchool(): array
     {
         $sql = "SELECT
+                ii.id,
                 ii.name,
                 ii.birthday_date,
                 ii.inep_id,
-                ii.school_inep_id_fk
+                c.school_inep_fk
             FROM instructor_identification ii
-            GROUP BY ii.name;";
-        $instructors = Yii::app()->db->createCommand($sql)->queryAll();
+            JOIN instructor_teaching_data itd ON ii.id = itd.instructor_fk
+            JOIN classroom c ON c.id = itd.classroom_id_fk
+            WHERE c.school_year = :user_year
+            GROUP BY c.school_inep_fk,
+                ii.name
+            order by
+                ii.name";
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindValue(':user_year', Yii::app()->user->year, PDO::PARAM_INT);
+        $instructors = $command->queryAll();
 
         $schools = SchoolIdentification::model()->findAll();
         $result = [];
         foreach ($schools as $school) {
             $instructorBySchool = array_filter($instructors, function ($instructor) use ($school) {
-                return $instructor['school_inep_id_fk'] == $school->inep_id;
+                return $instructor['school_inep_fk'] == $school->inep_id;
             });
             array_push($result, ["school" => $school, "instructors" => $instructorBySchool]);
         }
 
         return array("report" => $result);
-
-
     }
 
     /**
@@ -2536,10 +2543,11 @@ class ReportsRepository
                         case "UR":
                             $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
                             // $grade["unityRecoverGrade"] = $gradeResult["rec_bim_" . ($gradeIndex + 1)] != null ? $gradeResult["rec_bim_" . ($gradeIndex + 1)] : "";
+
                             $gradeIndex++;
                             break;
                         case "RS":
-                            $grade["unityGrade"] = $gradeResult["rec_sem_" . ($recSemIndex + 1)] != null ? $gradeResult["rec_sem_" . ($recSemIndex + 1)] : "";
+                            $grade["unityGrade"] = $gradeResult["sem_rec_partial_" . ($recSemIndex + 1)] != null ? $gradeResult["sem_rec_partial_" . ($recSemIndex + 1)] : "";
                             $recSemIndex++;
                             break;
                         case "RF":
