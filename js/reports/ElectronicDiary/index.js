@@ -201,7 +201,6 @@ function loadReport() {
                     "</thead>" +
                     "<tbody>";
                 $.each(data.students, function (i, student) {
-         
                     var faultDaysContainer = "";
                     $.each(this.faults, function (j, faultDays) {
                         faultDaysContainer += faultDays + (j < Object.keys(student.faults).length - 1 ? "; " : "");
@@ -211,7 +210,7 @@ function loadReport() {
                     } else {
                         html += "<tr><td>" + student.name +"  |  " + student.infoClassroom + "</td><td>" + student.total + "</td><td>" + Object.keys(student.faults).length + "</td><td>" + student.frequency + "</td><td>" + faultDaysContainer + "</td></tr>";
                     }
-                    
+
                 });
                 html += "</tbody></table>";
                 $(".report-container").html(html);
@@ -245,7 +244,7 @@ function loadReport() {
                     $.each(data.rows, function () {
                         html += "<tr><td>" + this.disciplineName + "</td>";
                         $.each(this.grades, function () {
-                            
+
                             if (this.unityGrade == "") {
                                 valueUnityGrade = "";
                             } else {
@@ -257,12 +256,9 @@ function loadReport() {
                             } else {
                                 valueunityRecoverGrade = parseFloat(this.unityRecoverGrade).toFixed(1);
                             }
- 
+
 
                             html += "<td class='center'>" + valueUnityGrade + "</td>";
-                            if (this.gradeUnityType === "UR") {
-                                html += "<td class='center'>" + valueunityRecoverGrade + "</td>";
-                            }
                         });
 
                         if (this.finalMedia == "") {

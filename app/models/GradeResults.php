@@ -21,6 +21,8 @@
  * @property double $rec_partial_6
  * @property double $rec_partial_7
  * @property double $rec_partial_8
+ * @property double $rec_partial_9
+ * @property double $rec_partial_10
  * @property double $sem_rec_partial_1
  * @property double $sem_rec_partial_2
  * @property double $rec_final
@@ -53,12 +55,10 @@
  * @property integer $given_classes_7
  * @property integer $given_classes_8
  * @property integer $final_concept
- * @property double $sem_avarage_1
- * @property double $sem_avarage_2
  * @property string $created_at
  * @property string $updated_at
- * @property double $sem_rec_partial_3
- * @property double $sem_rec_partial_4
+ * @property double $sem_avarage_1
+ * @property double $sem_avarage_2
  *
  * The followings are the available model relations:
  * @property StudentEnrollment $enrollmentFk
@@ -73,18 +73,6 @@ class GradeResults extends CActiveRecord
 	{
 		return 'grade_results';
 	}
-    public function behaviors()
-    {
-        return  [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
-    }
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -96,12 +84,12 @@ class GradeResults extends CActiveRecord
 		return array(
 			array('enrollment_fk, discipline_fk', 'required'),
 			array('enrollment_fk, discipline_fk, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6, grade_faults_7, grade_faults_8, given_classes_1, given_classes_2, given_classes_3, given_classes_4, given_classes_5, given_classes_6, given_classes_7, given_classes_8, final_concept', 'numerical', 'integerOnly'=>true),
-			array('grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_partial_1, rec_partial_2, rec_partial_3, rec_partial_4, rec_partial_5, rec_partial_6, rec_partial_7, rec_partial_8, sem_rec_partial_1, sem_rec_partial_2, rec_final, final_media, sem_avarage_1, sem_avarage_2, sem_rec_partial_3, sem_rec_partial_4', 'numerical'),
+			array('grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_partial_1, rec_partial_2, rec_partial_3, rec_partial_4, rec_partial_5, rec_partial_6, rec_partial_7, rec_partial_8, rec_partial_9, rec_partial_10, sem_rec_partial_1, sem_rec_partial_2, rec_final, final_media, sem_avarage_1, sem_avarage_2', 'numerical'),
 			array('grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation', 'length', 'max'=>50),
 			array('created_at, updated_at', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_partial_1, rec_partial_2, rec_partial_3, rec_partial_4, rec_partial_5, rec_partial_6, rec_partial_7, rec_partial_8, sem_rec_partial_1, sem_rec_partial_2, rec_final, final_media, grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation, enrollment_fk, discipline_fk, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6, grade_faults_7, grade_faults_8, given_classes_1, given_classes_2, given_classes_3, given_classes_4, given_classes_5, given_classes_6, given_classes_7, given_classes_8, final_concept, sem_avarage_1, sem_avarage_2, created_at, updated_at, sem_rec_partial_3, sem_rec_partial_4', 'safe', 'on'=>'search'),
+			array('id, grade_1, grade_2, grade_3, grade_4, grade_5, grade_6, grade_7, grade_8, rec_partial_1, rec_partial_2, rec_partial_3, rec_partial_4, rec_partial_5, rec_partial_6, rec_partial_7, rec_partial_8, rec_partial_9, rec_partial_10, sem_rec_partial_1, sem_rec_partial_2, rec_final, final_media, grade_concept_1, grade_concept_2, grade_concept_3, grade_concept_4, grade_concept_5, grade_concept_6, grade_concept_7, grade_concept_8, situation, enrollment_fk, discipline_fk, grade_faults_1, grade_faults_2, grade_faults_3, grade_faults_4, grade_faults_5, grade_faults_6, grade_faults_7, grade_faults_8, given_classes_1, given_classes_2, given_classes_3, given_classes_4, given_classes_5, given_classes_6, given_classes_7, given_classes_8, final_concept, created_at, updated_at, sem_avarage_1, sem_avarage_2', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -141,6 +129,8 @@ class GradeResults extends CActiveRecord
 			'rec_partial_6' => 'Rec Partial 6',
 			'rec_partial_7' => 'Rec Partial 7',
 			'rec_partial_8' => 'Rec Partial 8',
+			'rec_partial_9' => 'Rec Partial 9',
+			'rec_partial_10' => 'Rec Partial 10',
 			'sem_rec_partial_1' => 'Sem Rec Partial 1',
 			'sem_rec_partial_2' => 'Sem Rec Partial 2',
 			'rec_final' => 'Rec Final',
@@ -173,12 +163,10 @@ class GradeResults extends CActiveRecord
 			'given_classes_7' => 'Given Classes 7',
 			'given_classes_8' => 'Given Classes 8',
 			'final_concept' => 'Final Concept',
-			'sem_avarage_1' => 'Sem Avarage 1',
-			'sem_avarage_2' => 'Sem Avarage 2',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
-			'sem_rec_partial_3' => 'Sem Rec Partial 3',
-			'sem_rec_partial_4' => 'Sem Rec Partial 4',
+			'sem_avarage_1' => 'Sem Avarage 1',
+			'sem_avarage_2' => 'Sem Avarage 2',
 		);
 	}
 
@@ -217,6 +205,8 @@ class GradeResults extends CActiveRecord
 		$criteria->compare('rec_partial_6',$this->rec_partial_6);
 		$criteria->compare('rec_partial_7',$this->rec_partial_7);
 		$criteria->compare('rec_partial_8',$this->rec_partial_8);
+		$criteria->compare('rec_partial_9',$this->rec_partial_9);
+		$criteria->compare('rec_partial_10',$this->rec_partial_10);
 		$criteria->compare('sem_rec_partial_1',$this->sem_rec_partial_1);
 		$criteria->compare('sem_rec_partial_2',$this->sem_rec_partial_2);
 		$criteria->compare('rec_final',$this->rec_final);
@@ -249,12 +239,10 @@ class GradeResults extends CActiveRecord
 		$criteria->compare('given_classes_7',$this->given_classes_7);
 		$criteria->compare('given_classes_8',$this->given_classes_8);
 		$criteria->compare('final_concept',$this->final_concept);
-		$criteria->compare('sem_avarage_1',$this->sem_avarage_1);
-		$criteria->compare('sem_avarage_2',$this->sem_avarage_2);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
-		$criteria->compare('sem_rec_partial_3',$this->sem_rec_partial_3);
-		$criteria->compare('sem_rec_partial_4',$this->sem_rec_partial_4);
+		$criteria->compare('sem_avarage_1',$this->sem_avarage_1);
+		$criteria->compare('sem_avarage_2',$this->sem_avarage_2);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

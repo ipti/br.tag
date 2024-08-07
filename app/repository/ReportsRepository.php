@@ -2489,9 +2489,8 @@ class ReportsRepository
             $result["subunityNames"] = [];
 
             foreach ($gradeUnitiesByClassroom as $gradeUnity) {
-                array_push($result["unityNames"], ["name" => $gradeUnity["name"], "colspan" => $gradeUnity->type == "UR" ? 2 : 1]);
+                array_push($result["unityNames"], ["name" => $gradeUnity["name"], "colspan" => 1]);
                 $commonModalitiesName = "";
-                $recoverModalityName = "";
                 $firstCommonModality = false;
                 foreach ($gradeUnity->gradeUnityModalities as $index => $gradeUnityModality) {
                     if ($gradeUnityModality->type == "C") {
@@ -2501,14 +2500,9 @@ class ReportsRepository
                         } else {
                             $commonModalitiesName .= " + " . $gradeUnityModality->name;
                         }
-                    } else {
-                        $recoverModalityName = $gradeUnityModality->name;
                     }
                 }
                 array_push($result["subunityNames"], $commonModalitiesName);
-                if ($recoverModalityName !== "") {
-                    array_push($result["subunityNames"], $recoverModalityName);
-                }
             }
 
             //Montar linhas das disciplinas e notas
@@ -2542,8 +2536,6 @@ class ReportsRepository
                             break;
                         case "UR":
                             $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
-                            // $grade["unityRecoverGrade"] = $gradeResult["rec_bim_" . ($gradeIndex + 1)] != null ? $gradeResult["rec_bim_" . ($gradeIndex + 1)] : "";
-
                             $gradeIndex++;
                             break;
                         case "RS":
