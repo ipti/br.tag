@@ -311,6 +311,7 @@ $('#discipline').on('change', function () {
             }
         }).success(function (data) {
             $('.courseplan_table_div').html(data);
+            initDatatable();
         })
     }
 })
