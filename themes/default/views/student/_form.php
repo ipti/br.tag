@@ -2143,7 +2143,11 @@ $form = $this->beginWidget(
                                                         <?php
                                                         switch ($me->status) {
                                                             case "1":
-                                                                echo "<label class='t-badge-success'>Matriculado</label>";
+                                                                $created_at = "";
+                                                                if (isset($me->create_date)) {
+                                                                    $created_at = date_create_from_format('Y-m-d H:i:s', $me->create_date)->format('d/m/Y');
+                                                                }
+                                                                echo "<label class='t-badge-success'>Matriculado " . $created_at . "</label>";
                                                                 break;
                                                             case "2":
                                                                 $transfer_date = "";

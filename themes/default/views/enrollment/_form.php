@@ -227,8 +227,6 @@ $form = $this->beginWidget('CActiveForm', array(
 
                         </div>
                         <div class="column">
-                            <div class="separator"></div>
-
                             <div class="t-field-text">
                                     <?php echo $form->labelEx($model, 'school_admission_date', array('class' => 't-field-text__label')); ?>
                                     <?php echo $form->textField($model, 'school_admission_date', array('size' => 10, 'maxlength' => 10, 'class'=>'t-field-text__input')); ?>
