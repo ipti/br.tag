@@ -41,14 +41,13 @@ class FoodInventory extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_fk, food_fk, amount, expiration_date', 'required'),
+            array('school_fk, food_fk, amount', 'required'),
             array('food_fk', 'numerical', 'integerOnly'=>true),
             array('amount', 'numerical'),
             array('school_fk', 'length', 'max'=>8),
             array('measurementUnit', 'length', 'max'=>7),
             array('expiration_date', 'safe'),
             // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, school_fk, food_fk, amount, measurementUnit, expiration_date', 'safe', 'on'=>'search'),
         );
     }
@@ -94,7 +93,6 @@ class FoodInventory extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria=new CDbCriteria;
 

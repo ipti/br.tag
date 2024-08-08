@@ -98,8 +98,11 @@ class FoodinventoryController extends Controller
 
         if (!empty($foodsOnStock)) {
             foreach ($foodsOnStock as $foodData) {
-                $existingFood = FoodInventory::model()->findByAttributes(array('food_fk' => $foodData['id']));
-                $expiration_date_Timestamp = strtotime(str_replace('/', '-', $foodData['expiration_date']));
+                $existingFood = FoodInventory::model()->findByAttributes(array('food_fk' => $foodData['id'], 'school_fk' => Yii::app()->user->school));
+                $expirationDate = null;
+                if($foodData['expiration_date'] != "") {
+                    $expirationDate = date('Y-m-d', strtotime(str_replace('/', '-', $foodData['expiration_date'])));
+                }
 
                 if (!$existingFood) {
                     $FoodInventory = new FoodInventory;
@@ -109,7 +112,7 @@ class FoodinventoryController extends Controller
                     $FoodInventory->school_fk = Yii::app()->user->school;
                     $FoodInventory->amount = $foodData['amount'];
                     $FoodInventory->measurementUnit = $foodData['measurementUnit'];
-                    $FoodInventory->expiration_date = date('Y-m-d', $expiration_date_Timestamp);
+                    $FoodInventory->expiration_date = $expirationDate;
 
                     if ($FoodInventory->save()) {
                         $FoodInventoryReceived = new FoodInventoryReceived;
@@ -139,7 +142,7 @@ class FoodinventoryController extends Controller
                     } else {
                         $existingFood->amount += $foodData['amount'];
                     }
-                    $existingFood->expiration_date = date('Y-m-d', $expiration_date_Timestamp);
+                    $existingFood->expiration_date = $expirationDate;
                     $existingFood->status = 'Disponivel';
                     $existingFood->save();
                 }

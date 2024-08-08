@@ -131,7 +131,7 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
                             </select>
                         </div>
                         <div class="column is-one-tenth clearleft--on-mobile t-field-text t-margin-none--bottom clearfix">
-                            <?php echo $form->label($model,'expiration_date',  array('class' => 't-field-text__label--required')); ?>
+                            <?php echo $form->label($model,'expiration_date',  array('class' => 't-field-text__label')); ?>
                             <?php echo $form->textField($model,'expiration_date', array('class'=>'t-field-text__input js-date t-margin-none--top js-expiration-date', 'placeholder' => 'Selecione')); ?>
                             <?php echo $form->error($model,'expiration_date'); ?>
                         </div>
