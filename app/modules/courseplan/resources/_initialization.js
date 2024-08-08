@@ -1,7 +1,7 @@
 var table;
 
 $(document).ready(function () {
-    initDatatable();
+    initTable();
     if ($(".js-course-plan-id").val() !== "") {
         $("#CoursePlan_modality_fk, #CoursePlan_discipline_fk").attr("disabled", "disabled");
     }

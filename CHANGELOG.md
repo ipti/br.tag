@@ -1,6 +1,8 @@
+## [Versão 3.85.179]
+- Realizada correção na tabela de plano de aula, onde após renderizar a tabela não era apresentado o campo de busca.
+
 ## [Versão 3.85.178]
-- Adicionado funcionalidade que permite manter informações na matrícula do aluno
-de um período no qual o aluno ficou afastado.
+- Adicionado funcionalidade que permite manter informações na matrícula do aluno de um período no qual o aluno ficou afastado.
 
 ## [Versão 3.84.178]
 - Criado o módulo de ficha AEE, permitindo o cadastro, alteração e relatórios de fichas de alunos pertencentes a turmas AEE
