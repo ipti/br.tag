@@ -1,3 +1,6 @@
+## [Versão 3.85.179]
+- Permitindo a visualização das fichas AEE para os gestores escolares e coordenadores
+
 ## [Versão 3.85.178]
 - Adicionado funcionalidade que permite manter informações na matrícula do aluno
 de um período no qual o aluno ficou afastado.
