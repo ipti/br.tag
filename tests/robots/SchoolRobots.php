@@ -2,6 +2,7 @@
 
 class SchoolRobots
 {
+    public AcceptanceTester $tester;
     public function __construct(AcceptanceTester $tester)
     {
         $this->tester = $tester;
@@ -36,7 +37,6 @@ class SchoolRobots
     {
         $this->tester->checkOption('#SchoolIdentification_linked_army');
     }
-
 
 }
 

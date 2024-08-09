@@ -45,5 +45,4 @@ class WizardRobots
         $this->tester->executeJS("document.querySelector('#save button').click();");
     }
 
-
 }
