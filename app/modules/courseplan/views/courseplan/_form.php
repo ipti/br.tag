@@ -103,7 +103,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
                         <div class="row">
                             <div class="column flex is-two-fifths">
-                                <div class="t-field-select">
+                                <div id="disciplinesContainer" class="t-field-select">
                                     <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline_fk', array('class' => 'control-label t-field-select__label--required')); ?>
                                     <?php echo $form->dropDownList($coursePlan, 'discipline_fk', array(), array(
                                         'key' => 'id',
@@ -217,6 +217,15 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <input type="hidden" class="course-class-index">
                 <div class="modal-body">
                     <div class="alert alert-error js-alert-ability-structure">Para adicionar habilidades, é preciso primeiro escolher a etapa e o componente curricular/eixo do plano.</div>
+                    <div id="minorEducationContainer" class="column clearfix">
+                        <div class="t-field-select">
+                            <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline_fk', array('class' => 'control-label t-field-select__label--required')); ?>
+                            <select class="select-search-on t-field-select__input select2-container" id="minorEducationDisciplines" name="minorEducationDisciplines">
+                                <option value="alimento">Selecione o componente curricular/eixo</option>
+                            </select>
+                            <img class="js-course-plan-loading-abilities"  style="margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+                        </div>
+                    </div>
                     <div class="js-abilities-parents">
                     </div>
                     <div class="js-abilities-panel">

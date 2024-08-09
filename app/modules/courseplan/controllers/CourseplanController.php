@@ -135,6 +135,7 @@ class CourseplanController extends Controller
     public function actionGetDisciplines()
     {
         $result = [];
+        $isMinorEducation = TagUtils::isStageMinorEducation($_POST["stage"]);
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
@@ -146,13 +147,13 @@ class CourseplanController extends Controller
                 where ii.users_fk = :userid and cm.stage_fk = :stage_fk and school_year = :year order by ed.name")
                 ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
             foreach ($disciplines as $discipline) {
-                array_push($result, ["id" => $discipline['id'], "name" => CHtml::encode($disciplinesLabels[$discipline['id']])]);
+                array_push($result, ["id" => $discipline['id'], "name" => CHtml::encode($disciplinesLabels[$discipline['id']]), "isMinorEducation" => $isMinorEducation]);
             }
         } else {
             $disciplines = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
             foreach ($disciplines as $i => $discipline) {
                 if (isset($discipline['discipline_fk'])) {
-                    array_push($result, ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']])]);
+                    array_push($result, ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), "isMinorEducation" => $isMinorEducation]);
                 }
             }
         }
