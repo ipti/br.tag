@@ -1,0 +1,23 @@
+ALTER TABLE `school_structure`
+ADD `water_supply_car` tinyint(1) NULL AFTER `water_supply_river`;
+
+ALTER TABLE `school_structure`
+ADD `dependencies_garden_planting_agricultural` tinyint(1) NULL AFTER `dependencies_recording_and_editing_studio`;
+
+ALTER TABLE `school_structure`
+ADD `acessability_light_signaling` tinyint(1) NULL AFTER `acessability_ramps`;
+
+ALTER TABLE `school_structure`
+ADD `workers_garden_planting_agricultural` smallint(6) NULL AFTER `bandwidth`;
+
+ALTER TABLE `school_structure`
+ADD `workers_braille` smallint(6) NULL AFTER `workers_monitors`;
+
+ALTER TABLE `school_structure`
+ADD `equipments_garden_planting_agricultural` tinyint(1) NULL AFTER `equipments_equipment_amplification`;
+
+ALTER TABLE `school_structure`
+ADD `equipments_material_teachingquilombola` tinyint(1) NULL AFTER `equipments_material_teachingrural`;
+
+ALTER TABLE `school_structure`
+ADD `equipments_material_teachingspecial` tinyint(1) NULL AFTER `equipments_material_teachingquilombola`;
