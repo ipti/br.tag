@@ -3,6 +3,7 @@ function validateSave() {
     var name = "#CoursePlan_name";
     var stage = "#CoursePlan_modality_fk";
     var disciplines = "#CoursePlan_discipline_fk";
+    var minorEducationDisciplines = "#minorEducationDisciplines";
     if ($(name).val() === "" || $(name).val().length < 3) {
         submit = false;
         addError(name, "Campo obrigatório (mínimo de 03 caracteres).");
@@ -15,7 +16,7 @@ function validateSave() {
     } else {
         removeError(stage);
     }
-    if ($(disciplines).val() === "") {
+    if ($(disciplines).val() === "" && $(minorEducationDisciplines).val() === "") {
         submit = false;
         addError(disciplines, "Campo obrigatório.");
     } else {

@@ -226,6 +226,7 @@ class CourseplanController extends Controller
         $coursePlan->attributes = $request;
         $coursePlan->situation = 'PENDENTE';
         $coursePlan->save();
+        $errors = $coursePlan->getErrors();
         $courseClassIds = [];
         $i = 1;
         foreach ($_POST["course-class"] as $cc) {
