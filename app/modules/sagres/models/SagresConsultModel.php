@@ -349,7 +349,7 @@ class SagresConsultModel
     private function enrolledSimultaneouslyInRegularClasses(int $year){
         $query = "SELECT DISTINCT student_fk
                     FROM student_enrollment se
-                    JOIN classroom c ON c.id = se.classroom_fk 
+                    JOIN classroom c ON c.id = se.classroom_fk
                     WHERE c.school_year  = :year AND (se.status = 1 or se.status is null) AND student_fk IN (
                         SELECT se.student_fk
                         FROM student_enrollment se
@@ -471,20 +471,44 @@ class SagresConsultModel
                 $inconsistencyModel->description = 'CPF <strong>'. $studentData['cpf'] . '</strong> do aluno <strong>' . $infoStudent['name'] . '</strong> duplicado';
                 $inconsistencyModel->action = 'Remova a matrícula do aluno de uma das turmas';
                 $inconsistencyModel->save();
+            } else {
+                $schoolInepId = array_column($results, 'school_inep_id_fk');
+                $schoolInepId = array_map('intval', $schoolInepId);
+
+                if((
+                    $schoolInepId[0] !== $schoolInepId[1]) &&
+                    (($modalities[0] === 1 && $modalities[1] === 1) ||
+                    ($modalities[0] === 3 && $modalities[1] === 2) ||
+                    ($modalities[0] === 2 && $modalities[1] === 3)
+                    ))
+                {
+                    $studentData = $this->getStudentDataById($student_fk);
+
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = '<strong>ALUNO</strong>';
+                    $inconsistencyModel->school = $studentData['name'];
+                    $inconsistencyModel->identifier = '9';
+                    $inconsistencyModel->idStudent = $student_fk;
+                    $inconsistencyModel->idClass = $infoStudent['classroom_fk'];
+                    $inconsistencyModel->idSchool = $infoStudent['school_inep_id_fk'];
+                    $inconsistencyModel->description = 'CPF <strong>'. $studentData['cpf'] . '</strong> do aluno <strong>' . $infoStudent['name'] . '</strong> duplicado';
+                    $inconsistencyModel->action = 'Remova a matrícula do aluno de uma das turmas';
+                    $inconsistencyModel->save();
+                }
             }
         }
     }
 
     private function getStudentDataById($id) {
-        $sql = "SELECT sdaa.cpf, si.name 
-                FROM student_documents_and_address sdaa 
+        $sql = "SELECT sdaa.cpf, si.name
+                FROM student_documents_and_address sdaa
                 JOIN school_identification si ON si.inep_id = sdaa.school_inep_id_fk
                 WHERE sdaa.id = :id";
-    
+
         $command = Yii::app()->db->createCommand($sql);
         $command->bindParam(":id", $id);
         $result = $command->queryRow();
-    
+
         return $result;
     }
 
