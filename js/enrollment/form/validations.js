@@ -93,3 +93,30 @@ $(document).on("click", ".yes-update", function() {
 $(document).on("click", ".no-update", function() {
     $(this).closest("form").find(".enrollment-error").hide();
 });
+
+
+$('#StudentEnrollment_school_readmission_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$('#StudentEnrollment_school_readmission_date').focusout(function () {
+    let id = '#' + $(this).attr("id");
+    let school_readmission_date = stringToDate($('#StudentEnrollment_school_readmission_date').val());
+
+
+    if ((!validateDate($('#StudentEnrollment_school_readmission_date').val()) || !validateYear(school_readmission_date.year)) && ($(id).val() != '')) {
+        addError(id, "Informe uma data válida no formato Dia/Mês/Ano. Não pode ser superior a data atual.");
+    } else {
+        removeError(id);
+    }
+});
+
+$('#StudentEnrollment_class_transfer_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$('#StudentEnrollment_class_transfer_date').focusout(function () {
+    let id = '#' + $(this).attr("id");
+    let class_transfer_date = stringToDate($('#StudentEnrollment_class_transfer_date').val());
+
+
+    if ((!validateDate($('#StudentEnrollment_class_transfer_date').val()) || !validateYear(class_transfer_date.year)) && ($(id).val() != '')) {
+        addError(id, "Informe uma data válida no formato Dia/Mês/Ano. Não pode ser superior a data atual.");
+    } else {
+        removeError(id);
+    }
+});

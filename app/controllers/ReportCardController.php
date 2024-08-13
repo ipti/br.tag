@@ -431,7 +431,7 @@ class GradesController extends Controller
 
                             $gradeResult["grade_" . ($gradeIndex + 1)] = $resultGradeResult <= 10.0 ? $resultGradeResult : 10.0;
 
-                            $gradeResult["rec_bim_" . ($gradeIndex + 1)] = $grade["unityRecoverGrade"] != "" ? number_format($grade["unityRecoverGrade"], 1) : null;
+                            $gradeResult["rec_partial_" . ($gradeIndex + 1)] = $grade["unityRecoverGrade"] != "" ? number_format($grade["unityRecoverGrade"], 1) : null;
                             $gradeIndex++;
                             break;
                         case "RS":
@@ -447,7 +447,7 @@ class GradesController extends Controller
 
                             $lastRSFilledGrade = $grade["unityGrade"];
 
-                            $gradeResult["rec_sem_" . ($recSemIndex + 1)] = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
+                            $gradeResult["sem_rec_partial_" . ($recSemIndex + 1)] = $grade["unityGrade"] != "" ? number_format($grade["unityGrade"], 1) : null;
                             $recSemIndex++;
                             break;
                         case "RF":

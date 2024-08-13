@@ -176,7 +176,7 @@ $('.js-refresh').on("click", function (e) {
 
 
 function GradeTableBuilder(data) {
-    function buildStundentsRows(students, isUnityConcept, conceptOptions, partialRecoveries) {
+    function buildStundentsRows(students, isUnityConcept, conceptOptions, partialRecoveries, showSemAvarageColumn) {
         return students
             .map(
                 (student) => template`
@@ -194,6 +194,13 @@ function GradeTableBuilder(data) {
                             isUnityConcept,
                             conceptOptions
                         )}
+                        ${
+                            isUnityConcept
+                            ? ''
+                            : buildSemesterAvarage(student, showSemAvarageColumn)
+
+
+                        }
                         ${partialRecoveries !== null ? buildPartialRecovery(
                             student.partialRecoveries[0],
                         ) : ''}
@@ -212,7 +219,16 @@ function GradeTableBuilder(data) {
             )
             .join("\n");
     }
+    function buildSemesterAvarage(student, showSemAvarageColumn){
 
+
+
+        return showSemAvarageColumn
+                ? `<td class="grade-td">
+                     ${student.semAvarage}
+                    </td>`
+                : ''
+    }
     function buildUnities(unities, isUnityConcept, conceptOptions) {
         const unitesGrade = unities
             .map((unity) => {
@@ -243,7 +259,7 @@ function GradeTableBuilder(data) {
     }
     function buildPartialRecovery(studentPartialRecoveries){
         const grade = studentPartialRecoveries.grade.grade === null ? "" : studentPartialRecoveries.grade.grade
-        return  template`
+        return template`
             <td class="grade-td">
                 <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
             </td>
@@ -292,9 +308,11 @@ function GradeTableBuilder(data) {
     }
 
     function build() {
+
         const spaceByColumnGrade = !data.isUnityConcept ? 3 : 2;
         const concept = data.isUnityConcept ? "1" : "0";
         const partialRecoveryColumns = data.partialRecoveryColumns
+        const semester = data.semester
         const modalityColumns = data.unityColumns.reduce((acc, e) => {
             if (e.modalities.length > 1) {
                 return [
@@ -307,7 +325,20 @@ function GradeTableBuilder(data) {
         }, []);
         const numModalities = modalityColumns.length;
         const tableColspan = numModalities + spaceByColumnGrade;
-
+        let semesterAvarage = '';
+        if (data.showSemAvarageColumn) {
+            let semesterText = ""
+            if(data.type === "RF") {
+                semesterText = "Média dos Semestres"
+            } else {
+                semesterText = `Média ${semester}° Semestre`
+            }
+            semesterAvarage = `
+                <th style="min-width: 50px; font-weight: bold;">
+                    ${semesterText}
+                </th>
+            `;
+        }
         return template`
             <table class="grades-table tag-table-secondary remove-vertical-borders remove-border-radius" concept="${concept}">
             <colgroup>
@@ -338,6 +369,7 @@ function GradeTableBuilder(data) {
                                     `<th style="min-width: 50px;%">${element}</th>`
                             )
                             .join("\n")}
+                            ${semesterAvarage}
                             ${partialRecoveryColumns !== null ?
                                 template`<th style="min-width: 50px; font-weight: bold;">
                                 ${partialRecoveryColumns.name}
@@ -347,6 +379,7 @@ function GradeTableBuilder(data) {
                                 </th>`
                                  :
                                 ''}
+
                         ${
                             !data.isUnityConcept
                                 ? `<th style="font-weight: bold;">Média Anual</th>`
@@ -363,7 +396,8 @@ function GradeTableBuilder(data) {
                         data.students,
                         data.isUnityConcept,
                         data.concepts,
-                        data.partialRecoveryColumns
+                        data.partialRecoveryColumns,
+                        data.showSemAvarageColumn
                     )}
                 </tbody>
             </table>`;
