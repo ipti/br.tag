@@ -73,7 +73,7 @@ class SagresConsultModel
                 ->setProfissional($this->getProfessionals($referenceYear, $month));
 
             $this->enrolledSimultaneouslyInRegularClasses($referenceYear);
-            $this->getStudentAEE($referenceYear);
+            //$this->getStudentAEE($referenceYear);
 
         } catch (Exception $e) {
             throw new ErrorException($e->getMessage());
@@ -82,6 +82,7 @@ class SagresConsultModel
         return $education;
     }
 
+    /*
     private function getStudentAEE($referenceYear){
         $query = "SELECT distinct se.student_fk
                 FROM student_enrollment se
@@ -127,7 +128,7 @@ class SagresConsultModel
                 $inconsistencyModel->save();
             }
         }
-    }
+    }*/
 
     public function getManagementUnit($managementUnitId, $referenceYear, $month): CabecalhoTType
     {
@@ -346,7 +347,7 @@ class SagresConsultModel
     }
 
     private function enrolledSimultaneouslyInRegularClasses(int $year){
-        $query = "SELECT school_inep_id_fk, student_fk, classroom_fk
+        $query = "SELECT DISTINCT student_fk
                     FROM student_enrollment se
                     WHERE year(se.create_date) = :year AND (se.status = 1 or se.status is null) AND student_fk IN (
                         SELECT student_fk
@@ -365,6 +366,7 @@ class SagresConsultModel
         foreach($students as $student){
             $infoStudent = $this->getStudentInfo($student['student_fk']);
             $count = $this->getCountOfClassrooms($student, $infoStudent, $year);
+            $this->checkStudentEnrollment($student['student_fk'], $year, $infoStudent);
 
             if (!in_array($student['student_fk'], $processedStudents)) {
                 $this->createInconsistencyModel($student, $infoStudent, $count);
@@ -372,6 +374,7 @@ class SagresConsultModel
             }
         }
     }
+
 
     private function getCountOfClassrooms($student, $infoStudent, $year) {
         $query = "SELECT complementary_activity, aee, school_inep_id_fk, c.name
@@ -385,6 +388,7 @@ class SagresConsultModel
         $result = $command->queryAll();
 
         $count = count($result);
+
         $classNames = [];
         $schoolInepIds = [];
 
@@ -429,6 +433,44 @@ class SagresConsultModel
         ];
     }
 
+    private function checkStudentEnrollment($student_fk, $year, $infoStudent) {
+        // Query to get the modalities
+        $sql = "SELECT c.modality, se.classroom_fk, se.school_inep_id_fk
+        FROM student_enrollment se
+        JOIN classroom c ON se.classroom_fk = c.id
+        WHERE se.student_fk = :student_fk
+        AND (se.status = 1 OR se.status IS NULL)
+        AND c.school_year = :year";
+
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindParam(":student_fk", $student_fk);
+        $command->bindParam(":year", $year);
+        $results = $command->queryAll();
+
+        // Check if there are exactly 2 records
+        if (count($results) === 2) {
+            $modalities = array_column($results, 'modality');
+            $modalities = array_map('intval', $modalities);
+
+            // Check if the combination of modalities is one of the specified combinations
+            if (
+                ($modalities[0] === 1 && $modalities[1] === 2) ||
+                ($modalities[0] === 2 && $modalities[1] === 1)
+            ) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = '<strong>ALUNO</strong>';
+                $inconsistencyModel->school = 'afasfds';
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idStudent = $student_fk;
+                $inconsistencyModel->idClass = $infoStudent['classroom_fk'];
+                $inconsistencyModel->idSchool = $infoStudent['school_inep_id_fk'];
+                $inconsistencyModel->description = 'CPF do aluno <strong>' . $infoStudent['name'] . '</strong> duplicado';
+                $inconsistencyModel->action = 'Remova a matrícula do aluno de uma das turmas';
+                $inconsistencyModel->save();
+            }
+        }
+    }
+
     /*
     private function duplicatedSchool($student, $infoStudent){
         $inconsistencyModel = new ValidationSagresModel();
@@ -440,7 +482,7 @@ class SagresConsultModel
         $inconsistencyModel->idStudent = $student['student_fk'];
         $inconsistencyModel->idClass = $student['classroom_fk'];
         $inconsistencyModel->idSchool = $student['school_inep_id_fk'];
-        $inconsistencyModel->save(); 
+        $inconsistencyModel->save();
     }*/
 
     private function getStudentInfo($student_fk) {
@@ -464,7 +506,7 @@ class SagresConsultModel
     private function checkAge($age, $educationLevel, $arrayStudentInfo) {
             // [2,3,7] -> Ensino fundamental
             // 4 -> Ensino Médio
-            if (in_array($educationLevel, [2,3,7]) && $age < 15) {      
+            if (in_array($educationLevel, [2,3,7]) && $age < 15) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = '<strong>ALUNO</strong>';
                 $inconsistencyModel->school = $this->getSchoolName($arrayStudentInfo['schoolInepIdFk']);
@@ -484,9 +526,9 @@ class SagresConsultModel
                 $inconsistencyModel->idClass = $arrayStudentInfo['classroomFk'];
                 $inconsistencyModel->idSchool = $arrayStudentInfo['schoolInepIdFk'];
                 $inconsistencyModel->description = 'O aluno não tem a idade mínima de 18 anos para o Ensino Médio';
-                $inconsistencyModel->action = 'O aluno deve der a idade compatível com a turma'; 
-                $inconsistencyModel->save();    
-            }  
+                $inconsistencyModel->action = 'O aluno deve der a idade compatível com a turma';
+                $inconsistencyModel->save();
+            }
     }
 
     public function createInconsistencyModel($student, $infoStudent, $count) {
@@ -1000,15 +1042,15 @@ class SagresConsultModel
     }
 
     private function getInstructorRole($classroomIdFk, $instructorId) {
-        $sql = "SELECT itd.role 
-                FROM instructor_teaching_data itd 
-                WHERE itd.instructor_fk = :instructorId 
+        $sql = "SELECT itd.role
+                FROM instructor_teaching_data itd
+                WHERE itd.instructor_fk = :instructorId
                 AND classroom_id_fk = :classroomIdFk";
-    
+
         $command = Yii::app()->db->createCommand($sql);
         $command->bindParam(":instructorId", $instructorId);
         $command->bindParam(":classroomIdFk", $classroomIdFk);
-    
+
         return $command->queryScalar();
     }
 
@@ -1487,15 +1529,15 @@ class SagresConsultModel
                         "classroomFk" => $classId,
                         "schoolInepIdFk" => $inepId
                     ];
-                    
+
                     $modality = $enrollment['modality'];
                     //3 - EJA
                     if($modality === 3){
-                        $educationLevel = (int) $this->getStageById($enrollment['edcenso_stage_vs_modality_fk']);        
+                        $educationLevel = (int) $this->getStageById($enrollment['edcenso_stage_vs_modality_fk']);
                         $age = $this->calculateAge($birthdate);
                         $this->checkAge($age, $educationLevel, $arrayStudentInfo);
                     }
-                    
+
 
                     if (!is_null($studentType->getCpfAluno())) {
                         if($this->cpfLength($studentType->getCpfAluno())){
@@ -1954,7 +1996,7 @@ class SagresConsultModel
         return false;
     }
 
-    public function getStudentSituation($situation): bool
+    public function getStudentSituation($situation)
     {
         $situations = [
             0 => false, // Não frequentou
@@ -2147,7 +2189,7 @@ class SagresConsultModel
 
     private function dataMax(DateTime $data) {
         $dataMaxima = new DateTime("2024-04-30");
-    
+
         if ($data > $dataMaxima) {
             return true;
         } else {
@@ -2157,14 +2199,14 @@ class SagresConsultModel
 
     private function dataMin(DateTime $data) {
         $dataMinima = new DateTime("1923-01-01");
-       
+
         if ($data < $dataMinima) {
             return true;
         } else {
             return false;
         }
     }
-    
+
 
     private function cpfLength($cpf){
         return strlen($cpf) === 11 ? true: false;
