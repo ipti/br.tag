@@ -437,7 +437,7 @@ class SagresConsultModel
 
     private function checkStudentEnrollment($student_fk, $year, $infoStudent) {
         // Query to get the modalities
-        $sql = "SELECT c.modality, se.classroom_fk, se.school_inep_id_fk
+        $sql = "SELECT c.modality, c.complementary_activity, se.classroom_fk, se.school_inep_id_fk
         FROM student_enrollment se
         JOIN classroom c ON se.classroom_fk = c.id
         WHERE se.student_fk = :student_fk
@@ -451,8 +451,18 @@ class SagresConsultModel
 
         // Check if there are exactly 2 records
         if (count($results) === 2) {
+
+            $complem = array_column($results, 'complementary_activity');
+            $complem = array_map('intval', $complem);
+
             $modalities = array_column($results, 'modality');
             $modalities = array_map('intval', $modalities);
+
+            if($complem[0] === 1){
+                $modalities[0] = 6;
+            }elseif($complem[1] === 1){
+                $modalities[1] = 6;
+            }
 
             // Check if the combination of modalities is one of the specified combinations
             if (
