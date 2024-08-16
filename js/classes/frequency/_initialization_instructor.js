@@ -39,7 +39,7 @@ function generateStudentLines(data, dia, mes, ano, monthSplit, isMinor) {
         return line + `
             <div
                 class='justify-content--space-between t-padding-small--top t-padding-small--bottom'
-                style="border-bottom:1px #e8e8e8 solid;background-color:${student.status == 2 ? '#f5f7f9;' : 'initial'};"
+                style="border-bottom:1px #e8e8e8 solid;background-color:${student.status == 2 || student.status == 11 ? '#f5f7f9;' : 'initial'};"
             >
                 <div>${student.studentName}</div>
                 <div style='display:flex;'>

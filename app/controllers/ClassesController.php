@@ -618,7 +618,7 @@ class ClassesController extends Controller
         $startDate = date_create_from_format($dateFormat, $enrollment->school_readmission_date);
         $transferedDate = date_create_from_format($dateFormat, $enrollment->class_transfer_date);
         $scheduleDate = date_create_from_format($dateFormat, $date);
-        return !(($scheduleDate < $startDate && $scheduleDate > $transferedDate) && $enrollment->status == '13' || $enrollment->status == '2');
+        return !(($scheduleDate < $startDate && $scheduleDate > $transferedDate) && $enrollment->status == '13' || $enrollment->status == '2' || $enrollment->status = '11');
     }
 
     public function actionSaveJustifications()
