@@ -36,10 +36,11 @@
                             array(
                                 'header' => 'Ações',
                                 'class' => 'CButtonColumn',
-                                'template' => '{approved} {canceled} {delete}',
+                                'template' => '{approved} {canceled} {deletePlan}',
                                 'buttons' => array(
-                                    'delete' => array(
+                                    'deletePlan' => array(
                                         'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                        'url' => 'Yii::app()->createUrl("courseplan/courseplan/deletePlan",array("id"=>$data->id))',
                                     ),
                                     'approved' => array(
                                         'label' => '',
@@ -62,16 +63,6 @@
                                         'visible' => '!Yii::app()->getAuthManager()->checkAccess("instructor", Yii::app()->user->loginInfos->id) && $data->situation === CoursePlan::STATUS_PENNDING',
                                     )
                                 ),
-                                'afterDelete' => 'function(link, success, data){
-                                    data = JSON.parse(data);
-                                    if (data.valid) {
-                                        $(".alert").text(data.message).addClass("alert-success").removeClass("alert-error");
-                                    } else {
-                                        $(".alert").text(data.message).addClass("alert-error").removeClass("alert-success");
-                                    }
-                                    $(".courseplan-alert").show();
-                                }',
-
                             ),
                         ),
                     )); ?>
