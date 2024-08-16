@@ -37,7 +37,6 @@ $form = $this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
-    <?php if ($model->is_edcenso_stage == 0): ?>
         <div class="row">
             <div class="column is-two-fifths clearfix">
                 <div class="t-field-select">
@@ -47,14 +46,14 @@ $form = $this->beginWidget('CActiveForm', array(
                         array(
                             'prompt' => "Selecione...",
                             'id' => "edcenso_associated_stage_id",
-                            'class' => 't-field-select__input select2-container'
+                            'class' => 't-field-select__input select2-container',
+                            'disabled' => $model->is_edcenso_stage == 1
                         )
                     ); ?>
                     <?php echo $form->error($model, 'edcenso_associated_stage_id'); ?>
                 </div>
             </div>
         </div>
-    <?php endif; ?>
 
     <div class="row">
         <div class="column is-two-fifths clearfix">
@@ -70,7 +69,6 @@ $form = $this->beginWidget('CActiveForm', array(
                     "6" => "EJA",
                     "7" => "Outros",
                 ), array(
-                    'prompt' => "Selecione...",
                     'id' => "stage",
                     'class' => 't-field-select__input select2-container'
                 )); ?>
