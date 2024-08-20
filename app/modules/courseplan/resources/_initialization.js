@@ -300,6 +300,16 @@ $(document).on('change', '#stage', function () {
             stage: $(this).val()
         }
     }).success(function (data) {
+        console.log(data);
+        $('.courseplan_table_div').html(data);
+    })
+    $.ajax({
+        url: '?r=courseplan/courseplan/getDisciplines',
+        type: "POST",
+        data: {
+            stage: $(this).val()
+        }
+    }).success(function (data) {
         data = JSON.parse(data);
         $('.discipline-container').removeClass('hide');
         const disciplineContainer = $('#discipline');
