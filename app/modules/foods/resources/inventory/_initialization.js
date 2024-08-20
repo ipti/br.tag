@@ -125,7 +125,7 @@ $(document).on("click", "#add-food", function () {
     let amount = $('.js-amount').val();
     let expiration_date = $('.js-expiration-date').val();
 
-    if(foodId == "alimento" || amount == "" || expiration_date == "") {
+    if(foodId == "alimento" || amount == "") {
         $('#stock-modal-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     } else {
         if(amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
@@ -144,6 +144,7 @@ $(document).on("click", "#stock_button", function () {
 });
 
 $(document).on("click", "#save-food", function () {
+    console.log(foodsOnStock);
     if (foodsOnStock != 0){
         $.ajax({
             type: 'POST',
