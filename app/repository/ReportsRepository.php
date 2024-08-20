@@ -1454,7 +1454,6 @@ private function separateBaseDisciplines($disciplineId)
 
     public function getStudentCertificate($enrollment_id): array
 {
-    // Substitua a instrução SQL pela nova consulta fornecida
     $command = Yii::app()->db->createCommand("
         SELECT
             si.id AS student_fk,
@@ -1491,9 +1490,10 @@ private function separateBaseDisciplines($disciplineId)
         JOIN edcenso_stage_vs_modality esv ON esv.id = c.edcenso_stage_vs_modality_fk
         JOIN school_identification sch ON sch.inep_id = c.school_inep_fk
         WHERE
-            se.status = 9 AND si.id = :student_id
+            (se.status = 6 OR se.status = 7) AND si.id = :student_id
     ");
     
+
     // Vincula o valor do parâmetro dinâmico
     $command->bindValue(':student_id', $enrollment_id); 
     $results = $command->queryAll();
@@ -1567,14 +1567,10 @@ private function separateBaseDisciplines($disciplineId)
         'baseDisciplines' => array_unique($baseDisciplines),
         'diversifiedDisciplines' => array_unique($diversifiedDisciplines),
     ];
+    // CVarDumper::dump($finalResult, 10, true);
 
     return ['student' => $finalResult];
 }
-
-    
-
-
-
 
     public function getStatementAttended($enrollmentId) : array
     {
