@@ -39,8 +39,8 @@ class StudentAeeRecord extends CActiveRecord
 		return array(
 			array('student_fk, school_fk, classroom_fk, instructor_fk', 'required'),
 			array('student_fk, classroom_fk, instructor_fk', 'numerical', 'integerOnly'=>true),
-			array('learning_needs', 'length', 'max'=>500),
-			array('characterization', 'length', 'max'=>1000),
+			array('learning_needs', 'length', 'max'=>1000),
+			array('characterization', 'length', 'max'=>3000),
 			array('school_fk', 'length', 'max'=>8),
 			array('date', 'safe'),
 			// The following rule is used by search().
