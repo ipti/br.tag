@@ -1,3 +1,5 @@
+## [Versão 3.85.181]
+- Aumentado o limite de caracteres dos campos das fichas aee
 ## [Versão 3.85.180]
 - Retirada a obrigatóriedade do campo de validade no lançamento de estoque
 - Corrigido o erro que ao adicionar um alimento, modificava o valor de uma outra escola que já tinha esse alimento salvo
