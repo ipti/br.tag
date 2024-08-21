@@ -506,6 +506,29 @@ class SagresConsultModel
                     $inconsistencyModel->save();
                 }
             }
+        } elseif(count($results) > 2) {
+           
+            $modalityCount = 0;
+            foreach ($results as $infoStudent) {
+                if ($infoStudent['modality'] == 1) {
+                    $modalityCount++;
+                }
+            }
+
+            $studentData = $this->getStudentDataById($student_fk);
+
+            if ($modalityCount > 1) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = '<strong>ALUNO</strong>';
+                $inconsistencyModel->school = $studentData['name'];
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idStudent = $student_fk;
+                $inconsistencyModel->idClass = $infoStudent['classroom_fk'];
+                $inconsistencyModel->idSchool = $infoStudent['school_inep_id_fk'];
+                $inconsistencyModel->description = 'CPF <strong>' . $studentData['cpf'] . '</strong> do aluno <strong>' . $infoStudent['name'] . '</strong> duplicado';
+                $inconsistencyModel->action = 'Remova a matrícula do aluno de uma das turmas';
+                $inconsistencyModel->save();
+            }
         }
     }
 
@@ -921,6 +944,11 @@ class SagresConsultModel
 
 
         $schedules = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
+
+        if(empty($schedules)){
+            $this->checkScheduleInconsistencies($classId, $month, $school->name, $inepId);
+        }
+
         $class = (object) \Classroom::model()->findByAttributes(array('id' => $classId));
 
         $timetable = $this->getTimetableByClassroom($classId, $month);
@@ -1091,6 +1119,57 @@ class SagresConsultModel
 
         return $scheduleList;
     }
+
+    public function checkScheduleInconsistencies($classId, $referenceMonth, $schoolName, $inepId)
+    {
+
+        $results = Yii::app()->db->createCommand("
+            SELECT DISTINCT
+                s.discipline_fk as schedules, cm.discipline_fk as curricularMatrix, ed.name, c.name as className
+            FROM instructor_teaching_data itd
+                JOIN teaching_matrixes tm on itd.id = tm.teaching_data_fk
+                JOIN curricular_matrix cm on cm.id = tm.curricular_matrix_fk
+                JOIN schedule s on s.classroom_fk = itd.classroom_id_fk
+                JOIN instructor_documents_and_address idaa on itd.instructor_fk = idaa.id
+                JOIN edcenso_discipline ed ON ed.id = cm.discipline_fk
+                JOIN classroom c on c.id = itd.classroom_id_fk
+            WHERE
+                c.id = :classId and
+                s.month <= :referenceMonth
+            ORDER BY
+                c.create_date desc
+        ")
+        ->bindParam(":classId", $classId)
+        ->bindParam(":referenceMonth", $referenceMonth)
+        ->queryAll();
+    
+        $schedules = [];
+    $curricularMatrixChecked = [];
+
+    foreach ($results as $row) {
+        $schedules[] = $row['schedules'];
+    }
+
+    foreach ($results as $row) {
+        $matrixId = $row['curricularMatrix'];
+        if (!in_array($matrixId, $schedules) && !in_array($matrixId, $curricularMatrixChecked)) {
+    
+            $curricularMatrixChecked[] = $matrixId;
+
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = TURMA_STRONG;
+            $inconsistencyModel->school = $schoolName;
+            $inconsistencyModel->description = 'Componente curricular: <strong>' . $row['name'] . '</strong> não está no quadro de horários.';
+            $inconsistencyModel->action = 'Adicione o componente curricular ao quadro de horários para a turma: <strong>' . $row['className'] .'</strong>';
+            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->idClass = $classId;
+            $inconsistencyModel->idSchool = $inepId;
+            $inconsistencyModel->insert();
+        }
+    }
+    }
+    
+
 
     private function getInstructorRole($classroomIdFk, $instructorId) {
         $sql = "SELECT itd.role
