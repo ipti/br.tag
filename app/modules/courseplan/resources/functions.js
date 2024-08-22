@@ -1,4 +1,4 @@
-function initDatatable() {
+function initTable() {
     table = $('#course-classes').DataTable({
         ajax: {
             type: "POST",

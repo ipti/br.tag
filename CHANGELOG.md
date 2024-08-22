@@ -1,3 +1,8 @@
+## [Versão 3.85.180]
+- Retirada a obrigatóriedade do campo de validade no lançamento de estoque
+- Corrigido o erro que ao adicionar um alimento, modificava o valor de uma outra escola que já tinha esse alimento salvo
+- Realizada correção na tabela de plano de aula, onde após renderizar a tabela não era apresentado o campo de busca.
+
 ## [Versão 3.85.179]
 - Correção na funcionalidade de frequência de aluno transferido.
 
