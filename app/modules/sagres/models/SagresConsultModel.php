@@ -2177,7 +2177,7 @@ class SagresConsultModel
     }
 
     function clearSpecialCharacters($string) {
-        return preg_replace('/[^\x09\x0A\x0D\x20-\x7E]/', '', $string);
+        return preg_replace('/\xEF\xBF\xBD/', '', $string);
     }
 
     public function actionExportSagresXML($xml)
