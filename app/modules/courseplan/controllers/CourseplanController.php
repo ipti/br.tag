@@ -29,7 +29,7 @@ class CourseplanController extends Controller
     {
         return array(
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'index', 'delete',
+                'actions' => array('create', 'update', 'index', 'deletePlan',
                     'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure',
                     'getAbilitiesNextStructure', 'addResources', 'getResources', 'pendingPlans',
                     'validatePlan', 'enableCoursePlanEdition', 'checkResourceExists'),
@@ -125,6 +125,7 @@ class CourseplanController extends Controller
                 $ability["id"] = $courseClassHasClassAbility->courseClassAbilityFk->id;
                 $ability["code"] = $courseClassHasClassAbility->courseClassAbilityFk->code;
                 $ability["description"] = $courseClassHasClassAbility->courseClassAbilityFk->description;
+                $ability["discipline"] = $courseClassHasClassAbility->courseClassAbilityFk->edcensoDisciplineFk->name;
                 array_push($courseClasses[$order]['abilities'], $ability);
             }
             $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents) ? "" : "js-unavailable";
@@ -345,7 +346,7 @@ class CourseplanController extends Controller
      * Delete model.
      */
 
-    public function actionDelete($id)
+    public function actionDeletePlan($id)
     {
         $coursePlan = $this->loadModel($id);
         $isUsed = false;
@@ -358,11 +359,11 @@ class CourseplanController extends Controller
         if (!$isUsed) {
             $coursePlan->delete();
             Log::model()->saveAction("courseplan", $id, "D", $coursePlan->name);
-            echo json_encode(["valid" => true, "message" => "Plano de aula excluído com sucesso!"]);
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de aula excluído com sucesso!'));
         } else {
-            echo json_encode(["valid" => false,
-            "message" => "Não se pode remover plano de aula utilizado em alguma turma."]);
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Não se pode remover um plano de aula utilizado em alguma turma.'));
         }
+        $this->redirect(array('index'));
     }
 
     /**

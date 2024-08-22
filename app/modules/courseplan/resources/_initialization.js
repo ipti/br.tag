@@ -254,6 +254,7 @@ $(document).on("click", ".ability-panel-option", function () {
 });
 
 $(document).on("click", ".js-add-selected-abilities", function () {
+    debugger;
     var div = $(".course-class-" + $(".course-class-index").val());
     div.find(".courseplan-abilities-selected").html($(".js-abilities-selected").find(".ability-panel-option").clone());
     div.find(".courseplan-abilities-selected").find(".ability-panel-option i").removeClass("fa-minus-square").addClass("fa-check-square");
@@ -302,6 +303,7 @@ $(document).on('change', '#stage', function () {
     }).success(function (data) {
         console.log(data);
         $('.courseplan_table_div').html(data);
+        initDatatable();
     })
     $.ajax({
         url: '?r=courseplan/courseplan/getDisciplines',

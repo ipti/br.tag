@@ -61,6 +61,11 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
         <?php endif ?>
+        <?php if (Yii::app()->user->hasFlash('error')) : ?>
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
+            </div>
+        <?php endif ?>
         <div id="select-container" class="tablet-row align-items--center-on-desktop">
             <div class="mobile-row">
                 <div class="column clearleft">

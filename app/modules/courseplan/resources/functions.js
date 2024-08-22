@@ -120,10 +120,23 @@ function format_validate(d){
 
     let resources = $('<div class="row wrap no-gap resources"></div>');
     if (d.abilities !== null) {
-        $.each(d.abilities, function (i, v) {
-            let div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+        let uniqueDisciplines = [...new Set(d.abilities.map(item => item.discipline))];
+        $.each(uniqueDisciplines, function (i, discipline) {
+            let div = '<label>' + discipline + '</label>';
+            $.each(d.abilities, function (i, v) {
+                if(v.discipline == discipline) {
+                    div += '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+                }
+            });
             abilitiesContainer.append(div);
-        });
+        })
+        // $.each(d.abilities, function (i, v) {
+        //     console.log("Esse é o I:" + i);
+        //     console.log("Esse é o V:" + v.discipline);
+        //     let div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+        //     console.log(div);
+        //     abilitiesContainer.append(div);
+        // });
     }
     if (d.methodologies !== null) {
         methodologyInput.val(d.methodology);
@@ -198,10 +211,20 @@ function format(d) {
 
     let resources = $('<div class="row wrap no-gap resources"></div>');
     if (d.abilities !== null) {
-        $.each(d.abilities, function (i, v) {
-            let div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+        let uniqueDisciplines = [...new Set(d.abilities.map(item => item.discipline))];
+        $.each(uniqueDisciplines, function (i, discipline) {
+            let div = '<label>' + discipline + '</label>';
+            $.each(d.abilities, function (i, v) {
+                if(v.discipline == discipline) {
+                    div += '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+                }
+            });
             abilitiesContainer.append(div);
-        });
+        })
+        // $.each(d.abilities, function (i, v) {
+        //     let div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+        //     abilitiesContainer.append(div);
+        // });
     }
     if (d.types !== null) {
         methodologyInput.val(d.methodology);
