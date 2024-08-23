@@ -1,4 +1,5 @@
 ## [Versão 3.85.181]
+- Aumentado o limite de caracteres dos campos das fichas aee
 - Permitindo a visualização das fichas AEE para os gestores escolares e coordenadores
 
 ## [Versão 3.85.180]

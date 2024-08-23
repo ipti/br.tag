@@ -68,14 +68,14 @@ $form=$this->beginWidget('CActiveForm', array(
     <div class="row">
         <div class="column t-field-tarea clearfix is-three-fifths">
             <?php echo CHtml::label('Necessidades de aprendizagem ', 'learning_needs', array('class' => 't-field-tarea__label')); ?>
-            <?php echo CHtml::activeTextArea($model, "learning_needs", array('id'=>"learningNeeds",'class' => "t-field-tarea__input large", 'maxlength' => 500, 'style' => 'resize: none')); ?>
+            <?php echo CHtml::activeTextArea($model, "learning_needs", array('id'=>"learningNeeds",'class' => "t-field-tarea__input large", 'maxlength' => 1000, 'style' => 'resize: none')); ?>
         </div>
     </div>
 
     <div class="row">
         <div class="column t-field-tarea clearfix is-three-fifths">
             <?php echo CHtml::label('Caracterização pedagógica ', 'characterization', array('class' => 't-field-tarea__label')); ?>
-            <?php echo CHtml::activeTextArea($model, "characterization", array('id'=>"characterization",'class' => "t-field-tarea__input large", 'maxlength' => 1000, 'style' => 'resize: none; min-height: 200px; max-height: 200px')); ?>
+            <?php echo CHtml::activeTextArea($model, "characterization", array('id'=>"characterization",'class' => "t-field-tarea__input large", 'maxlength' => 3000, 'style' => 'resize: none; min-height: 200px; max-height: 200px')); ?>
         </div>
     </div>
 
