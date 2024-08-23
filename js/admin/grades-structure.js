@@ -498,7 +498,7 @@ function saveUnities(reply) {
                 id: $(".final-recovery-unity-id").val(),
                 name: $(".final-recovery-unity-name").val(),
                 type: $(".final-recovery-unity-type").val(),
-                grade_calculation_fk: $(".calculation-final-media").select2(
+                grade_calculation_fk: $(".final-recovery-unity-calculation").select2(
                     "val"
                 ),
                 operation: $(".final-recovery-unity-operation").val(),
