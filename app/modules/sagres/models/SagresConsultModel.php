@@ -1646,6 +1646,10 @@ class SagresConsultModel
             $command->bindValues([':idStudent' => $enrollment['id']]);
             $cpf = $command->queryScalar();
 
+           
+            $this->checkSingleStudentWithoutCpf($enrollments, $cpf, $classId, $referenceYear, $school, $inepId);
+    
+
             if($withoutCpf) {
                 if(!empty($cpf)) {
                     $studentType = new AlunoTType();
@@ -2089,6 +2093,23 @@ class SagresConsultModel
         }
 
         return $enrollmentList;
+    }
+
+    private function checkSingleStudentWithoutCpf(array $enrollments, $cpf, $classId, $referenceYear, $school, $inepId)
+    {
+        if (count($enrollments) === 1 && empty($cpf)) {
+            $className = $this->getClassName($classId, $referenceYear);
+
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = TURMA_STRONG;
+            $inconsistencyModel->school = $school->name;
+            $inconsistencyModel->description = 'A turma: <strong>' . $className . '</strong> possui apenas um estudante sem CPF. Como o sistema não aceita matrículas sem CPF, esta turma é considerada sem alunos matriculados.';
+            $inconsistencyModel->action = 'Adicione o CPF do aluno ou delete a turma.';
+            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->idClass = $classId;
+            $inconsistencyModel->idSchool = $inepId;
+            $inconsistencyModel->insert();
+        }
     }
 
     private function getStageById($id) {
