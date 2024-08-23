@@ -1,3 +1,6 @@
+## [Versão 3.85.181]
+- Permitindo a visualização das fichas AEE para os gestores escolares e coordenadores
+
 ## [Versão 3.85.180]
 - Retirada a obrigatóriedade do campo de validade no lançamento de estoque
 - Corrigido o erro que ao adicionar um alimento, modificava o valor de uma outra escola que já tinha esse alimento salvo
@@ -5,6 +8,7 @@
 
 ## [Versão 3.85.179]
 - Consertado relatório de Notas Por Aluno.
+
 
 ## [Versão 3.85.178]
 - Adicionado funcionalidade que permite manter informações na matrícula do aluno de um período no qual o aluno ficou afastado.
