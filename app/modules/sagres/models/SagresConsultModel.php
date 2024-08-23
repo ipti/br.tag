@@ -506,6 +506,29 @@ class SagresConsultModel
                     $inconsistencyModel->save();
                 }
             }
+        } elseif(count($results) > 2) {
+           
+            $modalityCount = 0;
+            foreach ($results as $infoStudent) {
+                if ($infoStudent['modality'] == 1) {
+                    $modalityCount++;
+                }
+            }
+
+            $studentData = $this->getStudentDataById($student_fk);
+
+            if ($modalityCount > 1) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = '<strong>ALUNO</strong>';
+                $inconsistencyModel->school = $studentData['name'];
+                $inconsistencyModel->identifier = '9';
+                $inconsistencyModel->idStudent = $student_fk;
+                $inconsistencyModel->idClass = $infoStudent['classroom_fk'];
+                $inconsistencyModel->idSchool = $infoStudent['school_inep_id_fk'];
+                $inconsistencyModel->description = 'CPF <strong>' . $studentData['cpf'] . '</strong> do aluno <strong>' . $infoStudent['name'] . '</strong> duplicado';
+                $inconsistencyModel->action = 'Remova a matrícula do aluno de uma das turmas';
+                $inconsistencyModel->save();
+            }
         }
     }
 
@@ -921,6 +944,11 @@ class SagresConsultModel
 
 
         $schedules = Yii::app()->db->createCommand($query)->bindValues($params)->queryAll();
+
+        if(empty($schedules)){
+            $this->checkScheduleInconsistencies($classId, $month, $school->name, $inepId);
+        }
+
         $class = (object) \Classroom::model()->findByAttributes(array('id' => $classId));
 
         $timetable = $this->getTimetableByClassroom($classId, $month);
@@ -1018,11 +1046,13 @@ class SagresConsultModel
 
             $duration = Yii::app()->db->createCommand($queryGetDuration)->queryRow();
 
+            $disciplina = mb_convert_encoding(substr($schedule['disciplineName'], 0, 50), 'UTF-8', 'UTF-8');
+
             $scheduleType
                 ->setDiaSemana(((int) $schedule['weekDay'] === 0 ? 7 : $schedule['weekDay']))
                 ->setDuracao(2)
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
-                ->setDisciplina(substr($schedule['disciplineName'], 0, 50))
+                ->setDisciplina($disciplina)
                 ->setCpfProfessor([str_replace([".", "-"], "", $schedule['cpfInstructor'])]);
 
                 if (empty($scheduleType)) {
@@ -1092,6 +1122,53 @@ class SagresConsultModel
         return $scheduleList;
     }
 
+    private function checkScheduleInconsistencies($classId, $referenceMonth, $schoolName, $inepId)
+    {
+        $results = Yii::app()->db->createCommand("
+            SELECT DISTINCT
+                s.discipline_fk as schedules, cm.discipline_fk as curricularMatrix, ed.name, c.name as className
+            FROM instructor_teaching_data itd
+                JOIN teaching_matrixes tm on itd.id = tm.teaching_data_fk
+                JOIN curricular_matrix cm on cm.id = tm.curricular_matrix_fk
+                JOIN schedule s on s.classroom_fk = itd.classroom_id_fk
+                JOIN instructor_documents_and_address idaa on itd.instructor_fk = idaa.id
+                JOIN edcenso_discipline ed ON ed.id = cm.discipline_fk
+                JOIN classroom c on c.id = itd.classroom_id_fk
+            WHERE
+                c.id = :classId and
+                s.month <= :referenceMonth
+            ORDER BY
+                c.create_date desc
+        ")
+        ->bindParam(":classId", $classId)
+        ->bindParam(":referenceMonth", $referenceMonth)
+        ->queryAll();
+    
+        $schedules = [];
+        $curricularMatrixChecked = [];
+
+        foreach ($results as $row) {
+            $schedules[] = $row['schedules'];
+        }
+
+        foreach ($results as $row) {
+            $matrixId = $row['curricularMatrix'];
+            if (!in_array($matrixId, $schedules) && !in_array($matrixId, $curricularMatrixChecked)) {
+            
+                $curricularMatrixChecked[] = $matrixId;
+
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = TURMA_STRONG;
+                $inconsistencyModel->school = $schoolName;
+                $inconsistencyModel->description = 'Componente curricular: <strong>' . $row['name'] . '</strong> não está no quadro de horários.';
+                $inconsistencyModel->action = 'Adicione o componente curricular ao quadro de horários para a turma: <strong>' . $row['className'] .'</strong>';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+        }
+    }
     private function getInstructorRole($classroomIdFk, $instructorId) {
         $sql = "SELECT itd.role
                 FROM instructor_teaching_data itd
@@ -1262,10 +1339,15 @@ class SagresConsultModel
 
         foreach ($menus as $menu) {
             $menuType = new CardapioTType();
+
+            $descMeren = str_replace("ª", "", $menu['descricaoMerenda']);
+            $descMeren = filter_var($descMeren, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+            $descMeren = str_replace("\r", "", $descMeren);
+
             $menuType
                 ->setData(new DateTime($menu['data']))
                 ->setTurno($this->convertTurn($menu['turno']))
-                ->setDescricaoMerenda(str_replace("ª", "", $menu['descricaoMerenda']))
+                ->setDescricaoMerenda($descMeren)
                 ->setAjustado(isset($menu['ajustado']) ? $menu['ajustado'] : false);
 
             $menuList[] = $menuType;
@@ -1563,6 +1645,10 @@ class SagresConsultModel
             $command = Yii::app()->db->createCommand($query1);
             $command->bindValues([':idStudent' => $enrollment['id']]);
             $cpf = $command->queryScalar();
+
+           
+            $this->checkSingleStudentWithoutCpf($enrollments, $cpf, $classId, $referenceYear, $school, $inepId);
+    
 
             if($withoutCpf) {
                 if(!empty($cpf)) {
@@ -2009,6 +2095,23 @@ class SagresConsultModel
         return $enrollmentList;
     }
 
+    private function checkSingleStudentWithoutCpf(array $enrollments, $cpf, $classId, $referenceYear, $school, $inepId)
+    {
+        if (count($enrollments) === 1 && empty($cpf)) {
+            $className = $this->getClassName($classId, $referenceYear);
+
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = TURMA_STRONG;
+            $inconsistencyModel->school = $school->name;
+            $inconsistencyModel->description = 'A turma: <strong>' . $className . '</strong> possui apenas um estudante sem CPF. Como o sistema não aceita matrículas sem CPF, esta turma é considerada sem alunos matriculados.';
+            $inconsistencyModel->action = 'Adicione o CPF do aluno ou delete a turma.';
+            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->idClass = $classId;
+            $inconsistencyModel->idSchool = $inepId;
+            $inconsistencyModel->insert();
+        }
+    }
+
     private function getStageById($id) {
         $command = Yii::app()->db->createCommand('SELECT esvm.stage FROM edcenso_stage_vs_modality esvm WHERE id = :id');
         $command->bindParam(':id', $id);
@@ -2101,8 +2204,8 @@ class SagresConsultModel
 
     }
 
-    function clearSpecialCharacters($string) {
-        return preg_replace('/[^\x09\x0A\x0D\x20-\x7E]/', '', $string);
+    private function clearSpecialCharacters($string) {
+        return preg_replace("/\xEF\xBF\xBD/", "", $string);
     }
 
     public function actionExportSagresXML($xml)
