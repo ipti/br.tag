@@ -3,6 +3,9 @@
 - Corrigido o erro que ao adicionar um alimento, modificava o valor de uma outra escola que já tinha esse alimento salvo
 - Realizada correção na tabela de plano de aula, onde após renderizar a tabela não era apresentado o campo de busca.
 
+## [Versão 3.85.179]
+- Consertado relatório de Notas Por Aluno.
+
 ## [Versão 3.85.178]
 - Adicionado funcionalidade que permite manter informações na matrícula do aluno de um período no qual o aluno ficou afastado.
 

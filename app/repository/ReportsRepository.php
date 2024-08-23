@@ -2489,9 +2489,8 @@ class ReportsRepository
             $result["subunityNames"] = [];
 
             foreach ($gradeUnitiesByClassroom as $gradeUnity) {
-                array_push($result["unityNames"], ["name" => $gradeUnity["name"], "colspan" => $gradeUnity->type == "UR" ? 2 : 1]);
+                array_push($result["unityNames"], ["name" => $gradeUnity["name"], "colspan" => 1]);
                 $commonModalitiesName = "";
-                $recoverModalityName = "";
                 $firstCommonModality = false;
                 foreach ($gradeUnity->gradeUnityModalities as $index => $gradeUnityModality) {
                     if ($gradeUnityModality->type == "C") {
@@ -2501,14 +2500,9 @@ class ReportsRepository
                         } else {
                             $commonModalitiesName .= " + " . $gradeUnityModality->name;
                         }
-                    } else {
-                        $recoverModalityName = $gradeUnityModality->name;
                     }
                 }
                 array_push($result["subunityNames"], $commonModalitiesName);
-                if ($recoverModalityName !== "") {
-                    array_push($result["subunityNames"], $recoverModalityName);
-                }
             }
 
             //Montar linhas das disciplinas e notas
@@ -2517,11 +2511,10 @@ class ReportsRepository
                 select ed.id, ed.name from curricular_matrix cm
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
                 join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
-                join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id
+                join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id and c.school_year = cm.school_year
                 where c.id = :classroom
                 order by ed.name
             ")->bindParam(":classroom", $classroomId)->queryAll();
-
             foreach ($disciplines as $discipline) {
                 $arr["disciplineName"] = $discipline["name"];
 
@@ -2543,7 +2536,6 @@ class ReportsRepository
                             break;
                         case "UR":
                             $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
-                            $grade["unityRecoverGrade"] = $gradeResult["rec_partial_" . ($gradeIndex + 1)] != null ? $gradeResult["rec_partial_" . ($gradeIndex + 1)] : "";
                             $gradeIndex++;
                             break;
                         case "RS":
@@ -2560,7 +2552,7 @@ class ReportsRepository
                     }
                 }
 
-                $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                $arr["finalMedia"] = $gradeResult != null ? ($gradeResult->final_media != null ? $gradeResult->final_media : "") : "";
                 $arr["situation"] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : "") : "";
                 array_push($result["rows"], $arr);
             }
