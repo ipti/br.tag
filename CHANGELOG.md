@@ -1,9 +1,17 @@
-## [Versão 3.85.179]
+## [Versão 3.85.181]
 - Permitindo a visualização das fichas AEE para os gestores escolares e coordenadores
 
+## [Versão 3.85.180]
+- Retirada a obrigatóriedade do campo de validade no lançamento de estoque
+- Corrigido o erro que ao adicionar um alimento, modificava o valor de uma outra escola que já tinha esse alimento salvo
+- Realizada correção na tabela de plano de aula, onde após renderizar a tabela não era apresentado o campo de busca.
+
+## [Versão 3.85.179]
+- Consertado relatório de Notas Por Aluno.
+
+
 ## [Versão 3.85.178]
-- Adicionado funcionalidade que permite manter informações na matrícula do aluno
-de um período no qual o aluno ficou afastado.
+- Adicionado funcionalidade que permite manter informações na matrícula do aluno de um período no qual o aluno ficou afastado.
 
 ## [Versão 3.84.178]
 - Criado o módulo de ficha AEE, permitindo o cadastro, alteração e relatórios de fichas de alunos pertencentes a turmas AEE
