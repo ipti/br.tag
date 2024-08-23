@@ -1046,11 +1046,13 @@ class SagresConsultModel
 
             $duration = Yii::app()->db->createCommand($queryGetDuration)->queryRow();
 
+            $disciplina = mb_convert_encoding(substr($schedule['disciplineName'], 0, 50), 'UTF-8', 'UTF-8');
+
             $scheduleType
                 ->setDiaSemana(((int) $schedule['weekDay'] === 0 ? 7 : $schedule['weekDay']))
                 ->setDuracao(2)
                 ->setHoraInicio($this->getStartTime($schedule['schedule'], $this->convertTurn($schedule['turn'])))
-                ->setDisciplina(substr($schedule['disciplineName'], 0, 50))
+                ->setDisciplina($disciplina)
                 ->setCpfProfessor([str_replace([".", "-"], "", $schedule['cpfInstructor'])]);
 
                 if (empty($scheduleType)) {
@@ -1337,10 +1339,15 @@ class SagresConsultModel
 
         foreach ($menus as $menu) {
             $menuType = new CardapioTType();
+
+            $descMeren = str_replace("ª", "", $menu['descricaoMerenda']);
+            $descMeren = filter_var($descMeren, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+            $descMeren = str_replace("\r", "", $descMeren);
+
             $menuType
                 ->setData(new DateTime($menu['data']))
                 ->setTurno($this->convertTurn($menu['turno']))
-                ->setDescricaoMerenda(str_replace("ª", "", $menu['descricaoMerenda']))
+                ->setDescricaoMerenda($descMeren)
                 ->setAjustado(isset($menu['ajustado']) ? $menu['ajustado'] : false);
 
             $menuList[] = $menuType;
@@ -2176,8 +2183,8 @@ class SagresConsultModel
 
     }
 
-    function clearSpecialCharacters($string) {
-        return preg_replace('/\xEF\xBF\xBD/', '', $string);
+    private function clearSpecialCharacters($string) {
+        return preg_replace("/\xEF\xBF\xBD/", "", $string);
     }
 
     public function actionExportSagresXML($xml)
