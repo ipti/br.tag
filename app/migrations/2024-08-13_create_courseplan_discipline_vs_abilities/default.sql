@@ -15,4 +15,6 @@ CREATE TABLE course_plan_discipline_vs_abilities (
     ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT course_plan_discipline_vs_abilities_ability_fk FOREIGN KEY (ability_fk) REFERENCES course_class_abilities(id)
     ON DELETE CASCADE ON UPDATE CASCADE
-)
+);
+
+ALTER TABLE course_plan MODIFY COLUMN discipline_fk INT(11) NULL;

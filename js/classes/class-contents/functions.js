@@ -15,6 +15,7 @@ function createTable(data) {
     let i = 1;
     let pivotChanger = "";
     $.each(data.courseClasses, function () {
+        console.log(this);
         i = pivotChanger !== this.cpid ? 1 : i;
         pivotChanger = this.cpid;
         options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + i++ + "|" + this.content + "|" + this.edname + '</option>';
