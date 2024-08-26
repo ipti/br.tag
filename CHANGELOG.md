@@ -1,3 +1,6 @@
+## [Versão 3.85.182]
+- Permitindo a adição de habilidades de disciplinas diferentes em planos de aula para etapas de fundamental menor
+
 ## [Versão 3.85.181]
 - Aumentado o limite de caracteres dos campos das fichas aee
 - Permitindo a visualização das fichas AEE para os gestores escolares e coordenadores
