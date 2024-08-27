@@ -1,3 +1,5 @@
+-- COMANDOS DEVEM SER RODADOS APENAS NO MUNICÍPIO DE CARMÓPOLIS
+
 DELETE FROM grade_concept;
 
 INSERT INTO grade_concept(name, acronym) VALUES('Não Observado', 'NO');
