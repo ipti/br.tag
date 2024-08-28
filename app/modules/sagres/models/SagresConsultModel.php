@@ -695,12 +695,17 @@ class SagresConsultModel
             $classType = new TurmaTType();
             $classId = $turma['classroomId'];
 
+            $matriculas = $this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf);
+
+            if($matriculas === null)
+                continue;
+
             $classType
                 ->setPeriodo(0) //0 - Anual
                 ->setDescricao($turma["classroomName"])
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($this->getSeries($classId, $inepId))
-                ->setMatricula($this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf))
+                ->setMatricula($matriculas)
                 ->setHorario($this->getSchedules($classId, $month, $inepId))
                 ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN));
 
@@ -1549,7 +1554,7 @@ class SagresConsultModel
     /**
      * Sets a new MatriculaTType
      *
-     * @return MatriculaTType[]
+     * @return MatriculaTType[] | null
      */
     public function getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId ,$withoutCpf)
     {
@@ -1615,6 +1620,8 @@ class SagresConsultModel
         $enrollments = $command->queryAll();
 
         if(empty($enrollments)){
+            return null;
+            /*
             $className = $this->getClassName($classId, $referenceYear);
 
             $inconsistencyModel = new ValidationSagresModel();
@@ -1626,6 +1633,7 @@ class SagresConsultModel
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->idSchool = $inepId;
             $inconsistencyModel->insert();
+            */
         }
 
         foreach ($enrollments as $enrollment) {
