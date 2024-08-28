@@ -1,3 +1,6 @@
+## [Versão 3.85.182]
+- Adicionada a exibição da data de matricula do aluno em uma turma na aba de matrículas no formulário do aluno
+
 ## [Versão 3.85.181]
 - Aumentado o limite de caracteres dos campos das fichas aee
 - Permitindo a visualização das fichas AEE para os gestores escolares e coordenadores
@@ -9,7 +12,6 @@
 
 ## [Versão 3.85.179]
 - Consertado relatório de Notas Por Aluno.
-
 
 ## [Versão 3.85.178]
 - Adicionado funcionalidade que permite manter informações na matrícula do aluno de um período no qual o aluno ficou afastado.
