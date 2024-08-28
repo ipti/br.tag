@@ -1,3 +1,3 @@
 $(document).ready(function() {
-    $("#stage").select2();
+    $("#stage, #edcenso_associated_stage_id").select2();
 });
