@@ -822,7 +822,8 @@ class SagresConsultModel
         $query = "SELECT
                     c.name AS serieDescription,
                     c.modality AS serieModality,
-                    c.complementary_activity as complementaryActivity
+                    c.complementary_activity as complementaryActivity,
+                    c.schooling as schooling
                 FROM
                     classroom c
                 WHERE
@@ -834,11 +835,15 @@ class SagresConsultModel
             $serie = (object) $serie;
             $serieType = new SerieTType();
 
-            if($serie->complementaryActivity === '1')
-                $modality = 6;
-            else
+            if($serie->complementaryActivity === '1'){
+                if($serie->schooling === '1')
+                    $modality = 2;
+                else
+                    $modality = 6;
+            }else{
                 $modality = $serie->serieModality;
-
+            }
+                
             $serieType
                 ->setDescricao($serie->serieDescription)
                 ->setModalidade($modality);
