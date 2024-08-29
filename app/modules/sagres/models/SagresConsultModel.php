@@ -564,7 +564,7 @@ class SagresConsultModel
 
     private function getStudentInfo($student_fk) {
         $sql = "SELECT si.name, sdaa.cpf FROM student_identification si
-                JOIN student_documents_and_address sdaa ON sdaa.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON sdaa.id = si.id
                 WHERE si.id = :id";
 
         $command = Yii::app()->db->createCommand($sql);
