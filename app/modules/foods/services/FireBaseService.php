@@ -42,6 +42,7 @@ class FireBaseService
     public function createFarmerRegister($name, $cpf, $phone, $groupType, $foodsRelation) {
         $collection = 'farmer_register';
         $uuid = Uuid::uuid4();
+        $cpf = mask($cpf, '###.###.###-##');
 
         $document = new FirestoreDocument;
         $document->fillValues([
@@ -62,6 +63,7 @@ class FireBaseService
     public function updateFarmerRegister($farmerId, $name, $cpf, $phone, $groupType, $foodsRelation) {
         $collection = 'farmer_register';
         $documentPath =  $collection . '/' . $farmerId;
+        $cpf = mask($cpf, '###.###.###-##');
 
         $this->firestoreClient->updateDocument($documentPath, [
             'cpf' => $cpf,
@@ -110,6 +112,7 @@ class FireBaseService
     public function getFarmerRegister($cpf) {
         $farmerRegisters = $this->firestoreClient->listDocuments('farmer_register');
         $foundFarmer = [];
+        $cpf = mask($cpf, '###.###.###-##');
 
         foreach ($farmerRegisters['documents'] as $farmerRegister) {
             if ($farmerRegister->get('cpf') == $cpf) {
@@ -118,11 +121,12 @@ class FireBaseService
                 } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
                     $userField = "";
                 }
+                $newcpf = preg_replace("/\D/", "", $farmerRegister->get('cpf'));
                 $foundFarmer = array(
                     "id" => $farmerRegister->get("id"),
                     "name" => $farmerRegister->get('name'),
                     "groupType" => $farmerRegister->get('groupType'),
-                    "cpf" => $farmerRegister->get('cpf'),
+                    "cpf" => $newcpf,
                     "phone" => $farmerRegister->get('phone'),
                     "user" => $userField
                 );
@@ -195,16 +199,20 @@ class FireBaseService
         unset($item);
     }
 
-    public function createFoodRequest($requestTitle, $requestSchoolNames, $farmersReferenceId, $requestItems) {
+    public function createFoodRequest($requestTitle, $requestSchoolNames, $farmersCpfs, $requestItems) {
         $collection = 'food_request';
         $uuid = Uuid::uuid4();
         $this->addCategoryUrl($requestItems);
+
+        $maskedCpfs = array_map(function($cpf) {
+            return mask($cpf, '###.###.###-##');
+        }, $farmersCpfs);
 
         $document = new FirestoreDocument;
         $document->setString('title', $requestTitle);
         $document->setString('id', $uuid->toString());
         $document->setArray('schools', $requestSchoolNames);
-        $document->setArray('farmers', $farmersReferenceId);
+        $document->setArray('farmers', $maskedCpfs);
 
         $map = array();
 
@@ -224,4 +232,16 @@ class FireBaseService
         return $uuid->toString();
     }
 
+}
+function mask($val, $mask) {
+    $maskared = '';
+    $k = 0;
+    for($i = 0; $i<=strlen($mask)-1; $i++) {
+        if($mask[$i] == '#') {
+            if(isset($val[$k])) $maskared .= $val[$k++];
+        } else {
+            if(isset($mask[$i])) $maskared .= $mask[$i];
+        }
+    }
+    return $maskared;
 }

@@ -18,6 +18,7 @@ $(document).ready(function() {
         }).success(function(response) {
             let data = DOMPurify.sanitize(response)
             let farmerFoods = JSON.parse(data);
+            foodsRelation = farmerFoods;
             renderFoodsTable(farmerFoods);
         });
         $('#farmerName').removeAttr('disabled');

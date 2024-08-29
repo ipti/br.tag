@@ -2,10 +2,39 @@
 
 class FoodrequestController extends Controller
 {
-    /**
-     * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
-     */
+    public function accessRules()
+    {
+        return array(
+            array(
+                'allow',  // allow all users to perform 'index' and 'view' actions
+                'actions' => array(
+                    'index',
+                    'view',
+                    'getFoodRequest',
+                    'updateRequestStatus',
+                    'getFarmerRegister',
+                    'getFoodAlias',
+                    'getFarmerFoods',
+                    'getFoodNotice'
+                ),
+                'users' => array('*'),
+            ),
+            array(
+                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array('create', 'update'),
+                'users' => array('@'),
+            ),
+            array(
+                'allow', // allow admin user to perform 'admin' and 'delete' actions
+                'actions' => array('delete'),
+                'users' => array('admin'),
+            ),
+            array(
+                'deny',  // deny all users
+                'users' => array('*'),
+            ),
+        );
+    }
     public function actionView($id)
     {
         $this->render('view', array(
@@ -107,26 +136,43 @@ class FoodrequestController extends Controller
         return true;
     }
 
-    // public function actionUpdateRequestStatus() {
-    //     $requestId = Yii::app()->request->getParam('requestId');
-    //     $token = Yii::app()->request->getParam('token');
+    public function actionUpdateRequestStatus() {
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
 
-    //     if($token == "123") {
-    //         $criteria = new CDbCriteria();
-    //         $criteria->condition = 't.id = :id';
-    //         $criteria->params = array(':id' => $requestId);
+        if(!$authHeader) {
+            echo json_encode(['error' => 'token nao informado']);
+            Yii::app()->end();
+            // throw new CHttpException(401, "token nao informado");
+        }
 
-    //         $request = FoodRequest::model()->find($criteria);
-    //         $request->status = "Finalizado";
-    //         if($request->save()) {
-    //             return json_encode(['success' => 'Status da solicitação modificado com sucesso']);
-    //         } else {
-    //             return json_encode(['error' => 'Não foi possível modificar o status da solicitação']);
-    //         }
-    //     } else {
-    //         return json_encode(['error' => 'Token inválido']);
-    //     }
-    // }
+        if($authHeader != 'Bearer $2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6') {
+            echo json_encode(['error' => 'token nao autorizado']);
+            Yii::app()->end();
+            // throw new CHttpException(401, "token nao autorizado");
+        }
+        $requestId = Yii::app()->request->getPost('requestId');
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.id = :id';
+        $criteria->params = array(':id' => $requestId);
+
+        $request = FoodRequest::model()->find($criteria);
+        if(!$request) {
+            echo json_encode(['error' => 'Nao foi possível encontrar uma solicitação com esse id']);
+            Yii::app()->end();
+        } else {
+            $request->status = "Finalizado";
+            if($request->save()) {
+                echo json_encode(['success' => 'Status da solicitacao modificado com sucesso']);
+            } else {
+                $errors = $request->getErrors();
+                echo json_encode([
+                    'error' => 'Não foi possível modificar o status da solicitação',
+                    'details' => $errors,
+                ]);
+            }
+        }
+    }
 
     public function actionGetFoodRequest()
     {
@@ -241,14 +287,14 @@ class FoodrequestController extends Controller
                 $criteria->addInCondition('id', $requestFarmers);
                 $farmers = FarmerRegister::model()->findAll($criteria);
 
-                $farmersReferenceId = [];
+                $farmersCpfs = [];
 
                 foreach ($farmers as $farmer) {
-                    $farmersReferenceId[] = $farmer->reference_id;
+                    $farmersCpfs[] = $farmer->cpf;
                 }
 
                 $createFoodRequest = new CreateFoodRequest();
-                $requestReferenceId = $createFoodRequest->exec($requestTitle, $requestSchoolNames, $farmersReferenceId, $requestItems);
+                $requestReferenceId = $createFoodRequest->exec($requestTitle, $requestSchoolNames, $farmersCpfs, $requestItems);
 
                 $foodRequest->reference_id = $requestReferenceId;
                 $foodRequest->save();
