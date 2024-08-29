@@ -356,6 +356,40 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 </a>
                             </li>
                         <?php endif ?>
+
+                        <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)) : ?>
+                        <li id="menu-electronic-diary" class="t-menu-group <?=
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=instructor/frequency") ||
+                                                                                strpos($_SERVER['REQUEST_URI'], "?r=enrollment/classContents")
+                                                                                ? 'active' : '' ?>">
+                            <i class="submenu-icon fa fa-chevron-right"></i>
+                            <i class="submenu-icon fa fa-chevron-down"></i>
+                            <a id="menu-electronic-diary-trigger" data-toggle="collapse" class="t-menu-group__link" href="#submenu-electronic-diary">
+                                <span class="t-icon-book t-menu-item__icon t-menu-group__icon"></span>
+                                <span class="t-menu-group__text">Professores</span>
+                            </a>
+                            <ul class="collapse <?=
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=instructor/frequency") ||
+                                                    strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'in' : '' ?>" id="submenu-electronic-diary">
+
+                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?>">
+                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classes/classContents') ?>">
+                                        <span class="t-icon-topics t-menu-item__icon"></span>
+                                        <span class="t-menu-item__text">Aulas Ministradas</span>
+                                    </a>
+                                </li>
+
+
+                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=instructor") ? 'active' : '' ?>">
+                                    <a class="t-menu-item__link mobile-row" href="<?php echo Yii::app()->createUrl('instructor/frequency') ?>">
+                                        <span class="t-icon-checklist t-menu-item__icon"></span>
+                                        <span class="t-menu-item__text">Frequência</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <?php endif ?>
+
                         <?php if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) : ?>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classdiary/default/") ? 'active' : '' ?>">
                                 <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classdiary/default/') ?> ">
