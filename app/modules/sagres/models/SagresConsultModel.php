@@ -467,7 +467,10 @@ class SagresConsultModel
             // Check if the combination of modalities is one of the specified combinations
             if (
                 ($modalities[0] === 1 && $modalities[1] === 2) ||
-                ($modalities[0] === 2 && $modalities[1] === 1)
+                ($modalities[0] === 2 && $modalities[1] === 1) ||
+                ($modalities[0] === 1 && $modalities[1] === 3) ||
+                ($modalities[0] === 3 && $modalities[1] === 1) ||
+                ($modalities[0] === 3 && $modalities[1] === 3)
             ) {
                 $studentData = $this->getStudentDataById($student_fk);
 
@@ -561,7 +564,7 @@ class SagresConsultModel
 
     private function getStudentInfo($student_fk) {
         $sql = "SELECT si.name, sdaa.cpf FROM student_identification si
-                JOIN student_documents_and_address sdaa ON sdaa.student_fk = si.id
+                JOIN student_documents_and_address sdaa ON sdaa.id = si.id
                 WHERE si.id = :id";
 
         $command = Yii::app()->db->createCommand($sql);
