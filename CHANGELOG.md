@@ -1,3 +1,7 @@
+## [Versão 3.85.181]
+- Adicionado suporte para o par de modalidades (1, 3) e (3, 1).
+- Permitida a validação do par de modalidades (3, 3).
+
 ## [Versão 3.85.180]
 - Correções para componentes curriculares não adicionados ao quadro de horário.
 
