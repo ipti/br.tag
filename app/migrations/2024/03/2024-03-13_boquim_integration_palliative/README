@@ -1,0 +1,17 @@
+Passos:
+
+1. utilizar o código-fonte atualizado do tag (dev)
+
+2. executar os sqls das pastas seguindo a ordem, respeitando os bancos citados nos nomes das pastas.
+2a.Na execução dos bancos legados, criei um arquivo all_in_one_file.sql que agrupa todos os sqls da mesma pasta
+
+3. Desfazer o que foi preciso nos registros /app/libraries/Educacenso/Register20.php e /app/libraries/Educacenso/Register60.php. Tais mudanças foram necessárias para uma exportação completa
+
+4. Nos arquivos gerados, remover manualmente a última linha 30 e a linha 40. Motivo: são informações fakes preenchidas à mão, que na época utilizavamos para conseguir passar o arquivo no censo.
+
+5. Se na importação der erro no registro 50 ou 60, é porque o sistema exportou ineps repetidos, cpfs repetidos ou nome + data do nascimento repetida. Corrigir na mão. Nos testes:
+5.1. deu 1 conflito de inep em mariadagloria com duas Laras
+5.2. deu 1 conflito de cpf em joaldo com Emilly e Rita de Cassia
+5.3. deu 1 conflito de inep em josefina
+
+6. 3 turmas de joaldo estão sem etapa e modalidade: AEE---TURMA-A, AEE---TURMA-B e AEE---TURMA-C. Inserir no próprio sistema ou manualmente o id 75 (Atendimento Educacional Especializado) e modalidade 1
