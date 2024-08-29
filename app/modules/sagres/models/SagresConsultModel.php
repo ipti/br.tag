@@ -467,7 +467,10 @@ class SagresConsultModel
             // Check if the combination of modalities is one of the specified combinations
             if (
                 ($modalities[0] === 1 && $modalities[1] === 2) ||
-                ($modalities[0] === 2 && $modalities[1] === 1)
+                ($modalities[0] === 2 && $modalities[1] === 1) ||
+                ($modalities[0] === 1 && $modalities[1] === 3) ||
+                ($modalities[0] === 3 && $modalities[1] === 1) ||
+                ($modalities[0] === 3 && $modalities[1] === 3)
             ) {
                 $studentData = $this->getStudentDataById($student_fk);
 
