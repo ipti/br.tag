@@ -36,6 +36,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         </div>
         <a id="save" class='t-button-primary hide'><?php echo Yii::t('default', 'Save') ?></a>
     </div>
+
+    <?php
+        $readonly = Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) ? 'readonly' : '' ;
+
+        echo $readonly == 'readonly' ? '<div id="coordinator-acess"></div>' : '';
+    ?>
+
+
     <table class="table table-bordered table-striped visible-print"
            summary="Tabela relacionada a informações da escola">
         <tr>
@@ -141,7 +149,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
         </div>
         <div class="clear"></div>
-        <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
+        <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;" disabled="disabled">
             <table id="class-contents" class="tag-table-secondary table-bordered"
                    aria-labelledby="create class contents">
                 <thead>

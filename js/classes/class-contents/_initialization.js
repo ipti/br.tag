@@ -22,7 +22,9 @@ function loadClassContents() {
                 $("#print").addClass("show").removeClass("hide");
                 $("#save").addClass("show--desktop").removeClass("hide");
                 $("#save-button-mobile").addClass("show--tablet").removeClass("hide");
-                $('#error-badge').html('')
+                $('#error-badge').html('');
+                if($('#coordinator-acess').length > 0)
+                    disableInputs();
             } else {
                 $('#error-badge').html('<div class="t-badge-info"><span class="t-info_positive t-badge-info__icon"></span>' + data.error + '</div>')
                 $('#class-contents > thead').html('');
@@ -196,3 +198,8 @@ $(document).on("input", ".js-student-classroom-diary", function () {
         ? $(this).closest(".accordion-group").find(".accordion-title").find(".fa").removeClass("fa-file-text-o").addClass("fa-file-o")
         : $(this).closest(".accordion-group").find(".accordion-title").find(".fa").removeClass("fa-file-o").addClass("fa-file-text-o");
 });
+
+function disableInputs() {
+    const divClassContents = $('#widget-class-contents');
+    divClassContents.find('input, select').prop("disabled", true);
+}
