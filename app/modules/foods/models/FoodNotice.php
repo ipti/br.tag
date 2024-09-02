@@ -19,12 +19,24 @@
  */
 class FoodNotice extends CActiveRecord
 {
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'food_notice';
+	}
+    public function behaviors()
     {
-        return 'food_notice';
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
     }
 
     /**

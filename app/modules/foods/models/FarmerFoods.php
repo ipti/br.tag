@@ -3,7 +3,7 @@
 /**
  * This is the model class for table "farmer_foods".
  *
- * The followings are the available columns in table 'farmer_foods':
+ * The folowings are the available columns in table 'farmer_foods':
  * @property integer $id
  * @property integer $food_fk
  * @property integer $farmer_fk
@@ -18,12 +18,24 @@
  */
 class FarmerFoods extends CActiveRecord
 {
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'farmer_foods';
+	}
+    public function behaviors()
     {
-        return 'farmer_foods';
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
     }
 
     /**
