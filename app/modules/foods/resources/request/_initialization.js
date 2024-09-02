@@ -14,6 +14,7 @@ $(document).ready(function() {
     }).success(function(response) {
         let data = DOMPurify.sanitize(response);
         foodRequests = JSON.parse(data);
+        console.log(foodRequests);
         renderRequestTable(foodRequests);
     })
 
@@ -110,13 +111,35 @@ $(document).on("click", "#js-information-button", function () {
             </tr>
         `;
     });
-    $requestItems += `
+    let $requestItemsReceived = `
+        <div class="row">
+        <div class="column clearfix">
+        <table id="requestItemsReceivedTable"  aria-describedby="requestItemsReceivedTable" class="tag-table-secondary align-start no-margin">
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Agricultor</th>
+                <th>Data</th>
+            </tr>
+    `;
+    $.each(requestData.itemsReceived, function(index, item) {
+        $requestItemsReceived += `
+            <tr>
+                <td>${item.foodName.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim()}</td>
+                <td>${item.amount} (${item.measurementUnit})</td>
+                <td>${item.farmerName}</td>
+                <td>${item.date}</td>
+            </tr>
+        `;
+    });
+    $requestItemsReceived += `
         </table>
         </div>
         </div>
     `;
     $("#requestData").html($requestData);
     $("#requestItems").html($requestItems);
+    $("#requestItemsReceived").html($requestItemsReceived);
 });
 
 $(document).on("click", "#save-request", function () {

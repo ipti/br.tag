@@ -64,7 +64,7 @@ $this->menu=array(
 		</div>
 	</div>
 
-    <div class="modal fade t-modal-container" id="js-request-information-modal" tabindex="-1">
+    <div class="modal fade t-modal-container larger" id="js-request-information-modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="t-modal__header no-bottom-padding">
                 <div class="column clearfix">
@@ -84,6 +84,10 @@ $this->menu=array(
                         <h3>Relação de produtos</h3>
                     </div>
                     <div id="requestItems"></div>
+                    <div class="row">
+                        <h3>Relação de entregas</h3>
+                    </div>
+                    <div id="requestItemsReceived"></div>
                 </div>
             </form>
         </div>
