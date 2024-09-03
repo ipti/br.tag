@@ -125,6 +125,7 @@ class CourseplanController extends Controller
                 $ability["id"] = $courseClassHasClassAbility->courseClassAbilityFk->id;
                 $ability["code"] = $courseClassHasClassAbility->courseClassAbilityFk->code;
                 $ability["description"] = $courseClassHasClassAbility->courseClassAbilityFk->description;
+                $ability["discipline"] = $courseClassHasClassAbility->courseClassAbilityFk->edcensoDisciplineFk->name;
                 array_push($courseClasses[$order]['abilities'], $ability);
             }
             $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents) ? "" : "js-unavailable";
@@ -135,6 +136,7 @@ class CourseplanController extends Controller
     public function actionGetDisciplines()
     {
         $result = [];
+        $isMinorEducation = TagUtils::isStageMinorEducation($_POST["stage"]);
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
@@ -146,13 +148,13 @@ class CourseplanController extends Controller
                 where ii.users_fk = :userid and cm.stage_fk = :stage_fk and school_year = :year order by ed.name")
                 ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
             foreach ($disciplines as $discipline) {
-                array_push($result, ["id" => $discipline['id'], "name" => CHtml::encode($disciplinesLabels[$discipline['id']])]);
+                array_push($result, ["id" => $discipline['id'], "name" => CHtml::encode($disciplinesLabels[$discipline['id']]), "isMinorEducation" => $isMinorEducation]);
             }
         } else {
             $disciplines = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
             foreach ($disciplines as $i => $discipline) {
                 if (isset($discipline['discipline_fk'])) {
-                    array_push($result, ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']])]);
+                    array_push($result, ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), "isMinorEducation" => $isMinorEducation]);
                 }
             }
         }
@@ -225,6 +227,7 @@ class CourseplanController extends Controller
         $coursePlan->attributes = $request;
         $coursePlan->situation = 'PENDENTE';
         $coursePlan->save();
+        $errors = $coursePlan->getErrors();
         $courseClassIds = [];
         $i = 1;
         foreach ($_POST["course-class"] as $cc) {
@@ -250,6 +253,13 @@ class CourseplanController extends Controller
                     $courseClassHasClassAbility->course_class_fk = $courseClass->id;
                     $courseClassHasClassAbility->course_class_ability_fk = $abilityId;
                     $courseClassHasClassAbility->save();
+                    $coursePlanVsAbility = new CoursePlanDisciplineVsAbilities();
+                    $coursePlanVsAbility->course_plan_fk = $coursePlan->id;
+                    $abilitieData = CourseClassAbilities::model()->findByPk($abilityId);
+                    $coursePlanVsAbility->discipline_fk = $abilitieData->edcenso_discipline_fk;
+                    $coursePlanVsAbility->course_class_fk = $courseClass->id;
+                    $coursePlanVsAbility->ability_fk = $abilityId;
+                    $coursePlanVsAbility->save();
                 }
             }
 
@@ -379,7 +389,6 @@ class CourseplanController extends Controller
                     'pagination' => false
                 ));
             }
-
             if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
             {
                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
@@ -391,7 +400,6 @@ class CourseplanController extends Controller
                     'pagination' => false
                 ));
             }
-
             $this->renderPartial('_table', array(
                 'dataProvider' => $dataProvider,
             ));
@@ -400,7 +408,30 @@ class CourseplanController extends Controller
 
         if(isset($stageRequest))
         {
-            $this->actionGetDisciplines();
+            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
+            {
+                $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                    'criteria' => array(
+                        'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id .
+                        ' AND school_inep_fk=' . Yii::app()->user->school.
+                        ' AND modality_fk='. $stageRequest,
+                    ),
+                    'pagination' => false
+                ));
+            }
+            if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
+            {
+                $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                    'criteria' => array(
+                        'condition' => 'school_inep_fk=' . Yii::app()->user->school .
+                        ' AND modality_fk='. $stageRequest ,
+                    ),
+                    'pagination' => false
+                ));
+            }
+            $this->renderPartial('_table', array(
+                'dataProvider' => $dataProvider,
+            ));
             Yii::app()->end();
         }
 
