@@ -1,3 +1,6 @@
+## [Versão 3.85.183]
+- Correção na funcionalidade de frequência de aluno transferido.
+ 
 ## [Versão 3.85.182]
 - Adicionada a exibição da data de matricula do aluno em uma turma na aba de matrículas no formulário do aluno
 
