@@ -17,7 +17,7 @@ function createTable(data) {
     $.each(data.courseClasses, function () {
         i = pivotChanger !== this.cpid ? 1 : i;
         pivotChanger = this.cpid;
-        options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + i++ + "|" + this.objective + "|" + this.edname + '</option>';
+        options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + i++ + "|" + this.content + "|" + this.edname + '</option>';
     });
     let accordionBuilt = false;
     let accordionHtml = "";

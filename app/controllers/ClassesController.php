@@ -128,7 +128,7 @@ class ClassesController extends Controller
             if (TagUtils::isInstructor()) {
                 if (!$isMinorEducation) {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk and cp.users_fk = :users_fk
@@ -141,7 +141,7 @@ class ClassesController extends Controller
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
@@ -155,7 +155,7 @@ class ClassesController extends Controller
             } else {
                 if (!$isMinorEducation) {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk
@@ -167,7 +167,7 @@ class ClassesController extends Controller
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk
@@ -179,11 +179,14 @@ class ClassesController extends Controller
                 }
             }
 
+            $schedulesCount = count($this->getAllSchedulesFromMinorStage($classroomId, $year));
+
             echo json_encode([
                 "valid" => true,
                 "classContents" => $classContents,
                 "courseClasses" => $courseClasses,
                 "isMinorEducation" => $isMinorEducation,
+                "totalClasses" => $schedulesCount,
             ]);
         } else {
             echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($isMinorEducation == false ? "e Disciplina" : "") . " sem aula no Quadro de Horário."]);
@@ -200,6 +203,29 @@ class ClassesController extends Controller
                 "year" => $year,
                 "discipline_fk" => $disciplineId
             ]
+        );
+    }
+
+    private function getAllSchedulesFromMajorStage($classroomId, $year, $disciplineId)
+    {
+        return Schedule::model()->findAll(
+            "classroom_fk = :classroom_fk and year = :year and discipline_fk = :discipline_fk and unavailable = 0",
+            array(
+                "classroom_fk" => $classroomId,
+                "year" => $year,
+                "discipline_fk" => $disciplineId,
+            )
+            );
+    }
+
+    private function getAllSchedulesFromMinorStage($classroomId, $year)
+    {
+        return Schedule::model()->findAll(
+            "classroom_fk = :classroom_fk and year = :year and unavailable = 0",
+            array(
+                "classroom_fk" => $classroomId,
+                "year" => $year,
+            )
         );
     }
 
