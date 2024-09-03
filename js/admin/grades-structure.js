@@ -498,7 +498,7 @@ function saveUnities(reply) {
                 id: $(".final-recovery-unity-id").val(),
                 name: $(".final-recovery-unity-name").val(),
                 type: $(".final-recovery-unity-type").val(),
-                grade_calculation_fk: $(".calculation-final-media").select2(
+                grade_calculation_fk: $(".final-recovery-unity-calculation").select2(
                     "val"
                 ),
                 operation: $(".final-recovery-unity-operation").val(),
@@ -625,6 +625,11 @@ function checkValidInputs() {
                             return false;
                         }
                     });
+                if($(this).find('select.js-semester').val() === "") {
+                    valid = false;
+                    message= "Preencha o semestre das unidades"
+                    return false
+                }
                 if ($(this).find("select.js-type-select").val() === "UC") {
                     ucCount++;
                 }
@@ -706,6 +711,7 @@ function partialRecoveryValid() {
     $('.partial-recovery-container').each((index, partialRecoveries)=>{
         let name =  $(partialRecoveries).find('.partial-recovery-name').val()
         let formula =  $(partialRecoveries).find('select.js-formula-select').val()
+        let semester =  $(partialRecoveries).find('select.js-semester').val()
         let unities =  $(partialRecoveries).find('select.js-partial-recovery-unities').val()
         let operation = $(partialRecoveries).find('.partial-recovery-operation').val()
         let weights =  true
@@ -716,6 +722,9 @@ function partialRecoveryValid() {
             }
         })
         if((name ==="" || formula === "" || unities === null ||  weights === false) && operation != 'delete'){
+            valid = false
+        }
+        if($('.partial-recovery-container').find('select.js-formula-select').select2("data").text  === "Média Semestral" && semester === "") {
             valid = false
         }
     })

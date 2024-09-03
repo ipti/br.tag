@@ -26,12 +26,6 @@ $hasAdminAccess = Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()-
         <h1>Fichas AEE</h1>
     </div>
 
-    <div class="row">
-        <div class="t-buttons-container">
-            <a class="t-button-primary <?php echo $hasAdminAccess ? 'hide' : ''?>" href="<?php echo Yii::app()->createUrl('aeerecord/default/create')?>">Adicionar Ficha</a>
-        </div>
-    </div>
-
     <?php if (Yii::app()->user->hasFlash('success')): ?>
         <div class="alert alert-success">
             <?php echo Yii::app()->user->getFlash('success') ?>
