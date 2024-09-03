@@ -1,7 +1,10 @@
-## [Versão 3.85.185]
+## [Versão 3.85.187]
+- Permitindo a adição de habilidades de disciplinas diferentes em planos de aula para etapas de fundamental menor
+
+## [Versão 3.85.186]
 - Correção na funcionalidade de frequência de aluno transferido.
 
-## [Versão 3.85.184]
+## [Versão 3.85.185]
 - Adicionada a exibição da data de matricula do aluno em uma turma na aba de matrículas no formulário do aluno
 
 ## [Versão 3.85.184]
