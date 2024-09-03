@@ -1,25 +1,33 @@
-## [Versão 3.85.184]
+## [Versão 3.85.187]
 - Permitindo a adição de habilidades de disciplinas diferentes em planos de aula para etapas de fundamental menor
 
-## [Versão 3.85.183]
+## [Versão 3.85.186]
 - Correção na funcionalidade de frequência de aluno transferido.
- 
-## [Versão 3.85.182]
+
+## [Versão 3.85.185]
 - Adicionada a exibição da data de matricula do aluno em uma turma na aba de matrículas no formulário do aluno
 
-## [Versão 3.85.181]
+## [Versão 3.85.184]
 - Aumentado o limite de caracteres dos campos das fichas aee
 - Permitindo a visualização das fichas AEE para os gestores escolares e coordenadores
 
-## [Versão 3.85.180]
+## [Versão 3.85.183]
 - Retirada a obrigatóriedade do campo de validade no lançamento de estoque
 - Corrigido o erro que ao adicionar um alimento, modificava o valor de uma outra escola que já tinha esse alimento salvo
 - Realizada correção na tabela de plano de aula, onde após renderizar a tabela não era apresentado o campo de busca.
 
-## [Versão 3.85.179]
+## [Versão 3.85.182]
 - Consertado relatório de Notas Por Aluno.
+- Correções no módulo sagres
 
-## [Versão 3.85.178]
+## [Versão 3.85.181]
+- [Sagres] Adicionado suporte para o par de modalidades (1, 3) e (3, 1).
+- [Sagres] Permitida a validação do par de modalidades (3, 3).
+
+## [Versão 3.85.180]
+- Correções para componentes curriculares não adicionados ao quadro de horário.
+
+## [Versão 3.85.179]
 - Adicionado funcionalidade que permite manter informações na matrícula do aluno de um período no qual o aluno ficou afastado.
 
 ## [Versão 3.84.178]

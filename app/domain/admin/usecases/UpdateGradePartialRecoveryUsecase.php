@@ -6,7 +6,7 @@
  * @property int $gradeRules
  * @property [] $partialRecoveries
  */
-class UpdateGradePartialRecoveryUseCase
+class UpdateGradePartialRecoveryUsecase
 {
     public function __construct($gradeRules, $partialRecoveries)
     {

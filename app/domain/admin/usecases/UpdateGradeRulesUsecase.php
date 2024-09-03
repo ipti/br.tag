@@ -54,7 +54,7 @@ class UpdateGradeRulesUsecase
        $result = $gradeRules->save();
 
         if($this->hasPartialRecovery === true) {
-            $pRecoveryUseCase = new UpdateGradePartialRecoveryUseCase($gradeRules->id, $this->partialRecoveries);
+            $pRecoveryUseCase = new UpdateGradePartialRecoveryUsecase($gradeRules->id, $this->partialRecoveries);
             $pRecoveryUseCase->exec();
         }
         return $result;
