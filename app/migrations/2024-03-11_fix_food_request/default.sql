@@ -1,4 +1,4 @@
-ALTER TABLE food_request ADD status ENUM('Em andamento','Finalizado') DEFAULT 'Em andamento'
+ALTER TABLE food_request ADD status ENUM('Em andamento','Finalizado') DEFAULT 'Em andamento';
 
 ALTER TABLE food_request DROP delivered;
 
