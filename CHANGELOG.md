@@ -1,5 +1,11 @@
-## [Versão 3.85.182]
+## [Versão 3.85.184]
 - Permitindo a adição de habilidades de disciplinas diferentes em planos de aula para etapas de fundamental menor
+
+## [Versão 3.85.183]
+- Correção na funcionalidade de frequência de aluno transferido.
+ 
+## [Versão 3.85.182]
+- Adicionada a exibição da data de matricula do aluno em uma turma na aba de matrículas no formulário do aluno
 
 ## [Versão 3.85.181]
 - Aumentado o limite de caracteres dos campos das fichas aee
@@ -12,7 +18,6 @@
 
 ## [Versão 3.85.179]
 - Consertado relatório de Notas Por Aluno.
-
 
 ## [Versão 3.85.178]
 - Adicionado funcionalidade que permite manter informações na matrícula do aluno de um período no qual o aluno ficou afastado.

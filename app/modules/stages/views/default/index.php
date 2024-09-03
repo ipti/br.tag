@@ -62,6 +62,7 @@ $title = "Adicionar Etapas";
                                 ),
                                 'delete' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    'visible' => '$data->is_edcenso_stage == 0',
                                 )
                             ),
                             'updateButtonOptions' => array('style' => 'margin-right: 20px;', 'class'=>"stageUpdate"),
