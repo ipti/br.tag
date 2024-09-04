@@ -37,7 +37,7 @@ $(document).on("click", ".js-new-unity", function (e) {
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collaps-${unities}">
                         <h2 class="unity-title accordion-heading">Unidade: </h2>
                     </a>
-                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor" style="margin-top:0;"></span>
+                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor" style="display:none;"></span>
                 </div>
                 <div id="collaps-${unities}"class=" collapse ${unities == 0 ? "in" : ""} js-unity-body">
                     <input type='hidden' class="unity-id">
@@ -910,7 +910,7 @@ function addAccordion(id, name) {
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-partial" href="#partial-recovery-collapse-${partialRecovery}">
                 <h2 class="partial-recovery-title accordion-heading">${titleAccordion}</h2>
             </a>
-            <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="font-size: 20px;margin-top:0;"></span>
+            <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="display:none;font-size: 20px;margin-top:0;"></span>
         </div>
         <div id="partial-recovery-collapse-${partialRecovery}" class="collapse ${collapse}  partial-recovery-accordion-body">
             <input type='hidden' class="partial-recovery-id" value="${id}">
