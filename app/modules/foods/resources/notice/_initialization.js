@@ -47,6 +47,7 @@ $.ajax({
 })
 
 if(noticeID)  {
+    $("#loading-popup").removeClass("hide");
     $.ajax({
         url: `?r=foods/foodnotice/getNotice&id=${noticeID}`,
         type: "GET"
@@ -64,11 +65,12 @@ if(noticeID)  {
             language: getLanguagePtbr(),
             columnDefs: [
                 {
-                  targets: -1, // Última coluna
+                  targets: -1,
                   data: null,
                   defaultContent: '<a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;"><span class="t-icon-trash"></span></a>'
                 }
               ]
           });
+        $("#loading-popup").removeClass("loading-center").addClass("hide");
     })
 }

@@ -128,7 +128,7 @@ class FoodNoticeController extends Controller
     {
         if (is_null($this->client)) {
             $this->client = new Client([
-                'base_uri' => "https://us-central1-br-nham-agrigultor.cloudfunctions.net",
+                'base_uri' => "https://southamerica-east1-br-nham-agrigultor.cloudfunctions.net",
 
                 'timeout' => 30.0,
             ]);
@@ -199,7 +199,7 @@ class FoodNoticeController extends Controller
 
     private function fetchPdfUrl($referenceId)
     {
-        $pdfUrlPath = '/app/url/' . $referenceId;
+        $pdfUrlPath = '/appNhamAgricultor/url/' . $referenceId;
         try {
             $result = $this->getClient()->request("GET", $pdfUrlPath);
             $pdfUrl = CJSON::decode($result->getBody()->getContents());
@@ -228,7 +228,7 @@ class FoodNoticeController extends Controller
         $fileStream = \GuzzleHttp\Psr7\Utils::streamFor($file);
 
         try {
-            $this->getClient()->put("/app/edit/pdf", [
+            $this->getClient()->put("/appNhamAgricultor/edit/pdf", [
                 'headers' => [
                     'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
                 ],
@@ -254,7 +254,7 @@ class FoodNoticeController extends Controller
         $fileStream = \GuzzleHttp\Psr7\Utils::streamFor($file);
 
         try {
-            $this->getClient()->post("/app/upload", [
+            $this->getClient()->post("/appNhamAgricultor/upload", [
                 'headers' => [
                     'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
                 ],

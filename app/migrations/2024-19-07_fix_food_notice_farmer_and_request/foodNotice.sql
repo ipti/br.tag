@@ -9,6 +9,8 @@ CREATE TABLE food_notice (
     status enum('Inativo', 'Ativo') DEFAULT 'Ativo',
     reference_id varchar(36) NULL,
     file_name varchar(100) NULL,
+    created_at DATETIME DEFAULT NULL,
+    updated_at DATETIME DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
@@ -20,6 +22,8 @@ CREATE TABLE food_notice_item (
     year_amount varchar(20) NULL,
     food_id int(11) NULL,
     foodNotice_fk int(11) NULL,
+    created_at DATETIME DEFAULT NULL,
+    updated_at DATETIME DEFAULT NULL,
     CONSTRAINT fk_food_notice_item_food_notice FOREIGN KEY (foodNotice_fk) REFERENCES food_notice(id)
     ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT fk_food_notice_item_food FOREIGN KEY (food_id) REFERENCES food(id)

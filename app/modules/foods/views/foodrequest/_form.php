@@ -108,6 +108,16 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
     </div>
 
+    <div class="row show--tablet">
+        <div class="column clearfix">
+            <div class="t-buttons-container">
+                <a title="Cadastrar solicitacao" id="save-request" class="t-button-primary" type="button">
+                    <?= $model->isNewRecord ? Yii::t('default', 'Cadastrar') : Yii::t('default', 'Save') ?>
+                </a>
+            </div>
+        </div>
+    </div>
+
 <?php $this->endWidget(); ?>
 
 </div>

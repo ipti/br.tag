@@ -41,6 +41,9 @@ $form = $this->beginWidget(
             Informações do Edital
         </h3>
     </div>
+    <div id="loading-popup" class="hide loading-center">
+        <img class="js-grades-loading" height="60px" width="60px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
+    </div>
 
     <?php echo $form->errorSummary($model); ?>
 
@@ -49,7 +52,7 @@ $form = $this->beginWidget(
             <label for="menu_description" class="t-field-text__label--required">Nome</label>
             <input type="text" name="Nome" class="t-field-text__input js-notice-name" required="required">
         </div>
-        <div class="t-field-text column is-two-fifths">
+        <div class="t-field-text column is-two-fifths clearleft--on-mobile">
             <label for="menu_start_date" class="t-field-text__label--required">Data Inicial</label>
             <input type="text" name="Data Inicial" class="t-field-text__input js-date date" readonly
             required="required">
@@ -77,7 +80,7 @@ $form = $this->beginWidget(
                 <option value="">Selecione um alimento</option>
             </select>
         </div>
-        <div class="t-field-text column is-two-fifths">
+        <div class="t-field-text column is-two-fifths clearleft--on-mobile">
             <label for="notice_year_amount" class="t-field-text__label">Quantidade Anual</label>
             <input type="text" id="notice_year_amount" name="Nome" class="t-field-text__input js-notice-year-amount">
         </div>
@@ -88,7 +91,7 @@ $form = $this->beginWidget(
             <textarea id="item_description" class="t-field-tarea__input js-item-description" placeholder="Digite">
             </textarea>
         </div>
-        <div class="t-field-text column is-two-fifths">
+        <div class="t-field-text column is-two-fifths clearleft--on-mobile">
             <label for="item_measurement" class="t-field-select__label">Unidade</label>
             <select id="item_measurement" class="t-field-select__input js-initialize-select2 js-item-measurement">
                 <option value="">Selecione uma opção</option>
@@ -119,6 +122,16 @@ $form = $this->beginWidget(
                 <tbody>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="row show--tablet">
+        <div class="column clearfix">
+            <div class="t-buttons-container">
+                <a title="Save Notice Button" class="t-button-primary column js-submit">
+                    <?= $model->isNewRecord ? 'Criar Edital' : 'Salvar Edital' ?>
+                </a>
+            </div>
         </div>
     </div>
 
