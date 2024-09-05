@@ -179,7 +179,8 @@ class ClassesController extends Controller
                 }
             }
 
-            $schedulesCount = count($this->getAllSchedulesFromMinorStage($classroomId, $year));
+            $schedulesCount = count($this->getOnlyDistinctSchedules($classroomId, $year));
+            $countClassContents = $this->getSchedulesWithClassContent($classroomId, $month, $year);
 
             echo json_encode([
                 "valid" => true,
@@ -187,10 +188,50 @@ class ClassesController extends Controller
                 "courseClasses" => $courseClasses,
                 "isMinorEducation" => $isMinorEducation,
                 "totalClasses" => $schedulesCount,
+                "workload" => $curricularMatrixWorkload
             ]);
         } else {
             echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($isMinorEducation == false ? "e Disciplina" : "") . " sem aula no Quadro de Horário."]);
         }
+    }
+
+    private function getSchedulesWithClassContent($classroom, $month, $year)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = "cc";
+        $criteria->select = "COUNT(distinct schedule_fk)";
+        $criteria->join = ""
+            . " LEFT JOIN schedule s ON s.id = cc.schedule_fk ";
+        $criteria->condition = "
+            s.classroom_fk = :classroom and
+            s.month = :month and
+            s.year = :year";
+        $criteria->params = array(
+            ':classroom' => $classroom,
+            ':month' => $month,
+            ':year' => $year
+        );
+
+        $classContents = ClassContents::model()->findAll($criteria);
+
+        return $classContents;
+    }
+
+    private function getOnlyDistinctSchedules($classroom, $year)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->alias = "s";
+        $criteria->select = "DISTINCT `s`.day, `s`.month";
+        $criteria->condition = "
+            s.year = :year AND
+            s.classroom_fk = :classroom";
+        $criteria->params = array(
+            ':year' => $year,
+            ':classroom' => $classroom
+        );
+
+       $schedules = Schedule::model()->findAll($criteria);
+
     }
 
     private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
