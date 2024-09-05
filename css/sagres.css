@@ -98,12 +98,10 @@
     width: 40vw;
     height: 20vh;
     display: flex;
-	background: #f3f3f7;
     justify-content: center;
     align-items: center;
     border-radius: 8px;
     overflow: hidden;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width: 600px) {
@@ -145,6 +143,7 @@
     color: #454e7e;
     font-size: 14px;
 	font-weight: bold;
+    margin-top: 10px;
 }
 
 @keyframes spin {

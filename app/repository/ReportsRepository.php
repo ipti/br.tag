@@ -2536,6 +2536,7 @@ class ReportsRepository
                             break;
                         case "UR":
                             $grade["unityGrade"] = $gradeResult["grade_" . ($gradeIndex + 1)] != null ? $gradeResult["grade_" . ($gradeIndex + 1)] : "";
+                            $grade["unityRecoverGrade"] = $gradeResult["rec_partial_" . ($gradeIndex + 1)] != null ? $gradeResult["rec_partial_" . ($gradeIndex + 1)] : "";
                             $gradeIndex++;
                             break;
                         case "RS":

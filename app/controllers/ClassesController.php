@@ -128,7 +128,7 @@ class ClassesController extends Controller
             if (TagUtils::isInstructor()) {
                 if (!$isMinorEducation) {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk and cp.users_fk = :users_fk
@@ -141,7 +141,7 @@ class ClassesController extends Controller
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
@@ -151,11 +151,27 @@ class ClassesController extends Controller
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
                         ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
                         ->queryAll();
+
+                    $additionalClasses = Yii::app()->db->createCommand(
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid
+                        from course_class cc
+                        join course_plan cp on cp.id = cc.course_plan_fk
+                        join course_plan_discipline_vs_abilities dvsa on dvsa.course_class_fk = cc.id
+                        join edcenso_discipline ed on ed.id = dvsa.discipline_fk
+                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
+                        order by ed.name, cp.name"
+                    )
+                        ->bindParam(":school_inep_fk", Yii::app()->user->school)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
+                        ->queryAll();
+
+                    $courseClasses = array_merge($courseClasses, $additionalClasses);
                 }
             } else {
                 if (!$isMinorEducation) {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk
@@ -167,7 +183,7 @@ class ClassesController extends Controller
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.objective, cp.id as cpid from course_class cc
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk
@@ -176,6 +192,21 @@ class ClassesController extends Controller
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
                         ->queryAll();
+
+                    $additionalClasses = Yii::app()->db->createCommand(
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid
+                        from course_class cc
+                        join course_plan cp on cp.id = cc.course_plan_fk
+                        join course_plan_discipline_vs_abilities dvsa on dvsa.course_class_fk = cc.id
+                        join edcenso_discipline ed on ed.id = dvsa.discipline_fk
+                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk
+                        order by ed.name, cp.name"
+                    )
+                        ->bindParam(":school_inep_fk", Yii::app()->user->school)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->queryAll();
+
+                    $courseClasses = array_merge($courseClasses, $additionalClasses);
                 }
             }
 
@@ -618,7 +649,7 @@ class ClassesController extends Controller
         $startDate = date_create_from_format($dateFormat, $enrollment->school_readmission_date);
         $transferedDate = date_create_from_format($dateFormat, $enrollment->class_transfer_date);
         $scheduleDate = date_create_from_format($dateFormat, $date);
-        return !(($scheduleDate < $startDate && $scheduleDate > $transferedDate) && $enrollment->status == '13');
+        return !(($scheduleDate < $startDate && $scheduleDate > $transferedDate) && $enrollment->status == '13') && $enrollment->status != '2' && $enrollment->status != '11';
     }
 
     public function actionSaveJustifications()
