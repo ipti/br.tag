@@ -1,6 +1,3 @@
-DROP TABLE IF EXISTS `farmer_foods`;
-DROP TABLE IF EXISTS `farmer_register`;
-
 CREATE TABLE farmer_register (
     id INT(11) NOT NULL AUTO_INCREMENT,
     name varchar(100) NOT NULL,

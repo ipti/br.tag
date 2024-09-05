@@ -1,9 +1,3 @@
-DROP TABLE IF EXISTS `food_request_vs_school_identification`;
-DROP TABLE IF EXISTS `food_request_vs_farmer_register`;
-DROP TABLE IF EXISTS `food_request_item_received`;
-DROP TABLE IF EXISTS `food_request_item`;
-DROP TABLE IF EXISTS `food_request`;
-
 CREATE TABLE food_request (
     id INT(11) NOT NULL AUTO_INCREMENT,
     date datetime NULL DEFAULT CURRENT_TIMESTAMP,
