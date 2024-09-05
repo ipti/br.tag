@@ -561,7 +561,7 @@ $form = $this->beginWidget(
                             foreach ($instructors as $instructor) {
                                 $teachingDataNames[$instructor->id] = $instructor->name;
                             }
-                            $roleName = [null, "Docente", "Auxiliar/assistente educacional", "Profissional/monitor de atividade complementar", "Tradutor e Intérprete de Libras", "EAD - Docente Titular", "EAD - Docente Tutor", "Guia-Intérprete", "Profissional de apoio escolar para aluno(a)s com deficiência"];
+                            $roleName = [null, "Docente", "Auxiliar/assistente educacional", "Profissional/monitor de atividade complementar", "Tradutor e Intérprete de Libras", "EAD - Docente Titular", "EAD - Docente Tutor", "Guia-Intérprete", "Profissional de apoio escolar para aluno(a)s com deficiência", "Docente/Folguista"];
                             $contractTypeName = [null, "Concursado/Efetivo", "Temporário", "Terceirizado", "CLT"];
                             $i = 0;
                             foreach ($modelTeachingData as $key => $model) {
@@ -919,6 +919,7 @@ $form = $this->beginWidget(
                     echo CHtml::DropDownList("Role", '', array(
                         null => 'Selecione um Cargo',
                         1 => 'Docente',
+                        9 => 'Docente/Folguista',
                         2 => 'Auxiliar/assistente educacional',
                         3 => 'Profissional/monitor de atividade complementar',
                         4 => 'Tradutor e Intérprete de Libras',
