@@ -15,9 +15,9 @@ function generateCheckboxItems(student, dia, mes, ano, monthSplit, isMinor) {
                         <span class='t-icon-annotation icon-color'></span>
                     </a>
                     ${isMinor == false ? schedule.schedule+'°': ''}
-                    <span class="frequency-checkbox-container" ${(!schedule.available ? "disabled" : "")}>
+                    <span class="frequency-checkbox-container" ${(!schedule.available || !schedule.valid ? "disabled" : "")}>
                         <input class='frequency-checkbox' type='checkbox'
-                            ${(!schedule.available ? "disabled" : "")}
+                            ${(!schedule.available || !schedule.valid ? "disabled" : "")}
                             ${(schedule.fault ? "checked" : "")}
                             classroomId='${$("#classroom").val()}'
                             studentId='${student.studentId}'
@@ -37,7 +37,10 @@ function generateCheckboxItems(student, dia, mes, ano, monthSplit, isMinor) {
 function generateStudentLines(data, dia, mes, ano, monthSplit, isMinor) {
     return data.students.reduce((line, student) => {
         return line + `
-            <div class='justify-content--space-between t-padding-small--top t-padding-small--bottom' style="border-bottom:1px #e8e8e8 solid;">
+            <div
+                class='justify-content--space-between t-padding-small--top t-padding-small--bottom'
+                style="border-bottom:1px #e8e8e8 solid;background-color:${student.status == 2 || student.status == 11 ? '#f5f7f9;' : 'initial'};"
+            >
                 <div>${student.studentName}</div>
                 <div style='display:flex;'>
                     ${generateCheckboxItems(student, dia, mes, ano, monthSplit, isMinor)}
