@@ -216,7 +216,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <form method="post">
                 <input type="hidden" class="course-class-index">
                 <div class="modal-body">
-                    <div class="alert alert-error js-alert-ability-structure">Para adicionar habilidades, é preciso primeiro escolher a etapa e o componente curricular/eixo do plano.</div>
+                <div class="alert js-alert-ability-structure">Para adicionar habilidades, é necessário selecionar a etapa na aba criar plano, e informar o componente curricular/eixo.</div>
                     <div id="minorEducationContainer" class="column clearfix">
                         <div class="t-field-select">
                             <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline_fk', array('class' => 'control-label t-field-select__label--required')); ?>

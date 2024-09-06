@@ -136,7 +136,7 @@ class CourseplanController extends Controller
     public function actionGetDisciplines()
     {
         $result = [];
-        $isMinorEducation = TagUtils::isStageMinorEducation($_POST["stage"]);
+        $isMinorEducation = TagUtils::isStageChildishEducation($_POST["stage"]);
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
