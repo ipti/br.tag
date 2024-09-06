@@ -1,3 +1,7 @@
+## [Versão 3.85.188]
+- Retirando a obrigatoriedade das habilidades para plano de aula de educação infantil
+- Permitindo a adição de habilidades de disciplinas diferentes em planos de aula somente para a educação infantil
+
 ## [Versão 3.85.187]
 - Permitindo a adição de habilidades de disciplinas diferentes em planos de aula para etapas de fundamental menor
 
