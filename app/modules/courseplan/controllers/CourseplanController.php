@@ -102,6 +102,18 @@ class CourseplanController extends Controller
         return $stages;
     }
 
+    public function getInstructors()
+    {
+        $sqlCommand = "
+            SELECT DISTINCT u.id, u.name  FROM course_plan cp
+            LEFT JOIN users u ON u.id = cp.users_fk
+            WHERE cp.situation = 'PENDENTE'";
+
+        $instructors = Yii::app()->db->createCommand($sqlCommand)->queryAll();
+
+        return $instructors;
+    }
+
     public function actionGetCourseClasses()
     {
         $coursePlan = CoursePlan::model()->findByPk($_POST["coursePlanId"]);
@@ -442,12 +454,36 @@ class CourseplanController extends Controller
 
     public function actionPendingPlans()
     {
+        $instructorRequest = Yii::app()->request->getPost('instructor');
+
         $criteria = new CDbCriteria;
-        $criteria->condition = "situation = 'PENDENTE'";
+        $criteria->condition = "
+             situation = 'PENDENTE' AND
+             school_inep_fk = :school";
+        if(!isset($instructorRequest)){
+            $criteria->condition = "
+            AND users_fk = :user";
+            $criteria->params =
+            [
+                'user' => $instructorRequest->id
+            ];
+        }
+
+        $criteria->params = [':school' => Yii::app()->user->school];
         $dataProvider = new CActiveDataProvider('CoursePlan', array(
             'criteria' => $criteria,
             'pagination' => false
         ));
+
+        if(!isset($instructorRequest)){
+            $instructors = $this->getInstructors();
+
+            $this->render('pendingPlans', array(
+                'instructors' => $instructors,
+                'dataProvider' => $dataProvider,
+            ));
+            Yii::app()->end();
+        }
 
         $this->render('pendingPlans', array(
             'dataProvider' => $dataProvider,

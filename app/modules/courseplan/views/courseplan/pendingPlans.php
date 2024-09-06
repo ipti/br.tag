@@ -45,6 +45,25 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
         </div>
     </div>
 
+    <div id="select-container" class="tablet-row align-items--center-on-desktop">
+            <div class="mobile-row">
+                <div class="column instructor-container">
+                    <div class="t-field-select">
+                            <?php echo CHtml::label(yii::t('default', 'Instructor'), 'instructor', array('class' => 't-field-select__label--required'));?>
+                            <select class="select-search-on t-field-select__input" id="instructor" style="min-width: 185px;">
+                                <option value="">Selecione o Professor</option>
+                                <?php
+                                    $instructors = array_map("unserialize", array_unique(array_map("serialize", $instructors)));
+                                    foreach ($instructors as $instructor) :
+                                ?>
+                                    <option value="<?=$instructor['id']?>"><?=$instructor['name']?></option>
+                                <?php endforeach; ?>
+                            </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <div class="tag-inner">
         <div class="columnone" style="padding-right: 1em">
             <div class="widget clearmargin">
