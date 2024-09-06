@@ -323,6 +323,19 @@ $(document).on('change', '#stage', function () {
     })
 })
 
+$(document).on('change', '#instructor', function () {
+    $.ajax({
+        url: '?r=courseplan/courseplan/pendingPlans',
+        type: "POST",
+        data: {
+            instructor: $(this).val()
+        }
+    }).success(function (data) {
+        $('.pending_courseplan_table_div').html(data);
+        initDatatable();
+    })
+})
+
 $('#discipline').on('change', function () {
     if($('#discipline option:selected').index() != 0)
     {

@@ -454,40 +454,72 @@ class CourseplanController extends Controller
 
     public function actionPendingPlans()
     {
+        // Get data requests
         $instructorRequest = Yii::app()->request->getPost('instructor');
+        $stageRequest = Yii::app()->request->getPost('stage');
+        $disciplineRequest = Yii::app()->request->getPost('discipline');
 
         $criteria = new CDbCriteria;
-        $criteria->condition = "
-             situation = 'PENDENTE' AND
-             school_inep_fk = :school";
-        if(!isset($instructorRequest)){
-            $criteria->condition = "
-            AND users_fk = :user";
-            $criteria->params =
-            [
-                'user' => $instructorRequest->id
-            ];
+
+
+        // Apply Filter to Instructor
+        if(isset($instructorRequest)){
+            $criteria->condition = " AND users_fk = :user";
+            $criteria->params = ['user' => $instructorRequest];
         }
 
+        // Apply filter to Stage
+        if(isset($stageRequest)){
+            $criteria->condition = " AND modality_fk = :stage";
+            $criteria->params = ['stage' => $stageRequest];
+        }
+
+        // Apply filter to Discipline
+        if(isset($disciplineRequest)){
+            $criteria->condition = " AND discipline_fk = :discipline";
+            $criteria->params = ['disciline' => $disciplineRequest];
+        }
+
+        // Apply Filter to Situation and School
+        $criteria->condition = "
+        situation = 'PENDENTE' AND
+        school_inep_fk = :school";
+
+        // Change Params
         $criteria->params = [':school' => Yii::app()->user->school];
+
+        // Create Data provider
         $dataProvider = new CActiveDataProvider('CoursePlan', array(
             'criteria' => $criteria,
             'pagination' => false
         ));
 
-        if(!isset($instructorRequest)){
+        // Send Data to Select in index page
+        if(
+            !isset($instructorRequest) &&
+            !isset($stageRequest)
+        ){
             $instructors = $this->getInstructors();
-
+            $stages = $this->getStages();
             $this->render('pendingPlans', array(
                 'instructors' => $instructors,
-                'dataProvider' => $dataProvider,
+                'stages' => $stages,
+                // 'dataProvider' => $dataProvider,
             ));
             Yii::app()->end();
         }
 
-        $this->render('pendingPlans', array(
+        if(
+            !isset($instructorRequest)
+        ){
+            $disciplines = $this->actionGetDisciplines();
+        }
+
+        // Render Table
+        $this->renderPartial('_table_pendingPlans', array(
             'dataProvider' => $dataProvider,
         ));
+        Yii::app()->end();
     }
 
     public function actionValidatePlan($id)
