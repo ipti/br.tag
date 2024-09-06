@@ -187,8 +187,8 @@ class ClassesController extends Controller
                 "classContents" => $classContents,
                 "courseClasses" => $courseClasses,
                 "isMinorEducation" => $isMinorEducation,
-                "totalClasses" => $schedulesCount,
-                "workload" => $curricularMatrixWorkload
+                "totalSchedules" => $schedulesCount,
+                "classContentsAssigned" => $countClassContents
             ]);
         } else {
             echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($isMinorEducation == false ? "e Disciplina" : "") . " sem aula no Quadro de Horário."]);
