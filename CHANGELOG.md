@@ -1,10 +1,13 @@
-## [Versão 3.86.187]
+## [Versão 3.87.187]
 - Modificações nos cadastros de editais e agricultores.
 - Permitindo o envio de PDF para o aplicativo do agricultor ao cadastrar ou alterar um edital.
 - Modificações no processo de gerar uma solicitação, adicionadas as possibilidades de estabelecer a relação entre uma solicitação e várias escolas e vários agricultores.
 - Adicionado um modal para exibir os detalhes de uma solicitação.
 - Adicionada a tela de ativar e inativar tanto editais como agricultores.
 - Adicionado o endpoint para modificar o status da solicitação
+
+## [Versão 3.86.187]
+- Inserido cor/raça na planilha de exportação de alunos
 
 ## [Versão 3.85.187]
 - Permitindo a adição de habilidades de disciplinas diferentes em planos de aula para etapas de fundamental menor
