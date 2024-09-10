@@ -461,32 +461,33 @@ class CourseplanController extends Controller
 
         $criteria = new CDbCriteria;
 
+        // Starting Array of Tokens to Bound in Criteria
+        // Applying Filter To School
+        $token_params = [':school' => Yii::app()->user->school];
+
+        // Apply Filter to Situation and School
+        $criteria->condition = "situation = 'PENDENTE' AND school_inep_fk = :school";
 
         // Apply Filter to Instructor
-        if(isset($instructorRequest)){
-            $criteria->condition = " AND users_fk = :user";
-            $criteria->params = ['user' => $instructorRequest];
+        if(isset($instructorRequest) && $instructorRequest != ""){
+            $criteria->condition .= " AND users_fk = :user";
+            $token_params = array_merge($token_params, [':user' => $instructorRequest]);
         }
 
         // Apply filter to Stage
         if(isset($stageRequest)){
-            $criteria->condition = " AND modality_fk = :stage";
-            $criteria->params = ['stage' => $stageRequest];
+            $criteria->condition .= " AND modality_fk = :stage";
+            $token_params = array_merge($token_params, [':stage' => $stageRequest]);
         }
 
         // Apply filter to Discipline
         if(isset($disciplineRequest)){
-            $criteria->condition = " AND discipline_fk = :discipline";
-            $criteria->params = ['disciline' => $disciplineRequest];
+            $criteria->condition .= " AND discipline_fk = :discipline";
+            $token_params = array_merge($token_params, [':discipline' => $disciplineRequest]);
         }
 
-        // Apply Filter to Situation and School
-        $criteria->condition = "
-        situation = 'PENDENTE' AND
-        school_inep_fk = :school";
-
         // Change Params
-        $criteria->params = [':school' => Yii::app()->user->school];
+        $criteria->params = $token_params;
 
         // Create Data provider
         $dataProvider = new CActiveDataProvider('CoursePlan', array(
@@ -513,6 +514,7 @@ class CourseplanController extends Controller
             !isset($instructorRequest)
         ){
             $disciplines = $this->actionGetDisciplines();
+            Yii::app()->end();
         }
 
         // Render Table

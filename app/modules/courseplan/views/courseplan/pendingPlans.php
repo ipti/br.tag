@@ -60,28 +60,30 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="column clearleft">
-                    <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Stage'), 'stage', array('class' => 't-field-select__label--required'));?>
-                        <select class="select-search-on t-field-select__input" id="stage" style="min-width: 185px;">
-                            <option value="">Selecione a etapa</option>
-                            <?php
-                                $stages = array_map("unserialize", array_unique(array_map("serialize", $stages)));
-                                foreach ($stages as $stage) :
-                            ?>
-                                <option value="<?=$stage['id']?>"><?=$stage['name']?></option>
-                            <?php endforeach; ?>
-                        </select>
+                <div class="mobile-row">
+                    <div class="column clearleft">
+                        <div class="t-field-select">
+                            <?php echo CHtml::label(yii::t('default', 'Stage'), 'stage', array('class' => 't-field-select__label--required'));?>
+                            <select class="select-search-on t-field-select__input" id="stage" style="min-width: 185px;">
+                                <option value="">Selecione a etapa</option>
+                                <?php
+                                    $stages = array_map("unserialize", array_unique(array_map("serialize", $stages)));
+                                    foreach ($stages as $stage) :
+                                ?>
+                                    <option value="<?=$stage['id']?>"><?=$stage['name']?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <!-- diciplina -->
                     </div>
-                <!-- diciplina -->
-                </div>
-                <div class="column discipline-container hide">
-                    <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Discipline'),
-                            'month', array('class' => 't-field-select__label--required')); ?>
-                        <select class="select-search-on t-field-select__input" id="discipline"
-                                style="min-width: 185px;">
-                        </select>
+                    <div class="column discipline-container hide">
+                        <div class="t-field-select">
+                            <?php echo CHtml::label(yii::t('default', 'Discipline'),
+                                'month', array('class' => 't-field-select__label--required')); ?>
+                            <select class="select-search-on t-field-select__input" id="discipline"
+                                    style="min-width: 185px;">
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,7 +94,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
         <div class="columnone" style="padding-right: 1em">
             <div class="widget clearmargin">
                 <div class="alert courseplan-alert <?= Yii::app()->user->hasFlash('success') ? "alert-success" : "no-show" ?>"><?php echo Yii::app()->user->getFlash('success') ?></div>
-                    <div class="pending_courseplan_div"></div>
+                    <div class="pending_courseplan_table_div"></div>
             </div>
         </div>
         <div class="columntwo">

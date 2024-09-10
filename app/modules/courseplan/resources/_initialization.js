@@ -293,17 +293,20 @@ $(document).on('click', '#save-approval', function (e) {
 })
 
 $(document).on('change', '#stage', function () {
-    $.ajax({
-        url: '?r=courseplan/courseplan/index',
-        type: "POST",
-        data: {
-            stage: $(this).val()
-        }
-    }).success(function (data) {
-        console.log(data);
-        $('.courseplan_table_div').html(data);
-        initDatatable();
-    })
+    if($('.courseplan_table_div').length > 0)
+    {
+        $.ajax({
+            url: '?r=courseplan/courseplan/index',
+            type: "POST",
+            data: {
+                stage: $(this).val()
+            }
+        }).success(function (data) {
+            console.log(data);
+            $('.courseplan_table_div').html(data);
+            initDatatable();
+        })
+    }
     $.ajax({
         url: '?r=courseplan/courseplan/getDisciplines',
         type: "POST",
@@ -332,22 +335,42 @@ $(document).on('change', '#instructor', function () {
         }
     }).success(function (data) {
         $('.pending_courseplan_table_div').html(data);
-        initDatatable();
+        if($('.pending_courseplan_table_div').length == 0)
+            initDatatable();
     })
 })
 
 $('#discipline').on('change', function () {
+    let urlRequest;
+    if($('.pending_courseplan_table_div').length > 0){
+        urlRequest = '?r=courseplan/courseplan/pendingPlans';
+    }
+
+    if($('.courseplan_table_div').length > 0){
+        urlRequest = '?r=courseplan/courseplan/index';
+
+    }
+
     if($('#discipline option:selected').index() != 0)
     {
         $.ajax({
-            url: '?r=courseplan/courseplan/index',
+            url: urlRequest,
             type: "POST",
             data: {
+                instructor: $('#instructor').val(),
                 discipline: $(this).val(),
                 stage: $('#stage').val()
             }
         }).success(function (data) {
-            $('.courseplan_table_div').html(data);
+            // Courseplan table
+            if($('.courseplan_table_div').length > 0)
+                $('.courseplan_table_div').html(data);
+
+            // Pending Courseplan table
+            if($('.pending_courseplan_table_div').length > 0)
+                $('.pending_courseplan_table_div').html(data);
+
+            // Load Datatable Lib
             initDatatable();
         })
     }
