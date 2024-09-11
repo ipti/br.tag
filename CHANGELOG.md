@@ -1,3 +1,6 @@
+## [Versão 3.85.188]
+- Filtros de busca adicionados no carregamento de planos de aula pendentes
+
 ## [Versão 3.85.187]
 - Permitindo a adição de habilidades de disciplinas diferentes em planos de aula para etapas de fundamental menor
 
