@@ -25,14 +25,21 @@ if (YII_DEBUG) {
         //     'showInFireBug' => true,
         // ),
         array(
-            'class' => 'CFileLogRoute',
-            'levels' => 'profile',
-        ),
-        array(
             'class' => 'CProfileLogRoute',
             'showInFireBug' => true,
             'report' => 'summary',
-        )
+        ),
+        array(
+            'class' => 'CFileLogRoute',
+            'levels' => 'info, warning, error',
+            'filter' => array(
+                'class' => 'CLogFilter',
+                'prefixSession' => false,
+                'prefixUser' => true,
+                'logUser' => false,
+                'logVars' => array(),
+            ),
+        ),
     );
 }
 
@@ -166,7 +173,7 @@ return array(
                 'gestao-resultados/escola/<action:\w+>' => 'resultsmanagement/managementschool/<action>',
                 'gestao-resultados/escola/<action:\w+>/<sid:\d+>' => 'resultsmanagement/managementschool/<action>',
 
-                'profissional/<action:\w+>/<id:\d+>'      => 'professional/default/<action>'
+                'profissional/<action:\w+>/<id:\d+>' => 'professional/default/<action>'
             ),
         ),
         // uncomment the following to use a MySQL database
