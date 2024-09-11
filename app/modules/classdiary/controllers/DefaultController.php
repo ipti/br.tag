@@ -24,13 +24,20 @@ class DefaultController extends Controller
 		$classrooms = $getClassrooms->exec($isInstructor, $discipline);
 		echo json_encode($classrooms, JSON_OBJECT_AS_ARRAY);
 	}
-	public function actionClassDiary($discipline_name)
+	public function actionClassDiary($discipline_name, $classroom_name, $date)
 	{
-		$this->render('classDiary', ["discipline_name"=> $discipline_name]);
+		$this->render('classDiary', [
+            "discipline_name"=> $discipline_name,
+            "classroom_name"=> $classroom_name,
+            "date"=> $date,
+        ]);
 	}
-    public function actionclassDays($discipline_name)
+    public function actionclassDays($discipline_name, $classroom_name)
 	{
-		$this->render('classDays', ["discipline_name"=> $discipline_name]);
+		$this->render('classDays', [
+            "discipline_name"=> $discipline_name,
+            "classroom_name"=> $classroom_name
+    ]);
 	}
     public function actionGetMonths() {
         $result = [];
@@ -58,8 +65,9 @@ class DefaultController extends Controller
         $year = $_POST["year"];
         $month = $_POST["month"];
         $classroomId = $_POST["classroom"];
-        $discipline = $_POST["discipline"];
+        $disciplineId = $_POST["discipline"];
         $classroom = Classroom::model()->findByPk($classroomId);
+        $discipline = EdcensoDiscipline::model()->findByPk($disciplineId);
         $isMinor = $this->checkIsStageMinorEducation($classroom);
         if ($isMinor == false) {
             $schedules = Schedule::model()->findAll(
@@ -68,7 +76,7 @@ class DefaultController extends Controller
                     "classroom_fk" => $classroomId,
                     "year" => $year,
                     "month" => $month,
-                    "discipline_fk" => $discipline
+                    "discipline_fk" => $disciplineId
                 ]
             );
         } else {
@@ -89,7 +97,17 @@ class DefaultController extends Controller
 
         if ($schedules != null) {
             $scheduleDays = $this->getScheduleDays($schedules);
-            echo json_encode(["valid" => true, "scheduleDays"=>$scheduleDays]);
+            echo json_encode(
+            [
+                "valid" => true,
+                "scheduleDays"=>$scheduleDays,
+                "classroom_fk"=>$classroomId,
+                "stage_fk"=> $classroom->edcenso_stage_vs_modality_fk,
+                "discipline_fk"=> $disciplineId,
+                "discipline_name"=> $discipline->name,
+                "classroom_name"=> $classroom->name,
+            ]
+    );
 
         } else {
             echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($isMinor == false ? "e Disciplina" : "") . " sem aula no Quadro de Horário."]);
@@ -155,13 +173,14 @@ class DefaultController extends Controller
 		if(isset($_POST["student_observation"])) {
 			$student_observation = $_POST["student_observation"];
 			$saveStudentDiary = new SaveStudentDiary();
-			 $saveStudentDiary->exec($stage_fk, $classroom_id, $date, $discipline_fk, $student_id, $student_observation);
+			$saveStudentDiary->exec($stage_fk, $classroom_id, $date, $discipline_fk, $student_id, $student_observation);
 
 		}
 		if(isset($_POST["student_observation"]) || isset($_POST["justification"])) {
 			$getDiscipline = new GetDiscipline();
-			$discipline = $getDiscipline->exec($discipline_fk)->name;
-			$this->redirect(['classDiary', 'classroom_fk' => $classroom_id, 'stage_fk' => $stage_fk, 'discipline_fk' => $discipline_fk, 'discipline_name' => $discipline]);
+			$discipline = $getDiscipline->exec($discipline_fk)[0]["name"];
+            $classroom = Classroom::model()->findByPk($classroom_id);
+			$this->redirect(['classDiary', 'classroom_fk' => $classroom_id, 'stage_fk' => $stage_fk, 'discipline_fk' => $discipline_fk, 'discipline_name' => $discipline, "classroom_name" => $classroom->name, "date" => $date ]);
 		}
 
 

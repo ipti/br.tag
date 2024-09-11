@@ -1,6 +1,7 @@
 const params = new URLSearchParams(document.location.search)
 let classroomFk = params.get("classroom_fk")
-let discipliceFk = params.get("discipline_fk")
+let disciplineFk = params.get("discipline_fk")
+
 $.ajax({
     type: "POST",
     url: "?r=classdiary/default/getMonths",
@@ -38,36 +39,32 @@ $("select.js-months").on("change", function (){
         year: $(this).val().split('-')[0],
         month: $(this).val().split('-')[1],
         classroom: classroomFk,
-        disciplice: discipliceFk,
+        discipline: disciplineFk,
     },
     success: function (data) {
         let selectedOptionText = $("select.js-months option:selected").text();
 
-        console.log(selectedOptionText);
         const result = JSON.parse(data);
         const daysCardsContainer = $(".js-days-cards");
-        let  daysCards = result["scheduleDays"].reduce((acc, element) =>
-             acc += `<div class="column clearfix no-grow">
-                <a href="" class="t-cards">
-                    <div class="t-cards-content">
-                        <div class="t-tag-primary t-margin-none--left">${selectedOptionText}</div>
-                        <div class="t-cards-title">${element["date"]}</div>
-                        <div class="t-cards-text clear-margin--left">${element["week_day"]}</div>
-                    </div>
-                </a>
-            </div>`,'');
-            daysCards = result["scheduleDays"].reduce((acc, element) =>
-            acc += `
-            <div class="column clearfix no-grow">
-                <a href="" class="t-cards">
-                    <div class="t-cards-content">
-                        <div class="t-tag-primary t-margin-none--left">${selectedOptionText}</div>
-                        <div class="t-cards-title">${element["date"]}</div>
-                        <div class="t-cards-text clear-margin--left">${element["week_day"]}</div>
-                    </div>
-                </a>
-            </div>`, "");
-            daysCardsContainer.html(daysCards);
+        if(result["scheduleDays"]) {
+            let  daysCards = result["scheduleDays"].reduce((acc, element) =>
+                 acc += `<div class="column clearfix no-grow">
+                    <a href="${window.location.host}?r=classdiary/default/classDiary&classroom_fk=${result["classroom_fk"]}&stage_fk=${result["stage_fk"]}&discipline_fk=${result["discipline_fk"]}&discipline_name=${result["discipline_name"]}&classroom_name=${result["classroom_name"]}&date=${element["date"]}" class="t-cards">
+                        <div class="t-cards-content">
+                            <div class="t-tag-primary t-margin-none--left">${selectedOptionText}</div>
+                            <div class="t-cards-title">${element["date"]}</div>
+                            <div class="t-cards-text clear-margin--left">${element["week_day"]}</div>
+                        </div>
+                    </a>
+                </div>`,'');
+                if(daysCards != ''){
+                    $('.js-subtitle').show()
+                }
+                daysCardsContainer.html(daysCards);
+        } else {
+            $('.js-subtitle').hide()
+            daysCardsContainer.html('');
+        }
     }
   })
 })
