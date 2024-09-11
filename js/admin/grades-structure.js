@@ -823,8 +823,8 @@ function loadStructure() {
                     });
                     $('.js-alert-save-unities-first').hide();
                 }
+                $('#accordion-partial-recovery').empty()
                 if (data.partialRecoveries.length > 0) {
-                    $('#accordion-partial-recovery').empty()
                     $.each(data.partialRecoveries, function (index, element) {
                         let unities = element.unities;
                         let unityOptionsSelected = [];
