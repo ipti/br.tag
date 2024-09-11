@@ -387,7 +387,7 @@ class CourseplanController extends Controller
         $stageRequest = Yii::app()->request->getPost('stage');
         $disciplineRequest = Yii::app()->request->getPost('discipline');
 
-        if(isset($disciplineRequest))
+        if(isset($disciplineRequest) && $disciplineRequest != "")
         {
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
             {
@@ -475,13 +475,13 @@ class CourseplanController extends Controller
         }
 
         // Apply filter to Stage
-        if(isset($stageRequest)){
+        if(isset($stageRequest) && $stageRequest != ""){
             $criteria->condition .= " AND modality_fk = :stage";
             $token_params = array_merge($token_params, [':stage' => $stageRequest]);
         }
 
         // Apply filter to Discipline
-        if(isset($disciplineRequest)){
+        if(isset($disciplineRequest) && $disciplineRequest != ""){
             $criteria->condition .= " AND discipline_fk = :discipline";
             $token_params = array_merge($token_params, [':discipline' => $disciplineRequest]);
         }
