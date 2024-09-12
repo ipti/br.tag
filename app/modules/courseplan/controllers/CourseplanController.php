@@ -387,6 +387,8 @@ class CourseplanController extends Controller
         $stageRequest = Yii::app()->request->getPost('stage');
         $disciplineRequest = Yii::app()->request->getPost('discipline');
 
+        Yii::log(Yii::app()->controller->id . " - ". Yii::app()->controller->action->id, CLogger::LEVEL_INFO);
+
         if(isset($disciplineRequest) && $disciplineRequest != "")
         {
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
