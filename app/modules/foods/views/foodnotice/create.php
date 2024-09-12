@@ -12,5 +12,6 @@ $this->menu=array(
 );
 ?>
 
-
-<?php $this->renderPartial('_form', array('model'=>$model, 'title' => 'Cadastrar Edital')); ?>
+<div id="mainPage" class="main">
+    <?php $this->renderPartial('_form', array('model'=>$model, 'title' => 'Cadastrar Edital')); ?>
+</div>

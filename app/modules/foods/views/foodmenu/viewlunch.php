@@ -45,15 +45,16 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
             Preparar Cardápio
         </a>
         <div class="mobile-row">
-
-                <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
-                    Estoque
-                </a>
-
-            <a class="t-button-secondary" style="margin-right:10px;display:none;" href="<?php echo yii::app()->createUrl('foods/farmerregister') ?>">
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodinventory') ?>">
+                Estoque
+            </a>
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodRequest') ?>">
+                Solicitações
+            </a>
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/farmerregister') ?>">
                 Agricultor
             </a>
-            <a class="t-button-secondary" style="margin-right:10px;display:none;" href="<?php echo yii::app()->createUrl('foods/foodnotice') ?>">
+            <a class="t-button-secondary" style="margin-right:10px;" href="<?php echo yii::app()->createUrl('foods/foodnotice') ?>">
                 Editais
             </a>
             <a class="t-button-secondary js-expansive-panel show--mobile">

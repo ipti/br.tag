@@ -1,30 +1,31 @@
 <?php
 
 /**
- * This is the model class for table "food_notice_item".
+ * This is the model class for table "food_request_item_received".
  *
- * The followings are the available columns in table 'food_notice_item':
+ * The followings are the available columns in table 'food_request_item_received':
  * @property integer $id
- * @property string $name
- * @property string $description
- * @property string $measurement
- * @property string $year_amount
- * @property integer $food_id
- * @property integer $foodNotice_fk
+ * @property integer $food_fk
+ * @property integer $farmer_fk
+ * @property integer $food_request_fk
+ * @property double $amount
+ * @property string $measurementUnit
+ * @property string $date
  *
  * The followings are the available model relations:
- * @property Food $food
- * @property FoodNotice $foodNoticeFk
+ * @property FarmerRegister $farmerFk
+ * @property Food $foodFk
+ * @property FoodRequest $foodRequestFk
  */
-class FoodNoticeItem extends CActiveRecord
+class FoodRequestItemReceived extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'food_notice_item';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'food_request_item_received';
+    }
     public function behaviors()
     {
         return [
@@ -46,13 +47,11 @@ class FoodNoticeItem extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, measurement', 'required'),
-            array('food_id, foodNotice_fk', 'numerical', 'integerOnly'=>true),
-            array('name', 'length', 'max'=>255),
-            array('description', 'length', 'max'=>1000),
-            array('measurement, year_amount', 'length', 'max'=>20),
-            // The following rule is used by search().
-            array('id, name, description, measurement, year_amount, food_id, foodNotice_fk', 'safe', 'on'=>'search'),
+            array('food_fk, farmer_fk, food_request_fk', 'numerical', 'integerOnly'=>true),
+            array('amount', 'numerical'),
+            array('measurementUnit', 'length', 'max'=>7),
+            array('date', 'safe'),
+            array('id, food_fk, farmer_fk, food_request_fk, amount, measurementUnit, date', 'safe', 'on'=>'search'),
         );
     }
 
@@ -64,8 +63,9 @@ class FoodNoticeItem extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'food' => array(self::BELONGS_TO, 'Food', 'food_id'),
-            'foodNoticeFk' => array(self::BELONGS_TO, 'FoodNotice', 'foodNotice_fk'),
+            'farmerFk' => array(self::BELONGS_TO, 'FarmerRegister', 'farmer_fk'),
+            'foodFk' => array(self::BELONGS_TO, 'Food', 'food_fk'),
+            'foodRequestFk' => array(self::BELONGS_TO, 'FoodRequest', 'food_request_fk'),
         );
     }
 
@@ -76,12 +76,12 @@ class FoodNoticeItem extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'measurement' => 'Measurement',
-            'year_amount' => 'Year Amount',
-            'food_id' => 'Food',
-            'foodNotice_fk' => 'Food Notice Fk',
+            'food_fk' => 'Food Fk',
+            'farmer_fk' => 'Farmer Fk',
+            'food_request_fk' => 'Food Request Fk',
+            'amount' => 'Amount',
+            'measurementUnit' => 'Measurement Unit',
+            'date' => 'Date',
         );
     }
 
@@ -103,12 +103,12 @@ class FoodNoticeItem extends CActiveRecord
         $criteria=new CDbCriteria;
 
         $criteria->compare('id',$this->id);
-        $criteria->compare('name',$this->name,true);
-        $criteria->compare('description',$this->description,true);
-        $criteria->compare('measurement',$this->measurement,true);
-        $criteria->compare('year_amount',$this->year_amount,true);
-        $criteria->compare('food_id',$this->food_id);
-        $criteria->compare('foodNotice_fk',$this->foodNotice_fk);
+        $criteria->compare('food_fk',$this->food_fk);
+        $criteria->compare('farmer_fk',$this->farmer_fk);
+        $criteria->compare('food_request_fk',$this->food_request_fk);
+        $criteria->compare('amount',$this->amount);
+        $criteria->compare('measurementUnit',$this->measurementUnit,true);
+        $criteria->compare('date',$this->date,true);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -119,7 +119,7 @@ class FoodNoticeItem extends CActiveRecord
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return FoodNoticeItem the static model class
+     * @return FoodRequestItemReceived the static model class
      */
     public static function model($className=__CLASS__)
     {

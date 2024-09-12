@@ -2,6 +2,7 @@ let foodsRelation = [];
 
 $(document).ready(function() {
     let foodSelect = $('#foodSelect');
+    let foodNotice = $('#foodNotice');
 
     const $params = new URLSearchParams(window.location.search);
     const $id = $params.get('id');
@@ -15,15 +16,31 @@ $(document).ready(function() {
                 id: $id,
             }
         }).success(function(response) {
-            let data = DOMPurify.sanitize(response);
+            let data = DOMPurify.sanitize(response)
             let farmerFoods = JSON.parse(data);
-            foodsRelation = farmerFoods
-            renderFoodsTable(foodsRelation);
+            foodsRelation = farmerFoods;
+            renderFoodsTable(farmerFoods);
         });
         $('#farmerName').removeAttr('disabled');
         $('#farmerPhone').removeAttr('disabled');
         $('#farmerGroupType').removeAttr('disabled');
     }
+
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/farmerregister/getFoodNotice",
+        cache: false
+    }).success(function(response) {
+        let data = DOMPurify.sanitize(response);
+        let food_notices = JSON.parse(data);
+
+        Object.entries(food_notices).forEach(function([id, value]) {
+            foodNotice.append($('<option>', {
+                value: id,
+                text: value.name
+            }));
+        });
+    });
 
     $.ajax({
         type: 'POST',
@@ -61,10 +78,18 @@ $(document).on("focusout", "#farmerCpf", function () {
                     farmerCpf: farmerCpf,
                 }
             }).success(function(response) {
+                console.log(response);
                 let data = DOMPurify.sanitize(response);
                 let farmerRegister = JSON.parse(data);
                 if("error" in farmerRegister) {
-                    $('#info-alert').removeClass('hide').addClass('alert-error').html(farmerRegister.error);
+                    if(farmerRegister.error == "Existente ativo") {
+                        $('#info-alert').removeClass('hide').addClass('alert-error').html("O CPF do agricultor informado já possui cadastro no TAG");
+                    } else {
+                        $('#info-alert').removeClass('hide').addClass('alert-error').html(
+                            `O CPF do agricultor informado já possui cadastro no TAG e está inativo. <br>
+                            Para ativar o agricultor, clique <a href="?r=foods/farmerregister/activateFarmers"> <strong>>> aqui <<</strong></a>`
+                        );
+                    }
                 } else {
                     $('#farmerName').removeAttr('disabled');
                     $('#farmerPhone').removeAttr('disabled');
@@ -110,6 +135,8 @@ $(document).on("click", "#js-add-food", function () {
     let foodId = $('#foodSelect').val().split(',')[0];
     let amount = $('#amount').val();
     let measurementUnit = $('#measurementUnit').find('option:selected').text();
+    let notice = $('#foodNotice').find('option:selected').text();
+    let noticeId = $('#foodNotice').find('option:selected').val();
 
     if(foodId == "alimento" || amount == "") {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
@@ -119,9 +146,9 @@ $(document).on("click", "#js-add-food", function () {
         })[0];
 
         if(existingIndex !== undefined) {
-            foodsRelation[existingIndex].amount = parseFloat(foodsRelation[existingIndex].amount) + parseFloat(amount);
+            foodsRelation[existingIndex].amount = amountCalculation(foodsRelation[existingIndex].amount, amount, measurementUnit, foodsRelation[existingIndex].measurementUnit);
         } else {
-            foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit});
+            foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit, notice: notice, noticeId: noticeId});
         }
         renderFoodsTable(foodsRelation);
     } else {
@@ -140,11 +167,15 @@ $(document).on("click", "#save-farmer", function () {
     let cpf = $("#farmerCpf").val().replace(/\D/g, '');
     let phone = $("#farmerPhone").val().replace(/\D/g, '');
     let groupType = $('#farmerGroupType').find('option:selected').text();
+    $(this).prop('disabled', true);
 
     let params = new URLSearchParams(window.location.search);
     let id = params.get('id');
 
-    if(id != null) {
+    if(name == "" || cpf == "" || phone == "") {
+        $(this).prop('disabled', false);
+        $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
+    } else if(id != null) {
         $.ajax({
             type: 'POST',
             url: "?r=foods/farmerRegister/updateFarmerRegister",
@@ -173,14 +204,7 @@ $(document).on("click", "#save-farmer", function () {
                 foodsRelation: foodsRelation
             }
         }).success(function(response) {
-            if (response !== "") {
-                let data = DOMPurify.sanitize(response);
-                let result = JSON.parse(data);
-
-                $('#info-alert').removeClass('hide').addClass('alert-error').html(result.error);
-            } else {
-                window.location.href = "?r=foods/farmerregister/index";
-            }
+            window.location.href = "?r=foods/farmerregister/index";
         })
     }
 })

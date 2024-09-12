@@ -1,5 +1,10 @@
 <?php
 Yii::import('application.modules.foods.usecases.*');
+
+use Ramsey\Uuid\Uuid;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
+
 class FoodNoticeController extends Controller
 {
     /**
@@ -29,7 +34,15 @@ class FoodNoticeController extends Controller
         return array(
             array(
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => array('index', 'view', 'getTacoFoods', 'getNotice'),
+                'actions' => array(
+                    'index',
+                    'view',
+                    'getTacoFoods',
+                    'getNotice',
+                    'activateNotice',
+                    'toggleNoticeStatus',
+                    'getNoticePdfUrl'
+                ),
                 'users' => array('*'),
             ),
             array(
@@ -55,9 +68,11 @@ class FoodNoticeController extends Controller
      */
     public function actionView($id)
     {
-        $this->render('view', array(
-            'model' => $this->loadModel($id),
-        )
+        $this->render(
+            'view',
+            array(
+                'model' => $this->loadModel($id),
+            )
         );
     }
     public function actionGetTacoFoods()
@@ -82,40 +97,60 @@ class FoodNoticeController extends Controller
     public function actionCreate()
     {
         $model = new FoodNotice;
-        $request = Yii::app()->request->getPost('notice');
+        $noticeData = json_decode(Yii::app()->request->getPost('notice'), true);
 
-        if ($request != null) {
-            $date = strtotime(str_replace('/', '-', $request["date"]));
+        if ($noticeData != null) {
+            $date = date('Y-m-d', strtotime(str_replace('/', '-', $noticeData["date"])));
+            $uuid = Uuid::uuid4();
+            $model->name = $noticeData["name"];
+            $model->date = $date;
+            $model->file_name = $_FILES["noticePdf"]["name"];
+            $model->reference_id = $uuid->toString();
 
-            $model->name = $request["name"];
-            $model->date = date('Y-m-d', $date);
             if ($model->save()) {
-                foreach ($request["noticeItems"] as $item) {
-                    $modelNoticeItem = new FoodNoticeItem;
-                    $modelNoticeItem->name = $item["name"];
-                    $modelNoticeItem->description = $item["description"];
-                    $modelNoticeItem->measurement = $item["measurement"];
-                    $modelNoticeItem->year_amount = $item["yearAmount"];
-                    $modelNoticeItem->food_id = $item["food_fk"];
+                $this->saveNoticeItems($noticeData["noticeItems"], $model->id);
 
-                    if ($modelNoticeItem->save()) {
-                        $modelNoticeVsNoticeItem = new FoodNoticeVsFoodNoticeItem;
-                        $modelNoticeVsNoticeItem->food_notice_id = $model->id;
-                        $modelNoticeVsNoticeItem->food_notice_item_id = $modelNoticeItem->id;
-                        $modelNoticeVsNoticeItem->save();
-                    }
-                }
+                $fileUploaded = CUploadedFile::getInstanceByName("noticePdf");
+
+                $this->uploadFile($fileUploaded, $uuid->toString(), $noticeData, $date);
             }
-
-
-            $createNotice = new CreateNotice($request["pdf"]);
-            $createNotice->exec();
+        } else {
+            $this->render(
+                'create',
+                array(
+                    'model' => $model,
+                )
+            );
         }
+    }
+    private $client;
+    private function getClient()
+    {
+        if (is_null($this->client)) {
+            $this->client = new Client([
+                'base_uri' => "https://southamerica-east1-br-nham-agrigultor.cloudfunctions.net",
 
-        $this->render('create', array(
-            'model' => $model,
-        )
-        );
+                'timeout' => 30.0,
+            ]);
+        }
+        return $this->client;
+    }
+
+    public function actionGetNoticePdfUrl() {
+        $noticeId = Yii::app()->request->getPost('id');
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.id = :id';
+        $criteria->params = array(':id' => $noticeId);
+
+        $existingNotice = FoodNotice::model()->find($criteria);
+        $pdfUrl = $this->fetchPdfUrl($existingNotice->reference_id);
+
+        if(empty($pdfUrl)) {
+            echo CJSON::encode(array('error' => 'Erro ao recuperar URL'));
+            Yii::app()->end();
+        }
+        echo CJSON::encode($pdfUrl);
     }
 
     /**
@@ -126,60 +161,140 @@ class FoodNoticeController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
-        $request = Yii::app()->request->getPost('notice');
+        $noticeData = json_decode(Yii::app()->request->getPost('notice'), true);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        if ($noticeData != null) {
 
-        if ($request != null) {
+            $date = strtotime(str_replace('/', '-', $noticeData["date"]));
 
-            $date = strtotime(str_replace('/', '-', $request["date"]));
-
-            $model->name = $request["name"];
+            $model->name = $noticeData["name"];
             $model->date = date('Y-m-d', $date);
+            if($_FILES["noticePdf"]["name"]) {
+                $model->file_name = $_FILES["noticePdf"]["name"];
+            }
 
-            $noticeVsNoticeItem = FoodNoticeVsFoodNoticeItem::model()->findAll(
-                "food_notice_id = :id",
-                ["id" => $id]
+            $modelNoticeItems = FoodNoticeItem::model()->findAllByAttributes(
+                ["foodNotice_fk" => $id]
             );
-            foreach ($noticeVsNoticeItem as $item) {
-                $modelNoticeItem = FoodNoticeItem::model()->findByAttributes(
-                    ["id" => $item->food_notice_item_id,]
-                );
-                $item->delete();
+            foreach ($modelNoticeItems as $modelNoticeItem) {
                 $modelNoticeItem->delete();
             }
 
             if ($model->save()) {
-                foreach ($request["noticeItems"] as $item) {
-                    $modelNoticeItem = new FoodNoticeItem;
-                    $modelNoticeItem->name = $item["name"];
-                    $modelNoticeItem->description = $item["description"];
-                    $modelNoticeItem->measurement = $item["measurement"];
-                    $modelNoticeItem->year_amount = $item["yearAmount"];
-                    $modelNoticeItem->food_id = $item["food_fk"];
+                $this->saveNoticeItems($noticeData["noticeItems"], $id);
 
-                    if ($modelNoticeItem->save()) {
-                        $modelNoticeVsNoticeItem = new FoodNoticeVsFoodNoticeItem;
-                        $modelNoticeVsNoticeItem->food_notice_id = $model->id;
-                        $modelNoticeVsNoticeItem->food_notice_item_id = $modelNoticeItem->id;
-                        $modelNoticeVsNoticeItem->save();
-                    }
-                }
+                $pdfUrl = $this->fetchPdfUrl($model->reference_id);
+
+                $this->updatePdfFile($noticeData, $model->reference_id, $pdfUrl);
             }
         }
 
-        $this->render('update', array(
-            'model' => $model,
-        )
+        $this->render(
+            'update',
+            array(
+                'model' => $model,
+            )
         );
     }
+
+    private function fetchPdfUrl($referenceId)
+    {
+        $pdfUrlPath = '/appNhamAgricultor/url/' . $referenceId;
+        try {
+            $result = $this->getClient()->request("GET", $pdfUrlPath);
+            $pdfUrl = CJSON::decode($result->getBody()->getContents());
+            return $pdfUrl["url"];
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            return '';
+        }
+    }
+    private function saveNoticeItems($noticeItems, $id)
+    {
+        foreach ($noticeItems as $item) {
+            $modelNoticeItem = new FoodNoticeItem;
+            $modelNoticeItem->name = $item["name"];
+            $modelNoticeItem->description = $item["description"];
+            $modelNoticeItem->measurement = $item["measurement"];
+            $modelNoticeItem->year_amount = $item["yearAmount"];
+            $modelNoticeItem->food_id = $item["food_fk"];
+            $modelNoticeItem->foodNotice_fk = $id;
+            $modelNoticeItem->save();
+        }
+    }
+    private function updatePdfFile($noticeData, $existingId, $pdfUrl)
+    {
+        $fileUploaded = CUploadedFile::getInstanceByName("noticePdf");
+        $file = fopen($fileUploaded->tempName, 'r');
+        $fileStream = \GuzzleHttp\Psr7\Utils::streamFor($file);
+
+        try {
+            $this->getClient()->put("/appNhamAgricultor/edit/pdf", [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
+                ],
+                'multipart' => [
+                    ['name' => 'notice_pdf', 'Content-Type' => 'multipart/form-data', 'contents' => $fileStream, 'filename' => $fileUploaded->name],
+                    ['name' => 'id', 'contents' => $existingId],
+                    ['name' => 'name', 'contents' => $noticeData["name"]],
+                    ['name' => 'date', 'contents' => date('Y-m-d', strtotime(str_replace('/', '-', $noticeData["date"])))],
+                    ['name' => 'url', 'contents' => $pdfUrl]
+                ]
+            ]);
+            fclose($file);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            $request = $e->getRequest();
+            CVarDumper::dump($request, 10, true);
+        } catch (Exception $e) {
+            CVarDumper::dump($e, 10, true);
+        }
+    }
+    private function uploadFile($fileUploaded, $id, $noticeData, $date)
+    {
+        $file = fopen($fileUploaded->tempName, 'r');
+        $fileStream = \GuzzleHttp\Psr7\Utils::streamFor($file);
+
+        try {
+            $this->getClient()->post("/appNhamAgricultor/upload", [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
+                ],
+                'multipart' => [
+                    [
+                        'name' => 'notice_pdf',
+                        'Content-Type' => 'multipart/form-data',
+                        'contents' => $fileStream,
+                        'filename' => $fileUploaded->name
+                    ],
+                    [
+                        'name' => 'id',
+                        'contents' => $id
+                    ],
+                    [
+                        'name' => 'name',
+                        'contents' => $noticeData["name"]
+                    ],
+                    [
+                        'name' => 'date',
+                        'contents' => $date
+                    ]
+                ]
+            ]);
+
+            fclose($file);
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            $request = $e->getRequest();
+            CVarDumper::dump($request, 10, true);
+        } catch (Exception $e) {
+            CVarDumper::dump($e, 10, true);
+        }
+    }
+
     public function actionGetNotice($id)
     {
         $model = $this->loadModel($id);
-        $noticeVsNoticeItem = FoodNoticeVsFoodNoticeItem::model()->findAll(
-            "food_notice_id = :id",
-            ["id" => $id]
+
+        $modelNoticeItem = FoodNoticeItem::model()->findAllByAttributes(
+            ["foodNotice_fk" => $id]
         );
 
         $date = DateTime::createFromFormat("Y-m-d", $model->date);
@@ -188,18 +303,15 @@ class FoodNoticeController extends Controller
         $result["name"] = $model->name;
         $result["date"] = $date->format("d/m/Y");
         $result["noticeItems"] = array();
-        foreach ($noticeVsNoticeItem as $item) {
-            $modelNoticeItem = FoodNoticeItem::model()->findByAttributes(
-                ["id" => $item->food_notice_item_id,]
-            );
+        foreach ($modelNoticeItem as $item) {
             array_push(
                 $result["noticeItems"],
                 [
-                    0 => $modelNoticeItem->name,
-                    1 => $modelNoticeItem->year_amount,
-                    2 => $modelNoticeItem->measurement,
-                    3 => $modelNoticeItem->description,
-                    4 => $modelNoticeItem->food_id,
+                    0 => $item->name,
+                    1 => $item->year_amount,
+                    2 => $item->measurement,
+                    3 => $item->description,
+                    4 => $item->food_id,
                 ]
             );
         }
@@ -213,24 +325,41 @@ class FoodNoticeController extends Controller
      */
     public function actionDelete($id)
     {
-        $model = $this->loadModel($id);
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'id=:id';
+        $criteria->params = array(':id' => $id);
 
-        $noticeVsNoticeItem = FoodNoticeVsFoodNoticeItem::model()->findAll(
-            "food_notice_id = :id",
-            ["id" => $id]
-        );
-        foreach ($noticeVsNoticeItem as $item) {
-            $modelNoticeItem = FoodNoticeItem::model()->findByAttributes(
-                ["id" => $item->food_notice_item_id,]
-            );
-            $item->delete();
-            $modelNoticeItem->delete();
+        $foodNotice = FoodNotice::model()->find($criteria);
+
+        if ($foodNotice !== null) {
+            $foodNotice->status = 'Inativo';
+            $foodNotice->save();
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Edital inativado com sucesso!'));
         }
-        $model->delete();
+    }
 
-        $this->redirect(array('index'));
+    public function actionActivateNotice()
+    {
+        $notices = FoodNotice::model()->findAll();
+        $this->render('activateNotice', array(
+            'notices' => $notices
+        ));
+    }
 
-        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+    public function actionToggleNoticeStatus()
+    {
+        $id = Yii::app()->request->getPost('id');
+        $status = Yii::app()->request->getPost('status');
+        $notice = FoodNotice::model()->findByPk($id);
+
+        $notice->status = $status == "Ativo" ? "Inativo" : "Ativo";
+
+        if ($notice->save()) {
+            $message = $status === "Ativo" ? 'Edital inativado com sucesso!' : 'Edital ativado com sucesso!';
+            Yii::app()->user->setFlash('success', Yii::t('default', $message));
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
+        }
     }
 
     /**
@@ -238,10 +367,16 @@ class FoodNoticeController extends Controller
      */
     public function actionIndex()
     {
+        $criteria = new CDbCriteria;
+        $criteria->compare('status', "Ativo");
+
         $dataProvider = new CActiveDataProvider('FoodNotice');
-        $this->render('index', array(
-            'dataProvider' => $dataProvider,
-        )
+        $dataProvider->setCriteria($criteria);
+        $this->render(
+            'index',
+            array(
+                'dataProvider' => $dataProvider,
+            )
         );
     }
 
@@ -252,13 +387,15 @@ class FoodNoticeController extends Controller
     {
         $model = new FoodNotice('search');
         $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['FoodNotice'])){
+        if (isset($_GET['FoodNotice'])) {
             $model->attributes = $_GET['FoodNotice'];
         }
 
-        $this->render('admin', array(
-            'model' => $model,
-        )
+        $this->render(
+            'admin',
+            array(
+                'model' => $model,
+            )
         );
     }
 
@@ -272,7 +409,7 @@ class FoodNoticeController extends Controller
     public function loadModel($id)
     {
         $model = FoodNotice::model()->findByPk($id);
-        if ($model === null){
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
         return $model;
