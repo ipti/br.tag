@@ -5,14 +5,29 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication propeties can be configured here.
 
+$LOG_PATH = "/app/app/runtime/".INSTANCE;
+
+if (!file_exists($LOG_PATH)) {
+
+    // Create a new file or direcotry
+    mkdir($LOG_PATH , 0777, true);
+}
 
 $log_config = array(
     'class' => 'CLogRouter',
     'routes' => array(
         array(
             'class' => 'CFileLogRoute',
-            'levels' => 'error, warning, info',
+            'levels' => 'info, warning, error',
             'categories' => 'application',
+            'logPath' => $LOG_PATH,
+            'filter' => array(
+                'class' => 'CLogFilter',
+                'prefixSession' => false,
+                'prefixUser' => true,
+                'logUser' => false,
+                'logVars' => array(),
+            ),
         ),
     ),
 );
@@ -29,17 +44,7 @@ if (YII_DEBUG) {
             'showInFireBug' => true,
             'report' => 'summary',
         ),
-        array(
-            'class' => 'CFileLogRoute',
-            'levels' => 'info, warning, error',
-            'filter' => array(
-                'class' => 'CLogFilter',
-                'prefixSession' => false,
-                'prefixUser' => true,
-                'logUser' => false,
-                'logVars' => array(),
-            ),
-        ),
+
     );
 }
 
