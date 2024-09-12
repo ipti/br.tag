@@ -59,7 +59,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </li>
                     </ul>
                 </div>
-                <div class="row">
+                <div id="js-submit-div" class="row">
                     <a
                     data-toggle="tab" class='t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
                     </a>
@@ -69,6 +69,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <a id="save"
                     class='t-button-primary last' style="display:none;"><?php echo Yii::t('default', 'Save') ?>
                     </a>
+                </div>
+                <div id="js-loading-div" class="row hide">
+                    <img style="margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                 </div>
             </div>
             <div class="widget-body form-horizontal">
