@@ -3,13 +3,15 @@ $(formInstructorIdentification + 'name,' + formInstructorIdentification + 'filia
 
     $(this).val($(this).val().toUpperCase());
 
-    var validation = validateNamePerson(this.value);
-    if (!validation[0]) {
-        $(id).attr('value', '');
-        addError(id, validation[1]);
-    } else {
-        removeError(id);
-    }
+    validateNamePerson(this.value, function(ret){
+        if (!ret[0]) {
+            $(id).attr('value', '');
+            addError(id, ret[1]);
+        } else {
+            removeError(id);
+        }
+    });
+
 
 });
 $(formInstructorIdentification + 'email').on('focusout', function () {
