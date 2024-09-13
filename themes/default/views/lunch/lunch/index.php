@@ -20,7 +20,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
             <span><?= Yii::t('lunchModule.lunch', 'Make a nutritious menu to manage the school lunch.'); ?></span>
             </h1>
             <div class="t-buttons-container">
-                <a data-toggle="modal" href="<?= yii::app()->createUrl("/lunch/lunch/create")?>" class="t-button-primary">
+                <a href="<?= yii::app()->createUrl("/lunch/lunch/create")?>" class="t-button-primary">
                     <?= Yii::t('lunchModule.lunch', 'New Menu'); ?>
                 </a>
             </div>
