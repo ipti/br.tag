@@ -28,7 +28,7 @@ class TimesheetController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability',
-                    'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor", "changeUnavailableSchedule"
+                    'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor", "changeUnavailableSchedule", "fixBuggedUnavailableDaysFor2024"
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -754,6 +754,44 @@ class TimesheetController extends Controller
             }
         }
         echo json_encode(["valid" => true, "adds" => $adds, "disciplines" => $disciplines]);
+    }
+
+    public function actionFixBuggedUnavailableDaysFor2024()
+    {
+        //Nessa função, precisa-se passar em cada schedule de 2024 e verificar se o dia está indisponível (coluna unavailable = 1) quando, na verdade, ele está disponível
+        //O erro surgiu quando o usuário chamava o método chanceEvent no calendário e trocava um evento de feriado/férias por um evento útil. Naquele algoritmo, ele não trocava a flag de unavailable de 1 para 0.
+        //Isso foi resolvido a nível de código, mas os problemas que já existiam no banco continuaram.
+        //Esse algoritmo, em resumo, considerará o dia disponível quando estiver:
+        //(I) entre a data de início e fim do calendário; e
+        //(II) fora de um intervalo marcado como feriado, férias ou ponto facultativo.
+        //OBS: ESSE ERRO FOI DESCOBERTO PORQUE TINHA DIAS DE AULA NO QUADRO DE HORÁRIO QUE NÃO CONSTAVAM EM AULAS MINISTRADAS. VERIFICOU-SE QUE AS AULAS DAQUELE DIA, APESAR DE ÚTIL, ESTAVAM MARCADAS COMO UNAVAILABLE
+        $classrooms = Classroom::model()->findAll("school_year = 2024");
+        foreach ($classrooms as $classroom) {
+            $calendar = $classroom->calendarFk;
+            $calendarStartDate = $calendar->start_date;
+            $calendarEndDate = $calendar->end_date;
+            foreach ($classroom->schedules as $schedule) {
+                if ($schedule->unavailable) {
+                    $scheduleDate = $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
+                    if ($scheduleDate >= $calendarStartDate && $scheduleDate <= $calendarEndDate) {
+                        $mustRemoveUnavailable = false;
+                        foreach ($calendar->calendarEvents as $calendarEvent) {
+                            if ($calendarEvent->calendar_event_type_fk == 101 || $calendarEvent->calendar_event_type_fk == 102 || $calendarEvent->calendar_event_type_fk == 104) {
+                                if (str_replace(" 00:00:00", "", $calendarEvent->start_date) >= $scheduleDate && str_replace(" 00:00:00", "", $calendarEvent->end_date) <= $scheduleDate) {
+                                    //Ao entrar aqui, a schedule está dentro do calendário letivo e não está em nenhum dia de feriado, férias ou ponto facultativo. Deve-se mudar a flag de unavailable de 1 para 0.
+                                    $mustRemoveUnavailable = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if ($mustRemoveUnavailable) {
+                            Schedule::model()->updateAll(["unavailable" => 0], "id = :id", [":id" => $schedule->id]);
+                        }
+                    }
+                }
+            };
+        }
+        var_dump("Fim de código");
     }
 
 //    public function actionGetInstructorDisciplines($id)
