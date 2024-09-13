@@ -49,7 +49,7 @@ $("select.js-months").on("change", function (){
         if(result["scheduleDays"]) {
             let  daysCards = result["scheduleDays"].reduce((acc, element) =>
                  acc += `<div class="column clearfix no-grow">
-                    <a href="${window.location.host}?r=classdiary/default/classDiary&classroom_fk=${result["classroom_fk"]}&stage_fk=${result["stage_fk"]}&discipline_fk=${result["discipline_fk"]}&discipline_name=${result["discipline_name"]}&classroom_name=${result["classroom_name"]}&date=${element["date"]}" class="t-cards">
+                    <a href="${window.location.host}?r=classdiary/default/classDiary&classroom_fk=${result["classroom_fk"]}&stage_fk=${result["stage_fk"]}&discipline_fk=${result["discipline_fk"]}&discipline_name=${result["discipline_name"]?? ''}&classroom_name=${result["classroom_name"]}&date=${element["date"]}" class="t-cards">
                         <div class="t-cards-content">
                             <div class="t-tag-primary t-margin-none--left">${selectedOptionText}</div>
                             <div class="t-cards-title">${element["date"]}</div>
