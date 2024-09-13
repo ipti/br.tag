@@ -5,14 +5,29 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication propeties can be configured here.
 
+$LOG_PATH = "/app/app/runtime/".INSTANCE;
+
+if (!file_exists($LOG_PATH)) {
+
+    // Create a new file or direcotry
+    mkdir($LOG_PATH , 0777, true);
+}
 
 $log_config = array(
     'class' => 'CLogRouter',
     'routes' => array(
         array(
             'class' => 'CFileLogRoute',
-            'levels' => 'error, warning, info',
+            'levels' => 'info, warning, error',
             'categories' => 'application',
+            'logPath' => $LOG_PATH,
+            'filter' => array(
+                'class' => 'CLogFilter',
+                'prefixSession' => false,
+                'prefixUser' => true,
+                'logUser' => false,
+                'logVars' => array(),
+            ),
         ),
     ),
 );
@@ -25,14 +40,11 @@ if (YII_DEBUG) {
         //     'showInFireBug' => true,
         // ),
         array(
-            'class' => 'CFileLogRoute',
-            'levels' => 'profile',
-        ),
-        array(
             'class' => 'CProfileLogRoute',
             'showInFireBug' => true,
             'report' => 'summary',
-        )
+        ),
+
     );
 }
 
@@ -166,7 +178,7 @@ return array(
                 'gestao-resultados/escola/<action:\w+>' => 'resultsmanagement/managementschool/<action>',
                 'gestao-resultados/escola/<action:\w+>/<sid:\d+>' => 'resultsmanagement/managementschool/<action>',
 
-                'profissional/<action:\w+>/<id:\d+>'      => 'professional/default/<action>'
+                'profissional/<action:\w+>/<id:\d+>' => 'professional/default/<action>'
             ),
         ),
         // uncomment the following to use a MySQL database
