@@ -1,3 +1,7 @@
+## [Versão 3.86.188]
+- Criando a tela de validar aulas ministradas, permitindo somente a visualização das aulas
+- Corrigindo a duplicidade ao salvar plano de aula
+
 ## [Versão 3.85.188]
 - Retirando a obrigatoriedade das habilidades para plano de aula de educação infantil
 - Permitindo a adição de habilidades de disciplinas diferentes em planos de aula somente para a educação infantil
