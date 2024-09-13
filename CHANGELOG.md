@@ -1,6 +1,8 @@
+
 ## [Versão 3.86.188]
 - Criando a tela de validar aulas ministradas, permitindo somente a visualização das aulas
 - Corrigindo a duplicidade ao salvar plano de aula
+- Inserido cor/raça na planilha de exportação de alunos
 
 ## [Versão 3.85.188]
 - Retirando a obrigatoriedade das habilidades para plano de aula de educação infantil
