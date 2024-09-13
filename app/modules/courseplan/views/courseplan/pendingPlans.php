@@ -46,7 +46,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
     </div>
 
     <div id="select-container" class="tablet-row align-items--center-on-desktop">
-        <div class="mobile-row">
+        <div class="row">
             <div class="column clearleft">
                 <div class="t-field-select instructor-container">
                     <?php echo CHtml::label(yii::t('default', 'Instructor'), 'instructor', array('class' => 't-field-select__label--required'));?>
@@ -60,35 +60,31 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="mobile-row">
-                    <div class="column clearleft">
-                        <div class="t-field-select">
-                            <?php echo CHtml::label(yii::t('default', 'Stage'), 'stage', array('class' => 't-field-select__label--required'));?>
-                            <select class="select-search-on t-field-select__input" id="stage" style="min-width: 185px;">
-                                <option value="">Selecione a etapa</option>
-                                <?php
-                                    $stages = array_map("unserialize", array_unique(array_map("serialize", $stages)));
-                                    foreach ($stages as $stage) :
-                                ?>
-                                    <option value="<?=$stage['id']?>"><?=$stage['name']?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    <!-- diciplina -->
+                <div class="t-field-select row">
+                    <div class="t-field-select">
+                        <?php echo CHtml::label(yii::t('default', 'Stage'), 'stage', array('class' => 't-field-select__label--required'));?>
+                        <select class="select-search-on t-field-select__input" id="stage" style="min-width: 185px;">
+                            <option value="">Selecione a etapa</option>
+                            <?php
+                                $stages = array_map("unserialize", array_unique(array_map("serialize", $stages)));
+                                foreach ($stages as $stage) :
+                            ?>
+                                <option value="<?=$stage['id']?>"><?=$stage['name']?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
-                    <div class="column discipline-container hide">
-                        <div class="t-field-select">
-                            <?php echo CHtml::label(yii::t('default', 'Discipline'),
-                                'month', array('class' => 't-field-select__label--required')); ?>
-                            <select class="select-search-on t-field-select__input" id="discipline"
-                                    style="min-width: 185px;">
-                            </select>
-                        </div>
+                    <!-- diciplina -->
+                    <div class="t-field-select discipline-container hide">
+                        <?php echo CHtml::label(yii::t('default', 'Discipline'),
+                            'month', array('class' => 't-field-select__label--required')); ?>
+                        <select class="select-search-on t-field-select__input" id="discipline"
+                                style="min-width: 185px;">
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 
     <div class="tag-inner">
         <div class="columnone" style="padding-right: 1em">
