@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -82,6 +82,9 @@ function validateTime(time) {
 
 function stringToDate(str) {
     var date = new Object();
+    if (str === undefined){
+        return
+    }
     date.day = str.split("/")[0];
     date.month = str.split("/")[1];
     date.year = str.split("/")[2];
@@ -278,7 +281,7 @@ function existsStudentWithCPF(cpf, studentId, callback) {
         $.each($.parseJSON(response), function (student_fk, id) {
             if (student_fk != '' && student_fk != studentId) passCpf = true
         });
-        
+
         if (passCpf) {
             ret[0] = false;
             ret[1] = "CPF já vinculado com cadastro de aluno existente.";
@@ -305,7 +308,7 @@ function validateCpf(cpf) {
         || cpf == "66666666666" || cpf == "77777777777"
         || cpf == "88888888888" || cpf == "99999999999"
         || !rule(cpf, numberRules.cpf)) {
-       
+
         return statusInvalido;
     } else {
         var soma = 0;
@@ -329,8 +332,8 @@ function validateCpf(cpf) {
 
     if (cpf == "00000000000" || cpf == "00000000191") {
         return statusInvalido;
-    } 
-    
+    }
+
     if (!rule(cpf, numberRules.cpf)){
         return statusInvalido;
     }
@@ -464,7 +467,7 @@ function removeWarning(id, id_caixa, id_icon) {
 
 /**
  * Adiciona a classe "required" ao campo, e adiciona um "*" no final do seu texto;
- * 
+ *
  * @param {element} id
  * @returns {nothing}
  */
@@ -475,7 +478,7 @@ function addRequired(id) {
 }
 /**
  * Remove a classe "required" ao campo, e remove o "*" do seu texto;
- * 
+ *
  * @param {element} id
  * @returns {nothing}
  */
@@ -487,7 +490,7 @@ function removeRequired(id) {
 
 /**
  * Adiciona a classe "required" ao campo, e adiciona um "*" no final do seu texto;
- * 
+ *
  * @param {element} id
  * @returns {nothing}
  */
@@ -498,7 +501,7 @@ function addRequiredSelect2(id) {
 
 /**
  * Remove a classe "required" ao campo, e remove o "*" do seu texto;
- * 
+ *
  * @param {element} id
  * @returns {nothing}
  */
@@ -509,7 +512,7 @@ function removeRequiredSelect2(id) {
 
 /**
  * Abre uma nova aba ao clicar.
- * 
+ *
  * @param {element} id
  * @returns {nothing}
  */
@@ -532,12 +535,12 @@ function initDateFieldMaskAndValidation(element) {
     $(element).focusout(function () {
         var id = '#' + $(this).attr("id");
         var dateValue = stringToDate($(element).val());
-    
+
         if ((!validateDate($(element).val()) || !validateYear(dateValue.year)) && ($(id).val() != '')) {
             addError(id, "Informe uma data válida no formato Dia/Mês/Ano.");
         } else {
             removeError(id);
         }
     });
-    
+
 }
