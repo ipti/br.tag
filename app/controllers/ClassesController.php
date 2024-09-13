@@ -764,24 +764,24 @@ class ClassesController extends Controller
         $result["isMinor"] = $isMinor;
         echo json_encode($result);
     }
-    private function checkIsStageMinorEducation($classroom) {
-        $isMinor = TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk);
+        private function checkIsStageMinorEducation($classroom) {
+            $isMinor = TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk);
 
-        if (!$isMinor && TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
-            $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
+            if (!$isMinor && TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
+                $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
 
-            foreach ($enrollments as $enrollment) {
-                if (!$enrollment->edcenso_stage_vs_modality_fk ||
-                    !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)) {
-                    return false;
+                foreach ($enrollments as $enrollment) {
+                    if (!$enrollment->edcenso_stage_vs_modality_fk ||
+                        !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)) {
+                        return false;
+                    }
                 }
+
+                $isMinor = true;
             }
 
-            $isMinor = true;
+            return $isMinor;
         }
-
-        return $isMinor;
-    }
 
     /**
      * Get all disciplines by classroom
