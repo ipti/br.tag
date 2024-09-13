@@ -137,8 +137,7 @@ class DefaultController extends Controller
 	{
 		$getFrequency = new GetFrequency();
 		$frequency = $getFrequency->exec($classroom_fk, $stage_fk, $discipline_fk, $date);
-
-			$this->renderPartial('_frequencyElementMobile', ["frequency" => $frequency, "date"=> $date,  "discipline_fk" => $discipline_fk, "stage_fk" => $stage_fk, "classroom_fk" => $classroom_fk]);
+        $this->renderPartial('_frequencyElementMobile', ["frequency" => $frequency, "date"=> $date,  "discipline_fk" => $discipline_fk, "stage_fk" => $stage_fk, "classroom_fk" => $classroom_fk]);
 	}
 	public function actionRenderFrequencyElementDesktop($classroom_fk, $stage_fk, $discipline_fk, $date)
 	{

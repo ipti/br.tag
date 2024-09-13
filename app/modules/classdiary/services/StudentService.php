@@ -13,7 +13,7 @@ class StudentService
             "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
         } else
         {
-            $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and discipline_fk = :discipline_fk
+            $schedule = Schedule::model()->findAll("classroom_fk = :classroom_fk and day = :day and discipline_fk = :discipline_fk
              and month = :month and unavailable = 0 order by day, schedule", ["classroom_fk" => $classroom_fk,
              "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), "discipline_fk" => $discipline_fk,
              "month"=>DateTime::createFromFormat("d/m/Y", $date)->format("m")]);
@@ -27,7 +27,7 @@ class StudentService
 
         if ($schedule != null)
         {
-            if ($enrollments != null)
+            if ($enrollments != null && $is_minor_schooling)
             {
                 $students = array();
                 foreach ($enrollments as $enrollment) {
@@ -45,7 +45,29 @@ class StudentService
                     array_push($students, $array);
                 }
                 return ["valid" => true, "students" => $students];
-            } else {
+            } else if($enrollments != null && !$is_minor_schooling) {
+                $students = array();
+                foreach ($enrollments as $enrollment) {
+                    $array["studentId"] = $enrollment->student_fk;
+                    $array["studentName"] = $enrollment->studentFk->name;$array["studentName"] = $enrollment->studentFk->name;
+                    foreach($schedule as $s) {
+                        $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $s->id, "student_fk" => $enrollment->student_fk]);
+                        $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($s->month, 2, "0", STR_PAD_LEFT);
+                        $array["schedule"][$s->schedule] = [
+                            "available" => $available,
+                            "day" => $s->day,
+                            "schedule" => $s->schedule,
+                            "fault" => $classFault != null,
+                            "justification" => $classFault->justification
+                        ];
+
+                    }
+                    array_push($students, $array);
+
+                }
+                return ["valid" => true, "students" => $students];
+            }
+            else if($enrollments == null) {
                 return  ["valid" => false, "error" => "Matricule alunos nesta turma para trazer o quadro de frequência."];
             }
         }else {
