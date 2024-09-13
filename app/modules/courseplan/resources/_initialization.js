@@ -357,7 +357,7 @@ function updatePendingPlanTable(){
             discipline: disciplineValidade ? '' : $('#discipline').val(),
         }
     }).success(function (data) {
-        $('.pending_courseplan_table_div').html(data);
+        $('.pending_courseplan_table_div').html(DOMPurify.sanitize(data));
         initDatatable();
     })
 }
@@ -372,7 +372,7 @@ function updateCoursePlanTable(){
             discipline: disciplineValidade ? '' : $('#discipline').val(),
         }
     }).success(function (data) {
-        $('.courseplan_table_div').html(data);
+        $('.courseplan_table_div').html(DOMPurify.sanitize(data));
         initDatatable();
     })
 }
