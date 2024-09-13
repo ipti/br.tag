@@ -95,7 +95,7 @@ function format_validate(d){
     let column1 = $('<div   class="column no-grow"></div>');
     let id = $('<input type="hidden" name="course-class[' + d.class + '][id]" value="' + d.courseClassId + '">');
     let content = $('<div class="t-field-tarea content-input"></div>');
-    let contentLabel = $('<div><label class="t-field-tarea__label" for="course-class[' + d.class + '][content]">Conteúdo *</label></span>');
+    let contentLabel = $('<label class="t-field-tarea__label" for="course-class[' + d.class + '][content]">Conteúdo *</label>');
     let contentInput = $('<textarea readonly="readonly" class="t-field-tarea__input course-class-content" placeholder="Digite o conteúdo do Plano" id="content-' + d.class + '" name="course-class[' + d.class + '][content]">' + d.content + '</textarea>');
 
     let ability = $('<div class="control-group courseplan-ability-container"></div>');
@@ -181,7 +181,7 @@ function format(d) {
     let column1 = $('<div   class="column no-grow"></div>');
     let id = $('<input type="hidden" name="course-class[' + d.class + '][id]" value="' + d.courseClassId + '">');
     let content = $('<div class="t-field-tarea content-input"></div>');
-    let contentLabel = $('<div><label class="t-field-tarea__label" for="course-class[' + d.class + '][content]">Conteúdo *</label></span>');
+    let contentLabel = $('<label class="t-field-tarea__label" for="course-class[' + d.class + '][content]">Conteúdo *</label>');
     let contentInput = $('<textarea class="t-field-tarea__input course-class-content" placeholder="Digite o conteúdo do Plano" id="-' + d.class + '" name="course-class[' + d.class + '][content]">' + d.content + '</textarea>');
 
     let ability = $('<div class="control-group courseplan-ability-container"></div>');
