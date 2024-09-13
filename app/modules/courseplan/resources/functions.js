@@ -394,29 +394,6 @@ function addResource(button) {
             resources.append(divRes);
         };
     }
-    content.append(contentLabel);
-    content.append(contentInput);
-    ability.append(abilityLabel);
-    ability.append(abilityButton);
-    ability.append(abilitiesContainer);
-    resourceButtonContainer.append(resourceButton);
-    resourceInput.append(resourceValue);
-    resourceInput.append(resourceAmount);
-    resourceInput.append(resourceAdd);
-    resource.append(resourceButtonContainer);
-    resource.append(resourceLabel);
-    resource.append(resourceInput);
-    resource.append(resources);
-    methodology.append(methodologyLabel);
-    methodology.append(methodologyInput);
-    column1.append(content);
-    column1.append(ability);
-    column1.append(methodology);
-    column1.append(resource);
-    column1.append(deleteButton);
-    div.append(id);
-    div.append(column1);
-    return div;
 }
 
 function removeResource(button) {
