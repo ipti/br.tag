@@ -1,8 +1,14 @@
-## [Versão 3.86.188]
+## [Versão 3.86.189]
 - Filtros de busca adicionados no carregamento de planos de aula pendentes
 
-## [Versão 3.86.187]
+## [Versão 3.86.188]
+- Criando a tela de validar aulas ministradas, permitindo somente a visualização das aulas
+- Corrigindo a duplicidade ao salvar plano de aula
 - Inserido cor/raça na planilha de exportação de alunos
+
+## [Versão 3.85.188]
+- Retirando a obrigatoriedade das habilidades para plano de aula de educação infantil
+- Permitindo a adição de habilidades de disciplinas diferentes em planos de aula somente para a educação infantil
 
 ## [Versão 3.85.187]
 - Permitindo a adição de habilidades de disciplinas diferentes em planos de aula para etapas de fundamental menor

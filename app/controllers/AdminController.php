@@ -557,7 +557,7 @@ class AdminController extends Controller
 
             if ($hasFinalRecovery === true) {
 
-                $recoveryUnity = GradeUnity::model()->find($finalRecovery["id"]);
+                $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
 
                 if ($finalRecovery["operation"] === "delete") {
                     $recoveryUnity->delete();
