@@ -1,3 +1,6 @@
+## [Versão 3.86.189]
+- Corrigindo erros internos na impressão de documentos. Não possui impacto nas funcionalidades, apenas nos registros de erro.
+
 
 ## [Versão 3.86.188]
 - Criando a tela de validar aulas ministradas, permitindo somente a visualização das aulas
