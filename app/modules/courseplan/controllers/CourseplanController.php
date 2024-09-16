@@ -86,6 +86,7 @@ class CourseplanController extends Controller
     {
         if (isset($_POST['CoursePlan'])) {
             $this->actionSave($id);
+            TLog::info("Plano de aula atualizado com sucesso.", ["CoursePlan" => $id]);
         }
         if (!isset($_POST['CoursePlan'])) {
             $coursePlan = $this->loadModel($id);
@@ -120,6 +121,7 @@ class CourseplanController extends Controller
     {
         $coursePlan = CoursePlan::model()->findByPk($_POST["coursePlanId"]);
         $courseClasses = [];
+        $courseClassesIds = [];
         foreach ($coursePlan->courseClasses as $courseClass) {
             $order = $courseClass->order - 1;
             $courseClasses[$order]["class"] = $courseClass->order;
@@ -143,7 +145,9 @@ class CourseplanController extends Controller
                 array_push($courseClasses[$order]['abilities'], $ability);
             }
             $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents) ? "" : "js-unavailable";
+            $courseClassesIds = array_push($courseClassesIds, $courseClass->id);
         }
+        TLog::info("Listagem de aulas por plano de aula.", ["CoursePlan" => $coursePlan->id, "CourseClasses" => $courseClassesIds]);
         echo json_encode(["data" => array_values($courseClasses)]);
     }
 
@@ -165,6 +169,7 @@ class CourseplanController extends Controller
             foreach ($disciplines as $discipline) {
                 array_push($result, ["id" => $discipline['id'], "name" => CHtml::encode($disciplinesLabels[$discipline['id']]), "isMinorEducation" => $isMinorEducation]);
             }
+            TLog::info("Listagem de disciplina por etapa de ensino com filtro de usuário de professor.", ["Stage" => $_POST["stage"], "UserInstructor" => Yii::app()->user->loginInfos->id]);
         } else {
             $disciplines = Yii::app()->db->createCommand("select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name")->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
             foreach ($disciplines as $i => $discipline) {
@@ -172,6 +177,7 @@ class CourseplanController extends Controller
                     array_push($result, ["id" => $discipline['discipline_fk'], "name" => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), "isMinorEducation" => $isMinorEducation]);
                 }
             }
+            TLog::info("Listagem de disciplina por etapa de ensino.", ["Stage" => $_POST["stage"]]);
         }
         echo json_encode($result);
     }
@@ -242,8 +248,9 @@ class CourseplanController extends Controller
             $request["start_date"] = $startTimestamp;
             $coursePlan->attributes = $request;
             $coursePlan->situation = 'PENDENTE';
-            if($coursePlan->save())
+            if($coursePlan->save()){
                 TLog::info("Plano de aula salvo com sucesso", ['CoursePlanId' => $coursePlan->id]);
+            }
             $errors = $coursePlan->getErrors();
             $courseClassIds = [];
             $i = 1;
@@ -257,8 +264,9 @@ class CourseplanController extends Controller
                 $courseClass->order = $i++;
                 $courseClass->content = $cc['content'];
                 $courseClass->methodology = $cc['methodology'];
-                if($courseClass->save())
+                if($courseClass->save()){
                     TLog::info("Aula salva com sucesso", ['CourseClassId' => $courseClass->id, 'CoursePlanId' => $coursePlan->id]);
+                }
 
                 array_push($courseClassIds, $courseClass->id);
 
@@ -269,16 +277,18 @@ class CourseplanController extends Controller
                         $courseClassHasClassAbility = new CourseClassHasClassAbility();
                         $courseClassHasClassAbility->course_class_fk = $courseClass->id;
                         $courseClassHasClassAbility->course_class_ability_fk = $abilityId;
-                        if($courseClassHasClassAbility->save())
+                        if($courseClassHasClassAbility->save()){
                             TLog::info("CourseClassHasClassAbility salvo com sucesso", ['CourseClassId' => $courseClass->id]);
+                        }
                         $coursePlanVsAbility = new CoursePlanDisciplineVsAbilities();
                         $coursePlanVsAbility->course_plan_fk = $coursePlan->id;
                         $abilitieData = CourseClassAbilities::model()->findByPk($abilityId);
                         $coursePlanVsAbility->discipline_fk = $abilitieData->edcenso_discipline_fk;
                         $coursePlanVsAbility->course_class_fk = $courseClass->id;
                         $coursePlanVsAbility->ability_fk = $abilityId;
-                        if($coursePlanVsAbility->save())
+                        if($coursePlanVsAbility->save()){
                             TLog::info("CoursePlanDisciplineVsAbilites salvo com sucesso", ['CourseClassId' => $courseClass->id]);
+                        }
                     }
                 }
 
@@ -319,7 +329,7 @@ class CourseplanController extends Controller
         }catch(Exception $e){
             TLog::error('Ocorreu um erro durante a transação de salvar um plano de aula', $e);
             $transaction->rollback();
-            throw new Exception(500, $e->getMessage(), $e);
+            throw new Exception($e->getMessage(), 500, $e);
         }
     }
 
@@ -457,6 +467,7 @@ class CourseplanController extends Controller
                     ),
                     'pagination' => false
                 ));
+                TLog::info("Listagem de planos de aula para acesso de professor com filtro de etapa", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
             }
             if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
             {
@@ -467,6 +478,7 @@ class CourseplanController extends Controller
                     ),
                     'pagination' => false
                 ));
+                TLog::info("Listagem de planos de aula para acesso de administrador com filtro de etapa");
             }
             $this->renderPartial('_table', array(
                 'dataProvider' => $dataProvider,
@@ -503,13 +515,16 @@ class CourseplanController extends Controller
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
             ));
+            TLog::info("Informações de formulário de validação renderizadas.", ["CoursePlan" => $coursePlan->id]);
         }
         if (isset($requestApproval)) {
             if ($requestApproval == "true") {
                 $coursePlan->situation = 'APROVADO';
             }
             $coursePlan->observation = $requestObservation;
-            $coursePlan->save();
+            if ($coursePlan->save()) {
+                TLog::info("Aprovação de plano de aula salvo com sucesso.", ["CoursePlan" => $coursePlan->id, "Status" => $coursePlan->situation]);
+            }
         }
     }
 
