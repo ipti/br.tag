@@ -122,9 +122,7 @@ class CourseplanController extends Controller
             LEFT JOIN users u ON u.id = cp.users_fk
             WHERE cp.situation = 'PENDENTE'";
 
-        $instructors = Yii::app()->db->createCommand($sqlCommand)->queryAll();
-
-        return $instructors;
+        return Yii::app()->db->createCommand($sqlCommand)->queryAll();
     }
 
     public function actionGetCourseClasses()
@@ -486,7 +484,7 @@ class CourseplanController extends Controller
 
         // Starting Array of Tokens to Bound in Criteria
         // Applying Filter To School
-        $token_params = [':school' => Yii::app()->user->school];
+        $tokenParams = [':school' => Yii::app()->user->school];
 
         // Apply Filter to Situation and School
         $criteria->condition = "situation = 'PENDENTE' AND school_inep_fk = :school";
@@ -494,23 +492,23 @@ class CourseplanController extends Controller
         // Apply Filter to Instructor
         if(isset($instructorRequest) && $instructorRequest != ""){
             $criteria->condition .= " AND users_fk = :user";
-            $token_params = array_merge($token_params, [':user' => $instructorRequest]);
+            $tokenParams = array_merge($tokenParams, [':user' => $instructorRequest]);
         }
 
         // Apply filter to Stage
         if(isset($stageRequest) && $stageRequest != ""){
             $criteria->condition .= " AND modality_fk = :stage";
-            $token_params = array_merge($token_params, [':stage' => $stageRequest]);
+            $tokenParams = array_merge($tokenParams, [':stage' => $stageRequest]);
         }
 
         // Apply filter to Discipline
         if(isset($disciplineRequest) && $disciplineRequest != ""){
             $criteria->condition .= " AND discipline_fk = :discipline";
-            $token_params = array_merge($token_params, [':discipline' => $disciplineRequest]);
+            $tokenParams = array_merge($tokenParams, [':discipline' => $disciplineRequest]);
         }
 
         // Change Params
-        $criteria->params = $token_params;
+        $criteria->params = $tokenParams;
 
         // Create Data provider
         $dataProvider = new CActiveDataProvider('CoursePlan', array(
@@ -536,7 +534,7 @@ class CourseplanController extends Controller
         if(
             !isset($instructorRequest)
         ){
-            $disciplines = $this->actionGetDisciplines();
+            $this->actionGetDisciplines();
             Yii::app()->end();
         }
 
