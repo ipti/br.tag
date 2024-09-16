@@ -425,6 +425,7 @@ class CourseplanController extends Controller
                     ),
                     'pagination' => false
                 ));
+                TLog::info("Listagem de planos de aula para acesso de professor com filtro de disciplina", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
             }
             if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
             {
@@ -436,6 +437,7 @@ class CourseplanController extends Controller
                     ),
                     'pagination' => false
                 ));
+                TLog::info("Listagem de planos de aula para acesso de administrador com filtro de disciplina");
             }
             $this->renderPartial('_table', array(
                 'dataProvider' => $dataProvider,
