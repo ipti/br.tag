@@ -249,7 +249,7 @@ class CourseplanController extends Controller
             $coursePlan->attributes = $request;
             $coursePlan->situation = 'PENDENTE';
             if($coursePlan->save()){
-                TLog::info("Plano de aula salvo com sucesso", ['CoursePlanId' => $coursePlan->id]);
+                TLog::info("Plano de aula salvo com sucesso", ['CoursePlanId' => $coursePlan->id, "CoursePlanName" => $coursePlan->name]);
             }
             $errors = $coursePlan->getErrors();
             $courseClassIds = [];
@@ -323,7 +323,6 @@ class CourseplanController extends Controller
             }
             $transaction->commit();
             header('HTTP/1.1 200 OK');
-            TLog::info("Plano de Aula salvo com sucesso.", ["CoursePlan" => $coursePlan->id]);
             Log::model()->saveAction("courseplan", $id, $logSituation, $coursePlan->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
             $this->redirect(array('index'));
