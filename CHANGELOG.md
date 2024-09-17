@@ -1,3 +1,7 @@
+## [Versão 3.85.189]
+- Cosertada frequência no módulo de diário de classe para professores
+- Consertado multiselect de plano de aula no módulo de diario de classe para professores
+
 ## [Versão 3.85.187]
 - Permitindo a adição de habilidades de disciplinas diferentes em planos de aula para etapas de fundamental menor
 
