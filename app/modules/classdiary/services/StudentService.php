@@ -46,7 +46,7 @@ class StudentService
                     ];
                     array_push($students, $array);
                 }
-                return ["valid" => true, "students" => $students];
+                return ["valid" => true, "students" => $students, "isMinorEducation" => true];
             } else if($enrollments != null && !$is_minor_schooling) {
                 $students = array();
                 foreach ($enrollments as $enrollment) {
@@ -69,7 +69,7 @@ class StudentService
                     array_push($students, $array);
 
                 }
-                return ["valid" => true, "students" => $students];
+                return ["valid" => true, "students" => $students, "isMinorEducation" => false];
             }
             else if($enrollments == null) {
                 return  ["valid" => false, "error" => "Matricule alunos nesta turma para trazer o quadro de frequência."];
