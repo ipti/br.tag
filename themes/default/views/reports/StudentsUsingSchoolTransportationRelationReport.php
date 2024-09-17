@@ -6,7 +6,6 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentsUsingSchoolTransportationRelationReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
@@ -67,25 +66,25 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
                         if ($s['vehicle_type_van'] == 1) {
                             $transportes .= "Rodovi&aacute;rio - Van/Kombi";
-                        } else if ($s['vehicle_type_microbus'] == 1) {
+                        } elseif ($s['vehicle_type_microbus'] == 1) {
                             $transportes .= "Rodovi&aacute;rio - Micro&ocirc;nibus";
-                        } else if ($s['vehicle_type_bus'] == 1 || $s['public_transport'] == 1) {
+                        } elseif ($s['vehicle_type_bus'] == 1 || $s['public_transport'] == 1) {
                             $transportes .= "Rodovi&aacute;rio - &Ocirc;nibus";
-                        } else if ($s['vehicle_type_bike'] == 1) {
+                        } elseif ($s['vehicle_type_bike'] == 1) {
                             $transportes .= "Rodovi&aacute;rio - Bicicleta";
-                        } else if ($s['vehicle_type_animal_vehicle'] == 1) {
+                        } elseif ($s['vehicle_type_animal_vehicle'] == 1) {
                             $transportes .= "Rodovi&aacute;rio - Tra&ccedil;&atilde;o Animal";
-                        } else if ($s['vehicle_type_other_vehicle'] == 1) {
+                        } elseif ($s['vehicle_type_other_vehicle'] == 1) {
                             $transportes .= "Rodovi&aacute;rio - Outro ";
-                        } else if ($s['vehicle_type_waterway_boat_5'] == 1) {
+                        } elseif ($s['vehicle_type_waterway_boat_5'] == 1) {
                             $transportes .= "Embarca&ccedil;&atilde;o - Capacidade de at&eacute; 5 Alunos";
-                        } else if ($s['vehicle_type_waterway_boat_5_15'] == 1) {
+                        } elseif ($s['vehicle_type_waterway_boat_5_15'] == 1) {
                             $transportes .= "Embarca&ccedil;&atilde;o - Capacidade de 5 at&eacute; 15 Alunos";
-                        } else if ($s['vehicle_type_waterway_boat_15_35'] == 1) {
+                        } elseif ($s['vehicle_type_waterway_boat_15_35'] == 1) {
                             $transportes .= "Embarca&ccedil;&atilde;o - Capacidade de 15 at&eacute; 35 Alunos";
-                        } else if ($s['vehicle_type_waterway_boat_35'] == 1) {
+                        } elseif ($s['vehicle_type_waterway_boat_35'] == 1) {
                             $transportes .= "Embarca&ccedil;&atilde;o - Capacidade de at&eacute; 35 Alunos";
-                        } else if ($s['vehicle_type_metro_or_train'] == 1) {
+                        } elseif ($s['vehicle_type_metro_or_train'] == 1) {
                             $transportes .= "Metr&ocirc;/Trem";
                         } else {
                             $transportes .= "N&atilde;o foi Informado";
