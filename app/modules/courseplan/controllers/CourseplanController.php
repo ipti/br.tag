@@ -323,6 +323,7 @@ class CourseplanController extends Controller
             }
             $transaction->commit();
             header('HTTP/1.1 200 OK');
+            TLog::info("Plano de Aula salvo com sucesso.", ["CoursePlan" => $coursePlan->id]);
             Log::model()->saveAction("courseplan", $id, $logSituation, $coursePlan->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
             $this->redirect(array('index'));
