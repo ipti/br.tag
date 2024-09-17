@@ -267,9 +267,14 @@ $("#print").on('click', function () {
 });
 
 $("#save").on('click', function () {
+    $("#js-submit-div").addClass("hide");
+    $("#js-loading-div").removeClass("hide");
     var submit = validateSave();
     if (submit) {
         $("#course-plan-form").submit();
+    } else {
+        $("#js-submit-div").removeClass("hide");
+        $("#js-loading-div").addClass("hide");
     }
 });
 

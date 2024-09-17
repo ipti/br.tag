@@ -28,14 +28,29 @@ class CourseplanController extends Controller
     public function accessRules()
     {
         return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'index', 'deletePlan',
-                    'getDisciplines', 'save', 'getCourseClasses', 'getAbilitiesInitialStructure',
-                    'getAbilitiesNextStructure', 'addResources', 'getResources', 'pendingPlans',
-                    'validatePlan', 'enableCoursePlanEdition', 'checkResourceExists'),
+            array(
+                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array(
+                    'create',
+                    'update',
+                    'index',
+                    'deletePlan',
+                    'getDisciplines',
+                    'save',
+                    'getCourseClasses',
+                    'getAbilitiesInitialStructure',
+                    'getAbilitiesNextStructure',
+                    'addResources',
+                    'getResources',
+                    'pendingPlans',
+                    'validatePlan',
+                    'enableCoursePlanEdition',
+                    'checkResourceExists'
+                ),
                 'users' => array('*'),
             ),
-            array('deny', // deny all users
+            array(
+                'deny', // deny all users
                 'users' => array('*'),
             ),
         );
@@ -51,7 +66,7 @@ class CourseplanController extends Controller
         if (isset($_POST['CoursePlan'])) {
             $this->actionSave();
         } else {
-            $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
+            $resources = CourseClassResources::model()->findAll(array('order' => 'name'));
             $this->render('create', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
@@ -68,14 +83,12 @@ class CourseplanController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (isset($_POST['CoursePlan']))
-        {
+        if (isset($_POST['CoursePlan'])) {
             $this->actionSave($id);
         }
-        if (!isset($_POST['CoursePlan']))
-        {
+        if (!isset($_POST['CoursePlan'])) {
             $coursePlan = $this->loadModel($id);
-            $resources = CourseClassResources::model()->findAll(array('order'=>'name'));
+            $resources = CourseClassResources::model()->findAll(array('order' => 'name'));
 
             $this->render('update', array(
                 'coursePlan' => $coursePlan,
@@ -136,7 +149,7 @@ class CourseplanController extends Controller
     public function actionGetDisciplines()
     {
         $result = [];
-        $isMinorEducation = TagUtils::isStageMinorEducation($_POST["stage"]);
+        $isMinorEducation = TagUtils::isStageChildishEducation($_POST["stage"]);
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
@@ -145,7 +158,8 @@ class CourseplanController extends Controller
                 join instructor_identification ii on ii.id = itd.instructor_fk
                 join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
-                where ii.users_fk = :userid and cm.stage_fk = :stage_fk and school_year = :year order by ed.name")
+                where ii.users_fk = :userid and cm.stage_fk = :stage_fk and school_year = :year order by ed.name"
+            )
                 ->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":stage_fk", $_POST["stage"])->bindParam(":year", Yii::app()->user->year)->queryAll();
             foreach ($disciplines as $discipline) {
                 array_push($result, ["id" => $discipline['id'], "name" => CHtml::encode($disciplinesLabels[$discipline['id']]), "isMinorEducation" => $isMinorEducation]);
@@ -180,7 +194,7 @@ class CourseplanController extends Controller
 
         $result = [];
         $result["options"] = [];
-        foreach($abilities as $i => $ability) {
+        foreach ($abilities as $i => $ability) {
             if ($i == 0) {
                 $result["selectTitle"] = $ability["type"];
             }
@@ -196,7 +210,7 @@ class CourseplanController extends Controller
         $abilities = CourseClassAbilities::model()->findAll("parent_fk = :parent_fk", [":parent_fk" => $parentId]);
         $result = [];
         $result["options"] = [];
-        foreach($abilities as $i => $ability) {
+        foreach ($abilities as $i => $ability) {
             if ($i == 0) {
                 $result["selectTitle"] = $ability["type"];
             }
@@ -292,18 +306,19 @@ class CourseplanController extends Controller
         $this->redirect(array('index'));
     }
 
-    public function actionAddResources(){
+    public function actionAddResources()
+    {
         $transaction = Yii::app()->db->beginTransaction();
-        try{
+        try {
             $resources = Yii::app()->request->getPost('resources');
-            foreach($resources as $resource){
+            foreach ($resources as $resource) {
                 $newResource = new CourseClassResources();
                 $newResource->name = $resource;
                 $newResource->save();
             }
             $transaction->commit();
             header('HTTP/1.1 200 OK');
-        }catch(Exception $e){
+        } catch (Exception $e) {
             $transaction->rollback();
             throw new CHttpException(500, $e->getMessage());
         }
@@ -312,16 +327,16 @@ class CourseplanController extends Controller
     public static function dataConverter($data, $case)
     {
         // Caso 0: converte dd/mm/yyyy para yyyy-mm-dd
-        if($case == 0){
+        if ($case == 0) {
             $dataObj = date_create_from_format('d/m/Y', $data);
-            if(!$dataObj == false)
+            if (!$dataObj == false)
                 return date_format($dataObj, 'Y-m-d');
         }
 
         // Caso 1: converte yyyy-mm-dd para dd/mm/yyyy
-        if($case == 1){
+        if ($case == 1) {
             $dataObj = date_create_from_format('Y-m-d G:i:s', $data);
-            if(!$dataObj == false)
+            if (!$dataObj == false)
                 return date_format($dataObj, 'd/m/Y');
         }
 
@@ -336,8 +351,13 @@ class CourseplanController extends Controller
         foreach ($resources as $value => $name) {
             array_push(
                 $options,
-                CHtml::tag('option', ['value' => $value],
-                    CHtml::encode($name), true));
+                CHtml::tag(
+                    'option',
+                    ['value' => $value],
+                    CHtml::encode($name),
+                    true
+                )
+            );
         }
         echo CJSON::encode($options);
     }
@@ -375,16 +395,16 @@ class CourseplanController extends Controller
         $stageRequest = Yii::app()->request->getPost('stage');
         $disciplineRequest = Yii::app()->request->getPost('discipline');
 
-        if(isset($disciplineRequest))
-        {
-            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
-            {
+        TLog::info("Listagem de plano de aula");
+
+        if (isset($disciplineRequest)) {
+            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
                     'criteria' => array(
                         'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id .
-                        ' AND school_inep_fk=' . Yii::app()->user->school.
-                        ' AND modality_fk='. $stageRequest .
-                        ' AND discipline_fk=' . $disciplineRequest,
+                            ' AND school_inep_fk=' . Yii::app()->user->school .
+                            ' AND modality_fk=' . $stageRequest .
+                            ' AND discipline_fk=' . $disciplineRequest,
                     ),
                     'pagination' => false
                 ));
@@ -394,8 +414,8 @@ class CourseplanController extends Controller
                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
                     'criteria' => array(
                         'condition' => 'school_inep_fk=' . Yii::app()->user->school .
-                        ' AND modality_fk='. $stageRequest .
-                        ' AND discipline_fk=' . $disciplineRequest,
+                            ' AND modality_fk=' . $stageRequest .
+                            ' AND discipline_fk=' . $disciplineRequest,
                     ),
                     'pagination' => false
                 ));
@@ -459,15 +479,13 @@ class CourseplanController extends Controller
         $requestApproval = Yii::app()->request->getPost("approval_field");
         $requestObservation = Yii::app()->request->getPost("observation");
         $coursePlan = $this->loadModel($id);
-        if(!isset($requestApproval))
-        {
+        if (!isset($requestApproval)) {
             $this->render('formValidate', array(
                 'coursePlan' => $coursePlan,
                 'stages' => $this->getStages(),
             ));
         }
-        if(isset($requestApproval))
-        {
+        if (isset($requestApproval)) {
             if ($requestApproval == "true") {
                 $coursePlan->situation = 'APROVADO';
             }
@@ -485,10 +503,11 @@ class CourseplanController extends Controller
         $this->redirect(array('index'));
     }
 
-    public function actionCheckResourceExists(){
+    public function actionCheckResourceExists()
+    {
         $resource = Yii::app()->request->getPost('resource');
         $existingResources = CourseClassResources::model()->findAllByAttributes(array('name' => $resource));
-        if($existingResources == NULL){
+        if ($existingResources == NULL) {
             echo json_encode(["valid" => true]);
             Yii::app()->end();
         }
@@ -504,8 +523,9 @@ class CourseplanController extends Controller
      * @throws CHttpException
      */
     public
-    function loadModel($id)
-    {
+        function loadModel(
+        $id
+    ) {
         $model = CoursePlan::model()->findByPk($id);
         if ($model === null)
             throw new CHttpException(404, 'The requested page does not exist.');
@@ -517,8 +537,9 @@ class CourseplanController extends Controller
      * @param CoursePlan $model the model to be validated
      */
     protected
-    function performAjaxValidation($model)
-    {
+        function performAjaxValidation(
+        $model
+    ) {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'course-plan-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();

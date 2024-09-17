@@ -19,7 +19,7 @@ function validateSave() {
     } else {
         removeError(stage);
     }
-    if ($(disciplines).val() === "" && $(minorEducationDisciplines).val() === "" && urlId == null) {
+    if ($(disciplines).val() === "" && isStageChildishEducation($(stage).val()) == false) {
         submit = false;
         addError(disciplines, "Campo obrigatório.");
     } else {
@@ -75,3 +75,8 @@ $('#courseplan_start_date').focusout(function () {
         removeError(id);
     }
 });
+
+function isStageChildishEducation(stage) {
+    const refMinorStages = ['1', '2', '3'];
+    return refMinorStages.includes(stage);
+}

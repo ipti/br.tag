@@ -86,6 +86,7 @@ class AdminController extends Controller
             if (si.birthday is null, '', si.birthday) data_nascimento,
             if (sdaa.cpf is null, '', sdaa.cpf) cpf,
             if (si.sex is null, '', si.sex) sexo,
+            if (si.color_race is null, '', si.color_race) cor_raca,
             if (concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement) is null
                 or trim(concat(sdaa.address, \", \", sdaa.`number`, \", \", sdaa.complement)) = ', , ',
                 '',
@@ -112,6 +113,30 @@ class AdminController extends Controller
         and c.school_year = " . Yii::app()->user->year;
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
+
+        foreach($result as &$r) {
+            switch($r["cor_raca"]) {
+                case "0":
+                default:
+                    $r["cor_raca"] = "Não declarada";
+                    break;
+                case "1":
+                    $r["cor_raca"] = "Branca";
+                    break;
+                case "2":
+                    $r["cor_raca"] = "Preta";
+                    break;
+                case "3":
+                    $r["cor_raca"] = "Parda";
+                    break;
+                case "4":
+                    $r["cor_raca"] = "Amarela";
+                    break;
+                case "5":
+                    $r["cor_raca"] = "Indígena";
+                    break;
+            }
+        }
 
         $this->exportToCSV($result, $pathFile);
     }
@@ -532,7 +557,7 @@ class AdminController extends Controller
 
             if ($hasFinalRecovery === true) {
 
-                $recoveryUnity = GradeUnity::model()->find($finalRecovery["id"]);
+                $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
 
                 if ($finalRecovery["operation"] === "delete") {
                     $recoveryUnity->delete();

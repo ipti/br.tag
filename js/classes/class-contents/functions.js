@@ -1,4 +1,5 @@
 function createTable(data) {
+    let urlIsValidate = window.location.href.includes("validateClassContents");
     var monthSplit = $("#month").val().split("-");
     $("#class-contents")
         .attr("classroom", $("#classroom").val())
@@ -38,7 +39,7 @@ function createTable(data) {
                                 </h4>
                             </div>
                             <div class='ui-accordion-content js-std-classroom-diaries'>
-                                <textarea class='t-field-tarea__input js-student-classroom-diary' studentid='${this.id}' style='resize: vertical;height: 37px;'></textarea>
+                                <textarea ${urlIsValidate ? 'readonly' : ''} class='t-field-tarea__input js-student-classroom-diary' studentid='${this.id}' style='resize: vertical;height: 37px;'></textarea>
                             </div>`
                     }
                 });
@@ -58,7 +59,7 @@ function createTable(data) {
             + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
             + studentInputs
             + '<span class="t-icon-annotation t-icon classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>'
-            + '<select id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
+            + '<select ' + (urlIsValidate ? 'disabled' : '') +' id="day[' + day + ']" name="day[' + day + '][]" class=" course-classes-select vmiddle" ' + (!classContent.available ? "disabled" : "") + ' multiple="yes">'
             + options
             + '</select>'
             + '</td>';
