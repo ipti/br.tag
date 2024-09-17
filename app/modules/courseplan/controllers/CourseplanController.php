@@ -234,7 +234,7 @@ class CourseplanController extends Controller
     {
         $request = Yii::app()->request->getPost("CoursePlan");
         $transaction = Yii::app()->db->beginTransaction();
-        try{
+        try {
             if ($id !== null) {
                 $coursePlan = CoursePlan::model()->findByPk($id);
                 $logSituation = "U";
@@ -248,8 +248,8 @@ class CourseplanController extends Controller
             $request["start_date"] = $startTimestamp;
             $coursePlan->attributes = $request;
             $coursePlan->situation = 'PENDENTE';
-            if($coursePlan->save()){
-                TLog::info("Plano de aula salvo com sucesso", ['CoursePlanId' => $coursePlan->id, "CoursePlanName" => $coursePlan->name]);
+            if ($coursePlan->save()) {
+                TLog::info("Plano de aula salvo com sucesso", ['CoursePlanId' => $coursePlan->id]);
             }
             $errors = $coursePlan->getErrors();
             $courseClassIds = [];
@@ -264,7 +264,7 @@ class CourseplanController extends Controller
                 $courseClass->order = $i++;
                 $courseClass->content = $cc['content'];
                 $courseClass->methodology = $cc['methodology'];
-                if($courseClass->save()){
+                if ($courseClass->save()) {
                     TLog::info("Aula salva com sucesso", ['CourseClassId' => $courseClass->id, 'CoursePlanId' => $coursePlan->id]);
                 }
 
@@ -277,7 +277,7 @@ class CourseplanController extends Controller
                         $courseClassHasClassAbility = new CourseClassHasClassAbility();
                         $courseClassHasClassAbility->course_class_fk = $courseClass->id;
                         $courseClassHasClassAbility->course_class_ability_fk = $abilityId;
-                        if($courseClassHasClassAbility->save()){
+                        if ($courseClassHasClassAbility->save()) {
                             TLog::info("CourseClassHasClassAbility salvo com sucesso", ['CourseClassId' => $courseClass->id]);
                         }
                         $coursePlanVsAbility = new CoursePlanDisciplineVsAbilities();
@@ -286,7 +286,7 @@ class CourseplanController extends Controller
                         $coursePlanVsAbility->discipline_fk = $abilitieData->edcenso_discipline_fk;
                         $coursePlanVsAbility->course_class_fk = $courseClass->id;
                         $coursePlanVsAbility->ability_fk = $abilityId;
-                        if($coursePlanVsAbility->save()){
+                        if ($coursePlanVsAbility->save()) {
                             TLog::info("CoursePlanDisciplineVsAbilites salvo com sucesso", ['CourseClassId' => $courseClass->id]);
                         }
                     }
@@ -302,7 +302,7 @@ class CourseplanController extends Controller
                             $courseClassHasClassResource->course_class_resource_fk = $r["value"];
                         }
                         $courseClassHasClassResource->amount = $r["amount"];
-                        if($courseClassHasClassResource->save())
+                        if ($courseClassHasClassResource->save())
                             TLog::info("CourseClassHasClassResource salvo com sucesso", ['CourseClassId' => $courseClass->id]);
                         array_push($idsArray, $courseClassHasClassResource->id);
                     }
@@ -326,7 +326,7 @@ class CourseplanController extends Controller
             Log::model()->saveAction("courseplan", $id, $logSituation, $coursePlan->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
             $this->redirect(array('index'));
-        }catch(Exception $e){
+        } catch (Exception $e) {
             TLog::error('Ocorreu um erro durante a transação de salvar um plano de aula', $e);
             $transaction->rollback();
             throw new Exception($e->getMessage(), 500, $e);
@@ -396,6 +396,7 @@ class CourseplanController extends Controller
     public function actionDeletePlan($id)
     {
         $coursePlan = $this->loadModel($id);
+        TLog::info("Inicia o processo de exclusão do plano de aula");
         $isUsed = false;
         foreach ($coursePlan->courseClasses as $courseClass) {
             if (!empty($courseClass->classContents)) {
@@ -404,10 +405,21 @@ class CourseplanController extends Controller
             }
         }
         if (!$isUsed) {
-            $coursePlan->delete();
+            TLog::info("Plano de aula não está sendo utilizado", ["id" => $id]);
+            $transaction = Yii::app()->db->beginTransaction();
+            try {
+                $coursePlan->delete();
+                $transaction->commit();
+            } catch (Exception $e) {
+                TLog::error("Error ao excluir plano de aula", ["id" => $id, "error" => $e->getMessage()]);
+                $transaction->rollback();
+                throw new Exception($e->getMessage(), 500, $e);
+            }
+
             Log::model()->saveAction("courseplan", $id, "D", $coursePlan->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de aula excluído com sucesso!'));
         } else {
+            TLog::info("Plano de aula está sendo utilizado", ["id" => $id]);
             Yii::app()->user->setFlash('error', Yii::t('default', 'Não se pode remover um plano de aula utilizado em alguma turma.'));
         }
         $this->redirect(array('index'));
@@ -437,8 +449,7 @@ class CourseplanController extends Controller
                 ));
                 TLog::info("Listagem de planos de aula para acesso de professor com filtro de disciplina", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
             }
-            if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
-            {
+            if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
                     'criteria' => array(
                         'condition' => 'school_inep_fk=' . Yii::app()->user->school .
@@ -455,26 +466,23 @@ class CourseplanController extends Controller
             Yii::app()->end();
         }
 
-        if(isset($stageRequest))
-        {
-            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
-            {
+        if (isset($stageRequest)) {
+            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
                     'criteria' => array(
                         'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id .
-                        ' AND school_inep_fk=' . Yii::app()->user->school.
-                        ' AND modality_fk='. $stageRequest,
+                            ' AND school_inep_fk=' . Yii::app()->user->school .
+                            ' AND modality_fk=' . $stageRequest,
                     ),
                     'pagination' => false
                 ));
                 TLog::info("Listagem de planos de aula para acesso de professor com filtro de etapa", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
             }
-            if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
-            {
+            if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
                     'criteria' => array(
                         'condition' => 'school_inep_fk=' . Yii::app()->user->school .
-                        ' AND modality_fk='. $stageRequest ,
+                            ' AND modality_fk=' . $stageRequest,
                     ),
                     'pagination' => false
                 ));
@@ -530,11 +538,18 @@ class CourseplanController extends Controller
 
     public function actionEnableCoursePlanEdition($id)
     {
+        TLog::info("Liberando plano de aula para edição");
         $coursePlan = $this->loadModel($id);
         $coursePlan->situation = 'PENDENTE';
-        $coursePlan->save();
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso Liberado para Edição!'));
-        $this->redirect(array('index'));
+        try {
+            $coursePlan->save();
+            TLog::info("Plano de aula liberado para edição", ["id" => $id]);
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso Liberado para Edição!'));
+            $this->redirect(array('index'));
+        } catch (Exception $e) {
+            TLog::error("Error ao liberar plano de aula para edição", ["id" => $id, "error" => $e->getMessage()]);
+            throw new Exception($e->getMessage(), 500, $e);
+        }
     }
 
     public function actionCheckResourceExists()
@@ -557,7 +572,7 @@ class CourseplanController extends Controller
      * @throws CHttpException
      */
     public
-        function loadModel(
+    function loadModel(
         $id
     ) {
         $model = CoursePlan::model()->findByPk($id);
@@ -571,7 +586,7 @@ class CourseplanController extends Controller
      * @param CoursePlan $model the model to be validated
      */
     protected
-        function performAjaxValidation(
+    function performAjaxValidation(
         $model
     ) {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'course-plan-form') {
@@ -579,5 +594,4 @@ class CourseplanController extends Controller
             Yii::app()->end();
         }
     }
-
 }
