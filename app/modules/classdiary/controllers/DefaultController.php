@@ -137,8 +137,7 @@ class DefaultController extends Controller
 	{
 		$getFrequency = new GetFrequency();
 		$frequency = $getFrequency->exec($classroom_fk, $stage_fk, $discipline_fk, $date);
-
-			$this->renderPartial('_frequencyElementMobile', ["frequency" => $frequency, "date"=> $date,  "discipline_fk" => $discipline_fk, "stage_fk" => $stage_fk, "classroom_fk" => $classroom_fk]);
+        $this->renderPartial('_frequencyElementMobile', ["frequency" => $frequency, "date"=> $date,  "discipline_fk" => $discipline_fk, "stage_fk" => $stage_fk, "classroom_fk" => $classroom_fk]);
 	}
 	public function actionRenderFrequencyElementDesktop($classroom_fk, $stage_fk, $discipline_fk, $date)
 	{
@@ -159,7 +158,7 @@ class DefaultController extends Controller
 		$student = $getStudent->exec($student_id);
 
 		$getStudentFault = new GetStudentFault();
-		$studentFault = $getStudentFault->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id) != null;
+		$studentFault = $getStudentFault->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id, $schedule) != null;
 
 		$getStudentDiary = new GetStudentDiary();
 		$student_observation = $getStudentDiary->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id);
