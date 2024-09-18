@@ -18,43 +18,51 @@ class CalculateFinalMediaUsecase
 
     public function exec()
     {
-        $grades = [];
-        if($this->gradeRule->gradeCalculationFk->name == 'Média Semestral') {
-            $semRecPartial1 = is_numeric($this->gradesResult["sem_rec_partial_1"]) ? $this->gradesResult["sem_rec_partial_1"] : 0;
-            $semRecPartial2 = is_numeric($this->gradesResult["sem_rec_partial_2"]) ? $this->gradesResult["sem_rec_partial_2"] : 0;
-
-            $gradesSemAvarage1 =  max($this->gradesResult["sem_avarage_1"], $semRecPartial1);
-            $gradesSemAvarage2 =  max($this->gradesResult["sem_avarage_2"], $semRecPartial2);
-
-            $grades = [$gradesSemAvarage1, $gradesSemAvarage2];
-            $calculation = GradeCalculation::model()->findByAttributes(["name"=>"Média"]);
-            $finalMedia = $this->applyCalculation($calculation, $grades);
-        } else {
-            $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
-            $finalMedia = $this->applyCalculation($this->gradeRule->gradeCalculationFk, $grades);
-        }
-
-        if ($this->shouldApplyFinalRecovery($this->gradeRule, $finalMedia)) {
-            $gradesFinalRecovery = [];
-
-            if ($this->gradeRule->gradeCalculationFk->name == 'Média Semestral') {
-                // Verifica se os valores são números antes de comparar
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $grades = [];
+            if($this->gradeRule->gradeCalculationFk->name == 'Média Semestral') {
                 $semRecPartial1 = is_numeric($this->gradesResult["sem_rec_partial_1"]) ? $this->gradesResult["sem_rec_partial_1"] : 0;
                 $semRecPartial2 = is_numeric($this->gradesResult["sem_rec_partial_2"]) ? $this->gradesResult["sem_rec_partial_2"] : 0;
 
                 $gradesSemAvarage1 =  max($this->gradesResult["sem_avarage_1"], $semRecPartial1);
                 $gradesSemAvarage2 =  max($this->gradesResult["sem_avarage_2"], $semRecPartial2);
 
-                $gradesFinalRecovery = [$gradesSemAvarage1, $gradesSemAvarage2];
+                $grades = [$gradesSemAvarage1, $gradesSemAvarage2];
+                $calculation = GradeCalculation::model()->findByAttributes(["name"=>"Média"]);
+                $finalMedia = $this->applyCalculation($calculation, $grades);
             } else {
-                $gradesFinalRecovery[] = $finalMedia;
+                $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
+                $finalMedia = $this->applyCalculation($this->gradeRule->gradeCalculationFk, $grades);
             }
 
-            $finalMedia = $this->applyFinalRecovery($this->gradesResult, $gradesFinalRecovery);
+            if ($this->shouldApplyFinalRecovery($this->gradeRule, $finalMedia)) {
+                $gradesFinalRecovery = [];
+
+                if ($this->gradeRule->gradeCalculationFk->name == 'Média Semestral') {
+                    // Verifica se os valores são números antes de comparar
+                    $semRecPartial1 = is_numeric($this->gradesResult["sem_rec_partial_1"]) ? $this->gradesResult["sem_rec_partial_1"] : 0;
+                    $semRecPartial2 = is_numeric($this->gradesResult["sem_rec_partial_2"]) ? $this->gradesResult["sem_rec_partial_2"] : 0;
+
+                    $gradesSemAvarage1 =  max($this->gradesResult["sem_avarage_1"], $semRecPartial1);
+                    $gradesSemAvarage2 =  max($this->gradesResult["sem_avarage_2"], $semRecPartial2);
+
+                    $gradesFinalRecovery = [$gradesSemAvarage1, $gradesSemAvarage2];
+                } else {
+                    $gradesFinalRecovery[] = $finalMedia;
+                }
+
+                $finalMedia = $this->applyFinalRecovery($this->gradesResult, $gradesFinalRecovery);
+            }
+            TLog::info("Média final calculada", ["finalMedia"=>$finalMedia]);
+
+            $this->saveFinalMedia($this->gradesResult, $finalMedia);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            TLog::error("Erro ao salvar média final", ["Exception"=>$e]);
         }
 
-
-        $this->saveFinalMedia($this->gradesResult, $finalMedia);
     }
 
     private function saveFinalMedia($gradesResult, $finalMedia)

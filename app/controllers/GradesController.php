@@ -478,40 +478,59 @@ class GradesController extends Controller
         $classroomId = Yii::app()->request->getPost("classroom");
         $isConcept = Yii::app()->request->getPost("isConcept");
 
-        foreach ($students as $student) {
-            foreach ($student["grades"] as $grade) {
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            foreach ($students as $student) {
+                foreach ($student["grades"] as $grade) {
 
-                $gradeObject = Grade::model()->findByPk($grade["id"]);
+                    $gradeObject = Grade::model()->findByPk($grade["id"]);
 
-                if ($gradeObject == null) {
-                    $gradeObject = new Grade();
-                    $gradeObject->enrollment_fk = $student["enrollmentId"];
-                    $gradeObject->discipline_fk = $disciplineId;
-                    $gradeObject->grade_unity_modality_fk = $grade["modalityId"];
+                    if ($gradeObject == null) {
+                        $gradeObject = new Grade();
+                        $gradeObject->enrollment_fk = $student["enrollmentId"];
+                        $gradeObject->discipline_fk = $disciplineId;
+                        $gradeObject->grade_unity_modality_fk = $grade["modalityId"];
+                    }
+                    if (!$isConcept) {
+                        TLog::info("Modo Grades notas selecionado.", array("IsConcept" => $isConcept));
+                        $gradeObject->grade = isset($grade["value"]) && $grade["value"] !== "" ? $grade["value"] : 0;
+                    } else {
+                        TLog::info("Modo Grades conceito selecionado.", array("IsConcept" => $isConcept));
+                        $gradeObject->grade_concept_fk = $grade["concept"];
+                    }
+                    if($gradeObject->save()){
+                        TLog::info("GradeObject salva com sucesso.", array(
+                            "GradeObject" => $gradeObject->id
+                        ));
+                    }
+
                 }
-                if (!$isConcept) {
-                    $gradeObject->grade = isset($grade["value"]) && $grade["value"] !== "" ? $grade["value"] : 0;
-                } else {
-                    $gradeObject->grade_concept_fk = $grade["concept"];
-                }
-                $gradeObject->save();
+                foreach($student["partialRecoveriesGrades"] as $gradePartialRecovery) {
+                    $gradeObject = Grade::model()->findByPk($gradePartialRecovery["id"]);
 
+                    if ($gradeObject == null) {
+                        $gradeObject = new Grade();
+                        $gradeObject->enrollment_fk = $student["enrollmentId"];
+                        $gradeObject->discipline_fk = $disciplineId;
+                    }
+                    $gradeObject->grade = isset($gradePartialRecovery["value"]) && $gradePartialRecovery["value"] !== "" ? $gradePartialRecovery["value"] : null;
+                    if ($gradeObject->save()) {
+                        TLog::info("GradeObject de PartialRecovery salva com sucesso.", array(
+                            "GradeObject" => $gradeObject->id
+                        ));
+                    }
+                }
             }
-            foreach($student["partialRecoveriesGrades"] as $gradePartialRecovery) {
-                $gradeObject = Grade::model()->findByPk($gradePartialRecovery["id"]);
-
-                if ($gradeObject == null) {
-                    $gradeObject = new Grade();
-                    $gradeObject->enrollment_fk = $student["enrollmentId"];
-                    $gradeObject->discipline_fk = $disciplineId;
-                }
-                $gradeObject->grade = isset($gradePartialRecovery["value"]) && $gradePartialRecovery["value"] !== "" ? $gradePartialRecovery["value"] : null;
-                $gradeObject->save();
-            }
+            self::saveGradeResults($classroomId, $disciplineId);
+            $transaction->commit();
+            header('HTTP/1.1 200 OK');
+            echo json_encode(["valid" => true]);
+        }catch(Exception $e){
+            TLog::error("Ocorreu algum erro durante a transação de SaveGrades");
+            $transaction->rollback();
+            throw new Exception($e->getMessage(), 500, $e);
         }
 
-        self::saveGradeResults($classroomId, $disciplineId);
-        echo json_encode(["valid" => true]);
 
     }
 
@@ -546,11 +565,14 @@ class GradesController extends Controller
             "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
         ]);
 
+        TLog::info("Começado processo de calcular média final.", ["Classroom" => $classroom->id, "GradeRules" => $gradeRules->id]);
 
         foreach ($classroom->activeStudentEnrollments as $enrollment) {
             $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);
             $gradesStudent = $gradeUnities->exec();
             $countUnities = $gradeUnities->execCount();
+
+            TLog::info("Unidades por disciplina", ["GradeUnities" => CHtml::listData($gradesStudent, 'id', 'id')]);
 
             $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
             (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
@@ -563,10 +585,18 @@ class GradesController extends Controller
 
     public static function saveGradeResults($classroomId, $disciplineId)
     {
+        TLog::info("Executando: SaveGradeResults.", array(
+            "Classroom" => $classroomId,
+            "Discipline" => $disciplineId
+        ));
         $usecase = new CalculateGradeResultsUsecase(
             $classroomId,
             $disciplineId
         );
         $usecase->exec();
+        TLog::info("Finalizado: SaveGradeResults.", array(
+            "Classroom" => $classroomId,
+            "Discipline" => $disciplineId
+        ));
     }
 }
