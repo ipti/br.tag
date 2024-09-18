@@ -1,3 +1,6 @@
+## [Versão 3.85.190]
+- Cosertada frequência no módulo de diário de classe para professores
+- Consertado multiselect de plano de aula no módulo de diario de classe para professores
 
 ## [Versão 3.86.188]
 - Criando a tela de validar aulas ministradas, permitindo somente a visualização das aulas
