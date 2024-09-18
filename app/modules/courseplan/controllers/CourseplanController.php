@@ -445,16 +445,16 @@ class CourseplanController extends Controller
                         ' AND school_inep_fk=' . Yii::app()->user->school .
                         ' AND modality_fk=' . $stageRequest .
                         ' AND discipline_fk=' . $disciplineRequest,
-                    ];
-                    TLog::info("Listagem de planos de aula para acesso de professor com filtro de disciplina", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
-                }
-                if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                    $criteria->condition = array(
-                        'condition' => 'school_inep_fk=' . Yii::app()->user->school .
+                ];
+                TLog::info("Listagem de planos de aula para acesso de professor com filtro de disciplina", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
+            }
+            if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+                $criteria->condition = array(
+                    'condition' => 'school_inep_fk=' . Yii::app()->user->school .
                         ' AND modality_fk=' . $stageRequest .
                         ' AND discipline_fk=' . $disciplineRequest
-                    );
-                    TLog::info("Listagem de planos de aula para acesso de administrador com filtro de disciplina");
+                );
+                TLog::info("Listagem de planos de aula para acesso de administrador com filtro de disciplina");
             }
 
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
@@ -574,7 +574,8 @@ class CourseplanController extends Controller
      * @throws CHttpException
      */
     public
-    function loadModel(
+
+        function loadModel(
         $id
     ) {
         $model = CoursePlan::model()->findByPk($id);
@@ -587,10 +588,8 @@ class CourseplanController extends Controller
      * Performs the AJAX validation.
      * @param CoursePlan $model the model to be validated
      */
-    protected
-    function performAjaxValidation(
-        $model
-    ) {
+    protected function performAjaxValidation($model)
+    {
         if (isset($_POST['ajax']) && $_POST['ajax'] === 'course-plan-form') {
             echo CActiveForm::validate($model);
             Yii::app()->end();
