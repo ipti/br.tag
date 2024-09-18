@@ -78,6 +78,14 @@ class FormsController extends Controller {
         $this->render('EnrollmentDeclarationReport', $query);
     }
 
+    public function actionConclusionCertification($enrollment_id)
+    {
+        $this->layout = "reports";
+        $repository = new FormsRepository;
+        $query = $repository->getConclusionCertification($enrollment_id);
+        $this->render('ConclusionCertification', $query);
+    }
+
     public function actionGetEnrollmentDeclarationInformation($enrollment_id)
     {
         $repository = new FormsRepository;

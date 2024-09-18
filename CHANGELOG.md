@@ -1,3 +1,7 @@
+## [Versão 3.87.191]
+- Inserido as abas de base nacional comum e parte diversificadora no relatório de ata de notas da turma
+- Inserido certificado de conclusão do aluno
+
 ## [Versão 3.86.191]
 - Adicionando restrição para que coordenadores pedagogicos e gestores escolares não consigam modificar planos de aula
 
