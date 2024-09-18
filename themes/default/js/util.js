@@ -199,7 +199,7 @@ const buscar = (dados, chave, conteudo) => {
     return Object.values(item).indexOf(conteudo) !== -1 ? item : null;
 };
 
-function validateNamePerson(personName, handler) {
+function validateNamePerson(personName, callback) {
     var complete_name = personName.split(' ');
     var passExp = true;
     var passSimilarName = [];
@@ -235,7 +235,7 @@ function validateNamePerson(personName, handler) {
                 ret[0] = true;
                 ret[1] = "Cadastro(s) similar(es) encontrado(s), verifique com atenção os dados. Clique para exibir registros";
                 ret[2] = `<p style="display: none;" id="registrosSimilares">${formatSimilares}</p>`
-                handler(ret);
+                callback(ret);
                 return
             }
             if (isset(complete_name[1])) {
@@ -252,20 +252,20 @@ function validateNamePerson(personName, handler) {
                     if (until4 > 4) {
                         ret[0] = false;
                         ret[1] = "O nome não deve possuir a mesma letra 4 vezes seguidas.";
-                        handler(ret);
+                        callback(ret);
                         return;
                     }
                 }
             } else {
                 ret[0] = false;
                 ret[1] = "Nome sem sobrenome.";
-                handler(ret);
+                callback(ret);
                 return;
             }
         } else {
             ret[0] = false;
             ret[1] = "O campo aceita somente caracteres maiúsculos de A a Z, sem cedilhas e/ou acentos. Tamanho mínimo: 1.";
-            handler(ret);
+            callback(ret);
             return;
         }
     })

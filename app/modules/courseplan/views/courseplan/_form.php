@@ -29,7 +29,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <?php $readonly = Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) || $coursePlan->situation == 'APROVADO' ? 'readonly' : '' ; ?>
 
 <div class="main">
-    <?php echo ($coursePlan->situation == 'APROVADO') ? '<div id="validate-index"></div>' : '' ;  ?>
+    <?php echo ($coursePlan->situation == 'APROVADO') || Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id) ? '<div id="validate-index"></div>' : '' ;  ?>
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
