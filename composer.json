@@ -24,5 +24,10 @@
     "scripts": {
         "mess": "./vendor/bin/phpmd",
         "test" : "./vendor/bin/codecept run acceptance --steps"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }

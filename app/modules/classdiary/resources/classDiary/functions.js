@@ -1,8 +1,10 @@
+const urlParams = new URLSearchParams(window.location.search);
+const date = urlParams.get("date")
 $('.js-add-course-classes-accordion').on("change", function (){
     let optionSelected = $(this).val();
      let PlanName = $(this).find('option[value="' + optionSelected + '"]').text();
-   
-   
+
+
     $.ajax({
         type:'POST',
         data: {
@@ -28,32 +30,28 @@ $('.js-add-course-classes-accordion').on("change", function (){
     })
 })
 function renderFrequencyElement(w) {
-    const urlParams = new URLSearchParams(window.location.search);
     const classroom_fk = urlParams.get("classroom_fk")
     const stage_fk = urlParams.get("stage_fk")
     const discipline_fk = urlParams.get("discipline_fk")
-    const date = $('.js-date').val()
     const url =`RenderFrequencyElementMobile`;
     $.ajax({
         url: `${window.location.host}?r=classdiary/default/${url}&classroom_fk=${classroom_fk}&stage_fk=${stage_fk}&discipline_fk=${discipline_fk}&date=${date}`,
         type: "GET",
-        
+
     }).success(function (response) {
         $(".js-frequency-element").html(DOMPurify.sanitize(response))
-    });  
+    });
 }
-function updateClassesContents() 
+function updateClassesContents()
 {
-    const urlParams = new URLSearchParams(window.location.search);
-    const classroom_fk = urlParams.get("classroom_fk")  
+    const classroom_fk = urlParams.get("classroom_fk")
     const discipline_fk = urlParams.get("discipline_fk")
     const stage_fk = urlParams.get("stage_fk")
-    const date = $('.js-date').val();
     $.ajax({
         type:'GET',
         url:  `${window.location.host}?r=classdiary/default/GetClassesContents&classroom_fk=${classroom_fk}&stage_fk=${stage_fk}&date=${date}&discipline_fk=${discipline_fk}`
     }).success((response) => {
-        
+        console.log(response)
         if(response.valid==true){
             let options = "";
             $.each(response["courseClasses"], function () {
@@ -81,13 +79,11 @@ function updateClassesContents()
 }
 
 $(".js-save-course-plan").on("click", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const classroom_fk = urlParams.get("classroom_fk")  
+    const classroom_fk = urlParams.get("classroom_fk")
     const stage_fk = urlParams.get("stage_fk")
-    const date = $('.js-date').val();
     const discipline_fk = urlParams.get("discipline_fk")
     const classContent = $('#coursePlan').val();
-   
+
 
      $.ajax({
         type:'GET',
@@ -102,7 +98,7 @@ $(document).on("change", ".js-frequency-checkbox", function () {
         cache: false,
         data: {
             classroom_id: $(this).attr("data-classroom_id"),
-            date: $(".js-date").val(),
+            date: date,
             schedule: $(this).attr("data-schedule"),
             studentId: $(this).attr("data-studentId"),
             fault: $(this).is(":checked") ? 1 : 0,
