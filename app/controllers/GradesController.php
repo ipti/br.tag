@@ -259,7 +259,7 @@ class GradesController extends Controller
             if (!$gradeResult->validate()) {
                 throw new CHttpException(
                     "400",
-                    "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult->getErrors())
+                    "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult)
                 );
             }
 

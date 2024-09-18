@@ -397,54 +397,52 @@ class CourseplanController extends Controller
 
         TLog::info("Listagem de plano de aula");
 
+        $criteria = new CDbCriteria();
+
         if (isset($disciplineRequest)) {
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                $dataProvider = new CActiveDataProvider('CoursePlan', array(
-                    'criteria' => array(
-                        'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id .
-                            ' AND school_inep_fk=' . Yii::app()->user->school .
-                            ' AND modality_fk=' . $stageRequest .
-                            ' AND discipline_fk=' . $disciplineRequest,
-                    ),
-                    'pagination' => false
-                ));
+                $criteria->condition = [
+                    'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id .
+                        ' AND school_inep_fk=' . Yii::app()->user->school .
+                        ' AND modality_fk=' . $stageRequest .
+                        ' AND discipline_fk=' . $disciplineRequest,
+                ];
             }
-            if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
-            {
-                $dataProvider = new CActiveDataProvider('CoursePlan', array(
-                    'criteria' => array(
-                        'condition' => 'school_inep_fk=' . Yii::app()->user->school .
-                            ' AND modality_fk=' . $stageRequest .
-                            ' AND discipline_fk=' . $disciplineRequest,
-                    ),
-                    'pagination' => false
-                ));
+            if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+                $criteria->condition = array(
+                    'condition' => 'school_inep_fk=' . Yii::app()->user->school .
+                        ' AND modality_fk=' . $stageRequest .
+                        ' AND discipline_fk=' . $disciplineRequest
+                );
             }
+
+            $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                'criteria' => $criteria,
+                'pagination' => false
+            ));
+
             $this->renderPartial('_table', array(
                 'dataProvider' => $dataProvider,
             ));
             Yii::app()->end();
         }
 
-        if(isset($stageRequest))
-        {
-            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
-            {
+        if (isset($stageRequest)) {
+            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
                     'criteria' => array(
                         'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id .
-                        ' AND school_inep_fk=' . Yii::app()->user->school.
-                        ' AND modality_fk='. $stageRequest,
+                            ' AND school_inep_fk=' . Yii::app()->user->school .
+                            ' AND modality_fk=' . $stageRequest,
                     ),
                     'pagination' => false
                 ));
             }
-            if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id))
-            {
+            if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                 $dataProvider = new CActiveDataProvider('CoursePlan', array(
                     'criteria' => array(
                         'condition' => 'school_inep_fk=' . Yii::app()->user->school .
-                        ' AND modality_fk='. $stageRequest ,
+                            ' AND modality_fk=' . $stageRequest,
                     ),
                     'pagination' => false
                 ));
