@@ -526,7 +526,7 @@ class GradesController extends Controller
             header('HTTP/1.1 200 OK');
             echo json_encode(["valid" => true]);
         }catch(Exception $e){
-            TLog::error("Ocorreu algum erro durante a transação de SaveGrades");
+            TLog::error("Ocorreu algum erro durante a transação de SaveGrades", ["ExceptionMessage" => $e->getMessage()]);
             $transaction->rollback();
             throw new Exception($e->getMessage(), 500, $e);
         }
