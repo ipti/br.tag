@@ -1,4 +1,4 @@
-function initDatatable() {
+function initTable() {
     table = $('#course-classes').DataTable({
         ajax: {
             type: "POST",
@@ -95,7 +95,7 @@ function format_validate(d){
     let column1 = $('<div   class="column no-grow"></div>');
     let id = $('<input type="hidden" name="course-class[' + d.class + '][id]" value="' + d.courseClassId + '">');
     let content = $('<div class="t-field-tarea content-input"></div>');
-    let contentLabel = $('<div><label class="t-field-tarea__label" for="course-class[' + d.class + '][content]">Conteúdo *</label></span>');
+    let contentLabel = $('<label class="t-field-tarea__label" for="course-class[' + d.class + '][content]">Conteúdo *</label>');
     let contentInput = $('<textarea readonly="readonly" class="t-field-tarea__input course-class-content" placeholder="Digite o conteúdo do Plano" id="content-' + d.class + '" name="course-class[' + d.class + '][content]">' + d.content + '</textarea>');
 
     let ability = $('<div class="control-group courseplan-ability-container"></div>');
@@ -120,10 +120,23 @@ function format_validate(d){
 
     let resources = $('<div class="row wrap no-gap resources"></div>');
     if (d.abilities !== null) {
-        $.each(d.abilities, function (i, v) {
-            let div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+        let uniqueDisciplines = [...new Set(d.abilities.map(item => item.discipline))];
+        $.each(uniqueDisciplines, function (i, discipline) {
+            let div = '<label>' + discipline + '</label>';
+            $.each(d.abilities, function (i, v) {
+                if(v.discipline == discipline) {
+                    div += '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+                }
+            });
             abilitiesContainer.append(div);
-        });
+        })
+        // $.each(d.abilities, function (i, v) {
+        //     console.log("Esse é o I:" + i);
+        //     console.log("Esse é o V:" + v.discipline);
+        //     let div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+        //     console.log(div);
+        //     abilitiesContainer.append(div);
+        // });
     }
     if (d.methodologies !== null) {
         methodologyInput.val(d.methodology);
@@ -168,7 +181,7 @@ function format(d) {
     let column1 = $('<div   class="column no-grow"></div>');
     let id = $('<input type="hidden" name="course-class[' + d.class + '][id]" value="' + d.courseClassId + '">');
     let content = $('<div class="t-field-tarea content-input"></div>');
-    let contentLabel = $('<div><label class="t-field-tarea__label" for="course-class[' + d.class + '][content]">Conteúdo *</label></span>');
+    let contentLabel = $('<label class="t-field-tarea__label" for="course-class[' + d.class + '][content]">Conteúdo *</label>');
     let contentInput = $('<textarea class="t-field-tarea__input course-class-content" placeholder="Digite o conteúdo do Plano" id="-' + d.class + '" name="course-class[' + d.class + '][content]">' + d.content + '</textarea>');
 
     let ability = $('<div class="control-group courseplan-ability-container"></div>');
@@ -198,10 +211,20 @@ function format(d) {
 
     let resources = $('<div class="row wrap no-gap resources"></div>');
     if (d.abilities !== null) {
-        $.each(d.abilities, function (i, v) {
-            let div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+        let uniqueDisciplines = [...new Set(d.abilities.map(item => item.discipline))];
+        $.each(uniqueDisciplines, function (i, discipline) {
+            let div = '<label>' + discipline + '</label>';
+            $.each(d.abilities, function (i, v) {
+                if(v.discipline == discipline) {
+                    div += '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+                }
+            });
             abilitiesContainer.append(div);
-        });
+        })
+        // $.each(d.abilities, function (i, v) {
+        //     let div = '<div class="ability-panel-option"><input type="hidden" class="ability-panel-option-id" value="' + v.id + '" name="course-class[' + d.class + '][ability][' + i + ']"><i class="fa fa-check-square"></i><span>(<b>' + v.code + '</b>) ' + v.description + '</span></div>';
+        //     abilitiesContainer.append(div);
+        // });
     }
     if (d.types !== null) {
         methodologyInput.val(d.methodology);
@@ -371,29 +394,6 @@ function addResource(button) {
             resources.append(divRes);
         };
     }
-    content.append(contentLabel);
-    content.append(contentInput);
-    ability.append(abilityLabel);
-    ability.append(abilityButton);
-    ability.append(abilitiesContainer);
-    resourceButtonContainer.append(resourceButton);
-    resourceInput.append(resourceValue);
-    resourceInput.append(resourceAmount);
-    resourceInput.append(resourceAdd);
-    resource.append(resourceButtonContainer);
-    resource.append(resourceLabel);
-    resource.append(resourceInput);
-    resource.append(resources);
-    methodology.append(methodologyLabel);
-    methodology.append(methodologyInput);
-    column1.append(content);
-    column1.append(ability);
-    column1.append(methodology);
-    column1.append(resource);
-    column1.append(deleteButton);
-    div.append(id);
-    div.append(column1);
-    return div;
 }
 
 function removeResource(button) {

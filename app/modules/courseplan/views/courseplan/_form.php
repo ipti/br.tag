@@ -29,7 +29,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 <?php $readonly = Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) || $coursePlan->situation == 'APROVADO' ? 'readonly' : '' ; ?>
 
 <div class="main">
-    <?php echo ($coursePlan->situation == 'APROVADO') ? '<div id="validate-index"></div>' : '' ;  ?>
+    <?php echo ($coursePlan->situation == 'APROVADO') || Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id) ? '<div id="validate-index"></div>' : '' ;  ?>
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
@@ -59,7 +59,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                         </li>
                     </ul>
                 </div>
-                <div class="row">
+                <div id="js-submit-div" class="row">
                     <a
                     data-toggle="tab" class='t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?>
                     </a>
@@ -69,6 +69,9 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                     <a id="save"
                     class='t-button-primary last' style="display:none;"><?php echo Yii::t('default', 'Save') ?>
                     </a>
+                </div>
+                <div id="js-loading-div" class="row hide">
+                    <img style="margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
                 </div>
             </div>
             <div class="widget-body form-horizontal">
@@ -103,7 +106,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 
                         <div class="row">
                             <div class="column flex is-two-fifths">
-                                <div class="t-field-select">
+                                <div id="disciplinesContainer" class="t-field-select">
                                     <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline_fk', array('class' => 'control-label t-field-select__label--required')); ?>
                                     <?php echo $form->dropDownList($coursePlan, 'discipline_fk', array(), array(
                                         'key' => 'id',
@@ -216,7 +219,16 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <form method="post">
                 <input type="hidden" class="course-class-index">
                 <div class="modal-body">
-                    <div class="alert alert-error js-alert-ability-structure">Para adicionar habilidades, é preciso primeiro escolher a etapa e o componente curricular/eixo do plano.</div>
+                <div class="alert js-alert-ability-structure">Para adicionar habilidades, é necessário selecionar a etapa na aba criar plano, e informar o componente curricular/eixo.</div>
+                    <div id="minorEducationContainer" class="column clearfix">
+                        <div class="t-field-select">
+                            <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline_fk', array('class' => 'control-label t-field-select__label--required')); ?>
+                            <select class="select-search-on t-field-select__input select2-container" id="minorEducationDisciplines" name="minorEducationDisciplines">
+                                <option value="">Selecione o componente curricular/eixo</option>
+                            </select>
+                            <img class="js-course-plan-loading-abilities"  style="margin: 10px 20px;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
+                        </div>
+                    </div>
                     <div class="js-abilities-parents">
                     </div>
                     <div class="js-abilities-panel">

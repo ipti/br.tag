@@ -1,4 +1,5 @@
 {
+    "minimum-stability": "dev",
     "require": {
         "guzzlehttp/guzzle": "^6.0",
         "symfony/validator": "^4.0",
@@ -6,7 +7,8 @@
         "goetas-webservices/xsd2php-runtime": "^0.2.2",
         "fakerphp/faker": "^1.23",
         "bensontrent/firestore-php": "^3.1",
-        "ramsey/uuid": "^4.2"
+        "ramsey/uuid": "^4.2",
+        "websupport/yii-sentry": "0.x-dev"
     },
     "require-dev": {
         "goetas-webservices/xsd2php": "^0.3",
@@ -22,5 +24,10 @@
     "scripts": {
         "mess": "./vendor/bin/phpmd",
         "test" : "./vendor/bin/codecept run acceptance --steps"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }

@@ -5,14 +5,12 @@
  * and open the template in the editor.
  */
 
-$("#print").on('click', function() {
-    window.print();
-});
 
-$(document).ready(function() {
-    $("table").each(function() {
-        if (!$(this).find("td").length) {
-            $(this).closest(".classroom-container").remove();
-        }
-    });
-});
+
+// $(document).ready(function() {
+//     $("table").each(function() {
+//         if (!$(this).find("td").length) {
+//             $(this).closest(".classroom-container").remove();
+//         }
+//     });
+// });

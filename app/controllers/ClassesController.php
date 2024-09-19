@@ -42,6 +42,7 @@ class ClassesController extends Controller
                     'saveFrequency',
                     'SaveFrequencies',
                     'classContents',
+                    'validateClassContents',
                     'getClassContents',
                     'saveClassContents',
                     'getmonthsanddisciplines',
@@ -101,6 +102,40 @@ class ClassesController extends Controller
         );
     }
 
+    public function actionValidateClassContents()
+    {
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $criteria = new CDbCriteria;
+            $criteria->alias = "c";
+            $criteria->join = ""
+                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
+                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
+            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+            $criteria->order = "name";
+            $criteria->params = array(
+                ':school_year' => Yii::app()->user->year,
+                ':school_inep_fk' => Yii::app()->user->school,
+                ':users_fk' => Yii::app()->user->loginInfos->id
+            );
+
+            $classrooms = Classroom::model()->findAll($criteria);
+        } else {
+            $classrooms = Classroom::model()->findAll(
+                'school_year = :school_year and school_inep_fk = :school_inep_fk order by name',
+                [
+                    'school_year' => Yii::app()->user->year,
+                    'school_inep_fk' => Yii::app()->user->school
+                ]
+            );
+        }
+        $this->render(
+            'validateClassContents',
+            array(
+                'classrooms' => $classrooms
+            )
+        );
+    }
+
     /**
      * Get all classes by classroom, discipline and month
      */
@@ -151,6 +186,22 @@ class ClassesController extends Controller
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
                         ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
                         ->queryAll();
+
+                    $additionalClasses = Yii::app()->db->createCommand(
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid
+                        from course_class cc
+                        join course_plan cp on cp.id = cc.course_plan_fk
+                        join course_plan_discipline_vs_abilities dvsa on dvsa.course_class_fk = cc.id
+                        join edcenso_discipline ed on ed.id = dvsa.discipline_fk
+                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
+                        order by ed.name, cp.name"
+                    )
+                        ->bindParam(":school_inep_fk", Yii::app()->user->school)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
+                        ->queryAll();
+
+                    $courseClasses = array_merge($courseClasses, $additionalClasses);
                 }
             } else {
                 if (!$isMinorEducation) {
@@ -176,6 +227,21 @@ class ClassesController extends Controller
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
                         ->queryAll();
+
+                    $additionalClasses = Yii::app()->db->createCommand(
+                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid
+                        from course_class cc
+                        join course_plan cp on cp.id = cc.course_plan_fk
+                        join course_plan_discipline_vs_abilities dvsa on dvsa.course_class_fk = cc.id
+                        join edcenso_discipline ed on ed.id = dvsa.discipline_fk
+                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk
+                        order by ed.name, cp.name"
+                    )
+                        ->bindParam(":school_inep_fk", Yii::app()->user->school)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->queryAll();
+
+                    $courseClasses = array_merge($courseClasses, $additionalClasses);
                 }
             }
 
@@ -618,7 +684,7 @@ class ClassesController extends Controller
         $startDate = date_create_from_format($dateFormat, $enrollment->school_readmission_date);
         $transferedDate = date_create_from_format($dateFormat, $enrollment->class_transfer_date);
         $scheduleDate = date_create_from_format($dateFormat, $date);
-        return !(($scheduleDate < $startDate && $scheduleDate > $transferedDate) && $enrollment->status == '13');
+        return !(($scheduleDate < $startDate && $scheduleDate > $transferedDate) && $enrollment->status == '13') && $enrollment->status != '2' && $enrollment->status != '11';
     }
 
     public function actionSaveJustifications()
@@ -698,24 +764,24 @@ class ClassesController extends Controller
         $result["isMinor"] = $isMinor;
         echo json_encode($result);
     }
-    private function checkIsStageMinorEducation($classroom) {
-        $isMinor = TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk);
+        private function checkIsStageMinorEducation($classroom) {
+            $isMinor = TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk);
 
-        if (!$isMinor && TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
-            $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
+            if (!$isMinor && TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
+                $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
 
-            foreach ($enrollments as $enrollment) {
-                if (!$enrollment->edcenso_stage_vs_modality_fk ||
-                    !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)) {
-                    return false;
+                foreach ($enrollments as $enrollment) {
+                    if (!$enrollment->edcenso_stage_vs_modality_fk ||
+                        !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)) {
+                        return false;
+                    }
                 }
+
+                $isMinor = true;
             }
 
-            $isMinor = true;
+            return $isMinor;
         }
-
-        return $isMinor;
-    }
 
     /**
      * Get all disciplines by classroom

@@ -1,7 +1,7 @@
 var table;
 
 $(document).ready(function () {
-    initDatatable();
+    initTable();
     if ($(".js-course-plan-id").val() !== "") {
         $("#CoursePlan_modality_fk, #CoursePlan_discipline_fk").attr("disabled", "disabled");
     }
@@ -81,11 +81,24 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
             success: function (data) {
                 data = JSON.parse(data);
                 var option = "<option value=''>Selecione o componente curricular/eixo...</option>";
-                $.each(data, function () {
-                    var selectedValue = loadingData !== undefined && $("#CoursePlan_discipline_fk").attr("initval") !== "" && $("#CoursePlan_discipline_fk").attr("initval") === this.id ? "selected" : "";
-                    option += "<option value='" + this.id + "' " + selectedValue + ">" + this.name + "</option>";
-                });
-                $("#CoursePlan_discipline_fk").html(option).trigger("change").show();
+                let isMinorEducation = data[0].isMinorEducation;
+                if(isMinorEducation == true) {
+                    $.each(data, function () {
+                        let minorSelectedValue = loadingData !== undefined && $("#minorEducationDisciplines").attr("initval") !== "" && $("#minorEducationDisciplines").attr("initval") === this.id ? "selected" : "";
+                        option += "<option value='" + this.id + "' " + minorSelectedValue + ">" + this.name + "</option>";
+                    });
+                    $("#minorEducationDisciplines").html(option).trigger("change").show();
+                    $("#minorEducationContainer").removeClass("hide");
+                    $("#disciplinesContainer").addClass("hide");
+                } else {
+                    $.each(data, function () {
+                        var selectedValue = loadingData !== undefined && $("#CoursePlan_discipline_fk").attr("initval") !== "" && $("#CoursePlan_discipline_fk").attr("initval") === this.id ? "selected" : "";
+                        option += "<option value='" + this.id + "' " + selectedValue + ">" + this.name + "</option>";
+                    });
+                    $("#CoursePlan_discipline_fk").html(option).trigger("change").show();
+                    $("#disciplinesContainer").removeClass("hide");
+                    $("#minorEducationContainer").addClass("hide");
+                }
                 $(".js-course-plan-loading-disciplines").hide();
                 if ($(".js-course-plan-id").val() === "") {
                     $("#CoursePlan_discipline_fk").removeAttr("disabled");
@@ -98,7 +111,7 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
 });
 $("#CoursePlan_modality_fk").trigger("change", [true]);
 
-$(document).on("change", "#CoursePlan_discipline_fk", function () {
+$(document).on("change", "#CoursePlan_discipline_fk, #minorEducationDisciplines", function () {
     $(".js-abilities-parents, .js-abilities-panel").html("");
     if ($(this).val() !== "") {
         $.ajax({
@@ -106,7 +119,7 @@ $(document).on("change", "#CoursePlan_discipline_fk", function () {
             url: "?r=courseplan/courseplan/getAbilitiesInitialStructure",
             cache: false,
             data: {
-                discipline: $("#CoursePlan_discipline_fk").val()
+                discipline: $(this).val()
             },
             beforeSend: function () {
                 $(".js-course-plan-loading-abilities").css("display", "inline-block");
@@ -152,7 +165,7 @@ $(document).on("change", ".ability-structure-select", function () {
             },
             success: function (data) {
                 data = JSON.parse(data);
-                if (data.options[0].code === null) {
+                if (data.options[0]?.code === null) {
                     $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(data)));
                 } else {
                     $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(data)));
@@ -254,9 +267,14 @@ $("#print").on('click', function () {
 });
 
 $("#save").on('click', function () {
+    $("#js-submit-div").addClass("hide");
+    $("#js-loading-div").removeClass("hide");
     var submit = validateSave();
     if (submit) {
         $("#course-plan-form").submit();
+    } else {
+        $("#js-submit-div").removeClass("hide");
+        $("#js-loading-div").addClass("hide");
     }
 });
 
@@ -287,6 +305,17 @@ $(document).on('change', '#stage', function () {
             stage: $(this).val()
         }
     }).success(function (data) {
+        console.log(data);
+        $('.courseplan_table_div').html(data);
+        initDatatable();
+    })
+    $.ajax({
+        url: '?r=courseplan/courseplan/getDisciplines',
+        type: "POST",
+        data: {
+            stage: $(this).val()
+        }
+    }).success(function (data) {
         data = JSON.parse(data);
         $('.discipline-container').removeClass('hide');
         const disciplineContainer = $('#discipline');
@@ -311,6 +340,7 @@ $('#discipline').on('change', function () {
             }
         }).success(function (data) {
             $('.courseplan_table_div').html(data);
+            initDatatable();
         })
     }
 })

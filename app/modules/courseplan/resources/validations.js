@@ -3,6 +3,10 @@ function validateSave() {
     var name = "#CoursePlan_name";
     var stage = "#CoursePlan_modality_fk";
     var disciplines = "#CoursePlan_discipline_fk";
+    var minorEducationDisciplines = "#minorEducationDisciplines";
+    let url = new URL(window.location.href);
+    let urlId = url.searchParams.get('id');
+
     if ($(name).val() === "" || $(name).val().length < 3) {
         submit = false;
         addError(name, "Campo obrigatório (mínimo de 03 caracteres).");
@@ -15,7 +19,7 @@ function validateSave() {
     } else {
         removeError(stage);
     }
-    if ($(disciplines).val() === "") {
+    if ($(disciplines).val() === "" && isStageChildishEducation($(stage).val()) == false) {
         submit = false;
         addError(disciplines, "Campo obrigatório.");
     } else {
@@ -58,9 +62,9 @@ $(document).on("keyup", ".course-class-objective", function(){
 
 $('#courseplan_start_date').mask("99/99/9999", {placeholder: 'DD/MM/YYYY' });
 $('#courseplan_start_date').focusout(function () {
-    var id = '#' + $(this).attr("id");
-    var date = new Date();
-    var actual_year = date.getFullYear();
+    let id = '#' + $(this).attr("id");
+    let date = new Date();
+    let actual_year = date.getFullYear();
     initial_date = stringToDate($('#courseplan_start_date').val());
     if (!validateDate($('#courseplan_start_date').val())
         || !(initial_date.year >= actual_year - 1
@@ -71,3 +75,8 @@ $('#courseplan_start_date').focusout(function () {
         removeError(id);
     }
 });
+
+function isStageChildishEducation(stage) {
+    const refMinorStages = ['1', '2', '3'];
+    return refMinorStages.includes(stage);
+}

@@ -1,5 +1,7 @@
 FROM ipti/yii2:7.4-fpm
+
 COPY . /app
+
 WORKDIR /app/app
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
@@ -26,4 +28,4 @@ RUN sed -i "s|memory_limit=128M|memory_limit=512M|g" /usr/local/etc/php/conf.d/b
 RUN sed -i "s|fastcgi_pass 127.0.0.1:9000;|fastcgi_pass 127.0.0.1:9000;fastcgi_read_timeout 2400;proxy_read_timeout 2400;|g" /etc/nginx/conf.d/default.conf
 RUN chmod 777 /usr/local/bin/docker-run.sh
 RUN chown -R www-data:www-data /app \
-&& chown -R www-data:www-data /app/assets \
+&& chown -R www-data:www-data /app/assets
