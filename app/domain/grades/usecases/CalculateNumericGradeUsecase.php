@@ -77,7 +77,11 @@ class CalculateNumericGradeUsecase
 
         $gradeResult->setAttribute("final_media", null);
         $gradeResult->setAttribute("situation", null);
-        $gradeResult->save();
+        if ($gradeResult->save()) {
+            TLog::info("GradeResult para nota numérica salvo com sucesso.", array(
+                "GradeResult" => $gradeResult->id
+            ));
+        }
 
         return $gradeResult;
     }

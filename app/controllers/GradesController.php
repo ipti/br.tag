@@ -195,7 +195,7 @@ class GradesController extends Controller
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
             }
 
-            if($rule == "C") {
+            if ($rule == "C") {
                 if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
                     $gradeResult->situation = "APROVADO";
                 } else {
@@ -208,7 +208,11 @@ class GradesController extends Controller
             if (!$gradeResult->validate()) {
                 die(print_r($gradeResult->getErrors()));
             }
-            $gradeResult->save();
+            if ($gradeResult->save()) {
+                TLog::info("GradeResult salvo com sucesso.", array(
+                    "GradeResult" => $gradeResult->id
+                ));
+            }
         }
 
         echo json_encode(["valid" => true]);
@@ -263,9 +267,18 @@ class GradesController extends Controller
                 );
             }
 
-            $gradeResult->save();
+            if ($gradeResult->save()) {
+                TLog::info("Executando SaveGradesRelease: GradeResult salvo com sucesso.", array(
+                    "GradeResult" => $gradeResult->id
+                ));
+            }
 
             if ($hasAllValues) {
+                TLog::info("Executando: CalculateFinalMediaUsecase", array(
+                    "GradesResult" => $gradeResult->id,
+                    "GradeRules" => $gradeRules->id,
+                    "CountUnities" => count($std['grades'])
+                ));
                 $usecaseFinalMedia = new CalculateFinalMediaUsecase(
                     $gradeResult,
                     $gradeRules,
