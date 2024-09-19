@@ -195,7 +195,7 @@ class GradesController extends Controller
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
             }
 
-            if($rule == "C") {
+            if ($rule == "C") {
                 if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
                     $gradeResult->situation = "APROVADO";
                 } else {
@@ -208,7 +208,11 @@ class GradesController extends Controller
             if (!$gradeResult->validate()) {
                 die(print_r($gradeResult->getErrors()));
             }
-            $gradeResult->save();
+            if ($gradeResult->save()) {
+                TLog::info("GradeResult salvo com sucesso.", array(
+                    "GradeResult" => $gradeResult->id
+                ));
+            }
         }
 
         echo json_encode(["valid" => true]);
@@ -220,6 +224,12 @@ class GradesController extends Controller
         $classroomId = $_POST['classroom'];
         $students = $_POST['students'];
         $rule = $_POST['rule'];
+
+        TLog::info("Executando: SaveGradesRelease", array(
+            "Discipline" => $discipline,
+            "Classroom" => $classroomId,
+            "Rule" => $rule
+        ));
 
         $classroom = Classroom::model()->findByPk($classroomId);
 
@@ -263,9 +273,18 @@ class GradesController extends Controller
                 );
             }
 
-            $gradeResult->save();
+            if ($gradeResult->save()) {
+                TLog::info("Executando SaveGradesRelease: GradeResult salvo com sucesso.", array(
+                    "GradeResult" => $gradeResult->id
+                ));
+            }
 
             if ($hasAllValues) {
+                TLog::info("Executando: CalculateFinalMediaUsecase", array(
+                    "GradesResult" => $gradeResult->id,
+                    "GradeRules" => $gradeRules->id,
+                    "CountUnities" => count($std['grades'])
+                ));
                 $usecaseFinalMedia = new CalculateFinalMediaUsecase(
                     $gradeResult,
                     $gradeRules,
@@ -290,7 +309,12 @@ class GradesController extends Controller
             if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
                 $gradeResult->situation = "APROVADO";
             }
-            $gradeResult->save();
+
+            if ($gradeResult->save()) {
+                TLog::info("Executado: saveGradesReportCard.", array(
+                    "GradeResult" => $gradeResult
+                ));
+            }
 
             $time_elapsed_secs = microtime(true) - $start;
             Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
