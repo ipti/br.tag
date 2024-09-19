@@ -225,6 +225,12 @@ class GradesController extends Controller
         $students = $_POST['students'];
         $rule = $_POST['rule'];
 
+        TLog::info("Executando: SaveGradesRelease", array(
+            "Discipline" => $discipline,
+            "Classroom" => $classroomId,
+            "Rule" => $rule
+        ));
+
         $classroom = Classroom::model()->findByPk($classroomId);
 
         $gradeRules = GradeRules::model()->findByAttributes([
@@ -303,7 +309,12 @@ class GradesController extends Controller
             if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
                 $gradeResult->situation = "APROVADO";
             }
-            $gradeResult->save();
+
+            if ($gradeResult->save()) {
+                TLog::info("Executado: saveGradesReportCard.", array(
+                    "GradeResult" => $gradeResult
+                ));
+            }
 
             $time_elapsed_secs = microtime(true) - $start;
             Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
