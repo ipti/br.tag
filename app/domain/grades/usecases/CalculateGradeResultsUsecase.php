@@ -30,7 +30,7 @@ class CalculateGradeResultsUsecase {
             TLog::info("Notas por conceito calculadas com sucesso.", array(
                 "Classroom" => $classroom->id,
                 "GradeRules" => $gradeRules->id,
-                "Rule" => $gradeRules->type
+                "Rule" => $gradeRules->rule_type
             ));
             return;
         }
