@@ -469,30 +469,30 @@ class CourseplanController extends Controller
         }
 
         if (isset($stageRequest)) {
+
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                $dataProvider = new CActiveDataProvider('CoursePlan', array(
-                    'criteria' => array(
-                        'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id .
-                            ' AND school_inep_fk=' . Yii::app()->user->school .
-                            ' AND modality_fk=' . $stageRequest,
-                    ),
-                    'pagination' => false
-                ));
+                $criteria->condition = 'users_fk=' . Yii::app()->user->loginInfos->id .
+                    ' AND school_inep_fk=' . Yii::app()->user->school .
+                    ' AND modality_fk=' . $stageRequest;
+
                 TLog::info("Listagem de planos de aula para acesso de professor com filtro de etapa", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
             }
+
             if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                $dataProvider = new CActiveDataProvider('CoursePlan', array(
-                    'criteria' => array(
-                        'condition' => 'school_inep_fk=' . Yii::app()->user->school .
-                            ' AND modality_fk=' . $stageRequest,
-                    ),
-                    'pagination' => false
-                ));
+                $criteria->condition = 'school_inep_fk=' . Yii::app()->user->school .' AND modality_fk=' . $stageRequest;
                 TLog::info("Listagem de planos de aula para acesso de administrador com filtro de etapa");
             }
+
+
+            $dataProvider = new CActiveDataProvider('CoursePlan', array(
+                'criteria' => $criteria,
+                'pagination' => false
+            ));
+
             $this->renderPartial('_table', array(
                 'dataProvider' => $dataProvider,
             ));
+
             Yii::app()->end();
         }
 
