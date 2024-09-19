@@ -21,7 +21,7 @@ class CalculateGradeResultsUsecase {
             TLog::info("Notas numéricas calculadas com sucesso.", array(
                 "Classroom" => $classroom->id,
                 "GradeRules" => $gradeRules->id,
-                "Rule" => $gradeRules->type
+                "Rule" => $gradeRules->id
             ));
             return;
         } elseif ($gradeRules->rule_type === "C"){
