@@ -221,82 +221,104 @@ class GradesController extends Controller
         $students = $_POST['students'];
         $rule = $_POST['rule'];
 
+        TLog::info("Executando: saveGradesRelease", array(
+            "Discipline" => $discipline,
+            "Classroom" => $classroomId,
+            "Rule" => $rule
+        ));
+
         $classroom = Classroom::model()->findByPk($classroomId);
 
         $gradeRules = GradeRules::model()->findByAttributes([
             "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
         ]);
 
-        foreach ($students as $std) {
-            $start = microtime(true);
-            $gradeResult = (new GetStudentGradesResultUsecase($std['enrollmentId'], $discipline))->exec();
-            $gradeResult->enrollment_fk = $std['enrollmentId'];
-            $gradeResult->discipline_fk = $discipline;
-            $gradeResult->rec_final = $std["recFinal"];
-            $gradeResult->final_concept = $std["finalConcept"];
+        $transaction = Yii::app()->db->beginTransaction();
 
-            $hasAllValues = true;
-            $totalFaults = 0;
-            $givenClasses = 0;
-            foreach ($std['grades'] as $key => $value) {
-                $index = $key + 1;
-                if($rule == "C") {
-                    $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
-                    $hasAllValues = $hasAllValues && (isset($gradeResult["grade_concept_" . $index]) && $gradeResult["grade_concept_" . $index] != "");
-                } else {
-                    $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
-                    $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
+        try{
+
+            foreach ($students as $std) {
+                $start = microtime(true);
+                $gradeResult = (new GetStudentGradesResultUsecase($std['enrollmentId'], $discipline))->exec();
+                $gradeResult->enrollment_fk = $std['enrollmentId'];
+                $gradeResult->discipline_fk = $discipline;
+                $gradeResult->rec_final = $std["recFinal"];
+                $gradeResult->final_concept = $std["finalConcept"];
+
+                $hasAllValues = true;
+                $totalFaults = 0;
+                $givenClasses = 0;
+                foreach ($std['grades'] as $key => $value) {
+                    $index = $key + 1;
+                    if($rule == "C") {
+                        $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
+                        $hasAllValues = $hasAllValues && (isset($gradeResult["grade_concept_" . $index]) && $gradeResult["grade_concept_" . $index] != "");
+                    } else {
+                        $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
+                        $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
+                    }
+                    $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
+                    $totalFaults += (int) $std['grades'][$key]['faults'];
+                    $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
+                    $givenClasses += (int) $std['grades'][$key]['givenClasses'];
                 }
-                $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
-                $totalFaults += (int) $std['grades'][$key]['faults'];
-                $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
-                $givenClasses += (int) $std['grades'][$key]['givenClasses'];
-            }
 
-            $frequency = (($givenClasses - $totalFaults) / $givenClasses)*100;
+                $frequency = (($givenClasses - $totalFaults) / $givenClasses)*100;
 
 
-            if (!$gradeResult->validate()) {
-                throw new CHttpException(
-                    "400",
-                    "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult->getErrors())
-                );
-            }
+                if (!$gradeResult->validate()) {
+                    throw new CHttpException(
+                        "400",
+                        "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult->getErrors())
+                    );
+                }
 
-            $gradeResult->save();
+                if ($gradeResult->save()) {
+                    TLog::info("Grade result salvo com sucesso.", array(
+                        "GradeResult" => $gradeResult->id
+                    ));
+                }
 
-            if ($hasAllValues) {
-                $usecaseFinalMedia = new CalculateFinalMediaUsecase(
-                    $gradeResult,
-                    $gradeRules,
-                    count($std['grades'])
-                );
-                $usecaseFinalMedia->exec();
-
-                if ($gradeResult->enrollmentFk->isActive()) {
-                    $usecase = new ChageStudentStatusByGradeUsecase(
+                if ($hasAllValues) {
+                    $usecaseFinalMedia = new CalculateFinalMediaUsecase(
                         $gradeResult,
                         $gradeRules,
-                        count($std['grades']),
-                        $frequency
+                        count($std['grades'])
                     );
-                    $usecase->exec();
+                    $usecaseFinalMedia->exec();
+
+                    if ($gradeResult->enrollmentFk->isActive()) {
+                        $usecase = new ChageStudentStatusByGradeUsecase(
+                            $gradeResult,
+                            $gradeRules,
+                            count($std['grades']),
+                            $frequency
+                        );
+                        $usecase->exec();
+                    }
+                } else {
+                    $gradeResult->situation = "MATRICULADO";
+                    $gradeResult->final_media = null;
                 }
-            } else {
-                $gradeResult->situation = "MATRICULADO";
-                $gradeResult->final_media = null;
+
+                if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
+                    $gradeResult->situation = "APROVADO";
+                }
+                $gradeResult->save();
+
+                $time_elapsed_secs = microtime(true) - $start;
+                Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
             }
 
-            if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
-                $gradeResult->situation = "APROVADO";
-            }
-            $gradeResult->save();
-
-            $time_elapsed_secs = microtime(true) - $start;
-            Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
+            $transaction->commit();
+            echo CJSON::encode(["valid" => true]);
+        }catch(Exception $e){
+            TLog::error("Ocorreu algum erro durante a transação de SaveGradesRelease.", array(
+                "Error" => $e->getMessage()
+            ));
+            $transaction->rollback();
+            throw new Exception($e->getMessage(), 500, $e);
         }
-
-        echo CJSON::encode(["valid" => true]);
     }
 
     public function actionGetReportCardGrades()
@@ -526,7 +548,9 @@ class GradesController extends Controller
             header('HTTP/1.1 200 OK');
             echo json_encode(["valid" => true]);
         }catch(Exception $e){
-            TLog::error("Ocorreu algum erro durante a transação de SaveGrades");
+            TLog::error("Ocorreu algum erro durante a transação de SaveGrades.", array(
+                "Error" => $e->getMessage()
+            ));
             $transaction->rollback();
             throw new Exception($e->getMessage(), 500, $e);
         }
