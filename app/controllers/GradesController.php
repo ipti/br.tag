@@ -75,24 +75,36 @@ class GradesController extends Controller
         $year = Yii::app()->user->year;
         $school = Yii::app()->user->school;
 
-        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $criteria = new CDbCriteria;
-            $criteria->alias = "c";
-            $criteria->join = ""
-                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
-                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
-            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
-            $criteria->order = "name";
-            $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
+        TLog::info("Executando[GET]: Grades.", array(
+            "Year" => $year,
+            "School" => $school
+        ));
 
-            $classroom = Classroom::model()->findAll($criteria);
-            $classroom = CHtml::listData($classroom, 'id', 'name');
-        } else {
-            $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
-            $classroom = CHtml::listData($classroom, 'id', 'name');
+        try{
+            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+                $criteria = new CDbCriteria;
+                $criteria->alias = "c";
+                $criteria->join = ""
+                    . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
+                    . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
+                $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+                $criteria->order = "name";
+                $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
+
+                $classroom = Classroom::model()->findAll($criteria);
+                $classroom = CHtml::listData($classroom, 'id', 'name');
+            } else {
+                $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
+                $classroom = CHtml::listData($classroom, 'id', 'name');
+            }
+
+            $this->render('grades', ['classrooms' => $classroom]);
+        }catch(Exception $e){
+            TLog::error("Ocorreu algum erro durante a requisição de Grades.", array(
+                "Error" => $e->getMessage()
+            ));
+            throw new Exception($e->getMessage(), 500, $e);
         }
-
-        $this->render('grades', ['classrooms' => $classroom]);
     }
 
     public function actionGetDisciplines()
@@ -144,24 +156,36 @@ class GradesController extends Controller
         $year = Yii::app()->user->year;
         $school = Yii::app()->user->school;
 
-        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $criteria = new CDbCriteria;
-            $criteria->alias = "c";
-            $criteria->join = ""
-                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
-                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
-            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
-            $criteria->order = "name";
-            $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
+        TLog::info("Executando[GET]: ReportCard", array(
+            "Year" => $year,
+            "School" => $school
+        ));
 
-            $classroom = Classroom::model()->findAll($criteria);
-            $classroom = CHtml::listData($classroom, 'id', 'name');
-        } else {
-            $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
-            $classroom = CHtml::listData($classroom, 'id', 'name');
+        try{
+            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+                $criteria = new CDbCriteria;
+                $criteria->alias = "c";
+                $criteria->join = ""
+                    . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
+                    . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
+                $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+                $criteria->order = "name";
+                $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
+
+                $classroom = Classroom::model()->findAll($criteria);
+                $classroom = CHtml::listData($classroom, 'id', 'name');
+            } else {
+                $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
+                $classroom = CHtml::listData($classroom, 'id', 'name');
+            }
+
+            $this->render('reportCard', ['classrooms' => $classroom]);
+        }catch(Exception $e){
+            TLog::error("Ocorreu algum erro durante a requisição de ReportCard.", array(
+                "Error" => $e->getMessage()
+            ));
+            throw new Exception($e->getMessage(), 500, $e);
         }
-
-        $this->render('reportCard', ['classrooms' => $classroom]);
     }
 
     public function actionSaveGradesReportCard()
