@@ -618,6 +618,6 @@ class GradesController extends Controller
         TLog::info("Finalizado: SaveGradeResults.", array(
             "Classroom" => $classroomId,
             "Discipline" => $disciplineId
-        ))
+        ));
     }
 }
