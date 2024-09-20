@@ -573,7 +573,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             if (!$gradeResult->validate()) {
                 throw new CHttpException(
                     "400",
-                    "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult->getErrors())
+                    "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult)
                 );
             }
 
@@ -604,41 +604,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         echo CJSON::encode(["valid" => true]);
     }
 
-    public function actionSaveGrades()
-    {
-        foreach ($_POST["students"] as $student) {
-            foreach ($student["grades"] as $grade) {
-                if ($grade["value"] != "" || ($_POST["isConcept"] == "1" && $grade["concept"] != "")) {
-
-                    $gradeObject = Grade::model()->find(
-                        "enrollment_fk = :enrollment and grade_unity_modality_fk = :modality and discipline_fk = :discipline_fk",
-                        [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"], ":discipline_fk" => $_POST["discipline"]]
-                    );
-
-                    if ($gradeObject == null) {
-                        $gradeObject = new Grade();
-                        $gradeObject->enrollment_fk = $student["enrollmentId"];
-                        $gradeObject->discipline_fk = $_POST["discipline"];
-                        $gradeObject->grade_unity_modality_fk = $grade["modalityId"];
-                    }
-                    if (!$_POST["isConcept"]) {
-                        $gradeObject->grade = $grade["value"];
-                    } else {
-                        $gradeObject->grade_concept_fk = $grade["concept"];
-                    }
-                    $gradeObject->save();
-                } else {
-                    Grade::model()->deleteAll(
-                        "enrollment_fk = :enrollment and grade_unity_modality_fk = :modality and discipline_fk = :discipline",
-                        [":enrollment" => $student["enrollmentId"], ":modality" => $grade["modalityId"], ":discipline" => $_POST["discipline"]]
-                    );
-                }
-            }
-
-        }
-        self::saveGradeResults($_POST["classroom"], $_POST["discipline"]);
-        echo json_encode(["valid" => true]);
-    }
 
     public function actionGetGrades()
     {

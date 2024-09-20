@@ -34,6 +34,8 @@ class GetStudentGradesResultUsecase
             $gradeResult->save();
         }
 
+        TLog::info("Grade result do aluno", ["GradeResult" => $gradeResult->id]);
+
         return $gradeResult;
     }
 }

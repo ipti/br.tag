@@ -195,7 +195,7 @@ class GradesController extends Controller
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
             }
 
-            if($rule == "C") {
+            if ($rule == "C") {
                 if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
                     $gradeResult->situation = "APROVADO";
                 } else {
@@ -208,7 +208,11 @@ class GradesController extends Controller
             if (!$gradeResult->validate()) {
                 die(print_r($gradeResult->getErrors()));
             }
-            $gradeResult->save();
+            if ($gradeResult->save()) {
+                TLog::info("GradeResult salvo com sucesso.", array(
+                    "GradeResult" => $gradeResult->id
+                ));
+            }
         }
 
         echo json_encode(["valid" => true]);
@@ -266,12 +270,12 @@ class GradesController extends Controller
                 $frequency = (($givenClasses - $totalFaults) / $givenClasses)*100;
 
 
-                if (!$gradeResult->validate()) {
-                    throw new CHttpException(
-                        "400",
-                        "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult->getErrors())
-                    );
-                }
+            if (!$gradeResult->validate()) {
+                throw new CHttpException(
+                    "400",
+                    "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult)
+                );
+            }
 
                 if ($gradeResult->save()) {
                     TLog::info("Grade result salvo com sucesso.", array(
@@ -279,13 +283,18 @@ class GradesController extends Controller
                     ));
                 }
 
-                if ($hasAllValues) {
-                    $usecaseFinalMedia = new CalculateFinalMediaUsecase(
-                        $gradeResult,
-                        $gradeRules,
-                        count($std['grades'])
-                    );
-                    $usecaseFinalMedia->exec();
+            if ($hasAllValues) {
+                TLog::info("Executando: CalculateFinalMediaUsecase", array(
+                    "GradesResult" => $gradeResult->id,
+                    "GradeRules" => $gradeRules->id,
+                    "CountUnities" => count($std['grades'])
+                ));
+                $usecaseFinalMedia = new CalculateFinalMediaUsecase(
+                    $gradeResult,
+                    $gradeRules,
+                    count($std['grades'])
+                );
+                $usecaseFinalMedia->exec();
 
                     if ($gradeResult->enrollmentFk->isActive()) {
                         $usecase = new ChageStudentStatusByGradeUsecase(
@@ -301,10 +310,15 @@ class GradesController extends Controller
                     $gradeResult->final_media = null;
                 }
 
-                if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
-                    $gradeResult->situation = "APROVADO";
-                }
-                $gradeResult->save();
+            if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
+                $gradeResult->situation = "APROVADO";
+            }
+
+            if ($gradeResult->save()) {
+                TLog::info("Executado: saveGradesReportCard.", array(
+                    "GradeResult" => $gradeResult
+                ));
+            }
 
                 $time_elapsed_secs = microtime(true) - $start;
                 Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
@@ -589,11 +603,14 @@ class GradesController extends Controller
             "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
         ]);
 
+        TLog::info("Começado processo de calcular média final.", ["Classroom" => $classroom->id, "GradeRules" => $gradeRules->id]);
 
         foreach ($classroom->activeStudentEnrollments as $enrollment) {
             $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);
             $gradesStudent = $gradeUnities->exec();
             $countUnities = $gradeUnities->execCount();
+
+            TLog::info("Unidades por disciplina", ["GradeUnities" => CHtml::listData($gradesStudent, 'id', 'id')]);
 
             $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
             (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
