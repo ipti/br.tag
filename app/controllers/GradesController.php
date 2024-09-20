@@ -170,52 +170,66 @@ class GradesController extends Controller
         $students = $_POST['students'];
         $rule = $_POST['rule'];
 
-        foreach ($students as $std) {
-            $mediaFinal = 0;
-            $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $std['enrollmentId'], "discipline_fk" => $discipline]);
-            if (!isset($gradeResult)) {
-                $gradeResult = new GradeResults;
-            }
+        TLog::info("Executando: SaveGradesReportCard", array(
+            "Discipline" => $discipline,
+            "Rule" => $rule
+        ));
 
-            $gradeResult->enrollment_fk = $std['enrollmentId'];
-            $gradeResult->discipline_fk = $discipline;
-            $gradeResult->final_concept = $std["finalConcept"];
-
-            $hasAllValues = true;
-            for ($key = 0; $key < 3; $key++) {
-                $index = $key + 1;
-                if($rule == "C") {
-                    $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
-                    $hasAllValues = $hasAllValues && (isset($gradeResult["grade_concept_" . $index]) && $gradeResult["grade_concept_" . $index] != "");
-                } else {
-                    $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
-                    $mediaFinal += floatval($gradeResult->attributes["grade_" . $index] * ($index == 3 ? 2 : 1));
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+            foreach ($students as $std) {
+                $mediaFinal = 0;
+                $gradeResult = GradeResults::model()->find("enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk", ["enrollment_fk" => $std['enrollmentId'], "discipline_fk" => $discipline]);
+                if (!isset($gradeResult)) {
+                    $gradeResult = new GradeResults;
                 }
-                $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
-                $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
-            }
 
-            if ($rule == "C") {
-                if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
-                    $gradeResult->situation = "APROVADO";
-                } else {
-                    $gradeResult->situation = "";
+                $gradeResult->enrollment_fk = $std['enrollmentId'];
+                $gradeResult->discipline_fk = $discipline;
+                $gradeResult->final_concept = $std["finalConcept"];
+
+                $hasAllValues = true;
+                for ($key = 0; $key < 3; $key++) {
+                    $index = $key + 1;
+                    if($rule == "C") {
+                        $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
+                        $hasAllValues = $hasAllValues && (isset($gradeResult["grade_concept_" . $index]) && $gradeResult["grade_concept_" . $index] != "");
+                    } else {
+                        $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
+                        $mediaFinal += floatval($gradeResult->attributes["grade_" . $index] * ($index == 3 ? 2 : 1));
+                    }
+                    $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
+                    $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
                 }
-            } else {
-                $gradeResult->final_media = floor(($mediaFinal/4) * 10) / 10;
-            }
 
-            if (!$gradeResult->validate()) {
-                die(print_r($gradeResult->getErrors()));
+                if ($rule == "C") {
+                    if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
+                        $gradeResult->situation = "APROVADO";
+                    } else {
+                        $gradeResult->situation = "";
+                    }
+                } else {
+                    $gradeResult->final_media = floor(($mediaFinal/4) * 10) / 10;
+                }
+
+                if (!$gradeResult->validate()) {
+                    die(print_r($gradeResult->getErrors()));
+                }
+                if ($gradeResult->save()) {
+                    TLog::info("GradeResult salvo com sucesso.", array(
+                        "GradeResult" => $gradeResult->id
+                    ));
+                }
             }
-            if ($gradeResult->save()) {
-                TLog::info("GradeResult salvo com sucesso.", array(
-                    "GradeResult" => $gradeResult->id
-                ));
-            }
+            $transaction->commit();
+            echo json_encode(["valid" => true]);
+        }catch(Exception $e){
+            TLog::error("Ocorreu algum erro durante a transação de SaveGrades.", array(
+                "Error" => $e->getMessage()
+            ));
+            $transaction->rollback();
+            throw new Exception($e->getMessage(), 500, $e);
         }
-
-        echo json_encode(["valid" => true]);
     }
 
     public function actionSaveGradesRelease()
