@@ -58,12 +58,24 @@ class GradesController extends Controller
     public function actionGetModalities()
     {
         $stage = $_POST['Stage'];
-        $where = ($stage == "0") ? "" : "stage = $stage";
-        $data = EdcensoStageVsModality::model()->findAll($where);
-        $data = CHtml::listData($data, 'id', 'name');
 
-        foreach ($data as $value => $name) {
-            echo htmlspecialchars(CHtml::tag('option', array('value' => $value), CHtml::encode($name), true));
+        TLog::info("Executando[GET]: getModalities", array(
+            "Stage" => $stage
+        ));
+
+        try{
+            $where = ($stage == "0") ? "" : "stage = $stage";
+            $data = EdcensoStageVsModality::model()->findAll($where);
+            $data = CHtml::listData($data, 'id', 'name');
+
+            foreach ($data as $value => $name) {
+                echo htmlspecialchars(CHtml::tag('option', array('value' => $value), CHtml::encode($name), true));
+            }
+        }catch(Exception $e){
+            TLog::error("Ocorreu algum erro durante a requisição de getModalities.", array(
+                "Error" => $e->getMessage()
+            ));
+            throw new Exception($e->getMessage(), 500, $e);
         }
     }
 
@@ -619,12 +631,22 @@ class GradesController extends Controller
         $disciplineId = Yii::app()->request->getPost("discipline");
         $unityId = Yii::app()->request->getPost("unity");
 
+        TLog::info("", array(
+            "Classroom" => $classroomId,
+            "Discipline" => $disciplineId,
+            "Unity" => $unityId
+        ));
+
         try {
             $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId);
             $result = $usecase->exec();
             echo CJSON::encode($result);
         } catch (Exception $e) {
             header('HTTP/1.1 500 ' . $e->getMessage());
+            TLog::error("Erro durante requisição de getGrades.", array(
+                "Error" => $e->getMessage()
+            ));
+            throw new Exception($e->getMessage(), 500, $e);
             echo json_encode(['valid' => false, 'message' => $e->getMessage()]);
         }
 
