@@ -42,7 +42,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Course Plan'); ?></h1>
             <div class="t-buttons-container">
-                <?php if (!Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)): ?>
+                <?php if (!Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) && !TagUtils::isManager()): ?>
                     <a href="<?php echo Yii::app()->createUrl('courseplan/courseplan/create') ?>"
                     class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>
                     <br/>
