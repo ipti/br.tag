@@ -134,6 +134,7 @@ return array(
         'user' => array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
+            'authTimeout' => 20*60
         ),
         'cache' => array(
             'class' => 'system.caching.CDbCache'

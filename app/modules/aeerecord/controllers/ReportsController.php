@@ -17,7 +17,7 @@ class ReportsController extends Controller
         $aeeRecord = $command->queryAll();
 
         $this->layout = 'webroot.themes.default.views.layouts.reportsclean';
-        $this->render('AeeRecordReport',
+        $this->render('aeeRecordReport',
         array(
             "aeeRecord" => $aeeRecord[0],
             "school" => $school,

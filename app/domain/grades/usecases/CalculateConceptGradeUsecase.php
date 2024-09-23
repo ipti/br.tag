@@ -94,7 +94,11 @@ class CalculateConceptGradeUsecase
             $gradeResult->situation = StudentEnrollment::STATUS_APPROVED;
         }
 
-        $gradeResult->save();
+        if ($gradeResult->save()) {
+            TLog::info("GradesResult para nota por conceito salvo com sucesso.", array(
+                "GradesResult" => $gradeResult->id
+            ));
+        }
     }
 
 

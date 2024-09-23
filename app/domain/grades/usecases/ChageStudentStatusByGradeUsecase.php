@@ -24,21 +24,31 @@ class ChageStudentStatusByGradeUsecase
 
     public function exec()
     {
-        $enrollment = $this->getStudentEnrollment($this->gradeResult->enrollment_fk);
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
 
-        if (!$this->isEnrollmentStatusAllowed($enrollment)) {
-            $this->gradeResult->situation = $enrollment->getCurrentStatus();
-            $this->gradeResult->save();
-            return;
+            $enrollment = $this->getStudentEnrollment($this->gradeResult->enrollment_fk);
+
+            TLog::info("Começando o processo de atualizar o status da matricula do aluno", ["enrollment" => $enrollment->id]);
+
+            if (!$this->isEnrollmentStatusAllowed($enrollment)) {
+                $this->gradeResult->situation = $enrollment->getCurrentStatus();
+                $this->gradeResult->save();
+                return;
+            }
+
+            if (!$this->hasAllGrades()) {
+                $this->gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
+                $this->gradeResult->save();
+                return;
+            }
+
+            $this->updateStudentSituation();
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            TLog::error("Erro ao atualizar status da matrícula", ["Exception"=>$e]);
         }
-
-        if (!$this->hasAllGrades()) {
-            $this->gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
-            $this->gradeResult->save();
-            return;
-        }
-
-        $this->updateStudentSituation();
     }
 
     private function getStudentEnrollment($enrollmentId)
@@ -108,6 +118,7 @@ class ChageStudentStatusByGradeUsecase
         }
 
         $this->gradeResult->save();
+        TLog::info("Status da matrícula", ["gradeResult" => $this->gradeResult->situation]);
     }
 
 }
