@@ -169,6 +169,16 @@ $(document).bind("ajaxComplete", function () {
   $("a").css("cursor", "pointer");
 });
 
+$(document).ajaxError(function(event, jqxhr) {
+    if (jqxhr.status === 401) {
+        // Redireciona para a página de login se receber o status 401
+        var response = JSON.parse(jqxhr.responseText);
+        if (response.redirect) {
+            window.location.href = response.redirect;
+        }
+    }
+});
+
 $(function () {
   $("[id2='school']").change(function () {
     $(".school").submit();

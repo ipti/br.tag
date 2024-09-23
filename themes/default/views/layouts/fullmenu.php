@@ -159,6 +159,17 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
 
                     </div>
                 </li>
+                
+                    <?php 
+                    if(!Yii::app()->user->getState("rememberMe")):
+                        // $this->beginWidget('zii.widgets.CPortlet', array(
+                        //     'title' => '',
+                        // ));
+                        // echo $this->renderPartial('/layouts/_session_timer', ['sessionTime' => SessionTimer::getSessionTime()]);
+                        // $this->endWidget();
+                    endif;
+                    ?>
+                </li>
                 <li id="menu-logout" class="hide-responsive" style="margin-left: auto">
                     <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
