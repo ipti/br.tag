@@ -58,12 +58,24 @@ class GradesController extends Controller
     public function actionGetModalities()
     {
         $stage = $_POST['Stage'];
-        $where = ($stage == "0") ? "" : "stage = $stage";
-        $data = EdcensoStageVsModality::model()->findAll($where);
-        $data = CHtml::listData($data, 'id', 'name');
 
-        foreach ($data as $value => $name) {
-            echo htmlspecialchars(CHtml::tag('option', array('value' => $value), CHtml::encode($name), true));
+        TLog::info("Executando[GET]: getModalities", array(
+            "Stage" => $stage
+        ));
+
+        try{
+            $where = ($stage == "0") ? "" : "stage = $stage";
+            $data = EdcensoStageVsModality::model()->findAll($where);
+            $data = CHtml::listData($data, 'id', 'name');
+
+            foreach ($data as $value => $name) {
+                echo htmlspecialchars(CHtml::tag('option', array('value' => $value), CHtml::encode($name), true));
+            }
+        }catch(Exception $e){
+            TLog::error("Ocorreu algum erro durante a requisição de getModalities.", array(
+                "Error" => $e->getMessage()
+            ));
+            throw new Exception($e->getMessage(), 500, $e);
         }
     }
 
@@ -75,24 +87,36 @@ class GradesController extends Controller
         $year = Yii::app()->user->year;
         $school = Yii::app()->user->school;
 
-        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $criteria = new CDbCriteria;
-            $criteria->alias = "c";
-            $criteria->join = ""
-                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
-                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
-            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
-            $criteria->order = "name";
-            $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
+        TLog::info("Executando[GET]: Grades.", array(
+            "Year" => $year,
+            "School" => $school
+        ));
 
-            $classroom = Classroom::model()->findAll($criteria);
-            $classroom = CHtml::listData($classroom, 'id', 'name');
-        } else {
-            $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
-            $classroom = CHtml::listData($classroom, 'id', 'name');
+        try{
+            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+                $criteria = new CDbCriteria;
+                $criteria->alias = "c";
+                $criteria->join = ""
+                    . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
+                    . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
+                $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+                $criteria->order = "name";
+                $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
+
+                $classroom = Classroom::model()->findAll($criteria);
+                $classroom = CHtml::listData($classroom, 'id', 'name');
+            } else {
+                $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
+                $classroom = CHtml::listData($classroom, 'id', 'name');
+            }
+
+            $this->render('grades', ['classrooms' => $classroom]);
+        }catch(Exception $e){
+            TLog::error("Ocorreu algum erro durante a requisição de Grades.", array(
+                "Error" => $e->getMessage()
+            ));
+            throw new Exception($e->getMessage(), 500, $e);
         }
-
-        $this->render('grades', ['classrooms' => $classroom]);
     }
 
     public function actionGetDisciplines()
@@ -144,24 +168,36 @@ class GradesController extends Controller
         $year = Yii::app()->user->year;
         $school = Yii::app()->user->school;
 
-        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-            $criteria = new CDbCriteria;
-            $criteria->alias = "c";
-            $criteria->join = ""
-                . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
-                . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
-            $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
-            $criteria->order = "name";
-            $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
+        TLog::info("Executando[GET]: ReportCard", array(
+            "Year" => $year,
+            "School" => $school
+        ));
 
-            $classroom = Classroom::model()->findAll($criteria);
-            $classroom = CHtml::listData($classroom, 'id', 'name');
-        } else {
-            $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
-            $classroom = CHtml::listData($classroom, 'id', 'name');
+        try{
+            if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+                $criteria = new CDbCriteria;
+                $criteria->alias = "c";
+                $criteria->join = ""
+                    . " join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id "
+                    . " join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ";
+                $criteria->condition = "c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk";
+                $criteria->order = "name";
+                $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
+
+                $classroom = Classroom::model()->findAll($criteria);
+                $classroom = CHtml::listData($classroom, 'id', 'name');
+            } else {
+                $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
+                $classroom = CHtml::listData($classroom, 'id', 'name');
+            }
+
+            $this->render('reportCard', ['classrooms' => $classroom]);
+        }catch(Exception $e){
+            TLog::error("Ocorreu algum erro durante a requisição de ReportCard.", array(
+                "Error" => $e->getMessage()
+            ));
+            throw new Exception($e->getMessage(), 500, $e);
         }
-
-        $this->render('reportCard', ['classrooms' => $classroom]);
     }
 
     public function actionSaveGradesReportCard()
@@ -176,7 +212,6 @@ class GradesController extends Controller
         ));
 
         $transaction = Yii::app()->db->beginTransaction();
-
         try{
             foreach ($students as $std) {
                 $mediaFinal = 0;
@@ -225,13 +260,12 @@ class GradesController extends Controller
             $transaction->commit();
             echo json_encode(["valid" => true]);
         }catch(Exception $e){
-            TLog::error("Ocorreu algum erro durante a transação de SaveGradesReportCard.", array(
+            TLog::error("Ocorreu algum erro durante a transação de SaveGrades.", array(
                 "Error" => $e->getMessage()
             ));
             $transaction->rollback();
             throw new Exception($e->getMessage(), 500, $e);
         }
-
     }
 
     public function actionSaveGradesRelease()
@@ -241,7 +275,7 @@ class GradesController extends Controller
         $students = $_POST['students'];
         $rule = $_POST['rule'];
 
-        TLog::info("Executando: SaveGradesRelease", array(
+        TLog::info("Executando: saveGradesRelease", array(
             "Discipline" => $discipline,
             "Classroom" => $classroomId,
             "Rule" => $rule
@@ -253,47 +287,51 @@ class GradesController extends Controller
             "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
         ]);
 
-        foreach ($students as $std) {
-            $start = microtime(true);
-            $gradeResult = (new GetStudentGradesResultUsecase($std['enrollmentId'], $discipline))->exec();
-            $gradeResult->enrollment_fk = $std['enrollmentId'];
-            $gradeResult->discipline_fk = $discipline;
-            $gradeResult->rec_final = $std["recFinal"];
-            $gradeResult->final_concept = $std["finalConcept"];
+        $transaction = Yii::app()->db->beginTransaction();
 
-            $hasAllValues = true;
-            $totalFaults = 0;
-            $givenClasses = 0;
-            foreach ($std['grades'] as $key => $value) {
-                $index = $key + 1;
-                if($rule == "C") {
-                    $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
-                    $hasAllValues = $hasAllValues && (isset($gradeResult["grade_concept_" . $index]) && $gradeResult["grade_concept_" . $index] != "");
-                } else {
-                    $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
-                    $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
+        try{
+
+            foreach ($students as $std) {
+                $start = microtime(true);
+                $gradeResult = (new GetStudentGradesResultUsecase($std['enrollmentId'], $discipline))->exec();
+                $gradeResult->enrollment_fk = $std['enrollmentId'];
+                $gradeResult->discipline_fk = $discipline;
+                $gradeResult->rec_final = $std["recFinal"];
+                $gradeResult->final_concept = $std["finalConcept"];
+
+                $hasAllValues = true;
+                $totalFaults = 0;
+                $givenClasses = 0;
+                foreach ($std['grades'] as $key => $value) {
+                    $index = $key + 1;
+                    if($rule == "C") {
+                        $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
+                        $hasAllValues = $hasAllValues && (isset($gradeResult["grade_concept_" . $index]) && $gradeResult["grade_concept_" . $index] != "");
+                    } else {
+                        $gradeResult->{"grade_" . $index} = $std['grades'][$key]['value'];
+                        $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
+                    }
+                    $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
+                    $totalFaults += (int) $std['grades'][$key]['faults'];
+                    $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
+                    $givenClasses += (int) $std['grades'][$key]['givenClasses'];
                 }
-                $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
-                $totalFaults += (int) $std['grades'][$key]['faults'];
-                $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
-                $givenClasses += (int) $std['grades'][$key]['givenClasses'];
-            }
 
-            $frequency = (($givenClasses - $totalFaults) / $givenClasses)*100;
+                $frequency = (($givenClasses - $totalFaults) / $givenClasses)*100;
 
 
             if (!$gradeResult->validate()) {
                 throw new CHttpException(
                     "400",
-                    "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult->getErrors())
+                    "Não foi possível validar as notas adicionadas: " . TagUtils::stringfyValidationErrors($gradeResult)
                 );
             }
 
-            if ($gradeResult->save()) {
-                TLog::info("Executando SaveGradesRelease: GradeResult salvo com sucesso.", array(
-                    "GradeResult" => $gradeResult->id
-                ));
-            }
+                if ($gradeResult->save()) {
+                    TLog::info("Grade result salvo com sucesso.", array(
+                        "GradeResult" => $gradeResult->id
+                    ));
+                }
 
             if ($hasAllValues) {
                 TLog::info("Executando: CalculateFinalMediaUsecase", array(
@@ -308,19 +346,19 @@ class GradesController extends Controller
                 );
                 $usecaseFinalMedia->exec();
 
-                if ($gradeResult->enrollmentFk->isActive()) {
-                    $usecase = new ChageStudentStatusByGradeUsecase(
-                        $gradeResult,
-                        $gradeRules,
-                        count($std['grades']),
-                        $frequency
-                    );
-                    $usecase->exec();
+                    if ($gradeResult->enrollmentFk->isActive()) {
+                        $usecase = new ChageStudentStatusByGradeUsecase(
+                            $gradeResult,
+                            $gradeRules,
+                            count($std['grades']),
+                            $frequency
+                        );
+                        $usecase->exec();
+                    }
+                } else {
+                    $gradeResult->situation = "MATRICULADO";
+                    $gradeResult->final_media = null;
                 }
-            } else {
-                $gradeResult->situation = "MATRICULADO";
-                $gradeResult->final_media = null;
-            }
 
             if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
                 $gradeResult->situation = "APROVADO";
@@ -332,11 +370,19 @@ class GradesController extends Controller
                 ));
             }
 
-            $time_elapsed_secs = microtime(true) - $start;
-            Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
-        }
+                $time_elapsed_secs = microtime(true) - $start;
+                Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
+            }
 
-        echo CJSON::encode(["valid" => true]);
+            $transaction->commit();
+            echo CJSON::encode(["valid" => true]);
+        }catch(Exception $e){
+            TLog::error("Ocorreu algum erro durante a transação de SaveGradesRelease.", array(
+                "Error" => $e->getMessage()
+            ));
+            $transaction->rollback();
+            throw new Exception($e->getMessage(), 500, $e);
+        }
     }
 
     public function actionGetReportCardGrades()
@@ -566,7 +612,9 @@ class GradesController extends Controller
             header('HTTP/1.1 200 OK');
             echo json_encode(["valid" => true]);
         }catch(Exception $e){
-            TLog::error("Ocorreu algum erro durante a transação de SaveGrades");
+            TLog::error("Ocorreu algum erro durante a transação de SaveGrades.", array(
+                "Error" => $e->getMessage()
+            ));
             $transaction->rollback();
             throw new Exception($e->getMessage(), 500, $e);
         }
@@ -583,12 +631,22 @@ class GradesController extends Controller
         $disciplineId = Yii::app()->request->getPost("discipline");
         $unityId = Yii::app()->request->getPost("unity");
 
+        TLog::info("", array(
+            "Classroom" => $classroomId,
+            "Discipline" => $disciplineId,
+            "Unity" => $unityId
+        ));
+
         try {
             $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId);
             $result = $usecase->exec();
             echo CJSON::encode($result);
         } catch (Exception $e) {
             header('HTTP/1.1 500 ' . $e->getMessage());
+            TLog::error("Erro durante requisição de getGrades.", array(
+                "Error" => $e->getMessage()
+            ));
+            throw new Exception($e->getMessage(), 500, $e);
             echo json_encode(['valid' => false, 'message' => $e->getMessage()]);
         }
 
