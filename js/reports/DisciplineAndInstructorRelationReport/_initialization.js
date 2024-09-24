@@ -6,6 +6,3 @@
  * and open the template in the editor.
  */
 
-$("#print").on('click', function() {
-    window.print();
-});

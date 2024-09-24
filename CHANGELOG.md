@@ -1,3 +1,14 @@
+## [Versão 3.86.191]
+- Adicionando restrição para que coordenadores pedagogicos e gestores escolares não consigam modificar planos de aula
+
+## [Versão 3.86.190]
+- Corrigindo erros internos na impressão de documentos. Não possui impacto nas funcionalidades, apenas nos registros de erro.
+- Corrigindo alerta ao adicionar cardápio (interno)
+
+## [Versão 3.85.190]
+- Cosertada frequência no módulo de diário de classe para professores
+- Consertado multiselect de plano de aula no módulo de diario de classe para professores
+
 ## [Versão 3.86.189]
 - Filtros de busca adicionados no carregamento de planos de aula pendentes
 

@@ -165,7 +165,7 @@ $(document).on("change", ".ability-structure-select", function () {
             },
             success: function (data) {
                 data = JSON.parse(data);
-                if (data.options[0].code === null) {
+                if (data.options[0]?.code === null) {
                     $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(data)));
                 } else {
                     $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(data)));
