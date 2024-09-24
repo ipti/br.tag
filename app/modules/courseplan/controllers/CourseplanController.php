@@ -450,20 +450,16 @@ class CourseplanController extends Controller
 
         if (isset($disciplineRequest) && $disciplineRequest != "") {
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                $criteria->condition = [
-                    'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id .
+                $criteria->condition = 'users_fk=' . Yii::app()->user->loginInfos->id .
                         ' AND school_inep_fk=' . Yii::app()->user->school .
                         ' AND modality_fk=' . $stageRequest .
-                        ' AND discipline_fk=' . $disciplineRequest,
-                ];
+                        ' AND discipline_fk=' . $disciplineRequest;
                 TLog::info("Listagem de planos de aula para acesso de professor com filtro de disciplina", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
             }
             if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                $criteria->condition = array(
-                    'condition' => 'school_inep_fk=' . Yii::app()->user->school .
+                $criteria->condition = 'school_inep_fk=' . Yii::app()->user->school .
                         ' AND modality_fk=' . $stageRequest .
-                        ' AND discipline_fk=' . $disciplineRequest
-                );
+                        ' AND discipline_fk=' . $disciplineRequest;
                 TLog::info("Listagem de planos de aula para acesso de administrador com filtro de disciplina");
             }
 
