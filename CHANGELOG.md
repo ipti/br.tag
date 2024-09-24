@@ -1,3 +1,6 @@
+## [Versão 3.86.192]
+- Consertado estrutura de notas para as etapas por conceito
+
 ## [Versão 3.86.191]
 - Adicionando restrição para que coordenadores pedagogicos e gestores escolares não consigam modificar planos de aula
 
