@@ -135,7 +135,7 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
                 }
             },
             error: function (xhr, status, error) {
-                const response = JSON.parse(xhr.responseText);
+                const response = xhr.responseText;
                 const gradesNotFoundIMG = $("<img class='column'>");
                 gradesNotFoundIMG.attr('src', '/themes/default/img/grades/gradesNotFound.svg');
                 gradesNotFoundIMG.attr('alt', 'Não foram encontrados dados correspondentes aos critérios definidos');
@@ -150,7 +150,7 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
                 $(".js-grades-alert")
                     .addClass("alert-error")
                     .removeClass("alert-success")
-                    .text(response.message || "Não foi possível listar o diário de notas dos alunos dessa turma, verifique se exsitem alunos ativos nessa turma")
+                    .text(response || "Não foi possível listar o diário de notas dos alunos dessa turma, verifique se exsitem alunos ativos nessa turma")
                     .show();
             },
             complete: function () {

@@ -66,8 +66,10 @@ function createTable(data) {
         $('#class-contents > tbody').append('<tr class="center day-row" day="' + day + '">' + head + body + '</tr>');
         let select = $("select.course-classes-select").last();
         select.children("option").each(function () {
+            let formatedDisciplineName = $(this).attr("disciplinename") == "undefined" ? "Multidisciplinar" : $(this).attr("disciplinename");
+
             if (!select.find("optgroup[value=" + $(this).attr("disciplineid") + "]").length) {
-                select.append("<optgroup value='" + $(this).attr("disciplineid") + "' label='" + $(this).attr("disciplinename") + "'></optgroup>");
+                select.append("<optgroup value='" + $(this).attr("disciplineid") + "' label='" + formatedDisciplineName + "'></optgroup>");
             }
             $(this).appendTo(select.find("optgroup[value=" + $(this).attr("disciplineid") + "]"));
         });
