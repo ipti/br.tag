@@ -17,7 +17,7 @@ class AdminController extends Controller
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-                    'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+                    'import', 'export', 'update', 'manageUsers', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
                     'syncImport', 'exportToMaster', 'exportStudents', 'exportGrades', 'exportFaults', 'clearMaster', 'importFromMaster',
                     'gradesStructure', 'instanceConfig', 'editInstanceConfigs'
                 ], 'users' => ['@'],
@@ -709,49 +709,6 @@ class AdminController extends Controller
             }
         }
         $this->render('editPassword', ['model' => $model]);
-    }
-
-
-    public function actionClearDB()
-    {
-        //delete from users_school;
-        //delete from users;
-        // delete from auth_assignment;
-
-        $command = "
-			SET FOREIGN_KEY_CHECKS=0;
-
-			delete from auth_assignment;
-			delete from users;
-			delete from users_school;
-
-			delete from class_board;
-            delete from class_faults;
-            delete from class;
-
-            delete from student_enrollment;
-            delete from student_identification;
-            delete from student_documents_and_address;
-
-            delete from instructor_teaching_data;
-            delete from instructor_identification;
-            delete from instructor_documents_and_address;
-            delete from instructor_variable_data;
-            delete from teaching_matrixes;
-
-            delete from classroom;
-
-            delete from school_identification;
-            delete from school_structure;";
-
-        set_time_limit(0);
-        ignore_user_abort();
-        Yii::app()->db->createCommand($command)->query();
-
-        $this->addTestUsers();
-
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Limpeza do banco de dados concluída com sucesso! <br/>Faça o login novamente para atualizar os dados.'));
-        $this->redirect(array('index'));
     }
 
     public function addTestUsers()
