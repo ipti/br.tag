@@ -294,8 +294,8 @@ function updateTime(data) {
 }
 
 
-instructor.on('change', atualizarListadeDisciplinas);
-uInstructor.on('change', atualizarListadeDisciplinas);
+// instructor.on('change', atualizarListadeDisciplinas);
+// uInstructor.on('change', atualizarListadeDisciplinas);
 
 $(document).on('click', '.deleteTeachingData', removeTeachingData);
 $("#addTeachingData").on('click', addTeachingData);

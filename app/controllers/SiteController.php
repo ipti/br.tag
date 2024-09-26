@@ -431,4 +431,44 @@ class SiteController extends Controller
         $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryRow();
         echo json_encode($chartData);
     }
+
+
+    public function actionViewFileLogs($page = 1)
+{
+    // Caminho para o arquivo de log
+    $logFilePath = Yii::app()->getRuntimePath(). '/'. INSTANCE .'/application.log';
+
+    // Número de linhas por página
+    $linesPerPage = 100;
+
+    if (file_exists($logFilePath)) {
+        // Lê todas as linhas do arquivo de log
+        $lines = array_reverse(file($logFilePath));
+
+        // Conta o número total de páginas
+        $totalLines = count($lines);
+        $totalPages = ceil($totalLines / $linesPerPage);
+
+        // Certifica-se de que a página atual esteja dentro dos limites
+        $page = max(1, min($totalPages, (int)$page));
+
+        // Calcula as linhas a serem exibidas nesta página
+        $start = ($page - 1) * $linesPerPage;
+        $logContent = array_slice($lines, $start, $linesPerPage);
+
+        // Gera a string do conteúdo do log para exibição
+        $logContent = implode("", $logContent);
+    } else {
+        $logContent = "O arquivo de log não foi encontrado.";
+        $totalPages = 1;
+        $page = 1;
+    }
+
+    // Renderiza a view e passa os parâmetros para a página
+    $this->render('viewLogs', array(
+        'logContent' => $logContent,
+        'totalPages' => $totalPages,
+        'currentPage' => $page,
+    ));
+}
 }

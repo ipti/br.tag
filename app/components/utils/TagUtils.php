@@ -7,6 +7,18 @@ class TagUtils extends CApplicationComponent {
         return (bool)Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
     }
 
+    public static function isManager(){
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.userid = :id';
+        $criteria->params = array(':id' => Yii::app()->user->loginInfos->id);
+        $authAssignment = AuthAssignment::model()->find($criteria);
+
+        if($authAssignment->itemname == "manager") {
+            return true;
+        }
+        return false;
+    }
+
     public static function isStageMinorEducation($stage){
         $refMinorStages = [
             '1', '2', '3', '4', '5', '6', '7', '8', '14', '15', '16', '17', '18'
