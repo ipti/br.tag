@@ -129,9 +129,10 @@ class GradesController extends Controller
             }
         }
     }
-    public function actionGetUnities() {
+    public function actionGetUnities()
+    {
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
-        $unities  = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk]);
+        $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk]);
         $result = [];
         foreach ($unities as $unity) {
             $result[$unity['id']] = $unity["name"];
@@ -184,7 +185,7 @@ class GradesController extends Controller
             $hasAllValues = true;
             for ($key = 0; $key < 3; $key++) {
                 $index = $key + 1;
-                if($rule == "C") {
+                if ($rule == "C") {
                     $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
                     $hasAllValues = $hasAllValues && (isset($gradeResult["grade_concept_" . $index]) && $gradeResult["grade_concept_" . $index] != "");
                 } else {
@@ -196,13 +197,13 @@ class GradesController extends Controller
             }
 
             if ($rule == "C") {
-                if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
+                if ($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
                     $gradeResult->situation = "APROVADO";
                 } else {
                     $gradeResult->situation = "";
                 }
             } else {
-                $gradeResult->final_media = floor(($mediaFinal/4) * 10) / 10;
+                $gradeResult->final_media = floor(($mediaFinal / 4) * 10) / 10;
             }
 
             if (!$gradeResult->validate()) {
@@ -250,7 +251,7 @@ class GradesController extends Controller
             $givenClasses = 0;
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
-                if($rule == "C") {
+                if ($rule == "C") {
                     $gradeResult->{"grade_concept_" . $index} = $std['grades'][$key]['value'];
                     $hasAllValues = $hasAllValues && (isset($gradeResult["grade_concept_" . $index]) && $gradeResult["grade_concept_" . $index] != "");
                 } else {
@@ -263,7 +264,7 @@ class GradesController extends Controller
                 $givenClasses += (int) $std['grades'][$key]['givenClasses'];
             }
 
-            $frequency = (($givenClasses - $totalFaults) / $givenClasses)*100;
+            $frequency = (($givenClasses - $totalFaults) / $givenClasses) * 100;
 
 
             if (!$gradeResult->validate()) {
@@ -306,7 +307,7 @@ class GradesController extends Controller
                 $gradeResult->final_media = null;
             }
 
-            if($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
+            if ($hasAllValues && (isset($std["finalConcept"]) && $std["finalConcept"] != "")) {
                 $gradeResult->situation = "APROVADO";
             }
 
@@ -317,7 +318,7 @@ class GradesController extends Controller
             }
 
             $time_elapsed_secs = microtime(true) - $start;
-            Yii::log($std['enrollmentId']." - ". $time_elapsed_secs/60, CLogger::LEVEL_INFO);
+            Yii::log($std['enrollmentId'] . " - " . $time_elapsed_secs / 60, CLogger::LEVEL_INFO);
         }
 
         echo CJSON::encode(["valid" => true]);
@@ -359,7 +360,7 @@ class GradesController extends Controller
                         "params" => [":stageId" => $studentEnrollment->classroomFk->edcenso_stage_vs_modality_fk]
                     ]
                 );
-                if($rules->rule_type == "C") {
+                if ($rules->rule_type == "C") {
                     $concepts = GradeConcept::model()->findAll();
                     $result["concepts"] = CHtml::listData($concepts, 'id', 'name');
                 }
@@ -503,7 +504,7 @@ class GradesController extends Controller
         $isConcept = Yii::app()->request->getPost("isConcept");
 
         $transaction = Yii::app()->db->beginTransaction();
-        try{
+        try {
             foreach ($students as $student) {
                 foreach ($student["grades"] as $grade) {
 
@@ -522,14 +523,14 @@ class GradesController extends Controller
                         TLog::info("Modo Grades conceito selecionado.", array("IsConcept" => $isConcept));
                         $gradeObject->grade_concept_fk = $grade["concept"];
                     }
-                    if($gradeObject->save()){
+                    if ($gradeObject->save()) {
                         TLog::info("GradeObject salva com sucesso.", array(
                             "GradeObject" => $gradeObject->id
                         ));
                     }
 
                 }
-                foreach($student["partialRecoveriesGrades"] as $gradePartialRecovery) {
+                foreach ($student["partialRecoveriesGrades"] as $gradePartialRecovery) {
                     $gradeObject = Grade::model()->findByPk($gradePartialRecovery["id"]);
 
                     if ($gradeObject == null) {
@@ -549,7 +550,7 @@ class GradesController extends Controller
             $transaction->commit();
             header('HTTP/1.1 200 OK');
             echo json_encode(["valid" => true]);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             TLog::error("Ocorreu algum erro durante a transação de SaveGrades", ["ExceptionMessage" => $e->getMessage()]);
             $transaction->rollback();
             throw new Exception($e->getMessage(), 500, $e);
@@ -567,15 +568,9 @@ class GradesController extends Controller
         $disciplineId = Yii::app()->request->getPost("discipline");
         $unityId = Yii::app()->request->getPost("unity");
 
-        try {
-            $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId);
-            $result = $usecase->exec();
-            echo CJSON::encode($result);
-        } catch (Exception $e) {
-            header('HTTP/1.1 500 ' . $e->getMessage());
-            echo json_encode(['valid' => false, 'message' => $e->getMessage()]);
-        }
-
+        $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId);
+        $result = $usecase->exec();
+        echo CJSON::encode($result);
     }
 
     public function actionCalculateFinalMedia()

@@ -218,6 +218,7 @@ return array(
             'dsn' => getenv("SENTRY_DSN")   ,
             'jsDsn' => getenv("SENTRY_DSN"),
             'options' => [
+                'traces_sample_rate' => 1.0,
                 'release' => 'tag@' . TAG_VERSION,
                 'environment' => INSTANCE,
                 'before_send' => function (\Sentry\Event $event) {
