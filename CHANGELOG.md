@@ -1,3 +1,9 @@
+## [Versão 3.87.193]
+- Consertado estrutura de notas para as etapas por conceito
+
+## [Versão 3.87.192]
+- Corrigindo a exibição de aulas multidisciplinares em aulas ministradas e corrigindo permissões de plano de aula
+
 ## [Versão 3.87.191]
 - Adicionando logs de arquivos para monitoramento
 
