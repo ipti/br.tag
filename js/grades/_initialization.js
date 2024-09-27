@@ -96,18 +96,33 @@ $("#save").on("click", function (e) {
         success: function (data) {
             $("#discipline").trigger("change", ["saveGrades"]);
         },
+        complete: () => $(".js-grades-loading").css("display", "none")
     });
 });
 
 $("#close-grades-diary").on("click", function (e) {
     e.preventDefault();
+
+    const classromId = $("#classroom").val();
+    const disciplineId = $("#discipline").val();
+
+    if(!classromId){
+        alertValidationError("Para calcular a média final, primeiro selecione uma turma");
+        return;
+    }
+
+    if(!disciplineId){
+        alertValidationError("Para calcular a média final, selecione um componente curricular");
+        return;
+    }
+
     $.ajax({
         type: "POST",
         url: "?r=grades/calculateFinalMedia",
         cache: false,
         data: {
-            classroom: $("#classroom").val(),
-            discipline: $("#discipline").val(),
+            classroom: classromId,
+            discipline: disciplineId,
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");
@@ -116,8 +131,16 @@ $("#close-grades-diary").on("click", function (e) {
                 .css("overflow", "auto")
                 .css("pointer-events", "none");
         },
-        success: function (data) {
-            $("#discipline").trigger("change", ["saveGrades"]);
-        },
+        success: (data) => $("#discipline").trigger("change", ["saveGrades"]),
+        complete: () => $(".js-grades-loading").css("display", "none")
     });
 });
+
+
+function alertValidationError(message){
+    $(".js-grades-alert")
+            .removeClass("alert-success")
+            .addClass("alert-error")
+            .text(message)
+            .show();
+}
