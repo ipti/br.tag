@@ -294,15 +294,15 @@ class ClassesController extends Controller
     {
         return Yii::app()->db->createCommand(
             "select
-                    si.id,
-                    si.name
-                from student_enrollment se
-                    join student_identification si on si.id = se.student_fk
-                where classroom_fk = :classroom_fk
-                order by si.name"
+                si.id,
+                si.name
+            from student_enrollment se
+                join student_identification si on si.id = se.student_fk
+            where classroom_fk = :classroom_fk
+            order by si.name"
         )
-            ->bindParam(":classroom_fk", $classroomId)
-            ->queryAll();
+        ->bindParam(":classroom_fk", $classroomId)
+        ->queryAll();
     }
 
     /**
@@ -423,7 +423,17 @@ class ClassesController extends Controller
             $this->saveClassDiary($student, $schedule);
         }
 
-        ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
+        $contentsToExclude = array_column( ClassContents::model()->with("courseClassFk.coursePlanFk")->findAll(
+            'schedule_fk = :schedule_fk and coursePlanFk.users_fk = :user_fk',
+            [
+                'schedule_fk' => $schedule->id,
+                'user_fk' => Yii::app()->user->loginInfos->id
+            ]
+        ), 'id');
+
+        if(!empty($contentsToExclude)){
+            ClassContents::model()->deleteAll("id IN (".implode(", ",$contentsToExclude).")");
+        }
 
         foreach ($classContent["contents"] as $content) {
             $this->saveClassContents($content, $schedule);
