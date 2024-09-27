@@ -183,14 +183,14 @@ $(document).ajaxError(function (event, jqxhr, ajaxSettings, thrownError) {
             window.location.href = response.redirect;
         }
     }
-    Raven.captureMessage(thrownError || jqXHR.statusText, {
+    Raven.captureMessage(thrownError || jqxhr.statusText, {
         extra: {
             type: ajaxSettings.type,
             url: ajaxSettings.url,
             data: ajaxSettings.data,
-            status: jqXHR.status,
-            error: thrownError || jqXHR.statusText,
-            response: jqXHR.responseText.substring(0, 100),
+            status: jqxhr.status,
+            error: thrownError || jqxhr.statusText,
+            response: jqxhr.responseText.substring(0, 100),
         },
     });
 });
