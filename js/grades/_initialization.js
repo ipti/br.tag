@@ -1,9 +1,9 @@
 const urlParams = new URLSearchParams(window.location.search);
 $(function () {
     const classroomId = urlParams.get("classroom_id");
-    if (classroomId) {
-        const disciplineId = urlParams.get("discipline_id");
-        const unityId = urlParams.get("unity_id");
+    const disciplineId = urlParams.get("discipline_id");
+    const unityId = urlParams.get("unity_id");
+    if (classroomId && disciplineId && unityId) {
         loadDisciplinesFromClassroom(classroomId, disciplineId, unityId);
     }
 });
@@ -11,8 +11,11 @@ $(function () {
 $("#classroom").change(function (e) {
     const disciplineId = urlParams.get("discipline_id");
     const unityId = urlParams.get("unity_id");
+
     $(".js-unity-title").html('')
     $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
+    $("#unities").select2("val", "-1");
+
     loadDisciplinesFromClassroom(e.target.value, disciplineId, unityId);
     loadUnitiesFromClassroom(e.target.value)
 });
