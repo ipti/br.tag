@@ -773,14 +773,14 @@ class ClassesController extends Controller
         echo json_encode($result);
     }
         private function checkIsStageMinorEducation($classroom) {
-            $isMinor = TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk);
+            $isMinor = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
-            if (!$isMinor && TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
+            if (!$isMinor && TagUtils::isMultiStage($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
                 $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
 
                 foreach ($enrollments as $enrollment) {
-                    if (!$enrollment->edcenso_stage_vs_modality_fk ||
-                        !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)) {
+                    if (!$enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id ||
+                        !TagUtils::isStageMinorEducation($enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
                         return false;
                     }
                 }
