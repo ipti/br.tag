@@ -561,6 +561,7 @@ class AdminController extends Controller
 
                 if ($finalRecovery["operation"] === "delete") {
                     $recoveryUnity->delete();
+                    GradeUnityModality::model()->deleteByAttributes(["grade_unity_fk"=>$recoveryUnity]);
                     echo json_encode(["valid" => true]);
                     Yii::app()->end();
                 }
@@ -580,6 +581,23 @@ class AdminController extends Controller
                 }
 
                 $recoveryUnity->save();
+
+
+                    $modalityModel = GradeUnityModality::model()->findByAttributes(["grade_unity_fk"=>$recoveryUnity->id]);
+                    if ($modalityModel == null) {
+                        $modalityModel = new GradeUnityModality();
+                    }
+                    $modalityModel->name = "prova";
+                    $modalityModel->type = "R";
+                    $modalityModel->weight = null;
+                    $modalityModel->grade_unity_fk = $recoveryUnity->id;
+
+                    if (!$modalityModel->validate()) {
+                        throw new CantSaveGradeUnityModalityException($modalityModel);
+                    }
+
+                    $modalityModel->save();
+
             }
 
             echo json_encode(["valid" => true]);
