@@ -625,7 +625,7 @@ function checkValidInputs() {
                             return false;
                         }
                     });
-                if($(this).find('select.js-semester').val() === "") {
+                if($(this).find('select.js-semester').val() === "" && $(".js-rule-type").select2("val") === "N") {
                     valid = false;
                     message= "Preencha o semestre das unidades"
                     return false

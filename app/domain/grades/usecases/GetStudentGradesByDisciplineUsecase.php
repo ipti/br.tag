@@ -65,8 +65,8 @@ class GetStudentGradesByDisciplineUsecase
                 $this->disciplineId,
                 $unitiesByDiscipline,
                 $unityOrder,
-                $semester,
                 $type,
+                $semester,
                 $showSemAvarageColumn
             );
         }
@@ -200,7 +200,7 @@ class GetStudentGradesByDisciplineUsecase
 
         $semRecPartial = null;
         if($showSemAvarageColumn) {
-            $semRecPartial = $this->getSemRecPartial($gradeResult, $type, $semester);
+            $semRecPartial = $this->getSemRecPartial($gradeResult, $semester, $type);
         } else {
             $semRecPartial = "";
         }

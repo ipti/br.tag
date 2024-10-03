@@ -134,6 +134,7 @@ return array(
         'user' => array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
+            'authTimeout' => 20*60
         ),
         'cache' => array(
             'class' => 'system.caching.CDbCache'
@@ -217,6 +218,7 @@ return array(
             'dsn' => getenv("SENTRY_DSN")   ,
             'jsDsn' => getenv("SENTRY_DSN"),
             'options' => [
+                'traces_sample_rate' => 1.0,
                 'release' => 'tag@' . TAG_VERSION,
                 'environment' => INSTANCE,
                 'before_send' => function (\Sentry\Event $event) {
