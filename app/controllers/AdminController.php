@@ -559,13 +559,6 @@ class AdminController extends Controller
 
                 $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
 
-                if ($finalRecovery["operation"] === "delete") {
-                    $recoveryUnity->delete();
-                    GradeUnityModality::model()->deleteByAttributes(["grade_unity_fk"=>$recoveryUnity]);
-                    echo json_encode(["valid" => true]);
-                    Yii::app()->end();
-                }
-
                 if ($recoveryUnity === null) {
                     $recoveryUnity = new GradeUnity();
                 }
@@ -587,7 +580,7 @@ class AdminController extends Controller
                     if ($modalityModel == null) {
                         $modalityModel = new GradeUnityModality();
                     }
-                    $modalityModel->name = "prova";
+                    $modalityModel->name = "Avaliação/Prova";
                     $modalityModel->type = "R";
                     $modalityModel->weight = null;
                     $modalityModel->grade_unity_fk = $recoveryUnity->id;
@@ -598,7 +591,13 @@ class AdminController extends Controller
 
                     $modalityModel->save();
 
+            } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete") {
+                $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
+                $recoveryUnity->delete();
+                echo json_encode(["valid" => true]);
+                Yii::app()->end();
             }
+
 
             echo json_encode(["valid" => true]);
         } catch (\Throwable $th) {
