@@ -1,3 +1,6 @@
+## [Versão 3.87.194]
+- Adicionando paginação nas telas de ficha AEE
+
 ## [Versão 3.87.193]
 - Consertado estrutura de notas para as etapas por conceito
 
