@@ -511,7 +511,7 @@ class ClassesController extends Controller
     public function actionGetFrequency()
     {
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
-        $isMinor = $this->checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
         if ($isMinor == false) {
             $schedules = Schedule::model()->findAll(
                 "classroom_fk = :classroom_fk and year = :year and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
@@ -642,7 +642,7 @@ class ClassesController extends Controller
     public function actionSaveFrequency()
     {
         $classroom = Classroom::model()->findByPk($_POST["classroomId"]);
-        $isMinor = $this->checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
         if ($isMinor == false) {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and year = :year and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "year" => $_POST["year"], "schedule" => $_POST["schedule"]]);
             $this->saveFrequency($schedule);
@@ -707,7 +707,7 @@ class ClassesController extends Controller
     public function actionSaveJustification()
     {
         $classroom = Classroom::model()->findByPk($_POST["classroomId"]);
-        $isMinor = $this->checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
         if ($isMinor == false) {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and year = :year and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "year" => $_POST["year"], "schedule" => $_POST["schedule"]]);
             $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
@@ -730,7 +730,7 @@ class ClassesController extends Controller
     {
         $result = [];
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
-        $isMinor = $this->checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
         if ($classroom->calendar_fk != null) {
 
             $result["months"] = [];
