@@ -18,7 +18,13 @@ function loadClassContents() {
         success: function (data) {
             data = jQuery.parseJSON(data);
             if (data.valid) {
-                createTable(data);
+                let urlIsValidate = window.location.href.includes("validateClassContents");
+                if(urlIsValidate) {
+                    createValidateTable(data);
+                } else {
+                    createTable(data);
+                }
+
                 $("#print").addClass("show").removeClass("hide");
                 $("#save").addClass("show--desktop").removeClass("hide");
                 $("#save-button-mobile").addClass("show--tablet").removeClass("hide");
