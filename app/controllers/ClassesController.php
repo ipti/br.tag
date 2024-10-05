@@ -143,12 +143,12 @@ class ClassesController extends Controller
     {
         $classroomId = Yii::app()->request->getPost('classroom');
         $classroom  = Classroom::model()->findByPk($classroomId);
-        $isMinorEducation = $this->checkIsStageMinorEducation($classroom);
         $month = Yii::app()->request->getPost('month');
         $year = Yii::app()->request->getPost('year');
         $disciplineId = Yii::app()->request->getPost('discipline');
 
         $students = $this->getStudentsByClassroom($classroomId);
+        $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
 
         if (!$isMinorEducation) {
             $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
@@ -370,7 +370,7 @@ class ClassesController extends Controller
         $discipline = $_POST["discipline"];
 
         $modelClassroom = Classroom::model()->findByPk($classroom);
-        $isMinor = $this->checkIsStageMinorEducation($modelClassroom);
+        $isMinor = $modelClassroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($modelClassroom);
         $isMajorStage = !$isMinor;
 
         $schedules = $this->loadSchedulesByStage($isMajorStage, $classroom, $month, $year, $discipline);

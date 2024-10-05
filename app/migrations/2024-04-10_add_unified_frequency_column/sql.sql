@@ -1,1 +1,2 @@
-alter table edcenso_stage_vs_modality add unified_frequency INT(11);
+ALTER TABLE edcenso_stage_vs_modality
+ADD COLUMN unified_frequency INT(11) DEFAULT 0;
