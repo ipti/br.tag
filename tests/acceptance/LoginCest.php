@@ -1,19 +1,17 @@
 <?php
 
-require_once __DIR__."/../robots/LoginRobots.php";
-
 class LoginCest
 {
     // tests
     public function frontpageWorks(AcceptanceTester $tester)
     {
-        $user = "admin";
-        $secret = "p@s4ipti";
+        $builder = new LoginBuilder();
+        $login = $builder->buildCompleted();
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
-        $robots->fieldUser($user);
-        $robots->fieldPassword($secret);
+        $robots->fieldUser($login['user']);
+        $robots->fieldPassword($login['secret']);
         $robots->submit();
         sleep(2);
         $tester->see('Bem vindo ao');
@@ -46,5 +44,4 @@ class LoginCest
         sleep(5);
         $tester->see('Usuário ou senha incorretos');
     }
-
 }
