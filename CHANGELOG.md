@@ -1,3 +1,6 @@
+## [Versão 3.88.193]
+- Adicionado campo para unificar a frequencia na tela de etapa de ensino
+
 ## [Versão 3.87.193]
 - Consertado estrutura de notas para as etapas por conceito
 
