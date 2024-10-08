@@ -58,9 +58,11 @@ function createValidateTable(data) {
         $.each(data.courseClasses, function (index, courseClass) {
             $.each(classContent.contents, function (index, content) {
                 if(courseClass.id == content) {
-                    courseClasses += '<div class="t-badge-info column is-four-fifths">'
-                    + "Plano de aula: " + courseClass.cpname + " Aula " + courseClass.order + "<br>"
-                    + "Conteúdo: " + courseClass.content
+                    courseClasses += '<div class="t-badge-info column text-align--left t-padding-medium--x" style="width:80%">'
+                    + "<div>"
+                    + "<b>Aula:</b> " + courseClass.order + " <b>Plano de aula:</b> " + courseClass.cpname + "<br>"
+                    + "<b>Conteúdo:</b> " + courseClass.content
+                    + "</div>"
                     + '</div>';
                 }
             });
@@ -69,11 +71,10 @@ function createValidateTable(data) {
 
 
         let head = '<th class="center vmiddle contents-day ">' + ((day < 10) ? '0' : '') + day + '</th>';
-        let body = '<td class="row">'
-            + '<input type="hidden" class="classroom-diary-of-the-day" value="' + classContent.diary + '">'
+        let body = '<td class="row align-items--center">'
             + studentInputs
-            + '<span class="t-icon-annotation t-icon classroom-diary-button ' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>'
-            + '<div class="mobile-row wrap" id="day[' + day + ']" name="day[' + day + '][]" class="vmiddle">'
+            + '<span style="font-size: 24px" class="t-icon t-icon-annotation t-margin-large--left classroom-diary-button' + (!classContent.available ? "disabled" : "") + '" data-toggle="tooltip" title="Diário"></span>'
+            + '<div class="column clearfix" id="day[' + day + ']" name="day[' + day + '][]">'
             + courseClasses
             + '</div>'
             + '</td>';
