@@ -191,4 +191,10 @@ class FormsController extends Controller {
         $query = $repository->getWarningTerm($enrollment_id);
         $this->render('WarningTerm', $query);
     }
+
+    public function actionSuspensionTerm() {
+
+        $this->layout = "reports";
+        $this->render('SuspensionTerm');
+    }
 }

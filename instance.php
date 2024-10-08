@@ -9,6 +9,7 @@ $_FORMS[6] = array('name' => 'Requerimento de Transferência', 'action' => 'Tran
 $_FORMS[8] = array('name' => 'Declaração de Cursou', 'action' => 'StatementAttended');
 $_FORMS[9] = array('name' => 'Termo de Advertência', 'action' => 'WarningTerm');
 $_FORMS[10] = array('name' => 'Certificado de Conclusão', 'action' => 'ConclusionCertification');
+$_FORMS[11] = array('name' => 'Termo de Suspensão', 'action' => 'SuspensionTerm');
 
 $host_array = explode(".", $_SERVER['HTTP_HOST']);
 $domain = array_shift($host_array);

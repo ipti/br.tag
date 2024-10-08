@@ -1,3 +1,6 @@
+## [Versão 3.88.194]
+- Inserido termo de suspensão
+
 ## [Versão 3.88.193]
 - Adicionado campo para unificar a frequencia na tela de etapa de ensino
 
