@@ -60,8 +60,8 @@ class ClassContents extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'scheduleFk' => array(self::BELONGS_TO, 'Schedule', 'schedule_fk'),
-			'courseClassFk' => array(self::BELONGS_TO, 'CourseClass', 'course_class_fk'),
+			'scheduleFk' => array(self::BELONGS_TO, Schedule::class, 'schedule_fk'),
+			'courseClassFk' => array(self::BELONGS_TO, CourseClass::class, 'course_class_fk'),
 		);
 	}
 

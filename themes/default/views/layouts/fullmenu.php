@@ -148,7 +148,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                     <div class="mobile-row justify-content--start">
                         <div>
                             <img id="alt-logo" src="<?php echo $school_logo ?>" class="tag-topbar__school_logo show" />
-                            <img class="tag-topbar__school_logo hidden" src="<?php echo $url_school_logo ?>" alt="emblema da escola" onload="document.getElementById('alt-logo').classList.replace('show', 'hidden'); this.classList.replace('hidden', 'show')" />
+                            <img class="tag-topbar__school_logo hidden" src="<?php echo $url_school_logo ?>" alt="emblema da escola" onload="$('#alt-logo').removeClass('show').addClass('hidden'); $(this).removeClass('hidden').addClass('show')" />
                         </div>
                         <div class="column">
                             <form class="school" id2="school" action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
@@ -158,6 +158,17 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                         </div>
 
                     </div>
+                </li>
+                
+                    <?php 
+                    if(!Yii::app()->user->getState("rememberMe")):
+                        // $this->beginWidget('zii.widgets.CPortlet', array(
+                        //     'title' => '',
+                        // ));
+                        // echo $this->renderPartial('/layouts/_session_timer', ['sessionTime' => SessionTimer::getSessionTime()]);
+                        // $this->endWidget();
+                    endif;
+                    ?>
                 </li>
                 <li id="menu-logout" class="hide-responsive" style="margin-left: auto">
                     <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout') ?>">

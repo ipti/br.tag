@@ -68,7 +68,7 @@ class DefaultController extends Controller
         $disciplineId = $_POST["discipline"];
         $classroom = Classroom::model()->findByPk($classroomId);
         $discipline = EdcensoDiscipline::model()->findByPk($disciplineId);
-        $isMinor = $this->checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
         if ($isMinor == false) {
             $schedules = Schedule::model()->findAll(
                 "classroom_fk = :classroom_fk and year = :year and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",

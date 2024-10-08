@@ -16,7 +16,6 @@ function createTable(data) {
     let i = 1;
     let pivotChanger = "";
     $.each(data.courseClasses, function () {
-        console.log(this);
         i = pivotChanger !== this.cpid ? 1 : i;
         pivotChanger = this.cpid;
         options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + i++ + "|" + this.content + "|" + this.edname + '</option>';
@@ -66,8 +65,10 @@ function createTable(data) {
         $('#class-contents > tbody').append('<tr class="center day-row" day="' + day + '">' + head + body + '</tr>');
         let select = $("select.course-classes-select").last();
         select.children("option").each(function () {
+            let formatedDisciplineName = $(this).attr("disciplinename") == "undefined" ? "Multidisciplinar" : $(this).attr("disciplinename");
+
             if (!select.find("optgroup[value=" + $(this).attr("disciplineid") + "]").length) {
-                select.append("<optgroup value='" + $(this).attr("disciplineid") + "' label='" + $(this).attr("disciplinename") + "'></optgroup>");
+                select.append("<optgroup value='" + $(this).attr("disciplineid") + "' label='" + formatedDisciplineName + "'></optgroup>");
             }
             $(this).appendTo(select.find("optgroup[value=" + $(this).attr("disciplineid") + "]"));
         });

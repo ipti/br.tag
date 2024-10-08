@@ -67,8 +67,8 @@ class CourseClass extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'classContents' => array(self::HAS_MANY, 'ClassContents', 'course_class_fk'),
-			'coursePlanFk' => array(self::BELONGS_TO, 'CoursePlan', 'course_plan_fk'),
+			'classContents' => array(self::HAS_MANY, ClassContents::class, 'course_class_fk'),
+			'coursePlanFk' => array(self::BELONGS_TO, CoursePlan::class, 'course_plan_fk'),
 			'courseClassHasClassAbilities' => array(self::HAS_MANY, 'CourseClassHasClassAbility', 'course_class_fk'),
 			'courseClassHasClassResources' => array(self::HAS_MANY, 'CourseClassHasClassResource', 'course_class_fk'),
 			'courseClassHasClassTypes' => array(self::HAS_MANY, 'CourseClassHasClassType', 'course_class_fk'),

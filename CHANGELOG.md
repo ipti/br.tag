@@ -1,3 +1,15 @@
+## [Versão 3.88.193]
+- Adicionado campo para unificar a frequencia na tela de etapa de ensino
+
+## [Versão 3.87.193]
+- Consertado estrutura de notas para as etapas por conceito
+
+## [Versão 3.87.192]
+- Corrigindo a exibição de aulas multidisciplinares em aulas ministradas e corrigindo permissões de plano de aula
+
+## [Versão 3.87.191]
+- Adicionando logs de arquivos para monitoramento
+
 ## [Versão 3.87.191]
 - Inserido as abas de base nacional comum e parte diversificadora no relatório de ata de notas da turma
 - Inserido certificado de conclusão do aluno
@@ -9,9 +21,12 @@
 - Corrigindo erros internos na impressão de documentos. Não possui impacto nas funcionalidades, apenas nos registros de erro.
 - Corrigindo alerta ao adicionar cardápio (interno)
 
-## [Versão 3.85.190]
+## [Versão 3.86.189]
 - Cosertada frequência no módulo de diário de classe para professores
 - Consertado multiselect de plano de aula no módulo de diario de classe para professores
+
+## [Versão 3.86.189]
+- Filtros de busca adicionados no carregamento de planos de aula pendentes
 
 ## [Versão 3.86.188]
 - Criando a tela de validar aulas ministradas, permitindo somente a visualização das aulas

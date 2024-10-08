@@ -143,12 +143,12 @@ class ClassesController extends Controller
     {
         $classroomId = Yii::app()->request->getPost('classroom');
         $classroom  = Classroom::model()->findByPk($classroomId);
-        $isMinorEducation = $this->checkIsStageMinorEducation($classroom);
         $month = Yii::app()->request->getPost('month');
         $year = Yii::app()->request->getPost('year');
         $disciplineId = Yii::app()->request->getPost('discipline');
 
         $students = $this->getStudentsByClassroom($classroomId);
+        $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
 
         if (!$isMinorEducation) {
             $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
@@ -229,13 +229,11 @@ class ClassesController extends Controller
                         ->queryAll();
 
                     $additionalClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid
+                        "select cc.id, cp.name as cpname, cp.discipline_fk ,cc.order, cc.content, cp.id as cpid
                         from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
-                        join course_plan_discipline_vs_abilities dvsa on dvsa.course_class_fk = cc.id
-                        join edcenso_discipline ed on ed.id = dvsa.discipline_fk
-                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk
-                        order by ed.name, cp.name"
+                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk IS NULL
+                        order by cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
@@ -296,15 +294,15 @@ class ClassesController extends Controller
     {
         return Yii::app()->db->createCommand(
             "select
-                    si.id,
-                    si.name
-                from student_enrollment se
-                    join student_identification si on si.id = se.student_fk
-                where classroom_fk = :classroom_fk
-                order by si.name"
+                si.id,
+                si.name
+            from student_enrollment se
+                join student_identification si on si.id = se.student_fk
+            where classroom_fk = :classroom_fk
+            order by si.name"
         )
-            ->bindParam(":classroom_fk", $classroomId)
-            ->queryAll();
+        ->bindParam(":classroom_fk", $classroomId)
+        ->queryAll();
     }
 
     /**
@@ -372,7 +370,7 @@ class ClassesController extends Controller
         $discipline = $_POST["discipline"];
 
         $modelClassroom = Classroom::model()->findByPk($classroom);
-        $isMinor = $this->checkIsStageMinorEducation($modelClassroom);
+        $isMinor = $modelClassroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($modelClassroom);
         $isMajorStage = !$isMinor;
 
         $schedules = $this->loadSchedulesByStage($isMajorStage, $classroom, $month, $year, $discipline);
@@ -425,7 +423,17 @@ class ClassesController extends Controller
             $this->saveClassDiary($student, $schedule);
         }
 
-        ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
+        $contentsToExclude = array_column( ClassContents::model()->with("courseClassFk.coursePlanFk")->findAll(
+            'schedule_fk = :schedule_fk and coursePlanFk.users_fk = :user_fk',
+            [
+                'schedule_fk' => $schedule->id,
+                'user_fk' => Yii::app()->user->loginInfos->id
+            ]
+        ), 'id');
+
+        if(!empty($contentsToExclude)){
+            ClassContents::model()->deleteAll("id IN (".implode(", ",$contentsToExclude).")");
+        }
 
         foreach ($classContent["contents"] as $content) {
             $this->saveClassContents($content, $schedule);
@@ -503,7 +511,7 @@ class ClassesController extends Controller
     public function actionGetFrequency()
     {
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
-        $isMinor = $this->checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
         if ($isMinor == false) {
             $schedules = Schedule::model()->findAll(
                 "classroom_fk = :classroom_fk and year = :year and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
@@ -634,7 +642,7 @@ class ClassesController extends Controller
     public function actionSaveFrequency()
     {
         $classroom = Classroom::model()->findByPk($_POST["classroomId"]);
-        $isMinor = $this->checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
         if ($isMinor == false) {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and year = :year and month = :month and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "year" => $_POST["year"], "schedule" => $_POST["schedule"]]);
             $this->saveFrequency($schedule);
@@ -699,7 +707,7 @@ class ClassesController extends Controller
     public function actionSaveJustification()
     {
         $classroom = Classroom::model()->findByPk($_POST["classroomId"]);
-        $isMinor = $this->checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
         if ($isMinor == false) {
             $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and day = :day and month = :month and year = :year and schedule = :schedule", ["classroom_fk" => $_POST["classroomId"], "day" => $_POST["day"], "month" => $_POST["month"], "year" => $_POST["year"], "schedule" => $_POST["schedule"]]);
             $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $_POST["studentId"]]);
@@ -722,7 +730,7 @@ class ClassesController extends Controller
     {
         $result = [];
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
-        $isMinor = $this->checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
         if ($classroom->calendar_fk != null) {
 
             $result["months"] = [];
@@ -765,14 +773,14 @@ class ClassesController extends Controller
         echo json_encode($result);
     }
         private function checkIsStageMinorEducation($classroom) {
-            $isMinor = TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk);
+            $isMinor = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
-            if (!$isMinor && TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
+            if (!$isMinor && TagUtils::isMultiStage($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
                 $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
 
                 foreach ($enrollments as $enrollment) {
-                    if (!$enrollment->edcenso_stage_vs_modality_fk ||
-                        !TagUtils::isStageMinorEducation($enrollment->edcenso_stage_vs_modality_fk)) {
+                    if (!$enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id ||
+                        !TagUtils::isStageMinorEducation($enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
                         return false;
                     }
                 }
