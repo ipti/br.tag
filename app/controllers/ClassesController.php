@@ -170,7 +170,7 @@ class ClassesController extends Controller
                         order by ed.name, cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
-                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id)
                         ->bindParam(":discipline_fk", $_POST["discipline"])
                         ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
                         ->queryAll();
@@ -183,7 +183,7 @@ class ClassesController extends Controller
                         order by ed.name, cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
-                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id)
                         ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
                         ->queryAll();
 
@@ -197,7 +197,7 @@ class ClassesController extends Controller
                         order by ed.name, cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
-                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id)
                         ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
                         ->queryAll();
 
@@ -213,7 +213,7 @@ class ClassesController extends Controller
                         order by ed.name, cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
-                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id)
                         ->bindParam(":discipline_fk", $_POST["discipline"])
                         ->queryAll();
                 } else {
@@ -225,7 +225,7 @@ class ClassesController extends Controller
                         order by ed.name, cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
-                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id)
                         ->queryAll();
 
                     $additionalClasses = Yii::app()->db->createCommand(
@@ -236,7 +236,7 @@ class ClassesController extends Controller
                         order by cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
-                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id)
                         ->queryAll();
 
                     $courseClasses = array_merge($courseClasses, $additionalClasses);
