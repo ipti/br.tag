@@ -113,7 +113,6 @@
                             ->bindParam(":school_inep_fk", Yii::app()->user->school)
                             ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
                             ->bindParam(":modality_fk", $schedule->classroomFk->edcenso_stage_vs_modality_fk)
-
                             ->queryAll();
 
                             $additionalClasses = Yii::app()->db->createCommand(
