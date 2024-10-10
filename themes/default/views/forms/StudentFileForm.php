@@ -61,7 +61,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                 if ($_REQUEST['type'] == '2') {
                     echo '<td colspan="3">O(A) ALUNO(A) REQUER SUA MATRÍCULA ';
                 ?>
-                    NO_________ANO
+                    NO <?= strtoupper($data["stage_name"]) ?>
                 <?php
                     echo ', DE ACORDO COM SITUAÇÃO APRESENTADA ABAIXO, A QUAL PEDE DEFERIMENTO.</td>';
                 } else {
@@ -71,7 +71,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     if ($_REQUEST['type'] == '0') {
                         echo '<span class="class"></span>';
                     } else {
-                        echo 'NO_________ANO';
+                        echo 'NA(S)/NO(S) ' . strtoupper($data["stage_name"]);
                     }
                     ?>
                 <?php
