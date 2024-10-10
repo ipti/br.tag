@@ -1,4 +1,5 @@
 ## [Versão 3.87.194]
+- Adicionado campo para unificar a frequencia na tela de etapa de ensino
 - Adicionando paginação nas telas de ficha AEE
 
 ## [Versão 3.87.193]
@@ -20,6 +21,9 @@
 ## [Versão 3.86.189]
 - Cosertada frequência no módulo de diário de classe para professores
 - Consertado multiselect de plano de aula no módulo de diario de classe para professores
+
+## [Versão 3.86.189]
+- Filtros de busca adicionados no carregamento de planos de aula pendentes
 
 ## [Versão 3.86.188]
 - Criando a tela de validar aulas ministradas, permitindo somente a visualização das aulas
