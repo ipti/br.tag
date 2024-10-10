@@ -44,6 +44,9 @@ require_once __DIR__ ."/../extensions/Validator/StudentDocumentsAndAddressValida
  * @property integer $received_history
  * @property integer $received_responsable_rg
  * @property integer $received_responsable_cpf
+ * @property integer $received_student_cpf
+ * @property integer $received_student_rg
+ * @property integer $received_sus_card
  * @property string $cns
  * @property string $fkid
  * @property integer $justice_restriction
@@ -103,7 +106,7 @@ class StudentDocumentsAndAddress extends AltActiveRecord
         // will receive user inputs.
         return array(
             array('school_inep_id_fk, residence_zone', 'required'),
-            array('rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, civil_certification, civil_certification_type, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, residence_zone, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, justice_restriction, diff_location, consent_form', 'numerical', 'integerOnly'=>true),
+            array('rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, civil_certification, civil_certification_type, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, residence_zone, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, received_student_cpf, received_student_rg, received_sus_card, justice_restriction, diff_location, consent_form', 'numerical', 'integerOnly'=>true),
             array('register_type', 'length', 'max'=>2),
             array('school_inep_id_fk, civil_certification_term_number, civil_certification_book, cep', 'length', 'max'=>8),
             array('student_fk', 'length', 'max'=>12),
@@ -118,7 +121,7 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             array('hash', 'length', 'max'=>40),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, student_fk, id, rg_number, rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, rg_number_expediction_date, civil_certification, civil_certification_type, civil_certification_term_number, civil_certification_sheet, civil_certification_book, civil_certification_date, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, civil_register_enrollment_number, cpf, foreign_document_or_passport, nis, residence_zone, cep, address, number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, cns, fkid, justice_restriction, diff_location', 'safe', 'on'=>'search'),
+            array('register_type, school_inep_id_fk, student_fk, id, rg_number, rg_number_edcenso_organ_id_emitter_fk, rg_number_edcenso_uf_fk, rg_number_expediction_date, civil_certification, civil_certification_type, civil_certification_term_number, civil_certification_sheet, civil_certification_book, civil_certification_date, notary_office_uf_fk, notary_office_city_fk, edcenso_notary_office_fk, civil_register_enrollment_number, cpf, foreign_document_or_passport, nis, residence_zone, cep, address, number, complement, neighborhood, edcenso_uf_fk, edcenso_city_fk, received_cc, received_address, received_photo, received_nis, received_history, received_responsable_rg, received_responsable_cpf, received_student_cpf, received_student_rg, received_sus_card, cns, fkid, justice_restriction, diff_location', 'safe', 'on'=>'search'),
             array('cpf', 'validateCPF', 'except' => "censoimport"),
             array('civil_register_enrollment_number', 'validateCivilRegister', 'except' => "censoimport")
         );
@@ -243,6 +246,9 @@ class StudentDocumentsAndAddress extends AltActiveRecord
             'received_history' => Yii::t('default', 'Received History'),
             'received_responsable_rg' => Yii::t('default', 'Received Responsable`s RG'),
             'received_responsable_cpf' => Yii::t('default', 'Received Responsable`s CPF'),
+            'received_student_cpf' => Yii::t('default', 'Received Student CPF'),
+            'received_student_rg' => Yii::t('default', 'Received Student RG'),
+            'received_sus_card' => Yii::t('default', 'Received SUS Card'),
             'justice_restriction' => Yii::t('default', 'Justice Restriction'),
             'diff_location' => Yii::t('default', 'Diff Location'),
             'consent_form' => Yii::t('default', 'Consent Form'),

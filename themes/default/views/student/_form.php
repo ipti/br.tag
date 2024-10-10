@@ -1084,6 +1084,47 @@ $form = $this->beginWidget(
                                 ); ?>
                                 <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['consent_form']; ?>
                             </label>
+                            <label class="t-field-checkbox" style="align-items: center">
+                                <?php echo $form->checkBox(
+                                    $modelStudentDocumentsAndAddress,
+                                    'received_sus_card',
+                                    array(
+                                        'value' => 1,
+                                        'class' => 't-field-checkbox__input',
+                                        'uncheckValue' => 0,
+                                        'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_sus_card
+                                    )
+                                ); ?>
+                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_sus_card']; ?>
+                            </label>
+                        </div>
+                        <div class="column clearleft--on-mobile is-two-fifths">
+                            <label class="t-field-checkbox" style="align-items: center">
+                                <?php echo $form->checkBox(
+                                    $modelStudentDocumentsAndAddress,
+                                    'received_student_rg',
+                                    array(
+                                        'value' => 1,
+                                        'class' => 't-field-checkbox__input',
+                                        'uncheckValue' => 0,
+                                        'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_student_rg
+                                    )
+                                ); ?>
+                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_student_rg']; ?>
+                            </label>
+                            <label class="t-field-checkbox" style="align-items: center">
+                                <?php echo $form->checkBox(
+                                    $modelStudentDocumentsAndAddress,
+                                    'received_student_cpf',
+                                    array(
+                                        'value' => 1,
+                                        'class' => 't-field-checkbox__input',
+                                        'uncheckValue' => 0,
+                                        'checked' => ($modelStudentDocumentsAndAddress->id == "") ? 'checked' : $modelStudentDocumentsAndAddress->received_student_cpf
+                                    )
+                                ); ?>
+                                <?php echo StudentDocumentsAndAddress::model()->attributeLabels()['received_student_cpf']; ?>
+                            </label>
                         </div>
                     </div>
                     <div class="row">

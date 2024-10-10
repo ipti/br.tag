@@ -644,6 +644,9 @@ return array(
     'Received NIS'=>'Comprovante NIS',
     'Received Responsable`s RG'=>'Cópia RG(Responsável)',
     'Received Responsable`s CPF'=>'Cópia CPF(Responsável)',
+    'Received Student CPF'=>'CPF do Aluno',
+    'Received Student RG'=>'RG do Aluno',
+    'Received SUS Card'=>'Cartão do SUS',
 
     // Instructor-VariableData
     'Scholarity' => 'Escolaridade',

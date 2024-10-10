@@ -1,3 +1,7 @@
+## [Versão 3.88.194]
+- Corrigido Cartão do SUS, Etapa e Grau de Escolaridade na ficha de matrícula
+- Inserido Cartão do SUS, RG do Aluno e CPF do Aluno em documentos entregues no cadastro do aluno
+
 ## [Versão 3.88.193]
 - Adicionado campo para unificar a frequencia na tela de etapa de ensino
 
