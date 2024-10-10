@@ -103,7 +103,7 @@ class GetStudentGradesByDisciplineUsecase
 
         $criteria = new CDbCriteria();
         $criteria->addCondition("edcenso_stage_vs_modality_fk = :stage");
-        $criteria->addCondition("semester IS NULL");
+        $criteria->addCondition("semester IS NULL"); // TODO: só deus e chagas sabiam, agora só deus sabe pq faz isso
         $criteria->addCondition("type != :type");
         $criteria->params = [
             ':stage' => $stage,

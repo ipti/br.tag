@@ -1,5 +1,6 @@
-## [Versão 3.88.193]
+## [Versão 3.87.194]
 - Adicionado campo para unificar a frequencia na tela de etapa de ensino
+- Adicionando paginação nas telas de ficha AEE
 
 ## [Versão 3.87.193]
 - Consertado estrutura de notas para as etapas por conceito
