@@ -1,9 +1,13 @@
-## [Versão 3.88.194]
+## [Versão 3.89.194]
 - Corrigido Cartão do SUS, Etapa e Grau de Escolaridade na ficha de matrícula
 - Inserido Cartão do SUS, RG do Aluno e CPF do Aluno em documentos entregues no cadastro do aluno
 
+## [Versão 3.89.193]
+- Inserido termo de suspensão
+
 ## [Versão 3.88.193]
 - Adicionado campo para unificar a frequencia na tela de etapa de ensino
+- Adicionando paginação nas telas de ficha AEE
 
 ## [Versão 3.87.193]
 - Consertado estrutura de notas para as etapas por conceito
@@ -13,6 +17,10 @@
 
 ## [Versão 3.87.191]
 - Adicionando logs de arquivos para monitoramento
+
+## [Versão 3.87.191]
+- Inserido as abas de base nacional comum e parte diversificadora no relatório de ata de notas da turma
+- Inserido certificado de conclusão do aluno
 
 ## [Versão 3.86.191]
 - Adicionando restrição para que coordenadores pedagogicos e gestores escolares não consigam modificar planos de aula

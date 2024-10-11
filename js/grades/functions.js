@@ -20,7 +20,7 @@ function initializeGradesMask() {
     });
 }
 
-function loadDisciplinesFromClassroom(classroomId, disciplineId, unityId) {
+function loadDisciplinesFromClassroom(classroomId) {
     $("#classroom").select2("val", classroomId);
     if (classroomId !== "") {
         $.ajax({
@@ -48,10 +48,6 @@ function loadDisciplinesFromClassroom(classroomId, disciplineId, unityId) {
                 }
                 $(".js-grades-loading").hide();
                 $("#discipline").removeAttr("disabled");
-
-                if (disciplineId) {
-                    loadStudentsFromDiscipline(disciplineId, unityId);
-                }
             },
         });
     } else {
@@ -101,16 +97,21 @@ function loadUnitiesFromClassroom(classroomId) {
 
 function loadStudentsFromDiscipline(disciplineId, unityId) {
     $("#discipline").select2("val", disciplineId);
-    if (disciplineId !== "" && unityId !== "") {
+
+    const classroom =  $("#classroom").val();
+    const discipline =  disciplineId || $("#discipline").val();
+    const unity = unityId || $("#unities").val();
+
+    if (discipline && unity && discipline !== "" && unity !== "") {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
             url: "?r=grades/getGrades",
             cache: false,
             data: {
-                classroom: $("#classroom").val(),
-                discipline: $("#discipline").val(),
-                unity: $("#unities").val(),
+                classroom: classroom,
+                discipline: discipline,
+                unity: unity,
             },
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");
@@ -120,9 +121,9 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
                     .css("pointer-events", "none");
             },
             success: function (data) {
-                data = JSON.parse(data);
-                const html = GradeTableBuilder(data).build();
-                let hrefPrintGrades = `/?r=forms/AtaSchoolPerformance&id=${$("#classroom").val()}`
+                const parsedData = JSON.parse(data);
+                const html = GradeTableBuilder(parsedData).build();
+                let hrefPrintGrades = `/?r=forms/AtaSchoolPerformance&id=${classroom}`
                 $('.js-print-grades').find('a').attr('href',hrefPrintGrades);
                 $('.js-print-grades').show();
                 $('.js-unity-title').text($('select#unities').find('option:selected').text());
@@ -169,6 +170,7 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
         $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     }
 }
+
 $('.js-refresh').on("click", function (e) {
     location.reload();
 })
