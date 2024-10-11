@@ -1,3 +1,6 @@
+## [Versão 3.89.195]
+- Label de status de matricula adicionado a tela de notas
+
 ## [Versão 3.89.194]
 - Corrigido Cartão do SUS, Etapa e Grau de Escolaridade na ficha de matrícula
 - Inserido Cartão do SUS, RG do Aluno e CPF do Aluno em documentos entregues no cadastro do aluno
