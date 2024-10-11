@@ -1,3 +1,7 @@
+## [Versão 3.87.195]
+- Adicionando a sessão de conteúdo de aula na tabela de visualização de aulas ministradas
+- Corrigida a duplicidade de aulas ministradas ao clicar em salvar
+
 ## [Versão 3.87.194]
 - Adicionado campo para unificar a frequencia na tela de etapa de ensino
 - Adicionando paginação nas telas de ficha AEE
