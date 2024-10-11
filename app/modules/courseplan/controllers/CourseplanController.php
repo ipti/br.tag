@@ -117,6 +117,16 @@ class CourseplanController extends Controller
         return $stages;
     }
 
+    public function getInstructors()
+    {
+        $sqlCommand = "
+            SELECT DISTINCT u.id, u.name  FROM course_plan cp
+            LEFT JOIN users u ON u.id = cp.users_fk
+            WHERE cp.situation = 'PENDENTE'";
+
+        return Yii::app()->db->createCommand($sqlCommand)->queryAll();
+    }
+
     public function actionGetCourseClasses()
     {
         $coursePlan = CoursePlan::model()->findByPk($_POST["coursePlanId"]);
@@ -438,7 +448,7 @@ class CourseplanController extends Controller
 
         $criteria = new CDbCriteria();
 
-        if (isset($disciplineRequest)) {
+        if (isset($disciplineRequest) && $disciplineRequest != "") {
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
 
                 $criteria->condition = 'users_fk=' . Yii::app()->user->loginInfos->id .
@@ -503,16 +513,74 @@ class CourseplanController extends Controller
 
     public function actionPendingPlans()
     {
+        // Get data requests
+        $instructorRequest = Yii::app()->request->getPost('instructor');
+        $stageRequest = Yii::app()->request->getPost('stage');
+        $disciplineRequest = Yii::app()->request->getPost('discipline');
+
         $criteria = new CDbCriteria;
-        $criteria->condition = "situation = 'PENDENTE'";
+
+        // Starting Array of Tokens to Bound in Criteria
+        // Applying Filter To School
+        $tokenParams = [':school' => Yii::app()->user->school];
+
+        // Apply Filter to Situation and School
+        $criteria->condition = "situation = 'PENDENTE' AND school_inep_fk = :school";
+
+        // Apply Filter to Instructor
+        if(isset($instructorRequest) && $instructorRequest != ""){
+            $criteria->condition .= " AND users_fk = :user";
+            $tokenParams = array_merge($tokenParams, [':user' => $instructorRequest]);
+        }
+
+        // Apply filter to Stage
+        if(isset($stageRequest) && $stageRequest != ""){
+            $criteria->condition .= " AND modality_fk = :stage";
+            $tokenParams = array_merge($tokenParams, [':stage' => $stageRequest]);
+        }
+
+        // Apply filter to Discipline
+        if(isset($disciplineRequest) && $disciplineRequest != ""){
+            $criteria->condition .= " AND discipline_fk = :discipline";
+            $tokenParams = array_merge($tokenParams, [':discipline' => $disciplineRequest]);
+        }
+
+        // Change Params
+        $criteria->params = $tokenParams;
+
+        // Create Data provider
         $dataProvider = new CActiveDataProvider('CoursePlan', array(
             'criteria' => $criteria,
             'pagination' => false
         ));
 
-        $this->render('pendingPlans', array(
+        // Send Data to Select in index page
+        if(
+            !isset($instructorRequest) &&
+            !isset($stageRequest)
+        ){
+            $instructors = $this->getInstructors();
+            $stages = $this->getStages();
+            $this->render('pendingPlans', array(
+                'instructors' => $instructors,
+                'stages' => $stages,
+                // 'dataProvider' => $dataProvider,
+            ));
+            Yii::app()->end();
+        }
+
+        if(
+            !isset($instructorRequest)
+        ){
+            $this->actionGetDisciplines();
+            Yii::app()->end();
+        }
+
+        // Render Table
+        $this->renderPartial('_table_pendingPlans', array(
             'dataProvider' => $dataProvider,
         ));
+        Yii::app()->end();
     }
 
     public function actionValidatePlan($id)

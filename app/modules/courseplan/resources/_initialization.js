@@ -297,18 +297,16 @@ $(document).on('click', '#save-approval', function (e) {
     });
 })
 
+// AJAX Request after change on stage select
 $(document).on('change', '#stage', function () {
-    $.ajax({
-        url: '?r=courseplan/courseplan/index',
-        type: "POST",
-        data: {
-            stage: $(this).val()
-        }
-    }).success(function (data) {
-        console.log(data);
-        $('.courseplan_table_div').html(data);
-        initDatatable();
-    })
+    if($('.courseplan_table_div').length > 0)
+    {
+        updateCoursePlanTable();
+    }
+    if($('.pending_courseplan_table_div').length > 0)
+    {
+        updatePendingPlanTable()
+    }
     $.ajax({
         url: '?r=courseplan/courseplan/getDisciplines',
         type: "POST",
@@ -328,20 +326,22 @@ $(document).on('change', '#stage', function () {
     })
 })
 
+// AJAX Request after change on instructor select
+$(document).on('change', '#instructor', function () {
+    updatePendingPlanTable();
+})
+
 $('#discipline').on('change', function () {
+
     if($('#discipline option:selected').index() != 0)
     {
-        $.ajax({
-            url: '?r=courseplan/courseplan/index',
-            type: "POST",
-            data: {
-                discipline: $(this).val(),
-                stage: $('#stage').val()
-            }
-        }).success(function (data) {
-            $('.courseplan_table_div').html(data);
-            initDatatable();
-        })
+        // Courseplan table
+        if($('.courseplan_table_div').length > 0)
+            updateCoursePlanTable();
+
+        // Pending Courseplan table
+        if($('.pending_courseplan_table_div').length > 0)
+            updatePendingPlanTable();
     }
 })
 
@@ -349,4 +349,35 @@ function concatenateHtmlOptions(htmlElement, discipline){
     const optionElement = `<option value="${discipline['id']}">${discipline['name']}</option>`;
     htmlElement += optionElement;
     return htmlElement;
+}
+
+function updatePendingPlanTable(){
+    const disciplineValidade = $('#discipline option:selected').index() == 0 || $('#discipline').hasClass('hide');
+    $.ajax({
+        url: '?r=courseplan/courseplan/pendingPlans',
+        type: "POST",
+        data: {
+            instructor: $('#instructor').val(),
+            stage: $('#stage').val(),
+            discipline: disciplineValidade ? '' : $('#discipline').val(),
+        }
+    }).success(function (data) {
+        $('.pending_courseplan_table_div').html(DOMPurify.sanitize(data));
+        initDatatable();
+    })
+}
+
+function updateCoursePlanTable(){
+    const disciplineValidade = $('#discipline option:selected').index() == 0 || $('#discipline').hasClass('hide');
+    $.ajax({
+        url: '?r=courseplan/courseplan/index',
+        type: "POST",
+        data: {
+            stage: $('#stage').val(),
+            discipline: disciplineValidade ? '' : $('#discipline').val(),
+        }
+    }).success(function (data) {
+        $('.courseplan_table_div').html(DOMPurify.sanitize(data));
+        initDatatable();
+    })
 }
