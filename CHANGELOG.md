@@ -1,4 +1,8 @@
-## [Versão 3.88.194]
+## [Versão 3.89.194]
+- Corrigido Cartão do SUS, Etapa e Grau de Escolaridade na ficha de matrícula
+- Inserido Cartão do SUS, RG do Aluno e CPF do Aluno em documentos entregues no cadastro do aluno
+
+## [Versão 3.89.193]
 - Inserido termo de suspensão
 
 ## [Versão 3.88.193]
