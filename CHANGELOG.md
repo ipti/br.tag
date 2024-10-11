@@ -1,4 +1,7 @@
-## [Versão 3.87.194]
+## [Versão 3.88.194]
+- Inserido termo de suspensão
+
+## [Versão 3.88.193]
 - Adicionado campo para unificar a frequencia na tela de etapa de ensino
 - Adicionando paginação nas telas de ficha AEE
 
@@ -10,6 +13,10 @@
 
 ## [Versão 3.87.191]
 - Adicionando logs de arquivos para monitoramento
+
+## [Versão 3.87.191]
+- Inserido as abas de base nacional comum e parte diversificadora no relatório de ata de notas da turma
+- Inserido certificado de conclusão do aluno
 
 ## [Versão 3.86.191]
 - Adicionando restrição para que coordenadores pedagogicos e gestores escolares não consigam modificar planos de aula
