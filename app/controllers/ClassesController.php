@@ -415,7 +415,6 @@ class ClassesController extends Controller
      */
     private function saveSchedule($schedule, $classContent)
     {
-
         $schedule->diary = $classContent["diary"] === "" ? null : $classContent["diary"];
         $schedule->save();
 
@@ -435,8 +434,18 @@ class ClassesController extends Controller
             ClassContents::model()->deleteAll("id IN (".implode(", ",$contentsToExclude).")");
         }
 
+
         foreach ($classContent["contents"] as $content) {
-            $this->saveClassContents($content, $schedule);
+            $existingContent = ClassContents::model()->findAll(
+                'schedule_fk = :schedule_fk and course_class_fk = :course_class_fk',
+                [
+                    'schedule_fk' => $schedule->id,
+                    'course_class_fk' => $content
+                ]
+            );
+            if(empty($existingContent)){
+                $this->saveClassContents($content, $schedule);
+            }
         }
     }
 
