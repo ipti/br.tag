@@ -1,7 +1,7 @@
 function createValidateTable(data) {
     console.log(data);
     let urlIsValidate = window.location.href.includes("validateClassContents");
-    var monthSplit = $("#month").val().split("-");
+    let monthSplit = $("#month").val().split("-");
     $("#class-contents")
         .attr("classroom", $("#classroom").val())
         .attr("month", monthSplit[1])
