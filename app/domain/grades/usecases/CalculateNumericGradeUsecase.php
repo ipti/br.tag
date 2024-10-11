@@ -103,7 +103,7 @@ class CalculateNumericGradeUsecase
 
     private function calculateFinalRecovery($gradeResult, $studentEnrollment, $discipline, $unity)
     {
-        $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $unity);
+        $unityMedia = $this->calculateFinalRecoveryMedia($studentEnrollment, $discipline, $unity);
         $gradeResult->setAttribute("rec_final", is_nan($unityMedia) ? "" : $unityMedia);
 
         return $gradeResult;
@@ -255,6 +255,18 @@ class CalculateNumericGradeUsecase
         );
         $isRecovery = false;
         return $this->applyStrategyComputeGradesByFormula($unity->gradeCalculationFk->name, $unity, array_column($grades, "grade"), $isRecovery);
+    }
+
+    private function calculateFinalRecoveryMedia($enrollment, $disciplineId, $unity)
+    {
+
+        $grades = $this->getRecoveryGradeFromUnity(
+            $enrollment->id,
+            $disciplineId,
+            $unity->id
+        );
+        $isRecovery = false;
+        return $this->applyStrategyComputeGradesByFormula($unity->gradeCalculationFk->name, $unity, [$grades->grade], $isRecovery);
     }
 
     /**

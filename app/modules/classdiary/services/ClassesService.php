@@ -22,13 +22,14 @@
                 JOIN edcenso_discipline ed on ed.id = cm.discipline_fk
                 join classroom c on c.id = itd.classroom_id_fk
                 Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
-                WHERE ii.users_fk = :users_fk and esvm.id NOT BETWEEN 14 AND 18
+                WHERE ii.users_fk = :users_fk and esvm.id NOT BETWEEN 14 AND 18 and esvm.unified_frequency = :unified_frequency
                 and ed.id = :discipline_id and c.school_year = :user_year
                 ORDER BY ii.name";
 
                 $command = Yii::app()->db->createCommand($sql);
                 $command->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT)
                 ->bindValue(':discipline_id', $discipline, PDO::PARAM_INT)
+                ->bindValue(':unified_frequency', 0, PDO::PARAM_INT)
                 ->bindValue(':user_year', Yii::app()->user->year, PDO::PARAM_INT);
             } else {
                 $sql = "SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name
@@ -39,11 +40,12 @@
                 JOIN edcenso_discipline ed on ed.id = cm.discipline_fk
                 join classroom c on c.id = itd.classroom_id_fk
                 Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
-                WHERE ii.users_fk = :users_fk and esvm.id NOT BETWEEN 14 AND 18 and c.school_year = :user_year
+                WHERE ii.users_fk = :users_fk and esvm.id NOT BETWEEN 14 AND 18 and c.school_year = :user_year and esvm.unified_frequency = :unified_frequency
                 ORDER BY ii.name";
 
                 $command = Yii::app()->db->createCommand($sql);
                 $command->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT)
+                ->bindValue(':unified_frequency', 0, PDO::PARAM_INT)
                 ->bindValue(':user_year', Yii::app()->user->year, PDO::PARAM_INT);
             }
 
@@ -62,9 +64,10 @@
             join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id
             join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id
             join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
-            where c.school_year = :school_year and instructor_identification.users_fk = :users_fk and esvm.id BETWEEN 14 AND 18";
+            where c.school_year = :school_year and instructor_identification.users_fk = :users_fk and( esvm.id BETWEEN 14 AND 18 or esvm.unified_frequency = :unified_frequency) ";
              $command = Yii::app()->db->createCommand($sql);
              $command->bindValue(':school_year', Yii::app()->user->year, PDO::PARAM_INT)
+             ->bindValue(':unified_frequency', 1, PDO::PARAM_INT)
              ->bindValue(':users_fk', Yii::app()->user->loginInfos->id, PDO::PARAM_INT);
              $minorSchoolingClassroom = $command->queryAll();
 
@@ -83,7 +86,8 @@
          */
         public function getClassContents($classroom_fk, $stage_fk, $date, $discipline_fk) {
             // Fundamental menor
-            $is_minor_schooling = TagUtils::isStageMinorEducation($stage_fk);
+            $classroom = Classroom::model()->findByPk($classroom_fk);
+            $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : TagUtils::isStageMinorEducation($stage_fk);
             if ($is_minor_schooling)
             {
                 $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classroom_fk,
@@ -95,7 +99,7 @@
                 "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"),
                 "discipline_fk" => $discipline_fk]);
             }
-             if (!empty($schedule)) {
+            if (!empty($schedule)) {
 
                 if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                     if ($is_minor_schooling) {
@@ -168,7 +172,8 @@
         public function SaveClassContents($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent)
         {
              // Fundamental menor
-             $is_minor_schooling = TagUtils::isStageMinorEducation($stage_fk);
+             $classroom = Classroom::model()->findByPk($classroom_fk);
+             $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : TagUtils::isStageMinorEducation($stage_fk);
              if ($is_minor_schooling)
              {
                  $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule",

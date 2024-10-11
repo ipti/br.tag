@@ -51,11 +51,10 @@ function updateClassesContents()
         type:'GET',
         url:  `${window.location.host}?r=classdiary/default/GetClassesContents&classroom_fk=${classroom_fk}&stage_fk=${stage_fk}&date=${date}&discipline_fk=${discipline_fk}`
     }).success((response) => {
-        console.log(response)
         if(response.valid==true){
             let options = "";
             $.each(response["courseClasses"], function () {
-                options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.objective + "|" + this.edname + '</option>';
+                options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.content + "|" + this.edname + '</option>';
             });
             $("#coursePlan").html(options);
             $("#coursePlan").select2("val", response["classContents"]);
@@ -66,6 +65,7 @@ function updateClassesContents()
                 },
                 formatResult: function (data, container) {
                     let textArray = data.text.split("|");
+                    console.log(data.text)
                     if (textArray.length === 1) {
                         return "<div class='course-classes-optgroup'><b>" + textArray[0] + "</b></div>";
                     } else {

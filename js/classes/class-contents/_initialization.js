@@ -131,6 +131,7 @@ $("#save, #save-button-mobile").on('click', function () {
                 diary: $(this).val()
             })
         });
+        console.log($(this).find("input.classroom-diary-of-the-day"),  $(this).find("input.classroom-diary-of-the-day").val(), "aaaa")
         classContents.push({
             day: $(this).attr("day"),
             diary: $(this).find(".classroom-diary-of-the-day").val(),
@@ -170,7 +171,7 @@ $('.heading-buttons').css('width', $('#content').width());
 $(document).on("click", ".classroom-diary-button", function () {
     let button = this;
     $(".classroom-diary-day").val($(button).closest("tr").attr("day"));
-    $(".js-classroom-diary").val($(button).parent().find(".classroom-diary-of-the-day").val());
+    $(".classroom-diary-textarea").val($(button).parent().find(".classroom-diary-of-the-day").val());
     $(".js-std-classroom-diaries").each(function () {
         let value = $(button).parent().find(".student-diary-of-the-day[studentid=" + $(this).find(".js-student-classroom-diary").attr("studentid") + "]").val();
         $(this).find(".js-student-classroom-diary").val(value);
@@ -183,8 +184,7 @@ $(document).on("click", ".classroom-diary-button", function () {
 
 $(document).on("click", ".js-add-classroom-diary", function () {
     let tr = $("#class-contents tbody").find("tr[day=" + $(".classroom-diary-day").val() + "]");
-
-    tr.find(".classroom-diary-of-the-day").val($(".js-classroom-diary").val());
+    tr.find(".classroom-diary-of-the-day").val($(".classroom-diary-textarea").val());
     $(".js-student-classroom-diary").each(function () {
         tr.find(".student-diary-of-the-day[studentid=" + $(this).attr("studentid") + "]").val($(this).val())
     });

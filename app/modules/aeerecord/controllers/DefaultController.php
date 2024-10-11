@@ -233,6 +233,7 @@ class DefaultController extends Controller
                         ),
                     ),
                 ),
+                'pagination' => false
             ));
         }
 
@@ -256,6 +257,7 @@ class DefaultController extends Controller
                     ),
                 ),
             ),
+            'pagination' => false
         ));
 
 
