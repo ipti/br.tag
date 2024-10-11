@@ -16,7 +16,8 @@ class SiteController extends Controller
         return [
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => ['changeschool', 'changeyear', 'loadMoreLogs', 'loadMoreWarns'], 'users' => ['@'],
+                'actions' => ['changeschool', 'changeyear', 'loadMoreLogs', 'loadMoreWarns'],
+                'users' => ['@'],
             ],
         ];
     }
@@ -26,7 +27,8 @@ class SiteController extends Controller
         return [
             // captcha action renders the CAPTCHA image displayed on the contact page
             'captcha' => [
-                'class' => 'CCaptchaAction', 'backColor' => 0xFFFFFF,
+                'class' => 'CCaptchaAction',
+                'backColor' => 0xFFFFFF,
             ], // page action renders "static" pages stored under 'protected/views/site/pages'
             // They can be accessed via: index.php?r=site/page&view=FileName
             'page' => [
@@ -139,7 +141,7 @@ class SiteController extends Controller
 
     public function actionChangeYear()
     {
-        if(isset($_POST['years']) && !empty($_POST['years'])) {
+        if (isset($_POST['years']) && !empty($_POST['years'])) {
             Yii::app()->user->year = $_POST['years'];
         }
 
@@ -165,9 +167,9 @@ class SiteController extends Controller
                 $elements = $log->loadIconsAndTexts($log);
                 $bgColor = 'gray' == $bgColor ? 'blue' : 'gray';
                 $date = date("d/m/Y à\s H:i:s", strtotime($log->date));
-                $html .= '<li class="row justify-content--start  home-page-table-item '.$bgColor.'" title=\'' . $elements["text"] . '\'>'
+                $html .= '<li class="row justify-content--start  home-page-table-item ' . $bgColor . '" title=\'' . $elements["text"] . '\'>'
                     . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
-                    . '<img style="background-color:'.$elements["color"].'" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/'.$elements["icon"].'.svg"/>'
+                    . '<img style="background-color:' . $elements["color"] . '" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/' . $elements["icon"] . '.svg"/>'
                     . $elements["text"] . '</div>'
                     . '<div class="column">'
                     . '<div class="log-date">' . $date . '</div>'
@@ -199,7 +201,7 @@ class SiteController extends Controller
 
             $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                 . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/turmas.svg"/>'
+                . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/turmas.svg"/>'
                 . '<span>' . $warning . '</span>'
                 . '</div>'
                 . '</li>';
@@ -209,11 +211,11 @@ class SiteController extends Controller
             foreach ($listSchoolClassrooms as $classroom) {
                 //Se houver turma, verificar se existe etapa vinculada à turma
                 $stage = $classroom->edcensoStageVsModalityFk;
-                if ($stage == null){
+                if ($stage == null) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem etapa.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/plano_de_aula.svg"/>'
+                        . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/plano_de_aula.svg"/>'
                         . '<span>' . $warning . '</span>'
                         . '</div>'
                         . '</li>';
@@ -221,11 +223,11 @@ class SiteController extends Controller
                 } else {
                     //Se houver etapa, verificar matriz curricular
                     $listCurricularMatrixs = $stage->curricularMatrixes;
-                    if (count($listCurricularMatrixs) == 0){
+                    if (count($listCurricularMatrixs) == 0) {
                         $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem matriz curricular.';
                         $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                             . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                            . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/matriz_curricular.svg"/>'
+                            . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/matriz_curricular.svg"/>'
                             . '<span>' . $warning . '</span>'
                             . '</div>'
                             . '</li>';
@@ -238,7 +240,7 @@ class SiteController extends Controller
                         $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem estrutura de notas.';
                         $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                             . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                            . '<img style="background-color:orange; color:black;" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/notas.svg"/>'
+                            . '<img style="background-color:orange; color:black;" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/notas.svg"/>'
                             . '<span>' . $warning . '</span>'
                             . '</div>'
                             . '</li>';
@@ -249,11 +251,11 @@ class SiteController extends Controller
 
                 //Se houver turma, verificar se existe calendario vinculado a ela
                 $calendar = $classroom->calendarFk;
-                if ($calendar == null){
+                if ($calendar == null) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> não possui calendário vinculado.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/calendario.svg"/>'
+                        . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/calendario.svg"/>'
                         . '<span>' . $warning . '</span>'
                         . '</div>'
                         . '</li>';
@@ -266,7 +268,7 @@ class SiteController extends Controller
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem quadro de horários.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/quadro_de_horario.svg"/>'
+                        . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/quadro_de_horario.svg"/>'
                         . '<span>' . $warning . '</span>'
                         . '</div>'
                         . '</li>';
@@ -279,7 +281,7 @@ class SiteController extends Controller
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem professores.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/professores.svg"/>'
+                        . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/professores.svg"/>'
                         . '<span>' . $warning . '</span>'
                         . '</div>'
                         . '</li>';
@@ -292,7 +294,7 @@ class SiteController extends Controller
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem alunos matriculados.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                        . '<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/matricula.svg"/>'
+                        . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/matricula.svg"/>'
                         . '<span>' . $warning . '</span>'
                         . '</div>'
                         . '</li>';
@@ -434,41 +436,61 @@ class SiteController extends Controller
 
 
     public function actionViewFileLogs($page = 1)
-{
-    // Caminho para o arquivo de log
-    $logFilePath = Yii::app()->getRuntimePath(). '/'. INSTANCE .'/application.log';
+    {
+        // Caminho para o arquivo de log
+        $logFilePath = Yii::app()->getRuntimePath() . '/' . INSTANCE . '/application.log';
 
-    // Número de linhas por página
-    $linesPerPage = 100;
+        // Número de linhas por página
+        $linesPerPage = 100;
 
-    if (file_exists($logFilePath)) {
-        // Lê todas as linhas do arquivo de log
-        $lines = array_reverse(file($logFilePath));
+        if (file_exists($logFilePath)) {
+            // Lê todas as linhas do arquivo de log
+            $lines = array_reverse(file($logFilePath));
 
-        // Conta o número total de páginas
-        $totalLines = count($lines);
-        $totalPages = ceil($totalLines / $linesPerPage);
+            // Conta o número total de páginas
+            $totalLines = count($lines);
+            $totalPages = ceil($totalLines / $linesPerPage);
 
-        // Certifica-se de que a página atual esteja dentro dos limites
-        $page = max(1, min($totalPages, (int)$page));
+            // Certifica-se de que a página atual esteja dentro dos limites
+            $page = max(1, min($totalPages, (int) $page));
 
-        // Calcula as linhas a serem exibidas nesta página
-        $start = ($page - 1) * $linesPerPage;
-        $logContent = array_slice($lines, $start, $linesPerPage);
+            // Calcula as linhas a serem exibidas nesta página
+            $start = ($page - 1) * $linesPerPage;
+            $logContent = array_slice($lines, $start, $linesPerPage);
 
-        // Gera a string do conteúdo do log para exibição
-        $logContent = implode("", $logContent);
-    } else {
-        $logContent = "O arquivo de log não foi encontrado.";
-        $totalPages = 1;
-        $page = 1;
+            // Gera a string do conteúdo do log para exibição
+            $logContent = implode("", $logContent);
+        } else {
+            $logContent = "O arquivo de log não foi encontrado.";
+            $totalPages = 1;
+            $page = 1;
+        }
+
+        // Renderiza a view e passa os parâmetros para a página
+        $this->render('viewLogs', array(
+            'logContent' => $logContent,
+            'totalPages' => $totalPages,
+            'currentPage' => $page,
+        ));
     }
 
-    // Renderiza a view e passa os parâmetros para a página
-    $this->render('viewLogs', array(
-        'logContent' => $logContent,
-        'totalPages' => $totalPages,
-        'currentPage' => $page,
-    ));
-}
+    public function actionDownloadFileLog(): void
+    {
+        // Caminho para o arquivo de log
+        $logFilePath = Yii::app()->getRuntimePath() . '/' . INSTANCE . '/application.log';
+        $this->download($logFilePath);
+    }
+
+    private function download($arquivo)
+    {
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream;");
+        header("Content-Length:" . filesize($arquivo));
+        header("Content-disposition: attachment; filename=" . $arquivo);
+        header("Pragma: no-cache");
+        header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
+        header("Expires: 0");
+        readfile($arquivo);
+        flush();
+    }
 }

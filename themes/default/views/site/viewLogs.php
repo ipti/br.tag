@@ -1,5 +1,7 @@
-<h1 style="text-align: center;">Logs da Aplicação</h1>
-
+<h1 style="text-align: center;">Logs da Aplicação </h1>
+<div style="margin: 0 auto;">
+<a style="margin-left:30px; margin-bottom: 10px; text-align: center;" href="<?php echo $this->createUrl('site/downloadFileLog'); ?>" target="_blank" rel="noopener noreferrer"><button>Download</button></a>
+</div>
 <div style="margin: 0 auto;">
 
     <!-- Caixa de exibição dos logs -->
