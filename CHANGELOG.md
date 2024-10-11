@@ -1,3 +1,5 @@
+## [Versão 3.87.195]
+- Nota de recuperação semestral só substitui a média semestral caso a recuperação seja maior
 ## [Versão 3.87.194]
 - Adicionando paginação nas telas de ficha AEE
 
