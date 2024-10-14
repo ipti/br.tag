@@ -1,3 +1,6 @@
+## [Versão 3.89.196]
+- Correção na funcionalidade de frequência, especificamente para alunos com matrícula transferida
+
 ## [Versão 3.87.196]
 - Nota de recuperação semestral só substitui a média semestral caso a recuperação seja maior
 

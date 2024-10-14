@@ -694,14 +694,38 @@ class ClassesController extends Controller
         }
     }
 
+    // A função abaixo deve verificar se o status de matrícula do aluno é válido para preenchimento do quadro de frequência
+    // Retorna True para o caso positivo, e False para o caso negativo
     public function verifyStatusEnrollment($enrollment, $schedule)
     {
         $dateFormat = 'd/m/Y';
+        $dateFormat2 = 'Y-m-d';
+
         $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
-        $startDate = date_create_from_format($dateFormat, $enrollment->school_readmission_date);
-        $transferedDate = date_create_from_format($dateFormat, $enrollment->class_transfer_date);
+
+        $startDate = DateTime::createFromFormat($dateFormat, $enrollment->school_readmission_date);
+        $returnDate = DateTime::createFromFormat($dateFormat, $enrollment->class_transfer_date);
+
         $scheduleDate = date_create_from_format($dateFormat, $date);
-        return !(($scheduleDate < $startDate && $scheduleDate > $transferedDate) && $enrollment->status == '13') && $enrollment->status != '2' && $enrollment->status != '11';
+        $transferDate = isset($enrollment->transfer_date) ? DateTime::createFromFormat($dateFormat2, $enrollment->transfer_date) : null;
+
+
+        switch ($enrollment->status) {
+            case '2': // TRANSFERIDO
+                $result = isset($transferDate) && $scheduleDate <= $transferDate;
+                break;
+            case '13': // Aluno saiu e retornou
+                $result = ($scheduleDate < $startDate && $scheduleDate > $returnDate);
+                break;
+            case '11': // DEATH
+                $result = false;
+                break;
+            default: // Qualquer outro status
+                $result = true;
+                break;
+        }
+
+        return $result;
     }
 
     public function actionSaveJustifications()
