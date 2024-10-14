@@ -708,9 +708,12 @@ class ClassesController extends Controller
 
         $scheduleDate = date_create_from_format($dateFormat, $date);
         $transferDate = isset($enrollment->transfer_date) ? DateTime::createFromFormat($dateFormat2, $enrollment->transfer_date) : null;
-
+        $enrollmentDate = isset($enrollment->enrollment_date) ? DateTime::createFromFormat($dateFormat2, $enrollment->enrollment_date) : null;
 
         switch ($enrollment->status) {
+            case '1': // MATRICULADO
+                $result = !(isset($enrollmentDate) && $scheduleDate <= $enrollmentDate);
+                break;
             case '2': // TRANSFERIDO
                 $result = isset($transferDate) && $scheduleDate <= $transferDate;
                 break;

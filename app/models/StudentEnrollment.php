@@ -59,6 +59,7 @@
  * @property integer $sedsp_sync
  * @property string $class_transfer_date
  * @property string $school_readmission_date
+ * @property string $enrollment_date
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -259,6 +260,7 @@ class StudentEnrollment extends AltActiveRecord
             'transfer_date' => Yii::t('default', 'Transfer Date'),
             'class_transfer_date' => Yii::t('default' ,'Class Transfer Date'),
             'school_readmission_date' => Yii::t('default','School Readmission Date'),
+            'enrollment_date' => Yii::t('default', 'Enrollment Date'),
         );
     }
 
@@ -287,6 +289,7 @@ class StudentEnrollment extends AltActiveRecord
         $criteria->compare('classroomFk.school_year', Yii::app()->user->year);
         $criteria->compare('class_transfer_date',$this->class_transfer_date);
         $criteria->compare('school_readmission_date',$this->school_readmission_date);
+        $criteria->compare('enrollment_date',$this->enrollment_date);
         $school = Yii::app()->user->school;
         $criteria->compare('t.school_inep_id_fk', $school);
         $criteria->addCondition('studentFk.name like "%' . $this->student_fk . '%"');
