@@ -44,10 +44,19 @@ class CalculateFinalMediaUsecase
                     $semRecPartial1 = is_numeric($this->gradesResult["sem_rec_partial_1"]) ? $this->gradesResult["sem_rec_partial_1"] : 0;
                     $semRecPartial2 = is_numeric($this->gradesResult["sem_rec_partial_2"]) ? $this->gradesResult["sem_rec_partial_2"] : 0;
 
-                    $gradesSemAvarage1 =  max($this->gradesResult["sem_avarage_1"], $semRecPartial1);
-                    $gradesSemAvarage2 =  max($this->gradesResult["sem_avarage_2"], $semRecPartial2);
+                    $gradesSemAvarage1 = max($this->gradesResult["sem_avarage_1"], $semRecPartial1);
+                    $gradesSemAvarage2 = max($this->gradesResult["sem_avarage_2"], $semRecPartial2);
 
-                    $gradesFinalRecovery = [$gradesSemAvarage1, $gradesSemAvarage2];
+                    $gradesFinalRecovery = [];
+
+                    if ($gradesSemAvarage1 !== null) {
+                        $gradesFinalRecovery[] = $gradesSemAvarage1;
+                    }
+
+                    if ($gradesSemAvarage2 !== null) {
+                        $gradesFinalRecovery[] = $gradesSemAvarage2;
+                    }
+
                 } else {
                     $gradesFinalRecovery[] = $finalMedia;
                 }
