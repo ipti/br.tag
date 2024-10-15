@@ -559,6 +559,7 @@ class ClassesController extends Controller
                     $array["studentName"] = $enrollment->studentFk->name;
                     $array["schedules"] = [];
                     $array["status"] = $enrollment->status;
+                    $array["statusLabel"] = $enrollment->getCurrentStatus();
                     foreach ($schedules as $schedule) {
                         $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                         $available = date("Y-m-d") >= $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);

@@ -42,7 +42,7 @@ function generateStudentLines(data, dia, mes, ano, monthSplit, isMinor) {
                 style="border-bottom:1px #e8e8e8 solid;"
             >
                 <div>
-                    ${buildEnrollmentStatusLabel(student.status)}
+                    ${buildEnrollmentStatusLabel(student.status, student.statusLabel)}
                     ${student.studentName}
                 </div>
                 <div style='display:flex;'>
@@ -52,9 +52,9 @@ function generateStudentLines(data, dia, mes, ano, monthSplit, isMinor) {
     }, '');
 }
 
-function buildEnrollmentStatusLabel(status){
-    return `<label class="t-badge-info t-margin-none--left ${status != 2 ? 'hide' : ''}">
-                TRANSFERIDO
+function buildEnrollmentStatusLabel(status, label){
+    return `<label class="t-badge-info t-margin-none--left ${status == 1 ? 'hide' : ''}">
+                ${label}
             </label>`;
 }
 
