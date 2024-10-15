@@ -43,7 +43,7 @@ function load() {
                 html += "</thead></div><tbody class='t-accordion__body'>";
                 $.each(data.students, function (indexStudent, student) {
 
-                    html += "<tr><td class='student-name sticky-column'>" + student.studentName + "</td>";
+                    html += "<tr><td class='student-name sticky-column'>" + buildEnrollmentStatusLabel(student.status, student.statusLabel) + student.studentName + "</td>";
                     $.each(student.schedules, function (indexSchedule, schedule) {
                         var justificationContainer = "";
                         if (schedule.fault) {
@@ -253,3 +253,9 @@ $(document).on("keyup", ".justification-text", function (e) {
         $(".btn-save-justification").trigger("click");
     }
 });
+
+function buildEnrollmentStatusLabel(status, label){
+    return `<label class="t-badge-info t-margin-none--left ${status == 1 ? 'hide' : ''}">
+                ${label}
+            </label>`;
+}

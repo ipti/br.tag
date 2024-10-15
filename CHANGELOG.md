@@ -1,7 +1,10 @@
-## [Versão 3.89.196]
+## [Versão 3.89.198]
+- Ajuste na view de frequência para a tela de professor, especificamente para alunos com matrícula transferida
+
+## [Versão 3.89.197]
 - Correção na funcionalidade de frequência, especificamente para alunos com matrícula transferida
 
-## [Versão 3.87.196]
+## [Versão 3.89.196]
 - Nota de recuperação semestral só substitui a média semestral caso a recuperação seja maior
 
 ## [Versão 3.89.195]
