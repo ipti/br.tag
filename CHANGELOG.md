@@ -1,7 +1,13 @@
-## [Versão 3.89.195]
+## [Versão 3.89.198]
+- Ajuste na view de frequência para a tela de professor, especificamente para alunos com matrícula transferida
+
+## [Versão 3.89.197]
 - Correção na funcionalidade de frequência, especificamente para alunos com matrícula transferida
 
-## [Versão 3.89.194]
+## [Versão 3.89.196]
+- Nota de recuperação semestral só substitui a média semestral caso a recuperação seja maior
+
+## [Versão 3.89.195]
 - Corrigido Cartão do SUS, Etapa e Grau de Escolaridade na ficha de matrícula
 - Inserido Cartão do SUS, RG do Aluno e CPF do Aluno em documentos entregues no cadastro do aluno
 

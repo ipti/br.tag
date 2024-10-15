@@ -696,6 +696,8 @@ class ClassesController extends Controller
 
     // A função abaixo deve verificar se o status de matrícula do aluno é válido para preenchimento do quadro de frequência
     // Retorna True para o caso positivo, e False para o caso negativo
+    // A função abaixo deve verificar se o status de matrícula do aluno é válido para preenchimento do quadro de frequência
+    // Retorna True para o caso positivo, e False para o caso negativo
     public function verifyStatusEnrollment($enrollment, $schedule)
     {
         $dateFormat = 'd/m/Y';
