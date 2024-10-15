@@ -1,3 +1,6 @@
+## [Versão 3.89.197]
+- Permitindo que o gestor escolar possa criar cardápios no novo módulo de merenda
+
 ## [Versão 3.89.196]
 - Correção na funcionalidade de frequência, especificamente para alunos com matrícula transferida
 
