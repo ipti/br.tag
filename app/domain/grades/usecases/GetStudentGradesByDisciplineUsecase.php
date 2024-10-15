@@ -152,9 +152,14 @@ class GetStudentGradesByDisciplineUsecase
     }
     public function getSemRecPartial ($gradeResult, $semester, $type) {
         if($type == "RF") {
-            if($gradeResult->sem_avarage_1 == null || $gradeResult->sem_avarage_2 == null) {
+            if($gradeResult->sem_avarage_1 == null && $gradeResult->sem_avarage_2 == null) {
                 return "";
+            } elseif($gradeResult->sem_avarage_1 != null && $gradeResult->sem_avarage_2 == null){
+                return $gradeResult->sem_rec_partial_1  < $gradeResult->sem_avarage_1 ?  $gradeResult->sem_avarage_1 : $gradeResult->sem_rec_partial_1;
+            } elseif($gradeResult->sem_avarage_1 == null && $gradeResult->sem_avarage_2 != null){
+                return $gradeResult->sem_rec_partial_2  < $gradeResult->sem_avarage_2 ?  $gradeResult->sem_avarage_2 : $gradeResult->sem_rec_partial_2;
             }
+
             $semRecPartial1 = is_numeric($gradeResult->sem_rec_partial_1) ? $gradeResult->sem_rec_partial_1 : 0;
             $semRecPartial2 = is_numeric($gradeResult->sem_rec_partial_2) ? $gradeResult->sem_rec_partial_2 : 0;
 
