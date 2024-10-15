@@ -1,3 +1,6 @@
+## [Versão 3.89.195]
+- Label de status de matricula adicionado a tela de notas
+
 ## [Versão 3.89.196]
 - Correção na funcionalidade de frequência, especificamente para alunos com matrícula transferida
 
