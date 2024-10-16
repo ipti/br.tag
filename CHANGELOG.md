@@ -2,9 +2,10 @@
 - Permitindo que o gestor escolar possa criar cardápios no novo módulo de merenda
 
 ## [Versão 3.89.196]
+- Consertada ordem das unidades no relatório de ficha de notas
 - Correção na funcionalidade de frequência, especificamente para alunos com matrícula transferida
 
-## [Versão 3.87.196]
+## [Versão 3.89.196]
 - Nota de recuperação semestral só substitui a média semestral caso a recuperação seja maior
 
 ## [Versão 3.89.195]
