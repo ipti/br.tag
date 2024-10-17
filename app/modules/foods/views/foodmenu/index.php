@@ -24,7 +24,7 @@ $this->menu = array(
 			</h1>
 			<div class="t-buttons-container">
                 <?php
-                    if(Yii::app()->getAuthManager()->checkAccess('nutritionist',Yii::app()->user->loginInfos->id) ||  Yii::app()->getAuthManager()->checkAccess('admin',Yii::app()->user->loginInfos->id)):
+                    if(Yii::app()->getAuthManager()->checkAccess('manager',Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('nutritionist',Yii::app()->user->loginInfos->id) ||  Yii::app()->getAuthManager()->checkAccess('admin',Yii::app()->user->loginInfos->id)):
                 ?>
                     <a class="t-button-primary"  rel="noopener" href="<?= Yii::app()->createUrl('foods/foodMenu/create') ?>">
                         <?= Yii::t('default', 'Add') ?>
