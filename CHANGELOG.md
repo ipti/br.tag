@@ -1,3 +1,5 @@
+## [Versão 3.87.195]
+- consertado o cálculo da média final para as turmas eja
 ## [Versão 3.87.194]
 - Adicionando paginação nas telas de ficha AEE
 
