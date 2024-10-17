@@ -1,3 +1,6 @@
+## [Versão 3.89.198]
+- Adicionado a sessão de conteúdo nas aulas ministradas selecionadas na tela de aulas ministradas
+
 ## [Versão 3.89.197]
 - Permitindo que o gestor escolar possa criar cardápios no novo módulo de merenda
 
