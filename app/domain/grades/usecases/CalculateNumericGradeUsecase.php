@@ -93,7 +93,7 @@ class CalculateNumericGradeUsecase
             }
             if($gradeRecoveryAndUnities["partialRecovery"]->semester != null) {
                 $semesterRec = $gradeRecoveryAndUnities["partialRecovery"]->semester;
-                $gradeResult["sem_rec_partial_" . $semesterRec] = $partialRecoveryMedia < $gradeResult["sem_avarage_".$semesterRec] ? $gradeResult["sem_avarage_".$semesterRec] : $partialRecoveryMedia;
+                $gradeResult["sem_rec_partial_" . $semesterRec] = $partialRecoveryMedia < $gradeResult["sem_avarage_".$semesterRec] && $partialRecoveryMedia !== null ? $gradeResult["sem_avarage_".$semesterRec] : $partialRecoveryMedia;
             } else {
                 $gradeResult["rec_partial_" . $gradeRecoveryAndUnities["partialRecovery"]->order_partial_recovery] = $partialRecoveryMedia;
             }
