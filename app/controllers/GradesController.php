@@ -568,9 +568,15 @@ class GradesController extends Controller
         $disciplineId = Yii::app()->request->getPost("discipline");
         $unityId = Yii::app()->request->getPost("unity");
 
-        $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId);
+
+        if (!isset($classroomId) || !isset($disciplineId) || !isset($unityId)) {
+            throw new CHttpException(400, "Requisição mal formada, faltam dados");
+        }
+
+        $usecase = new GetStudentGradesByDisciplineUsecase(classroomId: $classroomId, disciplineId: $disciplineId, unityId: $unityId);
         $result = $usecase->exec();
         echo CJSON::encode($result);
+
     }
 
     public function actionCalculateFinalMedia()
