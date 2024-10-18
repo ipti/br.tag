@@ -10,6 +10,7 @@
      * @property integer $stage
      * @property integer $edcenso_associated_stage_id
      * @property integer $is_edcenso_stage
+     * @property integer $unified_frequency
      *
      * The followings are the available model relations:
      * @property SchoolStages[] $schoolStages
@@ -128,7 +129,7 @@
                 ['name', 'length', 'max' => 100], // The following rule is used by search().
                 ['alias', 'length', 'max'=>20],
                 // Please remove those attributes that should not be searched.
-                ['id, name, alias, stage, edcenso_associated_stage_id, is_edcenso_stage', 'safe', 'on' => 'search'],
+                ['id, name, alias, stage, edcenso_associated_stage_id, is_edcenso_stage, unified_frequency', 'safe', 'on' => 'search'],
             ];
         }
 
@@ -156,6 +157,7 @@
                 'edcenso_associated_stage_id' => 'Etapa Associada ao Educacenso',
                 'is_edcenso_stage' => 'É uma Etapa do Educacenso',
                 'alias' => 'Abreviação',
+                'unified_frequency' => 'Unificar Frequência'
             ];
         }
 

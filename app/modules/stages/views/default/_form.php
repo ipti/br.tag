@@ -16,7 +16,7 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="form">
     <div class="mobile-row ">
         <div class="column clearleft">
-            <h1><?php echo $model->isNewRecord ? 'Criar Etapa' : 'Atualizar Etapa ' . $model->id ?></h1>
+            <h1><?php echo $model->isNewRecord ? 'Criar Etapa' : 'Atualizar Etapa'?></h1>
         </div>
         <div class="column clearfix align-items--center justify-content--end show--desktop">
             <button id="saveStage" class="t-button-primary" type="submit">
@@ -83,6 +83,18 @@ $form = $this->beginWidget('CActiveForm', array(
                 <?php echo $form->textField($model, 'alias', array('id' => 'stageAlias', 'size' => 15, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($model, 'alias'); ?>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column clearfix">
+        <div class="t-field-checkbox">
+            <?php echo $form->checkBox(
+                $model,
+                'unified_frequency',
+                array('value' => 1, 'uncheckValue' => 0)
+                ); ?>
+            <?php echo $form->label($model, 'unified_frequency', array('class' => 't-field-text__label')); ?>
+        </div>
         </div>
     </div>
 

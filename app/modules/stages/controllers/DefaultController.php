@@ -59,6 +59,7 @@ class DefaultController extends Controller
 
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
+            $model->unified_frequency = $stageVsModality["unified_frequency"];
             $model->is_edcenso_stage = 0;
             if ($model->save()) {
                 $msg = 'O Cadastro foi criado com sucesso!';
@@ -86,6 +87,7 @@ class DefaultController extends Controller
 
         if (isset($stageVsModality)) {
             $model->attributes = $stageVsModality;
+            $model->unified_frequency = $stageVsModality["unified_frequency"];
             if ($model->save()) {
                 $msg = 'Etapa atualizada com sucesso!';
 
