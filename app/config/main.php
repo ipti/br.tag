@@ -218,6 +218,9 @@ return array(
             'dsn' => getenv("SENTRY_DSN")   ,
             'jsDsn' => getenv("SENTRY_DSN"),
             'options' => [
+                'traces_sampler' => function (\Sentry\Tracing\SamplingContext $context): float {
+                    return 1;
+                },
                 'traces_sample_rate' => 1.0,
                 'release' => 'tag@' . TAG_VERSION,
                 'environment' => INSTANCE,

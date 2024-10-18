@@ -178,21 +178,23 @@ $(document).bind("ajaxComplete", function () {
 $(document).ajaxError(function (event, jqxhr, ajaxSettings, thrownError) {
     if (jqxhr.status === 401) {
         // Redireciona para a página de login se receber o status 401
-        var response = JSON.parse(jqxhr.responseText);
+        const response = JSON.parse(jqxhr.responseText);
         if (response.redirect) {
             window.location.href = response.redirect;
         }
     }
+
     Raven.captureMessage(thrownError || jqxhr.statusText, {
         extra: {
             type: ajaxSettings.type,
             url: ajaxSettings.url,
             data: ajaxSettings.data,
             status: jqxhr.status,
-            error: thrownError || jqxhr.statusText,
-            response: jqxhr.responseText.substring(0, 100),
+            error: (thrownError || jqxhr.statusText) + jqxhr.responseText.substring(0, 100),
+            response: jqxhr.responseText.substring(0, 200),
         },
     });
+
 });
 
 $(function () {
