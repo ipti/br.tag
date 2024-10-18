@@ -1,3 +1,6 @@
+## [Versão 3.89.197]
+- Correção de consulta de cardápio sagres versão nova
+
 ## [Versão 3.89.196]
 - Correção na funcionalidade de frequência, especificamente para alunos com matrícula transferida
 
