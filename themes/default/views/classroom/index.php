@@ -16,15 +16,15 @@
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Classrooms') ?></h1>
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('classroom/create') ?>"> Adicionar
+                <a class="t-button-primary" rel="noopener" href="<?php echo Yii::app()->createUrl('classroom/create') ?>"> Adicionar
                     turma</a>
                 <div class="mobile-row">
                     <a class="t-button-secondary"
                        href="<?php echo Yii::app()->createUrl('reports/numberstudentsperclassroomreport') ?>"
-                       target="_blank">Relatório Alunos/Turma</a>
+                       target="_blank" rel="noopener">Relatório Alunos/Turma</a>
                     <a class="t-button-secondary"
                        href="<?php echo Yii::app()->createUrl('reports/instructorsperclassroomreport') ?>"
-                       target="_blank">Relatório Professores/Turma</a>
+                       target="_blank" rel="noopener">Relatório Professores/Turma</a>
                 </div>
             </div>
         </div>
