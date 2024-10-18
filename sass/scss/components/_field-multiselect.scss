@@ -13,6 +13,8 @@
         padding: $spaceXXSmall $spaceXSmall !important;
         background-image: none !important;
         word-wrap: break-word;
+        display: flex !important;
+        align-items: center !important;
 
 
         div{
@@ -23,6 +25,10 @@
             width: $SizeNormal !important;
             height: $SizeNormal !important;
             background-position: unset !important;
+            margin-left: 5px !important;
+            right: 6px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
         }
     }
     .select2-choices {
