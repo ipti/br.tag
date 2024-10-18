@@ -234,7 +234,7 @@ function GradeTableBuilder(data) {
     }
 
     function buildEnrollmentStatusLabel(status){
-        return `<label class="t-badge-info t-margin-none--left ${status == 'MATRICULADO' ? 'hide' : ''}">
+        return `<label class="t-badge-info t-margin-none--left ${status == 'MATRICULADO' || status == '' ? 'hide' : ''}">
                     ${status}
                 </label>`;
     }
