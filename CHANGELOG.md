@@ -1,3 +1,6 @@
+## [Versão 3.89.198]
+- consertado o cálculo da média final para as turmas eja
+
 ## [Versão 3.89.197]
 - Permitindo que o gestor escolar possa criar cardápios no novo módulo de merenda
 
@@ -19,8 +22,6 @@
 - Adicionando a sessão de conteúdo de aula na tabela de visualização de aulas ministradas
 - Corrigida a duplicidade de aulas ministradas ao clicar em salvar
 
-## [Versão 3.87.195]
-- consertado o cálculo da média final para as turmas eja
 ## [Versão 3.87.194]
 - Adicionado campo para unificar a frequencia na tela de etapa de ensino
 - Adicionando paginação nas telas de ficha AEE
