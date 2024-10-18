@@ -825,7 +825,7 @@ $form = $this->beginWidget(
                                                 <?php endif ?>
                                                 <td width="140">
                                                     <a href="<?php echo @Yii::app()->createUrl('forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollment["enrollmentId"])); ?>"
-                                                        target="_blank"> <i class="fa fa-eye" style="color:#3F45EA; "></i>
+                                                        target="_blank" rel="noopener"> <i class="fa fa-eye" style="color:#3F45EA; "></i>
                                                         Ficha de Matrícula
                                                     </a>
                                                 </td>

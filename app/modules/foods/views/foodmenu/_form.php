@@ -53,7 +53,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END
 		<?php if(!$model->isNewRecord): ?>
 			<div class="row t-margin-medium--bottom">
                 <div class="column clearleft--on-mobile t-buttons-container">
-                        <a class="t-button-secondary" target="_blank" href="<?php echo Yii::app()->createUrl('foods/reports/FoodMenuReport', array('id'=>$model->id)) ?>">
+                        <a class="t-button-secondary" target="_blank" rel="noopener" href="<?php echo Yii::app()->createUrl('foods/reports/FoodMenuReport', array('id'=>$model->id)) ?>">
                             <span class="t-icon-printer"></span>imprimir cardápio
                         </a>
                 </div>
