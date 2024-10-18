@@ -629,6 +629,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelEnrollment->observation = $_POST['StudentEnrollment']['observation'];
             $modelEnrollment->create_date = date('Y-m-d');
             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
+            $modelEnrollment->enrollment_date = $currentEnrollment->transfer_date;
 
             $hasDuplicate = $modelEnrollment->alreadyExists();
 

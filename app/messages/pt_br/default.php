@@ -599,6 +599,7 @@ return array(
     'Transfer Date' => 'Data da Transferência',
     'Class Transfer Date' => 'Data de Transferência Externa',
     'School Readmission Date' => 'Data de Rematrícula',
+    'Enrollment Date' => 'Data de Matrícula',
 
     //Student Declaration
     'Student Declaration' => 'Declaração do Aluno',

@@ -39,15 +39,25 @@ function generateStudentLines(data, dia, mes, ano, monthSplit, isMinor) {
         return line + `
             <div
                 class='justify-content--space-between t-padding-small--top t-padding-small--bottom'
-                style="border-bottom:1px #e8e8e8 solid;background-color:${student.status == 2 || student.status == 11 ? '#f5f7f9;' : 'initial'};"
+                style="border-bottom:1px #e8e8e8 solid;"
             >
-                <div>${student.studentName}</div>
+                <div>
+                    ${buildEnrollmentStatusLabel(student.status, student.statusLabel)}
+                    ${student.studentName}
+                </div>
                 <div style='display:flex;'>
                     ${generateCheckboxItems(student, dia, mes, ano, monthSplit, isMinor)}
                 </div>
             </div>`;
     }, '');
 }
+
+function buildEnrollmentStatusLabel(status, label){
+    return `<label class="t-badge-info t-margin-none--left ${status == 1 ? 'hide' : ''}">
+                ${label}
+            </label>`;
+}
+
 function generateScheduleDays(data, monthSplit, isMinor) {
     return data.scheduleDays.reduce((acc, scheduleDays) => {
         let dia = scheduleDays.day;
