@@ -1,3 +1,6 @@
+## [Versão 3.89.198]
+- consertado o cálculo da média final para as turmas eja
+
 ## [Versão 3.89.197]
 - Correção de consulta de cardápio sagres versão nova
 
