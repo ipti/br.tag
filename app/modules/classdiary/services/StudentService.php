@@ -35,6 +35,8 @@ class StudentService
                 foreach ($enrollments as $enrollment) {
                     $array["studentId"] = $enrollment->student_fk;
                     $array["studentName"] = $enrollment->studentFk->name;
+                    $array["status"] = $enrollment->status;
+                    $array["statusLabel"] = $enrollment->getCurrentStatus();
                     $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                     $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT);
                     $valid = $this->verifyStatusEnrollment( $enrollment, $schedule);
