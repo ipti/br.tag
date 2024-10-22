@@ -561,7 +561,7 @@ $form = $this->beginWidget(
                             foreach ($instructors as $instructor) {
                                 $teachingDataNames[$instructor->id] = $instructor->name;
                             }
-                            $roleName = [null, "Docente", "Auxiliar/assistente educacional", "Profissional/monitor de atividade complementar", "Tradutor e Intérprete de Libras", "EAD - Docente Titular", "EAD - Docente Tutor", "Guia-Intérprete", "Profissional de apoio escolar para aluno(a)s com deficiência"];
+                            $roleName = [null, "Docente", "Auxiliar/assistente educacional", "Profissional/monitor de atividade complementar", "Tradutor e Intérprete de Libras", "EAD - Docente Titular", "EAD - Docente Tutor", "Guia-Intérprete", "Profissional de apoio escolar para aluno(a)s com deficiência", "Docente Substituto"];
                             $contractTypeName = [null, "Concursado/Efetivo", "Temporário", "Terceirizado", "CLT"];
                             $i = 0;
                             foreach ($modelTeachingData as $key => $model) {
@@ -926,6 +926,7 @@ $form = $this->beginWidget(
                         6 => "EAD - Docente Tutor",
                         7 => "Guia-Intérprete",
                         8 => "Profissional de apoio escolar para aluno(a) com deficiência",
+                        9 => "Docente Substituto",
                     ), array('class' => 'select-search-off'));
                     ?>
                 </div>
