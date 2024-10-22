@@ -9,7 +9,7 @@
     $scope->setUser(['email' => 'jane.doe@example.com']);
 });
 
-$LOG_PATH = "/app/app/runtime/" . INSTANCE;
+$LOG_PATH = "/app/app/runtime/" . INSTANCE . "/" . date("Y-m-d");
 
 if (!file_exists($LOG_PATH)) {
 
@@ -25,8 +25,8 @@ $log_config = array(
             'levels' => 'info, warning, error',
             'categories' => 'application',
             'logPath' => $LOG_PATH,
-            'maxFileSize' => 102400,
-            'maxLogFiles' => 10,
+            'maxFileSize' => 10240,
+            'maxLogFiles' => 5,
             'filter' => array(
                 'class' => 'CLogFilter',
                 'prefixSession' => false,
