@@ -6,6 +6,9 @@
  */
 class GetStudentGradesByDisciplineUsecase
 {
+    private $classroomId;
+    private $disciplineId;
+    private $unityId;
 
     public function __construct(int $classroomId, int $disciplineId, int $unityId)
     {
@@ -547,7 +550,7 @@ class StudentGradesResult
             }, $this->unities),
             'partialRecoveries' => array_map(function (GradePartialRecoveryResult $partialRecovery) {
                 return $partialRecovery->toArray();
-            }, $this->partialRecoveries),
+            }, $this->partialRecoveries ?? []),
         ];
     }
 }

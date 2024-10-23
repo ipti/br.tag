@@ -134,10 +134,12 @@ class GradesController extends Controller
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
         $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk]);
         $result = [];
+
         foreach ($unities as $unity) {
             $result[$unity['id']] = $unity["name"];
         }
-        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+
+        echo CJSON::encode($result);
     }
 
     public function actionReportCard()

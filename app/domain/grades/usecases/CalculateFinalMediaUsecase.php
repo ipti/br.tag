@@ -8,6 +8,11 @@
  */
 class CalculateFinalMediaUsecase
 {
+    private $gradesResult;
+    private $gradeRule;
+    private $gradesStudent;
+    private $countUnities;
+
     public function __construct($gradesResult, $gradeRule, $countUnities, $gradesStudent = null)
     {
         $this->gradesResult = $gradesResult;
@@ -21,15 +26,15 @@ class CalculateFinalMediaUsecase
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $grades = [];
-            if($this->gradeRule->gradeCalculationFk->name == 'Média Semestral') {
+            if ($this->gradeRule->gradeCalculationFk->name == 'Média Semestral') {
                 $semRecPartial1 = is_numeric($this->gradesResult["sem_rec_partial_1"]) ? $this->gradesResult["sem_rec_partial_1"] : 0;
                 $semRecPartial2 = is_numeric($this->gradesResult["sem_rec_partial_2"]) ? $this->gradesResult["sem_rec_partial_2"] : 0;
 
-                $gradesSemAvarage1 =  max($this->gradesResult["sem_avarage_1"], $semRecPartial1);
-                $gradesSemAvarage2 =  max($this->gradesResult["sem_avarage_2"], $semRecPartial2);
+                $gradesSemAvarage1 = max($this->gradesResult["sem_avarage_1"], $semRecPartial1);
+                $gradesSemAvarage2 = max($this->gradesResult["sem_avarage_2"], $semRecPartial2);
 
                 $grades = [$gradesSemAvarage1, $gradesSemAvarage2];
-                $calculation = GradeCalculation::model()->findByAttributes(["name"=>"Média"]);
+                $calculation = GradeCalculation::model()->findByAttributes(["name" => "Média"]);
                 $finalMedia = $this->applyCalculation($calculation, $grades);
             } else {
                 $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
@@ -63,13 +68,13 @@ class CalculateFinalMediaUsecase
 
                 $finalMedia = $this->applyFinalRecovery($this->gradesResult, $gradesFinalRecovery);
             }
-            TLog::info("Média final calculada", ["finalMedia"=>$finalMedia]);
+            TLog::info("Média final calculada", ["finalMedia" => $finalMedia]);
 
             $this->saveFinalMedia($this->gradesResult, $finalMedia);
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();
-            TLog::error("Erro ao salvar média final", ["Exception"=>$e]);
+            TLog::error("Erro ao salvar média final", ["Exception" => $e]);
         }
 
     }
@@ -93,12 +98,10 @@ class CalculateFinalMediaUsecase
         $result = null;
         array_push($gradesFinalRecovery, $gradesResult->rec_final);
         $finalRecovery = $this->getFinalRevovery($gradesResult->enrollment_fk, $gradesResult->discipline_fk);
-        if($finalRecovery->gradeCalculationFk->name == "Média Semestral")
-        {
-            $calculation = GradeCalculation::model()->findByAttributes(["name"=>"Média"]);
+        if ($finalRecovery->gradeCalculationFk->name == "Média Semestral") {
+            $calculation = GradeCalculation::model()->findByAttributes(["name" => "Média"]);
             $result = $this->applyCalculation($calculation, $gradesFinalRecovery);
-        } else
-        {
+        } else {
             $result = $this->applyCalculation($finalRecovery->gradeCalculationFk, $gradesFinalRecovery);
         }
         return $result;
@@ -130,12 +133,11 @@ class CalculateFinalMediaUsecase
         for ($i = 0; $i < $countUnities; $i++) {
             $grade = $gradesResult->attributes["grade_" . ($i + 1)];
 
-            if($this->gradesStudent[$i]->parcialRecoveryFk !== null)
-            {
-                $gradePartialRecovery =$gradesResult->attributes["rec_partial_" . $this->gradesStudent[$i]->parcialRecoveryFk->order_partial_recovery];
+            if ($this->gradesStudent[$i]->parcialRecoveryFk !== null) {
+                $gradePartialRecovery = $gradesResult->attributes["rec_partial_" . $this->gradesStudent[$i]->parcialRecoveryFk->order_partial_recovery];
 
 
-                $grade = $grade < $gradePartialRecovery  ? $gradePartialRecovery : $grade;
+                $grade = $grade < $gradePartialRecovery ? $gradePartialRecovery : $grade;
             }
             array_push($grades, $grade);
         }
