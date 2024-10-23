@@ -23,7 +23,7 @@ class TimesheetController extends Controller
         return [
             [
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => [], 'users' => ['*'],
+                'actions' => ['actionSaveSubstituteInstructorDay', 'addSubstituteInstructorDay'], 'users' => ['*'],
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
@@ -91,7 +91,7 @@ class TimesheetController extends Controller
                 foreach ($curricularMatrixes as $cm) {
                     $instructorName = Yii::app()->db->createCommand("
                     select ii.name from teaching_matrixes tm
-                    join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                    join instructor_teaching_data itd on itd.id = tm.teaching_data_fk
                     join instructor_identification ii on itd.instructor_fk = ii.id
                     where itd.classroom_id_fk = :cid and tm.curricular_matrix_fk = :cmid")->bindParam(":cmid", $cm->id)->bindParam(":cid", $classroomId)->queryRow();
                     array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workloadUsed" => 0, "workloadTotal" => $cm->workload, "instructorName" => $instructorName["name"]]);
@@ -754,6 +754,52 @@ class TimesheetController extends Controller
             }
         }
         echo json_encode(["valid" => true, "adds" => $adds, "disciplines" => $disciplines]);
+    }
+
+    public function actionAddSubstituteInstructorDay()
+    {
+        $scheduleId = Yii::app()->request->getPost('schedule');
+        $instructorId = Yii::app()->request->getPost('instructor');
+
+        $transaction = Yii::app()->db->beginTransaction();
+
+        if(isset($scheduleId) && isset($instructorId)){
+            try{
+                self::actionSaveSubstituteInstructorDay($instructorId, $scheduleId);
+                $transaction->commit();
+                header('HTTP/1.1 200 OK');
+                echo json_encode(["valid" => true]);
+            } catch (Exception $e) {
+                $transaction->rollback();
+                TLog::error("Erro durante a transação de AddSubstituteInstructorDay", array(
+                    "ExceptionMessage" => $e->getMessage()
+                ));
+                throw new Exception($e->getMessage(), 500, $e);
+            }
+        }
+    }
+
+    public function actionSaveSubstituteInstructorDay($instructorId, $scheduleId)
+    {
+        $schedule = Schedule::model()->findByPk($scheduleId);
+        $instructor = InstructorIdentification::model()->findByPk($instructorId);
+
+        $teachingData = InstructorTeachingData::model()->findByAttributes([
+            ["classroom_id_fk" => $schedule->classroom_fk,
+            "instructor_fk" => $instructor->id]
+        ]);
+
+        $substituteInstructor = new SubstituteInstructor();
+
+        $substituteInstructor->teaching_data_fk = $teachingData->id;
+        $substituteInstructor->instructor_fk = $instructor->id;
+        if($substituteInstructor->save()){
+            $schedule->substitute_instructor_fk = $substituteInstructor->id;
+            $schedule->save();
+            TLog::info("SubstituteInstructor atribuído a Schedule com sucesso", array(
+                "Schedule" => $schedule->id
+            ));
+        }
     }
 
 //    public function actionGetInstructorDisciplines($id)

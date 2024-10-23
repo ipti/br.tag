@@ -19,6 +19,7 @@
  * @property string $diary
  * @property string $fkid
  * @property string $hash
+ * @property integer $substitute_instructor_fk
  *
  * The followings are the available model relations:
  * @property ClassContents[] $classContents
@@ -27,6 +28,7 @@
  * @property InstructorFaults[] $instructorFaults
  * @property Classroom $classroomFk
  * @property EdcensoDiscipline $disciplineFk
+ * @property SubstituteInstructor $substituteInstructorFk
  * @property InstructorIdentification $instructorFk
  */
 class Schedule extends CActiveRecord
@@ -85,6 +87,7 @@ class Schedule extends CActiveRecord
             'instructorFaults' => array(self::HAS_MANY, 'InstructorFaults', 'schedule_fk'),
             'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
             'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
+            'substituteInstructorFk' => array(self::BELONGS_TO, 'SubstituteInstructor', 'substitute_instructor_fk'),
             'instructorFk' => array(self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'),
         );
     }
@@ -110,6 +113,7 @@ class Schedule extends CActiveRecord
             'diary' => 'Diary',
             'fkid' => 'Fkid',
             'hash' => 'Hash',
+            'substitute_instructor_fk' => 'Substitute Instructor Fk',
         );
     }
 
@@ -146,6 +150,7 @@ class Schedule extends CActiveRecord
         $criteria->compare('diary',$this->diary,true);
         $criteria->compare('fkid',$this->fkid,true);
         $criteria->compare('hash',$this->hash,true);
+        $criteria->compare('substitute_instructor_fk',$this->substitute_instructor_fk);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
