@@ -9,8 +9,12 @@ COPY . /app
 # Instalar o Composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+
 # Executar composer update e instalar dependências no diretório secundário (/app/app)
 USER root
+
+RUN apk add --no-cache git
+
 WORKDIR /app/app
 RUN composer update \
     && composer update --no-plugins \
