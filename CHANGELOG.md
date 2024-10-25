@@ -1,3 +1,6 @@
+## [Versão 3.89.198]
+- Retirando a chave estrangeira de schedule em class_contents
+
 ## [Versão 3.89.197]
 - Correção de consulta de cardápio sagres versão nova
 
