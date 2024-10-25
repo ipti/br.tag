@@ -23,12 +23,13 @@ class TimesheetController extends Controller
         return [
             [
                 'allow',  // allow all users to perform 'index' and 'view' actions
-                'actions' => ['actionSaveSubstituteInstructorDay', 'addSubstituteInstructorDay'], 'users' => ['*'],
+                'actions' => [], 'users' => ['*'],
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability',
-                    'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor", "changeUnavailableSchedule"
+                    'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor", "changeUnavailableSchedule",
+                    "addSubstituteInstructorDay", "saveSubstituteInstructorDay"
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -763,12 +764,15 @@ class TimesheetController extends Controller
 
         $transaction = Yii::app()->db->beginTransaction();
 
+        echo json_encode(['s'=> $scheduleId, 'i' => $instructorId]);
+
         if(isset($scheduleId) && isset($instructorId)){
             try{
                 self::actionSaveSubstituteInstructorDay($instructorId, $scheduleId);
                 $transaction->commit();
                 header('HTTP/1.1 200 OK');
                 echo json_encode(["valid" => true]);
+                Yii::app()->end();
             } catch (Exception $e) {
                 $transaction->rollback();
                 TLog::error("Erro durante a transação de AddSubstituteInstructorDay", array(
@@ -777,6 +781,9 @@ class TimesheetController extends Controller
                 throw new Exception($e->getMessage(), 500, $e);
             }
         }
+
+        header('HTTP/1.1 400 Request invalid');
+        echo json_encode(["valid" => false]);
     }
 
     public function actionSaveSubstituteInstructorDay($instructorId, $scheduleId)
