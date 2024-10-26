@@ -324,7 +324,7 @@ class StudentEnrollment extends AltActiveRecord
 
     public function alreadyExists()
     {
-        $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE student_fk = :student_fk  AND classroom_fk = :classroom_fk";
+        $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE student_fk = :student_fk  AND classroom_fk = :classroom_fk and (status = 1 or status is null)";
 
         $count = Yii::app()->db->createCommand($sql)
             ->bindParam(":student_fk", $this->student_fk)
@@ -332,6 +332,7 @@ class StudentEnrollment extends AltActiveRecord
             ->queryRow();
         return $count["qtd"] > 0;
     }
+
     public function getDailyOrder()
     {
         $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE classroom_fk = :classroom_fk";
