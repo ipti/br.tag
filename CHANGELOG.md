@@ -1,3 +1,6 @@
+## [Versão 3.89.198]
+- Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
+
 ## [Versão 3.89.197]
 - Correção de consulta de cardápio sagres versão nova
 
