@@ -295,6 +295,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                         <span class="t-menu-item__text">Plano de Aula</span>
                                     </a>
                                 </li>
+                                <?php if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)):?>
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?>">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classes/classContents') ?>">
                                         <span class="t-icon-topics t-menu-item__icon"></span>
@@ -307,6 +308,21 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                         <span class="t-menu-item__text">Frequência</span>
                                     </a>
                                 </li>
+                                <?php endif ?>
+                                <?php if(Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id) && (Yii::app()->features->isEnable("FEAT_FREQ_CLASSCONT"))):?>
+                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?>">
+                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classes/classContents') ?>">
+                                        <span class="t-icon-topics t-menu-item__icon"></span>
+                                        <span class="t-menu-item__text">Aulas Ministradas</span>
+                                    </a>
+                                </li>
+                                <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/frequency") ? 'active' : '' ?>">
+                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classes/frequency') ?>">
+                                        <span class="t-icon-checklist t-menu-item__icon"></span>
+                                        <span class="t-menu-item__text">Frequência</span>
+                                    </a>
+                                </li>
+                                <?php endif ?>
                                 <?php if (Yii::app()->features->isEnable("FEAT_GRADES")): ?>
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=grades/grades") ? 'active' : '' ?>">
                                         <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('grades/grades') ?> ">
