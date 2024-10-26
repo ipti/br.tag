@@ -2,6 +2,7 @@
 - Enriquecido Termo de Suspensão com Dados carregados do banco
 - Corrigido tamanho da foto 3x4 na ficha de matrícula
 - Permitido que um aluno transferido de uma turma possa voltar para a mesma turma
+- Inserido coluna turma/ano no relatório de alunos por turma em multisseriados/EJA
 
 ## [Versão 3.89.197]
 - Correção de consulta de cardápio sagres versão nova
