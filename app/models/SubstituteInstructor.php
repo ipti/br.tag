@@ -31,8 +31,8 @@ class SubstituteInstructor extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id, instructor_fk, teaching_data_fk', 'required'),
-			array('id, instructor_fk, teaching_data_fk', 'numerical', 'integerOnly'=>true),
+			array('instructor_fk, teaching_data_fk', 'required'),
+			array('instructor_fk, teaching_data_fk', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, instructor_fk, teaching_data_fk', 'safe', 'on'=>'search'),

@@ -759,12 +759,17 @@ class TimesheetController extends Controller
 
     public function actionAddSubstituteInstructorDay()
     {
-        $scheduleId = Yii::app()->request->getPost('schedule');
-        $instructorId = Yii::app()->request->getPost('instructor');
+        $jsonData = file_get_contents('php://input');
+        $requestData = json_decode($jsonData, true);
+
+        // Descomentar DEPOIS
+        // $scheduleId = Yii::app()->request->getPost('schedule');
+        // $instructorId = Yii::app()->request->getPost('instructor');
+
+        $scheduleId = $requestData["schedule"];
+        $instructorId = $requestData["instructor"];
 
         $transaction = Yii::app()->db->beginTransaction();
-
-        echo json_encode(['s'=> $scheduleId, 'i' => $instructorId]);
 
         if(isset($scheduleId) && isset($instructorId)){
             try{
@@ -781,9 +786,27 @@ class TimesheetController extends Controller
                 throw new Exception($e->getMessage(), 500, $e);
             }
         }
-
         header('HTTP/1.1 400 Request invalid');
         echo json_encode(["valid" => false]);
+    }
+
+    public function actionSubstituteInstructor()
+    {
+        $instructorsIdentification = InstructorIdentification::model()->findAll();
+
+        $instructors = [];
+
+        foreach ($instructorsIdentification as $instructor) {
+            array_push($instructors, array("id" => $instructor->id, "name"=>$instructor->name));
+        }
+
+        $this->render
+        (
+            'substituteInstructor',
+            array(
+                'instructors' => $instructors
+            )
+        );
     }
 
     public function actionSaveSubstituteInstructorDay($instructorId, $scheduleId)
@@ -791,10 +814,12 @@ class TimesheetController extends Controller
         $schedule = Schedule::model()->findByPk($scheduleId);
         $instructor = InstructorIdentification::model()->findByPk($instructorId);
 
-        $teachingData = InstructorTeachingData::model()->findByAttributes([
-            ["classroom_id_fk" => $schedule->classroom_fk,
-            "instructor_fk" => $instructor->id]
-        ]);
+        $teachingData = InstructorTeachingData::model()->findByAttributes(
+            array(
+                "classroom_id_fk" => $schedule->classroom_fk,
+                "instructor_fk" => $instructor->id
+            )
+        );
 
         $substituteInstructor = new SubstituteInstructor();
 
@@ -807,6 +832,30 @@ class TimesheetController extends Controller
                 "Schedule" => $schedule->id
             ));
         }
+    }
+
+    public function actionDeleteSubstituteInstructorDay($id){
+        $substituteInstructor = SubstituteInstructor::model()->findByPk($id);
+        $schedule = Schedule::model()->findByAttributes(array("substitute_instructor_fk" => $substituteInstructor->id));
+
+        $transaction = Yii::app()->db->beginTransaction();
+
+        try{
+            $schedule->substitute_instructor_fk = null;
+            $substituteInstructor->delete();
+            header('HTTP/1.1 200 OK');
+            echo json_encode(["valid"=>true]);
+            Yii::app()->end();
+        }catch(Exception $e){
+            $transaction->rollback();
+            TLog::error("Erro durante a transação de DeleteSubstituteInstructorDay", array(
+                "ExceptionMessage" => $e->getMessage()
+            ));
+            throw new Exception($e->getMessage(), 500, $e);
+        }
+
+        header('HTTP/1.1 400 Request invalid');
+        echo json_encode(["valid" => false]);
     }
 
 //    public function actionGetInstructorDisciplines($id)
