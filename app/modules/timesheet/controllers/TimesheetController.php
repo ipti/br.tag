@@ -858,6 +858,62 @@ class TimesheetController extends Controller
         echo json_encode(["valid" => false]);
     }
 
+    public function actionGetFrequency()
+    {
+        $classroomId = Yii::app()->request->getPost("classroom");
+        $instructorId = Yii::app()->request->getPost("instructor");
+
+        $classroom = Classroom::model()->findByPk($classroomId);
+
+        $schedules = Schedule::model()->findAll(
+            "classroom_fk = :classroom and year = :year and month = :month and unavailable = 0 group by day order by day, schedule",
+            array(
+                "classroom" => $classroom->id,
+                "year" => $_POST["year"],
+                "month" => $_POST["month"]
+            )
+        );
+
+        $array = [];
+        $dayName = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+        $instructorModel = InstructorIdentification::model()->findByPk($instructorId);
+        $instructor = [];
+        $instructor["instructorId"] = $instructorModel->id;
+        $instructor["instructorName"] = $instructorModel->name;
+        $instructor["schedules"] = [];
+
+        foreach($schedules as $schedule){
+            $date = $this->generateDate($schedule->day, $schedule->month, $schedule->year, 0);
+            $classDay = $schedule->substitute_instructor_fk != null;
+            array_push($array["schedules"], array(
+                "day" => $schedule->day,
+                "week_day" => $dayName[$schedule->week_day],
+                "schedule" => $schedule->schedule,
+                "idSchedule" => $schedule->id,
+                "class_day" => $classDay,
+                "date" => $date
+            ));
+        }
+
+        echo json_encode(["valid" => true, "schedules" => $schedules]);
+        Yii::app()->end();
+    }
+
+    private function generateDate($day, $month, $year, $usecase){
+        switch($usecase){
+            case 0:
+                $day = ($day < 10) ? '0' . $day : $day;
+                $month = ($month < 10) ? '0' . $month : $month;
+                return $day . "/" . $month . "/" . $year;
+            case 1:
+                $day = ($day < 10) ? '0' . $day : $day;
+                $month = ($month < 10) ? '0' . $month : $month;
+                return $day . "-" . $month . "-" . $year;
+            default:
+                break;
+        }
+    }
+
 //    public function actionGetInstructorDisciplines($id)
 //    {
 //        /** @var $istructorDisciplines InstructorDisciplines[]
