@@ -159,8 +159,8 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
 
                     </div>
                 </li>
-                
-                    <?php 
+
+                    <?php
                     if(!Yii::app()->user->getState("rememberMe")):
                         // $this->beginWidget('zii.widgets.CPortlet', array(
                         //     'title' => '',
@@ -555,7 +555,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap-datepicker.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap-datepicker.pt-BR.min.js"></script>
-    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js"></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/common.js?v=<?= TAG_VERSION ?>"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/util.js?v=<?= TAG_VERSION ?>"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/select2-locale-pt-BR.js"></script>

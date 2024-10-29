@@ -219,24 +219,43 @@ if ($turno == 'M') {
         <table class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th scope="col" rowspan="4" class='vertical-text'><div>Ordem</div></th>
-                <th scope="col" rowspan="4" class='vertical-text'><div>ID INEP</div></th>
-                <th scope="col" rowspan="4" style="width: 300px;">Nome do Aluno</th>
+                <th scope="col" rowspan="5" class='vertical-text'><div>Ordem</div></th>
+                <th scope="col" rowspan="5" class='vertical-text'><div>ID INEP</div></th>
+                <th scope="col" rowspan="5" style="width: 300px;">Nome do Aluno</th>
                 <th scope="col" colspan="<?php echo $qtde + 1?>">Componentes Curriculares</th></tr>
             <tr>
                 <th scope="col" colspan="<?php echo $qtde + 1?>">Rendimento Escolar</th>
             </tr>
             <tr>
                 <th scope="col" colspan="<?php echo $qtde?>">Disciplinas</th>
-                <th scope="col" rowspan="2">Resultado Final</th>
+                <th scope="col" rowspan="3">Resultado Final</th>
             </tr>
             <tr>
-                <?php foreach($disciplines as $discipline) {
-                    $discipline = classroomDisciplineLabelResumeArray($discipline['discipline_id']);
-                    if (strlen($discipline) <= 20) {
-                        echo "<th scope='col' class='vertical-text'><div>".$discipline."</div></th>";
+                <?php if (count($baseDisciplines) > 0): ?>
+                    <th scope="col" colspan="<?= count($baseDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:150px;">Base Nacional Comum
+                    </th>
+                <?php endif ?>
+                <?php if (count($diversifiedDisciplines) > 0): ?>
+                    <th scope="col" colspan="<?= count($diversifiedDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:150px;">Parte Diversificadora
+                    </th>
+                <?php endif ?>
+            </tr>
+            <tr>
+                <?php foreach($baseDisciplines as $discipline) {
+                    $name = $discipline["discipline_abbreviation"] == null ? $discipline["discipline_name"] : $discipline["discipline_abbreviation"];
+                    if (strlen($name) <= 20) {
+                        echo "<th scope='col' class='vertical-text'><div>".$name."</div></th>";
                     }else {
-                        echo "<th scope='col' class='vertical-text'>".$discipline."</th>";
+                        echo "<th scope='col' class='vertical-text'>".$name."</th>";
+                    }
+                }
+                ?>
+                <?php foreach($diversifiedDisciplines as $discipline) {
+                    $name = $discipline["discipline_abbreviation"] == null ? $discipline["discipline_name"] : $discipline["discipline_abbreviation"];
+                    if (strlen($name) <= 20) {
+                        echo "<th scope='col' class='vertical-text'><div>".$name."</div></th>";
+                    }else {
+                        echo "<th scope='col' class='vertical-text'>".$name."</th>";
                     }
                 }
                 ?>
