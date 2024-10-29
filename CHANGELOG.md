@@ -1,10 +1,14 @@
-## [Versão 3.89.198]
+## [Versão 3.89.199]
 - Adicionado a sessão de conteúdo nas aulas ministradas selecionadas na tela de aulas ministradas
 
+## [Versão 3.89.198]
+- consertado o cálculo da média final para as turmas eja
+
 ## [Versão 3.89.197]
-- Permitindo que o gestor escolar possa criar cardápios no novo módulo de merenda
+- Correção de consulta de cardápio sagres versão nova
 
 ## [Versão 3.89.196]
+- Permitindo que o gestor escolar possa criar cardápios no novo módulo de merenda
 - Consertada ordem das unidades no relatório de ficha de notas
 - Correção na funcionalidade de frequência, especificamente para alunos com matrícula transferida
 

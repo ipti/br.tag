@@ -510,7 +510,7 @@ class SagresConsultModel
                 }
             }
         } elseif(count($results) > 2) {
-           
+
             $modalityCount = 0;
             foreach ($results as $infoStudent) {
                 if ($infoStudent['modality'] == 1) {
@@ -851,7 +851,7 @@ class SagresConsultModel
             }else{
                 $modality = $serie->serieModality;
             }
-                
+
             $serieType
                 ->setDescricao($serie->serieDescription)
                 ->setModalidade($modality);
@@ -1156,7 +1156,7 @@ class SagresConsultModel
         ->bindParam(":classId", $classId)
         ->bindParam(":referenceMonth", $referenceMonth)
         ->queryAll();
-    
+
         $schedules = [];
         $curricularMatrixChecked = [];
 
@@ -1167,7 +1167,7 @@ class SagresConsultModel
         foreach ($results as $row) {
             $matrixId = $row['curricularMatrix'];
             if (!in_array($matrixId, $schedules) && !in_array($matrixId, $curricularMatrixChecked)) {
-            
+
                 $curricularMatrixChecked[] = $matrixId;
 
                 $inconsistencyModel = new ValidationSagresModel();
@@ -1321,7 +1321,7 @@ class SagresConsultModel
                         fm.description AS descricaoMerenda,
                         fm.adjusted AS ajustado,
                         fmm.turn AS turno,
-                        fmm.menu_fk
+                        fmm.food_menuId
                     FROM food_menu fm
                         JOIN food_menu_meal fmm on fmm.food_menuId = fm.id
                     WHERE YEAR(fm.start_date) = :year and month(fm.start_date) <= :month";
@@ -1662,9 +1662,9 @@ class SagresConsultModel
             $command->bindValues([':idStudent' => $enrollment['id']]);
             $cpf = $command->queryScalar();
 
-           
+
             $this->checkSingleStudentWithoutCpf($enrollments, $cpf, $classId, $referenceYear, $school, $inepId);
-    
+
 
             if($withoutCpf) {
                 if(!empty($cpf)) {
