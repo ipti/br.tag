@@ -393,7 +393,7 @@ function initRuleType(ruleType) {
     } else if (ruleType === "N") {
         $(".numeric-fields").show();
         $(".js-has-final-recovery").trigger("change");
-        if($("select.js-type-select option[value='U']").length > 0){
+        if($("select.js-type-select option[value='UC']").length>0){
             $("select.js-type-select").html(` <option value='U'>Unidade</option>
                 <option value='UR'>Unidade com recuperação</option>`);
         }
