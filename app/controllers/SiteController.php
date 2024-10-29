@@ -152,11 +152,23 @@ class SiteController extends Controller
     private function loadLogsHtml($limit, $date = NULL)
     {
         $baseUrl = Yii::app()->theme->baseUrl;
-        if ($date == NULL) {
-            $logs = Log::model()->findAll("school_fk = :school order by date desc limit " . $limit, [':school' => Yii::app()->user->school]);
-        } else {
-            $logs = Log::model()->findAll("school_fk = :school and date < STR_TO_DATE(:date,'%d/%m/%Y à\s %H:%i:%s') order by date desc limit " . $limit, [':school' => Yii::app()->user->school, ':date' => $date]);
+        $isInstructor = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
+        $criteria = new CDbCriteria();
+        $criteria->compare('school_fk', Yii::app()->user->school);
+        $criteria->order = 'date DESC';
+        $criteria->limit = $limit;
+
+        if ($isInstructor) {
+            $criteria->compare('user_fk', Yii::app()->user->loginInfos->id);
         }
+
+        if ($date !== null) {
+            $criteria->addCondition("date < STR_TO_DATE(:date, '%d/%m/%Y à\s %H:%i:%s')");
+            $criteria->params[':date'] = $date;
+        }
+
+        $logs = Log::model()->findAll($criteria);
+
 
         $html = "";
 
