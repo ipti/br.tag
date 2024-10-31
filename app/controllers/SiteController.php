@@ -115,7 +115,20 @@ class SiteController extends Controller
             }
         }
         // display the login form
-        $this->render('login', ['model' => $model]);
+        $year = date('Y');
+        $model->year = 0;
+        $years = array();
+        if (date('m') >= 11) {
+            $year = $year + 1;
+            $model->year = 1;
+        }
+        for ($i = $year; $i >= 2014; $i--) {
+            $years[$i] = $i;
+        }
+
+
+
+        $this->render('login', ['model' => $model, 'years' => $years]);
     }
 
     /**
