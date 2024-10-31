@@ -61,7 +61,7 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 't-field-select__label--required')); ?>
                     <?php
-                    echo CHtml::dropDownList('classroom', '', $classrooms, array(
+                    echo CHtml::dropDownList('classroom', '', CHtml::listData($classrooms, 'id', 'name'), array(
                         'key' => 'id',
                         'class' => 'select-search-on t-field-select__input select2-container',
                         'prompt' => 'Selecione...',
@@ -89,6 +89,18 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
                     echo CHtml::dropDownList('unities', '', array(), array(
                         'key' => 'id',
                         'class' => 'select-search-on t-field-select__input select2-container',
+                        'prompt' => 'Selecione...',
+                         'data-isMulti' => TagUtils::isMultiStage($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id)
+                    )
+                    );
+                    ?>
+            </div>
+            <div class="column clearleft">
+                    <?php echo CHtml::label(yii::t('default', 'Etapa'), 'stage', array('class'=> 't-field-select__label--required'))?>
+                    <?php
+                    echo CHtml::dropDownList('stage', '', array(), array(
+                        'key' => 'id',
+                        'class' => 'select-search-on t-field-select__input select2-container js-hide-stage',
                         'prompt' => 'Selecione...',
                     )
                     );

@@ -86,10 +86,10 @@ class GradesController extends Controller
             $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
 
             $classroom = Classroom::model()->findAll($criteria);
-            $classroom = CHtml::listData($classroom, 'id', 'name');
+            // $classroom = CHtml::listData($classroom, 'id', 'name');
         } else {
             $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
-            $classroom = CHtml::listData($classroom, 'id', 'name');
+            // $classroom = CHtml::listData($classroom, 'id', 'name');
         }
 
         $this->render('grades', ['classrooms' => $classroom]);
