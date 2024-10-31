@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * @var TimesheetController $this TimesheetController
+ * @var CClient $cs CClientScript
+ */
+
+    $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+
+    $cs = Yii::app()->getClientScript();
+    $cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js', CClientScript::POS_END);
+
+
     $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Assign Substitute Instructor'));
 
     $themeUrl = Yii::app()->theme->baseUrl;
@@ -34,34 +46,39 @@
         </div>
     </div>
 
-<div class="tag-inner">
-    <div class="row wrap filter-bar margin-bottom-none">
-        <div>
-        <div>
-            <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required small-label')); ?>
-                <?= CHtml::dropDownList('classroom_fk', "", CHtml::listData(Classroom::model()->findAll("school_inep_fk = :school_inep_fk and school_year = :school_year order by name", ["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]), 'id', 'name'), ["prompt" => yii::t("timesheetModule.timesheet", "Select a Classroom"), "class" => "select-search-on control-input classroom-id"]); ?>
-            </div>
+    <div class="tag-inner">
+        <div class="row wrap filter-bar margin-bottom-none">
+            <div>
+                <div class="t-field-select">
+                    <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required small-label')); ?>
+                    <?= CHtml::dropDownList('classroom_fk', "", CHtml::listData(Classroom::model()->findAll("school_inep_fk = :school_inep_fk and school_year = :school_year order by name", ["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]), 'id', 'name'), ["prompt" => yii::t("timesheetModule.timesheet", "Select a Classroom"), "class" => "select-search-on control-input classroom-id"]); ?>
+                </div>
 
-            <?php echo CHtml::label(yii::t('default', 'Instructor') . " *", 'substituteInstructor', array('class' => 'control-label required', 'style' => 'width: 80px;')); ?>
-            <select class="select-search-on control-input frequency-input" id="substituteInstructor">
-                <option>Selecione o professor</option>
-                <?php foreach ($instructors as $instructor) : ?>
-                    <option value="<?= $instructor["id"] ?>"> <?= $instructor["name"] ?> </option>
-                <?php endforeach; ?>
-            </select>
+                <div class="t-field-select">
+                    <?php echo CHtml::label(yii::t('default', 'Instructor') . " *", 'substituteInstructor', array('class' => 'control-label required', 'style' => 'width: 80px;')); ?>
+                    <select class="select-search-on control-input frequency-input" id="substituteInstructor">
+                        <option>Selecione o professor</option>
+                        <?php foreach ($instructors as $instructor) : ?>
+                            <option value="<?= $instructor["id"] ?>"> <?= $instructor["name"] ?> </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-            <div class="t-field-select">
-                <?php echo CHtml::label(yii::t('default', 'Month') . "/Ano",
-                    'month', array('class' => 't-field-select__label--required')); ?>
-                <select
-                    class="select-search-on t-field-select__input js-load-frequency"
-                    id="month"
-                    style="min-width: 185px;">
-                </select>
+                <div class="t-field-select">
+                    <?php echo CHtml::label(yii::t('default', 'Month') . "/Ano",
+                        'month', array('class' => 't-field-select__label--required')); ?>
+                    <select
+                        class="select-search-on control-input t-field-select__input js-load-frequency"
+                        id="month"
+                        style="min-width: 185px;">
+                    </select>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
+    <div>
+
+    </div>
 </div>
 

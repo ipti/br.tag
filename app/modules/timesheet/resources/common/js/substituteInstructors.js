@@ -1,4 +1,4 @@
-$("#substituteInstructor").on("click", function() {
+$("#substituteInstructor").on("change", function() {
     if (
         $('#classrooms').val() !== "" &&
         $("#instructor").val() !== "" &&
