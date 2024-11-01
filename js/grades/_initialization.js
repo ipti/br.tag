@@ -16,10 +16,45 @@ $("#classroom").change(function (e) {
     $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     $("#unities").select2("val", "-1");
 
-    loadDisciplinesFromClassroom(e.target.value, disciplineId, unityId);
-    loadUnitiesFromClassroom(e.target.value)
-});
+    const isMulti = $("#classroom option:selected").attr("data-isMulti");
+    const classroomId = e.target.value;
+    if (isMulti === '1') {
+        $('.js-stage-select').removeClass("js-hide-stage");
 
+        $.ajax({
+            type:"POST",
+            url:"/?r=grades/getClassroomStages" ,
+            data:{
+                classroomId: classroomId
+            },
+
+        }).success( function(response) {
+            if(response === ""){
+                $("#stage")
+                .html(
+                    "<option value='-1'>Não há etapas nas matriculas dos alunos</option>"
+                )
+                .show();
+            } else {
+                $("#stage").html('')
+                $("#stage").append("<option value=''>Selecione</option>");
+                $("#stage").append(decodeHtml(response)).show();
+                $("#stage").select2("val", "");
+            }
+        })
+    } else {
+        $('.js-stage-select').addClass("js-hide-stage");
+        $("#stage").html('')
+        loadUnitiesFromClassroom(e.target.value)
+    }
+    loadDisciplinesFromClassroom(e.target.value, disciplineId, unityId);
+
+});
+$("#stage").on("change", function(e) {
+    $("#unities").html()
+    $("#unities").select2("val", "");
+    loadUnitiesFromClassroom(e.target.value)
+})
 $("#discipline, #unities").change(function (e,triggerEvent ) {
     const unityId = $("#unities").val();
     const disciplineId =  $("#discipline").val();

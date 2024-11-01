@@ -39,7 +39,8 @@ class GradesController extends Controller
                     'getGradesRelease',
                     'getReportCardGrades',
                     'saveGradesReportCard',
-                    'saveGradesRelease'
+                    'saveGradesRelease',
+                    'getClassroomStages'
                 ),
                 'users' => array('@'),
             ),
@@ -86,13 +87,29 @@ class GradesController extends Controller
             $criteria->params = array(':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id);
 
             $classroom = Classroom::model()->findAll($criteria);
-            // $classroom = CHtml::listData($classroom, 'id', 'name');
         } else {
             $classroom = Classroom::model()->findAll('school_year = :school_year and school_inep_fk = :school_inep_fk order by name', ['school_year' => $year, 'school_inep_fk' => $school]);
-            // $classroom = CHtml::listData($classroom, 'id', 'name');
         }
 
         $this->render('grades', ['classrooms' => $classroom]);
+    }
+    public function actionGetClassroomStages()
+    {
+            $classroomId = Yii::app()->request->getPost("classroomId");
+
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'stages';
+            $criteria->join = 'INNER JOIN student_enrollment ON student_enrollment.edcenso_stage_vs_modality_fk = stages.id';
+            $criteria->join .= ' INNER JOIN classroom ON classroom.id = student_enrollment.classroom_fk';
+            $criteria->condition = 'classroom.id = :classroomId';
+            $criteria->group = 'stages.name';
+            $criteria->params = array(':classroomId' => $classroomId);
+            $stages = EdcensoStageVsModality::model()->findAll($criteria);
+
+            foreach ($stages as $stage) {
+                echo CHtml::tag('option', array('value' => $stage->id), CHtml::encode($stage->name), true);
+            }
+
     }
 
     public function actionGetDisciplines()
@@ -131,8 +148,14 @@ class GradesController extends Controller
     }
     public function actionGetUnities()
     {
-        $classroom = Classroom::model()->findByPk($_POST["classroom"]);
-        $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk]);
+        $classroomId = Yii::app()->request->getPost("classroom");
+        $stage = Yii::app()->request->getPost("stage");
+        if(isset(($stage))) {
+            $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $stage]);
+        } else {
+            $classroom = Classroom::model()->findByPk($classroomId);
+            $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk]);
+        }
         $result = [];
         foreach ($unities as $unity) {
             $result[$unity['id']] = $unity["name"];
@@ -567,13 +590,17 @@ class GradesController extends Controller
         $classroomId = Yii::app()->request->getPost("classroom");
         $disciplineId = Yii::app()->request->getPost("discipline");
         $unityId = Yii::app()->request->getPost("unity");
+        $stageId = Yii::app()->request->getPost("stage");
 
 
         if (!isset($classroomId) || !isset($disciplineId) || !isset($unityId)) {
             throw new CHttpException(400, "Requisição mal formada, faltam dados");
         }
-
-        $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId);
+        if (!isset($stageId)) {
+            $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($classroomId);
+            $stageId  = $classroom->edcenso_stage_vs_modality_fk;
+        }
+        $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId, $stageId);
         $result = $usecase->exec();
         echo CJSON::encode($result);
 

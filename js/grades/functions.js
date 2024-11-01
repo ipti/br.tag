@@ -56,6 +56,12 @@ function loadDisciplinesFromClassroom(classroomId) {
 }
 
 function loadUnitiesFromClassroom(classroomId) {
+    const isMulti = $("#classroom option:selected").attr("data-isMulti");
+    const stage = $("#stage").val();
+
+    if(isMulti==="1" && stage === ""){
+        return
+    }
     if(classroomId !== "")
     {
         $.ajax({
@@ -64,6 +70,7 @@ function loadUnitiesFromClassroom(classroomId) {
             cache: false,
             data: {
                 classroom: classroomId,
+                stage: stage,
             },
             beforeSend: function () {
             $("#unities").attr("disabled", "disabled")
@@ -101,6 +108,12 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
     const classroom =  $("#classroom").val();
     const discipline =  disciplineId || $("#discipline").val();
     const unity = unityId || $("#unities").val();
+    const isMulti = $("#classroom option:selected").attr("data-isMulti");
+    const stage = $("#stage").val();
+
+    if(isMulti==="1" && stage === ""){
+        return
+    }
 
     if (discipline && unity && discipline !== "" && unity !== "") {
         $(".js-grades-alert").hide();
@@ -112,6 +125,7 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
                 classroom: classroom,
                 discipline: discipline,
                 unity: unity,
+                stage: stage,
             },
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");

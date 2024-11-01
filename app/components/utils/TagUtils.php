@@ -35,7 +35,7 @@ class TagUtils extends CApplicationComponent {
     }
     public static function isMultiStage($stage){
         $refMinorStages = [
-            '12','13','22','23','24','41','56','83', '84'
+            '12','13','22','23','24','56','83', '84'
         ];
         $stages = new CList($refMinorStages, true);
         return $stages->contains($stage);

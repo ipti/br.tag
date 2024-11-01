@@ -3,28 +3,36 @@
  * @property int $classroomId
  * @property int $disciplineId
  * @property int $unityId
+ * @property int $stageId
  */
 class GetStudentGradesByDisciplineUsecase
 {
 
-    public function __construct(int $classroomId, int $disciplineId, int $unityId)
+    public function __construct(int $classroomId, int $disciplineId, int $unityId, int $stageId)
     {
         $this->classroomId = $classroomId;
         $this->disciplineId = $disciplineId;
         $this->unityId = $unityId;
+        $this->stageId = $stageId;
     }
     public function exec()
     {
         /** @var Classroom $classroom */
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
-        $rules = GradeRules::model()->findByAttributes([
-            "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
+    $rules = GradeRules::model()->findByAttributes([
+            "edcenso_stage_vs_modality_fk" => $this->stageId
         ]);
 
-        $studentEnrollments = $classroom->activeStudentEnrollments;
-        $showSemAvarageColumn = $this->checkSemesterUnities($classroom->edcenso_stage_vs_modality_fk);
+        $TotalEnrollments = $classroom->activeStudentEnrollments;
+        $studentEnrollments = [];
+        foreach ($TotalEnrollments as $enrollment) {
+            if($enrollment->edcenso_stage_vs_modality_fk == $this->stageId){
+                array_push($studentEnrollments, $enrollment);
+            }
+        }
+        $showSemAvarageColumn = $this->checkSemesterUnities( $this->stageId);
 
-        $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline($classroom->edcenso_stage_vs_modality_fk);
+        $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline( $this->stageId);
         $unitiesByDiscipline = array_filter($unitiesByDisciplineResult, function ($item){
             return $item["id"] == $this->unityId;
         });
@@ -32,7 +40,7 @@ class GetStudentGradesByDisciplineUsecase
 
         $unityOrder = $this->searchUnityById($unitiesByDisciplineResult);
 
-        if ($studentEnrollments == null) {
+        if ($studentEnrollments == []) {
             throw new NoActiveStudentsException();
         }
 
