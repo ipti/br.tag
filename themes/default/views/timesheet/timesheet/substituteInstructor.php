@@ -8,7 +8,7 @@
     $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 
     $cs = Yii::app()->getClientScript();
-    $cs->registerScriptFile($baseScriptUrl . '/common/js/timesheet.js', CClientScript::POS_END);
+    $cs->registerScriptFile($baseScriptUrl . '/common/js/substituteInstructors.js', CClientScript::POS_END);
 
 
     $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Assign Substitute Instructor'));
@@ -41,22 +41,30 @@
     <div class="row-fluid">
         <div class="span12">
             <h1><?= yii::t('timesheetModule.timesheet', 'Assign Substitute Instructor') ?></h1>
-            <div class="buttons span9">
-            </div>
         </div>
     </div>
 
     <div class="tag-inner">
-        <div class="row wrap filter-bar margin-bottom-none">
-            <div>
+        <div class="row margin-bottom-none">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Classroom') . " *", 'classroom', array('class' => 'control-label required small-label')); ?>
-                    <?= CHtml::dropDownList('classroom_fk', "", CHtml::listData(Classroom::model()->findAll("school_inep_fk = :school_inep_fk and school_year = :school_year order by name", ["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]), 'id', 'name'), ["prompt" => yii::t("timesheetModule.timesheet", "Select a Classroom"), "class" => "select-search-on control-input classroom-id"]); ?>
+                    <?=
+                        CHtml::dropDownList(
+                            'classroom_fk', "",
+                            CHtml::listData(Classroom::model()->findAll(
+                                "school_inep_fk = :school_inep_fk and school_year = :school_year order by name",
+                                ["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]), 'id', 'name'),
+                            [
+                                "prompt" => yii::t("timesheetModule.timesheet", "Select a Classroom"),
+                                "class" => "select-search-on t-field-select__input classroom-id",
+                                "id" => "classrooms"
+                            ]);
+                    ?>
                 </div>
 
                 <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Instructor') . " *", 'substituteInstructor', array('class' => 'control-label required', 'style' => 'width: 80px;')); ?>
-                    <select class="select-search-on control-input frequency-input" id="substituteInstructor">
+                    <?php echo CHtml::label(yii::t('default', 'Instructor'), 'instructor', array('class' => 't-field-select__label--required')); ?>
+                    <select class="select-search-on t-field-select__input frequency-input" id="instructor">
                         <option>Selecione o professor</option>
                         <?php foreach ($instructors as $instructor) : ?>
                             <option value="<?= $instructor["id"] ?>"> <?= $instructor["name"] ?> </option>
@@ -67,18 +75,32 @@
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Month') . "/Ano",
                         'month', array('class' => 't-field-select__label--required')); ?>
-                    <select
-                        class="select-search-on control-input t-field-select__input js-load-frequency"
-                        id="month"
-                        style="min-width: 185px;">
-                    </select>
+                    <?=
+                        CHtml::dropDownList('month', '', array(
+                            1 => 'Janeiro',
+                            2 => 'Fevereiro',
+                            3 => 'Março',
+                            4 => 'Abril',
+                            5 => 'Maio',
+                            6 => 'Junho',
+                            7 => 'Julho',
+                            8 => 'Agosto',
+                            9 => 'Setembro',
+                            10 => 'Outubro',
+                            11 => 'Novembro',
+                            12 => 'Dezembro'
+                        ), array(
+                            'key' => 'id',
+                            'class' => 'select-search-on t-field-select__input',
+                            'prompt' => 'Seleciona o mês',
+                            'id' => 'month'
+                        ));
+                    ?>
                 </div>
-            </div>
         </div>
     </div>
 
-    <div>
-
+    <div id="frequency-container" class="table-responsive frequecy-container">
     </div>
 </div>
 

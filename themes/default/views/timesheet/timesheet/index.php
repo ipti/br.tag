@@ -68,13 +68,13 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                         <i></i><?= yii::t('timesheetModule.timesheet', "Generate automatic timesheet") ?>
                     </button>
                 </div>
-                <div style="margin-bottom: 2px;">
-                    <a href="<?php echo Yii::app()->createUrl('timesheet/timesheet/substituteInstructor')?>">
-                        <button class="t-button-primary">
-                            <i></i><?= yii::t('timesheetModule.timesheet', "Assign Substitute Instructor") ?>
-                        </button>
-                    </a>
-                </div>
+            </div>
+            <div style="margin-bottom: 2px;">
+                <a href="<?php echo Yii::app()->createUrl('timesheet/timesheet/substituteInstructor')?>">
+                    <button class="t-button-primary">
+                        <i></i><?= yii::t('timesheetModule.timesheet', "Assign Substitute Instructor") ?>
+                    </button>
+                </a>
             </div>
             <img class="loading-timesheet"  style="margin-bottom:5px;display:none;" height="30px" width="30px" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif" alt="TAG Loading">
         </div>

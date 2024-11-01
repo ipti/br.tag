@@ -874,18 +874,18 @@ class TimesheetController extends Controller
             )
         );
 
-        $array = [];
         $dayName = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
         $instructorModel = InstructorIdentification::model()->findByPk($instructorId);
-        $instructor = [];
-        $instructor["instructorId"] = $instructorModel->id;
-        $instructor["instructorName"] = $instructorModel->name;
-        $instructor["schedules"] = [];
+
+        $response = [];
+        $response["instructorId"] = $instructorModel->id;
+        $response["instructorName"] = $instructorModel->name;
+        $response["schedules"] = [];
 
         foreach($schedules as $schedule){
             $date = $this->generateDate($schedule->day, $schedule->month, $schedule->year, 0);
             $classDay = $schedule->substitute_instructor_fk != null;
-            array_push($array["schedules"], array(
+            array_push($response["schedules"], array(
                 "day" => $schedule->day,
                 "week_day" => $dayName[$schedule->week_day],
                 "schedule" => $schedule->schedule,
@@ -895,7 +895,7 @@ class TimesheetController extends Controller
             ));
         }
 
-        echo json_encode(["valid" => true, "schedules" => $schedules]);
+        echo json_encode(["valid" => true, "response" => $response]);
         Yii::app()->end();
     }
 

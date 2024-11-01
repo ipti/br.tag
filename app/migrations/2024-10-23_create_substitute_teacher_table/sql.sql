@@ -3,8 +3,7 @@ CREATE TABLE substitute_instructor(
     instructor_fk int NOT NULL,
     teaching_data_fk int NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (instructor_fk) REFERENCES instructor_identification(id),
-    FOREIGN KEY (teaching_data_fk) REFERENCES instructor_teaching_data(id)
+    FOREIGN KEY (instructor_fk) REFERENCES instructor_identification(id)
 );
 
 ALTER TABLE schedule ADD substitute_instructor_fk int,

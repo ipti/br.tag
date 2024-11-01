@@ -1,4 +1,16 @@
-$("#substituteInstructor").on("change", function() {
+$("#classrooms").on("change", function() {
+    loadFrequency();
+})
+
+$("#month").on("change", function() {
+    loadFrequency();
+})
+
+$("#instructor").on("change", function() {
+    loadFrequency();
+})
+
+function loadFrequency(){
     if (
         $('#classrooms').val() !== "" &&
         $("#instructor").val() !== "" &&
@@ -11,7 +23,8 @@ $("#substituteInstructor").on("change", function() {
                 data: {
                     instructor: $("#instructor").val(),
                     classroom: $("#classrooms").val(),
-                    month: $("month").val()
+                    month: $("#month").val(),
+                    year: $('#schoolyear').html()
                 },
                 beforeSend: function () {
                     $(".loading-frequency").css("display", "inline-block");
@@ -25,16 +38,17 @@ $("#substituteInstructor").on("change", function() {
                         html += "" +
                         "<table class='t-accordion table-frequency table table-bordered table-striped table-hover'>" +
                         "<thead class='t-accordion__head'>" +
-                        "<tr><th class='table-title' colspan='" + (Object.keys(data.instructors[0].schedules).length + 1) + "'>" + ($('#disciplines').select2('data').text) + "aaaaaaa</th></tr>";
+                        "<tr><th class='table-title' colspan='" + (Object.keys(data.response.schedules).length + 1) + "'>" + "Dias de Aula</th></tr>";
                         var daynameRow = "";
                         var dayRow = "";
                         var scheduleRow = "";
                         var checkboxRow = "";
-                        $.each(data.schedules, function() {
+                        const schedules = data.response.schedules;
+                        $.each(schedules, function() {
                             dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
                             daynameRow += "<th>" + this.week_day + "</th>";
                             scheduleRow += "<th>" + this.schedule + "º Horário</th>";
-                            checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + "'><input class='frequency-checkbox' type='checkbox' " + "classroomId='" + $("$classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "></th>";
+                            checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + "'><input class='frequency-checkbox' type='checkbox' " + "classroomId='" + $("#classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "></th>";
                         });
                         html += "<tr class='day-row'><th></th>" + dayRow + "</tr><tr class='dayname-row'><th></th>" + daynameRow + "</tr>" + ("<tr class='schedule-row'><th></th>" + scheduleRow + "</tr>");
                         html += "</thead><tbody class='t-accordion__body'>";
@@ -60,4 +74,4 @@ $("#substituteInstructor").on("change", function() {
             $(".alert-required-fields").show();
             $("#frequency-container, .alert-incomplete-data").hide();
         }
-})
+}
