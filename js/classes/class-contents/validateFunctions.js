@@ -1,6 +1,6 @@
 function createValidateTable(data) {
-    console.log(data);
     let urlIsValidate = window.location.href.includes("validateClassContents");
+    $('#given-classes').html('<div><b>Total de carga horária: </b>' + data.totalClasses + '</div><div><b>Total de aulas ministradas: </b>' + data.totalClassContents + '</div>')
     let monthSplit = $("#month").val().split("-");
     $("#class-contents")
         .attr("classroom", $("#classroom").val())
