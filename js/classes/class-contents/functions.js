@@ -1,6 +1,6 @@
 function createTable(data) {
     let urlIsValidate = window.location.href.includes("validateClassContents");
-    $('#given-classes').html('<div class="t-badge-info t-margin-none--left"><b>Total de carga horária do mês: </b>' + data.totalClasses + '</div><div class="t-badge-info t-margin-none--left"><b>Total de aulas ministradas: </b>' + data.totalClassContents + '</div>')
+    $('#given-classes').html('<div class="t-badge-info t-margin-none--left"><b>Total de carga horária do mês: </b>' + data.totalClasses + '</div><div class="t-badge-info t-margin-none--left"><b>Total de aulas ministradas do mês: </b>' + data.totalClassContents + '</div>')
     var monthSplit = $("#month").val().split("-");
     $("#class-contents")
         .attr("classroom", $("#classroom").val())
