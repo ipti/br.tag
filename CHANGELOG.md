@@ -1,4 +1,4 @@
-## [Versão 3.89.198]
+## [Versão 3.89.201]
 - Adicionando o informativo de total de aulas da carga horária e total de aulas ministradas nas telas de aulas ministradas
 - Enriquecido Termo de Suspensão com Dados carregados do banco
 - Corrigido tamanho da foto 3x4 na ficha de matrícula
@@ -8,9 +8,18 @@
 - Ajuste na view de frequência para a tela de professor, especificamente para alunos com matrícula transferida
 - Ajusta na view de classdiary, atribuindo label sobre o status da matrícula do aluno
 
+## [Versão 3.89.200]
+- Correção de consulta de cardápio sagres versão nova
+- Label de status de matricula adicionado a tela de notas
+
+## [Versão 3.89.199]
+- Adicionado a sessão de conteúdo nas aulas ministradas selecionadas na tela de aulas ministradas
+
+## [Versão 3.89.198]
+- consertado o cálculo da média final para as turmas eja
+
 ## [Versão 3.89.197]
 - Correção de consulta de cardápio sagres versão nova
-- - Label de status de matricula adicionado a tela de notas
 
 ## [Versão 3.89.196]
 - Permitindo que o gestor escolar possa criar cardápios no novo módulo de merenda

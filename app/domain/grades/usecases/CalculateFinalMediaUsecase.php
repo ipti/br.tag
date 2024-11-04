@@ -33,8 +33,13 @@ class CalculateFinalMediaUsecase
                 $gradesSemAvarage1 = max($this->gradesResult["sem_avarage_1"], $semRecPartial1);
                 $gradesSemAvarage2 = max($this->gradesResult["sem_avarage_2"], $semRecPartial2);
 
-                $grades = [$gradesSemAvarage1, $gradesSemAvarage2];
-                $calculation = GradeCalculation::model()->findByAttributes(["name" => "Média"]);
+                if($gradesSemAvarage1 != null) {
+                    $grades[] = $gradesSemAvarage1;
+                } elseif($gradesSemAvarage2 != null) {
+                    $grades[] = $gradesSemAvarage2;
+                }
+
+                $calculation = GradeCalculation::model()->findByAttributes(["name"=>"Média"]);
                 $finalMedia = $this->applyCalculation($calculation, $grades);
             } else {
                 $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
