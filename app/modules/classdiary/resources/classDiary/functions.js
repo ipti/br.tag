@@ -61,7 +61,7 @@ function updateClassesContents()
             $('#coursePlan').select2({
                 formatSelection: function (state) {
                     let textArray = state.text.split("|");
-                    return 'Plano de Aula "' + textArray[0] + '": Aula ' + textArray[1];
+                    return '<div class="text-align--left" style="margin-left: 0"><b>Aula:</b> "' + textArray[1] + '" <b>Plano de Aula:</b> ' + textArray[0] + ' <br><b>Conteúdo:</b> ' + textArray[2] + "</div>";
                 },
                 formatResult: function (data, container) {
                     let textArray = data.text.split("|");

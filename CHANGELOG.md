@@ -1,3 +1,6 @@
+## [Versão 3.89.199]
+- Adicionado a sessão de conteúdo nas aulas ministradas selecionadas na tela de aulas ministradas
+
 ## [Versão 3.89.198]
 - consertado o cálculo da média final para as turmas eja
 
