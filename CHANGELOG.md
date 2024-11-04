@@ -3,9 +3,14 @@
 - Corrigido tamanho da foto 3x4 na ficha de matrícula
 - Permitido que um aluno transferido de uma turma possa voltar para a mesma turma
 - Inserido coluna turma/ano no relatório de alunos por turma em multisseriados/EJA
+- Retirando a chave estrangeira de schedule em class_contents
+- Ajuste na view de frequência para a tela de professor, especificamente para alunos com matrícula transferida
+- Ajusta na view de classdiary, atribuindo label sobre o status da matrícula do aluno
+
 
 ## [Versão 3.89.197]
 - Correção de consulta de cardápio sagres versão nova
+- - Label de status de matricula adicionado a tela de notas
 
 ## [Versão 3.89.196]
 - Permitindo que o gestor escolar possa criar cardápios no novo módulo de merenda

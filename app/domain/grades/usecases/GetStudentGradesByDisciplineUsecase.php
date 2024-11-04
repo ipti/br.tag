@@ -487,11 +487,13 @@ class StudentGradesResult
     private $situation;
     private $unities;
     private $partialRecoveries;
+    private $enrollmentStatus;
 
     public function __construct($studentName, $enrollmentId)
     {
         $this->studentName = $studentName;
         $this->enrollmentId = $enrollmentId;
+        $this->enrollmentStatus = StudentEnrollment::model()->findByPk($enrollmentId)->getCurrentStatus();
     }
 
     public function getStudentName()
@@ -539,6 +541,7 @@ class StudentGradesResult
         return [
             'studentName' => $this->studentName,
             'enrollmentId' => $this->enrollmentId,
+            'enrollmentStatus' => $this->enrollmentStatus,
             'finalMedia' => $this->finalMedia,
             'semAvarage' => $this->semAvarage,
             'situation' => $this->situation,

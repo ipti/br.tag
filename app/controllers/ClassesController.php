@@ -454,6 +454,11 @@ class ClassesController extends Controller
         $classHasContent = new ClassContents();
         $classHasContent->schedule_fk = $schedule->id;
         $classHasContent->course_class_fk = $content;
+        $classHasContent->day = $schedule->day;
+        $classHasContent->month = $schedule->month;
+        $classHasContent->year = $schedule->year;
+        $classHasContent->classroom_fk = $schedule->classroom_fk;
+        $classHasContent->discipline_fk = $schedule->discipline_fk;
         $classHasContent->save();
     }
 
@@ -559,6 +564,7 @@ class ClassesController extends Controller
                     $array["studentName"] = $enrollment->studentFk->name;
                     $array["schedules"] = [];
                     $array["status"] = $enrollment->status;
+                    $array["statusLabel"] = $enrollment->getCurrentStatus();
                     foreach ($schedules as $schedule) {
                         $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                         $available = date("Y-m-d") >= $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
@@ -696,6 +702,8 @@ class ClassesController extends Controller
 
     // A função abaixo deve verificar se o status de matrícula do aluno é válido para preenchimento do quadro de frequência
     // Retorna True para o caso positivo, e False para o caso negativo
+    // A função abaixo deve verificar se o status de matrícula do aluno é válido para preenchimento do quadro de frequência
+    // Retorna True para o caso positivo, e False para o caso negativo
     public function verifyStatusEnrollment($enrollment, $schedule)
     {
         $dateFormat = 'd/m/Y';
@@ -708,9 +716,12 @@ class ClassesController extends Controller
 
         $scheduleDate = date_create_from_format($dateFormat, $date);
         $transferDate = isset($enrollment->transfer_date) ? DateTime::createFromFormat($dateFormat2, $enrollment->transfer_date) : null;
-
+        $enrollmentDate = isset($enrollment->enrollment_date) ? DateTime::createFromFormat($dateFormat2, $enrollment->enrollment_date) : null;
 
         switch ($enrollment->status) {
+            case '1': // MATRICULADO
+                $result = !(isset($enrollmentDate) && $scheduleDate <= $enrollmentDate);
+                break;
             case '2': // TRANSFERIDO
                 $result = isset($transferDate) && $scheduleDate <= $transferDate;
                 break;
