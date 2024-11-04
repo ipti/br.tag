@@ -21,10 +21,10 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             </div>
             <br><br><br/>
             <span class="pull-right">
-                <?= $school->edcensoCityFk->name ?> (SE), ____/____/________
+                <?= $school->edcensoCityFk->name ?> (SE), <?php echo date('d') . " de " . yii::t('default', date('F')) . " de " . date('Y') . "." ?>
             </span>
             <br><br><br>
-            <p style="line-height: 28px">Suspensão que se faz ao(à) aluno(a) _______________________________________________________ do _________ ano, turma ____________________, pelo período de ________ dias (de ____/____/________ a ____/____/________) pelo fato de o(a) mesmo(a):</p>
+            <p style="line-height: 28px">Suspensão que se faz ao(à) aluno(a) <b><?= $student['name'] ?></b> do(s) <b><?= ($student["stage_alias"] !== "" ? $student["stage_alias"] : $student["stage_name"]) ?></b>, turma <b><?= $student["classroom"] ?></b>, pelo período de ________ dias (de ____/____/________ a ____/____/________) pelo fato de o(a) mesmo(a):</p>
             <p style="word-break: break-all; line-height: 28px">___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________</p>
             <br/><br/><br><br>
             <div style="" class="signature">

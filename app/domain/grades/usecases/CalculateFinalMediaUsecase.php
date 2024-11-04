@@ -40,7 +40,6 @@ class CalculateFinalMediaUsecase
                 }
 
                 $calculation = GradeCalculation::model()->findByAttributes(["name"=>"Média"]);
-              
                 $finalMedia = $this->applyCalculation($calculation, $grades);
             } else {
                 $grades = $this->extractGrades($this->gradesResult, $this->countUnities);
