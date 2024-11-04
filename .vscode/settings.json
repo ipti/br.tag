@@ -9,5 +9,6 @@
         ".vscode/": true,
         "db": true
     },
-    "phpmd.rules": "ruleset.xml"
+    "phpmd.rules": "ruleset.xml",
+    "php.version": "8.3"
 }

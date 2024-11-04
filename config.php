@@ -4,14 +4,13 @@
 $debug = getenv("YII_DEBUG");
 defined('YII_DEBUG') or define('YII_DEBUG', $debug);
 
-define("TAG_VERSION", '3.89.198');
-
+define("TAG_VERSION", '3.89.201');
 
 define("YII_VERSION", Yii::getVersion());
 define("BOARD_MSG", '<div class="alert alert-success">Novas atualizações no TAG. Confira clicando <a class="changelog-link" href="?r=admin/changelog">aqui</a>.</div>');
 if (YII_DEBUG) {
     defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL', 3);
-    error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
+    error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE & ~E_DEPRECATED);
 } else {
     ini_set('display_errors', '0');
     error_reporting(0);

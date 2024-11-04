@@ -6,6 +6,9 @@
  */
 class GetStudentGradesByDisciplineUsecase
 {
+    private $classroomId;
+    private $disciplineId;
+    private $unityId;
 
     public function __construct(int $classroomId, int $disciplineId, int $unityId)
     {
@@ -487,11 +490,13 @@ class StudentGradesResult
     private $situation;
     private $unities;
     private $partialRecoveries;
+    private $enrollmentStatus;
 
     public function __construct($studentName, $enrollmentId)
     {
         $this->studentName = $studentName;
         $this->enrollmentId = $enrollmentId;
+        $this->enrollmentStatus = StudentEnrollment::model()->findByPk($enrollmentId)->getCurrentStatus();
     }
 
     public function getStudentName()
@@ -539,6 +544,7 @@ class StudentGradesResult
         return [
             'studentName' => $this->studentName,
             'enrollmentId' => $this->enrollmentId,
+            'enrollmentStatus' => $this->enrollmentStatus,
             'finalMedia' => $this->finalMedia,
             'semAvarage' => $this->semAvarage,
             'situation' => $this->situation,
@@ -547,7 +553,7 @@ class StudentGradesResult
             }, $this->unities),
             'partialRecoveries' => array_map(function (GradePartialRecoveryResult $partialRecovery) {
                 return $partialRecovery->toArray();
-            }, $this->partialRecoveries),
+            }, $this->partialRecoveries ?? []),
         ];
     }
 }
