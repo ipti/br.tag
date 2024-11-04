@@ -17,7 +17,7 @@ services:
       PWD_DB_TAG: 'root'
       YII_DEBUG: 1
       PHP_ENABLE_XDEBUG: 0
-      XDEBUG_MODE: 'off'
+      # XDEBUG_MODE: 'off'
       SEDSP_URL: "https://homologacaointegracaosed.educacao.sp.gov.br"
     volumes:
       - .:/app

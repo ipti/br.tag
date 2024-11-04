@@ -24,7 +24,7 @@ class TagUtils extends CApplicationComponent {
             '1', '2', '3', '4', '5', '6', '7', '8', '14', '15', '16', '17', '18'
         ];
         $stages = new CList($refMinorStages, true);
-        return $stages->contains($stage);
+        return $stages->contains($stage."");
     }
     public static function isStageChildishEducation($stage){
         $refMinorStages = [

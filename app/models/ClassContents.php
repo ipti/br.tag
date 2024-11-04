@@ -7,6 +7,13 @@
  * @property integer $id
  * @property integer $schedule_fk
  * @property integer $course_class_fk
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property integer $discipline_fk
+ * @property integer $day
+ * @property integer $month
+ * @property integer $year
+ * @property integer $classroom_fk
  * @property string $fkid
  *
  * The followings are the available model relations:
