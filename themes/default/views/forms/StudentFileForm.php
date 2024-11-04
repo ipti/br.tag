@@ -31,8 +31,8 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             <span class="stage"><?php echo $data['stage'] ?></span>
         </div>
         <span style="clear:both;display:block"></span>
-        <div style="border:1px solid black; float:left; width: 2.5cm; height: 3cm; text-align:center;margin-right: 15px;"><br><br><span>F O T O<br>3 x 4</span></div>
-        <table style="border: 1px solid black;">
+        <div style="border:1px solid black; float:left; width: 3cm; height: 4cm; text-align:center;margin-right: 15px;"><br><br><span>F O T O<br>3 x 4</span></div>
+        <table style="border: 1px solid black;height: 4cm">
             <tr>
                 <th></th>
             </tr>
