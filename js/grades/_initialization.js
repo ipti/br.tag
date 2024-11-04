@@ -121,6 +121,7 @@ $("#save").on("click", function (e) {
             classroom: $("#classroom").val(),
             discipline: $("#discipline").val(),
             students: students,
+            stage: $('#stage').val(),
             isConcept: $(".grades-table").attr("concept"),
         },
         beforeSend: function () {
@@ -160,6 +161,7 @@ $("#close-grades-diary").on("click", function (e) {
         cache: false,
         data: {
             classroom: classromId,
+            stage: $('#stage').val(),
             discipline: disciplineId,
         },
         beforeSend: function () {

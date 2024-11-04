@@ -3,19 +3,27 @@
 /**
  * @property int $classroomId
  * @property int $discipline
+ * @property int $stage
  */
 class CalculateConceptGradeUsecase
 {
-    public function __construct($classroom, $discipline)
+    public function __construct($classroom, $discipline, $stage)
     {
         $this->classroomId = $classroom;
         $this->discipline = $discipline;
+        $this->stage = $stage;
     }
 
     public function exec()
     {
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
-        $studentEnrollments = $classroom->activeStudentEnrollments;
+        $TotalEnrollments = $classroom->activeStudentEnrollments;
+        $studentEnrollments = [];
+        foreach ($TotalEnrollments as $enrollment) {
+            if($enrollment->edcenso_stage_vs_modality_fk == $this->stage){
+                array_push($studentEnrollments, $enrollment);
+            }
+        }
         $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->classroomId);
 
         foreach ($studentEnrollments as $studentEnrollment) {

@@ -2,21 +2,23 @@
 
 /**
  * @property int $classroomId
+ * @property int $stage
  * @property int $discipline
  */
 class CalculateNumericGradeUsecase
 {
-    public function __construct($classroom, $discipline)
+    public function __construct($classroom, $discipline, $stage)
     {
         $this->classroomId = $classroom;
         $this->discipline = $discipline;
+        $this->stage = $stage;
     }
 
     public function exec()
     {
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
         $studentEnrollments = $classroom->activeStudentEnrollments;
-        $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->classroomId);
+        $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->stage);
 
         foreach ($studentEnrollments as $studentEnrollment) {
             $this->calculateNumericGrades($studentEnrollment, $this->discipline, $unitiesByDiscipline);
@@ -160,16 +162,15 @@ class CalculateNumericGradeUsecase
         );
     }
 
-    private function getGradeUnitiesByClassroomStage($classroom)
+    private function getGradeUnitiesByClassroomStage($stage)
     {
 
         $criteria = new CDbCriteria();
         $criteria->alias = "gu";
         $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->condition = "c.id = :classroom";
+        $criteria->condition = "esvm.id = :stage";
         $criteria->order = "gu.type desc";
-        $criteria->params = array(":classroom" => $classroom);
+        $criteria->params = array(":stage" => $stage);
 
         return GradeUnity::model()->findAll($criteria);
     }

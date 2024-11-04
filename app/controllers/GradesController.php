@@ -524,6 +524,7 @@ class GradesController extends Controller
         $students = Yii::app()->request->getPost("students");
         $disciplineId = Yii::app()->request->getPost("discipline");
         $classroomId = Yii::app()->request->getPost("classroom");
+        $stage = Yii::app()->request->getPost("stage");
         $isConcept = Yii::app()->request->getPost("isConcept");
 
         $transaction = Yii::app()->db->beginTransaction();
@@ -569,7 +570,7 @@ class GradesController extends Controller
                     }
                 }
             }
-            self::saveGradeResults($classroomId, $disciplineId);
+            self::saveGradeResults($classroomId, $disciplineId, $stage);
             $transaction->commit();
             header('HTTP/1.1 200 OK');
             echo json_encode(["valid" => true]);
@@ -609,17 +610,28 @@ class GradesController extends Controller
     public function actionCalculateFinalMedia()
     {
         $classroomId = Yii::app()->request->getPost("classroom");
+        $stage = Yii::app()->request->getPost("stage");
         $disciplineId = Yii::app()->request->getPost("discipline");
 
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($classroomId);
 
+        if(!isset($stage)) {
+            $stage = $classroom->edcenso_stage_vs_modality_fk;
+        }
+
         $gradeRules = GradeRules::model()->findByAttributes([
-            "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
+            "edcenso_stage_vs_modality_fk" => $stage
         ]);
 
         TLog::info("Começado processo de calcular média final.", ["Classroom" => $classroom->id, "GradeRules" => $gradeRules->id]);
-
-        foreach ($classroom->activeStudentEnrollments as $enrollment) {
+        $TotalEnrollments = $classroom->activeStudentEnrollments;
+        $studentEnrollments = [];
+        foreach ($TotalEnrollments as $enrollment) {
+            if($enrollment->edcenso_stage_vs_modality_fk == $stage){
+                array_push($studentEnrollments, $enrollment);
+            }
+        }
+        foreach ($studentEnrollments as $enrollment) {
             $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);
             $gradesStudent = $gradeUnities->exec();
             $countUnities = $gradeUnities->execCount();
@@ -635,20 +647,23 @@ class GradesController extends Controller
     }
 
 
-    public static function saveGradeResults($classroomId, $disciplineId)
+    public static function saveGradeResults($classroomId, $disciplineId, $stage)
     {
         TLog::info("Executando: SaveGradeResults.", array(
             "Classroom" => $classroomId,
-            "Discipline" => $disciplineId
+            "Discipline" => $disciplineId,
+            "Stage" => $stage
         ));
         $usecase = new CalculateGradeResultsUsecase(
             $classroomId,
-            $disciplineId
+            $disciplineId,
+            $stage
         );
         $usecase->exec();
         TLog::info("Finalizado: SaveGradeResults.", array(
             "Classroom" => $classroomId,
-            "Discipline" => $disciplineId
+            "Discipline" => $disciplineId,
+            "Stage" => $stage
         ));
     }
 }
