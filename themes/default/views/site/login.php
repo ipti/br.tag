@@ -63,16 +63,10 @@ $form = $this->beginWidget('CActiveForm', array(
                     } else {
                         $browser = 'error'; //<-- Browser not found.
                     }
-                    $year = date('Y');
-                    //botar condição do mês, a partir de novembro, mostrar o próximo ano.
-                    $years = array();
-                    if (date('m') >= 11) {
-                        $year = $year + 1;
-                    }
-                    for ($i = $year; $i >= 2014; $i--) {
-                        $years[$i] = $i;
-                    }
-                    echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off', 'style' => 'height: 44px'));
+
+                    echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off', 'style' => 'height: 44px', 'options' => array(
+                        date("Y") => array('selected' => true) // Define o ano atual como selecionado
+                    ),));
                     // @done S1 - Alinhar o checkbox com os inputs
                     ?>
                     <div class="uniformjs">
