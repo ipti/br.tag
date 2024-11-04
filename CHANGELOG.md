@@ -1,4 +1,5 @@
 ## [Versão 3.89.198]
+- Retirando a chave estrangeira de schedule em class_contents
 - Ajuste na view de frequência para a tela de professor, especificamente para alunos com matrícula transferida
 - Ajusta na view de classdiary, atribuindo label sobre o status da matrícula do aluno
 
