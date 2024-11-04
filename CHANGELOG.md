@@ -1,3 +1,6 @@
+## [Versão 3.89.198]
+- Adicionando o informativo de total de aulas da carga horária e total de aulas ministradas nas telas de aulas ministradas
+
 ## [Versão 3.89.197]
 - Correção de consulta de cardápio sagres versão nova
 
