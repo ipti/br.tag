@@ -28,10 +28,10 @@ $this->pageTitle = Yii::app()->name . ' - Error';
             </div>
             <div class="ui left aligned segment negative message">
                 <div class="header"> Atenção! Erro <?= $error['code'] ?>, <?= $error['message'] ?></div>
-                Acesse o link para entrar em contato com nosso suporte: 
-			    <a style="text-decoration: underline;" target="_blank" href="https://tagbr.atlassian.net/servicedesk/customer/portal/3">
+                Acesse o link para entrar em contato com nosso suporte:
+			    <a style="text-decoration: underline;" target="_blank" rel="noopener" href="https://tagbr.atlassian.net/servicedesk/customer/portal/3">
 				Central de Atendimento TAG
-			    </a> 
+			    </a>
             </div>
             <div class="ui left aligned segment" style="max-height: 300px; overflow-x:auto;overflow-y:auto;white-space:normal;">
                 <p>Informações Técnicas:<p>
