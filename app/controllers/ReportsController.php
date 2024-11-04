@@ -456,6 +456,10 @@ class ReportsController extends Controller
         ));
     }
 
+    public function actionClassContentsReport() {
+        $this->render('ClassContentsReport');
+    }
+
     private function translateStageNumbers ($stageNumber) {
         switch($stageNumber) {
             case "1" :

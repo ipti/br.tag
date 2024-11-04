@@ -117,7 +117,7 @@ $(document).ready(function () {
 });
 
 $(document).on("click", "#print", function () {
-    window.print();
+    window.location.href = "?r=reports/ClassContentsReport";
 });
 
 $("#save, #save-button-mobile").on('click', function () {
