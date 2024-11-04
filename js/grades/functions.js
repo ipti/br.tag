@@ -189,6 +189,7 @@ function GradeTableBuilder(data) {
                                 class="enrollment-id"
                                 value="${student.enrollmentId}"
                             />
+                            ${buildEnrollmentStatusLabel(student.enrollmentStatus)}
                             ${student.studentName}
                         </td>
                         ${buildUnities(
@@ -231,6 +232,13 @@ function GradeTableBuilder(data) {
                     </td>`
                 : ''
     }
+
+    function buildEnrollmentStatusLabel(status){
+        return `<label class="t-badge-info t-margin-none--left ${status == 'MATRICULADO' || status == '' ? 'hide' : ''}">
+                    ${status}
+                </label>`;
+    }
+
     function buildUnities(unities, isUnityConcept, conceptOptions) {
         const unitesGrade = unities
             .map((unity) => {

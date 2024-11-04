@@ -5,6 +5,8 @@
  * @property int $discipline
  */
 class CalculateGradeResultsUsecase {
+    private $classroomId;
+    private $discipline;
     public function __construct($classroom, $discipline) {
         $this->classroomId = $classroom;
         $this->discipline = $discipline;

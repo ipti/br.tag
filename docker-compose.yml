@@ -16,11 +16,12 @@ services:
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
       YII_DEBUG: 1
-      PHP_ENABLE_XDEBUG: 1
+      PHP_ENABLE_XDEBUG: 0
+      XDEBUG_MODE: 'off'
       SEDSP_URL: "https://homologacaointegracaosed.educacao.sp.gov.br"
     volumes:
       - .:/app
-      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      # - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
       - /app/docker/mysql
       - /app/vendor
       - /app/app/vendor
@@ -28,8 +29,6 @@ services:
       - /app/db
       - /app/.git
       # - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
-    extra_hosts:
-      - host.docker.internal:host-gateway
 
   mysql:
     image: mysql:5.7

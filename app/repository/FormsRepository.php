@@ -1058,4 +1058,25 @@ class FormsRepository {
 
         return $response;
     }
+
+    /**
+     * Termo de Suspensão
+     */
+    public function getSuspensionTerm($enrollmentId) : array
+    {
+        $sql = "SELECT si.name name, svm.name stage_name, c.name classroom, svm.alias stage_alias
+                    FROM student_enrollment se
+                JOIN student_identification si ON si.id = se.student_fk
+                JOIN classroom c on se.classroom_fk = c.id
+                JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id
+                WHERE se.id = :enrollment_id;";
+
+        $data = Yii::app()->db->createCommand($sql)
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
+
+        $response = array('student' => $data);
+
+        return $response;
+    }
 }
