@@ -1,3 +1,7 @@
+## [Versão 3.89.198]
+- Ajuste na view de frequência para a tela de professor, especificamente para alunos com matrícula transferida
+- Ajusta na view de classdiary, atribuindo label sobre o status da matrícula do aluno
+
 ## [Versão 3.89.197]
 - Correção de consulta de cardápio sagres versão nova
 - - Label de status de matricula adicionado a tela de notas
