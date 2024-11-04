@@ -36,7 +36,6 @@ class FeaturesComponent extends CApplicationComponent
     public function disable($featureKey)
     {
         $feature = InstanceConfig::model()->findByAttributes(["parameter_key" => $featureKey]);
-
         if ($feature === false) {
             throw new Exception("Feature não encontrada na base de dados", 1);
         }
