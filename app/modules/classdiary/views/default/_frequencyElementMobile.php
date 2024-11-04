@@ -16,7 +16,12 @@
     <?php foreach ($frequency["students"] as $f):
     ?>
             <tr>
-                <td><?php echo $f["studentName"]; ?></td>
+                <td>
+                    <label class="t-badge-info t-margin-none--left <?=$f['status'] == '1' || $f['status'] == '' ? 'hide' : ''; ?>">
+                        <?= $f['statusLabel'] ?>
+                    </label>
+                    <?php echo $f["studentName"]; ?>
+                </td>
                 <td class='justify-content--end'>
                         <?php foreach ($f["schedule"] as $s):
                             $is_disabled = ((!$s["available"] || !$s["valid"] ) ? "disabled" : "");

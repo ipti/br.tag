@@ -1,5 +1,6 @@
 ## [Versão 3.89.197]
 - Correção de consulta de cardápio sagres versão nova
+- - Label de status de matricula adicionado a tela de notas
 
 ## [Versão 3.89.196]
 - Permitindo que o gestor escolar possa criar cardápios no novo módulo de merenda
