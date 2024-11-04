@@ -1,4 +1,5 @@
 ## [Versão 3.89.198]
+- Adicionando o informativo de total de aulas da carga horária e total de aulas ministradas nas telas de aulas ministradas
 - Enriquecido Termo de Suspensão com Dados carregados do banco
 - Corrigido tamanho da foto 3x4 na ficha de matrícula
 - Permitido que um aluno transferido de uma turma possa voltar para a mesma turma
@@ -6,7 +7,6 @@
 - Retirando a chave estrangeira de schedule em class_contents
 - Ajuste na view de frequência para a tela de professor, especificamente para alunos com matrícula transferida
 - Ajusta na view de classdiary, atribuindo label sobre o status da matrícula do aluno
-
 
 ## [Versão 3.89.197]
 - Correção de consulta de cardápio sagres versão nova

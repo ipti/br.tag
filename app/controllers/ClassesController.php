@@ -149,6 +149,8 @@ class ClassesController extends Controller
 
         $students = $this->getStudentsByClassroom($classroomId);
         $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
+        $totalClasses = $this->getTotalClassesByMonth($classroomId, $month, $year, $disciplineId);
+        $totalClassContents = $this->getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId);
 
         if (!$isMinorEducation) {
             $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
@@ -248,10 +250,62 @@ class ClassesController extends Controller
                 "classContents" => $classContents,
                 "courseClasses" => $courseClasses,
                 "isMinorEducation" => $isMinorEducation,
+                "totalClasses" => $totalClasses,
+                "totalClassContents" => $totalClassContents
             ]);
         } else {
             echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($isMinorEducation == false ? "e Disciplina" : "") . " sem aula no Quadro de Horário."]);
         }
+    }
+
+    private function getTotalClassesByMonth($classroomId, $month, $year, $disciplineId) {
+        if(!$disciplineId) {
+            return Yii::app()->db->createCommand(
+                "select count(*) from schedule sc
+                where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+                and sc.unavailable = 0"
+            )
+                ->bindParam(":classroom", $classroomId)
+                ->bindParam(":month", $month)
+                ->bindParam(":year", $year)
+                ->queryScalar();
+        }
+        return Yii::app()->db->createCommand(
+            "select count(*) from schedule sc
+            where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+            and sc.discipline_fk = :discipline and sc.unavailable = 0"
+        )
+            ->bindParam(":classroom", $classroomId)
+            ->bindParam(":month", $month)
+            ->bindParam(":year", $year)
+            ->bindParam(":discipline", $disciplineId)
+            ->queryScalar();
+    }
+
+    private function getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId) {
+        if(!$disciplineId) {
+            return Yii::app()->db->createCommand(
+                "select count(*) from class_contents cc
+                join schedule sc on sc.id = cc.schedule_fk
+                where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+                and sc.unavailable = 0"
+            )
+                ->bindParam(":classroom", $classroomId)
+                ->bindParam(":month", $month)
+                ->bindParam(":year", $year)
+                ->queryScalar();
+        }
+        return Yii::app()->db->createCommand(
+            "select count(*) from class_contents cc
+            join schedule sc on sc.id = cc.schedule_fk
+            where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+            and sc.discipline_fk = :discipline and sc.unavailable = 0"
+        )
+            ->bindParam(":classroom", $classroomId)
+            ->bindParam(":month", $month)
+            ->bindParam(":year", $year)
+            ->bindParam(":discipline", $disciplineId)
+            ->queryScalar();
     }
 
     private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
