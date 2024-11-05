@@ -1,10 +1,10 @@
 <?php
 /**
- * @property int $stage
  * @property CDbCriteria $criteria;
  */
 class GetGradeUnitiesByDisciplineUsecase
 {
+    private $criteria;
 
     public function __construct($stage)
     {
