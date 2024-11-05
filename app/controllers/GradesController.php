@@ -134,10 +134,12 @@ class GradesController extends Controller
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
         $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk]);
         $result = [];
+
         foreach ($unities as $unity) {
             $result[$unity['id']] = $unity["name"];
         }
-        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+
+        echo CJSON::encode($result);
     }
 
     public function actionReportCard()
@@ -573,7 +575,7 @@ class GradesController extends Controller
             throw new CHttpException(400, "Requisição mal formada, faltam dados");
         }
 
-        $usecase = new GetStudentGradesByDisciplineUsecase( $classroomId,  $disciplineId,  $unityId);
+        $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId);
         $result = $usecase->exec();
         echo CJSON::encode($result);
 

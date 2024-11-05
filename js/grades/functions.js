@@ -189,6 +189,7 @@ function GradeTableBuilder(data) {
                                 class="enrollment-id"
                                 value="${student.enrollmentId}"
                             />
+                            ${buildEnrollmentStatusLabel(student.enrollmentStatus)}
                             ${student.studentName}
                         </td>
                         ${buildUnities(
@@ -231,6 +232,13 @@ function GradeTableBuilder(data) {
                     </td>`
                 : ''
     }
+
+    function buildEnrollmentStatusLabel(status){
+        return `<label class="t-badge-info t-margin-none--left ${status == 'MATRICULADO' || status == '' ? 'hide' : ''}">
+                    ${status}
+                </label>`;
+    }
+
     function buildUnities(unities, isUnityConcept, conceptOptions) {
         const unitesGrade = unities
             .map((unity) => {
@@ -263,7 +271,7 @@ function GradeTableBuilder(data) {
         const grade = studentPartialRecoveries.grade.grade === null ? "" : studentPartialRecoveries.grade.grade
         return template`
             <td class="grade-td">
-                <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
+                <input class="grade-partial-recovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
             </td>
             <td class="grade-td">
                 ${studentPartialRecoveries.recPartialResult != null ?studentPartialRecoveries.recPartialResult : ''}

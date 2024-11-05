@@ -79,6 +79,7 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 					</div>
 				</div>
 			</div>
+            <?php if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id) && !Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)):?>
             <div class="row-fluid">
                 <div class="span12">
                     <div class="widget-scroll margin-bottom-none warn-widget" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false" total="<?= $warns["total"] ?>">
@@ -93,6 +94,7 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
                     </div>
                 </div>
             </div>
+            <?php endif?>
 			<!--    <div class="row-fluid home-container">-->
 			<!--        <div class="span6">-->
 			<!--            <div class="widget widget-scroll widget-gray margin-bottom-none"-->

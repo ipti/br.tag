@@ -1,4 +1,3 @@
-
 <?php
 
 /**
@@ -9,6 +8,12 @@
  */
 class ChageStudentStatusByGradeUsecase
 {
+
+    private $gradeResult;
+    private $gradeRule;
+    private $numUnities;
+    private $frequency;
+
     private const SITUATION_APPROVED = "APROVADO";
     private const SITUATION_DISPPROVED = "REPROVADO";
     private const SITUATION_RECOVERY = "RECUPERAÇÃO";
@@ -47,7 +52,7 @@ class ChageStudentStatusByGradeUsecase
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();
-            TLog::error("Erro ao atualizar status da matrícula", ["Exception"=>$e]);
+            TLog::error("Erro ao atualizar status da matrícula", ["Exception" => $e]);
         }
     }
 
@@ -109,7 +114,7 @@ class ChageStudentStatusByGradeUsecase
             $finalRecoveryMedia = $this->gradeRule->final_recover_media;
 
             $hasRecoveryGrade = isset($recoveryMedia) && $recoveryMedia !== "";
-            if(!$hasRecoveryGrade){
+            if (!$hasRecoveryGrade) {
                 $this->gradeResult->situation = $recoverySituation;
             } elseif ($recoveryMedia >= $finalRecoveryMedia) {
                 $this->gradeResult->situation = $approvedSituation;

@@ -149,6 +149,8 @@ class ClassesController extends Controller
 
         $students = $this->getStudentsByClassroom($classroomId);
         $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
+        $totalClasses = $this->getTotalClassesByMonth($classroomId, $month, $year, $disciplineId);
+        $totalClassContents = $this->getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId);
 
         if (!$isMinorEducation) {
             $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
@@ -248,10 +250,62 @@ class ClassesController extends Controller
                 "classContents" => $classContents,
                 "courseClasses" => $courseClasses,
                 "isMinorEducation" => $isMinorEducation,
+                "totalClasses" => $totalClasses,
+                "totalClassContents" => $totalClassContents
             ]);
         } else {
             echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($isMinorEducation == false ? "e Disciplina" : "") . " sem aula no Quadro de Horário."]);
         }
+    }
+
+    private function getTotalClassesByMonth($classroomId, $month, $year, $disciplineId) {
+        if(!$disciplineId) {
+            return Yii::app()->db->createCommand(
+                "select count(*) from schedule sc
+                where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+                and sc.unavailable = 0"
+            )
+                ->bindParam(":classroom", $classroomId)
+                ->bindParam(":month", $month)
+                ->bindParam(":year", $year)
+                ->queryScalar();
+        }
+        return Yii::app()->db->createCommand(
+            "select count(*) from schedule sc
+            where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+            and sc.discipline_fk = :discipline and sc.unavailable = 0"
+        )
+            ->bindParam(":classroom", $classroomId)
+            ->bindParam(":month", $month)
+            ->bindParam(":year", $year)
+            ->bindParam(":discipline", $disciplineId)
+            ->queryScalar();
+    }
+
+    private function getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId) {
+        if(!$disciplineId) {
+            return Yii::app()->db->createCommand(
+                "select count(*) from class_contents cc
+                join schedule sc on sc.id = cc.schedule_fk
+                where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+                and sc.unavailable = 0"
+            )
+                ->bindParam(":classroom", $classroomId)
+                ->bindParam(":month", $month)
+                ->bindParam(":year", $year)
+                ->queryScalar();
+        }
+        return Yii::app()->db->createCommand(
+            "select count(*) from class_contents cc
+            join schedule sc on sc.id = cc.schedule_fk
+            where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+            and sc.discipline_fk = :discipline and sc.unavailable = 0"
+        )
+            ->bindParam(":classroom", $classroomId)
+            ->bindParam(":month", $month)
+            ->bindParam(":year", $year)
+            ->bindParam(":discipline", $disciplineId)
+            ->queryScalar();
     }
 
     private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
@@ -454,6 +508,11 @@ class ClassesController extends Controller
         $classHasContent = new ClassContents();
         $classHasContent->schedule_fk = $schedule->id;
         $classHasContent->course_class_fk = $content;
+        $classHasContent->day = $schedule->day;
+        $classHasContent->month = $schedule->month;
+        $classHasContent->year = $schedule->year;
+        $classHasContent->classroom_fk = $schedule->classroom_fk;
+        $classHasContent->discipline_fk = $schedule->discipline_fk;
         $classHasContent->save();
     }
 
@@ -559,6 +618,7 @@ class ClassesController extends Controller
                     $array["studentName"] = $enrollment->studentFk->name;
                     $array["schedules"] = [];
                     $array["status"] = $enrollment->status;
+                    $array["statusLabel"] = $enrollment->getCurrentStatus();
                     foreach ($schedules as $schedule) {
                         $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                         $available = date("Y-m-d") >= $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
@@ -696,6 +756,8 @@ class ClassesController extends Controller
 
     // A função abaixo deve verificar se o status de matrícula do aluno é válido para preenchimento do quadro de frequência
     // Retorna True para o caso positivo, e False para o caso negativo
+    // A função abaixo deve verificar se o status de matrícula do aluno é válido para preenchimento do quadro de frequência
+    // Retorna True para o caso positivo, e False para o caso negativo
     public function verifyStatusEnrollment($enrollment, $schedule)
     {
         $dateFormat = 'd/m/Y';
@@ -708,9 +770,12 @@ class ClassesController extends Controller
 
         $scheduleDate = date_create_from_format($dateFormat, $date);
         $transferDate = isset($enrollment->transfer_date) ? DateTime::createFromFormat($dateFormat2, $enrollment->transfer_date) : null;
-
+        $enrollmentDate = isset($enrollment->enrollment_date) ? DateTime::createFromFormat($dateFormat2, $enrollment->enrollment_date) : null;
 
         switch ($enrollment->status) {
+            case '1': // MATRICULADO
+                $result = !(isset($enrollmentDate) && $scheduleDate <= $enrollmentDate);
+                break;
             case '2': // TRANSFERIDO
                 $result = isset($transferDate) && $scheduleDate <= $transferDate;
                 break;
