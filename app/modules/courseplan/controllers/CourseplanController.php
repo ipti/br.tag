@@ -127,6 +127,7 @@ class CourseplanController extends Controller
         return Yii::app()->db->createCommand($sqlCommand)->queryAll();
     }
 
+
     public function actionGetCourseClasses()
     {
         $coursePlan = CoursePlan::model()->findByPk($_POST["coursePlanId"]);
@@ -140,24 +141,34 @@ class CourseplanController extends Controller
             $courseClasses[$order]['methodology'] = $courseClass->methodology;
             $courseClasses[$order]['resources'] = [];
             $courseClasses[$order]['abilities'] = [];
+
             foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
                 $resource["id"] = $courseClassHasClassResource->id;
                 $resource["value"] = $courseClassHasClassResource->course_class_resource_fk;
                 $resource["description"] = $courseClassHasClassResource->courseClassResourceFk->name;
                 $resource["amount"] = $courseClassHasClassResource->amount;
-                array_push($courseClasses[$order]['resources'], $resource);
+                $courseClasses[$order]['resources'][] = $resource;
             }
+
             foreach ($courseClass->courseClassHasClassAbilities as $courseClassHasClassAbility) {
                 $ability["id"] = $courseClassHasClassAbility->courseClassAbilityFk->id;
                 $ability["code"] = $courseClassHasClassAbility->courseClassAbilityFk->code;
                 $ability["description"] = $courseClassHasClassAbility->courseClassAbilityFk->description;
                 $ability["discipline"] = $courseClassHasClassAbility->courseClassAbilityFk->edcensoDisciplineFk->name;
-                array_push($courseClasses[$order]['abilities'], $ability);
+                $courseClasses[$order]['abilities'][] = $ability;
             }
+
             $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents) ? "" : "js-unavailable";
-            $courseClassesIds = array_push($courseClassesIds, $courseClass->id);
+
+            $courseClassesIds[] = $courseClass->id;
         }
-        TLog::info("Listagem de aulas por plano de aula.", ["CoursePlan" => $coursePlan->id, "CourseClasses" => $courseClassesIds]);
+
+        // Log e saída JSON com a estrutura original mantida
+        TLog::info("Listagem de aulas por plano de aula.", [
+            "CoursePlan" => $coursePlan->id,
+            "CourseClasses" => $courseClassesIds
+        ]);
+
         echo json_encode(["data" => array_values($courseClasses)]);
     }
 
