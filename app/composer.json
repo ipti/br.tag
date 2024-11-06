@@ -5,7 +5,7 @@
     "yiisoft/yii": "1.1.29",
     "goetas-webservices/xsd2php-runtime": "^0.2.2",
     "guzzlehttp/guzzle": "^6.0",
-    "symfony/validator": "^4.0",
+    "symfony/validator": "^5.4",
     "jms/serializer": "^3.21",
     "bensontrent/firestore-php": "^3.1",
     "ramsey/uuid": "^4.2"
