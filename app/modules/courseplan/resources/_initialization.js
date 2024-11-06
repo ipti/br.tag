@@ -84,7 +84,7 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
                 let isMinorEducation = data[0].isMinorEducation;
                 if(isMinorEducation == true) {
                     $.each(data, function () {
-                        let minorSelectedValue = loadingData !== undefined && $("#minorEducationDisciplines").attr("initval") !== "" && $("#minorEducationDisciplines").attr("initval") === this.id ? "selected" : "";
+                        let minorSelectedValue = loadingData !== undefined && $("#minorEducationDisciplines").attr("initval") !== "" && $("#minorEducationDisciplines").attr("initval") == this.id ? "selected" : "";
                         option += "<option value='" + this.id + "' " + minorSelectedValue + ">" + this.name + "</option>";
                     });
                     $("#minorEducationDisciplines").html(option).trigger("change").show();
@@ -92,7 +92,7 @@ $(document).on("change", "#CoursePlan_modality_fk", function (evt, loadingData) 
                     $("#disciplinesContainer").addClass("hide");
                 } else {
                     $.each(data, function () {
-                        var selectedValue = loadingData !== undefined && $("#CoursePlan_discipline_fk").attr("initval") !== "" && $("#CoursePlan_discipline_fk").attr("initval") === this.id ? "selected" : "";
+                        var selectedValue = loadingData !== undefined && $("#CoursePlan_discipline_fk").attr("initval") !== "" && $("#CoursePlan_discipline_fk").attr("initval") == this.id ? "selected" : "";
                         option += "<option value='" + this.id + "' " + selectedValue + ">" + this.name + "</option>";
                     });
                     $("#CoursePlan_discipline_fk").html(option).trigger("change").show();
