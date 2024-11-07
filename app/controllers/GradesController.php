@@ -566,9 +566,9 @@ class GradesController extends Controller
 
         Yii::import("application.domain.grades.usecases.GetStudentGradesByDisciplineUsecase");
 
-        $classroomId = Yii::app()->request->getPost("classroom");
-        $disciplineId = Yii::app()->request->getPost("discipline");
-        $unityId = Yii::app()->request->getPost("unity");
+        $classroomId = (int) Yii::app()->request->getPost("classroom");
+        $disciplineId = (int) Yii::app()->request->getPost("discipline");
+        $unityId = (int) Yii::app()->request->getPost("unity");
 
 
         if (!isset($classroomId) || !isset($disciplineId) || !isset($unityId)) {
