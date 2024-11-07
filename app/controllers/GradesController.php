@@ -266,7 +266,11 @@ class GradesController extends Controller
                 $givenClasses += (int) $std['grades'][$key]['givenClasses'];
             }
 
-            $frequency = (($givenClasses - $totalFaults) / $givenClasses) * 100;
+            if($givenClasses != 0) {
+                $frequency = (($givenClasses - $totalFaults) / $givenClasses) * 100;
+            } else {
+                $frequency = null;
+            }
 
 
             if (!$gradeResult->validate()) {
