@@ -1673,7 +1673,7 @@ class SagresConsultModel
                     $studentType
                         ->setNome($enrollment['name'])
                         ->setDataNascimento($birthdate)
-                        ->setCpfAluno(!empty($cpf) ? $cpf : null)
+                        ->setCpfAluno(!empty($cpf) ? $cpf : "")
                         ->setPcd($enrollment['deficiency'])
                         ->setSexo($enrollment['gender']);
 
@@ -1900,7 +1900,7 @@ class SagresConsultModel
                     $studentType
                         ->setNome($enrollment['name'])
                         ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $convertedBirthdate))
-                        ->setCpfAluno(!empty($cpf) ? $cpf : null)
+                        ->setCpfAluno(!empty($cpf) ? $cpf : "")
                         ->setPcd($enrollment['deficiency'])
                         ->setSexo($enrollment['gender']);
 

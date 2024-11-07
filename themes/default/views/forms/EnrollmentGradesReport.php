@@ -146,8 +146,10 @@ $diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines)
                                 <?php } else if ($unities[$i-1]->type == 'UC') { ?>
                                     <td style="text-align: center;"><?= $gradeResult['grade_concept_'.$i] ?></td>
                                 <?php
-                                } else if ($gradeResult['grade_'.$i] < $gradeResult['rec_partial_'.$i]
-                                && in_array(('grade_'.$i), $result[$j]["partial_recoveries"]["rec_partial_".$i])) {
+                                } else if ($gradeResult['grade_'.$i] < $gradeResult['rec_partial_'.$i] &&
+                                isset($result[$j]["partial_recoveries"]["rec_partial_".$i]) &&
+                                is_array($result[$j]["partial_recoveries"]["rec_partial_".$i]) &&
+                                in_array('grade_'.$i, $result[$j]["partial_recoveries"]["rec_partial_".$i])) {
                                 ?>
                                     <td style="text-align: center;"><?= $gradeResult['rec_partial_'.$i] ?></td>
                                 <?php } else { ?>
