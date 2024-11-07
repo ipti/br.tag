@@ -289,9 +289,10 @@ class CourseplanController extends Controller
                     TLog::info("Aula salva com sucesso", ['CourseClassId' => $courseClass->id, 'CoursePlanId' => $coursePlan->id]);
                 }
 
-                array_push($courseClassIds, $courseClass->id);
+                $courseClassIds[] = $courseClass->id;
 
-                CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '" . implode("', '", $cc['ability']) . "' )", [":course_class_fk" => $courseClass->id]);
+                $abilitiesMerged = is_array($cc['ability']) ? implode("', '", $cc['ability']): $cc['ability'];
+                CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '" . $abilitiesMerged . "' )", [":course_class_fk" => $courseClass->id]);
                 foreach ($cc["ability"] as $abilityId) {
                     $courseClassHasClassAbility = CourseClassHasClassAbility::model()->find("course_class_fk = :course_class_fk and course_class_ability_fk = :course_class_ability_fk", ["course_class_fk" => $courseClass->id, "course_class_ability_fk" => $abilityId]);
                     if ($courseClassHasClassAbility == null) {

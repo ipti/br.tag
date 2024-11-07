@@ -285,6 +285,9 @@ class CalculateNumericGradeUsecase
     private function applyStrategyComputeGradesByFormula($calculation, $unityOrRecovery, $grades, $isRecovery)
     {
         $result = 0;
+
+        if(empty($grades)){ return 0; }
+
         switch ($calculation) {
             default:
             case 'Soma':
