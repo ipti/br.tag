@@ -769,7 +769,6 @@ class AdminController extends Controller
         $model = Users::model()->findByPk($id);
         $actualRole = $model->getRole();
         $userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
-
         // Atribuindo valores da superglobal _POST à variáveis locais a fim de evitar o uso de globais
         $users = Yii::app()->request->getPost('Users');
         $schools = Yii::app()->request->getPost('schools');
@@ -777,10 +776,14 @@ class AdminController extends Controller
         $role = Yii::app()->request->getPost('Role');
 
         if (isset($users)) {
-            $model->attributes = $users;
+            $model->name = $users["name"];
+            $model->username = $users["username"];
+            $model->active = $users["active"];
             if ($model->validate()) {
-                $passwordHasher = new PasswordHasher;
-                $model->password = $passwordHasher->bcriptHash($users['password']);
+                if ($users["password"] !== "") {
+                    $passwordHasher = new PasswordHasher;
+                    $model->password = $passwordHasher->bcriptHash($users['password']);
+                }
                 if ($model->save()) {
                     $save = true;
                     foreach ($userSchools as $userSchool) {

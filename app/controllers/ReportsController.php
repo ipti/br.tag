@@ -463,14 +463,17 @@ class ReportsController extends Controller
             case "2":
                 return "Ensino Fundamental Menor";
             case "3":
-            case "7":
                 return "Ensino Fundamental Maior";
             case "4":
                 return "Ensino Médio";
+            case "5":
+                return "Curso Técnico";
             case "6":
                 return "EJA";
+            case "7":
+                return "Multisseriada";
             default:
-                return "Resto";
+                return "Outro";
         }
     }
 

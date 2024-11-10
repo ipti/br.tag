@@ -1,3 +1,8 @@
+## [Versão 3.90.201]
+- Retirado obrigatoriedade de preenchimento de senha ao editar cadastro de algum usuário
+- Corrigido informações do relatório de Matrículas do ano e Número de Alunos por turma
+- Inserido 9º Ano na modalidade de Ensino Fundamental Maior por padrão
+
 ## [Versão 3.89.201]
 - Adicionando o informativo de total de aulas da carga horária e total de aulas ministradas nas telas de aulas ministradas
 - Enriquecido Termo de Suspensão com Dados carregados do banco
