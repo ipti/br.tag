@@ -98,7 +98,7 @@ $("#save").on("click", function (e) {
                 });
 
                 $(this)
-                .find(".grade-partial-reovery")
+                .find(".grade-partial-recovery")
                 .each(function () {
                     partialRecoveriesGrades.push({
                         id: $(this).attr("gradeid"),

@@ -7,25 +7,31 @@
  */
 class ApplyFormulaOnGradesUsecase
 {
+    private $calculation;
+    private $grades;
+    private $weights;
+
     public function __construct($calculation, $weights = [])
     {
         $this->calculation = $calculation;
         $this->weights = $weights;
     }
 
-    public function setGrades($grades){
+    public function setGrades($grades)
+    {
         $this->grades = $grades;
         return $this;
     }
 
-    public function setWeights($weights){
+    public function setWeights($weights)
+    {
         $this->weights = $weights;
         return $this;
     }
 
     public function exec()
     {
-        if(empty($this->grades)){
+        if (empty($this->grades)) {
             throw new Exception("Não foram adicionadas notas antes de excutar o caso de uso", 1);
         }
 

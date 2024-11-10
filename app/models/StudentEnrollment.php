@@ -59,6 +59,7 @@
  * @property integer $sedsp_sync
  * @property string $class_transfer_date
  * @property string $school_readmission_date
+ * @property string $enrollment_date
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -177,10 +178,10 @@ class StudentEnrollment extends AltActiveRecord
             array('school_admission_date', 'length', 'max' => 10),
             array('enrollment_id', 'validateMultiply'),
             array('observation', 'length', 'max' => 200),
-            array('reenrollment, class_transfer_date, school_readmission_date', 'safe'),
+            array('reenrollment, class_transfer_date, school_readmission_date, enrollment_date', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, school_admission_date, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, class_transfer_date, school_readmission_date, aee_caa, aee_optical_nonoptical', 'safe', 'on' => 'search'),
+            array('register_type, school_inep_id_fk, student_inep_id, student_fk, classroom_inep_id, classroom_fk, enrollment_id, unified_class, edcenso_stage_vs_modality_fk, another_scholarization_place, public_transport, transport_responsable_government, vehicle_type_van, vehicle_type_microbus, vehicle_type_bus, vehicle_type_bike, vehicle_type_animal_vehicle, vehicle_type_other_vehicle, vehicle_type_waterway_boat_5, vehicle_type_waterway_boat_5_15, vehicle_type_waterway_boat_15_35, vehicle_type_waterway_boat_35, vehicle_type_metro_or_train, student_entry_form, id, create_date, fkid, school_admission_date, current_stage_situation, previous_stage_situation, admission_type, status, aee_cognitive_functions, aee_autonomous_life, aee_curriculum_enrichment, aee_accessible_teaching, aee_libras, aee_portuguese, aee_soroban, aee_braille, aee_mobility_techniques, class_transfer_date, school_readmission_date, aee_caa, aee_optical_nonoptical, enrollment_date', 'safe', 'on' => 'search'),
         );
     }
 
@@ -259,6 +260,7 @@ class StudentEnrollment extends AltActiveRecord
             'transfer_date' => Yii::t('default', 'Transfer Date'),
             'class_transfer_date' => Yii::t('default' ,'Class Transfer Date'),
             'school_readmission_date' => Yii::t('default','School Readmission Date'),
+            'enrollment_date' => Yii::t('default', 'Enrollment Date'),
         );
     }
 
@@ -287,6 +289,7 @@ class StudentEnrollment extends AltActiveRecord
         $criteria->compare('classroomFk.school_year', Yii::app()->user->year);
         $criteria->compare('class_transfer_date',$this->class_transfer_date);
         $criteria->compare('school_readmission_date',$this->school_readmission_date);
+        $criteria->compare('enrollment_date',$this->enrollment_date);
         $school = Yii::app()->user->school;
         $criteria->compare('t.school_inep_id_fk', $school);
         $criteria->addCondition('studentFk.name like "%' . $this->student_fk . '%"');
@@ -324,7 +327,7 @@ class StudentEnrollment extends AltActiveRecord
 
     public function alreadyExists()
     {
-        $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE student_fk = :student_fk  AND classroom_fk = :classroom_fk";
+        $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE student_fk = :student_fk  AND classroom_fk = :classroom_fk and (status = 1 or status is null)";
 
         $count = Yii::app()->db->createCommand($sql)
             ->bindParam(":student_fk", $this->student_fk)
@@ -332,6 +335,7 @@ class StudentEnrollment extends AltActiveRecord
             ->queryRow();
         return $count["qtd"] > 0;
     }
+
     public function getDailyOrder()
     {
         $sql = "SELECT count(student_fk) as qtd FROM student_enrollment WHERE classroom_fk = :classroom_fk";

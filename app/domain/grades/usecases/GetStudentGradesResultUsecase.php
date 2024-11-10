@@ -6,6 +6,9 @@
 class GetStudentGradesResultUsecase
 {
 
+    private $studentEnrollmentId;
+    private $disciplineId;
+
     public function __construct(int $studentEnrollmentId, int $disciplineId)
     {
         $this->studentEnrollmentId = $studentEnrollmentId;
