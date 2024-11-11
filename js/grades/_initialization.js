@@ -51,6 +51,8 @@ $("#classroom").change(function (e) {
 
 });
 $("#stage").on("change", function(e) {
+    $(".js-unity-title").html('');
+    $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     $("#unities").html()
     $("#unities").select2("val", "");
     loadUnitiesFromClassroom(e.target.value)

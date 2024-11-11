@@ -17,7 +17,19 @@ class CalculateNumericGradeUsecase
     public function exec()
     {
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
-        $studentEnrollments = $classroom->activeStudentEnrollments;
+        $totalEnrollments = $classroom->activeStudentEnrollments;
+        if($classroom->edcenso_stage_vs_modality_fk !== $this->stage){
+            $totalEnrollments = $classroom->activeStudentEnrollments;
+            $studentEnrollments = [];
+            foreach ($totalEnrollments as $enrollment) {
+                if($enrollment->edcenso_stage_vs_modality_fk == $this->stage){
+                    array_push($studentEnrollments, $enrollment);
+                }
+            }
+        } else {
+            $studentEnrollments = $totalEnrollments;
+        }
+
         $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->stage);
 
         foreach ($studentEnrollments as $studentEnrollment) {

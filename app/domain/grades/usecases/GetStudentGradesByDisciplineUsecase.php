@@ -163,11 +163,11 @@ class GetStudentGradesByDisciplineUsecase
     }
     public function getSemRecPartial ($gradeResult, $semester, $type) {
         if($type == "RF") {
-            if($gradeResult->sem_avarage_1 == null && $gradeResult->sem_avarage_2 == null) {
+            if($gradeResult->sem_avarage_1 === null && $gradeResult->sem_avarage_2 === null) {
                 return "";
-            } elseif($gradeResult->sem_avarage_1 != null && $gradeResult->sem_avarage_2 == null){
+            } elseif($gradeResult->sem_avarage_1 !== null && $gradeResult->sem_avarage_2 === null){
                 return $gradeResult->sem_rec_partial_1  < $gradeResult->sem_avarage_1 ?  $gradeResult->sem_avarage_1 : $gradeResult->sem_rec_partial_1;
-            } elseif($gradeResult->sem_avarage_1 == null && $gradeResult->sem_avarage_2 != null){
+            } elseif($gradeResult->sem_avarage_1 === null && $gradeResult->sem_avarage_2 !== null){
                 return $gradeResult->sem_rec_partial_2  < $gradeResult->sem_avarage_2 ?  $gradeResult->sem_avarage_2 : $gradeResult->sem_rec_partial_2;
             }
 
@@ -181,9 +181,9 @@ class GetStudentGradesByDisciplineUsecase
 
         } else {
             if($semester == 1) {
-                return $gradeResult->sem_avarage_1 == null ? "" : $gradeResult->sem_avarage_1;
+                return $gradeResult->sem_avarage_1 === null ? "" : $gradeResult->sem_avarage_1;
             } elseif($semester == 2) {
-                return $gradeResult->sem_avarage_2 == null ? "" : $gradeResult->sem_avarage_2;
+                return $gradeResult->sem_avarage_2 === null ? "" : $gradeResult->sem_avarage_2;
             }
         }
     }
@@ -220,7 +220,7 @@ class GetStudentGradesByDisciplineUsecase
         } else {
             $semRecPartial = "";
         }
-        $studentGradeResult->setSemAvarage($semRecPartial);
+        $studentGradeResult->setSemAvarage(gradesSemAvarage: $semRecPartial);
         $studentGradeResult->setFinalMedia($gradeResult->final_media);
         $studentGradeResult->setSituation($gradeResult->situation);
 

@@ -29,8 +29,6 @@ class ChageStudentStatusByGradeUsecase
 
     public function exec()
     {
-        $transaction = Yii::app()->db->beginTransaction();
-        try {
 
             $enrollment = $this->getStudentEnrollment($this->gradeResult->enrollment_fk);
 
@@ -49,11 +47,6 @@ class ChageStudentStatusByGradeUsecase
             }
 
             $this->updateStudentSituation();
-            $transaction->commit();
-        } catch (Exception $e) {
-            $transaction->rollback();
-            TLog::error("Erro ao atualizar status da matrícula", ["Exception" => $e]);
-        }
     }
 
     private function getStudentEnrollment($enrollmentId)

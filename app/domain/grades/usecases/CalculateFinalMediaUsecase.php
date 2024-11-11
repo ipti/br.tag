@@ -23,8 +23,6 @@ class CalculateFinalMediaUsecase
 
     public function exec()
     {
-        $transaction = Yii::app()->db->beginTransaction();
-        try {
             $grades = [];
             if ($this->gradeRule->gradeCalculationFk->name == 'Média Semestral') {
                 $semRecPartial1 = is_numeric($this->gradesResult["sem_rec_partial_1"]) ? $this->gradesResult["sem_rec_partial_1"] : 0;
@@ -33,9 +31,11 @@ class CalculateFinalMediaUsecase
                 $gradesSemAvarage1 = max($this->gradesResult["sem_avarage_1"], $semRecPartial1);
                 $gradesSemAvarage2 = max($this->gradesResult["sem_avarage_2"], $semRecPartial2);
 
-                if($gradesSemAvarage1 != null) {
+                if ($gradesSemAvarage1 !== null) {
                     $grades[] = $gradesSemAvarage1;
-                } elseif($gradesSemAvarage2 != null) {
+                }
+
+                if ($gradesSemAvarage2 !== null) {
                     $grades[] = $gradesSemAvarage2;
                 }
 
@@ -76,11 +76,6 @@ class CalculateFinalMediaUsecase
             TLog::info("Média final calculada", ["finalMedia" => $finalMedia]);
 
             $this->saveFinalMedia($this->gradesResult, $finalMedia);
-            $transaction->commit();
-        } catch (Exception $e) {
-            $transaction->rollback();
-            TLog::error("Erro ao salvar média final", ["Exception" => $e]);
-        }
 
     }
 
