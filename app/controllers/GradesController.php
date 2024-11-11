@@ -150,7 +150,7 @@ class GradesController extends Controller
     {
         $classroomId = Yii::app()->request->getPost("classroom");
         $stage = Yii::app()->request->getPost("stage");
-        if(isset(($stage))) {
+        if(isset(($stage)) && $stage !== "") {
             $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $stage]);
         } else {
             $classroom = Classroom::model()->findByPk($classroomId);
@@ -599,9 +599,9 @@ class GradesController extends Controller
         if (!isset($classroomId) || !isset($disciplineId) || !isset($unityId)) {
             throw new CHttpException(400, "Requisição mal formada, faltam dados");
         }
-        if (!isset($stageId)) {
+        if ($stageId=== "") {
             $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($classroomId);
-            $stageId  = $classroom->edcenso_stage_vs_modality_fk;
+            $stageId  = (int) $classroom->edcenso_stage_vs_modality_fk;
         }
         $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId, $stageId);
         $result = $usecase->exec();
@@ -619,7 +619,7 @@ class GradesController extends Controller
 
             $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($classroomId);
 
-            if(!isset($stage)) {
+            if($stage==="") {
                 $stage = $classroom->edcenso_stage_vs_modality_fk;
             }
 
@@ -630,10 +630,14 @@ class GradesController extends Controller
             TLog::info("Começado processo de calcular média final.", ["Classroom" => $classroom->id, "GradeRules" => $gradeRules->id]);
             $TotalEnrollments = $classroom->activeStudentEnrollments;
             $studentEnrollments = [];
-            foreach ($TotalEnrollments as $enrollment) {
-                if($enrollment->edcenso_stage_vs_modality_fk == $stage){
-                    array_push($studentEnrollments, $enrollment);
+            if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)){
+                foreach ($TotalEnrollments as $enrollment) {
+                    if($enrollment->edcenso_stage_vs_modality_fk == $stage){
+                        array_push($studentEnrollments, $enrollment);
+                    }
                 }
+            } else {
+                $studentEnrollments = $classroom->activeStudentEnrollments;
             }
             foreach ($studentEnrollments as $enrollment) {
                 $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);

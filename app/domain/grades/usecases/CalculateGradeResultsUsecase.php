@@ -14,7 +14,7 @@ class CalculateGradeResultsUsecase {
 
     public function exec() {
         $classroom = Classroom::model()->findByPk($this->classroomId);
-        if(!isset($this->stage)) {
+        if($this->stage === "") {
             $this->stage = $classroom->edcenso_stage_vs_modality_fk;
         }
         $gradeRules = GradeRules::model()->findByAttributes([

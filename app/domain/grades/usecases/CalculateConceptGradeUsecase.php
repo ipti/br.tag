@@ -19,10 +19,15 @@ class CalculateConceptGradeUsecase
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
         $TotalEnrollments = $classroom->activeStudentEnrollments;
         $studentEnrollments = [];
-        foreach ($TotalEnrollments as $enrollment) {
-            if($enrollment->edcenso_stage_vs_modality_fk == $this->stage){
-                array_push($studentEnrollments, $enrollment);
+        if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
+
+            foreach ($TotalEnrollments as $enrollment) {
+                if($enrollment->edcenso_stage_vs_modality_fk == $this->stage){
+                    array_push($studentEnrollments, $enrollment);
+                }
             }
+        } else {
+            $studentEnrollments = $classroom->activeStudentEnrollments;
         }
         $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->classroomId);
 

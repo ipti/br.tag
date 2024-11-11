@@ -77,6 +77,7 @@ function loadUnitiesFromClassroom(classroomId) {
             },
             success: function (response) {
                 const data = JSON.parse(DOMPurify.sanitize(response));
+                console.log(data)
                 const unitiesSelect = $("#unities");
                 unitiesSelect.empty();
 

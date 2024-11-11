@@ -28,10 +28,14 @@ class GetStudentGradesByDisciplineUsecase
 
         $TotalEnrollments = $classroom->activeStudentEnrollments;
         $studentEnrollments = [];
-        foreach ($TotalEnrollments as $enrollment) {
-            if($enrollment->edcenso_stage_vs_modality_fk == $this->stageId){
-                array_push($studentEnrollments, $enrollment);
+        if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)){
+            foreach ($TotalEnrollments as $enrollment) {
+                if($enrollment->edcenso_stage_vs_modality_fk == $this->stageId){
+                    array_push($studentEnrollments, $enrollment);
+                }
             }
+        } else {
+            $studentEnrollments= $classroom->activeStudentEnrollments;
         }
         $showSemAvarageColumn = $this->checkSemesterUnities( $this->stageId);
 
