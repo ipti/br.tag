@@ -456,8 +456,28 @@ class ReportsController extends Controller
         ));
     }
 
-    public function actionClassContentsReport() {
-        $this->render('ClassContentsReport');
+    public function actionClassContentsReport($classroom, $month, $year, $discipline) {
+        //$schedules = ClassesController::getSchedulesFromMinorStage($classroom, $month, $year);
+
+
+        $classContents = [];
+        // foreach ($schedules as $schedule) {
+        //     $scheduleDate = date("Y-m-d", mktime(0, 0, 0, $schedule->month, $schedule->day, $schedule->year));
+        //     $classContents[$schedule->day]["available"] = date("Y-m-d") >= $scheduleDate;
+        //     $classContents[$schedule->day]["diary"] = $schedule->diary !== null ? $schedule->diary : "";
+        //     $classContents[$schedule->day]["students"] = [];
+
+        //     foreach ($schedule->classContents as $classContent) {
+        //         if (!isset($classContents[$schedule->day]["contents"])) {
+        //             $classContents[$schedule->day]["contents"] = [];
+        //         }
+        //         array_push($classContents[$schedule->day]["contents"], $classContent->courseClassFk->id);
+        //     }
+        // }
+
+        $this->render('ClassContentsReport', array(
+            'classContents' => $classContents,
+        ));
     }
 
     private function translateStageNumbers ($stageNumber) {
