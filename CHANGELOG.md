@@ -1,3 +1,6 @@
+## [Versão 3.90.201]
+- adicionado filtro de etapa para as turmas multiseriadas
+
 ## [Versão 3.89.201]
 - Adicionando o informativo de total de aulas da carga horária e total de aulas ministradas nas telas de aulas ministradas
 - Enriquecido Termo de Suspensão com Dados carregados do banco
