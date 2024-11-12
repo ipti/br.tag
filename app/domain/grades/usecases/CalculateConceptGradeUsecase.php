@@ -85,21 +85,20 @@ class CalculateConceptGradeUsecase
         $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $disciplineId);
         //notas por conceito
         $hasAllGrades = true;
-        foreach ($gradeUnities as $unityKey => $gradeUnity) {
-            $grades = $this->getStudentGradesFromUnity(
+
+            $grades = $this->getStudentGrades(
                 $studentEnrollment->id,
                 $disciplineId,
-                $gradeUnity->id
             );
-            foreach ($grades as $grade) {
+            foreach ($grades as  $gradeKey => $grade) {
                 if($grade->grade_concept_fk === null){
                     $hasAllGrades = false;
                 }
 
-                $gradeResult["grade_concept_" . ($unityKey + 1)] = $grade->gradeConceptFk->acronym;
+                $gradeResult["grade_concept_" . ($gradeKey + 1)] = $grade->gradeConceptFk->acronym;
 
             }
-        }
+
 
         $gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
 
@@ -124,7 +123,7 @@ class CalculateConceptGradeUsecase
      *
      * @return Grade[]
      */
-    private function getStudentGradesFromUnity($enrollmentId, $discipline, $unityId)
+    private function getStudentGrades($enrollmentId, $discipline)
     {
 
         $gradesIds = array_column(Yii::app()->db->createCommand(
@@ -133,10 +132,9 @@ class CalculateConceptGradeUsecase
                 FROM grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id= gum.grade_unity_fk
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gu.id = :unity_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "'"
+                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "'"
         )->bindParam(":enrollment_id", $enrollmentId)
-            ->bindParam(":discipline_id", $discipline)
-            ->bindParam(":unity_id", $unityId)->queryAll(), "id");
+            ->bindParam(":discipline_id", $discipline)->queryAll(), "id");
 
         if ($gradesIds == null) {
             return [];

@@ -56,7 +56,7 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
     <div class="js-grades-alert alert"></div>
     <hr class="row t-separator" />
     <div class="row justify-content--space-between">
-        <div class="column clearleft  is-four-fifths row">
+        <div class="column clearleft  is-four-fifths row wrap">
             <div class="column clearleft">
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 't-field-select__label--required no-wrap')); ?>
@@ -126,5 +126,8 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
     }
     .no-wrap {
         white-space: nowrap;
+    }
+    .wrap {
+        flex-wrap: wrap;
     }
 </style>
