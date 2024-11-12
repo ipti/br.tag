@@ -7,6 +7,7 @@
 Yii::app()->clientScript->registerCoreScript('jquery');
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseUrl . '/js/reports/ClassContentsReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/reports/ClassContentsReport/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
@@ -46,6 +47,20 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         </div>
     </div>
     <div>
+        <div id="given-classes" class="row"></div>
+        <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
+            <table id="class-contents" class="tag-table-secondary table-bordered"
+                   aria-labelledby="create class contents">
+                <thead>
+                <th class="center">1</th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="center">1</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div id="rodape"><?php $this->renderPartial('footer'); ?></div>
 </div>

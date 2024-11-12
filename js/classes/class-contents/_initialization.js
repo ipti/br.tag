@@ -117,15 +117,18 @@ $(document).ready(function () {
 });
 
 $(document).on("click", "#print", function () {
-    debugger;
     let  monthSplit = $("#month").val().split("-");
 
-    let classroom = $("#classroom").val();
+    let classroomId = $("#classroom").val();
     let month = monthSplit[1];
     let year = monthSplit[0];
     let discipline = $("#disciplines").val();
 
-    let url = `?r=reports/ClassContentsReport&classroom=${classroom}&month=${month}&year=${year}&discipline=${discipline}`;
+    let url = `?r=reports/ClassContentsReport&classroomId=${classroomId}&month=${month}&year=${year}`;
+
+    if (discipline) {
+        url += `&discipline=${discipline}`;
+    }
     window.open(url, "_blank")
 });
 
