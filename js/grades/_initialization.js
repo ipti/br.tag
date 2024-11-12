@@ -38,7 +38,7 @@ $("#classroom").change(function (e) {
             } else {
                 $("#stage").html('')
                 $("#stage").append("<option value=''>Selecione</option>");
-                $("#stage").append(decodeHtml(response)).show();
+                $("#stage").append(decodeHtml(DOMPurify.sanitize(response))).show();
                 $("#stage").select2("val", "");
             }
         })
