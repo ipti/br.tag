@@ -11,7 +11,7 @@ function createTable(data) {
             if (classContent.contents && Object.keys(classContent.contents).length) {
                 $.each(classContent.contents, function (index, content) {
                     if(courseClass.id == content) {
-                        courseClasses += '<div class="t-badge-info column text-align--left t-padding-medium--x" style="width:80%">'
+                        courseClasses += '<div class="t-badge-info column text-align--left t-padding-medium--x" style="width:90%">'
                         + "<div>"
                         + "<b>Aula:</b> " + courseClass.order + " <b>Plano de aula:</b> " + courseClass.cpname + "<br>"
                         + "<b>Conteúdo:</b> " + courseClass.content
@@ -31,7 +31,7 @@ function createTable(data) {
         }
 
 
-        let head = '<th class="center vmiddle contents-day ">' + ((day < 10) ? '0' : '') + day + '</th>';
+        let head = '<td class="center vmiddle contents-day ">' + ((day < 10) ? '0' : '') + day + '</td>';
         let body = '<td class="row align-items--center">'
             + '<div class="column clearfix" id="day[' + day + ']" name="day[' + day + '][]">'
             + courseClasses

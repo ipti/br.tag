@@ -5,6 +5,10 @@ $(document).ready(function() {
     let year = params.get('year');
     let discipline = params.get('discipline');
 
+    let months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+    $("#report-title").append(months[month - 1] + " - " + year);
+
     $.ajax({
         type: 'POST',
         url: "?r=classes/getClassContents",
