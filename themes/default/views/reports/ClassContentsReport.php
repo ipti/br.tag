@@ -46,7 +46,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             </a>
         </div>
     </div>
-        <div class="column clearfix">
+        <!-- <div class="column clearfix">
             <div id="given-classes" class="row justify-content--center"></div>
             <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
                 <table id="class-contents" class="tag-table-secondary table-bordered"
@@ -61,7 +61,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> -->
     <div id="rodape"><?php $this->renderPartial('footer'); ?></div>
 </div>
 <script>

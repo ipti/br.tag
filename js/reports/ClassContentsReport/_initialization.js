@@ -9,26 +9,26 @@ $(document).ready(function() {
 
     $("#report-title").append(months[month - 1] + " - " + year);
 
-    $.ajax({
-        type: 'POST',
-        url: "?r=classes/getClassContents",
-        cache: false,
-        data: {
-            classroom: classroomId,
-            month: month,
-            year: year,
-            discipline: discipline
-        },
-        success: function (data) {
-            data = jQuery.parseJSON(data);
-            if (data.valid) {
-                createTable(data);
+    // $.ajax({
+    //     type: 'POST',
+    //     url: "?r=classes/getClassContents",
+    //     cache: false,
+    //     data: {
+    //         classroom: classroomId,
+    //         month: month,
+    //         year: year,
+    //         discipline: discipline
+    //     },
+    //     success: function (data) {
+    //         data = jQuery.parseJSON(data);
+    //         if (data.valid) {
+    //             createTable(data);
 
-            } else {
-                $('#class-contents > thead').html('');
-                $('#class-contents > tbody').html('');
-                $('#class-contents').show();
-            }
-        }
-    });
+    //         } else {
+    //             $('#class-contents > thead').html('');
+    //             $('#class-contents > tbody').html('');
+    //             $('#class-contents').show();
+    //         }
+    //     }
+    // });
 });

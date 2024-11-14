@@ -456,13 +456,83 @@ class ReportsController extends Controller
         ));
     }
 
-    public function actionClassContentsReport() {
-        $classContents = [];
+    public function actionClassContentsReport($classroomId, $month, $year, $disciplineId) {
+        $classroom  = Classroom::model()->findByPk($classroomId);
+        $students = Yii::app()->db->createCommand(
+            "select si.id, si.name from student_enrollment se join student_identification si on si.id = se.student_fk
+            where classroom_fk = :classroom_fk
+            order by si.name"
+        )
+        ->bindParam(":classroom_fk", $classroomId)
+        ->queryAll();
+        $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Classroom::model()->checkIsStageMinorEducation($classroom);
+        $totalClasses = ClassContents::model()->getTotalClassesByMonth($classroomId, $month, $year, $disciplineId);
+        $totalClassContents = ClassContents::model()->getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId);
+
+        if (!$isMinorEducation) {
+            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
+
+        } else {
+            $schedules = $this->getSchedulesFromMinorStage($classroomId, $month, $year);
+        }
+
+        $classContents = $this->buildClassContents($schedules, $students);
 
         $this->layout = "reportsclean";
         $this->render('ClassContentsReport', array(
             'classContents' => $classContents,
+            "totalClasses" => $totalClasses,
+            "totalClassContents" => $totalClassContents
         ));
+    }
+
+    private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
+    {
+        return Schedule::model()->findAll(
+            "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
+            [
+                "classroom_fk" => $classroomId,
+                "month" => $month,
+                "year" => $year,
+                "discipline_fk" => $disciplineId
+            ]
+        );
+    }
+
+    private function getSchedulesFromMinorStage($classroomId, $month, $year)
+    {
+        return Schedule::model()->findAll(
+            "classroom_fk = :classroom_fk and month = :month and year = :year and unavailable = 0 group by day order by day, schedule",
+            [
+                "classroom_fk" => $classroomId,
+                "month" => $month,
+                "year" => $year
+            ]
+        );
+    }
+
+    private function buildClassContents($schedules, $students)
+    {
+        $classContents = [];
+        foreach ($schedules as $schedule) {
+            $scheduleDate = date("Y-m-d", mktime(0, 0, 0, $schedule->month, $schedule->day, $schedule->year));
+            $classContents[$schedule->day]["available"] = date("Y-m-d") >= $scheduleDate;
+            $classContents[$schedule->day]["diary"] = $schedule->diary !== null ? $schedule->diary : "";
+            $classContents[$schedule->day]["students"] = [];
+
+            $test = [];
+            foreach ($schedule->classContents as $classContent) {
+                if (!isset($classContents[$schedule->day]["contents"])) {
+                    $classContents[$schedule->day]["contents"] = [];
+                }
+                $test["order"] = $classContent->courseClassFk->order;
+                $test["name"] = $classContent->courseClassFk->coursePlanFk->name;
+                $test["content"] = $classContent->courseClassFk->content;
+                array_push($classContents[$schedule->day]["contents"], $test);
+            }
+        }
+
+        return $classContents;
     }
 
     private function translateStageNumbers ($stageNumber) {

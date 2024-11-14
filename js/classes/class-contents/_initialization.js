@@ -122,13 +122,10 @@ $(document).on("click", "#print", function () {
     let classroomId = $("#classroom").val();
     let month = monthSplit[1];
     let year = monthSplit[0];
-    let discipline = $("#disciplines").val();
+    let disciplineId = $("#disciplines").val();
 
-    let url = `?r=reports/ClassContentsReport&classroomId=${classroomId}&month=${month}&year=${year}`;
+    let url = `?r=reports/ClassContentsReport&classroomId=${classroomId}&month=${month}&year=${year}&disciplineId=${disciplineId}`;
 
-    if (discipline) {
-        url += `&discipline=${discipline}`;
-    }
     window.open(url, "_blank")
 });
 

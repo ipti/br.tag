@@ -129,4 +129,54 @@ class ClassContents extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function getTotalClassesByMonth($classroomId, $month, $year, $disciplineId) {
+        if(!$disciplineId) {
+            return Yii::app()->db->createCommand(
+                "select count(*) from schedule sc
+                where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+                and sc.unavailable = 0"
+            )
+                ->bindParam(":classroom", $classroomId)
+                ->bindParam(":month", $month)
+                ->bindParam(":year", $year)
+                ->queryScalar();
+        }
+        return Yii::app()->db->createCommand(
+            "select count(*) from schedule sc
+            where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+            and sc.discipline_fk = :discipline and sc.unavailable = 0"
+        )
+            ->bindParam(":classroom", $classroomId)
+            ->bindParam(":month", $month)
+            ->bindParam(":year", $year)
+            ->bindParam(":discipline", $disciplineId)
+            ->queryScalar();
+    }
+
+    public function getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId) {
+        if(!$disciplineId) {
+            return Yii::app()->db->createCommand(
+                "select count(*) from class_contents cc
+                join schedule sc on sc.id = cc.schedule_fk
+                where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+                and sc.unavailable = 0"
+            )
+                ->bindParam(":classroom", $classroomId)
+                ->bindParam(":month", $month)
+                ->bindParam(":year", $year)
+                ->queryScalar();
+        }
+        return Yii::app()->db->createCommand(
+            "select count(*) from class_contents cc
+            join schedule sc on sc.id = cc.schedule_fk
+            where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
+            and sc.discipline_fk = :discipline and sc.unavailable = 0"
+        )
+            ->bindParam(":classroom", $classroomId)
+            ->bindParam(":month", $month)
+            ->bindParam(":year", $year)
+            ->bindParam(":discipline", $disciplineId)
+            ->queryScalar();
+    }
 }
