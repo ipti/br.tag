@@ -564,7 +564,25 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                 </div>
         </form>
     </div>
-
+    <div class="modal fade modal-content" id="tag-modal" tabindex="-1" role="dialog">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="" style="vertical-align: -webkit-baseline-middle">
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Suas alterações serão perdidas!</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row-fluid">
+                <div class="span12">
+                    <h1>Deseja sair da página sem salvar as suas alterções?</h1>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer justify-content--space-between">
+            <button type="button" class="btn btn-default tag-dismiss-modal" data-dismiss="modal" style="background: #EFF2F5; color:#252A31;">Cancelar</button>
+            <button class="btn btn-primary tag-continue-modal" url="<?php echo Yii::app()->createUrl('admin/changeYear'); ?>" type="submit" value="Alterar" style="background: #3F45EA; color: #FFFFFF;">Continuar</button>
+        </div>
+    </div>
     <!-- // Main Container Fluid END -->
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-ui-1.9.2.custom.min.js"></script>
     <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery/jquery.mask.min.js"></script>
