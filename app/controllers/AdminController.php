@@ -567,6 +567,7 @@ class AdminController extends Controller
                 $recoveryUnity->type = "RF";
                 $recoveryUnity->grade_calculation_fk = $finalRecovery["grade_calculation_fk"];
                 $recoveryUnity->edcenso_stage_vs_modality_fk = $stage;
+                $recoveryUnity->final_recovery_avarage_formula = $finalRecovery["final_recovery_avarage_formula"];
 
                 if (!$recoveryUnity->validate()) {
                     $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnity);
