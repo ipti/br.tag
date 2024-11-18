@@ -31,7 +31,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 <div class="pageA4H">
     <?php $this->renderPartial('head'); ?>
-    <h3 id="report-title">Aulas Ministradas de </h3>
+    <h3 id="report-title">Aulas Ministradas</h3>
     <div class="row-fluid hidden-print">
         <div class="buttons">
             <a  id="print"
@@ -46,22 +46,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             </a>
         </div>
     </div>
-        <!-- <div class="column clearfix">
-            <div id="given-classes" class="row justify-content--center"></div>
-            <div class="widget" id="widget-class-contents" style="display:none; margin-top: 8px;">
-                <table id="class-contents" class="tag-table-secondary table-bordered"
-                    aria-labelledby="create class contents">
-                    <thead>
-                        <th class="center">1</th>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="center">1</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div> -->
     <div id="rodape"><?php $this->renderPartial('footer'); ?></div>
 </div>
 <script>

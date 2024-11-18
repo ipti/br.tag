@@ -179,4 +179,54 @@ class ClassContents extends CActiveRecord
             ->bindParam(":discipline", $disciplineId)
             ->queryScalar();
     }
+
+    public function buildClassContents($schedules, $students)
+    {
+        $classContents = [];
+        foreach ($schedules as $schedule) {
+            $scheduleDate = date("Y-m-d", mktime(0, 0, 0, $schedule->month, $schedule->day, $schedule->year));
+            $classContents[$schedule->day]["available"] = date("Y-m-d") >= $scheduleDate;
+            $classContents[$schedule->day]["diary"] = $schedule->diary !== null ? $schedule->diary : "";
+            $classContents[$schedule->day]["students"] = [];
+
+            $studentArray = StudentEnrollment::model()->getStudentClassAnottations($schedule, $students);
+            array_push($classContents[$schedule->day]["students"], $studentArray);
+
+            $courseClasses = [];
+            foreach ($schedule->classContents as $classContent) {
+                if (!isset($classContents[$schedule->day]["contents"])) {
+                    $classContents[$schedule->day]["contents"] = [];
+                }
+                if(TagUtils::isInstructor() && $classContent->courseClassFk->coursePlanFk->users_fk == Yii::app()->user->loginInfos->id) {
+                    $courseClasses["order"] = $classContent->courseClassFk->order;
+                    $courseClasses["name"] = $classContent->courseClassFk->coursePlanFk->name;
+                    $courseClasses["content"] = $classContent->courseClassFk->content;
+                    $courseClasses["abilities"] = [];
+
+                    $hasClassAbilities = CourseClassHasClassAbility::model()->findAll(
+                        'course_class_fk = :courseClassId',
+                        array(':courseClassId' => $classContent->courseClassFk->id)
+                    );
+
+                    foreach ($hasClassAbilities as $classAbility) {
+                        $abilityData = CourseClassAbilities::model()->find(
+                            'id = :courseClassAbilityId',
+                            array(':courseClassAbilityId' => $classAbility->course_class_ability_fk)
+                        );
+
+                        $ability = [];
+
+                        $ability["code"] = $abilityData->code;
+                        $ability["description"] = $abilityData->description;
+
+                        array_push($courseClasses["abilities"], $ability);
+                    }
+
+                    array_push($classContents[$schedule->day]["contents"], $courseClasses);
+                }
+            }
+        }
+
+        return $classContents;
+    }
 }
