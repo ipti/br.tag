@@ -7,5 +7,4 @@ $(document).ready(function() {
 
     let months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
-    $("#report-title").append(months[month - 1] + " - " + year);
 });

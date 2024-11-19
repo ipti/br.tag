@@ -34,10 +34,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     <h3 id="report-title">Aulas Ministradas</h3>
     <div class="row-fluid hidden-print">
         <div class="buttons">
-            <a  id="print"
-                    onclick="imprimirPagina()"
-                    class='btn btn-icon glyphicons print hidden-print'
-                    style="padding: 10px;">
+            <a  id="print" onclick="imprimirPagina()" class='btn btn-icon glyphicons print hidden-print' style="padding: 10px;">
                 <img    alt="impressora"
                         src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Impressora.svg"
                         class="print hidden-print"/>
@@ -46,6 +43,27 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             </a>
         </div>
     </div>
+    <table class="tag-table-report table-bordered">
+        <tr>
+            <th><b>Turma: </b><?= $classroomName ?></th>
+            <th><b>Mês/Ano: </b><?= $month ?>/<?= $year ?></th>
+        </tr>
+        <tr>
+            <th><b>Professor: </b><?= $instructorName ?></th>
+            <th><b>Eixo/Disciplina: </b></th>
+        </tr>
+        <tr>
+            <th><b>Total de aulas ministradas do mês: </b><?= $totalClassContents ?></th>
+            <th><b>Total de carga horária do mês: </b><?= $totalClasses ?></th>
+        </tr>
+    </table>
+
+    <?php
+    $html = "";
+    foreach ($classContents as $day) {
+        $html += "<table class='tag-table-report table-bordered'>";
+    }
+    ?>
     <div id="rodape"><?php $this->renderPartial('footer'); ?></div>
 </div>
 <script>

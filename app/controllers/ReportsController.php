@@ -482,13 +482,15 @@ class ReportsController extends Controller
 
         $classContents = ClassContents::model()->buildClassContents($schedules, $students);
 
-        $this->layout = "reportsclean";
+        $this->layout = "reportscleaner";
         $this->render('ClassContentsReport', array(
             'classContents' => $classContents,
             "totalClasses" => $totalClasses,
             "totalClassContents" => $totalClassContents,
             "instructorName" => $instructorName,
-            "classroomName" => $classroomName
+            "classroomName" => $classroomName,
+            "month" => $month,
+            "year" => $year
         ));
     }
 
