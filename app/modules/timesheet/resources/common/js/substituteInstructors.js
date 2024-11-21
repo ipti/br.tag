@@ -43,16 +43,22 @@ function loadFrequency(){
                         var dayRow = "";
                         var scheduleRow = "";
                         var checkboxRow = "";
+                        const instructorId = data.instructorId;
                         const schedules = data.response.schedules;
                         $.each(schedules, function() {
                             dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
                             daynameRow += "<th>" + this.week_day + "</th>";
-                            scheduleRow += "<th>" + this.schedule + "º Horário</th>";
-                            checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container " + "'><input class='frequency-checkbox' type='checkbox' " + "classroomId='" + $("#classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "></th>";
+                            if(data.isMulti){
+                                scheduleRow += "<th>" + this.schedule + "º Horário</th>";
+                            }
+                            checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container'><input class='frequency-checkbox' type='checkbox' " + "classroomId='" + $("#classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "' /></th>";
                         });
-                        html += "<tr class='day-row'><th></th>" + dayRow + "</tr><tr class='dayname-row'><th></th>" + daynameRow + "</tr>" + ("<tr class='schedule-row'><th></th>" + scheduleRow + "</tr>");
-                        html += "</thead><tbody class='t-accordion__body'>";
-                        html += "</tbody></table>";
+                        html += "<tr class='day-row'>" + dayRow + "</tr><tr class='dayname-row'>" + daynameRow + "</tr>" + ("<tr class='schedule-row'>" + scheduleRow + "</tr>");
+                        html += "</thead><tbody class='t-accordion__body'><tr>";
+                        $.each(schedules, function() {
+                            html += "<td class='frequency-checkbox-instructor" + "'><input class='frequency-checkbox' type='checkbox' " + " " + (this.class_day ? "checked" : "") + " classroomId='" + $("#classrooms").val() + "' instructorId='" + instructorId + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.idSchedule + "'>" + "</td>";
+                        })
+                        html += "</tr></tbody></table>";
                         $("#frequency-container").html(html).show();
                         $(".frequency-checkbox-general").each(function () {
                             var day = $(this).find(".frequency-checkbox").attr("day");
@@ -75,3 +81,45 @@ function loadFrequency(){
             $("#frequency-container, .alert-incomplete-data").hide();
         }
 }
+
+$(document).on("change", ".frequency-checkbox", function () {
+    let checkbox = this;
+    let isSave, route;
+
+    if ($(this).is(":checked")){
+        let route = "?r=timesheet/timesheet/saveSubstituteInstructorDay";
+        isSave = 1;
+    }
+
+    if (!$(this).is(":checked")){
+        let route = "?r=timesheet/timesheet/deleteSubstituteInstructorDay";
+        isSave = 0;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: route,
+        cache: false,
+        data: {
+            classroomId: $("#instructor").val(),
+            day: $(this).attr("day"),
+            month: $(this).attr("month"),
+            schedule: $(this).attr("schedule"),
+            instructorId: $("#instructor").val(),
+        },
+        beforeSend: function () {
+            $(".loading-frequency")
+            $(".table-frequency")
+            $("#classroom, #month, #disciplines, #classesSearch").attr("disabled", "disabled")
+        },
+        complete: function (response) {
+            if ($(checkbox).attr("instructorId") === undefined) {
+                $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").prop("checked", $(checkbox).is(":checked"));
+            }
+
+            $(".loading-frequency").hide();
+            $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
+            $("#classroom, #month, #disciplinas, #classesSearch").removeAttr("disabled");
+        },
+    });
+});

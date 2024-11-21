@@ -809,10 +809,10 @@ class TimesheetController extends Controller
         );
     }
 
-    public function actionSaveSubstituteInstructorDay($instructorId, $scheduleId)
+    public function actionSaveSubstituteInstructorDay()
     {
-        $schedule = Schedule::model()->findByPk($scheduleId);
-        $instructor = InstructorIdentification::model()->findByPk($instructorId);
+        $schedule = Yii::app()->request->getPost("schedule");
+        $instructor = Yii::app()->request->getPost("instructorId");
 
         $teachingData = InstructorTeachingData::model()->findByAttributes(
             array(
@@ -865,6 +865,8 @@ class TimesheetController extends Controller
 
         $classroom = Classroom::model()->findByPk($classroomId);
 
+        $isMulti = TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk);
+
         $schedules = Schedule::model()->findAll(
             "classroom_fk = :classroom and year = :year and month = :month and unavailable = 0 group by day order by day, schedule",
             array(
@@ -881,6 +883,7 @@ class TimesheetController extends Controller
         $response["instructorId"] = $instructorModel->id;
         $response["instructorName"] = $instructorModel->name;
         $response["schedules"] = [];
+        $response["isMulti"] = $isMulti;
 
         foreach($schedules as $schedule){
             $date = $this->generateDate($schedule->day, $schedule->month, $schedule->year, 0);
@@ -891,7 +894,7 @@ class TimesheetController extends Controller
                 "schedule" => $schedule->schedule,
                 "idSchedule" => $schedule->id,
                 "class_day" => $classDay,
-                "date" => $date
+                "date" => $date,
             ));
         }
 
