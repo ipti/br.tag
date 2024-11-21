@@ -31,7 +31,8 @@ class Controller extends CController
 
             $authTimeout = Yii::app()->user->getState("authTimeout", 5*60*60); // Valor padrão de 1800 segundos (30 minutos)
             Yii::app()->user->authTimeout = $authTimeout;
-            ini_set('session.gc_maxlifetime', $authTimeout);
+            ini_set('session.gc_maxlifetime', value: $authTimeout);
+            ini_set('session.cookie_lifetime', $authTimeout);
 
             Yii::app()->sentry->setUserContext([
                 'id' => Yii::app()->user->loginInfos->id,
