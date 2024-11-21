@@ -1,3 +1,6 @@
+## [Versão 3.89.203]
+- Corrigindo error no tamanho do nome do aluno ao gerar o sagres
+
 ## [Versão 3.89.202]
 - Modificando o tempo de sessão
 - Corrigindo errors relacionados a comparação de variáveis

@@ -1778,7 +1778,7 @@ class SagresConsultModel
                         $inconsistencyModel->insert();
                     }
 
-                    if ($studentType->getNome() > $strMaxLength) {
+                    if (strlen($studentType->getNome()) > $strMaxLength) {
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
                         $inconsistencyModel->school = $school->name;
