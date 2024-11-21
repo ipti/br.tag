@@ -458,6 +458,7 @@ class ReportsController extends Controller
 
     public function actionClassContentsReport($classroomId, $month, $year, $disciplineId) {
         $classroom  = Classroom::model()->findByPk($classroomId);
+        $disciplineId = $disciplineId === "null" ? null : $disciplineId;
         $classroomName = $classroom->name;
         if (TagUtils::isInstructor()) {
             $instructorName = InstructorIdentification::model()->findByAttributes(['users_fk' => Yii::app()->user->loginInfos->id])->name ?? null;
@@ -482,7 +483,7 @@ class ReportsController extends Controller
 
         $classContents = ClassContents::model()->buildClassContents($schedules, $students);
 
-        $this->layout = "reportscleaner";
+        $this->layout = "reportsclean";
         $this->render('ClassContentsReport', array(
             'classContents' => $classContents,
             "totalClasses" => $totalClasses,
