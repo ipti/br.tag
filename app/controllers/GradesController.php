@@ -583,28 +583,34 @@ class GradesController extends Controller
 
     public function actionCalculateFinalMedia()
     {
-        $classroomId = Yii::app()->request->getPost("classroom");
-        $disciplineId = Yii::app()->request->getPost("discipline");
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $classroomId = Yii::app()->request->getPost("classroom");
+            $disciplineId = Yii::app()->request->getPost("discipline");
 
-        $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($classroomId);
+            $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($classroomId);
 
-        $gradeRules = GradeRules::model()->findByAttributes([
-            "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
-        ]);
+            $gradeRules = GradeRules::model()->findByAttributes([
+                "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
+            ]);
+            TLog::info("Começado processo de calcular média final.", ["Classroom" => $classroom->id, "GradeRules" => $gradeRules->id]);
 
-        TLog::info("Começado processo de calcular média final.", ["Classroom" => $classroom->id, "GradeRules" => $gradeRules->id]);
+            foreach ($classroom->activeStudentEnrollments as $enrollment) {
+                $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);
+                $gradesStudent = $gradeUnities->exec();
+                $countUnities = $gradeUnities->execCount();
 
-        foreach ($classroom->activeStudentEnrollments as $enrollment) {
-            $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);
-            $gradesStudent = $gradeUnities->exec();
-            $countUnities = $gradeUnities->execCount();
+                TLog::info("Unidades por disciplina", ["GradeUnities" => CHtml::listData($gradesStudent, 'id', 'id')]);
 
-            TLog::info("Unidades por disciplina", ["GradeUnities" => CHtml::listData($gradesStudent, 'id', 'id')]);
+                $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
+                (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
+                (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities))->exec();
 
-            $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
-            (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
-            (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities))->exec();
-
+            }
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            TLog::error("Erro ao atualizar status da matrícula", ["Exception" => $e]);
         }
 
     }
