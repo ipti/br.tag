@@ -852,6 +852,103 @@ class SagresConsultModel
                 $modality = $serie->serieModality;
             }
 
+               /**
+     * Summary of SerieTType
+     * @return SerieTType[]
+     */
+    public function getSeries($classId, $inepId)
+    {
+        $seriesList = [];
+        $strlen = 2;
+        $strMaxLength = 50;
+        $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
+
+        $query = "SELECT
+                    c.name AS serieDescription,
+                    c.modality AS serieModality,
+                    c.complementary_activity as complementaryActivity,
+                    c.schooling as schooling
+                FROM
+                    classroom c
+                WHERE
+                    c.id = :id;";
+
+        $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
+
+        foreach ($series as $serie) {
+            $serie = (object) $serie;
+            $serieType = new SerieTType();
+
+            $modality = ((int)$serie->complementaryActivity === 1)
+            ? ((int)$serie->schooling === 1 ? 2 : 6)
+            : $serie->serieModality;
+
+            $serieType
+                ->setDescricao($serie->serieDescription)
+                ->setModalidade($modality);
+
+                if (empty($serieType)) {
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = SERIE_STRONG;
+                    $inconsistencyModel->school = $school->name;
+                    $inconsistencyModel->description = 'Não há série para a escola: ' . $school->name;
+                    $inconsistencyModel->action = 'Adicione uma série para a turma';
+                    $inconsistencyModel->identifier = '10';
+                    $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->insert();
+                }
+
+
+                if (strlen($serieType->getDescricao()) <= $strlen) {
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = SERIE_STRONG;
+                    $inconsistencyModel->school = $school->name;
+                    $inconsistencyModel->description = 'Descrição para a série: ' . $serieType->getDescricao() . ' menor que 3 caracteres';
+                    $inconsistencyModel->action = 'Forneça uma descrição mais detalhada, contendo mais de 5 caracteres';
+                    $inconsistencyModel->identifier = '10';
+                    $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->insert();
+                }
+
+
+                if (strlen($serieType->getDescricao()) > $strMaxLength) {
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = SERIE_STRONG;
+                    $inconsistencyModel->school = $school->name;
+                    $inconsistencyModel->description = 'Descrição para a série: ' . $serieType->getDescricao() . ' com mais de 50 caracteres';
+                    $inconsistencyModel->action = 'Forneça uma descrição menos detalhada, contendo até 50 caracteres';
+                    $inconsistencyModel->identifier = '10';
+                    $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->idSchool = $inepId;
+                    $inconsistencyModel->insert();
+                }
+                /*
+                 * 1 - Educação Infantil
+                 * 2 - Ensino Fundamental
+                 * 3 - Ensino Médio
+                 * 4 - Educação de Jovens e Adultos
+                 * 5 - Atendimento Educacional Especializado
+                 * 6 - Atividades Complementares
+                 */
+                if (!in_array($serieType->getModalidade(), [1, 2, 3, 4, 5, 6])) {
+                    $inconsistencyModel = new ValidationSagresModel();
+                    $inconsistencyModel->enrollment = SERIE_STRONG;
+                    $inconsistencyModel->school = $school->name;
+                    $inconsistencyModel->description = 'Modalidade inválida';
+                    $inconsistencyModel->action = 'Selecione uma modalidade válida para a série';
+                    $inconsistencyModel->identifier = '10';
+                    $inconsistencyModel->idClass = $classId;
+                    $inconsistencyModel->idSchool = $inepId;
+                    $inconsistencyModel->insert();
+                }
+
+            $seriesList[] = $serieType;
+        }
+
+        return $seriesList;
+    }
+
+
             $serieType
                 ->setDescricao($serie->serieDescription)
                 ->setModalidade($modality);
