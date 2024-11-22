@@ -483,6 +483,8 @@ class ReportsController extends Controller
 
         $classContents = ClassContents::model()->buildClassContents($schedules, $students);
 
+        $month = str_pad($month, 2, "0", STR_PAD_LEFT);
+
         $this->layout = "reportsclean";
         $this->render('ClassContentsReport', array(
             'classContents' => $classContents,

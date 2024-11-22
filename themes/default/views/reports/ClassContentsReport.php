@@ -29,7 +29,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 }
 </style>
 
-<div class="pageA4H">
+<div class="pageA4V">
     <?php $this->renderPartial('head'); ?>
     <h3 id="report-title">Aulas Ministradas</h3>
     <div class="row-fluid hidden-print">
@@ -46,16 +46,16 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th><b>Turma: </b><?= $classroomName ?></th>
-                <th><b>Mês/Ano: </b><?= $month ?>/<?= $year ?></th>
+                <th id="classroom" class="tableHead"><b>Turma: </b><?= $classroomName ?></th>
+                <th id="date"><b>Mês/Ano: </b><?= $month ?>/<?= $year ?></th>
             </tr>
             <tr>
-                <th><b>Professor: </b><?= $instructorName ?></th>
-                <th><b>Eixo/Disciplina: </b></th>
+                <th id="instructor" class="tableHead"><b>Professor: </b><?= $instructorName ?></th>
+                <th id="discipline"><b>Eixo/Disciplina: </b></th>
             </tr>
             <tr>
-                <th><b>Total de aulas ministradas do mês: </b><?= $totalClassContents ?></th>
-                <th><b>Total de carga horária do mês: </b><?= $totalClasses ?></th>
+                <th id="totalClassContents" class="tableHead"><b>Total de aulas ministradas do mês: </b><?= $totalClassContents ?></th>
+                <th id="totalClasses"><b>Total de carga horária do mês: </b><?= $totalClasses ?></th>
             </tr>
         </thead>
     </table>
@@ -67,7 +67,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         $html .= "
         <thead>
             <tr>
-                <th colspan='2'>{$id} / {$month}</th>
+                <th colspan='2' style='padding: 4px 10px'>{$id}/{$month}</th>
             </tr>
         </thead>";
         $html .= "<tbody>";
@@ -128,6 +128,10 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     }
     echo $html;
     ?>
+    <div class="signaturesContainer">
+        <div class="signature">PROFESSOR</div>
+        <div class="signature">COORDENADOR</div>
+    </div>
     <div id="rodape"><?php $this->renderPartial('footer'); ?></div>
 </div>
 <script>
@@ -146,8 +150,26 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     th {
         text-align: left !important;
     }
+    h3 {
+        text-align: center;
+    }
     .studentName {
         width: 30%;
+    }
+    .tableHead {
+        width: 50%;
+    }
+    .signaturesContainer {
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+        margin-top: 60px;
+        padding: 0px 50px;
+    }
+    .signature {
+        border-top: 2px solid #000000;
+        font-weight: bold;
+        width: 40%;
     }
 
     @media print {
