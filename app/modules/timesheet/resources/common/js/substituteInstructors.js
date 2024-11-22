@@ -51,18 +51,18 @@ function loadFrequency(){
                             if(data.isMulti){
                                 scheduleRow += "<th>" + this.schedule + "º Horário</th>";
                             }
-                            checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container'><input class='frequency-checkbox' type='checkbox' " + "classroomId='" + $("#classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "' /></th>";
+                            checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container'><input class='frequency-checkbox-substitute' type='checkbox' " + "classroomId='" + $("#classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "' /></th>";
                         });
                         html += "<tr class='day-row'>" + dayRow + "</tr><tr class='dayname-row'>" + daynameRow + "</tr>" + ("<tr class='schedule-row'>" + scheduleRow + "</tr>");
                         html += "</thead><tbody class='t-accordion__body'><tr>";
                         $.each(schedules, function() {
-                            html += "<td class='frequency-checkbox-instructor" + "'><input class='frequency-checkbox' type='checkbox' " + " " + (this.class_day ? "checked" : "") + " classroomId='" + $("#classrooms").val() + "' instructorId='" + instructorId + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.idSchedule + "'>" + "</td>";
+                            html += "<td class='frequency-checkbox-instructor" + "'><input class='frequency-checkbox-substitute' type='checkbox' " + " " + (this.class_day ? "checked" : "") + " classroomId='" + $("#classrooms").val() + "' instructorId='" + instructorId + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.idSchedule + "'>" + "</td>";
                         })
                         html += "</tr></tbody></table>";
                         $("#frequency-container").html(html).show();
                         $(".frequency-checkbox-general").each(function () {
-                            var day = $(this).find(".frequency-checkbox").attr("day");
-                            $(this).find(".frequency-checkbox").prop("checked", $(".frequency-checkbox-instructor .frequency-checkbox[day=" + day + "]:checked").length === $(".frequency-checkbox-instructor .frequency-checkbox[day=" + day + "]").length);
+                            var day = $(this).find(".frequency-checkbox-substitute").attr("day");
+                            $(this).find(".frequency-checkbox-substitute").prop("checked", $(".frequency-checkbox-instructor .frequency-checkbox-substitute[day=" + day + "]:checked").length === $(".frequency-checkbox-instructor .frequency-checkbox-substitute[day=" + day + "]").length);
 
                         });
                         $('[data-toggle="tooltip"]').tooltip({ container: "body" });
@@ -82,18 +82,17 @@ function loadFrequency(){
         }
 }
 
-$(document).on("change", ".frequency-checkbox", function () {
+$(document).on("change", ".frequency-checkbox-substitute", function () {
     let checkbox = this;
     let isSave, route;
 
     if ($(this).is(":checked")){
-        let route = "?r=timesheet/timesheet/saveSubstituteInstructorDay";
+        route = "?r=timesheet/timesheet/saveSubstituteInstructorDay";
         isSave = 1;
     }
 
     if (!$(this).is(":checked")){
-        let route = "?r=timesheet/timesheet/deleteSubstituteInstructorDay";
-        isSave = 0;
+        route = "?r=timesheet/timesheet/deleteSubstituteInstructorDay";
     }
 
     $.ajax({
@@ -114,7 +113,7 @@ $(document).on("change", ".frequency-checkbox", function () {
         },
         complete: function (response) {
             if ($(checkbox).attr("instructorId") === undefined) {
-                $(".table-frequency tbody .frequency-checkbox[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").prop("checked", $(checkbox).is(":checked"));
+                $(".table-frequency tbody .frequency-checkbox-substitute[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").prop("checked", $(checkbox).is(":checked"));
             }
 
             $(".loading-frequency").hide();

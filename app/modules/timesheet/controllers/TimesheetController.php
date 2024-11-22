@@ -29,7 +29,7 @@ class TimesheetController extends Controller
                 'actions' => [
                     'index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability',
                     'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor", "changeUnavailableSchedule",
-                    "addSubstituteInstructorDay", "saveSubstituteInstructorDay"
+                    "addSubstituteInstructorDay", "saveSubstituteInstructorDay", "deleteSubstituteInstructorDay",
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -811,8 +811,11 @@ class TimesheetController extends Controller
 
     public function actionSaveSubstituteInstructorDay()
     {
-        $schedule = Yii::app()->request->getPost("schedule");
-        $instructor = Yii::app()->request->getPost("instructorId");
+        $scheduleId = Yii::app()->request->getPost("schedule");
+        $instructorId = Yii::app()->request->getPost("instructorId");
+
+        $schedule = Schedule::model()->findByPk($scheduleId);
+        $instructor = InstructorIdentification::model()->findByPk($instructorId);
 
         $teachingData = InstructorTeachingData::model()->findByAttributes(
             array(
@@ -821,31 +824,71 @@ class TimesheetController extends Controller
             )
         );
 
-        $substituteInstructor = new SubstituteInstructor();
+        // Verifica se já existe um registro de professor substituto
+        $substituteInstructor = SubstituteInstructor::model()->findByAttributes(
+            array(
+                "instructor_fk" => $instructor->id,
+                "teaching_data_fk" => $teachingData->id
+            )
+        );
 
-        $substituteInstructor->teaching_data_fk = $teachingData->id;
-        $substituteInstructor->instructor_fk = $instructor->id;
+        // Se não existir, cria um novo
+        if($substituteInstructor == null){
+            $substituteInstructor = new SubstituteInstructor();
+            $substituteInstructor->teaching_data_fk = $teachingData->id;
+            $substituteInstructor->instructor_fk = $instructor->id;
+        }
+
         if($substituteInstructor->save()){
             $schedule->substitute_instructor_fk = $substituteInstructor->id;
-            $schedule->save();
-            TLog::info("SubstituteInstructor atribuído a Schedule com sucesso", array(
-                "Schedule" => $schedule->id
-            ));
+            if($schedule->save()){
+                TLog::info("SubstituteInstructor atribuído a Schedule com sucesso", array(
+                    "Schedule" => $schedule->id
+                ));
+            }
         }
     }
 
-    public function actionDeleteSubstituteInstructorDay($id){
-        $substituteInstructor = SubstituteInstructor::model()->findByPk($id);
-        $schedule = Schedule::model()->findByAttributes(array("substitute_instructor_fk" => $substituteInstructor->id));
+    public function actionDeleteSubstituteInstructorDay(){
+        $instructorId = Yii::app()->request->getPost('instructorId');
+        $scheduleId =  Yii::app()->request->getPost('schedule');
+
+        $schedule = Schedule::model()->findByPk($scheduleId);
+        $instructor = InstructorIdentification::model()->findByPk($instructorId);
+        $teachingData = InstructorTeachingData::model()->findByAttributes(
+            array(
+                "instructor_fk" => $instructor->id,
+                "classroom_id_fk" => $schedule->classroom_fk
+            ));
+
+        $substituteInstructor = SubstituteInstructor::model()->findByAttributes(
+            array(
+                "instructor_fk" => $instructor->id,
+                "teaching_data_fk" => $teachingData->id
+            ));
 
         $transaction = Yii::app()->db->beginTransaction();
 
         try{
             $schedule->substitute_instructor_fk = null;
-            $substituteInstructor->delete();
-            header('HTTP/1.1 200 OK');
-            echo json_encode(["valid"=>true]);
-            Yii::app()->end();
+
+            // Verificar se ainda existe algum schedule com a chave do registro de professor substituto para aquela turma
+            $allSchedules = Schedule::model()->findAllByAttributes(
+                array(
+                    "substitute_instructor_fk" => $substituteInstructor->id
+                )
+            );
+
+            if($allSchedules == null){
+                $substituteInstructor->delete();
+            }
+
+            if($schedule->save()){
+                $transaction->commit();
+                header('HTTP/1.1 200 OK');
+                echo json_encode(["valid"=>true]);
+                Yii::app()->end();
+            }
         }catch(Exception $e){
             $transaction->rollback();
             TLog::error("Erro durante a transação de DeleteSubstituteInstructorDay", array(
