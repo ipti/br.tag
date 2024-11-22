@@ -26,12 +26,13 @@ class Controller extends CController
     {
         parent::init();
 
-        
+
         if (!Yii::app()->user->isGuest) {
-            
-            $authTimeout = Yii::app()->user->getState("authTimeout", 20*60); // Valor padrão de 1800 segundos (30 minutos)
+
+            $authTimeout = Yii::app()->user->getState("authTimeout", 5*60*60); // Valor padrão de 1800 segundos (30 minutos)
             Yii::app()->user->authTimeout = $authTimeout;
-            ini_set('session.gc_maxlifetime', $authTimeout);
+            ini_set('session.gc_maxlifetime', value: $authTimeout);
+            ini_set('session.cookie_lifetime', $authTimeout);
 
             Yii::app()->sentry->setUserContext([
                 'id' => Yii::app()->user->loginInfos->id,
@@ -53,12 +54,12 @@ class Controller extends CController
     if (parent::beforeAction($action)) {
         // Verifica se o authTimeout foi excedido antes de atualizar a atividade
         Yii::app()->user->setState('last_activity', time());
-        
+
         if (isset(Yii::app()->user->authTimeout) && time() - Yii::app()->user->getState('last_activity') > Yii::app()->user->authTimeout) {
             Yii::app()->user->logout();
             return false; // Impede a ação se o usuário for desconectado
         }
-        
+
         // Atualiza a hora da última atividade
 
         return true;

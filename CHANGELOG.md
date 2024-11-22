@@ -1,3 +1,10 @@
+## [Versão 3.89.203]
+- Corrigindo error no tamanho do nome do aluno ao gerar o sagres
+
+## [Versão 3.89.202]
+- Modificando o tempo de sessão
+- Corrigindo errors relacionados a comparação de variáveis
+
 ## [Versão 3.89.201]
 - Adicionando o informativo de total de aulas da carga horária e total de aulas ministradas nas telas de aulas ministradas
 - Enriquecido Termo de Suspensão com Dados carregados do banco
