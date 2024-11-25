@@ -87,7 +87,7 @@ $(document).on("change", ".frequency-checkbox-substitute", function () {
     let isSave, route;
 
     if ($(this).is(":checked")){
-        route = "?r=timesheet/timesheet/saveSubstituteInstructorDay";
+        route = "?r=timesheet/timesheet/addSubstituteInstructorDay";
         isSave = 1;
     }
 

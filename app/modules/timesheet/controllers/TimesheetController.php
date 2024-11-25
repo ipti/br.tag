@@ -759,15 +759,8 @@ class TimesheetController extends Controller
 
     public function actionAddSubstituteInstructorDay()
     {
-        $jsonData = file_get_contents('php://input');
-        $requestData = json_decode($jsonData, true);
-
-        // Descomentar DEPOIS
-        // $scheduleId = Yii::app()->request->getPost('schedule');
-        // $instructorId = Yii::app()->request->getPost('instructor');
-
-        $scheduleId = $requestData["schedule"];
-        $instructorId = $requestData["instructor"];
+        $scheduleId = Yii::app()->request->getPost('schedule');
+        $instructorId = Yii::app()->request->getPost('instructorId');
 
         $transaction = Yii::app()->db->beginTransaction();
 
@@ -809,11 +802,8 @@ class TimesheetController extends Controller
         );
     }
 
-    public function actionSaveSubstituteInstructorDay()
+    public function actionSaveSubstituteInstructorDay($instructorId, $scheduleId)
     {
-        $scheduleId = Yii::app()->request->getPost("schedule");
-        $instructorId = Yii::app()->request->getPost("instructorId");
-
         $schedule = Schedule::model()->findByPk($scheduleId);
         $instructor = InstructorIdentification::model()->findByPk($instructorId);
 
@@ -845,8 +835,17 @@ class TimesheetController extends Controller
                 TLog::info("SubstituteInstructor atribuído a Schedule com sucesso", array(
                     "Schedule" => $schedule->id
                 ));
+                return;
             }
+            TLog::error("Erro: Falha na Atualização do schedule.", array(
+                "Schedule" => $schedule->id,
+                "ErrorMessage" => $schedule->getErrors()
+            ));
         }
+        TLog::error("Erro: Falha na atualização de substituteInstructor", array(
+            "SubstituteInstructor" => $substituteInstructor->id,
+            "ErrorMessage" => $substituteInstructor->getErrors()
+        ));
     }
 
     public function actionDeleteSubstituteInstructorDay(){
