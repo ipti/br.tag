@@ -2,7 +2,6 @@
 
 
 $debug = getenv("YII_DEBUG");
-$session_time = getenv("SESSION_TIME") ?? 5*60*60;
 defined('YII_DEBUG') or define('YII_DEBUG', $debug);
 
 define("TAG_VERSION", '3.89.203');
@@ -21,5 +20,3 @@ if (YII_DEBUG) {
 date_default_timezone_set('America/Sao_Paulo');
 ini_set('always_populate_raw_post_data', '-1');
 setlocale(LC_ALL, 'portuguese', 'pt_BR.UTF-8', 'pt_BR.UTF8', 'pt_br.UTF8', 'ptb_BRA.UTF8', "ptb", 'ptb.UTF8');
-ini_set('session.gc_maxlifetime',  $session_time);
-ini_set('session.cookie_lifetime', $session_time);
