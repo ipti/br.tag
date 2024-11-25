@@ -1,0 +1,65 @@
+<?php
+/* @var $this AdminController */
+
+$baseUrl = Yii::app()->baseUrl;
+$cs = Yii::app()->getClientScript();
+$this->pageTitle = 'TAG - ' . Yii::t('default', 'Estrutura de Unidades');
+
+?>
+
+<div class="main">
+
+    <div class="row-fluid">
+        <div class="span12" style="margin-left: 20px;">
+            <h1><?php echo Yii::t('default', 'Estruturas'); ?></h1>
+        </div>
+    </div>
+    <div class="tag-inner">
+    <div class="widget clearmargin">
+            <div class="widget-body">
+                <?php
+                $this->widget('zii.widgets.grid.CGridView', array(
+                    'dataProvider' => $dataProvider,
+                    'enablePagination' => false,
+                    'enableSorting' => false,
+                    'ajaxUpdate' => false,
+                    'itemsCssClass' => 'js-tag-table tag-table-primary table  table-striped table-hover table-primary table-vertical-center',
+                    'columns' => array(
+                        array(
+                            'name' => 'Código',
+                            'type' => 'raw',
+                            'value' => '$data->id',
+                        ),
+                        array(
+                            'name' => 'nome',
+                            'type' => 'raw',
+                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("admin/gradesStructure",array("id"=>$data->id)))',
+                        ),
+                        array(
+                            'name' => 'etapa',
+                            'type' => 'raw',
+                            'value' => '$data->edcensoStageVsModalityFk->name',
+                        ),
+                        array(
+                            'header' => 'Ações',
+                            'class' => 'CButtonColumn',
+                            'template' => '{update}{delete}',
+                            'buttons' => array(
+                                'update' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                ),
+                                'delete' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                )
+                            ),
+                            'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
+                            'deleteButtonOptions' => array('style' => 'cursor: pointer;'),
+                            'htmlOptions' => array('width' => '80px', 'style' => 'text-align: center'),
+                        ),
+                    ),
+                ));
+                ?>
+            </div>
+        </div>
+    </div>
+</div>

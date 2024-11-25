@@ -19,7 +19,7 @@ class AdminController extends Controller
                 'actions' => [
                     'import', 'export', 'update', 'manageUsers', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
                     'syncImport', 'exportToMaster', 'exportStudents', 'exportGrades', 'exportFaults', 'clearMaster', 'importFromMaster',
-                    'gradesStructure', 'instanceConfig', 'editInstanceConfigs'
+                    'gradesStructure', 'indexGradesStructure', 'instanceConfig', 'editInstanceConfigs'
                 ], 'users' => ['@'],
             ],
         ];
@@ -385,7 +385,14 @@ class AdminController extends Controller
         }, []);
         $this->render('createUser', ['model' => $model, 'instructors' => $instructorsResult]);
     }
+    public function actionIndexGradesStructure() {
+        $dataProvider = GradeRules::model()->search();
+        $dataProvider->pagination = false;
 
+        $this->render('indexGradesStructure', [
+            'dataProvider' => $dataProvider
+        ]);
+    }
     public function actionGradesStructure()
     {
         $stages = Yii::app()->db->createCommand("
