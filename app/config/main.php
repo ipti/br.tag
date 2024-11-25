@@ -5,10 +5,6 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication propeties can be configured here.
 
-\Sentry\configureScope(function (\Sentry\State\Scope $scope): void {
-    $scope->setUser(['email' => 'jane.doe@example.com']);
-});
-
 $LOG_PATH = "/app/app/runtime/" . INSTANCE . "/" . date("Y-m-d");
 
 if (!file_exists($LOG_PATH)) {
