@@ -79,6 +79,7 @@ class DefaultController extends Controller
             Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
         } finally {
             ini_set('memory_limit', $memoryLimit);
+            Yii::app()->end();
         }
     }
 
