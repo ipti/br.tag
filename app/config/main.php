@@ -166,7 +166,6 @@ return array(
                 'merenda/cardapio' => 'foods/foodmenu/',
                 'merenda/cardapio/<action:\w+>' => 'foods/foodmenu/<action>',
 
-                'boletim-escolar/' => 'schoolreport/',
                 'boletim-escolar/' => 'schoolreport/default/select',
                 'boletim-escolar/notas/<eid:\d+>' => 'schoolreport/default/grades',
                 'boletim-escolar/frequencia/<eid:\d+>' => 'schoolreport/default/frequency',

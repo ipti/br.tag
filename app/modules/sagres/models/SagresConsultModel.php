@@ -437,7 +437,7 @@ class SagresConsultModel
         ];
     }
 
-    private function checkStudentEnrollment($student_fk, $year, $infoStudent)
+    private function checkStudentEnrollment($studentfk, $year, $infoStudent)
     {
         // Query to get the modalities
         $sql = "SELECT c.modality, c.complementary_activity, se.classroom_fk, se.school_inep_id_fk
@@ -448,7 +448,7 @@ class SagresConsultModel
         AND c.school_year = :year";
 
         $command = Yii::app()->db->createCommand($sql);
-        $command->bindParam(":student_fk", $student_fk);
+        $command->bindParam(":student_fk", $studentfk);
         $command->bindParam(":year", $year);
         $results = $command->queryAll();
 
@@ -475,13 +475,13 @@ class SagresConsultModel
                 ($modalities[0] === 3 && $modalities[1] === 1) ||
                 ($modalities[0] === 3 && $modalities[1] === 3)
             ) {
-                $studentData = $this->getStudentDataById($student_fk);
+                $studentData = $this->getStudentDataById($studentfk);
 
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = '<strong>ALUNO</strong>';
                 $inconsistencyModel->school = $studentData['name'];
                 $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idStudent = $student_fk;
+                $inconsistencyModel->idStudent = $studentfk;
                 $inconsistencyModel->idClass = $infoStudent['classroom_fk'];
                 $inconsistencyModel->idSchool = $infoStudent['school_inep_id_fk'];
                 $inconsistencyModel->description = 'CPF <strong>' . $studentData['cpf'] . '</strong> do aluno <strong>' . $infoStudent['name'] . '</strong> duplicado';
@@ -499,13 +499,13 @@ class SagresConsultModel
                         ($modalities[0] === 2 && $modalities[1] === 3)
                     )
                 ) {
-                    $studentData = $this->getStudentDataById($student_fk);
+                    $studentData = $this->getStudentDataById($studentfk);
 
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = '<strong>ALUNO</strong>';
                     $inconsistencyModel->school = $studentData['name'];
                     $inconsistencyModel->identifier = '9';
-                    $inconsistencyModel->idStudent = $student_fk;
+                    $inconsistencyModel->idStudent = $studentfk;
                     $inconsistencyModel->idClass = $infoStudent['classroom_fk'];
                     $inconsistencyModel->idSchool = $infoStudent['school_inep_id_fk'];
                     $inconsistencyModel->description = 'CPF <strong>' . $studentData['cpf'] . '</strong> do aluno <strong>' . $infoStudent['name'] . '</strong> duplicado';
@@ -522,14 +522,14 @@ class SagresConsultModel
                 }
             }
 
-            $studentData = $this->getStudentDataById($student_fk);
+            $studentData = $this->getStudentDataById($studentfk);
 
             if ($modalityCount > 1) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = '<strong>ALUNO</strong>';
                 $inconsistencyModel->school = $studentData['name'];
                 $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idStudent = $student_fk;
+                $inconsistencyModel->idStudent = $studentfk;
                 $inconsistencyModel->idClass = $infoStudent['classroom_fk'];
                 $inconsistencyModel->idSchool = $infoStudent['school_inep_id_fk'];
                 $inconsistencyModel->description = 'CPF <strong>' . $studentData['cpf'] . '</strong> do aluno <strong>' . $infoStudent['name'] . '</strong> duplicado';
@@ -567,14 +567,14 @@ class SagresConsultModel
         $inconsistencyModel->save();
     }*/
 
-    private function getStudentInfo($student_fk)
+    private function getStudentInfo($studentfk)
     {
         $sql = "SELECT si.name, sdaa.cpf FROM student_identification si
                 JOIN student_documents_and_address sdaa ON sdaa.id = si.id
                 WHERE si.id = :id";
 
         $command = Yii::app()->db->createCommand($sql);
-        $command->bindValue(":id", $student_fk);
+        $command->bindValue(":id", $studentfk);
         return $command->queryRow();
     }
 
@@ -796,19 +796,20 @@ class SagresConsultModel
                 $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
-            } else {
-                if (!in_array($classType->getTurno(), [1, 2, 3, 4])) {
-                    $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = TURMA_STRONG;
-                    $inconsistencyModel->school = $schoolRes['name'];
-                    $inconsistencyModel->description = 'Valor inválido para o turno da turma: <strong>' . $classType->getDescricao() . '</strong>';
-                    $inconsistencyModel->action = 'Selecione um turno válido para o horário de funcionamento';
-                    $inconsistencyModel->identifier = '10';
-                    $inconsistencyModel->idClass = $classId;
-                    $inconsistencyModel->idSchool = $inepId;
-                    $inconsistencyModel->insert();
-                }
             }
+
+            if ($classType->getTurno() !== 0 && !in_array($classType->getTurno(), [1, 2, 3, 4])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = TURMA_STRONG;
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'Valor inválido para o turno da turma: <strong>' . $classType->getDescricao() . '</strong>';
+                $inconsistencyModel->action = 'Selecione um turno válido para o horário de funcionamento';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
 
             if (!is_bool($classType->getFinalTurma())) {
                 $inconsistencyModel = new ValidationSagresModel();
@@ -1680,7 +1681,7 @@ class SagresConsultModel
             if ($withoutCpf) {
                 if (!empty($cpf)) {
                     $studentType = new AlunoTType();
-                    $birthdate = DateTime::createFromFormat("d/m/Y", $convertedBirthdate);
+                    $birthdate = DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate);
                     $studentType
                         ->setNome($enrollment['name'])
                         ->setDataNascimento($birthdate)
@@ -1789,17 +1790,6 @@ class SagresConsultModel
                         $inconsistencyModel->insert();
                     }
 
-                    if ($studentType->getNome() > $strMaxLength) {
-                        $inconsistencyModel = new ValidationSagresModel();
-                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
-                        $inconsistencyModel->school = $school->name;
-                        $inconsistencyModel->description = 'Nome do estudante com mais de 200 caracteres';
-                        $inconsistencyModel->action = 'Adicione um nome para o estudante com até 200 caracteres';
-                        $inconsistencyModel->identifier = '9';
-                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
-                        $inconsistencyModel->idClass = $classId;
-                        $inconsistencyModel->insert();
-                    }
 
                     if (!is_bool(boolval($studentType->getPcd()))) {
                         $inconsistencyModel = new ValidationSagresModel();
@@ -1910,7 +1900,7 @@ class SagresConsultModel
                 $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
                 $studentType
                     ->setNome($enrollment['name'])
-                    ->setDataNascimento(DateTime::createFromFormat("d/m/Y", $convertedBirthdate))
+                    ->setDataNascimento(DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate))
                     ->setCpfAluno(!empty($cpf) ? $cpf : null)
                     ->setPcd($enrollment['deficiency'])
                     ->setSexo($enrollment['gender']);
@@ -2348,55 +2338,51 @@ class SagresConsultModel
         return $d && $d->format($format) == $dat;
     }
 
-    public function validaCPF($cpf): bool
+    public function validaCPF(string $cpf): bool
     {
-        $cpf = preg_replace('/[^0-9]/is', '', $cpf);
+        // Remove caracteres não numéricos
+        $cpf = preg_replace('/\D/', '', $cpf);
 
-        if (!$this->cpfLength($cpf)) {
+        // Verifica tamanho e repetições
+        if (strlen($cpf) !== 11 || preg_match('/(\d)\1{10}/', $cpf)) {
             return false;
         }
 
-        if (preg_match('/(\d)\1{10}/', $cpf)) {
-            return false;
-        }
-
+        // Calcula e verifica os dígitos verificadores
         for ($t = 9; $t < 11; $t++) {
-            for ($d = 0, $c = 0; $c < $t; $c++) {
-                $d += $cpf[$c] * (($t + 1) - $c);
+            $digit = 0;
+            for ($c = 0; $c < $t; $c++) {
+                $digit += $cpf[$c] * (($t + 1) - $c);
             }
-            $d = ((10 * $d) % 11) % 10;
-            if ($cpf[$c] != $d) {
+            $digit = ((10 * $digit) % 11) % 10;
+
+            // Verifica o dígito atual
+            if ((int) $cpf[$c] !== $digit) {
                 return false;
             }
         }
+
         return true;
     }
 
-    private function dataMax(DateTime $data)
+
+    private function dataMax(DateTime $data): bool
     {
         $dataMaxima = new DateTime("2024-04-30");
 
-        if ($data > $dataMaxima) {
-            return true;
-        } else {
-            return false;
-        }
+        return $data > $dataMaxima;
     }
 
-    private function dataMin(DateTime $data)
+    private function dataMin(DateTime $data): bool
     {
         $dataMinima = new DateTime("1923-01-01");
 
-        if ($data < $dataMinima) {
-            return true;
-        } else {
-            return false;
-        }
+        return $data < $dataMinima;
     }
 
 
-    private function cpfLength($cpf)
+    private function cpfLength($cpf): bool
     {
-        return strlen($cpf) === 11 ? true : false;
+        return strlen($cpf) === 11;
     }
 }
