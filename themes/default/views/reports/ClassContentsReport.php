@@ -129,8 +129,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     echo $html;
     ?>
     <div class="signaturesContainer">
-        <div class="signature">PROFESSOR</div>
-        <div class="signature">COORDENADOR</div>
+        <div class="signature">PROFESSOR(A)</div>
+        <div class="signature">COORDENADOR(A)</div>
     </div>
     <div id="rodape"><?php $this->renderPartial('footer'); ?></div>
 </div>

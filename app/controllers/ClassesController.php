@@ -194,7 +194,7 @@ class ClassesController extends Controller
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join course_plan_discipline_vs_abilities dvsa on dvsa.course_class_fk = cc.id
                         join edcenso_discipline ed on ed.id = dvsa.discipline_fk
-                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
+                        where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk and cp.discipline_fk IS NULL
                         order by ed.name, cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
