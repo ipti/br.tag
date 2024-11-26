@@ -34,7 +34,8 @@ class CalculateFinalMediaUsecase
 
                 if($gradesSemAvarage1 != null) {
                     $grades[] = $gradesSemAvarage1;
-                } elseif($gradesSemAvarage2 != null) {
+                }
+                if($gradesSemAvarage2 != null) {
                     $grades[] = $gradesSemAvarage2;
                 }
 
