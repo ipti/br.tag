@@ -194,36 +194,38 @@ class ClassContents extends CActiveRecord
 
             $courseClasses = [];
             foreach ($schedule->classContents as $classContent) {
+                if(TagUtils::isInstructor() && $classContent->courseClassFk->coursePlanFk->users_fk != Yii::app()->user->loginInfos->id) {
+                    continue;
+                }
+
                 if (!isset($classContents[$schedule->day]["contents"])) {
                     $classContents[$schedule->day]["contents"] = [];
                 }
-                if(TagUtils::isInstructor() && $classContent->courseClassFk->coursePlanFk->users_fk == Yii::app()->user->loginInfos->id) {
-                    $courseClasses["order"] = $classContent->courseClassFk->order;
-                    $courseClasses["name"] = $classContent->courseClassFk->coursePlanFk->name;
-                    $courseClasses["content"] = $classContent->courseClassFk->content;
-                    $courseClasses["abilities"] = [];
+                $courseClasses["order"] = $classContent->courseClassFk->order;
+                $courseClasses["name"] = $classContent->courseClassFk->coursePlanFk->name;
+                $courseClasses["content"] = $classContent->courseClassFk->content;
+                $courseClasses["abilities"] = [];
 
-                    $hasClassAbilities = CourseClassHasClassAbility::model()->findAll(
-                        'course_class_fk = :courseClassId',
-                        array(':courseClassId' => $classContent->courseClassFk->id)
+                $hasClassAbilities = CourseClassHasClassAbility::model()->findAll(
+                    'course_class_fk = :courseClassId',
+                    array(':courseClassId' => $classContent->courseClassFk->id)
+                );
+
+                foreach ($hasClassAbilities as $classAbility) {
+                    $abilityData = CourseClassAbilities::model()->find(
+                        'id = :courseClassAbilityId',
+                        array(':courseClassAbilityId' => $classAbility->course_class_ability_fk)
                     );
 
-                    foreach ($hasClassAbilities as $classAbility) {
-                        $abilityData = CourseClassAbilities::model()->find(
-                            'id = :courseClassAbilityId',
-                            array(':courseClassAbilityId' => $classAbility->course_class_ability_fk)
-                        );
+                    $ability = [];
 
-                        $ability = [];
+                    $ability["code"] = $abilityData->code;
+                    $ability["description"] = $abilityData->description;
 
-                        $ability["code"] = $abilityData->code;
-                        $ability["description"] = $abilityData->description;
-
-                        array_push($courseClasses["abilities"], $ability);
-                    }
-
-                    array_push($classContents[$schedule->day]["contents"], $courseClasses);
+                    array_push($courseClasses["abilities"], $ability);
                 }
+
+                array_push($classContents[$schedule->day]["contents"], $courseClasses);
             }
         }
 

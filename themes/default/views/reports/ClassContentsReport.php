@@ -51,7 +51,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             </tr>
             <tr>
                 <th id="instructor" class="tableHead"><b>Professor: </b><?= $instructorName ?></th>
-                <th id="discipline"><b>Eixo/Disciplina: </b></th>
+                <th id="discipline"><b>Eixo/Disciplina: </b><?= $disciplineName ?></th>
             </tr>
             <tr>
                 <th id="totalClassContents" class="tableHead"><b>Total de aulas ministradas do mês: </b><?= $totalClassContents ?></th>
