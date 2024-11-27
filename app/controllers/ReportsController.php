@@ -483,6 +483,7 @@ class ReportsController extends Controller
         }
 
         $classContents = ClassContents::model()->buildClassContents($schedules, $students);
+        $frequency = $this->getFrequencyPercentage($schedules, $students);
 
         $month = str_pad($month, 2, "0", STR_PAD_LEFT);
 
@@ -494,6 +495,7 @@ class ReportsController extends Controller
             "instructorName" => $instructorName,
             "disciplineName" => $disciplineName,
             "classroomName" => $classroomName,
+            "frequency" => $frequency,
             "month" => $month,
             "year" => $year
         ));
@@ -522,6 +524,25 @@ class ReportsController extends Controller
                 "year" => $year
             ]
         );
+    }
+
+    private function getFrequencyPercentage($schedules, $students) {
+        $frequency = [];
+        foreach ($schedules as $schedule) {
+            foreach ($students as $student) {
+                $studentStatus = StudentEnrollment::model()->findByAttributes(['student_fk' => $student["id"], 'classroom_fk' => $schedule->classroom_fk])->status ?? null;
+                if($studentStatus == 1) {
+                    $frequency[$schedule->day]["totalStudents"] += 1;
+                }
+
+                $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $student["id"]]);
+                if($classFault) {
+                    $frequency[$schedule->day]["totalAbsentStudents"] += 1;
+                }
+            }
+            $frequency[$schedule->day]["attendance"] = 100 - (($frequency[$schedule->day]["totalAbsentStudents"]/$frequency[$schedule->day]["totalStudents"])*100);
+        }
+        return $frequency;
     }
 
     private function translateStageNumbers ($stageNumber) {

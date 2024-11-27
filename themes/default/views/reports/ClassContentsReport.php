@@ -67,7 +67,12 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         $html .= "
         <thead>
             <tr>
-                <th colspan='2' style='padding: 4px 10px'>{$id}/{$month}</th>
+                <th colspan='2' style='padding: 4px 10px;'>
+                    <div class='headContent'>
+                        <div>{$id}/{$month}</div>
+                        <div>Frequência: {$frequency[$id]['attendance']}%</div>
+                    </div>
+                </th>
             </tr>
         </thead>";
         $html .= "<tbody>";
@@ -158,6 +163,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     }
     .tableHead {
         width: 50%;
+    }
+    .headContent {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
     }
     .signaturesContainer {
         display: flex;
