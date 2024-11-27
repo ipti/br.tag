@@ -1,3 +1,6 @@
+## [Versão 3.90.202]
+- Criado o relatório de aulas ministradas
+
 ## [Versão 3.90.201]
 - Adicionado fórmula de cálculo para a média da recuperação final
 
