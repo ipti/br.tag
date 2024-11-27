@@ -502,6 +502,7 @@ function saveUnities(reply) {
                     "val"
                 ),
                 operation: $(".final-recovery-unity-operation").val(),
+                final_recovery_avarage_formula: $("select.js-final-recovery-fomula-select").val()
             },
             finalRecoverMedia: $(".final-recover-media").val(),
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
@@ -775,6 +776,10 @@ function loadStructure() {
                     "val",
                     data.final_recovery.grade_calculation_fk
                 );
+                $("select.js-final-recovery-fomula-select").select2(
+                    "val",
+                    data.final_recovery.final_recovery_avarage_formula
+                )
                 $(".final-recover-media").val(data.finalRecoverMedia);
 
                 if (data.hasFinalRecovery) {
