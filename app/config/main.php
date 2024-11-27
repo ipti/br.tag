@@ -219,9 +219,10 @@ return array(
                     return 1;
                 },
                 'traces_sample_rate' => 1.0,
+                'profiles_sample_rate' => 1.0,
                 'release' => 'tag@' . TAG_VERSION,
                 'environment' => INSTANCE,
-                'before_send' => function (\Sentry\Event $event) {
+                'before_send' => function (\Sentry\Event $event): \Sentry\Event {
                     \Sentry\configureScope(function (\Sentry\State\Scope $scope): void {
                         $scope->setUser([
                             'id' => Yii::app()->user->loginInfos->id,

@@ -723,7 +723,7 @@ class SagresConsultModel
                 ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN));
 
 
-            if (!is_null($classType->getHorario()) && !is_null($classType->getMatricula())) {
+            if ($classType->getHorario() !== null && $classType->getMatricula() !== null) {
                 $classList[] = $classType;
             }
 
@@ -1896,6 +1896,8 @@ class SagresConsultModel
                     $enrollmentList[] = $enrollmentType;
                 }
             } else {
+                \CVarDumper::dump($enrollment, 10, true);
+
                 $studentType = new AlunoTType();
                 $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
                 $studentType
