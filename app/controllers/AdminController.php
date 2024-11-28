@@ -533,7 +533,7 @@ class AdminController extends Controller
     {
         set_time_limit(0);
         ignore_user_abort();
-        $id = Yii::app()->request->getPost("grade_rules_id");
+        $gradeRulesId = Yii::app()->request->getPost("grade_rules_id");
         $reply = Yii::app()->request->getPost("reply");
         $stage = Yii::app()->request->getPost("stage");
         $unities = Yii::app()->request->getPost("unities");
@@ -548,6 +548,7 @@ class AdminController extends Controller
 
         try {
             $usecase = new UpdateGradeStructUsecase(
+                $gradeRulesId,
                 $reply,
                 $stage,
                 $unities,
@@ -559,7 +560,7 @@ class AdminController extends Controller
                 $hasPartialRecovery,
                 $partialRecoveries
             );
-            $usecase->exec();
+           $gradeRules = $usecase->exec();
 
             if ($hasFinalRecovery === true) {
 
@@ -600,12 +601,12 @@ class AdminController extends Controller
             } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete") {
                 $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
                 $recoveryUnity->delete();
-                echo json_encode(["valid" => true]);
+                echo json_encode(["valid" => true, "gradeRules" => $gradeRules->id]);
                 Yii::app()->end();
             }
 
 
-            echo json_encode(["valid" => true]);
+            echo json_encode(["valid" => true, "gradeRules" => $gradeRules->id]);
         } catch (\Throwable $th) {
             Yii::log($th->getMessage(), CLogger::LEVEL_ERROR);
             Yii::log($th->getTraceAsString(), CLogger::LEVEL_ERROR);

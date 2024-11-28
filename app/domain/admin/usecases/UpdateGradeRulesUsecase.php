@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * Caso de uso para atualização dos parametros para calculo de média
  *
+ * @property int $gradeRulesId
  * @property int $stage
  * @property float $approvalMedia
  * @property float $finalRecoverMedia
@@ -16,9 +17,10 @@ declare(strict_types=1);
  */
 class UpdateGradeRulesUsecase
 {
-    public function __construct($stage, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType,
+    public function __construct($gradeRulesId ,$stage, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType,
     $hasPartialRecovery, $partialRecoveries)
     {
+        $this->gradeRulesId = $gradeRulesId;
         $this->stage = $stage;
         $this->approvalMedia = $approvalMedia;
         $this->finalRecoverMedia = $finalRecoverMedia;
@@ -34,7 +36,7 @@ class UpdateGradeRulesUsecase
         /**
          * @var GradeRules $gradeRules
          * */
-        $gradeRules = GradeRules::model()->find("edcenso_stage_vs_modality_fk = :stage", [":stage" => $this->stage]);
+        $gradeRules = GradeRules::model()->findByPk($this->gradeRulesId);
         if ($gradeRules == null) {
             $gradeRules = new GradeRules();
             $gradeRules->edcenso_stage_vs_modality_fk = $this->stage;
@@ -57,7 +59,7 @@ class UpdateGradeRulesUsecase
             $pRecoveryUseCase = new UpdateGradePartialRecoveryUsecase($gradeRules->id, $this->partialRecoveries);
             $pRecoveryUseCase->exec();
         }
-        return $result;
+        return $gradeRules;
     }
 }
 

@@ -3,6 +3,7 @@
 /**
  * Caso de uso para salvavemto da estrutura de notas e avaliação
  *
+ * @property string $gradeRulesId
  * @property string $reply
  * @property string $stage
  * @property [] $unities
@@ -20,9 +21,10 @@ class UpdateGradeStructUsecase
     private const ALL_STAGES = "A";
     private const STAGES_FROM_SAME_MODALITY = "S";
 
-    public function __construct($reply, $stage, $unities, $approvalMedia,
+    public function __construct($gradeRulesId,$reply, $stage, $unities, $approvalMedia,
         $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType, $hasPartialRecovery, $partialRecoveries)
     {
+        $this->gradeRulesId = $gradeRulesId;
         $this->reply = $reply;
         $this->stage = $stage;
         $this->unities = $unities;
@@ -39,6 +41,7 @@ class UpdateGradeStructUsecase
     {
         if ($this->reply === self::JUST_CURRENT_STAGE) {
             $justOneUsecase = new UpdateGradeJustOneStructUsecase(
+                $this->gradeRulesId,
                 $this->stage,
                 $this->unities,
                 $this->approvalMedia,
@@ -49,7 +52,7 @@ class UpdateGradeStructUsecase
                 $this->hasPartialRecovery,
                 $this->partialRecoveries
             );
-            $justOneUsecase->exec();
+            return $justOneUsecase->exec();
         } elseif ($this->reply === self::ALL_STAGES) {
             // A = Toda a Matriz Curricular
             $matrixes = $this->getAllMatrixes();
@@ -65,6 +68,7 @@ class UpdateGradeStructUsecase
     {
         foreach ($stages as $stage) {
             $justOneUsecase = new UpdateGradeJustOneStructUsecase(
+                $this->gradeRulesId,
                 $stage["id"],
                 $unities,
                 $approvalMedia,

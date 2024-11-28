@@ -483,11 +483,14 @@ function saveUnities(reply) {
         });
         return
     }
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
     $.ajax({
         type: "POST",
         url: "?r=admin/saveUnities",
         cache: false,
         data: {
+            grade_rules_id: id,
             stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
             unities: unities,
             approvalMedia: $(".approval-media").val(),
@@ -535,6 +538,9 @@ function saveUnities(reply) {
                     .show();
                 $('.js-alert-save-unities-first').hide();
                 $('.js-alert-save-recovery-first').hide();
+                const url = new URL(window.location);
+                url.searchParams.set('id', data.gradeRules);
+                window.history.pushState({}, '', url);
                 loadStructure();
             }
         },
