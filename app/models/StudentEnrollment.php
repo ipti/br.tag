@@ -668,4 +668,26 @@ class StudentEnrollment extends AltActiveRecord
 
         return $statusList[$status];
     }
+
+    public function getStudentClassAnottations($schedule, $students)
+    {
+        $studentArray = [];
+        foreach ($students as $student) {
+
+            $studentData = [
+                "id" => $student["id"],
+                "name" => $student["name"],
+                "diary" => ""
+            ];
+
+            foreach ($schedule->classDiaries as $classDiary) {
+                if ($classDiary->student_fk == $student["id"]) {
+                    $studentData["diary"] = $classDiary->diary;
+                }
+            }
+            $studentArray[] = $studentData;
+        }
+
+        return $studentArray;
+    }
 }

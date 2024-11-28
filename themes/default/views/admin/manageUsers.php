@@ -57,7 +57,7 @@
                                 array(
                                     'name' => 'active',
                                     'type' => 'raw',
-                                    'value' => '$data->active ? Sim : Não'
+                                    'value' => '$data->active ? "Sim" : "Não"'
                                 ),
                                 array(
                                     'header' => 'Ações',
