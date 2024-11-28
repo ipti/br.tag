@@ -97,6 +97,20 @@
                         ));
                     ?>
                 </div>
+
+                <div class="t-field-select disciplines-field hide">
+                        <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 't-field-select__label'));?>
+                            <select class="select-search-on t-field-select__input" id="discipline"
+                                style="min-width: 185px;">
+                            </select>
+                </div>
+
+                <img
+                class="js-sinstructor-loading"
+                style="display:none;margin: 10px 20px;overflow-y: auto;"
+                height="30px" width="30px"
+                src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
+                alt="TAG Loading">
         </div>
     </div>
 

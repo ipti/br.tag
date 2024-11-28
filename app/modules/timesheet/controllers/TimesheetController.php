@@ -910,7 +910,7 @@ class TimesheetController extends Controller
         $isMulti = TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk);
 
         $schedules = Schedule::model()->findAll(
-            "classroom_fk = :classroom and year = :year and month = :month and unavailable = 0 group by day order by day, schedule",
+            "classroom_fk = :classroom and year = :year and month = :month and unavailable = 0 order by day, schedule",
             array(
                 "classroom" => $classroom->id,
                 "year" => $_POST["year"],
@@ -942,6 +942,25 @@ class TimesheetController extends Controller
 
         echo json_encode(["valid" => true, "response" => $response]);
         Yii::app()->end();
+    }
+
+    private function actionGetDisciplines(){
+        $classroom = Classroom::model()->findByPk(Yii::app()->request->getPost("classroom"));
+        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+        echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $disciplines = Yii::app()->db->createCommand(
+
+            )->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
+            foreach ($disciplines as $discipline) {
+                echo htmlspecialchars(
+                    CHtml::tag('option', array(
+                        'option', array(
+                            'value' => $discipline['id']),
+                            CHtml::encode($disciplinesLabels[$discipline['id']]), true
+                        )));
+            }
+        }
     }
 
     private function generateDate($day, $month, $year, $usecase){

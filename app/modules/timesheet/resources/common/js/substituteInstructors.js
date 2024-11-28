@@ -1,4 +1,5 @@
 $("#classrooms").on("change", function() {
+    loadDisciplinesFromClassroom();
     loadFrequency();
 })
 
@@ -48,9 +49,7 @@ function loadFrequency(){
                         $.each(schedules, function() {
                             dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
                             daynameRow += "<th>" + this.week_day + "</th>";
-                            if(data.isMulti){
-                                scheduleRow += "<th>" + this.schedule + "º Horário</th>";
-                            }
+                            scheduleRow += "<th>" + this.schedule + "º Horário</th>";
                             checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container'><input class='frequency-checkbox-substitute' type='checkbox' " + "classroomId='" + $("#classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "' /></th>";
                         });
                         html += "<tr class='day-row'>" + dayRow + "</tr><tr class='dayname-row'>" + daynameRow + "</tr>" + ("<tr class='schedule-row'>" + scheduleRow + "</tr>");
@@ -73,13 +72,50 @@ function loadFrequency(){
                 }, complete: function (response) {
                     $(".loading-frequency").hide();
                     $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
-                    $("#classroom, #month, #disciplines, #classesSearch").removeAttr("disabled");
+                    $("#classrooms, #month, #disciplines, #instructor").removeAttr("disabled");
                 },
             })
         } else {
             $(".alert-required-fields").show();
             $("#frequency-container, .alert-incomplete-data").hide();
         }
+}
+
+function loadDisciplinesFromClassroom(){
+    const classroom = $('#classrooms').val();
+    if(classroom !== "") {
+        $.ajax({
+            type: "POST",
+            url: "?r=timesheet/timesheet/getDisciplines",
+            cache: false,
+            data: {
+                classroom: classroom,
+            },
+            beforeSend: function () {
+                $(".js-sinstructor-loading").css("display", "inline-block")
+                $('#classrooms').attr("disabled", "disabled");
+                $('#disciplines').attr("disabled", "disabled");
+            },
+            success: function (response) {
+                if (response === "") {
+                    $('#disciplines').html(
+                        "<option value='-1'> Não há matriz curricular</option>"
+                    ).show();
+                    $("#classroom").select2("val", "-1");
+                }
+
+                if (response !== "") {
+                    $("#disciplines").html(decodeHtml(response)).show();
+                    $("#disciplines").select2("val", "-1");
+                }
+            },
+            complete: function() {
+                $(".js-sinstructor-loading").hide();
+                $('#disciplines').removeAttr("disabled");
+                $('#classrooms').removeAttr("disabled");
+            }
+        })
+    }
 }
 
 $(document).on("change", ".frequency-checkbox-substitute", function () {
@@ -109,16 +145,15 @@ $(document).on("change", ".frequency-checkbox-substitute", function () {
         beforeSend: function () {
             $(".loading-frequency")
             $(".table-frequency")
-            $("#classroom, #month, #disciplines, #classesSearch").attr("disabled", "disabled")
+            $("#classrooms, #month, #disciplines, #instructor").attr("disabled", "disabled")
         },
         complete: function (response) {
             if ($(checkbox).attr("instructorId") === undefined) {
                 $(".table-frequency tbody .frequency-checkbox-substitute[day=" + $(checkbox).attr("day") + "][schedule=" + $(checkbox).attr("schedule") + "]").prop("checked", $(checkbox).is(":checked"));
             }
-
             $(".loading-frequency").hide();
             $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
-            $("#classroom, #month, #disciplinas, #classesSearch").removeAttr("disabled");
+            $("#classrooms, #month, #disciplinas, #instructor").removeAttr("disabled");
         },
     });
 });
