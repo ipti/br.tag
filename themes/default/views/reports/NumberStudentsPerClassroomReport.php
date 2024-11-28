@@ -31,7 +31,11 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         . "<td>" . $r["id"] . "</td>"
                         . "<td>" . $r["name"] . "</td>"
                         . "<td>" . $r["time"] . "</td>"
-                        . "<td>" . $r["assistance_type"] . "</td>"
+                        . "<td>"
+                            . ($r["schooling"] !== null && $r["schooling"] != 0 ? "Escolarização<br>" : "")
+                            . ($r["complementary_activity"] !== null && $r["complementary_activity"] != 0 ? "Atividade Complementar<br>" : "")
+                            . ($r["aee"] !== null && $r["aee"] != 0 ? "Atendimento Educacional Especializado (AEE)<br>" : "")
+                        . "</td>"
                         . "<td>" . $r["modality"] . "</td>"
                         . "<td>" . $r["stage"] . "</td>"
                         . "<td>" . $r["students"] . "</td>"
