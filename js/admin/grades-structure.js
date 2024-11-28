@@ -393,8 +393,10 @@ function initRuleType(ruleType) {
     } else if (ruleType === "N") {
         $(".numeric-fields").show();
         $(".js-has-final-recovery").trigger("change");
-        $("select.js-type-select").html(` <option value='U'>Unidade</option>
-        <option value='UR'>Unidade com recuperação</option>`);
+        if($("select.js-type-select option[value='UC']").length>0){
+            $("select.js-type-select").html(` <option value='U'>Unidade</option>
+                <option value='UR'>Unidade com recuperação</option>`);
+        }
         $(".js-calculation").show();
         $(".js-mester-container").show();
         $(".js-new-modality").show();
@@ -806,14 +808,14 @@ function loadStructure() {
                         unity
                             .find("select.js-semester")
                             .val(this.semester)
-                            .trigger("change")
-                        unity
-                            .find("select.js-type-select")
-                            .val(this.type)
                             .trigger("change");
                         unity
                             .find("select.js-formula-select")
                             .val(this.grade_calculation_fk)
+                            .trigger("change");
+                        unity
+                            .find("select.js-type-select")
+                            .val(this.type)
                             .trigger("change");
 
                         unity.find(".modality").remove();
@@ -822,6 +824,10 @@ function loadStructure() {
                             let modality = unity.find(".modality").last();
                             modality.find(".modality-id").val(this.id);
                             modality.find(".modality-name").val(this.name);
+                            modality.find(".modality-name").attr("modalitytype", this.type);
+                            if(this.type == 'R') {
+                                modality.find('.remove-button').remove()
+                            }
                             modality.find(".modality-operation").val("update");
                             modality.find(".weight").val(this.weight);
                         });
