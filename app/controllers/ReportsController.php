@@ -413,7 +413,7 @@ class ReportsController extends Controller
         $schools = [];
         foreach ($classrooms as $classroom) {
             //Coloca em um array o nome de todas as escolas que já não estão no mesmo (através da lista de classes)
-            if (!in_array($schools, $classroom->schoolInepFk->name)) {
+            if (!in_array($classroom->schoolInepFk->name, $schools )) {
                 array_push($schools, $classroom->schoolInepFk->name);
             }
             //Coloca em um array todos o stage number e nome dos estágios que
@@ -456,6 +456,95 @@ class ReportsController extends Controller
         ));
     }
 
+    public function actionClassContentsReport($classroomId, $month, $year, $disciplineId) {
+        $classroom  = Classroom::model()->findByPk($classroomId);
+        $classroomName = $classroom->name;
+        $disciplineId = $disciplineId === "null" ? null : $disciplineId;
+        $disciplineName = EdcensoDiscipline::model()->findByAttributes(['id' => $disciplineId])->name ?? null;
+        if (TagUtils::isInstructor()) {
+            $instructorName = InstructorIdentification::model()->findByAttributes(['users_fk' => Yii::app()->user->loginInfos->id])->name ?? null;
+        }
+        $students = Yii::app()->db->createCommand(
+            "select si.id, si.name from student_enrollment se join student_identification si on si.id = se.student_fk
+            where classroom_fk = :classroom_fk
+            order by si.name"
+        )
+        ->bindParam(":classroom_fk", $classroomId)
+        ->queryAll();
+        $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Classroom::model()->checkIsStageMinorEducation($classroom);
+        $totalClasses = ClassContents::model()->getTotalClassesByMonth($classroomId, $month, $year, $disciplineId);
+        $totalClassContents = ClassContents::model()->getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId);
+
+        if (!$isMinorEducation) {
+            $schedules = $this->getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId);
+
+        } else {
+            $schedules = $this->getSchedulesFromMinorStage($classroomId, $month, $year);
+        }
+
+        $classContents = ClassContents::model()->buildClassContents($schedules, $students);
+        $frequency = $this->getFrequencyPercentage($schedules, $students);
+
+        $month = str_pad($month, 2, "0", STR_PAD_LEFT);
+
+        $this->layout = "reportsclean";
+        $this->render('ClassContentsReport', array(
+            'classContents' => $classContents,
+            "totalClasses" => $totalClasses,
+            "totalClassContents" => $totalClassContents,
+            "instructorName" => $instructorName,
+            "disciplineName" => $disciplineName,
+            "classroomName" => $classroomName,
+            "frequency" => $frequency,
+            "month" => $month,
+            "year" => $year
+        ));
+    }
+
+    private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
+    {
+        return Schedule::model()->findAll(
+            "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
+            [
+                "classroom_fk" => $classroomId,
+                "month" => $month,
+                "year" => $year,
+                "discipline_fk" => $disciplineId
+            ]
+        );
+    }
+
+    private function getSchedulesFromMinorStage($classroomId, $month, $year)
+    {
+        return Schedule::model()->findAll(
+            "classroom_fk = :classroom_fk and month = :month and year = :year and unavailable = 0 group by day order by day, schedule",
+            [
+                "classroom_fk" => $classroomId,
+                "month" => $month,
+                "year" => $year
+            ]
+        );
+    }
+
+    private function getFrequencyPercentage($schedules, $students) {
+        $frequency = [];
+        foreach ($schedules as $schedule) {
+            foreach ($students as $student) {
+                $studentStatus = StudentEnrollment::model()->findByAttributes(['student_fk' => $student["id"], 'classroom_fk' => $schedule->classroom_fk])->status ?? null;
+                if($studentStatus == 1) {
+                    $frequency[$schedule->day]["totalStudents"] += 1;
+                }
+
+                $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $student["id"]]);
+                if($classFault) {
+                    $frequency[$schedule->day]["totalAbsentStudents"] += 1;
+                }
+            }
+            $frequency[$schedule->day]["attendance"] = 100 - (($frequency[$schedule->day]["totalAbsentStudents"]/$frequency[$schedule->day]["totalStudents"])*100);
+        }
+        return $frequency;
+    }
+
     private function translateStageNumbers ($stageNumber) {
         switch($stageNumber) {
             case "1" :
@@ -463,14 +552,17 @@ class ReportsController extends Controller
             case "2":
                 return "Ensino Fundamental Menor";
             case "3":
-            case "7":
                 return "Ensino Fundamental Maior";
             case "4":
                 return "Ensino Médio";
+            case "5":
+                return "Curso Técnico";
             case "6":
                 return "EJA";
+            case "7":
+                return "Multisseriada";
             default:
-                return "Resto";
+                return "Outro";
         }
     }
 
