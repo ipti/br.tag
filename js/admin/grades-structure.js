@@ -1,3 +1,9 @@
+$(function() {
+
+    loadStructure();
+});
+
+
 function hasUnitiesSaved() {
     if ($("input[type='hidden'].unity-id[value]").length > 0) {
         $(".js-new-partial-recovery").removeClass("disabled");
@@ -5,14 +11,6 @@ function hasUnitiesSaved() {
     }
     $(".js-new-partial-recovery").addClass("disabled");
 }
-$(document).on(
-    "change",
-    "#GradeUnity_edcenso_stage_vs_modality_fk",
-    function () {
-        $(".alert-required-fields, .alert-media-fields").hide();
-        loadStructure();
-    }
-);
 
 $(document).on("keyup", ".unity-name", function (e) {
     const unity = $(this).closest(".unity");
@@ -485,11 +483,14 @@ function saveUnities(reply) {
         });
         return
     }
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
     $.ajax({
         type: "POST",
         url: "?r=admin/saveUnities",
         cache: false,
         data: {
+            grade_rules_id: id,
             stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
             unities: unities,
             approvalMedia: $(".approval-media").val(),
@@ -537,6 +538,9 @@ function saveUnities(reply) {
                     .show();
                 $('.js-alert-save-unities-first').hide();
                 $('.js-alert-save-recovery-first').hide();
+                const url = new URL(window.location);
+                url.searchParams.set('id', data.gradeRules);
+                window.history.pushState({}, '', url);
                 loadStructure();
             }
         },
@@ -732,13 +736,15 @@ function partialRecoveryValid() {
 }
 
 function loadStructure() {
-    if ($("#GradeUnity_edcenso_stage_vs_modality_fk").val() !== "") {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
         $.ajax({
             type: "POST",
             url: "?r=admin/getUnities",
             cache: false,
             data: {
-                stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
+                grade_rules_id: id,
             },
             beforeSend: function (e) {
                 $(".js-grades-structure-loading").css(
@@ -775,6 +781,7 @@ function loadStructure() {
                     "val",
                     data.final_recovery.grade_calculation_fk
                 );
+                $(".js-stage-select").select2("val",data.edcenso_stage_vs_modality_fk);
                 $(".final-recover-media").val(data.finalRecoverMedia);
 
                 if (data.hasFinalRecovery) {
@@ -868,11 +875,11 @@ function loadStructure() {
                 hasUnitiesSaved();
             },
         });
-    } else {
+    /*  else {
         $(
             ".js-grades-structure-container, .grades-buttons,  .js-grades-rules-container"
         ).hide();
-    }
+    } */
     $("#accordion").accordion();
 }
 

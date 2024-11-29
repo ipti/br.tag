@@ -10,8 +10,15 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Estrutura de Unidades');
 <div class="main">
 
     <div class="row-fluid">
-        <div class="span12" style="margin-left: 20px;">
+        <div class="span12">
             <h1><?php echo Yii::t('default', 'Estruturas'); ?></h1>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="t-buttons-container">
+                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl("admin/gradesStructure") ?>" class="t-button-primary  "> Adicionar Estrutura</a>
+            </div>
         </div>
     </div>
     <div class="tag-inner">

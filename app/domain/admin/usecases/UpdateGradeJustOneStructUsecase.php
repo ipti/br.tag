@@ -4,6 +4,7 @@
 /**
  * Caso de uso para salvavemto da estrutura de notas e avaliação
  *
+ * @property string $gradeRulesId
  * @property string $reply
  * @property string $stage
  * @property [] $unities
@@ -21,9 +22,10 @@ class UpdateGradeJustOneStructUsecase
     private const OP_UPDATE = "update";
     private const OP_REMOVE = "remove";
 
-    public function __construct($stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $ruleType,
+    public function __construct($gradeRulesId, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $ruleType,
     $hasPartialRecovery, $partialRecoveries)
     {
+        $this->gradeRulesId = $gradeRulesId;
         $this->stage = $stage;
         $this->unities = $unities;
         $this->approvalMedia = $approvalMedia;
@@ -37,12 +39,10 @@ class UpdateGradeJustOneStructUsecase
 
     public function exec()
     {
-        $this->buildUnities(
-            $this->stage,
-            $this->unities
-        );
+
 
         $rulesUseCase = new UpdateGradeRulesUsecase(
+            $this->gradeRulesId,
             $this->stage,
             $this->approvalMedia,
             $this->finalRecoverMedia,
@@ -52,7 +52,15 @@ class UpdateGradeJustOneStructUsecase
             $this->hasPartialRecovery,
             $this->partialRecoveries
         );
-        $rulesUseCase->exec();
+        $gradeRules = $rulesUseCase->exec();
+        $this->gradeRulesId = $gradeRules->id;
+
+        $this->buildUnities(
+            $this->stage,
+            $this->unities
+        );
+
+        return $gradeRules;
 
     }
 
@@ -72,6 +80,7 @@ class UpdateGradeJustOneStructUsecase
                 $unityModel->semester = $unity["semester"];
                 $unityModel->type = $unity["type"];
                 $unityModel->grade_calculation_fk = $unity["formula"];
+                $unityModel->grade_rules_fk = $this->gradeRulesId;
 
                 if (!$unityModel->validate()) {
                     throw new CantSaveGradeUnityException($unityModel);

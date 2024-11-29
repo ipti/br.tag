@@ -416,22 +416,21 @@ class AdminController extends Controller
 
     public function actionGetUnities()
     {
-        $stage = Yii::app()->request->getPost("stage");
+        $grade_rules_id = Yii::app()->request->getPost("grade_rules_id");
 
         $result = [];
         $result["unities"] = [];
 
         $criteria = new CDbCriteria();
         $criteria->alias = "gu";
-        $criteria->condition = "edcenso_stage_vs_modality_fk = :stage";
+        $criteria->condition = "grade_rules_fk = :grade_rules_fk";
         $criteria->addInCondition("gu.type", [GradeUnity::TYPE_UNITY, GradeUnity::TYPE_UNITY_BY_CONCEPT, GradeUnity::TYPE_UNITY_WITH_RECOVERY]);
-        $criteria->params = array_merge([":stage" => $stage], $criteria->params);
+        $criteria->params = array_merge([":grade_rules_fk" => $grade_rules_id], $criteria->params);
         $criteria->order = "gu.id";
 
         $gradeUnities = GradeUnity::model()
             ->with("gradeUnityModalities")
             ->findAll($criteria);
-
 
         foreach ($gradeUnities as $gradeUnity) {
             $arr = $gradeUnity->attributes;
@@ -442,8 +441,8 @@ class AdminController extends Controller
             array_push($result["unities"], $arr);
         }
 
-        $criteria->condition = "edcenso_stage_vs_modality_fk = :stage and gu.type = :type";
-        $criteria->params = [":stage" => $stage, ":type" => GradeUnity::TYPE_FINAL_RECOVERY];
+        $criteria->condition = "grade_rules_fk = :grade_rules_fk and gu.type = :type";
+        $criteria->params = [":grade_rules_fk" => $grade_rules_id, ":type" => GradeUnity::TYPE_FINAL_RECOVERY];
 
         $finalRecovery = GradeUnity::model()
             ->with("gradeUnityModalities")
@@ -455,11 +454,11 @@ class AdminController extends Controller
         }
 
         $gradeRules = GradeRules::model()
-            ->find(
-                "edcenso_stage_vs_modality_fk = :stage",
-                [":stage" => $stage]
+            ->findByPk(
+                $grade_rules_id
             );
 
+        $result["edcenso_stage_vs_modality_fk"] = $gradeRules->edcenso_stage_vs_modality_fk;
         $result["approvalMedia"] = $gradeRules->approvation_media;
         $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
         $result["mediaCalculation"] = $gradeRules->grade_calculation_fk;
@@ -534,7 +533,7 @@ class AdminController extends Controller
     {
         set_time_limit(0);
         ignore_user_abort();
-
+        $gradeRulesId = Yii::app()->request->getPost("grade_rules_id");
         $reply = Yii::app()->request->getPost("reply");
         $stage = Yii::app()->request->getPost("stage");
         $unities = Yii::app()->request->getPost("unities");
@@ -549,6 +548,7 @@ class AdminController extends Controller
 
         try {
             $usecase = new UpdateGradeStructUsecase(
+                $gradeRulesId,
                 $reply,
                 $stage,
                 $unities,
@@ -560,7 +560,7 @@ class AdminController extends Controller
                 $hasPartialRecovery,
                 $partialRecoveries
             );
-            $usecase->exec();
+           $gradeRules = $usecase->exec();
 
             if ($hasFinalRecovery === true) {
 
@@ -601,12 +601,12 @@ class AdminController extends Controller
             } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete") {
                 $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
                 $recoveryUnity->delete();
-                echo json_encode(["valid" => true]);
+                echo json_encode(["valid" => true, "gradeRules" => $gradeRules->id]);
                 Yii::app()->end();
             }
 
 
-            echo json_encode(["valid" => true]);
+            echo json_encode(["valid" => true, "gradeRules" => $gradeRules->id]);
         } catch (\Throwable $th) {
             Yii::log($th->getMessage(), CLogger::LEVEL_ERROR);
             Yii::log($th->getTraceAsString(), CLogger::LEVEL_ERROR);

@@ -30,6 +30,25 @@ $(document).ready(function() {
     }
 });
 
+$(function (){
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    $.ajax({
+        type:'POST',
+        url: '?r=classroom/getGradesRulesClassroom',
+        data: {
+            classroom_id: id
+        },
+    }).success((response) => {
+        if(response.valid==true){
+            let options = "";
+            $.each(response["gradeRules"], function () {
+                options += '<option value="' + this.id + '" '+ this.name + '</option>';
+            });
+            $("#gradeRules").html(options);
+        }
+    });
+})
 //Ao clicar ENTER no formulário adicionar aula
 $('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypress(function(e) {
     if (e.keyCode === $.ui.keyCode.ENTER) {

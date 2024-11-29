@@ -220,6 +220,18 @@ $form = $this->beginWidget(
                                 </select>
                             </div>
 
+                            <!-- Estrutura de Avaliação -->
+                            <div class="t-field-select">
+                                    <label class="t-field-select__label--required">
+                                     Estrutura de Avaliação
+                                    </label>
+                                    <?php echo CHtml::dropDownList('gradeRules', '',  [],
+                                        array('multiple' => 'multiple',
+                                        'class' => 'select-search-on t-multiselect multiselect',
+                                        'id' => 'gradeRules', 'style' => 'width: 100%;')); ?>
+
+                            </div>
+
                             <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                 <!-- Unidade Escolar -->
                                 <div class="t-field-select" id="sedsp_school_unity_fk">

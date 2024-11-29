@@ -51,7 +51,7 @@ class ClassroomController extends Controller
                     'batchupdatenrollment', 'getcomplementaryactivitytype', 'delete', 'updateDailyOrder',
                     'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'updateDisciplines',
                     'changeenrollments', 'batchupdatetransport', 'updateDisciplinesAndCalendars',
-                    'syncToSedsp', 'syncUnsyncedStudents', 'getCalendars'
+                    'syncToSedsp', 'syncUnsyncedStudents', 'getCalendars', 'GetGradesRulesClassroom'
                 ),
                 'users' => array('@'),
             ),
@@ -80,6 +80,29 @@ class ClassroomController extends Controller
         if (isset($isSchooling) && $isSchooling) {
             return 0;
         }
+    }
+    public function actionGetGradesRulesClassroom()
+    {
+        $classroomId = Yii::app()->request->getPost("classroom_id");
+
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'cvgr';
+        $criteria->join = "
+            JOIN classroom c ON c.id = cvgr.classroom_fk
+        ";
+        $criteria->condition = 'c.id = :classroomId';
+        $criteria->params = [':classroomId' => $classroomId];
+        $criteria->select = 'cvgr.id';
+
+        $ClassroomVsGradeRules = ClassroomVsGradeRules::model()->findAll($criteria);
+        $result = array();
+        foreach($ClassroomVsGradeRules as $cvgr) {
+            $result[$cvgr->id] = $cvgr->gradeRulesFk->name;
+        }
+        echo CJSON::encode([
+            "valid" => true,
+            "gradeRules" => $result
+        ]);
     }
 
     public function actionGetAssistanceType()
