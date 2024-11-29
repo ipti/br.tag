@@ -266,7 +266,11 @@ class GradesController extends Controller
                 $givenClasses += (int) $std['grades'][$key]['givenClasses'];
             }
 
-            $frequency = (($givenClasses - $totalFaults) / $givenClasses) * 100;
+            if($givenClasses != 0) {
+                $frequency = (($givenClasses - $totalFaults) / $givenClasses) * 100;
+            } else {
+                $frequency = null;
+            }
 
 
             if (!$gradeResult->validate()) {
@@ -566,9 +570,14 @@ class GradesController extends Controller
 
         Yii::import("application.domain.grades.usecases.GetStudentGradesByDisciplineUsecase");
 
-        $classroomId = Yii::app()->request->getPost("classroom");
-        $disciplineId = Yii::app()->request->getPost("discipline");
-        $unityId = Yii::app()->request->getPost("unity");
+        $classroomId = (int) Yii::app()->request->getPost("classroom");
+        $disciplineId = (int) Yii::app()->request->getPost("discipline");
+        $unityId = (int) Yii::app()->request->getPost("unity");
+
+
+        if (!isset($classroomId) || !isset($disciplineId) || !isset($unityId)) {
+            throw new CHttpException(400, "Requisição mal formada, faltam dados");
+        }
 
 
         if (!isset($classroomId) || !isset($disciplineId) || !isset($unityId)) {
@@ -585,6 +594,7 @@ class GradesController extends Controller
     {
         $transaction = Yii::app()->db->beginTransaction();
         try {
+
             $classroomId = Yii::app()->request->getPost("classroom");
             $disciplineId = Yii::app()->request->getPost("discipline");
 
@@ -593,6 +603,7 @@ class GradesController extends Controller
             $gradeRules = GradeRules::model()->findByAttributes([
                 "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
             ]);
+
             TLog::info("Começado processo de calcular média final.", ["Classroom" => $classroom->id, "GradeRules" => $gradeRules->id]);
 
             foreach ($classroom->activeStudentEnrollments as $enrollment) {
@@ -605,7 +616,6 @@ class GradesController extends Controller
                 $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
                 (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
                 (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities))->exec();
-
             }
             $transaction->commit();
         } catch (Exception $e) {

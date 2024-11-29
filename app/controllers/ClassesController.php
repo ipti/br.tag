@@ -142,7 +142,7 @@ class ClassesController extends Controller
     public function actionGetClassContents()
     {
         $classroomId = Yii::app()->request->getPost('classroom');
-        $classroom  = Classroom::model()->findByPk($classroomId);
+        $classroom = Classroom::model()->findByPk($classroomId);
         $month = Yii::app()->request->getPost('month');
         $year = Yii::app()->request->getPost('year');
         $disciplineId = Yii::app()->request->getPost('discipline');
@@ -172,7 +172,7 @@ class ClassesController extends Controller
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
-                        ->bindParam(":discipline_fk", $_POST["discipline"])
+                        ->bindParam(":discipline_fk", $disciplineId)
                         ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
                         ->queryAll();
                 } else {
@@ -215,7 +215,7 @@ class ClassesController extends Controller
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
-                        ->bindParam(":discipline_fk", $_POST["discipline"])
+                        ->bindParam(":discipline_fk", $disciplineId)
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
@@ -257,8 +257,9 @@ class ClassesController extends Controller
         }
     }
 
-    private function getTotalClassesByMonth($classroomId, $month, $year, $disciplineId) {
-        if(!$disciplineId) {
+    private function getTotalClassesByMonth($classroomId, $month, $year, $disciplineId)
+    {
+        if (!$disciplineId) {
             return Yii::app()->db->createCommand(
                 "select count(*) from schedule sc
                 where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
@@ -281,8 +282,9 @@ class ClassesController extends Controller
             ->queryScalar();
     }
 
-    private function getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId) {
-        if(!$disciplineId) {
+    private function getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId)
+    {
+        if (!$disciplineId) {
             return Yii::app()->db->createCommand(
                 "select count(*) from class_contents cc
                 join schedule sc on sc.id = cc.schedule_fk
@@ -354,8 +356,8 @@ class ClassesController extends Controller
             where classroom_fk = :classroom_fk
             order by si.name"
         )
-        ->bindParam(":classroom_fk", $classroomId)
-        ->queryAll();
+            ->bindParam(":classroom_fk", $classroomId)
+            ->queryAll();
     }
 
     /**
@@ -366,25 +368,41 @@ class ClassesController extends Controller
      */
     private function buildClassContents($schedules, $students)
     {
-        $classContents = [];
+        $classContentsResult = [];
         foreach ($schedules as $schedule) {
             $scheduleDate = date("Y-m-d", mktime(0, 0, 0, $schedule->month, $schedule->day, $schedule->year));
-            $classContents[$schedule->day]["available"] = date("Y-m-d") >= $scheduleDate;
-            $classContents[$schedule->day]["diary"] = $schedule->diary !== null ? $schedule->diary : "";
-            $classContents[$schedule->day]["students"] = [];
+            $dayKey = $schedule->day;
 
+            // Inicializa os valores principais do dia
+            $classContentsResult[$dayKey] = [
+                "available" => date("Y-m-d") >= $scheduleDate,
+                "diary" => $schedule->diary !== null ? $schedule->diary : "",
+                "students" => [],
+            ];
+
+            // Atualiza as anotações dos alunos
             $studentArray = $this->updateStudentAnottations($schedule, $students);
-            array_push($classContents[$schedule->day]["students"], $studentArray);
+            $classContentsResult[$dayKey]["students"][] = $studentArray;
 
-            foreach ($schedule->classContents as $classContent) {
-                if (!isset($classContents[$schedule->day]["contents"])) {
-                    $classContents[$schedule->day]["contents"] = [];
-                }
-                array_push($classContents[$schedule->day]["contents"], $classContent->courseClassFk->id);
+            // Consulta para os conteúdos da classe
+            $classContents = ClassContents::model()->findAll(
+                "year = :year AND month = :month AND day = :day AND discipline_fk = :discipline_fk AND classroom_fk = :classroom_fk",
+                [
+                    ":year" => $schedule->year,
+                    ":month" => $schedule->month,
+                    ":day" => $schedule->day,
+                    ":discipline_fk" => $schedule->discipline_fk,
+                    ":classroom_fk" => $schedule->classroom_fk,
+                ]
+            );
+
+            // Adiciona os conteúdos da classe ao array de resultados
+            foreach ($classContents as $classContent) {
+                $classContentsResult[$dayKey]["contents"][] = $classContent->courseClassFk->id;
             }
         }
 
-        return $classContents;
+        return $classContentsResult;
     }
 
     private function updateStudentAnottations($schedule, $students)
@@ -475,7 +493,7 @@ class ClassesController extends Controller
             $this->saveClassDiary($student, $schedule);
         }
 
-        $contentsToExclude = array_column( ClassContents::model()->with("courseClassFk.coursePlanFk")->findAll(
+        $contentsToExclude = array_column(ClassContents::model()->with("courseClassFk.coursePlanFk")->findAll(
             'schedule_fk = :schedule_fk and coursePlanFk.users_fk = :user_fk',
             [
                 'schedule_fk' => $schedule->id,
@@ -483,8 +501,8 @@ class ClassesController extends Controller
             ]
         ), 'id');
 
-        if(!empty($contentsToExclude)){
-            ClassContents::model()->deleteAll("id IN (".implode(", ",$contentsToExclude).")");
+        if (!empty($contentsToExclude)) {
+            ClassContents::model()->deleteAll("id IN (" . implode(", ", $contentsToExclude) . ")");
         }
 
 
@@ -496,7 +514,7 @@ class ClassesController extends Controller
                     'course_class_fk' => $content
                 ]
             );
-            if(empty($existingContent)){
+            if (empty($existingContent)) {
                 $this->saveClassContents($content, $schedule);
             }
         }
@@ -638,7 +656,7 @@ class ClassesController extends Controller
                     }
                     array_push($students, $array);
                 }
-                echo json_encode(["valid" => true, "students" => $students, "scheduleDays"=>$scheduleDays, "schedulePerDays"=>$schedulePerDays, "isMinor"=> $isMinor]);
+                echo json_encode(["valid" => true, "students" => $students, "scheduleDays" => $scheduleDays, "schedulePerDays" => $schedulePerDays, "isMinor" => $isMinor]);
 
             } else {
                 echo json_encode(["valid" => false, "error" => "Matricule alunos nesta turma para trazer o Quadro de Frequência."]);
@@ -672,8 +690,9 @@ class ClassesController extends Controller
             $this->saveFrequency($schedule);
         }
     }
-    private function gerateDate($day, $month, $year, $usecase){
-        switch($usecase){
+    private function gerateDate($day, $month, $year, $usecase)
+    {
+        switch ($usecase) {
             case 0:
                 $day = ($day < 10) ? '0' . $day : $day;
                 $month = ($month < 10) ? '0' . $month : $month;
@@ -686,7 +705,8 @@ class ClassesController extends Controller
                 break;
         }
     }
-    private function getSchedulePerDays($schedules) {
+    private function getSchedulePerDays($schedules)
+    {
         $result = [];
         foreach ($schedules as $schedule) {
             $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
@@ -697,7 +717,7 @@ class ClassesController extends Controller
                     "date" => $date
                 ]);
             } else {
-                array_push($result[$index]["schedulePerDays"],  $schedule->schedule);
+                array_push($result[$index]["schedulePerDays"], $schedule->schedule);
             }
         }
         return $result;
@@ -869,24 +889,27 @@ class ClassesController extends Controller
         $result["isMinor"] = $isMinor;
         echo json_encode($result);
     }
-        private function checkIsStageMinorEducation($classroom) {
-            $isMinor = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+    private function checkIsStageMinorEducation($classroom)
+    {
+        $isMinor = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
-            if (!$isMinor && TagUtils::isMultiStage($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
-                $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
+        if (!$isMinor && TagUtils::isMultiStage($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
+            $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
 
-                foreach ($enrollments as $enrollment) {
-                    if (!$enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id ||
-                        !TagUtils::isStageMinorEducation($enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
-                        return false;
-                    }
+            foreach ($enrollments as $enrollment) {
+                if (
+                    !$enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id ||
+                    !TagUtils::isStageMinorEducation($enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id)
+                ) {
+                    return false;
                 }
-
-                $isMinor = true;
             }
 
-            return $isMinor;
+            $isMinor = true;
         }
+
+        return $isMinor;
+    }
 
     /**
      * Get all disciplines by classroom

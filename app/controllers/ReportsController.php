@@ -413,8 +413,8 @@ class ReportsController extends Controller
         $schools = [];
         foreach ($classrooms as $classroom) {
             //Coloca em um array o nome de todas as escolas que já não estão no mesmo (através da lista de classes)
-            if (!in_array($classroom->schoolInepFk->name, $schools )) {
-                array_push($schools, $classroom->schoolInepFk->name);
+            if (!in_array($classroom->schoolInepFk->name, $schools)) {
+                $schools[] = $classroom->schoolInepFk->name;
             }
             //Coloca em um array todos o stage number e nome dos estágios que
             // já não estão no mesmo (através da lista de classes)

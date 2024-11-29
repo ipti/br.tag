@@ -594,7 +594,7 @@ class AdminController extends Controller
 
             } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete") {
                 $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
-                $recoveryUnity->delete();
+                $recoveryUnity?->delete();
                 echo json_encode(["valid" => true]);
                 Yii::app()->end();
             }
