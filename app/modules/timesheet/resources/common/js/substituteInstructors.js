@@ -92,25 +92,36 @@ function loadDisciplinesFromClassroom(){
                 classroom: classroom,
             },
             beforeSend: function () {
-                $(".js-sinstructor-loading").css("display", "inline-block")
+                $(".js-loading-div").css("display", "inline-block")
                 $('#classrooms').attr("disabled", "disabled");
                 $('#disciplines').attr("disabled", "disabled");
             },
             success: function (response) {
-                if (response === "") {
+
+                disciplines = response.disciplines;
+
+                if (response.isMinor == false) {
+                    $('.disciplines-field').removeClass('hide');
+                }
+
+                if(response.isMinor) {
+                    $('.disciplines-field').addClass('hide');
+                }
+
+                if (disciplines === "") {
                     $('#disciplines').html(
                         "<option value='-1'> Não há matriz curricular</option>"
                     ).show();
                     $("#classroom").select2("val", "-1");
                 }
 
-                if (response !== "") {
-                    $("#disciplines").html(decodeHtml(response)).show();
+                if (disciplines !== "") {
+                    $("#disciplines").html(decodeHtml(disciplines)).show();
                     $("#disciplines").select2("val", "-1");
                 }
             },
             complete: function() {
-                $(".js-sinstructor-loading").hide();
+                $(".js-loading-div").hide();
                 $('#disciplines').removeAttr("disabled");
                 $('#classrooms').removeAttr("disabled");
             }

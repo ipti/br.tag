@@ -805,7 +805,7 @@ class ClassesController extends Controller
         $result["isMinor"] = $isMinor;
         echo json_encode($result);
     }
-        private function checkIsStageMinorEducation($classroom) {
+        public static function checkIsStageMinorEducation($classroom) {
             $isMinor = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
             if (!$isMinor && TagUtils::isMultiStage($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {

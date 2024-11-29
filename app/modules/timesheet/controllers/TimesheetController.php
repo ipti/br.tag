@@ -30,6 +30,7 @@ class TimesheetController extends Controller
                     'index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability',
                     'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor", "changeUnavailableSchedule",
                     "addSubstituteInstructorDay", "saveSubstituteInstructorDay", "deleteSubstituteInstructorDay",
+                    "getDisciplines",
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -909,14 +910,30 @@ class TimesheetController extends Controller
 
         $isMulti = TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk);
 
-        $schedules = Schedule::model()->findAll(
-            "classroom_fk = :classroom and year = :year and month = :month and unavailable = 0 order by day, schedule",
-            array(
-                "classroom" => $classroom->id,
-                "year" => $_POST["year"],
-                "month" => $_POST["month"]
-            )
-        );
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
+
+        if ($isMinor == false) {
+            $schedules = Schedule::model()->findAll(
+                "classroom_fk = :classroom and year = :year and discipline_fk = :discipline_fk and month = :month and unavailable = 0 order by day, schedule",
+                array(
+                    "classroom" => $classroom->id,
+                    "year" => Yii::app()->request->getPost("year"),
+                    "month" => Yii::app()->request->getPost("month"),
+                    "discipline_fk" => Yii::app()->request->getPost("discipline")
+                )
+            );
+        }
+
+        if ($isMinor != false) {
+            $schedules = Schedule::model()->findAll(
+                "classroom_fk = :classroom_fk and year = :year and month = :month and unavailable = 0 group by day order by day, schedule",
+                [
+                    "classroom_fk" => Yii::app()->request->getPost("classroom"),
+                    "year" => Yii::app()->request->getPost("year"),
+                    "month" => Yii::app()->request->getPost("month")
+                ]
+            );
+        }
 
         $dayName = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
         $instructorModel = InstructorIdentification::model()->findByPk($instructorId);
@@ -944,23 +961,66 @@ class TimesheetController extends Controller
         Yii::app()->end();
     }
 
-    private function actionGetDisciplines(){
+    public function actionGetDisciplines(){
+
         $classroom = Classroom::model()->findByPk(Yii::app()->request->getPost("classroom"));
+
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
+
         $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
-        echo CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione...'), true);
+
+        $htmlOptions = CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione o componente  curricular/eixo'), true);
+
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $disciplines = Yii::app()->db->createCommand(
-
+                "select ed.id from teaching_matrixes tm
+                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk
+                join instructor_identification ii on ii.id = itd.instructor_fk
+                join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
+                join edcenso_discipline ed on ed.id = cm.discipline_fk
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name"
             )->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
             foreach ($disciplines as $discipline) {
-                echo htmlspecialchars(
+                $htmlOptions .= htmlspecialchars(
                     CHtml::tag('option', array(
                         'option', array(
-                            'value' => $discipline['id']),
+                            'value' => $discipline['id'])),
                             CHtml::encode($disciplinesLabels[$discipline['id']]), true
-                        )));
+                        ));
+                    }
+        }
+
+        if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)){
+            $classr = Yii::app()->db->createCommand(
+                "select curricular_matrix.discipline_fk
+                from curricular_matrix
+                join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk
+                where stage_fk = :stage_fk and school_year = :year order by ed.name"
+            )
+                ->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)
+                ->bindParam(":year", Yii::app()->user->year)
+            ->queryAll();
+            foreach($classr as $discipline){
+                if (isset($discipline['discipline_fk'])) {
+                    $htmlOptions .= htmlspecialchars(
+                        CHtml::tag(
+                                'option',
+                                array('value' => $discipline['discipline_fk']),
+                                CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]),
+                                true
+                                )
+                        );
+                }
             }
         }
+
+        $response = array(
+            "isMinor" => $isMinor,
+            "disciplines" => $htmlOptions
+        );
+
+        echo json_encode($response);
+        Yii::app()->end();
     }
 
     private function generateDate($day, $month, $year, $usecase){
