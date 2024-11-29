@@ -1,3 +1,6 @@
+## [Versão 3.89.204]
+- Corrigindo a duplicidade das aulas em aulas ministradas
+
 ## [Versão 3.89.203]
 - Corrigindo error no tamanho do nome do aluno ao gerar o sagres
 
