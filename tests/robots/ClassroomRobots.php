@@ -46,6 +46,16 @@ class ClassroomRobots
     }
 
     /**
+     * Botão de deletar.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function btnDelete ()
+    {
+        $this->tester->waitForElement('.delete');
+        $this->tester->executeJS("document.querySelector('.delete').click();");
+    }
+
+    /**
      * Botão 1: Dados da turma.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
@@ -132,21 +142,21 @@ class ClassroomRobots
     }
 
     /**
-     * Seleciona a localização, caso a turma seja presencial.
-     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-     */
-    public function location($location)
-    {
-        $this->tester->selectOption('#Classroom_diff_location', $location);
-    }
-
-    /**
      * Selecione o curso.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function educationCourse($educationCourse)
     {
         $this->tester->selectOption('#Classroom_edcenso_professional_education_course_fk', $educationCourse);
+    }
+
+    /**
+     * Seleciona a localização, caso a turma seja presencial.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function location($location)
+    {
+        $this->tester->selectOption('#Classroom_diff_location', $location);
     }
 
     /**
@@ -234,13 +244,18 @@ class ClassroomRobots
         $this->tester->selectOption('#Instructors', $instructors);
     }
 
+    public function disciplines ($disciplines)
+    {
+        $this->tester->selectOption('#Disciplines', $disciplines);
+    }
+
     /**
      * Selecionar um cargo para turma.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function role($role)
     {
-        $this->tester->selectOption('#role', $role);
+        $this->tester->selectOption('#Role', $role);
     }
 
     /**
@@ -260,4 +275,44 @@ class ClassroomRobots
     {
         $this->tester->click('.ui-dialog-buttonset > button:nth-child(1)');
     }
+
+
+    // sedsp
+
+    /**
+     * Selecione a unidade escolar.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function unity($unity)
+    {
+        $this->tester->selectOption('#Classroom_sedsp_school_unity_fk', $unity);
+    }
+
+    /**
+     * Inserir a turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function classroom($classroom)
+    {
+        $this->tester->selectOption('#Classroom_sedsp_acronym', $classroom);
+    }
+
+    /**
+     * Inserir a sala de aula.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function numberClassroom($numberClassroom)
+    {
+        $this->tester->fillField('#Classroom_sedsp_classnumber', $numberClassroom);
+    }
+
+    /**
+     * Inserir a capacidade fisica máxima.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
+    public function capacity($capacity)
+    {
+        $this->tester->fillField('#Classroom_sedsp_max_physical_capacity', $capacity);
+    }
+
 }
