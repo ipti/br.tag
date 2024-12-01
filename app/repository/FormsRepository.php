@@ -29,12 +29,12 @@ class FormsRepository {
         if ($totalContents == 0) {
             //Caso não haja preenchimento em gradeResults ou seja 0
             if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
-                $condition = 'classroom_fk = :classroomId';
+                $condition = 's.classroom_fk = :classroomId';
                 $params = array(
                     ':classroomId' => $classroom->id,
                 );
             } else {
-                $condition = 'classroom_fk = :classroomId AND discipline_fk = :disciplineId';
+                $condition = 's.classroom_fk = :classroomId AND s.discipline_fk = :disciplineId';
                 $params = array(
                     ':classroomId' => $classroom->id,
                     ':disciplineId' => $disciplineId,
