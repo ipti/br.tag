@@ -82,28 +82,49 @@ class ClassroomController extends Controller
         }
     }
     public function actionGetGradesRulesClassroom()
-    {
-        $classroomId = Yii::app()->request->getPost("classroom_id");
+{
+    $classroomId = Yii::app()->request->getPost("classroom_id");
 
-        $criteria = new CDbCriteria;
-        $criteria->alias = 'cvgr';
-        $criteria->join = "
-            JOIN classroom c ON c.id = cvgr.classroom_fk
-        ";
-        $criteria->condition = 'c.id = :classroomId';
-        $criteria->params = [':classroomId' => $classroomId];
-        $criteria->select = 'cvgr.id';
+    // Critérios para opções pré-selecionadas
+    $criteria = new CDbCriteria;
+    $criteria->alias = 'gr';
+    $criteria->join = "
+        join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id
+        join classroom c on c.id = cvgr.classroom_fk
+    ";
+    $criteria->condition = 'c.id = :classroomId';
+    $criteria->params = [':classroomId' => $classroomId];
+    $selectedOptions = GradeRules::model()->findAll($criteria);
 
-        $ClassroomVsGradeRules = ClassroomVsGradeRules::model()->findAll($criteria);
-        $result = array();
-        foreach($ClassroomVsGradeRules as $cvgr) {
-            $result[$cvgr->id] = $cvgr->gradeRulesFk->name;
-        }
-        echo CJSON::encode([
-            "valid" => true,
-            "gradeRules" => $result
-        ]);
+    // Todas as opções disponíveis (sem filtros)
+
+    $allOptions = GradeRules::model()->findAll();
+
+    // Gerar JSON com categorias separadas
+    $response = [
+        'selected' => [],
+        'available' => [],
+    ];
+
+    foreach ($selectedOptions as $option) {
+        $response['selected'][] = [
+            'id' => $option->id,
+            'name' => CHtml::encode($option->name),
+        ];
     }
+
+    foreach ($allOptions as $option) {
+        // Exclui as opções já selecionadas da lista "available"
+        if (!in_array($option->id, array_column($response['selected'], 'id'))) {
+            $response['available'][] = [
+                'id' => $option->id,
+                'name' => CHtml::encode($option->name),
+            ];
+        }
+    }
+
+    echo CJSON::encode($response); // Retorna JSON
+}
 
     public function actionGetAssistanceType()
     {

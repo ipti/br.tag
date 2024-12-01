@@ -227,7 +227,7 @@ $form = $this->beginWidget(
                                     </label>
                                     <?php echo CHtml::dropDownList('gradeRules', '',  [],
                                         array('multiple' => 'multiple',
-                                        'class' => 'select-search-on t-multiselect multiselect',
+                                        'class' => 'select-search-on select2-container t-multiselect multiselect',
                                         'id' => 'gradeRules', 'style' => 'width: 100%;')); ?>
 
                             </div>

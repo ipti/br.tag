@@ -30,25 +30,41 @@ $(document).ready(function() {
     }
 });
 
-$(function (){
+$(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
     $.ajax({
-        type:'POST',
+        type: 'POST',
         url: '?r=classroom/getGradesRulesClassroom',
         data: {
             classroom_id: id
         },
-    }).success((response) => {
-        if(response.valid==true){
-            let options = "";
-            $.each(response["gradeRules"], function () {
-                options += '<option value="' + this.id + '" '+ this.name + '</option>';
+        success: (response) => {
+            const data = JSON.parse(response);
+
+            // Limpar o select antes de adicionar opções
+            $("#gradeRules").empty();
+
+            // Adicionar opções pré-selecionadas
+            data.selected.forEach(option => {
+                $("#gradeRules").append(
+                    `<option value="${option.id}" selected="selected">${option.name}</option>`
+                );
             });
-            $("#gradeRules").html(options);
+
+            // Adicionar opções disponíveis (não selecionadas)
+            data.available.forEach(option => {
+                $("#gradeRules").append(
+                    `<option value="${option.id}">${option.name}</option>`
+                );
+            });
+
+            // Inicializar ou atualizar o Select2
+            $("#gradeRules").select2();
         }
     });
-})
+});
+
 //Ao clicar ENTER no formulário adicionar aula
 $('#create-dialog-form, #teachingdata-dialog-form, #update-dialog-form').keypress(function(e) {
     if (e.keyCode === $.ui.keyCode.ENTER) {
