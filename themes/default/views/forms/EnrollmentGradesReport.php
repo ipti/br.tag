@@ -252,7 +252,7 @@ $diciplinesColumnsCount = count($baseDisciplines) + count($diversifiedDiscipline
             </div>
             <div>
                 <table style="width: 100%;text-align: center">
-                    <thead><th></th><th></th></thead>
+                    <thead><tr><th></th><th></th></tr></thead>
                     <tbody>
                     <tr>
                         <td><span>_________________________________________________________</span><br><span>Assinatura do(a) Secretário(a)</span></td>
