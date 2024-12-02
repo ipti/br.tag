@@ -63,7 +63,7 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
                     <select name="classroom" id="classroom" class="select-search-on t-field-select__input select2-container">
                     <option value="" selected>Selecione...</option>
                     <?php foreach ($classrooms as $classroom): ?>
-                        <option data-isMulti="<?= TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) ? '1': '0' ?>" value="<?= $classroom['id'] ?>"><?= htmlspecialchars($classroom['name']) ?></option>
+                        <option data-isMulti="<?= TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) && Yii::app()->user->year > 2024 ? '1': '0' ?>" value="<?= $classroom['id'] ?>"><?= htmlspecialchars($classroom['name']) ?></option>
                     <?php endforeach; ?>
                     </select>
                 </div>
