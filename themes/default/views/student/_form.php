@@ -276,9 +276,9 @@ $form = $this->beginWidget(
                         <!-- Nacionalidade  -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-select" id="nationality-select">
-                                <?php echo $form->label($modelStudentIdentification, 'nationality', array('class' => 't-field-select__label--required')); ?>
-                                <?php
-                                echo $form->dropDownList(
+                                <?= $form->label($modelStudentIdentification, 'nationality', array('class' => 't-field-select__label--required')); ?>
+                                <?=
+                                 $form->dropDownList(
                                     $modelStudentIdentification,
                                     'nationality',
                                     array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"),
