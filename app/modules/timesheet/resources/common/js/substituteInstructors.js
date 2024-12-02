@@ -98,13 +98,17 @@ function loadDisciplinesFromClassroom(){
             },
             success: function (response) {
 
-                disciplines = response.disciplines;
+                data = JSON.parse(response);
 
-                if (response.isMinor == false) {
+                disciplines = data.disciplines;
+
+                if (data.isMinor == false) {
+                    console.log("Class is not minor");
                     $('.disciplines-field').removeClass('hide');
                 }
 
-                if(response.isMinor) {
+                if(data.isMinor) {
+                    console.log("Class is minor");
                     $('.disciplines-field').addClass('hide');
                 }
 
