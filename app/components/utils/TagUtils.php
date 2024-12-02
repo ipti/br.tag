@@ -24,21 +24,21 @@ class TagUtils extends CApplicationComponent {
             '1', '2', '3', '4', '5', '6', '7', '8', '14', '15', '16', '17', '18'
         ];
         $stages = new CList($refMinorStages, true);
-        return $stages->contains($stage);
+        return $stages->contains(strval($stage));
     }
     public static function isStageChildishEducation($stage){
         $refMinorStages = [
             '1', '2', '3'
         ];
         $stages = new CList($refMinorStages, true);
-        return $stages->contains($stage);
+        return $stages->contains(strval($stage));
     }
     public static function isMultiStage($stage){
         $refMinorStages = [
             '12','13','22','23','24','56','83', '84'
         ];
         $stages = new CList($refMinorStages, true);
-        return $stages->contains($stage);
+        return $stages->contains(strval($stage));
     }
     public static function convertDateFormat($date) {
          // Remove espaços em branco do início e do fim da string

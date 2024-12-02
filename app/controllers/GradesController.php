@@ -289,7 +289,11 @@ class GradesController extends Controller
                 $givenClasses += (int) $std['grades'][$key]['givenClasses'];
             }
 
-            $frequency = (($givenClasses - $totalFaults) / $givenClasses) * 100;
+            if($givenClasses != 0) {
+                $frequency = (($givenClasses - $totalFaults) / $givenClasses) * 100;
+            } else {
+                $frequency = null;
+            }
 
 
             if (!$gradeResult->validate()) {
@@ -644,6 +648,7 @@ class GradesController extends Controller
                 $gradesStudent = $gradeUnities->exec();
                 $countUnities = $gradeUnities->execCount();
 
+                TLog::info("Unidades por disciplina", ["GradeUnities" => CHtml::listData($gradesStudent, 'id', 'id')]);
                 TLog::info("Unidades por disciplina", ["GradeUnities" => CHtml::listData($gradesStudent, 'id', 'id')]);
 
                 $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();

@@ -48,12 +48,9 @@ function classroomDisciplineLabelResumeArray($id) {
         10011 => 'Cordel',
         10012 => 'Física'
     );
+    $stage = EdcensoDiscipline::model()->findByPk($id);
+    return  substr($stage->abbreviation ?? $stage->name, 0, 50);
 
-    if (array_key_exists($id, $disciplinas)) {
-        return $disciplinas[$id];
-    } else {
-        return EdcensoDiscipline::model()->findByPk($id)->name;
-    }
 }
 $diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines); // contador com a soma do total de disciplinas da matriz
 ?>
@@ -149,8 +146,10 @@ $diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines)
                                 <?php } else if ($unities[$i-1]->type == 'UC') { ?>
                                     <td style="text-align: center;"><?= $gradeResult['grade_concept_'.$i] ?></td>
                                 <?php
-                                } else if ($gradeResult['grade_'.$i] < $gradeResult['rec_partial_'.$i]
-                                && in_array(('grade_'.$i), $result[$j]["partial_recoveries"]["rec_partial_".$i])) {
+                                } else if ($gradeResult['grade_'.$i] < $gradeResult['rec_partial_'.$i] &&
+                                isset($result[$j]["partial_recoveries"]["rec_partial_".$i]) &&
+                                is_array($result[$j]["partial_recoveries"]["rec_partial_".$i]) &&
+                                in_array('grade_'.$i, $result[$j]["partial_recoveries"]["rec_partial_".$i])) {
                                 ?>
                                     <td style="text-align: center;"><?= $gradeResult['rec_partial_'.$i] ?></td>
                                 <?php } else { ?>
@@ -169,25 +168,6 @@ $diciplinesColumnsCount = count($baseDisciplines)+count($diversifiedDisciplines)
                         </tr>
                     <?php }?>
                 </tbody>
-
-                <!-- <tr>
-                    <td colspan="1">MÉDIA ANUAL</td>
-                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;"><?= $result[$i]['final_media']?></td>
-                    <?php }?>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr> -->
-                <!-- <tr>
-                    <td colspan="1">NOTA DA PROVA FINAL</td>
-                    <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;"><?= end($result[$i]['grades'])->grade?></td>
-                    <?php }?>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr> -->
                 <tr>
                     <td colspan="1">MÉDIA FINAL</td>
                     <?php for ($i=0; $i < $diciplinesColumnsCount; $i++) { ?>
