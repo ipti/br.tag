@@ -1,6 +1,6 @@
 $("#classrooms").on("change", function() {
     loadDisciplinesFromClassroom();
-    loadFrequency();
+    // loadFrequency();
 })
 
 $("#month").on("change", function() {
@@ -11,12 +11,22 @@ $("#instructor").on("change", function() {
     loadFrequency();
 })
 
+$("#disciplines").on("change", function () {
+    loadFrequency();
+})
+
 function loadFrequency(){
+
+    const isMinorClass = $('.disciplines-field').hasClass('hide');
+    const isMajorClassValid = !isMinorClass && $('#disciplines').val() !== "";
+
     if (
         $('#classrooms').val() !== "" &&
         $("#instructor").val() !== "" &&
-        $("#month").val() !== ""
-        ){
+        $("#month").val() !== "" &&
+        (isMinorClass || isMajorClassValid)
+    ){
+        console.log("bateu aqui");
             $.ajax({
                 type: "POST",
                 url: "?r=timesheet/timesheet/getFrequency",
@@ -25,12 +35,13 @@ function loadFrequency(){
                     instructor: $("#instructor").val(),
                     classroom: $("#classrooms").val(),
                     month: $("#month").val(),
-                    year: $('#schoolyear').html()
+                    year: $('#schoolyear').html(),
+                    discipline: $('#disciplines').val(),
                 },
                 beforeSend: function () {
                     $(".loading-frequency").css("display", "inline-block");
                     $(".table-frequency").css("opacity", 0.3).css("pointer-events", "none");
-                    $("#classrooms, #month, #instructor").attr("disabled", "disabled");
+                    $("#classrooms, #month, #instructor, #disciplines").attr("disabled", "disabled");
                 },
                 success: function (response) {
                     var data = JSON.parse(response);
@@ -49,7 +60,9 @@ function loadFrequency(){
                         $.each(schedules, function() {
                             dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
                             daynameRow += "<th>" + this.week_day + "</th>";
-                            scheduleRow += "<th>" + this.schedule + "º Horário</th>";
+                            if (!data.isMinor){
+                                scheduleRow += "<th>" + this.schedule + "º Horário</th>";
+                            }
                             checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container'><input class='frequency-checkbox-substitute' type='checkbox' " + "classroomId='" + $("#classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "' /></th>";
                         });
                         html += "<tr class='day-row'>" + dayRow + "</tr><tr class='dayname-row'>" + daynameRow + "</tr>" + ("<tr class='schedule-row'>" + scheduleRow + "</tr>");
@@ -103,12 +116,10 @@ function loadDisciplinesFromClassroom(){
                 disciplines = data.disciplines;
 
                 if (data.isMinor == false) {
-                    console.log("Class is not minor");
                     $('.disciplines-field').removeClass('hide');
                 }
 
                 if(data.isMinor) {
-                    console.log("Class is minor");
                     $('.disciplines-field').addClass('hide');
                 }
 

@@ -30,7 +30,7 @@ class TimesheetController extends Controller
                     'index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability',
                     'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor", "changeUnavailableSchedule",
                     "addSubstituteInstructorDay", "saveSubstituteInstructorDay", "deleteSubstituteInstructorDay",
-                    "getDisciplines",
+                    "getDisciplines", "getFrequency",
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -908,9 +908,7 @@ class TimesheetController extends Controller
 
         $classroom = Classroom::model()->findByPk($classroomId);
 
-        $isMulti = TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk);
-
-        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
 
         if ($isMinor == false) {
             $schedules = Schedule::model()->findAll(
@@ -942,7 +940,7 @@ class TimesheetController extends Controller
         $response["instructorId"] = $instructorModel->id;
         $response["instructorName"] = $instructorModel->name;
         $response["schedules"] = [];
-        $response["isMulti"] = $isMulti;
+        $response["isMinor"] = $isMinor;
 
         foreach($schedules as $schedule){
             $date = $this->generateDate($schedule->day, $schedule->month, $schedule->year, 0);
