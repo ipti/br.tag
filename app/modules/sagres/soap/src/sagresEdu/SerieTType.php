@@ -2,76 +2,43 @@
 
 namespace SagresEdu;
 
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\XmlElement;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class representing SerieTType
  *
- * 
  * XSD Type: serie_t
  */
 class SerieTType
 {
+    #[Serializer\SerializedName("edu:descricao")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $descricao = null;
 
-    /**
-     * @var string $descricao
-     * @SerializedName("edu:descricao")
-     * @XmlElement(cdata=false)
-     */
-    private $descricao = null;
+    #[Serializer\SerializedName("edu:modalidade")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $modalidade = null;
 
-    /**
-     * @var int $modalidade
-     * @SerializedName("edu:modalidade")
-     * @XmlElement(cdata=false)
-     */
-    private $modalidade = null;
-
-    /**
-     * Gets as descricao
-     *
-     * @return string
-     */
-    public function getDescricao()
+    // Métodos getters e setters permanecem os mesmos
+    public function getDescricao(): ?string
     {
         return $this->descricao;
     }
 
-    /**
-     * Sets a new descricao
-     *
-     * @param string $descricao
-     * @return self
-     */
-    public function setDescricao($descricao)
+    public function setDescricao(string $descricao): self
     {
         $this->descricao = $descricao;
         return $this;
     }
 
-    /**
-     * Gets as modalidade
-     *
-     * @return int
-     */
-    public function getModalidade()
+    public function getModalidade(): ?int
     {
         return $this->modalidade;
     }
 
-    /**
-     * Sets a new modalidade
-     *
-     * @param int $modalidade
-     * @return self
-     */
-    public function setModalidade($modalidade)
+    public function setModalidade(int $modalidade): self
     {
         $this->modalidade = $modalidade;
         return $this;
     }
-
-
 }
-

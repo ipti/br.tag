@@ -35,6 +35,8 @@ class StudentService
                 foreach ($enrollments as $enrollment) {
                     $array["studentId"] = $enrollment->student_fk;
                     $array["studentName"] = $enrollment->studentFk->name;
+                    $array["status"] = $enrollment->status;
+                    $array["statusLabel"] = $enrollment->getCurrentStatus();
                     $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $schedule->id, "student_fk" => $enrollment->student_fk]);
                     $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT);
                     $valid = $this->verifyStatusEnrollment( $enrollment, $schedule);
@@ -54,6 +56,8 @@ class StudentService
                 foreach ($enrollments as $enrollment) {
                     $array["studentId"] = $enrollment->student_fk;
                     $array["studentName"] = $enrollment->studentFk->name;$array["studentName"] = $enrollment->studentFk->name;
+                    $array["status"] = $enrollment->status;
+                    $array["statusLabel"] = $enrollment->getCurrentStatus();
                     foreach($schedule as $s) {
                         $classFault = ClassFaults::model()->find("schedule_fk = :schedule_fk and student_fk = :student_fk", ["schedule_fk" => $s->id, "student_fk" => $enrollment->student_fk]);
                         $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($s->month, 2, "0", STR_PAD_LEFT);
@@ -83,11 +87,33 @@ class StudentService
     private function verifyStatusEnrollment($enrollment, $schedule)
     {
         $dateFormat = 'd/m/Y';
+        $dateFormat2 = 'Y-m-d';
+
         $date = $this->gerateDate($schedule->day, $schedule->month, $schedule->year, 0);
-        $startDate = date_create_from_format($dateFormat, $enrollment->school_readmission_date);
-        $transferedDate = date_create_from_format($dateFormat, $enrollment->class_transfer_date);
+
+        $startDate = DateTime::createFromFormat($dateFormat, $enrollment->school_readmission_date);
+        $returnDate = DateTime::createFromFormat($dateFormat, $enrollment->class_transfer_date);
+
         $scheduleDate = date_create_from_format($dateFormat, $date);
-        return !(($scheduleDate < $startDate && $scheduleDate > $transferedDate) && $enrollment->status == '13') && $enrollment->status != '2' && $enrollment->status != '11';
+        $transferDate = isset($enrollment->transfer_date) ? DateTime::createFromFormat($dateFormat2, $enrollment->transfer_date) : null;
+
+
+        switch ($enrollment->status) {
+            case '2': // TRANSFERIDO
+                $result = isset($transferDate) && $scheduleDate <= $transferDate;
+                break;
+            case '13': // Aluno saiu e retornou
+                $result = ($scheduleDate < $startDate && $scheduleDate > $returnDate);
+                break;
+            case '11': // DEATH
+                $result = false;
+                break;
+            default: // Qualquer outro status
+                $result = true;
+                break;
+        }
+
+        return $result;
     }
 
     private function gerateDate($day, $month, $year, $usecase){

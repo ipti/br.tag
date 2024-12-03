@@ -1,3 +1,44 @@
+## [Versão 3.90.206]
+- Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
+
+## [Versão 3.90.205]
+- Retirado obrigatoriedade de preenchimento de senha ao editar cadastro de algum usuário
+- Corrigido informações do relatório de Matrículas do ano e Número de Alunos por turma
+- Inserido 9º Ano na modalidade de Ensino Fundamental Maior por padrão
+
+## [Versão 3.90.204]
+- Criado o relatório de aulas ministradas
+
+## [Versão 3.90.203]
+- Adicionado fórmula de cálculo para a média da recuperação final
+
+## [Versão 3.89.203]
+- Corrigindo error no tamanho do nome do aluno ao gerar o sagres
+
+## [Versão 3.89.202]
+- Modificando o tempo de sessão
+- Corrigindo errors relacionados a comparação de variáveis
+
+## [Versão 3.89.201]
+- Adicionando o informativo de total de aulas da carga horária e total de aulas ministradas nas telas de aulas ministradas
+- Enriquecido Termo de Suspensão com Dados carregados do banco
+- Corrigido tamanho da foto 3x4 na ficha de matrícula
+- Permitido que um aluno transferido de uma turma possa voltar para a mesma turma
+- Inserido coluna turma/ano no relatório de alunos por turma em multisseriados/EJA
+- Retirando a chave estrangeira de schedule em class_contents
+- Ajuste na view de frequência para a tela de professor, especificamente para alunos com matrícula transferida
+- Ajusta na view de classdiary, atribuindo label sobre o status da matrícula do aluno
+
+## [Versão 3.89.200]
+- Correção de consulta de cardápio sagres versão nova
+- Label de status de matricula adicionado a tela de notas
+
+## [Versão 3.89.199]
+- Adicionado a sessão de conteúdo nas aulas ministradas selecionadas na tela de aulas ministradas
+
+## [Versão 3.89.198]
+- consertado o cálculo da média final para as turmas eja
+
 ## [Versão 3.89.197]
 - Correção de consulta de cardápio sagres versão nova
 

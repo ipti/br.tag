@@ -29,12 +29,12 @@ class FormsRepository {
         if ($totalContents == 0) {
             //Caso não haja preenchimento em gradeResults ou seja 0
             if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
-                $condition = 'classroom_fk = :classroomId';
+                $condition = 's.classroom_fk = :classroomId';
                 $params = array(
                     ':classroomId' => $classroom->id,
                 );
             } else {
-                $condition = 'classroom_fk = :classroomId AND discipline_fk = :disciplineId';
+                $condition = 's.classroom_fk = :classroomId AND s.discipline_fk = :disciplineId';
                 $params = array(
                     ':classroomId' => $classroom->id,
                     ':disciplineId' => $disciplineId,
@@ -286,7 +286,7 @@ class FormsRepository {
                         "partial_recoveries" => $partialRecovery,
                         "total_number_of_classes" => $totalContentsPerDiscipline,
                         "total_faults" => $totalFaultsPerDicipline,
-                        "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
+                        "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100
                     ]);
                     $mediaExists = true;
                     break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
@@ -301,7 +301,7 @@ class FormsRepository {
                     "partial_recoveries" => $partialRecovery,
                     "total_number_of_classes" => $totalContentsPerDiscipline,
                     "total_faults" => $totalFaultsPerDicipline,
-                    "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
+                    "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100
                 ]);
             }
         }
@@ -1055,6 +1055,27 @@ class FormsRepository {
         }
 
         $response = array('student' => $data,'turn' => $turn);
+
+        return $response;
+    }
+
+    /**
+     * Termo de Suspensão
+     */
+    public function getSuspensionTerm($enrollmentId) : array
+    {
+        $sql = "SELECT si.name name, svm.name stage_name, c.name classroom, svm.alias stage_alias
+                    FROM student_enrollment se
+                JOIN student_identification si ON si.id = se.student_fk
+                JOIN classroom c on se.classroom_fk = c.id
+                JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id
+                WHERE se.id = :enrollment_id;";
+
+        $data = Yii::app()->db->createCommand($sql)
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
+
+        $response = array('student' => $data);
 
         return $response;
     }

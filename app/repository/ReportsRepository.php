@@ -1910,13 +1910,15 @@ class ReportsRepository
         $classroomId = $request->getPost('classroom');
         $sql = "SELECT
                 e.name as school_name, c.name as classroom_name,
-                c.id as classroom_id, d.cpf, d.address, s.*
+                c.id as classroom_id, d.cpf, d.address, s.*, enrollmentEsvm.name as stage_name, enrollmentEsvm.alias as stage_alias, classroomEsvm.stage as stage
             FROM
                 student_enrollment as se
                 INNER JOIN classroom as c on se.classroom_fk=c.id
                 INNER JOIN student_identification as s on s.id=se.student_fk
                 INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
                 LEFT JOIN student_documents_and_address as d on s.id = d.id
+                INNER JOIN edcenso_stage_vs_modality classroomEsvm on classroomEsvm.id = c.edcenso_stage_vs_modality_fk
+                LEFT JOIN edcenso_stage_vs_modality enrollmentEsvm on enrollmentEsvm.id = se.edcenso_stage_vs_modality_fk
             WHERE
                 c.school_year = :year AND
                 c.school_inep_fk = :school_inep_fk AND
@@ -2122,7 +2124,12 @@ class ReportsRepository
             }
             foreach ($classroom->studentEnrollments as $studentEnrollment) {
                 for ($i = $monthI; $i <= $monthF; $i++) {
-                    $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = isset($days[$i]) ? (floor(((count($days[$i]) - count($faultDays[$studentEnrollment->studentFk->name][$i])) / count($days[$i])) * 100 * 100) / 100) . "%" : "N/A";
+                    $daysCount = isset($days[$i]) && is_array($days[$i]) ? count($days[$i]) : 0;
+                    $faultDaysCount = isset($faultDays[$studentEnrollment->studentFk->name][$i]) && is_array($faultDays[$studentEnrollment->studentFk->name][$i]) ? count($faultDays[$studentEnrollment->studentFk->name][$i]) : 0;
+
+                    $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = $daysCount > 0
+                        ? (floor((($daysCount - $faultDaysCount) / $daysCount) * 100 * 100) / 100) . "%"
+                        : "N/A";
                 }
                 $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["Classroom"] = $classroom->name;
                 $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["NIS"] = $studentEnrollment->studentFk->documentsFk->nis == null ? "Não Informado" : $studentEnrollment->studentFk->documentsFk->nis;

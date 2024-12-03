@@ -1,5 +1,6 @@
 function createTable(data) {
     let urlIsValidate = window.location.href.includes("validateClassContents");
+    $('#given-classes').html('<div class="t-badge-info t-margin-none--left"><b>Total de carga horária do mês: </b>' + data.totalClasses + '</div><div class="t-badge-info t-margin-none--left"><b>Total de aulas ministradas do mês: </b>' + data.totalClassContents + '</div>')
     var monthSplit = $("#month").val().split("-");
     $("#class-contents")
         .attr("classroom", $("#classroom").val())
@@ -83,7 +84,7 @@ function createTable(data) {
         width: "calc(100% - 40px)",
         formatSelection: function (state) {
             let textArray = state.text.split("|");
-            return 'Plano de Aula "' + textArray[0] + '": Aula ' + textArray[1];
+            return '<div class="text-align--left" style="margin-left: 0"><b>Aula:</b> "' + textArray[1] + '" <b>Plano de Aula:</b> ' + textArray[0] + ' <br><b>Conteúdo:</b> ' + textArray[2] + "</div>";
         },
         formatResult: function (data, container) {
             let textArray = data.text.split("|");

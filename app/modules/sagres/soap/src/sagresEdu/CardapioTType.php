@@ -2,138 +2,75 @@
 
 namespace SagresEdu;
 
-use JMS\Serializer\Annotation\Type;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\XmlElement;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class representing CardapioTType
  *
- * 
+ *
  * XSD Type: cardapio_t
  */
 class CardapioTType
 {
+    #[Serializer\Type("DateTime<'Y-m-d'>")]
+    #[Serializer\SerializedName("edu:data")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?\DateTime $data = null;
 
-    /**
-     * @var \DateTime $data
-     * @Type("DateTime<'Y-m-d'>")
-     * @SerializedName("edu:data")
-     * @XmlElement(cdata=false)
-     */
-    private $data = null;
+    #[Serializer\SerializedName("edu:turno")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $turno = null;
 
-    /**
-     * @var int $turno
-     * @SerializedName("edu:turno")
-     * @XmlElement(cdata=false)
-     */
-    private $turno = null;
+    #[Serializer\SerializedName("edu:descricao_merenda")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $descricaoMerenda = null;
 
-    /**
-     * @var string $descricaoMerenda
-     * @SerializedName("edu:descricao_merenda")
-     * @XmlElement(cdata=false)
-     */
-    private $descricaoMerenda = null;
+    #[Serializer\SerializedName("edu:ajustado")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?bool $ajustado = null;
 
-    /**
-     * @var bool $ajustado
-     * @SerializedName("edu:ajustado")
-     * @XmlElement(cdata=false)
-     */
-    private $ajustado = null;
-
-    /**
-     * Gets as data
-     *
-     * @return \DateTime
-     * 
-     */
-     
-    public function getData()
+    // Métodos getters e setters permanecem os mesmos
+    public function getData(): ?\DateTime
     {
         return $this->data;
     }
 
-    /**
-     * Sets a new data
-     *
-     * @param \DateTime $data
-     * @return self
-     */
-    public function setData(\DateTime $data)
+    public function setData(\DateTime $data): self
     {
         $this->data = $data;
         return $this;
     }
 
-    /**
-     * Gets as turno
-     *
-     * @return int
-     */
-    public function getTurno()
+    public function getTurno(): ?int
     {
         return $this->turno;
     }
 
-    /**
-     * Sets a new turno
-     *
-     * @param int $turno
-     * @return self
-     */
-    public function setTurno($turno)
+    public function setTurno(int $turno): self
     {
         $this->turno = $turno;
         return $this;
     }
 
-    /**
-     * Gets as descricaoMerenda
-     *
-     * @return string
-     */
-    public function getDescricaoMerenda()
+    public function getDescricaoMerenda(): ?string
     {
         return $this->descricaoMerenda;
     }
 
-    /**
-     * Sets a new descricaoMerenda
-     *
-     * @param string $descricaoMerenda
-     * @return self
-     */
-    public function setDescricaoMerenda($descricaoMerenda)
+    public function setDescricaoMerenda(string $descricaoMerenda): self
     {
         $this->descricaoMerenda = $descricaoMerenda;
         return $this;
     }
 
-    /**
-     * Gets as ajustado
-     *
-     * @return bool
-     */
-    public function getAjustado()
+    public function getAjustado(): ?bool
     {
         return $this->ajustado;
     }
 
-    /**
-     * Sets a new ajustado
-     *
-     * @param bool $ajustado
-     * @return self
-     */
-    public function setAjustado($ajustado)
+    public function setAjustado(bool $ajustado): self
     {
         $this->ajustado = $ajustado;
         return $this;
     }
-
-
 }
-

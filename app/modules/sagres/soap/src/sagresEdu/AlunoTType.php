@@ -2,9 +2,7 @@
 
 namespace SagresEdu;
 
-use JMS\Serializer\Annotation\Type;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\XmlElement;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class representing AlunoTType
@@ -14,153 +12,80 @@ use JMS\Serializer\Annotation\XmlElement;
  */
 class AlunoTType
 {
+    #[Serializer\SerializedName("edu:cpfAluno")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $cpfAluno = null;
 
-    /**
-     * @var string $cpfAluno
-     * @SerializedName("edu:cpfAluno")
-     * @XmlElement(cdata=false)
-     */
-    private $cpfAluno = null;
+    #[Serializer\Type("DateTime<'Y-m-d'>")]
+    #[Serializer\SerializedName("edu:data_nascimento")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?\DateTime $dataNascimento = null;
 
-    /**
-     * @var \DateTime $dataNascimento
-     * @Type("DateTime<'Y-m-d'>")
-     * @SerializedName("edu:data_nascimento")
-     * @XmlElement(cdata=false)
-     */
-    private $dataNascimento = null;
+    #[Serializer\SerializedName("edu:nome")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $nome = null;
 
-    /**
-     * @var string $nome
-     * @SerializedName("edu:nome")
-     * @XmlElement(cdata=false)
-     */
-    private $nome = null;
+    #[Serializer\SerializedName("edu:pcd")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?bool $pcd = null;
 
-    /**
-     * @var bool $pcd
-     * @SerializedName("edu:pcd")
-     * @XmlElement(cdata=false)
-     */
-    private $pcd = null;
+    #[Serializer\SerializedName("edu:sexo")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $sexo = null;
 
-    /**
-     * @var int $sexo
-     * @SerializedName("edu:sexo")
-     * @XmlElement(cdata=false)
-     */
-    private $sexo = null;
-
-    /**
-     * Gets as cpfAluno
-     *
-     * @return string
-     */
-    public function getCpfAluno()
+    // Métodos getters e setters permanecem os mesmos
+    public function getCpfAluno(): ?string
     {
         return $this->cpfAluno;
     }
 
-    /**
-     * Sets a new cpfAluno
-     *
-     * @param string $cpfAluno
-     * @return self
-     */
-    public function setCpfAluno($cpfAluno)
+    public function setCpfAluno(string|null $cpfAluno): self
     {
         $this->cpfAluno = $cpfAluno;
         return $this;
     }
 
-    /**
-     * Gets as dataNascimento
-     *
-     * @return \DateTime
-     */
-    public function getDataNascimento()
+    public function getDataNascimento(): ?\DateTime
     {
         return $this->dataNascimento;
     }
 
-    /**
-     * Sets a new dataNascimento
-     *
-     * @param \DateTime $dataNascimento
-     * @return self
-     */
-    public function setDataNascimento(\DateTime $dataNascimento)
+    public function setDataNascimento(\DateTime $dataNascimento): self
     {
         $this->dataNascimento = $dataNascimento;
         return $this;
     }
 
-    /**
-     * Gets as nome
-     *
-     * @return string
-     */
-    public function getNome()
+    public function getNome(): ?string
     {
         return $this->nome;
     }
 
-    /**
-     * Sets a new nome
-     *
-     * @param string $nome
-     * @return self
-     */
-    public function setNome($nome)
+    public function setNome(string $nome): self
     {
         $this->nome = $nome;
         return $this;
     }
 
-    /**
-     * Gets as pcd
-     *
-     * @return bool
-     */
-    public function getPcd()
+    public function getPcd(): ?bool
     {
         return $this->pcd;
     }
 
-    /**
-     * Sets a new pcd
-     *
-     * @param bool $pcd
-     * @return self
-     */
-    public function setPcd($pcd)
+    public function setPcd(bool $pcd): self
     {
         $this->pcd = $pcd;
         return $this;
     }
 
-    /**
-     * Gets as sexo
-     *
-     * @return int
-     */
-    public function getSexo()
+    public function getSexo(): ?int
     {
         return $this->sexo;
     }
 
-    /**
-     * Sets a new sexo
-     *
-     * @param int $sexo
-     * @return self
-     */
-    public function setSexo($sexo)
+    public function setSexo(int $sexo): self
     {
         $this->sexo = $sexo;
         return $this;
     }
-
-
 }
-
