@@ -623,6 +623,8 @@ preenchidos";
     public function actionFrequency()
     {
         $instructors = InstructorIdentification::model()->findAll([
+            'condition' => 'school_inep_id_fk = :schoolId',
+            'params' => [':schoolId' => Yii::app()->user->school],
             'order' => 'name',
         ]);
 
