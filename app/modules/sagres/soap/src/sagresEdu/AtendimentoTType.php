@@ -2,78 +2,45 @@
 
 namespace SagresEdu;
 
-use JMS\Serializer\Annotation\Type;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\XmlElement;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class representing AtendimentoTType
  *
- * 
+ *
  * XSD Type: atendimento_t
  */
 class AtendimentoTType
 {
+    #[Serializer\Type("DateTime<'Y-m-d'>")]
+    #[Serializer\SerializedName("edu:data")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?\DateTime $data = null;
 
-    /**
-     * @var \DateTime $data
-     * @Type("DateTime<'Y-m-d'>")
-     * @SerializedName("edu:data")
-     * @XmlElement(cdata=false)
-     */
-    private $data = null;
+    #[Serializer\SerializedName("edu:local")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $local = null;
 
-    /**
-     * @var string $local
-     * @SerializedName("edu:local")
-     * @XmlElement(cdata=false)
-     */
-    private $local = null;
-
-    /**
-     * Gets as data
-     *
-     * @return \DateTime
-     */
-    public function getData()
+    // Métodos getters e setters permanecem os mesmos
+    public function getData(): ?\DateTime
     {
         return $this->data;
     }
 
-    /**
-     * Sets a new data
-     *
-     * @param \DateTime $data
-     * @return self
-     */
-    public function setData(\DateTime $data)
+    public function setData(\DateTime $data): self
     {
         $this->data = $data;
         return $this;
     }
 
-    /**
-     * Gets as local
-     *
-     * @return string
-     */
-    public function getLocal()
+    public function getLocal(): ?string
     {
         return $this->local;
     }
 
-    /**
-     * Sets a new local
-     *
-     * @param string $local
-     * @return self
-     */
-    public function setLocal($local)
+    public function setLocal(string $local): self
     {
         $this->local = $local;
         return $this;
     }
-
-
 }
-

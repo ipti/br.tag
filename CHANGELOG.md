@@ -1,9 +1,31 @@
-## [Versão 3.90.201]
+## [Versão 3.91.207]
 - Feito com que o aluno rematricule numa turma que havia sido transferida
 - Aumentado fonte da ficha de notas
 - Inserido campos no cabeçalho da ficha de notas (gênero, filiação, data de nascimento, naturalidade)
 - Inserido opção pra imprimir ficha de notas com local/data ou não
 - Trocado signatário de inspetor escolar para secretário escolar na ficha de notas
+
+## [Versão 3.90.206]
+- Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
+
+## [Versão 3.90.205]
+- Retirado obrigatoriedade de preenchimento de senha ao editar cadastro de algum usuário
+- Corrigido informações do relatório de Matrículas do ano e Número de Alunos por turma
+- Inserido 9º Ano na modalidade de Ensino Fundamental Maior por padrão
+
+## [Versão 3.90.204]
+- Criado o relatório de aulas ministradas
+
+## [Versão 3.90.203]
+- Adicionado fórmula de cálculo para a média da recuperação final
+
+## [Versão 3.89.203]
+- Corrigindo error no tamanho do nome do aluno ao gerar o sagres
+
+## [Versão 3.89.202]
+- Modificando o tempo de sessão
+- Corrigindo errors relacionados a comparação de variáveis
+
 
 ## [Versão 3.89.201]
 - Adicionando o informativo de total de aulas da carga horária e total de aulas ministradas nas telas de aulas ministradas

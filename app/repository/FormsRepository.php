@@ -286,7 +286,7 @@ class FormsRepository {
                         "partial_recoveries" => $partialRecovery,
                         "total_number_of_classes" => $totalContentsPerDiscipline,
                         "total_faults" => $totalFaultsPerDicipline,
-                        "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
+                        "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100
                     ]);
                     $mediaExists = true;
                     break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
@@ -301,7 +301,7 @@ class FormsRepository {
                     "partial_recoveries" => $partialRecovery,
                     "total_number_of_classes" => $totalContentsPerDiscipline,
                     "total_faults" => $totalFaultsPerDicipline,
-                    "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
+                    "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100
                 ]);
             }
         }
