@@ -28,7 +28,7 @@ class GetStudentGradesByDisciplineUsecase
 
         $TotalEnrollments = $classroom->activeStudentEnrollments;
         $studentEnrollments = [];
-        if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) && Yii::app()->user->year > 2024){
+        if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) && Yii::app()->user->year <= 2024){
             foreach ($TotalEnrollments as $enrollment) {
                 if($enrollment->edcenso_stage_vs_modality_fk == $this->stageId){
                     array_push($studentEnrollments, $enrollment);
