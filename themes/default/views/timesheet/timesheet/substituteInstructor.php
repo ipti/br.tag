@@ -67,11 +67,10 @@
                 <!-- Instructor -->
                 <div class="t-field-select">
                     <?php echo CHtml::label(yii::t('default', 'Instructor'), 'instructor', array('class' => 't-field-select__label--required')); ?>
-                    <select class="select-search-on t-field-select__input frequency-input" id="instructor">
-                        <option>Selecione o professor</option>
-                        <?php foreach ($instructors as $instructor) : ?>
-                            <option value="<?= $instructor["id"] ?>"> <?= $instructor["name"] ?> </option>
-                        <?php endforeach; ?>
+                    <select
+                        class="select-search-on t-field-select__input frequency-input"
+                        style="min-width: 185px"
+                        id="instructor">
                     </select>
                 </div>
 
@@ -104,18 +103,21 @@
 
                 <!-- Discipline -->
                 <div class="t-field-select disciplines-field hide">
-                        <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 't-field-select__label'));?>
-                            <select class="select-search-on t-field-select__input" id="disciplines"
-                                style="min-width: 185px;">
-                            </select>
+                    <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 't-field-select__label'));?>
+                    <select
+                        class="select-search-on t-field-select__input"
+                        style="min-width: 185px;"
+                        id="disciplines">
+                    </select>
                 </div>
 
                 <img
-                class="js-loading-div"
-                style="display:none;margin: 10px 20px;overflow-y: auto;"
-                height="30px" width="30px"
-                src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
-                alt="TAG Loading">
+                    class="js-loading-div"
+                    style="display:none;margin: 10px 20px;overflow-y: auto;"
+                    height="30px" width="30px"
+                    src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
+                    alt="TAG Loading"
+                >
             </div>
         </div>
     </div>

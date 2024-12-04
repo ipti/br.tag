@@ -1,6 +1,6 @@
 $("#classrooms").on("change", function() {
+    loadInstructorsByClassroom();
     loadDisciplinesFromClassroom();
-    // loadFrequency();
 })
 
 $("#month").on("change", function() {
@@ -26,7 +26,6 @@ function loadFrequency(){
         $("#month").val() !== "" &&
         (isMinorClass || isMajorClassValid)
     ){
-        console.log("bateu aqui");
             $.ajax({
                 type: "POST",
                 url: "?r=timesheet/timesheet/getFrequency",
@@ -105,7 +104,7 @@ function loadDisciplinesFromClassroom(){
                 classroom: classroom,
             },
             beforeSend: function () {
-                $(".js-loading-div").css("display", "inline-block")
+                $(".js-loading-div").css("display", "inline-block");
                 $('#classrooms').attr("disabled", "disabled");
                 $('#disciplines').attr("disabled", "disabled");
             },
@@ -144,6 +143,41 @@ function loadDisciplinesFromClassroom(){
     }
 }
 
+function loadInstructorsByClassroom(){
+    const classroom = $("#classrooms").val()
+    $.ajax({
+        type: "POST",
+        url: "?r=timesheet/timesheet/getInstructors",
+        cache: false,
+        data: {
+            classroom: classroom
+        },
+        beforeSend: function () {
+            $(".js-loadinging-div").css("display", "inline-block");
+            $("#classrooms").attr("disabled", "disabled");
+        },
+        success: function (response) {
+            data = JSON.parse(response);
+
+            if (data === "") {
+                $("#instructor").html(
+                    "<option value='-1'> Não há instrutores cadastrados </option>"
+                ).show();
+                $("#instructores").select2("val", "-1");
+            }
+
+            if (data !== "") {
+                $("#instructor").html(decodeHtml(data)).show();
+                $("#instructor").select2("val", "-1");
+            }
+        },
+        complete: function () {
+            $(".js-loading-div").hide();
+            $('#classrooms').removeAttr("disabled");
+        }
+    })
+}
+
 $(document).on("change", ".frequency-checkbox-substitute", function () {
     let checkbox = this;
     let isSave, route;
@@ -162,7 +196,7 @@ $(document).on("change", ".frequency-checkbox-substitute", function () {
         url: route,
         cache: false,
         data: {
-            classroomId: $("#instructor").val(),
+            classroomId: $("#classrooms").val(),
             day: $(this).attr("day"),
             month: $(this).attr("month"),
             schedule: $(this).attr("schedule"),
