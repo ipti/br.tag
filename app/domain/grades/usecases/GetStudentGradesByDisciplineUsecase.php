@@ -4,19 +4,23 @@
  * @property int $disciplineId
  * @property int $unityId
  * @property int $stageId
+ * @property int isClassroomStage
  */
 class GetStudentGradesByDisciplineUsecase
 {
     private $classroomId;
     private $disciplineId;
     private $unityId;
+    private $stageId;
+    private $isClassroomStage;
 
-    public function __construct(int $classroomId, int $disciplineId, int $unityId, int $stageId)
+    public function __construct(int $classroomId, int $disciplineId, int $unityId, int $stageId, int $isClassroomStage)
     {
         $this->classroomId = $classroomId;
         $this->disciplineId = $disciplineId;
         $this->unityId = $unityId;
         $this->stageId = $stageId;
+        $this->isClassroomStage = $isClassroomStage;
     }
     public function exec()
     {
@@ -28,7 +32,7 @@ class GetStudentGradesByDisciplineUsecase
 
         $TotalEnrollments = $classroom->activeStudentEnrollments;
         $studentEnrollments = [];
-        if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) && Yii::app()->user->year <= 2024){
+        if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) && $this->isClassroomStage == 0){
             foreach ($TotalEnrollments as $enrollment) {
                 if($enrollment->edcenso_stage_vs_modality_fk == $this->stageId){
                     array_push($studentEnrollments, $enrollment);
