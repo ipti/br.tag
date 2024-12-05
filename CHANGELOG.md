@@ -1,3 +1,6 @@
+## [Versão 3.91.208]
+- Permitindo o acesso dos coordenadores pedagógicos as telas de frequência de professor e a tela de notas
+
 ## [Versão 3.91.207]
 - Feito com que o aluno rematricule numa turma que havia sido transferida
 - Aumentado fonte da ficha de notas
