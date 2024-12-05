@@ -586,7 +586,9 @@ class GradesController extends Controller
 
         $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId);
         $result = $usecase->exec();
-        echo CJSON::encode($result);
+
+        $isCoordinator = TagUtils::isCoordinator();
+        echo CJSON::encode([$result, $isCoordinator]);
 
     }
 

@@ -388,6 +388,12 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     <span class="t-menu-item__text">Frequência</span>
                                 </a>
                             </li>
+                            <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=grades/grades") ? 'active' : '' ?>">
+                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('grades/grades') ?>">
+                                    <span class="t-icon-edition t-menu-item__icon"></span>
+                                    <span class="t-menu-item__text">Notas</span>
+                                </a>
+                            </li>
                         <?php endif ?>
                          <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)) : ?>
                             <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=aeerecord") ? 'active' : '' ?>">
