@@ -50,17 +50,17 @@ $form = $this->beginWidget(
                 <?php if ($sedspSync): ?>
                     <div style="font-weight: bold;margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/SyncTrue.png"
-                            style="width: 25px; margin-right: 2px;">Sincronizado
+                             style="width: 25px; margin-right: 2px;">Sincronizado
                     </div>
                 <?php else: ?>
                     <div style="font-weight: bold;margin-right: 20px;">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                            style="width: 25px;margin-right: 2px;">Não sincronizado
+                             style="width: 25px;margin-right: 2px;">Não sincronizado
                     </div>
                 <?php endif; ?>
 
                 <a class="update-student-from-sedsp"
-                    style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;cursor: pointer">
+                   style="margin-right: 10px;background: #2e33b7;color: white;font-size: 13px;padding-left: 4px;padding-right: 4px;border-radius: 6px;cursor: pointer">
                     Importar dados da SED
                 </a>
             </div>
@@ -69,7 +69,7 @@ $form = $this->beginWidget(
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
         <a data-toggle="tab" class='hide-responsive t-button-secondary prev'
-            style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+           style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
         <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
 
         <button class="t-button-primary  last save-student" type="button">
@@ -171,11 +171,11 @@ $form = $this->beginWidget(
                                     )
                                 ); ?>
                                 <span id="similarMessage" data-toggle="tooltip" data-placement="top"
-                                    data-original-title="">
+                                      data-original-title="">
                                     <img id="warningNameIcon" onclick="displayRecords()" style="display: none;"
-                                        src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
+                                         src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
                                     <img id="errorNameIcon" style="display: none;"
-                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                         src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <?php echo $form->error($modelStudentIdentification, 'name'); ?>
                             </div>
@@ -211,13 +211,13 @@ $form = $this->beginWidget(
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-text" id="dateOfBirth">
                                 <?php echo $form->label($modelStudentIdentification, 'birthday', array('class' => 't-field-text__label--required')); ?>
-								<?php
-                                    $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelStudentIdentification, 'birthday'));
-                                    echo CHtml::link('	Limpar', '#', array(
-                                        'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
-                                    ));
-                                    echo $form->error($modelStudentIdentification, 'birthday');
-								?>
+                                <?php
+                                $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($modelStudentIdentification, 'birthday'));
+                                echo CHtml::link('	Limpar', '#', array(
+                                    'onclick' => '$("#' . CHtml::activeId($modelStudentIdentification, 'birthday') . '").datepicker("setDate", null); return false;',
+                                ));
+                                echo $form->error($modelStudentIdentification, 'birthday');
+                                ?>
                             </div>
                         </div>
                         <!-- CPF -->
@@ -227,7 +227,7 @@ $form = $this->beginWidget(
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "class" => "t-field-text__input")); ?>
                                 <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                                     <img id="errorCPFIcon" style="display: none;"
-                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                         src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf')): ?>
                                     <div style='margin-top: 5px;color: red;'>
@@ -276,9 +276,9 @@ $form = $this->beginWidget(
                         <!-- Nacionalidade  -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-select" id="nationality-select">
-                                <?php echo $form->label($modelStudentIdentification, 'nationality', array('class' => 't-field-select__label--required')); ?>
-                                <?php
-                                echo $form->dropDownList(
+                                <?= $form->label($modelStudentIdentification, 'nationality', array('class' => 't-field-select__label--required')); ?>
+                                <?=
+                                 $form->dropDownList(
                                     $modelStudentIdentification,
                                     'nationality',
                                     array(null => "Selecione a nacionalidade", "1" => "Brasileira", "2" => "Brasileira: Nascido no exterior ou Naturalizado", "3" => "Estrangeira"),
@@ -416,9 +416,9 @@ $form = $this->beginWidget(
                             </div>
                             <!-- Tipos de deficiência -->
                             <div id="StudentIdentification_deficiencies"
-                                class="t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
+                                 class="t-field-checkbox-group control-group deficiencies-container js-change-required js-visibility-deficiencies">
                                 <label
-                                    class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Deficiency Type'); ?>
+                                        class="t-field-checkbox__label--required"><?php echo Yii::t('default', 'Deficiency Type'); ?>
                                 </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelStudentIdentification, 'deficiency_type_blindness', array('value' => 1, 'uncheckValue' => 0, 'class' => 'linked-deficiency')); ?>
@@ -480,9 +480,9 @@ $form = $this->beginWidget(
                             <div class=" t-field-text js-hide-not-required" style="margin-left: 12px;">
                                 <!-- Recursos requeridos em avaliações do INEP (Prova Brasil, SAEB, outros) -->
                                 <div class="t-field-checkbox-group js-visibility-dresource hide-responsive resources-container"
-                                    id="resources-checkbox">
+                                     id="resources-checkbox">
                                     <label
-                                        class="t-field-checkbox__label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
+                                            class="t-field-checkbox__label"><?php echo Yii::t('default', 'Required Resources'); ?></label>
                                     <div class="t-field-checkbox">
                                         <?php echo $form->checkBox($modelStudentIdentification, 'resource_aid_lector', array('value' => 1, 'uncheckValue' => 0)); ?>
                                         <label class="t-field-checkbox">
@@ -638,7 +638,7 @@ $form = $this->beginWidget(
                                 echo $form->dropDownList(
                                     $modelStudentIdentification,
                                     'responsable',
-                                    array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro', ),
+                                    array(null => "Selecione o responsável", 0 => 'Pai', 1 => 'Mãe', 2 => 'Outro',),
                                     array('class' => 'select-search-off t-field-select__input select2-container')
                                 );
                                 ?>
@@ -797,7 +797,7 @@ $form = $this->beginWidget(
                         <!-- Data de Nascimento da Mãe -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-text js-hide-not-required js-disabled-finputs"
-                                id="dateOfBirthFiliation">
+                                 id="dateOfBirthFiliation">
                                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_birthday', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentIdentification, 'filiation_1_birthday', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
                                 <?php echo $form->error($modelStudentIdentification, 'filiation_1_birthday'); ?>
@@ -826,7 +826,7 @@ $form = $this->beginWidget(
                         <!-- Escolaridade da Mãe -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-select js-hide-not-required js-disabled-finputs"
-                                id="scholarityFiliation1-select">
+                                 id="scholarityFiliation1-select">
                                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_scholarity', array('class' => 't-field-select__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'filiation_1_scholarity', array(
@@ -847,7 +847,7 @@ $form = $this->beginWidget(
                         <!-- Profissão filiação 1 -->
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-text js-hide-not-required js-disabled-finputs"
-                                id="professionFiliation1">
+                                 id="professionFiliation1">
                                 <?php echo $form->label($modelStudentIdentification, 'filiation_1_job', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField(
                                     $modelStudentIdentification,
@@ -929,7 +929,7 @@ $form = $this->beginWidget(
                         <!-- Escolaridade do pai -->
                         <div class="column clearleft is-two-fifths">
                             <div class="t-field-select js-hide-not-required js-disabled-finputs"
-                                id="scholarityFiliation2-select">
+                                 id="scholarityFiliation2-select">
                                 <?php echo $form->label($modelStudentIdentification, 'filiation_2_scholarity', array('class' => 'control-label t-field-select__label')); ?>
                                 <?php
                                 echo $form->dropDownList($modelStudentIdentification, 'filiation_2_scholarity', array(
@@ -1179,9 +1179,9 @@ $form = $this->beginWidget(
                                     )
                                 ); ?>
                                 <span id="termMessage" data-toggle="tooltip" data-placement="top"
-                                    data-original-title="">
+                                      data-original-title="">
                                     <img id="errorTermIcon" style="display: none;"
-                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                         src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_certification_term_number'); ?>
                             </div>
@@ -1310,9 +1310,9 @@ $form = $this->beginWidget(
                                     array("disabled" => "disabled", "class" => "nationality-sensitive br no-br t-field-text__input select2-container")
                                 ); ?>
                                 <span id="registerMessage" data-toggle="tooltip" data-placement="top"
-                                    data-original-title="">
+                                      data-original-title="">
                                     <img id="registerIcon" style="display: none;"
-                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                         src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'civil_register_enrollment_number'); ?>
                             </div>
@@ -1516,11 +1516,11 @@ $form = $this->beginWidget(
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'nis', array('size' => 11, 'maxlength' => 11, 'placeholder' => 'Digite o NIS')); ?>
                                 <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                                     <img id="errorNisIcon" style="display: none;"
-                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                         src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <span id="nisMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                                     <img id="errorNisIcon" style="display: none;"
-                                        src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
+                                         src="<?php echo $themeUrl . '/img/error-icon.svg' ?>" alt="icone erro">
                                 </span>
                                 <?php echo $form->error($modelStudentDocumentsAndAddress, 'nis'); ?>
                             </div>
@@ -1748,7 +1748,7 @@ $form = $this->beginWidget(
 
                                         $command = Yii::app()->db->createCommand($sql);
                                         $command->bindValues(array(':idStudent' => $idStudent, ':schoolYear' => Yii::app()->user->year));
-                                        $existEnrollment = (int) $command->queryScalar();
+                                        $existEnrollment = (int)$command->queryScalar();
 
                                         if ($existEnrollment === 0) {
                                             echo '<a href="#" class="t-button-primary" id="new-enrollment-button">Adicionar Matrícula</a>';
@@ -1763,10 +1763,10 @@ $form = $this->beginWidget(
                                 ?>
                                 <?php
                                 echo $modelStudentIdentification->isNewRecord ? "" : '<a href=' . @Yii::app()->createUrl(
-                                    'student/transfer',
-                                    array('id' => $modelStudentIdentification->id)
-                                ) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
-                                    ?>
+                                        'student/transfer',
+                                        array('id' => $modelStudentIdentification->id)
+                                    ) . ' class="t-button-secondary" id="transfer-student">Transferir Matrícula</a>'
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -1790,11 +1790,11 @@ $form = $this->beginWidget(
 
                                 $classroomOptions = CHtml::listData($classrooms, 'id', 'name');
                                 $optionsDataAttributes = array();
-                                foreach($classrooms as $classroom) {
+                                foreach ($classrooms as $classroom) {
                                     $optionsDataAttributes[$classroom->id] = array('data-isMulti' =>
-                                    (int)(TagUtils::isMultiStage(
-                                        $classroom->edcenso_stage_vs_modality_fk))
-                                );
+                                        (int)(TagUtils::isMultiStage(
+                                            $classroom->edcenso_stage_vs_modality_fk))
+                                    );
                                 }
 
                                 echo $form->dropDownList(
@@ -2010,7 +2010,7 @@ $form = $this->beginWidget(
                             <!-- Tipo de Transporte * -->
                             <div class="t-field-checkbox-group hide-responsive" id="transport_type">
                                 <label
-                                    class="t-field-checkbox__label"><?php echo Yii::t('default', 'Transport Type'); ?>
+                                        class="t-field-checkbox__label"><?php echo Yii::t('default', 'Transport Type'); ?>
                                     *</label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelEnrollment, 'vehicle_type_van', array('value' => 1, 'uncheckValue' => 0)); ?>
@@ -2080,7 +2080,7 @@ $form = $this->beginWidget(
                             <!-- Tipo de Atendimento Educacional Especializado -->
                             <div class="t-field-checkbox-group js-hide-not-required" id="typeOfService">
                                 <label
-                                    class="t-field-checkbox__label"><?php echo Yii::t('default', 'Type of Specialized Educational Assistance'); ?></label>
+                                        class="t-field-checkbox__label"><?php echo Yii::t('default', 'Type of Specialized Educational Assistance'); ?></label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox($modelEnrollment, 'aee_cognitive_functions', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox">
@@ -2184,11 +2184,11 @@ $form = $this->beginWidget(
                                                         <?php
                                                         switch ($me->status) {
                                                             case "1":
-                                                                $created_at = "";
-                                                                if (isset($me->create_date)) {
-                                                                    $created_at = date_create_from_format('Y-m-d H:i:s', $me->create_date)->format('d/m/Y');
+                                                                $enrollment_date = "";
+                                                                if (isset($me->enrollment_date)) {
+                                                                    $enrollment_date = date_create_from_format('Y-m-d', $me->enrollment_date)->format('d/m/Y');
                                                                 }
-                                                                echo "<label class='t-badge-success'>Matriculado " . $created_at . "</label>";
+                                                                echo "<label class='t-badge-success'>Matriculado " . $enrollment_date . "</label>";
                                                                 break;
                                                             case "2":
                                                                 $transfer_date = "";
@@ -2236,7 +2236,7 @@ $form = $this->beginWidget(
                                                         ?>
                                                         <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
                                                             <a href='<?php echo @Yii::app()->createUrl('enrollment/update', array('id' => $me->id)); ?>'
-                                                                class="t-link-button--info">
+                                                               class="t-link-button--info">
                                                                 <div class="t-icon-pencil t-icon"></div>
                                                             </a>
                                                         <?php } ?>
@@ -2244,7 +2244,7 @@ $form = $this->beginWidget(
                                                     </div>
                                                     <div id="accordion-school-label" class="mobile-row">
                                                         <label
-                                                            class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
+                                                                class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
                                                     </div>
                                                 </div>
                                                 <div class="align-items--center">
@@ -2253,17 +2253,18 @@ $form = $this->beginWidget(
                                                         $sedspSync = StudentEnrollment::model()->findByPk($me->id)->sedsp_sync;
                                                         ?>
                                                         <div
-                                                            style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
+                                                                style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
                                                             <?php if ($sedspSync) { ?>
                                                                 <div style="font-weight: bold;margin-right: 20px;">
-                                                                    <img src="/themes/default/img/SyncTrue.png" title="Sincronizado"
-                                                                        style="width: 20px;margin-right: 20px;">
+                                                                    <img src="/themes/default/img/SyncTrue.png"
+                                                                         title="Sincronizado"
+                                                                         style="width: 20px;margin-right: 20px;">
                                                                 </div>
                                                             <?php } else { ?>
                                                                 <div style="font-weight: bold;margin-right: 20px;">
                                                                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/notSync.png"
-                                                                        title="Não Sincronizado"
-                                                                        style="width: 20px;margin-right: 20px;">
+                                                                         title="Não Sincronizado"
+                                                                         style="width: 20px;margin-right: 20px;">
                                                                 </div>
                                                             <?php } ?>
                                                         </div>
@@ -2275,7 +2276,7 @@ $form = $this->beginWidget(
                                                 <div class="mobile-row">
                                                     <label class="accordion-label--title">Turma:</label>
                                                     <a href='<?php echo Yii::app()->createUrl("classroom/update", array("id" => $me->classroomFk->id)); ?>'
-                                                        class="t-link-button--info accordion-label">
+                                                       class="t-link-button--info accordion-label">
                                                         <?php echo $me->classroomFk->name; ?>
                                                     </a>
                                                 </div>
@@ -2305,8 +2306,68 @@ $form = $this->beginWidget(
                                                 <div class="mobile-row">
                                                     <label class="accordion-label--title">Ano:</label>
                                                     <label
-                                                        class="accordion-label"><?php echo $me->classroomFk->school_year ?></label>
+                                                            class="accordion-label"><?php echo $me->classroomFk->school_year ?></label>
                                                 </div>
+                                                <?php if (!empty($me->studentEnrollmentHistories)) : ?>
+                                                    <div class="mobile-row upper-margin">
+                                                        <label class="accordion-label--title">Histórico:</label>
+                                                    </div>
+                                                    <div class="enrollment-history">
+                                                        <?php foreach (array_reverse($me->studentEnrollmentHistories) as $studentEnrollmentHistory) {
+                                                            switch ($studentEnrollmentHistory->status) {
+                                                                case "1":
+                                                                    $enrollment_date = "";
+                                                                    if (isset($studentEnrollmentHistory->enrollment_date)) {
+                                                                        $enrollment_date = date_create_from_format('Y-m-d', $studentEnrollmentHistory->enrollment_date)->format('d/m/Y');
+                                                                    }
+                                                                    echo "<div>• Matriculado " . $enrollment_date . "</div>";
+                                                                    break;
+                                                                case "2":
+                                                                    $transfer_date = "";
+                                                                    if (isset($studentEnrollmentHistory->transfer_date)) {
+                                                                        $transfer_date = date_create_from_format('Y-m-d', $studentEnrollmentHistory->transfer_date)->format('d/m/Y');
+                                                                    }
+                                                                    echo "<div>• Transferido " . $transfer_date . "</div>";
+                                                                    break;
+                                                                case "3":
+                                                                    echo "<div>• Cancelado</div>";
+                                                                    break;
+                                                                case "4":
+                                                                    echo "<div>• Deixou de Frequentar </div>";
+                                                                    break;
+                                                                case "5":
+                                                                    echo "<div>• Remanejado</div>";
+                                                                    break;
+                                                                case "6":
+                                                                    echo "<div>• Aprovado</div>";
+                                                                    break;
+                                                                case "7":
+                                                                    echo "<div>• Aprovado pelo Conselho</div>";
+                                                                    break;
+                                                                case "8":
+                                                                    echo "<div>• Reprovado</div>";
+                                                                    break;
+                                                                case "9":
+                                                                    echo "<div>• Concluinte</div>";
+                                                                    break;
+                                                                case "10":
+                                                                    echo "<div>• Indeterminado</div>";
+                                                                    break;
+                                                                case "11":
+                                                                    echo "<div>• Falecido</div>";
+                                                                    break;
+                                                                case "12":
+                                                                    echo "<div>• Avançado</div>";
+                                                                    break;
+                                                                case "13":
+                                                                    echo "<div>• Reintegrado</div>";
+                                                                    break;
+                                                                default:
+                                                                    echo "";
+                                                            }
+                                                        } ?>
+                                                    </div>
+                                                <?php endif; ?>
                                                 <div class="mobile-row upper-margin">
                                                     <label class="accordion-label--title">Formulários:</label>
                                                 </div>
@@ -2317,22 +2378,23 @@ $form = $this->beginWidget(
                                                         $link = Yii::app()->createUrl('forms/' . $item['action'], array('type' => $type, 'enrollment_id' => $me->id));
                                                         ?>
                                                         <a class="<?= $item['name'] == "Ficha de Matrícula" ? 't-button-primary' : 't-button-secondary' ?> mobile-margin"
-                                                            rel="noopener" target="_blank" href="<?= $link ?>">
+                                                           rel="noopener" target="_blank" href="<?= $link ?>">
                                                             <span class="t-icon-printer"></span>
                                                             <?php echo $item['name'] ?>
                                                         </a>
                                                         <?php
                                                     }
                                                     ?>
-                                                    <a class="t-button-secondary" rel="noopener" target="_blank" href="<?php echo @Yii::app()->createUrl(
-                                                        'forms/EnrollmentGradesReport',
-                                                        array('enrollment_id' => $me->id)
-                                                    ) ?>">
+                                                    <a class="t-button-secondary" rel="noopener" target="_blank"
+                                                       href="<?php echo @Yii::app()->createUrl(
+                                                           'forms/EnrollmentGradesReport',
+                                                           array('enrollment_id' => $me->id)
+                                                       ) ?>">
                                                         <span class="t-icon-printer"></span>
                                                         Ficha de Notas
                                                     </a>
                                                     <a class="t-button-secondary" rel="noopener" target="_blank"
-                                                        href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
+                                                       href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
                                                         <span class="t-icon-printer"></span>
                                                         Ficha Individual
                                                     </a>
@@ -2354,8 +2416,9 @@ $form = $this->beginWidget(
                                                             foreach ($quizs as $quiz) {
                                                                 $link = Yii::app()->createUrl('quiz/default/answer', array('quizId' => $quiz->id, 'studentId' => $me->studentFk->id));
                                                                 ?>
-                                                                <a class="t-button-secondary mobile-margin" rel="noopener"
-                                                                    target="_blank" href="<?= $link ?>">
+                                                                <a class="t-button-secondary mobile-margin"
+                                                                   rel="noopener"
+                                                                   target="_blank" href="<?= $link ?>">
                                                                     <span class="t-icon-printer"></span>
                                                                     <?php echo $quiz->name ?>
                                                                 </a>
@@ -2368,11 +2431,11 @@ $form = $this->beginWidget(
                                                 <?php if ($me->classroomFk->school_year >= Yii::app()->user->year) { ?>
                                                     <div class="row">
                                                         <a
-                                                            href='#'
-                                                            id="delete-enrollment"
-                                                            class="t-link-button--warning"
-                                                            enrollment="<?= $me->id ?>"
-                                                            >Excluir Matrícula
+                                                                href='#'
+                                                                id="delete-enrollment"
+                                                                class="t-link-button--warning"
+                                                                enrollment="<?= $me->id ?>"
+                                                        >Excluir Matrícula
                                                         </a>
                                                     </div>
                                                 <?php } ?>
@@ -2539,7 +2602,7 @@ $form = $this->beginWidget(
                     <div class="t-buttons-container">
                         <div class="column clearfix">
                             <a data-toggle="tab" class='t-button-secondary prev'
-                                style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+                               style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                         </div>
                         <div class="column clearfix">
                             <?= $modelStudentIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary nofloat next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
@@ -2558,12 +2621,12 @@ $form = $this->beginWidget(
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
-                        style="vertical-align: -webkit-baseline-middle">
+                         style="vertical-align: -webkit-baseline-middle">
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Importar aluno da SEDSP</h4>
             </div>
             <form method="post"
-                action="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('id' => $modelStudentIdentification->id, 'gov_id' => $modelStudentIdentification->gov_id)); ?>">
+                  action="<?php echo $this->createUrl('sedsp/default/UpdateStudentFromSedsp', array('id' => $modelStudentIdentification->id, 'gov_id' => $modelStudentIdentification->gov_id)); ?>">
                 <div class="centered-loading-gif">
                     <i class="fa fa-spin fa-spinner"></i>
                 </div>

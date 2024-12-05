@@ -579,6 +579,11 @@ class GradesController extends Controller
             throw new CHttpException(400, "Requisição mal formada, faltam dados");
         }
 
+
+        if (!isset($classroomId) || !isset($disciplineId) || !isset($unityId)) {
+            throw new CHttpException(400, "Requisição mal formada, faltam dados");
+        }
+
         $usecase = new GetStudentGradesByDisciplineUsecase($classroomId, $disciplineId, $unityId);
         $result = $usecase->exec();
         echo CJSON::encode($result);
