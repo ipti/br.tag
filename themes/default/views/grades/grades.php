@@ -54,6 +54,7 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
         </div>
     <?php endif ?>
     <div class="js-grades-alert alert"></div>
+    <div class="js-grades-alert-multi alert hide"></div>
     <hr class="row t-separator" />
     <div class="row justify-content--space-between">
         <div class="column clearleft  is-four-fifths row wrap">

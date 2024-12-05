@@ -9,7 +9,7 @@ $(function () {
 });
 
 $("#classroom").change(function (e) {
-    $(".js-grades-alert").text("").hide()
+    $(".js-grades-alert-multi").hide()
     const disciplineId = urlParams.get("discipline_id");
     const unityId = urlParams.get("unity_id");
 
@@ -64,10 +64,10 @@ $("#stage").on("change", function(e) {
     let alert = ""
      if(isMulti==="1" && stage !== ""){
         alert = isClassroomStage == "1" ?
-        "Foi selecionada a etapa vinculada à TURMA; contudo, também existe a possibilidade de utilizar as etapas vinculadas diretamente aos ALUNOS."
+        "<h4><b>Turma Multiseriada</b></h4>Foi selecionada a etapa vinculada à TURMA<br>contudo, também existe a possibilidade de utilizar as etapas vinculadas diretamente aos ALUNOS."
         :
-        "Foi selecionada uma etapa vinculada aos ALUNOS; contudo, também existe a possibilidade de utilizar as etapas vinculadas diretamente as TURMAS."
-        $(".js-grades-alert").text(alert).show()
+        "<h4><b>Turma Multiseriada</b></h4>Foi selecionada uma etapa vinculada aos ALUNOS<br>contudo, também existe a possibilidade de utilizar a etapas vinculadas diretamente a TURMA."
+        $(".js-grades-alert-multi").html(alert).show()
     }
 })
 $("#discipline, #unities").change(function (e,triggerEvent ) {
