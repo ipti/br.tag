@@ -1,5 +1,12 @@
 $("#classrooms").on("change", function() {
+    $('.instructors-field').removeClass('hide');
+    $('.month-field').removeClass('hide');
+
     loadInstructorsByClassroom();
+
+    $('.instructors-field').removeClass('hide');
+    $('.month-field').removeClass('hide');
+
     loadDisciplinesFromClassroom();
 })
 
@@ -104,7 +111,7 @@ function loadDisciplinesFromClassroom(){
                 classroom: classroom,
             },
             beforeSend: function () {
-                $(".js-loading-div").css("display", "inline-block");
+                $("#js-loading-div").removeClass("hide");
                 $('#classrooms').attr("disabled", "disabled");
                 $('#disciplines').attr("disabled", "disabled");
             },
@@ -135,7 +142,7 @@ function loadDisciplinesFromClassroom(){
                 }
             },
             complete: function() {
-                $(".js-loading-div").hide();
+                $("#js-loading-div").addClass("hide");
                 $('#disciplines').removeAttr("disabled");
                 $('#classrooms').removeAttr("disabled");
             }
@@ -172,7 +179,7 @@ function loadInstructorsByClassroom(){
             }
         },
         complete: function () {
-            $(".js-loading-div").hide();
+            $("#js-loading-div").addClass('hide');
             $('#classrooms').removeAttr("disabled");
         }
     })
@@ -213,7 +220,7 @@ $(document).on("change", ".frequency-checkbox-substitute", function () {
             }
             $(".loading-frequency").hide();
             $(".table-frequency").css("opacity", 1).css("pointer-events", "auto");
-            $("#classrooms, #month, #disciplinas, #instructor").removeAttr("disabled");
+            $("#classrooms, #month, #disciplines, #instructor").removeAttr("disabled");
         },
     });
 });

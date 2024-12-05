@@ -891,6 +891,9 @@ class TimesheetController extends Controller
         $transaction = Yii::app()->db->beginTransaction();
 
         try{
+            // Valida se os schedules foram salvos adequadamente
+            $scheduleSaved = true;
+
             // Para turmas do fundamental menor
             if($isMinor == true){
                 $schedulesAllDay = Schedule::model()->findAllByAttributes(
@@ -904,12 +907,19 @@ class TimesheetController extends Controller
 
                 foreach($schedulesAllDay as $scheduleUnique) {
                     $scheduleUnique->substitute_instructor_fk = null;
+                    if(!$scheduleUnique->save()){
+                        $scheduleSaved = false;
+                        break;
+                    }
                 }
             }
 
-            // Turmas do fundamental maior
+            // Para turmas do fundamental maior
             if($isMinor == false){
                 $schedule->substitute_instructor_fk = null;
+                if(!$schedule->save()){
+                    $scheduleSaved = false;
+                }
             }
 
             // Verificar se ainda existe algum schedule com a chave do registro de professor substituto para aquela turma
@@ -923,7 +933,7 @@ class TimesheetController extends Controller
                 $substituteInstructor->delete();
             }
 
-            if($schedule->save()){
+            if($scheduleSaved){
                 $transaction->commit();
                 header('HTTP/1.1 200 OK');
                 echo json_encode(["valid"=>true]);

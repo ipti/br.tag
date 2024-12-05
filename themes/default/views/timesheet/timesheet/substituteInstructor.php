@@ -65,7 +65,7 @@
                 </div>
 
                 <!-- Instructor -->
-                <div class="t-field-select">
+                <div class="t-field-select instructors-field hide">
                     <?php echo CHtml::label(yii::t('default', 'Instructor'), 'instructor', array('class' => 't-field-select__label--required')); ?>
                     <select
                         class="select-search-on t-field-select__input frequency-input"
@@ -75,7 +75,7 @@
                 </div>
 
                 <!-- Month -->
-                <div class="t-field-select">
+                <div class="t-field-select month-field hide">
                     <?php echo CHtml::label(yii::t('default', 'Month') . "/Ano",
                         'month', array('class' => 't-field-select__label--required')); ?>
                     <?=
@@ -111,13 +111,14 @@
                     </select>
                 </div>
 
-                <img
-                    class="js-loading-div"
-                    style="display:none;margin: 10px 20px;overflow-y: auto;"
-                    height="30px" width="30px"
-                    src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
-                    alt="TAG Loading"
-                >
+                <div id="js-loading-div" class="row hide">
+                    <img
+                        style="margin: 10px 20px;"
+                        height="30px" width="30px"
+                        src="<?php echo Yii::app()->theme->baseUrl; ?>/img/loadingTag.gif"
+                        alt="TAG Loading"
+                    >
+                </div>
             </div>
         </div>
     </div>
