@@ -9,6 +9,7 @@ $(function () {
 });
 
 $("#classroom").change(function (e) {
+    $(".js-grades-alert").text("").hide()
     const disciplineId = urlParams.get("discipline_id");
     const unityId = urlParams.get("unity_id");
 
@@ -56,6 +57,18 @@ $("#stage").on("change", function(e) {
     $("#unities").html()
     $("#unities").select2("val", "");
     loadUnitiesFromClassroom(e.target.value)
+
+    const isMulti = $("#classroom option:selected").attr("data-isMulti");
+    const isClassroomStage = $("#stage option:selected").attr("data-classroom-stage");
+    const stage = $("#stage").val();
+    let alert = ""
+     if(isMulti==="1" && stage !== ""){
+        alert = isClassroomStage == "1" ?
+        "Foi selecionada a etapa vinculada à TURMA; contudo, também existe a possibilidade de utilizar as etapas vinculadas diretamente aos ALUNOS."
+        :
+        "Foi selecionada uma etapa vinculada aos ALUNOS; contudo, também existe a possibilidade de utilizar as etapas vinculadas diretamente as TURMAS."
+        $(".js-grades-alert").text(alert).show()
+    }
 })
 $("#discipline, #unities").change(function (e,triggerEvent ) {
     const unityId = $("#unities").val();
@@ -157,6 +170,13 @@ $("#close-grades-diary").on("click", function (e) {
         return;
     }
 
+    const isMulti = $("#classroom option:selected").attr("data-isMulti");
+    const stage = $("#stage").val();
+    let isClassroomStage = "0"
+    if (isMulti==="1" && stage !== "") {
+        isClassroomStage = $("#stage option:selected").attr("data-classroom-stage");
+    }
+
     $.ajax({
         type: "POST",
         url: "?r=grades/calculateFinalMedia",
@@ -165,6 +185,7 @@ $("#close-grades-diary").on("click", function (e) {
             classroom: classromId,
             stage: $('#stage').val(),
             discipline: disciplineId,
+            isClassroomStage: isClassroomStage,
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");

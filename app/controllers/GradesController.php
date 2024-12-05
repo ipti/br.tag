@@ -634,6 +634,7 @@ class GradesController extends Controller
             $classroomId = Yii::app()->request->getPost("classroom");
             $stage = Yii::app()->request->getPost("stage");
             $disciplineId = Yii::app()->request->getPost("discipline");
+            $isClassroomStage = Yii::app()->request->getPost("isClassroomStage");
 
             $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($classroomId);
 
@@ -648,7 +649,7 @@ class GradesController extends Controller
             TLog::info("Começado processo de calcular média final.", ["Classroom" => $classroom->id, "GradeRules" => $gradeRules->id]);
             $TotalEnrollments = $classroom->activeStudentEnrollments;
             $studentEnrollments = [];
-            if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)){
+            if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) && $isClassroomStage == 0){
                 foreach ($TotalEnrollments as $enrollment) {
                     if($enrollment->edcenso_stage_vs_modality_fk == $stage){
                         array_push($studentEnrollments, $enrollment);
