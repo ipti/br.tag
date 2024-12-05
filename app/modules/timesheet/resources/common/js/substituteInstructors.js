@@ -66,7 +66,7 @@ function loadFrequency(){
                         $.each(schedules, function() {
                             dayRow += "<th>" + (pad(this.day, 2) + "/" + pad($("#month").val(), 2)) + "</th>";
                             daynameRow += "<th>" + this.week_day + "</th>";
-                            if (!data.isMinor){
+                            if (!data.response.isMinor){
                                 scheduleRow += "<th>" + this.schedule + "º Horário</th>";
                             }
                             checkboxRow += "<th class='frequency-checkbox-general frequency-checkbox-container'><input class='frequency-checkbox-substitute' type='checkbox' " + "classroomId='" + $("#classrooms").val() + "' day='" + this.day + "' month='" + $("#month").val() + "' schedule='" + this.schedule + "' /></th>";
