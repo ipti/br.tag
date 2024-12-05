@@ -1,3 +1,10 @@
+## [Versão 3.91.207]
+- Feito com que o aluno rematricule numa turma que havia sido transferida
+- Aumentado fonte da ficha de notas
+- Inserido campos no cabeçalho da ficha de notas (gênero, filiação, data de nascimento, naturalidade)
+- Inserido opção pra imprimir ficha de notas com local/data ou não
+- Trocado signatário de inspetor escolar para secretário escolar na ficha de notas
+
 ## [Versão 3.90.206]
 - Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
 
@@ -18,6 +25,7 @@
 ## [Versão 3.89.202]
 - Modificando o tempo de sessão
 - Corrigindo errors relacionados a comparação de variáveis
+
 
 ## [Versão 3.89.201]
 - Adicionando o informativo de total de aulas da carga horária e total de aulas ministradas nas telas de aulas ministradas

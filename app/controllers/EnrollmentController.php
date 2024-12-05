@@ -237,81 +237,95 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             if ($model->validate()) {
                 $model->attributes = $_POST['StudentEnrollment'];
                 $model->school_inep_id_fk = Classroom::model()->findByPk([$_POST['StudentEnrollment']["classroom_fk"]])->school_inep_fk;
-                if ($model->save()) {
-                    $message = "";
-                    if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
-                        $this->authenticateSedToken();
+                if ($model->validate()) {
 
-                        $inNumRA = StudentIdentification::model()->findByPk($model->student_fk);
-                        $inAluno = new InAluno($inNumRA->gov_id, null, 'SP');
-                        $class = Classroom::model()->findByPk($model->classroom_fk);
-                        $newClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                    if ($model->status != $_POST['StudentEnrollment']["status"]) {
+                        $studentEnrollmentHistory = new StudentEnrollmentHistory();
+                        $studentEnrollmentHistory->student_enrollment_fk = $model->id;
+                        $studentEnrollmentHistory->status = $model->status;
+                        $studentEnrollmentHistory->enrollment_date = $model->enrollment_date;
+                        $studentEnrollmentHistory->transfer_date = $model->transfer_date;
+                        $studentEnrollmentHistory->class_transfer_date = $model->class_transfer_date;
+                        $studentEnrollmentHistory->school_readmission_date = $model->school_readmission_date;
+                        $studentEnrollmentHistory->save();
+                    }
 
-                        if ($model->sedsp_sync == 0) {
-                            $model->studentFk->processEnrollment($model->studentFk, $model);
-                        }
+                    if ($model->save()) {
+                        $message = "";
+                        if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
+                            $this->authenticateSedToken();
 
-                        if ($model->status === '2' || $model->status === '5') {
-                            //addTrocarAlunoEntreClasses
-                            $classroomMapper = new ClassroomMapper;
-                            $ensino = (object) $classroomMapper->convertStageToTipoEnsino($class->edcenso_stage_vs_modality_fk);
-
-                            $inDataMovimento = date('d/m/Y');
-                            $inNumAluno = "00";
-                            $inNumClasseOrigem = $oldClass;
-                            $inNumClasseDestino = $newClass;
-
-                            $inTrocarAlunoEntreClasses = new InTrocarAlunoEntreClasses(
-                                $inAluno,
-                                new InMatriculaTrocar(Yii::app()->user->year, $inDataMovimento, $inNumAluno, $inNumClasseOrigem, $inNumClasseDestino),
-                                new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno)
-                            );
-
-                            $trocarAlunoEntreClassesUseCase = new TrocarAlunoEntreClassesUseCase;
-                            $result = $trocarAlunoEntreClassesUseCase->exec($inTrocarAlunoEntreClasses);
-
-                        } elseif ($model->status === '3' || $model->status === '11') {
-                            //excluirmatricula
+                            $inNumRA = StudentIdentification::model()->findByPk($model->student_fk);
+                            $inAluno = new InAluno($inNumRA->gov_id, null, 'SP');
                             $class = Classroom::model()->findByPk($model->classroom_fk);
-                            $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                            $newClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
 
-                            $inExcluirMatricula = new InExcluirMatricula($inAluno, $inNumClasse);
-
-                            $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase;
-                            $result = $deleteEnrollmentUseCase->exec($inExcluirMatricula);
-                        } elseif ($model->status === '4') {
-                            //baixarmatricula
-
-                            $inTipoBaixa = $_POST['reason'];
-                            if ($inTipoBaixa == '1') {
-                                $inMotivoBaixa = $_POST['secondReason'];
-                            } else {
-                                $inMotivoBaixa = null;
+                            if ($model->sedsp_sync == 0) {
+                                $model->studentFk->processEnrollment($model->studentFk, $model);
                             }
 
-                            $inDataBaixa = date('Y-m-d');
-                            $class = Classroom::model()->findByPk($model->classroom_fk);
-                            $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                            if ($model->status === '2' || $model->status === '5') {
+                                //addTrocarAlunoEntreClasses
+                                $classroomMapper = new ClassroomMapper;
+                                $ensino = (object) $classroomMapper->convertStageToTipoEnsino($class->edcenso_stage_vs_modality_fk);
 
-                            $inBaixarMatricula = new InBaixarMatricula($inAluno, $inTipoBaixa, $inMotivoBaixa, $inDataBaixa, $inNumClasse);
+                                $inDataMovimento = date('d/m/Y');
+                                $inNumAluno = "00";
+                                $inNumClasseOrigem = $oldClass;
+                                $inNumClasseDestino = $newClass;
 
-                            $terminateEnrollmentUseCase = new TerminateEnrollmentUseCase;
-                            $result = $terminateEnrollmentUseCase->exec($inBaixarMatricula);
-                        }
+                                $inTrocarAlunoEntreClasses = new InTrocarAlunoEntreClasses(
+                                    $inAluno,
+                                    new InMatriculaTrocar(Yii::app()->user->year, $inDataMovimento, $inNumAluno, $inNumClasseOrigem, $inNumClasseDestino),
+                                    new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno)
+                                );
 
-                        if ($result->outErro === null) {
+                                $trocarAlunoEntreClassesUseCase = new TrocarAlunoEntreClassesUseCase;
+                                $result = $trocarAlunoEntreClassesUseCase->exec($inTrocarAlunoEntreClasses);
+
+                            } elseif ($model->status === '3' || $model->status === '11') {
+                                //excluirmatricula
+                                $class = Classroom::model()->findByPk($model->classroom_fk);
+                                $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+
+                                $inExcluirMatricula = new InExcluirMatricula($inAluno, $inNumClasse);
+
+                                $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase;
+                                $result = $deleteEnrollmentUseCase->exec($inExcluirMatricula);
+                            } elseif ($model->status === '4') {
+                                //baixarmatricula
+
+                                $inTipoBaixa = $_POST['reason'];
+                                if ($inTipoBaixa == '1') {
+                                    $inMotivoBaixa = $_POST['secondReason'];
+                                } else {
+                                    $inMotivoBaixa = null;
+                                }
+
+                                $inDataBaixa = date('Y-m-d');
+                                $class = Classroom::model()->findByPk($model->classroom_fk);
+                                $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+
+                                $inBaixarMatricula = new InBaixarMatricula($inAluno, $inTipoBaixa, $inMotivoBaixa, $inDataBaixa, $inNumClasse);
+
+                                $terminateEnrollmentUseCase = new TerminateEnrollmentUseCase;
+                                $result = $terminateEnrollmentUseCase->exec($inBaixarMatricula);
+                            }
+
+                            if ($result->outErro === null) {
+                                $flash = "success";
+                                $message .= "Matrícula alterada com sucesso!";
+                            } else {
+                                $flash = "error";
+                                $message .= "Matrícula alterada com sucesso no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: " . $result->outErro;
+                            }
+                        } else {
                             $flash = "success";
                             $message .= "Matrícula alterada com sucesso!";
-                        } else {
-                            $flash = "error";
-                            $message .= "Matrícula alterada com sucesso no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: " . $result->outErro;
                         }
-                    } else {
-                        $flash = "success";
-                        $message .= "Matrícula alterada com sucesso!";
+                        Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
+                        Yii::app()->user->setFlash($flash, $message);
                     }
-                    Log::model()->saveAction("enrollment", $model->id, "U", $model->studentFk->name . "|" . $model->classroomFk->name);
-                    Yii::app()->user->setFlash($flash, $message);
                 }
             }
         }
