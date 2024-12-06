@@ -9,16 +9,16 @@ xsd2php:
     'http://www.tce.se.gov.br/sagres2024/xml/genericos': 'Genericos'
 
   destinations_php:
-    'TabInternas': modules\sagres\soap\src\tabInternasClass
-    'SagresEdu': modules\sagres\soap\src\sagresEdu
-    'Genericos': modules\sagres\soap\src\genericosClass
+    'TabInternas': modules\sagres\soap\src2\tabInternasClass
+    'SagresEdu': modules\sagres\soap\src2\sagresEdu
+    'Genericos': modules\sagres\soap\src2\genericosClass
 
 #    'TestNs\MyApp': soap\src  #  on Windows
 
   destinations_jms:
-    'TabInternas': modules\sagres\soap\metadata\tabInternasMetadata
-    'SagresEdu': modules\sagres\soap\metadata\sagresEduMetadata
-    'Genericos': modules\sagres\soap\metadata\genericosMetadata
+    'TabInternas': modules\sagres\soap\metadata2\tabInternasMetadata
+    'SagresEdu': modules\sagres\soap\metadata2\sagresEduMetadata
+    'Genericos': modules\sagres\soap\metadata2\genericosMetadata
 
 #    'TestNs\MyApp': soap\metadata  #  on Windows
 
@@ -37,3 +37,6 @@ xsd2php:
 #    "urn:veloconnect:catalog-1.1": xsd/catalog-1.1.xsd
   configs_jms:  #optional
     xml_cdata: false # Disables CDATA
+
+  annotations:
+  - GoetasWebservices\Xsd\XsdToPhp\PhpWriter\JMS\JMSAnnotations
