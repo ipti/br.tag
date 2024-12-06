@@ -622,11 +622,14 @@ preenchidos";
 
     public function actionFrequency()
     {
-        $instructors = InstructorIdentification::model()->findAll([
-            'condition' => 'school_inep_id_fk = :schoolId',
-            'params' => [':schoolId' => Yii::app()->user->school],
-            'order' => 'name',
-        ]);
+        $instructorCriteria = new CDbCriteria;
+        $instructorCriteria->alias = "id";
+        $instructorCriteria->join = "join users_school us on us.user_fk = id.users_fk";
+        $instructorCriteria->condition = "us.school_fk = :school_inep_fk";
+        $instructorCriteria->order = "name";
+        $instructorCriteria->params = array(':school_inep_fk' => Yii::app()->user->school);
+
+        $instructors = InstructorIdentification::model()->findAll($instructorCriteria);
 
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $criteria = new CDbCriteria;
