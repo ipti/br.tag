@@ -1,3 +1,7 @@
+## [Versão 3.92.207]
+- Trocado "Série" por "Etapa" na Ficha de Matrícula
+- O Campo 27 da Ficha de Matrícula (Autorização do Termo de Consentimento de Imagem) agora traz preenchido do cadastro do aluno
+
 ## [Versão 3.91.207]
 - Feito com que o aluno rematricule numa turma que havia sido transferida
 - Aumentado fonte da ficha de notas
