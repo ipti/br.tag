@@ -1,3 +1,7 @@
+## [Versão 3.92.207]
+- Funcionalidade de Professor substituto adicionada.
+- Telas relacionadas com frequência e aulas ministradas adapatadas à nova funcionalidade.
+
 ## [Versão 3.91.207]
 - Feito com que o aluno rematricule numa turma que havia sido transferida
 - Aumentado fonte da ficha de notas
