@@ -669,7 +669,7 @@ class GradesController extends Controller
                 $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
                 (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
                 if($gradeRules->rule_type === "N") {
-                    (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities))->exec();
+                    (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities, $stage))->exec();
                 }
 
             }
