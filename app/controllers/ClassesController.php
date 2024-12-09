@@ -189,7 +189,7 @@ class ClassesController extends Controller
                         ->queryAll();
 
                     $additionalClasses = Yii::app()->db->createCommand(
-                        "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid
+                        "select distinct cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid
                         from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join course_plan_discipline_vs_abilities dvsa on dvsa.course_class_fk = cc.id
@@ -201,6 +201,7 @@ class ClassesController extends Controller
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
                         ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
                         ->queryAll();
+
 
                     $courseClasses = array_merge($courseClasses, $additionalClasses);
                 }
