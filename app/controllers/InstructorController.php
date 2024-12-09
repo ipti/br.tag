@@ -651,7 +651,7 @@ preenchidos";
 
     public function actionGetFrequency()
     {
-        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"]]);
+        $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk and month = :month and discipline_fk = :discipline_fk and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $_POST["classroom"], "month" => $_POST["month"], "discipline_fk" => $_POST["discipline"]]);
 
         $criteria = new CDbCriteria();
         $criteria->with = array('instructorFk');
@@ -667,7 +667,7 @@ preenchidos";
                     $array["instructorName"] = $enrollment->instructorFk->name;
                     $array["schedules"] = [];
                     foreach ($schedules as $schedule) {
-                        $instructorFault = InstructorFaults::model()->find("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $enrollment->instructor_fk]);
+                        $instructorFault = InstructorFaults::model()->find("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $enrollment->id]);
                         $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
                         array_push($array["schedules"], [
                             "available" => $available,
@@ -729,8 +729,12 @@ preenchidos";
     {
         if ($_POST["instructorId"] != null) {
             if ($_POST["fault"] == "1") {
+                $teachingData = InstructorTeachingData::model()->find(
+                    'instructor_fk = :instructorId AND classroom_id_fk = :classroomId',
+                    array(':instructorId' => $_POST["instructorId"], ':classroomId' => $_POST["classroomId"])
+                );
                 $instructorFault = new InstructorFaults();
-                $instructorFault->instructor_fk = $_POST["instructorId"];
+                $instructorFault->instructor_fk = $teachingData->id;
                 $instructorFault->schedule_fk = $_POST["schedule"];
                 $instructorFault->save();
             } else {
