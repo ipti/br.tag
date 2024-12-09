@@ -311,8 +311,10 @@ class ClassesController extends Controller
 
     private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
     {
+        $instructorFilter = $this->getInstructorFilter(Classroom::model()->findByPk($classroomId));
+
         return Schedule::model()->findAll(
-            "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
+            "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 " . $instructorFilter . " order by day, schedule",
             [
                 "classroom_fk" => $classroomId,
                 "month" => $month,
@@ -330,8 +332,10 @@ class ClassesController extends Controller
      */
     private function getSchedulesFromMinorStage($classroomId, $month, $year)
     {
+        $instructorFilter = $this->getInstructorFilter(Classroom::model()->findByPk($classroomId));
+
         return Schedule::model()->findAll(
-            "classroom_fk = :classroom_fk and month = :month and year = :year and unavailable = 0 group by day order by day, schedule",
+            "classroom_fk = :classroom_fk and month = :month and year = :year and unavailable = 0 " . $instructorFilter . " group by day order by day, schedule",
             [
                 "classroom_fk" => $classroomId,
                 "month" => $month,
@@ -597,9 +601,12 @@ class ClassesController extends Controller
     {
         $classroom = Classroom::model()->findByPk($_POST["classroom"]);
         $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
+
+        $instructorFilter = $this->getInstructorFilter($classroom);
+
         if ($isMinor == false) {
             $schedules = Schedule::model()->findAll(
-                "classroom_fk = :classroom_fk and year = :year and month = :month and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
+                "classroom_fk = :classroom_fk and year = :year and month = :month and discipline_fk = :discipline_fk and unavailable = 0 " . $instructorFilter . "  order by day, schedule",
                 [
                     "classroom_fk" => $_POST["classroom"],
                     "year" => $_POST["year"],
@@ -609,7 +616,7 @@ class ClassesController extends Controller
             );
         } else {
             $schedules = Schedule::model()->findAll(
-                "classroom_fk = :classroom_fk and year = :year and month = :month and unavailable = 0 group by day order by day, schedule",
+                "classroom_fk = :classroom_fk and year = :year and month = :month and unavailable = 0 ". $instructorFilter . " group by day order by day, schedule",
                 [
                     "classroom_fk" => $_POST["classroom"],
                     "year" => $_POST["year"],
@@ -664,6 +671,15 @@ class ClassesController extends Controller
         } else {
             echo json_encode(["valid" => false, "error" => "Mês/Ano " . ($isMinor == false ? "e Disciplina" : "") . " sem aula no Quadro de Horário."]);
         }
+    }
+
+    private function getInstructorFilter($classroom) {
+        if (!TagUtils::isInstructor()) {
+            return "";
+        }
+
+        $condition = TagUtils::isSubstituteInstructor($classroom) ? "is not null" : "is null";
+        return "and substitute_instructor_fk " . $condition;
     }
     private function getScheduleDays($schedules)
     {
