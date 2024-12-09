@@ -13,6 +13,17 @@ $(document).on(
         loadStructure();
     }
 );
+$(document).on(
+    "change",
+    ".final-recovery-unity-calculation",
+    function () {
+        if($('.final-recovery-unity-calculation').select2('data').text.trim() == "Média Semestral") {
+            $('.js-final-recovery-fomula').show()
+        } else {
+            $('.js-final-recovery-fomula').hide()
+        }
+    }
+);
 
 $(document).on("keyup", ".unity-name", function (e) {
     const unity = $(this).closest(".unity");
@@ -778,6 +789,9 @@ function loadStructure() {
                     "val",
                     data.final_recovery.grade_calculation_fk
                 );
+                if($('.final-recovery-unity-calculation').select2('data').text.trim() == "Média Semestral") {
+                    $('.js-final-recovery-fomula').show()
+                }
                 $("select.js-final-recovery-fomula-select").select2(
                     "val",
                     data.final_recovery.final_recovery_avarage_formula
