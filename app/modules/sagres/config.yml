@@ -4,9 +4,9 @@
 
 xsd2php:
   namespaces:
-    'http://www.tce.se.gov.br/sagres2024/xml/tabelasInternas': 'TabInternas'
-    'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu': 'SagresEdu'
-    'http://www.tce.se.gov.br/sagres2024/xml/genericos': 'Genericos'
+    'http://www.tce.se.gov.br/sagres2025/xml/tabelasInternas': 'TabInternas'
+    'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu': 'SagresEdu'
+    'http://www.tce.se.gov.br/sagres2025/xml/genericos': 'Genericos'
 
   destinations_php:
     'TabInternas': modules\sagres\soap\src2\tabInternasClass
@@ -37,6 +37,3 @@ xsd2php:
 #    "urn:veloconnect:catalog-1.1": xsd/catalog-1.1.xsd
   configs_jms:  #optional
     xml_cdata: false # Disables CDATA
-
-  annotations:
-  - GoetasWebservices\Xsd\XsdToPhp\PhpWriter\JMS\JMSAnnotations
