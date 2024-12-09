@@ -29,7 +29,6 @@ class ChageStudentStatusByGradeUsecase
 
     public function exec()
     {
-
         try {
 
             $enrollment = $this->getStudentEnrollment($this->gradeResult->enrollment_fk);
@@ -49,7 +48,6 @@ class ChageStudentStatusByGradeUsecase
             }
 
             $this->updateStudentSituation();
-
         } catch (Exception $e) {
             TLog::error("Erro ao atualizar status da matrícula", ["Exception" => $e]);
         }

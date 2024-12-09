@@ -39,7 +39,7 @@ class AlunoTType
         return $this->cpfAluno;
     }
 
-    public function setCpfAluno(string $cpfAluno): self
+    public function setCpfAluno(string|null $cpfAluno): self
     {
         $this->cpfAluno = $cpfAluno;
         return $this;

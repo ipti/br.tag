@@ -34,7 +34,9 @@ class CalculateFinalMediaUsecase
 
                 if($gradesSemAvarage1 != null) {
                     $grades[] = $gradesSemAvarage1;
-                } elseif($gradesSemAvarage2 != null) {
+                }
+
+                if($gradesSemAvarage2 != null) {
                     $grades[] = $gradesSemAvarage2;
                 }
 
@@ -46,9 +48,14 @@ class CalculateFinalMediaUsecase
             }
 
             if ($this->shouldApplyFinalRecovery($this->gradeRule, $finalMedia)) {
+
+                $gradeUnity = GradeUnity::model()->findByAttributes(
+                    ["edcenso_stage_vs_modality_fk" => $this->gradeRule->edcenso_stage_vs_modality_fk,
+                    "type" =>  "RF"]);
+
                 $gradesFinalRecovery = [];
 
-                if ($this->gradeRule->gradeCalculationFk->name == 'Média Semestral') {
+                if ($this->gradeRule->gradeCalculationFk->name == 'Média Semestral' && $gradeUnity->final_recovery_avarage_formula == "Médias dos Semestres") {
                     // Verifica se os valores são números antes de comparar
                     $semRecPartial1 = is_numeric($this->gradesResult["sem_rec_partial_1"]) ? $this->gradesResult["sem_rec_partial_1"] : 0;
                     $semRecPartial2 = is_numeric($this->gradesResult["sem_rec_partial_2"]) ? $this->gradesResult["sem_rec_partial_2"] : 0;
@@ -77,7 +84,6 @@ class CalculateFinalMediaUsecase
             $this->saveFinalMedia($this->gradesResult, $finalMedia);
 
         } catch (Exception $e) {
-
             TLog::error("Erro ao salvar média final", ["Exception" => $e]);
         }
 
