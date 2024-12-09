@@ -28,11 +28,13 @@ class CalculateConceptGradeUsecase
             }
         } else {
             $studentEnrollments = $classroom->activeStudentEnrollments;
+            $this->stage = $classroom->edcenso_stage_vs_modality_fk;
+
         }
-        $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->classroomId);
+        // $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->classroomId);
 
         foreach ($studentEnrollments as $studentEnrollment) {
-            $this->calculateConceptGrades($studentEnrollment, $unitiesByDiscipline, $this->discipline);
+            $this->calculateConceptGrades($studentEnrollment, $this->discipline);
         }
     }
 
@@ -79,7 +81,7 @@ class CalculateConceptGradeUsecase
         return $gradeResult;
     }
 
-    private function calculateConceptGrades($studentEnrollment, $gradeUnities, $disciplineId)
+    private function calculateConceptGrades($studentEnrollment, $disciplineId)
     {
 
         $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $disciplineId);
@@ -91,13 +93,17 @@ class CalculateConceptGradeUsecase
                 $disciplineId,
             );
             foreach ($grades as  $gradeKey => $grade) {
-                if($grade->grade_concept_fk === null){
-                    $hasAllGrades = false;
-                }
 
                 $gradeResult["grade_concept_" . ($gradeKey + 1)] = $grade->gradeConceptFk->acronym;
 
             }
+
+        $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($this->stage);
+        $numUnities = $gradeUnities->execCount();
+
+        if (!$this->hasAllGrades($numUnities, $gradeResult)) {
+            $hasAllGrades = false;
+        }
 
 
         $gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
@@ -132,7 +138,7 @@ class CalculateConceptGradeUsecase
                 FROM grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id= gum.grade_unity_fk
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "'"
+                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "' and gu.type = 'UC'"
         )->bindParam(":enrollment_id", $enrollmentId)
             ->bindParam(":discipline_id", $discipline)->queryAll(), "id");
 
@@ -145,6 +151,16 @@ class CalculateConceptGradeUsecase
                 'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
             )
         );
+    }
+
+    private function hasAllGrades($numUnities, $gradeResult)
+    {
+        for ($i = 1; $i <= $numUnities; $i++) {
+            if (!isset($gradeResult["grade_concept_" . $i]) || $gradeResult["grade_concept_" . $i] === "") {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
