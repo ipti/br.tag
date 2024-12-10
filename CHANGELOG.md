@@ -1,3 +1,6 @@
+## [Versão 3.91.208]
+- Permitindo que o usuário de professor consiga visualizar no relatório as aulas ministradas cadastradas por outros professores
+
 ## [Versão 3.91.207]
 - Feito com que o aluno rematricule numa turma que havia sido transferida
 - Aumentado fonte da ficha de notas
