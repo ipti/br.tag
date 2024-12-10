@@ -3,6 +3,7 @@
 namespace SagresEdu;
 
 use JMS\Serializer\Annotation as Serializer;
+
 /**
  * Class representing AlunoTType
  *
@@ -36,133 +37,78 @@ class AlunoTType
     #[Serializer\XmlElement(cdata: false)]
     private ?int $justSemCpf = null;
 
-    /**
-     * Gets as cpfAluno
-     *
-     * @return string
-     */
+   
     public function getCpfAluno(): string|null
     {
         return $this->cpfAluno;
     }
 
-    /**
-     * Sets a new cpfAluno
-     *
-     * @param string $cpfAluno
-     * @return self
-     */
+    
     public function setCpfAluno(string|null $cpfAluno): self
     {
         $this->cpfAluno = $cpfAluno;
         return $this;
     }
 
-    /**
-     * Gets as dataNascimento
-     *
-     * @return \DateTime
-     */
     public function getDataNascimento(): \DateTime|null
     {
         return $this->dataNascimento;
     }
 
-    /**
-     * Sets a new dataNascimento
-     *
-     * @param \DateTime $dataNascimento
-     * @return self
-     */
+    
     public function setDataNascimento(\DateTime $dataNascimento): self
     {
         $this->dataNascimento = $dataNascimento;
         return $this;
     }
 
-    /**
-     * Gets as nome
-     *
-     * @return string
-     */
-    public function getNome():string|null
+    
+    public function getNome(): ?string
     {
         return $this->nome;
     }
 
-    /**
-     * Sets a new nome
-     *
-     * @param string $nome
-     * @return self
-     */
-    public function setNome($nome)
+   
+    public function setNome(string $nome)
     {
         $this->nome = $nome;
         return $this;
     }
 
-    /**
-     * Gets as pcd
-     *
-     * @return bool
-     */
-    public function getPcd()
+  
+    public function getPcd():?bool
     {
         return $this->pcd;
     }
 
-    /**
-     * Sets a new pcd
-     *
-     * @param bool $pcd
-     * @return self
-     */
-    public function setPcd($pcd)
+    
+    public function setPcd(bool $pcd): self
     {
         $this->pcd = $pcd;
         return $this;
     }
 
-    /**
-     * Gets as sexo
-     *
-     * @return int
-     */
-    public function getSexo()
+    
+    public function getSexo(): ?intetSexo()
     {
         return $this->sexo;
     }
 
-    /**
-     * Sets a new sexo
-     *
-     * @param int $sexo
-     * @return self
-     */
-    public function setSexo($sexo)
+    
+    public function setSexo(int $sexo): self
     {
         $this->sexo = $sexo;
         return $this;
     }
 
-    /**
-     * Gets as justSemCpf
-     *
-     * @return int
-     */
-    public function getJustSemCpf()
+   
+    public function getJustSemCpf(): ?int
     {
         return $this->justSemCpf;
     }
 
-    /**
-     * Sets a new justSemCpf
-     *
-     * @param int $justSemCpf
-     * @return self
-     */
-    public function setJustSemCpf($justSemCpf)
+ 
+    public function setJustSemCpf( int $justSemCpf)
     {
         $this->justSemCpf = $justSemCpf;
         return $this;
