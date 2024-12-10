@@ -174,7 +174,7 @@ function loadInstructorsByClassroom(){
             }
 
             if (data !== "") {
-                $("#instructor").html(decodeHtml(data)).show();
+                $("#instructor").html(decodeHtml(DOMPurify.sanitize(data))).show();
                 $("#instructor").select2("val", "-1");
             }
         },
