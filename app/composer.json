@@ -19,8 +19,6 @@
   },
   "scripts": {
     "test" : "./vendor/bin/phpunit tests/functional -c tests/phpunit.xml",
-    "sagres-gen":"./vendor/bin/xsd2php convert modules/sagres/config.yml modules/sagres/soap/Educacao.xsd",
-    "convert":"php ./modules/sagres/soap/scripts/convert-notation.php",
-    "generate-jms":"php ./modules/sagres/soap/scripts/generate-notation.php"
+    "sagres-gen":"./vendor/bin/xsd2php convert modules/sagres/config.yml modules/sagres/soap/Educacao.xsd"
   }
 }
