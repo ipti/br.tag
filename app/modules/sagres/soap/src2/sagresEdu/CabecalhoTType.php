@@ -2,6 +2,9 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation as Serializer;
+
+
 /**
  * Class representing CabecalhoTType
  *
@@ -10,244 +13,150 @@ namespace SagresEdu;
  */
 class CabecalhoTType
 {
-    /**
-     * @var string $codigoUnidGestora
-     */
-    private $codigoUnidGestora = null;
+    #[Serializer\SerializedName("edu:codigoUnidGestora")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $codigoUnidGestora = null;
 
-    /**
-     * @var string $nomeUnidGestora
-     */
-    private $nomeUnidGestora = null;
+    #[Serializer\SerializedName("edu:nomeUnidGestora")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $nomeUnidGestora = null;
 
-    /**
-     * @var string $cpfResponsavel
-     */
-    private $cpfResponsavel = null;
+    #[Serializer\SerializedName("edu:cpfResponsavel")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $cpfResponsavel = null;
 
-    /**
-     * @var string $cpfGestor
-     */
-    private $cpfGestor = null;
+    #[Serializer\SerializedName("edu:cpfGestor")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $cpfGestor = null;
 
-    /**
-     * @var int $anoReferencia
-     */
-    private $anoReferencia = null;
+    #[Serializer\SerializedName("edu:anoReferencia")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $anoReferencia = null;
 
-    /**
-     * @var int $mesReferencia
-     */
-    private $mesReferencia = null;
+    #[Serializer\SerializedName("edu:mesReferencia")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $mesReferencia = null;
 
-    /**
-     * @var int $versaoXml
-     */
-    private $versaoXml = null;
+    #[Serializer\SerializedName("edu:versaoXml")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $versaoXml = null;
 
-    /**
-     * @var int $diaInicPresContas
-     */
-    private $diaInicPresContas = null;
+    #[Serializer\SerializedName("edu:diaInicPresContas")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $diaInicPresContas = null;
 
-    /**
-     * @var int $diaFinaPresContas
-     */
-    private $diaFinaPresContas = null;
+    #[Serializer\SerializedName("edu:diaFinaPresContas")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $diaFinaPresContas = null;
 
-    /**
-     * Gets as codigoUnidGestora
-     *
-     * @return string
-     */
-    public function getCodigoUnidGestora()
+
+    // Métodos getters e setters permanecem os mesmos
+    
+    public function getCodigoUnidGestora():?string
     {
         return $this->codigoUnidGestora;
     }
 
-    /**
-     * Sets a new codigoUnidGestora
-     *
-     * @param string $codigoUnidGestora
-     * @return self
-     */
-    public function setCodigoUnidGestora($codigoUnidGestora)
+    public function setCodigoUnidGestora(string $codigoUnidGestora):self
     {
         $this->codigoUnidGestora = $codigoUnidGestora;
         return $this;
     }
 
-    /**
-     * Gets as nomeUnidGestora
-     *
-     * @return string
-     */
-    public function getNomeUnidGestora()
+    
+    public function getNomeUnidGestora():?string
     {
         return $this->nomeUnidGestora;
     }
 
-    /**
-     * Sets a new nomeUnidGestora
-     *
-     * @param string $nomeUnidGestora
-     * @return self
-     */
-    public function setNomeUnidGestora($nomeUnidGestora)
+    
+    public function setNomeUnidGestora(string $nomeUnidGestora): self
     {
         $this->nomeUnidGestora = $nomeUnidGestora;
         return $this;
     }
 
-    /**
-     * Gets as cpfResponsavel
-     *
-     * @return string
-     */
-    public function getCpfResponsavel()
+    public function getCpfResponsavel() :?string
     {
         return $this->cpfResponsavel;
     }
 
-    /**
-     * Sets a new cpfResponsavel
-     *
-     * @param string $cpfResponsavel
-     * @return self
-     */
-    public function setCpfResponsavel($cpfResponsavel)
+    public function setCpfResponsavel( string $cpfResponsavel): self
     {
         $this->cpfResponsavel = $cpfResponsavel;
         return $this;
     }
 
-    /**
-     * Gets as cpfGestor
-     *
-     * @return string
-     */
-    public function getCpfGestor()
+    public function getCpfGestor(): ?string
     {
         return $this->cpfGestor;
     }
 
-    /**
-     * Sets a new cpfGestor
-     *
-     * @param string $cpfGestor
-     * @return self
-     */
-    public function setCpfGestor($cpfGestor)
+    
+    public function setCpfGestor(string $cpfGestor):self
     {
         $this->cpfGestor = $cpfGestor;
         return $this;
     }
 
-    /**
-     * Gets as anoReferencia
-     *
-     * @return int
-     */
-    public function getAnoReferencia()
+    public function getAnoReferencia(): ?int
     {
         return $this->anoReferencia;
     }
 
-    /**
-     * Sets a new anoReferencia
-     *
-     * @param int $anoReferencia
-     * @return self
-     */
-    public function setAnoReferencia($anoReferencia)
+    
+    public function setAnoReferencia(int $anoReferencia):self
     {
         $this->anoReferencia = $anoReferencia;
         return $this;
     }
 
-    /**
-     * Gets as mesReferencia
-     *
-     * @return int
-     */
-    public function getMesReferencia()
+    
+    public function getMesReferencia():?int
     {
         return $this->mesReferencia;
     }
 
-    /**
-     * Sets a new mesReferencia
-     *
-     * @param int $mesReferencia
-     * @return self
-     */
-    public function setMesReferencia($mesReferencia)
+    
+    public function setMesReferencia(int $mesReferencia):self
     {
         $this->mesReferencia = $mesReferencia;
         return $this;
     }
 
-    /**
-     * Gets as versaoXml
-     *
-     * @return int
-     */
-    public function getVersaoXml()
+    
+    public function getVersaoXml():?int
     {
         return $this->versaoXml;
     }
 
-    /**
-     * Sets a new versaoXml
-     *
-     * @param int $versaoXml
-     * @return self
-     */
-    public function setVersaoXml($versaoXml)
+    
+    public function setVersaoXml(int $versaoXml):self
     {
         $this->versaoXml = $versaoXml;
         return $this;
     }
 
-    /**
-     * Gets as diaInicPresContas
-     *
-     * @return int
-     */
-    public function getDiaInicPresContas()
+    public function getDiaInicPresContas():?int 
     {
         return $this->diaInicPresContas;
     }
 
-    /**
-     * Sets a new diaInicPresContas
-     *
-     * @param int $diaInicPresContas
-     * @return self
-     */
-    public function setDiaInicPresContas($diaInicPresContas)
+    
+    public function setDiaInicPresContas(int $diaInicPresContas): self
     {
         $this->diaInicPresContas = $diaInicPresContas;
         return $this;
     }
 
-    /**
-     * Gets as diaFinaPresContas
-     *
-     * @return int
-     */
-    public function getDiaFinaPresContas()
+   
+    public function getDiaFinaPresContas(): ?int 
     {
         return $this->diaFinaPresContas;
     }
 
-    /**
-     * Sets a new diaFinaPresContas
-     *
-     * @param int $diaFinaPresContas
-     * @return self
-     */
-    public function setDiaFinaPresContas($diaFinaPresContas)
+    
+    public function setDiaFinaPresContas(int $diaFinaPresContas):self
     {
         $this->diaFinaPresContas = $diaFinaPresContas;
         return $this;

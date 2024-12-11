@@ -1,6 +1,8 @@
 <?php
 
 namespace SagresEdu;
+use JMS\Serializer\Annotation as Serializer;
+
 
 /**
  * Class representing HorarioTType
@@ -10,39 +12,34 @@ namespace SagresEdu;
  */
 class HorarioTType
 {
-    /**
-     * @var int $diaSemana
-     */
-    private $diaSemana = null;
+    #[Serializer\SerializedName("edu:dia_semana")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $diaSemana = null;
 
-    /**
-     * @var int $duracao
-     */
-    private $duracao = null;
+    #[Serializer\SerializedName("edu:duracao")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $duracao = null;
 
-    /**
-     * @var \DateTime $horaInicio
-     */
-    private $horaInicio = null;
+    #[Serializer\Type("DateTime<'H:i:s'>")]
+    #[Serializer\SerializedName("edu:hora_inicio")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?\DateTime $horaInicio = null;
 
-    /**
-     * @var string $disciplina
-     */
-    private $disciplina = null;
+    #[Serializer\SerializedName("edu:disciplina")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $disciplina = null;
 
-    /**
-     * @var string[] $cpfProfessor
-     */
-    private $cpfProfessor = [
-        
-    ];
+    #[Serializer\XmlList(inline: true, entry: "edu:cpfProfessor")]
+    #[Serializer\SerializedName("edu:cpfProfessor")]
+    #[Serializer\XmlElement(cdata: false)]
+    private array $cpfProfessor = [];
 
     /**
      * Gets as diaSemana
      *
      * @return int
      */
-    public function getDiaSemana()
+    public function getDiaSemana() : ?int
     {
         return $this->diaSemana;
     }
@@ -53,7 +50,7 @@ class HorarioTType
      * @param int $diaSemana
      * @return self
      */
-    public function setDiaSemana($diaSemana)
+    public function setDiaSemana(int $diaSemana): ?int
     {
         $this->diaSemana = $diaSemana;
         return $this;
@@ -64,7 +61,7 @@ class HorarioTType
      *
      * @return int
      */
-    public function getDuracao()
+    public function getDuracao(): ?int
     {
         return $this->duracao;
     }
@@ -75,7 +72,7 @@ class HorarioTType
      * @param int $duracao
      * @return self
      */
-    public function setDuracao($duracao)
+    public function setDuracao(int $duracao): ?int
     {
         $this->duracao = $duracao;
         return $this;
@@ -86,7 +83,7 @@ class HorarioTType
      *
      * @return \DateTime
      */
-    public function getHoraInicio()
+    public function getHoraInicio(): ?\DateTime
     {
         return $this->horaInicio;
     }
@@ -97,7 +94,7 @@ class HorarioTType
      * @param \DateTime $horaInicio
      * @return self
      */
-    public function setHoraInicio(\DateTime $horaInicio)
+    public function setHoraInicio(\DateTime $horaInicio): self
     {
         $this->horaInicio = $horaInicio;
         return $this;
@@ -108,7 +105,7 @@ class HorarioTType
      *
      * @return string
      */
-    public function getDisciplina()
+    public function getDisciplina():?string
     {
         return $this->disciplina;
     }
@@ -119,7 +116,7 @@ class HorarioTType
      * @param string $disciplina
      * @return self
      */
-    public function setDisciplina($disciplina)
+    public function setDisciplina(string $disciplina): self
     {
         $this->disciplina = $disciplina;
         return $this;
@@ -131,7 +128,7 @@ class HorarioTType
      * @return self
      * @param string $cpfProfessor
      */
-    public function addToCpfProfessor($cpfProfessor)
+    public function addToCpfProfessor(string $cpfProfessor): self
     {
         $this->cpfProfessor[] = $cpfProfessor;
         return $this;
@@ -143,7 +140,7 @@ class HorarioTType
      * @param int|string $index
      * @return bool
      */
-    public function issetCpfProfessor($index)
+    public function issetCpfProfessor($index): bool
     {
         return isset($this->cpfProfessor[$index]);
     }
@@ -154,7 +151,7 @@ class HorarioTType
      * @param int|string $index
      * @return void
      */
-    public function unsetCpfProfessor($index)
+    public function unsetCpfProfessor($index): void
     {
         unset($this->cpfProfessor[$index]);
     }
@@ -164,7 +161,7 @@ class HorarioTType
      *
      * @return string[]
      */
-    public function getCpfProfessor()
+    public function getCpfProfessor(): array
     {
         return $this->cpfProfessor;
     }
@@ -175,7 +172,7 @@ class HorarioTType
      * @param string $cpfProfessor
      * @return self
      */
-    public function setCpfProfessor(array $cpfProfessor)
+    public function setCpfProfessor(array $cpfProfessor): self
     {
         $this->cpfProfessor = $cpfProfessor;
         return $this;

@@ -7,5 +7,5 @@ namespace SagresEdu;
  */
 class Educacao extends EducacaoTType
 {
+    // A classe herda tudo de EducacaoTType
 }
-

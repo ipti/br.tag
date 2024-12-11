@@ -2,6 +2,9 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation as Serializer;
+
+
 /**
  * Class representing MatriculaTType
  *
@@ -10,163 +13,93 @@ namespace SagresEdu;
  */
 class MatriculaTType
 {
-    /**
-     * @var string $numero
-     */
-    private $numero = null;
+    #[Serializer\SerializedName("edu:numero")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $numero = null;
 
-    /**
-     * @var \DateTime $dataMatricula
-     */
-    private $dataMatricula = null;
+    #[Serializer\Type("DateTime<'Y-m-d'>")]
+    #[Serializer\SerializedName("edu:data_matricula")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?\DateTime $dataMatricula = null;
 
-    /**
-     * @var \DateTime $dataCancelamento
-     */
-    private $dataCancelamento = null;
+    #[Serializer\Type("DateTime<'Y-m-d'>")]
+    #[Serializer\SerializedName("edu:data_cancelamento")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?\DateTime $dataCancelamento = null;
 
-    /**
-     * @var int $numeroFaltas
-     */
-    private $numeroFaltas = null;
+    #[Serializer\SerializedName("edu:numero_faltas")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $numeroFaltas = null;
 
-    /**
-     * @var bool $aprovado
-     */
-    private $aprovado = null;
+    #[Serializer\SerializedName("edu:aprovado")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?bool $aprovado = null;
 
-    /**
-     * @var \SagresEdu\AlunoTType $aluno
-     */
-    private $aluno = null;
+    #[Serializer\SerializedName("edu:aluno")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?AlunoTType $aluno = null;
 
-    /**
-     * Gets as numero
-     *
-     * @return string
-     */
-    public function getNumero()
+    public function getNumero(): ?string
     {
         return $this->numero;
     }
 
-    /**
-     * Sets a new numero
-     *
-     * @param string $numero
-     * @return self
-     */
-    public function setNumero($numero)
+    public function setNumero(string $numero): self
     {
         $this->numero = $numero;
         return $this;
     }
 
-    /**
-     * Gets as dataMatricula
-     *
-     * @return \DateTime
-     */
-    public function getDataMatricula()
+    public function getDataMatricula(): ?\DateTime
     {
         return $this->dataMatricula;
     }
 
-    /**
-     * Sets a new dataMatricula
-     *
-     * @param \DateTime $dataMatricula
-     * @return self
-     */
-    public function setDataMatricula(\DateTime $dataMatricula)
+    public function setDataMatricula(\DateTime $dataMatricula): self
     {
         $this->dataMatricula = $dataMatricula;
         return $this;
     }
 
-    /**
-     * Gets as dataCancelamento
-     *
-     * @return \DateTime
-     */
-    public function getDataCancelamento()
+    public function getDataCancelamento(): ?\DateTime
     {
         return $this->dataCancelamento;
     }
 
-    /**
-     * Sets a new dataCancelamento
-     *
-     * @param \DateTime $dataCancelamento
-     * @return self
-     */
-    public function setDataCancelamento(\DateTime $dataCancelamento = null)
+    public function setDataCancelamento(?\DateTime $dataCancelamento): self
     {
         $this->dataCancelamento = $dataCancelamento;
         return $this;
     }
 
-    /**
-     * Gets as numeroFaltas
-     *
-     * @return int
-     */
-    public function getNumeroFaltas()
+    public function getNumeroFaltas(): ?int
     {
         return $this->numeroFaltas;
     }
 
-    /**
-     * Sets a new numeroFaltas
-     *
-     * @param int $numeroFaltas
-     * @return self
-     */
-    public function setNumeroFaltas($numeroFaltas)
+    public function setNumeroFaltas(int $numeroFaltas): self
     {
         $this->numeroFaltas = $numeroFaltas;
         return $this;
     }
 
-    /**
-     * Gets as aprovado
-     *
-     * @return bool
-     */
-    public function getAprovado()
+    public function getAprovado(): ?bool
     {
         return $this->aprovado;
     }
 
-    /**
-     * Sets a new aprovado
-     *
-     * @param bool $aprovado
-     * @return self
-     */
-    public function setAprovado($aprovado)
+    public function setAprovado(bool $aprovado): self
     {
         $this->aprovado = $aprovado;
         return $this;
     }
 
-    /**
-     * Gets as aluno
-     *
-     * @return \SagresEdu\AlunoTType
-     */
-    public function getAluno()
+    public function getAluno(): ?AlunoTType
     {
         return $this->aluno;
     }
 
-    /**
-     * Sets a new aluno
-     *
-     * @param \SagresEdu\AlunoTType $aluno
-     * @return self
-     */
-    public function setAluno(\SagresEdu\AlunoTType $aluno)
+    public function setAluno(AlunoTType $aluno): self
     {
         $this->aluno = $aluno;
         return $this;

@@ -1,6 +1,8 @@
 <?php
 
 namespace SagresEdu;
+use JMS\Serializer\Annotation as Serializer;
+
 
 /**
  * Class representing EscolaTType
@@ -10,36 +12,25 @@ namespace SagresEdu;
  */
 class EscolaTType
 {
-    /**
-     * @var int $idEscola
-     */
-    private $idEscola = null;
+    #[Serializer\SerializedName("edu:idEscola")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $idEscola = null;
 
-    /**
-     * @var \SagresEdu\TurmaTType[] $turma
-     */
-    private $turma = [
-        
-    ];
+    #[Serializer\XmlList(inline: true, entry: "edu:turma")]
+    private array $turma = [];
 
-    /**
-     * @var \SagresEdu\DiretorTType $diretor
-     */
-    private $diretor = null;
+    #[Serializer\SerializedName("edu:diretor")]
+    private ?DiretorTType $diretor = null;
 
-    /**
-     * @var \SagresEdu\CardapioTType[] $cardapio
-     */
-    private $cardapio = [
-        
-    ];
+    #[Serializer\XmlList(inline: true, entry: "edu:cardapio")]
+    private array $cardapio = [];
 
     /**
      * Gets as idEscola
      *
      * @return int
      */
-    public function getIdEscola()
+    public function getIdEscola():?int
     {
         return $this->idEscola;
     }
@@ -50,7 +41,7 @@ class EscolaTType
      * @param int $idEscola
      * @return self
      */
-    public function setIdEscola($idEscola)
+    public function setIdEscola(int $idEscola): self
     {
         $this->idEscola = $idEscola;
         return $this;
@@ -62,7 +53,7 @@ class EscolaTType
      * @return self
      * @param \SagresEdu\TurmaTType $turma
      */
-    public function addToTurma(\SagresEdu\TurmaTType $turma)
+    public function addToTurma(TurmaTType $turma): self
     {
         $this->turma[] = $turma;
         return $this;
@@ -74,7 +65,7 @@ class EscolaTType
      * @param int|string $index
      * @return bool
      */
-    public function issetTurma($index)
+    public function issetTurma($index): bool
     {
         return isset($this->turma[$index]);
     }
@@ -85,7 +76,7 @@ class EscolaTType
      * @param int|string $index
      * @return void
      */
-    public function unsetTurma($index)
+    public function unsetTurma($index): void
     {
         unset($this->turma[$index]);
     }
@@ -95,7 +86,7 @@ class EscolaTType
      *
      * @return \SagresEdu\TurmaTType[]
      */
-    public function getTurma()
+    public function getTurma(): array
     {
         return $this->turma;
     }
@@ -106,7 +97,7 @@ class EscolaTType
      * @param \SagresEdu\TurmaTType[] $turma
      * @return self
      */
-    public function setTurma(array $turma)
+    public function setTurma(array $turma): self
     {
         $this->turma = $turma;
         return $this;
@@ -117,7 +108,7 @@ class EscolaTType
      *
      * @return \SagresEdu\DiretorTType
      */
-    public function getDiretor()
+    public function getDiretor(): ?DiretorTType
     {
         return $this->diretor;
     }
@@ -128,7 +119,7 @@ class EscolaTType
      * @param \SagresEdu\DiretorTType $diretor
      * @return self
      */
-    public function setDiretor(\SagresEdu\DiretorTType $diretor)
+    public function setDiretor(DiretorTType $diretor): self
     {
         $this->diretor = $diretor;
         return $this;
@@ -140,7 +131,8 @@ class EscolaTType
      * @return self
      * @param \SagresEdu\CardapioTType $cardapio
      */
-    public function addToCardapio(\SagresEdu\CardapioTType $cardapio)
+    public function addToCardapio(CardapioTType $cardapio): self
+
     {
         $this->cardapio[] = $cardapio;
         return $this;
@@ -152,7 +144,7 @@ class EscolaTType
      * @param int|string $index
      * @return bool
      */
-    public function issetCardapio($index)
+    public function issetCardapio($index): bool
     {
         return isset($this->cardapio[$index]);
     }
@@ -163,7 +155,7 @@ class EscolaTType
      * @param int|string $index
      * @return void
      */
-    public function unsetCardapio($index)
+    public function unsetCardapio($index): void
     {
         unset($this->cardapio[$index]);
     }
@@ -173,7 +165,7 @@ class EscolaTType
      *
      * @return \SagresEdu\CardapioTType[]
      */
-    public function getCardapio()
+    public function getCardapio(): array
     {
         return $this->cardapio;
     }
@@ -184,7 +176,7 @@ class EscolaTType
      * @param \SagresEdu\CardapioTType[] $cardapio
      * @return self
      */
-    public function setCardapio(array $cardapio = null)
+    public function setCardapio(?array $cardapio): self
     {
         $this->cardapio = $cardapio;
         return $this;

@@ -2,6 +2,8 @@
 
 namespace SagresEdu;
 
+use JMS\Serializer\Annotation as Serializer;
+
 /**
  * Class representing TurmaTType
  *
@@ -10,51 +12,44 @@ namespace SagresEdu;
  */
 class TurmaTType
 {
-    /**
-     * @var int $periodo
-     */
-    private $periodo = null;
+    #[Serializer\SerializedName("edu:periodo")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $periodo = null;
 
-    /**
-     * @var string $descricao
-     */
-    private $descricao = null;
+    #[Serializer\SerializedName("edu:descricao")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $descricao = null;
 
-    /**
-     * @var int $turno
-     */
-    private $turno = null;
+    #[Serializer\SerializedName("edu:turno")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $turno = null;
 
-    /**
-     * @var \SagresEdu\SerieTType[] $serie
-     */
-    private $serie = [
-        
-    ];
+    #[Serializer\XmlList(inline: true, entry: "edu:serie")]
+    private array $serie = [];
 
     /**
      * @var \SagresEdu\HorarioTType[] $horario
      */
-    private $horario = [
-        
-    ];
+    #[Serializer\XmlList(inline: true, entry: "edu:horario")]
+    private array $horario = [];
 
-    /**
-     * @var bool $finalTurma
-     */
+    #[Serializer\SerializedName("edu:finalTurma")]
+    #[Serializer\XmlElement(cdata: false)]
     private $finalTurma = null;
 
     /**
      * @var bool $multiseriada
      */
-    private $multiseriada = null;
+    #[Serializer\SerializedName("edu:multiseriada")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?bool $multiseriada = null;
 
     /**
      * Gets as periodo
      *
      * @return int
      */
-    public function getPeriodo()
+    public function getPeriodo():?int
     {
         return $this->periodo;
     }
@@ -65,7 +60,7 @@ class TurmaTType
      * @param int $periodo
      * @return self
      */
-    public function setPeriodo($periodo)
+    public function setPeriodo(int $periodo):self
     {
         $this->periodo = $periodo;
         return $this;
@@ -76,7 +71,7 @@ class TurmaTType
      *
      * @return string
      */
-    public function getDescricao()
+    public function getDescricao():?string
     {
         return $this->descricao;
     }
@@ -87,7 +82,7 @@ class TurmaTType
      * @param string $descricao
      * @return self
      */
-    public function setDescricao($descricao)
+    public function setDescricao(string $descricao):self
     {
         $this->descricao = $descricao;
         return $this;
@@ -98,7 +93,7 @@ class TurmaTType
      *
      * @return int
      */
-    public function getTurno()
+    public function getTurno():?int
     {
         return $this->turno;
     }
@@ -109,7 +104,7 @@ class TurmaTType
      * @param int $turno
      * @return self
      */
-    public function setTurno($turno)
+    public function setTurno(int $turno):self
     {
         $this->turno = $turno;
         return $this;
@@ -121,7 +116,7 @@ class TurmaTType
      * @return self
      * @param \SagresEdu\SerieTType $serie
      */
-    public function addToSerie(\SagresEdu\SerieTType $serie)
+    public function addToSerie(SerieTType $serie):self
     {
         $this->serie[] = $serie;
         return $this;
@@ -133,7 +128,7 @@ class TurmaTType
      * @param int|string $index
      * @return bool
      */
-    public function issetSerie($index)
+    public function issetSerie($index):bool
     {
         return isset($this->serie[$index]);
     }
@@ -144,7 +139,7 @@ class TurmaTType
      * @param int|string $index
      * @return void
      */
-    public function unsetSerie($index)
+    public function unsetSerie($index):void
     {
         unset($this->serie[$index]);
     }
@@ -154,7 +149,7 @@ class TurmaTType
      *
      * @return \SagresEdu\SerieTType[]
      */
-    public function getSerie()
+    public function getSerie():array
     {
         return $this->serie;
     }
@@ -165,7 +160,7 @@ class TurmaTType
      * @param \SagresEdu\SerieTType[] $serie
      * @return self
      */
-    public function setSerie(array $serie)
+    public function setSerie(array $serie):self
     {
         $this->serie = $serie;
         return $this;
@@ -177,7 +172,7 @@ class TurmaTType
      * @return self
      * @param \SagresEdu\HorarioTType $horario
      */
-    public function addToHorario(\SagresEdu\HorarioTType $horario)
+    public function addToHorario(HorarioTType $horario):self
     {
         $this->horario[] = $horario;
         return $this;
@@ -189,7 +184,7 @@ class TurmaTType
      * @param int|string $index
      * @return bool
      */
-    public function issetHorario($index)
+    public function issetHorario($index):bool
     {
         return isset($this->horario[$index]);
     }
@@ -200,7 +195,7 @@ class TurmaTType
      * @param int|string $index
      * @return void
      */
-    public function unsetHorario($index)
+    public function unsetHorario($index):void
     {
         unset($this->horario[$index]);
     }
@@ -210,7 +205,7 @@ class TurmaTType
      *
      * @return \SagresEdu\HorarioTType[]
      */
-    public function getHorario()
+    public function getHorario():array
     {
         return $this->horario;
     }
@@ -221,7 +216,7 @@ class TurmaTType
      * @param \SagresEdu\HorarioTType[] $horario
      * @return self
      */
-    public function setHorario(array $horario)
+    public function setHorario(array $horario):self
     {
         $this->horario = $horario;
         return $this;
@@ -232,7 +227,7 @@ class TurmaTType
      *
      * @return bool
      */
-    public function getFinalTurma()
+    public function getFinalTurma():?bool
     {
         return $this->finalTurma;
     }
@@ -243,7 +238,7 @@ class TurmaTType
      * @param bool $finalTurma
      * @return self
      */
-    public function setFinalTurma($finalTurma)
+    public function setFinalTurma(bool $finalTurma):self
     {
         $this->finalTurma = $finalTurma;
         return $this;
@@ -254,7 +249,7 @@ class TurmaTType
      *
      * @return bool
      */
-    public function getMultiseriada()
+    public function getMultiseriada():bool
     {
         return $this->multiseriada;
     }
@@ -265,7 +260,7 @@ class TurmaTType
      * @param bool $multiseriada
      * @return self
      */
-    public function setMultiseriada($multiseriada)
+    public function setMultiseriada(bool $multiseriada):self
     {
         $this->multiseriada = $multiseriada;
         return $this;

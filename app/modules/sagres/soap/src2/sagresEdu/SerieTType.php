@@ -1,6 +1,8 @@
 <?php
 
 namespace SagresEdu;
+use JMS\Serializer\Annotation as Serializer;
+
 
 /**
  * Class representing SerieTType
@@ -13,11 +15,13 @@ class SerieTType
     /**
      * @var string $idSerie
      */
-    private $idSerie = null;
+    #[Serializer\SerialezedName("edu:idSerie")]
+    private ?string $idSerie = null;
 
     /**
      * @var \SagresEdu\MatriculaTType[] $matricula
      */
+    #[Serializer\XmlList(inline: true, entry: "edu:matricula")]
     private $matricula = [
         
     ];
@@ -27,7 +31,7 @@ class SerieTType
      *
      * @return string
      */
-    public function getIdSerie()
+    public function getIdSerie():?string
     {
         return $this->idSerie;
     }
@@ -38,7 +42,7 @@ class SerieTType
      * @param string $idSerie
      * @return self
      */
-    public function setIdSerie($idSerie)
+    public function setIdSerie(string $idSerie):self
     {
         $this->idSerie = $idSerie;
         return $this;
@@ -50,7 +54,7 @@ class SerieTType
      * @return self
      * @param \SagresEdu\MatriculaTType $matricula
      */
-    public function addToMatricula(\SagresEdu\MatriculaTType $matricula)
+    public function addToMatricula(MatriculaTType $matricula):self
     {
         $this->matricula[] = $matricula;
         return $this;
@@ -62,7 +66,7 @@ class SerieTType
      * @param int|string $index
      * @return bool
      */
-    public function issetMatricula($index)
+    public function issetMatricula($index):bool
     {
         return isset($this->matricula[$index]);
     }
@@ -73,7 +77,7 @@ class SerieTType
      * @param int|string $index
      * @return void
      */
-    public function unsetMatricula($index)
+    public function unsetMatricula($index):void
     {
         unset($this->matricula[$index]);
     }
@@ -83,7 +87,7 @@ class SerieTType
      *
      * @return \SagresEdu\MatriculaTType[]
      */
-    public function getMatricula()
+    public function getMatricula():array
     {
         return $this->matricula;
     }
@@ -94,7 +98,7 @@ class SerieTType
      * @param \SagresEdu\MatriculaTType[] $matricula
      * @return self
      */
-    public function setMatricula(array $matricula)
+    public function setMatricula(?array $matricula):self
     {
         $this->matricula = $matricula;
         return $this;
