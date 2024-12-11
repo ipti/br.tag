@@ -117,10 +117,10 @@ $isModel = isset($modelInstructorIdentification->id);
                             <div class="separator"></div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'name',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -149,10 +149,10 @@ $isModel = isset($modelInstructorIdentification->id);
                             </div>
                             <div class="control-group instructor-civil-name" style="display: none;">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'civil_name',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     );
                                     ?>
                                 </div>
@@ -174,10 +174,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group" id="cpfInstructor">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorDocumentsAndAddress,
                                         'cpf',
-                                        array('class' => 'control-label required')
+                                        array('class' => 't-field-select__label--required')
                                     );
                                     ?>
                                 </div>
@@ -200,10 +200,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'email',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -226,10 +226,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'nis',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -252,10 +252,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'birthday_date',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div style="margin-left: 23px">
@@ -271,10 +271,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group" id="gender-select">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'sex',
-                                        array('class' => 'control-label ')
+                                        array('class' => 't-field-select__label--required ')
                                     );
                                     ?>
                                 </div>
@@ -295,10 +295,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group" id="colorRace">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'color_race',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     );
                                     ?>
                                 </div>
@@ -324,10 +324,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group" id="filiation-select">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'filiation',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -347,10 +347,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group" id="filiation-select_1">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'filiation_1',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -372,10 +372,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'filiation_2',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -400,10 +400,10 @@ $isModel = isset($modelInstructorIdentification->id);
                             <div class="separator"></div>
                             <div class="control-group" id="nationality_select">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'nationality',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -424,10 +424,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'edcenso_nation_fk',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -448,10 +448,10 @@ $isModel = isset($modelInstructorIdentification->id);
                             </div>
                             <div class="control-group" id="state-select">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'edcenso_uf_fk',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -471,10 +471,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group" id="city-select">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorIdentification,
                                         'edcenso_city_fk',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -501,11 +501,11 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <label class="control-label required">
-                                        <?php echo $form->labelEx(
+                                    <label class="required">
+                                        <?php echo $form->label(
                                             $modelInstructorIdentification,
                                             'deficiency',
-                                            array('class' => 'control-label')
+                                            array('class' => 't-field-select__label--required')
                                         ); ?>
                                 </div>
                                 <div class="controls">
@@ -516,7 +516,7 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group deficiencies-container">
                                 <div class="controls">
-                                    <label class="control-label required">
+                                    <label class="required">
                                         <?php echo Yii::t('default', 'Deficiency Type'); ?>
                                         *
                                     </label>
@@ -673,10 +673,10 @@ $isModel = isset($modelInstructorIdentification->id);
                             <div class="control-group">
                                 <div class="controls">
                                     <?php
-                                    echo $form->labelEx(
+                                    echo $form->label(
                                         $modelInstructorDocumentsAndAddress,
                                         'cep',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     );
                                     ?>
                                 </div>
@@ -704,10 +704,10 @@ $isModel = isset($modelInstructorIdentification->id);
                             <div class="control-group">
                                 <div class="controls">
                                     <?php
-                                    echo $form->labelEx(
+                                    echo $form->label(
                                         $modelInstructorDocumentsAndAddress,
                                         'address',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     );
                                     ?>
                                 </div>
@@ -733,10 +733,10 @@ $isModel = isset($modelInstructorIdentification->id);
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorDocumentsAndAddress,
                                         'address_number',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -759,11 +759,11 @@ $isModel = isset($modelInstructorIdentification->id);
                             <div class="control-group">
                                 <div class="controls">
                                     <?php
-                                    echo $form->labelEx(
+                                    echo $form->label(
                                         $modelInstructorDocumentsAndAddress,
                                         'complement',
                                         array(
-                                            'class' => 'control-label'
+                                            'class' => 't-field-select__label--required'
                                         )
                                     ); ?>
                                 </div>
@@ -782,11 +782,11 @@ $isModel = isset($modelInstructorIdentification->id);
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorDocumentsAndAddress,
                                         'neighborhood',
                                         array(
-                                            'class' => 'control-label'
+                                            'class' => 't-field-select__label--required'
                                         )
                                     ); ?>
                                 </div>
@@ -810,11 +810,11 @@ $isModel = isset($modelInstructorIdentification->id);
                             <div class="control-group">
                                 <div class="controls">
                                     <?php
-                                    echo $form->labelEx(
+                                    echo $form->label(
                                         $modelInstructorDocumentsAndAddress,
                                         'edcenso_uf_fk',
                                         array(
-                                            'class' => 'control-label'
+                                            'class' => 't-field-select__label--required'
                                         )
                                     ); ?>
                                 </div>
@@ -834,10 +834,10 @@ $isModel = isset($modelInstructorIdentification->id);
                             </div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorDocumentsAndAddress,
                                         'edcenso_city_fk',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -859,10 +859,10 @@ $isModel = isset($modelInstructorIdentification->id);
                             </div>
                             <div class="control-group hide-responsive" id="location-select">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorDocumentsAndAddress,
                                         'diff_location',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -888,10 +888,10 @@ $isModel = isset($modelInstructorIdentification->id);
                             </div>
                             <div class="control-group" id="zone-select">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorDocumentsAndAddress,
                                         'area_of_residence',
-                                        array('class' => 'control-label required')
+                                        array('class' => 't-field-select__label--required required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -917,10 +917,10 @@ $isModel = isset($modelInstructorIdentification->id);
                             <div class="separator"></div>
                             <div class="control-group">
                                 <div class="controls">
-                                    <?php echo $form->labelEx(
+                                    <?php echo $form->label(
                                         $modelInstructorVariableData,
                                         'scholarity',
-                                        array('class' => 'control-label')
+                                        array('class' => 't-field-select__label--required')
                                     ); ?>
                                 </div>
                                 <div class="controls">
@@ -941,7 +941,7 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <label class="control-label">Pos-Graduação</label>
+                                    <label class="t-field-select__label--required">Pos-Graduação</label>
                                 </div>
                                 <div class="controls">
                                     <label class="checkbox">
@@ -995,7 +995,7 @@ $isModel = isset($modelInstructorIdentification->id);
 
                             <div class="control-group">
                                 <div class="controls">
-                                    <label class="control-label">Outros Cursos</label>
+                                    <label class="t-field-select__label--required">Outros Cursos</label>
                                 </div>
                                 <div class="controls">
                                     <label class="checkbox">
@@ -1269,11 +1269,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx(
+                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_situation_1',
                                                                     array(
-                                                                        'class' => 'control-label required indicator'
+                                                                        'class' => 't-field-text__label--required required indicator'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1288,11 +1288,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx(
+                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_formation_1',
                                                                     array(
-                                                                        'class' => 'control-label'
+                                                                        'class' => 't-field-select__label--required'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1323,7 +1323,7 @@ $isModel = isset($modelInstructorIdentification->id);
                                                                     'default',
                                                                     'Area'
                                                                 ), 'high_education_course_area1', array(
-                                                                    'class' => 'control-label'
+                                                                    'class' => 't-field-select__label--required'
                                                                 ));
                                                                 ?>
                                                             </div>
@@ -1357,11 +1357,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx(
+                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_course_code_1_fk',
                                                                     array(
-                                                                        'class' => 'control-label'
+                                                                        'class' => 't-field-select__label--required'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1387,11 +1387,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx(
+                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_initial_year_1',
                                                                     array(
-                                                                        'class' => 'control-label'
+                                                                        'class' => 't-field-select__label--required'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1416,11 +1416,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         </div>
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx(
+                                                                <?php echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_final_year_1',
                                                                     array(
-                                                                        'class' => 'control-label'
+                                                                        'class' => 't-field-select__label--required'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1489,10 +1489,10 @@ $isModel = isset($modelInstructorIdentification->id);
 
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx(
+                                                                <?php echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_institution_code_1_fk',
-                                                                    array('class' => 'control-label required indicator')
+                                                                    array('class' => 't-field-select__label--required required indicator')
                                                                 ); ?>
 
                                                             </div>
@@ -1511,10 +1511,10 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="separator"></div>
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx(
+                                                                <?php echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_situation_2',
-                                                                    array('class' => 'control-label required indicator')
+                                                                    array('class' => 't-field-select__label--required required indicator')
                                                                 ); ?>
                                                             </div>
                                                             <div class="controls">
@@ -1539,11 +1539,11 @@ $isModel = isset($modelInstructorIdentification->id);
 
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx(
+                                                                <?php echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_formation_2',
                                                                     array(
-                                                                        'class' => 'control-label'
+                                                                        'class' => 't-field-select__label--required'
                                                                     )
                                                                 ); ?>
                                                             </div>
@@ -1563,7 +1563,7 @@ $isModel = isset($modelInstructorIdentification->id);
 
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area2', array('class' => 'control-label')); ?>
+                                                                <?php echo CHtml::label(Yii::t('default', 'Area'), 'high_education_course_area2', array('class' => 't-field-select__label--required')); ?>
                                                             </div>
                                                             <div class="controls">
                                                                 <?php echo CHtml::DropDownList(
@@ -1589,11 +1589,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx(
+                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_course_code_2_fk',
                                                                     array(
-                                                                        'class' => 'control-label'
+                                                                        'class' => 't-field-select__label--required'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1623,7 +1623,7 @@ $isModel = isset($modelInstructorIdentification->id);
 
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx($modelInstructorVariableData, 'high_education_initial_year_2', array('class' => 'control-label')); ?>
+                                                                <?php echo $form->label($modelInstructorVariableData, 'high_education_initial_year_2', array('class' => 't-field-select__label--required')); ?>
                                                             </div>
                                                             <div class="controls">
                                                                 <?php
@@ -1647,7 +1647,7 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx($modelInstructorVariableData, 'high_education_final_year_2', array('class' => 'control-label'));
+                                                                echo $form->label($modelInstructorVariableData, 'high_education_final_year_2', array('class' => 't-field-select__label--required'));
                                                                 ?>
                                                             </div>
                                                             <div class="controls">
@@ -1670,11 +1670,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx(
+                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_institution_code_2_fk',
                                                                     array(
-                                                                        'class' => 'control-label required indicator'
+                                                                        'class' => 't-field-select__label--required required indicator'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1708,11 +1708,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx(
+                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_situation_3',
                                                                     array(
-                                                                        'class' => 'control-label required indicator'
+                                                                        'class' => 't-field-select__label--required required indicator'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1744,11 +1744,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx(
+                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_formation_3',
                                                                     array(
-                                                                        'class' => 'control-label'
+                                                                        'class' => 't-field-select__label--required'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1775,7 +1775,7 @@ $isModel = isset($modelInstructorIdentification->id);
                                                                     'default',
                                                                     'Area'
                                                                 ), 'high_education_course_area3', array(
-                                                                    'class' => 'control-label'
+                                                                    'class' => 't-field-select__label--required'
                                                                 ));
                                                                 ?>
                                                             </div>
@@ -1805,11 +1805,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx(
+                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_course_code_3_fk',
                                                                     array(
-                                                                        'class' => 'control-label'
+                                                                        'class' => 't-field-select__label--required'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1841,11 +1841,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx(
+                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_initial_year_3',
                                                                     array(
-                                                                        'class' => 'control-label'
+                                                                        'class' => 't-field-select__label--required'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1872,11 +1872,11 @@ $isModel = isset($modelInstructorIdentification->id);
 
                                                         <div class="control-group">
                                                             <div class="controls">
-                                                                <?php echo $form->labelEx(
+                                                                <?php echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_final_year_3',
                                                                     array(
-                                                                        'class' => 'control-label'
+                                                                        'class' => 't-field-select__label--required'
                                                                     )
                                                                 );
                                                                 ?>
@@ -1903,11 +1903,11 @@ $isModel = isset($modelInstructorIdentification->id);
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <?php
-                                                                echo $form->labelEx(
+                                                                echo $form->label(
                                                                     $modelInstructorVariableData,
                                                                     'high_education_institution_code_3_fk',
                                                                     array(
-                                                                        'class' => 'control-label required indicator'
+                                                                        'class' => 't-field-select__label--required required indicator'
                                                                     )
                                                                 );
                                                                 ?>

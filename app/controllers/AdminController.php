@@ -567,6 +567,7 @@ class AdminController extends Controller
                 $recoveryUnity->type = "RF";
                 $recoveryUnity->grade_calculation_fk = $finalRecovery["grade_calculation_fk"];
                 $recoveryUnity->edcenso_stage_vs_modality_fk = $stage;
+                $recoveryUnity->final_recovery_avarage_formula = $finalRecovery["final_recovery_avarage_formula"];
 
                 if (!$recoveryUnity->validate()) {
                     $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnity);
@@ -593,7 +594,7 @@ class AdminController extends Controller
 
             } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete") {
                 $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
-                $recoveryUnity->delete();
+                $recoveryUnity?->delete();
                 echo json_encode(["valid" => true]);
                 Yii::app()->end();
             }
@@ -769,7 +770,6 @@ class AdminController extends Controller
         $model = Users::model()->findByPk($id);
         $actualRole = $model->getRole();
         $userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
-
         // Atribuindo valores da superglobal _POST à variáveis locais a fim de evitar o uso de globais
         $users = Yii::app()->request->getPost('Users');
         $schools = Yii::app()->request->getPost('schools');
@@ -777,10 +777,14 @@ class AdminController extends Controller
         $role = Yii::app()->request->getPost('Role');
 
         if (isset($users)) {
-            $model->attributes = $users;
+            $model->name = $users["name"];
+            $model->username = $users["username"];
+            $model->active = $users["active"];
             if ($model->validate()) {
-                $passwordHasher = new PasswordHasher;
-                $model->password = $passwordHasher->bcriptHash($users['password']);
+                if ($users["password"] !== "") {
+                    $passwordHasher = new PasswordHasher;
+                    $model->password = $passwordHasher->bcriptHash($users['password']);
+                }
                 if ($model->save()) {
                     $save = true;
                     foreach ($userSchools as $userSchool) {

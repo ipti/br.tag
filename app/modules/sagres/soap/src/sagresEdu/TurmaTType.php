@@ -2,328 +2,163 @@
 
 namespace SagresEdu;
 
-use JMS\Serializer\Annotation\XmlList;
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\XmlElement;
-
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class representing TurmaTType
  *
- * 
  * XSD Type: turma_t
  */
 class TurmaTType
 {
+    #[Serializer\SerializedName("edu:periodo")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $periodo = null;
 
-    /**
-     * @var int $periodo
-     * @SerializedName("edu:periodo")
-     * @XmlElement(cdata=false)
-     */
-    private $periodo = null;
+    #[Serializer\SerializedName("edu:descricao")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $descricao = null;
 
-    /**
-     * @var string $descricao
-     * @SerializedName("edu:descricao")
-     * @XmlElement(cdata=false)
-     */
-    private $descricao = null;
+    #[Serializer\SerializedName("edu:turno")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $turno = null;
 
-    /**
-     * @var int $turno
-     * @SerializedName("edu:turno")
-     * @XmlElement(cdata=false)
-     */
-    private $turno = null;
+    #[Serializer\XmlList(inline: true, entry: "edu:serie")]
+    private array $serie = [];
 
-    /**
-     * @var \SagresEdu\SerieTType[] $serie
-     * @XmlList(inline = true, entry = "edu:serie")
-     */
-    private $serie = [
-        
-    ];
+    #[Serializer\XmlList(inline: true, entry: "edu:matricula")]
+    private array $matricula = [];
 
-    /**
-     * @var \SagresEdu\MatriculaTType[] $matricula
-     * @XmlList(inline = true, entry = "edu:matricula")
-     */
-    private $matricula = [
-        
-    ];
+    #[Serializer\XmlList(inline: true, entry: "edu:horario")]
+    private array $horario = [];
 
-    /**
-     * @var \SagresEdu\HorarioTType[] $horario
-     * @XmlList(inline = true, entry = "edu:horario")
-     */
-    private $horario = [
-        
-    ];
+    #[Serializer\SerializedName("edu:finalTurma")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?bool $finalTurma = null;
 
-    /**
-     * @var bool $finalTurma
-     * @SerializedName("edu:finalTurma")
-     * @XmlElement(cdata=false)
-     */
-    private $finalTurma = null;
-
-    /**
-     * Gets as periodo
-     *
-     * @return int
-     */
-    public function getPeriodo()
+    // Métodos getters e setters permanecem os mesmos
+    public function getPeriodo(): ?int
     {
         return $this->periodo;
     }
 
-    /**
-     * Sets a new periodo
-     *
-     * @param int $periodo
-     * @return self
-     */
-    public function setPeriodo($periodo)
+    public function setPeriodo(int $periodo): self
     {
         $this->periodo = $periodo;
         return $this;
     }
 
-    /**
-     * Gets as descricao
-     *
-     * @return string
-     */
-    public function getDescricao()
+    public function getDescricao(): ?string
     {
         return $this->descricao;
     }
 
-    /**
-     * Sets a new descricao
-     *
-     * @param string $descricao
-     * @return self
-     */
-    public function setDescricao($descricao)
+    public function setDescricao(string $descricao): self
     {
         $this->descricao = $descricao;
         return $this;
     }
 
-    /**
-     * Gets as turno
-     *
-     * @return int
-     */
-    public function getTurno()
+    public function getTurno(): ?int
     {
         return $this->turno;
     }
 
-    /**
-     * Sets a new turno
-     *
-     * @param int $turno
-     * @return self
-     */
-    public function setTurno($turno)
+    public function setTurno(int $turno): self
     {
         $this->turno = $turno;
         return $this;
     }
 
-    /**
-     * Adds as serie
-     *
-     * @return self
-     * @param \SagresEdu\SerieTType $serie
-     */
-    public function addToSerie(\SagresEdu\SerieTType $serie)
+    public function addToSerie(SerieTType $serie): self
     {
         $this->serie[] = $serie;
         return $this;
     }
 
-    /**
-     * isset serie
-     *
-     * @param int|string $index
-     * @return bool
-     */
-    public function issetSerie($index)
+    public function issetSerie($index): bool
     {
         return isset($this->serie[$index]);
     }
 
-    /**
-     * unset serie
-     *
-     * @param int|string $index
-     * @return void
-     */
-    public function unsetSerie($index)
+    public function unsetSerie($index): void
     {
         unset($this->serie[$index]);
     }
 
-    /**
-     * Gets as serie
-     *
-     * @return \SagresEdu\SerieTType[]
-     */
-    public function getSerie()
+    public function getSerie(): array
     {
         return $this->serie;
     }
 
-    /**
-     * Sets a new serie
-     *
-     * @param \SagresEdu\SerieTType[] $serie
-     * @return self
-     */
-    public function setSerie(array $serie)
+    public function setSerie(array $serie): self
     {
         $this->serie = $serie;
         return $this;
     }
 
-    /**
-     * Adds as matricula
-     *
-     * @return self
-     * @param \SagresEdu\MatriculaTType $matricula
-     */
-    public function addToMatricula(\SagresEdu\MatriculaTType $matricula)
+    public function addToMatricula(MatriculaTType $matricula): self
     {
         $this->matricula[] = $matricula;
         return $this;
     }
 
-    /**
-     * isset matricula
-     *
-     * @param int|string $index
-     * @return bool
-     */
-    public function issetMatricula($index)
+    public function issetMatricula($index): bool
     {
         return isset($this->matricula[$index]);
     }
 
-    /**
-     * unset matricula
-     *
-     * @param int|string $index
-     * @return void
-     */
-    public function unsetMatricula($index)
+    public function unsetMatricula($index): void
     {
         unset($this->matricula[$index]);
     }
 
-    /**
-     * Gets as matricula
-     *
-     * @return \SagresEdu\MatriculaTType[]
-     */
-    public function getMatricula()
+    public function getMatricula(): array
     {
         return $this->matricula;
     }
 
-    /**
-     * Sets a new matricula
-     *
-     * @param \SagresEdu\MatriculaTType[] $matricula
-     * @return self
-     */
-    public function setMatricula(array $matricula)
+    public function setMatricula(array $matricula): self
     {
         $this->matricula = $matricula;
         return $this;
     }
 
-    /**
-     * Adds as horario
-     *
-     * @return self
-     * @param \SagresEdu\HorarioTType $horario
-     */
-    public function addToHorario(\SagresEdu\HorarioTType $horario)
+    public function addToHorario(HorarioTType $horario): self
     {
         $this->horario[] = $horario;
         return $this;
     }
 
-    /**
-     * isset horario
-     *
-     * @param int|string $index
-     * @return bool
-     */
-    public function issetHorario($index)
+    public function issetHorario($index): bool
     {
         return isset($this->horario[$index]);
     }
 
-    /**
-     * unset horario
-     *
-     * @param int|string $index
-     * @return void
-     */
-    public function unsetHorario($index)
+    public function unsetHorario($index): void
     {
         unset($this->horario[$index]);
     }
 
-    /**
-     * Gets as horario
-     *
-     * @return \SagresEdu\HorarioTType[]
-     */
-    public function getHorario()
+    public function getHorario(): array
     {
         return $this->horario;
     }
 
-    /**
-     * Sets a new horario
-     *
-     * @param \SagresEdu\HorarioTType[] $horario
-     * @return self
-     */
-    public function setHorario(array $horario)
+    public function setHorario(array $horario): self
     {
         $this->horario = $horario;
         return $this;
     }
 
-    /**
-     * Gets as finalTurma
-     *
-     * @return bool
-     */
-    public function getFinalTurma()
+    public function getFinalTurma(): ?bool
     {
         return $this->finalTurma;
     }
 
-    /**
-     * Sets a new finalTurma
-     *
-     * @param bool $finalTurma
-     * @return self
-     */
-    public function setFinalTurma($finalTurma)
+    public function setFinalTurma(bool $finalTurma): self
     {
         $this->finalTurma = $finalTurma;
         return $this;
     }
-
-
 }
-

@@ -193,6 +193,11 @@
                 $classHasContent = new ClassContents();
                 $classHasContent->schedule_fk = $schedule->id;
                 $classHasContent->course_class_fk = $content;
+                $classHasContent->day = $schedule->day;
+                $classHasContent->month = $schedule->month;
+                $classHasContent->year = $schedule->year;
+                $classHasContent->classroom_fk = $schedule->classroom_fk;
+                $classHasContent->discipline_fk = $schedule->discipline_fk;
 
                 $classHasContent->save();
             }

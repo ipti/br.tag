@@ -5,9 +5,6 @@
 // This is the main Web application configuration. Any writable
 // CWebApplication propeties can be configured here.
 
-\Sentry\configureScope(function (\Sentry\State\Scope $scope): void {
-    $scope->setUser(['email' => 'jane.doe@example.com']);
-});
 
 $LOG_PATH = "/app/app/runtime/" . INSTANCE . "/" . date("Y-m-d");
 
@@ -136,7 +133,7 @@ return array(
         'user' => array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
-            'authTimeout' => 20*60
+            'authTimeout' => 3600
         ),
         'cache' => array(
             'class' => 'system.caching.CDbCache'
@@ -170,7 +167,6 @@ return array(
                 'merenda/cardapio' => 'foods/foodmenu/',
                 'merenda/cardapio/<action:\w+>' => 'foods/foodmenu/<action>',
 
-                'boletim-escolar/' => 'schoolreport/',
                 'boletim-escolar/' => 'schoolreport/default/select',
                 'boletim-escolar/notas/<eid:\d+>' => 'schoolreport/default/grades',
                 'boletim-escolar/frequencia/<eid:\d+>' => 'schoolreport/default/frequency',
@@ -224,9 +220,10 @@ return array(
                     return 1;
                 },
                 'traces_sample_rate' => 1.0,
+                'profiles_sample_rate' => 1.0,
                 'release' => 'tag@' . TAG_VERSION,
                 'environment' => INSTANCE,
-                'before_send' => function (\Sentry\Event $event) {
+                'before_send' => function (\Sentry\Event $event): \Sentry\Event {
                     \Sentry\configureScope(function (\Sentry\State\Scope $scope): void {
                         $scope->setUser([
                             'id' => Yii::app()->user->loginInfos->id,

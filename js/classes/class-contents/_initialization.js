@@ -117,7 +117,16 @@ $(document).ready(function () {
 });
 
 $(document).on("click", "#print", function () {
-    window.print();
+    let  monthSplit = $("#month").val().split("-");
+
+    let classroomId = $("#classroom").val();
+    let month = monthSplit[1];
+    let year = monthSplit[0];
+    let disciplineId = $("#disciplines").val();
+
+    let url = `?r=reports/ClassContentsReport&classroomId=${classroomId}&month=${month}&year=${year}&disciplineId=${disciplineId}`;
+
+    window.open(url, "_blank")
 });
 
 $("#save, #save-button-mobile").on('click', function () {
