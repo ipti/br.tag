@@ -54,25 +54,24 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
         </div>
     <?php endif ?>
     <div class="js-grades-alert alert"></div>
+    <div class="js-grades-alert-multi alert hide"></div>
     <hr class="row t-separator" />
     <div class="row justify-content--space-between">
-        <div class="column clearleft  is-four-fifths row">
+        <div class="column clearleft  is-four-fifths row wrap">
             <div class="column clearleft">
                 <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 't-field-select__label--required')); ?>
-                    <?php
-                    echo CHtml::dropDownList('classroom', '', $classrooms, array(
-                        'key' => 'id',
-                        'class' => 'select-search-on t-field-select__input select2-container',
-                        'prompt' => 'Selecione...',
-                    )
-                    );
-                    ?>
+                    <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 't-field-select__label--required no-wrap')); ?>
+                    <select name="classroom" id="classroom" class="select-search-on t-field-select__input select2-container">
+                    <option value="" selected>Selecione...</option>
+                    <?php foreach ($classrooms as $classroom): ?>
+                        <option data-isMulti="<?= TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) ? '1': '0' ?>" value="<?= $classroom['id'] ?>"><?= htmlspecialchars($classroom['name']) ?></option>
+                    <?php endforeach; ?>
+                    </select>
                 </div>
             </div>
             <div class="column clearleft">
                 <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 't-field-select__label--required')); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 't-field-select__label--required no-wrap')); ?>
                     <?php
                     echo CHtml::dropDownList('discipline', '', array(), array(
                         'key' => 'id',
@@ -83,8 +82,19 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
                     ?>
                 </div>
             </div>
+            <div class="column clearleft js-stage-select js-hide-stage">
+                    <?php echo CHtml::label(yii::t('default', 'Etapa'), 'stage', array('class'=> 't-field-select__label--required no-wrap'))?>
+                    <?php
+                    echo CHtml::dropDownList('stage', '', array(), array(
+                        'key' => 'id',
+                        'class' => 'select-search-on t-field-select__input select2-container ',
+                        'prompt' => 'Selecione...',
+                    )
+                    );
+                    ?>
+            </div>
             <div class="column clearleft">
-                    <?php echo CHtml::label(yii::t('default', 'Unidade'), 'unities', array('class'=> 't-field-select__label--required'))?>
+                    <?php echo CHtml::label(yii::t('default', 'Unidade'), 'unities', array('class'=> 't-field-select__label--required no-wrap'))?>
                     <?php
                     echo CHtml::dropDownList('unities', '', array(), array(
                         'key' => 'id',
@@ -111,3 +121,14 @@ $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
     <?php $this->endWidget(); ?>
 
 </div>
+<style>
+    .js-hide-stage {
+        display: none;
+    }
+    .no-wrap {
+        white-space: nowrap;
+    }
+    .wrap {
+        flex-wrap: wrap;
+    }
+</style>

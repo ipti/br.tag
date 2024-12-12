@@ -116,11 +116,12 @@ class ReportsRepository
                 jOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                WHERE c.school_inep_fk = :school_inep_id AND ((`se`.`status` IN (1, 6, 7, 8, 9, 10) or `se`.`status` is null))
+                WHERE c.school_inep_fk = :school_inep_id AND c.school_year = :school_year AND ((`se`.`status` IN (1, 6, 7, 8, 9, 10) or `se`.`status` is null))
                 GROUP BY si.name
                 ORDER BY si.name;";
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(":school_inep_id", $school->inep_id)
+            ->bindParam(":school_year", Yii::app()->user->year)
             ->queryAll();
 
         $allClassrooms = true;
