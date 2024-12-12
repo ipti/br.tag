@@ -1,3 +1,14 @@
+-- app/migrations/2024-12-11_add_new_grade_concept_columns/sql.sql
+
+ALTER TABLE grade_results
+ADD COLUMN grade_concept_9 VARCHAR(50) NULL,
+ADD COLUMN grade_concept_10 VARCHAR(50) NULL,
+ADD COLUMN grade_concept_11 VARCHAR(50) NULL,
+ADD COLUMN grade_concept_12 VARCHAR(50) NULL;
+
+
+-- app/migrations/2024-12-07_consent_form_studentsfile/sql
+
 
 create or replace
 algorithm = UNDEFINED view `studentsfile` as
