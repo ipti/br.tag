@@ -118,6 +118,23 @@ class DefaultController extends Controller
                 $isSoftUnavailableEvent = !$isSoftUnavailableEvent ? $event->calendar_event_type_fk == 101 || $event->calendar_event_type_fk == 104 : $isSoftUnavailableEvent;
                 $isPreviousDate = !$isPreviousDate ? strtotime($event->start_date) < strtotime('now') : $isPreviousDate;
                 $oldColor = $event->calendarEventTypeFk->color;
+
+                //re-disponibilizar as aulas do evento. Isso serve pra garantir que, caso o evento mude de intervalo, o intervalo antigo não continue indisponível erroneamente.
+                $start = new DateTime($event->start_date);
+                $end = new DateTime($event->end_date);
+                $end->modify('+1 day');
+                $interval = DateInterval::createFromDateString('1 day');
+                $period = new DatePeriod($start, $interval, $end);
+                foreach ($period as $dt) {
+                    $schedulesToAdjust = Yii::app()->db->createCommand("
+                            select s.id from schedule s 
+                            join classroom cr on s.classroom_fk = cr.id 
+                            join calendar c on cr.calendar_fk = c.id
+                            where c.id = :id and s.day = :day and s.month = :month and s.year = :year")->bindParam(":id", $_POST["calendarFk"])->bindParam(":day", $dt->format("j"))->bindParam(":month", $dt->format("n"))->bindParam(":year", $dt->format("Y"))->queryAll();
+                    foreach ($schedulesToAdjust as $scheduleToAdjust) {
+                        Schedule::model()->updateAll(["unavailable" => 0], "id = :id", [":id" => $scheduleToAdjust["id"]]);
+                    }
+                }
             }
             if (!$_POST["confirm"] && (int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
                 echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: adicionar ou modificar eventos de <b>férias</b> poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-save-event'>aqui</span> para confirmar."]);
