@@ -12,9 +12,37 @@ $this->menu=array(
 );
 ?>
 
-<h1>Grade Concepts</h1>
-
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<div id="mainPage" class="main">
+    <h1>Grade Concepts</h1>
+    <div class="tag-inner">
+        <div class="widget clearmargin">
+            <div class="widget-body">
+                <?php $this->widget('zii.widgets.grid.CGridView', array(
+                    'dataProvider' => $dataProvider,
+                    'enablePagination' => false,
+                    'enableSorting' => false,
+                    'ajaxUpdate' => false,
+                    'itemsCssClass' => 'js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
+                    'columns'=>array(
+                        'id',
+                        'name',
+                        'acronym',
+                        'value',
+                        array(
+                            'header' => 'Ações',
+                            'class' => 'CButtonColumn',
+                            'template' => '{update}',
+                            'buttons' => array(
+                                'update' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                )
+                            ),
+                            'updateButtonOptions' => array('style' => 'margin-right: 20px;', 'class'=>""),
+                            'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),
+                        ),
+                    ),
+                )); ?>
+            </div>
+        </div>
+    </div>
+</div>

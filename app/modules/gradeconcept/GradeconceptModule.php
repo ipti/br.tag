@@ -2,6 +2,7 @@
 
 class GradeconceptModule extends CWebModule
 {
+    public $baseUrl;
 	public function init()
 	{
 		// this method is called when the module is being created
@@ -17,6 +18,7 @@ class GradeconceptModule extends CWebModule
 
 	public function beforeControllerAction($controller, $action)
 	{
+        $controller->layout = 'webroot.themes.default.views.layouts.fullmenu';
 		if(parent::beforeControllerAction($controller, $action))
 		{
 			// this method is called before any module controller action is performed
