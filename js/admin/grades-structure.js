@@ -14,6 +14,16 @@ $(document).on(
     }
 );
 
+$(document).on(
+    "change",
+    ".final-recovery-unity-calculation",
+    function () {
+      if($(this).find(':selected').text().trim() == "Peso") {
+        $(".weights-final-recovery").removeClass("hide")
+      }
+    }
+);
+
 $(document).on("keyup", ".unity-name", function (e) {
     const unity = $(this).closest(".unity");
     unity.find(".unity-title").html($(this).val());
@@ -504,9 +514,12 @@ function saveUnities(reply) {
                     "val"
                 ),
                 operation: $(".final-recovery-unity-operation").val(),
+                WeightfinalRecovery: $(".weight-final-recovery").val(),
+                WeightfinalMedia:$(".weight-final-media").val(),
                 final_recovery_avarage_formula: $("select.js-final-recovery-fomula-select").val()
             },
             finalRecoverMedia: $(".final-recover-media").val(),
+
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
             ruleType: $(".js-rule-type").select2("val"),

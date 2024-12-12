@@ -180,6 +180,17 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                     ?>
                 </select>
             </div>
+            <div class="row weights-final-recovery hide">
+                <div class="t-field-text">
+                    <label for="PesoRecFinal" class="t-field-text__label--required">Peso da média anual</label>
+                    <input type="text" name="PesoRecFinal" class="t-field-text__input weight-final-recovery weight" />
+                </div>
+                <div class="t-field-text">
+                    <label for="PesoRecFinal" class="t-field-text__label--required">Peso da recuperação final</label>
+                    <input type="text" name="PesoRecFinal" class="t-field-text__input weight-final-media weight" />
+                </div>
+            </div>
+
             <div class="t-field-select js-final-recovery-fomula">
                 <label class="t-field-select__label">Fórmula da média da recuperação final</label>
                 <select class="t-field-select__input select-search-on js-final-recovery-fomula-select">
