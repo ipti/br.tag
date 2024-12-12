@@ -3,31 +3,47 @@
  * @property int $classroomId
  * @property int $disciplineId
  * @property int $unityId
+ * @property int $stageId
+ * @property int isClassroomStage
  */
 class GetStudentGradesByDisciplineUsecase
 {
     private $classroomId;
     private $disciplineId;
     private $unityId;
+    private $stageId;
+    private $isClassroomStage;
 
-    public function __construct(int $classroomId, int $disciplineId, int $unityId)
+    public function __construct(int $classroomId, int $disciplineId, int $unityId, int $stageId, int $isClassroomStage)
     {
         $this->classroomId = $classroomId;
         $this->disciplineId = $disciplineId;
         $this->unityId = $unityId;
+        $this->stageId = $stageId;
+        $this->isClassroomStage = $isClassroomStage;
     }
     public function exec()
     {
         /** @var Classroom $classroom */
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
-        $rules = GradeRules::model()->findByAttributes([
-            "edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk
+    $rules = GradeRules::model()->findByAttributes([
+            "edcenso_stage_vs_modality_fk" => $this->stageId
         ]);
 
-        $studentEnrollments = $classroom->activeStudentEnrollments;
-        $showSemAvarageColumn = $this->checkSemesterUnities($classroom->edcenso_stage_vs_modality_fk);
+        $TotalEnrollments = $classroom->activeStudentEnrollments;
+        $studentEnrollments = [];
+        if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) && $this->isClassroomStage == 0){
+            foreach ($TotalEnrollments as $enrollment) {
+                if($enrollment->edcenso_stage_vs_modality_fk == $this->stageId){
+                    array_push($studentEnrollments, $enrollment);
+                }
+            }
+        } else {
+            $studentEnrollments= $classroom->activeStudentEnrollments;
+        }
+        $showSemAvarageColumn = $this->checkSemesterUnities( $this->stageId);
 
-        $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline($classroom->edcenso_stage_vs_modality_fk);
+        $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline( $this->stageId);
         $unitiesByDiscipline = array_filter($unitiesByDisciplineResult, function ($item){
             return $item["id"] == $this->unityId;
         });
@@ -35,7 +51,7 @@ class GetStudentGradesByDisciplineUsecase
 
         $unityOrder = $this->searchUnityById($unitiesByDisciplineResult);
 
-        if ($studentEnrollments == null) {
+        if ($studentEnrollments == []) {
             throw new NoActiveStudentsException();
         }
 
@@ -155,11 +171,11 @@ class GetStudentGradesByDisciplineUsecase
     }
     public function getSemRecPartial ($gradeResult, $semester, $type) {
         if($type == "RF") {
-            if($gradeResult->sem_avarage_1 == null && $gradeResult->sem_avarage_2 == null) {
+            if($gradeResult->sem_avarage_1 === null && $gradeResult->sem_avarage_2 === null) {
                 return "";
-            } elseif($gradeResult->sem_avarage_1 != null && $gradeResult->sem_avarage_2 == null){
+            } elseif($gradeResult->sem_avarage_1 !== null && $gradeResult->sem_avarage_2 === null){
                 return $gradeResult->sem_rec_partial_1  < $gradeResult->sem_avarage_1 ?  $gradeResult->sem_avarage_1 : $gradeResult->sem_rec_partial_1;
-            } elseif($gradeResult->sem_avarage_1 == null && $gradeResult->sem_avarage_2 != null){
+            } elseif($gradeResult->sem_avarage_1 === null && $gradeResult->sem_avarage_2 !== null){
                 return $gradeResult->sem_rec_partial_2  < $gradeResult->sem_avarage_2 ?  $gradeResult->sem_avarage_2 : $gradeResult->sem_rec_partial_2;
             }
 
@@ -173,9 +189,9 @@ class GetStudentGradesByDisciplineUsecase
 
         } else {
             if($semester == 1) {
-                return $gradeResult->sem_avarage_1 == null ? "" : $gradeResult->sem_avarage_1;
+                return $gradeResult->sem_avarage_1 === null ? "" : $gradeResult->sem_avarage_1;
             } elseif($semester == 2) {
-                return $gradeResult->sem_avarage_2 == null ? "" : $gradeResult->sem_avarage_2;
+                return $gradeResult->sem_avarage_2 === null ? "" : $gradeResult->sem_avarage_2;
             }
         }
     }

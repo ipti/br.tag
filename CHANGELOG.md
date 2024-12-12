@@ -11,6 +11,7 @@
 - Inserido campos no cabeçalho da ficha de notas (gênero, filiação, data de nascimento, naturalidade)
 - Inserido opção pra imprimir ficha de notas com local/data ou não
 - Trocado signatário de inspetor escolar para secretário escolar na ficha de notas
+- Adicionado filtro de etapa para as turmas multiseriadas
 
 ## [Versão 3.90.206]
 - Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
