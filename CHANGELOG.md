@@ -1,3 +1,8 @@
+
+## [Versão 3.92.209]
+- Trocado "Série" por "Etapa" na Ficha de Matrícula
+- O Campo 27 da Ficha de Matrícula (Autorização do Termo de Consentimento de Imagem) agora traz preenchido do cadastro do aluno
+
 ## [Versão 3.91.209]
 - Corrigido o relatório de alunos por escola (Cpg, Rg e Nis), exibindo somente os alunos do ano em que o relatório foi emitido
 
