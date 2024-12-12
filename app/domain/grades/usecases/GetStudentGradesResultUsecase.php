@@ -6,6 +6,9 @@
 class GetStudentGradesResultUsecase
 {
 
+    private $studentEnrollmentId;
+    private $disciplineId;
+
     public function __construct(int $studentEnrollmentId, int $disciplineId)
     {
         $this->studentEnrollmentId = $studentEnrollmentId;
@@ -33,6 +36,8 @@ class GetStudentGradesResultUsecase
             $gradeResult->discipline_fk = $this->disciplineId;
             $gradeResult->save();
         }
+
+        TLog::info("Grade result do aluno", ["GradeResult" => $gradeResult->id]);
 
         return $gradeResult;
     }

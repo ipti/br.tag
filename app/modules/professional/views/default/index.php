@@ -17,7 +17,7 @@ $this->breadcrumbs=array(
     );
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
-    
+
     ?>
 
 
@@ -37,7 +37,7 @@ $this->breadcrumbs=array(
                 <li><a href="<?php echo Yii::app()->createUrl('professional/default/create')?>"><i></i> Adicionar profissional</a></li>
             </ul>
         </div>
-    </div>  
+    </div>
 
     <div class="tag-inner">
         <?php if (Yii::app()->user->hasFlash('success')): ?>
@@ -81,11 +81,11 @@ $this->breadcrumbs=array(
                         array(
                             'name' => 'fundeb',
                             'header' => 'Fundeb',
-                            'value' => '$data->fundeb ? Sim : Não',
+                            'value' => '$data->fundeb ? "Sim" : "Não"',
                         ),
                         array(
                             'header' => 'Ações',
-                            'class' => 'CButtonColumn', 
+                            'class' => 'CButtonColumn',
                             'template' => '{update}{delete}',
                             'buttons' => array(
                                 'update' => array(

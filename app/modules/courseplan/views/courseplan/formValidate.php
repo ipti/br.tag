@@ -105,7 +105,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row <?= $coursePlan->situation == 'PENDENTE' && TagUtils::isStageMinorEducation($coursePlan->modality_fk) == 1 ? 'hide' : '' ?>">
                             <div class="column flex is-two-fifths">
                                 <div class="t-field-select">
                                     <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline_fk', array('class' => 'control-label t-field-select__label--required')); ?>

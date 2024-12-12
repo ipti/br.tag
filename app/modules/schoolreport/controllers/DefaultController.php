@@ -1,6 +1,6 @@
 <?php
 
-class DefaultController extends CController{
+class DefaultController extends Controller{
 	public $headerDescription = "";
     public $showPrintButton = false;
     public $studentName = null;

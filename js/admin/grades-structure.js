@@ -37,7 +37,7 @@ $(document).on("click", ".js-new-unity", function (e) {
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collaps-${unities}">
                         <h2 class="unity-title accordion-heading">Unidade: </h2>
                     </a>
-                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor" style="margin-top:0;"></span>
+                    <span class="remove-button js-remove-unity t-button-icon-danger t-icon-trash  js-change-cursor" style="display:none;"></span>
                 </div>
                 <div id="collaps-${unities}"class=" collapse ${unities == 0 ? "in" : ""} js-unity-body">
                     <input type='hidden' class="unity-id">
@@ -393,8 +393,10 @@ function initRuleType(ruleType) {
     } else if (ruleType === "N") {
         $(".numeric-fields").show();
         $(".js-has-final-recovery").trigger("change");
-        $("select.js-type-select").html(` <option value='U'>Unidade</option>
-        <option value='UR'>Unidade com recuperação</option>`);
+        if($("select.js-type-select option[value='UC']").length>0){
+            $("select.js-type-select").html(` <option value='U'>Unidade</option>
+                <option value='UR'>Unidade com recuperação</option>`);
+        }
         $(".js-calculation").show();
         $(".js-mester-container").show();
         $(".js-new-modality").show();
@@ -498,10 +500,11 @@ function saveUnities(reply) {
                 id: $(".final-recovery-unity-id").val(),
                 name: $(".final-recovery-unity-name").val(),
                 type: $(".final-recovery-unity-type").val(),
-                grade_calculation_fk: $(".calculation-final-media").select2(
+                grade_calculation_fk: $(".final-recovery-unity-calculation").select2(
                     "val"
                 ),
                 operation: $(".final-recovery-unity-operation").val(),
+                final_recovery_avarage_formula: $("select.js-final-recovery-fomula-select").val()
             },
             finalRecoverMedia: $(".final-recover-media").val(),
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
@@ -625,6 +628,11 @@ function checkValidInputs() {
                             return false;
                         }
                     });
+                if($(this).find('select.js-semester').val() === "" && $(".js-rule-type").select2("val") === "N") {
+                    valid = false;
+                    message= "Preencha o semestre das unidades"
+                    return false
+                }
                 if ($(this).find("select.js-type-select").val() === "UC") {
                     ucCount++;
                 }
@@ -706,6 +714,7 @@ function partialRecoveryValid() {
     $('.partial-recovery-container').each((index, partialRecoveries)=>{
         let name =  $(partialRecoveries).find('.partial-recovery-name').val()
         let formula =  $(partialRecoveries).find('select.js-formula-select').val()
+        let semester =  $(partialRecoveries).find('select.js-semester').val()
         let unities =  $(partialRecoveries).find('select.js-partial-recovery-unities').val()
         let operation = $(partialRecoveries).find('.partial-recovery-operation').val()
         let weights =  true
@@ -716,6 +725,9 @@ function partialRecoveryValid() {
             }
         })
         if((name ==="" || formula === "" || unities === null ||  weights === false) && operation != 'delete'){
+            valid = false
+        }
+        if($('.partial-recovery-container').find('select.js-formula-select').select2("data").text  === "Média Semestral" && semester === "") {
             valid = false
         }
     })
@@ -766,6 +778,10 @@ function loadStructure() {
                     "val",
                     data.final_recovery.grade_calculation_fk
                 );
+                $("select.js-final-recovery-fomula-select").select2(
+                    "val",
+                    data.final_recovery.final_recovery_avarage_formula
+                )
                 $(".final-recover-media").val(data.finalRecoverMedia);
 
                 if (data.hasFinalRecovery) {
@@ -792,14 +808,14 @@ function loadStructure() {
                         unity
                             .find("select.js-semester")
                             .val(this.semester)
-                            .trigger("change")
-                        unity
-                            .find("select.js-type-select")
-                            .val(this.type)
                             .trigger("change");
                         unity
                             .find("select.js-formula-select")
                             .val(this.grade_calculation_fk)
+                            .trigger("change");
+                        unity
+                            .find("select.js-type-select")
+                            .val(this.type)
                             .trigger("change");
 
                         unity.find(".modality").remove();
@@ -808,14 +824,18 @@ function loadStructure() {
                             let modality = unity.find(".modality").last();
                             modality.find(".modality-id").val(this.id);
                             modality.find(".modality-name").val(this.name);
+                            modality.find(".modality-name").attr("modalitytype", this.type);
+                            if(this.type == 'R') {
+                                modality.find('.remove-button').remove()
+                            }
                             modality.find(".modality-operation").val("update");
                             modality.find(".weight").val(this.weight);
                         });
                     });
                     $('.js-alert-save-unities-first').hide();
                 }
+                $('#accordion-partial-recovery').empty()
                 if (data.partialRecoveries.length > 0) {
-                    $('#accordion-partial-recovery').empty()
                     $.each(data.partialRecoveries, function (index, element) {
                         let unities = element.unities;
                         let unityOptionsSelected = [];
@@ -901,7 +921,7 @@ function addAccordion(id, name) {
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-partial" href="#partial-recovery-collapse-${partialRecovery}">
                 <h2 class="partial-recovery-title accordion-heading">${titleAccordion}</h2>
             </a>
-            <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="font-size: 20px;margin-top:0;"></span>
+            <span class="remove-button t-button-icon-danger t-icon-trash js-remove-partial-recovery" style="display:none;font-size: 20px;margin-top:0;"></span>
         </div>
         <div id="partial-recovery-collapse-${partialRecovery}" class="collapse ${collapse}  partial-recovery-accordion-body">
             <input type='hidden' class="partial-recovery-id" value="${id}">

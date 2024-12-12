@@ -288,7 +288,7 @@ $(formIdentification + "nationality").change(function () {
                 .show()
                 .find("label")
                 .addClass("required")
-                .html("Estado *");
+                .html("Estado");
             $(formIdentification + "edcenso_city_fk")
                 .removeAttr("disabled")
                 .closest(".js-change-required")
@@ -982,11 +982,10 @@ $(
 ).focusout(function () {
     let id = "#" + $(this).attr("id");
     let documentDate = stringToDate($(id).val());
-    let birthday = stringToDate($(formIdentification + "birthday").val());
-    if (
-        !validateDate($(id).val()) ||
-        birthday.asianStr > documentDate.asianStr
-    ) {
+    debugger
+    let birthday = stringToDate($(`[name="StudentIdentification[birthday]"]`).val());
+    let isAfterBirthday = birthday?.asianStr != null && documentDate?.asianStr != null && birthday?.asianStr > documentDate?.asianStr
+    if (!validateDate($(id).val()) || isAfterBirthday) {
         addError(
             id,
             "Informe uma data válida no formato Dia/Mês/Ano. Não pode ser superior a data de nascimento do aluno."

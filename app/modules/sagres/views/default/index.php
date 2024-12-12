@@ -48,7 +48,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 						11 => 'Novembro',
 						12 => 'Dezembro'
 					];
-			
+
 					if ($anoAtual == Yii::app()->user->year) {
 						for ($mes = 1; $mes <= $mesAtual; $mes++) {
 							echo "<option value='$mes'>$meses[$mes]</option>";
@@ -103,7 +103,7 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 				</div>
 				<div id="loading-popup" style="display: none;">
 					<div class="loading-content">
-						<div class="loading-spinner"></div>
+						<div><img height="50px" width="50px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading"></div>
 						<div class="loading-text">Aguarde enquanto o arquivo é gerado...</div>
 					</div>
 				</div>
@@ -143,12 +143,12 @@ $cs->registerCssFile($baseUrl . '/css/sagres.css');
 	</div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js" integrity="sha512-xQBQYt9UcgblF6aCMrwU1NkVA7HCXaSN2oq0so80KO+y68M+n64FOcqgav4igHe6D5ObBLIf68DWv+gfBowczg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 	let selectedValue;
 	let checkbox = document.getElementById("finalTurma");
 	let checkboxSemMovi = document.getElementById("semMovimentacao");
-	let checkboxWithoutCPF = document.getElementById("generateWithoutCPF"); 
+	let checkboxWithoutCPF = document.getElementById("generateWithoutCPF");
 	let checkboxValue = false;
 	let checkboxValueSem = false;
 	let checkboxWithoutCPFValue = true;

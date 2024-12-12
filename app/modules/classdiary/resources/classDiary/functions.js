@@ -1,8 +1,10 @@
+const urlParams = new URLSearchParams(window.location.search);
+const date = urlParams.get("date")
 $('.js-add-course-classes-accordion').on("change", function (){
     let optionSelected = $(this).val();
      let PlanName = $(this).find('option[value="' + optionSelected + '"]').text();
-   
-   
+
+
     $.ajax({
         type:'POST',
         data: {
@@ -28,46 +30,42 @@ $('.js-add-course-classes-accordion').on("change", function (){
     })
 })
 function renderFrequencyElement(w) {
-    const urlParams = new URLSearchParams(window.location.search);
     const classroom_fk = urlParams.get("classroom_fk")
     const stage_fk = urlParams.get("stage_fk")
     const discipline_fk = urlParams.get("discipline_fk")
-    const date = $('.js-date').val()
     const url =`RenderFrequencyElementMobile`;
     $.ajax({
         url: `${window.location.host}?r=classdiary/default/${url}&classroom_fk=${classroom_fk}&stage_fk=${stage_fk}&discipline_fk=${discipline_fk}&date=${date}`,
         type: "GET",
-        
+
     }).success(function (response) {
         $(".js-frequency-element").html(DOMPurify.sanitize(response))
-    });  
+    });
 }
-function updateClassesContents() 
+function updateClassesContents()
 {
-    const urlParams = new URLSearchParams(window.location.search);
-    const classroom_fk = urlParams.get("classroom_fk")  
+    const classroom_fk = urlParams.get("classroom_fk")
     const discipline_fk = urlParams.get("discipline_fk")
     const stage_fk = urlParams.get("stage_fk")
-    const date = $('.js-date').val();
     $.ajax({
         type:'GET',
         url:  `${window.location.host}?r=classdiary/default/GetClassesContents&classroom_fk=${classroom_fk}&stage_fk=${stage_fk}&date=${date}&discipline_fk=${discipline_fk}`
     }).success((response) => {
-        
         if(response.valid==true){
             let options = "";
             $.each(response["courseClasses"], function () {
-                options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.objective + "|" + this.edname + '</option>';
+                options += '<option value="' + this.id + '" disciplineid="' + this.edid + '" disciplinename="' + this.edname + '">' + this.cpname + "|" + this.order + "|" + this.content + "|" + this.edname + '</option>';
             });
             $("#coursePlan").html(options);
             $("#coursePlan").select2("val", response["classContents"]);
             $('#coursePlan').select2({
                 formatSelection: function (state) {
                     let textArray = state.text.split("|");
-                    return 'Plano de Aula "' + textArray[0] + '": Aula ' + textArray[1];
+                    return '<div class="text-align--left" style="margin-left: 0"><b>Aula:</b> "' + textArray[1] + '" <b>Plano de Aula:</b> ' + textArray[0] + ' <br><b>Conteúdo:</b> ' + textArray[2] + "</div>";
                 },
                 formatResult: function (data, container) {
                     let textArray = data.text.split("|");
+                    console.log(data.text)
                     if (textArray.length === 1) {
                         return "<div class='course-classes-optgroup'><b>" + textArray[0] + "</b></div>";
                     } else {
@@ -81,13 +79,11 @@ function updateClassesContents()
 }
 
 $(".js-save-course-plan").on("click", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const classroom_fk = urlParams.get("classroom_fk")  
+    const classroom_fk = urlParams.get("classroom_fk")
     const stage_fk = urlParams.get("stage_fk")
-    const date = $('.js-date').val();
     const discipline_fk = urlParams.get("discipline_fk")
     const classContent = $('#coursePlan').val();
-   
+
 
      $.ajax({
         type:'GET',
@@ -102,7 +98,7 @@ $(document).on("change", ".js-frequency-checkbox", function () {
         cache: false,
         data: {
             classroom_id: $(this).attr("data-classroom_id"),
-            date: $(".js-date").val(),
+            date: date,
             schedule: $(this).attr("data-schedule"),
             studentId: $(this).attr("data-studentId"),
             fault: $(this).is(":checked") ? 1 : 0,

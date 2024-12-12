@@ -8,7 +8,9 @@
  */
 class CheckIfUnityHasAllGradesUsecase
 {
-
+    private $unity;
+    private $enrollmentId;
+    private $disciplineId;
 
     public function __construct($unity, $enrollmentId, $disciplineId)
     {

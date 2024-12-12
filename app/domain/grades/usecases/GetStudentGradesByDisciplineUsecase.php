@@ -6,6 +6,9 @@
  */
 class GetStudentGradesByDisciplineUsecase
 {
+    private $classroomId;
+    private $disciplineId;
+    private $unityId;
 
     public function __construct(int $classroomId, int $disciplineId, int $unityId)
     {
@@ -65,8 +68,8 @@ class GetStudentGradesByDisciplineUsecase
                 $this->disciplineId,
                 $unitiesByDiscipline,
                 $unityOrder,
-                $semester,
                 $type,
+                $semester,
                 $showSemAvarageColumn
             );
         }
@@ -103,7 +106,7 @@ class GetStudentGradesByDisciplineUsecase
 
         $criteria = new CDbCriteria();
         $criteria->addCondition("edcenso_stage_vs_modality_fk = :stage");
-        $criteria->addCondition("semester IS NULL");
+        $criteria->addCondition("semester IS NULL"); // TODO: só deus e chagas sabiam, agora só deus sabe pq faz isso
         $criteria->addCondition("type != :type");
         $criteria->params = [
             ':stage' => $stage,
@@ -152,9 +155,14 @@ class GetStudentGradesByDisciplineUsecase
     }
     public function getSemRecPartial ($gradeResult, $semester, $type) {
         if($type == "RF") {
-            if($gradeResult->sem_avarage_1 == null || $gradeResult->sem_avarage_2 == null) {
+            if($gradeResult->sem_avarage_1 == null && $gradeResult->sem_avarage_2 == null) {
                 return "";
+            } elseif($gradeResult->sem_avarage_1 != null && $gradeResult->sem_avarage_2 == null){
+                return $gradeResult->sem_rec_partial_1  < $gradeResult->sem_avarage_1 ?  $gradeResult->sem_avarage_1 : $gradeResult->sem_rec_partial_1;
+            } elseif($gradeResult->sem_avarage_1 == null && $gradeResult->sem_avarage_2 != null){
+                return $gradeResult->sem_rec_partial_2  < $gradeResult->sem_avarage_2 ?  $gradeResult->sem_avarage_2 : $gradeResult->sem_rec_partial_2;
             }
+
             $semRecPartial1 = is_numeric($gradeResult->sem_rec_partial_1) ? $gradeResult->sem_rec_partial_1 : 0;
             $semRecPartial2 = is_numeric($gradeResult->sem_rec_partial_2) ? $gradeResult->sem_rec_partial_2 : 0;
 
@@ -200,7 +208,7 @@ class GetStudentGradesByDisciplineUsecase
 
         $semRecPartial = null;
         if($showSemAvarageColumn) {
-            $semRecPartial = $this->getSemRecPartial($gradeResult, $type, $semester);
+            $semRecPartial = $this->getSemRecPartial($gradeResult, $semester, $type);
         } else {
             $semRecPartial = "";
         }
@@ -482,11 +490,13 @@ class StudentGradesResult
     private $situation;
     private $unities;
     private $partialRecoveries;
+    private $enrollmentStatus;
 
     public function __construct($studentName, $enrollmentId)
     {
         $this->studentName = $studentName;
         $this->enrollmentId = $enrollmentId;
+        $this->enrollmentStatus = StudentEnrollment::model()->findByPk($enrollmentId)->getCurrentStatus();
     }
 
     public function getStudentName()
@@ -534,6 +544,7 @@ class StudentGradesResult
         return [
             'studentName' => $this->studentName,
             'enrollmentId' => $this->enrollmentId,
+            'enrollmentStatus' => $this->enrollmentStatus,
             'finalMedia' => $this->finalMedia,
             'semAvarage' => $this->semAvarage,
             'situation' => $this->situation,
@@ -542,7 +553,7 @@ class StudentGradesResult
             }, $this->unities),
             'partialRecoveries' => array_map(function (GradePartialRecoveryResult $partialRecovery) {
                 return $partialRecovery->toArray();
-            }, $this->partialRecoveries),
+            }, $this->partialRecoveries ?? []),
         ];
     }
 }

@@ -56,7 +56,7 @@ class CoursePlan extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, school_inep_fk, modality_fk, discipline_fk, situation, start_date', 'required'),
+			array('name, school_inep_fk, modality_fk, situation, start_date', 'required'),
 			array('modality_fk, discipline_fk, users_fk', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>100),
 			array('school_inep_fk', 'length', 'max'=>8),
@@ -65,7 +65,6 @@ class CoursePlan extends CActiveRecord
 			array('observation', 'length', 'max'=>500),
 			array('creation_date', 'safe'),
 			// The following rule is used by search().
-			// @todo Please remove those attributes that should not be searched.
 			array('id, name, school_inep_fk, modality_fk, discipline_fk, users_fk, creation_date, fkid, situation, start_date, observation', 'safe', 'on'=>'search'),
 		);
 	}

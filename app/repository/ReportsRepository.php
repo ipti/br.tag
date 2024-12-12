@@ -116,11 +116,12 @@ class ReportsRepository
                 jOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                WHERE c.school_inep_fk = :school_inep_id AND ((`se`.`status` IN (1, 6, 7, 8, 9, 10) or `se`.`status` is null))
+                WHERE c.school_inep_fk = :school_inep_id AND c.school_year = :school_year AND ((`se`.`status` IN (1, 6, 7, 8, 9, 10) or `se`.`status` is null))
                 GROUP BY si.name
                 ORDER BY si.name;";
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(":school_inep_id", $school->inep_id)
+            ->bindParam(":school_year", Yii::app()->user->year)
             ->queryAll();
 
         $allClassrooms = true;
@@ -1910,13 +1911,15 @@ class ReportsRepository
         $classroomId = $request->getPost('classroom');
         $sql = "SELECT
                 e.name as school_name, c.name as classroom_name,
-                c.id as classroom_id, d.cpf, d.address, s.*
+                c.id as classroom_id, d.cpf, d.address, s.*, enrollmentEsvm.name as stage_name, enrollmentEsvm.alias as stage_alias, classroomEsvm.stage as stage
             FROM
                 student_enrollment as se
                 INNER JOIN classroom as c on se.classroom_fk=c.id
                 INNER JOIN student_identification as s on s.id=se.student_fk
                 INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
                 LEFT JOIN student_documents_and_address as d on s.id = d.id
+                INNER JOIN edcenso_stage_vs_modality classroomEsvm on classroomEsvm.id = c.edcenso_stage_vs_modality_fk
+                LEFT JOIN edcenso_stage_vs_modality enrollmentEsvm on enrollmentEsvm.id = se.edcenso_stage_vs_modality_fk
             WHERE
                 c.school_year = :year AND
                 c.school_inep_fk = :school_inep_fk AND
@@ -2122,7 +2125,12 @@ class ReportsRepository
             }
             foreach ($classroom->studentEnrollments as $studentEnrollment) {
                 for ($i = $monthI; $i <= $monthF; $i++) {
-                    $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = isset($days[$i]) ? (floor(((count($days[$i]) - count($faultDays[$studentEnrollment->studentFk->name][$i])) / count($days[$i])) * 100 * 100) / 100) . "%" : "N/A";
+                    $daysCount = isset($days[$i]) && is_array($days[$i]) ? count($days[$i]) : 0;
+                    $faultDaysCount = isset($faultDays[$studentEnrollment->studentFk->name][$i]) && is_array($faultDays[$studentEnrollment->studentFk->name][$i]) ? count($faultDays[$studentEnrollment->studentFk->name][$i]) : 0;
+
+                    $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = $daysCount > 0
+                        ? (floor((($daysCount - $faultDaysCount) / $daysCount) * 100 * 100) / 100) . "%"
+                        : "N/A";
                 }
                 $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["Classroom"] = $classroom->name;
                 $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["NIS"] = $studentEnrollment->studentFk->documentsFk->nis == null ? "Não Informado" : $studentEnrollment->studentFk->documentsFk->nis;
@@ -2489,9 +2497,8 @@ class ReportsRepository
             $result["subunityNames"] = [];
 
             foreach ($gradeUnitiesByClassroom as $gradeUnity) {
-                array_push($result["unityNames"], ["name" => $gradeUnity["name"], "colspan" => $gradeUnity->type == "UR" ? 2 : 1]);
+                array_push($result["unityNames"], ["name" => $gradeUnity["name"], "colspan" => 1]);
                 $commonModalitiesName = "";
-                $recoverModalityName = "";
                 $firstCommonModality = false;
                 foreach ($gradeUnity->gradeUnityModalities as $index => $gradeUnityModality) {
                     if ($gradeUnityModality->type == "C") {
@@ -2501,14 +2508,9 @@ class ReportsRepository
                         } else {
                             $commonModalitiesName .= " + " . $gradeUnityModality->name;
                         }
-                    } else {
-                        $recoverModalityName = $gradeUnityModality->name;
                     }
                 }
                 array_push($result["subunityNames"], $commonModalitiesName);
-                if ($recoverModalityName !== "") {
-                    array_push($result["subunityNames"], $recoverModalityName);
-                }
             }
 
             //Montar linhas das disciplinas e notas
@@ -2517,11 +2519,10 @@ class ReportsRepository
                 select ed.id, ed.name from curricular_matrix cm
                 join edcenso_discipline ed on ed.id = cm.discipline_fk
                 join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk
-                join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id
+                join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id and c.school_year = cm.school_year
                 where c.id = :classroom
                 order by ed.name
             ")->bindParam(":classroom", $classroomId)->queryAll();
-
             foreach ($disciplines as $discipline) {
                 $arr["disciplineName"] = $discipline["name"];
 
@@ -2560,7 +2561,7 @@ class ReportsRepository
                     }
                 }
 
-                $arr["finalMedia"] = $gradeResult != null ? $gradeResult->final_media : "";
+                $arr["finalMedia"] = $gradeResult != null ? ($gradeResult->final_media != null ? $gradeResult->final_media : "") : "";
                 $arr["situation"] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : "") : "";
                 array_push($result["rows"], $arr);
             }

@@ -34,7 +34,8 @@ class DefaultController extends Controller
                     'getClassroomStudents',
                     'getAeeRecord',
                     'checkStudentAeeRecord',
-                    'delete'
+                    'delete',
+                    'admin'
                 ),
                 'users' => array('@'),
             ),
@@ -232,6 +233,7 @@ class DefaultController extends Controller
                         ),
                     ),
                 ),
+                'pagination' => false
             ));
         }
 
@@ -245,19 +247,19 @@ class DefaultController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		if(Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)){
-            $dataProvider = new CActiveDataProvider('StudentAeeRecord', array(
-                'criteria' => array(
-                    'with' => array(
-                        'schoolFk' => array(
-                            'together' => true,
-                            'condition' => 'schoolFk.inep_id=:schoolId',
-                            'params' => array(':schoolId' => Yii::app()->user->school),
-                        ),
+        $dataProvider = new CActiveDataProvider('StudentAeeRecord', array(
+            'criteria' => array(
+                'with' => array(
+                    'schoolFk' => array(
+                        'together' => true,
+                        'condition' => 'schoolFk.inep_id=:schoolId',
+                        'params' => array(':schoolId' => Yii::app()->user->school),
                     ),
                 ),
-            ));
-        }
+            ),
+            'pagination' => false
+        ));
+
 
         $this->render('admin',array(
             'dataProvider'=>$dataProvider,

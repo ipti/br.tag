@@ -6,13 +6,36 @@
 // CWebApplication propeties can be configured here.
 
 
+$LOG_PATH = "/app/app/runtime/" . INSTANCE . "/" . date("Y-m-d");
+
+if (!file_exists($LOG_PATH)) {
+
+    // Create a new file or direcotry
+    mkdir($LOG_PATH, 0777, true);
+}
+
 $log_config = array(
     'class' => 'CLogRouter',
     'routes' => array(
         array(
             'class' => 'CFileLogRoute',
-            'levels' => 'error, warning, info',
+            'levels' => 'info, warning, error',
             'categories' => 'application',
+            'logPath' => $LOG_PATH,
+            'maxFileSize' => 10240,
+            'maxLogFiles' => 5,
+            'filter' => array(
+                'class' => 'CLogFilter',
+                'prefixSession' => false,
+                'prefixUser' => true,
+                'logUser' => false,
+                'logVars' => array(),
+            ),
+        ),
+        array(
+            'class' => \Websupport\YiiSentry\LogRoute::class,
+            'levels' => E_ALL,
+            'enabled' => !YII_DEBUG,
         ),
     ),
 );
@@ -25,14 +48,11 @@ if (YII_DEBUG) {
         //     'showInFireBug' => true,
         // ),
         array(
-            'class' => 'CFileLogRoute',
-            'levels' => 'profile',
-        ),
-        array(
             'class' => 'CProfileLogRoute',
             'showInFireBug' => true,
             'report' => 'summary',
-        )
+        ),
+
     );
 }
 
@@ -65,6 +85,7 @@ return array(
         'application.modules.sedsp.datasources.sed.*',
         'application.modules.sagres.soap.src.sagresEdu.*',
         'application.components.utils.TagUtils',
+        'application.components.utils.TLog',
         'ext.bncc-import.BNCCImport'
     ),
     'modules' => array(
@@ -112,6 +133,7 @@ return array(
         'user' => array(
             // enable cookie-based authentication
             'allowAutoLogin' => true,
+            'authTimeout' => 3600
         ),
         'cache' => array(
             'class' => 'system.caching.CDbCache'
@@ -145,7 +167,6 @@ return array(
                 'merenda/cardapio' => 'foods/foodmenu/',
                 'merenda/cardapio/<action:\w+>' => 'foods/foodmenu/<action>',
 
-                'boletim-escolar/' => 'schoolreport/',
                 'boletim-escolar/' => 'schoolreport/default/select',
                 'boletim-escolar/notas/<eid:\d+>' => 'schoolreport/default/grades',
                 'boletim-escolar/frequencia/<eid:\d+>' => 'schoolreport/default/frequency',
@@ -166,7 +187,7 @@ return array(
                 'gestao-resultados/escola/<action:\w+>' => 'resultsmanagement/managementschool/<action>',
                 'gestao-resultados/escola/<action:\w+>/<sid:\d+>' => 'resultsmanagement/managementschool/<action>',
 
-                'profissional/<action:\w+>/<id:\d+>'      => 'professional/default/<action>'
+                'profissional/<action:\w+>/<id:\d+>' => 'professional/default/<action>'
             ),
         ),
         // uncomment the following to use a MySQL database
@@ -190,6 +211,29 @@ return array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
         ),
+        'sentry' => [
+            'class' => \Websupport\YiiSentry\Client::class,
+            'dsn' => getenv("SENTRY_DSN")   ,
+            'jsDsn' => getenv("SENTRY_DSN"),
+            'options' => [
+                'traces_sampler' => function (\Sentry\Tracing\SamplingContext $context): float {
+                    return 1;
+                },
+                'traces_sample_rate' => 1.0,
+                'profiles_sample_rate' => 1.0,
+                'release' => 'tag@' . TAG_VERSION,
+                'environment' => INSTANCE,
+                'before_send' => function (\Sentry\Event $event): \Sentry\Event {
+                    \Sentry\configureScope(function (\Sentry\State\Scope $scope): void {
+                        $scope->setUser([
+                            'id' => Yii::app()->user->loginInfos->id,
+                            'username' => Yii::app()->user->loginInfos->username
+                        ]);
+                    });
+                    return $event;
+                }
+            ]
+        ],
         'log' => $log_config
     ),
     // application-level parameters that can be accessed

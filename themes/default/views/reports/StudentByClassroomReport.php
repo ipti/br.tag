@@ -43,6 +43,7 @@ function age($date){
             <th> <b>CPF Responsável</b> </th>
             <th> <b>Tel. Responsável</b> </th>
             <th> <b>Endereço</b> </th>
+            <?= ($classroom[0]['stage'] == "6" || $classroom[0]['stage'] == "7" ? "<th> <b>Ano/Turma</b> </th>" : "") ?>
         </tr>
         <?php
         $oldClassroom = "";
@@ -60,6 +61,7 @@ function age($date){
                 <td><?= $c['responsable_cpf'] ?></td>
                 <td><?= $c['responsable_telephone'] ?></td>
                 <td><?= $c['address'] ?></td>
+                <?= ($classroom[0]['stage'] == "6" || $classroom[0]['stage'] == "7" ? "<td>" . ($c['stage_alias'] != "" ? $c['stage_alias'] : $c['stage_name']) . "</td>" : "") ?>
             </tr>
     <?php
             $oldClassroom = $c['classroom_id'];

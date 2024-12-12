@@ -42,7 +42,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Course Plan'); ?></h1>
             <div class="t-buttons-container">
-                <?php if (!Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)): ?>
+                <?php if (!Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) && !TagUtils::isManager()): ?>
                     <a href="<?php echo Yii::app()->createUrl('courseplan/courseplan/create') ?>"
                     class="t-button-primary"><?= Yii::t('default', 'Create Plan'); ?> </a>
                     <br/>
@@ -59,6 +59,11 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v='.TAG_VERSION, CClien
         <?php if (Yii::app()->user->hasFlash('success')) : ?>
             <div class="alert alert-success">
                 <?php echo Yii::app()->user->getFlash('success') ?>
+            </div>
+        <?php endif ?>
+        <?php if (Yii::app()->user->hasFlash('error')) : ?>
+            <div class="alert alert-error">
+                <?php echo Yii::app()->user->getFlash('error') ?>
             </div>
         <?php endif ?>
         <div id="select-container" class="tablet-row align-items--center-on-desktop">

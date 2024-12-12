@@ -189,7 +189,7 @@ class Classroom extends AltActiveRecord
                 'classroom_fk',
                 'join' => 'JOIN student_identification ON student_identification.id=student_fk',
                 'order' => 'daily_order ASC, student_identification.name',
-                'condition' => 'status IN (1, 6, 7, 8, 9, 10) or status IS NULL'
+                'condition' => 'status IN (1, 2, 6, 7, 8, 9, 10) or status IS NULL'
             ),
             'activeEnrollmentsCount' => array(
                 self::STAT,
@@ -346,6 +346,25 @@ class Classroom extends AltActiveRecord
             }
         }
         return $schedules;
+    }
+
+    public function checkIsStageMinorEducation($classroom) {
+        $isMinor = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+
+        if (!$isMinor && TagUtils::isMultiStage($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
+            $enrollments = StudentEnrollment::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
+
+            foreach ($enrollments as $enrollment) {
+                if (!$enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id ||
+                    !TagUtils::isStageMinorEducation($enrollment->edcensoStageVsModalityFk->edcenso_associated_stage_id)) {
+                    return false;
+                }
+            }
+
+            $isMinor = true;
+        }
+
+        return $isMinor;
     }
 
     public function getDisciplines()

@@ -1,4 +1,3 @@
-
 <?php
 
 /**
@@ -9,6 +8,12 @@
  */
 class ChageStudentStatusByGradeUsecase
 {
+
+    private $gradeResult;
+    private $gradeRule;
+    private $numUnities;
+    private $frequency;
+
     private const SITUATION_APPROVED = "APROVADO";
     private const SITUATION_DISPPROVED = "REPROVADO";
     private const SITUATION_RECOVERY = "RECUPERAÇÃO";
@@ -24,21 +29,28 @@ class ChageStudentStatusByGradeUsecase
 
     public function exec()
     {
-        $enrollment = $this->getStudentEnrollment($this->gradeResult->enrollment_fk);
+        try {
 
-        if (!$this->isEnrollmentStatusAllowed($enrollment)) {
-            $this->gradeResult->situation = $enrollment->getCurrentStatus();
-            $this->gradeResult->save();
-            return;
+            $enrollment = $this->getStudentEnrollment($this->gradeResult->enrollment_fk);
+
+            TLog::info("Começando o processo de atualizar o status da matricula do aluno", ["enrollment" => $enrollment->id]);
+
+            if (!$this->isEnrollmentStatusAllowed($enrollment)) {
+                $this->gradeResult->situation = $enrollment->getCurrentStatus();
+                $this->gradeResult->save();
+                return;
+            }
+
+            if (!$this->hasAllGrades()) {
+                $this->gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
+                $this->gradeResult->save();
+                return;
+            }
+
+            $this->updateStudentSituation();
+        } catch (Exception $e) {
+            TLog::error("Erro ao atualizar status da matrícula", ["Exception" => $e]);
         }
-
-        if (!$this->hasAllGrades()) {
-            $this->gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
-            $this->gradeResult->save();
-            return;
-        }
-
-        $this->updateStudentSituation();
     }
 
     private function getStudentEnrollment($enrollmentId)
@@ -99,7 +111,7 @@ class ChageStudentStatusByGradeUsecase
             $finalRecoveryMedia = $this->gradeRule->final_recover_media;
 
             $hasRecoveryGrade = isset($recoveryMedia) && $recoveryMedia !== "";
-            if(!$hasRecoveryGrade){
+            if (!$hasRecoveryGrade) {
                 $this->gradeResult->situation = $recoverySituation;
             } elseif ($recoveryMedia >= $finalRecoveryMedia) {
                 $this->gradeResult->situation = $approvedSituation;
@@ -108,6 +120,7 @@ class ChageStudentStatusByGradeUsecase
         }
 
         $this->gradeResult->save();
+        TLog::info("Status da matrícula", ["gradeResult" => $this->gradeResult->situation]);
     }
 
 }
