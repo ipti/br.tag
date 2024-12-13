@@ -40,6 +40,19 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
             <div class="span12">
                 <div class="row-fluid">
                     <div class="container-box">
+                        <p>Usuário</p>
+
+                        <a href="<?php echo Yii::app()->createUrl('admin/manageUsers') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <span class="t-icon-configuration-adm t-reports_icons"></span>
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Gerenciar Usuários</span><br>
+                                    <span class="subtitle">Editar usuários do TAG</span>
+                                </div>
+                            </button>
+                        </a>
 
                         <a href="<?php echo Yii::app()->createUrl('admin/createUser') ?>">
                             <button type="button" class="admin-box-container">
@@ -53,6 +66,34 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                                 </div>
                             </button>
                         </a>
+
+                        <a href="<?php echo Yii::app()->createUrl('admin/editPassword', array("id" => Yii::app()->user->loginInfos->id)) ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                <span class="t-icon-lock t-reports_icons"></span>
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Alterar Senha</span><br>
+                                    <span class="subtitle">Altere a senha do seu usuário</span>
+                                </div>
+                            </button>
+                        </a>
+
+                        <a href="<?php echo Yii::app()->createUrl('admin/activeDisableUser') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <span class="t-icon-person_remove t-reports_icons"></span>
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Ativar/Desativar usuário</span><br>
+                                    <span class="subtitle">Torne um usuário ativo ou inativo</span>
+                                </div>
+                            </button>
+                        </a>
+                    </div>
+
+                    <div class="container-box">
+                        <p>Unidades e avaliações</p>
 
                         <a href="<?php echo Yii::app()->createUrl('admin/gradesStructure') ?>">
                             <button type="button" class="admin-box-container">
@@ -78,18 +119,33 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                             </button>
                         </a>
 
-                        <a href="<?php echo Yii::app()->createUrl('admin/editPassword', array("id" => Yii::app()->user->loginInfos->id)) ?>">
+                        <a href="<?php echo Yii::app()->createUrl('stages') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
-                                <span class="t-icon-lock t-reports_icons"></span>
+                                    <span class="t-icon-class-stage t-reports_icons"></span>
                                 </div>
                                 <div class="pull-left">
-                                    <span class="title">Alterar Senha</span><br>
-                                    <span class="subtitle">Altere a senha do seu usuário</span>
+                                    <span class="title">Gerenciar Etapas</span><br>
+                                    <span class="subtitle">Gerencie as etapas da unidade</span>
                                 </div>
                             </button>
                         </a>
 
+                        <a href="<?php echo Yii::app()->createUrl('gradeconcept/default/index') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <span class="t-status-active t-reports_icons"></span>
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Gerenciar Conceitos</span><br>
+                                    <span class="subtitle">Gerencie os conceitos das avaliações</span>
+                                </div>
+                            </button>
+                        </a>
+                    </div>
+                
+                    <div class="container-box">
+                        <p>Configurações</p>
                         <a href="<?php echo Yii::app()->createUrl('admin/exports') ?>">
                             <button type="button" class="admin-box-container">
                                 <div class="pull-left" style="margin-right: 20px;">
@@ -98,30 +154,6 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                                 <div class="pull-left">
                                     <span class="title">Exportar</span><br>
                                     <span class="subtitle">Exporte as informações do TAG</span>
-                                </div>
-                            </button>
-                        </a>
-
-                        <a href="<?php echo Yii::app()->createUrl('admin/manageUsers') ?>">
-                            <button type="button" class="admin-box-container">
-                                <div class="pull-left" style="margin-right: 20px;">
-                                    <span class="t-icon-configuration-adm t-reports_icons"></span>
-                                </div>
-                                <div class="pull-left">
-                                    <span class="title">Gerenciar Usuários</span><br>
-                                    <span class="subtitle">Editar usuários do TAG</span>
-                                </div>
-                            </button>
-                        </a>
-
-                        <a href="<?php echo Yii::app()->createUrl('admin/activeDisableUser') ?>">
-                            <button type="button" class="admin-box-container">
-                                <div class="pull-left" style="margin-right: 20px;">
-                                    <span class="t-icon-person_remove t-reports_icons"></span>
-                                </div>
-                                <div class="pull-left">
-                                    <span class="title">Ativar/Desativar usuário</span><br>
-                                    <span class="subtitle">Torne um usuário ativo ou inativo</span>
                                 </div>
                             </button>
                         </a>
@@ -158,18 +190,6 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                                 <div class="pull-left">
                                     <span class="title">Auditoria</span><br>
                                     <span class="subtitle">Acompanhe o log das escolas</span>
-                                </div>
-                            </button>
-                        </a>
-
-                        <a href="<?php echo Yii::app()->createUrl('stages') ?>">
-                            <button type="button" class="admin-box-container">
-                                <div class="pull-left" style="margin-right: 20px;">
-                                    <span class="t-icon-class-stage t-reports_icons"></span>
-                                </div>
-                                <div class="pull-left">
-                                    <span class="title">Gerenciar Etapas</span><br>
-                                    <span class="subtitle">Gerencie as etapas da unidade</span>
                                 </div>
                             </button>
                         </a>

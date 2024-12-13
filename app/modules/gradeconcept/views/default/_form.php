@@ -2,20 +2,32 @@
 /* @var $this GradeConceptController */
 /* @var $model GradeConcept */
 /* @var $form CActiveForm */
-?>
+
+$baseUrl = Yii::app()->baseUrl;
+$themeUrl = Yii::app()->theme->baseUrl;
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END);
+
+$form=$this->beginWidget('CActiveForm', array(
+'id'=>'grade-concept-form',
+'enableAjaxValidation'=>false,
+)); ?>
 
 <div class="form">
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'grade-concept-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>false,
-)); ?>
-
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<div class="mobile-row">
+        <div class="column clearleft">
+            <h1 class="clear-padding--bottom"><?php echo $model->isNewRecord ? 'Cadastrar Conceito' : 'Atualizar Conceito' ?></h1>
+            <p></p>
+        </div>
+        <div class="column clearfix align-items--center justify-content--end show--desktop">
+            <button id="saveConcept" class="t-button-primary" type="button">
+                <?= $model->isNewRecord ? Yii::t('default', 'Cadastrar') : Yii::t('default', 'Save') ?>
+            </button>
+        </div>
+    </div>
 
 	<?php echo $form->errorSummary($model); ?>
 
@@ -35,10 +47,6 @@
 		<?php echo $form->labelEx($model,'value'); ?>
 		<?php echo $form->textField($model,'value'); ?>
 		<?php echo $form->error($model,'value'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

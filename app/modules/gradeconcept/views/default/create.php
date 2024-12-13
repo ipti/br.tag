@@ -2,6 +2,7 @@
 /* @var $this GradeConceptController */
 /* @var $model GradeConcept */
 
+$this->setPageTitle('TAG - ' . Yii::t('default', 'Cadastrar Conceito'));
 $this->breadcrumbs=array(
 	'Grade Concepts'=>array('index'),
 	'Create',
@@ -13,6 +14,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create GradeConcept</h1>
-
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<div id="mainPage" class="main">
+	<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+</div>

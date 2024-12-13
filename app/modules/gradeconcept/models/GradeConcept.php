@@ -57,10 +57,10 @@ class GradeConcept extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
-            'name' => 'Name',
-            'acronym' => 'Acronym',
-            'value' => 'Value',
+            'id' => 'Id',
+            'name' => 'Nome',
+            'acronym' => 'Acrônimo',
+            'value' => 'Valor',
         );
     }
 

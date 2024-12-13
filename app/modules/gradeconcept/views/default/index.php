@@ -13,7 +13,29 @@ $this->menu=array(
 ?>
 
 <div id="mainPage" class="main">
-    <h1>Grade Concepts</h1>
+    <div class="row">
+        <h1>Gerenciar conceitos</h1>
+    </div>
+
+    <div class="row">
+        <div class="t-buttons-container">
+            <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('gradeconcept/default/create')?>">Adicionar conceito</a>
+        </div>
+    </div>
+
+    <?php if (Yii::app()->user->hasFlash('success')): ?>
+        <div class="alert alert-success">
+            <?php echo Yii::app()->user->getFlash('success') ?>
+        </div>
+        <br/>
+    <?php endif ?>
+    <?php if (Yii::app()->user->hasFlash('error')): ?>
+        <div class="alert alert-error">
+            <?php echo Yii::app()->user->getFlash('error') ?>
+        </div>
+        <br/>
+    <?php endif ?>
+
     <div class="tag-inner">
         <div class="widget clearmargin">
             <div class="widget-body">
