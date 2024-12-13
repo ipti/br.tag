@@ -87,6 +87,7 @@
  * @property ClassBoard[] $classBoards
  * @property Calendar $calendarFk
  * @property SchoolIdentification $schoolInepFk
+ * @property EdcensoStageVsModality $edcensoStageVsModalityFk
  * @property EdcensoProfessionalEducationCourse $edcensoProfessionalEducationCourseFk
  * @property ClassroomHasCoursePlan[] $classroomHasCoursePlans
  * @property InstructorTeachingData[] $instructorTeachingDatas

@@ -1,5 +1,5 @@
 <?php
-use SagresEdu\SagresConsultModel;
+use SagresEdu2025\SagresConsultModel2025;
 
 
 
@@ -7,7 +7,7 @@ class DefaultController extends Controller
 {
     public function actionIndex()
     {
-        $sagresConsultModel = new SagresConsultModel;
+        $sagresConsultModel = new SagresConsultModel2025;
 
         $numInconsistencys = $sagresConsultModel->getInconsistenciesCount();
         $this->render('index', ['numInconsistencys' => $numInconsistencys]);
@@ -15,7 +15,7 @@ class DefaultController extends Controller
 
     public function actionCreateOrUpdate()
     {
-        $sagresConsultModel = new SagresConsultModel;
+        $sagresConsultModel = new SagresConsultModel2025;
         $managementUnitCode = $sagresConsultModel->getManagementId();
 
         if (isset($managementUnitCode)) {
@@ -67,7 +67,7 @@ class DefaultController extends Controller
             $noMovement = ($noMovement === "true") ? true : false;
             $withoutCpf = ($withoutCpf === "true") ? true : false;
 
-            $sagres = new SagresConsultModel;
+            $sagres = new SagresConsultModel2025;
             $sagres->cleanInconsistences();
             $sagresEduData = $sagres->getSagresEdu($year, $month, $finalClass, $noMovement, $withoutCpf);
             $sagresEduXML = $sagres->generatesSagresEduXML($sagresEduData);
