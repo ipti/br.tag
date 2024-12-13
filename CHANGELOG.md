@@ -1,3 +1,5 @@
+## [Versão 3.93.210]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
 
 ## [Versão 3.93.209]
 - Trocado "Série" por "Etapa" na Ficha de Matrícula
