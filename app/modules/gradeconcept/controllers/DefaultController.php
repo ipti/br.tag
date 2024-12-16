@@ -64,8 +64,21 @@ class DefaultController extends Controller
 	{
 		$model=new GradeConcept;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+        if(Yii::app()->request->isAjaxRequest)
+		{
+			$name = Yii::app()->request->getPost('name');
+			$acronym = Yii::app()->request->getPost('acronym');
+			$value = Yii::app()->request->getPost('value');
+
+            $model->name = $name;
+            $model->acronym = $acronym;
+            $model->value = $value;
+
+            if($model->save()) {
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Conceito cadastrado com sucesso!'));
+            }
+
+		}
 
 		if(isset($_POST['GradeConcept']))
 		{
@@ -87,15 +100,20 @@ class DefaultController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+        $conceptId = Yii::app()->request->getPost('conceptId');
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		if($conceptId) {
+            $name = Yii::app()->request->getPost('name');
+			$acronym = Yii::app()->request->getPost('acronym');
+			$value = Yii::app()->request->getPost('value');
 
-		if(isset($_POST['GradeConcept']))
-		{
-			$model->attributes=$_POST['GradeConcept'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+            $model->name = $name;
+            $model->acronym = $acronym;
+            $model->value = $value;
+
+			if($model->save()) {
+				Yii::app()->user->setFlash('success', Yii::t('default', 'Conceito atualizado com sucesso!'));
+            }
 		}
 
 		$this->render('update',array(

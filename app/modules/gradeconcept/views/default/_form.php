@@ -31,23 +31,39 @@ $form=$this->beginWidget('CActiveForm', array(
 
 	<?php echo $form->errorSummary($model); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>50,'maxlength'=>50)); ?>
-		<?php echo $form->error($model,'name'); ?>
-	</div>
+    <div class="row">
+        <div class="column clearfix">
+            <div id="info-alert" class="alert hide"></div>
+        </div>
+    </div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'acronym'); ?>
-		<?php echo $form->textField($model,'acronym',array('size'=>5,'maxlength'=>5)); ?>
-		<?php echo $form->error($model,'acronym'); ?>
-	</div>
+    <div class="column t-field-select clearfix is-one-quarter">
+        <?php echo $form->label($model,'name', array('class' => 't-field-text__label--required')); ?>
+        <?php echo $form->textField($model,'name', array('id' => 'conceptName', 'size' => 50, 'class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Nome')); ?>
+        <?php echo $form->error($model,'name'); ?>
+    </div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'value'); ?>
-		<?php echo $form->textField($model,'value'); ?>
-		<?php echo $form->error($model,'value'); ?>
-	</div>
+    <div class="column t-field-select clearfix is-one-quarter">
+        <?php echo $form->label($model,'acronym', array('class' => 't-field-text__label--required')); ?>
+        <?php echo $form->textField($model,'acronym', array('id' => 'conceptAcronym','size' => 5, 'class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Acrônimo')); ?>
+        <?php echo $form->error($model,'acronym'); ?>
+    </div>
+
+    <div class="column t-field-select clearfix is-one-quarter">
+        <?php echo $form->label($model,'value', array('class' => 't-field-text__label--required')); ?>
+        <?php echo $form->textField($model,'value', array('id' => 'conceptValue', 'class' => 't-field-text__input clear-margin--all js-amount', 'placeholder' => 'Valor')); ?>
+        <?php echo $form->error($model,'value'); ?>
+    </div>
+
+    <div class="row show--tablet">
+        <div class="column clearfix">
+            <div class="t-buttons-container">
+                <a class="t-button-primary" type="submit">
+                    <?= $model->isNewRecord ? Yii::t('default', 'Cadastrar') : Yii::t('default', 'Save') ?>
+                </a>
+            </div>
+        </div>
+    </div>
 
 <?php $this->endWidget(); ?>
 

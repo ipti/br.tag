@@ -15,7 +15,6 @@ $this->menu=array(
 	array('label'=>'Manage GradeConcept', 'url'=>array('admin')),
 );
 ?>
-
-<h1>Update GradeConcept <?php echo $model->id; ?></h1>
-
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<div id="mainPage" class="main">
+    <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+</div>
