@@ -47,7 +47,7 @@ class CalculateFinalMediaUsecase
             }
 
             if ($this->shouldApplyFinalRecovery($this->gradeRule, $finalMedia)) {
-
+                $this->gradesResult["final_recovery_applied"] = 1;
                 $gradeUnity = GradeUnity::model()->findByAttributes(
                     ["edcenso_stage_vs_modality_fk" => $this->gradeRule->edcenso_stage_vs_modality_fk,
                     "type" =>  "RF"]);

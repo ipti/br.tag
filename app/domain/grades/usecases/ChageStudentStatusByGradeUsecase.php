@@ -98,7 +98,7 @@ class ChageStudentStatusByGradeUsecase
         $recoverySituation = self::SITUATION_RECOVERY;
 
         $finalMedia = $this->gradeResult->final_media;
-        $approvationMedia = $this->gradeRule->approvation_media;
+        $approvationMedia = $this->gradeResult->final_recovery_applied == 1 ? $this->gradeRule->final_recover_media : $this->gradeRule->approvation_media;
         $frequency = $this->frequency;
 
         $this->gradeResult->situation = $disapprovedSituation;
