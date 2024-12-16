@@ -86,7 +86,7 @@ function loadFrequency(){
                         $('[data-toggle="tooltip"]').tooltip({ container: "body" });
                     } else {
                         $("#frequency-container").hide();
-                        $(".alert-incomplete-data").html(data.error).show();
+                        $(".alert-incomplete-data").html(DOMPurify.sanitize(data.error)).show();
                     }
                 }, complete: function (response) {
                     $(".loading-frequency").hide();
@@ -174,7 +174,7 @@ function loadInstructorsByClassroom(){
             }
 
             if (data !== "") {
-                $("#instructor").html(decodeHtml(data)).show();
+                $("#instructor").html(decodeHtml(DOMPurify.sanitize(data))).show();
                 $("#instructor").select2("val", "-1");
             }
         },
