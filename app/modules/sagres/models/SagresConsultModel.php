@@ -720,7 +720,7 @@ class SagresConsultModel
                 ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN))
                 ->setMultiseriada($multiserie);
 
-            if ($classType->getHorario() !== null && $this->getMatriculaInSerie($serie) !== null) {
+            if ($classType->getHorario() !== null && $serie["matricula"]!== null) {
                 $classList[] = $classType;
             }
 
@@ -828,7 +828,6 @@ class SagresConsultModel
      * Summary of SerieTType
      * @return SerieTType[]
      */
-
     public function getSeries2025($classId, $inepId, $referenceYear, $month, $finalClass, $withoutCpf)
     {
         $seriesList = [];
@@ -866,6 +865,7 @@ class SagresConsultModel
             JOIN  edcenso_stage_vs_modality esvm on esvm.id = se.edcenso_stage_vs_modality_fk
             WHERE
                 c.id = :id
+            And esvm.edcenso_associated_stage_id is not NULL
             GROUP by se.edcenso_stage_vs_modality_fk
         ";
             $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
@@ -897,9 +897,19 @@ class SagresConsultModel
             } else {
                 $idSerie = $edsensoCodes[(int) $serie->edcensoCode];
             }
+            if(!isset($idSerie)){
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = SERIE_STRONG;
+                $inconsistencyModel->school = $school->name;
+                $inconsistencyModel->description = 'Não há série para a escola: ' . $school->name;
+                $inconsistencyModel->action = 'Adicione uma série para a turma';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+                continue;
+            }
 
             $serieType->setIdSerie($idSerie);
-
 
             if (empty($serieType)) {
                 $inconsistencyModel = new ValidationSagresModel();
@@ -914,10 +924,12 @@ class SagresConsultModel
 
             $matriculas = $this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf);
 
-            $matriculas = array_filter(
+
+           /*$matriculas = array_filter(
                 array_column($matriculas, column_key: 'enrollment_stage'),
                 fn($e) => $e == $serie->edcensoCode
             );
+            */
 
             if ($matriculas === null)
                 continue;
@@ -948,13 +960,13 @@ class SagresConsultModel
         return $seriesList;
     }
 
-
+/*
     public function getMatriculaInSerie($serie){
         $serieType = new SerieTType();
         $serieType = $serie;
         return $serieType->getMatricula();
     }
-
+*/
     private function isMulti($classId,$inepId):bool{
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
 
