@@ -1,4 +1,7 @@
 
+## [Versão 3.93.210]
+- Corrigindo a busca por aulas em aulas ministradas quando o usuário é um professor da educação infantil
+
 ## [Versão 3.93.209]
 - Trocado "Série" por "Etapa" na Ficha de Matrícula
 - O Campo 27 da Ficha de Matrícula (Autorização do Termo de Consentimento de Imagem) agora traz preenchido do cadastro do aluno
