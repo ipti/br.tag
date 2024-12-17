@@ -709,7 +709,7 @@ class SagresConsultModel
 
             $classId = $turma['classroomId'];
             $serie = $this->getSeries2025($classId, $inepId, $referenceYear, $month, $finalClass, $withoutCpf);
-
+            $multiserie = $this->isMulti($classId,$inepId);
 
             $classType
                 ->setPeriodo(0) //0 - Anual
@@ -717,8 +717,8 @@ class SagresConsultModel
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($serie)
                 ->setHorario($this->getSchedules($classId, $month, $inepId))
-                ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN));
-
+                ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN))
+                ->setMultiseriada($multiserie);
 
             if ($classType->getHorario() !== null && $this->getMatriculaInSerie($serie) !== null) {
                 $classList[] = $classType;
@@ -955,6 +955,14 @@ class SagresConsultModel
         return $serieType->getMatricula();
     }
 
+    private function isMulti($classId,$inepId):bool{
+        $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
+
+        $classroom = (object) \Classroom::model()->with('edcensoStageVsModalityFk')->findByPk($classId);
+
+        $easId  = $classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id;
+        return \TagUtils::isMultiStage($easId);
+    }
 
     /**
      * Summary of SerieTType

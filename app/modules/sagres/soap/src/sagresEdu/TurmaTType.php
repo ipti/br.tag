@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * Class representing TurmaTType
  *
- * 
+ *
  * XSD Type: turma_t
  */
 class TurmaTType
