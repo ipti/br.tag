@@ -1,6 +1,6 @@
 <?php
 
-namespace SagresEdu2025;
+namespace SagresEdu;
 
 
 use Datetime;
@@ -33,7 +33,7 @@ define('DATE_FORMAT', 'd/m/Y');
 /**
  * Summary of SagresConsultModel
  */
-class SagresConsultModel2025
+class SagresConsultModelOLD
 {
 
     public function cleanInconsistences()
@@ -706,11 +706,10 @@ class SagresConsultModel2025
 
         foreach ($turmas as $turma) {
             $classType = new TurmaTType();
-
             $classId = $turma['classroomId'];
 
             $matriculas = $this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf);
-
+            array_filter(array_column($matriculas, 'enrollment_stage'), fn($e) => $e == $turma->edcensoCode);
             if ($matriculas === null)
                 continue;
 
@@ -718,7 +717,8 @@ class SagresConsultModel2025
                 ->setPeriodo(0) //0 - Anual
                 ->setDescricao($turma["classroomName"])
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
-                ->setSerie($this->makeSerie($classId, $inepId, $matriculas))
+                ->setSerie($this->getSeries($classId, $inepId))
+                ->setMatricula($matriculas)
                 ->setHorario($this->getSchedules($classId, $month, $inepId))
                 ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN));
 
@@ -835,78 +835,34 @@ class SagresConsultModel2025
     {
         $seriesList = [];
         $strlen = 2;
-        //$strMaxLength = 50;
+        $strMaxLength = 50;
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
 
-        $classroom = \Classroom::model()->with('edcensoStageVsModalityFk')->findByPk($classId);
-        $classroom->name;
-        $classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id;
-        $edsensoCodes = [
-            1 => "INF1",
-            2 => "INF2",
-            14 => "FUN1",
-            15 => "FUN2",
-            16 => "FUN3",
-            17 => "FUN4",
-            18 => "FUN5",
-            19 => "FUN6",
-            20 => "FUN7",
-            21 => "FUN8",
-            41 => "FUN9",
-            69 => "EJA1",
-            70 => "EJA2",
-        ];
+        $query = "SELECT
+                    c.name AS serieDescription,
+                    c.modality AS serieModality,
+                    c.complementary_activity as complementaryActivity,
+                    c.schooling as schooling
+                FROM
+                    classroom c
+                WHERE
+                    c.id = :id;";
 
-        if (\TagUtils::isMultiStage($classroom->edcenso_associated_stage_id)) {
-
-            $query = "SELECT
-            esvm.edcenso_associated_stage_id as edcensoCode,
-            c.complementary_activity as complementaryActivity,
-            c.schooling as schooling,
-            c.aee as aee
-        FROM
-            classroom c
-        JOIN student_enrollment se on se.classroom_fk = c.id
-        JOIN  edcenso_stage_vs_modality esvm on esvm.id = se.edcenso_stage_vs_modality_fk
-        WHERE
-            c.id = :id
-        GROUP by se.edcenso_stage_vs_modality_fk
-    ";
-            $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
-        } else {
-
-            $query = "SELECT
-            esvm.edcenso_associated_stage_id as edcensoCode,
-            c.complementary_activity as complementaryActivity,
-            c.schooling as schooling,
-            c.aee as aee
-        FROM
-            classroom c
-        JOIN edcenso_stage_vs_modality esvm on
-            esvm.id = c.edcenso_stage_vs_modality_fk
-        WHERE
-            c.id = :id; ";
-
-
-
-            $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
-        }
-
+        $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
 
         foreach ($series as $serie) {
             $serie = (object) $serie;
             $serieType = new SerieTType();
 
-            if ((int) $serie->complementaryActivity === 1 && (int) $serie->schooling === 0) {
-                $idSerie = "COM1";
-            } elseif ((int)$serie->aee === 1 || (int) $serie->edcensoCode == 75) {
-                $idSerie = "AEE1";
+            if ((int) $serie->complementaryActivity === 1) {
+                $modality = (int) $serie->schooling === 1 ? 2 : 6;
             } else {
-                $idSerie = $edsensoCodes[(int) $serie->edcensoCode];
+                $modality = $serie->serieModality;
             }
 
-            $serieType->setIdSerie($idSerie);
-
+            $serieType
+                ->setDescricao($serie->serieDescription)
+                ->setModalidade($modality);
 
             if (empty($serieType)) {
                 $inconsistencyModel = new ValidationSagresModel();
@@ -919,34 +875,55 @@ class SagresConsultModel2025
                 $inconsistencyModel->insert();
             }
 
-            $matriculas = $this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf);
 
-            $matriculas = array_filter(
-                array_column($matriculas, column_key: 'enrollment_stage'),
-                fn($e) => $e == $serie->edcensoCode
-            );
+            if (strlen($serieType->getDescricao()) <= $strlen) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = SERIE_STRONG;
+                $inconsistencyModel->school = $school->name;
+                $inconsistencyModel->description = 'Descrição para a série: ' . $serieType->getDescricao() . ' menor que 3 caracteres';
+                $inconsistencyModel->action = 'Forneça uma descrição mais detalhada, contendo mais de 5 caracteres';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+            }
 
-            if ($matriculas === null)
-                continue;
 
-
-
-
-            $count = (int) \StudentEnrollment::model()->count(array(
-                'condition' => 'classroom_fk = :classroomId',
-                'params' => array(':classroomId' => $classId),
-            ));
-
-            $serieType->setMatricula($matriculas);
+            if (strlen($serieType->getDescricao()) > $strMaxLength) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = SERIE_STRONG;
+                $inconsistencyModel->school = $school->name;
+                $inconsistencyModel->description = 'Descrição para a série: ' . $serieType->getDescricao() . ' com mais de 50 caracteres';
+                $inconsistencyModel->action = 'Forneça uma descrição menos detalhada, contendo até 50 caracteres';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+            /*
+             * 1 - Educação Infantil
+             * 2 - Ensino Fundamental
+             * 3 - Ensino Médio
+             * 4 - Educação de Jovens e Adultos
+             * 5 - Atendimento Educacional Especializado
+             * 6 - Atividades Complementares
+             */
+            if (!in_array($serieType->getModalidade(), [1, 2, 3, 4, 5, 6])) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = SERIE_STRONG;
+                $inconsistencyModel->school = $school->name;
+                $inconsistencyModel->description = 'Modalidade inválida';
+                $inconsistencyModel->action = 'Selecione uma modalidade válida para a série';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
 
             $seriesList[] = $serieType;
-
         }
-
 
         return $seriesList;
     }
-
 
     /**
      * Summary of SerieTType
@@ -1160,6 +1137,7 @@ class SagresConsultModel2025
             }
 
             $scheduleList[] = $scheduleType;
+
         }
 
         return $scheduleList;
@@ -2246,6 +2224,7 @@ class SagresConsultModel2025
         $xmlString = $serializer->serialize($sagresEduObject, 'xml');
 
         return $this->clearSpecialCharacters($xmlString);
+
     }
 
     private function clearSpecialCharacters($string)
@@ -2278,6 +2257,7 @@ class SagresConsultModel2025
         $tempArchiveZip->addFromString(pathinfo($fileDir, PATHINFO_BASENAME), $content);
         $tempArchiveZip->close();
         $content = null;
+
     }
 
 

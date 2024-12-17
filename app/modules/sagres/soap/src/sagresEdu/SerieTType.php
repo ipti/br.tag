@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * Class representing SerieTType
  *
- * 
+ *
  * XSD Type: serie_t
  */
 class SerieTType
@@ -15,7 +15,7 @@ class SerieTType
     /**
      * @var string $idSerie
      */
-    #[Serializer\SerialezedName("edu:idSerie")]
+    #[Serializer\SerializedName("edu:idSerie")]
     private ?string $idSerie = null;
 
     /**
@@ -23,7 +23,7 @@ class SerieTType
      */
     #[Serializer\XmlList(inline: true, entry: "edu:matricula")]
     private $matricula = [
-        
+
     ];
 
     /**

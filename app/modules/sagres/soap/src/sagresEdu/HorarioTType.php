@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * Class representing HorarioTType
  *
- * 
+ *
  * XSD Type: horario_t
  */
 class HorarioTType
@@ -50,7 +50,7 @@ class HorarioTType
      * @param int $diaSemana
      * @return self
      */
-    public function setDiaSemana(int $diaSemana): ?int
+    public function setDiaSemana(int $diaSemana): self
     {
         $this->diaSemana = $diaSemana;
         return $this;
@@ -72,7 +72,7 @@ class HorarioTType
      * @param int $duracao
      * @return self
      */
-    public function setDuracao(int $duracao): ?int
+    public function setDuracao(int $duracao): self
     {
         $this->duracao = $duracao;
         return $this;
