@@ -46,6 +46,7 @@ class CalculateFinalMediaUsecase
                 $finalMedia = $this->applyCalculation($this->gradeRule->gradeCalculationFk, $grades);
             }
 
+            $this->saveFinalMedia($this->gradesResult, $finalMedia);
             if ($this->shouldApplyFinalRecovery($this->gradeRule, $finalMedia)) {
 
                 $gradeUnity = GradeUnity::model()->findByAttributes(
@@ -77,16 +78,21 @@ class CalculateFinalMediaUsecase
                 }
 
                 $finalMedia = $this->applyFinalRecovery($this->gradesResult, $gradesFinalRecovery);
+                $this->saveFinalRecoveryMedia($this->gradesResult, $finalMedia);
             }
             TLog::info("Média final calculada", ["finalMedia" => $finalMedia]);
 
-            $this->saveFinalMedia($this->gradesResult, $finalMedia);
 
     }
 
     private function saveFinalMedia($gradesResult, $finalMedia)
     {
         $gradesResult->setAttribute("final_media", $finalMedia);
+        $gradesResult->save();
+    }
+    private function saveFinalRecoveryMedia($gradesResult, $finalMedia)
+    {
+        $gradesResult->setAttribute("rec_final", $finalMedia);
         $gradesResult->save();
     }
 
