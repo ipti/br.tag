@@ -1,14 +1,28 @@
-## [Versão 3.91.208]
-- Permitindo que o usuário de professor consiga visualizar no relatório as aulas ministradas cadastradas por outros professores
 
-## [Versão 3.91.207]
+## [Versão 3.93.210]
+- Corrigindo a busca por aulas em aulas ministradas quando o usuário é um professor da educação infantil
+
+## [Versão 3.93.209]
+- Trocado "Série" por "Etapa" na Ficha de Matrícula
+- O Campo 27 da Ficha de Matrícula (Autorização do Termo de Consentimento de Imagem) agora traz preenchido do cadastro do aluno
+
+## [Versão 3.92.209]
+- Corrigido o relatório de alunos por escola (Cpg, Rg e Nis), exibindo somente os alunos do ano em que o relatório foi emitido
+
+## [Versão 3.92.208]
+- Permitindo o acesso dos coordenadores pedagógicos as telas de frequência de professor e a tela de notas
+- Filtrando por escola os professores que podem ser selecionados na tela de frequência de professor
+
+## [Versão 3.92.207]
 - Feito com que o aluno rematricule numa turma que havia sido transferida
 - Aumentado fonte da ficha de notas
 - Inserido campos no cabeçalho da ficha de notas (gênero, filiação, data de nascimento, naturalidade)
 - Inserido opção pra imprimir ficha de notas com local/data ou não
 - Trocado signatário de inspetor escolar para secretário escolar na ficha de notas
+- Adicionado filtro de etapa para as turmas multiseriadas
 
-## [Versão 3.90.206]
+
+## [Versão 3.91.206]
 - Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
 
 ## [Versão 3.91.205]

@@ -9,6 +9,7 @@ $(function () {
 });
 
 $("#classroom").change(function (e) {
+    $(".js-grades-alert-multi").hide()
     const disciplineId = urlParams.get("discipline_id");
     const unityId = urlParams.get("unity_id");
 
@@ -16,10 +17,59 @@ $("#classroom").change(function (e) {
     $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     $("#unities").select2("val", "-1");
 
-    loadDisciplinesFromClassroom(e.target.value, disciplineId, unityId);
-    loadUnitiesFromClassroom(e.target.value)
-});
+    const isMulti = $("#classroom option:selected").attr("data-isMulti");
+    const classroomId = e.target.value;
+    if (isMulti === '1') {
+        $('.js-stage-select').removeClass("js-hide-stage");
 
+        $.ajax({
+            type:"POST",
+            url:"/?r=grades/getClassroomStages" ,
+            data:{
+                classroomId: classroomId
+            },
+
+        }).success( function(response) {
+            if(response === ""){
+                $("#stage")
+                .html(
+                    "<option value='-1'>Não há etapas nas matriculas dos alunos</option>"
+                )
+                .show();
+            } else {
+                $("#stage").html('')
+                $("#stage").append("<option value=''>Selecione</option>");
+                $("#stage").append(decodeHtml(DOMPurify.sanitize(response))).show();
+                $("#stage").select2("val", "");
+            }
+        })
+    } else {
+        $('.js-stage-select').addClass("js-hide-stage");
+        $("#stage").html('')
+        loadUnitiesFromClassroom(e.target.value)
+    }
+    loadDisciplinesFromClassroom(e.target.value, disciplineId, unityId);
+
+});
+$("#stage").on("change", function(e) {
+    $(".js-unity-title").html('');
+    $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
+    $("#unities").html()
+    $("#unities").select2("val", "");
+    loadUnitiesFromClassroom(e.target.value)
+
+    const isMulti = $("#classroom option:selected").attr("data-isMulti");
+    const isClassroomStage = $("#stage option:selected").attr("data-classroom-stage");
+    const stage = $("#stage").val();
+    let alert = ""
+     if(isMulti==="1" && stage !== ""){
+        alert = isClassroomStage == "1" ?
+        "<h4><b>Turma Multiseriada</b></h4>Foi selecionada a etapa vinculada à TURMA<br>contudo, também existe a possibilidade de utilizar as etapas vinculadas diretamente aos ALUNOS."
+        :
+        "<h4><b>Turma Multiseriada</b></h4>Foi selecionada uma etapa vinculada aos ALUNOS<br>contudo, também existe a possibilidade de utilizar a etapas vinculadas diretamente a TURMA."
+        $(".js-grades-alert-multi").html(alert).show()
+    }
+})
 $("#discipline, #unities").change(function (e,triggerEvent ) {
     const unityId = $("#unities").val();
     const disciplineId =  $("#discipline").val();
@@ -86,6 +136,7 @@ $("#save").on("click", function (e) {
             classroom: $("#classroom").val(),
             discipline: $("#discipline").val(),
             students: students,
+            stage: $('#stage').val(),
             isConcept: $(".grades-table").attr("concept"),
         },
         beforeSend: function () {
@@ -119,13 +170,22 @@ $("#close-grades-diary").on("click", function (e) {
         return;
     }
 
+    const isMulti = $("#classroom option:selected").attr("data-isMulti");
+    const stage = $("#stage").val();
+    let isClassroomStage = "0"
+    if (isMulti==="1" && stage !== "") {
+        isClassroomStage = $("#stage option:selected").attr("data-classroom-stage");
+    }
+
     $.ajax({
         type: "POST",
         url: "?r=grades/calculateFinalMedia",
         cache: false,
         data: {
             classroom: classromId,
+            stage: $('#stage').val(),
             discipline: disciplineId,
+            isClassroomStage: isClassroomStage,
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");

@@ -265,7 +265,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     <div class="span12"><b>17 - Matrícula do aluno: </b></div>
                     <br>
                     <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
-                    <div class="span4"><b>Série: </b><span><?= $enrollment->edcensoStageVsModalityFk->name ?></span></div>
+                    <div class="span4"><b>Etapa: </b><span><?= $data["stage_name"] ?></span></div>
                     <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
                     <div class="span9"><b>Situação do aluno: </b><span>
                             <?php

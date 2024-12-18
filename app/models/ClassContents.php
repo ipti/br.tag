@@ -201,6 +201,10 @@ class ClassContents extends CActiveRecord
 
             $courseClasses = [];
             foreach ($schedule->classContents as $classContent) {
+                if(TagUtils::isInstructor() && $classContent->courseClassFk->coursePlanFk->users_fk != Yii::app()->user->loginInfos->id) {
+                    continue;
+                }
+
                 if (!isset($classContents[$schedule->day]["contents"])) {
                     $classContents[$schedule->day]["contents"] = [];
                 }
