@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * Class representing MatriculaTType
  *
- * 
+ *
  * XSD Type: matricula_t
  */
 class MatriculaTType
@@ -38,6 +38,18 @@ class MatriculaTType
     #[Serializer\SerializedName("edu:aluno")]
     #[Serializer\XmlElement(cdata: false)]
     private ?AlunoTType $aluno = null;
+
+    private ?int $enrollment_stage = null;
+
+
+    public function getEnrollmentStage ():?int{
+        return $this->enrollment_stage;
+    }
+    public function setEnrollmentStage (?int $enrollment_stage): self
+    {
+        $this->enrollment_stage = $enrollment_stage;
+        return $this;
+    }
 
     public function getNumero(): ?string
     {

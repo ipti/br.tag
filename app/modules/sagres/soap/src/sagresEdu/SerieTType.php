@@ -22,9 +22,7 @@ class SerieTType
      * @var \SagresEdu\MatriculaTType[] $matricula
      */
     #[Serializer\XmlList(inline: true, entry: "edu:matricula")]
-    private $matricula = [
-
-    ];
+    private $matricula = [];
 
     /**
      * Gets as idSerie

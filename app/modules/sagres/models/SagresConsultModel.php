@@ -720,7 +720,7 @@ class SagresConsultModel
                 ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN))
                 ->setMultiseriada($multiserie);
 
-            if ($classType->getHorario() !== null && $serie["matricula"]!== null) {
+            if ($classType->getHorario() !== null && !empty($serie) && $serie[0]->issetMatricula(0)) {
                 $classList[] = $classType;
             }
 
@@ -924,15 +924,14 @@ class SagresConsultModel
 
             $matriculas = $this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf);
 
-
-           /*$matriculas = array_filter(
-                array_column($matriculas, column_key: 'enrollment_stage'),
-                fn($e) => $e == $serie->edcensoCode
+                $matriculas = array_filter(
+                $matriculas,
+                fn($e) => $e->getEnrollmentStage() == $serie->edcensoCode
             );
-            */
 
-            if ($matriculas === null)
+            if($matriculas==null){
                 continue;
+            };
 
             $count = (int) \StudentEnrollment::model()->count(array(
                 'condition' => 'classroom_fk = :classroomId',
@@ -1884,7 +1883,8 @@ class SagresConsultModel
                         ->setDataMatricula(new DateTime($enrollment['data_matricula'] ?? ''))
                         // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                         ->setNumeroFaltas((int) $enrollment['faults'])
-                        ->setAluno($studentType);
+                        ->setAluno($studentType)
+                        ->setEnrollmentStage($enrollment['enrollment_stage']);
 
                     if (is_null($studentType)) {
                         $inconsistencyModel = new ValidationSagresModel();
