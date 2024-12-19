@@ -54,6 +54,9 @@ class CalculateFinalMediaUsecase
 
                 $gradesFinalRecovery = [];
 
+                $weights = [];
+
+
                 if ($this->gradeRule->gradeCalculationFk->name == 'Média Semestral' && $gradeUnity->final_recovery_avarage_formula == "Médias dos Semestres") {
                     // Verifica se os valores são números antes de comparar
                     $semRecPartial1 = is_numeric($this->gradesResult["sem_rec_partial_1"]) ? $this->gradesResult["sem_rec_partial_1"] : 0;
@@ -72,11 +75,17 @@ class CalculateFinalMediaUsecase
                         $gradesFinalRecovery[] = $gradesSemAvarage2;
                     }
 
-                } else {
+                } elseif ($this->gradeRule->gradeCalculationFk->name == 'Peso') {
+                    $weights = [
+                        $gradeUnity->weight_final_media,
+                        $gradeUnity->weight_final_recovery
+                    ];
+                }
+                else {
                     $gradesFinalRecovery[] = $finalMedia;
                 }
 
-                $finalMedia = $this->applyFinalRecovery($this->gradesResult, $gradesFinalRecovery);
+                $finalMedia = $this->applyFinalRecovery($this->gradesResult, $gradesFinalRecovery, $weights);
             }
             TLog::info("Média final calculada", ["finalMedia" => $finalMedia]);
 
@@ -98,7 +107,7 @@ class CalculateFinalMediaUsecase
 
     }
 
-    private function applyFinalRecovery($gradesResult, $gradesFinalRecovery)
+    private function applyFinalRecovery($gradesResult, $gradesFinalRecovery, $weights)
     {
         $result = null;
         array_push($gradesFinalRecovery, $gradesResult->rec_final);
@@ -106,7 +115,12 @@ class CalculateFinalMediaUsecase
         if ($finalRecovery->gradeCalculationFk->name == "Média Semestral") {
             $calculation = GradeCalculation::model()->findByAttributes(["name" => "Média"]);
             $result = $this->applyCalculation($calculation, $gradesFinalRecovery);
-        } else {
+        } elseif ($finalRecovery->gradeCalculationFk->name == "Peso")
+        {
+            $result = $this->applyCalculation($finalRecovery->gradeCalculationFk, $gradesFinalRecovery, $weights);
+        }
+         else
+        {
             $result = $this->applyCalculation($finalRecovery->gradeCalculationFk, $gradesFinalRecovery);
         }
         return $result;
@@ -125,10 +139,11 @@ class CalculateFinalMediaUsecase
         return GradeUnity::model()->find($criteria);
     }
 
-    private function applyCalculation($calculation, $grades)
+    private function applyCalculation($calculation, $grades, $weights = [])
     {
         return (new ApplyFormulaOnGradesUsecase($calculation))
             ->setGrades($grades)
+            ->setWeights($weights)
             ->exec();
     }
 
