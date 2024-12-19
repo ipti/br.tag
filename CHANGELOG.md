@@ -1,4 +1,7 @@
 
+## [Versão 3.93.211]
+- Ordenando de acordo com a ordem da turma o relatório de ata de notas
+
 ## [Versão 3.93.210]
 - Corrigindo a busca por aulas em aulas ministradas quando o usuário é um professor da educação infantil
 
