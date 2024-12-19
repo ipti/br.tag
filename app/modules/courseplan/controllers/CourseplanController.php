@@ -253,8 +253,8 @@ class CourseplanController extends Controller
      */
     public function actionSave($id = null)
     {
+        // $transaction = Yii::app()->db->beginTransaction();
         $request = Yii::app()->request->getPost("CoursePlan");
-        $transaction = Yii::app()->db->beginTransaction();
         try {
             if ($id !== null) {
                 $coursePlan = CoursePlan::model()->findByPk($id);
@@ -343,21 +343,21 @@ class CourseplanController extends Controller
                 CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '" . implode("', '", $courseClassIds) . "' )", [":course_plan_fk" => $coursePlan->id]);
                 TLog::info("Todas as aulas não inclusas na atualização foram deletadas com sucesso.", ['coursePlanId' => $coursePlan->id, 'CourseClassesIds' => $courseClassIds]);
             }
-            $transaction->commit();
+            // $transaction->commit();
             header('HTTP/1.1 200 OK');
             Log::model()->saveAction("courseplan", $id, $logSituation, $coursePlan->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
             $this->redirect(array('index'));
         } catch (Exception $e) {
             TLog::error('Ocorreu um erro durante a transação de salvar um plano de aula', $e);
-            $transaction->rollback();
+            // $transaction->rollback();
             throw new Exception($e->getMessage(), 500, $e);
         }
     }
 
     public function actionAddResources()
     {
-        $transaction = Yii::app()->db->beginTransaction();
+        // $transaction = Yii::app()->db->beginTransaction();
         try {
             $resources = Yii::app()->request->getPost('resources');
             foreach ($resources as $resource) {
@@ -365,10 +365,10 @@ class CourseplanController extends Controller
                 $newResource->name = $resource;
                 $newResource->save();
             }
-            $transaction->commit();
+            // $transaction->commit();
             header('HTTP/1.1 200 OK');
         } catch (Exception $e) {
-            $transaction->rollback();
+            // $transaction->rollback();
             throw new CHttpException(500, $e->getMessage());
         }
     }
@@ -428,13 +428,13 @@ class CourseplanController extends Controller
         }
         if (!$isUsed) {
             TLog::info("Plano de aula não está sendo utilizado", ["id" => $id]);
-            $transaction = Yii::app()->db->beginTransaction();
+            // $transaction = Yii::app()->db->beginTransaction();
             try {
                 $coursePlan->delete();
-                $transaction->commit();
+                // $transaction->commit();
             } catch (Exception $e) {
                 TLog::error("Error ao excluir plano de aula", ["id" => $id, "error" => $e->getMessage()]);
-                $transaction->rollback();
+                // $transaction->rollback();
                 throw new Exception($e->getMessage(), 500, $e);
             }
 

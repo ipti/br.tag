@@ -39,7 +39,7 @@ class SagresConsultModel
     public function cleanInconsistences()
     {
         $connection = Yii::app()->db;
-        $transaction = $connection->beginTransaction();
+        // $transaction = $connection->beginTransaction();
 
         try {
             $deleteQuery = "DELETE FROM inconsistency_sagres";
@@ -48,9 +48,9 @@ class SagresConsultModel
             $resetQuery = "ALTER TABLE inconsistency_sagres AUTO_INCREMENT = 1";
             $connection->createCommand($resetQuery)->execute();
 
-            $transaction->commit();
+            // $transaction->commit();
         } catch (Exception $e) {
-            $transaction->rollback();
+            // $transaction->rollback();
             throw $e;
         }
     }
