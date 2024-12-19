@@ -191,7 +191,7 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                 </div>
             </div>
 
-            <div class="t-field-select js-final-recovery-fomula">
+            <div class="t-field-select js-final-recovery-fomula hide">
                 <label class="t-field-select__label">Fórmula da média da recuperação final</label>
                 <select class="t-field-select__input select-search-on js-final-recovery-fomula-select">
                     <option value="Médias dos Semestres">Média aritimética da soma das médias dos semestres mais a recuperação final</option>

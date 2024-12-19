@@ -795,6 +795,27 @@ function loadStructure() {
                     "val",
                     data.final_recovery.final_recovery_avarage_formula
                 )
+
+                const finalRecoveryCalculation = $(".final-recovery-unity-calculation").select2(
+                    "val",
+                    data.final_recovery.grade_calculation_fk
+                );
+                if (finalRecoveryCalculation !== null) {
+                    let selectedText = finalRecoveryCalculation.find(':selected').text().trim(); // Pega o texto da opção selecionada e remove espaços extras
+
+                    if (selectedText === "Média Semestral") {
+                        $('.js-final-recovery-fomula').show(); // Mostra o elemento com a classe especificada
+                    } else if(selectedText === "Peso") {
+                        console.log("entrou")
+                        $(".weight-final-recovery").val(data.final_recovery.weight_final_recovery).show()
+                        $(".weight-final-media").val(data.final_recovery.weight_final_media).show()
+                        $(".weights-final-recovery").removeClass("hide")
+                    }
+                }
+                $("select.js-final-recovery-fomula-select").select2(
+                    "val",
+                    data.final_recovery.final_recovery_avarage_formula
+                )
                 $(".final-recover-media").val(data.finalRecoverMedia);
 
                 if (data.hasFinalRecovery) {
