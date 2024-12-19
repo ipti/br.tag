@@ -1,8 +1,17 @@
 <?php
+
+use Sentry\Tracing\TransactionContext;
 /**
  * Controller is the customized base controller class.
  * All controller classes for this application should extend from this base class.
  */
+
+
+ use Sentry\SentrySdk;
+
+use Sentry\State\Hub;
+use Sentry\Event;
+
 class Controller extends CController
 {
     /**
@@ -49,6 +58,12 @@ class Controller extends CController
 
     public function beforeAction($action)
     {
+        $transaction = SentrySdk::getCurrentHub()->startTransaction(new TransactionContext(
+            Yii::app()->controller->id . '/' . $action->id,
+        ));
+
+        SentrySdk::getCurrentHub()->setSpan($transaction);
+
         if (parent::beforeAction($action)) {
             // Verifica o timeout com base na última atividade
             if (isset(Yii::app()->user->authTimeout)) {
@@ -67,5 +82,17 @@ class Controller extends CController
         }
         return false;
     }
+
+    public function afterAction($action)
+    {
+        $transaction = SentrySdk::getCurrentHub()->getSpan();
+        if ($transaction) {
+            $transaction->finish();
+        }
+        // SentrySdk::getCurrentHub()->flush();
+
+        return parent::afterAction($action);
+    }
+
 
 }
