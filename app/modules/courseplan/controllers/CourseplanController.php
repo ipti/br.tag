@@ -463,25 +463,33 @@ class CourseplanController extends Controller
         if (isset($disciplineRequest) && $disciplineRequest != "") {
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
 
-                $criteria->condition = 'users_fk=' . Yii::app()->user->loginInfos->id .
-                        ' AND school_inep_fk=' . Yii::app()->user->school .
-                        ' AND modality_fk=' . $stageRequest .
-                        ' AND discipline_fk=' . $disciplineRequest;
+                $criteria->condition = 'users_fk = :user AND school_inep_fk = :school AND modality_fk = :modality AND discipline_fk = :discipline';
+                $criteria->params = [
+                    ':user' => Yii::app()->user->loginInfos->id,
+                    ':school' => Yii::app()->user->school,
+                    ':modality' => $stageRequest,
+                    ':discipline' => $disciplineRequest
+                ];
+
 
                 TLog::info("Listagem de planos de aula para acesso de professor com filtro de disciplina", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
             }
             if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
 
-                $criteria->condition = 'school_inep_fk=' . Yii::app()->user->school .
-                        ' AND modality_fk=' . $stageRequest .
-                        ' AND discipline_fk=' . $disciplineRequest;
+
+                $criteria->condition = 'school_inep_fk = :school AND modality_fk = :modality AND discipline_fk = :discipline';
+                $criteria->params = [
+                    ':school' => Yii::app()->user->school,
+                    ':modality' => $stageRequest,
+                    ':discipline' => $disciplineRequest
+                 ];
 
                 TLog::info("Listagem de planos de aula para acesso de administrador com filtro de disciplina");
             }
 
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
                 'criteria' => $criteria,
-                'pagination' => false
+                'pagination' => ["pageSize" => 50,]
             ));
 
             $this->renderPartial('_table', array(
@@ -508,7 +516,7 @@ class CourseplanController extends Controller
 
             $dataProvider = new CActiveDataProvider('CoursePlan', array(
                 'criteria' => $criteria,
-                'pagination' => false
+                'pagination' => ["pageSize" => 50,]
             ));
 
             $this->renderPartial('_table', array(
@@ -563,7 +571,7 @@ class CourseplanController extends Controller
         // Create Data provider
         $dataProvider = new CActiveDataProvider('CoursePlan', array(
             'criteria' => $criteria,
-            'pagination' => false
+            'pagination' => ["pageSize" => 50,]
         ));
 
         // Send Data to Select in index page
