@@ -81,16 +81,18 @@ class CalculateConceptGradeUsecase
                 $disciplineId,
                 $gradeUnity->id
             );
+            $conceptGradeValues = 0;
             foreach ($grades as $grade) {
                 if($grade->grade_concept_fk === null){
                     $hasAllGrades = false;
                 }
 
                 $gradeResult["grade_concept_" . ($unityKey + 1)] = $grade->gradeConceptFk->acronym;
-
+                $conceptGradeValues += $grade->gradeConceptFk->value;
             }
         }
 
+        $gradeResult->final_media = $conceptGradeValues/count($gradeUnities);
         $gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
 
         if ($hasAllGrades) {
