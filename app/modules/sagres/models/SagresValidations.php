@@ -7,7 +7,7 @@ class SagresValidations
     public function __construct()
     {
         $connection = Yii::app()->db;
-        $transaction = $connection->beginTransaction();
+        // $transaction = $connection->beginTransaction();
 
         try {
             $deleteQuery = "DELETE FROM inconsistency_sagres";
@@ -16,9 +16,9 @@ class SagresValidations
             $resetQuery = "ALTER TABLE inconsistency_sagres AUTO_INCREMENT = 1";
             $connection->createCommand($resetQuery)->execute();
 
-            $transaction->commit();
+            // $transaction->commit();
         } catch (Exception $e) {
-            $transaction->rollback();
+            // $transaction->rollback();
             throw $e;
         }
     }
@@ -39,7 +39,7 @@ class SagresValidations
         }
 
         $inconsistencyList = array_merge($inconsistencyList, $this->validatorProfessionals($professionals));
-        
+
         return $inconsistencyList;
     }
 
@@ -56,7 +56,7 @@ class SagresValidations
                 "action" => 'POR FAVOR, INFORME O CÓDIGO DE IDENTIFICAÇÃO DA UNIDADE GESTORA'
             ];
         }
-        
+
         if (empty($managementUnit->getNomeUnidGestora())) {
             $inconsistencies[] = [
                 "enrollment" => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
@@ -65,7 +65,7 @@ class SagresValidations
                 "action" => 'POR FAVOR, INFORME UM NOME PARA A UNIDADE GESTORA'
             ];
         }
-        
+
         if (empty($managementUnit->getCpfResponsavel())) {
             $inconsistencies[] = [
                 "enrollment" => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
@@ -74,7 +74,7 @@ class SagresValidations
                 "action" => 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O RESPONSÁVEL'
             ];
         }
-        
+
         if (empty($managementUnit->getCpfGestor())) {
             $inconsistencies[] = [
                 "enrollment" => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
@@ -83,7 +83,7 @@ class SagresValidations
                 "action" => 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O GESTOR'
             ];
         }
-        
+
         return $inconsistencies;
     }
 
@@ -123,10 +123,10 @@ class SagresValidations
         $inconsistencies = [];
         $attendances = $professional->getAtendimento();
 
-        foreach ($attendances as $attendance) {       
+        foreach ($attendances as $attendance) {
             $dateOfAttendance = intval($attendance->getData()->format("Y"));
             $currentDate = date('Y');
-            
+
             if($dateOfAttendance <= ($currentDate - 3)){
                 $inconsistencies[] = [
                     "enrollment" => 'ATENDIMENTO',
@@ -245,7 +245,7 @@ class SagresValidations
                     "description" => 'DATA NO FORMATO INVÁLIDO',
                     "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
                 ];
-            }            
+            }
         }
 
         return $inconsistencies;
@@ -260,7 +260,7 @@ class SagresValidations
         $schoolId = $school->getIdEscola();
 
         foreach ($classes as $class) {
-            /* 
+            /*
              *  [0 : Anual], [1 : 1°], [2 : 2º] Semestre
              */
             if (!in_array($class->getPeriodo(), [0, 1, 2])) {
@@ -350,11 +350,11 @@ class SagresValidations
                         "action" => 'FORNEÇA UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES'
                     ];
                 }
-    
+
                 /* [1, 2, 3, 4]
                  * 1 - Educação Infantil -->
                  * 2 - Ensino Fundamental -->
-                 * 3 - Ensino Médio -->				
+                 * 3 - Ensino Médio -->
                  * 4 - Educação de Jovens e Adultos -->
                  */
                 if (!in_array($serie->getModalidade(), [1, 2, 3, 4])) {
@@ -381,7 +381,7 @@ class SagresValidations
                 "enrollment" => 'MATRÍCULA',
                 "school" => $schoolId,
                 "description" => 'NÃO HÁ MATRÍCULA PARA A TURMA',
-                "action" => 'ADICIONE UMA MATRÍCULA PARA A TURMA: ' . $class->getDescricao() . ' DA ESCOLA: ' . $schoolId 
+                "action" => 'ADICIONE UMA MATRÍCULA PARA A TURMA: ' . $class->getDescricao() . ' DA ESCOLA: ' . $schoolId
             ];
         }else{
             foreach ($enrollments as $enrollment) {
@@ -393,7 +393,7 @@ class SagresValidations
                         "action" => 'ADICIONE UMA DATA NO FORMATO VÁLIDO'
                     ];
                 }
-    
+
                 if(!is_int($enrollment->getNumeroFaltas())){
                     $inconsistencies[] = [
                         "enrollment" => 'MATRÍCULA',
@@ -436,7 +436,7 @@ class SagresValidations
                 ];
             }
         }
-        
+
         if(!$this->validateDate($student->getDataNascimento()->format("Y-m-d"))){
             $inconsistencies[] = [
                 "enrollment" => 'ESTUDANTE',
@@ -521,7 +521,7 @@ class SagresValidations
                         "action" => 'ADICIONE UM DIA DA SEMANA VÁLIDO PARA A DISCIPLINA'
                     ];
                 }
-    
+
                 if (!is_int($schedule->getDuracao())) {
                     $inconsistencies[] = [
                         "enrollment" => 'HORÁRIO',
@@ -530,7 +530,7 @@ class SagresValidations
                         "action" => 'ADICIONE UMA DURAÇÃO VÁLIDA PARA DISCIPLINA'
                     ];
                 }
-    
+
                 $cpfInstructor = $schedule->getCpfProfessor();
                 if (!$this->validaCPF($cpfInstructor[0])) {
                     $inconsistencies[] = [
@@ -540,7 +540,7 @@ class SagresValidations
                         "action" => 'INFORMAR UM CPF VÁLIDO PARA O PROFESSOR'
                     ];
                 }
-                
+
                 if (strlen($schedule->getDisciplina()) < $strlen) {
                     $inconsistencies[] = [
                         "enrollment" => 'HORÁRIO',
@@ -560,12 +560,12 @@ class SagresValidations
                 }
             }
         }
-       
+
         return $inconsistencies;
     }
 
     function validaCPF($cpf)
-    {    
+    {
         $cpf = preg_replace('/[^0-9]/is', '', $cpf);
 
         if (strlen($cpf) != 11) {
@@ -593,7 +593,7 @@ class SagresValidations
         $d = DateTime::createFromFormat($format, $date);
         if(intval($d->format('Y')) <= 1900)
             return false;
-           
+
         return $d && $d->format($format) == $date;
     }
 }
