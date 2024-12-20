@@ -75,13 +75,13 @@ class CalculateConceptGradeUsecase
         $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $disciplineId);
         //notas por conceito
         $hasAllGrades = true;
+        $conceptGradeValues = 0;
         foreach ($gradeUnities as $unityKey => $gradeUnity) {
             $grades = $this->getStudentGradesFromUnity(
                 $studentEnrollment->id,
                 $disciplineId,
                 $gradeUnity->id
             );
-            $conceptGradeValues = 0;
             foreach ($grades as $grade) {
                 if($grade->grade_concept_fk === null){
                     $hasAllGrades = false;
