@@ -540,7 +540,7 @@ class ReportsController extends Controller
                     $frequency[$schedule->day]["totalAbsentStudents"] += 1;
                 }
             }
-            $frequency[$schedule->day]["attendance"] = 100 - (($frequency[$schedule->day]["totalAbsentStudents"]/$frequency[$schedule->day]["totalStudents"])*100);
+            $frequency[$schedule->day]["attendance"] = round(100 - (($frequency[$schedule->day]["totalAbsentStudents"]/$frequency[$schedule->day]["totalStudents"])*100), 2);
         }
         return $frequency;
     }
