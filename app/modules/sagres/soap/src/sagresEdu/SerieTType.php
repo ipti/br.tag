@@ -16,6 +16,7 @@ class SerieTType
      * @var string $idSerie
      */
     #[Serializer\SerializedName("edu:idSerie")]
+    #[Serializer\XmlElement(cdata: false)]
     private ?string $idSerie = null;
 
     /**

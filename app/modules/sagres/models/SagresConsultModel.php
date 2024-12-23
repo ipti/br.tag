@@ -2,7 +2,8 @@
 
 namespace SagresEdu;
 
-
+use CLogger;
+use CVarDumper;
 use Datetime;
 
 use ErrorException;
@@ -18,7 +19,7 @@ use Symfony\Component\Validator\Validation;
 
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
-
+use TagUtils;
 use ValidationSagresModel;
 
 use Yii;
@@ -706,10 +707,13 @@ class SagresConsultModel
 
         foreach ($turmas as $turma) {
             $classType = new TurmaTType();
-
             $classId = $turma['classroomId'];
+            if((int) $classId==758){
+              var_dump("asdasda");
+            }
+            Yii::log('', CLogger::LEVEL_INFO);
             $serie = $this->getSeries2025($classId, $inepId, $referenceYear, $month, $finalClass, $withoutCpf);
-            $multiserie = $this->isMulti($classId,$inepId);
+            $multiserie = $this->isMulti($classId, $inepId);
 
             $classType
                 ->setPeriodo(0) //0 - Anual
@@ -835,6 +839,9 @@ class SagresConsultModel
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
 
         $classroom = (object) \Classroom::model()->with('edcensoStageVsModalityFk')->findByPk($classId);
+        if((int) $classId==758){
+            var_dump("asdasda");
+        }
 
         $easId  = $classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id;
         $edsensoCodes = [
@@ -851,9 +858,10 @@ class SagresConsultModel
             41 => "FUN9",
             69 => "EJA1",
             70 => "EJA2",
+            75 => "AEE1"
         ]; // Deve ser transformado em um enum
 
-        if (\TagUtils::isMultiStage($easId)) {
+        if (TagUtils::isMultiStage($easId)) {
             $query = "SELECT
                 esvm.edcenso_associated_stage_id as edcensoCode,
                 c.complementary_activity as complementaryActivity,
@@ -897,7 +905,7 @@ class SagresConsultModel
             } else {
                 $idSerie = $edsensoCodes[(int) $serie->edcensoCode];
             }
-            if(!isset($idSerie)){
+            if (!isset($idSerie)) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = SERIE_STRONG;
                 $inconsistencyModel->school = $school->name;
@@ -924,49 +932,47 @@ class SagresConsultModel
 
             $matriculas = $this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf);
 
-                $matriculas = array_filter(
-                $matriculas,
-                fn($e) => $e->getEnrollmentStage() == $serie->edcensoCode
-            );
-
-            if($matriculas==null){
+            if(!isset($matriculas)){
                 continue;
-            };
-
-            $count = (int) \StudentEnrollment::model()->count(array(
-                'condition' => 'classroom_fk = :classroomId',
-                'params' => array(':classroomId' => $classId),
-            ));
-
-            if ($count > 3) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school = $school->name;
-                $inconsistencyModel->description = 'O número de turmas excede o limite de 3 turmas na escola: ' . $school->name;
-                $inconsistencyModel->action = 'Remova turmas';
-                $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
             }
+
+
+            if(TagUtils::isMultiStage($easId) && $idSerie !== "COM1" && $idSerie !== "AEE1"){
+                $matriculas = array_filter(
+                    $matriculas,
+                    fn($e) => $e->getEnrollmentStage() == $serie->edcensoCode
+                );
+            }
+
+
+
+            foreach ($matriculas as $matricula) {
+                $matricula->setEnrollmentStage(null);
+            }
+
+
 
             $serieType->setMatricula($matriculas);
 
             $seriesList[] = $serieType;
         }
 
-
+        if ( count($series) > 3) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = TURMA_STRONG;
+            $inconsistencyModel->school = $school->name;
+            $inconsistencyModel->description = 'O número de turmas multiseriada excede o limite de 3 series por turma ' . $school->name;
+            $inconsistencyModel->action = 'Remova turmas';
+            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->idSchool = $inepId;
+            $inconsistencyModel->insert();
+        }
 
         return $seriesList;
     }
 
-/*
-    public function getMatriculaInSerie($serie){
-        $serieType = new SerieTType();
-        $serieType = $serie;
-        return $serieType->getMatricula();
-    }
-*/
-    private function isMulti($classId,$inepId):bool{
+    private function isMulti($classId, $inepId): bool
+    {
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
 
         $classroom = (object) \Classroom::model()->with('edcensoStageVsModalityFk')->findByPk($classId);
@@ -2098,7 +2104,9 @@ class SagresConsultModel
                     ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                     // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                     ->setNumeroFaltas((int) $enrollment['faults'])
-                    ->setAluno($studentType);
+                    ->setAluno($studentType)
+                    ->setEnrollmentStage($enrollment['enrollment_stage']);
+
 
                 if (is_null($studentType)) {
                     $inconsistencyModel = new ValidationSagresModel();
