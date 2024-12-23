@@ -217,17 +217,18 @@ return array(
             'jsDsn' => getenv("SENTRY_DSN"),
             'options' => [
                 'traces_sampler' => function (\Sentry\Tracing\SamplingContext $context): float {
-                    return 1;
+                    return 0.25;
                 },
-                'traces_sample_rate' => 1.0,
-                'profiles_sample_rate' => 1.0,
+                'traces_sample_rate' => 0.25,
+                'profiles_sample_rate' => 0.25,
                 'release' => 'tag@' . TAG_VERSION,
                 'environment' => INSTANCE,
                 'before_send' => function (\Sentry\Event $event): \Sentry\Event {
                     \Sentry\configureScope(function (\Sentry\State\Scope $scope): void {
                         $scope->setUser([
                             'id' => Yii::app()->user->loginInfos->id,
-                            'username' => Yii::app()->user->loginInfos->username
+                            'username' => Yii::app()->user->loginInfos->username,
+                            'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id)
                         ]);
                     });
                     return $event;

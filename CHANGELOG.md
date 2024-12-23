@@ -1,5 +1,12 @@
-## [Versão 3.93.210]
+## [Versão 3.93.212]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
+
+
+## [Versão 3.93.211]
+- Ordenando de acordo com a ordem da turma o relatório de ata de notas
+
+## [Versão 3.93.210]
+- Corrigindo a busca por aulas em aulas ministradas quando o usuário é um professor da educação infantil
 
 ## [Versão 3.93.209]
 - Trocado "Série" por "Etapa" na Ficha de Matrícula
