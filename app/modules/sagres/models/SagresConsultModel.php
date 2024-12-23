@@ -1590,6 +1590,16 @@ class SagresConsultModel
         $strlen = 5;
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
 
+        $acceptedStatus = [
+            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
+            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVED),
+            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVEDBYCOUNCIL),
+            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_DISAPPROVED),
+        ];
+
+        $strAcceptedStatus = implode( ",", $acceptedStatus);
+
+
         $query = "SELECT
                         c.edcenso_stage_vs_modality_fk,
                         c.modality,
@@ -1633,13 +1643,14 @@ class SagresConsultModel
                         left join schedule s on cf.schedule_fk = s.id
                   WHERE
                         se.classroom_fk  =  :classId AND
-                        (se.status = 1 or se.status is null) AND
+                        (se.status in (:statusList) or se.status is null) AND
                         c.school_year = :referenceYear
                   GROUP BY se.id;
                 ";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValues([
+            ':statusList' => $strAcceptedStatus,
             ':classId' => $classId,
             ':referenceYear' => $referenceYear,
         ]);
