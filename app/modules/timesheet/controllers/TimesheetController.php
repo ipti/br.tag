@@ -599,7 +599,7 @@ class TimesheetController extends Controller
                 " select " .
                 " edcenso_discipline.id as disciplineId, " .
                 " edcenso_discipline.name as disciplineName, " .
-                " (select count(schedule.id) from schedule where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 and schedule.discipline_fk = disciplineId) as workloadUsed, " .
+                " (select (count(schedule.id) * (select value from instance_config where parameter_key = 'VHA') / 60) from schedule where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 and schedule.discipline_fk = disciplineId) as workloadUsed, " .
                 " curricular_matrix.workload as workloadTotal, " .
                 " (select ii.name from teaching_matrixes tm join instructor_teaching_data itd on itd.id = tm.teaching_data_fk join instructor_identification ii on itd.instructor_fk = ii.id where itd.classroom_id_fk = " . $_POST["classroomId"] . " and tm.curricular_matrix_fk = curricular_matrix.id) as instructorName " .
                 " from curricular_matrix " .
