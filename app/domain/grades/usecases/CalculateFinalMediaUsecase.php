@@ -81,8 +81,6 @@ class CalculateFinalMediaUsecase
                 $this->saveFinalRecoveryMedia($this->gradesResult, $finalMedia);
             }
             TLog::info("Média final calculada", ["finalMedia" => $finalMedia]);
-
-
     }
 
     private function saveFinalMedia($gradesResult, $finalMedia)

@@ -404,7 +404,7 @@ class ReportsController extends Controller
     {
         // Construíndo condicionais e definindo ordenação para a consulta
         $criteria = new CDbCriteria;
-        $criteria->order = 'name ASC';
+        $criteria->order = 'edcenso_stage_vs_modality_fk, name ASC';
         $criteria->condition = "school_year = :year";
         $criteria->params = array("year" => Yii::app()->user->year);
         //Consulta todas as classes abertas no ano atual

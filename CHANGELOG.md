@@ -1,3 +1,6 @@
+## [Versão 3.93.212]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
+
 
 ## [Versão 3.93.211]
 - Ordenando de acordo com a ordem da turma o relatório de ata de notas
