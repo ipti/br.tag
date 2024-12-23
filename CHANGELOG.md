@@ -1,5 +1,9 @@
-## [Versão 3.94.209]
+
+## [Versão 3.94.210]
 - Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
+- 
+## [Versão 3.93.210]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
 
 ## [Versão 3.93.209]
 - Trocado "Série" por "Etapa" na Ficha de Matrícula
