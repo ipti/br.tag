@@ -39,18 +39,6 @@ class MatriculaTType
     #[Serializer\XmlElement(cdata: false)]
     private ?AlunoTType $aluno = null;
 
-    private ?int $enrollment_stage = null;
-
-
-    public function getEnrollmentStage ():?int{
-        return $this->enrollment_stage;
-    }
-    public function setEnrollmentStage (?int $enrollment_stage): self
-    {
-        $this->enrollment_stage = $enrollment_stage;
-        return $this;
-    }
-
     public function getNumero(): ?string
     {
         return $this->numero;
