@@ -109,6 +109,8 @@ class TimesheetController extends Controller
                         $response["softUnavailableDays"] = $this->getUnavailableDays($classroomId, false, "soft");
 
                         $response["schedules"] = [];
+                        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+                        $hours = $vha["value"] / 60;
                         foreach ($schedules as $schedule) {
 //                    if (!isset($response["schedules"][$schedule->month])) {
 //                        $response["schedules"][$schedule->month] = [];
@@ -135,7 +137,7 @@ class TimesheetController extends Controller
 
                             if (!$schedule->unavailable) {
                                 $cmKey = array_search($schedule["discipline_fk"], array_column($response["disciplines"], 'disciplineId'));
-                                $response["disciplines"][$cmKey]["workloadUsed"]++;
+                                $response["disciplines"][$cmKey]["workloadUsed"] += $hours;
                             }
 
                             $response["schedules"][$schedule->year][$schedule->month][$schedule->schedule][$schedule->day] = [
@@ -482,7 +484,9 @@ class TimesheetController extends Controller
         $schedule->save();
 
         $disciplines = [];
-        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => $schedule->unavailable ? -1 : 1]);
+        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+        $hours = $vha["value"] / 60;
+        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => $schedule->unavailable ? -$hours : $hours]);
         echo json_encode(["unavailable" => $schedule->unavailable, "disciplines" => $disciplines]);
     }
 
@@ -625,6 +629,8 @@ class TimesheetController extends Controller
         if ($_POST["schedule"]["hardUnavailableDaySelected"] || !$_POST["replicate"]) {
             $finalDate = new Datetime($_POST["schedule"]["year"] . "-" . str_pad($_POST["schedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["schedule"]["day"]);
         }
+        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+        $hours = $vha["value"] / 60;
         for ($date = $selectedDate; $date <= $finalDate; $date->modify("+7 days")) {
             $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'year' => $date->format("Y"), 'month' => $date->format("n"), 'day' => $date->format("j"), 'schedule' => $_POST["schedule"]["schedule"]));
             if ($schedule != null) {
@@ -632,9 +638,9 @@ class TimesheetController extends Controller
                 if (!$schedule->unavailable) {
                     $key = array_search($schedule->discipline_fk, array_column($disciplines, 'disciplineId'));
                     if ($key === false) {
-                        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => -1]);
+                        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => -$hours]);
                     } else {
-                        $disciplines[$key]["workloadUsed"]--;
+                        $disciplines[$key]["workloadUsed"] -= $hours;
                     }
                 }
 
@@ -698,6 +704,8 @@ class TimesheetController extends Controller
         if ($_POST["hardUnavailableDaySelected"] || !$_POST["replicate"]) {
             $finalDate = new Datetime($_POST["schedule"]["year"] . "-" . str_pad($_POST["schedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["schedule"]["day"]);
         }
+        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+        $hours = $vha["value"] / 60;
         for ($date = $selectedDate; $date <= $finalDate; $date->modify("+7 days")) {
             if (!in_array($date->format("Y-m-d"), $hardUnavailableDays) || $_POST["hardUnavailableDaySelected"]) {
                 $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'year' => $date->format("Y"), 'month' => $date->format("n"), 'day' => $date->format("j"), 'schedule' => $_POST["schedule"]["schedule"]));
@@ -718,9 +726,9 @@ class TimesheetController extends Controller
                         $schedule->unavailable = 0;
                         $key = array_search($_POST["disciplineId"], array_column($disciplines, 'disciplineId'));
                         if ($key === false) {
-                            array_push($disciplines, ["disciplineId" => $_POST["disciplineId"], "workloadUsed" => 1]);
+                            array_push($disciplines, ["disciplineId" => $_POST["disciplineId"], "workloadUsed" => $hours]);
                         } else {
-                            $disciplines[$key]["workloadUsed"]++;
+                            $disciplines[$key]["workloadUsed"] += $hours;
                         }
                     }
                     $schedule->turn = $classroom->turn;

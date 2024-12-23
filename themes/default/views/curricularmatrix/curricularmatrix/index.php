@@ -17,8 +17,6 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
 ?>
 
 
-
-
 <div class="main">
     <div class="row-fluid">
         <div class="span12">
@@ -53,8 +51,8 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
                     <div class="row clear-margin--left">
                         <div class="column">
                             <div class="t-field-number">
-                                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "t-field-number__label control-label"]) ?>
-                                <?= CHtml::numberField("workload", "0", ["min" => "0", "max" => "9999", 'style' => 'border: 1px solid #aaa;box-sizing:border-box;height: 43px']) ?>
+                                <?= CHtml::label(Yii::t('curricularMatrixModule.index', 'Workload'), 'workload', ['class' => "t-field-text__label control-label"]) ?>
+                                <?= CHtml::textField("workload", "0", ['style' => 'border: 1px solid #aaa;box-sizing:border-box;height: 43px', 'onkeypress' => 'return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)']) ?>
                             </div>
                         </div>
                         <div class="column">
@@ -152,17 +150,17 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
         </div>
         <div class="reuse">
             <a class="matrix-reuse"
-                href="javascript:;"><?php echo 'Reaproveitamento da Matriz Curricular de ' . (Yii::app()->user->year - 1) ?></a>
+               href="javascript:;"><?php echo 'Reaproveitamento da Matriz Curricular de ' . (Yii::app()->user->year - 1) ?></a>
         </div>
     </div>
 </div>
 <div class="modal fade modal-content" id="matrix-reuse-modal" tabindex="-1" role="dialog"
-    aria-labelledby="Reaproveitamento de Matriz Curricular">
+     aria-labelledby="Reaproveitamento de Matriz Curricular">
     <div class="modal-dialog" role="document">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position:static;">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt=""
-                    style="vertical-align: -webkit-baseline-middle">
+                     style="vertical-align: -webkit-baseline-middle">
             </button>
             <h4 class="modal-title" id="myModalLabel">Reaproveitamento de Matriz Curricular</h4>
         </div>
@@ -170,13 +168,15 @@ $this->setPageTitle('TAG - ' . Yii::t('curricularMatrixModule.index', 'Curricula
             <div class="modal-body">
                 <div class="row-fluid">
                     <b>Tem certeza</b> que deseja reaproveitar a matriz curricular de
-                    <?php echo (Yii::app()->user->year - 1) ?>?</b>
+                    <?php echo(Yii::app()->user->year - 1) ?>?</b>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="tag-button-light btn btn-default"
-                        data-dismiss="modal">Cancelar</button>
+                            data-dismiss="modal">Cancelar
+                    </button>
                     <button type="button" class="btn btn-primary confirm-matrix-reuse"
-                        data-dismiss="modal">Confirmar</button>
+                            data-dismiss="modal">Confirmar
+                    </button>
                 </div>
             </div>
         </form>
