@@ -54,7 +54,6 @@ class CalculateFinalMediaUsecase
 
                 $gradesFinalRecovery = [];
 
-                $weights = [];
 
 
                 if ($this->gradeRule->gradeCalculationFk->name == 'Média Semestral' && $gradeUnity->final_recovery_avarage_formula == "Médias dos Semestres") {
@@ -75,17 +74,12 @@ class CalculateFinalMediaUsecase
                         $gradesFinalRecovery[] = $gradesSemAvarage2;
                     }
 
-                } elseif ($this->gradeRule->gradeCalculationFk->name == 'Peso') {
-                    $weights = [
-                        $gradeUnity->weight_final_media,
-                        $gradeUnity->weight_final_recovery
-                    ];
                 }
                 else {
                     $gradesFinalRecovery[] = $finalMedia;
                 }
 
-                $finalMedia = $this->applyFinalRecovery($this->gradesResult, $gradesFinalRecovery, $weights);
+                $finalMedia = $this->applyFinalRecovery($this->gradesResult, $gradesFinalRecovery,);
             }
             TLog::info("Média final calculada", ["finalMedia" => $finalMedia]);
 
@@ -107,16 +101,22 @@ class CalculateFinalMediaUsecase
 
     }
 
-    private function applyFinalRecovery($gradesResult, $gradesFinalRecovery, $weights)
+    private function applyFinalRecovery($gradesResult, $gradesFinalRecovery)
     {
         $result = null;
         array_push($gradesFinalRecovery, $gradesResult->rec_final);
-        $finalRecovery = $this->getFinalRevovery($gradesResult->enrollment_fk, $gradesResult->discipline_fk);
-        if ($finalRecovery->gradeCalculationFk->name == "Média Semestral") {
+        $finalRecovery = GradeUnity::model()->findByAttributes(
+            ["edcenso_stage_vs_modality_fk" => $this->gradeRule->edcenso_stage_vs_modality_fk,
+            "type" =>  "RF"]);
+         if ($finalRecovery->gradeCalculationFk->name == "Média Semestral") {
             $calculation = GradeCalculation::model()->findByAttributes(["name" => "Média"]);
             $result = $this->applyCalculation($calculation, $gradesFinalRecovery);
         } elseif ($finalRecovery->gradeCalculationFk->name == "Peso")
         {
+            $weights = [
+                $finalRecovery->weight_final_media,
+                $finalRecovery->weight_final_recovery
+            ];
             $result = $this->applyCalculation($finalRecovery->gradeCalculationFk, $gradesFinalRecovery, $weights);
         }
          else
@@ -133,8 +133,8 @@ class CalculateFinalMediaUsecase
         $criteria->select = "distinct gu.id, gu.*";
         $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
         $criteria->join .= " join grade g on g.grade_unity_modality_fk = gum.id";
-        $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk and gu.type = :type";
-        $criteria->params = array(":discipline_fk" => $discipline, ":enrollment_fk" => $enrollmentId, ":type" => GradeUnity::TYPE_FINAL_RECOVERY);
+        $criteria->condition = "g.discipline_fk = :discipline_fk and enrollment_fk = :enrollment_fk and gu.type = :type and gu.edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk";
+        $criteria->params = array(":discipline_fk" => $discipline, ":enrollment_fk" => $enrollmentId, ":type" => GradeUnity::TYPE_FINAL_RECOVERY, ":edcenso_stage_vs_modality_fk"=> $this->gradeRule->edcenso_stage_vs_modality_fk);
         $criteria->order = "gu.id";
         return GradeUnity::model()->find($criteria);
     }
