@@ -348,6 +348,8 @@ class SagresConsultModel
 
     private function enrolledSimultaneouslyInRegularClasses(int $year)
     {
+        $acceptedStatus = $this->getAcceptedEnrollmentStatus();
+
         $query = "SELECT DISTINCT student_fk
                     FROM student_enrollment se
                     JOIN classroom c ON c.id = se.classroom_fk
@@ -355,13 +357,14 @@ class SagresConsultModel
                         SELECT se.student_fk
                         FROM student_enrollment se
                         JOIN classroom c ON c.id = se.classroom_fk
-                        WHERE c.school_year = :year AND (status = 1 or status is null)
+                        WHERE c.school_year = :year AND (se.status in (:statusList) or se.status is null)
                         GROUP BY student_fk
                         HAVING COUNT(*) > 1
                     );";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":year", $year);
+        $command->bindValue(":statusList", $acceptedStatus);
         $students = $command->queryAll();
 
         $processedStudents = [];
@@ -381,14 +384,16 @@ class SagresConsultModel
 
     private function getCountOfClassrooms($student, $infoStudent, $year)
     {
+        $acceptedStatus = $this->getAcceptedEnrollmentStatus();
         $query = "SELECT complementary_activity, aee, school_inep_id_fk, c.name
                   FROM student_enrollment se
                   JOIN classroom c ON se.classroom_fk = c.id
-                  WHERE se.student_fk = :student_fk and (se.status = 1 or se.status is null) and c.school_year = :year and modality = 1;";
+                  WHERE se.student_fk = :student_fk and (se.status in (:statusList) or se.status is null) and c.school_year = :year and modality = 1;";
 
         $command = Yii::app()->db->createCommand($query);
         $command->bindValue(":student_fk", $student['student_fk']);
         $command->bindValue(":year", $year);
+        $command->bindValue(":statusList", $acceptedStatus);
         $result = $command->queryAll();
 
         $count = count($result);
@@ -439,16 +444,19 @@ class SagresConsultModel
 
     private function checkStudentEnrollment($studentfk, $year, $infoStudent)
     {
+
+        $acceptedStatus = $this->getAcceptedEnrollmentStatus();
         // Query to get the modalities
         $sql = "SELECT c.modality, c.complementary_activity, se.classroom_fk, se.school_inep_id_fk
         FROM student_enrollment se
         JOIN classroom c ON se.classroom_fk = c.id
         WHERE se.student_fk = :student_fk
-        AND (se.status = 1 OR se.status IS NULL)
+        AND (se.status in (:statusList) or se.status is null)
         AND c.school_year = :year";
 
         $command = Yii::app()->db->createCommand($sql);
         $command->bindParam(":student_fk", $studentfk);
+        $command->bindParam(":statusList", $acceptedStatus);
         $command->bindParam(":year", $year);
         $results = $command->queryAll();
 
@@ -1577,7 +1585,14 @@ class SagresConsultModel
 
         return $attendanceList;
     }
-
+    private function getAcceptedEnrollmentStatus(): array{
+        return [
+            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
+            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVED),
+            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVEDBYCOUNCIL),
+            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_DISAPPROVED),
+        ];
+    }
     /**
      * Sets a new MatriculaTType
      *
@@ -1590,12 +1605,7 @@ class SagresConsultModel
         $strlen = 5;
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
 
-        $acceptedStatus = [
-            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
-            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVED),
-            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVEDBYCOUNCIL),
-            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_DISAPPROVED),
-        ];
+        $acceptedStatus = $this->getAcceptedEnrollmentStatus();
 
         $strAcceptedStatus = implode( ",", $acceptedStatus);
 
