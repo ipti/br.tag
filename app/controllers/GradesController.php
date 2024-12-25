@@ -546,7 +546,6 @@ class GradesController extends Controller
         $stage = Yii::app()->request->getPost("stage");
         $isConcept = Yii::app()->request->getPost("isConcept");
 
-        $transaction = Yii::app()->db->beginTransaction();
         try {
             foreach ($students as $student) {
                 foreach ($student["grades"] as $grade) {
@@ -590,12 +589,10 @@ class GradesController extends Controller
                 }
             }
             self::saveGradeResults($classroomId, $disciplineId, $stage);
-            $transaction->commit();
             header('HTTP/1.1 200 OK');
             echo json_encode(["valid" => true]);
         } catch (Exception $e) {
             TLog::error("Ocorreu algum erro durante a transação de SaveGrades", ["ExceptionMessage" => $e->getMessage()]);
-            $transaction->rollback();
             throw new Exception($e->getMessage(), 500, $e);
         }
 
@@ -629,7 +626,6 @@ class GradesController extends Controller
 
     public function actionCalculateFinalMedia()
     {
-        $transaction = Yii::app()->db->beginTransaction();
         try {
             $classroomId = Yii::app()->request->getPost("classroom");
             $stage = Yii::app()->request->getPost("stage");
@@ -673,9 +669,7 @@ class GradesController extends Controller
                 }
 
             }
-            $transaction->commit();
         } catch (Exception $e) {
-            $transaction->rollback();
             TLog::error("Erro ao atualizar status da matrícula", ["Exception" => $e]);
         }
 

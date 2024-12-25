@@ -86,7 +86,8 @@ class GetStudentGradesByDisciplineUsecase
                 $unityOrder,
                 $type,
                 $semester,
-                $showSemAvarageColumn
+                $showSemAvarageColumn,
+                $rules
             );
         }
         $partialRecoveryColumns = null;
@@ -203,7 +204,7 @@ class GetStudentGradesByDisciplineUsecase
      *
      * @return StudentGradesResult
      */
-    private function getStudentGradeByDicipline($studentEnrollment, $discipline, $unitiesByDiscipline, $unityOrder,$type, $semester, $showSemAvarageColumn)
+    private function getStudentGradeByDicipline($studentEnrollment, $discipline, $unitiesByDiscipline, $unityOrder,$type, $semester, $showSemAvarageColumn, $rules)
     {
         $studentGradeResult = new StudentGradesResult($studentEnrollment->studentFk->name, $studentEnrollment->id);
 
@@ -228,8 +229,10 @@ class GetStudentGradesByDisciplineUsecase
         } else {
             $semRecPartial = "";
         }
+
+        $finalMedia  = $gradeResult->final_media == null || $gradeResult->final_media >= $rules->approvation_media ? $gradeResult->final_media : $gradeResult->rec_final;
         $studentGradeResult->setSemAvarage($semRecPartial);
-        $studentGradeResult->setFinalMedia($gradeResult->final_media);
+        $studentGradeResult->setFinalMedia($finalMedia);
         $studentGradeResult->setSituation($gradeResult->situation);
 
 
