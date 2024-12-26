@@ -1,3 +1,9 @@
+## [Versão 3.94.213]
+- Controle de status a serem considerados na exportação do sagres. Por padrão apenas matriculas com status "matriculado" são envadas. No entanto, usando o diario eletronico, o status de algumas matriculas mudaram para "Aprovado", "Reprovado" e outros. Foi adicionado um controle para optar ou não por considerar esses status na exportação.
+- Novo campo na turma para definir o periodo da turma: Anual, 1 Semestre ou 2 Semestre;
+- Novo campo na turma para deliberadamente desconsiderar ela na exportação do sagres;
+
+
 ## [Versão 3.93.212]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
 

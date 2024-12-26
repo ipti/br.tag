@@ -1612,12 +1612,17 @@ class SagresConsultModel
     }
     private function getAcceptedEnrollmentStatus(): array
     {
-        return [
-            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
-            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVED),
-            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVEDBYCOUNCIL),
-            \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_DISAPPROVED),
-        ];
+
+        if(Yii::app()->features->isEnable("FEAT_SAGRES_STATUS_ENROL")){
+            return [
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVED),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVEDBYCOUNCIL),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_DISAPPROVED),
+            ];
+        }
+
+        return [\StudentEnrollment::getStatusId(status: \StudentEnrollment::STATUS_ACTIVE)];
     }
     /**
      * Sets a new MatriculaTType
