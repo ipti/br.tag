@@ -29,34 +29,15 @@ class FormsRepository {
         if ($totalContents == 0) {
             //Caso não haja preenchimento em gradeResults ou seja 0
             if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
-                $condition = 's.classroom_fk = :classroomId';
-                $params = array(
-                    ':classroomId' => $classroom->id,
+                $totalContents = ClassContents::model()->getTotalClassesMinorStage(
+                    $classroom->id,
+
                 );
             } else {
-                $condition = 's.classroom_fk = :classroomId AND s.discipline_fk = :disciplineId';
-                $params = array(
-                    ':classroomId' => $classroom->id,
-                    ':disciplineId' => $disciplineId,
+                $totalContents = ClassContents::model()->getTotalClassesByClassroomAndDiscipline(
+                    $classroom->id,
+                    $disciplineId,
                 );
-            }
-            $schedulesWithContent = Schedule::model()->findAll(array(
-                'alias' => "s",
-                'join' => 'JOIN class_contents cc ON cc.schedule_fk = s.id',
-                'condition' => $condition,
-                'params' => $params,
-            ));
-            foreach($schedulesWithContent as $scheduleWithContent) {
-                $schedules = Schedule::model()->findAll(array(
-                    'condition' => 'classroom_fk = :classroomId AND discipline_fk = :disciplineId and day = :day and month = :month',
-                    'params' => array(
-                        ':day' => $scheduleWithContent->day,
-                        ':month' => $scheduleWithContent->month,
-                        ':classroomId' => $classroom->id,
-                        ':disciplineId' => $disciplineId,
-                    ),
-                ));
-                $totalContents += count($schedules);
             }
         }
 
@@ -188,16 +169,9 @@ class FormsRepository {
         return $workloadsPerUnity;
     }
 
-    private function separateBaseDisciplines($disciplineId)
+    private function separateBaseDisciplines($disciplineId, $isMinorEducation)
     {
-        // verifica se a disciplina faz parte da BNCC
-        if ($disciplineId == 6 || $disciplineId == 10 || $disciplineId == 11 || $disciplineId == 7 ||
-            $disciplineId == 3 || $disciplineId == 5 || $disciplineId == 12 || $disciplineId == 13 ||
-            $disciplineId == 26)
-        {
-            return true;
-        }
-        return false;
+        return $isMinorEducation || ($disciplineId < 99) ;
     }
 
     private function getPartialRecovery($stage)
@@ -227,12 +201,13 @@ class FormsRepository {
         $result = array(); // array de notas
         $baseDisciplines = array(); // disciplinas da BNCC
         $diversifiedDisciplines = array(); //disciplinas diversas
-        $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
+        $enrollment = StudentEnrollment::model()->with(['classFaults', "classroomFk"])->findByPk($enrollmentId);
         $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]); // medias do aluno na turma
         $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
-        $curricularMatrix = CurricularMatrix::model()->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
+        $curricularMatrix = CurricularMatrix::model()->with("disciplineFk")->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
         $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk]); // unidades da turma
         $partialRecovery = $this->getPartialRecovery($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
+        $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
         // Ajusta ordem das unidades se houver rec. Final
         $recFinalIndex = array_search('RF', array_column($unities, 'type'));
@@ -244,7 +219,7 @@ class FormsRepository {
 
         // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho
         foreach ($curricularMatrix as $matrix) {
-            if($this->separateBaseDisciplines($matrix->discipline_fk)) { // se for disciplina da BNCC
+            if($this->separateBaseDisciplines($matrix->disciplineFk->edcenso_base_discipline_fk, $isMinorEducation)) { // se for disciplina da BNCC
                 array_push($baseDisciplines, $matrix->disciplineFk->id);
             }else { // se for disciplina diversa
                 array_push($diversifiedDisciplines, $matrix->disciplineFk->id);
@@ -274,7 +249,8 @@ class FormsRepository {
             // cálculo de aulas dadas
             $totalContentsPerDiscipline = $this->contentsPerDisciplineCalculate($enrollment->classroomFk, $discipline, $enrollment->id);
 
-            $totalFaultsPerDicipline = $this->faultsPerDisciplineCalculate($schedulesPerUnityPeriods, $discipline, $classFaults, $enrollment->id);
+
+            $totalFaultsPerDicipline = $enrollment->countFaultsDiscipline($discipline);
 
             foreach ($gradesResult as $gradeResult) {
                 // se existe notas para essa disciplina
@@ -286,7 +262,7 @@ class FormsRepository {
                         "partial_recoveries" => $partialRecovery,
                         "total_number_of_classes" => $totalContentsPerDiscipline,
                         "total_faults" => $totalFaultsPerDicipline,
-                        "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100
+                        "frequency_percentage" => round((($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100)
                     ]);
                     $mediaExists = true;
                     break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
@@ -301,7 +277,7 @@ class FormsRepository {
                     "partial_recoveries" => $partialRecovery,
                     "total_number_of_classes" => $totalContentsPerDiscipline,
                     "total_faults" => $totalFaultsPerDicipline,
-                    "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100
+                    "frequency_percentage" => round((($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100)
                 ]);
             }
         }
@@ -327,6 +303,7 @@ class FormsRepository {
             "school_days" => $schoolDaysPerUnity,
             "faults" => $faultsPerUnity,
             "workload" => $workloadPerUnity,
+            "isMinorEducation" => $isMinorEducation
         );
 
         return $response;
@@ -761,6 +738,8 @@ class FormsRepository {
 
         $classroom = Classroom::model()->findByPk($classroomId);
 
+        $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
+
         $sql = "SELECT ed.id AS 'discipline_id', ed.name AS 'discipline_name', ed.abbreviation AS 'discipline_abbreviation'
                     FROM curricular_matrix cm
                 JOIN edcenso_discipline ed ON ed.id = cm.discipline_fk
@@ -775,7 +754,7 @@ class FormsRepository {
         $baseDisciplines = array();
         $diversifiedDisciplines = array();
         foreach ($disciplines as $discipline) {
-            if($this->separateBaseDisciplines($discipline["discipline_id"])) { // se for disciplina da BNCC
+            if($this->separateBaseDisciplines($discipline["discipline_id"],$isMinorEducation)) { // se for disciplina da BNCC
                 array_push($baseDisciplines, $discipline);
             }else { // se for disciplina diversa
                 array_push($diversifiedDisciplines, $discipline);
