@@ -1,3 +1,6 @@
+## [Versão 3.94.212]
+- Adicionada reuperação final por peso
+
 ## [Versão 3.93.212]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
 
