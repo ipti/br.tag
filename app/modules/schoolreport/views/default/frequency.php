@@ -2,7 +2,7 @@
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-//$cs->registerScriptFile($baseScriptUrl . '/common/js/grades.js', CClientScript::POS_END);
+//$cs->registerScriptFile($baseScriptUrl . '/common/js/grades.js?v='.TAG_VERSION, CClientScript::POS_END);
 //$cs->registerScript("vars", "var getGradesUrl = '".Yii::app()->createUrl("schoolreport/default/getGrades", ['eid'=>$eid])."'", CClientScript::POS_BEGIN);
 //$cs->registerCssFile($baseScriptUrl . '/common/css/grades.css');
 
