@@ -1,3 +1,7 @@
+## [Versão 3.95.215]
+- Correção de Ficha de notas: Adicionando status para alunos transferidos, evadidos, cancelados ou mortos;
+- Novas ferramentas de monitoriamento de saude do sistema;
+
 ## [Versão 3.94.214]
 - Correção de Ficha de notas: Os valores de frequencia e a contagem de aulas foi revisado e foi adaptada a visualização dos dados para diferenciar
 o relatório para ensino intanfil e fundamental menor do fundamental maior;
