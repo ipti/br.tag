@@ -145,7 +145,7 @@ $diciplinesColumnsCount = count($baseDisciplines) + count($diversifiedDiscipline
                 $conceptUnities = false;
                 for ($i = 1; $i <= count($unities); $i++) { ?>
                     <tr>
-                        <td><?= strtoupper($unities[$i - 1]->name) ?></td>
+                        <td><?= strtoupper($unities[$i - 1]->name) ."" . $i ?></td>
                         <?php
                         $gradeResultFaults = 0;
                         if ($unities[$i - 1]->type == 'UC') {
