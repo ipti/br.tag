@@ -773,10 +773,13 @@ class FormsRepository {
                         $r['situation'] = mb_strtoupper($r['situation']);
                         if ($r['situation'] == 'REPROVADO') {
                             $finalSituation = 'REPROVADO';
-                        } else if ($r['situation'] == 'RECUPERAÇÃO' && $finalSituation != 'REPROVADO') {
+                        } elseif ($r['situation'] == 'RECUPERAÇÃO' && $finalSituation != 'REPROVADO') {
                             $finalSituation = 'RECUPERAÇÃO';
-                        } else if ($r['situation'] == 'APROVADO' && $finalSituation != 'REPROVADO' && $finalSituation != 'RECUPERAÇÃO') {
+                        } elseif ($r['situation'] == 'APROVADO' && $finalSituation != 'REPROVADO' && $finalSituation != 'RECUPERAÇÃO') {
                             $finalSituation = 'APROVADO';
+                        } elseif ($r['situation'] == 'TRANSFERIDO' && $finalSituation != 'REPROVADO' && $finalSituation != 'RECUPERAÇÃO' && $finalSituation != 'APROVADO') {
+                            $finalSituation = 'TRANSFERIDO';
+
                         }
                         break;
                     }
