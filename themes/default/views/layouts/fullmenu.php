@@ -183,11 +183,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
         <!-- Sidebar menu & content wrapper -->
         <div id="wrapper">
             <!-- Sidebar menu -->
-            <?php if($this->beginCache("fullmenu", array(
-                    'duration'=>3600,
-                    'varyBySession' => true
-                    )
-                )) : ?>
+
                 <div class="t-drawer js-drawer hidden-print t-drawer--mobile-hidden">
                     <div class="colorful-bar">
                         <span id="span-color-blue"></span>
@@ -524,7 +520,6 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                     </div>
 
                 </div>
-            <?php $this->endCache(); endif; ?>
             <!-- // Sidebar Menu END -->
 
             <!-- Content -->
