@@ -771,7 +771,9 @@ class FormsRepository {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
                         $finalMedia = $r['final_media'];
                         $r['situation'] = mb_strtoupper($r['situation']);
-                        if ($r['situation'] == 'REPROVADO') {
+                       if($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {
+                            $finalSituation = 'DEIXOU DE FREQUENTAR';
+                        } elseif ($r['situation'] == 'REPROVADO') {
                             $finalSituation = 'REPROVADO';
                         } elseif ($r['situation'] == 'RECUPERAÇÃO' && $finalSituation != 'REPROVADO') {
                             $finalSituation = 'RECUPERAÇÃO';
