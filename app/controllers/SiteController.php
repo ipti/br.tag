@@ -154,7 +154,6 @@ class SiteController extends Controller
             Yii::app()->user->school = $_POST['SchoolIdentification']['inep_id'];
         }
 
-        Yii::app()->cache->flush();
 
         echo '<script>history.go(-1);</script>';
         exit;
@@ -166,7 +165,6 @@ class SiteController extends Controller
             Yii::app()->user->year = $_POST['years'];
         }
 
-        Yii::app()->cache->flush();
 
         echo '<script>history.go(-1);</script>';
         exit;
