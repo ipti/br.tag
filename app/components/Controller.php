@@ -1,8 +1,17 @@
 <?php
+
+use Sentry\Tracing\TransactionContext;
 /**
  * Controller is the customized base controller class.
  * All controller classes for this application should extend from this base class.
  */
+
+
+ use Sentry\SentrySdk;
+
+use Sentry\State\Hub;
+use Sentry\Event;
+
 class Controller extends CController
 {
     /**
@@ -26,12 +35,11 @@ class Controller extends CController
     {
         parent::init();
 
-        
+
         if (!Yii::app()->user->isGuest) {
-            
-            $authTimeout = Yii::app()->user->getState("authTimeout", 20*60); // Valor padrão de 1800 segundos (30 minutos)
+
+            $authTimeout = Yii::app()->user->getState("authTimeout", SESSION_MAX_LIFETIME);
             Yii::app()->user->authTimeout = $authTimeout;
-            ini_set('session.gc_maxlifetime', $authTimeout);
 
             Yii::app()->sentry->setUserContext([
                 'id' => Yii::app()->user->loginInfos->id,
@@ -49,21 +57,42 @@ class Controller extends CController
     }
 
     public function beforeAction($action)
-{
-    if (parent::beforeAction($action)) {
-        // Verifica se o authTimeout foi excedido antes de atualizar a atividade
-        Yii::app()->user->setState('last_activity', time());
-        
-        if (isset(Yii::app()->user->authTimeout) && time() - Yii::app()->user->getState('last_activity') > Yii::app()->user->authTimeout) {
-            Yii::app()->user->logout();
-            return false; // Impede a ação se o usuário for desconectado
-        }
-        
-        // Atualiza a hora da última atividade
+    {
+        $transaction = SentrySdk::getCurrentHub()->startTransaction(new TransactionContext(
+            Yii::app()->controller->id . '/' . $action->id,
+        ));
 
-        return true;
+        SentrySdk::getCurrentHub()->setSpan($transaction);
+
+        if (parent::beforeAction($action)) {
+            // Verifica o timeout com base na última atividade
+            if (isset(Yii::app()->user->authTimeout)) {
+                $lastActivity = Yii::app()->user->getState('last_activity');
+                $timeout = Yii::app()->user->authTimeout;
+
+                if ($lastActivity !== null && (time() - $lastActivity > $timeout)) {
+                    Yii::app()->user->logout();
+                    return false;
+                }
+            }
+
+            // Atualiza a última atividade
+            Yii::app()->user->setState('last_activity', time());
+            return true;
+        }
+        return false;
     }
-    return false;
-}
+
+    public function afterAction($action)
+    {
+        $transaction = SentrySdk::getCurrentHub()->getSpan();
+        if ($transaction) {
+            $transaction->finish();
+        }
+        // SentrySdk::getCurrentHub()->flush();
+
+        return parent::afterAction($action);
+    }
+
 
 }

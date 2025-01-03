@@ -50,9 +50,15 @@ class SiteController extends Controller
             $this->redirect(yii::app()->createUrl('site/login'));
         }
 
-        //$this->redirect(yii::app()->createUrl('student'));
         $this->loadLogsHtml(5);
-        $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8), "warns" => $this->loadWarnsHtml(8, 0)]);
+
+        if (TagUtils::isInstructor()) {
+            $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8)]);
+        } else {
+            $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8), "warns" => $this->loadWarnsHtml(8, 0)]);
+        }
+
+
     }
 
     /**

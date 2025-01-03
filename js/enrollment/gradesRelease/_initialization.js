@@ -61,6 +61,7 @@ $('#discipline').change(function (e, triggerEvent) {
                     let totalGivenClasses = 0;
                     let html = `
                     <h3>Aulas Dadas</h3>
+                    <div><div class="t-badge-info t-margin-none--left"><span class="t-info_positive t-badge-info__icon"></span>Para o cáculo da frequência preencha as aulas dadas e as faltas</div></div>
                     <div class="row">
                     `;
                     for (let i = 0; i < unitiesLength; i++) {

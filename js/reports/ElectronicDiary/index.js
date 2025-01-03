@@ -250,7 +250,7 @@ function loadReport() {
                             if (this.unityGrade == "") {
                                 valueUnityGrade = "";
                             } else {
-                                valueUnityGrade = parseFloat(this.unityGrade).toFixed(1);
+                                valueUnityGrade = data.isUnityConcept ? this.unityGrade : parseFloat(this.unityGrade).toFixed(1);
                             }
 
                             if (this.unityRecoverGrade == "") {

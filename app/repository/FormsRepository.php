@@ -29,12 +29,12 @@ class FormsRepository {
         if ($totalContents == 0) {
             //Caso não haja preenchimento em gradeResults ou seja 0
             if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
-                $condition = 'classroom_fk = :classroomId';
+                $condition = 's.classroom_fk = :classroomId';
                 $params = array(
                     ':classroomId' => $classroom->id,
                 );
             } else {
-                $condition = 'classroom_fk = :classroomId AND discipline_fk = :disciplineId';
+                $condition = 's.classroom_fk = :classroomId AND s.discipline_fk = :disciplineId';
                 $params = array(
                     ':classroomId' => $classroom->id,
                     ':disciplineId' => $disciplineId,
@@ -286,7 +286,7 @@ class FormsRepository {
                         "partial_recoveries" => $partialRecovery,
                         "total_number_of_classes" => $totalContentsPerDiscipline,
                         "total_faults" => $totalFaultsPerDicipline,
-                        "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
+                        "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100
                     ]);
                     $mediaExists = true;
                     break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
@@ -301,7 +301,7 @@ class FormsRepository {
                     "partial_recoveries" => $partialRecovery,
                     "total_number_of_classes" => $totalContentsPerDiscipline,
                     "total_faults" => $totalFaultsPerDicipline,
-                    "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
+                    "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100
                 ]);
             }
         }
@@ -784,7 +784,7 @@ class FormsRepository {
 
         $totalDisciplines = array_merge($baseDisciplines, $diversifiedDisciplines);
 
-        $studentEnrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom->id));
+        $studentEnrollments =  $classroom->studentEnrollments;
 
         $grades = [];
 

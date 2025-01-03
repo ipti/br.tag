@@ -127,6 +127,7 @@ class CourseplanController extends Controller
         return Yii::app()->db->createCommand($sqlCommand)->queryAll();
     }
 
+
     public function actionGetCourseClasses()
     {
         $coursePlan = CoursePlan::model()->findByPk($_POST["coursePlanId"]);
@@ -140,24 +141,34 @@ class CourseplanController extends Controller
             $courseClasses[$order]['methodology'] = $courseClass->methodology;
             $courseClasses[$order]['resources'] = [];
             $courseClasses[$order]['abilities'] = [];
+
             foreach ($courseClass->courseClassHasClassResources as $courseClassHasClassResource) {
                 $resource["id"] = $courseClassHasClassResource->id;
                 $resource["value"] = $courseClassHasClassResource->course_class_resource_fk;
                 $resource["description"] = $courseClassHasClassResource->courseClassResourceFk->name;
                 $resource["amount"] = $courseClassHasClassResource->amount;
-                array_push($courseClasses[$order]['resources'], $resource);
+                $courseClasses[$order]['resources'][] = $resource;
             }
+
             foreach ($courseClass->courseClassHasClassAbilities as $courseClassHasClassAbility) {
                 $ability["id"] = $courseClassHasClassAbility->courseClassAbilityFk->id;
                 $ability["code"] = $courseClassHasClassAbility->courseClassAbilityFk->code;
                 $ability["description"] = $courseClassHasClassAbility->courseClassAbilityFk->description;
                 $ability["discipline"] = $courseClassHasClassAbility->courseClassAbilityFk->edcensoDisciplineFk->name;
-                array_push($courseClasses[$order]['abilities'], $ability);
+                $courseClasses[$order]['abilities'][] = $ability;
             }
+
             $courseClasses[$order]["deleteButton"] = empty($courseClass->classContents) ? "" : "js-unavailable";
-            $courseClassesIds = array_push($courseClassesIds, $courseClass->id);
+
+            $courseClassesIds[] = $courseClass->id;
         }
-        TLog::info("Listagem de aulas por plano de aula.", ["CoursePlan" => $coursePlan->id, "CourseClasses" => $courseClassesIds]);
+
+        // Log e saída JSON com a estrutura original mantida
+        TLog::info("Listagem de aulas por plano de aula.", [
+            "CoursePlan" => $coursePlan->id,
+            "CourseClasses" => $courseClassesIds
+        ]);
+
         echo json_encode(["data" => array_values($courseClasses)]);
     }
 
@@ -242,8 +253,8 @@ class CourseplanController extends Controller
      */
     public function actionSave($id = null)
     {
+        // $transaction = Yii::app()->db->beginTransaction();
         $request = Yii::app()->request->getPost("CoursePlan");
-        $transaction = Yii::app()->db->beginTransaction();
         try {
             if ($id !== null) {
                 $coursePlan = CoursePlan::model()->findByPk($id);
@@ -278,9 +289,10 @@ class CourseplanController extends Controller
                     TLog::info("Aula salva com sucesso", ['CourseClassId' => $courseClass->id, 'CoursePlanId' => $coursePlan->id]);
                 }
 
-                array_push($courseClassIds, $courseClass->id);
+                $courseClassIds[] = $courseClass->id;
 
-                CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '" . implode("', '", $cc['ability']) . "' )", [":course_class_fk" => $courseClass->id]);
+                $abilitiesMerged = is_array($cc['ability']) ? implode("', '", $cc['ability']): $cc['ability'];
+                CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '" . $abilitiesMerged . "' )", [":course_class_fk" => $courseClass->id]);
                 foreach ($cc["ability"] as $abilityId) {
                     $courseClassHasClassAbility = CourseClassHasClassAbility::model()->find("course_class_fk = :course_class_fk and course_class_ability_fk = :course_class_ability_fk", ["course_class_fk" => $courseClass->id, "course_class_ability_fk" => $abilityId]);
                     if ($courseClassHasClassAbility == null) {
@@ -331,21 +343,21 @@ class CourseplanController extends Controller
                 CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '" . implode("', '", $courseClassIds) . "' )", [":course_plan_fk" => $coursePlan->id]);
                 TLog::info("Todas as aulas não inclusas na atualização foram deletadas com sucesso.", ['coursePlanId' => $coursePlan->id, 'CourseClassesIds' => $courseClassIds]);
             }
-            $transaction->commit();
+            // $transaction->commit();
             header('HTTP/1.1 200 OK');
             Log::model()->saveAction("courseplan", $id, $logSituation, $coursePlan->name);
             Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
             $this->redirect(array('index'));
         } catch (Exception $e) {
             TLog::error('Ocorreu um erro durante a transação de salvar um plano de aula', $e);
-            $transaction->rollback();
+            // $transaction->rollback();
             throw new Exception($e->getMessage(), 500, $e);
         }
     }
 
     public function actionAddResources()
     {
-        $transaction = Yii::app()->db->beginTransaction();
+        // $transaction = Yii::app()->db->beginTransaction();
         try {
             $resources = Yii::app()->request->getPost('resources');
             foreach ($resources as $resource) {
@@ -353,10 +365,10 @@ class CourseplanController extends Controller
                 $newResource->name = $resource;
                 $newResource->save();
             }
-            $transaction->commit();
+            // $transaction->commit();
             header('HTTP/1.1 200 OK');
         } catch (Exception $e) {
-            $transaction->rollback();
+            // $transaction->rollback();
             throw new CHttpException(500, $e->getMessage());
         }
     }
@@ -416,13 +428,13 @@ class CourseplanController extends Controller
         }
         if (!$isUsed) {
             TLog::info("Plano de aula não está sendo utilizado", ["id" => $id]);
-            $transaction = Yii::app()->db->beginTransaction();
+            // $transaction = Yii::app()->db->beginTransaction();
             try {
                 $coursePlan->delete();
-                $transaction->commit();
+                // $transaction->commit();
             } catch (Exception $e) {
                 TLog::error("Error ao excluir plano de aula", ["id" => $id, "error" => $e->getMessage()]);
-                $transaction->rollback();
+                // $transaction->rollback();
                 throw new Exception($e->getMessage(), 500, $e);
             }
 

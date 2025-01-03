@@ -116,11 +116,12 @@ class ReportsRepository
                 jOIN student_identification si ON se.student_fk = si.id
                 JOIN student_documents_and_address sdaa ON si.id = sdaa.id
                 JOIN classroom c ON se.classroom_fk = c.id
-                WHERE c.school_inep_fk = :school_inep_id AND ((`se`.`status` IN (1, 6, 7, 8, 9, 10) or `se`.`status` is null))
+                WHERE c.school_inep_fk = :school_inep_id AND c.school_year = :school_year AND ((`se`.`status` IN (1, 6, 7, 8, 9, 10) or `se`.`status` is null))
                 GROUP BY si.name
                 ORDER BY si.name;";
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(":school_inep_id", $school->inep_id)
+            ->bindParam(":school_year", Yii::app()->user->year)
             ->queryAll();
 
         $allClassrooms = true;
@@ -1917,8 +1918,8 @@ class ReportsRepository
                 INNER JOIN student_identification as s on s.id=se.student_fk
                 INNER JOIN school_identification as e on c.school_inep_fk = e.inep_id
                 LEFT JOIN student_documents_and_address as d on s.id = d.id
-                INNER JOIN edcenso_stage_vs_modality classroomEsvm on classroomEsvm.id = c.edcenso_stage_vs_modality_fk 
-                LEFT JOIN edcenso_stage_vs_modality enrollmentEsvm on enrollmentEsvm.id = se.edcenso_stage_vs_modality_fk 
+                INNER JOIN edcenso_stage_vs_modality classroomEsvm on classroomEsvm.id = c.edcenso_stage_vs_modality_fk
+                LEFT JOIN edcenso_stage_vs_modality enrollmentEsvm on enrollmentEsvm.id = se.edcenso_stage_vs_modality_fk
             WHERE
                 c.school_year = :year AND
                 c.school_inep_fk = :school_inep_fk AND
@@ -2124,7 +2125,12 @@ class ReportsRepository
             }
             foreach ($classroom->studentEnrollments as $studentEnrollment) {
                 for ($i = $monthI; $i <= $monthF; $i++) {
-                    $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = isset($days[$i]) ? (floor(((count($days[$i]) - count($faultDays[$studentEnrollment->studentFk->name][$i])) / count($days[$i])) * 100 * 100) / 100) . "%" : "N/A";
+                    $daysCount = isset($days[$i]) && is_array($days[$i]) ? count($days[$i]) : 0;
+                    $faultDaysCount = isset($faultDays[$studentEnrollment->studentFk->name][$i]) && is_array($faultDays[$studentEnrollment->studentFk->name][$i]) ? count($faultDays[$studentEnrollment->studentFk->name][$i]) : 0;
+
+                    $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = $daysCount > 0
+                        ? (floor((($daysCount - $faultDaysCount) / $daysCount) * 100 * 100) / 100) . "%"
+                        : "N/A";
                 }
                 $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["Classroom"] = $classroom->name;
                 $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']["NIS"] = $studentEnrollment->studentFk->documentsFk->nis == null ? "Não Informado" : $studentEnrollment->studentFk->documentsFk->nis;

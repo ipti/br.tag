@@ -445,7 +445,7 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
             <span>_______________________________________</span>
         </p>
         <p>
-            <span>Inspetor(a) Escolar</span>
+            <span>Secretário(a) Escolar</span>
             <span>Diretor(a)</span>
         </p>
         <p class="date">Data de Emissão: <?= date("d/m/Y") ?></span>

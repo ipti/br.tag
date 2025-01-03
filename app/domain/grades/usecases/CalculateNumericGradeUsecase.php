@@ -2,24 +2,35 @@
 
 /**
  * @property int $classroomId
+ * @property int $stage
  * @property int $discipline
  */
 class CalculateNumericGradeUsecase
 {
-    private $classroomId;
-    private $discipline;
-
-    public function __construct($classroom, $discipline)
+    public function __construct($classroom, $discipline, $stage)
     {
         $this->classroomId = $classroom;
         $this->discipline = $discipline;
+        $this->stage = $stage;
     }
 
     public function exec()
     {
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
-        $studentEnrollments = $classroom->activeStudentEnrollments;
-        $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->classroomId);
+        $totalEnrollments = $classroom->activeStudentEnrollments;
+        if($classroom->edcenso_stage_vs_modality_fk !== $this->stage){
+            $totalEnrollments = $classroom->activeStudentEnrollments;
+            $studentEnrollments = [];
+            foreach ($totalEnrollments as $enrollment) {
+                if($enrollment->edcenso_stage_vs_modality_fk == $this->stage){
+                    array_push($studentEnrollments, $enrollment);
+                }
+            }
+        } else {
+            $studentEnrollments = $totalEnrollments;
+        }
+
+        $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->stage);
 
         foreach ($studentEnrollments as $studentEnrollment) {
             $this->calculateNumericGrades($studentEnrollment, $this->discipline, $unitiesByDiscipline);
@@ -73,9 +84,15 @@ class CalculateNumericGradeUsecase
             }
 
         }
+        /*  */
 
-        $gradeResult["sem_avarage_1"] = is_nan(($semAvarage1 / $unitiesSem1) ?? NAN) ? null : round(($semAvarage1 / $unitiesSem1), 1);
-        $gradeResult["sem_avarage_2"] = is_nan(($semAvarage2 / $unitiesSem2) ?? NAN) ? null : round(($semAvarage2 / $unitiesSem2), 1);
+        if($unitiesSem1 != 0) {
+            $gradeResult["sem_avarage_1"] = is_nan(($semAvarage1 / $unitiesSem1) ?? NAN) ? null : round(($semAvarage1 / $unitiesSem1), 1);
+        }
+
+        if($unitiesSem2 != 0) {
+            $gradeResult["sem_avarage_2"] = is_nan(($semAvarage2 / $unitiesSem2) ?? NAN) ? null : round(($semAvarage2 / $unitiesSem2), 1);
+        }
         $gradeResult = $this->calculatePartialRecovery($gradeResult, $studentEnrollment, $discipline, $gradesRecoveries);
 
         $gradeResult->setAttribute("final_media", null);
@@ -164,16 +181,15 @@ class CalculateNumericGradeUsecase
         );
     }
 
-    private function getGradeUnitiesByClassroomStage($classroom)
+    private function getGradeUnitiesByClassroomStage($stage)
     {
 
         $criteria = new CDbCriteria();
         $criteria->alias = "gu";
         $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->join .= " join classroom c on c.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->condition = "c.id = :classroom";
+        $criteria->condition = "esvm.id = :stage";
         $criteria->order = "gu.type desc";
-        $criteria->params = array(":classroom" => $classroom);
+        $criteria->params = array(":stage" => $stage);
 
         return GradeUnity::model()->findAll($criteria);
     }
@@ -285,6 +301,9 @@ class CalculateNumericGradeUsecase
     private function applyStrategyComputeGradesByFormula($calculation, $unityOrRecovery, $grades, $isRecovery)
     {
         $result = 0;
+
+        if(empty($grades)){ return 0; }
+
         switch ($calculation) {
             default:
             case 'Soma':

@@ -65,7 +65,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'comparestudentname',
                     'getstudentajax',
                     'syncToSedsp',
-                    'getclassrooms',
+                    'gettransferclassrooms',
                     'comparestudentcpf',
                     'comparestudentcivilregisterenrollmentnumber',
                     'comparestudentcertificate',
@@ -384,6 +384,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                                 $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
                                 $modelEnrollment->student_fk = $modelStudentIdentification->id;
                                 $modelEnrollment->create_date = date('Y-m-d');
+                                if ($modelEnrollment->status == 1) {
+                                    $modelEnrollment->enrollment_date = date('Y-m-d');
+                                }
                                 $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
                                 $saved = false;
                                 if ($modelEnrollment->validate()) {
@@ -518,6 +521,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             $modelEnrollment->student_fk = $modelStudentIdentification->id;
                             $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
                             $modelEnrollment->create_date = date('Y-m-d');
+                            if ($modelEnrollment->status == 1) {
+                                $modelEnrollment->enrollment_date = date('Y-m-d');
+                            }
                             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
                             $saved = false;
 
@@ -608,18 +614,54 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $modelEnrollment = new StudentEnrollment;
         $modelSchool = SchoolIdentification::model()->findAll();
         if (isset($_POST['StudentEnrollment'])) {
-            $currentEnrollment = StudentEnrollment::model()->findByPk($modelStudentIdentification->lastEnrollment->id);
-            if ($currentEnrollment->validate()) {
+            $currentEnrollment = StudentEnrollment::model()->findByAttributes(array('student_fk' => $modelStudentIdentification->id, 'current_enrollment' => 1));
+            $currentEnrollment = $currentEnrollment == null ? StudentEnrollment::model()->findByPk($modelStudentIdentification->lastEnrollment->id) : $currentEnrollment;
+            if ($currentEnrollment != null) {
+                //salvar o histórico de matrícula antiga
+                $currentEnrollmentHistory = new StudentEnrollmentHistory();
+                $currentEnrollmentHistory->student_enrollment_fk = $currentEnrollment->id;
+                $currentEnrollmentHistory->status = $currentEnrollment->status;
+                $currentEnrollmentHistory->enrollment_date = $currentEnrollment->enrollment_date;
+                if ($currentEnrollment->status == 2) {
+                    $currentEnrollmentHistory->transfer_date = $currentEnrollment->transfer_date;
+                }
+                if ($currentEnrollment->status == 13) {
+                    $currentEnrollmentHistory->class_transfer_date = $currentEnrollment->class_transfer_date;
+                    $currentEnrollmentHistory->school_readmission_date = $currentEnrollment->school_readmission_date;
+                }
+                $currentEnrollmentHistory->save();
+                //
+
                 $currentEnrollment->status = 2;
                 $currentEnrollment->transfer_date = date_create_from_format(
                     'd/m/Y', $_POST['StudentEnrollment']['transfer_date']
                 )->format('Y-m-d');
+                $currentEnrollment->current_enrollment = 0;
                 if ($currentEnrollment->save()) {
                     Log::model()->saveAction(
                         "enrollment", $currentEnrollment->id,
                         "U", $currentEnrollment->studentFk->name . "|" . $currentEnrollment->classroomFk->name
                     );
                 }
+            }
+
+            $modelEnrollment = StudentEnrollment::model()->findByAttributes(array('student_fk' => $modelStudentIdentification->id, 'classroom_fk' => $_POST['StudentEnrollment']['classroom_fk']));
+            if ($modelEnrollment != null) {
+                //salvar o histórico de matrícula nova
+                $studentEnrollmentHistory = new StudentEnrollmentHistory();
+                $studentEnrollmentHistory->student_enrollment_fk = $modelEnrollment->id;
+                $studentEnrollmentHistory->status = $modelEnrollment->status;
+                $studentEnrollmentHistory->enrollment_date = $modelEnrollment->enrollment_date;
+                if ($modelEnrollment->status == 2) {
+                    $studentEnrollmentHistory->transfer_date = $modelEnrollment->transfer_date;
+                }
+                if ($modelEnrollment->status == 13) {
+                    $studentEnrollmentHistory->class_transfer_date = $modelEnrollment->class_transfer_date;
+                    $studentEnrollmentHistory->school_readmission_date = $modelEnrollment->school_readmission_date;
+                }
+                $studentEnrollmentHistory->save();
+            } else {
+                $modelEnrollment = new StudentEnrollment();
             }
             $modelEnrollment->school_inep_id_fk = $_POST['StudentEnrollment']['school_inep_id_fk'];
             $modelEnrollment->classroom_fk = $_POST['StudentEnrollment']['classroom_fk'];
@@ -630,10 +672,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelEnrollment->create_date = date('Y-m-d');
             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
             $modelEnrollment->enrollment_date = $currentEnrollment->transfer_date;
+            $modelEnrollment->current_enrollment = 1;
 
-            $hasDuplicate = $modelEnrollment->alreadyExists();
-
-            if ($modelEnrollment->validate() && !$hasDuplicate) {
+            if ($modelEnrollment->validate()) {
                 $modelEnrollment->save();
             }
             Yii::app()->user->setFlash('success', Yii::t('default', 'transferred enrollment'));
@@ -647,7 +688,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         }
     }
 
-    public function actionGetClassrooms()
+    public function actionGetTransferClassrooms()
     {
         $school_inep_id = $_POST["inep_id"];
         $school = SchoolIdentification::model()->findByPk($school_inep_id);
