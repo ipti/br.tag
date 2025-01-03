@@ -1,6 +1,7 @@
 <?php
 
-class FormsRepository {
+class FormsRepository
+{
 
     private $currentSchool;
     private $currentYear;
@@ -11,7 +12,8 @@ class FormsRepository {
         $this->currentYear = Yii::app()->user->year;
     }
 
-    private function contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollmentId) {
+    private function contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollmentId)
+    {
         // calculando o total de aulas ministradas naquela turma na disciplina específica
         $totalContents = 0;
 
@@ -21,8 +23,8 @@ class FormsRepository {
             ":discipline_fk" => $disciplineId
         ]);
         if ($gradeResult != null) {
-            for ( $i = 1; $i <= 8; $i++ ) {
-                $totalContents += $gradeResult['given_classes_'.$i];
+            for ($i = 1; $i <= 8; $i++) {
+                $totalContents += $gradeResult['given_classes_' . $i];
             }
         }
 
@@ -44,7 +46,8 @@ class FormsRepository {
         return $totalContents;
     }
 
-    private function faultsPerDisciplineCalculate($schedulesPerUnityPeriods, $disciplineId, $classFaults, $enrollmentId) {
+    private function faultsPerDisciplineCalculate($schedulesPerUnityPeriods, $disciplineId, $classFaults, $enrollmentId)
+    {
         // calculando o total de faltas na disciplina específica
         $totalFaults = 0;
 
@@ -54,8 +57,8 @@ class FormsRepository {
             ":discipline_fk" => $disciplineId
         ]);
         if ($gradeResult != null) {
-            for ( $i = 1; $i <= 8; $i++ ) {
-                $totalFaults += $gradeResult['grade_faults_'.$i];
+            for ($i = 1; $i <= 8; $i++) {
+                $totalFaults += $gradeResult['grade_faults_' . $i];
             }
         }
 
@@ -74,11 +77,12 @@ class FormsRepository {
         return $totalFaults;
     }
 
-    private function getSchedulesPerUnityPeriods($classroomFk, $unities) {
+    private function getSchedulesPerUnityPeriods($classroomFk, $unities)
+    {
         // Retorna todos os schedules dentro do periodo das unidades
         $schedulesPerUnityPeriods = [];
         $unityDates = [];
-        foreach($unities as $unity) {
+        foreach ($unities as $unity) {
             $unityPeriods = GradeUnityPeriods::model()->find("calendar_fk = :calendar_fk
                 and grade_unity_fk = :grade_unity_fk", [
                 ":calendar_fk" => $classroomFk->calendar_fk,
@@ -98,7 +102,7 @@ class FormsRepository {
                     ":year" => $classroomFk->school_year,
                     ":classroom_fk" => $classroomFk->id,
                     ":initial_date" => $unityDates[$i],
-                    ":final_date" => $unityDates[$i+1]
+                    ":final_date" => $unityDates[$i + 1]
                 ]);
             } else {
                 $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk
@@ -171,23 +175,23 @@ class FormsRepository {
 
     private function separateBaseDisciplines($disciplineId, $isMinorEducation)
     {
-        return $isMinorEducation || ($disciplineId < 99) ;
+        return $isMinorEducation || ($disciplineId < 99);
     }
 
     private function getPartialRecovery($stage)
     {
         $result = array();
-        $gradeRules = GradeRules::model()->findByAttributes(["edcenso_stage_vs_modality_fk"=>$stage]);
-        $partialRecoveries = GradePartialRecovery::model()->findAllByAttributes(["grade_rules_fk"=>$gradeRules->id, "semester"=> null]);
+        $gradeRules = GradeRules::model()->findByAttributes(["edcenso_stage_vs_modality_fk" => $stage]);
+        $partialRecoveries = GradePartialRecovery::model()->findAllByAttributes(["grade_rules_fk" => $gradeRules->id, "semester" => null]);
         foreach ($partialRecoveries as $partialRecovery) {
             $unities = GradeUnity::model()->findAll(
                 "parcial_recovery_fk IS NOT NULL AND edcenso_stage_vs_modality_fk = :stage",
                 array(':stage' => $stage)
             );
-            $result["rec_partial_".$partialRecovery->order_partial_recovery] = [];
-            foreach($unities as $key => $unity){
-                if($unity->parcial_recovery_fk == $partialRecovery->id){
-                    array_push($result["rec_partial_".$partialRecovery->order_partial_recovery], ('grade_'.($key+1)));
+            $result["rec_partial_" . $partialRecovery->order_partial_recovery] = [];
+            foreach ($unities as $key => $unity) {
+                if ($unity->parcial_recovery_fk == $partialRecovery->id) {
+                    array_push($result["rec_partial_" . $partialRecovery->order_partial_recovery], ('grade_' . ($key + 1)));
                 }
             }
         }
@@ -196,7 +200,7 @@ class FormsRepository {
     /**
      * Ficha de Notas
      */
-    public function getEnrollmentGrades($enrollmentId) : array
+    public function getEnrollmentGrades($enrollmentId): array
     {
         $result = array(); // array de notas
         $baseDisciplines = array(); // disciplinas da BNCC
@@ -215,9 +219,9 @@ class FormsRepository {
 
         // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho
         foreach ($curricularMatrix as $matrix) {
-            if($this->separateBaseDisciplines($matrix->disciplineFk->edcenso_base_discipline_fk, $isMinorEducation)) { // se for disciplina da BNCC
+            if ($this->separateBaseDisciplines($matrix->disciplineFk->edcenso_base_discipline_fk, $isMinorEducation)) { // se for disciplina da BNCC
                 array_push($baseDisciplines, $matrix->disciplineFk->id);
-            }else { // se for disciplina diversa
+            } else { // se for disciplina diversa
                 array_push($diversifiedDisciplines, $matrix->disciplineFk->id);
             }
         }
@@ -250,7 +254,7 @@ class FormsRepository {
 
             foreach ($gradesResult as $gradeResult) {
                 // se existe notas para essa disciplina
-                if($gradeResult->disciplineFk->id == $discipline) {
+                if ($gradeResult->disciplineFk->id == $discipline) {
                     array_push($result, [
                         "discipline_id" => $gradeResult->disciplineFk->id,
                         "final_media" => $gradeResult->final_media,
@@ -265,7 +269,7 @@ class FormsRepository {
                 }
             }
 
-            if(!$mediaExists) { // o aluno não tem notas para a disciplina
+            if (!$mediaExists) { // o aluno não tem notas para a disciplina
                 array_push($result, [
                     "discipline_id" => $discipline,
                     "final_media" => null,
@@ -320,7 +324,7 @@ class FormsRepository {
     /**
      * Ficha Individual
      */
-    public function getIndividualRecord($enrollmentId) : array
+    public function getIndividualRecord($enrollmentId): array
     {
         $disciplines = array();
         $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
@@ -332,7 +336,11 @@ class FormsRepository {
         $scheduleParams = array(':year' => Yii::app()->user->year, ':classroom' => $enrollment->classroom_fk);
         $schedules = Schedule::model()->findAllBySql($scheduleSql, $scheduleParams);
         $gradeRules = GradeRules::model()->findByAttributes(["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcensoStageVsModalityFk->id]);
-        $portuguese = array(); $history = array(); $geography = array(); $mathematics = array(); $sciences = array();
+        $portuguese = array();
+        $history = array();
+        $geography = array();
+        $mathematics = array();
+        $sciences = array();
         $stage = isset($enrollment->edcenso_stage_vs_modality_fk) ? $enrollment->edcenso_stage_vs_modality_fk : $enrollment->classroomFk->edcenso_stage_vs_modality_fk;
         $minorFundamental = Yii::app()->utils->isStageMinorEducation($stage);
         $workload = 0;
@@ -341,8 +349,8 @@ class FormsRepository {
         }
         foreach ($curricularMatrix as $c) {
             foreach ($gradesResult as $g) {
-                if($c->disciplineFk->id == $g->discipline_fk) {
-                    if($c->disciplineFk->id == 6 && $minorFundamental) {
+                if ($c->disciplineFk->id == $g->discipline_fk) {
+                    if ($c->disciplineFk->id == 6 && $minorFundamental) {
                         array_push($portuguese, [
                             "grade1" => $g->grade_1,
                             "faults1" => $g->grade_faults_1,
@@ -358,7 +366,7 @@ class FormsRepository {
                             "givenClasses4" => $g->given_classes_4,
                             "final_media" => $g->final_media
                         ]);
-                    }else if ($c->disciplineFk->id == 12 && $minorFundamental) {
+                    } else if ($c->disciplineFk->id == 12 && $minorFundamental) {
                         array_push($history, [
                             "grade1" => $g->grade_1,
                             "faults1" => $g->grade_faults_1,
@@ -374,7 +382,7 @@ class FormsRepository {
                             "givenClasses4" => $g->given_classes_4,
                             "final_media" => $g->final_media
                         ]);
-                    }else if ($c->disciplineFk->id == 13 && $minorFundamental) {
+                    } else if ($c->disciplineFk->id == 13 && $minorFundamental) {
                         array_push($geography, [
                             "grade1" => $g->grade_1,
                             "faults1" => $g->grade_faults_1,
@@ -390,7 +398,7 @@ class FormsRepository {
                             "givenClasses4" => $g->given_classes_4,
                             "final_media" => $g->final_media
                         ]);
-                    }else if ($c->disciplineFk->id == 3 && $minorFundamental) {
+                    } else if ($c->disciplineFk->id == 3 && $minorFundamental) {
                         array_push($mathematics, [
                             "grade1" => $g->grade_1,
                             "faults1" => $g->grade_faults_1,
@@ -406,7 +414,7 @@ class FormsRepository {
                             "givenClasses4" => $g->given_classes_4,
                             "final_media" => $g->final_media
                         ]);
-                    }else if ($c->disciplineFk->id == 5 && $minorFundamental) {
+                    } else if ($c->disciplineFk->id == 5 && $minorFundamental) {
                         array_push($sciences, [
                             "grade1" => $g->grade_1,
                             "faults1" => $g->grade_faults_1,
@@ -422,7 +430,7 @@ class FormsRepository {
                             "givenClasses4" => $g->given_classes_4,
                             "final_media" => $g->final_media
                         ]);
-                    }else {
+                    } else {
                         array_push($disciplines, [
                             "name" => $c->disciplineFk->name,
                             "grade1" => $g->grade_1,
@@ -473,7 +481,7 @@ class FormsRepository {
     /**
      * Relatório de Notas de Boquim
      */
-    public function getEnrollmentGradesBoquim($enrollmentId) : array
+    public function getEnrollmentGradesBoquim($enrollmentId): array
     {
         $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
         $response = array('enrollment' => $enrollment);
@@ -483,17 +491,17 @@ class FormsRepository {
     /**
      * Relatório de Notas de Boquim (Ciclo)
      */
-    public function getEnrollmentGradesBoquimCiclo($enrollmentId) : array
+    public function getEnrollmentGradesBoquimCiclo($enrollmentId): array
     {
         $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
-        $response = array('enrollment'=>$enrollment);
+        $response = array('enrollment' => $enrollment);
         return $response;
     }
 
     /**
      * Declaração de Matrícula
      */
-    public function getEnrollmentDeclaration($enrollmentId) : array
+    public function getEnrollmentDeclaration($enrollmentId): array
     {
         $sql = "SELECT si.sex gender, svm.stage stage, svm.id class
                     FROM student_enrollment se
@@ -503,18 +511,22 @@ class FormsRepository {
                 WHERE se.id = :enrollment_id;";
 
         $result = Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
 
-        $response = array('enrollment_id' => $enrollmentId, 'gender' => $result['gender'],
-                        'stage' => $result['stage'], 'class' => $result['class']);
+        $response = array(
+            'enrollment_id' => $enrollmentId,
+            'gender' => $result['gender'],
+            'stage' => $result['stage'],
+            'class' => $result['class']
+        );
         return $response;
     }
 
     /**
      * Certificado de Conclusão
      */
-    public function getConclusionCertification($enrollmentId) : array
+    public function getConclusionCertification($enrollmentId): array
     {
         $sql = "SELECT si.sex gender, svm.stage stage, svm.id class, se.status, svm.alias, svm.stage, si.nationality nation
                     FROM student_enrollment se
@@ -533,7 +545,7 @@ class FormsRepository {
             $status = "não concluiu";
         }
 
-        switch($result["stage"]) {
+        switch ($result["stage"]) {
             case "1":
                 $modality = "ENSINO INFANTIL";
                 break;
@@ -565,8 +577,16 @@ class FormsRepository {
             $nation = "ESTRANGEIRA";
         }
 
-        $response = array('enrollment_id' => $enrollmentId, 'gender' => $result['gender'],
-            'stage' => $result['stage'], 'class' => $result['class'], 'status' => $status, 'alias' => $result["alias"], 'modality' => $modality, 'nation' => $nation);
+        $response = array(
+            'enrollment_id' => $enrollmentId,
+            'gender' => $result['gender'],
+            'stage' => $result['stage'],
+            'class' => $result['class'],
+            'status' => $status,
+            'alias' => $result["alias"],
+            'modality' => $modality,
+            'nation' => $nation
+        );
         return $response;
     }
 
@@ -587,15 +607,15 @@ class FormsRepository {
                 WHERE se.id = :enrollment_id;";
 
         return Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
 
     }
 
     /**
      * Requerimento de Transferência
      */
-    public function getTransferRequirement($enrollmentId) : array
+    public function getTransferRequirement($enrollmentId): array
     {
         $sql = "SELECT
                     si.sex gender,
@@ -607,13 +627,15 @@ class FormsRepository {
                 WHERE se.id = :enrollment_id;";
 
         $result = Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
 
         $response = array(
             'enrollment_id' => $enrollmentId,
             'gender' => $result['gender'],
-            'stage' => $result['stage'], 'class' => $result['class']);
+            'stage' => $result['stage'],
+            'class' => $result['class']
+        );
 
         return $response;
     }
@@ -632,14 +654,14 @@ class FormsRepository {
                 WHERE se.id = :enrollment_id;";
 
         return Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
     }
 
     /**
      * Comunicado de Matrícula
      */
-    public function getEnrollmentNotification($enrollmentId) : array
+    public function getEnrollmentNotification($enrollmentId): array
     {
         $sql = "SELECT si.sex gender, cr.turn shift
                     FROM student_identification si
@@ -648,8 +670,8 @@ class FormsRepository {
                 WHERE se.id = :enrollment_id;";
 
         $result = Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
 
         $response = array('enrollment_id' => $enrollmentId, 'gender' => $result['gender'], 'shift' => $result['shift']);
 
@@ -667,20 +689,20 @@ class FormsRepository {
                 WHERE se.id = :enrollment_id;";
 
         return Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
     }
 
     /**
      * Declaração de Aluno
-    */
-    public function getStudentsDeclaration($enrollmentId) : array
+     */
+    public function getStudentsDeclaration($enrollmentId): array
     {
         $sql = "SELECT * FROM studentsdeclaration WHERE enrollment_id = :enrollment_id";
 
         $result = Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
 
         $response = array('report' => $result);
 
@@ -695,15 +717,15 @@ class FormsRepository {
         $sql = "SELECT * FROM studentsfile WHERE enrollment_id = :enrollment_id;";
 
         return Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
 
     }
 
     /**
      * Ata de Notas
      */
-    public function getAtaSchoolPerformance($classroomId) : array
+    public function getAtaSchoolPerformance($classroomId): array
     {
         $sql = "SELECT
                 se.id AS enrollment_id,
@@ -712,7 +734,8 @@ class FormsRepository {
                 ed.name AS discipline_name,
                 ed.id AS discipline_id,
                 gr.final_media,
-                gr.situation
+                gr.situation,
+                se.status
                     FROM classroom c
                 JOIN curricular_matrix cm ON c.edcenso_stage_vs_modality_fk = cm.stage_fk
                 JOIN student_enrollment se ON se.classroom_fk = c.id
@@ -750,23 +773,33 @@ class FormsRepository {
         $baseDisciplines = array();
         $diversifiedDisciplines = array();
         foreach ($disciplines as $discipline) {
-            if($this->separateBaseDisciplines($discipline["discipline_id"],$isMinorEducation)) { // se for disciplina da BNCC
+            if ($this->separateBaseDisciplines($discipline["discipline_id"], $isMinorEducation)) { // se for disciplina da BNCC
                 array_push($baseDisciplines, $discipline);
-            }else { // se for disciplina diversa
+            } else { // se for disciplina diversa
                 array_push($diversifiedDisciplines, $discipline);
             }
         }
 
         $totalDisciplines = array_merge($baseDisciplines, $diversifiedDisciplines);
 
-        $studentEnrollments =  $classroom->studentEnrollments;
+        $studentEnrollments = $classroom->studentEnrollments;
 
         $grades = [];
 
         foreach ($studentEnrollments as $s) {
+
+            $found = array_search($s->getCurrentStatus(), [
+                StudentEnrollment::STATUS_CANCELED,
+                StudentEnrollment::STATUS_TRANSFERRED,
+                StudentEnrollment::STATUS_DEATH,
+                StudentEnrollment::STATUS_ABANDONED,
+                StudentEnrollment::STATUS_CONCLUDED,
+            ]);
+
             $finalSituation = '';
             foreach ($totalDisciplines as $d) {
                 $finalMedia = '';
+
                 foreach ($result as $r) {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
                         $finalMedia = $r['final_media'];
@@ -781,16 +814,20 @@ class FormsRepository {
                         break;
                     }
                 }
-                array_push($grades, array(
+
+                array_push(
+                    $grades,
+                    array(
                         "discipline_id" => $d['discipline_id'],
                         "discipline_name" => $d['discipline_name'],
                         "student_name" => $s['studentFk']['name'],
                         "student_id" => $s['student_fk'],
                         "final_media" => $finalMedia,
-                        "situation" => $finalSituation
+                        "situation" => $found ?  $s->getCurrentStatus() : $finalSituation
                     )
                 );
             }
+
         }
 
         $response = array(
@@ -809,7 +846,7 @@ class FormsRepository {
     /**
      * Ficha de Matrícula
      */
-    public function getStudentFileForm($enrollmentId) : array
+    public function getStudentFileForm($enrollmentId): array
     {
         $enrollment = StudentEnrollment::model()->with("studentFk.edcensoUfFk")->findByPk($enrollmentId);
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
@@ -819,7 +856,7 @@ class FormsRepository {
         return $response;
     }
 
-    public function getStudentsFileForm($classroomId) : array
+    public function getStudentsFileForm($classroomId): array
     {
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
         $classroom = Classroom::model()->with("studentEnrollments.studentFk.edcensoUfFk")->findByPk($classroomId);
@@ -837,7 +874,7 @@ class FormsRepository {
     /**
      * Formulário de Transferência
      */
-    public function getTransferForm($enrollmentId) : array
+    public function getTransferForm($enrollmentId): array
     {
         $sql = "SELECT si.nationality
                     FROM student_identification si
@@ -845,8 +882,8 @@ class FormsRepository {
                 WHERE se.id = :enrollment_id;";
 
         $result = Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
 
         $response = array('enrollment_id' => $enrollmentId, 'nationality' => $result['nationality']);
 
@@ -874,8 +911,8 @@ class FormsRepository {
                 WHERE se.id = :enrollment_id;";
 
         return Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
 
 
     }
@@ -883,7 +920,7 @@ class FormsRepository {
     /**
      * Declaração de ano cursado na escola
      */
-    public function getStatementAttended($enrollmentId) : array
+    public function getStatementAttended($enrollmentId): array
     {
         $sql = "SELECT si.name name_student, si.birthday, si.filiation_1, si.filiation_2, svm.name class,
                         svm.*, c.modality, c.school_year, svm.stage stage, svm.id class
@@ -894,8 +931,8 @@ class FormsRepository {
                 WHERE se.id = :enrollment_id;";
 
         $data = Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
 
         $modality = array(
             '1' => 'Ensino Regular',
@@ -995,7 +1032,7 @@ class FormsRepository {
     /**
      * Termo de Advertência
      */
-    public function getWarningTerm($enrollmentId) : array
+    public function getWarningTerm($enrollmentId): array
     {
         $sql = "SELECT si.name name_student, si.birthday, si.filiation_1, si.filiation_2, svm.name class,
                         svm.*, c.modality, c.school_year, svm.stage stage, svm.id class
@@ -1006,14 +1043,14 @@ class FormsRepository {
                 WHERE se.id = :enrollment_id;";
 
         $data = Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
 
         $sql = "SELECT * FROM studentsdeclaration WHERE enrollment_id = :enrollment_id";
 
         $data = Yii::app()->db->createCommand($sql)
-                ->bindParam(':enrollment_id', $enrollmentId)
-                ->queryRow();
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
 
         $turn = '';
         switch ($data['turn']) {
@@ -1029,7 +1066,7 @@ class FormsRepository {
 
         }
 
-        $response = array('student' => $data,'turn' => $turn);
+        $response = array('student' => $data, 'turn' => $turn);
 
         return $response;
     }
@@ -1037,7 +1074,7 @@ class FormsRepository {
     /**
      * Termo de Suspensão
      */
-    public function getSuspensionTerm($enrollmentId) : array
+    public function getSuspensionTerm($enrollmentId): array
     {
         $sql = "SELECT si.name name, svm.name stage_name, c.name classroom, svm.alias stage_alias
                     FROM student_enrollment se
