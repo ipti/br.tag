@@ -114,7 +114,7 @@ class ChageStudentStatusByGradeUsecase
             $hasRecoveryGrade = isset($recoveryMedia) && $recoveryMedia !== "";
             if (!$hasRecoveryGrade) {
                 $this->gradeResult->situation = $recoverySituation;
-            } elseif ($recoveryMedia >= $finalRecoveryMedia && $finalRecovery->gradeCalculationFk->name == "Maior") {
+            } elseif ($recoveryMedia >= $finalRecoveryMedia) {
                 $this->gradeResult->situation = $approvedSituation;
             }
 
