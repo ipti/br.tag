@@ -237,13 +237,6 @@ class FormsRepository {
         ); // unidades da turma
         $partialRecovery = $this->getPartialRecovery($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
 
-        // Ajusta ordem das unidades se houver rec. Final
-        /* $recFinalIndex = array_search('RF', array_column($unities, 'type'));
-        if($recFinalIndex != null){
-            $recFinalObject = $unities[$recFinalIndex];
-            array_splice($unities, $recFinalIndex, 1);
-            array_push($unities, $recFinalObject);
-        } */
 
         // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho
         foreach ($curricularMatrix as $matrix) {
