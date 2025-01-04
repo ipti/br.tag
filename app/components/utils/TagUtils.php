@@ -55,7 +55,7 @@ class TagUtils extends CApplicationComponent
 
     public static function isStageEJA($stage): bool
     {
-        $refMinorStages = ["43","44","45","46","47","48","51","58","60","61","62","63","65","66","69","70","71","72","73","74"];
+        $refMinorStages = ["43", "44", "45", "46", "47", "48", "51", "58", "60", "61", "62", "63", "65", "66", "69", "70", "71", "72", "73", "74"];
         $stages = new CList($refMinorStages, true);
         return $stages->contains(strval($stage));
     }
@@ -115,6 +115,16 @@ class TagUtils extends CApplicationComponent
         }
 
         return strtoupper(INSTANCE) === strtoupper($instance);
+    }
+
+    public static function generateCacheKey($prefix = 'cache'): string
+    {
+        $schoolId = Yii::app()->user->getState('school');
+        $year = Yii::app()->user->getState('year');
+        $roles = Yii::app()->authManager->getRoles(Yii::app()->user->id);
+        $role = !empty($roles) ? key($roles) : 'default_role';  // Valor padrão
+
+        return $prefix . "_" .$role . "_" . $year . "_" . $schoolId;
     }
 
     /**
