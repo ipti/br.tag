@@ -784,7 +784,7 @@ class FormsRepository {
 
         $totalDisciplines = array_merge($baseDisciplines, $diversifiedDisciplines);
 
-        $studentEnrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom->id));
+        $studentEnrollments =  $classroom->studentEnrollments;
 
         $grades = [];
 
