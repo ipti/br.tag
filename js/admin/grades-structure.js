@@ -11,14 +11,14 @@ function hasUnitiesSaved() {
     }
     $(".js-new-partial-recovery").addClass("disabled");
 }
-$(document).on(
+/* $(document).on(
     "change",
     "#GradeUnity_edcenso_stage_vs_modality_fk",
     function () {
         $(".alert-required-fields, .alert-media-fields").hide();
         loadStructure();
     }
-);
+); */
 $(document).on(
     "change",
     ".final-recovery-unity-calculation",

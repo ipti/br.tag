@@ -400,9 +400,9 @@ class AdminController extends Controller
                 distinct esvm.id,
                 esvm.name
             from edcenso_stage_vs_modality esvm
-                join curricular_matrix cm on cm.stage_fk = esvm.id
-            where school_year = :year order by esvm.name")
-            ->bindParam(":year", Yii::app()->user->year)
+                join curricular_matrix cm on cm.stage_fk = esvm.id order by esvm.name")
+            // where school_year = :year order by esvm.name")
+            // ->bindParam(":year", Yii::app()->user->year)
             ->queryAll();
 
         $formulas = GradeCalculation::model()->findAll();
@@ -458,7 +458,22 @@ class AdminController extends Controller
                 $grade_rules_id
             );
 
-        $result["edcenso_stage_vs_modality_fk"] = $gradeRules->edcenso_stage_vs_modality_fk;
+            $stageIds = Yii::app()->db->createCommand("
+            SELECT DISTINCT esvm.id
+            FROM
+                edcenso_stage_vs_modality esvm
+            JOIN
+                curricular_matrix cm ON cm.stage_fk = esvm.id
+            JOIN
+                grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.edcenso_stage_vs_modality_fk = esvm.id
+            WHERE
+                grvesvm.grade_rules_fk = :grade_rule
+            ORDER BY
+                esvm.name
+        ")
+        ->bindParam(':grade_rule', $grade_rules_id)
+        ->queryColumn();
+        $result["edcenso_stage_vs_modality_fk"] = $stageIds;
         $result["approvalMedia"] = $gradeRules->approvation_media;
         $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
         $result["mediaCalculation"] = $gradeRules->grade_calculation_fk;
@@ -535,7 +550,7 @@ class AdminController extends Controller
         ignore_user_abort();
         $gradeRulesId = Yii::app()->request->getPost("grade_rules_id");
         $reply = Yii::app()->request->getPost("reply");
-        $stage = Yii::app()->request->getPost("stage");
+        $stages = Yii::app()->request->getPost("stage");
         $unities = Yii::app()->request->getPost("unities");
         $approvalMedia = Yii::app()->request->getPost("approvalMedia");
         $finalRecoverMedia = Yii::app()->request->getPost("finalRecoverMedia");
@@ -550,7 +565,7 @@ class AdminController extends Controller
             $usecase = new UpdateGradeStructUsecase(
                 $gradeRulesId,
                 $reply,
-                $stage,
+                $stages,
                 $unities,
                 $approvalMedia,
                 $finalRecoverMedia,
@@ -573,7 +588,6 @@ class AdminController extends Controller
                 $recoveryUnity->name = $finalRecovery["name"];
                 $recoveryUnity->type = "RF";
                 $recoveryUnity->grade_calculation_fk = $finalRecovery["grade_calculation_fk"];
-                $recoveryUnity->edcenso_stage_vs_modality_fk = $stage;
                 $recoveryUnity->final_recovery_avarage_formula = $finalRecovery["final_recovery_avarage_formula"];
 
                 if (!$recoveryUnity->validate()) {

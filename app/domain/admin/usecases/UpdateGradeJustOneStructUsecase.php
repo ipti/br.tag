@@ -6,7 +6,7 @@
  *
  * @property string $gradeRulesId
  * @property string $reply
- * @property string $stage
+ * @property [] $stages
  * @property [] $unities
  * @property mixed $approvalMedia
  * @property mixed $finalRecoverMedia
@@ -22,11 +22,11 @@ class UpdateGradeJustOneStructUsecase
     private const OP_UPDATE = "update";
     private const OP_REMOVE = "remove";
 
-    public function __construct($gradeRulesId, $stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $ruleType,
+    public function __construct($gradeRulesId, $stages, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $ruleType,
     $hasPartialRecovery, $partialRecoveries)
     {
         $this->gradeRulesId = $gradeRulesId;
-        $this->stage = $stage;
+        $this->stages = $stages;
         $this->unities = $unities;
         $this->approvalMedia = $approvalMedia;
         $this->finalRecoverMedia = $finalRecoverMedia;
@@ -43,7 +43,7 @@ class UpdateGradeJustOneStructUsecase
 
         $rulesUseCase = new UpdateGradeRulesUsecase(
             $this->gradeRulesId,
-            $this->stage,
+            $this->stages,
             $this->approvalMedia,
             $this->finalRecoverMedia,
             $this->calculationFinalMedia,
@@ -75,7 +75,7 @@ class UpdateGradeJustOneStructUsecase
                 if ($unityModel == null) {
                     $unityModel = new GradeUnity();
                 }
-                $unityModel->edcenso_stage_vs_modality_fk = $stage;
+             /*    $unityModel->edcenso_stage_vs_modality_fk = $stage; */
                 $unityModel->name = $unity["name"];
                 $unityModel->semester = $unity["semester"];
                 $unityModel->type = $unity["type"];

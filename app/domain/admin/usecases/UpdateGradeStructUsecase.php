@@ -5,7 +5,7 @@
  *
  * @property string $gradeRulesId
  * @property string $reply
- * @property string $stage
+ * @property [] $stages
  * @property [] $unities
  * @property mixed $approvalMedia
  * @property mixed $finalRecoverMedia
@@ -21,12 +21,12 @@ class UpdateGradeStructUsecase
     private const ALL_STAGES = "A";
     private const STAGES_FROM_SAME_MODALITY = "S";
 
-    public function __construct($gradeRulesId,$reply, $stage, $unities, $approvalMedia,
+    public function __construct($gradeRulesId,$reply, $stages, $unities, $approvalMedia,
         $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType, $hasPartialRecovery, $partialRecoveries)
     {
         $this->gradeRulesId = $gradeRulesId;
         $this->reply = $reply;
-        $this->stage = $stage;
+        $this->stages = $stages;
         $this->unities = $unities;
         $this->approvalMedia = $approvalMedia;
         $this->finalRecoverMedia = $finalRecoverMedia;
@@ -42,7 +42,7 @@ class UpdateGradeStructUsecase
         if ($this->reply === self::JUST_CURRENT_STAGE) {
             $justOneUsecase = new UpdateGradeJustOneStructUsecase(
                 $this->gradeRulesId,
-                $this->stage,
+                $this->stages,
                 $this->unities,
                 $this->approvalMedia,
                 $this->finalRecoverMedia,
@@ -59,7 +59,7 @@ class UpdateGradeStructUsecase
             $this->saveAndReplayForSimliarStages($matrixes, $this->unities, $this->approvalMedia, $this->finalRecoverMedia, $this->calculationFinalMedia, $this->hasFinalRecovery, $this->ruleType, $this->partialRecoveries);
         } elseif ($this->reply === self::STAGES_FROM_SAME_MODALITY) {
             // S = Todas as etapas de a modalidade selecionada.
-            $stages = $this->getMatrixesForAllModalities($this->stage);
+            $stages = $this->getMatrixesForAllModalities($this->stages);
             $this->saveAndReplayForSimliarStages($stages, $this->unities, $this->approvalMedia, $this->finalRecoverMedia, $this->calculationFinalMedia, $this->hasFinalRecovery, $this->ruleType, $this->partialRecoveries);
         }
     }

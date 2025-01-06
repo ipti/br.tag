@@ -59,7 +59,8 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
                             CHtml::listData($stages, 'id', 'name'),
                             array(
                                 'key' => 'id',
-                                'class' => ' t-field-select__input js-stage-select select-search-on',
+                                'class' => ' t-field-select__input js-stage-select select-search-on select2-container t-multiselect multiselect',
+                                'multiple' => 'multiple',
                                 'prompt' => 'Selecione o estágio...',
                                 'style' => 'width: 100%;'
 
