@@ -87,16 +87,16 @@ class CalculateConceptGradeUsecase
         $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $disciplineId);
         //notas por conceito
         $hasAllGrades = true;
+        $conceptGradeValues = 0;
+        $grades = $this->getStudentGrades(
+            $studentEnrollment->id,
+            $disciplineId,
+        );
+        foreach ($grades as  $gradeKey => $grade) {
 
-            $grades = $this->getStudentGrades(
-                $studentEnrollment->id,
-                $disciplineId,
-            );
-            foreach ($grades as  $gradeKey => $grade) {
-
-                $gradeResult["grade_concept_" . ($gradeKey + 1)] = $grade->gradeConceptFk->acronym;
-
-            }
+            $gradeResult["grade_concept_" . ($gradeKey + 1)] = $grade->gradeConceptFk->acronym;
+            $conceptGradeValues += $grade->gradeConceptFk->value;
+        }
 
         $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($this->stage);
         $numUnities = $gradeUnities->execCount();
@@ -105,7 +105,7 @@ class CalculateConceptGradeUsecase
             $hasAllGrades = false;
         }
 
-
+        $gradeResult->final_media = $conceptGradeValues/$numUnities;
         $gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
 
         if ($hasAllGrades) {
