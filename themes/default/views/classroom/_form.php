@@ -221,16 +221,27 @@ $form = $this->beginWidget(
                             </div>
 
                             <!-- Estrutura de Avaliação -->
-                            <div class="t-field-select">
+                            <div class="t-field-select js-grade-rules">
                                     <label class="t-field-select__label--required">
                                      Estrutura de Avaliação
                                     </label>
                                     <?php echo CHtml::dropDownList('gradeRules', '',  [],
-                                        array('multiple' => 'multiple',
-                                        'class' => 'select-search-on select2-container t-multiselect multiselect',
+                                        array(
+                                        'class' => 'select-search-on select2-container',
+                                        'name' => 'gradeRules',
                                         'id' => 'gradeRules', 'style' => 'width: 100%;')); ?>
 
                             </div>
+                            <?php
+                                if(TagUtils::isMultiStage( $modelClassroom->edcenso_stage_vs_modality_fk)):
+                            ?>
+                                <div class="t-field-checkbox t-margin-none--top">
+                                    <?php echo $form->checkBox($modelClassroom, 'concept_and_numeric', array('class' =>'t-field-checkbox__input js-concept-and-numeric')); ?>
+                                    <label class="t-field-checkbox__label" for="include-saturday">Turma por conceito e numérica?</label>
+                                </div>
+                            <?php
+                                endif;
+                            ?>
 
                             <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                 <!-- Unidade Escolar -->
@@ -255,6 +266,16 @@ $form = $this->beginWidget(
                                     <?php echo $form->error($modelClassroom, 'sedsp_max_physical_capacity'); ?>
                                 </div>
                             <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="mutiple-structure">
+                        <h3>
+                            Estruturas de Unidade Por Etapa
+                        </h3>
+                        <div class="row t-padding-small--bottom">
+                            <div class="column">
+
+                            </div>
                         </div>
                     </div>
                     <div>

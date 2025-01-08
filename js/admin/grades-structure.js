@@ -11,14 +11,6 @@ function hasUnitiesSaved() {
     }
     $(".js-new-partial-recovery").addClass("disabled");
 }
-/* $(document).on(
-    "change",
-    "#GradeUnity_edcenso_stage_vs_modality_fk",
-    function () {
-        $(".alert-required-fields, .alert-media-fields").hide();
-        loadStructure();
-    }
-); */
 $(document).on(
     "change",
     ".final-recovery-unity-calculation",
@@ -506,12 +498,15 @@ function saveUnities(reply) {
     }
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
+
+    const name = $(".js-grade-rules-name").val();
     $.ajax({
         type: "POST",
         url: "?r=admin/saveUnities",
         cache: false,
         data: {
             grade_rules_id: id,
+            grade_rules_name: name,
             stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
             unities: unities,
             approvalMedia: $(".approval-media").val(),
@@ -785,6 +780,7 @@ function loadStructure() {
                         "data"
                     ).text
                 );
+                $(".js-grade-rules-name").val(data.ruleName);
                 $(".js-grades-structure-container").children(".unity").remove();
                 $(".approval-media").val(data.approvalMedia);
                 $("#has_final_recovery").prop("checked", data.hasFinalRecovery);
@@ -804,6 +800,7 @@ function loadStructure() {
                     data.final_recovery.grade_calculation_fk
                 );
                 $(".js-stage-select").select2("val",data.edcenso_stage_vs_modality_fk);
+                $("select.js-stage-select").select2();
 
                 if (finalRecoveryCalculation !== null) {
                     var selectedText = finalRecoveryCalculation.find(':selected').text().trim(); // Pega o texto da opção selecionada e remove espaços extras
@@ -826,7 +823,7 @@ function loadStructure() {
                 $(
                     ".js-grades-structure-container, .js-grades-rules-container"
                 ).show();
-
+                console.log(Object.keys(data.unities).length)
                 if (Object.keys(data.unities).length) {
                     let newUnityButton = $(".js-new-unity");
                     $.each(data.unities, function (e) {

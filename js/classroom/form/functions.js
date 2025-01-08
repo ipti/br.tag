@@ -63,6 +63,15 @@ var removeDiscipline = function (instructor, discipline) {
     $("li[instructor = " + instructor + "] li[discipline = " + discipline + "]").remove();
 }
 
+$(document).on("change",".js-concept-and-numeric", function () {
+
+    if ($(this).prop("checked")) {
+        $(".mutiple-structure").show();
+} else {
+
+}
+
+});
 $(document).on("change", "#Role", function () {
     $(".regent-teacher-container").hide()
     if ($(this).val() == 1 && RegentTeacherCount < 2) {

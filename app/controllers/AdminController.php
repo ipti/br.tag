@@ -478,6 +478,7 @@ class AdminController extends Controller
         $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
         $result["mediaCalculation"] = $gradeRules->grade_calculation_fk;
         $result["ruleType"] = $gradeRules->rule_type;
+        $result["ruleName"] = $gradeRules->name;
         $result["hasFinalRecovery"] = (bool)$gradeRules->has_final_recovery;
 
         $result["partialRecoveries"] = [];
@@ -549,6 +550,7 @@ class AdminController extends Controller
         set_time_limit(0);
         ignore_user_abort();
         $gradeRulesId = Yii::app()->request->getPost("grade_rules_id");
+        $gradeRulesName = Yii::app()->request->getPost("grade_rules_name");
         $reply = Yii::app()->request->getPost("reply");
         $stages = Yii::app()->request->getPost("stage");
         $unities = Yii::app()->request->getPost("unities");
@@ -564,6 +566,7 @@ class AdminController extends Controller
         try {
             $usecase = new UpdateGradeStructUsecase(
                 $gradeRulesId,
+                $gradeRulesName,
                 $reply,
                 $stages,
                 $unities,

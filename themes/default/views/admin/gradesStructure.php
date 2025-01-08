@@ -48,10 +48,18 @@ $this->setPageTitle('TAG - Estrutura de Unidades e Avaliações');
         <div class="alert-media-fields no-show alert"></div>
         <div class="alert-required-fields no-show alert alert-error"></div>
         <div class="column">
+            <div class="row">
+                <div class="t-field-text column is-three-fifths clearfix">
+                    <label class='t-field-text__label--required'>Nome:</span></label>
+                    <input type='text' class='t-field-text__input js-grade-rules-name' placeholder='Nome'>
+                </div>
+            </div>
+        </div>
+        <div class="column">
             <div class="row margin-bottom-none">
                 <div class="t-field-select column is-three-fifths clearfix">
 
-                    <?php echo CHtml::label(yii::t('default', 'Stage'), 'modality_fk', array('class' => 't-field-select__label--required', 'style' => 'width: 54px;')); ?>
+                    <?php echo CHtml::label(yii::t('default', 'Etapas'), 'modality_fk', array('class' => 't-field-select__label--required', 'style' => 'width: 54px;')); ?>
                         <?php
                         echo $form->dropDownList(
                             $gradeUnity,

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * Caso de uso para atualização dos parametros para calculo de média
  *
  * @property int $gradeRulesId
+ * @property string $gradeRulesName
  * @property [] $stages
  * @property float $approvalMedia
  * @property float $finalRecoverMedia
@@ -17,10 +18,11 @@ declare(strict_types=1);
  */
 class UpdateGradeRulesUsecase
 {
-    public function __construct($gradeRulesId ,$stages, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType,
+    public function __construct($gradeRulesId, $gradeRulesName, $stages, $approvalMedia, $finalRecoverMedia, $calcFinalMedia, $hasFinalRecovery, $ruleType,
     $hasPartialRecovery, $partialRecoveries)
     {
         $this->gradeRulesId = $gradeRulesId;
+        $this->gradeRulesName = $gradeRulesName;
         $this->stages = $stages;
         $this->approvalMedia = $approvalMedia;
         $this->finalRecoverMedia = $finalRecoverMedia;
@@ -44,6 +46,7 @@ class UpdateGradeRulesUsecase
 
         // $gradeRules->edcenso_stage_vs_modality_fk = $this->stages;
         $gradeRules->approvation_media = $this->approvalMedia;
+        $gradeRules->name = $this->gradeRulesName;
         $gradeRules->final_recover_media = $this->finalRecoverMedia;
         $gradeRules->grade_calculation_fk = $this->calcFinalMedia;
         $gradeRules->has_final_recovery = (int) $this->hasFinalRecovery;

@@ -26,3 +26,7 @@ JOIN
     grade_rules g
 ON
     e.id= g.edcenso_stage_vs_modality_fk ;
+
+
+ALTER TABLE classroom
+ADD concept_and_numeric INT NOT NULL DEFAULT 0;

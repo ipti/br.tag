@@ -5,6 +5,7 @@
  * Caso de uso para salvavemto da estrutura de notas e avaliação
  *
  * @property string $gradeRulesId
+ * @property string $gradeRulesName
  * @property string $reply
  * @property [] $stages
  * @property [] $unities
@@ -22,10 +23,11 @@ class UpdateGradeJustOneStructUsecase
     private const OP_UPDATE = "update";
     private const OP_REMOVE = "remove";
 
-    public function __construct($gradeRulesId, $stages, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $ruleType,
+    public function __construct($gradeRulesId, $gradeRulesName,$stages, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $ruleType,
     $hasPartialRecovery, $partialRecoveries)
     {
         $this->gradeRulesId = $gradeRulesId;
+        $this->gradeRulesName = $gradeRulesName;
         $this->stages = $stages;
         $this->unities = $unities;
         $this->approvalMedia = $approvalMedia;
@@ -43,6 +45,7 @@ class UpdateGradeJustOneStructUsecase
 
         $rulesUseCase = new UpdateGradeRulesUsecase(
             $this->gradeRulesId,
+            $this->gradeRulesName,
             $this->stages,
             $this->approvalMedia,
             $this->finalRecoverMedia,
