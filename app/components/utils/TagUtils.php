@@ -7,6 +7,10 @@ class TagUtils extends CApplicationComponent {
         return (bool)Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
     }
 
+    public static function isCoordinator(){
+        return (bool)Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id);
+    }
+
     public static function isManager(){
         $criteria = new CDbCriteria();
         $criteria->condition = 't.userid = :id';

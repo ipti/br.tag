@@ -70,14 +70,14 @@ class InstructorFaults extends CActiveRecord
 	 * @return array relational rules.
 	 */
 	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'scheduleFk' => array(self::BELONGS_TO, 'Schedule', 'schedule_fk'),
-			'instructorFk' => array(self::BELONGS_TO, 'InstructorTeachingData', 'instructor_fk'),
-		);
-	}
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'instructorFk' => array(self::BELONGS_TO, 'InstructorTeachingData', 'instructor_fk'),
+            'scheduleFk' => array(self::BELONGS_TO, 'Schedule', 'schedule_fk'),
+        );
+    }
 
 	/**
 	 * @return array customized attribute labels (name=>label)

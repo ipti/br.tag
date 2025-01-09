@@ -5,7 +5,6 @@
 - Criando o formulário de notas por conceito na tela na sessão de administrador, permitindo a criação de um novo conceito e também modificar conceitos existentes
 - Modificando a forma como notas por conceito são calculadas, para calcular a média final do aluno
 
-
 ## [Versão 3.93.212]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
 
@@ -33,7 +32,6 @@
 - Inserido opção pra imprimir ficha de notas com local/data ou não
 - Trocado signatário de inspetor escolar para secretário escolar na ficha de notas
 - Adicionado filtro de etapa para as turmas multiseriadas
-
 
 ## [Versão 3.91.206]
 - Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
