@@ -66,9 +66,9 @@ var removeDiscipline = function (instructor, discipline) {
 $(document).on("change",".js-concept-and-numeric", function () {
 
     if ($(this).prop("checked")) {
-        $(".mutiple-structure").show();
+        $(".js-mutiple-structure").show();
 } else {
-
+    $(".js-mutiple-structure").hide();
 }
 
 });

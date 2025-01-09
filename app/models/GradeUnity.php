@@ -57,7 +57,7 @@ class GradeUnity extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('edcenso_stage_vs_modality_fk, name, type, grade_calculation_fk', 'required'),
+            array('name, type, grade_calculation_fk', 'required'),
             array('edcenso_stage_vs_modality_fk, grade_calculation_fk, parcial_recovery_fk', 'numerical', 'integerOnly' => true),
             array('name', 'length', 'max' => 50),
             array('type', 'length', 'max' => 2),

@@ -47,7 +47,6 @@ class GradeRules extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('edcenso_stage_vs_modality_fk', 'required'),
 			array('approvation_media', 'required', 'on' => "numericGrade"),
 			array('edcenso_stage_vs_modality_fk, grade_calculation_fk, has_final_recovery, has_partial_recovery', 'numerical', 'integerOnly'=>true),
 			array('approvation_media, final_recover_media', 'numerical'),

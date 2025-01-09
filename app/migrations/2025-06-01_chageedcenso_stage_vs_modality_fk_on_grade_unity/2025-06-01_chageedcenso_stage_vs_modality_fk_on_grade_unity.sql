@@ -30,3 +30,6 @@ ON
 
 ALTER TABLE classroom
 ADD concept_and_numeric INT NOT NULL DEFAULT 0;
+
+ALTER TABLE grade_rules MODIFY edcenso_stage_vs_modality_fk int NULL;
+ALTER TABLE grade_unity MODIFY edcenso_stage_vs_modality_fk int NULL;

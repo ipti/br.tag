@@ -26,9 +26,15 @@ class GetStudentGradesByDisciplineUsecase
     {
         /** @var Classroom $classroom */
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
-    $rules = GradeRules::model()->findByAttributes([
-            "edcenso_stage_vs_modality_fk" => $this->stageId
-        ]);
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'gr';
+        $criteria->select = 'gr.id';
+        $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
+        $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
+        $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
+        $criteria->params = array(':classroomId' => $this->classroomId, ':stageId' => $this->stageId);
+        $rules = GradeRules::model()->find($criteria);
 
         $TotalEnrollments = $classroom->activeStudentEnrollments;
         $studentEnrollments = [];
@@ -43,7 +49,7 @@ class GetStudentGradesByDisciplineUsecase
         }
         $showSemAvarageColumn = $this->checkSemesterUnities( $this->stageId);
 
-        $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline( $this->stageId);
+        $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline( $rules->id);
         $unitiesByDiscipline = array_filter($unitiesByDisciplineResult, function ($item){
             return $item["id"] == $this->unityId;
         });
@@ -146,14 +152,14 @@ class GetStudentGradesByDisciplineUsecase
     /**
      * @return GradeUnity[]
      */
-    private function getGradeUnitiesByDiscipline($stage)
+    private function getGradeUnitiesByDiscipline($gradeRulesId)
     {
         $criteria = new CDbCriteria();
         $criteria->alias = "gu";
         $criteria->select = "distinct gu.id, gu.*";
         $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
-        $criteria->condition = "edcenso_stage_vs_modality_fk = :stage";
-        $criteria->params = array(":stage" => $stage);
+        $criteria->condition = "grade_rules_fk = :grade_rules_fk";
+        $criteria->params = array(":grade_rules_fk" => $gradeRulesId);
         $criteria->order = "gu.type desc, gu.id";
         return GradeUnity::model()->findAll($criteria);
     }

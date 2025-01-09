@@ -225,10 +225,10 @@ $form = $this->beginWidget(
                                     <label class="t-field-select__label--required">
                                      Estrutura de Avaliação
                                     </label>
-                                    <?php echo CHtml::dropDownList('gradeRules', '',  [],
+                                    <?php echo CHtml::dropDownList('grade_rules', '',  CHtml::listData($gradeRules, 'id', 'name'),
                                         array(
                                         'class' => 'select-search-on select2-container',
-                                        'name' => 'gradeRules',
+                                        'prompt' => 'Selecione a Regra de Avaliação',
                                         'id' => 'gradeRules', 'style' => 'width: 100%;')); ?>
 
                             </div>
@@ -268,13 +268,28 @@ $form = $this->beginWidget(
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div class="mutiple-structure">
+                    <div class="js-mutiple-structure" style="<?= $modelClassroom->concept_and_numeric == 0 ? 'display: none;' : ''?>">
                         <h3>
                             Estruturas de Unidade Por Etapa
                         </h3>
                         <div class="row t-padding-small--bottom">
                             <div class="column">
 
+                                <?php foreach($stages as $stage):?>
+
+                                    <div class="row">
+                                        <div class="column clearfix t-field-select">
+                                            <label class="t-field-text__label--required">
+                                                <?= $stage->name ?>
+                                            </label>
+                                            <?php echo CHtml::dropDownList('grade_rules_' . $stage->id, $gradeRulesStages[$stage->id],  CHtml::listData($gradeRules, 'id', 'name'),
+                                                array(
+                                                'class' => 'select-search-on select2-container',
+                                                'prompt' => 'Selecione a Regra de Avaliação',
+                                                'id' => 'gradeRules', 'style' => 'width: 100%;')); ?>
+                                        </div>
+                                    </div>
+                                <?php endforeach;?>
                             </div>
                         </div>
                     </div>
