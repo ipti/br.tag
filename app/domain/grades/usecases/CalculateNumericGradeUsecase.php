@@ -191,6 +191,7 @@ class CalculateNumericGradeUsecase
         $criteria->join .= ' INNER JOIN classroom c ON c.id = cgr.classroom_fk';
         $criteria->join .= ' INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.edcenso_stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk';
         $criteria->condition = 'cgr.classroom_fk = :classroomId';
+        $criteria->group = 'id';
         $criteria->params = array(':classroomId' => $classroomId);
         return GradeUnity::model()->findAll($criteria);
     }

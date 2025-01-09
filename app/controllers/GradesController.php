@@ -669,7 +669,7 @@ class GradesController extends Controller
                 $studentEnrollments = $classroom->activeStudentEnrollments;
             }
             foreach ($studentEnrollments as $enrollment) {
-                $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);
+                 $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($classroom->id);
                 $gradesStudent = $gradeUnities->exec();
                 $countUnities = $gradeUnities->execCount();
 

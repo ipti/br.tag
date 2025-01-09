@@ -78,7 +78,7 @@ class UpdateGradeJustOneStructUsecase
                 if ($unityModel == null) {
                     $unityModel = new GradeUnity();
                 }
-             /*    $unityModel->edcenso_stage_vs_modality_fk = $stage; */
+
                 $unityModel->name = $unity["name"];
                 $unityModel->semester = $unity["semester"];
                 $unityModel->type = $unity["type"];
