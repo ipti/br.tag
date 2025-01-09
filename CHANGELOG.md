@@ -1,27 +1,54 @@
-## [Versão 3.91.208]
+## [Versão 3.94.213]
+- Corrigindo a exibição da média de nota em turmas por conceito na ata de notas
+
+## [Versão 3.94.212]
+- Criando o formulário de notas por conceito na tela na sessão de administrador, permitindo a criação de um novo conceito e também modificar conceitos existentes
+- Modificando a forma como notas por conceito são calculadas, para calcular a média final do aluno
+
+## [Versão 3.93.212]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
+
+## [Versão 3.93.211]
+- Ordenando de acordo com a ordem da turma o relatório de ata de notas
+
+## [Versão 3.93.210]
+- Corrigindo a busca por aulas em aulas ministradas quando o usuário é um professor da educação infantil
+
+## [Versão 3.93.209]
+- Trocado "Série" por "Etapa" na Ficha de Matrícula
+- O Campo 27 da Ficha de Matrícula (Autorização do Termo de Consentimento de Imagem) agora traz preenchido do cadastro do aluno
+
+## [Versão 3.92.209]
+- Corrigido o relatório de alunos por escola (Cpg, Rg e Nis), exibindo somente os alunos do ano em que o relatório foi emitido
+
+## [Versão 3.92.208]
 - Permitindo o acesso dos coordenadores pedagógicos as telas de frequência de professor e a tela de notas
 - Filtrando por escola os professores que podem ser selecionados na tela de frequência de professor
 
-## [Versão 3.91.207]
+## [Versão 3.92.207]
 - Feito com que o aluno rematricule numa turma que havia sido transferida
 - Aumentado fonte da ficha de notas
 - Inserido campos no cabeçalho da ficha de notas (gênero, filiação, data de nascimento, naturalidade)
 - Inserido opção pra imprimir ficha de notas com local/data ou não
 - Trocado signatário de inspetor escolar para secretário escolar na ficha de notas
+- Adicionado filtro de etapa para as turmas multiseriadas
 
-## [Versão 3.90.206]
+## [Versão 3.91.206]
 - Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
 
-## [Versão 3.90.205]
+## [Versão 3.91.205]
 - Retirado obrigatoriedade de preenchimento de senha ao editar cadastro de algum usuário
 - Corrigido informações do relatório de Matrículas do ano e Número de Alunos por turma
 - Inserido 9º Ano na modalidade de Ensino Fundamental Maior por padrão
 
-## [Versão 3.90.204]
+## [Versão 3.91.204]
 - Criado o relatório de aulas ministradas
 
-## [Versão 3.90.203]
+## [Versão 3.90.204]
 - Adicionado fórmula de cálculo para a média da recuperação final
+
+## [Versão 3.89.204]
+- Corrigindo a duplicidade das aulas em aulas ministradas
 
 ## [Versão 3.89.203]
 - Corrigindo error no tamanho do nome do aluno ao gerar o sagres
