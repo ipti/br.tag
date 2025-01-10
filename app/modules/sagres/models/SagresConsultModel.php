@@ -348,6 +348,7 @@ class SagresConsultModel
 
     private function enrolledSimultaneouslyInRegularClasses(int $year)
     {
+
         $query = "SELECT DISTINCT student_fk
                     FROM student_enrollment se
                     JOIN classroom c ON c.id = se.classroom_fk
@@ -355,7 +356,7 @@ class SagresConsultModel
                         SELECT se.student_fk
                         FROM student_enrollment se
                         JOIN classroom c ON c.id = se.classroom_fk
-                        WHERE c.school_year = :year AND (status = 1 or status is null)
+                        WHERE c.school_year = :year AND (se.status = 1 or se.status is null)
                         GROUP BY student_fk
                         HAVING COUNT(*) > 1
                     );";
@@ -439,12 +440,15 @@ class SagresConsultModel
 
     private function checkStudentEnrollment($studentfk, $year, $infoStudent)
     {
+
+        $acceptedStatus = $this->getAcceptedEnrollmentStatus();
+        $strAcceptedStatus = implode(",", $acceptedStatus);
         // Query to get the modalities
         $sql = "SELECT c.modality, c.complementary_activity, se.classroom_fk, se.school_inep_id_fk
         FROM student_enrollment se
         JOIN classroom c ON se.classroom_fk = c.id
         WHERE se.student_fk = :student_fk
-        AND (se.status = 1 OR se.status IS NULL)
+        AND (se.status in ($strAcceptedStatus) or se.status is null)
         AND c.school_year = :year";
 
         $command = Yii::app()->db->createCommand($sql);
@@ -674,9 +678,13 @@ class SagresConsultModel
                     c.school_inep_fk AS schoolInepFk,
                     c.id AS classroomId,
                     c.name AS classroomName,
-                    c.turn AS classroomTurn
+                    c.turn AS classroomTurn,
+                    COALESCE(esvm.edcenso_associated_stage_id, c.edcenso_stage_vs_modality_fk) as stage,
+                    c.period,
+                    c.ignore_on_sagres
                 FROM
                     classroom c
+                    join edcenso_stage_vs_modality esvm on c.edcenso_stage_vs_modality_fk = esvm.id
                 WHERE
                     c.school_inep_fk = :schoolInepFk
                     AND c.school_year = :referenceYear";
@@ -705,16 +713,40 @@ class SagresConsultModel
         }
 
         foreach ($turmas as $turma) {
+
+
+            if ($turma["ignore_on_sagres"] == 1) {
+                continue;
+            }
+
             $classType = new TurmaTType();
             $classId = $turma['classroomId'];
 
+            if($classId == 1111){
+                \CVarDumper::dump($turma, 10, true);
+            }
+
+            if (\TagUtils::isStageEJA(stage: $turma["stage"]) && $turma["period"] == \PeriodOptions::ANUALY->value) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = TURMA_STRONG;
+                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->description = 'A turma <strong>' . $classType->getDescricao() . '</strong> é do tipo EJA, mas o perído está selecionado como anual.';
+                $inconsistencyModel->action = 'Altere o periodo para 1º ou 2º semestre: ' . $classType->getDescricao();
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
+
             $matriculas = $this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf);
 
-            if ($matriculas === null)
+            if ($matriculas === null){
                 continue;
+            }
 
             $classType
-                ->setPeriodo(0) //0 - Anual
+                ->setPeriodo($turma["period"]) //0 - Anual
                 ->setDescricao($turma["classroomName"])
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($this->getSeries($classId, $inepId))
@@ -1503,7 +1535,13 @@ class SagresConsultModel
                 ->setEspecialidade($professional['especialidade'])
                 ->setIdEscola($professional['idEscola'])
                 ->setFundeb($professional['fundeb'])
-                ->setAtendimento($this->getAttendances($professional['id_professional'], $month));
+                ->setAtendimento(
+                    $this->getAttendances(
+                        $professional['id_professional'],
+                        $referenceYear,
+                        $month
+                    )
+                );
 
             $professionalList[] = $professionalType;
 
@@ -1539,20 +1577,27 @@ class SagresConsultModel
         return $professionalList;
     }
 
-    public function getAttendances($professionalId, $month)
+    public function getAttendances($professionalId, $referenceYear, $month)
     {
         $attendanceList = [];
 
-        $query = "SELECT
-                    date AS attendanceDate,
-                    local AS attendanceLocation
-                FROM
-                    attendance
-                WHERE
-                    professional_fk = :professionalId
-                    and MONTH(`date`) = " . $month . ";";
+        $query = "
+            SELECT
+                date AS attendanceDate,
+                local AS attendanceLocation
+            FROM
+                attendance
+            WHERE
+                professional_fk = :professionalId
+                and YEAR(`date`) = :year
+                and MONTH(`date`) = :month
+        ";
 
-        $attendances = Yii::app()->db->createCommand($query)->bindValue(":professionalId", $professionalId)->queryAll();
+        $attendances = Yii::app()->db->createCommand($query)
+            ->bindParam(":professionalId", $professionalId, \PDO::PARAM_INT)
+            ->bindParam(":year", $referenceYear, \PDO::PARAM_INT)
+            ->bindParam(":month", $month, \PDO::PARAM_INT)
+            ->queryAll();
 
         foreach ($attendances as $attendance) {
             $attendanceType = new AtendimentoTType();
@@ -1565,7 +1610,20 @@ class SagresConsultModel
 
         return $attendanceList;
     }
+    private function getAcceptedEnrollmentStatus(): array
+    {
 
+        if(Yii::app()->features->isEnable("FEAT_SAGRES_STATUS_ENROL")){
+            return [
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVED),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVEDBYCOUNCIL),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_DISAPPROVED),
+            ];
+        }
+
+        return [\StudentEnrollment::getStatusId(status: \StudentEnrollment::STATUS_ACTIVE)];
+    }
     /**
      * Sets a new MatriculaTType
      *
@@ -1577,6 +1635,11 @@ class SagresConsultModel
         $strMaxLength = 200;
         $strlen = 5;
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
+
+        $acceptedStatus = $this->getAcceptedEnrollmentStatus();
+
+        $strAcceptedStatus = implode(",", $acceptedStatus);
+
 
         $query = "SELECT
                         c.edcenso_stage_vs_modality_fk,
@@ -1621,9 +1684,10 @@ class SagresConsultModel
                         left join schedule s on cf.schedule_fk = s.id
                   WHERE
                         se.classroom_fk  =  :classId AND
-                        (se.status = 1 or se.status is null) AND
+                        (se.status in ($strAcceptedStatus) or se.status is null) AND
                         c.school_year = :referenceYear
-                  GROUP BY se.id;
+                  GROUP BY se.id
+                  order by si.name asc;
                 ";
 
         $command = Yii::app()->db->createCommand($query);
