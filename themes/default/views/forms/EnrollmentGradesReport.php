@@ -9,52 +9,23 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 function classroomDisciplineLabelResumeArray($id)
 {
-    $disciplinas = array(
-        1 => 'Química',
-        2 => 'Física',
-        3 => 'Matemática',
-        4 => 'Biologia',
-        5 => 'Ciências',
-        6 => 'Português',
-        7 => 'Inglês',
-        8 => 'Espanhol',
-        9 => 'Outro Idioma',
-        10 => 'Artes',
-        11 => 'Educação Física',
-        12 => 'História',
-        13 => 'Geografia',
-        14 => 'Filosofia',
-        16 => 'Informática',
-        17 => 'Disc. Profissionalizante',
-        20 => 'Educação Especial',
-        21 => 'Sociedade&nbspe Cultura',
-        23 => 'Libras',
-        25 => 'Disciplinas pedagógicas',
-        26 => 'Ensino religioso',
-        27 => 'Língua indígena',
-        28 => 'Estudos Sociais',
-        29 => 'Sociologia',
-        30 => 'Francês',
-        99 => 'Outras Disciplinas',
-        10001 => 'Redação',
-        10002 => 'Linguagem oral e escrita',
-        10003 => 'Natureza e sociedade',
-        10004 => 'Movimento',
-        10005 => 'Música',
-        10006 => 'Artes visuais',
-        10007 => 'Acompanhamento Pedagógico',
-        10008 => 'Teatro',
-        10009 => 'Canteiro Sustentável',
-        10010 => 'Dança',
-        10011 => 'Cordel',
-        10012 => 'Física'
-    );
-    $stage = EdcensoDiscipline::model()->findByPk($id);
-    return  substr($stage->abbreviation ?? $stage->name, 0, 50);
-
+    $discipline = EdcensoDiscipline::model()->findByPk($id);
+    return  substr(  empty($discipline->abbreviation) ? $discipline->name : $discipline->abbreviation, 0, 50);
 }
 
 $diciplinesColumnsCount = count($baseDisciplines) + count($diversifiedDisciplines); // contador com a soma do total de disciplinas da matriz
+
+function calculateFrequence($numClasses, $numFalts): int {
+    if(empty($numClasses) || is_nan($numClasses)){
+        return 100;
+    }
+
+    $aulasdadas = (int) $numClasses;
+    $faltas = (int) $numFalts;
+
+    return round((($aulasdadas - $faltas) * 100) / $aulasdadas);
+}
+
 ?>
 
 <div class="row-fluid hidden-print">
@@ -98,16 +69,11 @@ $diciplinesColumnsCount = count($baseDisciplines) + count($diversifiedDiscipline
                 <tr>
                     <td style="text-align: center; min-width: 90px !important;">PARTES&nbsp;DO&nbsp;CURRÍCULO</td>
                     <?php if (count($baseDisciplines) > 0) { ?>
-                        <td colspan="<?= count($baseDisciplines) ?>"
-                            style="text-align: center; font-weight: bold; min-width:150px;">BASE
-                            NACIONAL
-                            COMUM
-                        </td>
+                        <td colspan="<?= count($baseDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:150px;"><?= $isMinorEducation ?  "Eixos/Componentes" : "BASE NACIONAL COMUM" ?></td>
                     <?php } ?>
                     <?php if (count($diversifiedDisciplines) > 0) { ?>
-                        <td colspan="<?= count($diversifiedDisciplines) ?>"
-                            style="text-align: center; font-weight: bold; min-width:100px;">PARTE
-                            DIVERSIFICADA
+                        <td colspan="<?= count($diversifiedDisciplines) ?>" style="text-align: center; font-weight: bold; min-width:100px;">
+                            PARTE DIVERSIFICADA
                         </td>
                     <?php } ?>
                     <td rowspan="2" class="vertical-text">
@@ -194,27 +160,39 @@ $diciplinesColumnsCount = count($baseDisciplines) + count($diversifiedDiscipline
                 </tr>
                 <tr>
                     <td style="text-align:right;" colspan="1">TOTAL DE AULAS DADAS</td>
-                    <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;"><?= $result[$i]['total_number_of_classes'] ?></td>
-                    <?php } ?>
+                    <?php if ($isMinorEducation): ?>
+                        <td style="text-align:right;" colspan="<?= $diciplinesColumnsCount ?>"><?= $result[0]['total_number_of_classes']?></td>
+                    <?php else: ?>
+                        <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) : ?>
+                            <td style="text-align: center;"><?= $result[$i]['total_number_of_classes'] ?></td>
+                        <?php endfor; ?>
+                    <?php endif;?>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td style="text-align:right;" colspan="1">TOTAL DE FALTAS</td>
-                    <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;"><?= $result[$i]['total_faults'] ?></td>
-                    <?php } ?>
+                    <?php if ($isMinorEducation): ?>
+                        <td style="text-align:right;" colspan="<?= $diciplinesColumnsCount ?>"><?= $result[0]['total_faults']?></td>
+                    <?php else: ?>
+                        <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) : ?>
+                            <td style="text-align: center;"><?= $result[$i]['total_faults'] ?></td>
+                        <?php endfor; ?>
+                    <?php endif;?>
                     <td></td>
                     <td></td>
                     <td></td>
                 </tr>
                 <tr>
                     <td style="text-align:right;" colspan="1">FREQUÊNCIAS %</td>
-                    <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;"><?= is_nan($result[$i]['frequency_percentage'] ?? NAN) || $result[$i]['frequency_percentage'] < 0 ? "" : ceil($result[$i]['frequency_percentage']) . "%" ?></td>
-                    <?php } ?>
+                    <?php if ($isMinorEducation): ?>
+                        <td style="text-align: right;" colspan="<?= $diciplinesColumnsCount ?>"><?= $result[0]['frequency_percentage'] . "%" ?></td>
+                    <?php else: ?>
+                        <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) : ?>
+                            <td style="text-align: center;"><?= is_nan($result[$i]['frequency_percentage'] ?? NAN) || $result[$i]['frequency_percentage'] < 0 ? "" : ceil($result[$i]['frequency_percentage']) . "%" ?></td>
+                        <?php endfor; ?>
+                    <?php endif;?>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -222,6 +200,7 @@ $diciplinesColumnsCount = count($baseDisciplines) + count($diversifiedDiscipline
             </table>
             </br>
             <div></div>
+            <p>* As aulas dadas na educação infantil são calculadas por dias registrados e não pelos horários</p>
             <div style="text-align:right; margin-right:25px;">RESULTADO FINAL: _____________________________</div>
             <div class="pull-right hidden-print" style="margin: 30px 25px 50px 0">
                 <input type="checkbox" class="bring-date" checked> Local e Data
@@ -254,11 +233,11 @@ $diciplinesColumnsCount = count($baseDisciplines) + count($diversifiedDiscipline
     }
 
     .vertical-text div {
-        transform: translate(25px, 0px) rotate(270deg);
-        width: 100px;
+        height: 100px;
         line-height: 13px;
         margin: 0 10px 0 0;
-        transform-origin: bottom left;
+        writing-mode: sideways-lr;
+        text-orientation: mixed;
     }
 
     td {
