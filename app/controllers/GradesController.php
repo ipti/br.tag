@@ -164,7 +164,15 @@ class GradesController extends Controller
         $classroomId = Yii::app()->request->getPost("classroom");
         $stage = Yii::app()->request->getPost("stage");
         if(isset(($stage)) && $stage !== "") {
-            $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $stage]);
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'gu';
+            $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+            $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+            $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+            $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
+            $criteria->params = array(':classroom' => $classroomId, ":stage"=>$stage);
+
+            $unities = GradeUnity::model()->findAll($criteria);
         } else {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gu';

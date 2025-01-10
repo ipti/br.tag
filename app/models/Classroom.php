@@ -197,7 +197,7 @@ class Classroom extends AltActiveRecord
                 self::STAT,
                 'StudentEnrollment',
                 'classroom_fk',
-                'condition' => 'status IN (1, 6, 7, 8, 9, 10) or status IS NULL'
+                'condition' => 'status IN (1, 2, 6, 7, 8, 9, 10) or status IS NULL'
             ),
         );
     }
@@ -292,6 +292,22 @@ class Classroom extends AltActiveRecord
             'sedsp_max_physical_capacity' => "Sedsp Max Physical Capacity",
             'gov_id' => "GOV ID"
         );
+    }
+
+
+    public function getGradeRules($stageId=null)   {
+        if ($stageId == null){
+            $stageId = $this->edcenso_stage_vs_modality_fk;
+        }
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'gr';
+        $criteria->join = 'join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+        $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+        $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
+        $criteria->params = array(':classroom' => $this->id, ':stage' => $stageId);
+        return GradeRules::model()->find($criteria);
+
     }
 
     /**

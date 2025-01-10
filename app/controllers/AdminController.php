@@ -616,7 +616,7 @@ class AdminController extends Controller
 
                     $modalityModel->save();
 
-            } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete") {
+            } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete" && $gradeRules->rule_type === "N") {
                 $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
                 $recoveryUnity->delete();
                 echo json_encode(["valid" => true, "gradeRules" => $gradeRules->id]);

@@ -27,19 +27,13 @@ class GetStudentGradesByDisciplineUsecase
         /** @var Classroom $classroom */
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
 
-        $criteria = new CDbCriteria();
-        $criteria->alias = 'gr';
-        $criteria->select = 'gr.id';
-        $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
-        $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
-        $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
-        $criteria->params = array(':classroomId' => $this->classroomId, ':stageId' => $this->stageId);
-        $rules = GradeRules::model()->find($criteria);
+        $rules = $classroom->getGradeRules($this->stageId);
 
-        $TotalEnrollments = $classroom->activeStudentEnrollments;
+
+        $totalEnrollments = $classroom->activeStudentEnrollments;
         $studentEnrollments = [];
         if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) && $this->isClassroomStage == 0){
-            foreach ($TotalEnrollments as $enrollment) {
+            foreach ($totalEnrollments as $enrollment) {
                 if($enrollment->edcenso_stage_vs_modality_fk == $this->stageId){
                     array_push($studentEnrollments, $enrollment);
                 }
@@ -47,7 +41,7 @@ class GetStudentGradesByDisciplineUsecase
         } else {
             $studentEnrollments= $classroom->activeStudentEnrollments;
         }
-        $showSemAvarageColumn = $this->checkSemesterUnities( $this->stageId);
+        $showSemAvarageColumn = false; //$this->checkSemesterUnities( $this->stageId);
 
         $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline( $rules->id);
         $unitiesByDiscipline = array_filter($unitiesByDisciplineResult, function ($item){
