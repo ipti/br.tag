@@ -648,7 +648,6 @@ class GradesController extends Controller
 
             $criteria = new CDbCriteria();
             $criteria->alias = 'gr';
-            $criteria->select = 'gr.id';
             $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
             $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
             $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
