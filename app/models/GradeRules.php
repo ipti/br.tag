@@ -48,7 +48,7 @@ class GradeRules extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('approvation_media', 'required', 'on' => "numericGrade"),
-			array('edcenso_stage_vs_modality_fk, grade_calculation_fk, has_final_recovery, has_partial_recovery', 'numerical', 'integerOnly'=>true),
+			array('grade_calculation_fk, has_final_recovery, has_partial_recovery', 'numerical', 'integerOnly'=>true),
 			array('approvation_media, final_recover_media', 'numerical'),
 			array('rule_type', 'length', 'max'=>1),
 			// The following rule is used by search().
