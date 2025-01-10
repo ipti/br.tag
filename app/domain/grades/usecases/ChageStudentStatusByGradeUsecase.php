@@ -5,6 +5,7 @@
  * @property GradeRules $gradeRule
  * @property integer $numUnities
  * @property integer $frequency
+ * @property integer $stage
  */
 class ChageStudentStatusByGradeUsecase
 {
@@ -13,24 +14,24 @@ class ChageStudentStatusByGradeUsecase
     private $gradeRule;
     private $numUnities;
     private $frequency;
+    private $stage;
 
     private const SITUATION_APPROVED = "APROVADO";
     private const SITUATION_DISPPROVED = "REPROVADO";
     private const SITUATION_RECOVERY = "RECUPERAÇÃO";
 
 
-    public function __construct($gradeResult, $gradeRule, $numUnities, $frequency = null)
+    public function __construct($gradeResult, $gradeRule, $numUnities, $stage, $frequency = null)
     {
         $this->gradeResult = $gradeResult;
         $this->gradeRule = $gradeRule;
         $this->numUnities = $numUnities;
         $this->frequency = $frequency;
+        $this->$stage = $stage;
     }
 
     public function exec()
     {
-
-        try {
 
             $enrollment = $this->getStudentEnrollment($this->gradeResult->enrollment_fk);
 
@@ -49,10 +50,6 @@ class ChageStudentStatusByGradeUsecase
             }
 
             $this->updateStudentSituation();
-
-        } catch (Exception $e) {
-            TLog::error("Erro ao atualizar status da matrícula", ["Exception" => $e]);
-        }
     }
 
     private function getStudentEnrollment($enrollmentId)
@@ -111,6 +108,8 @@ class ChageStudentStatusByGradeUsecase
         } elseif ($this->gradeRule->has_final_recovery) {
             $recoveryMedia = $this->gradeResult->rec_final;
             $finalRecoveryMedia = $this->gradeRule->final_recover_media;
+
+            $finalRecovery = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $this->stage, "type" => "RF"]);
 
             $hasRecoveryGrade = isset($recoveryMedia) && $recoveryMedia !== "";
             if (!$hasRecoveryGrade) {
