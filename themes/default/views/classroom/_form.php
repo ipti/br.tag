@@ -593,6 +593,7 @@ $form = $this->beginWidget(
                         <?php
                             endif;
                         ?>
+                        </div>
                         <div class="column">
                         </div>
                     </div>

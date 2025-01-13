@@ -41,7 +41,7 @@ class GetStudentGradesByDisciplineUsecase
         } else {
             $studentEnrollments= $classroom->activeStudentEnrollments;
         }
-        $showSemAvarageColumn = false; //$this->checkSemesterUnities( $this->stageId);
+        $showSemAvarageColumn = $this->checkSemesterUnities( $classroom->id, $this->stageId);
 
         $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline( $rules->id);
         $unitiesByDiscipline = array_filter($unitiesByDisciplineResult, function ($item){
@@ -119,20 +119,19 @@ class GetStudentGradesByDisciplineUsecase
 
         return $result->toArray();
     }
-    public function checkSemesterUnities($stage) {
+    public function checkSemesterUnities($classroomId, $stage) {
 
         $criteria = new CDbCriteria();
-        $criteria->addCondition("edcenso_stage_vs_modality_fk = :stage");
-        $criteria->addCondition("semester IS NULL"); // TODO: só deus e chagas sabiam, agora só deus sabe pq faz isso
-        $criteria->addCondition("type != :type");
-        $criteria->params = [
-            ':stage' => $stage,
-            ':type' => 'RF',
-        ];
-
+        $criteria->alias = 'gu';
+        $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+        $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+        $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+        $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom and type != :type and semester IS NULL';
+        $criteria->params = array(':classroom' => $classroomId, ":stage"=>$stage, ':type' => 'RF');
         $unities = GradeUnity::model()->findAll($criteria);
         $unitiesTypeUC = count(GradeUnity::model()->findAllByAttributes(['edcenso_stage_vs_modality_fk' => $stage, "type"=>"UC"]));
         $unitiesCount = count($unities);
+
         return $unitiesCount == 0 && $unitiesTypeUC == 0;
     }
     private function searchUnityById($unities) {
@@ -230,7 +229,7 @@ class GetStudentGradesByDisciplineUsecase
             $semRecPartial = "";
         }
 
-        $finalMedia  = $gradeResult->final_media == null || $gradeResult->final_media >= $rules->approvation_media ? $gradeResult->final_media : $gradeResult->rec_final;
+        $finalMedia  = $gradeResult->final_media == null || $gradeResult->final_media >=  $gradeResult->rec_final ? $gradeResult->final_media : $gradeResult->rec_final;
         $studentGradeResult->setSemAvarage($semRecPartial);
         $studentGradeResult->setFinalMedia($finalMedia);
         $studentGradeResult->setSituation($gradeResult->situation);

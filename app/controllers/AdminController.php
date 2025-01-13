@@ -591,6 +591,7 @@ class AdminController extends Controller
                 $recoveryUnity->name = $finalRecovery["name"];
                 $recoveryUnity->type = "RF";
                 $recoveryUnity->grade_calculation_fk = $finalRecovery["grade_calculation_fk"];
+                $recoveryUnity->grade_rules_fk = $gradeRulesId;
                 $recoveryUnity->final_recovery_avarage_formula = $finalRecovery["final_recovery_avarage_formula"];
 
                 if (!$recoveryUnity->validate()) {
