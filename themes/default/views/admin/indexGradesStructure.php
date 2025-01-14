@@ -50,14 +50,12 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Estrutura de Unidades');
                         array(
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
-                            'template' => '{update}{delete}',
+                            'template' => '{update}',
                             'buttons' => array(
                                 'update' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/editar.svg',
+                                    'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
+                                    'url' => 'Yii::app()->createUrl("admin/gradesStructure&id=$data->id")',
                                 ),
-                                'delete' => array(
-                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
-                                )
                             ),
                             'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
                             'deleteButtonOptions' => array('style' => 'cursor: pointer;'),

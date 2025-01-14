@@ -566,10 +566,10 @@ $form = $this->beginWidget(
                             <?php
                                 if(TagUtils::isMultiStage( $modelClassroom->edcenso_stage_vs_modality_fk)):
                             ?>
-                            <div class="js-mutiple-structure" style="<?= $modelClassroom->concept_and_numeric == 0 ? 'display: none;' : ''?>">
-                        <h3>
-                            Estruturas de Unidade Por Etapa
-                        </h3>
+                            <div class="js-mutiple-structure">
+                            <h3>
+                                Estruturas de Unidade Por Etapa
+                            </h3>
                             <div class="column t-padding-small--bottom">
 
                                     <?php foreach($stages as $stage):?>
@@ -587,7 +587,6 @@ $form = $this->beginWidget(
                                         </div>
                                     <?php endforeach;?>
 
-                            </div>
                             </div>
                         </div>
                         <?php

@@ -401,8 +401,6 @@ class AdminController extends Controller
                 esvm.name
             from edcenso_stage_vs_modality esvm
                 join curricular_matrix cm on cm.stage_fk = esvm.id order by esvm.name")
-            // where school_year = :year order by esvm.name")
-            // ->bindParam(":year", Yii::app()->user->year)
             ->queryAll();
 
         $formulas = GradeCalculation::model()->findAll();

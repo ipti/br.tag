@@ -25,8 +25,6 @@ UPDATE grade_unity gu
 join grade_rules gr on gr.edcenso_stage_vs_modality_fk = gu.edcenso_stage_vs_modality_fk
 SET gu.grade_rules_fk = gr.id
 
-ALTER TABLE grade_unity
-MODIFY COLUMN edcenso_stage_vs_modality_fk INT NULL;
 
 CREATE TABLE grade_rules_vs_edcenso_stage_vs_modality (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -54,13 +52,15 @@ JOIN
 ON
     e.id= g.edcenso_stage_vs_modality_fk ;
 
-
-ALTER TABLE classroom
-ADD concept_and_numeric INT NOT NULL DEFAULT 0;
-
 ALTER TABLE grade_rules MODIFY edcenso_stage_vs_modality_fk int NULL;
 ALTER TABLE grade_unity MODIFY edcenso_stage_vs_modality_fk int NULL;
 
 insert into classroom_vs_grade_rules (classroom_fk, grade_rules_fk) select c.id, gr.id
 from classroom c
 JOIN grade_rules gr ON c.edcenso_stage_vs_modality_fk = gr.edcenso_stage_vs_modality_fk;
+
+INSERT INTO classroom_vs_grade_rules (classroom_fk, grade_rules_fk)
+SELECT DISTINCT se.classroom_fk, gr.id
+FROM  student_enrollment se
+JOIN grade_rules gr ON se.edcenso_stage_vs_modality_fk = gr.edcenso_stage_vs_modality_fk;
+\
