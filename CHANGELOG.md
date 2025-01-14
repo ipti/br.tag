@@ -1,6 +1,13 @@
+## [Versão 3.94.213]
+- Corrigindo a exibição da média de nota em turmas por conceito na ata de notas
+
+## [Versão 3.94.212]
+- Criando o formulário de notas por conceito na tela na sessão de administrador, permitindo a criação de um novo conceito e também modificar conceitos existentes
+- Modificando a forma como notas por conceito são calculadas, para calcular a média final do aluno
+
+
 ## [Versão 3.93.212]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
-
 
 ## [Versão 3.93.211]
 - Ordenando de acordo com a ordem da turma o relatório de ata de notas
