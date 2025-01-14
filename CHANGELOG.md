@@ -1,3 +1,6 @@
+## [Verão 3.95.213]
+- Adicionado cadastro de novas estruturas de unidades
+
 ## [Versão 3.94.213]
 - Corrigindo a exibição da média de nota em turmas por conceito na ata de notas
 
