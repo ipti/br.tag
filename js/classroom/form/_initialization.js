@@ -40,7 +40,7 @@ $(function () {
             classroom_id: id
         },
         success: (response) => {
-            const data = JSON.parse(response);
+            const data = JSON.parse(DOMPurify.sanitize(response));
 
             // Limpar o select antes de adicionar opções
             $("#gradeRules").empty();
