@@ -229,7 +229,7 @@ class GetStudentGradesByDisciplineUsecase
             $semRecPartial = "";
         }
 
-        $finalMedia  = $gradeResult->final_media == null || $gradeResult->final_media >=  $gradeResult->rec_final ? $gradeResult->final_media : $gradeResult->rec_final;
+        $finalMedia  = $gradeResult->final_media === null || $gradeResult->final_media >=  $gradeResult->rec_final ? $gradeResult->final_media : $gradeResult->rec_final;
         $studentGradeResult->setSemAvarage($semRecPartial);
         $studentGradeResult->setFinalMedia($finalMedia);
         $studentGradeResult->setSituation($gradeResult->situation);
