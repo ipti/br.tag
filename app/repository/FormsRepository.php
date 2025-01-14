@@ -12,7 +12,7 @@ class FormsRepository
         $this->currentYear = Yii::app()->user->year;
     }
 
-    private function contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollmentId)
+    public function contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollmentId)
     {
         // calculando o total de aulas ministradas naquela turma na disciplina específica
         $totalContents = 0;

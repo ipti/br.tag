@@ -476,12 +476,16 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             ]
         );
 
+
         foreach ($classroom->activeStudentEnrollments as $enrollment) {
+            $faults = $enrollment->countFaultsDiscipline($disciplineId);
+
             if ($enrollment->isActive()) {
                 $usecase = new ChageStudentStatusByGradeUsecase(
                     $enrollment->id,
                     $disciplineId,
-                    (int) $numUnities
+                    (int) $numUnities,
+                    $frequency
                 );
                 $usecase->exec();
             }
