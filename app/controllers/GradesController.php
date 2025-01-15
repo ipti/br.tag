@@ -1,5 +1,7 @@
 <?php
 
+Yii::import('application.repository.FormsRepository', true);
+
 class GradesController extends Controller
 {
 
@@ -680,9 +682,13 @@ class GradesController extends Controller
                 TLog::info("Unidades por disciplina", ["GradeUnities" => CHtml::listData($gradesStudent, 'id', 'id')]);
 
                 $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
+                $formRepository = new FormsRepository();
+                $contentsPerDiscipline = $formRepository->contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollment->id);
+                $totalFaults = $enrollment->countFaultsDiscipline($disciplineId);
+                $frequency =  round((($contentsPerDiscipline - $totalFaults) / ($contentsPerDiscipline ?: 1)) * 100);
                 (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
                 if($gradeRules->rule_type === "N") {
-                    (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities, $stage))->exec();
+                    (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities, $stage, $frequency))->exec();
                 }
 
             }
