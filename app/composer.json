@@ -18,6 +18,7 @@
 
   },
   "scripts": {
-    "test" : "./vendor/bin/phpunit tests/functional -c tests/phpunit.xml"
+    "test" : "./vendor/bin/phpunit tests/functional -c tests/phpunit.xml",
+    "sagres-gen":"./vendor/bin/xsd2php convert modules/sagres/config.yml modules/sagres/soap/Educacao.xsd"
   }
 }
