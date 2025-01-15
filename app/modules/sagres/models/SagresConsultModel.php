@@ -2,7 +2,6 @@
 
 namespace SagresEdu;
 
-
 use Datetime;
 
 use ErrorException;
@@ -18,7 +17,7 @@ use Symfony\Component\Validator\Validation;
 
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
-
+use TagUtils;
 use ValidationSagresModel;
 
 use Yii;
@@ -39,7 +38,7 @@ class SagresConsultModel
     public function cleanInconsistences()
     {
         $connection = Yii::app()->db;
-        // $transaction = $connection->beginTransaction();
+        //$transaction = $connection->beginTransaction();
 
         try {
             $deleteQuery = "DELETE FROM inconsistency_sagres";
@@ -48,9 +47,9 @@ class SagresConsultModel
             $resetQuery = "ALTER TABLE inconsistency_sagres AUTO_INCREMENT = 1";
             $connection->createCommand($resetQuery)->execute();
 
-            // $transaction->commit();
+        //    $transaction->commit();
         } catch (Exception $e) {
-            // $transaction->rollback();
+        //    $transaction->rollback();
             throw $e;
         }
     }
@@ -269,7 +268,7 @@ class SagresConsultModel
         $query = "SELECT inep_id FROM school_identification where situation = 1"; // 1: Ecolas Ativas
         $schools = Yii::app()->db->createCommand($query)->queryAll();
 
-        foreach ($schools as $school) {
+            foreach ($schools as $school) {
             $schoolType = new EscolaTType();
             $schoolType
                 ->setIdEscola($school['inep_id'])
@@ -348,7 +347,6 @@ class SagresConsultModel
 
     private function enrolledSimultaneouslyInRegularClasses(int $year)
     {
-
         $query = "SELECT DISTINCT student_fk
                     FROM student_enrollment se
                     JOIN classroom c ON c.id = se.classroom_fk
@@ -440,7 +438,6 @@ class SagresConsultModel
 
     private function checkStudentEnrollment($studentfk, $year, $infoStudent)
     {
-
         $acceptedStatus = $this->getAcceptedEnrollmentStatus();
         $strAcceptedStatus = implode(",", $acceptedStatus);
         // Query to get the modalities
@@ -714,14 +711,12 @@ class SagresConsultModel
 
         foreach ($turmas as $turma) {
 
-
             if ($turma["ignore_on_sagres"] == 1) {
                 continue;
             }
 
             $classType = new TurmaTType();
             $classId = $turma['classroomId'];
-
 
             if (\TagUtils::isStageEJA(stage: $turma["stage"]) && $turma["period"] == \PeriodOptions::ANUALY->value) {
                 $inconsistencyModel = new ValidationSagresModel();
@@ -735,24 +730,20 @@ class SagresConsultModel
                 $inconsistencyModel->insert();
             }
 
+            $serie = $this->getSeries2025($classId, $inepId, $referenceYear, $month, $finalClass, $withoutCpf);
 
-            $matriculas = $this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf);
-
-            if ($matriculas === null){
-                continue;
-            }
+            $multiserie = $this->isMulti($classId, $inepId);
 
             $classType
                 ->setPeriodo($turma["period"]) //0 - Anual
                 ->setDescricao($turma["classroomName"])
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
-                ->setSerie($this->getSeries($classId, $inepId))
-                ->setMatricula($matriculas)
+                ->setSerie($serie)
                 ->setHorario($this->getSchedules($classId, $month, $inepId))
-                ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN));
+                ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN))
+                ->setMultiseriada($multiserie);
 
-
-            if ($classType->getHorario() !== null && $classType->getMatricula() !== null) {
+            if ($classType->getHorario() !== null && !empty($serie) && $serie[0]->issetMatricula(0)) {
                 $classList[] = $classType;
             }
 
@@ -765,7 +756,7 @@ class SagresConsultModel
             if ($count === 0) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school =  $schoolName;
+                $inconsistencyModel->school = $schoolName;
                 $inconsistencyModel->description = 'Não há matrículas ativas para a turma: <strong>' . $classType->getDescricao() . '</strong>';
                 $inconsistencyModel->action = 'Adicione alunos para a turma: ' . $classType->getDescricao();
                 $inconsistencyModel->identifier = '10';
@@ -780,7 +771,7 @@ class SagresConsultModel
             if (!in_array($classType->getPeriodo(), [0, 1, 2])) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school =  $schoolName;
+                $inconsistencyModel->school = $schoolName;
                 $inconsistencyModel->description = 'Valor inválido para o período';
                 $inconsistencyModel->action = 'Adicione um valor válido para o período da turma: <strong>' . $classType->getDescricao() . '</strong>';
                 $inconsistencyModel->identifier = '10';
@@ -792,7 +783,7 @@ class SagresConsultModel
             if (strlen($classType->getDescricao()) <= $strlen && !is_null($classType->getDescricao())) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school =  $schoolName;
+                $inconsistencyModel->school = $schoolName;
                 $inconsistencyModel->description = 'Descrição para a turma: <strong>' . $classType->getDescricao() . ' </strong> menor que 3 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição mais detalhada, contendo mais de 5 caracteres';
                 $inconsistencyModel->identifier = '10';
@@ -804,7 +795,7 @@ class SagresConsultModel
             if (strlen($classType->getDescricao()) > $strMaxLength) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school =  $schoolName;
+                $inconsistencyModel->school = $schoolName;
                 $inconsistencyModel->description = 'Descrição para a turma: <strong>' . $classType->getDescricao() . ' </strong> com mais de 50 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição menos detalhada, contendo até 50 caracteres';
                 $inconsistencyModel->identifier = '10';
@@ -815,7 +806,7 @@ class SagresConsultModel
             if ($classType->getTurno() === 0) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school =  $schoolName;
+                $inconsistencyModel->school = $schoolName;
                 $inconsistencyModel->description = 'Valor inválido para o turno da turma: <strong>' . $classType->getDescricao() . '<strong>';
                 $inconsistencyModel->action = 'Selecione um turno válido para o horário de funcionamento';
                 $inconsistencyModel->identifier = '10';
@@ -827,7 +818,7 @@ class SagresConsultModel
             if ($classType->getTurno() !== 0 && !in_array($classType->getTurno(), [1, 2, 3, 4])) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school =  $schoolName;
+                $inconsistencyModel->school = $schoolName;
                 $inconsistencyModel->description = 'Valor inválido para o turno da turma: <strong>' . $classType->getDescricao() . '</strong>';
                 $inconsistencyModel->action = 'Selecione um turno válido para o horário de funcionamento';
                 $inconsistencyModel->identifier = '10';
@@ -840,7 +831,7 @@ class SagresConsultModel
             if (!is_bool($classType->getFinalTurma())) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school =  $schoolName;
+                $inconsistencyModel->school = $schoolName;
                 $inconsistencyModel->description = 'Valor inválido para o final turma';
                 $inconsistencyModel->action = 'Selecione um valor válido para o encerramento do período';
                 $inconsistencyModel->identifier = '10';
@@ -857,38 +848,100 @@ class SagresConsultModel
      * Summary of SerieTType
      * @return SerieTType[]
      */
-    public function getSeries($classId, $inepId)
+    public function getSeries2025($classId, $inepId, $referenceYear, $month, $finalClass, $withoutCpf)
     {
         $seriesList = [];
-        $strlen = 2;
-        $strMaxLength = 50;
+
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
 
-        $query = "SELECT
-                    c.name AS serieDescription,
-                    c.modality AS serieModality,
-                    c.complementary_activity as complementaryActivity,
-                    c.schooling as schooling
-                FROM
-                    classroom c
-                WHERE
-                    c.id = :id;";
+        $classroom = (object) \Classroom::model()->with('edcensoStageVsModalityFk')->findByPk($classId);
 
-        $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
+        // if((int) $classId==758){
+        //     var_dump("asdasda");
+        // }
+
+        $easId  = $classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id;
+        $edsensoCodes = [
+            1 => "INF1",
+            2 => "INF2",
+            14 => "FUN1",
+            15 => "FUN2",
+            16 => "FUN3",
+            17 => "FUN4",
+            18 => "FUN5",
+            19 => "FUN6",
+            20 => "FUN7",
+            21 => "FUN8",
+            41 => "FUN9",
+            69 => "EJA1",
+            70 => "EJA2",
+            75 => "AEE1"
+        ]; // Deve ser transformado em um enum
+
+        $multiStage = TagUtils::isMultiStage($easId);
+
+        if (TagUtils::isMultiStage($easId)) {
+            $query = "SELECT
+                esvm.edcenso_associated_stage_id as edcensoCode,
+                c.complementary_activity as complementaryActivity,
+                c.schooling as schooling,
+                c.aee as aee
+            FROM
+                classroom c
+            JOIN student_enrollment se on se.classroom_fk = c.id
+            JOIN  edcenso_stage_vs_modality esvm on esvm.id = se.edcenso_stage_vs_modality_fk
+            WHERE
+                c.id = :id
+            And esvm.edcenso_associated_stage_id is not NULL
+            GROUP by se.edcenso_stage_vs_modality_fk
+        ";
+            $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
+        } else {
+
+            $query = "SELECT
+                esvm.edcenso_associated_stage_id as edcensoCode,
+                c.complementary_activity as complementaryActivity,
+                c.schooling as schooling,
+                c.aee as aee
+            FROM
+                classroom c
+            JOIN edcenso_stage_vs_modality esvm on
+                esvm.id = c.edcenso_stage_vs_modality_fk
+            WHERE
+                c.id = :id; ";
+
+            $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
+        }
+
+        $seriesEdSensoCodes = array_map(fn($item) => (int)$item["edcensoCode"], $series);
+
 
         foreach ($series as $serie) {
             $serie = (object) $serie;
             $serieType = new SerieTType();
+            $edcensoCode =  $serie->edcensoCode;
 
-            if ((int) $serie->complementaryActivity === 1) {
-                $modality = (int) $serie->schooling === 1 ? 2 : 6;
+
+            if ((int) $serie->complementaryActivity === 1 && (int) $serie->schooling === 0) {
+                $idSerie = "COM1";
+            } elseif ((int)$serie->aee === 1 || (int) $edcensoCode == 75) {
+                $idSerie = "AEE1";
             } else {
-                $modality = $serie->serieModality;
+                $idSerie = $edsensoCodes[(int) $edcensoCode];
+            }
+            if (!isset($idSerie)) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = SERIE_STRONG;
+                $inconsistencyModel->school = $school->name;
+                $inconsistencyModel->description = 'Não há série para a escola: ' . $school->name;
+                $inconsistencyModel->action = 'Adicione uma série para a turma';
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->insert();
+                continue;
             }
 
-            $serieType
-                ->setDescricao($serie->serieDescription)
-                ->setModalidade($modality);
+            $serieType->setIdSerie($idSerie);
 
             if (empty($serieType)) {
                 $inconsistencyModel = new ValidationSagresModel();
@@ -901,54 +954,53 @@ class SagresConsultModel
                 $inconsistencyModel->insert();
             }
 
+            $matriculas = $this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf,$multiStage,$idSerie,$seriesEdSensoCodes,$edcensoCode);
 
-            if (strlen($serieType->getDescricao()) <= $strlen) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = SERIE_STRONG;
-                $inconsistencyModel->school = $school->name;
-                $inconsistencyModel->description = 'Descrição para a série: ' . $serieType->getDescricao() . ' menor que 3 caracteres';
-                $inconsistencyModel->action = 'Forneça uma descrição mais detalhada, contendo mais de 5 caracteres';
-                $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->insert();
+            if(!isset($matriculas)){
+                continue;
             }
 
 
-            if (strlen($serieType->getDescricao()) > $strMaxLength) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = SERIE_STRONG;
-                $inconsistencyModel->school = $school->name;
-                $inconsistencyModel->description = 'Descrição para a série: ' . $serieType->getDescricao() . ' com mais de 50 caracteres';
-                $inconsistencyModel->action = 'Forneça uma descrição menos detalhada, contendo até 50 caracteres';
-                $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
+            if(TagUtils::isMultiStage($easId) && $idSerie !== "COM1" && $idSerie !== "AEE1"){
+                $matriculas = array_filter(
+                    $matriculas,
+                    fn($e) => $e->getEnrollmentStage() == $serie->edcensoCode
+                );
             }
-            /*
-             * 1 - Educação Infantil
-             * 2 - Ensino Fundamental
-             * 3 - Ensino Médio
-             * 4 - Educação de Jovens e Adultos
-             * 5 - Atendimento Educacional Especializado
-             * 6 - Atividades Complementares
-             */
-            if (!in_array($serieType->getModalidade(), [1, 2, 3, 4, 5, 6])) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = SERIE_STRONG;
-                $inconsistencyModel->school = $school->name;
-                $inconsistencyModel->description = 'Modalidade inválida';
-                $inconsistencyModel->action = 'Selecione uma modalidade válida para a série';
-                $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $classId;
-                $inconsistencyModel->idSchool = $inepId;
-                $inconsistencyModel->insert();
+
+
+
+            foreach ($matriculas as $matricula) {
+                $matricula->setEnrollmentStage(null);
             }
+
+
+
+            $serieType->setMatricula($matriculas);
 
             $seriesList[] = $serieType;
         }
 
+        if ( count($series) > 3) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = TURMA_STRONG;
+            $inconsistencyModel->school = $school->name;
+            $inconsistencyModel->description = 'O número de turmas multiseriada excede o limite de 3 series por turma ' . $school->name;
+            $inconsistencyModel->action = 'Remova turmas';
+            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->idSchool = $inepId;
+            $inconsistencyModel->insert();
+        }
+
         return $seriesList;
+    }
+
+    private function isMulti($classId, $inepId): bool
+    {
+        $classroom = (object) \Classroom::model()->with('edcensoStageVsModalityFk')->findByPk($classId);
+
+        $easId  = $classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id;
+        return \TagUtils::isMultiStage($easId);
     }
 
     /**
@@ -1163,7 +1215,6 @@ class SagresConsultModel
             }
 
             $scheduleList[] = $scheduleType;
-
         }
 
         return $scheduleList;
@@ -1536,7 +1587,6 @@ class SagresConsultModel
                         $month
                     )
                 );
-
             $professionalList[] = $professionalType;
 
             $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
@@ -1569,6 +1619,21 @@ class SagresConsultModel
         }
 
         return $professionalList;
+    }
+
+    private function getAcceptedEnrollmentStatus(): array
+    {
+
+        if(Yii::app()->features->isEnable("FEAT_SAGRES_STATUS_ENROL")){
+            return [
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVED),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVEDBYCOUNCIL),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_DISAPPROVED),
+            ];
+        }
+
+        return [\StudentEnrollment::getStatusId(status: \StudentEnrollment::STATUS_ACTIVE)];
     }
 
     public function getAttendances($professionalId, $referenceYear, $month)
@@ -1604,20 +1669,7 @@ class SagresConsultModel
 
         return $attendanceList;
     }
-    private function getAcceptedEnrollmentStatus(): array
-    {
 
-        if(Yii::app()->features->isEnable("FEAT_SAGRES_STATUS_ENROL")){
-            return [
-                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
-                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVED),
-                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVEDBYCOUNCIL),
-                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_DISAPPROVED),
-            ];
-        }
-
-        return [\StudentEnrollment::getStatusId(status: \StudentEnrollment::STATUS_ACTIVE)];
-    }
     /**
      * Sets a new MatriculaTType
      *
@@ -1629,11 +1681,11 @@ class SagresConsultModel
         $strMaxLength = 200;
         $strlen = 5;
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
+        $schoolName = $school->name;
 
         $acceptedStatus = $this->getAcceptedEnrollmentStatus();
 
         $strAcceptedStatus = implode(",", $acceptedStatus);
-
 
         $query = "SELECT
                         c.edcenso_stage_vs_modality_fk,
@@ -1643,6 +1695,7 @@ class SagresConsultModel
                         se.create_date AS data_matricula,
                         se.date_cancellation_enrollment AS data_cancelamento,
                         se.status AS situation,
+                        se.edcenso_stage_vs_modality_fk AS enrollment_stage,
                         si.responsable_cpf AS cpfStudent,
                         si.birthday AS birthdate,
                         si.name AS name,
@@ -1682,6 +1735,7 @@ class SagresConsultModel
                         c.school_year = :referenceYear
                   GROUP BY se.id
                   order by si.name asc;
+
                 ";
 
         $command = Yii::app()->db->createCommand($query);
@@ -1715,7 +1769,7 @@ class SagresConsultModel
             if ($convertedBirthdate === false) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
-                $inconsistencyModel->school = $school->name;
+                $inconsistencyModel->school = $schoolName;
                 $inconsistencyModel->description = 'Data de nascimento inválida: <strong>' . $enrollment['birthdate'] . "</strong>";
                 $inconsistencyModel->action = 'Altere para uma data válida';
                 $inconsistencyModel->identifier = '9';
@@ -1886,12 +1940,207 @@ class SagresConsultModel
                     }
 
                     $enrollmentType = new MatriculaTType();
+
                     $enrollmentType
                         ->setNumero($enrollment['numero'])
                         ->setDataMatricula(new DateTime($enrollment['data_matricula'] ?? ''))
                         // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                         ->setNumeroFaltas((int) $enrollment['faults'])
-                        ->setAluno($studentType);
+                        ->setAluno($studentType)
+                        ->setEnrollmentStage($enrollment['enrollment_stage']);
+
+                    if (is_null($studentType)) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $school->name;
+                        $inconsistencyModel->description = 'Estudante não existe para a matrícula da turma: ';
+                        $inconsistencyModel->action = 'Adicione um estudante à turma da escola';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
+                        $enrollmentType->setAprovado($this->getStudentSituation($enrollment['situation']));
+                    }
+
+                    if (empty($enrollmentType)) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'MATRÍCULA';
+                        $inconsistencyModel->school = $school->name;
+                        $inconsistencyModel->description = 'Não há matrícula para a turma';
+                        $inconsistencyModel->action = 'Adicione uma matrícula para a turma';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!$this->validateDate($enrollmentType->getDataMatricula(), 2)) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'MATRÍCULA';
+                        $inconsistencyModel->school = $school->name;
+                        $inconsistencyModel->description = DATA_MATRICULA_INV . '<strong>' . $enrollmentType->getDataMatricula()->format(DATE_FORMAT) . '</strong>';
+                        $inconsistencyModel->action = 'Adicione uma data no formato válido';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!is_int($enrollmentType->getNumeroFaltas())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = 'MATRÍCULA';
+                        $inconsistencyModel->school = $school->name;
+                        $inconsistencyModel->description = 'O valor para o número de faltas é inválido';
+                        $inconsistencyModel->action = 'Coloque um valor válido para o número de faltas';
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
+                        if (!is_bool($enrollmentType->getAprovado())) {
+                            $inconsistencyModel = new ValidationSagresModel();
+                            $inconsistencyModel->enrollment = 'MATRÍCULA';
+                            $inconsistencyModel->school = $school->name;
+                            $inconsistencyModel->description = 'Valor inválido para o status aprovado';
+                            $inconsistencyModel->action = 'Adicione um valor válido para o campo aprovado do aluno: ' . $studentType->getNome();
+                            $inconsistencyModel->idClass = $classId;
+                            $inconsistencyModel->insert();
+                        }
+                    }
+
+                    $enrollmentList[] = $enrollmentType;
+                }else {
+                    $studentType = new AlunoTType();
+                    $birthdate = DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate);
+                    $studentType
+                        ->setNome($enrollment['name'])
+                        ->setDataNascimento($birthdate)
+                        //->setCpfAluno(!empty($cpf) ? $cpf : null)
+                        ->setPcd($enrollment['deficiency'])
+                        ->setSexo($enrollment['gender'])
+                        ->setJustSemCpf(1);
+
+                    // $cpfReasons = [1,2,3];
+                    // if(!in_array($enrollment["cpfReason"],$cpfReasons)){
+                    //     $inconsistencyModel = new ValidationSagresModel();
+                    //     $inconsistencyModel->enrollment = "<strong>ESTUDANTE</strong>";
+                    //     $inconsistencyModel->school = $schoolName;
+                    //     $inconsistencyModel->description = 'Justificativa incorreta para auxencia de cpf';
+                    //     $inconsistencyModel->action = 'Adicione uma justificativa válida para <strong>' . $studentType->getNome() . '</strong> está sem cpf';
+                    //     $inconsistencyModel->identifier = '9';
+                    //     $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                    //     $inconsistencyModel->idClass = $classId;
+                    //     $inconsistencyModel->insert();
+
+                    // }
+
+                    if (!$this->validateDate($studentType->getDataNascimento(), 1)) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $schoolName;
+                        $inconsistencyModel->description = 'Data de nascimento não é válida: <strong>' . $studentType->getDataNascimento()->format(DATE_FORMAT) . '</strong>';
+                        $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if ($this->dataMax($studentType->getDataNascimento())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $schoolName;
+                        $inconsistencyModel->description = 'A data de nascimento não pode ser posterior a 30 de abril de 2024';
+                        $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if ($this->dataMin($studentType->getDataNascimento())) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $schoolName;
+                        $inconsistencyModel->description = 'A data de nascimento não pode ser inferior a 01 de janeiro de 1930';
+                        $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+
+                    if (strlen($studentType->getNome()) < $strlen) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $schoolName;
+                        $inconsistencyModel->description = 'Nome do estudante com menos de 5 caracteres';
+                        $inconsistencyModel->action = 'Adicione um nome para o estudante com pelo menos 5 caracteres';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+
+                    if (!is_bool(boolval($studentType->getPcd()))) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $schoolName;
+                        $inconsistencyModel->description = 'Código pcd é inválido';
+                        $inconsistencyModel->action = 'Adicione um valor válido para o pcd';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if ($studentType->getDataNascimento() === false) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $schoolName;
+                        $inconsistencyModel->description = 'Data de nascimento inválida';
+                        $inconsistencyModel->action = 'Altere o formato de data para dd/mm/aaaa';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    if (!in_array($studentType->getSexo(), [1, 2, 3])) {
+                        $inconsistencyModel = new ValidationSagresModel();
+                        $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
+                        $inconsistencyModel->school = $schoolName;
+                        $inconsistencyModel->description = 'Sexo não é válido';
+                        $inconsistencyModel->action = 'Adicione um sexo válido para o estudante';
+                        $inconsistencyModel->identifier = '9';
+                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
+                        $inconsistencyModel->idClass = $classId;
+                        $inconsistencyModel->insert();
+                    }
+
+                    $arrayStudentInfo = [
+                        "studentFk" => $enrollment['student_fk'],
+                        "classroomFk" => $classId,
+                        "schoolInepIdFk" => $inepId
+                    ];
+
+                    $modality = $enrollment['modality'];
+                    //3 - EJA
+                    if ($modality === 3) {
+                        $educationLevel = (int) $this->getStageById($enrollment['edcenso_stage_vs_modality_fk']);
+                        $age = $this->calculateAge($birthdate);
+                        $this->checkAge($age, $educationLevel, $arrayStudentInfo);
+                    }
+
+                    $enrollmentType = new MatriculaTType();
+                    $enrollmentType
+                        ->setNumero($enrollment['numero'])
+                        ->setDataMatricula(new DateTime($enrollment['data_matricula'] ?? ''))
+                        // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
+                        ->setNumeroFaltas((int) $enrollment['faults'])
+                        ->setAluno($studentType)
+                        ->setEnrollmentStage($enrollment['enrollment_stage']);
 
                     if (is_null($studentType)) {
                         $inconsistencyModel = new ValidationSagresModel();
@@ -1954,10 +2203,12 @@ class SagresConsultModel
                     $enrollmentList[] = $enrollmentType;
                 }
             } else {
-                \CVarDumper::dump($enrollment, 10, true);
+                //\CVarDumper::dump($enrollment, 10, true);
 
                 $studentType = new AlunoTType();
                 $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
+
+                if(empty($cpf)){}
                 $studentType
                     ->setNome($enrollment['name'])
                     ->setDataNascimento(DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate))
@@ -2105,7 +2356,9 @@ class SagresConsultModel
                     ->setDataMatricula(new DateTime($enrollment['data_matricula']))
                     // ->setDataCancelamento(new DateTime($enrollment['data_cancelamento']))
                     ->setNumeroFaltas((int) $enrollment['faults'])
-                    ->setAluno($studentType);
+                    ->setAluno($studentType)
+                    ->setEnrollmentStage($enrollment['enrollment_stage']);
+
 
                 if (is_null($studentType)) {
                     $inconsistencyModel = new ValidationSagresModel();
@@ -2281,7 +2534,6 @@ class SagresConsultModel
         $xmlString = $serializer->serialize($sagresEduObject, 'xml');
 
         return $this->clearSpecialCharacters($xmlString);
-
     }
 
     private function clearSpecialCharacters($string)
@@ -2314,7 +2566,6 @@ class SagresConsultModel
         $tempArchiveZip->addFromString(pathinfo($fileDir, PATHINFO_BASENAME), $content);
         $tempArchiveZip->close();
         $content = null;
-
     }
 
 
