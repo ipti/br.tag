@@ -17,7 +17,7 @@ $domain = array_shift($host_array);
 $newdb = $domain . '.tag.ong.br';
 
 if ($domain == "localhost") {
-    $newdb = 'boquim.tag.ong.br';
+    $newdb = 'generalmaynard';
 }
 
 $_GLOBALGROUP = 0;
