@@ -24,6 +24,7 @@ $title = "Agricultores";
     <div class="row">
         <div class="t-buttons-container">
             <a class="t-button-primary" href="<?php echo Yii::app()->createUrl('foods/farmerregister/create')?>">Adicionar Agricultor</a>
+            <a class="t-button-secondary" href="<?php echo Yii::app()->createUrl('foods/farmerregister/activateFarmers')?>">Exibir Inativos</a>
         </div>
     </div>
 
@@ -48,12 +49,12 @@ $title = "Agricultores";
                     'dataProvider' => $dataProvider,
                     'enablePagination' => false,
                     'enableSorting' => false,
-                    'ajaxUpdate' => false,
                     'itemsCssClass' => 'js-tag-table tag-table-primary tag-table table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs',
                     'columns'=>array(
                         'id',
                         'name',
                         'cpf',
+                        'status',
                         array(
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
@@ -66,6 +67,7 @@ $title = "Agricultores";
                                     'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
                                 )
                             ),
+                            'afterDelete' => 'window.location.href = "?r=foods/farmerregister/index";',
                             'updateButtonOptions' => array('style' => 'margin-right: 20px;', 'class'=>"stageUpdate"),
                             'deleteButtonOptions' => array('style' => 'cursor: pointer;', 'class'=>"stageDelete"),
                             'htmlOptions' => array('width' => '100px', 'style' => 'text-align: center'),

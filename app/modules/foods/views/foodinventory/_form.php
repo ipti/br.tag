@@ -40,7 +40,6 @@ $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii:
         ?>
         <a class="t-button-primary" id="js-entry-stock-button" type="button">Lançamento de Estoque</a>
         <?php endif; ?>
-        <a class="t-button-primary hide" href="?r=foods/foodRequest/create">Solicitações</a>
         <a class="t-button-secondary hide"><span class="t-icon-printer"></span>Relatório de Estoque</a>
     </div>
     <div class="row">

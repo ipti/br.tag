@@ -1,3 +1,4 @@
+
 <?php
 /* @var $this FoodRequestController */
 /* @var $model FoodRequest */
@@ -23,8 +24,7 @@ $this->menu=array(
     'attributes'=>array(
         'id',
         'date',
-        'food_fk',
-        'amount',
-        'measurementUnit',
+        'status',
+        'notice_fk',
     ),
 )); ?>

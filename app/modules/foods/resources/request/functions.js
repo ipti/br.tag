@@ -1,78 +1,56 @@
-function renderSelectedRequests(foodRequests) {
-    let foodRequestsDiv = document.getElementById("food_request");
-    foodRequestsDiv.innerHTML = '';
-
-    foodRequests.forEach(function(request, index) {
-        let list = `
-        <div class="mobile-row t-list-content show--tabletDesktop" id="request_list_${index}">
-            <div class="column is-third clearfix">${request.foodDescription}</div>
-            <div class="column is-one-tenth clearleft--on-mobile clearfix">${request.amount}</div>
-            <div class="column is-one-tenth clearleft--on-mobile clearfix">${request.measurementUnit}</div>
-            <div class="column is-two-fifths clearleft--on-mobile clearfix">${request.description}</div>
-            <div class="column is-one-tenth clearleft--on-mobile clearfix justify-content--end">
-                <span class="t-icon-close t-icon" id="request_button" data-buttonId="${index}"></span>
-            </div>
-        </div>
-        <div class="row t-list-content show--mobile" id="request_list_${index}">
-            <div class="column is-one-tenth clearleft--on-mobile clearfix justify-content--end">
-                <span class="t-icon-close t-icon" id="request_button" data-buttonId="${index}"></span>
-            </div>
-            <div class="mobile-row"><label>Item:</label>${request.foodDescription}</div>
-            <div class="mobile-row"><label>Quantidade:</label>${request.amount}</div>
-            <div class="mobile-row"><label>Unidade:</label>${request.measurementUnit}</div>
-            <div class="mobile-row"><label>Descrição:</label>${request.description}</div>
-
-        </div>
-        `;
-
-        foodRequestsDiv.innerHTML += list;
-    });
-};
-
 function renderRequestTable(foodRequests, id) {
     let table = $('#foodRequestTable');
     table.empty();
 
     let head = $('<tr>').addClass('');
-    $('<th>').text('Item').appendTo(head);
-    $('<th>').text('Quantidade').appendTo(head);
+    $('<th>').text('Id').appendTo(head);
+    $('<th>').text('Itens').appendTo(head);
     $('<th>').text('Data de solicitação').appendTo(head);
-    $('<th>').text('Descrição').appendTo(head);
     $('<th>').text('Status').appendTo(head);
+    $('<th>').text('Informações').appendTo(head);
 
     table.append(head);
 
     if (typeof id === 'undefined') {
         $.each(foodRequests, function(index, request) {
             let row = $('<tr>').addClass('');
-            let foodName = request.foodName;
-            foodName = foodName.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
-            let measurementUnit = request.measurementUnit !== null ? (" (" + request.measurementUnit + ") ") : "";
-
-            $('<td>').text(foodName).appendTo(row);
-            $('<td>').text(request.amount + measurementUnit).appendTo(row);
-            $('<td>').text(request.date).appendTo(row);
-            $('<td>').text(request.description).appendTo(row);
-            $('<td style="padding-right: 25px">').html('<button class="t-button-secondary full--width t-margin-none--right" id="js-status-button" type="button"><span class="t-icon-pencil text-color--ink"></span>'+ request.status +'</button>').appendTo(row);
-
+            let requestItems = request.items.map(item =>{
+                if (item.foodName) {
+                    return item.foodName.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim();
+                } else {
+                    return '';
+                }
+            }).join(', ');
+            $('<td>').text(request.requestInfo.id).appendTo(row);
+            $('<td>').text(requestItems).appendTo(row);
+            $('<td>').text(request.requestInfo.date).appendTo(row);
+            $('<td style="padding-right: 25px">')
+            .html('<button style="cursor: default" class="' + (request.requestInfo.status === "Finalizado" ? "t-button-success" : "t-button-secondary") + ' full--width t-margin-none--right" id="js-status-button" type="button">'+ request.requestInfo.status +'</button>')
+            .appendTo(row);
+            $('<td>').html('<div class="full justify-content--center"><span class="t-icon-search_icon t-badge-info__icon cursor-pointer" id="js-information-button" data-requestId="' + request.requestInfo.id + '"></span></div>').appendTo(row);
             table.append(row);
-        });
+        })
     } else {
         let found = false;
         $.each(foodRequests, function(index, request) {
-            if (request.foodId == id) {
+            let hasTargetFoodId = request.items.some(function(item) {
+                return item.foodId === id;
+            });
+
+            if (hasTargetFoodId) {
                 found = true;
                 let row = $('<tr>').addClass('');
-                let foodName = request.foodName;
-                foodName = foodName.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
-                let measurementUnit = request.measurementUnit !== null ? (" (" + request.measurementUnit + ") ") : "";
-
-                $('<td>').text(foodName).appendTo(row);
-                $('<td>').text(request.amount + measurementUnit).appendTo(row);
-                $('<td>').text(request.date).appendTo(row);
-                $('<td>').text(request.description).appendTo(row);
-
-
+                let requestItems = request.items.map(item =>
+                    item.foodName.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim()
+                ).join(', ');
+                $('<td>').text(request.requestInfo.id).appendTo(row);
+                $('<td>').text(requestItems).appendTo(row);
+                $('<td>').text(request.requestInfo.date).appendTo(row);
+                $('<td style="padding-right: 25px">')
+                .html('<button style="cursor: default" class="' + (request.requestInfo.status === "Finalizado" ? "t-button-success" : "t-button-secondary") + ' full--width t-margin-none--right" id="js-status-button" type="button">'+ request.requestInfo.status +'</button>')
+                .appendTo(row);
+                $('<td>').html('<div class="full justify-content--center"><span class="t-icon-search_icon t-badge-info__icon cursor-pointer" id="js-progression-button"></span></div>').appendTo(row);
+                $('<td>').html('<div class="full justify-content--center"><span class="t-icon-column_graphi t-badge-info__icon cursor-pointer" id="js-progression-button"></span></div>').appendTo(row);
                 table.append(row);
             }
         });
@@ -84,4 +62,41 @@ function renderRequestTable(foodRequests, id) {
             table.append(row);
         }
     }
+}
+
+function renderFoodsTable(foodsRelation) {
+    let table = $('#foodsTable');
+    table.empty();
+
+    let head = $('<tr>').addClass('');
+    $('<th>').text('Nome').appendTo(head);
+    $('<th>').text('Quantidade').appendTo(head);
+    $('<th>').text('Unidade').appendTo(head);
+    $('<th>').text('').appendTo(head);
+
+    table.append(head);
+
+    $.each(foodsRelation, function(index, food) {
+        let row = $('<tr>').addClass('');
+        $('<td>').text(food.foodName).appendTo(row);
+        $('<td>').text(food.amount).appendTo(row);
+        $('<td>').text(food.measurementUnit).appendTo(row);
+        $('<td>').html('<div class="justify-content--end"><span class="t-icon-close t-icon" data-foodId="'+ index +'" id="remove-food-button"></span></div>').appendTo(row);
+
+        table.append(row);
+    });
+}
+
+function amountCalculation(existingAmount, amount, existingUnit, measurementUnit) {
+    existingAmount = parseFloat(existingAmount);
+    amount = parseFloat(amount);
+    let finalAmount = 0;
+    if(measurementUnit == "Kg" && existingUnit == "g") {
+        finalAmount = existingAmount + (amount/1000);
+    } else if (measurementUnit == "g" && existingUnit == "Kg") {
+        finalAmount = existingAmount + (amount*1000);
+    } else {
+        finalAmount = existingAmount + amount
+    }
+    return finalAmount.toFixed(2);
 }

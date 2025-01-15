@@ -2,6 +2,11 @@
     border-collapse: initial;
     margin-top: $SizeMedium;
     width: 100%;
+
+    &.no-margin {
+        margin-top: 0;
+    }
+
     td {
         background: $colorsBaseWhiteNormal;
         padding: $spaceMedium;
