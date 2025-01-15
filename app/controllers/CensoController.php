@@ -27,7 +27,7 @@ class CensoController extends Controller
             ], [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-                    'import', 'export', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+                    'import', 'export', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
                     'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster', 'downloadexportfile', 'ExportWithoutInepid'
                 ], 'users' => ['@'],
             ],

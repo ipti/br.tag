@@ -17,7 +17,7 @@ class AdminController extends Controller
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-                    'import', 'export', 'update', 'manageUsers', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+                    'import', 'export', 'update', 'manageUsers', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
                     'syncImport', 'exportToMaster', 'exportStudents', 'exportGrades', 'exportFaults', 'clearMaster', 'importFromMaster',
                     'gradesStructure', 'instanceConfig', 'editInstanceConfigs'
                 ], 'users' => ['@'],
@@ -557,13 +557,7 @@ class AdminController extends Controller
 
             if ($hasFinalRecovery === true) {
 
-                $recoveryUnity = GradeUnity::model()->find($finalRecovery["id"]);
-
-                if ($finalRecovery["operation"] === "delete") {
-                    $recoveryUnity->delete();
-                    echo json_encode(["valid" => true]);
-                    Yii::app()->end();
-                }
+                $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
 
                 if ($recoveryUnity === null) {
                     $recoveryUnity = new GradeUnity();
@@ -573,6 +567,7 @@ class AdminController extends Controller
                 $recoveryUnity->type = "RF";
                 $recoveryUnity->grade_calculation_fk = $finalRecovery["grade_calculation_fk"];
                 $recoveryUnity->edcenso_stage_vs_modality_fk = $stage;
+                $recoveryUnity->final_recovery_avarage_formula = $finalRecovery["final_recovery_avarage_formula"];
 
                 if (!$recoveryUnity->validate()) {
                     $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnity);
@@ -580,7 +575,30 @@ class AdminController extends Controller
                 }
 
                 $recoveryUnity->save();
+
+
+                    $modalityModel = GradeUnityModality::model()->findByAttributes(["grade_unity_fk"=>$recoveryUnity->id]);
+                    if ($modalityModel == null) {
+                        $modalityModel = new GradeUnityModality();
+                    }
+                    $modalityModel->name = "Avaliação/Prova";
+                    $modalityModel->type = "R";
+                    $modalityModel->weight = null;
+                    $modalityModel->grade_unity_fk = $recoveryUnity->id;
+
+                    if (!$modalityModel->validate()) {
+                        throw new CantSaveGradeUnityModalityException($modalityModel);
+                    }
+
+                    $modalityModel->save();
+
+            } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete") {
+                $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
+                $recoveryUnity?->delete();
+                echo json_encode(["valid" => true]);
+                Yii::app()->end();
             }
+
 
             echo json_encode(["valid" => true]);
         } catch (\Throwable $th) {
@@ -711,76 +729,6 @@ class AdminController extends Controller
         $this->render('editPassword', ['model' => $model]);
     }
 
-
-    public function actionClearDB()
-    {
-        //delete from users_school;
-        //delete from users;
-        // delete from auth_assignment;
-
-        $command = "
-			SET FOREIGN_KEY_CHECKS=0;
-
-			delete from auth_assignment;
-			delete from users;
-			delete from users_school;
-
-			delete from class_board;
-            delete from class_faults;
-            delete from class;
-
-            delete from student_enrollment;
-            delete from student_identification;
-            delete from student_documents_and_address;
-
-            delete from instructor_teaching_data;
-            delete from instructor_identification;
-            delete from instructor_documents_and_address;
-            delete from instructor_variable_data;
-            delete from teaching_matrixes;
-
-            delete from classroom;
-
-            delete from school_identification;
-            delete from school_structure;";
-
-        set_time_limit(0);
-        ignore_user_abort();
-        Yii::app()->db->createCommand($command)->query();
-
-        $this->addTestUsers();
-
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Limpeza do banco de dados concluída com sucesso! <br/>Faça o login novamente para atualizar os dados.'));
-        $this->redirect(array('index'));
-    }
-
-    public function addTestUsers()
-    {
-        set_time_limit(0);
-        ignore_user_abort();
-        $admin_login = 'admin';
-        $admin_password = md5('p@s4ipti');
-
-        $hash = hexdec(hash('crc32', 'Administrador' . $admin_login . $admin_password));
-        $command = "INSERT INTO users VALUES (1, 'Administrador', '$admin_login', '$admin_password', 1, $hash);";
-        Yii::app()->db->createCommand("ALTER TABLE users AUTO_INCREMENT = 2;")->execute();
-        Yii::app()->db->createCommand($command)->query();
-
-        $auth = Yii::app()->authManager;
-        $auth->assign('admin', 1);
-
-        //        //Criar usuário de teste, remover depois.
-        //        /*         * ************************************************************************************************ */
-        //        /**/$command = "INSERT INTO `users`VALUES"
-        //                /**/ . "(2, 'Paulo Roberto', 'paulones', 'e10adc3949ba59abbe56e057f20f883e', 1);"
-        //                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (1, '28025911', 2);"
-        //                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (2, '28025970', 2);"
-        //                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (3, '28025989', 2);"
-        //                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (4, '28026012', 2);";
-        //        /**/Yii::app()->db->createCommand($command)->query();
-        //        /*         * ************************************************************************************************ */
-    }
-
     public function mres($value)
     {
         $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
@@ -822,7 +770,6 @@ class AdminController extends Controller
         $model = Users::model()->findByPk($id);
         $actualRole = $model->getRole();
         $userSchools = UsersSchool::model()->findAllByAttributes(array('user_fk' => $id));
-
         // Atribuindo valores da superglobal _POST à variáveis locais a fim de evitar o uso de globais
         $users = Yii::app()->request->getPost('Users');
         $schools = Yii::app()->request->getPost('schools');
@@ -830,10 +777,14 @@ class AdminController extends Controller
         $role = Yii::app()->request->getPost('Role');
 
         if (isset($users)) {
-            $model->attributes = $users;
+            $model->name = $users["name"];
+            $model->username = $users["username"];
+            $model->active = $users["active"];
             if ($model->validate()) {
-                $passwordHasher = new PasswordHasher;
-                $model->password = $passwordHasher->bcriptHash($users['password']);
+                if ($users["password"] !== "") {
+                    $passwordHasher = new PasswordHasher;
+                    $model->password = $passwordHasher->bcriptHash($users['password']);
+                }
                 if ($model->save()) {
                     $save = true;
                     foreach ($userSchools as $userSchool) {

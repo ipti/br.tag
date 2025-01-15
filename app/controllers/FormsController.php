@@ -78,6 +78,14 @@ class FormsController extends Controller {
         $this->render('EnrollmentDeclarationReport', $query);
     }
 
+    public function actionConclusionCertification($enrollment_id)
+    {
+        $this->layout = "reports";
+        $repository = new FormsRepository;
+        $query = $repository->getConclusionCertification($enrollment_id);
+        $this->render('ConclusionCertification', $query);
+    }
+
     public function actionGetEnrollmentDeclarationInformation($enrollment_id)
     {
         $repository = new FormsRepository;
@@ -182,5 +190,13 @@ class FormsController extends Controller {
         $repository = new FormsRepository;
         $query = $repository->getWarningTerm($enrollment_id);
         $this->render('WarningTerm', $query);
+    }
+
+    public function actionSuspensionTerm($enrollment_id) {
+
+        $this->layout = "reports";
+        $repository = new FormsRepository;
+        $query = $repository->getSuspensionTerm($enrollment_id);
+        $this->render('SuspensionTerm', $query);
     }
 }

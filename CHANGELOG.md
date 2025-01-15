@@ -1,13 +1,146 @@
-## [Versão 3.87.187]
-- Modificações nos cadastros de editais e agricultores.
-- Permitindo o envio de PDF para o aplicativo do agricultor ao cadastrar ou alterar um edital.
-- Modificações no processo de gerar uma solicitação, adicionadas as possibilidades de estabelecer a relação entre uma solicitação e várias escolas e vários agricultores.
-- Adicionado um modal para exibir os detalhes de uma solicitação.
-- Adicionada a tela de ativar e inativar tanto editais como agricultores.
-- Adicionado o endpoint para modificar o status da solicitação
+## [Versão 3.94.213]
+- Corrigindo a exibição da média de nota em turmas por conceito na ata de notas
 
-## [Versão 3.86.187]
+## [Versão 3.94.212]
+- Criando o formulário de notas por conceito na tela na sessão de administrador, permitindo a criação de um novo conceito e também modificar conceitos existentes
+- Modificando a forma como notas por conceito são calculadas, para calcular a média final do aluno
+
+
+## [Versão 3.93.212]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
+
+## [Versão 3.93.211]
+- Ordenando de acordo com a ordem da turma o relatório de ata de notas
+
+## [Versão 3.93.210]
+- Corrigindo a busca por aulas em aulas ministradas quando o usuário é um professor da educação infantil
+
+## [Versão 3.93.209]
+- Trocado "Série" por "Etapa" na Ficha de Matrícula
+- O Campo 27 da Ficha de Matrícula (Autorização do Termo de Consentimento de Imagem) agora traz preenchido do cadastro do aluno
+
+## [Versão 3.92.209]
+- Corrigido o relatório de alunos por escola (Cpg, Rg e Nis), exibindo somente os alunos do ano em que o relatório foi emitido
+
+## [Versão 3.92.208]
+- Permitindo o acesso dos coordenadores pedagógicos as telas de frequência de professor e a tela de notas
+- Filtrando por escola os professores que podem ser selecionados na tela de frequência de professor
+
+## [Versão 3.92.207]
+- Feito com que o aluno rematricule numa turma que havia sido transferida
+- Aumentado fonte da ficha de notas
+- Inserido campos no cabeçalho da ficha de notas (gênero, filiação, data de nascimento, naturalidade)
+- Inserido opção pra imprimir ficha de notas com local/data ou não
+- Trocado signatário de inspetor escolar para secretário escolar na ficha de notas
+- Adicionado filtro de etapa para as turmas multiseriadas
+
+
+## [Versão 3.91.206]
+- Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
+
+## [Versão 3.91.205]
+- Retirado obrigatoriedade de preenchimento de senha ao editar cadastro de algum usuário
+- Corrigido informações do relatório de Matrículas do ano e Número de Alunos por turma
+- Inserido 9º Ano na modalidade de Ensino Fundamental Maior por padrão
+
+## [Versão 3.91.204]
+- Criado o relatório de aulas ministradas
+
+## [Versão 3.90.204]
+- Adicionado fórmula de cálculo para a média da recuperação final
+
+## [Versão 3.89.204]
+- Corrigindo a duplicidade das aulas em aulas ministradas
+
+## [Versão 3.89.203]
+- Corrigindo error no tamanho do nome do aluno ao gerar o sagres
+
+## [Versão 3.89.202]
+- Modificando o tempo de sessão
+- Corrigindo errors relacionados a comparação de variáveis
+
+
+## [Versão 3.89.201]
+- Adicionando o informativo de total de aulas da carga horária e total de aulas ministradas nas telas de aulas ministradas
+- Enriquecido Termo de Suspensão com Dados carregados do banco
+- Corrigido tamanho da foto 3x4 na ficha de matrícula
+- Permitido que um aluno transferido de uma turma possa voltar para a mesma turma
+- Inserido coluna turma/ano no relatório de alunos por turma em multisseriados/EJA
+- Retirando a chave estrangeira de schedule em class_contents
+- Ajuste na view de frequência para a tela de professor, especificamente para alunos com matrícula transferida
+- Ajusta na view de classdiary, atribuindo label sobre o status da matrícula do aluno
+
+## [Versão 3.89.200]
+- Correção de consulta de cardápio sagres versão nova
+- Label de status de matricula adicionado a tela de notas
+
+## [Versão 3.89.199]
+- Adicionado a sessão de conteúdo nas aulas ministradas selecionadas na tela de aulas ministradas
+
+## [Versão 3.89.198]
+- consertado o cálculo da média final para as turmas eja
+
+## [Versão 3.89.197]
+- Correção de consulta de cardápio sagres versão nova
+
+## [Versão 3.89.196]
+- Permitindo que o gestor escolar possa criar cardápios no novo módulo de merenda
+- Consertada ordem das unidades no relatório de ficha de notas
+- Correção na funcionalidade de frequência, especificamente para alunos com matrícula transferida
+
+## [Versão 3.89.196]
+- Nota de recuperação semestral só substitui a média semestral caso a recuperação seja maior
+
+## [Versão 3.89.195]
+- Corrigido Cartão do SUS, Etapa e Grau de Escolaridade na ficha de matrícula
+- Inserido Cartão do SUS, RG do Aluno e CPF do Aluno em documentos entregues no cadastro do aluno
+
+## [Versão 3.88.195]
+- Inserido termo de suspensão
+
+## [Versão 3.87.195]
+- Adicionando a sessão de conteúdo de aula na tabela de visualização de aulas ministradas
+- Corrigida a duplicidade de aulas ministradas ao clicar em salvar
+
+## [Versão 3.87.194]
+- Adicionado campo para unificar a frequencia na tela de etapa de ensino
+- Adicionando paginação nas telas de ficha AEE
+
+## [Versão 3.87.193]
+- Consertado estrutura de notas para as etapas por conceito
+
+## [Versão 3.87.192]
+- Corrigindo a exibição de aulas multidisciplinares em aulas ministradas e corrigindo permissões de plano de aula
+
+## [Versão 3.87.191]
+- Adicionando logs de arquivos para monitoramento
+
+## [Versão 3.87.191]
+- Inserido as abas de base nacional comum e parte diversificadora no relatório de ata de notas da turma
+- Inserido certificado de conclusão do aluno
+
+## [Versão 3.86.191]
+- Adicionando restrição para que coordenadores pedagogicos e gestores escolares não consigam modificar planos de aula
+
+## [Versão 3.86.190]
+- Corrigindo erros internos na impressão de documentos. Não possui impacto nas funcionalidades, apenas nos registros de erro.
+- Corrigindo alerta ao adicionar cardápio (interno)
+
+## [Versão 3.86.189]
+- Cosertada frequência no módulo de diário de classe para professores
+- Consertado multiselect de plano de aula no módulo de diario de classe para professores
+
+## [Versão 3.86.189]
+- Filtros de busca adicionados no carregamento de planos de aula pendentes
+
+## [Versão 3.86.188]
+- Criando a tela de validar aulas ministradas, permitindo somente a visualização das aulas
+- Corrigindo a duplicidade ao salvar plano de aula
 - Inserido cor/raça na planilha de exportação de alunos
+
+## [Versão 3.85.188]
+- Retirando a obrigatoriedade das habilidades para plano de aula de educação infantil
+- Permitindo a adição de habilidades de disciplinas diferentes em planos de aula somente para a educação infantil
 
 ## [Versão 3.85.187]
 - Permitindo a adição de habilidades de disciplinas diferentes em planos de aula para etapas de fundamental menor

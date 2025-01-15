@@ -63,19 +63,19 @@ $form = $this->beginWidget('CActiveForm', array(
                     } else {
                         $browser = 'error'; //<-- Browser not found.
                     }
-                    $year = date('Y');
-                    //botar condição do mês, a partir de novembro, mostrar o próximo ano.
-                    $years = array();
-                    if (date('m') >= 11) {
-                        $year = $year + 1;
-                    }
-                    for ($i = $year; $i >= 2014; $i--) {
-                        $years[$i] = $i;
-                    }
-                    echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off', 'style' => 'height: 44px'));
+
+                    echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off', 'style' => 'height: 44px', 'options' => array(
+                        date("Y") => array('selected' => true) // Define o ano atual como selecionado
+                    ),));
                     // @done S1 - Alinhar o checkbox com os inputs
                     ?>
-                    <div class="uniformjs"><label class="checkbox text-input"><input type="checkbox" style="margin: 0px 6px 20px 0" value="remember-me">Mantenha-me conectado</label></div>
+                    <div class="uniformjs">
+                        <label class="checkbox text-input">
+                            <?php echo $form->checkBox($model, 'rememberMe', array( "style"=>"margin: 0px 6px 20px 0")); ?>
+                            Mantenha-me conectado
+                            <!-- <input type="checkbox" style="margin:  0px 6px 20px 0" value="remember-me">Mantenha-me conectado -->
+                        </label>
+                    </div>
                     <div class="row-fluid">
                         <div>
                             <?php echo CHtml::submitButton('Entrar', array('class' => 'submit-button-login')); ?>

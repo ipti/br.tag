@@ -29,12 +29,12 @@ class FormsRepository {
         if ($totalContents == 0) {
             //Caso não haja preenchimento em gradeResults ou seja 0
             if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
-                $condition = 'classroom_fk = :classroomId';
+                $condition = 's.classroom_fk = :classroomId';
                 $params = array(
                     ':classroomId' => $classroom->id,
                 );
             } else {
-                $condition = 'classroom_fk = :classroomId AND discipline_fk = :disciplineId';
+                $condition = 's.classroom_fk = :classroomId AND s.discipline_fk = :disciplineId';
                 $params = array(
                     ':classroomId' => $classroom->id,
                     ':disciplineId' => $disciplineId,
@@ -236,9 +236,11 @@ class FormsRepository {
 
         // Ajusta ordem das unidades se houver rec. Final
         $recFinalIndex = array_search('RF', array_column($unities, 'type'));
-        $recFinalObject = $unities[$recFinalIndex];
-        array_splice($unities, $recFinalIndex, 1);
-        array_push($unities, $recFinalObject);
+        if($recFinalIndex != null){
+            $recFinalObject = $unities[$recFinalIndex];
+            array_splice($unities, $recFinalIndex, 1);
+            array_push($unities, $recFinalObject);
+        }
 
         // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho
         foreach ($curricularMatrix as $matrix) {
@@ -284,7 +286,7 @@ class FormsRepository {
                         "partial_recoveries" => $partialRecovery,
                         "total_number_of_classes" => $totalContentsPerDiscipline,
                         "total_faults" => $totalFaultsPerDicipline,
-                        "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
+                        "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100
                     ]);
                     $mediaExists = true;
                     break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
@@ -299,7 +301,7 @@ class FormsRepository {
                     "partial_recoveries" => $partialRecovery,
                     "total_number_of_classes" => $totalContentsPerDiscipline,
                     "total_faults" => $totalFaultsPerDicipline,
-                    "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / $totalContentsPerDiscipline) * 100
+                    "frequency_percentage" => (($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100
                 ]);
             }
         }
@@ -537,18 +539,78 @@ class FormsRepository {
     }
 
     /**
+     * Certificado de Conclusão
+     */
+    public function getConclusionCertification($enrollmentId) : array
+    {
+        $sql = "SELECT si.sex gender, svm.stage stage, svm.id class, se.status, svm.alias, svm.stage, si.nationality nation
+                    FROM student_enrollment se
+                JOIN student_identification si ON si.id = se.student_fk
+                JOIN classroom c ON se.classroom_fk = c.id
+                JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id
+                WHERE se.id = :enrollment_id;";
+
+        $result = Yii::app()->db->createCommand($sql)
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
+
+        if ($result["status"] == "6" || $result["status"] == "7" || $result["status"] == "8" || $result["status"] == "9") {
+            $status = "concluiu";
+        } else {
+            $status = "não concluiu";
+        }
+
+        switch($result["stage"]) {
+            case "1":
+                $modality = "ENSINO INFANTIL";
+                break;
+            case "2":
+                $modality = "ENSINO FUNDAMENTAL I";
+                break;
+            case "3":
+                $modality = "ENSINO FUNDAMENTAL II";
+                break;
+            case "4":
+                $modality = "ENSINO MÉDIO";
+                break;
+            case "5":
+                $modality = "ENSINO PROFISSIONAL";
+                break;
+            case "6":
+                $modality = "ENSINO DE JOVENS E ADULTOS (EJA)";
+                break;
+            case "0":
+            case "7":
+                $modality = "ENSINO";
+        }
+
+        if ($result["nation"] == "1") {
+            $nation = "BRASILEIRA";
+        } else if ($result["nation"] == "2") {
+            $nation = "BRASILEIRA (Nascido no exterior ou Naturalizado)";
+        } else {
+            $nation = "ESTRANGEIRA";
+        }
+
+        $response = array('enrollment_id' => $enrollmentId, 'gender' => $result['gender'],
+            'stage' => $result['stage'], 'class' => $result['class'], 'status' => $status, 'alias' => $result["alias"], 'modality' => $modality, 'nation' => $nation);
+        return $response;
+    }
+
+    /**
      * Carrega informações da declaração de matrícula
      */
     public function getEnrollmentDeclarationInformation($enrollmentId)
     {
         $sql = "SELECT si.name as name, si.filiation_1 filiation_1, si.filiation_2
                     filiation_2, si.birthday birthday, si.inep_id inep_id,
-                    sd.nis nis, ec.name city, c.school_year enrollment_date
+                    sd.nis nis, ec.name city, c.school_year enrollment_date, eu.name state
                     FROM student_enrollment se
                 JOIN classroom c ON c.id = se.classroom_fk
                 JOIN student_identification si ON si.id = se.student_fk
                 JOIN student_documents_and_address sd ON si.id = sd.id
                 JOIN edcenso_city ec ON si.edcenso_city_fk = ec.id
+                JOIN edcenso_uf eu on ec.edcenso_uf_fk = eu.id
                 WHERE se.id = :enrollment_id;";
 
         return Yii::app()->db->createCommand($sql)
@@ -698,8 +760,13 @@ class FormsRepository {
         $result['month'] = strftime("%B", $time);
 
         $classroom = Classroom::model()->findByPk($classroomId);
+        $isMinorStage = TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk);
 
-        $sql = "SELECT ed.id AS 'discipline_id', ed.name AS 'discipline_name'
+        $sql = "SELECT * FROM grade_concept gc ORDER BY gc.value DESC";
+
+        $concepts = Yii::app()->db->createCommand($sql)->queryAll();
+
+        $sql = "SELECT ed.id AS 'discipline_id', ed.name AS 'discipline_name', ed.abbreviation AS 'discipline_abbreviation'
                     FROM curricular_matrix cm
                 JOIN edcenso_discipline ed ON ed.id = cm.discipline_fk
                 WHERE stage_fk = :stage_fk AND school_year = :year
@@ -710,17 +777,32 @@ class FormsRepository {
             ->bindParam(":year", $this->currentYear)
             ->queryAll();
 
-        $studentEnrollments = StudentEnrollment::model()->findAllByAttributes(array('classroom_fk' => $classroom->id));
+        $baseDisciplines = array();
+        $diversifiedDisciplines = array();
+        foreach ($disciplines as $discipline) {
+            if($this->separateBaseDisciplines($discipline["discipline_id"])) { // se for disciplina da BNCC
+                array_push($baseDisciplines, $discipline);
+            }else { // se for disciplina diversa
+                array_push($diversifiedDisciplines, $discipline);
+            }
+        }
+
+        $totalDisciplines = array_merge($baseDisciplines, $diversifiedDisciplines);
+
+        $studentEnrollments =  $classroom->studentEnrollments;
 
         $grades = [];
 
         foreach ($studentEnrollments as $s) {
             $finalSituation = '';
-            foreach ($disciplines as $d) {
+            foreach ($totalDisciplines as $d) {
                 $finalMedia = '';
                 foreach ($result as $r) {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
                         $finalMedia = $r['final_media'];
+                        if($isMinorStage) {
+                            $finalMedia = $this->checkConceptGradeRange($finalMedia, $concepts);
+                        }
                         $r['situation'] = mb_strtoupper($r['situation']);
                         if ($r['situation'] == 'REPROVADO') {
                             $finalSituation = 'REPROVADO';
@@ -749,10 +831,28 @@ class FormsRepository {
             'classroom' => $classroom,
             'students' => $studentEnrollments,
             'disciplines' => $disciplines,
+            'baseDisciplines' => $baseDisciplines,
+            'diversifiedDisciplines' => $diversifiedDisciplines,
             'grades' => $grades
         );
 
         return $response;
+    }
+
+    public function checkConceptGradeRange($finalMedia, $concepts) {
+        $matchedConcept = null;
+
+        foreach ($concepts as $concept) {
+            if ($finalMedia >= $concept['value'] && $concept['value'] != null) {
+                $matchedConcept = $concept['name'];
+                break;
+            }
+        }
+
+        if( $matchedConcept != null ) {
+            return $matchedConcept;
+        }
+        return $finalMedia;
     }
 
     /**
@@ -979,6 +1079,27 @@ class FormsRepository {
         }
 
         $response = array('student' => $data,'turn' => $turn);
+
+        return $response;
+    }
+
+    /**
+     * Termo de Suspensão
+     */
+    public function getSuspensionTerm($enrollmentId) : array
+    {
+        $sql = "SELECT si.name name, svm.name stage_name, c.name classroom, svm.alias stage_alias
+                    FROM student_enrollment se
+                JOIN student_identification si ON si.id = se.student_fk
+                JOIN classroom c on se.classroom_fk = c.id
+                JOIN edcenso_stage_vs_modality svm ON c.edcenso_stage_vs_modality_fk = svm.id
+                WHERE se.id = :enrollment_id;";
+
+        $data = Yii::app()->db->createCommand($sql)
+            ->bindParam(':enrollment_id', $enrollmentId)
+            ->queryRow();
+
+        $response = array('student' => $data);
 
         return $response;
     }

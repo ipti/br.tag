@@ -19,7 +19,7 @@ $form = $this->beginWidget('CActiveForm', array(
     <h1><?php echo $student->name; ?></h1>
     <hr class="row t-separator">
     <div class="row">
-        <div class="column is-half clear-margin--all">         
+        <div class="column is-half clearfix">
             <div class="t-field-tarea clear-margin--bottom">
                     <?= chtml::label("Justificativa de falta", "title"); ?>
                     <?php echo CHtml::textArea("justification", $justification, array('maxlength' => 500, 'disabled' => $disabled )); ?>
@@ -28,7 +28,7 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
     <hr class="row t-separator">
     <div class="row">
-        <div class="column is-half clear-margin--all">
+        <div class="column is-half clearfix">
             <h3>Avaliação Individual do Aluno</h3>
             <div class="t-field-tarea">
                         <?= chtml::label("Observação", "title"); ?>
@@ -39,6 +39,6 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="mobile-row">
             <?php echo CHtml::submitButton('Salvar', array('class' => 't-button-primary clear-margin--all')); ?>
         </div>
-    
+
     <?php $this->endWidget(); ?>
 </div>

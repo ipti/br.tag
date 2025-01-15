@@ -22,7 +22,7 @@
 				], [
 					'allow', // allow authenticated user to perform 'create' and 'update' actions
 					'actions' => [
-						'import', 'export', 'clearDB', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
+						'import', 'export', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
 						'syncImport', 'exportToMaster', 'clearMaster', 'importFromMaster'
 					], 'users' => ['@'],
 				],
@@ -59,7 +59,7 @@
 					'school' => $school,
 					'student' => $student,
 					'stage' => $stage
-					)); 
+					));
 		}
 
 		public function actionSaveMultiStage() {
@@ -67,8 +67,8 @@
 			foreach($student as $st) {
 				Yii::app()->db->createCommand("UPDATE student_enrollment  set edcenso_stage_vs_modality_fk = :val where student_fk = :idx")->bindParam(":val", $st->val)->bindParam(":idx", $st->idx)->query();
 			}
-				
-		
+
+
 		}
 
 		public function actionSyncExport() {
@@ -909,71 +909,6 @@
 			$this->render('createUser', ['model' => $model]);
 		}
 
-		public function addTestUsers() {
-			set_time_limit(0);
-			ignore_user_abort();
-			$admin_login = 'admin';
-			$admin_password = md5('p@s4ipti');
-
-			$command = "INSERT INTO `users`VALUES
-                        (1, 'Administrador', '$admin_login', '$admin_password', 1);";
-			Yii::app()->db->createCommand($command)->query();
-
-			$auth = Yii::app()->authManager;
-			$auth->assign('admin', 1);
-
-//        //Criar usuário de teste, remover depois.
-//        /*         * ************************************************************************************************ */
-//        /**/$command = "INSERT INTO `users`VALUES"
-//                /**/ . "(2, 'Paulo Roberto', 'paulones', 'e10adc3949ba59abbe56e057f20f883e', 1);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (1, '28025911', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (2, '28025970', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (3, '28025989', 2);"
-//                /**/ . "INSERT INTO `users_school` (`id`, `school_fk`, `user_fk`) VALUES (4, '28026012', 2);";
-//        /**/Yii::app()->db->createCommand($command)->query();
-//        /*         * ************************************************************************************************ */
-		}
-
-		public function actionClearDB() {
-			//delete from users_school;
-			//delete from users;
-			// delete from auth_assignment;
-
-			$command = "
-			SET FOREIGN_KEY_CHECKS=0;
-			
-			delete from auth_assignment;
-			delete from users;
-			delete from users_school;
-			
-			delete from class_board;
-            delete from class_faults;
-            delete from class;
-
-            delete from student_enrollment;
-            delete from student_identification;
-            delete from student_documents_and_address;
-
-            delete from instructor_teaching_data;
-            delete from instructor_identification;
-            delete from instructor_documents_and_address;
-            delete from instructor_variable_data;
-
-            delete from classroom;
-
-            delete from school_identification;
-            delete from school_structure;";
-
-			set_time_limit(0);
-			ignore_user_abort();
-			Yii::app()->db->createCommand($command)->query();
-
-			$this->addTestUsers();
-
-        Yii::app()->user->setFlash('success', Yii::t('default', 'Banco limpado com sucesso. <br/>Faça o login novamente para atualizar os dados.'));
-        $this->redirect(array('index'));
-    }
-
 		public function actionImport() {
 			set_time_limit(0);
 			ignore_user_abort();
@@ -1470,7 +1405,7 @@
 				$objects = array();
 				switch ($table){
 					case "school_identification":
-						
+
 						break;
 					case "school_structure":
 						$objects = SchoolStructure::model()->findAllByPk(yii::app()->user->school);

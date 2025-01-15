@@ -1,15 +1,18 @@
 {
+    "minimum-stability": "dev",
     "require": {
         "guzzlehttp/guzzle": "^6.0",
         "symfony/validator": "^4.0",
-        "jms/serializer": "^3.21",
+        "jms/serializer": "3.29.1",
         "goetas-webservices/xsd2php-runtime": "^0.2.2",
         "fakerphp/faker": "^1.23",
         "bensontrent/firestore-php": "^3.1",
-        "ramsey/uuid": "^4.2"
+        "ramsey/uuid": "^4.2",
+        "websupport/yii-sentry": "0.x-dev",
+        "scssphp/scssphp": "^1.13.0"
     },
     "require-dev": {
-        "goetas-webservices/xsd2php": "^0.3",
+        "goetas-webservices/xsd2php": "^0.4",
         "phpmd/phpmd": "^2.13",
         "squizlabs/php_codesniffer": "^3.7",
         "friendsofphp/php-cs-fixer": "^3.3",
@@ -17,10 +20,18 @@
         "codeception/module-phpbrowser": "^1.0.0",
         "codeception/module-asserts": "^1.0.0",
         "codeception/module-webdriver": "^1.4",
-        "phpunit/php-code-coverage": "^7.0"
+        "phpunit/php-code-coverage": "^7.0",
+        "rector/rector": "dev-main"
+
     },
     "scripts": {
         "mess": "./vendor/bin/phpmd",
+        "sass": "./vendor/bin/pscss",
         "test" : "./vendor/bin/codecept run acceptance --steps"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }

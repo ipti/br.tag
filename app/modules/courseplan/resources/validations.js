@@ -19,7 +19,7 @@ function validateSave() {
     } else {
         removeError(stage);
     }
-    if ($(disciplines).val() === "" && $(minorEducationDisciplines).val() === "" && urlId == null) {
+    if ($(disciplines).val() === "" && isStageChildishEducation($(stage).val()) == false) {
         submit = false;
         addError(disciplines, "Campo obrigatório.");
     } else {
@@ -62,9 +62,9 @@ $(document).on("keyup", ".course-class-objective", function(){
 
 $('#courseplan_start_date').mask("99/99/9999", {placeholder: 'DD/MM/YYYY' });
 $('#courseplan_start_date').focusout(function () {
-    var id = '#' + $(this).attr("id");
-    var date = new Date();
-    var actual_year = date.getFullYear();
+    let id = '#' + $(this).attr("id");
+    let date = new Date();
+    let actual_year = date.getFullYear();
     initial_date = stringToDate($('#courseplan_start_date').val());
     if (!validateDate($('#courseplan_start_date').val())
         || !(initial_date.year >= actual_year - 1
@@ -75,3 +75,8 @@ $('#courseplan_start_date').focusout(function () {
         removeError(id);
     }
 });
+
+function isStageChildishEducation(stage) {
+    const refMinorStages = ['1', '2', '3'];
+    return refMinorStages.includes(stage);
+}

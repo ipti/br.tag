@@ -20,7 +20,7 @@ function initializeGradesMask() {
     });
 }
 
-function loadDisciplinesFromClassroom(classroomId, disciplineId, unityId) {
+function loadDisciplinesFromClassroom(classroomId) {
     $("#classroom").select2("val", classroomId);
     if (classroomId !== "") {
         $.ajax({
@@ -48,10 +48,6 @@ function loadDisciplinesFromClassroom(classroomId, disciplineId, unityId) {
                 }
                 $(".js-grades-loading").hide();
                 $("#discipline").removeAttr("disabled");
-
-                if (disciplineId) {
-                    loadStudentsFromDiscipline(disciplineId, unityId);
-                }
             },
         });
     } else {
@@ -60,6 +56,12 @@ function loadDisciplinesFromClassroom(classroomId, disciplineId, unityId) {
 }
 
 function loadUnitiesFromClassroom(classroomId) {
+    const isMulti = $("#classroom option:selected").attr("data-isMulti");
+    const stage = $("#stage").val();
+
+    if(isMulti==="1" && stage === ""){
+        return
+    }
     if(classroomId !== "")
     {
         $.ajax({
@@ -68,12 +70,14 @@ function loadUnitiesFromClassroom(classroomId) {
             cache: false,
             data: {
                 classroom: classroomId,
+                stage: stage,
             },
             beforeSend: function () {
             $("#unities").attr("disabled", "disabled")
             },
             success: function (response) {
                 const data = JSON.parse(DOMPurify.sanitize(response));
+                console.log(data)
                 const unitiesSelect = $("#unities");
                 unitiesSelect.empty();
 
@@ -101,16 +105,33 @@ function loadUnitiesFromClassroom(classroomId) {
 
 function loadStudentsFromDiscipline(disciplineId, unityId) {
     $("#discipline").select2("val", disciplineId);
-    if (disciplineId !== "" && unityId !== "") {
+
+    const classroom =  $("#classroom").val();
+    const discipline =  disciplineId || $("#discipline").val();
+    const unity = unityId || $("#unities").val();
+    const isMulti = $("#classroom option:selected").attr("data-isMulti");
+    const stage = $("#stage").val()
+
+    let isClassroomStage = "0"
+    if(isMulti==="1" && stage === ""){
+        return
+    }
+    if(isMulti==="1" && stage !== ""){
+        isClassroomStage = $("#stage option:selected").attr("data-classroom-stage");
+    }
+
+    if (discipline && unity && discipline !== "" && unity !== "") {
         $(".js-grades-alert").hide();
         $.ajax({
             type: "POST",
             url: "?r=grades/getGrades",
             cache: false,
             data: {
-                classroom: $("#classroom").val(),
-                discipline: $("#discipline").val(),
-                unity: $("#unities").val(),
+                classroom: classroom,
+                discipline: discipline,
+                unity: unity,
+                stage: stage,
+                isClassroomStage: isClassroomStage,
             },
             beforeSend: function () {
                 $(".js-grades-loading").css("display", "inline-block");
@@ -120,9 +141,9 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
                     .css("pointer-events", "none");
             },
             success: function (data) {
-                data = JSON.parse(data);
-                const html = GradeTableBuilder(data).build();
-                let hrefPrintGrades = `/?r=forms/AtaSchoolPerformance&id=${$("#classroom").val()}`
+                const parsedData = JSON.parse(data);
+                const html = GradeTableBuilder(parsedData).build();
+                let hrefPrintGrades = `/?r=forms/AtaSchoolPerformance&id=${classroom}`
                 $('.js-print-grades').find('a').attr('href',hrefPrintGrades);
                 $('.js-print-grades').show();
                 $('.js-unity-title').text($('select#unities').find('option:selected').text());
@@ -135,7 +156,7 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
                 }
             },
             error: function (xhr, status, error) {
-                const response = JSON.parse(xhr.responseText);
+                const response = xhr.responseText;
                 const gradesNotFoundIMG = $("<img class='column'>");
                 gradesNotFoundIMG.attr('src', '/themes/default/img/grades/gradesNotFound.svg');
                 gradesNotFoundIMG.attr('alt', 'Não foram encontrados dados correspondentes aos critérios definidos');
@@ -150,7 +171,7 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
                 $(".js-grades-alert")
                     .addClass("alert-error")
                     .removeClass("alert-success")
-                    .text(response.message || "Não foi possível listar o diário de notas dos alunos dessa turma, verifique se exsitem alunos ativos nessa turma")
+                    .text(response || "Não foi possível listar o diário de notas dos alunos dessa turma, verifique se exsitem alunos ativos nessa turma")
                     .show();
             },
             complete: function () {
@@ -169,6 +190,7 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
         $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     }
 }
+
 $('.js-refresh').on("click", function (e) {
     location.reload();
 })
@@ -187,6 +209,7 @@ function GradeTableBuilder(data) {
                                 class="enrollment-id"
                                 value="${student.enrollmentId}"
                             />
+                            ${buildEnrollmentStatusLabel(student.enrollmentStatus)}
                             ${student.studentName}
                         </td>
                         ${buildUnities(
@@ -229,6 +252,13 @@ function GradeTableBuilder(data) {
                     </td>`
                 : ''
     }
+
+    function buildEnrollmentStatusLabel(status){
+        return `<label class="t-badge-info t-margin-none--left ${status == 'MATRICULADO' || status == '' ? 'hide' : ''}">
+                    ${status}
+                </label>`;
+    }
+
     function buildUnities(unities, isUnityConcept, conceptOptions) {
         const unitesGrade = unities
             .map((unity) => {
@@ -261,7 +291,7 @@ function GradeTableBuilder(data) {
         const grade = studentPartialRecoveries.grade.grade === null ? "" : studentPartialRecoveries.grade.grade
         return template`
             <td class="grade-td">
-                <input class="grade-partial-reovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
+                <input class="grade-partial-recovery" gradeid="${studentPartialRecoveries.grade.id}" type="text" style="width:50px;text-align: center;margin-bottom:0px;" value="${grade}" />
             </td>
             <td class="grade-td">
                 ${studentPartialRecoveries.recPartialResult != null ?studentPartialRecoveries.recPartialResult : ''}

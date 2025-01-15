@@ -5,7 +5,7 @@
  *
  * @property School $school
  */
-class StockController extends CController{
+class StockController extends Controller{
 
     public $school;
 

@@ -43,7 +43,7 @@ function load() {
                 html += "</thead></div><tbody class='t-accordion__body'>";
                 $.each(data.students, function (indexStudent, student) {
 
-                    html += "<tr><td class='student-name sticky-column'>" + student.studentName + "</td>";
+                    html += "<tr><td class='student-name sticky-column'>" + buildEnrollmentStatusLabel(student.status, student.statusLabel) + student.studentName + "</td>";
                     $.each(student.schedules, function (indexSchedule, schedule) {
                         var justificationContainer = "";
                         if (schedule.fault) {
@@ -54,7 +54,7 @@ function load() {
                             }
                         }
 
-                        html += "<td class='frequency-checkbox-student frequency-checkbox-container " + (!this.available || !schedule.valid ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available || !schedule.valid || student.status == 2 ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() +
+                        html += "<td class='frequency-checkbox-student frequency-checkbox-container " + (!this.available || !schedule.valid ? "disabled" : "") + "'><input class='frequency-checkbox' type='checkbox' " + (!schedule.available || !schedule.valid ? "disabled" : "") + " " + (schedule.fault ? "checked" : "") + " classroomId='" + $("#classroom").val() +
                             "' studentId='" + student.studentId + "' day='" + schedule.day + "' month='" + monthSplit[1] + "' year='" + monthSplit[0] + "' schedule='" + schedule.schedule + "' fundamentalMaior='" + fundamentalMaior + "'>" + justificationContainer + "</td>";
                     });
                     html += "</tr>";
@@ -253,3 +253,9 @@ $(document).on("keyup", ".justification-text", function (e) {
         $(".btn-save-justification").trigger("click");
     }
 });
+
+function buildEnrollmentStatusLabel(status, label){
+    return `<label class="t-badge-info t-margin-none--left ${status == 1 ? 'hide' : ''}">
+                ${label}
+            </label>`;
+}

@@ -2,199 +2,103 @@
 
 namespace SagresEdu;
 
-use JMS\Serializer\Annotation\XmlList;
-use JMS\Serializer\Annotation\XmlElement;
-use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class representing ProfissionalTType
  *
- * 
  * XSD Type: profissional_t
  */
 class ProfissionalTType
 {
+    #[Serializer\SerializedName("edu:cpfProfissional")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $cpfProfissional = null;
 
-    /**
-     * @var string $cpfProfissional 
-     * @SerializedName("edu:cpfProfissional")
-     * @XmlElement(cdata=false)
-     */
-    private $cpfProfissional = null;
+    #[Serializer\SerializedName("edu:especialidade")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?string $especialidade = null;
 
-    /**
-     * @var string $especialidade
-     * @SerializedName("edu:especialidade")
-     * @XmlElement(cdata=false)
-     */
-    private $especialidade = null;
+    #[Serializer\SerializedName("edu:idEscola")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $idEscola = null;
 
-    /**
-     * @var int $idEscola
-     * @SerializedName("edu:idEscola")
-     * @XmlElement(cdata=false)
-     */
-    private $idEscola = null;
+    #[Serializer\SerializedName("edu:fundeb")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?bool $fundeb = null;
 
-    /**
-     * @var bool $fundeb
-     * @SerializedName("edu:fundeb")
-     * @XmlElement(cdata=false)
-     */
-    private $fundeb = null;
+    #[Serializer\XmlList(inline: true, entry: "edu:atendimento")]
+    private array $atendimento = [];
 
-    /**
-     * @var \SagresEdu\AtendimentoTType[] $atendimento
-     * @XmlList(inline = true, entry = "edu:atendimento")
-     */
-    private $atendimento = [
-        
-    ];
-
-    /**
-     * Gets as cpfProfissional
-     *
-     * @return string
-     */
-    public function getCpfProfissional()
+    // Métodos getters e setters permanecem os mesmos
+    public function getCpfProfissional(): ?string
     {
         return $this->cpfProfissional;
     }
 
-    /**
-     * Sets a new cpfProfissional
-     *
-     * @param string $cpfProfissional
-     * @return self
-     */
-    public function setCpfProfissional($cpfProfissional)
+    public function setCpfProfissional(string $cpfProfissional): self
     {
         $this->cpfProfissional = $cpfProfissional;
         return $this;
     }
 
-    /**
-     * Gets as especialidade
-     *
-     * @return string
-     */
-    public function getEspecialidade()
+    public function getEspecialidade(): ?string
     {
         return $this->especialidade;
     }
 
-    /**
-     * Sets a new especialidade
-     *
-     * @param string $especialidade
-     * @return self
-     */
-    public function setEspecialidade($especialidade)
+    public function setEspecialidade(string $especialidade): self
     {
         $this->especialidade = $especialidade;
         return $this;
     }
 
-    /**
-     * Gets as idEscola
-     *
-     * @return int
-     */
-    public function getIdEscola()
+    public function getIdEscola(): ?int
     {
         return $this->idEscola;
     }
 
-    /**
-     * Sets a new idEscola
-     *
-     * @param int $idEscola
-     * @return self
-     */
-    public function setIdEscola($idEscola)
+    public function setIdEscola(int $idEscola): self
     {
         $this->idEscola = $idEscola;
         return $this;
     }
 
-    /**
-     * Gets as fundeb
-     *
-     * @return bool
-     */
-    public function getFundeb()
+    public function getFundeb(): ?bool
     {
         return $this->fundeb;
     }
 
-    /**
-     * Sets a new fundeb
-     *
-     * @param bool $fundeb
-     * @return self
-     */
-    public function setFundeb($fundeb)
+    public function setFundeb(bool $fundeb): self
     {
         $this->fundeb = $fundeb;
         return $this;
     }
 
-    /**
-     * Adds as atendimento
-     *
-     * @return self
-     * @param \SagresEdu\AtendimentoTType $atendimento
-     */
-    public function addToAtendimento(\SagresEdu\AtendimentoTType $atendimento)
+    public function addToAtendimento(AtendimentoTType $atendimento): self
     {
         $this->atendimento[] = $atendimento;
         return $this;
     }
 
-    /**
-     * isset atendimento
-     *
-     * @param int|string $index
-     * @return bool
-     */
-    public function issetAtendimento($index)
+    public function issetAtendimento($index): bool
     {
         return isset($this->atendimento[$index]);
     }
 
-    /**
-     * unset atendimento
-     *
-     * @param int|string $index
-     * @return void
-     */
-    public function unsetAtendimento($index)
+    public function unsetAtendimento($index): void
     {
         unset($this->atendimento[$index]);
     }
 
-    /**
-     * Gets as atendimento
-     *
-     * @return \SagresEdu\AtendimentoTType[]
-     */
-    public function getAtendimento()
+    public function getAtendimento(): array
     {
         return $this->atendimento;
     }
 
-    /**
-     * Sets a new atendimento
-     *
-     * @param \SagresEdu\AtendimentoTType[] $atendimento
-     * @return self
-     */
-    public function setAtendimento(array $atendimento = null)
+    public function setAtendimento(?array $atendimento): self
     {
         $this->atendimento = $atendimento;
         return $this;
     }
-
-
 }
-

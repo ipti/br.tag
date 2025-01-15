@@ -102,8 +102,8 @@ class DefaultController extends Controller
         $event = CalendarEvent::model()->findByPk($_POST["id"]);
         if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || $event == null || $event->school_fk != null) {
             $result = Yii::app()->db->createCommand("
-            select count(s.id) as qtd from schedule s 
-            join classroom cr on s.classroom_fk = cr.id 
+            select count(s.id) as qtd from schedule s
+            join classroom cr on s.classroom_fk = cr.id
             join calendar c on cr.calendar_fk = c.id
             where c.id = :id")->bindParam(":id", $_POST["calendarFk"])->queryRow();
             $isHardUnavailableEvent = $_POST["eventTypeFk"] == 102;
@@ -118,6 +118,23 @@ class DefaultController extends Controller
                 $isSoftUnavailableEvent = !$isSoftUnavailableEvent ? $event->calendar_event_type_fk == 101 || $event->calendar_event_type_fk == 104 : $isSoftUnavailableEvent;
                 $isPreviousDate = !$isPreviousDate ? strtotime($event->start_date) < strtotime('now') : $isPreviousDate;
                 $oldColor = $event->calendarEventTypeFk->color;
+
+                //re-disponibilizar as aulas do evento. Isso serve pra garantir que, caso o evento mude de intervalo, o intervalo antigo não continue indisponível erroneamente.
+                $start = new DateTime($event->start_date);
+                $end = new DateTime($event->end_date);
+                $end->modify('+1 day');
+                $interval = DateInterval::createFromDateString('1 day');
+                $period = new DatePeriod($start, $interval, $end);
+                foreach ($period as $dt) {
+                    $schedulesToAdjust = Yii::app()->db->createCommand("
+                            select s.id from schedule s 
+                            join classroom cr on s.classroom_fk = cr.id 
+                            join calendar c on cr.calendar_fk = c.id
+                            where c.id = :id and s.day = :day and s.month = :month and s.year = :year")->bindParam(":id", $_POST["calendarFk"])->bindParam(":day", $dt->format("j"))->bindParam(":month", $dt->format("n"))->bindParam(":year", $dt->format("Y"))->queryAll();
+                    foreach ($schedulesToAdjust as $scheduleToAdjust) {
+                        Schedule::model()->updateAll(["unavailable" => 0], "id = :id", [":id" => $scheduleToAdjust["id"]]);
+                    }
+                }
             }
             if (!$_POST["confirm"] && (int)$result["qtd"] > 0 && $isHardUnavailableEvent) {
                 echo json_encode(["valid" => false, "alert" => "primary", "error" => "ATENÇÃO: adicionar ou modificar eventos de <b>férias</b> poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-save-event'>aqui</span> para confirmar."]);
@@ -159,8 +176,8 @@ class DefaultController extends Controller
                 $period = new DatePeriod($start, $interval, $end);
                 foreach ($period as $dt) {
                     $schedulesToAdjust = Yii::app()->db->createCommand("
-                            select s.id from schedule s 
-                            join classroom cr on s.classroom_fk = cr.id 
+                            select s.id from schedule s
+                            join classroom cr on s.classroom_fk = cr.id
                             join calendar c on cr.calendar_fk = c.id
                             where c.id = :id and s.day = :day and s.month = :month and s.year = :year")->bindParam(":id", $_POST["calendarFk"])->bindParam(":day", $dt->format("j"))->bindParam(":month", $dt->format("n"))->bindParam(":year", $dt->format("Y"))->queryAll();
                     foreach ($schedulesToAdjust as $scheduleToAdjust) {
@@ -169,7 +186,6 @@ class DefaultController extends Controller
                         } else if ($isSoftUnavailableEvent) {
                             Schedule::model()->updateAll(["unavailable" => 1], "id = :id", [":id" => $scheduleToAdjust["id"]]);
                             ClassFaults::model()->deleteAll("schedule_fk = :schedule_fk", [":schedule_fk" => $scheduleToAdjust["id"]]);
-                            ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", [":schedule_fk" => $scheduleToAdjust["id"]]);
                             ClassDiaries::model()->deleteAll("schedule_fk = :schedule_fk", [":schedule_fk" => $scheduleToAdjust["id"]]);
                         } else {
                             Schedule::model()->updateAll(["unavailable" => 0], "id = :id", [":id" => $scheduleToAdjust["id"]]);
@@ -201,8 +217,8 @@ class DefaultController extends Controller
         $event = CalendarEvent::model()->findByPk($_POST["id"]);
         if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || $event->school_fk != null) {
             $result = Yii::app()->db->createCommand("
-            select count(s.id) as qtd from schedule s 
-            join classroom cr on s.classroom_fk = cr.id 
+            select count(s.id) as qtd from schedule s
+            join classroom cr on s.classroom_fk = cr.id
             join calendar c on cr.calendar_fk = c.id
             where c.id = :id")->bindParam(":id", $_POST["calendarId"])->queryRow();
             $isHardUnavailableEvent = $event->calendar_event_type_fk == 102;
@@ -222,8 +238,8 @@ class DefaultController extends Controller
                 foreach ($period as $dt) {
                     if ($isSoftUnavailableEvent) {
                         $schedulesToAdjust = Yii::app()->db->createCommand("
-                            select s.id from schedule s 
-                            join classroom cr on s.classroom_fk = cr.id 
+                            select s.id from schedule s
+                            join classroom cr on s.classroom_fk = cr.id
                             join calendar c on cr.calendar_fk = c.id
                             where c.id = :id and s.day = :day and s.month = :month and s.year = :year")->bindParam(":id", $_POST["calendarId"])->bindParam(":day", $dt->format("j"))->bindParam(":month", $dt->format("n"))->bindParam(":year", $dt->format("Y"))->queryAll();
                         foreach ($schedulesToAdjust as $scheduleToAdjust) {
@@ -279,8 +295,8 @@ class DefaultController extends Controller
             $calendar = Calendar::model()->findByPk($_POST["id"]);
             if ($_POST["confirm"] === "false" && ($calendar->start_date != $_POST["startDate"] || $calendar->end_date != $_POST["endDate"])) {
                 $result = Yii::app()->db->createCommand("
-                    select count(s.id) as qtd from schedule s 
-                    join classroom cr on s.classroom_fk = cr.id 
+                    select count(s.id) as qtd from schedule s
+                    join classroom cr on s.classroom_fk = cr.id
                     join calendar c on cr.calendar_fk = c.id
                     where c.id = :id")->bindParam(":id", $calendar->id)->queryRow();
                 if ((int)$result["qtd"] > 0) {
@@ -310,10 +326,10 @@ class DefaultController extends Controller
 
 
                 Yii::app()->db->createCommand("
-                            delete from schedule s 
-                            join classroom cr on s.classroom_fk = cr.id 
+                            delete from schedule s
+                            join classroom cr on s.classroom_fk = cr.id
                             join calendar c on c.id = cr.calendar_fk
-                            where c.id = :id and 
+                            where c.id = :id and
                             (CONCAT(s.year, '-', LPAD(s.month, 2, '0'), '-', LPAD(s.day, 2, '0')) < :start_date or CONCAT(s.year, '-', LPAD(s.month, 2, '0'), '-', LPAD(s.day, 2, '0')) > :end_date)"
                 )->bindParam(":id", $calendar->id)->bindParam(":start_date", $calendar->start_date)->bindParam(":end_date", $calendar->end_date);
 
@@ -329,9 +345,9 @@ class DefaultController extends Controller
     public function actionShowStages()
     {
         $result = Yii::app()->db->createCommand("
-            select edcenso_stage_vs_modality.id, edcenso_stage_vs_modality.name 
-            from calendar_stages 
-            inner join edcenso_stage_vs_modality on calendar_stages.stage_fk = edcenso_stage_vs_modality.id 
+            select edcenso_stage_vs_modality.id, edcenso_stage_vs_modality.name
+            from calendar_stages
+            inner join edcenso_stage_vs_modality on calendar_stages.stage_fk = edcenso_stage_vs_modality.id
             where calendar_fk = :id order by edcenso_stage_vs_modality.name"
         )->bindParam(":id", $_POST["id"])->queryAll();
         foreach ($result as &$stage) {
@@ -436,9 +452,9 @@ class DefaultController extends Controller
         $result = [];
 
         $gradeUnityPeriods = Yii::app()->db->createCommand("
-            select gup.initial_date, gu.name 
-            from grade_unity_periods gup 
-            inner join grade_unity gu on gup.grade_unity_fk = gu.id 
+            select gup.initial_date, gu.name
+            from grade_unity_periods gup
+            inner join grade_unity gu on gup.grade_unity_fk = gu.id
             where gu.edcenso_stage_vs_modality_fk = :stageId and calendar_fk = :calendar_fk
             order by initial_date"
         )->bindParam(":stageId", $_POST["stageId"])->bindParam(":calendar_fk", $_POST["calendarId"])->queryAll();

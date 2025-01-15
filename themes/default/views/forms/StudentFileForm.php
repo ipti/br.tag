@@ -31,8 +31,8 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
             <span class="stage"><?php echo $data['stage'] ?></span>
         </div>
         <span style="clear:both;display:block"></span>
-        <div style="border:1px solid black; float:left; width: 2.5cm; height: 3cm; text-align:center;margin-right: 15px;"><br><br><span>F O T O<br>3 x 4</span></div>
-        <table style="border: 1px solid black;">
+        <div style="border:1px solid black; float:left; width: 3cm; height: 4cm; text-align:center;margin-right: 15px;"><br><br><span>F O T O<br>3 x 4</span></div>
+        <table style="border: 1px solid black;height: 4cm">
             <tr>
                 <th></th>
             </tr>
@@ -61,7 +61,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                 if ($_REQUEST['type'] == '2') {
                     echo '<td colspan="3">O(A) ALUNO(A) REQUER SUA MATRÍCULA ';
                 ?>
-                    NO_________ANO
+                    NO <?= strtoupper($data["stage_name"]) ?>
                 <?php
                     echo ', DE ACORDO COM SITUAÇÃO APRESENTADA ABAIXO, A QUAL PEDE DEFERIMENTO.</td>';
                 } else {
@@ -71,7 +71,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     if ($_REQUEST['type'] == '0') {
                         echo '<span class="class"></span>';
                     } else {
-                        echo 'NO_________ANO';
+                        echo 'NA(S)/NO(S) ' . strtoupper($data["stage_name"]);
                     }
                     ?>
                 <?php
@@ -265,7 +265,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     <div class="span12"><b>17 - Matrícula do aluno: </b></div>
                     <br>
                     <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
-                    <div class="span4"><b>Série: </b><span><?= $enrollment->edcensoStageVsModalityFk->name ?></span></div>
+                    <div class="span4"><b>Etapa: </b><span><?= $data["stage_name"] ?></span></div>
                     <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
                     <div class="span9"><b>Situação do aluno: </b><span>
                             <?php

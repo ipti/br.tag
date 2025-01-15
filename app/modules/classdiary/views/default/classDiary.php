@@ -11,10 +11,15 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
 
 ?>
 <div class="main">
-    <h1><?php echo $discipline_name ?></h1>
+    <div class="row">
+        <div class="column">
+            <h1><?php echo $classroom_name .' - '. $date?></h1>
+            <h2><?php echo $discipline_name ?? null ?></h2>
+        </div>
+    </div>
     <div class="t-filter-bar">
-        
-        <div class="t-filters is-one-quarter t-field-text clear-margin--bottom">
+
+        <!-- <div class="t-filters is-one-quarter t-field-text clear-margin--bottom">
             <div class="t-field-select">
                 <?php echo CHtml::label('Data', 'date', array('class' => 't-field-select__label')); ?>
                 <?php echo CHtml::textField('data', '', array(
@@ -30,19 +35,21 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
             <a class=" clear-margin--all t-button-primary t-button-primary--icon show--tablet js-change-date">
                 <span class="t-icon-search_icon"></span>
             </a>
-        </div>
+        </div> -->
     </div>
     <div class="row js-hide-is-not-valid" style="display:none;">
         <div class="column">
             <hr class="t-separator">
             <div class="row">
-                <div class="column is-two-fifths t-multiselect clear-margin--x js-hide-is-not-valid">
-                    <?php echo CHtml::dropDownList('coursePlan', '',  [], 
-                    array('multiple' => 'multiple', 
-                    'class' => 'select-search-on t-multiselect multiselect', 
-                    'id' => 'coursePlan', 'style' => 'width: 100%')); ?> 
+                <div class="column is-two-fifths t-multiselect clearfix js-hide-is-not-valid t-margin-none--bottom">
+                    <?php echo CHtml::dropDownList('coursePlan', '',  [],
+                    array('multiple' => 'multiple',
+                    'class' => 'select-search-on t-multiselect multiselect',
+                    'id' => 'coursePlan', 'style' => 'width: 100%;')); ?>
                 </div>
-                <div class="column t-buttons-container clearleft--on-mobile">
+            </div>
+            <div class="row">
+                <div class="column t-buttons-container clearfix">
                     <a class="clear-margin--all t-button-primary js-save-course-plan">Salvar Plano de Aula</a>
                 </div>
             </div>
@@ -52,7 +59,7 @@ $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js', CClientScri
     <div class="t-accordeon-primary js-course-classes-accordion">
 
     </div>
-    <div class="row">   
-        <div class="column js-frequency-element"></div>    
+    <div class="row">
+        <div class="column js-frequency-element"></div>
     </div>
 </div>

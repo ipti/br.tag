@@ -1,6 +1,7 @@
 <?php
 // change the following paths if necessary
-$yii=dirname(__FILE__).'/app/vendor/autoload.php';
+$yii_app=dirname(__FILE__).'/app/vendor/autoload.php';
+$yii=dirname(__FILE__).'/vendor/autoload.php';
 
 $instance=dirname(__FILE__).'/instance.php';
 $configtag=dirname(__FILE__).'/config.php';
@@ -36,6 +37,7 @@ require_once $serie_t;
 require_once $turma_t;
 
 require_once $yii;
+require_once $yii_app;
 require_once $configtag;
 require_once $instance;
 
