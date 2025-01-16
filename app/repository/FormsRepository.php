@@ -756,6 +756,11 @@ class FormsRepository
         $result['month'] = strftime("%B", $time);
 
         $classroom = Classroom::model()->findByPk($classroomId);
+        $isMinorStage = TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk);
+
+        $sql = "SELECT * FROM grade_concept gc ORDER BY gc.value DESC";
+
+        $concepts = Yii::app()->db->createCommand($sql)->queryAll();
 
         $isMinorEducation = TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
@@ -803,6 +808,9 @@ class FormsRepository
                 foreach ($result as $r) {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
                         $finalMedia = $r['final_media'];
+                        if($isMinorStage) {
+                            $finalMedia = $this->checkConceptGradeRange($finalMedia, $concepts);
+                        }
                         $r['situation'] = mb_strtoupper($r['situation']);
                        if($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {
                             $finalSituation = 'DEIXOU DE FREQUENTAR';
@@ -846,6 +854,22 @@ class FormsRepository
         );
 
         return $response;
+    }
+
+    public function checkConceptGradeRange($finalMedia, $concepts) {
+        $matchedConcept = null;
+
+        foreach ($concepts as $concept) {
+            if ($finalMedia >= $concept['value'] && $concept['value'] != null) {
+                $matchedConcept = $concept['name'];
+                break;
+            }
+        }
+
+        if( $matchedConcept != null ) {
+            return $matchedConcept;
+        }
+        return $finalMedia;
     }
 
     /**
