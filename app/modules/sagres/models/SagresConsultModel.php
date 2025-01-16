@@ -39,7 +39,7 @@ class SagresConsultModel
     public function cleanInconsistences()
     {
         $connection = Yii::app()->db;
-        $transaction = $connection->beginTransaction();
+        // $transaction = $connection->beginTransaction();
 
         try {
             $deleteQuery = "DELETE FROM inconsistency_sagres";
@@ -48,9 +48,9 @@ class SagresConsultModel
             $resetQuery = "ALTER TABLE inconsistency_sagres AUTO_INCREMENT = 1";
             $connection->createCommand($resetQuery)->execute();
 
-            $transaction->commit();
+            // $transaction->commit();
         } catch (Exception $e) {
-            $transaction->rollback();
+            // $transaction->rollback();
             throw $e;
         }
     }
@@ -1503,7 +1503,12 @@ class SagresConsultModel
                 ->setEspecialidade($professional['especialidade'])
                 ->setIdEscola($professional['idEscola'])
                 ->setFundeb($professional['fundeb'])
-                ->setAtendimento($this->getAttendances($professional['id_professional'], $month));
+                ->setAtendimento($this->getAttendances(
+                    $professional['id_professional'],
+                    $referenceYear,
+                    $month
+                    )
+                );
 
             $professionalList[] = $professionalType;
 
@@ -1539,20 +1544,27 @@ class SagresConsultModel
         return $professionalList;
     }
 
-    public function getAttendances($professionalId, $month)
+    public function getAttendances($professionalId, $referenceYear, $month)
     {
         $attendanceList = [];
 
-        $query = "SELECT
-                    date AS attendanceDate,
-                    local AS attendanceLocation
-                FROM
-                    attendance
-                WHERE
-                    professional_fk = :professionalId
-                    and MONTH(`date`) = " . $month . ";";
+        $query = "
+            SELECT
+                date AS attendanceDate,
+                local AS attendanceLocation
+            FROM
+                attendance
+            WHERE
+                professional_fk = :professionalId
+                and YEAR(`date`) = :year
+                and MONTH(`date`) = :month
+        ";
 
-        $attendances = Yii::app()->db->createCommand($query)->bindValue(":professionalId", $professionalId)->queryAll();
+        $attendances = Yii::app()->db->createCommand($query)
+            ->bindParam(":professionalId", $professionalId, \PDO::PARAM_INT)
+            ->bindParam(":year", $referenceYear, \PDO::PARAM_INT)
+            ->bindParam(":month", $month, \PDO::PARAM_INT)
+            ->queryAll();
 
         foreach ($attendances as $attendance) {
             $attendanceType = new AtendimentoTType();
