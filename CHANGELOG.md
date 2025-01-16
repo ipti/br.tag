@@ -5,8 +5,10 @@
 - Criando o formulário de notas por conceito na tela na sessão de administrador, permitindo a criação de um novo conceito e também modificar conceitos existentes
 - Modificando a forma como notas por conceito são calculadas, para calcular a média final do aluno
 
-
-## [Versão 3.93.212]
+## [Versão 3.94.210]
+- Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
+- 
+## [Versão 3.93.210]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
 
 ## [Versão 3.93.211]
