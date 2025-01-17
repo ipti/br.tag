@@ -23,7 +23,7 @@ REFERENCES grade_rules(id);
 
 UPDATE grade_unity gu
 join grade_rules gr on gr.edcenso_stage_vs_modality_fk = gu.edcenso_stage_vs_modality_fk
-SET gu.grade_rules_fk = gr.id
+SET gu.grade_rules_fk = gr.id;
 
 
 CREATE TABLE grade_rules_vs_edcenso_stage_vs_modality (
@@ -63,4 +63,4 @@ INSERT INTO classroom_vs_grade_rules (classroom_fk, grade_rules_fk)
 SELECT DISTINCT se.classroom_fk, gr.id
 FROM  student_enrollment se
 JOIN grade_rules gr ON se.edcenso_stage_vs_modality_fk = gr.edcenso_stage_vs_modality_fk;
-\
+
