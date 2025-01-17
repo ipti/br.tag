@@ -29,6 +29,7 @@ $(document).on(
     "change",
     ".final-recovery-unity-calculation",
     function () {
+        console.log("aaaaaaaa",$(this).find(':selected').text().trim())
       if($(this).find(':selected').text().trim() == "Peso") {
         $(".weights-final-recovery").removeClass("hide")
       }
@@ -798,21 +799,6 @@ function loadStructure() {
                 );
                 $(".final-recovery-unity-id").val(data.final_recovery.id);
                 $(".final-recovery-unity-name").val(data.final_recovery.name);
-                const finalRecoveryCalculation = $(".final-recovery-unity-calculation").select2(
-                    "val",
-                    data.final_recovery.grade_calculation_fk
-                );
-
-                if (finalRecoveryCalculation !== null) {
-                    var selectedText = finalRecoveryCalculation.find(':selected').text().trim(); // Pega o texto da opção selecionada e remove espaços extras
-                    if (selectedText === "Média Semestral") {
-                        $('.js-final-recovery-fomula').show(); // Mostra o elemento com a classe especificada
-                    }
-                }
-                $("select.js-final-recovery-fomula-select").select2(
-                    "val",
-                    data.final_recovery.final_recovery_avarage_formula
-                )
 
                 const finalRecoveryCalculation = $(".final-recovery-unity-calculation").select2(
                     "val",
