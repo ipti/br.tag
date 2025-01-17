@@ -1,3 +1,7 @@
+## [Versão 3.95.216]
+- Correção no calculo da média final: Frequência do aluno na disciplina agora é considerada durante
+a atualização da situação de matrícula do aluno.
+
 ## [Versão 3.95.215]
 - Correção de Ficha de notas: Adicionando status para alunos transferidos, evadidos, cancelados ou mortos;
 - Novas ferramentas de monitoriamento de saude do sistema;
