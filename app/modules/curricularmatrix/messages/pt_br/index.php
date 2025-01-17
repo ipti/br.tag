@@ -8,6 +8,6 @@ return [
     "Stages" => "Etapas",
     "Disciplines" => "Componentes curriculares/eixos",
     "Workload" => "Carga Horária",
-    "Credits" => "Horas Semanais",
+    "Credits" => "Horários Semanais",
 	"Add" => "Adicionar"
 ];
