@@ -57,7 +57,7 @@ class CalculateFinalMediaUsecase
 
 
 
-                if ($this->gradeRule->gradeCalculationFk->name == 'Média Semestral' && $gradeUnity->final_recovery_avarage_formula == "Médias dos Semestres") {
+                if ($gradeUnity->gradeCalculationFk->name == 'Média Semestral' && $gradeUnity->final_recovery_avarage_formula == "Médias dos Semestres") {
                     // Verifica se os valores são números antes de comparar
                     $semRecPartial1 = is_numeric($this->gradesResult["sem_rec_partial_1"]) ? $this->gradesResult["sem_rec_partial_1"] : 0;
                     $semRecPartial2 = is_numeric($this->gradesResult["sem_rec_partial_2"]) ? $this->gradesResult["sem_rec_partial_2"] : 0;
@@ -122,8 +122,9 @@ class CalculateFinalMediaUsecase
         } elseif ($finalRecovery->gradeCalculationFk->name == "Peso")
         {
             $weights = [
-                $finalRecovery->weight_final_media,
-                $finalRecovery->weight_final_recovery
+                $finalRecovery->weight_final_recovery,
+                $finalRecovery->weight_final_media
+
             ];
             $result = $this->applyCalculation($finalRecovery->gradeCalculationFk, $gradesFinalRecovery, $weights);
         }

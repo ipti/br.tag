@@ -804,18 +804,28 @@ function loadStructure() {
                     "val",
                     data.final_recovery.grade_calculation_fk
                 );
-                if (finalRecoveryCalculation !== null) {
-                    let selectedText = finalRecoveryCalculation.find(':selected').text().trim(); // Pega o texto da opção selecionada e remove espaços extras
+                if (finalRecoveryCalculation) {
+                    const selectedText = finalRecoveryCalculation.find(':selected').text().trim();
 
-                    if (selectedText === "Média Semestral") {
-                        $('.js-final-recovery-fomula').show(); // Mostra o elemento com a classe especificada
-                    } else if(selectedText === "Peso") {
-                        console.log("entrou")
-                        $(".weight-final-recovery").val(data.final_recovery.weight_final_recovery).show()
-                        $(".weight-final-media").val(data.final_recovery.weight_final_media).show()
-                        $(".weights-final-recovery").removeClass("hide")
+                    $(".weight-final-recovery").val(data.final_recovery.weight_final_recovery);
+                    $(".weight-final-media").val(data.final_recovery.weight_final_media);
+                    $(".weights-final-recovery").addClass("hide");
+                    $(".js-final-recovery-fomula").addClass("hide");
+
+                    switch (selectedText) {
+                        case "Média Semestral":
+                            $('.js-final-recovery-fomula').removeClass("hide");
+                            break;
+
+                        case "Peso":
+                            $(".weights-final-recovery").removeClass("hide");
+                            break;
+
+                        default:
+                            break;
                     }
                 }
+
                 $("select.js-final-recovery-fomula-select").select2(
                     "val",
                     data.final_recovery.final_recovery_avarage_formula
