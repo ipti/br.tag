@@ -374,16 +374,18 @@ table.table-timesheet td {
 
 .workload-discipline {
     display: inline-block;
-    width: 80%;
+    width: 70%;
     font-weight: bold;
     vertical-align: middle;
+    font-size: 12px;
 }
 
 .workload-numbers {
     display: inline-block;
-    width: 20%;
+    width: 30%;
     font-style: italic;
     text-align: right;
+    font-size: 12px;
 }
 
 .workload-red {
