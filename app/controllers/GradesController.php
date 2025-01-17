@@ -259,11 +259,6 @@ class GradesController extends Controller
         echo json_encode(["valid" => true]);
     }
 
-    public function studentFaultsSum($currentFault, $totalFault)
-    {
-        return $currentFault + $totalFault;
-    }
-
     public function actionSaveGradesRelease()
     {
         $discipline = $_POST['discipline'];
@@ -292,9 +287,8 @@ class GradesController extends Controller
             $gradeResult->final_concept = $std["finalConcept"];
 
             $hasAllValues = true;
-            // Original
-            // $totalFaults = 0;
-            // $givenClasses = 0;
+            $totalFaults = 0;
+            $givenClasses = 0;
 
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
@@ -306,9 +300,9 @@ class GradesController extends Controller
                     $hasAllValues = $hasAllValues && (isset($gradeResult["grade_" . $index]) && $gradeResult["grade_" . $index] != "");
                 }
                 $gradeResult->{"grade_faults_" . $index} = $std['grades'][$key]['faults'];
-                // $totalFaults += (int) $std['grades'][$key]['faults'];
+                $totalFaults += (int) $std['grades'][$key]['faults'];
                 $gradeResult->{"given_classes_" . $index} = $std['grades'][$key]['givenClasses'];
-                // $givenClasses += (int) $std['grades'][$key]['givenClasses'];
+                $givenClasses += (int) $std['grades'][$key]['givenClasses'];
             }
 
             if (!$gradeResult->validate()) {
@@ -323,13 +317,6 @@ class GradesController extends Controller
                     "GradeResult" => $gradeResult->id
                 ));
             }
-
-            // Minha versão
-            $totalFaults = StudentEnrollment::model()->findByPk($std['enrollmentId']);
-            $totalFaults->countFaultsDiscipline($discipline);
-
-            $givenClasses = new FormsRepository;
-            $givenClasses->contentsPerDisciplineCalculate($classroom, $discipline, $gradeResult->enrollment_fk);
 
             if($givenClasses != 0) {
                 $frequency = round((($givenClasses - $totalFaults) / $givenClasses ?: 1) * 100);
