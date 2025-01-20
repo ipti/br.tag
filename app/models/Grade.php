@@ -18,7 +18,7 @@
  * @property EdcensoDiscipline $disciplineFk
  * @property GradeConcept $gradeConceptFk
  */
-class Grade extends CActiveRecord
+class Grade extends TagModel
 {
 	/**
 	 * @return string the associated database table name
@@ -27,18 +27,12 @@ class Grade extends CActiveRecord
 	{
 		return 'grade';
 	}
-    public function behaviors()
-    {
-        return [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
+
+
+    public function behaviors(){
+
     }
+
 
 	/**
 	 * @return array validation rules for model attributes.

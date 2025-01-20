@@ -6,8 +6,12 @@
  * Date: 23/11/2016
  * Time: 13:37
  */
-abstract class AltActiveRecord extends CActiveRecord
+class AltActiveRecord extends TagModel
 {
+    public function behaviors()
+    {
+        return array_merge([], parent::behaviors());
+    }
     public function setDb2Connection($db2 = false){
         if($db2){
             self::$db=Yii::app()->db;
@@ -19,6 +23,7 @@ abstract class AltActiveRecord extends CActiveRecord
             self::$db=Yii::app()->db;
             self::$db->setActive(true);
             return self::$db;
-        }   
+        }
     }
+
 }

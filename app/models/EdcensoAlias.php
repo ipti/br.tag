@@ -9,13 +9,13 @@
  * @property integer $attr
  * @property string $cdesc
  * @property string $default
- * 
+ *
  *
  * The followings are the available model relations:
  * @property EdcensoCity $edcensoCityFk
  * @property SchoolIdentification[] $schoolIdentifications
  */
-class EdcensoAlias extends CActiveRecord
+class EdcensoAlias extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

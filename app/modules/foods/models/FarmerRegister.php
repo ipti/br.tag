@@ -14,7 +14,7 @@
  * The followings are the available model relations:
  * @property FarmerFoods[] $farmerFoods
  */
-class FarmerRegister extends CActiveRecord
+class FarmerRegister extends TagModel
 {
     /**
      * @return string the associated database table name
@@ -23,18 +23,7 @@ class FarmerRegister extends CActiveRecord
     {
         return 'farmer_register';
     }
-    public function behaviors()
-    {
-        return [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
-    }
+
 
     /**
      * @return array validation rules for model attributes.

@@ -34,7 +34,7 @@
  * @property string $niacin_mg
  * @property string $vitaminC_mg
  */
-class Food extends CActiveRecord
+class Food extends TagModel
 {
 	/**
 	 * @return string the associated database table name

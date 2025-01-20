@@ -9,7 +9,7 @@
  * @property Menu[] $menus
  * @property Array itemsAmount
 */
-class School extends CActiveRecord{
+class School extends TagModel{
     public static function model($className = __CLASS__) {
         return parent::model($className);
     }
@@ -20,18 +20,7 @@ class School extends CActiveRecord{
     public function tableName() {
         return 'school_identification';
     }
-    public function behaviors()
-    {
-        return [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
-    }
+
 
     public function relations() {
         return [

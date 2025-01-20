@@ -64,7 +64,7 @@
  * @property StudentEnrollment $enrollmentFk
  * @property EdcensoDiscipline $disciplineFk
  */
-class GradeResults extends CActiveRecord
+class GradeResults extends TagModel
 {
 	/**
 	 * @return string the associated database table name
