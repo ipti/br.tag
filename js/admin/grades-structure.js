@@ -1,3 +1,9 @@
+$(function() {
+
+    loadStructure();
+});
+
+
 function hasUnitiesSaved() {
     if ($("input[type='hidden'].unity-id[value]").length > 0) {
         $(".js-new-partial-recovery").removeClass("disabled");
@@ -5,14 +11,6 @@ function hasUnitiesSaved() {
     }
     $(".js-new-partial-recovery").addClass("disabled");
 }
-$(document).on(
-    "change",
-    "#GradeUnity_edcenso_stage_vs_modality_fk",
-    function () {
-        $(".alert-required-fields, .alert-media-fields").hide();
-        loadStructure();
-    }
-);
 $(document).on(
     "change",
     ".final-recovery-unity-calculation",
@@ -498,11 +496,17 @@ function saveUnities(reply) {
         });
         return
     }
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
+    const name = $(".js-grade-rules-name").val();
     $.ajax({
         type: "POST",
         url: "?r=admin/saveUnities",
         cache: false,
         data: {
+            grade_rules_id: id,
+            grade_rules_name: name,
             stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
             unities: unities,
             approvalMedia: $(".approval-media").val(),
@@ -551,6 +555,9 @@ function saveUnities(reply) {
                     .show();
                 $('.js-alert-save-unities-first').hide();
                 $('.js-alert-save-recovery-first').hide();
+                const url = new URL(window.location);
+                url.searchParams.set('id', data.gradeRules);
+                window.history.pushState({}, '', url);
                 loadStructure();
             }
         },
@@ -746,13 +753,15 @@ function partialRecoveryValid() {
 }
 
 function loadStructure() {
-    if ($("#GradeUnity_edcenso_stage_vs_modality_fk").val() !== "") {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
         $.ajax({
             type: "POST",
             url: "?r=admin/getUnities",
             cache: false,
             data: {
-                stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
+                grade_rules_id: id,
             },
             beforeSend: function (e) {
                 $(".js-grades-structure-loading").css(
@@ -771,6 +780,7 @@ function loadStructure() {
                         "data"
                     ).text
                 );
+                $(".js-grade-rules-name").val(data.ruleName);
                 $(".js-grades-structure-container").children(".unity").remove();
                 $(".approval-media").val(data.approvalMedia);
                 $("#has_final_recovery").prop("checked", data.hasFinalRecovery);
@@ -789,6 +799,8 @@ function loadStructure() {
                     "val",
                     data.final_recovery.grade_calculation_fk
                 );
+                $(".js-stage-select").select2("val",data.edcenso_stage_vs_modality_fk);
+                $("select.js-stage-select").select2();
 
                 if (finalRecoveryCalculation !== null) {
                     var selectedText = finalRecoveryCalculation.find(':selected').text().trim(); // Pega o texto da opção selecionada e remove espaços extras
@@ -811,7 +823,7 @@ function loadStructure() {
                 $(
                     ".js-grades-structure-container, .js-grades-rules-container"
                 ).show();
-
+                console.log(Object.keys(data.unities).length)
                 if (Object.keys(data.unities).length) {
                     let newUnityButton = $(".js-new-unity");
                     $.each(data.unities, function (e) {
@@ -897,11 +909,11 @@ function loadStructure() {
                 hasUnitiesSaved();
             },
         });
-    } else {
+    /*  else {
         $(
             ".js-grades-structure-container, .grades-buttons,  .js-grades-rules-container"
         ).hide();
-    }
+    } */
     $("#accordion").accordion();
 }
 

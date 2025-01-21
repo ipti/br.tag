@@ -17,9 +17,16 @@ class CalculateGradeResultsUsecase {
         if($this->stage === "") {
             $this->stage = $classroom->edcenso_stage_vs_modality_fk;
         }
-        $gradeRules = GradeRules::model()->findByAttributes([
-            "edcenso_stage_vs_modality_fk" => $this->stage
-        ]);
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'gr';
+        $criteria->select = 'gr.*';
+        $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
+        $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
+        $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
+        $criteria->params = array(':classroomId' => $this->classroomId, ':stageId' => $this->stage);
+
+        $gradeRules = GradeRules::model()->find($criteria);
+
         if($gradeRules->rule_type === "N") {
             $usercase = new CalculateNumericGradeUsecase($this->classroomId, $this->discipline, $this->stage);
             $usercase->exec();

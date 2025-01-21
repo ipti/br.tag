@@ -109,12 +109,10 @@ class ChageStudentStatusByGradeUsecase
             $recoveryMedia = $this->gradeResult->rec_final;
             $finalRecoveryMedia = $this->gradeRule->final_recover_media;
 
-            $finalRecovery = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $this->stage, "type" => "RF"]);
-
             $hasRecoveryGrade = isset($recoveryMedia) && $recoveryMedia !== "";
             if (!$hasRecoveryGrade) {
                 $this->gradeResult->situation = $recoverySituation;
-            } elseif ($recoveryMedia >= $finalRecoveryMedia && $finalRecovery->gradeCalculationFk->name == "Maior") {
+            } elseif ($recoveryMedia >= $finalRecoveryMedia) {
                 $this->gradeResult->situation = $approvedSituation;
             }
 

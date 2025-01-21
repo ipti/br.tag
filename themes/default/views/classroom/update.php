@@ -13,7 +13,11 @@
     <div class="twoColumn">
         <div class="columnone">
             <?php
-            echo $this->renderPartial('_form', array('modelClassroom' => $modelClassroom,
+            echo $this->renderPartial('_form', array(
+                "stages" => $stages,
+                "gradeRules" => $gradeRules,
+                'gradeRulesStages' => $gradeRulesStages,
+                'modelClassroom' => $modelClassroom,
                 'modelTeachingData' => $modelTeachingData,
                 'edcensoStageVsModalities' => $edcensoStageVsModalities,
                 'modelEnrollments' => $modelEnrollments,

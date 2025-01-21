@@ -56,7 +56,7 @@ $("#stage").on("change", function(e) {
     $(".js-grades-container, .js-grades-alert, .grades-buttons").hide();
     $("#unities").html()
     $("#unities").select2("val", "");
-    loadUnitiesFromClassroom(e.target.value)
+    loadUnitiesFromClassroom($("#classroom").val())
 
     const isMulti = $("#classroom option:selected").attr("data-isMulti");
     const isClassroomStage = $("#stage option:selected").attr("data-classroom-stage");
