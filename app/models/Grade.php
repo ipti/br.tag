@@ -29,9 +29,7 @@ class Grade extends TagModel
 	}
 
 
-    public function behaviors(){
 
-    }
 
 
 	/**
