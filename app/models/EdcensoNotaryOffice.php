@@ -10,7 +10,7 @@
  * @property string $uf
  * @property string $cod
  */
-class EdcensoNotaryOffice extends CActiveRecord
+class EdcensoNotaryOffice extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

@@ -9,7 +9,7 @@
  * @property double $value
  * @property string $measure
  */
-class FoodMeasurement extends CActiveRecord
+class FoodMeasurement extends TagModel
 {
     /**
      * @return string the associated database table name

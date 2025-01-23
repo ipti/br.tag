@@ -14,7 +14,7 @@
  * @property Schedule $scheduleFk
  * @property StudentEnrollment $studentFk
  */
-class ClassFaults extends CActiveRecord
+class ClassFaults extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

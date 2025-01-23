@@ -880,6 +880,7 @@ return array(
     'instructor' => 'Professor',
     'coordinator' => 'Coordenador Pedagógico',
     'nutritionist' => 'Nutricionista',
+    'reader' => 'Somente Leitura',
     'admin' => 'Administrador',
     'Edit Password' => 'Alterar Senha',
 

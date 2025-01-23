@@ -17,7 +17,7 @@
  * @property SchoolIdentification $schoolFk
  * @property Users $userFk
  */
-class Log extends CActiveRecord
+class Log extends TagModel
 {
     /**
      * @return string the associated database table name
