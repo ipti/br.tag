@@ -7,7 +7,7 @@
  * @property integer $id
  * @property integer $stage_fk
  * @property integer $discipline_fk
- * @property integer $workload
+ * @property double $workload
  * @property integer $credits
  * @property integer $school_year
  *
@@ -46,8 +46,9 @@ class CurricularMatrix extends AltActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return [
-            ['stage_fk, discipline_fk, workload, credits, school_year', 'required'],
-            ['stage_fk, discipline_fk, workload, credits, school_year', 'numerical', 'integerOnly' => true],
+            ['stage_fk, discipline_fk, credits, school_year', 'required'],
+            ['stage_fk, discipline_fk, credits, school_year', 'numerical', 'integerOnly' => true],
+            ['workload', 'numerical'],
             ['id, stage_fk, discipline_fk, workload, credits, school_year', 'safe', 'on' => 'search'],
         ];
     }
