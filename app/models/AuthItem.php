@@ -15,7 +15,7 @@
  * @property AuthItemChild[] $authItemChildren
  * @property AuthItemChild[] $authItemChildren1
  */
-class AuthItem extends CActiveRecord
+class AuthItem extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

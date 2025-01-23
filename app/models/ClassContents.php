@@ -20,7 +20,7 @@
  * @property Schedule $scheduleFk
  * @property CourseClass $courseClassFk
  */
-class ClassContents extends CActiveRecord
+class ClassContents extends TagModel
 {
     /**
      * @return string the associated database table name

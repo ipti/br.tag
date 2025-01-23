@@ -337,7 +337,7 @@ class AdminController extends Controller
             ]
         );
         if (isset($_POST['Users'])) {
-            if(!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role']) != 'nutritionist')
+            if(!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader')
             {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'É necessário atribuir uma escola para o novo usuário criado!'));
                 $this->redirect(['index']);

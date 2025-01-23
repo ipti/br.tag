@@ -5,6 +5,7 @@ a atualização da situação de matrícula do aluno.
 ## [Versão 3.95.215]
 - Correção de Ficha de notas: Adicionando status para alunos transferidos, evadidos, cancelados ou mortos;
 - Novas ferramentas de monitoriamento de saude do sistema;
+- Adicionado usuário de leitura
 
 ## [Versão 3.94.214]
 - Correção de Ficha de notas: Os valores de frequencia e a contagem de aulas foi revisado e foi adaptada a visualização dos dados para diferenciar
@@ -21,6 +22,9 @@ o relatório para ensino intanfil e fundamental menor do fundamental maior;
 - Modificando a forma como notas por conceito são calculadas, para calcular a média final do aluno
 ## [Versão 3.94.211]
 - Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
+-
+## [Versão 3.93.210]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
 
 ## [Versão 3.93.211]
 - Ordenando de acordo com a ordem da turma o relatório de ata de notas

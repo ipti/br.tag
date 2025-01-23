@@ -25,7 +25,7 @@
  * @property EdcensoStageVsModality $modalityFk
  * @property EdcensoDiscipline $disciplineFk
  */
-class CoursePlan extends CActiveRecord
+class CoursePlan extends TagModel
 {
     public const STATUS_PENNDING = "PENDENTE";
 	/**

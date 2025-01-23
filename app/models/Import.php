@@ -1,7 +1,7 @@
 <?php
 
 
-class Import extends CModel
+class Import extends TagModel
 {
 
     const INSTRUCTOR_TEACHING_DATA = 'INSTRUCTOR_TEACHING_DATA';
