@@ -17,22 +17,18 @@ $(document).on(
     "change",
     ".final-recovery-unity-calculation",
     function () {
+
         if($('.final-recovery-unity-calculation').select2('data').text.trim() == "Média Semestral") {
             $('.js-final-recovery-fomula').show()
         } else {
             $('.js-final-recovery-fomula').hide()
         }
-    }
-);
 
-$(document).on(
-    "change",
-    ".final-recovery-unity-calculation",
-    function () {
-        console.log("aaaaaaaa",$(this).find(':selected').text().trim())
-      if($(this).find(':selected').text().trim() == "Peso") {
-        $(".weights-final-recovery").removeClass("hide")
-      }
+        if($(this).find(':selected').text().trim() == "Peso") {
+            $(".weights-final-recovery").removeClass("hide")
+        } else {
+            $(".weights-final-recovery").addClass("hide")
+        }
     }
 );
 
