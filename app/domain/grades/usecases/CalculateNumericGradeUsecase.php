@@ -30,7 +30,7 @@ class CalculateNumericGradeUsecase
             $studentEnrollments = $totalEnrollments;
         }
 
-        $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->classroomId);
+        $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->classroomId, $this->stage);
 
         foreach ($studentEnrollments as $studentEnrollment) {
             $this->calculateNumericGrades($studentEnrollment, $this->discipline, $unitiesByDiscipline);
@@ -181,18 +181,18 @@ class CalculateNumericGradeUsecase
         );
     }
 
-    private function getGradeUnitiesByClassroomStage($classroomId)
+    private function getGradeUnitiesByClassroomStage($classroomId, $stage)
     {
+
 
         $criteria = new CDbCriteria();
         $criteria->alias = 'gu';
-        $criteria->join = 'INNER JOIN grade_rules gr ON gr.id = gu.grade_rules_fk';
-        $criteria->join .= ' INNER JOIN classroom_vs_grade_rules cgr ON cgr.grade_rules_fk = gu.grade_rules_fk';
-        $criteria->join .= ' INNER JOIN classroom c ON c.id = cgr.classroom_fk';
-        $criteria->join .= ' INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.edcenso_stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk';
-        $criteria->condition = 'cgr.classroom_fk = :classroomId';
-        $criteria->group = 'id';
-        $criteria->params = array(':classroomId' => $classroomId);
+        $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+        $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+        $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+        $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
+        $criteria->params = array(':classroom' => $classroomId, ":stage"=>$stage);
+
         return GradeUnity::model()->findAll($criteria);
     }
 
