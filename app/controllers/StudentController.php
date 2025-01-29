@@ -1,5 +1,5 @@
 <?php
-require_once 'app/vendor/autoload.php';
+// require_once 'app/vendor/autoload.php';
 Yii::import('application.modules.sedsp.models.Student.*');
 Yii::import('application.modules.sedsp.datasources.sed.Student.*');
 Yii::import('application.modules.sedsp.mappers.*');

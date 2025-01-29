@@ -11,7 +11,7 @@ use PHPUnit\Extensions\Selenium2TestCase;
 
 Yii::import('system.test.CTestCase');
 
-require_once __DIR__ . '/../vendor/autoload.php';
+// require_once __DIR__ . '/../vendor/autoload.php';
 
 
 

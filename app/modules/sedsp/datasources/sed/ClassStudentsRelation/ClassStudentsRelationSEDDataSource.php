@@ -1,6 +1,6 @@
 <?php
 
-use GuzzleHttp\Exception\ClientException;
+//use GuzzleHttp\Exception\ClientException;
 
 require_once 'app/vendor/autoload.php';
 
@@ -55,7 +55,7 @@ class ClassStudentsRelationSEDDataSource extends SedDataSource
         $response = $this->client->request($httpMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
-    
+
         return json_decode($response->getBody()->getContents(), true);
     }
 }

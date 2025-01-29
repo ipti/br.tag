@@ -4,7 +4,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
 
-require_once 'app/vendor/autoload.php';
+// require_once 'app/vendor/autoload.php';
 Yii::import('application.modules.sedsp.models.Student.*');
 Yii::import('application.modules.sedsp.models.*');
 
@@ -46,12 +46,12 @@ class StudentSEDDataSource extends SedDataSource
      * @return mixed
      */
     public function getAllStudentsRA($students){
-        
+
         $promises = [];
         foreach (array_slice($students, 0, 5) as $student) {
             $promises[] = $this->getStudentRA($student->name, $student->birthday, $student->filiation_1);
         }
-        
+
         $data = GuzzleHttp\Promise\Utils::all($promises)->then(function (array $responses){
             $data = [];
             foreach ($responses as $response) {
@@ -97,7 +97,7 @@ class StudentSEDDataSource extends SedDataSource
         try {
             $url = '/ncaapi/api/Aluno/ExibirFichaAluno';
             $response = $this->getApiResponse('GET', $url, ["inAluno" => $inAluno]);
-            
+
             return OutExibirFichaAluno::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -105,7 +105,7 @@ class StudentSEDDataSource extends SedDataSource
             throw $exception;
         }
     }
-     
+
     /**
      * Summary of getConsultarResponsavelAluno
      * @param InResponsavelAluno
@@ -161,7 +161,7 @@ class StudentSEDDataSource extends SedDataSource
     }
 
 
- 
+
     /**
      * Summary of editStudent
      * @param InManutencao $inManutencao
@@ -172,7 +172,7 @@ class StudentSEDDataSource extends SedDataSource
         try{
             $url = '/ncaapi/api/Aluno/Manutencao';
             $response = $this->getApiResponse('POST', $url, $inManutencao);
-            
+
             return OutHandleApiResult::fromJson($response);
         } catch(RequestException $clienteException) {
             echo 'Erro durante a requisição: ' . $clienteException->getMessage();
