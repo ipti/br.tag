@@ -4,7 +4,7 @@
  * @property StudentEnrollment $enrollment
  */
 
-class ChangeEnrollmentStatusUseCase
+class ChangeEnrollmentStatusUsecase
 {
     private $enrollment;
 
@@ -16,6 +16,10 @@ class ChangeEnrollmentStatusUseCase
     {
         $isAllGradesFinalMediaFilled = true;
         $isApprovedInAllGrades = true;
+        // STATUS VÁLIDOS PARA APROVAÇÃO OU REPROVAÇÃO:
+        // 1 - MATRICULADO, 13 - REINTEGRADO
+        $validStatus = [1,6,8,13];
+        $isRegistered = in_array($this->enrollment->status, $validStatus);
 
         $disciplines = $this->getDisciplines($this->enrollment->id);
 
@@ -24,26 +28,24 @@ class ChangeEnrollmentStatusUseCase
                 $isAllGradesFinalMediaFilled = false;
             }
 
-            if($discipline->situation == "REPROVADO")
-            $isApprovedInAllGrades = false;
+            if($discipline->situation == "REPROVADO"){
+                $isApprovedInAllGrades = false;
+            }
         }
 
-        if($isAllGradesFinalMediaFilled){
-            $this->enrollment->status = 1;
-        }
 
-        if($isApprovedInAllGrades){
-            $this->enrollment->status = 6;
-        }else{
-            $this->enrollment->status = 8;
+        if($isRegistered) {
+            if($isApprovedInAllGrades){
+                $this->enrollment->status = 6;
+            }else{
+                $this->enrollment->status = 8;
+            }
         }
 
         if($this->enrollment->save()){
             TLog::info(
                 "Status da matrícula",
-                [
-                    "enrollmentSituation" => $this->gradeResult->status
-                ]
+                ["enrollmentSituation" => $this->gradeResult->status]
                 );
             return;
         }

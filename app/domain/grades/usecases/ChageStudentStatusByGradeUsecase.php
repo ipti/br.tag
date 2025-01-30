@@ -121,7 +121,7 @@ class ChageStudentStatusByGradeUsecase
         }
 
         if($this->gradeResult->save()){
-            $updateEnrollment = ChangeEnrollmentStatusUseCase($this->gradeResult->enrollment_fk);
+            $updateEnrollment = new ChangeEnrollmentStatusUsecase($this->gradeResult->enrollment_fk);
             $updateEnrollment->exec();
         }
         TLog::info("Status da matrícula", ["gradeResult" => $this->gradeResult->situation]);
