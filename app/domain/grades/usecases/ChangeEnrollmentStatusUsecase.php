@@ -2,27 +2,51 @@
 
 /**
  * @property StudentEnrollment $enrollment
- * @property integer $frequency
  */
 
 class ChangeEnrollmentStatusUseCase
 {
     private $enrollment;
-    private $frequency;
 
     public function __construct($enrollmentId)
     {
         $this->enrollment = $this->getStudentEnrollment($enrollmentId);
     }
-
     public function exec()
     {
-        $isAllGradesFilled = true;
-        $disciplines = $this->getDisciplines(
-            $enrollment->classroomFk->edcenso_stage_vs_modality_fk,
-            $enrollment->classroom_fk->school_year
-        );
+        $isAllGradesFinalMediaFilled = true;
+        $isApprovedInAllGrades = true;
 
+        $disciplines = $this->getDisciplines($this->enrollment->id);
+
+        foreach($disciplines as $discipline){
+            if($discipline->final_media != null){
+                $isAllGradesFinalMediaFilled = false;
+            }
+
+            if($discipline->situation == "REPROVADO")
+            $isApprovedInAllGrades = false;
+        }
+
+        if($isAllGradesFinalMediaFilled){
+            $this->enrollment->status = 1;
+        }
+
+        if($isApprovedInAllGrades){
+            $this->enrollment->status = 6;
+        }else{
+            $this->enrollment->status = 8;
+        }
+
+        if($this->enrollment->save()){
+            TLog::info(
+                "Status da matrícula",
+                [
+                    "enrollmentSituation" => $this->gradeResult->status
+                ]
+                );
+            return;
+        }
     }
 
     public function getStudentEnrollment($enrollmentId)
@@ -30,21 +54,15 @@ class ChangeEnrollmentStatusUseCase
         return StudentEnrollment::model()->findByPk($enrollmentId);
     }
 
-    public function getDisciplines($esvsm, $schoolYear){
-        $baseDisciplines = array();
-        $diversifiedDisciplines = array();
-
-        $curricularMatrixes = CurricularMatrix::model()
-        ->with("disciplineFk")
-        ->findAllByAttributes(
+    public function getDisciplines($enrollmentFk){
+        // Como cada disciplina do enrollment possui um gradeResult único
+        // retornar uma disciplina significa retornar um gradeResult
+        $gradesResults = GradeResults::model()->findAllByAttributes(
             [
-                "stage_fk" => $esvsm,
-                "school_year" => $schoolYear
+                "enrollment_fk" => $enrollmentFk
             ]
         );
-
-        return $curricularMatrixes;
+        return $gradesResults;
     }
 }
-
 ?>
