@@ -24,11 +24,19 @@ class DefaultController extends Controller
 		$classrooms = $getClassrooms->exec($isInstructor, $discipline);
 		echo json_encode($classrooms, JSON_OBJECT_AS_ARRAY);
 	}
-	public function actionClassDiary($discipline_name, $classroom_name, $date)
+	public function actionClassDiary($discipline_name, $classroom_name, $date, $discipline_fk)
 	{
+        $getCoursePlans = new GetCoursePlans();
+        $coursePlans = $getCoursePlans->exec($discipline_fk);
+
+        $getAbilities = new getAbilities();
+        $abilities = $getAbilities->exec($discipline_fk);
+
 		$this->render('classDiary', [
             "discipline_name"=> $discipline_name,
             "classroom_name"=> $classroom_name,
+            "coursePlans"=> $coursePlans,
+            "abilities"=> $abilities,
             "date"=> $date,
         ]);
 	}

@@ -115,6 +115,47 @@ $(document).on("change", ".js-frequency-checkbox", function () {
     })
 });
 
+$(document).on("change", "select.js-add-abilities", function () {
+    const selectedText = $(this).find("option:selected").text();
+    const value = $(this).val();
+
+    let exists = $(".courseplan-abilities-selected .ability-panel-option span").filter(function () {
+        return $(this).text().trim() === selectedText;
+    }).length > 0;
+
+    if(!exists) {
+        let abilityPaneOption = $(`<div class='ability-panel-option'>
+                                        <i class="fa fa-check-square"></i>
+                                        <span>${selectedText}</span>
+                                        <i class="fa fa-remove remove-abilitie js-remove-abilitie"></i>
+                                </div>`);
+        let hiddenInput = $(`<input type="hidden" class="ability-panel-option-id" value=${value}>`);
+        $(".courseplan-abilities-selected").append(abilityPaneOption);
+        $(".courseplan-abilities-selected").append(hiddenInput);
+    }
+
+    $(this).select2("val", "");
+
+})
+
+$(document).on("click", ".js-remove-abilitie", function () {
+    $(this).parent().next().remove();
+    $(this).parent().remove();
+
+});
+
+$(document).on("click", ".js-new-class-content", function () {
+    if ($(this).text().trim() === "Nova Aula") {
+        $(".js-add-new-class-content-form").removeClass("hide");
+        $(this).text("Cancelar");
+        return;
+    }
+
+    $(".js-add-new-class-content-form").addClass("hide");
+    $(this).text("Nova Aula");
+});
+
+
 
 $(".js-change-date").on("click", function () {
     renderFrequencyElement(widthWindow)
