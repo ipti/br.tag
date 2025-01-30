@@ -1,4 +1,7 @@
 
+## [Versão 3.94.214]
+- Correção na funcionalidade de atualizar situação de matrícula após calcular a nota final de aluno.
+
 ## [Versão 3.94.213]
 - Corrigindo a exibição da média de nota em turmas por conceito na ata de notas
 
@@ -8,7 +11,7 @@
 
 ## [Versão 3.94.210]
 - Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
-- 
+-
 ## [Versão 3.93.210]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
 
