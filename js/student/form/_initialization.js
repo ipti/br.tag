@@ -1,24 +1,24 @@
 window.location.search.includes("update") ? $('.last').css('display', 'flex') : $('.last').css('display', 'none');
 
 $(document).ready(function () {
-    if($("#others-check").is(":checked")) {
+    if ($("#others-check").is(":checked")) {
         $(".others-text-box").show();
-    }else {
+    } else {
         $(".others-text-box").hide();
     }
 
-    if($("#show-student-civil-name").is(":checked")) {
+    if ($("#show-student-civil-name").is(":checked")) {
         $(".student-civil-name").show();
         $("#show-student-civil-name-box").hide();
     }
 
 
 
-    $("#new-enrollment-button").click(function() {
-        if($(".new-enrollment-form").css('display') == 'none') {
+    $("#new-enrollment-button").click(function () {
+        if ($(".new-enrollment-form").css('display') == 'none') {
             $(".new-enrollment-form").show();
             $("#new-enrollment-button").text("Fechar formulário");
-        }else {
+        } else {
             $(".new-enrollment-form").hide();
             $("#new-enrollment-button").text("Adicionar Matrícula");
         }
@@ -70,20 +70,20 @@ $(document).ready(function () {
     if ($(formIdentification + "deficiency_type_gifted").is(":checked")) {
         $(formIdentification + "deficiency_type_intelectual_disability").attr("disabled", "disabled");
     }
-    $(".ui-accordion-header a").click(function(event) {
+    $(".ui-accordion-header a").click(function (event) {
         event.preventDefault();
         let url = $(this).attr("href");
         window.location.href = url;
     });
-    $(".ui-accordion-header").click(function(event) {
-        if(!$(this).hasClass("ui-accordion-header-active")) {
+    $(".ui-accordion-header").click(function (event) {
+        if (!$(this).hasClass("ui-accordion-header-active")) {
             $(this).find($(".accordion-arrow-icon")).addClass("rotate");
         } else {
             $(this).find($(".accordion-arrow-icon")).removeClass("rotate");
         }
     });
     $(function () {
-        $( "#accordion" ).accordion({
+        $("#accordion").accordion({
             active: false,
             collapsible: true,
             icons: false,
@@ -92,7 +92,25 @@ $(document).ready(function () {
         });
     });
 
+    if ($("#show-cpf-reason").is(":checked")) {
+        $("#cpfReasonStudents").hide();
+        $("#cpfStudents").show();
+    } else {
+        $("#cpfReasonStudents").show();
+        $("#cpfStudents").hide();
+    }
 });
+
+$("#show-cpf-reason").on("change", (event) => {
+    if ($("#show-cpf-reason").is(":checked")) {
+        $("#cpfReasonStudents").hide();
+        $("#cpfStudents").show();
+    } else {
+        $("#cpfReasonStudents").show();
+        $("#cpfStudents").hide();
+    }
+});
+
 
 $('.heading-buttons').css('width', $('#content').width());
 
@@ -102,7 +120,7 @@ function getUrlVars() {
 }
 
 function displayRecords() {
-    if($("#registrosSimilares").css("display") == "none") {
+    if ($("#registrosSimilares").css("display") == "none") {
         $("#registrosSimilares").css('display', 'block');
         $("#similarMessage").attr('data-original-title', 'Cadastro(s) similar(es) encontrado(s), verifique com atenção os dados. Clique para ocultar registros');
     }
@@ -131,20 +149,21 @@ $(document).on("change", "#StudentEnrollment_public_transport", function () {
 });
 
 $(document).on("change", "#others-check", function () {
-    if($(this).is(":checked")) {
+    if ($(this).is(":checked")) {
         $(".others-text-box").show();
-    }else {
+    } else {
         $(".others-text-box").hide();
     }
 });
 
+
 $(document).on("change", "#show-student-civil-name", function () {
-    if($(this).is(":checked")) {
+    if ($(this).is(":checked")) {
         $(".student-civil-name").show();
         $("#show-student-civil-name-box").hide();
     }
 });
-$('#copy-gov-id').click(function() {
+$('#copy-gov-id').click(function () {
     let govId = $('#StudentIdentification_gov_id').val();
     navigator.clipboard.writeText(govId);
     $('#copy-message').text('Copiado!').fadeIn().delay(1000).fadeOut();
@@ -152,11 +171,11 @@ $('#copy-gov-id').click(function() {
 
 $("#StudentEnrollment_public_transport").trigger("change");
 
-$(".update-student-from-sedsp").click(function() {
+$(".update-student-from-sedsp").click(function () {
     $("#importStudentFromSEDSP").modal("show");
 });
 
-$(".import-student-button").click(function() {
+$(".import-student-button").click(function () {
     $("#importStudentFromSEDSP").find("form").submit();
 });
 

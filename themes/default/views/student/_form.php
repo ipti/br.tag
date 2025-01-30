@@ -222,7 +222,14 @@ $form = $this->beginWidget(
                         </div>
                         <!-- CPF -->
                         <div class="column clearleft--on-mobile is-two-fifths">
-                            <div class="t-field-text" id="cpfStudents">
+                            <div class="t-field-text js-hide-not-required" id="show-student-civil-name-box">
+                                <input type="checkbox" class="t-field-checkbox__input" id="show-cpf-reason"
+                                    <?php if ($modelStudentDocumentsAndAddress->cpf != null) {
+                                        echo "checked";
+                                    } ?>>
+                                <label class="t-field-checkbox__label">Tem CPF?</label>
+                            </div>
+                            <div class="t-field-text" id="cpfStudents" style="display: block;">
                                 <?php echo $form->label($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label')); ?>
                                 <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "class" => "t-field-text__input")); ?>
                                 <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
@@ -232,6 +239,15 @@ $form = $this->beginWidget(
                                 <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf')): ?>
                                     <div style='margin-top: 5px;color: red;'>
                                         <?= CHtml::encode($modelStudentDocumentsAndAddress->getError('cpf')); ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="t-field-text" id="cpfReasonStudents" style="display: none;">
+                                <?= $form->label($modelStudentDocumentsAndAddress, 'cpf_reason', array('class' => 't-field-text__label')); ?>
+                                <?= $form->textField($modelStudentDocumentsAndAddress, 'cpf_reason', array("class" => "t-field-text__input")); ?>
+                                <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf_reason')): ?>
+                                    <div style='margin-top: 5px;color: red;'>
+                                        <?= CHtml::encode($modelStudentDocumentsAndAddress->getError('cpf_reason')); ?>
                                     </div>
                                 <?php endif; ?>
                             </div>
