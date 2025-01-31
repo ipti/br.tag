@@ -188,7 +188,6 @@
 
             ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
 
-            $classContent = explode(",", $classContent);
             foreach ($classContent as $content) {
                 $classHasContent = new ClassContents();
                 $classHasContent->schedule_fk = $schedule->id;
@@ -202,6 +201,32 @@
                 $classHasContent->save();
             }
 
+        }
+        public function SaveNewClassContent($coursePlanId, $content, $methodology, $abilities) {
+            $nextOrder = CourseClass::model()->findBySql("
+            SELECT MAX(`order`) AS max_order
+            FROM course_class
+            WHERE course_plan_fk = :coursePlanId
+            ", array(':coursePlanId' => $coursePlanId));
+
+            $nextOrderValue = $nextOrder && $nextOrder->order ? $nextOrder->order + 1 : 1;
+
+            $courseClass = new CourseClass();
+            $courseClass->course_plan_fk = $coursePlanId;
+            $courseClass->content = $content;
+            $courseClass->methodology = $methodology;
+            $courseClass->order = $nextOrderValue;
+            $courseClass->save();
+
+
+            foreach ($abilities as $ability) {
+                $courseClassAbility = new CourseClassHasClassAbility();
+                $courseClassAbility->course_class_fk = $courseClass->id;
+                $courseClassAbility->course_class_ability_fk = $ability;
+                $courseClassAbility->save();
+            }
+
+            return $courseClass->id;
         }
     }
 

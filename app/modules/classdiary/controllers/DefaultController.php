@@ -128,8 +128,28 @@ class DefaultController extends Controller
 		header('Content-Type: application/json; charset="UTF-8"');
 	    echo json_encode($classContent, JSON_OBJECT_AS_ARRAY);
 	}
-	public function actionSaveClassContents($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent)
+	public function actionSaveClassContents()
 	{
+        $stage_fk = Yii::app()->request->getPost('stage_fk');
+        $date = Yii::app()->request->getPost('date');
+        $discipline_fk = Yii::app()->request->getPost('discipline_fk');
+        $classroom_fk = Yii::app()->request->getPost('classroom_fk');
+        $classContent = Yii::app()->request->getPost('classContent');
+        $hasNewClassContent = Yii::app()->request->getPost('hasNewClassContent');
+        $content = Yii::app()->request->getPost('content');
+        $methodology = Yii::app()->request->getPost('methodology');
+        $coursePlanId = Yii::app()->request->getPost('coursePlanId');
+        $abilities = Yii::app()->request->getPost('abilities');
+
+        if($hasNewClassContent){
+            $saveNewClassContent = new saveNewClassContent();
+            $newClassContentId = $saveNewClassContent->exec($coursePlanId, $content, $methodology, $abilities);
+            if($classContent != null){
+                $classContent[] = $newClassContentId;
+            } else {
+                $classContent = [$newClassContentId];
+            }
+        }
 		$saveClassContent = new SaveClassContents();
 		$saveClassContent->exec($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent);
 	}
