@@ -16,100 +16,103 @@
  */
 class ClassFaults extends TagModel
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return ClassFaults the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return ClassFaults the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'class_faults';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'class_faults';
+    }
 
-        public function behaviors() {
-            return [
-                'CTimestampBehavior' => [
-                    'class' => 'zii.behaviors.CTimestampBehavior',
-                    'createAttribute' => 'created_at',
-                    'updateAttribute' => 'updated_at',
-                    'setUpdateOnCreate' => true,
-                    'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-                ],
-                'afterSave'=>[
-                    'class'=>'application.behaviors.CAfterSaveBehavior',
-                    'schoolInepId' => Yii::app()->user->school,
-                ],
-            ];
-        }
+    public function behaviors()
+    {
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ],
+            'afterSave' => [
+                'class' => 'application.behaviors.CAfterSaveBehavior',
+                'schoolInepId' => Yii::app()->user->school,
+            ],
+        ];
+    }
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
-	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
-		return array(
-			array('schedule_fk, student_fk', 'required'),
-			array('schedule_fk, student_fk', 'numerical', 'integerOnly'=>true),
-            array('justification', 'length', 'max'=>200),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, schedule_fk, student_fk', 'safe', 'on'=>'search'),
-		);
-	}
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('schedule_fk, student_fk', 'required'),
+            array('schedule_fk, student_fk', 'numerical', 'integerOnly' => true),
+            array('justification', 'length', 'max' => 200),
+            // The following rule is used by search().
+            // Please remove those attributes that should not be searched.
+            array('id, schedule_fk, student_fk', 'safe', 'on' => 'search'),
+        );
+    }
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'scheduleFk' => array(self::BELONGS_TO, 'Schedule', 'schedule_fk'),
-			'studentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'student_fk'),
-		);
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'scheduleFk' => array(self::BELONGS_TO, 'Schedule', 'schedule_fk'),
+            'studentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'student_fk'),
+        );
+    }
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => Yii::t('default', 'ID'),
-			'schedule_fk' => Yii::t('default', 'Schedule Fk'),
-			'student_fk' => Yii::t('default', 'Student Fk'),
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id' => Yii::t('default', 'ID'),
+            'schedule_fk' => Yii::t('default', 'Schedule Fk'),
+            'student_fk' => Yii::t('default', 'Student Fk'),
             'justification' => Yii::t('default', "Justification")
-		);
-	}
+        );
+    }
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-	 */
-	public function search()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
 
-		$criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('schedule_fk',$this->schedule_fk);
-		$criteria->compare('student_fk',$this->student_fk);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('schedule_fk', $this->schedule_fk);
+        $criteria->compare('student_fk', $this->student_fk);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
+        return new CActiveDataProvider($this, array(
+            'criteria' => $criteria,
+        ));
+    }
+
+
 }
