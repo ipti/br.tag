@@ -11,7 +11,7 @@
 	 * @property InstructorDisciplines[] $instructorStages
 	 * @property InstructorDisciplines[] $instructorDisciplines
 	 */
-	class TimesheetInstructor extends CActiveRecord {
+	class TimesheetInstructor extends TagModel {
 		public static function model($className = __CLASS__) {
 			return parent::model($className);
 		}
@@ -22,18 +22,7 @@
 		public function tableName() {
 			return 'instructor_identification';
 		}
-        public function behaviors()
-    {
-        return [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
-    }
+
 
 		public function relations() {
 			return [

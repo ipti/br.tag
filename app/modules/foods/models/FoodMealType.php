@@ -10,7 +10,7 @@
  * The followings are the available model relations:
  * @property FoodMenuMeal[] $foodMenuMeals
  */
-class FoodMealType extends CActiveRecord
+class FoodMealType extends TagModel
 {
 	/**
 	 * @return string the associated database table name

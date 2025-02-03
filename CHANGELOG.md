@@ -1,3 +1,32 @@
+## [Versão 3.95.213]
+- Adicionado usuário de leitura
+
+## [Versão 3.94.213]
+- Corrigindo a exibição da média de nota em turmas por conceito na ata de notas
+
+## [Versão 3.94.212]
+- Criando o formulário de notas por conceito na tela na sessão de administrador, permitindo a criação de um novo conceito e também modificar conceitos existentes
+- Modificando a forma como notas por conceito são calculadas, para calcular a média final do aluno
+
+## [Versão 3.94.210]
+- Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
+-
+## [Versão 3.93.210]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
+
+## [Versão 3.94.213]
+- Corrigindo a exibição da média de nota em turmas por conceito na ata de notas
+
+## [Versão 3.94.212]
+- Criando o formulário de notas por conceito na tela na sessão de administrador, permitindo a criação de um novo conceito e também modificar conceitos existentes
+- Modificando a forma como notas por conceito são calculadas, para calcular a média final do aluno
+
+## [Versão 3.94.210]
+- Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
+- 
+## [Versão 3.93.210]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
+
 ## [Versão 3.95.215]
 - Correção de Ficha de notas: Adicionando status para alunos transferidos, evadidos, cancelados ou mortos;
 - Novas ferramentas de monitoriamento de saude do sistema;
@@ -14,7 +43,6 @@ o relatório para ensino intanfil e fundamental menor do fundamental maior;
 
 ## [Versão 3.93.212]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
-
 
 ## [Versão 3.93.211]
 - Ordenando de acordo com a ordem da turma o relatório de ata de notas

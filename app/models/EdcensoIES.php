@@ -14,9 +14,9 @@
  * @property string  $working_status
  *
  * The followings are the available model relations:
- * 
+ *
  */
-class EdcensoIES extends CActiveRecord
+class EdcensoIES extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.
