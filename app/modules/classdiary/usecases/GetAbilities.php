@@ -10,8 +10,8 @@
         {
             $this->courseClassService = $courseClassService ?? new CourseClassService();
         }
-        public function exec($discipline_fk){
-                $response = $this->courseClassService->getAbilities($discipline_fk);
+        public function exec($discipline_fk, $stage_fk){
+                $response = $this->courseClassService->getAbilities($discipline_fk, $stage_fk);
                 return  $response;
         }
     }

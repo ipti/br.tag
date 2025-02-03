@@ -203,13 +203,17 @@
 
         }
         public function SaveNewClassContent($coursePlanId, $content, $methodology, $abilities) {
-            $nextOrder = CourseClass::model()->findBySql("
+
+            $nextOrder = Yii::app()->db->createCommand("
             SELECT MAX(`order`) AS max_order
             FROM course_class
             WHERE course_plan_fk = :coursePlanId
-            ", array(':coursePlanId' => $coursePlanId));
+        ")
+            ->bindParam(":coursePlanId", $coursePlanId, PDO::PARAM_INT)
+            ->queryRow();
 
-            $nextOrderValue = $nextOrder && $nextOrder->order ? $nextOrder->order + 1 : 1;
+
+            $nextOrderValue = $nextOrder['max_order']  + 1;
 
             $courseClass = new CourseClass();
             $courseClass->course_plan_fk = $coursePlanId;
@@ -217,6 +221,7 @@
             $courseClass->methodology = $methodology;
             $courseClass->order = $nextOrderValue;
             $courseClass->save();
+
 
 
             foreach ($abilities as $ability) {

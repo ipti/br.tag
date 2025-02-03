@@ -158,6 +158,7 @@ $(".js-save-course-plan").on("click", function () {
         $(".js-course-plan-id").val(null).trigger("change");
         $(".courseplan-abilities-selected").html("");
         $(".js-add-new-class-content-form").addClass("hide");
+        $('.js-new-class-content').text("Nova Aula");
     })
 });
 
