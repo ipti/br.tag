@@ -18,7 +18,7 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
 
     if (!row.child.isShown()) {
         row.child(formatSelectionFunction(row.data())).show();
-        tr.next().find('select.type-select, select.resource-select').select2();
+        tr.next().find('select.type-select, select.resource-select, select.ability-search-select').select2();
         tr.next().find('select.ability-select').select2({
             formatSelection: function (state) {
                 var textArray = state.text.split("|");
