@@ -54,9 +54,10 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     $scholarityLevels = [
                         1 => "Fundamental Incompleto",
                         2 => "Fundamental Completo",
-                        3 => "Ensino M&eacute;dio � Normal/Magist&eacute;rio",
-                        4 => "Ensino M&eacute;dio � Normal/Magist&eacute;rio Ind&iacute;gena",
+                        3 => "Ensino M&eacute;dio - Normal/Magist&eacute;rio",
+                        4 => "Ensino M&eacute;dio - Normal/Magist&eacute;rio Ind&iacute;gena",
                         5 => "Ensino Médio",
+                        6 => "Ensino Superior"
                     ];
 
                     $html .= "<tr>"
@@ -64,14 +65,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         . "<td>" . $p['inep_id'] . "</td>"
                         . "<td>" . $p['birthday_date'] . "</td>"
                         . "<td>" . $p['name'] . "</td>"
-                        . "<td>" . $scholarityLevels[$p['scholarity']] ?? "Superior"
-                            // (
-                            //     $p['scholarity'] == 1 ? "Fundamental Incompleto" :
-                            //     $p['scholarity'] == 2 ? "Fundamental Completo" :
-                            //     $p['scholarity'] == 3 ? "Ensino M&eacute;dio � Normal/Magist&eacute;rio" :
-                            //     $p['scholarity'] == 4 ? "Ensino M&eacute;dio � Normal/Magist&eacute;rio Ind&iacute;gena" :
-                            //     $p['scholarity'] == 5 ? "Ensino M&eacute;dio" : "Superior"
-                            // )
+                        . "<td>" . $scholarityLevels[$p['scholarity']] ?? ""
                         . "</td>"
                         . "</tr>";
 
