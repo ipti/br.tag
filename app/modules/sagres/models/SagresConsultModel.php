@@ -2199,7 +2199,6 @@ class SagresConsultModel
                     $enrollmentList[] = $enrollmentType;
                 }
             } else {
-                //\CVarDumper::dump($enrollment, 10, true);
 
                 $studentType = new AlunoTType();
                 $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
