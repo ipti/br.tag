@@ -1,3 +1,6 @@
+## [Versão 3.95.214]
+- Corrigido o relatório de professores por escola
+
 ## [Versão 3.95.213]
 - Adicionado usuário de leitura
 
