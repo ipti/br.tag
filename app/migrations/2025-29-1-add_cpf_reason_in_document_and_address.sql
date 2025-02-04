@@ -1,5 +1,4 @@
 ALTER TABLE student_documents_and_address ADD cpf_reason SMALLINT DEFAULT 0 NOT NULL;
-ALTER TABLE student_documents_and_address ADD has_cpf TINYINT DEFAULT 0 NOT NULL;
 
 UPDATE
 	student_documents_and_address
@@ -8,9 +7,4 @@ SET
 		WHEN cpf IS NULL
 		OR cpf = '' THEN 0
 		ELSE 4
-	END,
-	has_cpf = CASE
-		WHEN cpf IS NULL
-		OR cpf = '' THEN 0
-		ELSE 1
 	END;
