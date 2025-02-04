@@ -11,13 +11,11 @@ use PHPUnit\Extensions\Selenium2TestCase;
 
 Yii::import('system.test.CTestCase');
 
-// require_once __DIR__ . '/../vendor/autoload.php';
 
 
 
 require_once 'Tests/Selenium2TestCase/BaseTestCase.php';
 
-// require_once('PHPUnit/Extensions/SeleniumTestCase.php');
 
 /**
  * CWebTestCase is the base class for Web-based functional test case classes.

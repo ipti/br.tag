@@ -4,7 +4,6 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
 
-// require_once 'app/vendor/autoload.php';
 Yii::import('application.modules.sedsp.models.Student.*');
 Yii::import('application.modules.sedsp.models.*');
 
