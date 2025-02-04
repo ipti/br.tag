@@ -856,10 +856,6 @@ class SagresConsultModel
 
         $classroom = (object) \Classroom::model()->with('edcensoStageVsModalityFk')->findByPk($classId);
 
-        // if((int) $classId==758){
-        //     var_dump("asdasda");
-        // }
-
         $easId  = $classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id;
         $edsensoCodes = [
             1 => "INF1",
@@ -995,7 +991,7 @@ class SagresConsultModel
         return $seriesList;
     }
 
-    private function isMulti($classId, $inepId): bool
+    private function isMulti($classId): bool
     {
         $classroom = (object) \Classroom::model()->with('edcensoStageVsModalityFk')->findByPk($classId);
 
