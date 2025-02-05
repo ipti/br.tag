@@ -2008,8 +2008,8 @@ class SagresConsultModel
                         $inconsistencyModel->insert();
                     }
 
-                    if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
-                        if (!is_bool($enrollmentType->getAprovado())) {
+                    if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN) && !is_bool($enrollmentType->getAprovado()) ) {
+
                             $inconsistencyModel = new ValidationSagresModel();
                             $inconsistencyModel->enrollment = 'MATRÍCULA';
                             $inconsistencyModel->school = $school->name;
@@ -2017,7 +2017,7 @@ class SagresConsultModel
                             $inconsistencyModel->action = INCONSISTENCY_ACTION_INVALID_APPROVED_STATUS_VALUE . ': ' .$studentType->getNome();
                             $inconsistencyModel->idClass = $classId;
                             $inconsistencyModel->insert();
-                        }
+
                     }
 
                     $enrollmentList[] = $enrollmentType;
