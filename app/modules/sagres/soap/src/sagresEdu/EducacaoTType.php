@@ -8,12 +8,12 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * Class representing EducacaoTType
  *
- * 
+ *
  * XSD Type: educacao_t
  */
 
  #[Serializer\XmlRoot(name: "edu:educacao")]
-#[Serializer\XmlNamespace(uri: "http://www.tce.se.gov.br/sagres2025/xml/sagresEdu", prefix: "edu")]
+ #[Serializer\XmlNamespace(uri: "https://www.tce.se.gov.br/sagres2025/xml/sagresEdu", prefix: "edu")]
 class EducacaoTType
 {
     #[Serializer\SerializedName("edu:PrestacaoContas")]
@@ -25,20 +25,20 @@ class EducacaoTType
     #[Serializer\XmlList(inline: true, entry: "edu:profissional")]
     private $profissional = [];
 
-    
+
     public function getPrestacaoContas(): ?CabecalhoTType
     {
         return $this->prestacaoContas;
     }
 
-   
+
     public function setPrestacaoContas(CabecalhoTType $prestacaoContas): self
     {
         $this->prestacaoContas = $prestacaoContas;
         return $this;
     }
 
-    
+
     public function addToEscola(EscolaTType $escola): self
     {
         $this->escola[] = $escola;
@@ -67,7 +67,7 @@ class EducacaoTType
         unset($this->escola[$index]);
     }
 
-    
+
     public function getEscola(): array
     {
         return $this->escola;
