@@ -879,6 +879,7 @@ class SagresConsultModel
         if (TagUtils::isMultiStage($easId)) {
             $query = "SELECT
                 esvm.edcenso_associated_stage_id as edcensoCode,
+                c.edcenso_stage_vs_modality_fk as edcensoCodeOriginal,
                 c.complementary_activity as complementaryActivity,
                 c.schooling as schooling,
                 c.aee as aee
@@ -896,6 +897,7 @@ class SagresConsultModel
 
             $query = "SELECT
                 esvm.edcenso_associated_stage_id as edcensoCode,
+                c.edcenso_stage_vs_modality_fk as edcensoCodeOriginal,
                 c.complementary_activity as complementaryActivity,
                 c.schooling as schooling,
                 c.aee as aee
@@ -923,16 +925,17 @@ class SagresConsultModel
             } elseif ((int)$serie->aee === 1 || (int) $edcensoCode == 75) {
                 $idSerie = "AEE1";
             } else {
+
                 $idSerie = $edsensoCodes[(int) $edcensoCode];
             }
             if (!isset($idSerie)) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = SERIE_STRONG;
                 $inconsistencyModel->school = $school->name;
-                $inconsistencyModel->description = 'Não há série para a escola: ' . $school->name;
-                $inconsistencyModel->action = 'Adicione uma série para a turma';
-                $inconsistencyModel->identifier = '10';
-                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa censo ';
+                $inconsistencyModel->action = 'Adicione uma etapa válida';
+                $inconsistencyModel->identifier = '12';
+                $inconsistencyModel->idClass = $serie->edcensoCodeOriginal;
                 $inconsistencyModel->insert();
                 continue;
             }
@@ -973,6 +976,8 @@ class SagresConsultModel
 
 
             $serieType->setMatricula($matriculas);
+
+//            echo sizeof($matriculas) ." - ". $classroom->name ."|".$classroom->school_inep_fk . PHP_EOL;
 
             $seriesList[] = $serieType;
         }
@@ -1623,6 +1628,7 @@ class SagresConsultModel
         if(Yii::app()->features->isEnable("FEAT_SAGRES_STATUS_ENROL")){
             return [
                 \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
+//                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_TRANSFERRED),
                 \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVED),
                 \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVEDBYCOUNCIL),
                 \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_DISAPPROVED),
@@ -1744,19 +1750,7 @@ class SagresConsultModel
 
         if (empty($enrollments)) {
             return null;
-            /*
-            $className = $this->getClassName($classId, $referenceYear);
 
-            $inconsistencyModel = new ValidationSagresModel();
-            $inconsistencyModel->enrollment = TURMA_STRONG;
-            $inconsistencyModel->school = $school->name;
-            $inconsistencyModel->description = 'Não há matrículas ativas para a turma: <strong>'. $className . '</strong>';
-            $inconsistencyModel->action = 'Adicione alunos ou remova a turma: <strong>' . $className . '</strong>';
-            $inconsistencyModel->identifier = '10';
-            $inconsistencyModel->idClass = $classId;
-            $inconsistencyModel->idSchool = $inepId;
-            $inconsistencyModel->insert();
-            */
         }
 
         foreach ($enrollments as $enrollment) {
