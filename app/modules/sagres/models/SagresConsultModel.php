@@ -2218,8 +2218,6 @@ class SagresConsultModel
 
                 $studentType = new AlunoTType();
                 $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
-
-                if(empty($cpf)){}
                 $studentType
                     ->setNome($enrollment['name'])
                     ->setDataNascimento(DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate))
