@@ -241,7 +241,12 @@ $form = $this->beginWidget(
               </div>
               <div class="t-field-text" id="cpfReasonStudents" style="display: block;">
                 <?= $form->label($modelStudentDocumentsAndAddress, 'cpf_reason', array('class' => 't-field-text__label')); ?>
-                <?= $form->textField($modelStudentDocumentsAndAddress, 'cpf_reason', array("class" => "t-field-text__input")); ?>
+                <?php echo $form->DropDownList(
+                  $modelStudentDocumentsAndAddress,
+                  'cpf_reason',
+                  array(null => "Selecione uma justificativa", 1 => "Pais não entregaram o documento do aluno na unidade escolar", 2 => "Impedimento judicial", 3=>"Aluno não possui documento CPF"),
+                  array('class' => 'select-search-off t-field-select__input select2-container')
+                ); ?>
                 <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf_reason')): ?>
                   <div style='margin-top: 5px;color: red;'>
                     <?= CHtml::encode($modelStudentDocumentsAndAddress->getError('cpf_reason')); ?>
