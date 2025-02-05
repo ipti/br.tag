@@ -1,8 +1,8 @@
 from lxml import etree
 
 
-xsd_path = "/home/felipe/ipti/br.tag/app/modules/sagres/soap/Educacao.xsd"
-xml_path = "/home/felipe/Downloads/Educacao.xml"
+xsd_path = "/home/felipe/ipti/br.tag/app/modules/sagres/soap/Educacao.xsd" #altere o caminho para a localização na sua máquina do xsd
+xml_path = "/home/felipe/Downloads/Educacao.xml" #altere o caminho para a localização do XML gerado com suas alterações no Sagres
 
 
 # Função para validar XML com o XSD principal apenas
