@@ -1,9 +1,5 @@
 <?php
 
-//use GuzzleHttp\Exception\ClientException;
-
-require_once 'app/vendor/autoload.php';
-
 
 class ClassStudentsRelationSEDDataSource extends SedDataSource
 {
