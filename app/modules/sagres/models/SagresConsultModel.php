@@ -27,6 +27,8 @@ define('TURMA_STRONG', '<strong>TURMA<strong>');
 define('SERIE_STRONG', '<strong>SÉRIE<strong>');
 define('DATA_MATRICULA_INV', 'Data da matrícula no formato inválido: ');
 define('DATE_FORMAT', 'd/m/Y');
+define('INCONSISTENCY_BIRTH_AFTER_LIMIT', 'A data de nascimento não pode ser posterior a 30 de abril de 2024');
+define('INCONSISTENCY_BIRTH_BEFORE_LIMIT', 'A data de nascimento não pode ser inferior a 01 de janeiro de 1930');
 
 
 /**
@@ -1859,7 +1861,7 @@ class SagresConsultModel
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
                         $inconsistencyModel->school = $school->name;
-                        $inconsistencyModel->description = 'A data de nascimento não pode ser posterior a 30 de abril de 2024';
+                        $inconsistencyModel->description = INCONSISTENCY_BIRTH_AFTER_LIMIT;
                         $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
                         $inconsistencyModel->identifier = '9';
                         $inconsistencyModel->idStudent = $enrollment['student_fk'];
@@ -1871,7 +1873,7 @@ class SagresConsultModel
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
                         $inconsistencyModel->school = $school->name;
-                        $inconsistencyModel->description = 'A data de nascimento não pode ser inferior a 01 de janeiro de 1930';
+                        $inconsistencyModel->description = INCONSISTENCY_BIRTH_BEFORE_LIMIT;
                         $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
                         $inconsistencyModel->identifier = '9';
                         $inconsistencyModel->idStudent = $enrollment['student_fk'];
@@ -2039,7 +2041,7 @@ class SagresConsultModel
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
                         $inconsistencyModel->school = $schoolName;
-                        $inconsistencyModel->description = 'A data de nascimento não pode ser posterior a 30 de abril de 2024';
+                        $inconsistencyModel->description = INCONSISTENCY_BIRTH_AFTER_LIMIT;
                         $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
                         $inconsistencyModel->identifier = '9';
                         $inconsistencyModel->idStudent = $enrollment['student_fk'];
@@ -2051,7 +2053,7 @@ class SagresConsultModel
                         $inconsistencyModel = new ValidationSagresModel();
                         $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
                         $inconsistencyModel->school = $schoolName;
-                        $inconsistencyModel->description = 'A data de nascimento não pode ser inferior a 01 de janeiro de 1930';
+                        $inconsistencyModel->description = INCONSISTENCY_BIRTH_BEFORE_LIMIT;
                         $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
                         $inconsistencyModel->identifier = '9';
                         $inconsistencyModel->idStudent = $enrollment['student_fk'];
@@ -2319,7 +2321,7 @@ class SagresConsultModel
                     $inconsistencyModel = new ValidationSagresModel();
                     $inconsistencyModel->enrollment = '<strong>ESTUDANTE<strong>';
                     $inconsistencyModel->school = $school->name;
-                    $inconsistencyModel->description = 'A data de nascimento não pode ser inferior a 01 de janeiro de 1930';
+                    $inconsistencyModel->description = INCONSISTENCY_BIRTH_BEFORE_LIMIT;
                     $inconsistencyModel->action = 'Adicione uma data válida para o estudante: <strong>' . $studentType->getNome() . '</strong>';
                     $inconsistencyModel->identifier = '9';
                     $inconsistencyModel->idStudent = $enrollment['student_fk'];
