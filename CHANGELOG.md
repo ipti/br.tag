@@ -1,6 +1,9 @@
 ## [Versão 3.94.214]
 - Corrigida a funcionalidade de imprimir aulas ministradas.
 
+## [Versão 3.94.214]
+- Correção na funcionalidade de atualizar situação de matrícula após calcular a nota final de aluno.
+
 ## [Versão 3.94.213]
 - Corrigindo a exibição da média de nota em turmas por conceito na ata de notas
 
