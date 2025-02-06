@@ -11,8 +11,8 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '/functions.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->menu=array(
 	array('label'=>'Create StudentAeeRecord', 'url'=>array('create')),
