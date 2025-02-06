@@ -19,6 +19,24 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
     if (!row.child.isShown()) {
         row.child(formatSelectionFunction(row.data())).show();
         tr.next().find('select.type-select, select.resource-select, select.ability-search-select').select2();
+        $.ajax({
+            type: "POST",
+            url: "?r=courseplan/courseplan/getAbilities",
+            cache: false,
+            data: {
+                discipline: $("#CoursePlan_discipline_fk").val(),
+                stage: $("#CoursePlan_modality_fk").val(),
+            },
+            success: function (data) {
+                abilities = JSON.parse(data);
+                Object.entries(abilities).forEach(function([id, value]) {
+                    tr.next().find('select.ability-search-select').append($('<option>', {
+                        value: id,
+                        text: value
+                    }));
+                });
+            },
+        });
         tr.next().find('select.ability-select').select2({
             formatSelection: function (state) {
                 var textArray = state.text.split("|");

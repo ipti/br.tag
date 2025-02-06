@@ -208,31 +208,29 @@ class CourseplanController extends Controller
     {
 
         $disciplineId = Yii::app()->request->getPost("discipline");
+        $stage = Yii::app()->request->getPost("stage");
 
         $criteria = new CDbCriteria();
         $criteria->alias = "cca";
         $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = cca.edcenso_stage_vs_modality_fk";
-        $criteria->condition = "code is not null";
+        $criteria->condition = "code is not null and cca.edcenso_stage_vs_modality_fk = :stage";
+        $criteria->params = [":stage" => $stage];
 
         $abilities = [];
 
         if ($disciplineId != null) {
             $criteria->condition .= "cca.edcenso_discipline_fk = :discipline";
-            $criteria->params = [":discipline" => $disciplineId];
+            $criteria->params[":discipline"] = $disciplineId;
         }
 
         $abilities = CourseClassAbilities::model()->findAll($criteria);
 
-        $result = [];
-        $result["options"] = [];
-        foreach ($abilities as $i => $ability) {
-            if ($i == 0) {
-                $result["selectTitle"] = $ability["type"];
-            }
-            array_push($result["options"], ["id" => $ability->id, "code" => $ability->code, "description" => $ability->description]);
+        $formattedAbilities = [];
+        foreach ($abilities as $ability) {
+            $formattedAbilities[$ability->id] = "({$ability->code}) {$ability->description}";
         }
 
-        echo CJSON::encode($result);
+        echo CJSON::encode($formattedAbilities);
     }
 
     public function actionGetAbilitiesInitialStructure()
