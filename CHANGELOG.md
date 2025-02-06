@@ -1,3 +1,6 @@
+## [Versão 3.96.213]
+- Adicionado cadastro de aulas no plano de aula na tela de diário de classe
+
 ## [Versão 3.95.213]
 - Adicionado usuário de leitura
 
@@ -23,7 +26,7 @@
 
 ## [Versão 3.94.210]
 - Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
-- 
+-
 ## [Versão 3.93.210]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
 
