@@ -1,3 +1,6 @@
+## [Versão 3.95.214]
+- Correção no relatório "Ficha de Notas", disciplinas sem nota não afetam mais a situação final de matrícula.
+
 ## [Versão 3.95.213]
 - Adicionada reuperação final por peso
 - Adicionado usuário de leitura
