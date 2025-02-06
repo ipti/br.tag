@@ -5,9 +5,9 @@
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '\notice\functions.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '\notice\validations.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseScriptUrl . '\notice\_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '\notice\functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '\notice\validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '\notice\_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 ?>
 
 <div class="main form-content form">

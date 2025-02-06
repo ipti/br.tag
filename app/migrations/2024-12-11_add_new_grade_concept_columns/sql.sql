@@ -1,0 +1,5 @@
+ALTER TABLE grade_results
+ADD COLUMN grade_concept_9 VARCHAR(50) NULL,
+ADD COLUMN grade_concept_10 VARCHAR(50) NULL,
+ADD COLUMN grade_concept_11 VARCHAR(50) NULL,
+ADD COLUMN grade_concept_12 VARCHAR(50) NULL;

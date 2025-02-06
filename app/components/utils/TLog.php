@@ -2,41 +2,37 @@
 
 class TLog extends CApplicationComponent {
 
-    public static function info($message, $data = null){
-        $route = Yii::app()->controller->id . "/". Yii::app()->controller->action->id;
-        $builderMessage = "[$route]: $message" ;
+    // Função auxiliar para gerar a mensagem de log
+    private static function generateLogMessage($message, $data = null) : string {
+        $module = Yii::app()->controller->module ? Yii::app()->controller->module->id . '/' : '';
 
-        if(isset($data)){
-            $builderMessage .= PHP_EOL . CVarDumper::dumpAsString($data);
+        $route =   $module . Yii::app()->controller->id . "/" . Yii::app()->controller->action->id;
+        $builderMessage = "[$route]: $message";
+
+        if (isset($data)) {
+            // Garante que dados sejam codificados como JSON
+            $builderMessage .= ' | ' . CJSON::encode($data);
         }
-        
 
-        Yii::log($builderMessage, CLogger::LEVEL_INFO, 'application');
-
+        return $builderMessage;
     }
 
-    public static function warning($message, $data = null){
-        $route = Yii::app()->controller->id . "/". Yii::app()->controller->action->id;
-        $builderMessage = "[$route]: $message" ;
+    // Método para log de nível info
+    public static function info($message, $data = null) {
+        $builderMessage = self::generateLogMessage($message, $data);
+        Yii::log($builderMessage, CLogger::LEVEL_INFO, 'application');
+    }
 
-        if(isset($data)){
-            $builderMessage .= PHP_EOL . CVarDumper::dumpAsString($data);
-        }
-
+    // Método para log de nível warning
+    public static function warning($message, $data = null) {
+        $builderMessage = self::generateLogMessage($message, $data);
         Yii::log($builderMessage, CLogger::LEVEL_WARNING, 'application');
     }
 
-    public static function error($message, $data = null){
-        $route = Yii::app()->controller->id . "/". Yii::app()->controller->action->id;
-        $builderMessage = "[$route]: $message" ;
-
-        if(isset($data)){
-            $builderMessage .= PHP_EOL . CVarDumper::dumpAsString($data);
-        }
-
+    // Método para log de nível error
+    public static function error($message, $data = null) {
+        $builderMessage = self::generateLogMessage($message, $data);
         Yii::log($builderMessage, CLogger::LEVEL_ERROR, 'application');
     }
-
 }
 
-?>

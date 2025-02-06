@@ -30,7 +30,8 @@ class TimesheetController extends Controller
                     'index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability',
                     'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor", "changeUnavailableSchedule",
                     "addSubstituteInstructorDay", "saveSubstituteInstructorDay", "deleteSubstituteInstructorDay",
-                    "getDisciplines", "getFrequency",
+                    "getDisciplines", "getFrequency", "fixBuggedUnavailableDaysFor2024"
+
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -111,6 +112,8 @@ class TimesheetController extends Controller
                         $response["softUnavailableDays"] = $this->getUnavailableDays($classroomId, false, "soft");
 
                         $response["schedules"] = [];
+                        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+                        $hours = $vha["value"] / 60;
                         foreach ($schedules as $schedule) {
 //                    if (!isset($response["schedules"][$schedule->month])) {
 //                        $response["schedules"][$schedule->month] = [];
@@ -137,7 +140,7 @@ class TimesheetController extends Controller
 
                             if (!$schedule->unavailable) {
                                 $cmKey = array_search($schedule["discipline_fk"], array_column($response["disciplines"], 'disciplineId'));
-                                $response["disciplines"][$cmKey]["workloadUsed"]++;
+                                $response["disciplines"][$cmKey]["workloadUsed"] += $hours;
                             }
 
                             $response["schedules"][$schedule->year][$schedule->month][$schedule->schedule][$schedule->day] = [
@@ -484,7 +487,9 @@ class TimesheetController extends Controller
         $schedule->save();
 
         $disciplines = [];
-        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => $schedule->unavailable ? -1 : 1]);
+        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+        $hours = $vha["value"] / 60;
+        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => $schedule->unavailable ? -$hours : $hours]);
         echo json_encode(["unavailable" => $schedule->unavailable, "disciplines" => $disciplines]);
     }
 
@@ -597,7 +602,7 @@ class TimesheetController extends Controller
                 " select " .
                 " edcenso_discipline.id as disciplineId, " .
                 " edcenso_discipline.name as disciplineName, " .
-                " (select count(schedule.id) from schedule where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 and schedule.discipline_fk = disciplineId) as workloadUsed, " .
+                " (select (count(schedule.id) * (select value from instance_config where parameter_key = 'VHA') / 60) from schedule where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 and schedule.discipline_fk = disciplineId) as workloadUsed, " .
                 " curricular_matrix.workload as workloadTotal, " .
                 " (select ii.name from teaching_matrixes tm join instructor_teaching_data itd on itd.id = tm.teaching_data_fk join instructor_identification ii on itd.instructor_fk = ii.id where itd.classroom_id_fk = " . $_POST["classroomId"] . " and tm.curricular_matrix_fk = curricular_matrix.id) as instructorName " .
                 " from curricular_matrix " .
@@ -627,6 +632,8 @@ class TimesheetController extends Controller
         if ($_POST["schedule"]["hardUnavailableDaySelected"] || !$_POST["replicate"]) {
             $finalDate = new Datetime($_POST["schedule"]["year"] . "-" . str_pad($_POST["schedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["schedule"]["day"]);
         }
+        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+        $hours = $vha["value"] / 60;
         for ($date = $selectedDate; $date <= $finalDate; $date->modify("+7 days")) {
             $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'year' => $date->format("Y"), 'month' => $date->format("n"), 'day' => $date->format("j"), 'schedule' => $_POST["schedule"]["schedule"]));
             if ($schedule != null) {
@@ -634,9 +641,9 @@ class TimesheetController extends Controller
                 if (!$schedule->unavailable) {
                     $key = array_search($schedule->discipline_fk, array_column($disciplines, 'disciplineId'));
                     if ($key === false) {
-                        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => -1]);
+                        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => -$hours]);
                     } else {
-                        $disciplines[$key]["workloadUsed"]--;
+                        $disciplines[$key]["workloadUsed"] -= $hours;
                     }
                 }
 
@@ -700,6 +707,8 @@ class TimesheetController extends Controller
         if ($_POST["hardUnavailableDaySelected"] || !$_POST["replicate"]) {
             $finalDate = new Datetime($_POST["schedule"]["year"] . "-" . str_pad($_POST["schedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["schedule"]["day"]);
         }
+        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+        $hours = $vha["value"] / 60;
         for ($date = $selectedDate; $date <= $finalDate; $date->modify("+7 days")) {
             if (!in_array($date->format("Y-m-d"), $hardUnavailableDays) || $_POST["hardUnavailableDaySelected"]) {
                 $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'year' => $date->format("Y"), 'month' => $date->format("n"), 'day' => $date->format("j"), 'schedule' => $_POST["schedule"]["schedule"]));
@@ -720,9 +729,9 @@ class TimesheetController extends Controller
                         $schedule->unavailable = 0;
                         $key = array_search($_POST["disciplineId"], array_column($disciplines, 'disciplineId'));
                         if ($key === false) {
-                            array_push($disciplines, ["disciplineId" => $_POST["disciplineId"], "workloadUsed" => 1]);
+                            array_push($disciplines, ["disciplineId" => $_POST["disciplineId"], "workloadUsed" => $hours]);
                         } else {
-                            $disciplines[$key]["workloadUsed"]++;
+                            $disciplines[$key]["workloadUsed"] += $hours;
                         }
                     }
                     $schedule->turn = $classroom->turn;
@@ -1091,6 +1100,7 @@ class TimesheetController extends Controller
         echo json_encode($htmlOptions);
         Yii::app()->end();
     }
+  
     private function generateDate($day, $month, $year, $usecase){
         switch($usecase){
             case 0:
@@ -1104,6 +1114,43 @@ class TimesheetController extends Controller
             default:
                 break;
         }
+      
+    public function actionFixBuggedUnavailableDaysFor2024()
+    {
+        //Nessa função, precisa-se passar em cada schedule de 2024 e verificar se o dia está indisponível (coluna unavailable = 1) quando, na verdade, ele está disponível
+        //O erro surgiu quando o usuário chamava o método chanceEvent no calendário e trocava um evento de feriado/férias por um evento útil. Naquele algoritmo, ele não trocava a flag de unavailable de 1 para 0.
+        //Isso foi resolvido a nível de código, mas os problemas que já existiam no banco continuaram.
+        //Esse algoritmo, em resumo, considerará o dia disponível quando estiver:
+        //(I) entre a data de início e fim do calendário; e
+        //(II) fora de um intervalo marcado como feriado, férias ou ponto facultativo.
+        //OBS: ESSE ERRO FOI DESCOBERTO PORQUE TINHA DIAS DE AULA NO QUADRO DE HORÁRIO QUE NÃO CONSTAVAM EM AULAS MINISTRADAS. VERIFICOU-SE QUE AS AULAS DAQUELE DIA, APESAR DE ÚTIL, ESTAVAM MARCADAS COMO UNAVAILABLE
+        $classrooms = Classroom::model()->findAll("school_year = 2024");
+        foreach ($classrooms as $classroom) {
+            $calendar = $classroom->calendarFk;
+            $calendarStartDate = $calendar->start_date;
+            $calendarEndDate = $calendar->end_date;
+            foreach ($classroom->schedules as $schedule) {
+                if ($schedule->unavailable) {
+                    $scheduleDate = $schedule->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
+                    if ($scheduleDate >= $calendarStartDate && $scheduleDate <= $calendarEndDate) {
+                        $mustRemoveUnavailable = false;
+                        foreach ($calendar->calendarEvents as $calendarEvent) {
+                            if ($calendarEvent->calendar_event_type_fk == 101 || $calendarEvent->calendar_event_type_fk == 102 || $calendarEvent->calendar_event_type_fk == 104) {
+                                if (str_replace(" 00:00:00", "", $calendarEvent->start_date) >= $scheduleDate && str_replace(" 00:00:00", "", $calendarEvent->end_date) <= $scheduleDate) {
+                                    //Ao entrar aqui, a schedule está dentro do calendário letivo e não está em nenhum dia de feriado, férias ou ponto facultativo. Deve-se mudar a flag de unavailable de 1 para 0.
+                                    $mustRemoveUnavailable = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if ($mustRemoveUnavailable) {
+                            Schedule::model()->updateAll(["unavailable" => 0], "id = :id", [":id" => $schedule->id]);
+                        }
+                    }
+                }
+            };
+        }
+        var_dump("Fim de código");
     }
 
 //    public function actionGetInstructorDisciplines($id)

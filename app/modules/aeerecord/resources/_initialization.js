@@ -1,5 +1,5 @@
-let url = new URL(window.location.href);
-let recordId = url.searchParams.get('id');
+const url = new URL(window.location.href);
+const recordId = url.searchParams.get('id');
 
 $(document).ready(function() {
     $.ajax({
@@ -7,8 +7,8 @@ $(document).ready(function() {
         url: "?r=aeerecord/default/getInstructorClassrooms",
         cache: false
     }).success(function(response) {
-        let classrooms = JSON.parse(response);
-        let classroomSelect = $('#classroomSelect');
+        const classrooms = JSON.parse(response);
+        const classroomSelect = $('#classroomSelect');
         Object.entries(classrooms).forEach(function([id, value]) {
             classroomSelect.append($('<option>', {
                 value: value.id,

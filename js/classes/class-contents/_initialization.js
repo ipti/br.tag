@@ -25,7 +25,7 @@ function loadClassContents() {
                     createTable(data);
                 }
 
-                $("#print").addClass("show").removeClass("hide");
+                $("#print-button").addClass("show").removeClass("hide");
                 $("#save").addClass("show--desktop").removeClass("hide");
                 $("#save-button-mobile").addClass("show--tablet").removeClass("hide");
                 $('#error-badge').html('')
@@ -108,7 +108,7 @@ $("#month, #disciplines").on("change", function () {
         $("#classroomValue").text($("#classroom option:selected").text());
     } else {
         $("#widget-class-contents").hide();
-        $("#print, #save, #save-button-mobile").addClass("hide");
+        $("#print-button, #save, #save-button-mobile").addClass("hide");
     }
 });
 
@@ -116,7 +116,8 @@ $(document).ready(function () {
     $('#class-contents').hide();
 });
 
-$(document).on("click", "#print", function () {
+$(document).on("click", "#print-button", function (e) {
+    e.preventDefault();
     let  monthSplit = $("#month").val().split("-");
 
     let classroomId = $("#classroom").val();
@@ -126,7 +127,8 @@ $(document).on("click", "#print", function () {
 
     let url = `?r=reports/ClassContentsReport&classroomId=${classroomId}&month=${month}&year=${year}&disciplineId=${disciplineId}`;
 
-    window.open(url, "_blank")
+    window.open(url, "_blank");
+
 });
 
 $("#save, #save-button-mobile").on('click', function () {

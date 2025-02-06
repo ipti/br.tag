@@ -10,7 +10,7 @@
  * The followings are the available model relations:
  * @property Classroom[] $classrooms
  */
-class EdcensoProfessionalEducationCourse extends CActiveRecord
+class EdcensoProfessionalEducationCourse extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

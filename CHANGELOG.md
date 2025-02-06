@@ -1,15 +1,77 @@
-## [Versão 3.92.207]
-- Funcionalidade de Professor substituto adicionada.
-- Telas relacionadas com frequência e aulas ministradas adapatadas à nova funcionalidade.
+## [Versão 3.96.217]
+- Corrigido o relatório de professores por escola
+- Correção no relatório "Ficha de Notas", disciplinas sem nota não afetam mais a situação final de matrícula.
 
-## [Versão 3.91.207]
+## [Versão 3.96.216]
+- Adicionada reuperação final por peso
+- Adicionado usuário de leitura
+
+## [Versão 3.95.216]
+- Corrigida a funcionalidade de imprimir aulas ministradas.
+
+## [Versão 3.95.215]
+- Correção na funcionalidade de atualizar situação de matrícula após calcular a nota final de aluno.
+
+## [Versão 3.95.213]
+- Adicionando o campo de situação de matrícula na tela de atualização em lote dos alunos de uma turma
+
+## [Versão 3.94.213]
+- Corrigindo a exibição da média de nota em turmas por conceito na ata de notas
+
+## [Versão 3.94.212]
+- Criando o formulário de notas por conceito na tela na sessão de administrador, permitindo a criação de um novo conceito e também modificar conceitos existentes
+- Modificando a forma como notas por conceito são calculadas, para calcular a média final do aluno
+
+## [Versão 3.94.210]
+- Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
+
+## [Versão 3.93.210]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
+
+## [Versão 3.95.215]
+- Correção de Ficha de notas: Adicionando status para alunos transferidos, evadidos, cancelados ou mortos;
+- Novas ferramentas de monitoriamento de saude do sistema;
+
+## [Versão 3.94.214]
+- Correção de Ficha de notas: Os valores de frequencia e a contagem de aulas foi revisado e foi adaptada a visualização dos dados para diferenciar
+o relatório para ensino intanfil e fundamental menor do fundamental maior;
+
+## [Versão 3.94.213]
+- Controle de status a serem considerados na exportação do sagres. Por padrão apenas matriculas com status "matriculado" são envadas. No entanto, usando o diario eletronico, o status de algumas matriculas mudaram para "Aprovado", "Reprovado" e outros. Foi adicionado um controle para optar ou não por considerar esses status na exportação.
+- Novo campo na turma para definir o periodo da turma: Anual, 1 Semestre ou 2 Semestre;
+- Novo campo na turma para deliberadamente desconsiderar ela na exportação do sagres;
+
+## [Versão 3.93.212]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
+
+## [Versão 3.93.211]
+- Ordenando de acordo com a ordem da turma o relatório de ata de notas
+
+## [Versão 3.93.210]
+- Corrigindo a busca por aulas em aulas ministradas quando o usuário é um professor da educação infantil
+
+## [Versão 3.93.209]
+- Trocado "Série" por "Etapa" na Ficha de Matrícula
+- O Campo 27 da Ficha de Matrícula (Autorização do Termo de Consentimento de Imagem) agora traz preenchido do cadastro do aluno
+
+## [Versão 3.92.209]
+- Corrigido o relatório de alunos por escola (Cpg, Rg e Nis), exibindo somente os alunos do ano em que o relatório foi emitido
+
+## [Versão 3.92.208]
+- Permitindo o acesso dos coordenadores pedagógicos as telas de frequência de professor e a tela de notas
+- Filtrando por escola os professores que podem ser selecionados na tela de frequência de professor
+
+## [Versão 3.92.207]
 - Feito com que o aluno rematricule numa turma que havia sido transferida
 - Aumentado fonte da ficha de notas
 - Inserido campos no cabeçalho da ficha de notas (gênero, filiação, data de nascimento, naturalidade)
 - Inserido opção pra imprimir ficha de notas com local/data ou não
 - Trocado signatário de inspetor escolar para secretário escolar na ficha de notas
+- Adicionado filtro de etapa para as turmas multiseriadas
+- Funcionalidade de Professor substituto adicionada.
+- Telas relacionadas com frequência e aulas ministradas adapatadas à nova funcionalidade.
 
-## [Versão 3.90.206]
+## [Versão 3.91.206]
 - Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
 
 ## [Versão 3.91.205]

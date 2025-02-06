@@ -13,7 +13,7 @@
  * @property Professional $professionalFk
  * @property Professional[] $professionals
  */
-class Attendance extends CActiveRecord
+class Attendance extends TagModel
 {
 	/**
 	 * @return string the associated database table name

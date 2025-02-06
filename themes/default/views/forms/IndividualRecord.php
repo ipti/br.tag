@@ -395,7 +395,7 @@ $rTwoDisciplinesCount = $mathematicsCount + $sciencesCount;
                             ?>
                         </td>
                         <?php
-                        if($d['final_media'] < $gradeRules->approvation_media) {
+                        if($d['final_media'] < $gradeRules->approvation_media && $d['final_media'] !== null) {
                             $reprovado = true;
                         }
                         ?>

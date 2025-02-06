@@ -13,6 +13,24 @@ $(document).on(
         loadStructure();
     }
 );
+$(document).on(
+    "change",
+    ".final-recovery-unity-calculation",
+    function () {
+
+        if($('.final-recovery-unity-calculation').select2('data').text.trim() == "Média Semestral") {
+            $('.js-final-recovery-fomula').show()
+        } else {
+            $('.js-final-recovery-fomula').hide()
+        }
+
+        if($(this).find(':selected').text().trim() == "Peso") {
+            $(".weights-final-recovery").removeClass("hide")
+        } else {
+            $(".weights-final-recovery").addClass("hide")
+        }
+    }
+);
 
 $(document).on("keyup", ".unity-name", function (e) {
     const unity = $(this).closest(".unity");
@@ -504,9 +522,12 @@ function saveUnities(reply) {
                     "val"
                 ),
                 operation: $(".final-recovery-unity-operation").val(),
+                WeightfinalRecovery: $(".weight-final-recovery").val(),
+                WeightfinalMedia:$(".weight-final-media").val(),
                 final_recovery_avarage_formula: $("select.js-final-recovery-fomula-select").val()
             },
             finalRecoverMedia: $(".final-recover-media").val(),
+
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
             ruleType: $(".js-rule-type").select2("val"),
@@ -774,10 +795,33 @@ function loadStructure() {
                 );
                 $(".final-recovery-unity-id").val(data.final_recovery.id);
                 $(".final-recovery-unity-name").val(data.final_recovery.name);
-                $(".final-recovery-unity-calculation").select2(
+
+                const finalRecoveryCalculation = $(".final-recovery-unity-calculation").select2(
                     "val",
                     data.final_recovery.grade_calculation_fk
                 );
+                if (finalRecoveryCalculation) {
+                    const selectedText = finalRecoveryCalculation.find(':selected').text().trim();
+
+                    $(".weight-final-recovery").val(data.final_recovery.weight_final_recovery);
+                    $(".weight-final-media").val(data.final_recovery.weight_final_media);
+                    $(".weights-final-recovery").addClass("hide");
+                    $(".js-final-recovery-fomula").addClass("hide");
+
+                    switch (selectedText) {
+                        case "Média Semestral":
+                            $('.js-final-recovery-fomula').removeClass("hide");
+                            break;
+
+                        case "Peso":
+                            $(".weights-final-recovery").removeClass("hide");
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
                 $("select.js-final-recovery-fomula-select").select2(
                     "val",
                     data.final_recovery.final_recovery_avarage_formula

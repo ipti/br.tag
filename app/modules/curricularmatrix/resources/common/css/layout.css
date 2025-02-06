@@ -67,3 +67,7 @@ form{
 .alert-container {
     display: none;
 }
+
+#workload {
+    width: 100%;
+}

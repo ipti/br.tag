@@ -7,7 +7,7 @@
  * @property string $name
  * @property integer $id
  */
-class FoodPublicTarget extends CActiveRecord
+class FoodPublicTarget extends TagModel
 {
 	/**
 	 * @return string the associated database table name

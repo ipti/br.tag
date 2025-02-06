@@ -404,7 +404,7 @@ class ReportsController extends Controller
     {
         // Construíndo condicionais e definindo ordenação para a consulta
         $criteria = new CDbCriteria;
-        $criteria->order = 'name ASC';
+        $criteria->order = 'edcenso_stage_vs_modality_fk, name ASC';
         $criteria->condition = "school_year = :year";
         $criteria->params = array("year" => Yii::app()->user->year);
         //Consulta todas as classes abertas no ano atual
@@ -540,7 +540,7 @@ class ReportsController extends Controller
                     $frequency[$schedule->day]["totalAbsentStudents"] += 1;
                 }
             }
-            $frequency[$schedule->day]["attendance"] = 100 - (($frequency[$schedule->day]["totalAbsentStudents"]/$frequency[$schedule->day]["totalStudents"])*100);
+            $frequency[$schedule->day]["attendance"] = round(100 - (($frequency[$schedule->day]["totalAbsentStudents"]/$frequency[$schedule->day]["totalStudents"])*100), 2);
         }
         return $frequency;
     }
