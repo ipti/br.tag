@@ -29,7 +29,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     </div>
     <div class="mobile-row justify-content--space-between">
         <div class="t-buttons-container auto-width">
-            <a id="print" class='t-button-secondary hide printButton'>
+            <a id="print-button" class='t-button-secondary hide printButton'>
                 <span class="t-icon-printer"></span>
                 <?php echo Yii::t('default', 'Print') ?>
             </a>

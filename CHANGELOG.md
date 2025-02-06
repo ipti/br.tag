@@ -1,3 +1,8 @@
+## [Versão 3.94.214]
+- Corrigida a funcionalidade de imprimir aulas ministradas.
+
+## [Versão 3.94.214]
+- Correção na funcionalidade de atualizar situação de matrícula após calcular a nota final de aluno.
 
 ## [Versão 3.95.213]
 - Adicionando o campo de situação de matrícula na tela de atualização em lote dos alunos de uma turma
