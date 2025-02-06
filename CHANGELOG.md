@@ -1,4 +1,4 @@
-## [Versão 3.95.217]
+## [Versão 3.96.217]
 - Corrigido o relatório de professores por escola
 - Correção no relatório "Ficha de Notas", disciplinas sem nota não afetam mais a situação final de matrícula.
 
