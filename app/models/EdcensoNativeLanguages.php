@@ -7,7 +7,7 @@
  * @property integer $id
  * @property string $name
  */
-class EdcensoNativeLanguages extends CActiveRecord
+class EdcensoNativeLanguages extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

@@ -17,7 +17,7 @@
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
  * @property CourseClassHasClassAbility[] $courseClassHasClassAbilities
  */
-class CourseClassAbilities extends CActiveRecord
+class CourseClassAbilities extends TagModel
 {
 	public $parent_fk;
 	/**

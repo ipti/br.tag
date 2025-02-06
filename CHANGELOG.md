@@ -1,7 +1,15 @@
-## [Versão 3.94.214]
+## [Versão 3.95.217]
+- Corrigido o relatório de professores por escola
+- Correção no relatório "Ficha de Notas", disciplinas sem nota não afetam mais a situação final de matrícula.
+
+## [Versão 3.96.216]
+- Adicionada reuperação final por peso
+- Adicionado usuário de leitura
+
+## [Versão 3.95.216]
 - Corrigida a funcionalidade de imprimir aulas ministradas.
 
-## [Versão 3.94.214]
+## [Versão 3.95.215]
 - Correção na funcionalidade de atualizar situação de matrícula após calcular a nota final de aluno.
 
 ## [Versão 3.95.213]
@@ -16,7 +24,7 @@
 
 ## [Versão 3.94.210]
 - Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
--
+
 ## [Versão 3.93.210]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
 
@@ -32,7 +40,6 @@ o relatório para ensino intanfil e fundamental menor do fundamental maior;
 - Controle de status a serem considerados na exportação do sagres. Por padrão apenas matriculas com status "matriculado" são envadas. No entanto, usando o diario eletronico, o status de algumas matriculas mudaram para "Aprovado", "Reprovado" e outros. Foi adicionado um controle para optar ou não por considerar esses status na exportação.
 - Novo campo na turma para definir o periodo da turma: Anual, 1 Semestre ou 2 Semestre;
 - Novo campo na turma para deliberadamente desconsiderar ela na exportação do sagres;
-
 
 ## [Versão 3.93.212]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais

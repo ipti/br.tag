@@ -10,7 +10,7 @@
  * The followings are the available model relations:
  * @property StudentDocumentsAndAddress[] $studentDocumentsAndAddresses
  */
-class EdcensoOrganIdEmitter extends CActiveRecord
+class EdcensoOrganIdEmitter extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

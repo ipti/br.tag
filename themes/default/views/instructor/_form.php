@@ -930,7 +930,7 @@ $isModel = isset($modelInstructorIdentification->id);
                                         2 => 'Fundamental Completo',
                                         3 => 'Ensino Médio - Normal/Magistério',
                                         4 => 'Ensino Médio - Normal/Magistério Indígena',
-                                        7 => 'Ensino Médio',
+                                        5 => 'Ensino Médio',
                                         6 => 'Superior'
                                     ), array("class" => "select-search-off control-input")); ?>
                                     <?php echo $form->error($modelInstructorVariableData, 'scholarity'); ?>

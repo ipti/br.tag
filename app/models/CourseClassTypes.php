@@ -10,7 +10,7 @@
  * The followings are the available model relations:
  * @property CourseClassHasClassType[] $courseClassHasClassTypes
  */
-class CourseClassTypes extends CActiveRecord
+class CourseClassTypes extends TagModel
 {
 	/**
 	 * @return string the associated database table name

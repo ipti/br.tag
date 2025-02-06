@@ -41,7 +41,7 @@ class GetStudentGradesByDisciplineUsecase
         } else {
             $studentEnrollments= $classroom->activeStudentEnrollments;
         }
-        $showSemAvarageColumn = $this->checkSemesterUnities( $this->stageId);
+        $showSemAvarageColumn = $this->checkSemesterUnities( $this->stageId) && $rules->gradeCalculationFk->name == 'Média Semestral';
 
         $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline( $this->stageId);
         $unitiesByDiscipline = array_filter($unitiesByDisciplineResult, function ($item){
@@ -123,7 +123,7 @@ class GetStudentGradesByDisciplineUsecase
 
         $criteria = new CDbCriteria();
         $criteria->addCondition("edcenso_stage_vs_modality_fk = :stage");
-        $criteria->addCondition("semester IS NULL"); // TODO: só deus e chagas sabiam, agora só deus sabe pq faz isso
+        $criteria->addCondition("semester IS NULL");
         $criteria->addCondition("type != :type");
         $criteria->params = [
             ':stage' => $stage,
