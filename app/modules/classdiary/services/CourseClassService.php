@@ -34,8 +34,14 @@
 				}
 			echo json_encode(["data" => $courseClasses]);
 		}
-        public function GetCoursePlans($discipline_fk) {
-           return  CHtml::listData(CoursePlan::model()->findAllByAttributes(["users_fk"=> Yii::app()->user->loginInfos->id, "discipline_fk"=>$discipline_fk]), 'id', 'name');
+        public function GetCoursePlans($discipline_fk, $stage_fk) {
+
+            if(!TagUtils::isStageMinorEducation($stage_fk)) {
+               return CHtml::listData(CoursePlan::model()->findAllByAttributes(["users_fk"=> Yii::app()->user->loginInfos->id, "discipline_fk"=>$discipline_fk]), 'id', 'name');
+            } else {
+                return  CHtml::listData(CoursePlan::model()->findAllByAttributes(["users_fk"=> Yii::app()->user->loginInfos->id]), 'id', 'name');
+            }
+
         }
         public function GetAbilities($discipline_fk, $stage_fk) {
 

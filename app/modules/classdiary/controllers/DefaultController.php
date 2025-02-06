@@ -27,7 +27,7 @@ class DefaultController extends Controller
 	public function actionClassDiary($discipline_name, $classroom_name, $date, $discipline_fk, $stage_fk)
 	{
         $getCoursePlans = new GetCoursePlans();
-        $coursePlans = $getCoursePlans->exec($discipline_fk);
+        $coursePlans = $getCoursePlans->exec($discipline_fk,$stage_fk);
 
         $getAbilities = new getAbilities();
         $abilities = $getAbilities->exec($discipline_fk, $stage_fk);
