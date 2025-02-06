@@ -46,8 +46,7 @@
                                     '10' => '?r=classroom/update&id=' . $model->idClass,
                                     '11' => '?r=lunch/lunch/update&id=' . $model->idLunch,
                                     '12' => '?r=stages/default/update&id=' . $model->idClass,
-                                    '13' => '?r=student/update&id=' . $model->$idStudent,
-                                    '0' => '?r=sagres/default/createorupdate'
+                                    '0' => '?r=sagres/default/createorupdate',
                                 ];
 
                                 $link = $map[$model->identifier];
