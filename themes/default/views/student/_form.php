@@ -220,39 +220,38 @@ $form = $this->beginWidget(
             </div>
             <!-- CPF -->
             <div class="column clearleft--on-mobile is-two-fifths">
-              <div class="t-field-text js-hide-not-required" id="show-student-civil-name-box" style="display:flex; flex-direction:row; gap:0 0.5rem;">
-                <input type="checkbox" class="t-field-checkbox__input" id="show-cpf-reason" <?php if ($modelStudentDocumentsAndAddress->cpf != null) {
-                  echo "checked";
-                } ?>>
-                <label class="t-field-checkbox__label">Aluno possui CPF?</label>
-              </div>
-              <div class="t-field-text" id="cpfStudents" style="display: none;">
-                <?php echo $form->label($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label')); ?>
-                <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "class" => "t-field-text__input")); ?>
-                <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
-                  <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>"
-                    alt="icone erro">
-                </span>
-                <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf')): ?>
-                  <div style='margin-top: 5px;color: red;'>
-                    <?= CHtml::encode($modelStudentDocumentsAndAddress->getError('cpf')); ?>
-                  </div>
-                <?php endif; ?>
-              </div>
-              <div class="t-field-text" id="cpfReasonStudents" style="display: block;">
-                <?= $form->label($modelStudentDocumentsAndAddress, 'cpf_reason', array('class' => 't-field-text__label')); ?>
-                <?php echo $form->DropDownList(
-                  $modelStudentDocumentsAndAddress,
-                  'cpf_reason',
-                  array(null => "Selecione uma justificativa", 1 => "Pais não entregaram o documento do aluno na unidade escolar", 2 => "Impedimento judicial", 3=>"Aluno não possui documento CPF"),
-                  array('class' => 'select-search-off t-field-select__input select2-container')
-                ); ?>
-                <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf_reason')): ?>
-                  <div style='margin-top: 5px;color: red;'>
-                    <?= CHtml::encode($modelStudentDocumentsAndAddress->getError('cpf_reason')); ?>
-                  </div>
-                <?php endif; ?>
-              </div>
+                <div class="t-field-text js-hide-not-required" id="show-student-cpf-box" style="display:flex; flex-direction:row; gap:0 0.5rem;">
+                    <input type="checkbox" class="t-field-checkbox__input" id="show-cpf-reason"
+                        <?php if ($modelStudentDocumentsAndAddress->cpf != null) { echo "checked"; } ?>>
+                    <label class="t-field-checkbox__label">Aluno possui CPF?</label>
+                </div>
+                <div class="t-field-text" id="cpfStudents" style="display: none;">
+                    <?php echo $form->label($modelStudentDocumentsAndAddress, 'cpf', array('class' => 't-field-text__label')); ?>
+                    <?php echo $form->textField($modelStudentDocumentsAndAddress, 'cpf', array('size' => 11, 'maxlength' => 14, "class" => "t-field-text__input")); ?>
+                    <span id="cpfMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
+                    <img id="errorCPFIcon" style="display: none;" src="<?php echo $themeUrl . '/img/error-icon.svg' ?>"
+                        alt="icone erro">
+                    </span>
+                    <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf')): ?>
+                    <div style='margin-top: 5px;color: red;'>
+                        <?= CHtml::encode($modelStudentDocumentsAndAddress->getError('cpf')); ?>
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <div class="t-field-text" id="cpfReasonStudents" style="display: block;">
+                    <?= $form->label($modelStudentDocumentsAndAddress, 'cpf_reason', array('class' => 't-field-text__label')); ?>
+                    <?php echo $form->DropDownList(
+                    $modelStudentDocumentsAndAddress,
+                    'cpf_reason',
+                    array(null => "Selecione uma justificativa", 1 => "Pais não entregaram o documento do aluno na unidade escolar", 2 => "Impedimento judicial", 3=>"Aluno não possui documento CPF"),
+                    array('class' => 'select-search-off t-field-select__input select2-container')
+                    ); ?>
+                    <?php if ($modelStudentDocumentsAndAddress->hasErrors('cpf_reason')): ?>
+                    <div style='margin-top: 5px;color: red;'>
+                        <?= CHtml::encode($modelStudentDocumentsAndAddress->getError('cpf_reason')); ?>
+                    </div>
+                    <?php endif; ?>
+                </div>
             </div>
           </div>
           <!-- Sexo e Raça -->
