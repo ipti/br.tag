@@ -27,6 +27,9 @@ class GetStudentGradesByDisciplineUsecase
         /** @var Classroom $classroom */
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
 
+        if ($classroom == null) {
+            throw new NoActiveStudentsException();
+        }
         $rules = $classroom->getGradeRules($this->stageId);
 
 

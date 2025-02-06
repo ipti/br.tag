@@ -180,7 +180,7 @@ class CalculateNumericGradeUsecase
         );
     }
 
-    private function getGradeUnitiesByClassroomStage($classroomId)
+    private function getGradeUnitiesByClassroomStage()
     {
 
         if(isset($this->stage) && $this->stage !== "") {
