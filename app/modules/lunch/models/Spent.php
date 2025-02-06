@@ -12,7 +12,7 @@
  * The followings are the available model relations:
  * @property Inventory $inventoryFk
  */
-class Spent extends CActiveRecord{
+class Spent extends TagModel{
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -28,18 +28,7 @@ class Spent extends CActiveRecord{
 	public function tableName(){
 		return 'lunch_spent';
 	}
-    public function behaviors()
-    {
-        return [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
-    }
+
 
 	/**
 	 * @return array validation rules for model attributes.

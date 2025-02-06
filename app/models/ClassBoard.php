@@ -25,7 +25,7 @@
  * @property Classroom $classroomFk
  * @property EdcensoDiscipline $disciplineFk
  */
-class ClassBoard extends CActiveRecord
+class ClassBoard extends TagModel
 {
 	/**
 	 * @return string the associated database table name

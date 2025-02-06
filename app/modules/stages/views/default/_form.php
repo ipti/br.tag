@@ -4,7 +4,7 @@
 /* @var $form CActiveForm */
 
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile('app\modules\stages\resources\_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile('app\modules\stages\resources\_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'edcenso-stage-vs-modality-form',

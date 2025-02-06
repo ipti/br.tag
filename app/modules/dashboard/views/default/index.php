@@ -7,7 +7,7 @@ $this->breadcrumbs = array(
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '\powerbi.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '\powerbi.js?v='.TAG_VERSION, CClientScript::POS_END);
 ?>
 <style>
 	#reportContainer {
