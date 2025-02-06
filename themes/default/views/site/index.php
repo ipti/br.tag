@@ -15,9 +15,10 @@ $cs->registerScript(
 	"vars",
 	"var loadMoreLogs = '" . $this->createUrl("site/loadMoreLogs") . "'; " .
     "var loadMoreWarns = '" . $this->createUrl("site/loadMoreWarns") . "'; " .
-		"var loadLineChartData = '" . $this->createUrl("site/loadLineChartData") . "'; " .
-		"var loadCylinderChartData = '" . $this->createUrl("site/loadCylinderChartData") . "'; " .
-		"var loadPieChartData = '" . $this->createUrl("site/loadPieChartData") . "'; ",
+	"var loadLineChartData = '" . $this->createUrl("site/loadLineChartData") . "'; " .
+	"var loadCylinderChartData = '" . $this->createUrl("site/loadCylinderChartData") . "'; " .
+	"var loadPieChartData = '" . $this->createUrl("site/loadPieChartData") . "'; " .
+    "var loadWarns = '". $this->createUrl("site/loadWarnsHtml") . "';",
 	CClientScript::POS_HEAD
 );
 
@@ -80,20 +81,19 @@ $logCount = count(Log::model()->findAll("school_fk = :school", [':school' => Yii
 				</div>
 			</div>
             <?php if(!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id) && !Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)):?>
-            <div class="row-fluid">
-                <div class="span12">
-                    <div class="widget-scroll margin-bottom-none warn-widget" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false" total="<?= $warns["total"] ?>">
-                        <div class="alerta" hidden><?= $warns["total"] ?></div>
-                        <div class="home-page-table-header ">
-                            <h5 class="t-margin-medium--left text-color--white">Cadastros Pendentes</h5>
-                        </div>
-                        <div class="widget-body warns in" style="height: auto;">
-                            <?= $warns["html"] ?>
-                            <span class="t-button-primary load-more warn-list"> Carregar mais</span>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div id="warns">
+                            <div class="widget-scroll margin-bottom-none warn-widget" data-toggle="collapse-widget" data-scroll-height="223px" data-collapse-closed="false">
+                                <div class="home-page-table-header ">
+                                    <h5 class="t-margin-medium--left text-color--white">Cadastros Pendentes</h5>
+                                </div>
+                                <div class="widget-body warns in" style="height: auto;">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <?php endif?>
 			<!--    <div class="row-fluid home-container">-->
 			<!--        <div class="span6">-->

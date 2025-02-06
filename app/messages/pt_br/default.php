@@ -440,6 +440,8 @@ return array(
     'Differentiated Operating Place' => 'Local de Funcionamento Diferenciado',
     'Complementary Activity' => 'Atividade Complementar',
     'AEE' => 'Atendimento Educacional Especializado (AEE)',
+    "Ignore On Sagres" => 'Excluir da exportação do SAGRES',
+    'Period' => 'Periodo',
 
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',

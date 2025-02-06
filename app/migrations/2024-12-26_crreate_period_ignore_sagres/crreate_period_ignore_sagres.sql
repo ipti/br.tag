@@ -1,0 +1,2 @@
+ALTER TABLE classroom ADD period SMALLINT DEFAULT 0 NOT NULL;
+ALTER TABLE classroom ADD ignore_on_sagres TINYINT DEFAULT 0 NOT NULL;

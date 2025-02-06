@@ -8,13 +8,13 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl.'/js/grades/functions.js', CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl.'/js/grades/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl.'/js/grades/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl.'/js/grades/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $script = "var getGradesUrl = '".Yii::app()->createUrl('grades/getGrades')."';";
 
 $cs->registerScript('variables', $script, CClientScript::POS_END);
-$cs->registerCssFile($baseUrl.'/css/grades.css');
+$cs->registerCssFile($baseUrl.'/css/grades.css?v='.TAG_VERSION);
 $this->setPageTitle('TAG - '.Yii::t('default', 'Grades'));
 
 ?>

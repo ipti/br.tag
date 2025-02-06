@@ -7,8 +7,8 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile('app\modules\foods\resources\inventory\_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile('app\modules\foods\resources\inventory\functions.js', CClientScript::POS_END);
+$cs->registerScriptFile('app\modules\foods\resources\inventory\_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile('app\modules\foods\resources\inventory\functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'food-inventory-form',

@@ -348,6 +348,7 @@ class SagresConsultModel
 
     private function enrolledSimultaneouslyInRegularClasses(int $year)
     {
+
         $query = "SELECT DISTINCT student_fk
                     FROM student_enrollment se
                     JOIN classroom c ON c.id = se.classroom_fk
@@ -355,7 +356,7 @@ class SagresConsultModel
                         SELECT se.student_fk
                         FROM student_enrollment se
                         JOIN classroom c ON c.id = se.classroom_fk
-                        WHERE c.school_year = :year AND (status = 1 or status is null)
+                        WHERE c.school_year = :year AND (se.status = 1 or se.status is null)
                         GROUP BY student_fk
                         HAVING COUNT(*) > 1
                     );";
@@ -439,12 +440,15 @@ class SagresConsultModel
 
     private function checkStudentEnrollment($studentfk, $year, $infoStudent)
     {
+
+        $acceptedStatus = $this->getAcceptedEnrollmentStatus();
+        $strAcceptedStatus = implode(",", $acceptedStatus);
         // Query to get the modalities
         $sql = "SELECT c.modality, c.complementary_activity, se.classroom_fk, se.school_inep_id_fk
         FROM student_enrollment se
         JOIN classroom c ON se.classroom_fk = c.id
         WHERE se.student_fk = :student_fk
-        AND (se.status = 1 OR se.status IS NULL)
+        AND (se.status in ($strAcceptedStatus) or se.status is null)
         AND c.school_year = :year";
 
         $command = Yii::app()->db->createCommand($sql);
@@ -674,9 +678,13 @@ class SagresConsultModel
                     c.school_inep_fk AS schoolInepFk,
                     c.id AS classroomId,
                     c.name AS classroomName,
-                    c.turn AS classroomTurn
+                    c.turn AS classroomTurn,
+                    COALESCE(esvm.edcenso_associated_stage_id, c.edcenso_stage_vs_modality_fk) as stage,
+                    c.period,
+                    c.ignore_on_sagres
                 FROM
                     classroom c
+                    join edcenso_stage_vs_modality esvm on c.edcenso_stage_vs_modality_fk = esvm.id
                 WHERE
                     c.school_inep_fk = :schoolInepFk
                     AND c.school_year = :referenceYear";
@@ -705,16 +713,37 @@ class SagresConsultModel
         }
 
         foreach ($turmas as $turma) {
+
+
+            if ($turma["ignore_on_sagres"] == 1) {
+                continue;
+            }
+
             $classType = new TurmaTType();
             $classId = $turma['classroomId'];
 
+
+            if (\TagUtils::isStageEJA(stage: $turma["stage"]) && $turma["period"] == \PeriodOptions::ANUALY->value) {
+                $inconsistencyModel = new ValidationSagresModel();
+                $inconsistencyModel->enrollment = TURMA_STRONG;
+                $inconsistencyModel->school =  $schoolName;
+                $inconsistencyModel->description = 'A turma <strong>' . $classType->getDescricao() . '</strong> é do tipo EJA, mas o perído está selecionado como anual.';
+                $inconsistencyModel->action = 'Altere o periodo para 1º ou 2º semestre: ' . $classType->getDescricao();
+                $inconsistencyModel->identifier = '10';
+                $inconsistencyModel->idClass = $classId;
+                $inconsistencyModel->idSchool = $inepId;
+                $inconsistencyModel->insert();
+            }
+
+
             $matriculas = $this->getEnrollments($classId, $referenceYear, $month, $finalClass, $inepId, $withoutCpf);
 
-            if ($matriculas === null)
+            if ($matriculas === null){
                 continue;
+            }
 
             $classType
-                ->setPeriodo(0) //0 - Anual
+                ->setPeriodo($turma["period"]) //0 - Anual
                 ->setDescricao($turma["classroomName"])
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($this->getSeries($classId, $inepId))
@@ -727,9 +756,6 @@ class SagresConsultModel
                 $classList[] = $classType;
             }
 
-            $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
-            $params = array(':inepId' => $inepId);
-            $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
 
             $count = (int) \StudentEnrollment::model()->count(array(
                 'condition' => 'classroom_fk = :classroomId',
@@ -739,7 +765,7 @@ class SagresConsultModel
             if ($count === 0) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->school =  $schoolName;
                 $inconsistencyModel->description = 'Não há matrículas ativas para a turma: <strong>' . $classType->getDescricao() . '</strong>';
                 $inconsistencyModel->action = 'Adicione alunos para a turma: ' . $classType->getDescricao();
                 $inconsistencyModel->identifier = '10';
@@ -754,7 +780,7 @@ class SagresConsultModel
             if (!in_array($classType->getPeriodo(), [0, 1, 2])) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->school =  $schoolName;
                 $inconsistencyModel->description = 'Valor inválido para o período';
                 $inconsistencyModel->action = 'Adicione um valor válido para o período da turma: <strong>' . $classType->getDescricao() . '</strong>';
                 $inconsistencyModel->identifier = '10';
@@ -766,7 +792,7 @@ class SagresConsultModel
             if (strlen($classType->getDescricao()) <= $strlen && !is_null($classType->getDescricao())) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->school =  $schoolName;
                 $inconsistencyModel->description = 'Descrição para a turma: <strong>' . $classType->getDescricao() . ' </strong> menor que 3 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição mais detalhada, contendo mais de 5 caracteres';
                 $inconsistencyModel->identifier = '10';
@@ -778,7 +804,7 @@ class SagresConsultModel
             if (strlen($classType->getDescricao()) > $strMaxLength) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->school =  $schoolName;
                 $inconsistencyModel->description = 'Descrição para a turma: <strong>' . $classType->getDescricao() . ' </strong> com mais de 50 caracteres';
                 $inconsistencyModel->action = 'Adicione uma descrição menos detalhada, contendo até 50 caracteres';
                 $inconsistencyModel->identifier = '10';
@@ -789,7 +815,7 @@ class SagresConsultModel
             if ($classType->getTurno() === 0) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->school =  $schoolName;
                 $inconsistencyModel->description = 'Valor inválido para o turno da turma: <strong>' . $classType->getDescricao() . '<strong>';
                 $inconsistencyModel->action = 'Selecione um turno válido para o horário de funcionamento';
                 $inconsistencyModel->identifier = '10';
@@ -801,7 +827,7 @@ class SagresConsultModel
             if ($classType->getTurno() !== 0 && !in_array($classType->getTurno(), [1, 2, 3, 4])) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->school =  $schoolName;
                 $inconsistencyModel->description = 'Valor inválido para o turno da turma: <strong>' . $classType->getDescricao() . '</strong>';
                 $inconsistencyModel->action = 'Selecione um turno válido para o horário de funcionamento';
                 $inconsistencyModel->identifier = '10';
@@ -814,7 +840,7 @@ class SagresConsultModel
             if (!is_bool($classType->getFinalTurma())) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-                $inconsistencyModel->school = $schoolRes['name'];
+                $inconsistencyModel->school =  $schoolName;
                 $inconsistencyModel->description = 'Valor inválido para o final turma';
                 $inconsistencyModel->action = 'Selecione um valor válido para o encerramento do período';
                 $inconsistencyModel->identifier = '10';
@@ -1503,10 +1529,11 @@ class SagresConsultModel
                 ->setEspecialidade($professional['especialidade'])
                 ->setIdEscola($professional['idEscola'])
                 ->setFundeb($professional['fundeb'])
-                ->setAtendimento($this->getAttendances(
-                    $professional['id_professional'],
-                    $referenceYear,
-                    $month
+                ->setAtendimento(
+                    $this->getAttendances(
+                        $professional['id_professional'],
+                        $referenceYear,
+                        $month
                     )
                 );
 
@@ -1577,7 +1604,20 @@ class SagresConsultModel
 
         return $attendanceList;
     }
+    private function getAcceptedEnrollmentStatus(): array
+    {
 
+        if(Yii::app()->features->isEnable("FEAT_SAGRES_STATUS_ENROL")){
+            return [
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_ACTIVE),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVED),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_APPROVEDBYCOUNCIL),
+                \StudentEnrollment::getStatusId(\StudentEnrollment::STATUS_DISAPPROVED),
+            ];
+        }
+
+        return [\StudentEnrollment::getStatusId(status: \StudentEnrollment::STATUS_ACTIVE)];
+    }
     /**
      * Sets a new MatriculaTType
      *
@@ -1589,6 +1629,11 @@ class SagresConsultModel
         $strMaxLength = 200;
         $strlen = 5;
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
+
+        $acceptedStatus = $this->getAcceptedEnrollmentStatus();
+
+        $strAcceptedStatus = implode(",", $acceptedStatus);
+
 
         $query = "SELECT
                         c.edcenso_stage_vs_modality_fk,
@@ -1633,9 +1678,10 @@ class SagresConsultModel
                         left join schedule s on cf.schedule_fk = s.id
                   WHERE
                         se.classroom_fk  =  :classId AND
-                        (se.status = 1 or se.status is null) AND
+                        (se.status in ($strAcceptedStatus) or se.status is null) AND
                         c.school_year = :referenceYear
-                  GROUP BY se.id;
+                  GROUP BY se.id
+                  order by si.name asc;
                 ";
 
         $command = Yii::app()->db->createCommand($query);
