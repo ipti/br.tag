@@ -28,7 +28,7 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
                 stage: $("#CoursePlan_modality_fk").val(),
             },
             success: function (data) {
-                abilities = JSON.parse(data);
+                const abilities = JSON.parse(data);
                 Object.entries(abilities).forEach(function([id, value]) {
                     tr.next().find('select.ability-search-select').append($('<option>', {
                         value: id,
@@ -269,6 +269,28 @@ $(document).on("click", ".ability-panel-option", function () {
             $(".js-abilities-selected").hide();
         }
     }
+});
+
+$(document).on("change", "select.ability-search-select", function () {
+    const selectedText = $(this).find("option:selected").text();
+    const value = $(this).val();
+
+    if (!value) return;
+
+    let abilityPaneOption = $(`
+        <div class='ability-panel-option'>
+            <input type="hidden" class="ability-panel-option-id" value=${value}>
+            <i class="fa fa-check-square"></i>
+            <span>${selectedText}</span>
+        </div>
+    `);
+
+    $(this).closest('.control-group').find('.courseplan-abilities-selected').append(abilityPaneOption);
+
+    let div = $(".course-class-" + $(".course-class-index").val());
+    div.attr("name", "course-class[" + $(".course-class-index").val() + "][ability][" + value + "]");
+
+    $(this).select2("val", "");
 });
 
 $(document).on("click", ".js-add-selected-abilities", function () {
