@@ -812,12 +812,17 @@ class FormsRepository
                             $finalMedia = $this->checkConceptGradeRange($finalMedia, $concepts);
                         }
                         $r['situation'] = mb_strtoupper($r['situation']);
-                        if ($r['situation'] == 'REPROVADO') {
+                       if($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {
+                            $finalSituation = 'DEIXOU DE FREQUENTAR';
+                        } elseif ($r['situation'] == 'REPROVADO') {
                             $finalSituation = 'REPROVADO';
-                        } else if ($r['situation'] == 'RECUPERAÇÃO' && $finalSituation != 'REPROVADO') {
+                        } elseif ($r['situation'] == 'RECUPERAÇÃO' && $finalSituation != 'REPROVADO') {
                             $finalSituation = 'RECUPERAÇÃO';
-                        } else if ($r['situation'] == 'APROVADO' && $finalSituation != 'REPROVADO' && $finalSituation != 'RECUPERAÇÃO') {
+                        } elseif ($r['situation'] == 'APROVADO' && $finalSituation != 'REPROVADO' && $finalSituation != 'RECUPERAÇÃO') {
                             $finalSituation = 'APROVADO';
+                        } elseif ($r['situation'] == 'TRANSFERIDO' && $finalSituation != 'REPROVADO' && $finalSituation != 'RECUPERAÇÃO' && $finalSituation != 'APROVADO') {
+                            $finalSituation = 'TRANSFERIDO';
+
                         }
                         break;
                     }

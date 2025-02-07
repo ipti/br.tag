@@ -339,7 +339,9 @@ class CalculateNumericGradeUsecase
                     $acc[0] += $grade * $weights[$key]->weight;
                     $acc[1] += $weights[$key]->weight;
                 }
-
+                if ($acc[1] == 0) {
+                    return 0;
+                }
                 $result = $acc[0] / $acc[1];
                 break;
         }

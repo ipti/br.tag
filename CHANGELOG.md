@@ -1,3 +1,20 @@
+## [Versão 3.96.220]
+- Corrigido o relatório de professores por escola
+- Correção no relatório "Ficha de Notas", disciplinas sem nota não afetam mais a situação final de matrícula.
+
+## [Versão 3.96.219]
+- Adicionada reuperação final por peso
+- Adicionado usuário de leitura
+
+## [Versão 3.95.219]
+- Corrigida a funcionalidade de imprimir aulas ministradas.
+
+## [Versão 3.95.218]
+- Correção na funcionalidade de atualizar situação de matrícula após calcular a nota final de aluno.
+
+## [Versão 3.95.217]
+- Adicionando o campo de situação de matrícula na tela de atualização em lote dos alunos de uma turma
+
 ## [Versão 3.95.216]
 - Correção no calculo da média final: Frequência do aluno na disciplina agora é considerada durante
 a atualização da situação de matrícula do aluno.
@@ -22,8 +39,24 @@ o relatório para ensino intanfil e fundamental menor do fundamental maior;
 - Modificando a forma como notas por conceito são calculadas, para calcular a média final do aluno
 ## [Versão 3.94.211]
 - Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
--
+
 ## [Versão 3.93.210]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
+
+## [Versão 3.95.215]
+- Correção de Ficha de notas: Adicionando status para alunos transferidos, evadidos, cancelados ou mortos;
+- Novas ferramentas de monitoriamento de saude do sistema;
+
+## [Versão 3.94.214]
+- Correção de Ficha de notas: Os valores de frequencia e a contagem de aulas foi revisado e foi adaptada a visualização dos dados para diferenciar
+o relatório para ensino intanfil e fundamental menor do fundamental maior;
+
+## [Versão 3.94.213]
+- Controle de status a serem considerados na exportação do sagres. Por padrão apenas matriculas com status "matriculado" são envadas. No entanto, usando o diario eletronico, o status de algumas matriculas mudaram para "Aprovado", "Reprovado" e outros. Foi adicionado um controle para optar ou não por considerar esses status na exportação.
+- Novo campo na turma para definir o periodo da turma: Anual, 1 Semestre ou 2 Semestre;
+- Novo campo na turma para deliberadamente desconsiderar ela na exportação do sagres;
+
+## [Versão 3.93.212]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
 
 ## [Versão 3.93.211]
