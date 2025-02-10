@@ -1,5 +1,7 @@
 <?php
 
+Yii::import('application.repository.FormsRepository', true);
+
 class GradesController extends Controller
 {
 
@@ -287,6 +289,7 @@ class GradesController extends Controller
             $hasAllValues = true;
             $totalFaults = 0;
             $givenClasses = 0;
+
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
                 if ($rule == "C") {
@@ -302,13 +305,6 @@ class GradesController extends Controller
                 $givenClasses += (int) $std['grades'][$key]['givenClasses'];
             }
 
-            if($givenClasses != 0) {
-                $frequency = (($givenClasses - $totalFaults) / $givenClasses) * 100;
-            } else {
-                $frequency = null;
-            }
-
-
             if (!$gradeResult->validate()) {
                 throw new CHttpException(
                     "400",
@@ -320,6 +316,12 @@ class GradesController extends Controller
                 TLog::info("Executando SaveGradesRelease: GradeResult salvo com sucesso.", array(
                     "GradeResult" => $gradeResult->id
                 ));
+            }
+
+            if($givenClasses != 0) {
+                $frequency = round((($givenClasses - $totalFaults) / $givenClasses ?: 1) * 100);
+            } else {
+                $frequency = null;
             }
 
             if ($hasAllValues) {
@@ -667,9 +669,13 @@ class GradesController extends Controller
                 TLog::info("Unidades por disciplina", ["GradeUnities" => CHtml::listData($gradesStudent, 'id', 'id')]);
 
                 $gradeResult = (new GetStudentGradesResultUsecase($enrollment->id, $disciplineId))->exec();
+                $formRepository = new FormsRepository();
+                $contentsPerDiscipline = $formRepository->contentsPerDisciplineCalculate($classroom, $disciplineId, $enrollment->id);
+                $totalFaults = $enrollment->countFaultsDiscipline($disciplineId);
+                $frequency =  round((($contentsPerDiscipline - $totalFaults) / ($contentsPerDiscipline ?: 1)) * 100);
                 (new CalculateFinalMediaUsecase($gradeResult, $gradeRules, $countUnities, $gradesStudent))->exec();
                 if($gradeRules->rule_type === "N") {
-                    (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities, $stage))->exec();
+                    (new ChageStudentStatusByGradeUsecase($gradeResult, $gradeRules, $countUnities, $stage, $frequency))->exec();
                 }
 
             }
