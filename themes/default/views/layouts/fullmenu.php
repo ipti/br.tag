@@ -14,7 +14,8 @@ $schoolurl = yii::app()->createUrl('school');
 $select_school = '';
 
 
-if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)) {
+if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)
+|| Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)) {
     $select_school = CHtml::activeDropDownList(
         SchoolIdentification::model(),
         'inep_id',
