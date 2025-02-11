@@ -29,10 +29,11 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
             },
             success: function (data) {
                 const abilities = JSON.parse(data);
-                Object.entries(abilities).forEach(function([id, value]) {
+                abilities.forEach(function(ability) {
+                    const formattedText = "(" + ability.code + ") " + ability.description;
                     tr.next().find('select.ability-search-select').append($('<option>', {
-                        value: id,
-                        text: value
+                        value: ability.id,
+                        text: formattedText
                     }));
                 });
             },
@@ -274,12 +275,15 @@ $(document).on("click", ".ability-panel-option", function () {
 $(document).on("change", "select.ability-search-select", function () {
     const selectedText = $(this).find("option:selected").text();
     const value = $(this).val();
+    const tr = $(this).closest("tr").prev();
+    const row = table.row(tr);
+    const index = row.data().class;
 
     if (!value) return;
 
     let abilityPaneOption = $(`
         <div class='ability-panel-option'>
-            <input type="hidden" class="ability-panel-option-id" value=${value}>
+            <input type="hidden" class="ability-panel-option-id" value=${value} name="course-class[${index}][ability][${value}]">
             <i class="fa fa-check-square"></i>
             <span>${selectedText}</span>
         </div>
@@ -287,14 +291,11 @@ $(document).on("change", "select.ability-search-select", function () {
 
     $(this).closest('.control-group').find('.courseplan-abilities-selected').append(abilityPaneOption);
 
-    let div = $(".course-class-" + $(".course-class-index").val());
-    div.attr("name", "course-class[" + $(".course-class-index").val() + "][ability][" + value + "]");
-
     $(this).select2("val", "");
 });
 
 $(document).on("click", ".js-add-selected-abilities", function () {
-    var div = $(".course-class-" + $(".course-class-index").val());
+    let div = $(".course-class-" + $(".course-class-index").val());
     div.find(".courseplan-abilities-selected").html($(".js-abilities-selected").find(".ability-panel-option").clone());
     div.find(".courseplan-abilities-selected").find(".ability-panel-option i").removeClass("fa-minus-square").addClass("fa-check-square");
     div.find(".ability-panel-option-id").each(function (index) {

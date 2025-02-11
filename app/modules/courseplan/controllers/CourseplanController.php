@@ -227,7 +227,11 @@ class CourseplanController extends Controller
 
         $formattedAbilities = [];
         foreach ($abilities as $ability) {
-            $formattedAbilities[$ability->id] = "({$ability->code}) {$ability->description}";
+            $formattedAbilities[] = [
+                "id" => $ability->id,
+                "code" => $ability->code,
+                "description" => $ability->description
+            ];
         }
 
         echo CJSON::encode($formattedAbilities);
