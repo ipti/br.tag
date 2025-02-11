@@ -15,6 +15,9 @@
 ## [Versão 3.95.213]
 - Adicionando o campo de situação de matrícula na tela de atualização em lote dos alunos de uma turma
 
+## [Versão 3.94.214]
+- Adicionando a filtro de ano ao exibir os planos de aula, serão exibidos somente os planos do ano que o usuário está logado
+
 ## [Versão 3.94.213]
 - Corrigindo a exibição da média de nota em turmas por conceito na ata de notas
 
