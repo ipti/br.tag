@@ -6,8 +6,8 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile('app\modules\foods\resources\request\_initialization.js', CClientScript::POS_END);
-$cs->registerScriptFile('app\modules\foods\resources\request\functions.js', CClientScript::POS_END);
+$cs->registerScriptFile('app\modules\foods\resources\request\_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile('app\modules\foods\resources\request\functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $form=$this->beginWidget('CActiveForm', array(
     'id'=>'food-request-form',

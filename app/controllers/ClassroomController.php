@@ -417,7 +417,8 @@ class ClassroomController extends Controller
             foreach ($enrollments as $id => $fields) {
                 $enro = StudentEnrollment::model()->findByPk($id);
                 $enro->edcenso_stage_vs_modality_fk = $fields['edcenso_stage_vs_modality_fk'];
-                $enro->update(array('edcenso_stage_vs_modality_fk'));
+                $enro->status = $fields['status'];
+                $enro->update(array('edcenso_stage_vs_modality_fk', 'status'));
             }
         }
 
