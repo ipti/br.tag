@@ -51,6 +51,15 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; professores nessa escola.</span>";
             } else {
                 foreach ($r["instructors"] as $p) {
+                    $scholarityLevels = [
+                        1 => "Fundamental Incompleto",
+                        2 => "Fundamental Completo",
+                        3 => "Ensino M&eacute;dio - Normal/Magist&eacute;rio",
+                        4 => "Ensino M&eacute;dio - Normal/Magist&eacute;rio Ind&iacute;gena",
+                        5 => "Ensino Médio",
+                        6 => "Ensino Superior"
+                    ];
+
                     $html .= "<tr>"
                         . "<td>" . $ordem . "</td>"
                         . "<td>" . $p['inep_id'] . "</td>"

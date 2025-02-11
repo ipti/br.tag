@@ -642,9 +642,11 @@ class ReportsRepository
                 ii.name,
                 ii.birthday_date,
                 ii.inep_id,
+                ivd.scholarity,
                 c.school_inep_fk
             FROM instructor_identification ii
             JOIN instructor_teaching_data itd ON ii.id = itd.instructor_fk
+            LEFT JOIN instructor_variable_data ivd ON ii.id= ivd.id
             JOIN classroom c ON c.id = itd.classroom_id_fk
             WHERE c.school_year = :user_year
             GROUP BY c.school_inep_fk,

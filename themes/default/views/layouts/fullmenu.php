@@ -14,7 +14,8 @@ $schoolurl = yii::app()->createUrl('school');
 $select_school = '';
 
 
-if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)) {
+if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)
+|| Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)) {
     $select_school = CHtml::activeDropDownList(
         SchoolIdentification::model(),
         'inep_id',
@@ -188,7 +189,6 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
         <!-- Sidebar menu & content wrapper -->
         <div id="wrapper">
             <!-- Sidebar menu -->
-
                 <div class="t-drawer js-drawer hidden-print t-drawer--mobile-hidden">
                     <div class="colorful-bar">
                         <span id="span-color-blue"></span>
@@ -454,6 +454,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     </a>
                                 </li>
                             <?php endif; ?>
+
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
                                 <li id="menu-quiz"
                                     class="t-menu-item  <?= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : '' ?> hide-responsive">
@@ -494,6 +495,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                         strpos($_SERVER['REQUEST_URI'], "?r=sagres") ||
                                         strpos($_SERVER['REQUEST_URI'], "?r=sedsp") ? 'in' : '' ?>"
                                         id="submenu-integrations">
+
 
                                         <li
                                             class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=censo/validate") ? 'active' : '' ?>">

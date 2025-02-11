@@ -535,6 +535,8 @@ class AdminController extends Controller
         $finalRecoverMedia = Yii::app()->request->getPost("finalRecoverMedia");
         $calculationFinalMedia = Yii::app()->request->getPost("finalMediaCalculation");
         $finalRecovery = Yii::app()->request->getPost("finalRecovery");
+        $finalRecoveryWeight = Yii::app()->request->getPost("finalRecoveryWeight");
+        $finalMediaWeight = Yii::app()->request->getPost("finalMediaWeight");
         $ruleType = Yii::app()->request->getPost("ruleType");
         $hasFinalRecovery = Yii::app()->request->getPost("hasFinalRecovery") === "true";
         $hasPartialRecovery = Yii::app()->request->getPost("hasPartialRecovery") === "true";
@@ -568,6 +570,13 @@ class AdminController extends Controller
                 $recoveryUnity->grade_calculation_fk = $finalRecovery["grade_calculation_fk"];
                 $recoveryUnity->edcenso_stage_vs_modality_fk = $stage;
                 $recoveryUnity->final_recovery_avarage_formula = $finalRecovery["final_recovery_avarage_formula"];
+
+                $gradeCalculation = GradeCalculation::model()->findByPk($finalRecovery["grade_calculation_fk"]);
+
+                if($gradeCalculation->name === "Peso"){
+                    $recoveryUnity->weight_final_media = $finalRecovery["WeightfinalMedia"];
+                    $recoveryUnity->weight_final_recovery = $finalRecovery["WeightfinalRecovery"];
+                }
 
                 if (!$recoveryUnity->validate()) {
                     $validationMessage = Yii::app()->utils->stringfyValidationErrors($recoveryUnity);
