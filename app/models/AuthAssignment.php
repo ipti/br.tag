@@ -9,7 +9,7 @@
  * @property string $bizrule
  * @property string $data
  */
-class AuthAssignment extends CActiveRecord
+class AuthAssignment extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

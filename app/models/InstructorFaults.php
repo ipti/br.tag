@@ -13,7 +13,7 @@
  * @property Schedule $scheduleFk
  * @property InstructorIdentification $instructor_fk
  */
-class InstructorFaults extends CActiveRecord
+class InstructorFaults extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

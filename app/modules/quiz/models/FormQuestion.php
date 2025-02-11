@@ -1,8 +1,8 @@
 <?php
 
-class FormQuestion extends CModel
+class FormQuestion extends TagModel
 {
-    
+
     public $quiz;
     public $question;
     public $answer;
@@ -57,7 +57,7 @@ class FormQuestion extends CModel
 	{
 		return parent::model($className);
     }
-    
+
     public function getIdentifier(){
         return 'FormQuestion['. $this->quiz->id .']['. $this->question->id .']';
     }

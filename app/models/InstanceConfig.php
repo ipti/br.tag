@@ -9,7 +9,7 @@
  * @property string $parameter_name
  * @property string $value
  */
-class InstanceConfig extends CActiveRecord
+class InstanceConfig extends TagModel
 {
     /**
      * @return string the associated database table name

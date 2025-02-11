@@ -10,7 +10,7 @@
  * The followings are the available model relations:
  * @property EdcensoDiscipline[] $edcensoDisciplines
  */
-class EdcensoBaseDisciplines extends CActiveRecord
+class EdcensoBaseDisciplines extends TagModel
 {
 	/**
 	 * @return string the associated database table name

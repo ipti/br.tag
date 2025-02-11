@@ -12,7 +12,7 @@
  * @property FoodMenu $foodMenuFk
  * @property FoodPublicTarget $foodPublicTargetFk
  */
-class FoodMenuVsFoodPublicTarget extends CActiveRecord
+class FoodMenuVsFoodPublicTarget extends TagModel
 {
 	/**
 	 * @return string the associated database table name

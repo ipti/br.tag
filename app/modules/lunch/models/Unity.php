@@ -12,7 +12,7 @@
  * @property Item[] $items
  * @property Portion[] $portions
  */
-class Unity extends CActiveRecord
+class Unity extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

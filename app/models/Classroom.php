@@ -159,7 +159,7 @@ class Classroom extends AltActiveRecord
             ];
         }
 
-        return $behaviors;
+        return array_merge($behaviors, parent::behaviors()) ;
     }
 
     /**

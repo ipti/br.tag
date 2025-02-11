@@ -16,7 +16,7 @@
  * @property InstructorVariableData[] $instructorVariableDatas1
  * @property InstructorVariableData[] $instructorVariableDatas2
  */
-class EdcensoCourseOfHigherEducation extends CActiveRecord
+class EdcensoCourseOfHigherEducation extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.
