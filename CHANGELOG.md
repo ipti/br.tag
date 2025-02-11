@@ -1,6 +1,6 @@
 ## [Versão 3.96.221]
-- Alterado fluxo do Sagres para o modelo de 2025 referente ao xml de Educação.
-- Adiconado justificativa para ausencia de CPF
+- Alterado o fluxo do Sagres para o modelo de 2025 no XML de Educação.
+- Adicionado campo para especificar a justificativa da ausência de CPF do estudante.
 
 ## [Versão 3.96.220]
 - Corrigido o relatório de professores por escola
