@@ -8,8 +8,8 @@ class instructorTeachingDataValidation extends Register{
 
 	function checkRole($value, $pedagogical_mediation_type, $assistance_type, $status_instructor, $status_student){
 
-		$result = $this->isAllowed($value, array('1', '2', '3', '4', '5', '6', '7', '8'));
-		$translate = array('1' => 'Docente', '2' => 'Auxiliar/assistente educacional', '3' => 'Profissional/monitor de atividade complementar', '4' => 'Tradutor e Intérprete de Libras', '5' => 'EAD - Docente Titular', '6' => 'EAD - Docente Tutor', '7' => 'Guia-Intérprete', '8' => 'Profissional de apoio escolar para aluno(a) com deficiência');
+		$result = $this->isAllowed($value, array('1', '2', '3', '4', '5', '6', '7', '8', '9'));
+		$translate = array('1' => 'Docente', '2' => 'Auxiliar/assistente educacional', '3' => 'Profissional/monitor de atividade complementar', '4' => 'Tradutor e Intérprete de Libras', '5' => 'EAD - Docente Titular', '6' => 'EAD - Docente Tutor', '7' => 'Guia-Intérprete', '8' => 'Profissional de apoio escolar para aluno(a) com deficiência', '9' => 'Docente Substituto');
 		if(!$result['status']){
 			return array("status"=>false,"erro"=>$result['erro']);
 		}
@@ -59,7 +59,7 @@ class instructorTeachingDataValidation extends Register{
 		}else{
 			if($value != null){
 				return array("status"=>false,"erro"=>"value $value deveria ser nulo");
-			}	
+			}
 		}
 
 		return array("status"=>true,"erro"=>"");
@@ -94,7 +94,7 @@ class instructorTeachingDataValidation extends Register{
 			foreach ($disciplines_codes as $key => $value) {
 				if($value != null){
 					return array("status"=>false,"erro"=>"value de $value de ordem $key deveria ser nulo");
-				}	
+				}
 			}
 		}
 
