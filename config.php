@@ -8,7 +8,7 @@ defined('YII_DEBUG') or define('YII_DEBUG', $debug);
 defined("SESSION_MAX_LIFETIME") or define('SESSION_MAX_LIFETIME', 3600);
 
 
-define("TAG_VERSION", '3.96.217');
+define("TAG_VERSION", '3.97.220');
 
 
 define("YII_VERSION", Yii::getVersion());

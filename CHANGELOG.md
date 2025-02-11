@@ -1,3 +1,7 @@
+## [Versão 3.97.220]
+- Adicionando no formulário de criação de plano de aula um select de habilidades, permitindo que as habilidades sejam buscadas de uma
+forma simplificada
+
 ## [Versão 3.96.220]
 - Corrigido o relatório de professores por escola
 - Correção no relatório "Ficha de Notas", disciplinas sem nota não afetam mais a situação final de matrícula.
