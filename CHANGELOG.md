@@ -84,7 +84,8 @@ o relatório para ensino intanfil e fundamental menor do fundamental maior;
 - Inserido opção pra imprimir ficha de notas com local/data ou não
 - Trocado signatário de inspetor escolar para secretário escolar na ficha de notas
 - Adicionado filtro de etapa para as turmas multiseriadas
-
+- Funcionalidade de Professor substituto adicionada.
+- Telas relacionadas com frequência e aulas ministradas adapatadas à nova funcionalidade.
 
 ## [Versão 3.91.206]
 - Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
