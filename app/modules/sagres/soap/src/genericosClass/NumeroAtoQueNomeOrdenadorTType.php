@@ -10,7 +10,6 @@ namespace Genericos;
  */
 class NumeroAtoQueNomeOrdenadorTType
 {
-
     /**
      * @var string $numero
      */
@@ -64,7 +63,5 @@ class NumeroAtoQueNomeOrdenadorTType
         $this->ano = $ano;
         return $this;
     }
-
-
 }
 

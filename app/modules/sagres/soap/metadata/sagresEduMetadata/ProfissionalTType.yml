@@ -6,7 +6,7 @@ SagresEdu\ProfissionalTType:
             serialized_name: cpfProfissional
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getCpfProfissional
                 setter: setCpfProfissional
@@ -17,7 +17,7 @@ SagresEdu\ProfissionalTType:
             serialized_name: especialidade
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getEspecialidade
                 setter: setEspecialidade
@@ -28,7 +28,7 @@ SagresEdu\ProfissionalTType:
             serialized_name: idEscola
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getIdEscola
                 setter: setIdEscola
@@ -39,7 +39,7 @@ SagresEdu\ProfissionalTType:
             serialized_name: fundeb
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getFundeb
                 setter: setFundeb
@@ -50,12 +50,12 @@ SagresEdu\ProfissionalTType:
             serialized_name: atendimento
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getAtendimento
                 setter: setAtendimento
             xml_list:
                 inline: true
                 entry_name: atendimento
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             type: array<SagresEdu\AtendimentoTType>

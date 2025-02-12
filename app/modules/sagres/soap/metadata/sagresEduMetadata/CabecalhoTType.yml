@@ -6,7 +6,7 @@ SagresEdu\CabecalhoTType:
             serialized_name: codigoUnidGestora
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getCodigoUnidGestora
                 setter: setCodigoUnidGestora
@@ -17,7 +17,7 @@ SagresEdu\CabecalhoTType:
             serialized_name: nomeUnidGestora
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getNomeUnidGestora
                 setter: setNomeUnidGestora
@@ -28,7 +28,7 @@ SagresEdu\CabecalhoTType:
             serialized_name: cpfResponsavel
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getCpfResponsavel
                 setter: setCpfResponsavel
@@ -39,7 +39,7 @@ SagresEdu\CabecalhoTType:
             serialized_name: cpfGestor
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getCpfGestor
                 setter: setCpfGestor
@@ -50,7 +50,7 @@ SagresEdu\CabecalhoTType:
             serialized_name: anoReferencia
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getAnoReferencia
                 setter: setAnoReferencia
@@ -61,7 +61,7 @@ SagresEdu\CabecalhoTType:
             serialized_name: mesReferencia
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getMesReferencia
                 setter: setMesReferencia
@@ -72,7 +72,7 @@ SagresEdu\CabecalhoTType:
             serialized_name: versaoXml
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getVersaoXml
                 setter: setVersaoXml
@@ -83,7 +83,7 @@ SagresEdu\CabecalhoTType:
             serialized_name: diaInicPresContas
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getDiaInicPresContas
                 setter: setDiaInicPresContas
@@ -94,7 +94,7 @@ SagresEdu\CabecalhoTType:
             serialized_name: diaFinaPresContas
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getDiaFinaPresContas
                 setter: setDiaFinaPresContas

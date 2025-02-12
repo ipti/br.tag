@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * Class representing ProfissionalTType
  *
+ *
  * XSD Type: profissional_t
  */
 class ProfissionalTType
@@ -29,8 +30,6 @@ class ProfissionalTType
 
     #[Serializer\XmlList(inline: true, entry: "edu:atendimento")]
     private array $atendimento = [];
-
-    // Métodos getters e setters permanecem os mesmos
     public function getCpfProfissional(): ?string
     {
         return $this->cpfProfissional;
@@ -102,3 +101,4 @@ class ProfissionalTType
         return $this;
     }
 }
+

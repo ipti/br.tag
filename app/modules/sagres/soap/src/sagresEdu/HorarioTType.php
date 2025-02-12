@@ -1,11 +1,12 @@
 <?php
 
 namespace SagresEdu;
-
 use JMS\Serializer\Annotation as Serializer;
+
 
 /**
  * Class representing HorarioTType
+ *
  *
  * XSD Type: horario_t
  */
@@ -33,75 +34,148 @@ class HorarioTType
     #[Serializer\XmlElement(cdata: false)]
     private array $cpfProfessor = [];
 
-    // Métodos getters e setters permanecem os mesmos
-    public function getDiaSemana(): ?int
+    /**
+     * Gets as diaSemana
+     *
+     * @return int
+     */
+    public function getDiaSemana() : ?int
     {
         return $this->diaSemana;
     }
 
+    /**
+     * Sets a new diaSemana
+     *
+     * @param int $diaSemana
+     * @return self
+     */
     public function setDiaSemana(int $diaSemana): self
     {
         $this->diaSemana = $diaSemana;
         return $this;
     }
 
+    /**
+     * Gets as duracao
+     *
+     * @return int
+     */
     public function getDuracao(): ?int
     {
         return $this->duracao;
     }
 
+    /**
+     * Sets a new duracao
+     *
+     * @param int $duracao
+     * @return self
+     */
     public function setDuracao(int $duracao): self
     {
         $this->duracao = $duracao;
         return $this;
     }
 
+    /**
+     * Gets as horaInicio
+     *
+     * @return \DateTime
+     */
     public function getHoraInicio(): ?\DateTime
     {
         return $this->horaInicio;
     }
 
+    /**
+     * Sets a new horaInicio
+     *
+     * @param \DateTime $horaInicio
+     * @return self
+     */
     public function setHoraInicio(\DateTime $horaInicio): self
     {
         $this->horaInicio = $horaInicio;
         return $this;
     }
 
-    public function getDisciplina(): ?string
+    /**
+     * Gets as disciplina
+     *
+     * @return string
+     */
+    public function getDisciplina():?string
     {
         return $this->disciplina;
     }
 
+    /**
+     * Sets a new disciplina
+     *
+     * @param string $disciplina
+     * @return self
+     */
     public function setDisciplina(string $disciplina): self
     {
         $this->disciplina = $disciplina;
         return $this;
     }
 
+    /**
+     * Adds as cpfProfessor
+     *
+     * @return self
+     * @param string $cpfProfessor
+     */
     public function addToCpfProfessor(string $cpfProfessor): self
     {
         $this->cpfProfessor[] = $cpfProfessor;
         return $this;
     }
 
+    /**
+     * isset cpfProfessor
+     *
+     * @param int|string $index
+     * @return bool
+     */
     public function issetCpfProfessor($index): bool
     {
         return isset($this->cpfProfessor[$index]);
     }
 
+    /**
+     * unset cpfProfessor
+     *
+     * @param int|string $index
+     * @return void
+     */
     public function unsetCpfProfessor($index): void
     {
         unset($this->cpfProfessor[$index]);
     }
 
+    /**
+     * Gets as cpfProfessor
+     *
+     * @return string[]
+     */
     public function getCpfProfessor(): array
     {
         return $this->cpfProfessor;
     }
 
+    /**
+     * Sets a new cpfProfessor
+     *
+     * @param string $cpfProfessor
+     * @return self
+     */
     public function setCpfProfessor(array $cpfProfessor): self
     {
         $this->cpfProfessor = $cpfProfessor;
         return $this;
     }
 }
+

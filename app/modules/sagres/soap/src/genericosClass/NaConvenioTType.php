@@ -10,7 +10,6 @@ namespace Genericos;
  */
 class NaConvenioTType
 {
-
     /**
      * @var string $tipoConvenio
      */
@@ -91,7 +90,5 @@ class NaConvenioTType
         $this->anoConvenio = $anoConvenio;
         return $this;
     }
-
-
 }
 

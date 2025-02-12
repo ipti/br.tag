@@ -16,10 +16,10 @@ RUN sed -i "s|/app/web|/app|g" /etc/nginx/conf.d/default.conf \
     && sed -i "s|memory_limit=128M|memory_limit=512M|g" /usr/local/etc/php/conf.d/base.ini \
     && sed -i "s|fastcgi_pass 127.0.0.1:9000;|fastcgi_pass 127.0.0.1:9000;fastcgi_read_timeout 2400;proxy_read_timeout 2400;|g" /etc/nginx/conf.d/default.conf
 
-WORKDIR /app/app
-RUN composer update \
-    && composer update --no-plugins \
-    && composer install
+# WORKDIR /app/app
+# RUN composer update \
+#    && composer update --no-plugins \
+#    && composer install
 
 # Voltar para o diretório principal (/app) e executar comandos adicionais
 WORKDIR /app

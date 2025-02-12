@@ -52,9 +52,16 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         . "<td>" . $p['inep_id'] . "</td>"
                         . "<td>" . $p['birthday_date'] . "</td>"
                         . "<td>" . $p['name'] . "</td>"
-                        . "<td>" . ($p['scholarity'] == 1 ? "Fundamental Incompleto" : $p['scholarity'] == 2 ? "Fundamental Completo" :
-                            $p['scholarity'] == 3 ? "Ensino M&eacute;dio � Normal/Magist&eacute;rio" : $p['scholarity'] == 4 ? "Ensino M&eacute;dio � Normal/Magist&eacute;rio Ind&iacute;gena" :
-                                $p['scholarity'] == 5 ? "Ensino M&eacute;dio" : "Superior") . "</td>"
+                        . "<td>" . ($p['scholarity'] == 1 ? "Fundamental Incompleto" :
+                                    ($p['scholarity'] == 2 ? "Fundamental Completo" :
+                                        ($p['scholarity'] == 3 ? "Ensino M&eacute;dio � Normal/Magist&eacute;rio" :
+                                             ($p['scholarity'] == 4 ? "Ensino M&eacute;dio � Normal/Magist&eacute;rio Ind&iacute;gena" :
+                                            ($p['scholarity'] == 5 ? "Ensino M&eacute;dio" : "Superior")
+                                )
+                            )
+                        )
+                    )
+                     . "</td>"
 
                         . "</tr>";
 

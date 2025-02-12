@@ -10,7 +10,6 @@ namespace Genericos;
  */
 class NumeroLeiQueAutorizouTType
 {
-
     /**
      * @var string $numero
      */
@@ -64,7 +63,5 @@ class NumeroLeiQueAutorizouTType
         $this->ano = $ano;
         return $this;
     }
-
-
 }
 

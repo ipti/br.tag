@@ -6,7 +6,7 @@ SagresEdu\EscolaTType:
             serialized_name: idEscola
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getIdEscola
                 setter: setIdEscola
@@ -17,14 +17,14 @@ SagresEdu\EscolaTType:
             serialized_name: turma
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getTurma
                 setter: setTurma
             xml_list:
                 inline: true
                 entry_name: turma
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             type: array<SagresEdu\TurmaTType>
         diretor:
             expose: true
@@ -32,7 +32,7 @@ SagresEdu\EscolaTType:
             serialized_name: diretor
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getDiretor
                 setter: setDiretor
@@ -43,12 +43,12 @@ SagresEdu\EscolaTType:
             serialized_name: cardapio
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getCardapio
                 setter: setCardapio
             xml_list:
                 inline: true
                 entry_name: cardapio
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             type: array<SagresEdu\CardapioTType>

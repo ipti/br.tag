@@ -4,10 +4,11 @@ namespace SagresEdu;
 
 use JMS\Serializer\Annotation as Serializer;
 
+
 /**
  * Class representing CabecalhoTType
  *
- *
+ * 
  * XSD Type: cabecalho_t
  */
 class CabecalhoTType
@@ -48,35 +49,39 @@ class CabecalhoTType
     #[Serializer\XmlElement(cdata: false)]
     private ?int $diaFinaPresContas = null;
 
+
     // Métodos getters e setters permanecem os mesmos
-    public function getCodigoUnidGestora(): ?string
+    
+    public function getCodigoUnidGestora():?string
     {
         return $this->codigoUnidGestora;
     }
 
-    public function setCodigoUnidGestora(string $codigoUnidGestora): self
+    public function setCodigoUnidGestora(string $codigoUnidGestora):self
     {
         $this->codigoUnidGestora = $codigoUnidGestora;
         return $this;
     }
 
-    public function getNomeUnidGestora(): ?string
+    
+    public function getNomeUnidGestora():?string
     {
         return $this->nomeUnidGestora;
     }
 
+    
     public function setNomeUnidGestora(string $nomeUnidGestora): self
     {
         $this->nomeUnidGestora = $nomeUnidGestora;
         return $this;
     }
 
-    public function getCpfResponsavel(): ?string
+    public function getCpfResponsavel() :?string
     {
         return $this->cpfResponsavel;
     }
 
-    public function setCpfResponsavel(string $cpfResponsavel): self
+    public function setCpfResponsavel( string $cpfResponsavel): self
     {
         $this->cpfResponsavel = $cpfResponsavel;
         return $this;
@@ -87,7 +92,8 @@ class CabecalhoTType
         return $this->cpfGestor;
     }
 
-    public function setCpfGestor(string $cpfGestor): self
+    
+    public function setCpfGestor(string $cpfGestor):self
     {
         $this->cpfGestor = $cpfGestor;
         return $this;
@@ -98,53 +104,62 @@ class CabecalhoTType
         return $this->anoReferencia;
     }
 
-    public function setAnoReferencia(int $anoReferencia): self
+    
+    public function setAnoReferencia(int $anoReferencia):self
     {
         $this->anoReferencia = $anoReferencia;
         return $this;
     }
 
-    public function getMesReferencia(): ?int
+    
+    public function getMesReferencia():?int
     {
         return $this->mesReferencia;
     }
 
-    public function setMesReferencia(int $mesReferencia): self
+    
+    public function setMesReferencia(int $mesReferencia):self
     {
         $this->mesReferencia = $mesReferencia;
         return $this;
     }
 
-    public function getVersaoXml(): ?int
+    
+    public function getVersaoXml():?int
     {
         return $this->versaoXml;
     }
 
-    public function setVersaoXml(int $versaoXml): self
+    
+    public function setVersaoXml(int $versaoXml):self
     {
         $this->versaoXml = $versaoXml;
         return $this;
     }
 
-    public function getDiaInicPresContas(): ?int
+    public function getDiaInicPresContas():?int 
     {
         return $this->diaInicPresContas;
     }
 
+    
     public function setDiaInicPresContas(int $diaInicPresContas): self
     {
         $this->diaInicPresContas = $diaInicPresContas;
         return $this;
     }
 
-    public function getDiaFinaPresContas(): ?int
+   
+    public function getDiaFinaPresContas(): ?int 
     {
         return $this->diaFinaPresContas;
     }
 
-    public function setDiaFinaPresContas(int $diaFinaPresContas): self
+    
+    public function setDiaFinaPresContas(int $diaFinaPresContas):self
     {
         $this->diaFinaPresContas = $diaFinaPresContas;
         return $this;
     }
 }
+
