@@ -8,6 +8,7 @@ return [
     "Instructor" => "Instrutor",
     "Cancel" => "Cancelar",
     "Change" => "Trocar",
+    "Assign Substitute Instructor" => "Atribuir Professor Substituto",
 
     'Holyday' => 'Feriado',
     'Facultative Point' => 'Ponto Facultativo',

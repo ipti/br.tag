@@ -233,7 +233,7 @@ function calculateWorkload(disciplines, increment) {
                 hasOverflow = workloadUsed > workloadTotal;
             }
             var workloadColor = workloadUsed > workloadTotal ? "workload-red" : (workloadUsed === workloadTotal ? "workload-green" : "");
-            html += "<div class='workload " + workloadColor + "' discipline-id='" + this.disciplineId + "'><div class='workload-discipline'>" + this.disciplineName + "</div><div class='workload-numbers'><span class='workload-used'>" + workloadUsed + "</span>/<span class='workload-total'>" + workloadTotal + "</span></div><div class='workload-instructor'>" + (this.instructorName === null ? "SEM PROFESSOR" : this.instructorName) + "</div></div>";
+            html += "<div class='workload " + workloadColor + "' discipline-id='" + this.disciplineId + "'><div class='workload-discipline'>" + this.disciplineName + "</div><div class='workload-numbers'><span class='workload-used'>" + workloadUsed.toFixed(2).replace(/\.00$/, '') + "</span>/<span class='workload-total'>" + workloadTotal + "</span></div><div class='workload-instructor'>" + (this.instructorName === null ? "SEM PROFESSOR" : this.instructorName) + "</div></div>";
         });
         $(".workloads").find(".workload").remove();
         $(".workloads").append(html);
@@ -245,7 +245,7 @@ function calculateWorkload(disciplines, increment) {
             workloadUsed > workloadTotal
                 ? workload.addClass("workload-red").removeClass("workload-green")
                 : (workloadUsed === workloadTotal ? workload.addClass("workload-green").removeClass("workload-red") : workload.removeClass("workload-red").removeClass("workload-green"));
-            workload.find(".workload-used").text(workloadUsed);
+            workload.find(".workload-used").text(workloadUsed.toFixed(2).replace(/\.00$/, ''));
         });
         hasOverflow = $(".workloads").find(".workload.workload-red").length;
     }

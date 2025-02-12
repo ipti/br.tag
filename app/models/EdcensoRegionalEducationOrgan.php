@@ -14,7 +14,7 @@
  * @property EdcensoUf $edcensoUfFk
  * @property EdcensoCity $edcensoCityFk
  */
-class EdcensoRegionalEducationOrgan extends CActiveRecord
+class EdcensoRegionalEducationOrgan extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

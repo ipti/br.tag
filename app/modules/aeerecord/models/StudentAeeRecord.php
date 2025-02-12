@@ -19,7 +19,7 @@
  * @property SchoolIdentification $schoolFk
  * @property StudentIdentification $studentFk
  */
-class StudentAeeRecord extends CActiveRecord
+class StudentAeeRecord extends TagModel
 {
 	/**
 	 * @return string the associated database table name
