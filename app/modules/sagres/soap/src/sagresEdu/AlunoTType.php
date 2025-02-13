@@ -33,11 +33,16 @@ class AlunoTType
     #[Serializer\XmlElement(cdata: false)]
     private ?int $sexo = null;
 
-    // Métodos getters e setters permanecem os mesmos
-    public function getCpfAluno(): ?string
+    #[Serializer\SerializedName("edu:justSemCpf")]
+    #[Serializer\XmlElement(cdata: false)]
+    private ?int $justSemCpf = null;
+
+
+    public function getCpfAluno(): string|null
     {
         return $this->cpfAluno;
     }
+
 
     public function setCpfAluno(string|null $cpfAluno): self
     {
@@ -45,10 +50,11 @@ class AlunoTType
         return $this;
     }
 
-    public function getDataNascimento(): ?\DateTime
+    public function getDataNascimento(): \DateTime|null
     {
         return $this->dataNascimento;
     }
+
 
     public function setDataNascimento(\DateTime $dataNascimento): self
     {
@@ -56,21 +62,25 @@ class AlunoTType
         return $this;
     }
 
+
     public function getNome(): ?string
     {
         return $this->nome;
     }
 
-    public function setNome(string $nome): self
+
+    public function setNome(string $nome)
     {
         $this->nome = $nome;
         return $this;
     }
 
-    public function getPcd(): ?bool
+
+    public function getPcd():?bool
     {
         return $this->pcd;
     }
+
 
     public function setPcd(bool $pcd): self
     {
@@ -78,14 +88,30 @@ class AlunoTType
         return $this;
     }
 
+
     public function getSexo(): ?int
     {
         return $this->sexo;
     }
+
 
     public function setSexo(int $sexo): self
     {
         $this->sexo = $sexo;
         return $this;
     }
+
+
+    public function getJustSemCpf(): ?int
+    {
+        return $this->justSemCpf;
+    }
+
+
+    public function setJustSemCpf( int $justSemCpf)
+    {
+        $this->justSemCpf = $justSemCpf;
+        return $this;
+    }
 }
+

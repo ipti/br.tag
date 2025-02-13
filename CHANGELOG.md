@@ -1,3 +1,7 @@
+## [Versão 3.96.221]
+- Alterado o fluxo do Sagres para o modelo de 2025 no XML de Educação.
+- Adicionado campo para especificar a justificativa da ausência de CPF do estudante.
+
 ## [Versão 3.96.220]
 - Corrigido o relatório de professores por escola
 - Correção no relatório "Ficha de Notas", disciplinas sem nota não afetam mais a situação final de matrícula.
@@ -1129,6 +1133,5 @@ com cache do style
 **Bugs Corrigidos:**
 - Correção na página inicial de turmas
 - Removido função que eliminava duplo espaço na busca por nome, por motivos de compatibilidade.
-
 
 
