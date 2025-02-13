@@ -253,71 +253,76 @@ class SagresConsultModel
 
             $schoolList[] = $schoolType;
 
-            $strMaxLength = 100;
             $diretor = $schoolType->getDiretor();
-            $inconsistencies = [];
 
             $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
             $params = array(':inepId' => $school['inep_id']);
             $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
 
-            if ($diretor->getNrAto() == null) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'DIRETOR';
-                $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'Número do ato de nomeação não pode ser vazio';
-                $inconsistencyModel->action = 'Informar um número do ato de nomeação para o diretor';
-                $inconsistencyModel->identifier = '4';
-                $inconsistencyModel->idSchool = $school['inep_id'];
-                $inconsistencyModel->insert();
-            }
-
-            if (strlen($diretor->getNrAto()) > $strMaxLength) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'DIRETOR';
-                $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'Número do ato de nomeação com mais de 100 caracteres';
-                $inconsistencyModel->action = 'Informar um número do ato de nomeação com até 100 caracteres';
-                $inconsistencyModel->identifier = '4';
-                $inconsistencyModel->idSchool = $school['inep_id'];
-                $inconsistencyModel->insert();
-            }
-
-            if ($diretor->getCpfDiretor() === null || !preg_match('/^[0-9]{11}$/', $diretor->getCpfDiretor())) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'DIRETOR';
-                $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'CPF não cadastrado ou CPF no formato inválido para o diretor';
-                $inconsistencyModel->action = 'Informar um CPF válido para o diretor';
-                $inconsistencyModel->identifier = '4';
-                $inconsistencyModel->idSchool = $school['inep_id'];
-                $inconsistencyModel->insert();
-            }
-
-            if (!$this->validaCPF($diretor->getCpfDiretor())) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'DIRETOR';
-                $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'CPF do diretor inválido';
-                $inconsistencyModel->action = 'Informar um CPF válido para o diretor';
-                $inconsistencyModel->identifier = '4';
-                $inconsistencyModel->idSchool = $school['inep_id'];
-                $inconsistencyModel->insert();
-            }
-
-            if (is_null($inconsistencies)) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = 'DIRETOR';
-                $inconsistencyModel->school = $schoolRes['name'];
-                $inconsistencyModel->description = 'Não existe diretor cadastrado para a escola';
-                $inconsistencyModel->action = 'Adicione um diretor para a escola';
-                $inconsistencyModel->identifier = '4';
-                $inconsistencyModel->idSchool = $school['inep_id'];
-                $inconsistencyModel->insert();
-            }
+            $this->getSchoolsValidation($diretor,$schoolRes,$school);
         }
 
         return $schoolList;
+    }
+
+    private function getSchoolsValidation($diretor,$schoolRes,$school){
+        $strMaxLength = 100;
+        $inconsistencies = [];
+
+        if ($diretor->getNrAto() == null) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = 'DIRETOR';
+            $inconsistencyModel->school = $schoolRes['name'];
+            $inconsistencyModel->description = 'Número do ato de nomeação não pode ser vazio';
+            $inconsistencyModel->action = 'Informar um número do ato de nomeação para o diretor';
+            $inconsistencyModel->identifier = '4';
+            $inconsistencyModel->idSchool = $school['inep_id'];
+            $inconsistencyModel->insert();
+        }
+
+        if (strlen($diretor->getNrAto()) > $strMaxLength) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = 'DIRETOR';
+            $inconsistencyModel->school = $schoolRes['name'];
+            $inconsistencyModel->description = 'Número do ato de nomeação com mais de 100 caracteres';
+            $inconsistencyModel->action = 'Informar um número do ato de nomeação com até 100 caracteres';
+            $inconsistencyModel->identifier = '4';
+            $inconsistencyModel->idSchool = $school['inep_id'];
+            $inconsistencyModel->insert();
+        }
+
+        if ($diretor->getCpfDiretor() === null || !preg_match('/^[0-9]{11}$/', $diretor->getCpfDiretor())) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = 'DIRETOR';
+            $inconsistencyModel->school = $schoolRes['name'];
+            $inconsistencyModel->description = 'CPF não cadastrado ou CPF no formato inválido para o diretor';
+            $inconsistencyModel->action = 'Informar um CPF válido para o diretor';
+            $inconsistencyModel->identifier = '4';
+            $inconsistencyModel->idSchool = $school['inep_id'];
+            $inconsistencyModel->insert();
+        }
+
+        if (!$this->validaCPF($diretor->getCpfDiretor())) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = 'DIRETOR';
+            $inconsistencyModel->school = $schoolRes['name'];
+            $inconsistencyModel->description = 'CPF do diretor inválido';
+            $inconsistencyModel->action = 'Informar um CPF válido para o diretor';
+            $inconsistencyModel->identifier = '4';
+            $inconsistencyModel->idSchool = $school['inep_id'];
+            $inconsistencyModel->insert();
+        }
+
+        if (is_null($inconsistencies)) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = 'DIRETOR';
+            $inconsistencyModel->school = $schoolRes['name'];
+            $inconsistencyModel->description = 'Não existe diretor cadastrado para a escola';
+            $inconsistencyModel->action = 'Adicione um diretor para a escola';
+            $inconsistencyModel->identifier = '4';
+            $inconsistencyModel->idSchool = $school['inep_id'];
+            $inconsistencyModel->insert();
+        }
     }
 
     private function enrolledSimultaneouslyInRegularClasses(int $year)
