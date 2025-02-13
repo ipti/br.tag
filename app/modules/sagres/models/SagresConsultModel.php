@@ -630,8 +630,6 @@ class SagresConsultModel
     public function getClasses($inepId, $referenceYear, $month, $finalClass, $withoutCpf)
     {
         $classList = [];
-
-
         $schoolName = $this->getSchoolName($inepId);
         $turmas = $this->getTurmasInClasses($inepId,$referenceYear);
 
@@ -697,7 +695,6 @@ class SagresConsultModel
 
         return $classList;
     }
-
     private function getTurmasInClasses($inepId,$referenceYear){
         $query = "SELECT
                     c.initial_hour AS initialHour,
