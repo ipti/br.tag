@@ -1677,7 +1677,6 @@ class SagresConsultModel
     public function getEnrollments($classId, $referenceYear,$finalClass, $inepId, $withoutCpf):array|null
     {
         $enrollmentList = [];
-        $strMaxLength = 200;
         $strlen = 5;
         $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
         $schoolName = $school->name;
