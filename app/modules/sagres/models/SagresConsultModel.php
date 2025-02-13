@@ -1710,8 +1710,8 @@ class SagresConsultModel
             $this->checkSingleStudentWithoutCpf($enrollments, $cpf, $classId, $referenceYear, $school, $inepId);
 
             if ($withoutCpf) {
+                $studentType = new AlunoTType();
                 if (!empty($cpf)) {
-                    $studentType = new AlunoTType();
                     $birthdate = DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate);
                     $studentType
                         ->setNome($enrollment['name'])
@@ -1736,32 +1736,9 @@ class SagresConsultModel
 
                     $this->studentValidation($studentType,$school->name,$cpf,$classId,$enrollment,$strlen);
 
-                    $enrollmentType = new MatriculaTType();
+                    $this->isNullStudentType($studentType,$school,$enrollment,$classId);
 
-                    $enrollmentType
-                        ->setNumero($enrollment['numero'])
-                        ->setDataMatricula(new DateTime($enrollment['data_matricula'] ?? ''))
-                        ->setNumeroFaltas((int) $enrollment['faults'])
-                        ->setAluno($studentType)
-                        ->setEnrollmentStage($enrollment['enrollment_stage']);
-
-                    if (is_null($studentType)) {
-                        $inconsistencyModel = new ValidationSagresModel();
-                        $inconsistencyModel->enrollment = STUDENT_STRONG;
-                        $inconsistencyModel->school = $school->name;
-                        $inconsistencyModel->description = INCONSISTENCY_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
-                        $inconsistencyModel->action = INCONSISTENCY_ACTION_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
-                        $inconsistencyModel->identifier = '9';
-                        $inconsistencyModel->idStudent = $enrollment['student_fk'];
-                        $inconsistencyModel->idClass = $classId;
-                        $inconsistencyModel->insert();
-                    }
-
-                    $this->matriculaValidation($enrollment,$enrollmentType,$studentType,$school->name,$classId,$finalClass);
-
-                    $enrollmentList[] = $enrollmentType;
                 } else {
-                    $studentType = new AlunoTType();
                     $birthdate = DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate);
                     $studentType
                         ->setNome($enrollment['name'])
@@ -1785,33 +1762,10 @@ class SagresConsultModel
                         $this->checkAge($age, $educationLevel, $arrayStudentInfo);
                     }
 
-                    $enrollmentType = new MatriculaTType();
-                    $enrollmentType
-                        ->setNumero($enrollment['numero'])
-                        ->setDataMatricula(new DateTime($enrollment['data_matricula'] ?? ''))
-                        ->setNumeroFaltas((int) $enrollment['faults'])
-                        ->setAluno($studentType)
-                        ->setEnrollmentStage($enrollment['enrollment_stage']);
+                    $this->isNullStudentType($studentType,$school,$enrollment,$classId);
 
-
-                        if (is_null($studentType)) {
-                            $inconsistencyModel = new ValidationSagresModel();
-                            $inconsistencyModel->enrollment = STUDENT_STRONG;
-                            $inconsistencyModel->school = $school->name;
-                            $inconsistencyModel->description = INCONSISTENCY_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
-                            $inconsistencyModel->action = INCONSISTENCY_ACTION_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
-                            $inconsistencyModel->identifier = '9';
-                            $inconsistencyModel->idStudent = $enrollment['student_fk'];
-                            $inconsistencyModel->idClass = $classId;
-                            $inconsistencyModel->insert();
-                        }
-
-                        $this->matriculaValidation($enrollment,$enrollmentType,$studentType,$schoolName,$classId,$finalClass);
-
-                    $enrollmentList[] = $enrollmentType;
                 }
             } else {
-
                 $studentType = new AlunoTType();
                 $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
 
@@ -1835,31 +1789,22 @@ class SagresConsultModel
                     $this->studentValidationWhioutCpf($studentType,$schoolName,$enrollment['cpf_reason'],$classId,$enrollment,$strlen);
                 }
 
-                $enrollmentType = new MatriculaTType();
-                $enrollmentType
-                    ->setNumero($enrollment['numero'])
-                    ->setDataMatricula(new DateTime($enrollment['data_matricula']))
-                    ->setNumeroFaltas((int) $enrollment['faults'])
-                    ->setAluno($studentType)
-                    ->setEnrollmentStage($enrollment['enrollment_stage']);
+                $this->isNullStudentType($studentType,$school,$enrollment,$classId);
 
-
-                if (is_null($studentType)) {
-                    $inconsistencyModel = new ValidationSagresModel();
-                    $inconsistencyModel->enrollment = STUDENT_STRONG;
-                    $inconsistencyModel->school = $school->name;
-                    $inconsistencyModel->description = INCONSISTENCY_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
-                    $inconsistencyModel->action = INCONSISTENCY_ACTION_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
-                    $inconsistencyModel->identifier = '9';
-                    $inconsistencyModel->idStudent = $enrollment['student_fk'];
-                    $inconsistencyModel->idClass = $classId;
-                    $inconsistencyModel->insert();
-                }
-
-                $this->matriculaValidation($enrollment,$enrollmentType,$studentType,$schoolName,$classId,$finalClass);
-
-                $enrollmentList[] = $enrollmentType;
             }
+
+            $enrollmentType = new MatriculaTType();
+            $enrollmentType
+                ->setNumero($enrollment['numero'])
+                ->setDataMatricula(new DateTime($enrollment['data_matricula'] ?? ''))
+                ->setNumeroFaltas((int) $enrollment['faults'])
+                ->setAluno($studentType)
+                ->setEnrollmentStage($enrollment['enrollment_stage']);
+
+            $this->matriculaValidation($enrollment,$enrollmentType,$studentType,$school->name,$classId,$finalClass);
+
+            $enrollmentList[] = $enrollmentType;
+
         }
 
         return $enrollmentList;
@@ -1870,6 +1815,19 @@ class SagresConsultModel
         $command = Yii::app()->db->createCommand($query1);
         $command->bindValues([':idStudent' => $enrollment['id']]);
         return $command->queryScalar();
+    }
+    private function isNullStudentType($studentType,$school,$enrollment,$classId){
+        if (is_null($studentType)) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = STUDENT_STRONG;
+            $inconsistencyModel->school = $school->name;
+            $inconsistencyModel->description = INCONSISTENCY_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
+            $inconsistencyModel->action = INCONSISTENCY_ACTION_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
+            $inconsistencyModel->identifier = '9';
+            $inconsistencyModel->idStudent = $enrollment['student_fk'];
+            $inconsistencyModel->idClass = $classId;
+            $inconsistencyModel->insert();
+        }
     }
 
     private function getEnrollmentsInDB($classId,$referenceYear){
