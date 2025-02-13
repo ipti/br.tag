@@ -866,15 +866,7 @@ class SagresConsultModel
 
             $idSerie = $this->getSerieID($serie,$edcensoCode,$edsensoCodes);
 
-            if (!isset($idSerie)) {
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = SERIE_STRONG;
-                $inconsistencyModel->school = $schoolName;
-                $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa censo ';
-                $inconsistencyModel->action = 'Adicione uma etapa válida';
-                $inconsistencyModel->identifier = '12';
-                $inconsistencyModel->idClass = $serie->edcensoCodeOriginal;
-                $inconsistencyModel->insert();
+            if($this->isIssetSerieId($idSerie,$schoolName,$serie)){
                 continue;
             }
 
@@ -901,6 +893,21 @@ class SagresConsultModel
         }
         return $seriesList;
 
+    }
+
+    private function isIssetSerieId($idSerie,$schoolName,$serie){
+        if (!isset($idSerie)) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = SERIE_STRONG;
+            $inconsistencyModel->school = $schoolName;
+            $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa censo ';
+            $inconsistencyModel->action = 'Adicione uma etapa válida';
+            $inconsistencyModel->identifier = '12';
+            $inconsistencyModel->idClass = $serie->edcensoCodeOriginal;
+            $inconsistencyModel->insert();
+            return true;
+        }
+        return false;
     }
     private function getSeriesQuery($multiStage):string{
         if ($multiStage) {
