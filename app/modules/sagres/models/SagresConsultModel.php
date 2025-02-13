@@ -103,54 +103,6 @@ class SagresConsultModel
         return $education;
     }
 
-    /*
-    private function getStudentAEE($referenceYear){
-        $query = "SELECT distinct se.student_fk
-                FROM student_enrollment se
-                JOIN classroom c ON c.id = se.classroom_fk
-                WHERE c.aee = 1 AND (se.status = 1 or se.status is null) AND c.school_year = :referenceYear";
-
-        $command = Yii::app()->db->createCommand($query);
-        $command->bindValues([':referenceYear' => $referenceYear]);
-        $studentsIds = $command->queryAll();
-
-        foreach($studentsIds as $id){
-
-            $sql = "SELECT
-                        si.name as schoolName,
-                        si.inep_id as inepId,
-                        se.student_fk as studentFk,
-                        c.name as className,
-                        c.aee,
-                        c.id as classId,
-                        sti.name as studentName
-                    from classroom c
-                    join student_enrollment se on se.classroom_fk  = c.id
-                    join student_identification sti on sti.id = se.student_fk
-                    join school_identification si on si.inep_id = se.school_inep_id_fk
-                    WHERE se.student_fk = :id and c.school_year = :referenceYear";
-
-            $command = Yii::app()->db->createCommand($sql);
-            $command->bindValue(":id", $id['student_fk']);
-            $command->bindValue(":referenceYear", $referenceYear);
-            $results = $command->queryAll();
-
-            if(count($results) == 1 && $results[0]['aee'] == 1){
-                $student = $results[0];
-                $inconsistencyModel = new ValidationSagresModel();
-                $inconsistencyModel->enrollment = '<strong>MATRÍCULA<strong>';
-                $inconsistencyModel->school = $student['schoolName'];
-                $inconsistencyModel->description = 'Estudante <strong>'. $student['studentName'] . '</strong> matriculado apenas em turma <strong> AEE </strong>';
-                $inconsistencyModel->action = 'Estudante dever estar matriculada em outra turma alem da <strong> AEE: ' . $student['className'].'</strong>';
-                $inconsistencyModel->identifier = '9';
-                $inconsistencyModel->idStudent = $student['studentFk'];
-                $inconsistencyModel->idClass = $student['classId'];
-                $inconsistencyModel->idSchool = $student['inepId'];
-                $inconsistencyModel->save();
-            }
-        }
-    }*/
-
     public function getManagementUnit($managementUnitId, $referenceYear, $month): CabecalhoTType
     {
 
