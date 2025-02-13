@@ -253,13 +253,11 @@ class SagresConsultModel
 
             $schoolList[] = $schoolType;
 
-            $diretor = $schoolType->getDiretor();
-
             $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
             $params = array(':inepId' => $school['inep_id']);
             $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
 
-            $this->getSchoolsValidation($diretor,$schoolRes,$school);
+            $this->getSchoolsValidation($schoolType->getDiretor(),$schoolRes,$school);
         }
 
         return $schoolList;
@@ -356,7 +354,6 @@ class SagresConsultModel
             }
         }
     }
-
 
     private function getCountOfClassrooms($student, $infoStudent, $year)
     {
