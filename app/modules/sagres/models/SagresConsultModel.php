@@ -531,19 +531,6 @@ class SagresConsultModel
         return $result;
     }
 
-    /*
-    private function duplicatedSchool($student, $infoStudent){
-        $inconsistencyModel = new ValidationSagresModel();
-        $inconsistencyModel->enrollment = '<strong>MATRÍCULA</strong>';
-        $inconsistencyModel->school = $this->getSchoolName($student['school_inep_id_fk']);
-        $inconsistencyModel->description = 'Estudante <strong>' .  $infoStudent['name'] . '</strong> com CPF <strong>' . $infoStudent['cpf'] . '</strong> está matriculado em escolas diferentes';
-        $inconsistencyModel->action = 'Um aluno não deve estar matriculado simultaneamente em mais de uma escola';
-        $inconsistencyModel->identifier = '9';
-        $inconsistencyModel->idStudent = $student['student_fk'];
-        $inconsistencyModel->idClass = $student['classroom_fk'];
-        $inconsistencyModel->idSchool = $student['school_inep_id_fk'];
-        $inconsistencyModel->save();
-    }*/
 
     private function getStudentInfo($studentfk)
     {
