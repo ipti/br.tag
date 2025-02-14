@@ -384,6 +384,13 @@ preenchidos";
 
         $delete = TRUE;
 
+        if($modelInstructorTeachingData !== NULL){
+            // $classroomsInstructorIsAssociated = array_map()
+            $classrooms = $this->actionGetClassrooms($id);
+            Yii::app()->user->setFlash('notice', Yii::t('default', 'Professor não pode ser excluído uma vez que está associado a uma turma.'));
+            $this->redirect(['index']);
+        }
+
         if (isset($modelInstructorDocumentsAndAddress)) {
             $modelInstructorDocumentsAndAddress->delete();
         }
@@ -742,8 +749,10 @@ preenchidos";
         $instructorFault->save();
     }
 
-    public function actionGetClassrooms() {
-        $instructorId = Yii::app()->request->getPost('instructorId', NULL);
+    public function actionGetClassrooms($instructorId = null) {
+        if($instructorId == null){
+            $instructorId = Yii::app()->request->getPost('instructorId', NULL);
+        }
         $sql = "SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name
         from instructor_teaching_data itd
         join teaching_matrixes tm ON itd.id = tm.teaching_data_fk
