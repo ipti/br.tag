@@ -1,6 +1,22 @@
 var table;
+let selectAbilities;
 
 $(document).ready(function () {
+    if($("#CoursePlan_modality_fk").val()) {
+        $.ajax({
+            type: "POST",
+            url: "?r=courseplan/courseplan/getAbilities",
+            cache: false,
+            data: {
+                discipline: $("#CoursePlan_discipline_fk").val(),
+                stage: $("#CoursePlan_modality_fk").val(),
+            },
+            success: function (data) {
+                const abilities = JSON.parse(data);
+                selectAbilities = abilities;
+            },
+        });
+    }
     initTable();
     if ($(".js-course-plan-id").val() !== "") {
         $("#CoursePlan_modality_fk, #CoursePlan_discipline_fk").attr("disabled", "disabled");
@@ -19,25 +35,15 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
     if (!row.child.isShown()) {
         row.child(formatSelectionFunction(row.data())).show();
         tr.next().find('select.type-select, select.resource-select, select.ability-search-select').select2();
-        $.ajax({
-            type: "POST",
-            url: "?r=courseplan/courseplan/getAbilities",
-            cache: false,
-            data: {
-                discipline: $("#CoursePlan_discipline_fk").val(),
-                stage: $("#CoursePlan_modality_fk").val(),
-            },
-            success: function (data) {
-                const abilities = JSON.parse(data);
-                abilities.forEach(function(ability) {
-                    const formattedText = "(" + ability.code + ") " + ability.description;
-                    tr.next().find('select.ability-search-select').append($('<option>', {
-                        value: ability.id,
-                        text: formattedText
-                    }));
-                });
-            },
-        });
+        if(selectAbilities != undefined) {
+            selectAbilities.forEach(function(ability) {
+                const formattedText = "(" + ability.code + ") " + ability.description;
+                tr.next().find('select.ability-search-select').append($('<option>', {
+                    value: ability.id,
+                    text: formattedText
+                }));
+            });
+        }
         tr.next().find('select.ability-select').select2({
             formatSelection: function (state) {
                 var textArray = state.text.split("|");
@@ -70,6 +76,19 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
 
 $(document).on("click", "#new-course-class", function () {
     addCoursePlanRow();
+    $.ajax({
+        type: "POST",
+        url: "?r=courseplan/courseplan/getAbilities",
+        cache: false,
+        data: {
+            discipline: $("#CoursePlan_discipline_fk").val(),
+            stage: $("#CoursePlan_modality_fk").val(),
+        },
+        success: function (data) {
+            const abilities = JSON.parse(data);
+            selectAbilities = abilities;
+        },
+    });
 });
 
 $(document).on("click", ".js-remove-course-class", function () {
