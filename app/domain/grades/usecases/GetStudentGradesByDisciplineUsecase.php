@@ -44,7 +44,7 @@ class GetStudentGradesByDisciplineUsecase
         } else {
             $studentEnrollments= $classroom->activeStudentEnrollments;
         }
-        $showSemAvarageColumn = $this->checkSemesterUnities( $classroom->id, $this->stageId);
+        $showSemAvarageColumn = $this->checkSemesterUnities( $classroom->id, $this->stageId) && $rules->gradeCalculationFk->name == 'Média Semestral';
 
         $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline( $rules->id);
         $unitiesByDiscipline = array_filter($unitiesByDisciplineResult, function ($item){

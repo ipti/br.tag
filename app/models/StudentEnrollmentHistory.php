@@ -16,7 +16,7 @@
  * The followings are the available model relations:
  * @property StudentEnrollment $studentEnrollmentFk
  */
-class StudentEnrollmentHistory extends CActiveRecord
+class StudentEnrollmentHistory extends TagModel
 {
 	/**
 	 * @return string the associated database table name

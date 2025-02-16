@@ -11,7 +11,7 @@
  * @property MealPortion[] $mealPortions
  * @property MenuMeal[] $menuMeals
  */
-class Meal extends CActiveRecord
+class Meal extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.
@@ -30,18 +30,7 @@ class Meal extends CActiveRecord
 	{
 		return 'lunch_meal';
 	}
-    public function behaviors()
-    {
-        return [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
-    }
+
 
 	/**
 	 * @return array validation rules for model attributes.

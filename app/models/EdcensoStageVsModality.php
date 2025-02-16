@@ -16,7 +16,7 @@
      * @property SchoolStages[] $schoolStages
      * @property StudentEnrollment[] $studentEnrollments
      */
-    class EdcensoStageVsModality extends CActiveRecord {
+    class EdcensoStageVsModality extends TagModel {
         /**
          * Returns the static model of the specified AR class.
          * @param string $className active record class name.
