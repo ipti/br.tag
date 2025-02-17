@@ -23,7 +23,7 @@
  * @property StudentDocumentsAndAddress[] $studentDocumentsAndAddresses1
  * @property StudentIdentification[] $studentIdentifications
  */
-class EdcensoCity extends CActiveRecord
+class EdcensoCity extends TagModel
 {
 	/**
 	 * Returns the static model of the specified AR class.

@@ -28,7 +28,10 @@ class TimesheetController extends Controller
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
                     'index', 'instructors', 'GetInstructorDisciplines', 'addInstructors', 'loadUnavailability',
-                    'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor", "changeUnavailableSchedule", "fixBuggedUnavailableDaysFor2024"
+                    'getTimesheet', 'generateTimesheet', "addinstructorsdisciplines", "changeSchedules", "ChangeInstructor", "changeUnavailableSchedule",
+                    "addSubstituteInstructorDay", "saveSubstituteInstructorDay", "deleteSubstituteInstructorDay",
+                    "getDisciplines", "getFrequency", "fixBuggedUnavailableDaysFor2024"
+
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -91,7 +94,7 @@ class TimesheetController extends Controller
                 foreach ($curricularMatrixes as $cm) {
                     $instructorName = Yii::app()->db->createCommand("
                     select ii.name from teaching_matrixes tm
-                    join instructor_teaching_data itd on itd.id = tm.teaching_data_fk 
+                    join instructor_teaching_data itd on itd.id = tm.teaching_data_fk
                     join instructor_identification ii on itd.instructor_fk = ii.id
                     where itd.classroom_id_fk = :cid and tm.curricular_matrix_fk = :cmid")->bindParam(":cmid", $cm->id)->bindParam(":cid", $classroomId)->queryRow();
                     array_push($response["disciplines"], ["disciplineId" => $cm->discipline_fk, "disciplineName" => $cm->disciplineFk->name, "workloadUsed" => 0, "workloadTotal" => $cm->workload, "instructorName" => $instructorName["name"]]);
@@ -109,6 +112,8 @@ class TimesheetController extends Controller
                         $response["softUnavailableDays"] = $this->getUnavailableDays($classroomId, false, "soft");
 
                         $response["schedules"] = [];
+                        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+                        $hours = $vha["value"] / 60;
                         foreach ($schedules as $schedule) {
 //                    if (!isset($response["schedules"][$schedule->month])) {
 //                        $response["schedules"][$schedule->month] = [];
@@ -135,7 +140,7 @@ class TimesheetController extends Controller
 
                             if (!$schedule->unavailable) {
                                 $cmKey = array_search($schedule["discipline_fk"], array_column($response["disciplines"], 'disciplineId'));
-                                $response["disciplines"][$cmKey]["workloadUsed"]++;
+                                $response["disciplines"][$cmKey]["workloadUsed"] += $hours;
                             }
 
                             $response["schedules"][$schedule->year][$schedule->month][$schedule->schedule][$schedule->day] = [
@@ -482,7 +487,9 @@ class TimesheetController extends Controller
         $schedule->save();
 
         $disciplines = [];
-        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => $schedule->unavailable ? -1 : 1]);
+        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+        $hours = $vha["value"] / 60;
+        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => $schedule->unavailable ? -$hours : $hours]);
         echo json_encode(["unavailable" => $schedule->unavailable, "disciplines" => $disciplines]);
     }
 
@@ -595,7 +602,7 @@ class TimesheetController extends Controller
                 " select " .
                 " edcenso_discipline.id as disciplineId, " .
                 " edcenso_discipline.name as disciplineName, " .
-                " (select count(schedule.id) from schedule where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 and schedule.discipline_fk = disciplineId) as workloadUsed, " .
+                " (select (count(schedule.id) * (select value from instance_config where parameter_key = 'VHA') / 60) from schedule where classroom_fk = " . $_POST["classroomId"] . " and schedule.unavailable = 0 and schedule.discipline_fk = disciplineId) as workloadUsed, " .
                 " curricular_matrix.workload as workloadTotal, " .
                 " (select ii.name from teaching_matrixes tm join instructor_teaching_data itd on itd.id = tm.teaching_data_fk join instructor_identification ii on itd.instructor_fk = ii.id where itd.classroom_id_fk = " . $_POST["classroomId"] . " and tm.curricular_matrix_fk = curricular_matrix.id) as instructorName " .
                 " from curricular_matrix " .
@@ -625,6 +632,8 @@ class TimesheetController extends Controller
         if ($_POST["schedule"]["hardUnavailableDaySelected"] || !$_POST["replicate"]) {
             $finalDate = new Datetime($_POST["schedule"]["year"] . "-" . str_pad($_POST["schedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["schedule"]["day"]);
         }
+        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+        $hours = $vha["value"] / 60;
         for ($date = $selectedDate; $date <= $finalDate; $date->modify("+7 days")) {
             $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'year' => $date->format("Y"), 'month' => $date->format("n"), 'day' => $date->format("j"), 'schedule' => $_POST["schedule"]["schedule"]));
             if ($schedule != null) {
@@ -632,9 +641,9 @@ class TimesheetController extends Controller
                 if (!$schedule->unavailable) {
                     $key = array_search($schedule->discipline_fk, array_column($disciplines, 'disciplineId'));
                     if ($key === false) {
-                        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => -1]);
+                        array_push($disciplines, ["disciplineId" => $schedule->discipline_fk, "workloadUsed" => -$hours]);
                     } else {
-                        $disciplines[$key]["workloadUsed"]--;
+                        $disciplines[$key]["workloadUsed"] -= $hours;
                     }
                 }
 
@@ -698,6 +707,8 @@ class TimesheetController extends Controller
         if ($_POST["hardUnavailableDaySelected"] || !$_POST["replicate"]) {
             $finalDate = new Datetime($_POST["schedule"]["year"] . "-" . str_pad($_POST["schedule"]["month"], 2, "0", STR_PAD_LEFT) . "-" . $_POST["schedule"]["day"]);
         }
+        $vha = (object)\InstanceConfig::model()->findByAttributes(array('parameter_key' => 'VHA'));
+        $hours = $vha["value"] / 60;
         for ($date = $selectedDate; $date <= $finalDate; $date->modify("+7 days")) {
             if (!in_array($date->format("Y-m-d"), $hardUnavailableDays) || $_POST["hardUnavailableDaySelected"]) {
                 $schedule = Schedule::model()->findByAttributes(array('classroom_fk' => $_POST["classroomId"], 'year' => $date->format("Y"), 'month' => $date->format("n"), 'day' => $date->format("j"), 'schedule' => $_POST["schedule"]["schedule"]));
@@ -718,9 +729,9 @@ class TimesheetController extends Controller
                         $schedule->unavailable = 0;
                         $key = array_search($_POST["disciplineId"], array_column($disciplines, 'disciplineId'));
                         if ($key === false) {
-                            array_push($disciplines, ["disciplineId" => $_POST["disciplineId"], "workloadUsed" => 1]);
+                            array_push($disciplines, ["disciplineId" => $_POST["disciplineId"], "workloadUsed" => $hours]);
                         } else {
-                            $disciplines[$key]["workloadUsed"]++;
+                            $disciplines[$key]["workloadUsed"] += $hours;
                         }
                     }
                     $schedule->turn = $classroom->turn;
@@ -756,6 +767,354 @@ class TimesheetController extends Controller
         echo json_encode(["valid" => true, "adds" => $adds, "disciplines" => $disciplines]);
     }
 
+    public function actionAddSubstituteInstructorDay()
+    {
+        $scheduleId = Yii::app()->request->getPost('schedule');
+        $instructorId = Yii::app()->request->getPost('instructorId');
+
+        $transaction = Yii::app()->db->beginTransaction();
+
+        if(isset($scheduleId) && isset($instructorId)){
+            try{
+                self::actionSaveSubstituteInstructorDay($instructorId, $scheduleId);
+                $transaction->commit();
+                header('HTTP/1.1 200 OK');
+                echo json_encode(["valid" => true]);
+                Yii::app()->end();
+            } catch (Exception $e) {
+                $transaction->rollback();
+                TLog::error("Erro durante a transação de AddSubstituteInstructorDay", array(
+                    "ExceptionMessage" => $e->getMessage()
+                ));
+                throw new Exception($e->getMessage(), 500, $e);
+            }
+        }
+        header('HTTP/1.1 400 Request invalid');
+        echo json_encode(["valid" => false]);
+    }
+
+    public function actionSubstituteInstructor()
+    {
+        $instructorsIdentification = InstructorIdentification::model()->findAll();
+
+        $this->render
+        (
+            'substituteInstructor',
+        );
+    }
+
+    public function actionSaveSubstituteInstructorDay($instructorId, $scheduleId)
+    {
+        $schedule = Schedule::model()->findByPk($scheduleId);
+        $instructor = InstructorIdentification::model()->findByPk($instructorId);
+
+        $teachingData = InstructorTeachingData::model()->findByAttributes(
+            array(
+                "classroom_id_fk" => $schedule->classroom_fk,
+                "instructor_fk" => $instructor->id
+            )
+        );
+
+        // Verifica se já existe um registro de professor substituto
+        $substituteInstructor = SubstituteInstructor::model()->findByAttributes(
+            array(
+                "instructor_fk" => $instructor->id,
+                "teaching_data_fk" => $teachingData->id
+            )
+        );
+
+        // Se não existir, cria um novo
+        if($substituteInstructor == null){
+            $substituteInstructor = new SubstituteInstructor();
+            $substituteInstructor->teaching_data_fk = $teachingData->id;
+            $substituteInstructor->instructor_fk = $instructor->id;
+        }
+
+        $classroom = Classroom::model()->findByPk($teachingData->classroom_id_fk);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
+
+        if($substituteInstructor->save()){
+            if($isMinor == false){
+                $schedule->substitute_instructor_fk = $substituteInstructor->id;
+                if($schedule->save()){
+                    TLog::info("SubstituteInstructor atribuído a Schedule com sucesso", array(
+                        "Schedule" => $schedule->id
+                    ));
+                    return;
+                }
+            }
+
+            if($isMinor == true){
+                $schedulesAllDay = Schedule::model()->findAllByAttributes(
+                    array(
+                        "classroom_fk" => $classroom->id,
+                        "day" => $schedule->day,
+                        "month" => $schedule->month,
+                        "year" => $schedule->year
+                    )
+                );
+
+                foreach($schedulesAllDay as $scheduleUnique){
+                    $scheduleUnique->substitute_instructor_fk = $substituteInstructor->id;
+                    if($scheduleUnique->save()){
+                        TLog::info("SubstituteInstructor atribuído a Schedule com sucesso", array(
+                            "Schedule" => $schedule->id
+                        ));
+                    }
+                }
+                return;
+            }
+
+            TLog::error("Erro: Falha na Atualização do schedule.", array(
+                "Schedule" => $schedule->id,
+                "ErrorMessage" => $schedule->getErrors()
+            ));
+        }
+        TLog::error("Erro: Falha na atualização de substituteInstructor", array(
+            "SubstituteInstructor" => $substituteInstructor->id,
+            "ErrorMessage" => $substituteInstructor->getErrors()
+        ));
+    }
+
+    public function actionDeleteSubstituteInstructorDay(){
+        $instructorId = Yii::app()->request->getPost('instructorId');
+        $scheduleId =  Yii::app()->request->getPost('schedule');
+
+        $schedule = Schedule::model()->findByPk($scheduleId);
+        $instructor = InstructorIdentification::model()->findByPk($instructorId);
+        $teachingData = InstructorTeachingData::model()->findByAttributes(
+            array(
+                "instructor_fk" => $instructor->id,
+                "classroom_id_fk" => $schedule->classroom_fk
+            ));
+
+        $substituteInstructor = SubstituteInstructor::model()->findByAttributes(
+            array(
+                "instructor_fk" => $instructor->id,
+                "teaching_data_fk" => $teachingData->id
+            ));
+
+        $classroom = Classroom::model()->findByPk($teachingData->classroom_id_fk);
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
+
+        $transaction = Yii::app()->db->beginTransaction();
+
+        try{
+            // Valida se os schedules foram salvos adequadamente
+            $scheduleSaved = true;
+
+            // Para turmas do fundamental menor
+            if($isMinor == true){
+                $schedulesAllDay = Schedule::model()->findAllByAttributes(
+                    array(
+                        "classroom_fk" => $classroom->id,
+                        "day" => $schedule->day,
+                        "month" => $schedule->month,
+                        "year" => $schedule->year
+                    )
+                );
+
+                foreach($schedulesAllDay as $scheduleUnique) {
+                    $scheduleUnique->substitute_instructor_fk = null;
+                    if(!$scheduleUnique->save()){
+                        $scheduleSaved = false;
+                        break;
+                    }
+                }
+            }
+
+            // Para turmas do fundamental maior
+            if($isMinor == false){
+                $schedule->substitute_instructor_fk = null;
+                if(!$schedule->save()){
+                    $scheduleSaved = false;
+                }
+            }
+
+            // Verificar se ainda existe algum schedule com a chave do registro de professor substituto para aquela turma
+            $allSchedules = Schedule::model()->findAllByAttributes(
+                array(
+                    "substitute_instructor_fk" => $substituteInstructor->id
+                )
+            );
+
+            if($allSchedules == null){
+                $substituteInstructor->delete();
+            }
+
+            if($scheduleSaved){
+                $transaction->commit();
+                header('HTTP/1.1 200 OK');
+                echo json_encode(["valid"=>true]);
+                Yii::app()->end();
+            }
+        }catch(Exception $e){
+            $transaction->rollback();
+            TLog::error("Erro durante a transação de DeleteSubstituteInstructorDay", array(
+                "ExceptionMessage" => $e->getMessage()
+            ));
+            throw new Exception($e->getMessage(), 500, $e);
+        }
+
+        header('HTTP/1.1 400 Request invalid');
+        echo json_encode(["valid" => false]);
+    }
+
+    public function actionGetFrequency()
+    {
+        $classroomId = Yii::app()->request->getPost("classroom");
+        $instructorId = Yii::app()->request->getPost("instructor");
+
+        $classroom = Classroom::model()->findByPk($classroomId);
+
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
+
+        if ($isMinor == false) {
+            $schedules = Schedule::model()->findAll(
+                "classroom_fk = :classroom and year = :year and discipline_fk = :discipline_fk and month = :month and unavailable = 0 order by day, schedule",
+                array(
+                    "classroom" => $classroom->id,
+                    "year" => Yii::app()->request->getPost("year"),
+                    "month" => Yii::app()->request->getPost("month"),
+                    "discipline_fk" => Yii::app()->request->getPost("discipline")
+                )
+            );
+        }
+
+        if ($isMinor != false) {
+            $schedules = Schedule::model()->findAll(
+                "classroom_fk = :classroom_fk and year = :year and month = :month and unavailable = 0 group by day order by day, schedule",
+                [
+                    "classroom_fk" => Yii::app()->request->getPost("classroom"),
+                    "year" => Yii::app()->request->getPost("year"),
+                    "month" => Yii::app()->request->getPost("month")
+                ]
+            );
+        }
+
+        $dayName = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+        $instructorModel = InstructorIdentification::model()->findByPk($instructorId);
+
+        $response = [];
+        $response["instructorId"] = $instructorModel->id;
+        $response["instructorName"] = $instructorModel->name;
+        $response["schedules"] = [];
+        $response["isMinor"] = $isMinor;
+
+        foreach($schedules as $schedule){
+            $date = $this->generateDate($schedule->day, $schedule->month, $schedule->year, 0);
+            $classDay = $schedule->substitute_instructor_fk != null;
+            array_push($response["schedules"], array(
+                "day" => $schedule->day,
+                "week_day" => $dayName[$schedule->week_day],
+                "schedule" => $schedule->schedule,
+                "idSchedule" => $schedule->id,
+                "class_day" => $classDay,
+                "date" => $date,
+            ));
+        }
+
+        echo json_encode(["valid" => true, "response" => $response]);
+        Yii::app()->end();
+    }
+
+    public function actionGetDisciplines(){
+
+        $classroom = Classroom::model()->findByPk(Yii::app()->request->getPost("classroom"));
+
+        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : ClassesController::checkIsStageMinorEducation($classroom);
+
+        $disciplinesLabels = ClassroomController::classroomDisciplineLabelArray();
+
+        $htmlOptions = CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione o componente  curricular/eixo'), true);
+
+        if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
+            $disciplines = Yii::app()->db->createCommand(
+                "select ed.id from teaching_matrixes tm
+                join instructor_teaching_data itd on itd.id = tm.teaching_data_fk
+                join instructor_identification ii on ii.id = itd.instructor_fk
+                join curricular_matrix cm on cm.id = tm.curricular_matrix_fk
+                join edcenso_discipline ed on ed.id = cm.discipline_fk
+                where ii.users_fk = :userid and itd.classroom_id_fk = :crid order by ed.name"
+            )->bindParam(":userid", Yii::app()->user->loginInfos->id)->bindParam(":crid", $classroom->id)->queryAll();
+            foreach ($disciplines as $discipline) {
+                $htmlOptions .= htmlspecialchars(
+                    CHtml::tag('option', array(
+                        'option', array(
+                            'value' => $discipline['id'])),
+                            CHtml::encode($disciplinesLabels[$discipline['id']]), true
+                        ));
+                    }
+        }
+
+        if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)){
+            $classr = Yii::app()->db->createCommand(
+                "select curricular_matrix.discipline_fk
+                from curricular_matrix
+                join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk
+                where stage_fk = :stage_fk and school_year = :year order by ed.name"
+            )
+                ->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)
+                ->bindParam(":year", Yii::app()->user->year)
+            ->queryAll();
+            foreach($classr as $discipline){
+                if (isset($discipline['discipline_fk'])) {
+                    $htmlOptions .= htmlspecialchars(
+                        CHtml::tag(
+                                'option',
+                                array('value' => $discipline['discipline_fk']),
+                                CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]),
+                                true
+                                )
+                        );
+                }
+            }
+        }
+
+        $response = array(
+            "isMinor" => $isMinor,
+            "disciplines" => $htmlOptions
+        );
+
+        echo json_encode($response);
+        Yii::app()->end();
+    }
+
+    public function actionGetInstructors() {
+        $classroom = Classroom::model()->findByPk(Yii::app()->request->getPost("classroom"));
+
+        $teachingData = InstructorTeachingData::model()->findAllByAttributes(array("classroom_id_fk" => $classroom->id));
+
+        $htmlOptions = CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione o professor'), true);
+
+        foreach ($teachingData as $td) {
+            $instructor = InstructorIdentification::model()->findByPk($td->instructor_fk);
+            $htmlOptions .= htmlspecialchars(
+                CHtml::tag(
+                    'option',
+                    array('value' => $instructor->id),
+                    CHtml::encode($instructor->name), true
+                    ));
+        }
+
+        echo json_encode($htmlOptions);
+        Yii::app()->end();
+    }
+  
+    private function generateDate($day, $month, $year, $usecase){
+        switch($usecase){
+            case 0:
+                $day = ($day < 10) ? '0' . $day : $day;
+                $month = ($month < 10) ? '0' . $month : $month;
+                return $day . "/" . $month . "/" . $year;
+            case 1:
+                $day = ($day < 10) ? '0' . $day : $day;
+                $month = ($month < 10) ? '0' . $month : $month;
+                return $day . "-" . $month . "-" . $year;
+            default:
+                break;
+        }
+      
     public function actionFixBuggedUnavailableDaysFor2024()
     {
         //Nessa função, precisa-se passar em cada schedule de 2024 e verificar se o dia está indisponível (coluna unavailable = 1) quando, na verdade, ele está disponível

@@ -13,7 +13,7 @@
  * @property Classroom $classroomFk
  * @property EdcensoDiscipline $disciplineFk
  */
-class WorkByDiscipline extends CActiveRecord
+class WorkByDiscipline extends TagModel
 {
 	/**
 	 * @return string the associated database table name
@@ -22,18 +22,7 @@ class WorkByDiscipline extends CActiveRecord
 	{
 		return 'work_by_discipline';
 	}
-    public function behaviors()
-    {
-        return [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
-    }
+
 
 	/**
 	 * @return array validation rules for model attributes.

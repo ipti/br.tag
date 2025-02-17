@@ -1,10 +1,64 @@
+## [Versão 3.96.221]
+- Alterado o fluxo do Sagres para o modelo de 2025 no XML de Educação.
+- Adicionado campo para especificar a justificativa da ausência de CPF do estudante.
+
+## [Versão 3.96.220]
+- Corrigido o relatório de professores por escola
+- Correção no relatório "Ficha de Notas", disciplinas sem nota não afetam mais a situação final de matrícula.
+
+## [Versão 3.96.219]
+- Adicionada reuperação final por peso
+- Adicionado usuário de leitura
+
+## [Versão 3.95.219]
+- Corrigida a funcionalidade de imprimir aulas ministradas.
+
+## [Versão 3.95.218]
+- Correção na funcionalidade de atualizar situação de matrícula após calcular a nota final de aluno.
+
+## [Versão 3.95.217]
+- Adicionando o campo de situação de matrícula na tela de atualização em lote dos alunos de uma turma
+
+## [Versão 3.95.216]
+- Correção no calculo da média final: Frequência do aluno na disciplina agora é considerada durante
+a atualização da situação de matrícula do aluno.
+
+## [Versão 3.95.215]
+- Correção de Ficha de notas: Adicionando status para alunos transferidos, evadidos, cancelados ou mortos;
+- Novas ferramentas de monitoriamento de saude do sistema;
+- Adicionado usuário de leitura
+
+## [Versão 3.94.214]
+- Correção de Ficha de notas: Os valores de frequencia e a contagem de aulas foi revisado e foi adaptada a visualização dos dados para diferenciar
+o relatório para ensino intanfil e fundamental menor do fundamental maior;
+
 ## [Versão 3.94.213]
+- Controle de status a serem considerados na exportação do sagres. Por padrão apenas matriculas com status "matriculado" são envadas. No entanto, usando o diario eletronico, o status de algumas matriculas mudaram para "Aprovado", "Reprovado" e outros. Foi adicionado um controle para optar ou não por considerar esses status na exportação.
+- Novo campo na turma para definir o periodo da turma: Anual, 1 Semestre ou 2 Semestre;
+- Novo campo na turma para deliberadamente desconsiderar ela na exportação do sagres;
 - Corrigindo a exibição da média de nota em turmas por conceito na ata de notas
 
 ## [Versão 3.94.212]
 - Criando o formulário de notas por conceito na tela na sessão de administrador, permitindo a criação de um novo conceito e também modificar conceitos existentes
 - Modificando a forma como notas por conceito são calculadas, para calcular a média final do aluno
+## [Versão 3.94.211]
+- Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
 
+## [Versão 3.93.210]
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
+
+## [Versão 3.95.215]
+- Correção de Ficha de notas: Adicionando status para alunos transferidos, evadidos, cancelados ou mortos;
+- Novas ferramentas de monitoriamento de saude do sistema;
+
+## [Versão 3.94.214]
+- Correção de Ficha de notas: Os valores de frequencia e a contagem de aulas foi revisado e foi adaptada a visualização dos dados para diferenciar
+o relatório para ensino intanfil e fundamental menor do fundamental maior;
+
+## [Versão 3.94.213]
+- Controle de status a serem considerados na exportação do sagres. Por padrão apenas matriculas com status "matriculado" são envadas. No entanto, usando o diario eletronico, o status de algumas matriculas mudaram para "Aprovado", "Reprovado" e outros. Foi adicionado um controle para optar ou não por considerar esses status na exportação.
+- Novo campo na turma para definir o periodo da turma: Anual, 1 Semestre ou 2 Semestre;
+- Novo campo na turma para deliberadamente desconsiderar ela na exportação do sagres;
 
 ## [Versão 3.93.212]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
@@ -14,6 +68,7 @@
 
 ## [Versão 3.93.210]
 - Corrigindo a busca por aulas em aulas ministradas quando o usuário é um professor da educação infantil
+- Ordem das etapas ajustada no relatório de Matrículas Anuais
 
 ## [Versão 3.93.209]
 - Trocado "Série" por "Etapa" na Ficha de Matrícula
@@ -33,7 +88,8 @@
 - Inserido opção pra imprimir ficha de notas com local/data ou não
 - Trocado signatário de inspetor escolar para secretário escolar na ficha de notas
 - Adicionado filtro de etapa para as turmas multiseriadas
-
+- Funcionalidade de Professor substituto adicionada.
+- Telas relacionadas com frequência e aulas ministradas adapatadas à nova funcionalidade.
 
 ## [Versão 3.91.206]
 - Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações
@@ -1077,6 +1133,5 @@ com cache do style
 **Bugs Corrigidos:**
 - Correção na página inicial de turmas
 - Removido função que eliminava duplo espaço na busca por nome, por motivos de compatibilidade.
-
 
 

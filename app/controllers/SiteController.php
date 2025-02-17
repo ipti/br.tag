@@ -55,11 +55,13 @@ class SiteController extends Controller
         if (TagUtils::isInstructor()) {
             $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8)]);
         } else {
-            $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8), "warns" => $this->loadWarnsHtml(8, 0)]);
+            $this->render('index', ["htmlLogs" => $this->loadLogsHtml(8)]);
         }
 
 
     }
+
+
 
     /**
      * This is the action to handle external exceptions.
@@ -154,6 +156,8 @@ class SiteController extends Controller
             Yii::app()->user->school = $_POST['SchoolIdentification']['inep_id'];
         }
 
+        // Yii::app()->cache->delete("fullmenu");
+
         echo '<script>history.go(-1);</script>';
         exit;
     }
@@ -164,11 +168,13 @@ class SiteController extends Controller
             Yii::app()->user->year = $_POST['years'];
         }
 
+        // Yii::app()->cache->flush();
+
         echo '<script>history.go(-1);</script>';
         exit;
     }
 
-    private function loadLogsHtml($limit, $date = NULL)
+    private function loadLogsHtml($limit, $date = null)
     {
         $baseUrl = Yii::app()->theme->baseUrl;
         $isInstructor = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
@@ -220,7 +226,7 @@ class SiteController extends Controller
         echo $this->loadLogsHtml(10, $date);
     }
 
-    private function loadWarnsHtml($limit, $visibleWarningsCount)
+    private function actionLoadWarnsHtml(int $limit)
     {
         $warns = [];
 
@@ -335,30 +341,26 @@ class SiteController extends Controller
             }
         }
 
-
-
         if (count($warns) == 0) {
-            return [
+            $this->renderPartial("_warns",[
                 "total" => 0,
+                "limit" => $limit,
                 "html" => '<div class="no-recent-activitive t-badge-info" id="no-recent-warnings"><span class="t-info_positive t-badge-info__icon"></span>Não há cadastros pendentes.</div>'
-            ];
+            ]);
         } else {
             $html = "";
-            $count = $limit + $visibleWarningsCount;
-            for ($i = $visibleWarningsCount; $i < $count; $i++) {
+            $count = min([$limit, count($warns)]) ;
+            for ($i = 0; $i < $count; $i++) {
                 $html .= $warns[$i];
             }
-            return [
+            $this->renderPartial("_warns", [
                 "total" => count($warns),
+                "limit" => $limit,
                 "html" => $html
-            ];
+            ]);
         }
-    }
 
-    public function actionLoadMoreWarns()
-    {
-        $count = $_POST['visibleWarningsCount'];
-        echo json_encode($this->loadWarnsHtml(8, intval($count)));
+        Yii::app()->end();
     }
 
     public function actionLoadLineChartData()

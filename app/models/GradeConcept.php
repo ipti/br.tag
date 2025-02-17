@@ -12,7 +12,7 @@
  * The followings are the available model relations:
  * @property Grade[] $grades
  */
-class GradeConcept extends CActiveRecord
+class GradeConcept extends TagModel
 {
     /**
      * @return string the associated database table name

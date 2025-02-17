@@ -14,7 +14,7 @@
  * @property CourseClassResources $courseClassResourceFk
  * @property CourseClass $courseClassFk
  */
-class CourseClassHasClassResource extends CActiveRecord
+class CourseClassHasClassResource extends TagModel
 {
 	/**
 	 * @return string the associated database table name
@@ -23,18 +23,7 @@ class CourseClassHasClassResource extends CActiveRecord
 	{
 		return 'course_class_has_class_resource';
 	}
-    public function behaviors()
-    {
-        return [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
-    }
+
 
 	/**
 	 * @return array validation rules for model attributes.

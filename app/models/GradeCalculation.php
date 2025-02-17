@@ -13,7 +13,7 @@
  * @property GradeRules[] $gradeRules
  * @property GradeUnity[] $gradeUnities
  */
-class GradeCalculation extends CActiveRecord
+class GradeCalculation extends TagModel
 {
     public const OP_SUM = 1;
     public const OP_MEDIA = 2;

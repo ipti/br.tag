@@ -9,7 +9,7 @@ $this->menu = array(
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js', CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/mealsOfWeek/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $isNutritionist = Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id);
 

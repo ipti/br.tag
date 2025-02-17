@@ -9,7 +9,7 @@
  * @property string $parameter_name
  * @property string $value
  */
-class InstanceConfig extends CActiveRecord
+class InstanceConfig extends TagModel
 {
     /**
      * @return string the associated database table name
@@ -28,8 +28,8 @@ class InstanceConfig extends CActiveRecord
         // will receive user inputs.
         return array(
             array('parameter_key, parameter_name', 'required'),
-            array('parameter_key', 'length', 'max' => 20),
-            array('parameter_name', 'length', 'max' => 75),
+            array('parameter_key', 'length', 'max' => 40),
+            array('parameter_name', 'length', 'max' => 150),
             array('value', 'length', 'max' => 250),
             // The following rule is used by search().
             array('id, parameter_key, parameter_name, value', 'safe', 'on' => 'search'),
