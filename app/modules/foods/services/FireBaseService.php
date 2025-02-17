@@ -20,7 +20,7 @@ class FireBaseService
 
     public function __construct()
     {
-        $this->firestoreClient = new FirestoreClient('br-nham-agrigultor', 'AIzaSyAf7EefR1VXllpmE60kiQwl6xictSDO-Tc', [
+        $this->firestoreClient = new FirestoreClient('br-nham-agrigultor', getenv("PWD_FIREBASE"), [
             'database' => '(default)',
         ]);
         $this->firestoreClient->authenticator()->signInEmailPassword('usertag@thp.org.br', '123456');
@@ -116,30 +116,28 @@ class FireBaseService
 
         foreach ($farmerRegisters['documents'] as $farmerRegister) {
             if ($farmerRegister->get('cpf') == $cpf) {
-                try {
-                    $userField = $farmerRegister->get('user');
-                } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
-                    $userField = "";
-                }
-                try {
-                    $phoneField = $farmerRegister->get('phone');
-                } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
-                    $phoneField = "";
-                }
                 $newcpf = preg_replace("/\D/", "", $farmerRegister->get('cpf'));
                 $foundFarmer = array(
                     "id" => $farmerRegister->get("id"),
                     "name" => $farmerRegister->get('name'),
                     "groupType" => $farmerRegister->get('groupType'),
                     "cpf" => $newcpf,
-                    "phone" => $phoneField,
-                    "user" => $userField
+                    "phone" => $this->getFieldOrDefault($farmerRegister, 'phone'),
+                    "user" => $this->getFieldOrDefault($farmerRegister, 'user')
                 );
 
             }
         }
 
         return $foundFarmer;
+    }
+
+    private function getFieldOrDefault($document, $field, $default = "") {
+        try {
+            return $document->get($field);
+        } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+            return $default;
+        }
     }
 
     public function createFarmerFoods($foods, $farmerId) {
@@ -199,7 +197,7 @@ class FireBaseService
             $item["delivered_amount"] = 0;
             $item["send_amount"] = 0;
             $item["amount"] = intval($item["amount"]);
-            $item["imageUrl"] = "https://firebasestorage.googleapis.com/v0/b/br-nham-agrigultor.appspot.com/o/food_image%2F" . $obj[$item['category']] . ".png?alt=media&token=3851a02b-d348-45ea-90f2-aab11fe6e52c";
+            $item["imageUrl"] = "https://firebasestorage.googleapis.com/v0/b/br-nham-agrigultor.appspot.com/o/food_image%2F" . $obj[$item['category']] . ".png?alt=media&token=" . getenv("TOKEN_FIREBASE");
         }
         unset($item);
     }
