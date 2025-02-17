@@ -121,13 +121,18 @@ class FireBaseService
                 } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
                     $userField = "";
                 }
+                try {
+                    $phoneField = $farmerRegister->get('phone');
+                } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+                    $phoneField = "";
+                }
                 $newcpf = preg_replace("/\D/", "", $farmerRegister->get('cpf'));
                 $foundFarmer = array(
                     "id" => $farmerRegister->get("id"),
                     "name" => $farmerRegister->get('name'),
                     "groupType" => $farmerRegister->get('groupType'),
                     "cpf" => $newcpf,
-                    "phone" => $farmerRegister->get('phone'),
+                    "phone" => $phoneField,
                     "user" => $userField
                 );
 
