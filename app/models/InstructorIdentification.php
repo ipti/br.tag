@@ -210,20 +210,17 @@ class InstructorIdentification extends AltActiveRecord
     {
         $instructorId = $this->id;
 
-        $sql = "SELECT c.id as cid, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name as classroom_name, c.school_year as syear
+        $sql = "SELECT c.id as cid, ii.name as instructor_name, c.name as classroom_name, c.school_year as syear, si.name as school_name
         from instructor_teaching_data itd
-        join teaching_matrixes tm ON itd.id = tm.teaching_data_fk
         join instructor_identification ii on itd.instructor_fk = ii.id
-        join curricular_matrix cm on tm.curricular_matrix_fk = cm.id
-        JOIN edcenso_discipline ed on ed.id = cm.discipline_fk
         join classroom c on c.id = itd.classroom_id_fk
-        Join edcenso_stage_vs_modality esvm on esvm.id = c.edcenso_stage_vs_modality_fk
-        WHERE c.school_year = :user_year and ii.id = :intructorId
-        ORDER BY ii.name";
+        join school_identification si on si.inep_id = c.school_inep_fk
+        WHERE ii.id = :intructorId
+        ORDER BY ii.name;";
 
         $command = Yii::app()->db->createCommand($sql);
-        $command->bindValue(':user_year', Yii::app()->user->year, PDO::PARAM_INT)
-        ->bindValue(':intructorId', $instructorId, PDO::PARAM_INT);
+        $command->bindValue(':intructorId', $instructorId, PDO::PARAM_INT);
+
 
         $classrooms = $command->queryAll();
 

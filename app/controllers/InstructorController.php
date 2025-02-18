@@ -383,20 +383,22 @@ preenchidos";
         $modelInstructorTeachingData = $this->loadModel($id, $this->InstructorTeachingData);
 
         $delete = TRUE;
-        if(count($modelInstructorTeachingData) > 0){
+        $numClassrooms = count($modelInstructorTeachingData);
+        if($numClassrooms > 0){
             // $classroomsInstructorIsAssociated = array_map()
             // $classrooms = $this->actionGetClassrooms($id);
             $classrooms = $modelInstructorIdentification->getClassrooms();
-            $htmlForAlert = "<b>Professor não pode ser excluído uma vez que está associado à(às) seguinte(s) turma(s):</b><br>";
+            $htmlForAlert = "<b>Professor(a) " . $modelInstructorIdentification->name . " não pode ser excluído uma vez que está associado à(às) seguinte(s) turma(s):</b><br>";
             foreach($classrooms as $classroom)
             {
-                $anchorToUpdateClassroom = "<a " . Yii::app()->createUrl('instructor/update', array('id' => $classroom['cid'])) ."></a>";
                 $teachingData =
                     "Turma: <b>" . $classroom['classroom_name'] . "</b>" .
                     " / Disciplina: " . $classroom['discipline_name'] .
                     " / Ano: " . $classroom['syear'] .
+                    " / Escola: " . $classroom['school_name'] .
                     "<br>";
-                $htmlForAlert .= $teachingData;
+                $anchorToUpdateClassroom = "<a href='" . Yii::app()->createUrl('classroom/update', array('id' => $classroom['cid'])) . "'>" . $teachingData ."</a>";
+                $htmlForAlert .= $anchorToUpdateClassroom;
             }
 
             Yii::app()->user->setFlash('notice', Yii::t('default', $htmlForAlert));
@@ -586,22 +588,7 @@ preenchidos";
         } else if ($model == $this->InstructorVariableData) {
             $return = InstructorVariableData::model()->findByPk($instructorId);
         } else if ($model == $this->InstructorTeachingData) {
-            // $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_fk' => $instructorId]);
-
-            $criteria = new CDbCriteria();
-            $criteria->with = [
-                'classroomIdFk' => [
-                    'joinType' => 'INNER JOIN',
-                    'condition' => 'classroomIdFk.school_year = :schoolYear',
-                    'params' => [':schoolYear' => Yii::app()->user->year]
-                ]
-            ];
-            $criteria->addCondition('t.instructor_fk = :instructorId');
-            $criteria->params[':instructorId'] = $instructorId;
-
-            $return = InstructorTeachingData::model()->findAll($criteria);
-
-
+            $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_fk' => $instructorId]);
         }
 
         if ($return === null && $model == $this->InstructorIdentification) {
