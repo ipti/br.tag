@@ -219,7 +219,7 @@ class CourseplanController extends Controller
         $abilities = [];
 
         if ($disciplineId != null) {
-            $criteria->condition .= "cca.edcenso_discipline_fk = :discipline";
+            $criteria->condition .= " AND cca.edcenso_discipline_fk = :discipline";
             $criteria->params[":discipline"] = $disciplineId;
         }
 
