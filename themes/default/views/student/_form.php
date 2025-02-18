@@ -2397,7 +2397,7 @@ $form = $this->beginWidget(
                             <span class="t-icon-printer"></span>
                             Ficha de Notas
                           </a>
-                          <?php if (Yii::app()->features->isEnable("HAS_IDIVIDUALRECORD")): ?>
+                          <?php if (Yii::app()->features->isEnable("HAS_INDIVIDUALRECORD")): ?>
                           <a class="t-button-secondary" rel="noopener" target="_blank"
                             href="<?php echo @Yii::app()->createUrl('forms/IndividualRecord', array('enrollment_id' => $me->id)) ?>">
                             <span class="t-icon-printer"></span>
