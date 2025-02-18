@@ -70,9 +70,9 @@ function calculateFrequence($numClasses, $numFalts): int {
                     <div class="span6">
                         <?php
                             if($enrollment->studentFk->deficiency) {
-                                echo "ATENDIMENTO EDUCACIONAL ESPECIALIZADO: &nbsp(&nbspX&nbsp)&nbspSIM &nbsp(&nbsp&nbsp)&nbspNÃO";
+                                echo "<b>ATENDIMENTO EDUCACIONAL ESPECIALIZADO:/<b> &nbsp(&nbspX&nbsp)&nbspSIM &nbsp(&nbsp&nbsp)&nbspNÃO";
                             }else {
-                                echo "ATENDIMENTO EDUCACIONAL ESPECIALIZADO: &nbsp(&nbsp&nbsp)&nbspSIM &nbsp(&nbspX&nbsp)&nbspNÃO";
+                                echo "<b>ATENDIMENTO EDUCACIONAL ESPECIALIZADO:</b> &nbsp(&nbsp&nbsp)&nbspSIM &nbsp(&nbspX&nbsp)&nbspNÃO";
                             }
                         ?>
                     </div>
