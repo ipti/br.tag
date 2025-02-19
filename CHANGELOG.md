@@ -1,3 +1,6 @@
+## [Versão 3.96.221]
+- Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
+
 ## [Versão 3.96.220]
 - Corrigido o relatório de professores por escola
 - Correção no relatório "Ficha de Notas", disciplinas sem nota não afetam mais a situação final de matrícula.
