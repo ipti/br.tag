@@ -187,7 +187,7 @@ function format(d) {
     let ability = $('<div class="control-group courseplan-ability-container"></div>');
     let abilityLabel = $('<label class="" for="course-class[' + d.class + '][ability][]">Habilidade(s)</label>');
     let abilityButton = $('<button class="t-button-primary add-abilities" style="height: 28px;gap: 5px" ><icon class="t-icon-start"></icon>Adicionar habilidades</button>');
-    let abilitySelect = $('<select id="ability-search-select" class="ability-search-select" name="resource"><option value="">Selecione habilidades...</option></select>');
+    let abilitySelect = $('<input id="ability-search-select" class="ability-search-select" name="resource" />');
     let abilitiesContainer = $('<div class="courseplan-abilities-selected">');
     let abilitySelectContainer = $('<div class="row wrap"></div>');
 

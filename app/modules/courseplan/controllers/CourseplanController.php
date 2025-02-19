@@ -204,24 +204,17 @@ class CourseplanController extends Controller
         echo json_encode($result);
     }
 
-    public function actionGetAbilities()
+    public function actionGetAbilities($q)
     {
-
-        $disciplineId = Yii::app()->request->getPost("discipline");
-        $stage = Yii::app()->request->getPost("stage");
+        // $code = Yii::app()->request->get("code");
+        // $disciplineId = Yii::app()->request->getPost("discipline");
+        // $stage = Yii::app()->request->getPost("stage");
 
         $criteria = new CDbCriteria();
         $criteria->alias = "cca";
         $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = cca.edcenso_stage_vs_modality_fk";
-        $criteria->condition = "code is not null and cca.edcenso_stage_vs_modality_fk = :stage";
-        $criteria->params = [":stage" => $stage];
-
-        $abilities = [];
-
-        if ($disciplineId != null) {
-            $criteria->condition .= " AND cca.edcenso_discipline_fk = :discipline";
-            $criteria->params[":discipline"] = $disciplineId;
-        }
+        $criteria->condition = "cca.code like :code";
+        $criteria->params = [":code" => '%'.$q.'%'];
 
         $abilities = CourseClassAbilities::model()->findAll($criteria);
 
