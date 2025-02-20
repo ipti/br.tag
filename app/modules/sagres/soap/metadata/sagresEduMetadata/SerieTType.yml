@@ -6,7 +6,7 @@ SagresEdu\SerieTType:
             serialized_name: idSerie
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getIdSerie
                 setter: setIdSerie
@@ -17,12 +17,12 @@ SagresEdu\SerieTType:
             serialized_name: matricula
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
                 getter: getMatricula
                 setter: setMatricula
             xml_list:
                 inline: true
                 entry_name: matricula
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             type: array<SagresEdu\MatriculaTType>
