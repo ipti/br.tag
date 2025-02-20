@@ -22,6 +22,7 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
         row.child(formatSelectionFunction(row.data())).show();
         tr.next().find('select.type-select, select.resource-select').select2();
         tr.next().find('input.ability-search-select').select2({
+            placeholder: "Informe o código da habilidade",
             minimumInputLength: 4,
             ajax: {
                 url: "?r=courseplan/courseplan/getAbilities/?a=1",
@@ -29,7 +30,7 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
                 quietMillis: 250,
                 data: function (term, page) {
                     return {
-                        q: term, // search term
+                        q: term,
                     };
                 },
                 results: function (data, page) {
