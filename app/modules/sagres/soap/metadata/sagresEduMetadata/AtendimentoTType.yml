@@ -6,7 +6,7 @@ SagresEdu\AtendimentoTType:
             serialized_name: data
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getData
                 setter: setData
@@ -17,7 +17,7 @@ SagresEdu\AtendimentoTType:
             serialized_name: local
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
             accessor:
                 getter: getLocal
                 setter: setLocal
