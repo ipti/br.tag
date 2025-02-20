@@ -200,13 +200,16 @@ class FoodMenuService
         $kcalAverage = $kcal / $daysOFWeek;
 
         $calAverage = $calTotal / $daysOFWeek;
-        $calpct = (($calAverage * 4) * 100) / $kcalAverage;
-
         $ptnAvarage = $ptnTotal / $daysOFWeek;
-        $ptnpct = (($ptnAvarage * 4) * 100) / $kcalAverage;
-
         $lpdAvarage = $lpdTotal / $daysOFWeek;
-        $lpdpct = (($lpdAvarage * 9) * 100) / $kcalAverage;
+
+        if ($kcalAverage != 0) {
+            $calpct = (($calAverage * 4) * 100) / $kcalAverage;
+            $ptnpct = (($ptnAvarage * 4) * 100) / $kcalAverage;
+            $lpdpct = (($lpdAvarage * 9) * 100) / $kcalAverage;
+        } else {
+            $calpct = $ptnpct = $lpdpct = 0;
+        }
 
         $result["kcalAverage"] = round($kcalAverage);
 
