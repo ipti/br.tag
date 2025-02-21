@@ -7,7 +7,7 @@ $debug = getenv("YII_DEBUG");
 defined('YII_DEBUG') or define('YII_DEBUG', $debug);
 defined("SESSION_MAX_LIFETIME") or define('SESSION_MAX_LIFETIME', 3600);
 
-define("TAG_VERSION", '3.96.221');
+define("TAG_VERSION", '3.97.221');
 
 define("YII_VERSION", Yii::getVersion());
 define("BOARD_MSG", '<div class="alert alert-success">Novas atualizações no TAG. Confira clicando <a class="changelog-link" href="?r=admin/changelog">aqui</a>.</div>');
