@@ -840,6 +840,13 @@ class ClassroomController extends Controller
         }
         if ($ableToDelete) {
             try {
+                $enrollments = StudentEnrollment::model()->findAllByAttributes(array("classroom_fk" => $classroom->id));
+
+                if (count($enrollments) > 0) {
+                    echo json_encode(["valid" => false, "message" => "Não foi possível excluir a turma porque existem alunos matriculados."]);
+                    Yii::app()->end();
+                }
+
                 foreach ($teachingDatas as $teachingData) {
                     $teachingData->delete();
                 }
