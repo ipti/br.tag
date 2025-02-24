@@ -1,3 +1,6 @@
+## [Versão 3.96.222]
+- Adicionado filtro por ano às turmas exibidas na view de frequência de professores.
+
 ## [Versão 3.96.221]
 - Alterado o fluxo do Sagres para o modelo de 2025 no XML de Educação.
 - Adicionado campo para especificar a justificativa da ausência de CPF do estudante.
