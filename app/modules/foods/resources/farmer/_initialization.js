@@ -78,7 +78,6 @@ $(document).on("focusout", "#farmerCpf", function () {
                     farmerCpf: farmerCpf,
                 }
             }).success(function(response) {
-                console.log(response);
                 let data = DOMPurify.sanitize(response);
                 let farmerRegister = JSON.parse(data);
                 if("error" in farmerRegister) {
@@ -138,7 +137,7 @@ $(document).on("click", "#js-add-food", function () {
     let notice = $('#foodNotice').find('option:selected').text();
     let noticeId = $('#foodNotice').find('option:selected').val();
 
-    if(foodId == "alimento" || amount == "") {
+    if(foodId == "alimento" || amount == "" || noticeId == "selecione") {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     } else if(amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
         let existingIndex = $.map(foodsRelation, function(obj, index) {
@@ -172,7 +171,7 @@ $(document).on("click", "#save-farmer", function () {
     let params = new URLSearchParams(window.location.search);
     let id = params.get('id');
 
-    if(name == "" || cpf == "" || phone == "") {
+    if(name == "" || cpf == "" || phone == "" || groupType == "Selecione o Grupo") {
         $(this).prop('disabled', false);
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     } else if(id != null) {

@@ -14,7 +14,6 @@ $(document).ready(function() {
     }).success(function(response) {
         let data = DOMPurify.sanitize(response);
         foodRequests = JSON.parse(data);
-        console.log(foodRequests);
         renderRequestTable(foodRequests);
     })
 
@@ -152,7 +151,7 @@ $(document).on("click", "#save-request", function () {
     }).get();
     let requestFarmers = $('#requestFarmers').val();
 
-    if(!requestSchools || !requestFarmers || foodsRelation.length == 0) {
+    if(!requestSchools || !requestFarmers || foodsRelation.length == 0 || noticeId ==  "selecione") {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     } else {
         let requestTitle = foodsRelation.map(item =>
