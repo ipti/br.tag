@@ -16,6 +16,8 @@ select
 	end) AS `stage`,
 	concat((case when (`svm`.`id` in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38)) then 'NA ' when (`svm`.`id` in (14, 15, 16, 17, 18, 19, 20, 21, 41)) then 'NO ' else '' end),(case when (`svm`.`id` = 1) then 'CRECHE' when (`svm`.`id` = 2) then 'PRÉ-ESCOLA' when (`svm`.`id` = 3) then 'EDUCAÇÃO INFANTIL' when (`svm`.`id` in (4, 14, 25, 30, 35)) then '1' when (`svm`.`id` in (5, 15, 26, 31, 36)) then '2' when (`svm`.`id` in (6, 16, 27, 32, 37)) then '3' when (`svm`.`id` in (7, 17, 28, 33, 38)) then '4' when (`svm`.`id` in (8, 18)) then '5' when (`svm`.`id` in (9, 19)) then '6' when (`svm`.`id` in (10, 20)) then '7' when (`svm`.`id` in (11, 21)) then '8' when (`svm`.`id` = 41) then '9' else '' end),(case when (`svm`.`id` in (1, 2, 3)) then '' when (`svm`.`id` in (4, 5, 6, 7, 8, 9, 10, 11, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38)) then 'ª SÉRIE' when (`svm`.`id` in (14, 15, 16, 17, 18, 19, 20, 21, 41)) then 'º ANO' else 'NA ____________________' end)) AS `class`,
 	`svm`.`name` AS `stage_name`,
+	`svm`.`id` AS `stage_id`,
+	`svm2`.`name` AS `enrollment_stage_name`,
 	`s`.`inep_id` AS `inep_id`,
 	`sd`.`nis` AS `nis`,
 	`s`.`name` AS `name`,
@@ -156,7 +158,7 @@ select
 	`sr`.`others` as `others`,
 	`sd`.`consent_form` as `consent_form`
 from
-	(((((((((((((`student_identification` `s`
+	((((((((((((((`student_identification` `s`
 join `student_documents_and_address` `sd` on
 	((`s`.`id` = `sd`.`id`)))
 join `student_enrollment` `se` on
@@ -183,5 +185,7 @@ left join `edcenso_notary_office` `eno` on
 	((`sd`.`edcenso_notary_office_fk` = `eno`.`cod`)))
 left join `student_restrictions` `sr` on
 	((`sr`.`student_fk` = `s`.`id`)))
+left join `edcenso_stage_vs_modality` `svm2` on
+	((`svm2`.`id` = `se`.`edcenso_stage_vs_modality_fk`)))
 order by
 	`s`.`name`;
