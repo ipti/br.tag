@@ -811,7 +811,7 @@ class ClassroomController extends Controller
     {
         $classroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
         $teachingDatas = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
-
+        $transaction = Yii::app()->db->beginTransaction();
         $ableToDelete = true;
         if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
             if ($classroom->gov_id !== null) {
@@ -843,8 +843,7 @@ class ClassroomController extends Controller
                 $enrollments = StudentEnrollment::model()->findAllByAttributes(array("classroom_fk" => $classroom->id));
 
                 if (count($enrollments) > 0) {
-                    echo json_encode(["valid" => false, "message" => "Não foi possível excluir a turma porque existem alunos matriculados."]);
-                    Yii::app()->end();
+                    throw new Exception("Não foi possível excluir a turma porque existem alunos matriculados.");
                 }
 
                 foreach ($teachingDatas as $teachingData) {
@@ -852,9 +851,15 @@ class ClassroomController extends Controller
                 }
                 if ($classroom->delete()) {
                     Log::model()->saveAction("classroom", $id, "D", $classroom->name);
+                    $transaction->commit();
                     echo json_encode(["valid" => true, "message" => "Turma excluída com sucesso!"]);
+                } else {
+                    throw new Exception("Falha ao excluir a turma.");
                 }
             } catch (Exception $e) {
+                if(isset($transaction)){
+                    $transaction->rollback();
+                }
                 echo json_encode(["valid" => false, "message" => "Não se pode remover turma com professores vinculados."]);
             }
         } else {
