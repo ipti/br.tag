@@ -1,9 +1,6 @@
 ## [Versão 3.99.222]
-- Adicionado cadastro de aulas no plano de aula na tela de diário de classe
-- Removendo validação de espaço em branco no começo e no fim do nome do aluno, o espaço é removido automaticamente ao salvar
-
-## [Versão 3.96.225]
 - Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
+- Removendo validação de espaço em branco no começo e no fim do nome do aluno, o espaço é removido automaticamente ao salvar
 
 ## [Verão 3.98.222]
 - Associadas estruturas de unidades e avaliação às turmas
