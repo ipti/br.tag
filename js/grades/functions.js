@@ -142,13 +142,18 @@ function loadStudentsFromDiscipline(disciplineId, unityId) {
             },
             success: function (data) {
                 const parsedData = JSON.parse(data);
-                const html = GradeTableBuilder(parsedData).build();
+                const resultGrades = parsedData[0];
+                const isCoordinator = parsedData[1];
+                const html = GradeTableBuilder(resultGrades).build();
                 let hrefPrintGrades = `/?r=forms/AtaSchoolPerformance&id=${classroom}`
                 $('.js-print-grades').find('a').attr('href',hrefPrintGrades);
                 $('.js-print-grades').show();
                 $('.js-unity-title').text($('select#unities').find('option:selected').text());
 
                 $(".js-grades-container").html(html);
+                if(isCoordinator) {
+                    $('select.grade-concept, input.grade, input.grade-partial-recovery').prop('disabled', true);
+                }
                 if (data.isUnityConcept) {
                     $("#close-grades-diary").hide();
                 } else {

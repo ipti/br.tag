@@ -60,22 +60,6 @@ o relatório para ensino intanfil e fundamental menor do fundamental maior;
 ## [Versão 3.94.211]
 - Permitido que se adicione casa decimal na carga horária na matriz curricular. o Valor da hora-aula é definida nas configurações gerais do município.
 
-## [Versão 3.93.210]
-- Ordem das etapas ajustada no relatório de Matrículas Anuais
-
-## [Versão 3.95.215]
-- Correção de Ficha de notas: Adicionando status para alunos transferidos, evadidos, cancelados ou mortos;
-- Novas ferramentas de monitoriamento de saude do sistema;
-
-## [Versão 3.94.214]
-- Correção de Ficha de notas: Os valores de frequencia e a contagem de aulas foi revisado e foi adaptada a visualização dos dados para diferenciar
-o relatório para ensino intanfil e fundamental menor do fundamental maior;
-
-## [Versão 3.94.213]
-- Controle de status a serem considerados na exportação do sagres. Por padrão apenas matriculas com status "matriculado" são envadas. No entanto, usando o diario eletronico, o status de algumas matriculas mudaram para "Aprovado", "Reprovado" e outros. Foi adicionado um controle para optar ou não por considerar esses status na exportação.
-- Novo campo na turma para definir o periodo da turma: Anual, 1 Semestre ou 2 Semestre;
-- Novo campo na turma para deliberadamente desconsiderar ela na exportação do sagres;
-
 ## [Versão 3.93.212]
 - Ordem das etapas ajustada no relatório de Matrículas Anuais
 
@@ -104,8 +88,11 @@ o relatório para ensino intanfil e fundamental menor do fundamental maior;
 - Inserido opção pra imprimir ficha de notas com local/data ou não
 - Trocado signatário de inspetor escolar para secretário escolar na ficha de notas
 - Adicionado filtro de etapa para as turmas multiseriadas
+<<<<<<< HEAD
+=======
 - Funcionalidade de Professor substituto adicionada.
 - Telas relacionadas com frequência e aulas ministradas adapatadas à nova funcionalidade.
+>>>>>>> dev
 
 ## [Versão 3.91.206]
 - Corrigido erro ao carregar campo de tipo de unidade em estrutura de unidades e avaliações

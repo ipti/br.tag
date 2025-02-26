@@ -24,7 +24,7 @@ $("#classesSearch").on("click", function () {
                     html += "" +
                         "<table class='t-accordion table-frequency table table-bordered table-striped table-hover'>" +
                         "<thead class='t-accordion__head'>" +
-                        "<tr><th class='table-title' colspan='" + (Object.keys(data.instructors[0].schedules).length + 1) + "'>" + ($('#disciplines').select2('data').text) + "aaaaaaa</th></tr>";
+                        "<tr><th class='table-title' colspan='" + (Object.keys(data.instructors[0].schedules).length + 1) + "'>" + ($('#disciplines').select2('data').text) + "</th></tr>";
                     var daynameRow = "";
                     var dayRow = "";
                     var scheduleRow = "";
