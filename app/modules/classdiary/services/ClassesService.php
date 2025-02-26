@@ -186,9 +186,18 @@
                    "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), "discipline_fk" => $discipline_fk]);
              }
 
-            ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
+             $contentsToExclude = array_column(ClassContents::model()->with("courseClassFk.coursePlanFk")->findAll(
+                'schedule_fk = :schedule_fk and coursePlanFk.users_fk = :user_fk',
+                [
+                    'schedule_fk' => $schedule->id,
+                    'user_fk' => Yii::app()->user->loginInfos->id
+                ]
+             ), 'id');
 
-            $classContent = explode(",", $classContent);
+            if (!empty($contentsToExclude)){
+                ClassContents::model()->deleteAll("id IN (" . implode(" , ", $contentsToExclude) . ")");
+            }
+
             foreach ($classContent as $content) {
                 $classHasContent = new ClassContents();
                 $classHasContent->schedule_fk = $schedule->id;
@@ -202,6 +211,37 @@
                 $classHasContent->save();
             }
 
+        }
+        public function SaveNewClassContent($coursePlanId, $content, $methodology, $abilities) {
+
+            $nextOrder = Yii::app()->db->createCommand("
+            SELECT MAX(`order`) AS max_order
+            FROM course_class
+            WHERE course_plan_fk = :coursePlanId
+        ")
+            ->bindParam(":coursePlanId", $coursePlanId, PDO::PARAM_INT)
+            ->queryRow();
+
+
+            $nextOrderValue = $nextOrder['max_order']  + 1;
+
+            $courseClass = new CourseClass();
+            $courseClass->course_plan_fk = $coursePlanId;
+            $courseClass->content = $content;
+            $courseClass->methodology = $methodology;
+            $courseClass->order = $nextOrderValue;
+            $courseClass->save();
+
+
+
+            foreach ($abilities as $ability) {
+                $courseClassAbility = new CourseClassHasClassAbility();
+                $courseClassAbility->course_class_fk = $courseClass->id;
+                $courseClassAbility->course_class_ability_fk = $ability;
+                $courseClassAbility->save();
+            }
+
+            return $courseClass->id;
         }
     }
 

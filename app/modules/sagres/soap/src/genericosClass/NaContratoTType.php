@@ -10,7 +10,6 @@ namespace Genericos;
  */
 class NaContratoTType
 {
-
     /**
      * @var string $tipoContrato
      */
@@ -91,7 +90,5 @@ class NaContratoTType
         $this->anoContrato = $anoContrato;
         return $this;
     }
-
-
 }
 

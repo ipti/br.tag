@@ -106,7 +106,6 @@ function load() {
                 let data = JSON.parse(response);
                 if (data.valid) {
                     let accordion = $('<div id="accordion" class="t-accordeon-secondary"></div>');
-
                     accordion.append(generateScheduleDays(data, monthSplit, data.isMinor))
                     $("#frequency-container").html(accordion).show();
 
@@ -116,6 +115,9 @@ function load() {
                             icons: null,
                         });
                     });
+                } else {
+                    $(".alert-incomplete-data").html(data.error).show();
+                    $("#frequency-container").html("");
                 }
             },
             complete: function () {

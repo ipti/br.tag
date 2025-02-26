@@ -103,9 +103,25 @@ class TagUtils extends CApplicationComponent
         return $date;
     }
 
+    public static function isSubstituteInstructor($classroom){
+
+        $instructor = InstructorIdentification::model()->findByAttributes(array("users_fk" => Yii::app()->user->loginInfos->id));
+        $teachingData = InstructorTeachingData::model()->findByAttributes(
+            array(
+                "instructor_fk" => $instructor->id,
+                "classroom_id_fk" => $classroom->id
+            )
+        );
+
+        $refTeachingData = ["9"];
+
+        $roles = new CList($refTeachingData, true);
+        return $roles->contains(strval($teachingData->role));
+    }
+
+
     public static function isInstance($instance)
     {
-
         if (is_array($instance)) {
             $instances = array_map(function ($element) {
                 return strtoupper($element);

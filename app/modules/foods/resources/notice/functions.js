@@ -45,20 +45,25 @@ $(".js-submit").on("click", function () {
             'food_fk': item[4]
         });
     });
+    let noticePdfFile = $(".js-notice_pdf")[0].files[0];
 
     let notice = {
         name: $(".js-notice-name").val(),
         date: $(".js-date").val(),
         noticeItems: transformedData,
-    }
+    };
+
+    let formData = new FormData();
+    formData.append("noticePdf", noticePdfFile);
+    formData.append("notice", JSON.stringify(notice));
 
     if (noticeID) {
         $.ajax({
             url: `?r=foods/foodnotice/update&id=${noticeID}`,
             type: "POST",
-            data: {
-                notice: notice
-            }
+            data : formData,
+            contentType : false,
+            processData : false
         }).success(function (response) {
             window.location.href = "?r=foods/foodnotice/index";
         })
@@ -67,11 +72,13 @@ $(".js-submit").on("click", function () {
     $.ajax({
         url: "?r=foods/foodnotice/create",
         type: "POST",
-        data: {
-            notice: notice
-        }
+        data : formData,
+        contentType : false,
+		processData : false
     }).success(function (response) {
          window.location.href = "?r=foods/foodnotice/index";
+    }).error(function (jqXHR, textStatus, errorThrown) {
+        console.error("Erro: " + textStatus, errorThrown);
     })
 
 })
@@ -93,5 +100,29 @@ $('table tbody').on('click', 'a.delete-btn', function () {
                 defaultContent: '<a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;"><span class="t-icon-trash"></span></a>'
             }
         ]
+    });
+});
+
+$(document).on("change", ".js-notice_pdf", function(e) {
+    $(".uploaded-notice-name").text(e.target.files[0].name);
+});
+
+$(document).on("click", "#js-view-pdf", function () {
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodnotice/getNoticePdfUrl",
+        cache: false,
+        data: {
+            id: noticeID,
+        }
+    }).success(function(response) {
+        let data = DOMPurify.sanitize(response);
+        let url = JSON.parse(data);
+
+        if (url.error) {
+            $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível acessar a URL do PDF.");
+        } else {
+            window.open(url, '_blank');
+        }
     });
 });

@@ -6,7 +6,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/TeachersBySchool/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/TeachersBySchool/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
@@ -67,6 +67,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                         . "<td>" . $p['name'] . "</td>"
                         . "<td>" . $scholarityLevels[$p['scholarity']] ?? ""
                         . "</td>"
+
                         . "</tr>";
 
                     $ordem++;
@@ -92,6 +93,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         .hidden-print {
             display: none;
         }
+
         @page {
             size: landscape;
         }
@@ -100,6 +102,6 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 <script>
     function imprimirPagina() {
-      window.print();
+        window.print();
     }
 </script>
