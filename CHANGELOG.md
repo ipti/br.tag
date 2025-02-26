@@ -1,3 +1,6 @@
+## [Versão 3.99.222]
+- Adicionado cadastro de aulas no plano de aula na tela de diário de classe
+
 ## [Verão 3.98.222]
 - Adicionado cadastro de novas estruturas de unidades
 

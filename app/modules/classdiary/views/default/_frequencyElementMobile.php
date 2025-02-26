@@ -1,5 +1,5 @@
 <?php if($frequency["valid"] == true): ?>
-<div class="t-badge-info t-margin-none--left"><span class="t-info_positive t-badge-info__icon"></span>Para justificar falta e avaliação de Aluno clique no ícone </div>
+<div class="t-badge-info t-margin-none--left"><span class="t-info_positive t-badge-info__icon"></span>Para justificar falta e avaliação de Aluno clique no ícone "<span class="t-icon-annotation t-icon"></span>" </div>
 <table aria-label="Tabela de alunos" class="column clearfix tag-table-secondary js-table-frequency">
     <thead>
         <tr>
