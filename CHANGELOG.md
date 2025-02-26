@@ -1,9 +1,17 @@
-## [Verão 3.97.221]
+## [Verão 3.98.222]
 - Adicionado cadastro de novas estruturas de unidades
+
+## [Versão 3.97.222]
+- Adicionando no formulário de criação de plano de aula um select de habilidades, permitindo que as habilidades sejam buscadas de uma
+forma simplificada
+
+## [Versão 3.96.222]
+- Adicionado no relatório de ficha de notas as informações de IDENTIDADE, ÓRGÃO EXPEDIDOR, ETAPA, ATENDIMENTO EDUCACIONAL ESPECIALIZADO
 
 ## [Versão 3.96.221]
 - Alterado o fluxo do Sagres para o modelo de 2025 no XML de Educação.
 - Adicionado campo para especificar a justificativa da ausência de CPF do estudante.
+
 
 ## [Versão 3.96.220]
 - Corrigido o relatório de professores por escola

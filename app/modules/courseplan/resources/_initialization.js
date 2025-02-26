@@ -1,4 +1,5 @@
 var table;
+let selectAbilities;
 
 $(document).ready(function () {
     initTable();
@@ -6,6 +7,7 @@ $(document).ready(function () {
         $("#CoursePlan_modality_fk, #CoursePlan_discipline_fk").attr("disabled", "disabled");
     }
 });
+
 
 // Add event listener for opening and closing details
 $('#course-classes tbody').on('click', 'td.details-control', function () {
@@ -19,6 +21,36 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
     if (!row.child.isShown()) {
         row.child(formatSelectionFunction(row.data())).show();
         tr.next().find('select.type-select, select.resource-select').select2();
+        tr.next().find('input.ability-search-select').select2({
+            placeholder: "Informe o código da habilidade",
+            minimumInputLength: 4,
+            ajax: {
+                url: "?r=courseplan/courseplan/getAbilities/?a=1",
+                dataType: 'json',
+                quietMillis: 250,
+                data: function (term, page) {
+                    return {
+                        q: term,
+                    };
+                },
+                results: function (data, page) {
+                    return { results: data, text: 'description' };
+                },
+                cache: true
+            },
+            formatSelection: function (state) {
+                var textArray = `(${state.code}) ${state.description}`
+                return textArray;
+            },
+            formatResult: function (data) {
+                var textArray = `(${data.code}) ${data.description}`;
+                return textArray;
+            },
+            escapeMarkup: function (m) {
+                return m;
+            },
+
+        });
         tr.next().find('select.ability-select').select2({
             formatSelection: function (state) {
                 var textArray = state.text.split("|");
@@ -253,8 +285,30 @@ $(document).on("click", ".ability-panel-option", function () {
     }
 });
 
+$(document).on("change", "input.ability-search-select", function () {
+    const selectedOption = $(this).select2("data");
+    const value = $(this).val();
+    const tr = $(this).closest("tr").prev();
+    const row = table.row(tr);
+    const index = row.data().class;
+
+    if (!value) return;
+
+    let abilityPaneOption = $(`
+        <div class='ability-panel-option'>
+            <input type="hidden" class="ability-panel-option-id" value=${value} name="course-class[${index}][ability][${value}]">
+            <i class="fa fa-check-square"></i>
+            <span><b>(${selectedOption.code})</b> ${selectedOption.description}</span>
+        </div>
+    `);
+
+    $(this).closest('.control-group').find('.courseplan-abilities-selected').append(abilityPaneOption);
+
+    $(this).select2("val", "");
+});
+
 $(document).on("click", ".js-add-selected-abilities", function () {
-    var div = $(".course-class-" + $(".course-class-index").val());
+    let div = $(".course-class-" + $(".course-class-index").val());
     div.find(".courseplan-abilities-selected").html($(".js-abilities-selected").find(".ability-panel-option").clone());
     div.find(".courseplan-abilities-selected").find(".ability-panel-option i").removeClass("fa-minus-square").addClass("fa-check-square");
     div.find(".ability-panel-option-id").each(function (index) {
