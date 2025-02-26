@@ -76,6 +76,16 @@ class FireBaseService
         $this->createFarmerFoods($foodsRelation, $farmerId);
     }
 
+    public function updateFoodNotice($noticeData, $noticeId) {
+        $collection = 'public_calls';
+        $documentPath =  $collection . '/' . $noticeId;
+
+        $this->firestoreClient->updateDocument($documentPath, [
+            'name' => $noticeData["name"],
+            'date' => date('Y-m-d', strtotime(str_replace('/', '-', $noticeData["date"]))),
+        ]);
+    }
+
     public function deleteFarmerRegister($farmerId) {
         $collection = 'farmer_register';
         $documentPath =  $collection . '/' . $farmerId;

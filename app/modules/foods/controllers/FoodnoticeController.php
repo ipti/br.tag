@@ -184,8 +184,12 @@ class FoodNoticeController extends Controller
                 $this->saveNoticeItems($noticeData["noticeItems"], $id);
 
                 $pdfUrl = $this->fetchPdfUrl($model->reference_id);
-
-                $this->updatePdfFile($noticeData, $model->reference_id, $pdfUrl);
+                if($_FILES["noticePdf"]["name"]) {
+                    $this->updatePdfFile($noticeData, $model->reference_id, $pdfUrl);
+                } else {
+                    $updateFoodNotice = new UpdateFoodNotice();
+                    $updateFoodNotice->exec($noticeData, $model->reference_id);
+                }
             }
         }
 
