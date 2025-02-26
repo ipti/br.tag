@@ -61,6 +61,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 'actions' => array(
                     'index',
                     'view',
+                    'getGradesAndFrequency',
                     'comparestudentname',
                     'getstudentajax',
                     'syncToSedsp',
@@ -122,6 +123,34 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
     }
+    public function actionGetGradesAndFrequency() {
+        $idEnrollment = Yii::app()->request->getPost("errolmentId");
+
+        if (!$idEnrollment) {
+            echo json_encode(["success" => false, "message" => "ID de matrícula não informado."]);
+            Yii::app()->end();
+        }
+
+        $classFaults = ClassFaults::model()->countByAttributes(["student_fk" => $idEnrollment]);
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = "enrollment_fk = :idEnrollment AND (grade IS NOT NULL AND grade != 0)";
+        $criteria->params = [":idEnrollment" => $idEnrollment];
+
+        $grades = Grade::model()->count($criteria);
+
+        if ($classFaults == 0 && $grades == 0) {
+            echo json_encode(["success" => true, "message" => ""]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "A matrícula não pode ser excluída, pois já contém notas e/ou frequência cadastradas."
+            ]);
+        }
+
+        Yii::app()->end();
+    }
+
 
     public function actionGetStudentAjax()
     {

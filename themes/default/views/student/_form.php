@@ -13,6 +13,7 @@ $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/student/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/student/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/datepicker-pt-BR.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -2250,7 +2251,7 @@ $form = $this->beginWidget(
                                 <div class="t-icon-pencil t-icon"></div>
                               </a>
                             <?php } ?>
-
+                            <div class="t-icon-trash t-icon js-remove-enrollment" style="color:red; margin-left:8px;" data-erollment-id="<?= $me->id ?>"></div>
                           </div>
                           <div id="accordion-school-label" class="mobile-row">
                             <label class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>
