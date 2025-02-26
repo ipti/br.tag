@@ -48,6 +48,9 @@ a atualização da situação de matrícula do aluno.
 - Correção de Ficha de notas: Os valores de frequencia e a contagem de aulas foi revisado e foi adaptada a visualização dos dados para diferenciar
 o relatório para ensino intanfil e fundamental menor do fundamental maior;
 
+## [Versão 3.94.214]
+- Adicionando a filtro de ano ao exibir os planos de aula, serão exibidos somente os planos do ano que o usuário está logado
+
 ## [Versão 3.94.213]
 - Controle de status a serem considerados na exportação do sagres. Por padrão apenas matriculas com status "matriculado" são envadas. No entanto, usando o diario eletronico, o status de algumas matriculas mudaram para "Aprovado", "Reprovado" e outros. Foi adicionado um controle para optar ou não por considerar esses status na exportação.
 - Novo campo na turma para definir o periodo da turma: Anual, 1 Semestre ou 2 Semestre;
