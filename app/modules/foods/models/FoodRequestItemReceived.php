@@ -1,31 +1,43 @@
 <?php
 
 /**
- * This is the model class for table "food_request".
+ * This is the model class for table "food_request_item_received".
  *
- * The followings are the available columns in table 'food_request':
+ * The followings are the available columns in table 'food_request_item_received':
  * @property integer $id
+ * @property integer $food_fk
+ * @property integer $farmer_fk
+ * @property integer $food_request_fk
+ * @property double $amount
+ * @property string $measurementUnit
  * @property string $date
- * @property string $status
- * @property integer $notice_fk
- * @property string $reference_id
  *
  * The followings are the available model relations:
- * @property FoodNotice $noticeFk
- * @property FoodRequestItem[] $foodRequestItems
- * @property FoodRequestVsFarmerRegister[] $foodRequestVsFarmerRegisters
- * @property FoodRequestVsSchoolIdentification[] $foodRequestVsSchoolIdentifications
+ * @property FarmerRegister $farmerFk
+ * @property Food $foodFk
+ * @property FoodRequest $foodRequestFk
  */
-class FoodRequest extends TagModel
+class FoodRequestItemReceived extends CActiveRecord
 {
     /**
      * @return string the associated database table name
      */
     public function tableName()
     {
-        return 'food_request';
+        return 'food_request_item_received';
     }
-
+    public function behaviors()
+    {
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
+    }
 
     /**
      * @return array validation rules for model attributes.
@@ -35,13 +47,11 @@ class FoodRequest extends TagModel
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('notice_fk', 'numerical', 'integerOnly'=>true),
-            array('status', 'length', 'max'=>12),
-            array('reference_id', 'length', 'max'=>36),
+            array('food_fk, farmer_fk, food_request_fk', 'numerical', 'integerOnly'=>true),
+            array('amount', 'numerical'),
+            array('measurementUnit', 'length', 'max'=>7),
             array('date', 'safe'),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('id, date, status, notice_fk, reference_id', 'safe', 'on'=>'search'),
+            array('id, food_fk, farmer_fk, food_request_fk, amount, measurementUnit, date', 'safe', 'on'=>'search'),
         );
     }
 
@@ -53,10 +63,9 @@ class FoodRequest extends TagModel
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'noticeFk' => array(self::BELONGS_TO, 'FoodNotice', 'notice_fk'),
-            'foodRequestItems' => array(self::HAS_MANY, 'FoodRequestItem', 'food_request_fk'),
-            'foodRequestVsFarmerRegisters' => array(self::HAS_MANY, 'FoodRequestVsFarmerRegister', 'food_request_fk'),
-            'foodRequestVsSchoolIdentifications' => array(self::HAS_MANY, 'FoodRequestVsSchoolIdentification', 'food_request_fk'),
+            'farmerFk' => array(self::BELONGS_TO, 'FarmerRegister', 'farmer_fk'),
+            'foodFk' => array(self::BELONGS_TO, 'Food', 'food_fk'),
+            'foodRequestFk' => array(self::BELONGS_TO, 'FoodRequest', 'food_request_fk'),
         );
     }
 
@@ -67,10 +76,12 @@ class FoodRequest extends TagModel
     {
         return array(
             'id' => 'ID',
-            'date' => 'Data',
-            'status' => 'Status',
-            'notice_fk' => 'Edital',
-            'reference_id' => 'Reference',
+            'food_fk' => 'Food Fk',
+            'farmer_fk' => 'Farmer Fk',
+            'food_request_fk' => 'Food Request Fk',
+            'amount' => 'Amount',
+            'measurementUnit' => 'Measurement Unit',
+            'date' => 'Date',
         );
     }
 
@@ -88,15 +99,16 @@ class FoodRequest extends TagModel
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
 
         $criteria=new CDbCriteria;
 
         $criteria->compare('id',$this->id);
+        $criteria->compare('food_fk',$this->food_fk);
+        $criteria->compare('farmer_fk',$this->farmer_fk);
+        $criteria->compare('food_request_fk',$this->food_request_fk);
+        $criteria->compare('amount',$this->amount);
+        $criteria->compare('measurementUnit',$this->measurementUnit,true);
         $criteria->compare('date',$this->date,true);
-        $criteria->compare('status',$this->status,true);
-        $criteria->compare('notice_fk',$this->notice_fk);
-        $criteria->compare('reference_id',$this->reference_id,true);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -107,7 +119,7 @@ class FoodRequest extends TagModel
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return FoodRequest the static model class
+     * @return FoodRequestItemReceived the static model class
      */
     public static function model($className=__CLASS__)
     {

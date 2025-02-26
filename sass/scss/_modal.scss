@@ -28,6 +28,9 @@
             opacity: 1;
             font-size: $SizeNormal;
         }
+        &.no-bottom-padding {
+            padding-bottom: 0;
+        }
     }
     .t-modal__body {
         padding: $SizeNormal $SizeLarge;

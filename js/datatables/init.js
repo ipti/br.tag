@@ -1,5 +1,5 @@
 const action = window.location.search;
-$(document).ready(initDatatable);
+$(initDatatable);
 
 function initDatatable() {
 
@@ -8,7 +8,7 @@ function initDatatable() {
     //
     $.fn.dataTable.pipeline = function (opts) {
         // Configuration options
-        var conf = $.extend(
+        let conf = $.extend(
             {
                 pages: 5, // number of pages to cache
                 url: '', // script url
@@ -20,17 +20,17 @@ function initDatatable() {
         );
 
         // Private variables for storing the cache
-        var cacheLower = -1;
-        var cacheUpper = null;
-        var cacheLastRequest = null;
-        var cacheLastJson = null;
+        let cacheLower = -1;
+        let cacheUpper = null;
+        let cacheLastRequest = null;
+        let cacheLastJson = null;
 
         return function (request, drawCallback, settings) {
-            var ajax = false;
-            var requestStart = request.start;
-            var drawStart = request.start;
-            var requestLength = request.length;
-            var requestEnd = requestStart + requestLength;
+            let ajax = false;
+            let requestStart = request.start;
+            let drawStart = request.start;
+            let requestLength = request.length;
+            let requestEnd = requestStart + requestLength;
 
             if (settings.clearCache) {
                 // API requested that the cache be cleared
@@ -72,7 +72,7 @@ function initDatatable() {
                     // As a function it is executed with the data object as an arg
                     // for manipulation. If an object is returned, it is used as the
                     // data object to submit
-                    var d = conf.data(request);
+                    let d = conf.data(request);
                     if (d) {
                         $.extend(request, d);
                     }

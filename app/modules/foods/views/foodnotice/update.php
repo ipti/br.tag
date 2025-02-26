@@ -16,4 +16,6 @@ $this->menu=array(
 );
 ?>
 
-<?php $this->renderPartial('_form', array('model'=>$model,  'title' => $model->name)); ?>
+<div id="mainPage" class="main">
+    <?php $this->renderPartial('_form', array('model'=>$model,  'title' => $model->name)); ?>
+</div>
