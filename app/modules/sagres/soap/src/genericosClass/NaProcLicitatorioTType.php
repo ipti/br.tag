@@ -10,7 +10,6 @@ namespace Genericos;
  */
 class NaProcLicitatorioTType
 {
-
     /**
      * @var int $numero
      */
@@ -64,7 +63,5 @@ class NaProcLicitatorioTType
         $this->ano = $ano;
         return $this;
     }
-
-
 }
 
