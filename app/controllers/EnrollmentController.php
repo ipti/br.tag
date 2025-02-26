@@ -8,6 +8,7 @@ Yii::import('application.modules.sedsp.usecases.*');
 Yii::import('application.modules.sedsp.usecases.Student.*');
 Yii::import('application.modules.sedsp.interfaces.*');
 Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
+Yii::import('application.repository.FormsRepository');
 
 class EnrollmentController extends Controller implements AuthenticateSEDTokenInterface
 {
@@ -476,12 +477,20 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             ]
         );
 
+
         foreach ($classroom->activeStudentEnrollments as $enrollment) {
+            $faults = $enrollment->countFaultsDiscipline($disciplineId);
+            $contentsPerDiscipline = new FormsRepository();
+            $contentsPerDiscipline = $contentsPerDiscipline->contentsPerDisciplineCalculate($enrollment->classroomFk, $disciplineId, $enrollment->id);
+
+            $frequency = round((($contentsPerDiscipline - $faults) / ($contentsPerDiscipline ?: 1)) * 100);
+
             if ($enrollment->isActive()) {
                 $usecase = new ChageStudentStatusByGradeUsecase(
                     $enrollment->id,
                     $disciplineId,
-                    (int) $numUnities
+                    (int) $numUnities,
+                    $frequency
                 );
                 $usecase->exec();
             }

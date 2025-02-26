@@ -98,7 +98,7 @@ class CalculateConceptGradeUsecase
             $conceptGradeValues += $grade->gradeConceptFk->value;
         }
 
-        $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($this->stage);
+        $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($this->classroomId, $this->stage);
         $numUnities = $gradeUnities->execCount();
 
         if (!$this->hasAllGrades($numUnities, $gradeResult)) {

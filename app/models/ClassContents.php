@@ -30,11 +30,22 @@ class ClassContents extends TagModel
         return 'class_contents';
     }
 
-
-	/**
-	 * @return array validation rules for model attributes.
-	 */
-	public function rules()
+    public function behaviors()
+    {
+        return [
+            'CTimestampBehavior' => [
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+                'setUpdateOnCreate' => true,
+                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
+            ]
+        ];
+    }
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.

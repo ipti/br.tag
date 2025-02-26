@@ -140,6 +140,7 @@ function initDatatable() {
                 indexActionButtons = [2];
             }
             if (action.includes("instructor")
+                || action.includes("indexGradesStructure")
                 || action.includes("courseplan")
                 || action.includes("manageUsers")) {
                 indexActionButtons = [3];

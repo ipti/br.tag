@@ -73,7 +73,7 @@ class Register50
                     }
                 }
 
-                if ($classroom->pedagogical_mediation_type == "1" && ($teaching['role'] != '1' && $teaching['role'] != '2' && $teaching['role'] != '3' && $teaching['role'] != '4' && $teaching['role'] != '7' && $teaching['role'] != '8')) {
+                if ($classroom->pedagogical_mediation_type == "1" && ($teaching['role'] != '1' && $teaching['role'] != '2' && $teaching['role'] != '3' && $teaching['role'] != '4' && $teaching['role'] != '7' && $teaching['role'] != '8' && $teaching['role'] != '9')) {
                     $teaching['role'] = "1";
                 } else if ($classroom->pedagogical_mediation_type == "3" && ($teaching['role'] != '4' && $teaching['role'] != '5')) {
                     $teaching['role'] = "4";

@@ -109,8 +109,6 @@ class ChageStudentStatusByGradeUsecase
             $recoveryMedia = $this->gradeResult->rec_final;
             $finalRecoveryMedia = $this->gradeRule->final_recover_media;
 
-            $finalRecovery = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $this->stage, "type" => "RF"]);
-
             $hasRecoveryGrade = isset($recoveryMedia) && $recoveryMedia !== "";
             if (!$hasRecoveryGrade) {
                 $this->gradeResult->situation = $recoverySituation;
@@ -120,7 +118,10 @@ class ChageStudentStatusByGradeUsecase
 
         }
 
-        $this->gradeResult->save();
+        if($this->gradeResult->save()){
+            $updateEnrollment = new ChangeEnrollmentStatusUsecase($this->gradeResult->enrollment_fk);
+            $updateEnrollment->exec();
+        }
         TLog::info("Status da matrícula", ["gradeResult" => $this->gradeResult->situation]);
     }
 

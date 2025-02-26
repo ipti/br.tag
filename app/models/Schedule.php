@@ -19,6 +19,7 @@
  * @property string $diary
  * @property string $fkid
  * @property string $hash
+ * @property integer $substitute_instructor_fk
  *
  * The followings are the available model relations:
  * @property ClassContents[] $classContents
@@ -27,6 +28,7 @@
  * @property InstructorFaults[] $instructorFaults
  * @property Classroom $classroomFk
  * @property EdcensoDiscipline $disciplineFk
+ * @property SubstituteInstructor $substituteInstructorFk
  * @property InstructorIdentification $instructorFk
  */
 class Schedule extends TagModel
@@ -49,14 +51,14 @@ class Schedule extends TagModel
 		// will receive user inputs.
 		return array(
 			array('discipline_fk, classroom_fk, day, month, year, week, week_day, unavailable', 'required'),
-			array('instructor_fk, discipline_fk, classroom_fk, day, month, year, week, week_day, schedule, unavailable', 'numerical', 'integerOnly'=>true),
+			array('instructor_fk, discipline_fk, classroom_fk, day, month, year, week, week_day, schedule, unavailable, substitute_instructor_fk', 'numerical', 'integerOnly'=>true),
 			array('fkid', 'length', 'max'=>40),
             array('turn', 'length', 'max'=>45),
 			array('hash', 'length', 'max'=>20),
 			array('diary', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, instructor_fk, discipline_fk, classroom_fk, day, month, year, week, week_day, schedule, turn, unavailable, diary, fkid, hash', 'safe', 'on'=>'search'),
+			array('id, instructor_fk, discipline_fk, classroom_fk, day, month, year, week, week_day, schedule, turn, unavailable, diary, fkid, hash, substitute_instructor_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,7 +76,8 @@ class Schedule extends TagModel
 			'instructorFaults' => array(self::HAS_MANY, 'InstructorFaults', 'schedule_fk'),
 			'classroomFk' => array(self::BELONGS_TO, 'Classroom', 'classroom_fk'),
 			'disciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'discipline_fk'),
-			'instructorFk' => array(self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'),
+            'substituteInstructorFk' => array(self::BELONGS_TO, 'SubstituteInstructor', 'substitute_instructor_fk'),
+            'instructorFk' => array(self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'),
 		);
 	}
 
@@ -99,6 +102,7 @@ class Schedule extends TagModel
 			'diary' => 'Diary',
 			'fkid' => 'Fkid',
 			'hash' => 'Hash',
+            'substitute_instructor_fk' => 'Substitute Instructor Fk',
 		);
 	}
 
@@ -135,6 +139,7 @@ class Schedule extends TagModel
 		$criteria->compare('diary',$this->diary,true);
 		$criteria->compare('fkid',$this->fkid,true);
 		$criteria->compare('hash',$this->hash,true);
+        $criteria->compare('substitute_instructor_fk',$this->substitute_instructor_fk);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

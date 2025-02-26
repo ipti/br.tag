@@ -4,8 +4,10 @@ namespace SagresEdu;
 
 use JMS\Serializer\Annotation as Serializer;
 
+
 /**
  * Class representing MatriculaTType
+ *
  *
  * XSD Type: matricula_t
  */
@@ -37,7 +39,18 @@ class MatriculaTType
     #[Serializer\XmlElement(cdata: false)]
     private ?AlunoTType $aluno = null;
 
-    // Métodos getters e setters permanecem os mesmos
+    private ?int $enrollment_stage = null;
+
+
+    public function getEnrollmentStage ():?int{
+        return $this->enrollment_stage;
+    }
+    public function setEnrollmentStage (?int $enrollment_stage): self
+    {
+        $this->enrollment_stage = $enrollment_stage;
+        return $this;
+    }
+
     public function getNumero(): ?string
     {
         return $this->numero;
@@ -104,3 +117,4 @@ class MatriculaTType
         return $this;
     }
 }
+

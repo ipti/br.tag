@@ -186,7 +186,17 @@
                    "day" => DateTime::createFromFormat("d/m/Y", $date)->format("d"), "discipline_fk" => $discipline_fk]);
              }
 
-            ClassContents::model()->deleteAll("schedule_fk = :schedule_fk", ["schedule_fk" => $schedule->id]);
+             $contentsToExclude = array_column(ClassContents::model()->with("courseClassFk.coursePlanFk")->findAll(
+                'schedule_fk = :schedule_fk and coursePlanFk.users_fk = :user_fk',
+                [
+                    'schedule_fk' => $schedule->id,
+                    'user_fk' => Yii::app()->user->loginInfos->id
+                ]
+             ), 'id');
+
+            if (!empty($contentsToExclude)){
+                ClassContents::model()->deleteAll("id IN (" . implode(" , ", $contentsToExclude) . ")");
+            }
 
             foreach ($classContent as $content) {
                 $classHasContent = new ClassContents();
