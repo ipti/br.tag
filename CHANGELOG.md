@@ -1,12 +1,12 @@
-## [Versão 3.99.222]
-- Adicionado cadastro de aulas no plano de aula na tela de diário de classe
+## [Versão 3.96.225]
+- Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
 
-## [Verão 3.98.222]
+## [Verão 3.96.224]
 - Associadas estruturas de unidades e avaliação às turmas
 - Adicionado campo de nome às estruturas de unidade e avaliação
 - Permitido o reaproveitamento de estruturas de unidade e avaliação
 
-## [Versão 3.97.222]
+## [Versão 3.96.223]
 - Adicionando no formulário de criação de plano de aula um select de habilidades, permitindo que as habilidades sejam buscadas de uma
 forma simplificada
 
@@ -15,8 +15,7 @@ forma simplificada
 
 ## [Versão 3.96.221]
 - Alterado o fluxo do Sagres para o modelo de 2025 no XML de Educação.
-- Adicionado campo para especificar a justificativa da ausência de CPF do estudante.
-
+- Adicionado, ao cadastro de aluno, campo para especificar a justificativa da ausência de CPF do estudante.
 
 ## [Versão 3.96.220]
 - Corrigido o relatório de professores por escola
