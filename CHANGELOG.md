@@ -1,3 +1,6 @@
+## [Versão 3.96.222]
+- Adicionado no relatório de ficha de notas as informações de IDENTIDADE, ÓRGÃO EXPEDIDOR, ETAPA, ATENDIMENTO EDUCACIONAL ESPECIALIZADO
+
 ## [Versão 3.96.221]
 - Alterado o fluxo do Sagres para o modelo de 2025 no XML de Educação.
 - Adicionado campo para especificar a justificativa da ausência de CPF do estudante.

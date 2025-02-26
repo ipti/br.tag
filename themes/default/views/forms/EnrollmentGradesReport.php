@@ -53,10 +53,30 @@ function calculateFrequence($numClasses, $numFalts): int {
                     <div class="span6">
                         <b>NATURALIDADE: </b><?= strtoupper($enrollment->studentFk->edcensoCityFk->name) . "/" . $enrollment->studentFk->edcensoUfFk->acronym ?>
                     </div>
+                    <div class="span6">
+                        <b>IDENTIDADE: </b><?= $enrollment->studentFk->documentsFk->rg_number ?>
+                    </div>
+
+
                     <div class="span6"><b>FILIAÇÃO PRINCIPAL: </b><?= $enrollment->studentFk->filiation_1 ?></div>
-                    <div class="span6"><b>TURMA: </b><?= $enrollment->classroomFk->name ?></div>
+                    <div class="span6">
+                        <b>ÓRGÃO EXPEDIDOR: </b><?= $enrollment->studentFk->documentsFk->rgNumberEdcensoOrganIdEmitterFk->name ?>
+                    </div>
                     <div class="span6"><b>FILIAÇÃO SECUNDÁRIA: </b><?= $enrollment->studentFk->filiation_2 ?></div>
+                    <div class="span6"><b>TURMA: </b><?= $enrollment->classroomFk->name ?></div>
                     <div class="span6"><b>ANO LETIVO: </b><?= $enrollment->classroomFk->school_year ?></div>
+                    <div class="span6"><b>ETAPA: </b><?= strtoupper($enrollment->edcensoStageVsModalityFk->name) ?></div>
+
+                    <div class="span6">
+                        <?php
+                            if($enrollment->studentFk->deficiency) {
+                                echo "<b>ATENDIMENTO EDUCACIONAL ESPECIALIZADO:/<b> &nbsp(&nbspX&nbsp)&nbspSIM &nbsp(&nbsp&nbsp)&nbspNÃO";
+                            }else {
+                                echo "<b>ATENDIMENTO EDUCACIONAL ESPECIALIZADO:</b> &nbsp(&nbsp&nbsp)&nbspSIM &nbsp(&nbspX&nbsp)&nbspNÃO";
+                            }
+                        ?>
+                    </div>
+
                 </div>
             </div>
             <br>
@@ -224,6 +244,9 @@ function calculateFrequence($numClasses, $numFalts): int {
     </div>
 </div>
 <style>
+    .span6{
+        margin: 5px 0;
+    }
     .vertical-text {
         height: 100px;
         vertical-align: bottom !IMPORTANT;
