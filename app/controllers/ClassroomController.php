@@ -1,6 +1,6 @@
 <?php
 
-require_once 'app/vendor/autoload.php';
+require_once 'vendor/autoload.php';
 Yii::import('application.modules.sedsp.models.Classroom.*');
 Yii::import('application.modules.sedsp.models.Enrollment.*');
 Yii::import('application.modules.sedsp.models.Student.*');
