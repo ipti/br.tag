@@ -5,12 +5,12 @@
 ## [Versão 3.96.225]
 - Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
 
-## [Verão 3.96.224]
+## [Verão 3.98.222]
 - Associadas estruturas de unidades e avaliação às turmas
 - Adicionado campo de nome às estruturas de unidade e avaliação
 - Permitido o reaproveitamento de estruturas de unidade e avaliação
 
-## [Versão 3.96.223]
+## [Versão 3.97.222]
 - Adicionando no formulário de criação de plano de aula um select de habilidades, permitindo que as habilidades sejam buscadas de uma
 forma simplificada
 
