@@ -5,10 +5,11 @@ require_once __DIR__."/../robots/LoginRobots.php";
 class LoginCest
 {
     // tests
+
     public function frontpageWorks(AcceptanceTester $tester)
     {
-        $user = "admin";
-        $secret = "p@s4ipti";
+        $user = "";
+        $secret = "";
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
@@ -22,7 +23,7 @@ class LoginCest
     public function errorUser(AcceptanceTester $tester)
     {
         $user = "coentro";
-        $secret = "p@s4ipti";
+        $secret = "";
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
