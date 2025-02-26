@@ -846,6 +846,10 @@ class ClassroomController extends Controller
                     throw new Exception("Não foi possível excluir a turma porque existem alunos matriculados.");
                 }
 
+                if (count($teachingDatas) > 0) {
+                    throw new Exception("Não se pode remover turma com professores vinculados.");
+                }
+
                 foreach ($teachingDatas as $teachingData) {
                     $teachingData->delete();
                 }
@@ -860,7 +864,7 @@ class ClassroomController extends Controller
                 if(isset($transaction)){
                     $transaction->rollback();
                 }
-                echo json_encode(["valid" => false, "message" => "Não se pode remover turma com professores vinculados."]);
+                echo json_encode(["valid" => false, "message" => $e->getMessage()]);
             }
         } else {
             echo json_encode(["valid" => false, "message" => "Não foi possível remover a turma no SEDSP. Motivo: " . $erro]);
