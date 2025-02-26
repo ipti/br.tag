@@ -1,3 +1,6 @@
+## [Verão 3.98.222]
+- Adicionado cadastro de novas estruturas de unidades
+
 ## [Versão 3.97.222]
 - Adicionando no formulário de criação de plano de aula um select de habilidades, permitindo que as habilidades sejam buscadas de uma
 forma simplificada
