@@ -41,7 +41,7 @@ $form = $this->beginWidget(
             Informações do Edital
         </h3>
     </div>
-    <div id="loading-popup" class="hide loading-center">
+    <div id="loading-popup" class="hide">
         <img class="js-grades-loading" height="60px" width="60px" src="/themes/default/img/loadingTag.gif" alt="TAG Loading">
     </div>
 

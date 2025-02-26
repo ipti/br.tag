@@ -47,7 +47,7 @@ $.ajax({
 })
 
 if(noticeID)  {
-    $("#loading-popup").removeClass("hide");
+    $("#loading-popup").removeClass("hide").addClass("loading-center");
     $.ajax({
         url: `?r=foods/foodnotice/getNotice&id=${noticeID}`,
         type: "GET"
