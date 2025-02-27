@@ -1100,7 +1100,7 @@ class TimesheetController extends Controller
         echo json_encode($htmlOptions);
         Yii::app()->end();
     }
-  
+
     private function generateDate($day, $month, $year, $usecase){
         switch($usecase){
             case 0:
@@ -1114,7 +1114,7 @@ class TimesheetController extends Controller
             default:
                 break;
         }
-      
+    }
     public function actionFixBuggedUnavailableDaysFor2024()
     {
         //Nessa função, precisa-se passar em cada schedule de 2024 e verificar se o dia está indisponível (coluna unavailable = 1) quando, na verdade, ele está disponível
