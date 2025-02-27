@@ -1,24 +1,28 @@
 SagresEdu\SerieTType:
     properties:
-        descricao:
+        idSerie:
             expose: true
             access_type: public_method
-            serialized_name: descricao
+            serialized_name: idSerie
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
-                getter: getDescricao
-                setter: setDescricao
+                getter: getIdSerie
+                setter: setIdSerie
             type: string
-        modalidade:
+        matricula:
             expose: true
             access_type: public_method
-            serialized_name: modalidade
+            serialized_name: matricula
             xml_element:
                 cdata: false
-                namespace: 'http://www.tce.se.gov.br/sagres2024/xml/sagresEdu'
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
             accessor:
-                getter: getModalidade
-                setter: setModalidade
-            type: int
+                getter: getMatricula
+                setter: setMatricula
+            xml_list:
+                inline: true
+                entry_name: matricula
+                namespace: 'http://www.tce.se.gov.br/sagres2025/xml/sagresEdu'
+            type: array<SagresEdu\MatriculaTType>

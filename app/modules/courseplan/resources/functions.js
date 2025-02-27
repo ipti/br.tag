@@ -187,7 +187,9 @@ function format(d) {
     let ability = $('<div class="control-group courseplan-ability-container"></div>');
     let abilityLabel = $('<label class="" for="course-class[' + d.class + '][ability][]">Habilidade(s)</label>');
     let abilityButton = $('<button class="t-button-primary add-abilities" style="height: 28px;gap: 5px" ><icon class="t-icon-start"></icon>Adicionar habilidades</button>');
+    let abilitySelect = $('<input id="ability-search-select" class="ability-search-select" name="resource" />');
     let abilitiesContainer = $('<div class="courseplan-abilities-selected">');
+    let abilitySelectContainer = $('<div class="row wrap"></div>');
 
     let methodology = $('<div class="t-field-text control-group courseplan-methodology-container"></div>');
     let methodologyLabel = $('<label class="t-field-tarea__label" for="course-class[' + d.class + '][methodology][]">Metodologia</label>');
@@ -248,7 +250,9 @@ function format(d) {
     content.append(contentLabel);
     content.append(contentInput);
     ability.append(abilityLabel);
-    ability.append(abilityButton);
+    abilitySelectContainer.append(abilityButton);
+    abilitySelectContainer.append(abilitySelect);
+    ability.append(abilitySelectContainer);
     ability.append(abilitiesContainer);
     resourceButtonContainer.append(resourceButton);
     resourceInput.append(resourceValue);

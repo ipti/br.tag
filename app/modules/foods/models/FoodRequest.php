@@ -6,15 +6,17 @@
  * The followings are the available columns in table 'food_request':
  * @property integer $id
  * @property string $date
- * @property integer $food_fk
- * @property double $amount
- * @property string $measurementUnit
- * @property string $description
+ * @property string $status
+ * @property integer $notice_fk
+ * @property string $reference_id
  *
  * The followings are the available model relations:
- * @property Food $foodFk
+ * @property FoodNotice $noticeFk
+ * @property FoodRequestItem[] $foodRequestItems
+ * @property FoodRequestVsFarmerRegister[] $foodRequestVsFarmerRegisters
+ * @property FoodRequestVsSchoolIdentification[] $foodRequestVsSchoolIdentifications
  */
-class FoodRequest extends CActiveRecord
+class FoodRequest extends TagModel
 {
     /**
      * @return string the associated database table name
@@ -23,18 +25,7 @@ class FoodRequest extends CActiveRecord
     {
         return 'food_request';
     }
-    public function behaviors()
-    {
-        return [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
-    }
+
 
     /**
      * @return array validation rules for model attributes.
@@ -44,17 +35,13 @@ class FoodRequest extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('school_fk', 'required'),
-            array('food_fk', 'numerical', 'integerOnly'=>true),
-            array('amount', 'numerical'),
-            array('measurementUnit', 'length', 'max'=>7),
-            array('description', 'length', 'max'=>100),
+            array('notice_fk', 'numerical', 'integerOnly'=>true),
             array('status', 'length', 'max'=>12),
-            array('school_fk', 'length', 'max'=>8),
+            array('reference_id', 'length', 'max'=>36),
             array('date', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, date, food_fk, amount, measurementUnit, description, status, school_fk', 'safe', 'on'=>'search'),
+            array('id, date, status, notice_fk, reference_id', 'safe', 'on'=>'search'),
         );
     }
 
@@ -66,8 +53,10 @@ class FoodRequest extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'foodFk' => array(self::BELONGS_TO, 'Food', 'food_fk'),
-            'schoolFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_fk'),
+            'noticeFk' => array(self::BELONGS_TO, 'FoodNotice', 'notice_fk'),
+            'foodRequestItems' => array(self::HAS_MANY, 'FoodRequestItem', 'food_request_fk'),
+            'foodRequestVsFarmerRegisters' => array(self::HAS_MANY, 'FoodRequestVsFarmerRegister', 'food_request_fk'),
+            'foodRequestVsSchoolIdentifications' => array(self::HAS_MANY, 'FoodRequestVsSchoolIdentification', 'food_request_fk'),
         );
     }
 
@@ -79,11 +68,9 @@ class FoodRequest extends CActiveRecord
         return array(
             'id' => 'ID',
             'date' => 'Data',
-            'food_fk' => 'Food Fk',
-            'amount' => 'Quantidade',
-            'measurementUnit' => 'Unidade',
-            'description' => 'Descrição',
             'status' => 'Status',
+            'notice_fk' => 'Edital',
+            'reference_id' => 'Reference',
         );
     }
 
@@ -107,12 +94,9 @@ class FoodRequest extends CActiveRecord
 
         $criteria->compare('id',$this->id);
         $criteria->compare('date',$this->date,true);
-        $criteria->compare('food_fk',$this->food_fk);
-        $criteria->compare('amount',$this->amount);
-        $criteria->compare('measurementUnit',$this->measurementUnit,true);
-        $criteria->compare('description',$this->description,true);
         $criteria->compare('status',$this->status,true);
-        $criteria->compare('school_fk',$this->school_fk,true);
+        $criteria->compare('notice_fk',$this->notice_fk);
+        $criteria->compare('reference_id',$this->reference_id,true);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -130,4 +114,3 @@ class FoodRequest extends CActiveRecord
         return parent::model($className);
     }
 }
-

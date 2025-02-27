@@ -13,7 +13,7 @@
  * The followings are the available model relations:
  * @property CalendarEvent[] $calendarEvents
  */
-class CalendarEventType extends CActiveRecord
+class CalendarEventType extends TagModel
 {
 	/**
 	 * @return string the associated database table name

@@ -10,7 +10,6 @@ namespace Genericos;
  */
 class OrgaoRespAtaRegPrecosTType
 {
-
     /**
      * @var string $cnpj
      */
@@ -64,7 +63,5 @@ class OrgaoRespAtaRegPrecosTType
         $this->nome = $nome;
         return $this;
     }
-
-
 }
 

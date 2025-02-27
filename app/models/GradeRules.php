@@ -17,7 +17,7 @@
  * @property GradeCalculation $gradeCalculationFk
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
  */
-class GradeRules extends CActiveRecord
+class GradeRules extends TagModel
 {
 	/**
 	 * @return string the associated database table name
@@ -26,18 +26,7 @@ class GradeRules extends CActiveRecord
 	{
 		return 'grade_rules';
 	}
-    public function behaviors()
-    {
-        return [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
-    }
+
 
 	/**
 	 * @return array validation rules for model attributes.
@@ -47,9 +36,8 @@ class GradeRules extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('edcenso_stage_vs_modality_fk', 'required'),
 			array('approvation_media', 'required', 'on' => "numericGrade"),
-			array('edcenso_stage_vs_modality_fk, grade_calculation_fk, has_final_recovery, has_partial_recovery', 'numerical', 'integerOnly'=>true),
+			array('grade_calculation_fk, has_final_recovery, has_partial_recovery', 'numerical', 'integerOnly'=>true),
 			array('approvation_media, final_recover_media', 'numerical'),
 			array('rule_type', 'length', 'max'=>1),
 			// The following rule is used by search().

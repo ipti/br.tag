@@ -8,7 +8,11 @@
     );
     ?>
     <?php
-    echo $this->renderPartial('_form', array('modelClassroom' => $modelClassroom,
+    echo $this->renderPartial('_form', array(
+        "stages" => $stages,
+        "gradeRules" => $gradeRules,
+        'gradeRulesStages' => $gradeRulesStages,
+        'modelClassroom' => $modelClassroom,
         'complementaryActivities' => $complementary_activities,
         'modelTeachingData' => $modelTeachingData,
         'edcensoStageVsModalities' => $edcensoStageVsModalities,

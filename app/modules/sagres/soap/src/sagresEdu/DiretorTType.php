@@ -10,25 +10,27 @@ use Symfony\Component\Validator\Validation;
 /**
  * Class representing DiretorTType
  *
- *
+ * 
  * XSD Type: diretor_t
  */
 class DiretorTType
 {
+
     #[Serializer\SerializedName("edu:cpfDiretor")]
     #[Serializer\XmlElement(cdata: false)]
-    private ?string $cpfDiretor = null;
+    private $cpfDiretor = null;
 
     #[Serializer\SerializedName("edu:nrAto")]
     #[Serializer\XmlElement(cdata: false)]
-    private ?string $nrAto = null;
+    private $nrAto = null;
 
-    // Métodos getters e setters permanecem os mesmos
+   
     public function getCpfDiretor(): ?string
     {
         return $this->cpfDiretor;
     }
 
+  
     public function setCpfDiretor(string $cpfDiretor): self
     {
         $this->cpfDiretor = $cpfDiretor;
@@ -40,13 +42,11 @@ class DiretorTType
         return $this->nrAto;
     }
 
-    public function setNrAto(string $nrAto): self
-    {
+    public function setNrAto(string $nrAto): self    {
         $this->nrAto = $nrAto;
         return $this;
     }
 
-    // Método para validação usando Symfony Validator
     public function validator($directorType)
     {
         $validator = Validation::createValidator();
@@ -58,3 +58,4 @@ class DiretorTType
         return $violations;
     }
 }
+

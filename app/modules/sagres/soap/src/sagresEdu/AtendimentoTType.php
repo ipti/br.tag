@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * Class representing AtendimentoTType
  *
- *
+ * 
  * XSD Type: atendimento_t
  */
 class AtendimentoTType
@@ -21,26 +21,28 @@ class AtendimentoTType
     #[Serializer\XmlElement(cdata: false)]
     private ?string $local = null;
 
-    // Métodos getters e setters permanecem os mesmos
+    // GETTERS
     public function getData(): ?\DateTime
     {
         return $this->data;
     }
 
-    public function setData(\DateTime $data): self
+    public function setData(\DateTime $data):self
     {
         $this->data = $data;
         return $this;
     }
 
-    public function getLocal(): ?string
+  
+    public function getLocal():?string
     {
         return $this->local;
     }
-
-    public function setLocal(string $local): self
+    
+    public function setLocal(string $local):self
     {
         $this->local = $local;
         return $this;
     }
 }
+

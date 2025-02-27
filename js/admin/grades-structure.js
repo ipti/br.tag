@@ -1,3 +1,9 @@
+$(function() {
+
+    loadStructure();
+});
+
+
 function hasUnitiesSaved() {
     if ($("input[type='hidden'].unity-id[value]").length > 0) {
         $(".js-new-partial-recovery").removeClass("disabled");
@@ -7,20 +13,19 @@ function hasUnitiesSaved() {
 }
 $(document).on(
     "change",
-    "#GradeUnity_edcenso_stage_vs_modality_fk",
-    function () {
-        $(".alert-required-fields, .alert-media-fields").hide();
-        loadStructure();
-    }
-);
-$(document).on(
-    "change",
     ".final-recovery-unity-calculation",
     function () {
+
         if($('.final-recovery-unity-calculation').select2('data').text.trim() == "Média Semestral") {
             $('.js-final-recovery-fomula').show()
         } else {
             $('.js-final-recovery-fomula').hide()
+        }
+
+        if($(this).find(':selected').text().trim() == "Peso") {
+            $(".weights-final-recovery").removeClass("hide")
+        } else {
+            $(".weights-final-recovery").addClass("hide")
         }
     }
 );
@@ -498,11 +503,17 @@ function saveUnities(reply) {
         });
         return
     }
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
+    const name = $(".js-grade-rules-name").val();
     $.ajax({
         type: "POST",
         url: "?r=admin/saveUnities",
         cache: false,
         data: {
+            grade_rules_id: id,
+            grade_rules_name: name,
             stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
             unities: unities,
             approvalMedia: $(".approval-media").val(),
@@ -515,9 +526,12 @@ function saveUnities(reply) {
                     "val"
                 ),
                 operation: $(".final-recovery-unity-operation").val(),
+                WeightfinalRecovery: $(".weight-final-recovery").val(),
+                WeightfinalMedia:$(".weight-final-media").val(),
                 final_recovery_avarage_formula: $("select.js-final-recovery-fomula-select").val()
             },
             finalRecoverMedia: $(".final-recover-media").val(),
+
             finalMediaCalculation: $(".calculation-final-media").select2("val"),
             reply: reply ? $(".reply-option:checked").val() : "",
             ruleType: $(".js-rule-type").select2("val"),
@@ -551,6 +565,9 @@ function saveUnities(reply) {
                     .show();
                 $('.js-alert-save-unities-first').hide();
                 $('.js-alert-save-recovery-first').hide();
+                const url = new URL(window.location);
+                url.searchParams.set('id', data.gradeRules);
+                window.history.pushState({}, '', url);
                 loadStructure();
             }
         },
@@ -746,13 +763,15 @@ function partialRecoveryValid() {
 }
 
 function loadStructure() {
-    if ($("#GradeUnity_edcenso_stage_vs_modality_fk").val() !== "") {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
         $.ajax({
             type: "POST",
             url: "?r=admin/getUnities",
             cache: false,
             data: {
-                stage: $("#GradeUnity_edcenso_stage_vs_modality_fk").val(),
+                grade_rules_id: id,
             },
             beforeSend: function (e) {
                 $(".js-grades-structure-loading").css(
@@ -771,6 +790,7 @@ function loadStructure() {
                         "data"
                     ).text
                 );
+                $(".js-grade-rules-name").val(data.ruleName);
                 $(".js-grades-structure-container").children(".unity").remove();
                 $(".approval-media").val(data.approvalMedia);
                 $("#has_final_recovery").prop("checked", data.hasFinalRecovery);
@@ -785,17 +805,36 @@ function loadStructure() {
                 );
                 $(".final-recovery-unity-id").val(data.final_recovery.id);
                 $(".final-recovery-unity-name").val(data.final_recovery.name);
+
                 const finalRecoveryCalculation = $(".final-recovery-unity-calculation").select2(
                     "val",
                     data.final_recovery.grade_calculation_fk
                 );
+                $(".js-stage-select").select2("val",data.edcenso_stage_vs_modality_fk);
+                $("select.js-stage-select").select2();
 
-                if (finalRecoveryCalculation !== null) {
-                    var selectedText = finalRecoveryCalculation.find(':selected').text().trim(); // Pega o texto da opção selecionada e remove espaços extras
-                    if (selectedText === "Média Semestral") {
-                        $('.js-final-recovery-fomula').show(); // Mostra o elemento com a classe especificada
+                if (finalRecoveryCalculation) {
+                    const selectedText = finalRecoveryCalculation.find(':selected').text().trim();
+
+                    $(".weight-final-recovery").val(data.final_recovery.weight_final_recovery);
+                    $(".weight-final-media").val(data.final_recovery.weight_final_media);
+                    $(".weights-final-recovery").addClass("hide");
+                    $(".js-final-recovery-fomula").addClass("hide");
+
+                    switch (selectedText) {
+                        case "Média Semestral":
+                            $('.js-final-recovery-fomula').removeClass("hide");
+                            break;
+
+                        case "Peso":
+                            $(".weights-final-recovery").removeClass("hide");
+                            break;
+
+                        default:
+                            break;
                     }
                 }
+
                 $("select.js-final-recovery-fomula-select").select2(
                     "val",
                     data.final_recovery.final_recovery_avarage_formula
@@ -811,7 +850,7 @@ function loadStructure() {
                 $(
                     ".js-grades-structure-container, .js-grades-rules-container"
                 ).show();
-
+                console.log(Object.keys(data.unities).length)
                 if (Object.keys(data.unities).length) {
                     let newUnityButton = $(".js-new-unity");
                     $.each(data.unities, function (e) {
@@ -897,11 +936,11 @@ function loadStructure() {
                 hasUnitiesSaved();
             },
         });
-    } else {
+    /*  else {
         $(
             ".js-grades-structure-container, .grades-buttons,  .js-grades-rules-container"
         ).hide();
-    }
+    } */
     $("#accordion").accordion();
 }
 

@@ -530,6 +530,7 @@ return array(
     'Edcenso Notary Office Fk' => 'Cartório',
     'Civil Register Enrollment Number' => 'Nº da Matrícula (Registro Civil - Certidão nova)',
     'Cpf' => 'Nº do CPF',
+    'Justification for absence of CPF'=>"Justificativa para ausência do CPF",
     'Foreign Document Or Passport' => 'Documento Estrangeiro / Passaporte',
     'Nis' => 'Nº de Identificação Social (NIS)',
     'CNS Number' => 'Nº do CNS',
@@ -882,6 +883,7 @@ return array(
     'instructor' => 'Professor',
     'coordinator' => 'Coordenador Pedagógico',
     'nutritionist' => 'Nutricionista',
+    'reader' => 'Somente Leitura',
     'admin' => 'Administrador',
     'Edit Password' => 'Alterar Senha',
 

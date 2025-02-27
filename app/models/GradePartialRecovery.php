@@ -15,7 +15,7 @@
  * @property GradeRules $gradeRulesFk
  * @property GradeUnity[] $gradeUnities
  */
-class GradePartialRecovery extends CActiveRecord
+class GradePartialRecovery extends TagModel
 {
 	/**
 	 * @return string the associated database table name
@@ -24,18 +24,7 @@ class GradePartialRecovery extends CActiveRecord
 	{
 		return 'grade_partial_recovery';
 	}
-    public function behaviors()
-    {
-        return [
-            'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
-                'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
-        ];
-    }
+
 
 	/**
 	 * @return array validation rules for model attributes.

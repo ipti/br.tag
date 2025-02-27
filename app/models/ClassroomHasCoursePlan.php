@@ -13,7 +13,7 @@
  * @property Classroom $classroomFk
  * @property CoursePlan $coursePlanFk
  */
-class ClassroomHasCoursePlan extends CActiveRecord
+class ClassroomHasCoursePlan extends TagModel
 {
 	/**
 	 * @return string the associated database table name
