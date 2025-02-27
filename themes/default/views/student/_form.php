@@ -81,6 +81,7 @@ $form = $this->beginWidget(
 
 <div class="tag-inner">
   <div class="widget widget-tabs border-bottom-none">
+    <div class="alert student-alert alert-error js-remove-enrollment"></div>
     <?php
     echo $form->errorSummary($modelStudentIdentification);
     echo $form->errorSummary($modelStudentDocumentsAndAddress);

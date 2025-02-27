@@ -131,7 +131,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             Yii::app()->end();
         }
 
-        $classFaults = ClassFaults::model()->countByAttributes(["student_fk" => $idEnrollment]);
+        $stdIdentification = StudentEnrollment::model()->findByPk($idEnrollment)->studentFk;
+        $classFaults = ClassFaults::model()->countByAttributes(["student_fk" => $stdIdentification->id]);
 
         $criteria = new CDbCriteria();
         $criteria->condition = "enrollment_fk = :idEnrollment AND (grade IS NOT NULL AND grade != 0)";
