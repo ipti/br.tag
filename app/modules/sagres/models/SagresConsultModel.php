@@ -2248,6 +2248,7 @@ class SagresConsultModel
         if (isset($situations[$situation])) {
             return $situations[$situation];
         }
+        return false;
     }
 
     public function returnNumberFaults($studentId, $referenceYear)
