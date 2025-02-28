@@ -69,9 +69,9 @@ $this->setPageTitle('TAG - ' . Yii::t('timesheetModule.timesheet', 'Timesheet'))
                     </button>
                 </div>
             </div>
-            <div style="margin-bottom: 2px;">
-                <a href="<?php echo Yii::app()->createUrl('timesheet/timesheet/substituteInstructor')?>">
-                    <button class="t-button-primary">
+            <div class="schedule-info display-hide">
+                <a style="margin-bottom: 2px;" href="<?php echo Yii::app()->createUrl('timesheet/timesheet/substituteInstructor')?>">
+                    <button class="t-button-primary t-button-secondary">
                         <i></i><?= yii::t('timesheetModule.timesheet', "Assign Substitute Instructor") ?>
                     </button>
                 </a>
