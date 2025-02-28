@@ -1,4 +1,7 @@
 ## [Versão 3.96.221]
+- Alterada a aplicação da regra de negócio na funcionalidade de excluir turma.
+
+## [Versão 3.96.221]
 - Alterado o fluxo do Sagres para o modelo de 2025 no XML de Educação.
 - Adicionado campo para especificar a justificativa da ausência de CPF do estudante.
 
