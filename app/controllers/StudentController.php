@@ -369,6 +369,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelStudentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
             $modelStudentDisorder->attributes = $_POST[$this->STUDENT_DISORDER];
 
+
+            $modelStudentIdentification->name = trim($modelStudentIdentification->name);
+
             // Validação CPF->Certidão->Nome
             if ($modelStudentDocumentsAndAddress->cpf != null) {
                 $student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', array(':cpf' => $modelStudentDocumentsAndAddress->cpf));
@@ -495,6 +498,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $modelStudentDocumentsAndAddress = $this->loadModel($id, $this->STUDENT_DOCUMENTS_AND_ADDRESS);
         $modelStudentRestrictions = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
         $modelStudentDisorder = $this->loadModel($id, $this->STUDENT_DISORDER);
+
+        $modelStudentIdentification->name = trim($modelStudentIdentification->name);
 
         $oldCpf = $modelStudentDocumentsAndAddress->cpf;
 

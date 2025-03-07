@@ -15,6 +15,8 @@ services:
       HOST_DB_TAG: 'mysql'
       USER_DB_TAG: 'root'
       PWD_DB_TAG: 'root'
+      TOKEN_FIREBASE: ''
+      PWD_FIREBASE: ''
       YII_DEBUG: 1
       PHP_ENABLE_XDEBUG: 0
       # XDEBUG_MODE: 'off'

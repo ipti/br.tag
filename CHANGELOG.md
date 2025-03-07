@@ -1,9 +1,25 @@
-## [Versão 3.99.221]
+## [Versão 3.100.221]
 - Botão adicionado para deletar matrículas sem notas ou frequência cadastradas no formulário de Aluno.
+
+## [Versão 3.99.222]
+- Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
+- Removendo validação de espaço em branco no começo e no fim do nome do aluno, o espaço é removido automaticamente ao salvar
+
+## [Verão 3.98.222]
+- Associadas estruturas de unidades e avaliação às turmas
+- Adicionado campo de nome às estruturas de unidade e avaliação
+- Permitido o reaproveitamento de estruturas de unidade e avaliação
+
+## [Versão 3.97.222]
+- Adicionando no formulário de criação de plano de aula um select de habilidades, permitindo que as habilidades sejam buscadas de uma
+forma simplificada
+
+## [Versão 3.96.222]
+- Adicionado no relatório de ficha de notas as informações de IDENTIDADE, ÓRGÃO EXPEDIDOR, ETAPA, ATENDIMENTO EDUCACIONAL ESPECIALIZADO
 
 ## [Versão 3.96.221]
 - Alterado o fluxo do Sagres para o modelo de 2025 no XML de Educação.
-- Adicionado campo para especificar a justificativa da ausência de CPF do estudante.
+- Adicionado, ao cadastro de aluno, campo para especificar a justificativa da ausência de CPF do estudante.
 
 ## [Versão 3.96.220]
 - Corrigido o relatório de professores por escola
@@ -34,6 +50,9 @@ a atualização da situação de matrícula do aluno.
 ## [Versão 3.94.214]
 - Correção de Ficha de notas: Os valores de frequencia e a contagem de aulas foi revisado e foi adaptada a visualização dos dados para diferenciar
 o relatório para ensino intanfil e fundamental menor do fundamental maior;
+
+## [Versão 3.94.214]
+- Adicionando a filtro de ano ao exibir os planos de aula, serão exibidos somente os planos do ano que o usuário está logado
 
 ## [Versão 3.94.213]
 - Controle de status a serem considerados na exportação do sagres. Por padrão apenas matriculas com status "matriculado" são envadas. No entanto, usando o diario eletronico, o status de algumas matriculas mudaram para "Aprovado", "Reprovado" e outros. Foi adicionado um controle para optar ou não por considerar esses status na exportação.

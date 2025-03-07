@@ -14,6 +14,7 @@ $(formIdentification + "name").focusout(function () {
                 warningMessage(id, ret[2]);
                 $(id_warn_icon).css("cursor", "pointer");
                 addWarning(id, ret[1], id_caixa, id_warn_icon);
+                $("#similarMessage").append(` ${ret[1]}` );
             } else {
                 addError(id);
                 $(id_error_icon).css("display", "inline-block");

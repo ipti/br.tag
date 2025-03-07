@@ -78,16 +78,87 @@ function updateClassesContents()
     });
 }
 
+function validadeNewClassContent() {
+    let content = $(".js-class-content-textarea").val();
+    let methodology = $(".js-class-content-methodology").val();
+    let coursePlanId = $("select.js-course-plan-id").val();
+    let abilities = $(".ability-panel-option-id").length;
+
+    let mensege = "";
+
+    if (!content) {
+        mensege  +="O campo de conteúdo é obrigatório <br>";
+    }
+
+    if (!methodology) {
+        mensege += "O campo de metodologia é obrigatório <br>";
+    }
+
+    if (!coursePlanId) {
+        mensege += `O campo de plano de aula é obrigatório <br>`;
+    }
+
+    if (abilities === 0) {
+        mensege += "Selecione pelo menos uma habilidade <br>";
+    }
+
+    if (mensege) {
+        $('.js-validate').html(mensege).removeClass("hide");
+        return false;
+    }
+    $('.js-validate').html('').addClass("hide");
+
+    return true;
+}
+
 $(".js-save-course-plan").on("click", function () {
     const classroom_fk = urlParams.get("classroom_fk")
     const stage_fk = urlParams.get("stage_fk")
     const discipline_fk = urlParams.get("discipline_fk")
     const classContent = $('#coursePlan').val();
 
+    let content = null;
+    let methodology = null;
+    let coursePlanId = null;
+    let abilities = [];
 
-     $.ajax({
-        type:'GET',
-        url:`${window.location.host}?r=classdiary/default/SaveClassContents&stage_fk=${stage_fk}&date=${date}&discipline_fk=${discipline_fk}&classroom_fk=${classroom_fk}&classContent=${classContent}`
+    const hasNewClassContent = $('.js-new-class-content').text().trim() === "Cancelar";
+    if(hasNewClassContent) {
+        if (!validadeNewClassContent()) {
+            return;
+        }
+             content = $(".js-class-content-textarea").val();
+             methodology = $(".js-class-content-methodology").val();
+             coursePlanId = $("select.js-course-plan-id").val();
+             abilities = [];
+            $(".ability-panel-option-id").each(function () {
+                abilities.push($(this).val());
+            });
+
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: `${window.location.origin}?r=classdiary/default/SaveClassContents`,
+        data: {
+            stage_fk: stage_fk,
+            date: date,
+            discipline_fk: discipline_fk,
+            classroom_fk: classroom_fk,
+            classContent: classContent,
+            hasNewClassContent: hasNewClassContent,
+            content: content,
+            methodology: methodology,
+            coursePlanId: coursePlanId,
+            abilities: abilities
+        }
+    }).done(function(response) {
+        updateClassesContents();
+        $(".js-class-content-textarea, .js-class-content-methodology").val("");
+        $(".js-course-plan-id").val(null).trigger("change");
+        $(".courseplan-abilities-selected").html("");
+        $(".js-add-new-class-content-form").addClass("hide");
+        $('.js-new-class-content').text("Nova Aula");
     })
 });
 
@@ -114,6 +185,47 @@ $(document).on("change", ".js-frequency-checkbox", function () {
         },
     })
 });
+
+$(document).on("change", "select.js-add-abilities", function () {
+    const selectedText = $(this).find("option:selected").text();
+    const value = $(this).val();
+
+    let exists = $(".courseplan-abilities-selected .ability-panel-option span").filter(function () {
+        return $(this).text().trim() === selectedText;
+    }).length > 0;
+
+    if(!exists) {
+        let abilityPaneOption = $(`<div class='ability-panel-option'>
+                                        <i class="fa fa-check-square"></i>
+                                        <span>${selectedText}</span>
+                                        <i class="fa fa-remove remove-abilitie js-remove-abilitie"></i>
+                                </div>`);
+        let hiddenInput = $(`<input type="hidden" class="ability-panel-option-id" value=${value}>`);
+        $(".courseplan-abilities-selected").append(abilityPaneOption);
+        $(".courseplan-abilities-selected").append(hiddenInput);
+    }
+
+    $(this).select2("val", "");
+
+})
+
+$(document).on("click", ".js-remove-abilitie", function () {
+    $(this).parent().next().remove();
+    $(this).parent().remove();
+
+});
+
+$(document).on("click", ".js-new-class-content", function () {
+    if ($(this).text().trim() === "Nova Aula") {
+        $(".js-add-new-class-content-form").removeClass("hide");
+        $(this).text("Cancelar");
+        return;
+    }
+
+    $(".js-add-new-class-content-form").addClass("hide");
+    $(this).text("Nova Aula");
+});
+
 
 
 $(".js-change-date").on("click", function () {

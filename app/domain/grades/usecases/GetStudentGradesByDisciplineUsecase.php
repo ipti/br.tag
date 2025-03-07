@@ -26,14 +26,17 @@ class GetStudentGradesByDisciplineUsecase
     {
         /** @var Classroom $classroom */
         $classroom = Classroom::model()->with("activeStudentEnrollments.studentFk")->findByPk($this->classroomId);
-    $rules = GradeRules::model()->findByAttributes([
-            "edcenso_stage_vs_modality_fk" => $this->stageId
-        ]);
 
-        $TotalEnrollments = $classroom->activeStudentEnrollments;
+        if ($classroom == null) {
+            throw new NoActiveStudentsException();
+        }
+        $rules = $classroom->getGradeRules($this->stageId);
+
+
+        $totalEnrollments = $classroom->activeStudentEnrollments;
         $studentEnrollments = [];
         if(TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk) && $this->isClassroomStage == 0){
-            foreach ($TotalEnrollments as $enrollment) {
+            foreach ($totalEnrollments as $enrollment) {
                 if($enrollment->edcenso_stage_vs_modality_fk == $this->stageId){
                     array_push($studentEnrollments, $enrollment);
                 }
@@ -41,9 +44,9 @@ class GetStudentGradesByDisciplineUsecase
         } else {
             $studentEnrollments= $classroom->activeStudentEnrollments;
         }
-        $showSemAvarageColumn = $this->checkSemesterUnities( $this->stageId) && $rules->gradeCalculationFk->name == 'Média Semestral';
+        $showSemAvarageColumn = $this->checkSemesterUnities( $classroom->id, $this->stageId) && $rules->gradeCalculationFk->name == 'Média Semestral';
 
-        $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline( $this->stageId);
+        $unitiesByDisciplineResult = $this->getGradeUnitiesByDiscipline( $rules->id);
         $unitiesByDiscipline = array_filter($unitiesByDisciplineResult, function ($item){
             return $item["id"] == $this->unityId;
         });
@@ -119,20 +122,19 @@ class GetStudentGradesByDisciplineUsecase
 
         return $result->toArray();
     }
-    public function checkSemesterUnities($stage) {
+    public function checkSemesterUnities($classroomId, $stage) {
 
         $criteria = new CDbCriteria();
-        $criteria->addCondition("edcenso_stage_vs_modality_fk = :stage");
-        $criteria->addCondition("semester IS NULL");
-        $criteria->addCondition("type != :type");
-        $criteria->params = [
-            ':stage' => $stage,
-            ':type' => 'RF',
-        ];
-
+        $criteria->alias = 'gu';
+        $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+        $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+        $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+        $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom and type != :type and semester IS NULL';
+        $criteria->params = array(':classroom' => $classroomId, ":stage"=>$stage, ':type' => 'RF');
         $unities = GradeUnity::model()->findAll($criteria);
         $unitiesTypeUC = count(GradeUnity::model()->findAllByAttributes(['edcenso_stage_vs_modality_fk' => $stage, "type"=>"UC"]));
         $unitiesCount = count($unities);
+
         return $unitiesCount == 0 && $unitiesTypeUC == 0;
     }
     private function searchUnityById($unities) {
@@ -146,14 +148,14 @@ class GetStudentGradesByDisciplineUsecase
     /**
      * @return GradeUnity[]
      */
-    private function getGradeUnitiesByDiscipline($stage)
+    private function getGradeUnitiesByDiscipline($gradeRulesId)
     {
         $criteria = new CDbCriteria();
         $criteria->alias = "gu";
         $criteria->select = "distinct gu.id, gu.*";
         $criteria->join = "join grade_unity_modality gum on gum.grade_unity_fk = gu.id";
-        $criteria->condition = "edcenso_stage_vs_modality_fk = :stage";
-        $criteria->params = array(":stage" => $stage);
+        $criteria->condition = "grade_rules_fk = :grade_rules_fk";
+        $criteria->params = array(":grade_rules_fk" => $gradeRulesId);
         $criteria->order = "gu.type desc, gu.id";
         return GradeUnity::model()->findAll($criteria);
     }
@@ -230,7 +232,7 @@ class GetStudentGradesByDisciplineUsecase
             $semRecPartial = "";
         }
 
-        $finalMedia  = $gradeResult->final_media == null || $gradeResult->final_media >= $rules->approvation_media ? $gradeResult->final_media : $gradeResult->rec_final;
+        $finalMedia  = $gradeResult->final_media === null || $gradeResult->final_media >=  $gradeResult->rec_final ? $gradeResult->final_media : $gradeResult->rec_final;
         $studentGradeResult->setSemAvarage($semRecPartial);
         $studentGradeResult->setFinalMedia($finalMedia);
         $studentGradeResult->setSituation($gradeResult->situation);

@@ -29,8 +29,8 @@ class CalculateNumericGradeUsecase
         } else {
             $studentEnrollments = $totalEnrollments;
         }
-
-        $unitiesByDiscipline = $this->getGradeUnitiesByClassroomStage($this->stage);
+        $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($this->classroomId, $this->stage);
+        $unitiesByDiscipline = $gradeUnities->exec();
 
         foreach ($studentEnrollments as $studentEnrollment) {
             $this->calculateNumericGrades($studentEnrollment, $this->discipline, $unitiesByDiscipline);
@@ -84,7 +84,6 @@ class CalculateNumericGradeUsecase
             }
 
         }
-        /*  */
 
         if($unitiesSem1 != 0) {
             $gradeResult["sem_avarage_1"] = is_nan(($semAvarage1 / $unitiesSem1) ?? NAN) ? null : round(($semAvarage1 / $unitiesSem1), 1);
@@ -181,17 +180,32 @@ class CalculateNumericGradeUsecase
         );
     }
 
-    private function getGradeUnitiesByClassroomStage($stage)
+    private function getGradeUnitiesByClassroomStage()
     {
 
-        $criteria = new CDbCriteria();
-        $criteria->alias = "gu";
-        $criteria->join = "join edcenso_stage_vs_modality esvm on gu.edcenso_stage_vs_modality_fk = esvm.id";
-        $criteria->condition = "esvm.id = :stage";
-        $criteria->order = "gu.type desc";
-        $criteria->params = array(":stage" => $stage);
+        if(isset($this->stage) && $this->stage !== "") {
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'gu';
+            $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+            $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+            $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+            $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
+            $criteria->params = array(':classroom' => $this->classroomId, ":stage"=>$this->stage);
 
-        return GradeUnity::model()->findAll($criteria);
+            return GradeUnity::model()->count($criteria);
+        } else {
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'gu';
+            $criteria->join = 'INNER JOIN grade_rules gr ON gr.id = gu.grade_rules_fk';
+            $criteria->join .= ' INNER JOIN classroom_vs_grade_rules cgr ON cgr.grade_rules_fk = gu.grade_rules_fk';
+            $criteria->join .= ' INNER JOIN classroom c ON c.id = cgr.classroom_fk';
+            $criteria->join .= ' INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.edcenso_stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk';
+            $criteria->condition = 'cgr.classroom_fk = :classroomId';
+            $criteria->params = array(':classroomId' => $this->classroomId);
+
+            return GradeUnity::model()->count($criteria);
+
+        }
     }
 
 
@@ -339,9 +353,10 @@ class CalculateNumericGradeUsecase
                     $acc[0] += $grade * $weights[$key]->weight;
                     $acc[1] += $weights[$key]->weight;
                 }
-                if ($acc[1] == 0) {
+                if($acc[1] == 0){
                     return 0;
                 }
+
                 $result = $acc[0] / $acc[1];
                 break;
         }
