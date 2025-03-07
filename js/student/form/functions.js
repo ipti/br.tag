@@ -10,7 +10,7 @@ $(document).on("click", ".js-remove-enrollment", function () {
             enrollmentId: enrollmentId
         },
         success: function (response) {
-            response = typeof response === "string" ? JSON.parse(response) : response;
+            response = typeof response === "string" ? JSON.parse(DOMPurify.sanitize(response)) : response;
 
             let $alertBox = $(".js-remove-enrollment-alert");
             $alertBox.removeClass("alert-error alert-success").show().html(response.message);
