@@ -81,7 +81,7 @@ $form = $this->beginWidget(
 
 <div class="tag-inner">
   <div class="widget widget-tabs border-bottom-none">
-    <div class="alert student-alert alert-error js-remove-enrollment"></div>
+    <div class="alert student-alert js-remove-enrollment-alert hide"></div>
     <?php
     echo $form->errorSummary($modelStudentIdentification);
     echo $form->errorSummary($modelStudentDocumentsAndAddress);
@@ -2252,7 +2252,7 @@ $form = $this->beginWidget(
                                 <div class="t-icon-pencil t-icon"></div>
                               </a>
                             <?php } ?>
-                            <div class="t-icon-trash t-icon js-remove-enrollment" style="color:red; margin-left:8px;" data-erollment-id="<?= $me->id ?>"></div>
+                            <div class="t-icon-trash t-icon js-remove-enrollment" style="color:red; margin-left:8px;" enrollment-id="<?= $me->id ?>"></div>
                           </div>
                           <div id="accordion-school-label" class="mobile-row">
                             <label class="accordion-label"><?php echo $me->schoolInepIdFk->name ?></label>

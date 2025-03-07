@@ -124,7 +124,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         }
     }
     public function actionGetGradesAndFrequency() {
-        $idEnrollment = Yii::app()->request->getPost("errolmentId");
+        $idEnrollment = Yii::app()->request->getPost("enrollmentId");
 
         if (!$idEnrollment) {
             echo json_encode(["success" => false, "message" => "ID de matrícula não informado."]);
@@ -141,7 +141,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $grades = Grade::model()->count($criteria);
 
         if ($classFaults == 0 && $grades == 0) {
-            echo json_encode(["success" => true, "message" => ""]);
+            $enrollment = StudentEnrollment::model()->findByPk($idEnrollment);
+            $enrollment->delete();
+            echo json_encode(["success" => true, "message" => "matricula excluida com sucesso"]);
         } else {
             echo json_encode([
                 "success" => false,
