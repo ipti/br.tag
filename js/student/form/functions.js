@@ -11,7 +11,7 @@ $(document).on("click", ".js-remove-enrollment", function () {
         },
         success: function (data) {
 
-            response =  JSON.parse(DOMPurify.sanitize(response));
+            let response =  JSON.parse(DOMPurify.sanitize(data));
 
             let $alertBox = $(".js-remove-enrollment-alert");
             $alertBox.removeClass("alert-error alert-success").show().html(response.message);
