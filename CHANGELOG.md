@@ -1,3 +1,6 @@
+## [Versão 3.100.222]
+- Adicionado campo etapas de ensino no formulário de cardápio
+- Adicionado etapas de ensino no relatório de cardápio
 ## [Versão 3.99.222]
 - Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
 - Removendo validação de espaço em branco no começo e no fim do nome do aluno, o espaço é removido automaticamente ao salvar
