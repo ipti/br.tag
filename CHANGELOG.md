@@ -1,3 +1,6 @@
+## [Versão 3.99.223]
+- Disciplinas bases do edcenso adicionada a lista de atividades complementares no formulário de Cadastrar/Atualizar turmas.
+
 ## [Versão 3.99.222]
 - Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
 - Removendo validação de espaço em branco no começo e no fim do nome do aluno, o espaço é removido automaticamente ao salvar
