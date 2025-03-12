@@ -19,7 +19,7 @@ $log_config = array(
     'routes' => array(
         array(
             'class' => 'CFileLogRoute',
-            'levels' => 'info, warning, error',
+            'levels' => E_ALL,
             'categories' => 'application',
             'logPath' => $LOG_PATH,
             'maxFileSize' => 10240,

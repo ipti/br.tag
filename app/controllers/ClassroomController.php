@@ -51,7 +51,7 @@ class ClassroomController extends Controller
                     'batchupdatenrollment', 'getcomplementaryactivitytype', 'delete', 'updateDailyOrder',
                     'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'updateDisciplines',
                     'changeenrollments', 'batchupdatetransport', 'updateDisciplinesAndCalendars',
-                    'syncToSedsp', 'syncUnsyncedStudents', 'getCalendars'
+                    'syncToSedsp', 'syncUnsyncedStudents', 'getCalendars', 'GetGradesRulesClassroom'
                 ),
                 'users' => array('@'),
             ),
@@ -81,6 +81,50 @@ class ClassroomController extends Controller
             return 0;
         }
     }
+    public function actionGetGradesRulesClassroom()
+{
+    $classroomId = Yii::app()->request->getPost("classroom_id");
+
+    // Critérios para opções pré-selecionadas
+    $criteria = new CDbCriteria;
+    $criteria->alias = 'gr';
+    $criteria->join = "
+        join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id
+        join classroom c on c.id = cvgr.classroom_fk
+    ";
+    $criteria->condition = 'c.id = :classroomId';
+    $criteria->params = [':classroomId' => $classroomId];
+    $selectedOptions = GradeRules::model()->findAll($criteria);
+
+    // Todas as opções disponíveis (sem filtros)
+
+    $allOptions = GradeRules::model()->findAll();
+
+    // Gerar JSON com categorias separadas
+    $response = [
+        'selected' => [],
+        'available' => [],
+    ];
+
+    foreach ($selectedOptions as $option) {
+        $response['selected'][] = [
+            'id' => $option->id,
+            'name' => CHtml::encode($option->name),
+        ];
+    }
+
+    foreach ($allOptions as $option) {
+        // Exclui as opções já selecionadas da lista "available"
+        if (!in_array($option->id, array_column($response['selected'], 'id'))) {
+            $response['available'][] = [
+                'id' => $option->id,
+                'name' => CHtml::encode($option->name),
+            ];
+        }
+    }
+
+    echo CJSON::encode($response); // Retorna JSON
+}
 
     public function actionGetAssistanceType()
     {
@@ -534,6 +578,7 @@ class ClassroomController extends Controller
 
                 if ($modelClassroom->validate() && $modelClassroom->save()) {
                     $saved = true;
+                    $this->saveClassroomVsGradeRules($modelClassroom);
                     $teachingDataValidated = true;
 
                     $teachingData = json_decode($_POST['teachingData']);
@@ -585,8 +630,38 @@ class ClassroomController extends Controller
             }
         }
 
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'stages';
+        $criteria->select = 'stages.*';
+        $criteria->join = 'INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id';
+        $criteria->join .= ' INNER JOIN classroom c ON c.id = se.classroom_fk';
+        $criteria->condition = 'c.id = :classroomId';
+        $criteria->group = 'stages.name';
+        $criteria->params = array(':classroomId' => $modelClassroom->id);
+        $stages = EdcensoStageVsModality::model()->findAll($criteria);
+
+        $gradeRulesStages = [];
+        foreach($stages as $stage) {
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'gr';
+            $criteria->select = 'gr.id';
+            $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
+            $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
+            $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
+            $criteria->params = array(':classroomId' => $modelClassroom->id, ':stageId' => $stage->id);
+            $gradeRulesQuery = GradeRules::model()->find($criteria);
+
+            $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
+        }
+
+
+
+        $gradeRules = GradeRules::model()->findAll();
 
         $this->render('create', array(
+            'stages' => $stages,
+            'gradeRules' => $gradeRules,
+            'gradeRulesStages' => $gradeRulesStages,
             'modelClassroom' => $modelClassroom,
             'complementary_activities' => array(),
             'modelTeachingData' => $modelTeachingData,
@@ -726,6 +801,7 @@ class ClassroomController extends Controller
 
             if ($hasWeekDaySelected && $modelClassroom->validate() && $modelClassroom->save()) {
                 $saved = true;
+                $this->saveClassroomVsGradeRules($modelClassroom);
                 $teachingDataValidated = true;
 
                 $teachingData = json_decode($_POST['teachingData']);
@@ -792,13 +868,78 @@ class ClassroomController extends Controller
             }
         }
 
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'stages';
+        $criteria->select = 'stages.*';
+        $criteria->join = 'INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id';
+        $criteria->join .= ' INNER JOIN classroom c ON c.id = se.classroom_fk';
+        $criteria->condition = 'c.id = :classroomId';
+        $criteria->group = 'stages.name';
+        $criteria->params = array(':classroomId' => $modelClassroom->id);
+        $stages = EdcensoStageVsModality::model()->findAll($criteria);
+
+        $gradeRulesStages = [];
+        foreach($stages as $stage) {
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'gr';
+            $criteria->select = 'gr.id';
+            $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
+            $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
+            $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
+            $criteria->params = array(':classroomId' => $modelClassroom->id, ':stageId' => $stage->id);
+            $gradeRulesQuery = GradeRules::model()->find($criteria);
+
+            $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
+        }
+
+
+
+        $gradeRules = GradeRules::model()->findAll();
+
         $this->render('update', array(
+            'stages' => $stages,
+            'gradeRules' => $gradeRules,
+            'gradeRulesStages' => $gradeRulesStages,
             'modelClassroom' => $modelClassroom,
             'modelTeachingData' => $modelTeachingData,
             'modelEnrollments' => $modelEnrollments,
             'edcensoStageVsModalities' => $edcensoStageVsModalities,
             'disabledFields' => $disableFieldsWhenItsUBATUBA
         ));
+    }
+
+    private function saveClassroomVsGradeRules($classroom)
+    {
+        $classroomVsGradeRules = ClassroomVsGradeRules::model()->findAllByAttributes(['classroom_fk' => $classroom->id]);
+        foreach ($classroomVsGradeRules as $classroomVsGradeRule) {
+            $classroomVsGradeRule->delete();
+        }
+
+        $gradeRule = $_POST['grade_rules'];
+        $classroomVsGradeRule = new ClassroomVsGradeRules();
+        $classroomVsGradeRule->classroom_fk = $classroom->id;
+        $classroomVsGradeRule->grade_rules_fk = $gradeRule;
+        $classroomVsGradeRule->save();
+        if(TagUtils::isMultiStage( $classroom->edcenso_stage_vs_modality_fk)){
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'stages';
+            $criteria->select = 'stages.*';
+            $criteria->join = 'INNER JOIN student_enrollment se ON se.edcenso_stage_vs_modality_fk = stages.id';
+            $criteria->join .= ' INNER JOIN classroom c ON c.id = se.classroom_fk';
+            $criteria->condition = 'c.id = :classroomId';
+            $criteria->group = 'stages.name';
+            $criteria->params = array(':classroomId' => $classroom->id);
+            $stages = EdcensoStageVsModality::model()->findAll($criteria);
+
+            foreach($stages as $stage) {
+                $gradeRule = $_POST['grade_rules_'.$stage->id];
+                $classroomVsGradeRule = new ClassroomVsGradeRules();
+                $classroomVsGradeRule->classroom_fk = $classroom->id;
+                $classroomVsGradeRule->grade_rules_fk = $gradeRule;
+                $classroomVsGradeRule->save();
+            }
+        }
+
     }
 
     /**
