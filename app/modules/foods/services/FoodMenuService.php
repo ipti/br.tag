@@ -183,18 +183,20 @@ class FoodMenuService
             $portion =  $value * $item["amount"];
 
             $measure =  $isUnit ? $item["measurement_for_unit"] : $item["measure"];
-            if($measure == "g" ||  $measure == 'ml'){
-                $kcal += ($item["energy_kcal"] * $portion/100);
-                $calTotal += ($item["carbohydrate_g"] * $portion/100);
-                $ptnTotal += ($item["protein_g"] * $portion/100);
-                $lpdTotal += ($item["lipidius_g"] * $portion/100);
-            }  elseif ($measure == "Kg" ||  $measure == "L") {
-                $kgTog = $portion*1000;
-                $kcal += ($item["energy_kcal"] * $kgTog/100);
-                $calTotal += ($item["carbohydrate_g"] * $kgTog/100);
-                $ptnTotal += ($item["protein_g"] * $kgTog/100);
-                $lpdTotal += ($item["lipidius_g"] * $kgTog/100);
+            if ($measure == "g" || $measure == 'ml') {
+                $kcal += (is_numeric($item["energy_kcal"]) ? $item["energy_kcal"] : 0) * $portion / 100;
+                $calTotal += (is_numeric($item["carbohydrate_g"]) ? $item["carbohydrate_g"] : 0) * $portion / 100;
+                $ptnTotal += (is_numeric($item["protein_g"]) ? $item["protein_g"] : 0) * $portion / 100;
+                $lpdTotal += (is_numeric($item["lipidius_g"]) ? $item["lipidius_g"] : 0) * $portion / 100;
+            } elseif ($measure == "Kg" || $measure == "L") {
+                $kgTog = $portion * 1000;
+                $kcal += (is_numeric($item["energy_kcal"]) ? $item["energy_kcal"] : 0) * $kgTog / 100;
+                $calTotal += (is_numeric($item["carbohydrate_g"]) ? $item["carbohydrate_g"] : 0) * $kgTog / 100;
+                $ptnTotal += (is_numeric($item["protein_g"]) ? $item["protein_g"] : 0) * $kgTog / 100;
+                $lpdTotal += (is_numeric($item["lipidius_g"]) ? $item["lipidius_g"] : 0) * $kgTog / 100;
             }
+
+
         }
 
         $kcalAverage = $kcal / $daysOFWeek;
