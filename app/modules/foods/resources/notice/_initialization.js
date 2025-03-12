@@ -10,6 +10,14 @@ let table = $('table').DataTable({
             targets: -1, // Última coluna
             data: null,
             defaultContent: '<a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;"><span class="t-icon-trash"></span></a>'
+        },
+        {
+            targets: 0,
+            width: "20%"
+        },
+        {
+            targets: 3,
+            width: "60%"
         }
     ]
 });

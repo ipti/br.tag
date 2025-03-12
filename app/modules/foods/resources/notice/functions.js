@@ -33,6 +33,10 @@ $(".js-add-notice-item").on("click", function () {
             ]
         });
     }
+    $(".js-notice-year-amount").val("");
+    $(".js-item-description").val("");
+    $("select.js-taco-foods").val("").trigger("change");
+    $("select.js-item-measurement").val("").trigger("change");
 })
 $(".js-submit").on("click", function () {
     let transformedData = [];

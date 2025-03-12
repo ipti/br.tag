@@ -82,14 +82,13 @@ $form = $this->beginWidget(
         </div>
         <div class="t-field-text column is-two-fifths clearleft--on-mobile">
             <label for="notice_year_amount" class="t-field-text__label">Quantidade Anual</label>
-            <input type="text" id="notice_year_amount" name="Nome" class="t-field-text__input js-notice-year-amount">
+            <input type="text" id="notice_year_amount" name="Nome" class="t-field-text__input js-notice-year-amount" placeholder="Informe a quantidade">
         </div>
     </div>
     <div class="row">
         <div class="t-field-tarea column is-two-fifths clearleft">
             <label for="item_description" class="t-field-tarea__label">Descrição</label>
-            <textarea id="item_description" class="t-field-tarea__input js-item-description" placeholder="Digite">
-            </textarea>
+            <textarea id="item_description" class="t-field-tarea__input js-item-description" placeholder="Informe a descrição"></textarea>
         </div>
         <div class="t-field-text column is-two-fifths clearleft--on-mobile">
             <label for="item_measurement" class="t-field-select__label">Unidade</label>
@@ -109,13 +108,14 @@ $form = $this->beginWidget(
         </a>
     </div>
     <div class="row">
-        <div class="column is-four-fifths clearfix">
+        <div class="column clearfix">
             <table aria-label="Tabela de items" class="tag-table-primary table js-datatable">
                 <thead>
                     <tr>
                         <th>Nome</th>
                         <th>Quantidade</th>
                         <th>Unidade</th>
+                        <th>Descrição</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
