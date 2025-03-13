@@ -130,9 +130,20 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             echo json_encode(["success" => false, "message" => "ID de matrícula não informado."]);
             Yii::app()->end();
         }
+        $stdEnrollment = StudentEnrollment::model()->findByPk($idEnrollment);
+        $stdIdentification = $stdEnrollment->studentFk;
+        $classroom = $stdEnrollment->classroomFk;
+        $criteria = new CDbCriteria();
+        $criteria->join = "INNER JOIN schedule s ON s.id = t.schedule_fk";
+        $criteria->condition = "t.student_fk = :student_fk AND s.classroom_fk = :classroom_id";
+        $criteria->params = [
+            ":student_fk" => $stdIdentification->id,
+            ":classroom_id" => $classroom->id
+        ];
 
-        $stdIdentification = StudentEnrollment::model()->findByPk($idEnrollment)->studentFk;
-        $classFaults = ClassFaults::model()->countByAttributes(["student_fk" => $stdIdentification->id]);
+        $classFaults = ClassFaults::model()->count($criteria);
+
+
 
         $criteria = new CDbCriteria();
         $criteria->condition = "enrollment_fk = :idEnrollment AND (grade IS NOT NULL AND grade != 0)";
