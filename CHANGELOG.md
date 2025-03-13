@@ -1,3 +1,6 @@
+## [Versão 3.99.223]
+- Adicionando o filtro de ano na listagem de aulas possíveis para adicionar em aulas ministradas
+
 ## [Versão 3.99.222]
 - Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
 - Removendo validação de espaço em branco no começo e no fim do nome do aluno, o espaço é removido automaticamente ao salvar
