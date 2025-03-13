@@ -130,3 +130,41 @@ $(document).on("click", "#js-view-pdf", function () {
         }
     });
 });
+$(document).on("click", ".js-add-shopping-list", function () {
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodnotice/getShoppingList",
+        cache: false,
+        data: {
+        }
+    }).success(function(response) {
+        let foodData = DOMPurify.sanitize(response);
+        let shoppingList = JSON.parse(foodData);
+        Object.entries(shoppingList).forEach(function([id, value]) {
+            foodName = value.name.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+            measurementunit = value.measure == "u" ? "Und" : value.measure;
+            data.push([
+                foodName,
+                value.total,
+                measurementunit,
+                "",
+                value.id
+            ])
+            table.destroy();
+            table = $('table').DataTable({
+                data: data,
+                ordering: true,
+                searching: false,
+                paginate: true,
+                language: getLanguagePtbr(),
+                columnDefs: [
+                    {
+                        targets: -1,
+                        data: null,
+                        defaultContent: '<a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;"><span class="t-icon-trash"></span></a>'
+                    }
+                ]
+            });
+        });
+    });
+});

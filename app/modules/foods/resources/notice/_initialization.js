@@ -1,4 +1,5 @@
 let data = [];
+
 let table = $('table').DataTable({
     data: data,
     ordering: true,

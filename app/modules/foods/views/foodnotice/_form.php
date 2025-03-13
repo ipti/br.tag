@@ -73,6 +73,21 @@ $form = $this->beginWidget(
             Itens do Edital
         </h3>
     </div>
+    <div id="shopping-list">
+        <div class="row">
+            <div class="t-field-select column clearleft">
+                <p class="t-field-select__label">Deseja preencher os itens do edital com os itens da lista de compras ?</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column clearfix is-one-tenth">
+                <a title="Import Shopping List" class="js-add-shopping-list t-button-primary">Sim</a>
+            </div>
+            <div class="column clearleft is-one-tenth">
+                <a title="Not Import Shopping List" class="js-not-add-shopping-list t-button-secondary">Não</a>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="t-field-select column is-two-fifths clearleft">
             <label for="item_measurement" class="t-field-select__label--required">Alimento</label>
@@ -94,10 +109,10 @@ $form = $this->beginWidget(
             <label for="item_measurement" class="t-field-select__label">Unidade</label>
             <select id="item_measurement" class="t-field-select__input js-initialize-select2 js-item-measurement">
                 <option value="">Selecione uma opção</option>
-                <option value="KG">Kilograma</option>
-                <option value="UND">Unidade</option>
-                <option value="Maço">Maço</option>
-                <option value="ML">Mililitros</option>
+                <option value="Kg">Quilograma</option>
+                <option value="Und">Unidade</option>
+                <option value="Ml">Mililitros</option>
+                <option value="L">Litros</option>
             </select>
         </div>
     </div>
