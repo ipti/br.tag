@@ -1,5 +1,8 @@
-## [Versão 3.100.221]
+## [Versão 3.100.223]
 - Botão adicionado para deletar matrículas sem notas ou frequência cadastradas no formulário de Aluno.
+
+## [Versão 3.100.222]
+- Adicionado filtro por ano às turmas exibidas na view de frequência de professores.
 
 ## [Versão 3.99.222]
 - Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
@@ -16,6 +19,9 @@ forma simplificada
 
 ## [Versão 3.96.222]
 - Adicionado no relatório de ficha de notas as informações de IDENTIDADE, ÓRGÃO EXPEDIDOR, ETAPA, ATENDIMENTO EDUCACIONAL ESPECIALIZADO
+
+## [Versão 3.96.221]
+- Alterada a aplicação da regra de negócio na funcionalidade de excluir turma.
 
 ## [Versão 3.96.221]
 - Alterado o fluxo do Sagres para o modelo de 2025 no XML de Educação.
