@@ -1,3 +1,7 @@
+
+## [Versão 3.99.224]
+- Adicionando o filtro de ano na listagem de aulas possíveis para adicionar em aulas ministradas
+
 ## [Versão 3.100.223]
 - Botão adicionado para deletar matrículas sem notas ou frequência cadastradas no formulário de Aluno.
 
