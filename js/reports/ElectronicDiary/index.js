@@ -88,6 +88,28 @@ $(document).on("change", "#report", function () {
 $("#classroom").on("change", function () {
     $("#discipline, #student").val("").trigger("change.select2");
     if ($(this).val() !== "") {
+        $.ajax({
+            type: "POST",
+            url: "?r=reports/getStagesMulti",
+            cache: false,
+            data: {
+                classroom: $("#classroom").val(),
+            },
+            success: function (response) {
+                response = DOMPurify.sanitize(response)
+
+                if (response === "") {
+                    $("#student").html("<option value='-1'></option>").trigger("change.select2").show();
+                } else {
+                    $("#student").html(decodeHtml(response)).trigger("change.select2").show();
+                }
+            }
+        })
+        if($("#classroom > option:selected").attr("isMultiStage") === "1") {
+            $(".stages-container").show()
+        } else {
+            $(".stages-container").hide()
+        }
         if ($("#classroom > option:selected").attr("fundamentalMaior") === "1") {
             $.ajax({
                 type: "POST",

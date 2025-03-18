@@ -639,6 +639,10 @@ class ReportsController extends Controller
         $repository = new ReportsRepository;
         $repository->getDisciplines(Yii::app()->request);
     }
+    public function actionGetStagesMulti()
+    {
+
+    }
 
     public function actionGetEnrollments()
     {
