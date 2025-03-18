@@ -1,3 +1,6 @@
+## [Versão 3.100.223]
+- Botão adicionado para deletar matrículas sem notas ou frequência cadastradas no formulário de Aluno.
+
 ## [Versão 3.100.222]
 - Adicionado filtro por ano às turmas exibidas na view de frequência de professores.
 
