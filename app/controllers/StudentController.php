@@ -61,6 +61,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 'actions' => array(
                     'index',
                     'view',
+                    'getGradesAndFrequency',
                     'comparestudentname',
                     'getstudentajax',
                     'syncToSedsp',
@@ -122,6 +123,48 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
     }
+    public function actionGetGradesAndFrequency() {
+        $idEnrollment = Yii::app()->request->getPost("enrollmentId");
+
+        if (!$idEnrollment) {
+            echo json_encode(["success" => false, "message" => "ID de matrícula não informado."]);
+            Yii::app()->end();
+        }
+        $stdEnrollment = StudentEnrollment::model()->findByPk($idEnrollment);
+        $stdIdentification = $stdEnrollment->studentFk;
+        $classroom = $stdEnrollment->classroomFk;
+        $criteria = new CDbCriteria();
+        $criteria->join = "INNER JOIN schedule s ON s.id = t.schedule_fk";
+        $criteria->condition = "t.student_fk = :student_fk AND s.classroom_fk = :classroom_id";
+        $criteria->params = [
+            ":student_fk" => $stdIdentification->id,
+            ":classroom_id" => $classroom->id
+        ];
+
+        $classFaults = ClassFaults::model()->count($criteria);
+
+
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = "enrollment_fk = :idEnrollment AND (grade IS NOT NULL AND grade != 0)";
+        $criteria->params = [":idEnrollment" => $idEnrollment];
+
+        $grades = Grade::model()->count($criteria);
+
+        if ($classFaults == 0 && $grades == 0) {
+            $enrollment = StudentEnrollment::model()->findByPk($idEnrollment);
+            $enrollment->delete();
+            echo json_encode(["success" => true, "message" => "matricula excluida com sucesso"]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "A matrícula não pode ser excluída, pois já contém notas e/ou frequência cadastradas."
+            ]);
+        }
+
+        Yii::app()->end();
+    }
+
 
     public function actionGetStudentAjax()
     {
