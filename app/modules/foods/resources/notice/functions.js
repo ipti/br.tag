@@ -101,7 +101,15 @@ $('table tbody').on('click', 'a.delete-btn', function () {
             {
                 targets: -1, // Última coluna
                 data: null,
-                defaultContent: '<a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;"><span class="t-icon-trash"></span></a>'
+                render: function (data, type, row, meta) {
+                    return `
+                        <a class="update-btn" data-index="${meta.row}" style="font-size:20px; cursor:pointer;">
+                            <span class="t-icon-pencil"></span>
+                        </a>
+                        <a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;" data-index="${meta.row}">
+                            <span class="t-icon-trash"></span>
+                        </a>`;
+                }
             }
         ]
     });
@@ -161,10 +169,28 @@ $(document).on("click", ".js-add-shopping-list", function () {
                     {
                         targets: -1,
                         data: null,
-                        defaultContent: '<a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;"><span class="t-icon-trash"></span></a>'
+                        render: function (data, type, row, meta) {
+                            return `
+                                <a class="update-btn" data-index="${meta.row}" style="font-size:20px; cursor:pointer;">
+                                    <span class="t-icon-pencil"></span>
+                                </a>
+                                <a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;" data-index="${meta.row}">
+                                    <span class="t-icon-trash"></span>
+                                </a>`;
+                        }
                     }
                 ]
             });
+            $('#shopping-list').addClass("hide");
         });
     });
+});
+
+$(document).on("click", ".js-not-add-shopping-list", function () {
+    $('#shopping-list').addClass("hide");
+});
+
+$(document).on("click", ".update-btn", function () {
+    $("#js-edit-food-items").modal("show");
+    let foodTableId = $(this).attr('data-index');
 });

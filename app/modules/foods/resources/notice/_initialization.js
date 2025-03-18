@@ -10,7 +10,15 @@ let table = $('table').DataTable({
         {
             targets: -1, // Última coluna
             data: null,
-            defaultContent: '<a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;"><span class="t-icon-trash"></span></a>'
+            render: function (data, type, row, meta) {
+                return `
+                    <a class="update-btn" data-index="${meta.row}" style="font-size:20px; cursor:pointer;">
+                        <span class="t-icon-pencil"></span>
+                    </a>
+                    <a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;" data-index="${meta.row}">
+                        <span class="t-icon-trash"></span>
+                    </a>`;
+            }
         },
         {
             targets: 0,
