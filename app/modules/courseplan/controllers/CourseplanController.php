@@ -38,6 +38,7 @@ class CourseplanController extends Controller
                     'getDisciplines',
                     'save',
                     'getCourseClasses',
+                    'getAbilities',
                     'getAbilitiesInitialStructure',
                     'getAbilitiesNextStructure',
                     'addResources',
@@ -201,6 +202,32 @@ class CourseplanController extends Controller
             TLog::info("Listagem de disciplina por etapa de ensino.", ["Stage" => $_POST["stage"]]);
         }
         echo json_encode($result);
+    }
+
+    public function actionGetAbilities($q)
+    {
+        // $code = Yii::app()->request->get("code");
+        // $disciplineId = Yii::app()->request->getPost("discipline");
+        // $stage = Yii::app()->request->getPost("stage");
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = "cca";
+        $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = cca.edcenso_stage_vs_modality_fk";
+        $criteria->condition = "cca.code like :code";
+        $criteria->params = [":code" => '%'.$q.'%'];
+
+        $abilities = CourseClassAbilities::model()->findAll($criteria);
+
+        $formattedAbilities = [];
+        foreach ($abilities as $ability) {
+            $formattedAbilities[] = [
+                "id" => $ability->id,
+                "code" => $ability->code,
+                "description" => $ability->description
+            ];
+        }
+
+        echo CJSON::encode($formattedAbilities);
     }
 
     public function actionGetAbilitiesInitialStructure()
@@ -457,6 +484,7 @@ class CourseplanController extends Controller
         $disciplineRequest = Yii::app()->request->getPost('discipline');
 
         TLog::info("Listagem de plano de aula");
+        $year = Yii::app()->user->getState('year');
 
         $criteria = new CDbCriteria();
 
@@ -466,15 +494,18 @@ class CourseplanController extends Controller
                 $criteria->condition = 'users_fk=' . Yii::app()->user->loginInfos->id .
                         ' AND school_inep_fk=' . Yii::app()->user->school .
                         ' AND modality_fk=' . $stageRequest .
-                        ' AND discipline_fk=' . $disciplineRequest;
+                        ' AND discipline_fk=' . $disciplineRequest .
+                        ' AND EXTRACT(YEAR FROM start_date) =' . (int)$year;
 
                 TLog::info("Listagem de planos de aula para acesso de professor com filtro de disciplina", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
             }
             if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
 
+
                 $criteria->condition = 'school_inep_fk=' . Yii::app()->user->school .
                         ' AND modality_fk=' . $stageRequest .
-                        ' AND discipline_fk=' . $disciplineRequest;
+                        ' AND discipline_fk=' . $disciplineRequest .
+                        ' AND EXTRACT(YEAR FROM start_date) = ' . (int)$year;
 
                 TLog::info("Listagem de planos de aula para acesso de administrador com filtro de disciplina");
             }
@@ -495,13 +526,14 @@ class CourseplanController extends Controller
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
                 $criteria->condition = 'users_fk=' . Yii::app()->user->loginInfos->id .
                     ' AND school_inep_fk=' . Yii::app()->user->school .
-                    ' AND modality_fk=' . $stageRequest;
+                    ' AND modality_fk=' . $stageRequest .
+                    ' AND EXTRACT(YEAR FROM start_date) =' . (int)$year;
 
                 TLog::info("Listagem de planos de aula para acesso de professor com filtro de etapa", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
             }
 
             if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                $criteria->condition = 'school_inep_fk=' . Yii::app()->user->school .' AND modality_fk=' . $stageRequest;
+                $criteria->condition = 'school_inep_fk=' . Yii::app()->user->school .' AND modality_fk=' . $stageRequest .' AND EXTRACT(YEAR FROM start_date) = ' . (int)$year;
                 TLog::info("Listagem de planos de aula para acesso de administrador com filtro de etapa");
             }
 
