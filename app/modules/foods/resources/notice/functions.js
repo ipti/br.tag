@@ -3,40 +3,34 @@ let url = new URL(window.location.href);
 let noticeID = url.searchParams.get('id');
 
 $(".js-add-notice-item").on("click", function () {
-    let selectFood = $("select.js-taco-foods")
+    let selectFood = $("#item_food")
     let yearAmount = $(".js-notice-year-amount").val()
     let itemmMeasurement = $("select.js-item-measurement").val()
     let itemDescription = $(".js-item-description").val()
     if (selectFood != "" && yearAmount != "" && itemmMeasurement != "") {
         let name = selectFood.find('option:selected').text().replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
 
-        data.push([
-            name,
-            yearAmount,
-            itemmMeasurement,
-            itemDescription,
-            selectFood.val()
-        ])
-        table.destroy();
-        table = $('table').DataTable({
-            data: data,
-            ordering: true,
-            searching: false,
-            paginate: true,
-            language: getLanguagePtbr(),
-            columnDefs: [
-                {
-                    targets: -1, // Última coluna
-                    data: null,
-                    defaultContent: '<a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;"><span class="t-icon-trash"></span></a>'
-                }
-            ]
-        });
+        if(yearAmount.indexOf(',') === -1) {
+            data.push([
+                name,
+                yearAmount,
+                itemmMeasurement,
+                itemDescription,
+                selectFood.val()
+            ])
+            renderFoodsTable();
+
+            $(".js-notice-year-amount").val("");
+            $(".js-item-description").val("");
+            $("select.js-taco-foods").val("").trigger("change");
+            $("select.js-item-measurement").val("").trigger("change");
+        } else {
+            $('#info-alert').removeClass('hide').addClass('alert-error').html("Quantidade anual informada não é válida, utilize números positivos e se decimal, separe por '.'");
+        }
+    } else {
+        $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     }
-    $(".js-notice-year-amount").val("");
-    $(".js-item-description").val("");
-    $("select.js-taco-foods").val("").trigger("change");
-    $("select.js-item-measurement").val("").trigger("change");
+
 })
 $(".js-submit").on("click", function () {
     let transformedData = [];
@@ -90,6 +84,9 @@ $('table tbody').on('click', 'a.delete-btn', function () {
     let row = table.row($(this).parents('tr'));
     let rowIndex = row.index();
     data.splice(rowIndex, 1)
+    renderFoodsTable();
+});
+function renderFoodsTable() {
     table.destroy();
     table = $('table').DataTable({
         data: data,
@@ -99,7 +96,7 @@ $('table tbody').on('click', 'a.delete-btn', function () {
         language: getLanguagePtbr(),
         columnDefs: [
             {
-                targets: -1, // Última coluna
+                targets: -1,
                 data: null,
                 render: function (data, type, row, meta) {
                     return `
@@ -113,7 +110,7 @@ $('table tbody').on('click', 'a.delete-btn', function () {
             }
         ]
     });
-});
+}
 
 $(document).on("change", ".js-notice_pdf", function(e) {
     $(".uploaded-notice-name").text(e.target.files[0].name);
@@ -158,31 +155,9 @@ $(document).on("click", ".js-add-shopping-list", function () {
                 "",
                 value.id
             ])
-            table.destroy();
-            table = $('table').DataTable({
-                data: data,
-                ordering: true,
-                searching: false,
-                paginate: true,
-                language: getLanguagePtbr(),
-                columnDefs: [
-                    {
-                        targets: -1,
-                        data: null,
-                        render: function (data, type, row, meta) {
-                            return `
-                                <a class="update-btn" data-index="${meta.row}" style="font-size:20px; cursor:pointer;">
-                                    <span class="t-icon-pencil"></span>
-                                </a>
-                                <a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;" data-index="${meta.row}">
-                                    <span class="t-icon-trash"></span>
-                                </a>`;
-                        }
-                    }
-                ]
-            });
-            $('#shopping-list').addClass("hide");
+            renderFoodsTable();
         });
+        $('#shopping-list').addClass("hide");
     });
 });
 
@@ -193,4 +168,34 @@ $(document).on("click", ".js-not-add-shopping-list", function () {
 $(document).on("click", ".update-btn", function () {
     $("#js-edit-food-items").modal("show");
     let foodTableId = $(this).attr('data-index');
+
+    let foodName = data[foodTableId][0];
+    let foodVal = Object.keys(tacoFoods).find(key => tacoFoods[key] === foodName) || "";
+
+    $("#edit_item_food").val(foodVal).trigger("change");
+    $("#edit_notice_year_amount").val(data[foodTableId][1]);
+    $("#edit_item_measurement").val(data[foodTableId][2]).trigger("change");
+    $("#edit_item_description").val(data[foodTableId][3]);
+
+    $("#edit-foods").attr("data-index", foodTableId);
+});
+
+$(document).on("click", "#edit-foods", function () {
+    let foodTableId = $(this).attr('data-index');
+
+    if($("#edit_notice_year_amount").val().indexOf(',') === -1) {
+        data[foodTableId][0] = $("#edit_item_food").find('option:selected').text();
+        data[foodTableId][1] = $("#edit_notice_year_amount").val();
+        data[foodTableId][2] = $("#edit_item_measurement").val();
+        data[foodTableId][3] = $("#edit_item_description").val();
+        data[foodTableId][4] = $("#edit_item_food").val();
+
+        renderFoodsTable();
+
+        $("#js-edit-food-items").modal('hide');
+    } else {
+        $('#modal-food-alert').removeClass('hide').addClass('alert-error').html("Quantidade anual informada não é válida, utilize números positivos e se decimal, separe por '.'");
+    }
+
+
 });

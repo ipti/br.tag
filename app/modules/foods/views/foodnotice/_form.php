@@ -90,14 +90,14 @@ $form = $this->beginWidget(
     </div>
     <div class="row">
         <div class="t-field-select column is-two-fifths clearleft">
-            <label for="item_measurement" class="t-field-select__label--required">Alimento</label>
-            <select id="item_measurement" class="t-field-select__input js-initialize-select2 js-taco-foods">
+            <label for="item_food" class="t-field-select__label--required">Alimento</label>
+            <select id="item_food" class="t-field-select__input js-initialize-select2 js-taco-foods">
                 <option value="">Selecione um alimento</option>
             </select>
         </div>
         <div class="t-field-text column is-two-fifths clearleft--on-mobile">
-            <label for="notice_year_amount" class="t-field-text__label">Quantidade Anual</label>
-            <input type="text" id="notice_year_amount" name="Nome" class="t-field-text__input js-notice-year-amount" placeholder="Informe a quantidade">
+            <label for="notice_year_amount" class="t-field-text__label--required">Quantidade Anual</label>
+            <input type="text" id="notice_year_amount" name="Nome" class="t-field-text__input js-notice-year-amount" placeholder="Informe a quantidade anual">
         </div>
     </div>
     <div class="row">
@@ -106,7 +106,7 @@ $form = $this->beginWidget(
             <textarea id="item_description" class="t-field-tarea__input js-item-description" placeholder="Informe a descrição"></textarea>
         </div>
         <div class="t-field-text column is-two-fifths clearleft--on-mobile">
-            <label for="item_measurement" class="t-field-select__label">Unidade</label>
+            <label for="item_measurement" class="t-field-select__label--required">Unidade</label>
             <select id="item_measurement" class="t-field-select__input js-initialize-select2 js-item-measurement">
                 <option value="">Selecione uma opção</option>
                 <option value="Kg">Quilograma</option>
@@ -162,13 +162,13 @@ $form = $this->beginWidget(
                 <div class="t-modal__body">
                     <div class="row">
                         <div class="column clearfix">
-                            <div id="stock-modal-alert" class="alert hide"></div>
+                            <div id="modal-food-alert" class="alert hide"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="t-field-select column is-half clearleft">
                             <label for="item_measurement" class="t-field-select__label--required">Alimento</label>
-                            <select id="edit_item_measurement" class="t-field-select__input js-initialize-select2 js-taco-foods">
+                            <select id="edit_item_food" class="t-field-select__input js-initialize-select2 js-taco-foods">
                                 <option value="">Selecione um alimento</option>
                             </select>
                         </div>
@@ -199,7 +199,7 @@ $form = $this->beginWidget(
                             <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
                         </div>
                         <div class="t-buttons-container justify-content--center">
-                            <button type="button" class="t-button-primary clear-margin--right" id="save-food">Editar</button>
+                            <button type="button" class="t-button-primary clear-margin--right" id="edit-foods">Editar</button>
                         </div>
                     </div>
                 </div>
