@@ -23,6 +23,7 @@
         </div>
     </div>
 
+    <div class="js-alert alert" style="display:none;"></div>
     <div class="innerLR">
         <div class="alert-report no-show alert alert-error hidden-print"></div>
         <div class="filter-bar margin-bottom-none hidden-print" style="display:flex; width:100%; flex-wrap: wrap;">
