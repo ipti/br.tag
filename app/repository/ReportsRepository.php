@@ -2483,16 +2483,33 @@ class ReportsRepository
         return $enrollmentDetails;
     }
 
+    private function getUnities($classroomId, $stage) {
+        $criteria = new CDbCriteria();
+            $criteria->alias = 'gu';
+            $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+            $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+            $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+            $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
+            $criteria->params = array(':classroom' => $classroomId, ":stage"=>$stage);
+
+            return GradeUnity::model()->findAll($criteria);
+    }
+
     /**
      * Monta o relatório de notas
      */
-    private function getGradesData($classroomId, $studentId)
+    private function getGradesData($classroomId, $studentId, $isMulti, $stage)
     {
         $classroom = Classroom::model()
             ->with('edcensoStageVsModalityFk.gradeUnities')
             ->find("t.id = :classroom", [":classroom" => $classroomId]);
 
         $gradeUnitiesByClassroom = $classroom->edcensoStageVsModalityFk->gradeUnities;
+
+         if($isMulti) {
+            $gradeUnitiesByClassroom = $this->getUnities($classroomId, $stage);
+
+         }
         if ($gradeUnitiesByClassroom !== null) {
             $result["isUnityConcept"] = $gradeUnitiesByClassroom[0]->type == "UC";
             $result["unityNames"] = [];
@@ -2588,7 +2605,7 @@ class ReportsRepository
             $classroom = $request->getPost("classroom");
             $result = $this->getFrequencyData($initialDate, $finalDate, $fundamentalMaior, $classroom);
         } elseif ($request->getPost("type") === "gradesByStudent") {
-            $result = $this->getGradesData($request->getPost("classroom"), $request->getPost("student"));
+            $result = $this->getGradesData($request->getPost("classroom"), $request->getPost("student"), $request->getPost("isMultiStage"), $request->getPost("stage"));
         }
         echo json_encode($result);
     }

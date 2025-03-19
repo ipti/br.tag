@@ -179,7 +179,7 @@ $("#student").on("change", function () {
 
 $("#stage").on("change", function(e) {
 
-    const isMulti = $("#classroom > option:selected").attr("isMultiStage") === "1"
+    const isMulti = $("#classroom > option:selected").attr("isMultiStage") === "1";
     const isClassroomStage = $("#stage option:selected").attr("data-classroom-stage");
     const stage = $("#stage").val();
     let alert = ""
@@ -204,7 +204,8 @@ $(document).on("click", "#loadreport", function () {
             }
             break;
         case "gradesByStudent":
-            if ($("#classroom").val() !== "" && $("#student").val() !== "") {
+            var isMulti =  $("#classroom > option:selected").attr("isMultiStage") === "1";
+            if ($("#classroom").val() !== "" && (!isMulti || $("#stage").val() !== "") && $("#student").val() !== "") {
                 valid = true;
             }
             break;
@@ -225,7 +226,9 @@ function loadReport() {
             type: $("#report").val(),
             classroom: $("#classroom").val(),
             fundamentalMaior: $("#classroom option:selected").attr("fundamentalmaior"),
+            isMultiStage: $("#classroom option:selected").attr("isMultiStage"),
             discipline: $("#discipline").val(),
+            stage:  $("#stage").val(),
             initialDate: $(".initial-date").val(),
             finalDate: $(".final-date").val(),
             student: $("#student").val()
