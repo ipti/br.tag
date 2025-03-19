@@ -569,7 +569,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
                             $modelEnrollment->create_date = date('Y-m-d');
                             if ($modelEnrollment->status == 1) {
-                                $modelEnrollment->enrollment_date = date('Y-m-d');
+                                $modelEnrollment->enrollment_date = $modelEnrollment->school_admission_date;
                             }
                             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
                             $saved = false;
