@@ -29,7 +29,7 @@ class DefaultController extends Controller
         $getCoursePlans = new GetCoursePlans();
         $coursePlans = $getCoursePlans->exec($discipline_fk,$stage_fk);
 
-        $getAbilities = new getAbilities();
+        $getAbilities = new GetAbilities();
         $abilities = $getAbilities->exec($discipline_fk, $stage_fk);
 
 		$this->render('classDiary', [
