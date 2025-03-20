@@ -145,18 +145,22 @@ $(document).on("click", ".js-add-shopping-list", function () {
     }).success(function(response) {
         let foodData = DOMPurify.sanitize(response);
         let shoppingList = JSON.parse(foodData);
-        Object.entries(shoppingList).forEach(function([id, value]) {
-            foodName = value.name.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
-            measurementunit = value.measure == "u" ? "Und" : value.measure;
-            data.push([
-                foodName,
-                value.total,
-                measurementunit,
-                "",
-                value.id
-            ])
-            renderFoodsTable();
-        });
+        if(shoppingList) {
+            Object.entries(shoppingList).forEach(function([id, value]) {
+                foodName = value.name.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+                measurementunit = value.measure == "u" ? "Und" : value.measure;
+                data.push([
+                    foodName,
+                    value.total,
+                    measurementunit,
+                    "",
+                    value.id
+                ])
+                renderFoodsTable();
+            });
+        } else {
+            $('#info-alert').removeClass('hide').addClass('alert').html("A lista de compras está vazia, por isso não foi possível preencher os itens.");
+        }
         $('#shopping-list').addClass("hide");
     });
 });
