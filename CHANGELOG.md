@@ -1,3 +1,5 @@
+## [Versão 3.101.226]
+- Relatório de notas por aluno no diário eletrônico foi alterado para considerar a etapa de ensino vinculada à matrícula do aluno em turmas multisseriadas
 
 ## [Versão 3.101.225]
 - Adicionando a possibilidade de editar os items do edital e adicionando a funcionalidade de pré carregar as informações da lista de compras no edital
