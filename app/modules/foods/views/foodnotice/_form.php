@@ -73,32 +73,46 @@ $form = $this->beginWidget(
             Itens do Edital
         </h3>
     </div>
+    <div id="shopping-list">
+        <div class="row">
+            <div class="t-field-select column clearleft">
+                <p class="t-field-select__label">Deseja preencher os itens do edital com os itens da lista de compras ?</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column clearfix is-one-tenth">
+                <a title="Import Shopping List" class="js-add-shopping-list t-button-primary">Sim</a>
+            </div>
+            <div class="column clearleft is-one-tenth">
+                <a title="Not Import Shopping List" class="js-not-add-shopping-list t-button-secondary">Não</a>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="t-field-select column is-two-fifths clearleft">
-            <label for="item_measurement" class="t-field-select__label--required">Alimento</label>
-            <select id="item_measurement" class="t-field-select__input js-initialize-select2 js-taco-foods">
+            <label for="item_food" class="t-field-select__label--required">Alimento</label>
+            <select id="item_food" class="t-field-select__input js-initialize-select2 js-taco-foods">
                 <option value="">Selecione um alimento</option>
             </select>
         </div>
         <div class="t-field-text column is-two-fifths clearleft--on-mobile">
-            <label for="notice_year_amount" class="t-field-text__label">Quantidade Anual</label>
-            <input type="text" id="notice_year_amount" name="Nome" class="t-field-text__input js-notice-year-amount">
+            <label for="notice_year_amount" class="t-field-text__label--required">Quantidade Anual</label>
+            <input type="text" id="notice_year_amount" name="Nome" class="t-field-text__input js-notice-year-amount" placeholder="Informe a quantidade anual">
         </div>
     </div>
     <div class="row">
         <div class="t-field-tarea column is-two-fifths clearleft">
             <label for="item_description" class="t-field-tarea__label">Descrição</label>
-            <textarea id="item_description" class="t-field-tarea__input js-item-description" placeholder="Digite">
-            </textarea>
+            <textarea id="item_description" class="t-field-tarea__input js-item-description" placeholder="Informe a descrição"></textarea>
         </div>
         <div class="t-field-text column is-two-fifths clearleft--on-mobile">
-            <label for="item_measurement" class="t-field-select__label">Unidade</label>
+            <label for="item_measurement" class="t-field-select__label--required">Unidade</label>
             <select id="item_measurement" class="t-field-select__input js-initialize-select2 js-item-measurement">
                 <option value="">Selecione uma opção</option>
-                <option value="KG">Kilograma</option>
-                <option value="UND">Unidade</option>
-                <option value="Maço">Maço</option>
-                <option value="ML">Mililitros</option>
+                <option value="Kg">Quilograma</option>
+                <option value="Und">Unidade</option>
+                <option value="Ml">Mililitros</option>
+                <option value="L">Litros</option>
             </select>
         </div>
     </div>
@@ -109,13 +123,14 @@ $form = $this->beginWidget(
         </a>
     </div>
     <div class="row">
-        <div class="column is-four-fifths clearfix">
+        <div class="column clearfix">
             <table aria-label="Tabela de items" class="tag-table-primary table js-datatable">
                 <thead>
                     <tr>
                         <th>Nome</th>
                         <th>Quantidade</th>
                         <th>Unidade</th>
+                        <th>Descrição</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -132,6 +147,63 @@ $form = $this->beginWidget(
                     <?= $model->isNewRecord ? 'Criar Edital' : 'Salvar Edital' ?>
                 </a>
             </div>
+        </div>
+    </div>
+
+    <div class="modal fade t-modal-container larger" id="js-edit-food-items" tabindex="-1">
+        <div class="modal-dialog ">
+            <div class="t-modal__header">
+                <h4 class="t-title" id="myModalLabel">Editar item do edital</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/Close.svg" alt="">
+                </button>
+            </div>
+            <form method="post">
+                <div class="t-modal__body">
+                    <div class="row">
+                        <div class="column clearfix">
+                            <div id="modal-food-alert" class="alert hide"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="t-field-select column is-half clearleft">
+                            <label for="item_measurement" class="t-field-select__label--required">Alimento</label>
+                            <select id="edit_item_food" class="t-field-select__input js-initialize-select2 js-taco-foods">
+                                <option value="">Selecione um alimento</option>
+                            </select>
+                        </div>
+                        <div class="t-field-text column is-half clearleft--on-mobile">
+                            <label for="notice_year_amount" class="t-field-text__label--required">Quantidade Anual</label>
+                            <input type="text" id="edit_notice_year_amount" name="Nome" class="t-field-text__input js-notice-year-amount" placeholder="Informe a quantidade">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="t-field-tarea column is-half clearleft">
+                            <label for="item_description" class="t-field-tarea__label">Descrição</label>
+                            <textarea id="edit_item_description" class="t-field-tarea__input js-item-description" placeholder="Informe a descrição"></textarea>
+                        </div>
+                        <div class="t-field-text column is-half clearleft--on-mobile">
+                            <label for="item_measurement" class="t-field-select__label--required">Unidade</label>
+                            <select id="edit_item_measurement" class="t-field-select__input js-initialize-select2 js-item-measurement">
+                                <option value="">Selecione uma opção</option>
+                                <option value="Kg">Quilograma</option>
+                                <option value="Und">Unidade</option>
+                                <option value="Ml">Mililitros</option>
+                                <option value="L">Litros</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="t-modal__footer row reverse">
+                        <div class="t-buttons-container justify-content--center">
+                            <button type="button" class="t-button-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="t-buttons-container justify-content--center">
+                            <button type="button" class="t-button-primary clear-margin--right" id="edit-foods">Editar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
