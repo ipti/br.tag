@@ -564,6 +564,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                         ) {
                             $modelEnrollment = new StudentEnrollment;
                             $modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];
+                            $modelEnrollment->school_admission_date = DateTime::createFromFormat("d/m/Y", $modelEnrollment->school_admission_date);
+                            $modelEnrollment->school_admission_date = $modelEnrollment->school_admission_date->format('Y-m-d');
                             $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
                             $modelEnrollment->student_fk = $modelStudentIdentification->id;
                             $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
