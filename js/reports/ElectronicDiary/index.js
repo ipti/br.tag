@@ -65,6 +65,7 @@ $(".final-date").datepicker({
 });
 
 $(document).on("change", "#report", function () {
+    $(".js-alert").html("").hide()
     if ($(this).val() !== "") {
         if ($("#report").val() === "frequency") {
             $(".classroom-container, .date-container").show();
@@ -90,7 +91,7 @@ $(document).on("change", "#report", function () {
 });
 
 $("#classroom").on("change", function () {
-
+    $(".js-alert").html("").hide();
     $(".stages-container").hide();
     $("#stages").select2("val", "");
 
@@ -189,7 +190,6 @@ $("#stage").on("change", function(e) {
         :
         "<h4><b>Turma Multiseriada</b></h4>Foi selecionada uma etapa vinculada ao ALUNO<br>contudo, também existe a possibilidade de utilizar a etapas vinculadas diretamente a TURMA."
         $(".js-alert").html(alert).show()
-        console.log($(".js-alert"))
     }
 })
 
