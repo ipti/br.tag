@@ -41,7 +41,8 @@ class FoodNoticeController extends Controller
                     'getNotice',
                     'activateNotice',
                     'toggleNoticeStatus',
-                    'getNoticePdfUrl'
+                    'getNoticePdfUrl',
+                    'getShoppingList'
                 ),
                 'users' => array('*'),
             ),
@@ -320,6 +321,36 @@ class FoodNoticeController extends Controller
             );
         }
         echo CJSON::encode($result);
+    }
+
+    public function actionGetShoppingList()
+    {
+        $getShoppingList = new GetFoodIngredientsList();
+        $shoppingList = $getShoppingList->exec();
+        $foodIngredientsList = $shoppingList["processFood"];
+
+        $criteria = new CDbCriteria();
+        $criteria->select = 'id, description, alias_id';
+
+        $foods = [];
+        foreach (Food::model()->findAll($criteria) as $food) {
+            $foods[$food->id] = $food;
+        }
+
+        foreach($foodIngredientsList as &$item) {
+            if(isset($foods[$item["id"]])) {
+                $tacoFood = $foods[$item["id"]];
+
+                if($tacoFood->id != $tacoFood->alias_id) {
+                    $aliasFood = $foods[$tacoFood->alias_id];
+
+                    $item["name"] = $aliasFood->description;
+                    $item["id"] = $aliasFood->id;
+                }
+            }
+        }
+
+        echo CJSON::encode($foodIngredientsList);
     }
 
     /**

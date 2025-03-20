@@ -1,4 +1,7 @@
 
+## [Versão 3.101.225]
+- Adicionando a possibilidade de editar os items do edital e adicionando a funcionalidade de pré carregar as informações da lista de compras no edital
+
 ## [Versão 3.99.224]
 - Adicionando o filtro de ano na listagem de aulas possíveis para adicionar em aulas ministradas
 
