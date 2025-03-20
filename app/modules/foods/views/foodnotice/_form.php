@@ -173,7 +173,7 @@ $form = $this->beginWidget(
                             </select>
                         </div>
                         <div class="t-field-text column is-half clearleft--on-mobile">
-                            <label for="notice_year_amount" class="t-field-text__label">Quantidade Anual</label>
+                            <label for="notice_year_amount" class="t-field-text__label--required">Quantidade Anual</label>
                             <input type="text" id="edit_notice_year_amount" name="Nome" class="t-field-text__input js-notice-year-amount" placeholder="Informe a quantidade">
                         </div>
                     </div>
@@ -183,7 +183,7 @@ $form = $this->beginWidget(
                             <textarea id="edit_item_description" class="t-field-tarea__input js-item-description" placeholder="Informe a descrição"></textarea>
                         </div>
                         <div class="t-field-text column is-half clearleft--on-mobile">
-                            <label for="item_measurement" class="t-field-select__label">Unidade</label>
+                            <label for="item_measurement" class="t-field-select__label--required">Unidade</label>
                             <select id="edit_item_measurement" class="t-field-select__input js-initialize-select2 js-item-measurement">
                                 <option value="">Selecione uma opção</option>
                                 <option value="Kg">Quilograma</option>

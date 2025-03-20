@@ -182,19 +182,28 @@ $(document).on("click", ".update-btn", function () {
 
 $(document).on("click", "#edit-foods", function () {
     let foodTableId = $(this).attr('data-index');
+    let yearAmount = $("#edit_notice_year_amount").val();
+    let selectFoodText = $("#edit_item_food").find('option:selected').text();
+    let selectFood = $("#edit_item_food").val();
+    let itemmMeasurement = $("#edit_item_measurement").val();
+    let description = $("#edit_item_description").val();
 
-    if($("#edit_notice_year_amount").val().indexOf(',') === -1) {
-        data[foodTableId][0] = $("#edit_item_food").find('option:selected').text();
-        data[foodTableId][1] = $("#edit_notice_year_amount").val();
-        data[foodTableId][2] = $("#edit_item_measurement").val();
-        data[foodTableId][3] = $("#edit_item_description").val();
-        data[foodTableId][4] = $("#edit_item_food").val();
+    if (selectFood != "" && yearAmount != "" && itemmMeasurement != "") {
+        if($("#edit_notice_year_amount").val().indexOf(',') === -1) {
+            data[foodTableId][0] = selectFoodText;
+            data[foodTableId][1] = yearAmount;
+            data[foodTableId][2] = itemmMeasurement;
+            data[foodTableId][3] = description;
+            data[foodTableId][4] = selectFood;
 
-        renderFoodsTable();
+            renderFoodsTable();
 
-        $("#js-edit-food-items").modal('hide');
+            $("#js-edit-food-items").modal('hide');
+        } else {
+            $('#modal-food-alert').removeClass('hide').addClass('alert-error').html("Quantidade anual informada não é válida, utilize números positivos e se decimal, separe por '.'");
+        }
     } else {
-        $('#modal-food-alert').removeClass('hide').addClass('alert-error').html("Quantidade anual informada não é válida, utilize números positivos e se decimal, separe por '.'");
+        $('#modal-food-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     }
 
 
