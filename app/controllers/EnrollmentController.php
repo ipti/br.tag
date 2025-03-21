@@ -206,6 +206,8 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     {
         $model = $this->loadModel($id);
 
+        $model->school_admission_date = DateTime::createFromFormat("Y-m-d", $model->school_admission_date)->format('d/m/Y');
+
         $class = Classroom::model()->findByPk($model->classroom_fk);
         $oldClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
 
