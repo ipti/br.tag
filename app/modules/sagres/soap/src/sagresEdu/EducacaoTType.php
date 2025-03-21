@@ -12,8 +12,8 @@ use JMS\Serializer\Annotation as Serializer;
  * XSD Type: educacao_t
  */
 
- #[Serializer\XmlRoot(name: "edu:educacao")]
- #[Serializer\XmlNamespace(uri: "https://www.tce.se.gov.br/sagres2025/xml/sagresEdu", prefix: "edu")]
+#[Serializer\XmlRoot(name: "edu:educacao")]
+#[Serializer\XmlNamespace(uri: "http://www.tce.se.gov.br/sagres2025/xml/sagresEdu", prefix: "edu")]
 class EducacaoTType
 {
     #[Serializer\SerializedName("edu:PrestacaoContas")]
@@ -91,7 +91,7 @@ class EducacaoTType
      * @return self
      * @param \SagresEdu\ProfissionalTType $profissional
      */
-    public function addToProfissional(ProfissionalTType $profissional):self
+    public function addToProfissional(ProfissionalTType $profissional): self
     {
         $this->profissional[] = $profissional;
         return $this;
@@ -103,7 +103,7 @@ class EducacaoTType
      * @param int|string $index
      * @return bool
      */
-    public function issetProfissional($index):bool
+    public function issetProfissional($index): bool
     {
         return isset($this->profissional[$index]);
     }
@@ -114,7 +114,7 @@ class EducacaoTType
      * @param int|string $index
      * @return void
      */
-    public function unsetProfissional($index):void
+    public function unsetProfissional($index): void
     {
         unset($this->profissional[$index]);
     }
@@ -135,10 +135,9 @@ class EducacaoTType
      * @param \SagresEdu\ProfissionalTType[] $profissional
      * @return self
      */
-    public function setProfissional(array $profissional = null):self
+    public function setProfissional(array $profissional = null): self
     {
         $this->profissional = $profissional;
         return $this;
     }
 }
-
