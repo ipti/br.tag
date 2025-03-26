@@ -165,6 +165,10 @@ class GradesController extends Controller
     {
         $classroomId = Yii::app()->request->getPost("classroom");
         $stage = Yii::app()->request->getPost("stage");
+
+        $classroom = Classroom::model()->findByPk($classroomId);
+
+
         if(isset(($stage)) && $stage !== "") {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gu';
@@ -191,6 +195,14 @@ class GradesController extends Controller
 
         foreach ($unities as $unity) {
             $result[$unity['id']] = $unity["name"];
+        }
+
+        if(!isset(($stage)) && $stage == "" && TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk))  {
+            $result["finalConcept"] = "Conceito Final";
+        }
+
+        if(isset(($stage)) && $stage !== "") {
+            $result["finalConcept"] = "Conceito  Final";
         }
 
         echo CJSON::encode($result);
