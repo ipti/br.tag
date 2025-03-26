@@ -4,8 +4,10 @@
 /**
  * Caso de uso para salvavemto da estrutura de notas e avaliação
  *
+ * @property string $gradeRulesId
+ * @property string $gradeRulesName
  * @property string $reply
- * @property string $stage
+ * @property [] $stages
  * @property [] $unities
  * @property mixed $approvalMedia
  * @property mixed $finalRecoverMedia
@@ -21,10 +23,12 @@ class UpdateGradeJustOneStructUsecase
     private const OP_UPDATE = "update";
     private const OP_REMOVE = "remove";
 
-    public function __construct($stage, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $ruleType,
+    public function __construct($gradeRulesId, $gradeRulesName,$stages, $unities, $approvalMedia, $finalRecoverMedia, $calculationFinalMedia, $hasFinalRecovery, $ruleType,
     $hasPartialRecovery, $partialRecoveries)
     {
-        $this->stage = $stage;
+        $this->gradeRulesId = $gradeRulesId;
+        $this->gradeRulesName = $gradeRulesName;
+        $this->stages = $stages;
         $this->unities = $unities;
         $this->approvalMedia = $approvalMedia;
         $this->finalRecoverMedia = $finalRecoverMedia;
@@ -37,13 +41,12 @@ class UpdateGradeJustOneStructUsecase
 
     public function exec()
     {
-        $this->buildUnities(
-            $this->stage,
-            $this->unities
-        );
+
 
         $rulesUseCase = new UpdateGradeRulesUsecase(
-            $this->stage,
+            $this->gradeRulesId,
+            $this->gradeRulesName,
+            $this->stages,
             $this->approvalMedia,
             $this->finalRecoverMedia,
             $this->calculationFinalMedia,
@@ -52,7 +55,15 @@ class UpdateGradeJustOneStructUsecase
             $this->hasPartialRecovery,
             $this->partialRecoveries
         );
-        $rulesUseCase->exec();
+        $gradeRules = $rulesUseCase->exec();
+        $this->gradeRulesId = $gradeRules->id;
+
+        $this->buildUnities(
+            $this->stage,
+            $this->unities
+        );
+
+        return $gradeRules;
 
     }
 
@@ -67,11 +78,12 @@ class UpdateGradeJustOneStructUsecase
                 if ($unityModel == null) {
                     $unityModel = new GradeUnity();
                 }
-                $unityModel->edcenso_stage_vs_modality_fk = $stage;
+
                 $unityModel->name = $unity["name"];
                 $unityModel->semester = $unity["semester"];
                 $unityModel->type = $unity["type"];
                 $unityModel->grade_calculation_fk = $unity["formula"];
+                $unityModel->grade_rules_fk = $this->gradeRulesId;
 
                 if (!$unityModel->validate()) {
                     throw new CantSaveGradeUnityException($unityModel);

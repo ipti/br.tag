@@ -7,8 +7,8 @@ class ChangePasswordCest
 
     public function _before(AcceptanceTester $tester)
     {
-        $user = "admin";
-        $secret = "p@s4ipti";
+        $user = "";
+        $secret = "";
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();

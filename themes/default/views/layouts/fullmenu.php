@@ -14,7 +14,8 @@ $schoolurl = yii::app()->createUrl('school');
 $select_school = '';
 
 
-if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)) {
+if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)
+|| Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)) {
     $select_school = CHtml::activeDropDownList(
         SchoolIdentification::model(),
         'inep_id',
@@ -213,7 +214,9 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     <span class="t-menu-item__text">Página Inicial</span>
                                 </a>
                             </li>
-                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
+                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)
+                            || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
+                            || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)): ?>
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=school") ? 'active' : '' ?>">
                                     <?php
                                     if (count(Yii::app()->user->usersSchools) == 1) {
@@ -314,7 +317,8 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                                 <span class="t-menu-item__text">Plano de Aula</span>
                                             </a>
                                         </li>
-                                        <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
+                                        <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
+                                        || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)): ?>
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=classes/classContents") ? 'active' : '' ?>">
                                                 <a class="t-menu-item__link"
@@ -392,7 +396,8 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                         <?php endif ?>
                                         <?php if (
                                             Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) ||
-                                            Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
+                                            Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id) ||
+                                            Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)
                                         ): ?>
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=aeerecord") ? 'active' : '' ?>">
@@ -444,7 +449,8 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     </a>
                                 </li>
                             <?php endif ?>
-                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
+                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
+                            || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)): ?>
                                 <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=reports") ? 'active' : '' ?> hide-responsive">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('reports') ?>">
@@ -453,8 +459,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     </a>
                                 </li>
                             <?php endif; ?>
-
-                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)): ?>
+                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)): ?>
                                 <li id="menu-quiz"
                                     class="t-menu-item  <?= strpos($_SERVER['REQUEST_URI'], "?r=quiz") ? 'active' : '' ?> hide-responsive">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('quiz') ?>">
@@ -551,7 +556,8 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 <?php endif;
                             endif;
                             ?>
-                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)) { ?>
+                            <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)
+                            || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)) { ?>
                                 <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=admin") ? 'active' : '' ?> hide-responsive">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('admin') ?>">

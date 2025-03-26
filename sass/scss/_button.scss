@@ -195,6 +195,17 @@
     }
 }
 
+.t-button-success {
+    @extend .t-button;
+    background-color: $colorsAlertSuccessBackground;
+    border: 0;
+
+    &:hover,
+    &--active {
+        background-color: $colorsAlertSuccessBorder;
+    }
+}
+
 .t-button-icon {
     @extend .t-button;
 

@@ -1,5 +1,4 @@
 <?php
-require_once 'app/vendor/autoload.php';
 Yii::import('application.modules.sedsp.models.Student.*');
 Yii::import('application.modules.sedsp.datasources.sed.Student.*');
 Yii::import('application.modules.sedsp.mappers.*');
@@ -62,6 +61,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 'actions' => array(
                     'index',
                     'view',
+                    'getGradesAndFrequency',
                     'comparestudentname',
                     'getstudentajax',
                     'syncToSedsp',
@@ -123,6 +123,48 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
     }
+    public function actionGetGradesAndFrequency() {
+        $idEnrollment = Yii::app()->request->getPost("enrollmentId");
+
+        if (!$idEnrollment) {
+            echo json_encode(["success" => false, "message" => "ID de matrícula não informado."]);
+            Yii::app()->end();
+        }
+        $stdEnrollment = StudentEnrollment::model()->findByPk($idEnrollment);
+        $stdIdentification = $stdEnrollment->studentFk;
+        $classroom = $stdEnrollment->classroomFk;
+        $criteria = new CDbCriteria();
+        $criteria->join = "INNER JOIN schedule s ON s.id = t.schedule_fk";
+        $criteria->condition = "t.student_fk = :student_fk AND s.classroom_fk = :classroom_id";
+        $criteria->params = [
+            ":student_fk" => $stdIdentification->id,
+            ":classroom_id" => $classroom->id
+        ];
+
+        $classFaults = ClassFaults::model()->count($criteria);
+
+
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = "enrollment_fk = :idEnrollment AND (grade IS NOT NULL AND grade != 0)";
+        $criteria->params = [":idEnrollment" => $idEnrollment];
+
+        $grades = Grade::model()->count($criteria);
+
+        if ($classFaults == 0 && $grades == 0) {
+            $enrollment = StudentEnrollment::model()->findByPk($idEnrollment);
+            $enrollment->delete();
+            echo json_encode(["success" => true, "message" => "matricula excluida com sucesso"]);
+        } else {
+            echo json_encode([
+                "success" => false,
+                "message" => "A matrícula não pode ser excluída, pois já contém notas e/ou frequência cadastradas."
+            ]);
+        }
+
+        Yii::app()->end();
+    }
+
 
     public function actionGetStudentAjax()
     {
@@ -338,6 +380,9 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelStudentRestrictions->attributes = $_POST[$this->STUDENT_RESTRICTIONS];
             $modelStudentDisorder->attributes = $_POST[$this->STUDENT_DISORDER];
 
+
+            $modelStudentIdentification->name = trim($modelStudentIdentification->name);
+
             // Validação CPF->Certidão->Nome
             if ($modelStudentDocumentsAndAddress->cpf != null) {
                 $student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', array(':cpf' => $modelStudentDocumentsAndAddress->cpf));
@@ -465,6 +510,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $modelStudentRestrictions = $this->loadModel($id, $this->STUDENT_RESTRICTIONS);
         $modelStudentDisorder = $this->loadModel($id, $this->STUDENT_DISORDER);
 
+        $modelStudentIdentification->name = trim($modelStudentIdentification->name);
+
         $oldCpf = $modelStudentDocumentsAndAddress->cpf;
 
         $vaccines = Vaccine::model()->findAll(array('order' => 'name'));
@@ -517,12 +564,18 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                         ) {
                             $modelEnrollment = new StudentEnrollment;
                             $modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];
+                            if ($modelEnrollment->school_admission_date !== "") {
+                                $modelEnrollment->school_admission_date = DateTime::createFromFormat("d/m/Y", $modelEnrollment->school_admission_date);
+                            }else {
+                                $modelEnrollment->school_admission_date = new DateTime();
+                            }
+                            $modelEnrollment->school_admission_date = $modelEnrollment->school_admission_date->format('Y-m-d');
                             $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
                             $modelEnrollment->student_fk = $modelStudentIdentification->id;
                             $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
                             $modelEnrollment->create_date = date('Y-m-d');
                             if ($modelEnrollment->status == 1) {
-                                $modelEnrollment->enrollment_date = date('Y-m-d');
+                                $modelEnrollment->enrollment_date = $modelEnrollment->school_admission_date;
                             }
                             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
                             $saved = false;
@@ -672,6 +725,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelEnrollment->create_date = date('Y-m-d');
             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
             $modelEnrollment->enrollment_date = $currentEnrollment->transfer_date;
+            $modelEnrollment->school_admission_date = $currentEnrollment->transfer_date;
             $modelEnrollment->current_enrollment = 1;
 
             if ($modelEnrollment->validate()) {

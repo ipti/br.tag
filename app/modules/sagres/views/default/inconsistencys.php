@@ -16,7 +16,7 @@
         <div class="widget-body">
             <div class="grid-view">
                 <table id="student-identification-table"
-                    class="display js-tag-table student-table 
+                    class="display js-tag-table student-table
                     tag-table-primary table table-condensed table-striped table-hover table-primary table-vertical-center checkboxs" style="width:100%"
                     aria-label="students table">
                     <thead>
@@ -32,9 +32,9 @@
 
                         if ((Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id))) {
                             $models = ValidationSagresModel::model()->findAll();
-                        }elseif ((Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id))) 
+                        }elseif ((Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)))
                             $models = ValidationSagresModel::model()->findAllByAttributes(array('idSchool' => Yii::app()->user->school));
-                        
+
                         foreach ($models as $model): ?>
                             <?php
 
@@ -45,12 +45,13 @@
                                     '9' => '?r=student/update&id=' . $model->idStudent,
                                     '10' => '?r=classroom/update&id=' . $model->idClass,
                                     '11' => '?r=lunch/lunch/update&id=' . $model->idLunch,
-                                    '0' => '?r=sagres/default/createorupdate'
+                                    '12' => '?r=stages/default/update&id=' . $model->idClass,
+                                    '0' => '?r=sagres/default/createorupdate',
                                 ];
-                            
+
                                 $link = $map[$model->identifier];
                             ?>
-                            
+
                             <tr onclick="location.href='<?php echo $link; ?>'" style="cursor: pointer;">
                                 <td><?php echo $model->enrollment ?></td>
                                 <td><?php echo $model->school ?></td>

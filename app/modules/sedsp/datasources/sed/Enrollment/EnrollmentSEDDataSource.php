@@ -1,7 +1,5 @@
 <?php
-use GuzzleHttp\Exception\ClientException;
 
-require_once 'app/vendor/autoload.php';
 Yii::import('application.modules.sedsp.models.*');
 
 class EnrollmentSEDDataSource extends SedDataSource
@@ -204,7 +202,7 @@ class EnrollmentSEDDataSource extends SedDataSource
         $response = $this->client->request($httpMethod, $url, [
             'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
         ]);
-    
+
         return json_decode($response->getBody()->getContents(), true);
     }
 }

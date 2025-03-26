@@ -690,8 +690,10 @@ preenchidos";
         $instructor = htmlspecialchars($_POST["instructor"]);
         $classrooms = Yii::app()->db->createCommand("SELECT c.id, c.name FROM classroom c
                 JOIN instructor_teaching_data itd ON(c.id = itd.classroom_id_fk)
-                WHERE itd.instructor_fk = :instructor")
+                WHERE itd.instructor_fk = :instructor AND c.school_year = :school_year")
+
             ->bindParam(":instructor", $instructor)
+            ->bindParam(":school_year", Yii::app()->user->year)
             ->queryAll();
         echo "<option value>" . Yii::t('default', 'Select Classrom') . "</option>";
         foreach ($classrooms as $classroom) {
