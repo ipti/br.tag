@@ -1,3 +1,5 @@
+## [Versão 3.101.228]
+- Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
 
 ## [Versão 3.101.227]
 - Corrigido exibição da etapa no relatório de ficha individual de aluno

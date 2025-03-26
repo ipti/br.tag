@@ -383,6 +383,27 @@ preenchidos";
         $modelInstructorTeachingData = $this->loadModel($id, $this->InstructorTeachingData);
 
         $delete = TRUE;
+        $numClassrooms = count($modelInstructorTeachingData);
+        if($numClassrooms > 0){
+            // $classroomsInstructorIsAssociated = array_map()
+            // $classrooms = $this->actionGetClassrooms($id);
+            $classrooms = $modelInstructorIdentification->getClassrooms();
+            $htmlForAlert = "<b>Professor(a) " . $modelInstructorIdentification->name . " não pode ser excluído uma vez que está associado à(às) seguinte(s) turma(s):</b><br>";
+            foreach($classrooms as $classroom)
+            {
+                $teachingData =
+                    "Turma: <b>" . $classroom['classroom_name'] . "</b>" .
+                    " / Disciplina: " . $classroom['discipline_name'] .
+                    " / Ano: " . $classroom['syear'] .
+                    " / Escola: " . $classroom['school_name'] .
+                    "<br>";
+                $anchorToUpdateClassroom = "<a href='" . Yii::app()->createUrl('classroom/update', array('id' => $classroom['cid'])) . "'>" . $teachingData ."</a>";
+                $htmlForAlert .= $anchorToUpdateClassroom;
+            }
+
+            Yii::app()->user->setFlash('notice', Yii::t('default', $htmlForAlert));
+            $this->redirect(['index']);
+        }
 
         if (isset($modelInstructorDocumentsAndAddress)) {
             $modelInstructorDocumentsAndAddress->delete();
@@ -744,8 +765,10 @@ preenchidos";
         $instructorFault->save();
     }
 
-    public function actionGetClassrooms() {
-        $instructorId = Yii::app()->request->getPost('instructorId', NULL);
+    public function actionGetClassrooms($instructorId = null) {
+        if($instructorId == null){
+            $instructorId = Yii::app()->request->getPost('instructorId', NULL);
+        }
         $sql = "SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name
         from instructor_teaching_data itd
         join teaching_matrixes tm ON itd.id = tm.teaching_data_fk

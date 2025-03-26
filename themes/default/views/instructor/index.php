@@ -42,6 +42,12 @@
             </div>
             <br/>
         <?php endif ?>
+
+        <?php if (Yii::app()->user->hasFlash('notice')):?>
+            <div class="alert alert-info">
+                <?php echo Yii::app()->user->getFlash('notice') ?>
+            </div>
+        <?php endif ?>
         <div class="widget clearmargin">
             <div class="widget-body">
                 <?php
