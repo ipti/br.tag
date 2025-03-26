@@ -1,3 +1,6 @@
+## [Versão 3.101.226]
+- Alteração na estrutura do registro de Turmas para corrigir erro em salvamento de etapa com ID com 3 dígitos.
+
 ## [Versão 3.101.225]
 - Adicionando a possibilidade de editar os items do edital e adicionando a funcionalidade de pré carregar as informações da lista de compras no edital
 
