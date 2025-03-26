@@ -73,17 +73,17 @@ $(document).on("click", "#js-entry-stock-button", function () {
     $("#js-entry-stock-modal").modal("show");
     $('.js-date').mask("99/99/9999");
     $(".js-date").datepicker({
-    locate: "pt-BR",
-    format: "dd/mm/yyyy",
-    autoclose: true,
-    todayHighlight: true,
-    allowInputToggle: true,
-    disableTouchKeyboard: true,
-    keyboardNavigation: false,
-    orientation: "bottom left",
-    clearBtn: true,
-    maxViewMode: 2,
-    showClearButton: false
+        language: "pt-BR",
+        format: "dd/mm/yyyy",
+        autoclose: true,
+        todayHighlight: true,
+        allowInputToggle: true,
+        disableTouchKeyboard: true,
+        keyboardNavigation: false,
+        orientation: "bottom left",
+        clearBtn: true,
+        maxViewMode: 2,
+        showClearButton: false
     });
     let foodSelect = $('#food');
 
@@ -281,7 +281,7 @@ $(document).on("change", "#food", function () {
     measurementUnitSelect.empty();
     switch (measurementUnit) {
         case "g":
-            measurementUnitSelect.append($('<option value="g" selected>g</option><option value="Kg">Kg</option>'));
+            measurementUnitSelect.append($('<option value="unidade" selected>Unidade</option><option value="g">g</option><option value="Kg">Kg</option>'));
             break;
         case "u":
             measurementUnitSelect.append($('<option value="unidade" selected>Unidade</option><option value="g">g</option><option value="Kg">Kg</option>'));

@@ -1,5 +1,47 @@
-## [Versão 3.96.221]
+## [Versão 3.101.227]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
+
+## [Versão 3.101.226]
+- Alteração na estrutura do registro de Turmas para corrigir erro em salvamento de etapa com ID com 3 dígitos.
+
+## [Versão 3.101.225]
+- Adicionando a possibilidade de editar os items do edital e adicionando a funcionalidade de pré carregar as informações da lista de compras no edital
+
+## [Versão 3.100.225]
+- Correção na funcionalidade de salvar data de matrícula: agora deve ser considerado
+o valor do campo "Data de Matrícula" para fins de frequência em turmas
+
+## [Versão 3.100.224]
+- Adicionando o filtro de ano na listagem de aulas possíveis para adicionar em aulas ministradas
+
+## [Versão 3.100.223]
+- Botão adicionado para deletar matrículas sem notas ou frequência cadastradas no formulário de Aluno.
+
+## [Versão 3.100.222]
+- Adicionado filtro por ano às turmas exibidas na view de frequência de professores.
+
+## [Versão 3.99.222]
+- Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
+- Removendo validação de espaço em branco no começo e no fim do nome do aluno, o espaço é removido automaticamente ao salvar
+
+## [Verão 3.98.222]
+- Associadas estruturas de unidades e avaliação às turmas
+- Adicionado campo de nome às estruturas de unidade e avaliação
+- Permitido o reaproveitamento de estruturas de unidade e avaliação
+
+## [Versão 3.97.222]
+- Adicionando no formulário de criação de plano de aula um select de habilidades, permitindo que as habilidades sejam buscadas de uma
+forma simplificada
+
+## [Versão 3.96.222]
+- Adicionado no relatório de ficha de notas as informações de IDENTIDADE, ÓRGÃO EXPEDIDOR, ETAPA, ATENDIMENTO EDUCACIONAL ESPECIALIZADO
+
+## [Versão 3.96.221]
+- Alterada a aplicação da regra de negócio na funcionalidade de excluir turma.
+
+## [Versão 3.96.221]
+- Alterado o fluxo do Sagres para o modelo de 2025 no XML de Educação.
+- Adicionado, ao cadastro de aluno, campo para especificar a justificativa da ausência de CPF do estudante.
 
 ## [Versão 3.96.220]
 - Corrigido o relatório de professores por escola
@@ -30,6 +72,9 @@ a atualização da situação de matrícula do aluno.
 ## [Versão 3.94.214]
 - Correção de Ficha de notas: Os valores de frequencia e a contagem de aulas foi revisado e foi adaptada a visualização dos dados para diferenciar
 o relatório para ensino intanfil e fundamental menor do fundamental maior;
+
+## [Versão 3.94.214]
+- Adicionando a filtro de ano ao exibir os planos de aula, serão exibidos somente os planos do ano que o usuário está logado
 
 ## [Versão 3.94.213]
 - Controle de status a serem considerados na exportação do sagres. Por padrão apenas matriculas com status "matriculado" são envadas. No entanto, usando o diario eletronico, o status de algumas matriculas mudaram para "Aprovado", "Reprovado" e outros. Foi adicionado um controle para optar ou não por considerar esses status na exportação.
@@ -1132,6 +1177,5 @@ com cache do style
 **Bugs Corrigidos:**
 - Correção na página inicial de turmas
 - Removido função que eliminava duplo espaço na busca por nome, por motivos de compatibilidade.
-
 
 

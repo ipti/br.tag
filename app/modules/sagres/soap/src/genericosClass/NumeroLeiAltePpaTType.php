@@ -10,7 +10,6 @@ namespace Genericos;
  */
 class NumeroLeiAltePpaTType
 {
-
     /**
      * @var string $numero
      */
@@ -64,7 +63,5 @@ class NumeroLeiAltePpaTType
         $this->ano = $ano;
         return $this;
     }
-
-
 }
 

@@ -17,7 +17,7 @@ dateRules.date = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/([12][0-9]{3}|[0-9
 var stringRules = new Object();
 stringRules.schoolName = /^[A-Z0-9°ºª\- ]{4,100}$/;
 stringRules.classroomName = /^[A-Z0-9°ºª\- ?]{4,80}$/;
-stringRules.personName = /^[a-zA-ZÀ-ÖØ-öø-ÿ]{1,100}/;
+stringRules.personName = /^[a-zA-ZÀ-ÖØ-öø-ÿ ]{1,100}/;
 stringRules.email = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 stringRules.schoolAddress = /^[A-Z0-9°ºª\-\/\., ]*$/;
 stringRules.rg = /^[A-Z0-9°ºª\- ]{1,20}$/;
@@ -200,7 +200,7 @@ const buscar = (dados, chave, conteudo) => {
 };
 
 function validateNamePerson(personName, callback) {
-    var complete_name = personName.split(' ');
+    var complete_name = personName.trim().split(' ');
     var passExp = true;
     var passSimilarName = [];
     var ret = new Array();

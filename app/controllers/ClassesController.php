@@ -168,12 +168,14 @@ class ClassesController extends Controller
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk and cp.users_fk = :users_fk
+                        and YEAR(cp.start_date) = :year
                         order by ed.name, cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
                         ->bindParam(":discipline_fk", $disciplineId)
                         ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
+                        ->bindParam(":year", $year)
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
@@ -181,11 +183,13 @@ class ClassesController extends Controller
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
+                        and YEAR(cp.start_date) = :year
                         order by ed.name, cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
                         ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
+                        ->bindParam(":year", $year)
                         ->queryAll();
 
                     $additionalClasses = Yii::app()->db->createCommand(
@@ -193,11 +197,13 @@ class ClassesController extends Controller
                         from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk and cp.discipline_fk IS NULL
+                        and YEAR(cp.start_date) = :year
                         order by cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
                         ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
+                        ->bindParam(":year", $year)
                         ->queryAll();
 
 
@@ -210,11 +216,13 @@ class ClassesController extends Controller
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk = :discipline_fk
+                        and YEAR(cp.start_date) = :year
                         order by ed.name, cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
                         ->bindParam(":discipline_fk", $disciplineId)
+                        ->bindParam(":year", $year)
                         ->queryAll();
                 } else {
                     $courseClasses = Yii::app()->db->createCommand(
@@ -222,10 +230,12 @@ class ClassesController extends Controller
                         join course_plan cp on cp.id = cc.course_plan_fk
                         join edcenso_discipline ed on cp.discipline_fk = ed.id
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk
+                        and YEAR(cp.start_date) = :year
                         order by ed.name, cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":year", $year)
                         ->queryAll();
 
                     $additionalClasses = Yii::app()->db->createCommand(
@@ -233,10 +243,12 @@ class ClassesController extends Controller
                         from course_class cc
                         join course_plan cp on cp.id = cc.course_plan_fk
                         where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.discipline_fk IS NULL
+                        and YEAR(cp.start_date) = :year
                         order by cp.name"
                     )
                         ->bindParam(":school_inep_fk", Yii::app()->user->school)
                         ->bindParam(":modality_fk", $schedules[0]->classroomFk->edcenso_stage_vs_modality_fk)
+                        ->bindParam(":year", $year)
                         ->queryAll();
 
                     $courseClasses = array_merge($courseClasses, $additionalClasses);

@@ -54,9 +54,15 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     . "<td rowspan= $contador>" . $instructor['inep_id']. "</td>"
                     . "<td rowspan= $contador>" . $instructor['birthday_date'] . "</td>"
                     . "<td rowspan= $contador>" . $instructor['name'] . "</td>"
-                    . "<td rowspan= $contador>" . ($instructor['scholarity'] == 1 ? "Fundamental Incompleto" : $instructor['scholarity'] == 2 ? "Fundamental Completo" :
-                        $instructor['scholarity'] == 3 ? "Ensino M&eacute;dio � Normal/Magist&eacute;rio" : $instructor['scholarity'] == 4 ? "Ensino M&eacute;dio � Normal/Magist&eacute;rio Ind�gena" :
-                            $instructor['scholarity'] == 5 ? "Ensino M&eacute;dio" : "Superior") . "</td>"
+                    . "<td rowspan= $contador>" . ($instructor['scholarity'] == 1 ? "Fundamental Incompleto" :
+                    ($instructor['scholarity'] == 2 ? "Fundamental Completo" :
+                        ($instructor['scholarity'] == 3 ? "Ensino M&eacute;dio � Normal/Magist&eacute;rio" :
+                            ($instructor['scholarity'] == 4 ? "Ensino M&eacute;dio � Normal/Magist&eacute;rio Indígena" :
+                                ($instructor['scholarity'] == 5 ? "Ensino M&eacute;dio" : "Superior")
+                            )
+                        )
+                    )
+                ) . "</td>"
                     . "<td>";
                 foreach($instructor["disciplines"] as $discipline) {
                     $html .= $discipline["name"] . "<br>";

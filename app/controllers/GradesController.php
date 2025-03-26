@@ -166,10 +166,26 @@ class GradesController extends Controller
         $classroomId = Yii::app()->request->getPost("classroom");
         $stage = Yii::app()->request->getPost("stage");
         if(isset(($stage)) && $stage !== "") {
-            $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $stage]);
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'gu';
+            $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+            $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+            $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+            $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
+            $criteria->params = array(':classroom' => $classroomId, ":stage"=>$stage);
+
+            $unities = GradeUnity::model()->findAll($criteria);
         } else {
-            $classroom = Classroom::model()->findByPk($classroomId);
-            $unities = GradeUnity::model()->findAllByAttributes(["edcenso_stage_vs_modality_fk" => $classroom->edcenso_stage_vs_modality_fk]);
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'gu';
+            $criteria->join = 'INNER JOIN grade_rules gr ON gr.id = gu.grade_rules_fk';
+            $criteria->join .= ' INNER JOIN classroom_vs_grade_rules cgr ON cgr.grade_rules_fk = gu.grade_rules_fk';
+            $criteria->join .= ' INNER JOIN classroom c ON c.id = cgr.classroom_fk';
+            $criteria->join .= ' INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.edcenso_stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk';
+            $criteria->condition = 'cgr.classroom_fk = :classroomId';
+            $criteria->params = array(':classroomId' => $classroomId);
+            $unities = GradeUnity::model()->findAll($criteria);
+
         }
         $result = [];
 
@@ -644,9 +660,14 @@ class GradesController extends Controller
                 $stage = $classroom->edcenso_stage_vs_modality_fk;
             }
 
-            $gradeRules = GradeRules::model()->findByAttributes([
-                "edcenso_stage_vs_modality_fk" => $stage
-            ]);
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'gr';
+            $criteria->join = 'INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.grade_rules_fk = gr.id ';
+            $criteria->join .= 'INNER JOIN classroom_vs_grade_rules cvgr ON cvgr.grade_rules_fk = gr.id';
+            $criteria->condition = 'cvgr.classroom_fk = :classroomId and grvesvm.edcenso_stage_vs_modality_fk = :stageId';
+            $criteria->params = array(':classroomId' => $classroom->id, ':stageId' => $stage);
+            $gradeRules = GradeRules::model()->find($criteria);
+
 
             TLog::info("Começado processo de calcular média final.", ["Classroom" => $classroom->id, "GradeRules" => $gradeRules->id]);
             $TotalEnrollments = $classroom->activeStudentEnrollments;
@@ -661,7 +682,7 @@ class GradesController extends Controller
                 $studentEnrollments = $classroom->activeStudentEnrollments;
             }
             foreach ($studentEnrollments as $enrollment) {
-                $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($gradeRules->edcenso_stage_vs_modality_fk);
+                $gradeUnities = new GetGradeUnitiesByDisciplineUsecase($classroom->id, $stage);
                 $gradesStudent = $gradeUnities->exec();
                 $countUnities = $gradeUnities->execCount();
 

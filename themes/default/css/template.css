@@ -8853,12 +8853,14 @@ textarea,
 
 .ability-panel-option {
     background-color: #f9f9f9;
-    padding: 5px 10px;
+	position: relative;
+    padding: 5px 20px;
     text-align: justify;
     border-radius: 5px;
     border: 1px solid darkgray;
     cursor: pointer;
     margin-bottom: 5px;
+	box-sizing: border-box;
 }
 
 .courseplan-abilities-selected .ability-panel-option {
@@ -8893,6 +8895,13 @@ textarea,
 
 .courseplan-abilities-selected .ability-panel-option i {
     color: #3F45EA;
+}
+
+.ability-panel-option i.remove-abilitie {
+ 	color: #D21C1C;
+	position: absolute;
+	cursor: pointer;
+	right: -5px;
 }
 
 .ability-panel-option span {

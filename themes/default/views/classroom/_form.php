@@ -90,24 +90,31 @@ $form = $this->beginWidget(
                     </a>
                     <img src="<?= Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
+                <li id="tab-pedagogica-settings" class="t-tabs__item">
+                    <a class="t-tabs__link" href="#pedagogica-settings" data-toggle="tab">
+                        <span class="t-tabs__numeration">2</span>
+                        <?php echo Yii::t('default', 'Configurações Pedagógicas') ?>
+                    </a>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+                </li>
                 <li id="tab-instructors" class="t-tabs__item">
                     <a class="t-tabs__link" href="#instructors" data-toggle="tab">
-                        <span class="t-tabs__numeration">2</span>
-                        <?= Yii::t('default', 'Instructors') ?>
+                        <span class="t-tabs__numeration">3</span>
+                        <?php echo Yii::t('default', 'Instructors') ?>
                     </a>
                     <img src="<?= Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-students" class="t-tabs__item">
                     <a class="t-tabs__link" href="#students" data-toggle="tab">
-                        <span class="t-tabs__numeration">3</span>
-                        <?= Yii::t('default', 'Students') ?>
+                        <span class="t-tabs__numeration">4</span>
+                        <?php echo Yii::t('default', 'Students') ?>
                     </a>
                     <img src="<?= Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
                 <li id="tab-daily" class="t-tabs__item">
                     <a class="t-tabs__link" href="#daily" data-toggle="tab">
-                        <span class="t-tabs__numeration">4</span>
-                        <?= Yii::t('default', 'daily_order') ?>
+                        <span class="t-tabs__numeration">5</span>
+                        <?php echo Yii::t('default', 'daily_order') ?>
                     </a>
                 </li>
             </ul>
@@ -212,13 +219,7 @@ $form = $this->beginWidget(
                                     alt="TAG Loading">
                             </div>
 
-                            <!-- Calendários da etapa -->
-                            <div class="t-field-select">
-                                <label class="t-field-select__label">Calendário</label>
-                                <select class="select-search-on t-field-select__input select2-container" name="calendar_fk" id="Calendars" selectedOption="<?= $modelClassroom->calendar_fk ?>">
-                                    <option value=''>Selecione um Calendário</option>
-                                </select>
-                            </div>
+
 
                              <!-- Periodo -->
                              <div class="t-field-select">
@@ -556,6 +557,65 @@ $form = $this->beginWidget(
                                     </label>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="pedagogica-settings">
+                    <div>
+                        <h3>Configurações da Turma</h3>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <!-- Calendários da etapa -->
+                            <div class="t-field-select">
+                                <label class="t-field-select__label">Calendário</label>
+                                <select class="select-search-on t-field-select__input select2-container" name="calendar_fk" id="Calendars" selectedOption="<?= $modelClassroom->calendar_fk ?>">
+                                    <option value=''>Selecione um Calendário</option>
+                                </select>
+                            </div>
+                            <!-- Estrutura de Avaliação -->
+                            <div class="t-field-select js-grade-rules">
+                                    <label class="t-field-select__label--required">
+                                     Estrutura de Avaliação
+                                    </label>
+                                    <?php echo CHtml::dropDownList('grade_rules', '',  CHtml::listData($gradeRules, 'id', 'name'),
+                                        array(
+                                        'class' => 'select-search-on select2-container',
+                                        'prompt' => 'Selecione a Regra de Avaliação',
+                                        'id' => 'gradeRules', 'style' => 'width: 100%;')); ?>
+
+                            </div>
+                            <?php
+                                if(TagUtils::isMultiStage( $modelClassroom->edcenso_stage_vs_modality_fk)):
+                            ?>
+                            <div class="js-mutiple-structure">
+                            <h3>
+                                Estruturas de Unidade Por Etapa
+                            </h3>
+                            <div class="column t-padding-small--bottom">
+
+                                    <?php foreach($stages as $stage):?>
+                                        <div class="row">
+                                            <div class="column clearfix t-field-select">
+                                                <label class="t-field-text__label--required">
+                                                    <?= $stage->name ?>
+                                                </label>
+                                                <?php echo CHtml::dropDownList('grade_rules_' . $stage->id, $gradeRulesStages[$stage->id],  CHtml::listData($gradeRules, 'id', 'name'),
+                                                    array(
+                                                    'class' => 'select-search-on select2-container',
+                                                    'prompt' => 'Selecione a Regra de Avaliação',
+                                                    'id' => 'gradeRules', 'style' => 'width: 100%;')); ?>
+                                            </div>
+                                        </div>
+                                    <?php endforeach;?>
+
+                            </div>
+                        </div>
+                        <?php
+                            endif;
+                        ?>
+                        </div>
+                        <div class="column">
                         </div>
                     </div>
                 </div>

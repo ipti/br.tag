@@ -20,9 +20,10 @@ class FireBaseService
 
     public function __construct()
     {
-        $this->firestoreClient = new FirestoreClient('br-nham-agrigultor', 'AIzaSyAf7EefR1VXllpmE60kiQwl6xictSDO-Tc', [
+        $this->firestoreClient = new FirestoreClient('br-nham-agrigultor', getenv("PWD_FIREBASE"), [
             'database' => '(default)',
         ]);
+        $this->firestoreClient->authenticator()->signInEmailPassword('usertag@thp.org.br', '123456');
     }
 
     public function createNotice()
@@ -41,6 +42,7 @@ class FireBaseService
     public function createFarmerRegister($name, $cpf, $phone, $groupType, $foodsRelation) {
         $collection = 'farmer_register';
         $uuid = Uuid::uuid4();
+        $cpf = mask($cpf, '###.###.###-##');
 
         $document = new FirestoreDocument;
         $document->fillValues([
@@ -61,6 +63,7 @@ class FireBaseService
     public function updateFarmerRegister($farmerId, $name, $cpf, $phone, $groupType, $foodsRelation) {
         $collection = 'farmer_register';
         $documentPath =  $collection . '/' . $farmerId;
+        $cpf = mask($cpf, '###.###.###-##');
 
         $this->firestoreClient->updateDocument($documentPath, [
             'cpf' => $cpf,
@@ -71,6 +74,16 @@ class FireBaseService
 
         $this->deleteFarmerFoods($farmerId);
         $this->createFarmerFoods($foodsRelation, $farmerId);
+    }
+
+    public function updateFoodNotice($noticeData, $noticeId) {
+        $collection = 'public_calls';
+        $documentPath =  $collection . '/' . $noticeId;
+
+        $this->firestoreClient->updateDocument($documentPath, [
+            'name' => $noticeData["name"],
+            'date' => date('Y-m-d', strtotime(str_replace('/', '-', $noticeData["date"]))),
+        ]);
     }
 
     public function deleteFarmerRegister($farmerId) {
@@ -109,27 +122,32 @@ class FireBaseService
     public function getFarmerRegister($cpf) {
         $farmerRegisters = $this->firestoreClient->listDocuments('farmer_register');
         $foundFarmer = [];
+        $cpf = mask($cpf, '###.###.###-##');
 
         foreach ($farmerRegisters['documents'] as $farmerRegister) {
             if ($farmerRegister->get('cpf') == $cpf) {
-                try {
-                    $userField = $farmerRegister->get('user');
-                } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
-                    $userField = "";
-                }
+                $newcpf = preg_replace("/\D/", "", $farmerRegister->get('cpf'));
                 $foundFarmer = array(
                     "id" => $farmerRegister->get("id"),
                     "name" => $farmerRegister->get('name'),
                     "groupType" => $farmerRegister->get('groupType'),
-                    "cpf" => $farmerRegister->get('cpf'),
-                    "phone" => $farmerRegister->get('phone'),
-                    "user" => $userField
+                    "cpf" => $newcpf,
+                    "phone" => $this->getFieldOrDefault($farmerRegister, 'phone'),
+                    "user" => $this->getFieldOrDefault($farmerRegister, 'user')
                 );
 
             }
         }
 
         return $foundFarmer;
+    }
+
+    private function getFieldOrDefault($document, $field, $default = "") {
+        try {
+            return $document->get($field);
+        } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+            return $default;
+        }
     }
 
     public function createFarmerFoods($foods, $farmerId) {
@@ -142,6 +160,7 @@ class FireBaseService
                 'name' => $foodData['foodDescription'],
                 'amount' => $foodData['amount'],
                 'measurementUnit' => $foodData['measurementUnit'],
+                'notice' => $foodData['noticeId'],
                 'farmer_id'=> $farmerId,
                 'id' => $uuid->toString(),
             ]);
@@ -163,4 +182,83 @@ class FireBaseService
         }
     }
 
+    private function addCategoryUrl(&$requestItems) {
+
+        $obj = [
+            'Cereais e derivados' => "cereais_e_derivados",
+            'Verduras' => "verduras_hortalicas_e_derivados",
+            'Frutas e derivados' => "frutas_e_derivados",
+            'Gorduras e óleos' => "gorduras_e_oleos",
+            'Pescados e frutos do mar' => "pescados_e_frutos_do_mar",
+            'Carnes e derivados' => "carnes_e_derivados",
+            'Leite e derivados' => "leites_e_derivados",
+            'Bebidas (alcoólicas e não alcoólicas)' => "bebidas_alcoolicas_e_nao_alcoolicas",
+            'Ovos e derivados' => "ovos_e_derivados",
+            'Produtos açucarados' => "produtos_acucarados",
+            'Miscelâneas' => "miscelaneas",
+            'Outros alimentos industrializados' => "outros_alimentos_industrializados",
+            'Alimentos preparados' => "alimentos_preparados",
+            'Leguminosas e derivados' => "leguminosas_e_derivados",
+            'Nozes e sementes' => "nozes_e_sementes"
+        ];
+
+        foreach($requestItems as &$item) {
+            $item["accepted_amount"] = 0;
+            $item["delivered_amount"] = 0;
+            $item["send_amount"] = 0;
+            $item["amount"] = intval($item["amount"]);
+            $item["imageUrl"] = "https://firebasestorage.googleapis.com/v0/b/br-nham-agrigultor.appspot.com/o/food_image%2F" . $obj[$item['category']] . ".png?alt=media&token=" . getenv("TOKEN_FIREBASE");
+        }
+        unset($item);
+    }
+
+    public function createFoodRequest($requestTitle, $requestSchoolNames, $farmersCpfs, $requestItems) {
+        $collection = 'food_request';
+        $uuid = Uuid::uuid4();
+        $this->addCategoryUrl($requestItems);
+
+        $maskedCpfs = array_map(function($cpf) {
+            return mask($cpf, '###.###.###-##');
+        }, $farmersCpfs);
+
+        $document = new FirestoreDocument;
+        $document->setString('title', $requestTitle);
+        $document->setString('id', $uuid->toString());
+        $document->setArray('schools', $requestSchoolNames);
+        $document->setArray('farmers', $maskedCpfs);
+
+        $map = array();
+
+        foreach ($requestItems as $index => $value) {
+            $map[$index + 1] = $value;
+        }
+
+        $foodsRequestedArray = array();
+        foreach ($map as $key => $value) {
+            $foodsRequestedArray[] = new FirestoreObject($value);
+        }
+
+        $document->setArray('foods_requested', new FirestoreArray($foodsRequestedArray));
+
+        $this->firestoreClient->addDocument($collection, $document, $uuid->toString());
+
+        return $uuid->toString();
+    }
+
+}
+function mask($val, $mask) {
+    $maskared = '';
+    $k = 0;
+    for($i = 0; $i<=strlen($mask)-1; $i++) {
+        if($mask[$i] == '#') {
+            if(isset($val[$k])) {
+                $maskared .= $val[$k++];
+            }
+        } else {
+            if(isset($mask[$i])) {
+                $maskared .= $mask[$i];
+            }
+        }
+    }
+    return $maskared;
 }
