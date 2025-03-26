@@ -698,6 +698,7 @@ class TimesheetController extends Controller
 
     public function actionSubstituteInstructor()
     {
+        $instructorsIdentification = InstructorIdentification::model()->findAll();
 
         $this->render
         (
