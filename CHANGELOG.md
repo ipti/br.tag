@@ -1,3 +1,7 @@
+
+## [Versão 3.101.227]
+- Corrigido exibição da etapa no relatório de ficha individual de aluno
+
 ## [Versão 3.101.226]
 - Alteração na estrutura do registro de Turmas para corrigir erro em salvamento de etapa com ID com 3 dígitos.
 
