@@ -1,8 +1,11 @@
-
 ## [Versão 3.101.225]
 - Adicionando a possibilidade de editar os items do edital e adicionando a funcionalidade de pré carregar as informações da lista de compras no edital
 
-## [Versão 3.99.224]
+## [Versão 3.100.225]
+- Correção na funcionalidade de salvar data de matrícula: agora deve ser considerado
+o valor do campo "Data de Matrícula" para fins de frequência em turmas
+
+## [Versão 3.100.224]
 - Adicionando o filtro de ano na listagem de aulas possíveis para adicionar em aulas ministradas
 
 ## [Versão 3.100.223]

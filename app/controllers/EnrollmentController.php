@@ -206,6 +206,14 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     {
         $model = $this->loadModel($id);
 
+        $rawDate = $model->school_admission_date ?? '';
+
+        $date = (!empty($rawDate) && $rawDate !== '0000-00-00')
+            ? DateTime::createFromFormat("Y-m-d", $rawDate) ?: new DateTime()
+            : new DateTime();
+
+        $model->school_admission_date = $date->format('d/m/Y');
+
         $class = Classroom::model()->findByPk($model->classroom_fk);
         $oldClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
 
@@ -237,6 +245,9 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         if (isset($_POST['StudentEnrollment'])) {
             if ($model->validate()) {
                 $model->attributes = $_POST['StudentEnrollment'];
+                $model->school_admission_date = DateTime::createFromFormat("d/m/Y", $model->school_admission_date);
+                $model->school_admission_date = $model->school_admission_date->format('Y-m-d');
+                $model->enrollment_date = $model->school_admission_date;
                 $model->school_inep_id_fk = Classroom::model()->findByPk([$_POST['StudentEnrollment']["classroom_fk"]])->school_inep_fk;
                 if ($model->validate()) {
 
@@ -252,6 +263,8 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                     }
 
                     if ($model->save()) {
+                        $model->school_admission_date = DateTime::createFromFormat("Y-m-d", $model->school_admission_date);
+                        $model->school_admission_date = $model->school_admission_date->format('d/m/Y');
                         $message = "";
                         if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                             $this->authenticateSedToken();

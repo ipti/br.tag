@@ -228,9 +228,11 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column">
                             <div class="t-field-text">
-                                    <?php echo $form->labelEx($model, 'school_admission_date', array('class' => 't-field-text__label')); ?>
-                                    <?php echo $form->textField($model, 'school_admission_date', array('size' => 10, 'maxlength' => 10, 'class'=>'t-field-text__input')); ?>
-                                    <?php echo $form->error($model, 'school_admission_date'); ?>
+                                <?php echo $form->label($model, 'school_admission_date', array('class' => 't-field-text__label--required')); ?>
+                                <?php
+                                    $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($model, 'school_admission_date'));
+                                    echo $form->error($model, 'school_admission_date');
+                                ?>
                             </div>
 
                             <!--  Data de transferência externa na escola -->

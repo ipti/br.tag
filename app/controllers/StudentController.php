@@ -564,12 +564,18 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                         ) {
                             $modelEnrollment = new StudentEnrollment;
                             $modelEnrollment->attributes = $_POST[$this->STUDENT_ENROLLMENT];
+                            if ($modelEnrollment->school_admission_date !== "") {
+                                $modelEnrollment->school_admission_date = DateTime::createFromFormat("d/m/Y", $modelEnrollment->school_admission_date);
+                            }else {
+                                $modelEnrollment->school_admission_date = new DateTime();
+                            }
+                            $modelEnrollment->school_admission_date = $modelEnrollment->school_admission_date->format('Y-m-d');
                             $modelEnrollment->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
                             $modelEnrollment->student_fk = $modelStudentIdentification->id;
                             $modelEnrollment->student_inep_id = $modelStudentIdentification->inep_id;
                             $modelEnrollment->create_date = date('Y-m-d');
                             if ($modelEnrollment->status == 1) {
-                                $modelEnrollment->enrollment_date = date('Y-m-d');
+                                $modelEnrollment->enrollment_date = $modelEnrollment->school_admission_date;
                             }
                             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
                             $saved = false;
@@ -719,6 +725,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelEnrollment->create_date = date('Y-m-d');
             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
             $modelEnrollment->enrollment_date = $currentEnrollment->transfer_date;
+            $modelEnrollment->school_admission_date = $currentEnrollment->transfer_date;
             $modelEnrollment->current_enrollment = 1;
 
             if ($modelEnrollment->validate()) {
