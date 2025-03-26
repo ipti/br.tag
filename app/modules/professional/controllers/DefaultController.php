@@ -1,5 +1,6 @@
 <?php
 
+define("YEAR", ":year");
 class DefaultController extends Controller
 {
     /**
@@ -157,8 +158,8 @@ class DefaultController extends Controller
         $currentYear = Yii::app()->user->year;
         $query = Professional::model()->findAll([
             'join' => 'INNER JOIN attendance a ON t.id_professional = a.professional_fk',
-            'condition' => 'YEAR(a.date) = :year',
-            'params' => [':year' => $currentYear],
+            'condition' => 'YEAR(a.date) = ' . YEAR,
+            'params' => [YEAR => $currentYear],
         ]);
 
 
@@ -166,10 +167,9 @@ class DefaultController extends Controller
             'criteria' => [
                 'order' => 'name ASC',
                 "join" => "INNER JOIN attendance a ON t.id_professional = a.professional_fk",
-                'condition' => "YEAR(a.date) = :year AND t.inep_id_fk = :schoolid",
+                'condition' => "YEAR(a.date) = " . YEAR . " AND t.inep_id_fk = :schoolid",
                 "params" => [
-                    ":year" => $currentYear,
-                    ':year' => $currentYear,
+                    YEAR => $currentYear,
                     ':schoolid' => Yii::app()->user->school,
                 ]
 
