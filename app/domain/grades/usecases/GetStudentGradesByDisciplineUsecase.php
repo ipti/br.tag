@@ -105,6 +105,20 @@ class GetStudentGradesByDisciplineUsecase
                 "type" => "UC"
             ];
 
+            /* $classroomGrades = [];
+            foreach ($studentEnrollments as $enrollment) {
+                $classroomGrades[] = $this->getStudentGradeByDicipline(
+                    $enrollment,
+                    $this->disciplineId,
+                    $unitiesByDiscipline,
+                    $unityOrder,
+                    $type,
+                    $semester,
+                    $showSemAvarageColumn,
+                    $rules
+                );
+            } */
+
         }
 
         $partialRecoveryColumns = null;
