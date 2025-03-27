@@ -80,8 +80,8 @@ class AdminController extends Controller
 SELECT
     (SELECT COUNT(*) FROM instructor_identification) AS professores,
     (SELECT COUNT(*) FROM student_identification) AS alunos,
-    (SELECT COUNT(*) FROM users u JOIN auth_assignment aa ON u.id = aa.userid WHERE itemname = 'manager') AS gestores,
-    (SELECT COUNT(*) FROM users u JOIN auth_assignment aa ON u.id = aa.userid WHERE itemname = 'coordinator') AS secretarios
+    (SELECT COUNT(*) FROM users u JOIN auth_assignment aa ON u.id = aa.userid WHERE itemname = 'manager') AS secretarios,
+    (SELECT COUNT(*) FROM users u JOIN auth_assignment aa ON u.id = aa.userid WHERE itemname = 'coordinator') AS 'coordenadores'
 ";
 
         $results = [];
@@ -99,8 +99,8 @@ SELECT
                     "database" => $dbname,
                     "professores" => $result["professores"] ?? 0,
                     "alunos" => $result["alunos"] ?? 0,
-                    "gestores" => $result["gestores"] ?? 0,
-                    "secretarios" => $result["secretarios"] ?? 0
+                    "secretarios" => $result["secretarios"] ?? 0,
+                    "coordenadores" => $result["coordenadores"] ?? 0
                 ];
             } catch (Exception $e) {
                 // $results[] = ["database" => $dbname, "professores" => 'Erro', "alunos" => 'Erro', "gestores" => 'Erro', "secretarios" => $e->getMessage()];
@@ -108,19 +108,19 @@ SELECT
         }
 
         // Exibir os resultados em formato de tabela
-        echo "<table border='1'><tr><th>Database</th><th>Professores</th><th>Alunos</th><th>Gestores</th><th>Secretarios</th></tr>";
+        echo "<table border='1'><tr><th>Database</th><th>Professores</th><th>Alunos</th><th>Secreátios Escolares</th><th>Coordenadores Pedagógicos</th></tr>";
         foreach ($results as $result) {
-            echo "<tr><td>" . $result["database"] . "</td><td>" . $result["professores"] . "</td><td>" . $result["alunos"] . "</td><td>" . $result["gestores"] . "</td><td>" . $result["secretarios"] . "</td></tr>";
+            echo "<tr><td>" . $result["database"] . "</td><td>" . $result["professores"] . "</td><td>" . $result["alunos"] . "</td><td>" . $result["secretarios"] . "</td><td>" . $result["coordenadores"] . "</td></tr>";
         }
         echo "</table>";
 
         // Gerar CSV
         $csv_file = 'resultados.csv';
         $fp = fopen($csv_file, 'w');
-        fputcsv($fp, ['Database', 'Professores', 'Alunos', 'Gestores', 'Secretarios']);
+        fputcsv($fp, ['Database', 'Professores', 'Alunos', 'Secretários Escolares', 'Coordenadores Pedagógicos']);
 
         foreach ($results as $result) {
-            fputcsv($fp, [$result["database"], $result["professores"], $result["alunos"], $result["gestores"], $result["secretarios"]]);
+            fputcsv($fp, [$result["database"], $result["professores"], $result["alunos"], $result["secretarios"], $result["coordenadores"]]);
         }
 
         fclose($fp);
