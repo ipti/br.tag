@@ -105,6 +105,7 @@ SELECT
             } catch (Exception $e) {
                 // $results[] = ["database" => $dbname, "professores" => 'Erro', "alunos" => 'Erro', "gestores" => 'Erro', "secretarios" => $e->getMessage()];
             }
+            
         }
 
         // Exibir os resultados em formato de tabela
