@@ -76,53 +76,56 @@ class AdminController extends Controller
         $ignoredDbs = ["information_schema", "mysql", "performance_schema", "sys"];
         $databases = array_diff($dbList, $ignoredDbs);
 
-        $sql_query = "SELECT \tCASE \t\tAA.itemname WHEN 'instructor' THEN 'Professor' \t\tWHEN 'admin' THEN 'Administrador' \t\tWHEN 'coordinator' THEN 'Coordenador Escolar' \t\tWHEN 'manager' THEN 'Gestor Municipal' \t\tWHEN 'nutricionist' THEN 'Nutricionista' \tEND AS user, \tCOUNT(1) AS quantidade FROM users u JOIN auth_assignment aa ON u.id = aa.userid WHERE itemname IN ('coordinator', 'manager') GROUP BY AA.itemname UNION SELECT 'Professores' AS user, COUNT(1) AS quantidade FROM instructor_identification ii UNION SELECT 'Alunos' AS user, COUNT(1) AS quantidade FROM student_identification si";
+        $sql_query = "
+SELECT
+    (SELECT COUNT(*) FROM instructor_identification) AS professores,
+    (SELECT COUNT(*) FROM student_identification) AS alunos,
+    (SELECT COUNT(*) FROM users u JOIN auth_assignment aa ON u.id = aa.userid WHERE itemname = 'manager') AS gestores,
+    (SELECT COUNT(*) FROM users u JOIN auth_assignment aa ON u.id = aa.userid WHERE itemname = 'coordinator') AS secretarios
+";
 
         $results = [];
 
         foreach ($databases as $dbname) {
             try {
-
-
                 $connection->setActive(false);
                 $connection->connectionString = "mysql:host=$HOST;dbname=$dbname";
                 $connection->setActive(true);
 
                 $command = $connection->createCommand($sql_query);
-                $result = $command->queryAll();
+                $result = $command->queryRow();
 
-                foreach ($result as $row) {
-                    $results[] = [
-                        "database" => $dbname,
-                        "user" => $row["user"] ?? 'N/A',
-                        "quantidade" => $row["quantidade"] ?? 0
-                    ];
-                }
+                $results[] = [
+                    "database" => $dbname,
+                    "professores" => $result["professores"] ?? 0,
+                    "alunos" => $result["alunos"] ?? 0,
+                    "gestores" => $result["gestores"] ?? 0,
+                    "secretarios" => $result["secretarios"] ?? 0
+                ];
             } catch (Exception $e) {
-                $results[] = ["database" => $dbname, "user" => 'Erro', "quantidade" => $e->getMessage()];
+                // $results[] = ["database" => $dbname, "professores" => 'Erro', "alunos" => 'Erro', "gestores" => 'Erro', "secretarios" => $e->getMessage()];
             }
         }
 
         // Exibir os resultados em formato de tabela
-        echo "<table border='1'><tr><th>Database</th><th>User</th><th>Quantidade</th></tr>";
+        echo "<table border='1'><tr><th>Database</th><th>Professores</th><th>Alunos</th><th>Gestores</th><th>Secretarios</th></tr>";
         foreach ($results as $result) {
-            echo "<tr><td>" . $result["database"] . "</td><td>" . $result["user"] . "</td><td>" . $result["quantidade"] . "</td></tr>";
+            echo "<tr><td>" . $result["database"] . "</td><td>" . $result["professores"] . "</td><td>" . $result["alunos"] . "</td><td>" . $result["gestores"] . "</td><td>" . $result["secretarios"] . "</td></tr>";
         }
         echo "</table>";
 
         // Gerar CSV
         $csv_file = 'resultados.csv';
         $fp = fopen($csv_file, 'w');
-        fputcsv($fp, ['Database', 'User', 'Quantidade']);
+        fputcsv($fp, ['Database', 'Professores', 'Alunos', 'Gestores', 'Secretarios']);
 
         foreach ($results as $result) {
-            fputcsv($fp, [$result["database"], $result["user"], $result["quantidade"]]);
+            fputcsv($fp, [$result["database"], $result["professores"], $result["alunos"], $result["gestores"], $result["secretarios"]]);
         }
 
         fclose($fp);
 
         echo "<p><a href='$csv_file' download>Baixar CSV</a></p>";
-
 
     }
 
