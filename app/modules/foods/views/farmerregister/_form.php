@@ -116,7 +116,7 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
         <div class="column clearleft t-margin-none--bottom t-field-text is-one-tenth">
             <?php echo $form->label($modelFarmerFoods,'amount', array('class' => 't-field-text__label--required')); ?>
-            <?php echo $form->textField($modelFarmerFoods,'amount', array('id' => 'amount','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
+            <?php echo $form->textField($modelFarmerFoods,'amount', array('id' => 'amount','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input', 'placeholder' => 'Informe')); ?>
             <?php echo $form->error($modelFarmerFoods,'amount'); ?>
         </div>
         <div class="column clearleft t-margin-none--bottom t-field-text is-one-tenth">

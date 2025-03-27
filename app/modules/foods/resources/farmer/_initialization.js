@@ -145,6 +145,8 @@ $(document).on("change", "#foodNotice", function () {
 
         console.log(foodNoticeItems);
 
+        $('#foodSelect').html('<option value="alimento">Selecione o Alimento</option>').trigger('change');
+
         Object.entries(foodNoticeItems).forEach(function([id, value]) {
             let foodId = value.foodId + ',' + value.measurementUnit;
             $('#foodSelect').append($('<option>', {
@@ -177,7 +179,7 @@ $(document).on("click", "#js-add-food", function () {
         }
         renderFoodsTable(foodsRelation);
 
-        $('#measurementUnit').val('selecione').trigger("change");
+        $('#measurementUnit').val(null).trigger('change');
         $('#amount').val("");
     } else {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
