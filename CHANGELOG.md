@@ -1,3 +1,6 @@
+## [Versão 3.101.229]
+- Alterada data máxima de nascimento do aluno para 30/08/2024
+
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
 
