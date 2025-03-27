@@ -17,10 +17,28 @@ class AdminController extends Controller
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-                    'import', 'export', 'update', 'manageUsers', 'acl', 'backup', 'data', 'exportStudentIdentify', 'syncExport',
-                    'syncImport', 'exportToMaster', 'exportStudents', 'exportGrades', 'exportFaults', 'clearMaster', 'importFromMaster',
-                    'gradesStructure', 'indexGradesStructure', 'instanceConfig', 'editInstanceConfigs'
-                ], 'users' => ['@'],
+                    'import',
+                    'export',
+                    'update',
+                    'manageUsers',
+                    'acl',
+                    'backup',
+                    'data',
+                    'exportStudentIdentify',
+                    'syncExport',
+                    'syncImport',
+                    'exportToMaster',
+                    'exportStudents',
+                    'exportGrades',
+                    'exportFaults',
+                    'clearMaster',
+                    'importFromMaster',
+                    'gradesStructure',
+                    'indexGradesStructure',
+                    'instanceConfig',
+                    'editInstanceConfigs'
+                ],
+                'users' => ['@'],
             ],
         ];
     }
@@ -36,6 +54,76 @@ class AdminController extends Controller
     public function actionExports()
     {
         $this->render('exports');
+    }
+
+    public function actionExportCountUsers()
+    {
+        $HOST = getenv("HOST_DB_TAG");
+        $USER = getenv("USER_DB_TAG");
+        $PWD = getenv("PWD_DB_TAG");
+
+        $connection = Yii::app()->db;
+        $connection->setActive(false);
+        $connection->connectionString = "mysql:host=$HOST;";
+        $connection->setActive(true);
+
+        // Obter lista de bancos de dados
+        $databases = [];
+        $command = $connection->createCommand("SHOW DATABASES");
+        $dbList = $command->queryColumn();
+
+        // Remover bancos de sistema
+        $ignoredDbs = ["information_schema", "mysql", "performance_schema", "sys"];
+        $databases = array_diff($dbList, $ignoredDbs);
+
+        $sql_query = "SELECT \tCASE \t\tAA.itemname WHEN 'instructor' THEN 'Professor' \t\tWHEN 'admin' THEN 'Administrador' \t\tWHEN 'coordinator' THEN 'Coordenador Escolar' \t\tWHEN 'manager' THEN 'Gestor Municipal' \t\tWHEN 'nutricionist' THEN 'Nutricionista' \tEND AS user, \tCOUNT(1) AS quantidade FROM users u JOIN auth_assignment aa ON u.id = aa.userid WHERE itemname IN ('coordinator', 'manager') GROUP BY AA.itemname UNION SELECT 'Professores' AS user, COUNT(1) AS quantidade FROM instructor_identification ii UNION SELECT 'Alunos' AS user, COUNT(1) AS quantidade FROM student_identification si";
+
+        $results = [];
+
+        foreach ($databases as $dbname) {
+            try {
+
+
+                $connection->setActive(false);
+                $connection->connectionString = "mysql:host=$HOST;dbname=$dbname";
+                $connection->setActive(true);
+
+                $command = $connection->createCommand($sql_query);
+                $result = $command->queryAll();
+
+                foreach ($result as $row) {
+                    $results[] = [
+                        "database" => $dbname,
+                        "user" => $row["user"] ?? 'N/A',
+                        "quantidade" => $row["quantidade"] ?? 0
+                    ];
+                }
+            } catch (Exception $e) {
+                $results[] = ["database" => $dbname, "user" => 'Erro', "quantidade" => $e->getMessage()];
+            }
+        }
+
+        // Exibir os resultados em formato de tabela
+        echo "<table border='1'><tr><th>Database</th><th>User</th><th>Quantidade</th></tr>";
+        foreach ($results as $result) {
+            echo "<tr><td>" . $result["database"] . "</td><td>" . $result["user"] . "</td><td>" . $result["quantidade"] . "</td></tr>";
+        }
+        echo "</table>";
+
+        // Gerar CSV
+        $csv_file = 'resultados.csv';
+        $fp = fopen($csv_file, 'w');
+        fputcsv($fp, ['Database', 'User', 'Quantidade']);
+
+        foreach ($results as $result) {
+            fputcsv($fp, [$result["database"], $result["user"], $result["quantidade"]]);
+        }
+
+        fclose($fp);
+
+        echo "<p><a href='$csv_file' download>Baixar CSV</a></p>";
+
+
     }
 
     public function actionExportMaster()
@@ -114,8 +202,8 @@ class AdminController extends Controller
 
         $result = Yii::app()->db->createCommand($sql)->queryAll();
 
-        foreach($result as &$r) {
-            switch($r["cor_raca"]) {
+        foreach ($result as &$r) {
+            switch ($r["cor_raca"]) {
                 case "0":
                 default:
                     $r["cor_raca"] = "Não declarada";
@@ -189,18 +277,18 @@ class AdminController extends Controller
             if ($classroom->calendar_fk != null) {
 
                 $dates = Yii::app()->db->createCommand("select start_date, end_date from calendar join classroom on calendar.id = classroom.calendar_fk where classroom.id = " . $classroom->id)->queryRow();
-                $start    = (new DateTime($dates["start_date"]))->modify('first day of this month');
-                $end      = (new DateTime($dates["end_date"]))->modify('first day of next month');
+                $start = (new DateTime($dates["start_date"]))->modify('first day of this month');
+                $end = (new DateTime($dates["end_date"]))->modify('first day of next month');
                 $interval = DateInterval::createFromDateString('1 month');
-                $period   = new DatePeriod($start, $interval, $end);
+                $period = new DatePeriod($start, $interval, $end);
                 $months = [];
                 foreach ($period as $dt) {
                     array_push($months, $dt->format("m/Y"));
                 }
 
-                foreach($classroom->studentEnrollments as $studentEnrollment) {
+                foreach ($classroom->studentEnrollments as $studentEnrollment) {
                     $usedDaysForMinorEducation = [];
-                    foreach($months as $month) {
+                    foreach ($months as $month) {
                         $studentIdentification = $studentEnrollment->studentFk;
                         $row["inep_aluno"] = $studentIdentification->inep_id;
                         $row["nome_aluno"] = $studentIdentification->name;
@@ -208,7 +296,7 @@ class AdminController extends Controller
                         $row["mes"] = $month;
                         $row["total_faltas"] = 0;
                         $classFaults = ClassFaults::model()->findAllBySql("select cf.* from class_faults cf join schedule s on s.id = cf.schedule_fk where s.classroom_fk = :classroom_fk and cf.student_fk = :student_fk", ["classroom_fk" => $classroom->id, "student_fk" => $studentIdentification->id]);
-                        foreach($classFaults as $classFault) {
+                        foreach ($classFaults as $classFault) {
                             $schedule = $classFault->scheduleFk;
                             if ($month == str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "/" . $schedule->year) {
                                 if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
@@ -304,9 +392,11 @@ class AdminController extends Controller
             $importModel->saveSchoolStructureDB($dataDecoded['school_structure']);
             $importModel->saveClassroomsDB($dataDecoded['classrooms']);
 
-            $importModel->saveInstructorDataDB($dataDecoded['instructor_identification'],
+            $importModel->saveInstructorDataDB(
+                $dataDecoded['instructor_identification'],
                 $dataDecoded['instructor_documents_and_address'],
-                $dataDecoded['instructor_variable_data']);
+                $dataDecoded['instructor_variable_data']
+            );
             $importModel->saveInstructorsTeachingDataDB($dataDecoded['instructor_teaching_data']);
             $importModel->saveTeachingMatrixes($dataDecoded['teaching_matrixes']);
 
@@ -337,8 +427,7 @@ class AdminController extends Controller
             ]
         );
         if (isset($_POST['Users'])) {
-            if(!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader')
-            {
+            if (!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader') {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'É necessário atribuir uma escola para o novo usuário criado!'));
                 $this->redirect(['index']);
             }
@@ -377,15 +466,18 @@ class AdminController extends Controller
                 $this->redirect(['index']);
             }
         }
-        $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk' => null],
-            ['select' => 'id, name']);
+        $instructors = InstructorIdentification::model()->findAllByAttributes(
+            ['users_fk' => null],
+            ['select' => 'id, name']
+        );
         $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
             return $carry;
         }, []);
         $this->render('createUser', ['model' => $model, 'instructors' => $instructorsResult]);
     }
-    public function actionIndexGradesStructure() {
+    public function actionIndexGradesStructure()
+    {
         $dataProvider = GradeRules::model()->search();
         $dataProvider->pagination = false;
 
@@ -456,7 +548,7 @@ class AdminController extends Controller
                 $grade_rules_id
             );
 
-            $stageIds = Yii::app()->db->createCommand("
+        $stageIds = Yii::app()->db->createCommand("
             SELECT DISTINCT esvm.id
             FROM
                 edcenso_stage_vs_modality esvm
@@ -469,15 +561,15 @@ class AdminController extends Controller
             ORDER BY
                 esvm.name
         ")
-        ->bindParam(':grade_rule', $grade_rules_id)
-        ->queryColumn();
+            ->bindParam(':grade_rule', $grade_rules_id)
+            ->queryColumn();
         $result["edcenso_stage_vs_modality_fk"] = $stageIds;
         $result["approvalMedia"] = $gradeRules->approvation_media;
         $result["finalRecoverMedia"] = $gradeRules->final_recover_media;
         $result["mediaCalculation"] = $gradeRules->grade_calculation_fk;
         $result["ruleType"] = $gradeRules->rule_type;
         $result["ruleName"] = $gradeRules->name;
-        $result["hasFinalRecovery"] = (bool)$gradeRules->has_final_recovery;
+        $result["hasFinalRecovery"] = (bool) $gradeRules->has_final_recovery;
 
         $result["partialRecoveries"] = [];
 
@@ -492,7 +584,8 @@ class AdminController extends Controller
             if ($partialRecovery->gradeCalculationFk->name == "Peso") {
                 $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk" => $partialRecovery->id]);
                 foreach ($gradeRecoveryWeights as $weight) {
-                    array_push($resultPartialRecovery["weights"],
+                    array_push(
+                        $resultPartialRecovery["weights"],
                         [
                             "id" => $weight["id"],
                             "unity_fk" => $weight["unity_fk"],
@@ -520,22 +613,23 @@ class AdminController extends Controller
             $resultPartialRecovery["grade_calculation_fk"] = $partialRecovery->grade_calculation_fk;
             $resultPartialRecovery["semester"] = $partialRecovery->semester;
             $resultPartialRecovery["weights"] = [];
-            if($partialRecovery->gradeCalculationFk->name == "Peso") {
-                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk"=>$partialRecovery->id]);
-                foreach($gradeRecoveryWeights as $weight){
-                    array_push($resultPartialRecovery["weights"],
-                    [
-                     "id" => $weight["id"],
-                     "unity_fk" => $weight["unity_fk"],
-                     "weight" => $weight["weight"],
-                     "name" => $weight["unity_fk"] !== null ? $weight->unityFk->name : 'recuperação'
-                     ]
+            if ($partialRecovery->gradeCalculationFk->name == "Peso") {
+                $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(["partial_recovery_fk" => $partialRecovery->id]);
+                foreach ($gradeRecoveryWeights as $weight) {
+                    array_push(
+                        $resultPartialRecovery["weights"],
+                        [
+                            "id" => $weight["id"],
+                            "unity_fk" => $weight["unity_fk"],
+                            "weight" => $weight["weight"],
+                            "name" => $weight["unity_fk"] !== null ? $weight->unityFk->name : 'recuperação'
+                        ]
                     );
                 }
             }
 
             $unities = GradeUnity::model()->findAllByAttributes(array('parcial_recovery_fk' => $partialRecovery->id));
-            $resultPartialRecovery["unities"]  = $unities;
+            $resultPartialRecovery["unities"] = $unities;
 
             array_push($result["partialRecoveries"], $resultPartialRecovery);
         }
@@ -578,7 +672,7 @@ class AdminController extends Controller
                 $hasPartialRecovery,
                 $partialRecoveries
             );
-           $gradeRules = $usecase->exec();
+            $gradeRules = $usecase->exec();
 
             if ($hasFinalRecovery === true) {
 
@@ -596,7 +690,7 @@ class AdminController extends Controller
 
                 $gradeCalculation = GradeCalculation::model()->findByPk($finalRecovery["grade_calculation_fk"]);
 
-                if($gradeCalculation->name === "Peso"){
+                if ($gradeCalculation->name === "Peso") {
                     $recoveryUnity->weight_final_media = $finalRecovery["WeightfinalMedia"];
                     $recoveryUnity->weight_final_recovery = $finalRecovery["WeightfinalRecovery"];
                 }
@@ -609,20 +703,20 @@ class AdminController extends Controller
                 $recoveryUnity->save();
 
 
-                    $modalityModel = GradeUnityModality::model()->findByAttributes(["grade_unity_fk"=>$recoveryUnity->id]);
-                    if ($modalityModel == null) {
-                        $modalityModel = new GradeUnityModality();
-                    }
-                    $modalityModel->name = "Avaliação/Prova";
-                    $modalityModel->type = "R";
-                    $modalityModel->weight = null;
-                    $modalityModel->grade_unity_fk = $recoveryUnity->id;
+                $modalityModel = GradeUnityModality::model()->findByAttributes(["grade_unity_fk" => $recoveryUnity->id]);
+                if ($modalityModel == null) {
+                    $modalityModel = new GradeUnityModality();
+                }
+                $modalityModel->name = "Avaliação/Prova";
+                $modalityModel->type = "R";
+                $modalityModel->weight = null;
+                $modalityModel->grade_unity_fk = $recoveryUnity->id;
 
-                    if (!$modalityModel->validate()) {
-                        throw new CantSaveGradeUnityModalityException($modalityModel);
-                    }
+                if (!$modalityModel->validate()) {
+                    throw new CantSaveGradeUnityModalityException($modalityModel);
+                }
 
-                    $modalityModel->save();
+                $modalityModel->save();
 
             } elseif ($hasFinalRecovery === false && $finalRecovery["operation"] === "delete" && $gradeRules->rule_type === "N") {
                 $recoveryUnity = GradeUnity::model()->find('id = :id', array(':id' => $finalRecovery["id"]));
