@@ -28,10 +28,10 @@ $(document).ready(function() {
         Object.entries(foods_description).forEach(function([id, value]) {
             let description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
             value = id + ',' + value.measurementUnit + ','+ value.category;
-            foodSelect.append($('<option>', {
-                value: value,
-                text: description
-            }));
+            // foodSelect.append($('<option>', {
+            //     value: value,
+            //     text: description
+            // }));
             searchByFoodSelect.append($('<option>', {
                 value: value,
                 text: description
@@ -197,6 +197,32 @@ $(document).on("click", "#js-add-food", function () {
     } else {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
     }
+});
+
+$(document).on("change", "#foodNotice", function () {
+    let $notice = $(this).val();
+
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodrequest/getFoodNoticeItems",
+        cache: false,
+        data: {
+            notice: $notice,
+        }
+    }).success(function(response) {
+        let data = DOMPurify.sanitize(response);
+        let foodNoticeItems = JSON.parse(data);
+
+        $('#foodSelect').html('<option value="alimento">Selecione o Alimento</option>').trigger('change');
+
+        Object.entries(foodNoticeItems).forEach(function([id, value]) {
+            let foodId = value.foodId + ',' + value.measurementUnit;
+            $('#foodSelect').append($('<option>', {
+                value: foodId,
+                text: value.foodName
+            }));
+        });
+    });
 });
 
 $(document).on("change", "#foodSelect", function () {

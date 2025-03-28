@@ -143,8 +143,6 @@ $(document).on("change", "#foodNotice", function () {
         let data = DOMPurify.sanitize(response);
         let foodNoticeItems = JSON.parse(data);
 
-        console.log(foodNoticeItems);
-
         $('#foodSelect').html('<option value="alimento">Selecione o Alimento</option>').trigger('change');
 
         Object.entries(foodNoticeItems).forEach(function([id, value]) {

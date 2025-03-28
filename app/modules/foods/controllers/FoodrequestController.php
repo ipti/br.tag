@@ -15,7 +15,8 @@ class FoodrequestController extends Controller
                     'getFarmerRegister',
                     'getFoodAlias',
                     'getFarmerFoods',
-                    'getFoodNotice'
+                    'getFoodNotice',
+                    'getFoodNoticeItems',
                 ),
                 'users' => array('*'),
             ),
@@ -74,6 +75,29 @@ class FoodrequestController extends Controller
             $values[$notice->id] = (object) [
                 'name' => $notice->name
             ];
+        }
+
+        echo json_encode($values);
+    }
+
+    public function actionGetFoodNoticeItems() {
+        $notice = Yii::app()->request->getPost('notice');
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.foodNotice_fk = :notice';
+        $criteria->params = array(':notice' => $notice);
+        $criteria->with = array('food');
+
+        $foodNoticeItems =  FoodNoticeItem::model()->findAll($criteria);
+
+        $values = [];
+        foreach ($foodNoticeItems as $item) {
+            $values[] = array(
+                'id' => $item->id,
+                'foodId' => $item->food_id,
+                'foodName' => $item->name,
+                'measurementUnit' => $item->food->measurementUnit,
+            );
         }
 
         echo json_encode($values);
