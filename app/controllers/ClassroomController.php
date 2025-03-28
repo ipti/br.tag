@@ -982,6 +982,7 @@ class ClassroomController extends Controller
         if ($ableToDelete) {
             try {
                 $enrollments = StudentEnrollment::model()->findAllByAttributes(array("classroom_fk" => $classroom->id));
+                $graderules =  ClassroomVsGradeRules::model()->findAllByAttributes(array("classroom_fk"=>$classroom->id));
 
                 if (count($enrollments) > 0) {
                     throw new Exception("Não foi possível excluir a turma porque existem alunos matriculados.");
@@ -989,6 +990,10 @@ class ClassroomController extends Controller
 
                 if (count($teachingDatas) > 0) {
                     throw new Exception("Não se pode remover turma com professores vinculados.");
+                }
+
+                if(count( $graderules)  > 0){
+                    throw new Exception("Não se pode remover turma com estruturas vinculadas.");
                 }
 
                 foreach ($teachingDatas as $teachingData) {

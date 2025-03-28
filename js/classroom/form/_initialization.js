@@ -53,6 +53,9 @@ $(function () {
             });
 
             // Adicionar opções disponíveis (não selecionadas)
+            $("#gradeRules").append(
+                `<option value="">Selecione a Regra de Avaliação</option>`
+            );
             data.available.forEach(option => {
                 $("#gradeRules").append(
                     `<option value="${option.id}">${option.name}</option>`
