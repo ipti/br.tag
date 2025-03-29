@@ -581,7 +581,6 @@ return array(
     'Student Entry Form' => 'Forma de ingresso (apenas para escolas federais)',
     'Current stage situation' => 'Situação na série/etapa atual',
     'Previous stage situation' => 'Situação no ano anterior',
-    'School admission date' => 'Data de matrícula',
     'Admission type' => 'Tipo de ingresso',
     'Status' => 'Situação da matrícula',
     'The student is already enrolled this year' => 'O aluno já está matrículado no corrente ano',

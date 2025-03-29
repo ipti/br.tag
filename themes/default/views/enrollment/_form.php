@@ -228,10 +228,10 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column">
                             <div class="t-field-text">
-                                <?php echo $form->label($model, 'school_admission_date', array('class' => 't-field-text__label--required')); ?>
+                                <?php echo $form->label($model, 'enrollment_date', array('class' => 't-field-text__label--required')); ?>
                                 <?php
-                                    $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($model, 'school_admission_date'));
-                                    echo $form->error($model, 'school_admission_date');
+                                    $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($model, 'enrollment_date'));
+                                    echo $form->error($model, 'enrollment_date');
                                 ?>
                             </div>
 
