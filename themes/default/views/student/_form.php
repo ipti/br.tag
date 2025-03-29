@@ -1845,9 +1845,9 @@ $form = $this->beginWidget(
             <!--  Data de ingresso na escola -->
             <div class="column clearleft is-two-fifths">
             <div class="t-field-text js-hide-not-required" id="ticketDate">
-                <?php echo $form->label($modelEnrollment, 'school_admission_date', array('class' => 't-field-text__label')); ?>
-                <?php echo $form->textField($modelEnrollment, 'school_admission_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
-                <?php echo $form->error($modelEnrollment, 'school_admission_date'); ?>
+                <?php echo $form->label($modelEnrollment, 'enrollment_date', array('class' => 't-field-text__label')); ?>
+                <?php echo $form->textField($modelEnrollment, 'enrollment_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                <?php echo $form->error($modelEnrollment, 'enrollment_date'); ?>
               </div>
             </div>
             <!-- Situação na série/etapa atual -->
