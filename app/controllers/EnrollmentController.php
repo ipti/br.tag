@@ -247,7 +247,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 $model->attributes = $_POST['StudentEnrollment'];
                 $model->enrollment_date = DateTime::createFromFormat("d/m/Y", $model->enrollment_date);
                 $model->enrollment_date = $model->enrollment_date->format('Y-m-d');
-                $model->enrollment_date = $model->enrollment_date;
                 $model->school_inep_id_fk = Classroom::model()->findByPk([$_POST['StudentEnrollment']["classroom_fk"]])->school_inep_fk;
                 if ($model->validate()) {
 
