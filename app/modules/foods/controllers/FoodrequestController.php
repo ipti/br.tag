@@ -11,12 +11,12 @@ class FoodrequestController extends Controller
                     'index',
                     'view',
                     'getFoodRequest',
-                    'updateRequestStatus',
                     'getFarmerRegister',
                     'getFoodAlias',
                     'getFarmerFoods',
                     'getFoodNotice',
                     'getFoodNoticeItems',
+                    'updateReceivedFoods',
                 ),
                 'users' => array('*'),
             ),
@@ -160,7 +160,7 @@ class FoodrequestController extends Controller
         return true;
     }
 
-    public function actionUpdateRequestStatus() {
+    public function actionUpdateReceivedFoods() {
         $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
 
         if(!$authHeader) {
@@ -172,21 +172,22 @@ class FoodrequestController extends Controller
             echo json_encode(['error' => 'token nao autorizado']);
             Yii::app()->end();
         }
-        $requestId = Yii::app()->request->getPost('requestId');
+        $referenceId = Yii::app()->request->getPost('requestId');
         $foodId = Yii::app()->request->getPost('foodId');
         $amount = Yii::app()->request->getPost('amount');
         $measurementUnit = Yii::app()->request->getPost('measurementUnit');
         $farmerCpf = Yii::app()->request->getPost('farmerCpf');
 
         $criteria = new CDbCriteria();
-        $criteria->condition = 't.id = :id';
-        $criteria->params = array(':id' => $requestId);
+        $criteria->condition = 't.reference_id = :reference_id';
+        $criteria->params = array(':reference_id' => $referenceId);
 
         $request = FoodRequest::model()->find($criteria);
         if(!$request) {
             echo json_encode(['error' => 'Nao foi possivel encontrar uma solicitacao com esse id']);
             Yii::app()->end();
         }
+        $requestId = $request->id;
         $itemSaveStatus = $this->saveItemsReceived($requestId, $foodId, $farmerCpf, $amount, $measurementUnit);
         $requestIsFinished = $this->checkItemsReceived($requestId);
 
@@ -213,27 +214,17 @@ class FoodrequestController extends Controller
     }
 
     private function saveItemsReceived($requestId, $foodId, $farmerCpf, $amount, $measurementUnit) {
-        $existingItems = FoodRequestItemReceived::model()->findByAttributes(array('food_fk'=>$foodId, 'food_request_fk'=>$requestId));
         $farmer = FarmerRegister::model()->findByAttributes(array('cpf'=>$farmerCpf));
         $message = "Erro";
 
-        if(!$existingItems) {
-            $itemsReceived = new FoodRequestItemReceived();
-            $itemsReceived->food_fk = $foodId;
-            $itemsReceived->farmer_fk = $farmer->id;
-            $itemsReceived->food_request_fk = $requestId;
-            $itemsReceived->amount = $amount;
-            $itemsReceived->measurementUnit = $measurementUnit;
-            if($itemsReceived->save()) {
-                $message = "Item salvo";
-            }
-            return $message;
-        }
-        $existingItems->farmer_fk = $farmer->id;
-        $existingItems->amount += $amount;
-        $existingItems->measurementUnit = $measurementUnit;
-        if($existingItems->save()) {
-            $message = "Item atualizado";
+        $itemsReceived = new FoodRequestItemReceived();
+        $itemsReceived->food_fk = $foodId;
+        $itemsReceived->farmer_fk = $farmer->id;
+        $itemsReceived->food_request_fk = $requestId;
+        $itemsReceived->amount = $amount;
+        $itemsReceived->measurementUnit = $measurementUnit;
+        if($itemsReceived->save()) {
+            $message = "Item salvo";
         }
         return $message;
     }
@@ -249,7 +240,7 @@ class FoodrequestController extends Controller
             array('order' => 'food_fk ASC')
         );
 
-        if ((!empty($itemsReceived) && !empty($items)) && sizeOf($items) == sizeOf($itemsReceived)) {
+        if ((!empty($itemsReceived) && !empty($items))) {
             for($i = 0; $i < sizeOf($items); $i++) {
                 if($items[$i]->amount != $itemsReceived[$i]->amount && $items[$i]->measurementUnit != $itemsReceived[$i]->measurementUnit) {
                     return false;
