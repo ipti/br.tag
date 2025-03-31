@@ -842,7 +842,7 @@ class SagresConsultModel
     {
 
         $seriesList = [];
-        $edsensoCodes = [
+        $edcensoCodes = [
             1 => "INF1",
             2 => "INF2",
             14 => "FUN1",
@@ -864,7 +864,7 @@ class SagresConsultModel
             $serieType = new SerieTType();
             $edcensoCode = $serie->edcensoCode;
 
-            $idSerie = $this->getSerieID($serie, $edcensoCode, $edsensoCodes);
+            $idSerie = $this->getSerieID($serie, $edcensoCode, $edcensoCodes);
 
             if ($this->isIssetSerieId($idSerie, $schoolName, $serie)) {
                 continue;
@@ -872,7 +872,7 @@ class SagresConsultModel
 
             $serieType->setIdSerie($idSerie);
 
-            $this->getSerieValidation($serieType, $schoolName, $classId);
+            $this->getSerieValidation($serieType, $schoolName, $classId, $edcensoCode, $edcensoCodes);
 
 
             $matriculas = $this->getEnrollments($classId, $referenceYear, $finalClass, $inepId, $withoutCpf);
@@ -945,14 +945,14 @@ class SagresConsultModel
         }
     }
 
-    private function getSerieID($serie, $edcensoCode, $edsensoCodes): string|null
+    private function getSerieID($serie, $edcensoCode, $edcensoCodes): string|null
     {
         if ((int) $serie->complementaryActivity === 1 && (int) $serie->schooling === 0) {
             return "COM1";
         } elseif ((int) $serie->aee === 1 || (int) $edcensoCode == 75) {
             return "AEE1";
         } else {
-            return $edsensoCodes[(int) $edcensoCode];
+            return $edcensoCodes[(int) $edcensoCode];
         }
     }
 
@@ -968,7 +968,7 @@ class SagresConsultModel
         return $response;
     }
 
-    private function getSerieValidation($serieType, $schoolName, $classId): void
+    private function getSerieValidation($serieType, $schoolName, $classId, $edcensoCode, $edcensoCodes): void
     {
 
 
@@ -978,6 +978,17 @@ class SagresConsultModel
             $inconsistencyModel->school = $schoolName;
             $inconsistencyModel->description = 'Não há série para a escola: ' . $schoolName;
             $inconsistencyModel->action = 'Adicione uma série para a turma';
+            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->idClass = $classId;
+            $inconsistencyModel->insert();
+        }
+
+        if (!isset($edcensoCodes[$edcensoCode])) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = SERIE_STRONG;
+            $inconsistencyModel->school = $schoolName;
+            $inconsistencyModel->description = 'Etapa do edcenso para a turma ' . "está incorreta";
+            $inconsistencyModel->action = 'Associe uma etapa válida';
             $inconsistencyModel->identifier = '10';
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
