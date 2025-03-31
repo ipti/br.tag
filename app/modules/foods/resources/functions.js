@@ -3,10 +3,12 @@ $(".js-save-menu").on("click", function () {
     const erros = []
     form.find(':input[required]').each(function () {
         if (!this.validity.valid && !this.classList.contains('js-ignore-validation')) {
-            if(!erros.includes(this.name))
-            erros.push(this.name)
+            if (!erros.includes(this.name)) {
+                erros.push(this.name);
+            }
         }
     });
+
     if(erros.length === 0 ) {
         let foodMenu = {
             "description": "",
@@ -15,6 +17,7 @@ $(".js-save-menu").on("click", function () {
             "start_date": "",
             "final_date": "",
             "include_saturday": "",
+            "stages": "",
             "sunday" :{
                 "meals":[]
             },
@@ -45,6 +48,7 @@ $(".js-save-menu").on("click", function () {
         foodMenu.week = $('select.js-week').val()
         foodMenu.observation = $('.js-observation').val()
         foodMenu.include_saturday = $('.js-include-saturday').is(':checked') ? 1 : 0
+        foodMenu.stages = $(".js-stage-select").select2("val");
 
         //get meals
         foodMenu.sunday = getMealsByDay(0)
@@ -57,7 +61,7 @@ $(".js-save-menu").on("click", function () {
             foodMenu.saturday = getMealsByDay(6)
         }
 
-        //console.log(foodMenu)
+        // console.log(foodMenu)
         if(menuId)
         {
             $.ajax({
@@ -198,7 +202,7 @@ function showErros(erros) {
             }
             return accumulator + `O campo <b>${item.field}</b> em uma refeição <b>sem tipo selecionado</b> na <b>${days[item.day]}</b> é obrigatório<br>`
          }
-        return accumulator + `O campo <b>${item.field}</b> é obrigatório<br>`;
+        return accumulator + `O campo <b>${item.field.replace(/\[\]$/, '')}</b> é obrigatório<br>`;
     }, '');
     menuError.html(message)
     menuError.show()

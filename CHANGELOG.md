@@ -1,3 +1,7 @@
+## [Versão 3.102.228]
+- Adicionado campo etapas de ensino no formulário de cardápio
+- Adicionado etapas de ensino no relatório de cardápio
+
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
 

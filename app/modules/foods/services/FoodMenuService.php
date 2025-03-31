@@ -183,30 +183,35 @@ class FoodMenuService
             $portion =  $value * $item["amount"];
 
             $measure =  $isUnit ? $item["measurement_for_unit"] : $item["measure"];
-            if($measure == "g" ||  $measure == 'ml'){
-                $kcal += ($item["energy_kcal"] * $portion/100);
-                $calTotal += ($item["carbohydrate_g"] * $portion/100);
-                $ptnTotal += ($item["protein_g"] * $portion/100);
-                $lpdTotal += ($item["lipidius_g"] * $portion/100);
-            }  elseif ($measure == "Kg" ||  $measure == "L") {
-                $kgTog = $portion*1000;
-                $kcal += ($item["energy_kcal"] * $kgTog/100);
-                $calTotal += ($item["carbohydrate_g"] * $kgTog/100);
-                $ptnTotal += ($item["protein_g"] * $kgTog/100);
-                $lpdTotal += ($item["lipidius_g"] * $kgTog/100);
+            if ($measure == "g" || $measure == 'ml') {
+                $kcal += (is_numeric($item["energy_kcal"]) ? $item["energy_kcal"] : 0) * $portion / 100;
+                $calTotal += (is_numeric($item["carbohydrate_g"]) ? $item["carbohydrate_g"] : 0) * $portion / 100;
+                $ptnTotal += (is_numeric($item["protein_g"]) ? $item["protein_g"] : 0) * $portion / 100;
+                $lpdTotal += (is_numeric($item["lipidius_g"]) ? $item["lipidius_g"] : 0) * $portion / 100;
+            } elseif ($measure == "Kg" || $measure == "L") {
+                $kgTog = $portion * 1000;
+                $kcal += (is_numeric($item["energy_kcal"]) ? $item["energy_kcal"] : 0) * $kgTog / 100;
+                $calTotal += (is_numeric($item["carbohydrate_g"]) ? $item["carbohydrate_g"] : 0) * $kgTog / 100;
+                $ptnTotal += (is_numeric($item["protein_g"]) ? $item["protein_g"] : 0) * $kgTog / 100;
+                $lpdTotal += (is_numeric($item["lipidius_g"]) ? $item["lipidius_g"] : 0) * $kgTog / 100;
             }
+
+
         }
 
         $kcalAverage = $kcal / $daysOFWeek;
 
         $calAverage = $calTotal / $daysOFWeek;
-        $calpct = (($calAverage * 4) * 100) / $kcalAverage;
-
         $ptnAvarage = $ptnTotal / $daysOFWeek;
-        $ptnpct = (($ptnAvarage * 4) * 100) / $kcalAverage;
-
         $lpdAvarage = $lpdTotal / $daysOFWeek;
-        $lpdpct = (($lpdAvarage * 9) * 100) / $kcalAverage;
+
+        if ($kcalAverage != 0) {
+            $calpct = (($calAverage * 4) * 100) / $kcalAverage;
+            $ptnpct = (($ptnAvarage * 4) * 100) / $kcalAverage;
+            $lpdpct = (($lpdAvarage * 9) * 100) / $kcalAverage;
+        } else {
+            $calpct = $ptnpct = $lpdpct = 0;
+        }
 
         $result["kcalAverage"] = round($kcalAverage);
 
@@ -242,7 +247,12 @@ class FoodMenuService
                 $modelMeals = FoodMenuMeal::model()->findAllByAttributes(array("food_menuId" => $modelFoodMenu->id));
                 $publicTargetFoodMenu = FoodMenuVsFoodPublicTarget::model()->findByAttributes(array("food_menu_fk" => $modelFoodMenu->id));
                 $publicTarget = FoodPublicTarget::model()->findByPk($publicTargetFoodMenu->food_public_target_fk);
-                $foodMenu->setDayMeals($day, $modelMeals, $publicTarget);
+                $stages = [];
+                $stagesFoodMenu = FoodMenuVsEdcensoStageVsModality::model()->findAllByAttributes(array("food_menu_fk" => $modelFoodMenu->id));
+                foreach($stagesFoodMenu as $stage) {
+                    $stages[] = $stage["edcenso_stage_vs_modality_fk"];
+                }
+                $foodMenu->setDayMeals($day, $modelMeals, $publicTarget, $stages);
             }
         }
         return $foodMenu;
@@ -378,13 +388,13 @@ class FoodMenuObject
         $this->finalDate = $finalDate->format("d/m/Y");
     }
 
-    public function setDayMeals($day, $modelMeals, $publicTarget)
+    public function setDayMeals($day, $modelMeals, $publicTarget, $stages = null)
     {
         foreach ($modelMeals as $modelMeal) {
             if ($modelMeal->$day) {
                 $modelComponents = FoodMenuMealComponent::model()->findAllByAttributes(array('food_menu_mealId' => $modelMeal->id));
                 $modelMealType = FoodMealType::model()->findByPk($modelMeal->food_meal_type_fk);
-                $meal = new MealObject($modelMeal, $publicTarget, $modelMealType->description);
+                $meal = new MealObject($modelMeal, $publicTarget, $modelMealType->description, $stages);
                 $meal->setComponentMeal($modelComponents);
                 array_push($this->$day, (array) $meal);
             }
@@ -402,11 +412,12 @@ class MealObject
     public $foodMealType;
 
     public $foodPublicTargetId;
+    public $stages = [];
     public $foodPublicTargetName;
     public $foodMealTypeDescription;
     public $mealsComponent = [];
 
-    public function __construct($model, $foodMenuPublicTarget, $mealDescription)
+    public function __construct($model, $foodMenuPublicTarget, $mealDescription, $stages)
     {
         $this->time = $model->meal_time;
         $this->sequence = $model->sequence;
@@ -415,6 +426,7 @@ class MealObject
         $this->foodMealTypeDescription = $mealDescription;
         $this->foodPublicTargetName = $foodMenuPublicTarget->name;
         $this->foodPublicTargetId = $foodMenuPublicTarget->id;
+        $this->stages = $stages;
     }
 
     public function setComponentMeal($modelComponents)

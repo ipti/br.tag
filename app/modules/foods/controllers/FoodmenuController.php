@@ -34,7 +34,8 @@ class FoodmenuController extends Controller
         $allFieldsAreFilled = isset($request["start_date"]) &&
             isset($request["final_date"]) &&
             isset($request["food_public_target"]) &&
-            isset($request["description"]);
+            isset($request["description"]) &&
+            isset($request["stages"]);
 
         if ($allFieldsAreFilled === false) {
             // Caso de erro> Falha quando um dos campos obrigatórios do cardápio não foram enviados
@@ -60,6 +61,17 @@ class FoodmenuController extends Controller
             $message = 'Ocorreu um erro ao salvar o cardápio! Tente novamente.';
             $transaction->rollback();
             throw new CHttpException(500, $message);
+        }
+
+        // Salvando etapas do foodMenu
+        $stages = $request["stages"];
+
+        foreach ($stages as $stage) {
+           $foodStage = new FoodMenuVsEdcensoStageVsModality();
+           $foodStage->food_menu_fk = $modelFoodMenu->id;
+           $foodStage->edcenso_stage_vs_modality_fk = $stage;
+           $foodStage->save();
+
         }
 
         /* Atribui valores às propriedades do model FoodMenuVsFoodPublicTarget
@@ -100,6 +112,14 @@ class FoodmenuController extends Controller
                 ->bindParam(':id', $modelFoodMenu->id)
                 ->queryRow();
 
+            $stagesSQL = "Select fmesvsm.edcenso_stage_vs_modality_fk FROM food_menu_vs_edcenso_stage_vs_modality fmesvsm
+            INNER JOIN food_menu fm on fm.id = fmesvsm.food_menu_fk
+            Where fmesvsm.food_menu_fk = :id";
+
+            $stages = Yii::app()->db->createCommand($stagesSQL)
+                ->bindParam(':id', $modelFoodMenu->id)
+                ->queryColumn();
+
             $getFoodMenu = new GetFoodMenu();
             $foodMenu = $getFoodMenu->exec($modelFoodMenu, $publicTarget, $modelMenuMeals);
 
@@ -112,6 +132,7 @@ class FoodmenuController extends Controller
                 'mealTypeList' => $mealTypeList,
                 'tacoFoodsList' => $tacoFoodsList,
                 'foodMeasurementList' => $foodMeasurementList,
+                'stages' => $stages,
             )
             );
             Yii::app()->end();
@@ -135,6 +156,22 @@ class FoodmenuController extends Controller
             $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
             $foodMenuVsPublicTarget->food_public_target_fk = $publicTarget->id;
             $foodMenuVsPublicTarget->save();
+
+             // Salvando etapas do foodMenu
+             $currentStages = FoodMenuVsEdcensoStageVsModality::model()->findAllByAttributes(["food_menu_fk"=> $modelFoodMenu->id]);
+             foreach ($currentStages as $stage) {
+                $stage->delete();
+             }
+
+                $stages = $request["stages"];
+
+                foreach ($stages as $stage) {
+                $foodStage = new FoodMenuVsEdcensoStageVsModality();
+                $foodStage->food_menu_fk = $modelFoodMenu->id;
+                $foodStage->edcenso_stage_vs_modality_fk = $stage;
+                $foodStage->save();
+
+                }
         }
 
         foreach ($modelMenuMeals as $modelMenuMeal) {
