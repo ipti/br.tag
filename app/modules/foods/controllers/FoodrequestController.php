@@ -193,7 +193,7 @@ class FoodrequestController extends Controller
 
         if($requestIsFinished) {
             $request->status = "Finalizado";
-            if($request->save()) {
+            if($request->save(false)) {
                 echo json_encode(['success' => 'Status da solicitacao modificado com sucesso']);
                 Yii::app()->end();
             }
@@ -235,14 +235,34 @@ class FoodrequestController extends Controller
             array('order' => 'food_fk ASC')
         );
 
+        $groupedItems = array();
+
+        foreach ($itemsReceived as $item) {
+            $foodFk = $item->food_fk;
+
+            if (!isset($groupedItems[$foodFk])) {
+                $groupedItems[$foodFk] = array(
+                    'foodFk' => $foodFk,
+                    'foodRequestFk' => $item->food_request_fk,
+                    'measurementUnit' => $item->measurementUnit,
+                    'totalAmount' => 0
+                );
+            }
+
+            // Soma os valores de amount para o mesmo food_fk
+            $groupedItems[$foodFk]['totalAmount'] += $item->amount;
+        }
+
+        $groupedItems = array_values($groupedItems);
+
         $items = FoodRequestItem::model()->findAllByAttributes(
             array('food_request_fk' => $requestId),
             array('order' => 'food_fk ASC')
         );
 
-        if ((!empty($itemsReceived) && !empty($items))) {
-            for($i = 0; $i < sizeOf($items); $i++) {
-                if($items[$i]->amount != $itemsReceived[$i]->amount && $items[$i]->measurementUnit != $itemsReceived[$i]->measurementUnit) {
+        if ((!empty($groupedItems) && !empty($items)) && count($items) == count($groupedItems)) {
+            for($i = 0; $i < count($items); $i++) {
+                if($items[$i]->amount != $groupedItems[$i]['totalAmount'] && $items[$i]->measurementUnit != $groupedItems[$i]['measurementUnit']) {
                     return false;
                 }
             }
