@@ -215,7 +215,8 @@ function GradeTableBuilder(data) {
                         ${buildUnities(
                             student.unities,
                             isUnityConcept,
-                            conceptOptions
+                            conceptOptions,
+                            student.finalMedia
                         )}
                         ${
                             isUnityConcept
@@ -259,19 +260,33 @@ function GradeTableBuilder(data) {
                 </label>`;
     }
 
-    function buildUnities(unities, isUnityConcept, conceptOptions) {
+    function buildUnities(unities, isUnityConcept, conceptOptions, finalMedia) {
         const unitesGrade = unities
-            .map((unity) => {
+        .map((unity) => {
+                const isFinalConcept = unity.unityName === "Conceito Final"
+                if(isFinalConcept) {
+                    return template`
+                    <td class="grade-td">
+                        ${buildInputOrSelect(
+                            isUnityConcept,
+                            finalMedia,
+                            conceptOptions,
+                            isFinalConcept
+                        )}
+                    </td>`;
+                } else {
                 const unityRow = unity.grades.map((grade) => {
                     return template`
                     <td class="grade-td">
                         ${buildInputOrSelect(
                             isUnityConcept,
                             grade,
-                            conceptOptions
+                            conceptOptions,
+                            isFinalConcept
                         )}
                     </td>`;
                 });
+
 
                 if (unity.grades.length > 1) {
                     const unityMedia = template`
@@ -280,6 +295,7 @@ function GradeTableBuilder(data) {
 
                     unityRow.push(unityMedia);
                 }
+            }
 
                 return unityRow.join("\n");
             })
@@ -298,28 +314,48 @@ function GradeTableBuilder(data) {
             </td>`;
 
     }
-    function buildInputOrSelect(isUnityConcept, grade, conceptOptions) {
+    function buildInputOrSelect(isUnityConcept, grade, conceptOptions, isFinalConcept) {
         if (isUnityConcept) {
             const optionsValues = Object.values(conceptOptions);
             const optionsKeys = Object.keys(conceptOptions);
-            return template`
-                <select class="grade-concept" gradeid="${
-                    grade.id
-                }" modalityid="${grade.modalityId}">
-                    <option value=""></option>
-                    ${optionsValues
-                        .map(
-                            (conceptOption, index) => template`
-                        <option value="${optionsKeys[index]}" ${
-                                optionsKeys[index] == grade.concept
-                                    ? "selected"
-                                    : ""
-                            }>
-                            ${conceptOption}
-                        </option>`
-                        )
-                        .join("")}
-                </select>`;
+            if(isFinalConcept) {
+                return  template`
+                     <select class="grade-concept">
+                        <option value=""></option>
+                        ${optionsValues
+                            .map(
+                                (conceptOption, index) => template`
+                            <option value="${optionsKeys[index]}" ${
+                                    optionsKeys[index] == grade
+                                        ? "selected"
+                                        : ""
+                                }>
+                                ${conceptOption}
+                            </option>`
+                            )
+                            .join("")}
+                     </select>
+                `
+            } else  {
+                return template`
+                    <select class="grade-concept" gradeid="${
+                        grade.id
+                    }" modalityid="${grade.modalityId}">
+                        <option value=""></option>
+                        ${optionsValues
+                            .map(
+                                (conceptOption, index) => template`
+                            <option value="${optionsKeys[index]}" ${
+                                    optionsKeys[index] == grade.concept
+                                        ? "selected"
+                                        : ""
+                                }>
+                                ${conceptOption}
+                            </option>`
+                            )
+                            .join("")}
+                    </select>`;
+            }
         }
 
         return template`<input type="text" gradeid="${

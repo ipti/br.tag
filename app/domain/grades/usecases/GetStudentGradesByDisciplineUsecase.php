@@ -105,19 +105,14 @@ class GetStudentGradesByDisciplineUsecase
                 "type" => "UC"
             ];
 
-            /* $classroomGrades = [];
+            $classroomGrades = [];
             foreach ($studentEnrollments as $enrollment) {
-                $classroomGrades[] = $this->getStudentGradeByDicipline(
+                $classroomGrades[] = $this->getStudentFinalConept(
                     $enrollment,
                     $this->disciplineId,
-                    $unitiesByDiscipline,
-                    $unityOrder,
-                    $type,
-                    $semester,
-                    $showSemAvarageColumn,
                     $rules
                 );
-            } */
+            }
 
         }
 
@@ -336,6 +331,35 @@ class GetStudentGradesByDisciplineUsecase
 
             }
         }
+
+        return $studentGradeResult;
+    }
+    private function getStudentFinalConept($studentEnrollment, $discipline, $rules){
+        $studentGradeResult = new StudentGradesResult($studentEnrollment->studentFk->name, $studentEnrollment->id);
+
+        $gradeResult = GradeResults::model()->find(
+            "enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk",
+            [
+                "enrollment_fk" => $studentEnrollment->id,
+                "discipline_fk" => $discipline
+            ]
+        );
+
+        if ($gradeResult == null) {
+            $gradeResult = new GradeResults();
+            $gradeResult->enrollment_fk = $studentEnrollment->id;
+            $gradeResult->discipline_fk = $discipline;
+            $gradeResult->save();
+        }
+
+        $studentGradeResult->setSemAvarage("");
+        $studentGradeResult->setFinalMedia($gradeResult->final_concept);
+        $studentGradeResult->setSituation($gradeResult->situation);
+
+        $unityResult = new GradeUnityResult("Conceito Final", "soma");
+        $unityResult->setUnityMedia($gradeResult->final_concept);
+
+        $studentGradeResult->addUnity($unityResult);
 
         return $studentGradeResult;
     }
@@ -640,7 +664,7 @@ class GradeUnityResult
         return [
             'unityName' => $this->unityName,
             'calculationName' => $this->calculationName,
-            'grades' => array_map(function (GradeByModalityResult $grade) {
+            'grades' =>  empty($this->grades) ? "" : array_map(function (GradeByModalityResult $grade) {
                 return $grade->toArray();
             }, $this->grades),
             'unityMedia' => $this->unityMedia

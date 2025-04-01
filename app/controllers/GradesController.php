@@ -197,7 +197,7 @@ class GradesController extends Controller
             $result[$unity['id']] = $unity["name"];
         }
 
-        if(!isset(($stage)) && $stage == "" && TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk))  {
+        if($stage == "" && TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk))  {
             $result["finalConcept"] = "Conceito Final";
         }
 
