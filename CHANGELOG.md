@@ -1,3 +1,6 @@
+## [Versão 3.101.229]
+- Correção na funcionalidade de contagem de matrícula ativas na tela inicial de turmas.
+
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
 
