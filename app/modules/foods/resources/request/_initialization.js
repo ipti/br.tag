@@ -110,6 +110,37 @@ $(document).on("click", "#js-information-button", function () {
             </tr>
         `;
     });
+    $requestItems += `
+        </table>
+        </div>
+        </div>
+    `;
+    let $requestAcceptedItems = `
+        <div class="row">
+        <div class="column clearfix">
+        <table id="requestAcceptedItemsTable"  aria-describedby="requestAcceptedItemsTable" class="tag-table-secondary align-start no-margin">
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Agricultor</th>
+                <th>Data</th>
+            </tr>
+    `;
+    $.each(requestData.acceptedItems, function(index, item) {
+        $requestAcceptedItems += `
+            <tr>
+                <td>${item.foodName.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim()}</td>
+                <td>${item.amount} (${item.measurementUnit})</td>
+                <td>${item.farmerName}</td>
+                <td>${item.date}</td>
+            </tr>
+        `;
+    });
+    $requestAcceptedItems += `
+        </table>
+        </div>
+        </div>
+    `;
     let $requestItemsReceived = `
         <div class="row">
         <div class="column clearfix">
@@ -138,6 +169,7 @@ $(document).on("click", "#js-information-button", function () {
     `;
     $("#requestData").html($requestData);
     $("#requestItems").html($requestItems);
+    $("#requestAcceptedItems").html($requestAcceptedItems);
     $("#requestItemsReceived").html($requestItemsReceived);
 });
 

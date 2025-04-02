@@ -15,7 +15,7 @@ class TagModel extends CActiveRecord
     }
     public function save($runValidation = true, $attributes = null)
     {
-        if ($this->isReadOnlyUser()) {
+        if (!Yii::app()->user->isGuest && $this->isReadOnlyUser()) {
             Yii::app()->user->setFlash('error', 'Você não tem permissão para salvar dados.');
             return false;
         }
