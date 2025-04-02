@@ -1,3 +1,6 @@
+## [Versão 3.101.229]
+- Correção no filtro de professores na tela de "Atribuir Professor Substituto" para exibir somente professores substitutos na lista.
+
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
 
