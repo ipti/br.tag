@@ -499,6 +499,7 @@ class FoodrequestController extends Controller
 
             $foodRequest = new FoodRequest;
             $foodRequest->notice_fk = $noticeId;
+            $foodRequest->status = "Enviada para agricultores";
 
             if($foodRequest->save() && $this->saveRequestSchools($requestSchools, $foodRequest) &&
             $this->saveRequestFarmers($requestFarmers, $foodRequest) && $this->saveRequestItems($requestItems, $foodRequest)) {
