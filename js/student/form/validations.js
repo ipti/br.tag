@@ -1004,18 +1004,18 @@ $(formIdentification + "responsable").on("change", function () {
     }
 });
 
-$(formEnrollment + "school_admission_date").mask("00/00/0000", {
+$(formEnrollment + "enrollment_date").mask("00/00/0000", {
     placeholder: "dd/mm/aaaa",
 });
-$(formEnrollment + "school_admission_date").focusout(function () {
+$(formEnrollment + "enrollment_date").focusout(function () {
     let id = "#" + $(this).attr("id");
-    let school_admission_date = stringToDate(
-        $(formEnrollment + "school_admission_date").val()
+    let enrollment_date = stringToDate(
+        $(formEnrollment + "enrollment_date").val()
     );
 
     if (
-        (!validateDate($(formEnrollment + "school_admission_date").val()) ||
-            !validateYear(school_admission_date.year)) &&
+        (!validateDate($(formEnrollment + "enrollment_date").val()) ||
+            !validateYear(enrollment_date.year)) &&
         $(id).val() != ""
     ) {
         addError(
