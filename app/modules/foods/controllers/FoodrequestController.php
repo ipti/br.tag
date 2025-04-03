@@ -11,11 +11,13 @@ class FoodrequestController extends Controller
                     'index',
                     'view',
                     'getFoodRequest',
-                    'updateRequestStatus',
                     'getFarmerRegister',
                     'getFoodAlias',
                     'getFarmerFoods',
-                    'getFoodNotice'
+                    'getFoodNotice',
+                    'getFoodNoticeItems',
+                    'updateReceivedFoods',
+                    'updateAcceptedFoods'
                 ),
                 'users' => array('*'),
             ),
@@ -28,10 +30,6 @@ class FoodrequestController extends Controller
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('delete'),
                 'users' => array('admin'),
-            ),
-            array(
-                'deny',  // deny all users
-                'users' => array('*'),
             ),
         );
     }
@@ -74,6 +72,29 @@ class FoodrequestController extends Controller
             $values[$notice->id] = (object) [
                 'name' => $notice->name
             ];
+        }
+
+        echo json_encode($values);
+    }
+
+    public function actionGetFoodNoticeItems() {
+        $notice = Yii::app()->request->getPost('notice');
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.foodNotice_fk = :notice';
+        $criteria->params = array(':notice' => $notice);
+        $criteria->with = array('food');
+
+        $foodNoticeItems =  FoodNoticeItem::model()->findAll($criteria);
+
+        $values = [];
+        foreach ($foodNoticeItems as $item) {
+            $values[] = array(
+                'id' => $item->id,
+                'foodId' => $item->food_id,
+                'foodName' => $item->name,
+                'measurementUnit' => $item->food->measurementUnit,
+            );
         }
 
         echo json_encode($values);
@@ -136,7 +157,7 @@ class FoodrequestController extends Controller
         return true;
     }
 
-    public function actionUpdateRequestStatus() {
+    public function actionUpdateAcceptedFoods() {
         $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
 
         if(!$authHeader) {
@@ -148,26 +169,78 @@ class FoodrequestController extends Controller
             echo json_encode(['error' => 'token nao autorizado']);
             Yii::app()->end();
         }
-        $requestId = Yii::app()->request->getPost('requestId');
+
+        $referenceId = Yii::app()->request->getPost('requestId');
         $foodId = Yii::app()->request->getPost('foodId');
         $amount = Yii::app()->request->getPost('amount');
         $measurementUnit = Yii::app()->request->getPost('measurementUnit');
         $farmerCpf = Yii::app()->request->getPost('farmerCpf');
 
         $criteria = new CDbCriteria();
-        $criteria->condition = 't.id = :id';
-        $criteria->params = array(':id' => $requestId);
+        $criteria->condition = 't.reference_id = :reference_id';
+        $criteria->params = array(':reference_id' => $referenceId);
 
         $request = FoodRequest::model()->find($criteria);
         if(!$request) {
             echo json_encode(['error' => 'Nao foi possivel encontrar uma solicitacao com esse id']);
             Yii::app()->end();
         }
-        $itemSaveStatus = $this->saveItemsReceived($requestId, $foodId, $farmerCpf, $amount, $measurementUnit);
+        $requestId = $request->id;
+        $itemSaveStatus = $this->saveItemAccepted($requestId, $foodId, $farmerCpf, $amount, $measurementUnit);
+
+        if(!$itemSaveStatus) {
+            echo json_encode(['error' => 'Não foi possível registrar que o alimento foi aceito']);
+            Yii::app()->end();
+        }
+
+        $request->status = "Aceita por agricultor";
+        if($request->save()) {
+            echo json_encode(['success' => 'Status da solicitacao modificado com sucesso']);
+                Yii::app()->end();
+        }
+        $errors = $request->getErrors();
+        echo json_encode([
+            'error' => 'Não foi possível modificar o status da solicitação',
+            'details' => $errors,
+        ]);
+        Yii::app()->end();
+    }
+
+    public function actionUpdateReceivedFoods() {
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+
+        if(!$authHeader) {
+            echo json_encode(['error' => 'token nao informado']);
+            Yii::app()->end();
+        }
+
+        if($authHeader != 'Bearer $2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6') {
+            echo json_encode(['error' => 'token nao autorizado']);
+            Yii::app()->end();
+        }
+        $referenceId = Yii::app()->request->getPost('requestId');
+        $foodId = Yii::app()->request->getPost('foodId');
+        $amount = Yii::app()->request->getPost('amount');
+        $measurementUnit = Yii::app()->request->getPost('measurementUnit');
+        $farmerCpf = Yii::app()->request->getPost('farmerCpf');
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.reference_id = :reference_id';
+        $criteria->params = array(':reference_id' => $referenceId);
+
+        $request = FoodRequest::model()->find($criteria);
+        if(!$request) {
+            echo json_encode(['error' => 'Nao foi possivel encontrar uma solicitacao com esse id']);
+            Yii::app()->end();
+        }
+        $requestId = $request->id;
+        $itemSaveStatus = $this->saveItemReceived($requestId, $foodId, $farmerCpf, $amount, $measurementUnit);
         $requestIsFinished = $this->checkItemsReceived($requestId);
 
         if($requestIsFinished) {
-            $request->status = "Finalizado";
+            Yii::app()->user->setState('loginInfos', null);
+            $request->status = "Finalizada";
+
             if($request->save()) {
                 echo json_encode(['success' => 'Status da solicitacao modificado com sucesso']);
                 Yii::app()->end();
@@ -188,30 +261,35 @@ class FoodrequestController extends Controller
         Yii::app()->end();
     }
 
-    private function saveItemsReceived($requestId, $foodId, $farmerCpf, $amount, $measurementUnit) {
-        $existingItems = FoodRequestItemReceived::model()->findByAttributes(array('food_fk'=>$foodId, 'food_request_fk'=>$requestId));
+    private function saveItemReceived($requestId, $foodId, $farmerCpf, $amount, $measurementUnit) {
         $farmer = FarmerRegister::model()->findByAttributes(array('cpf'=>$farmerCpf));
         $message = "Erro";
 
-        if(!$existingItems) {
-            $itemsReceived = new FoodRequestItemReceived();
-            $itemsReceived->food_fk = $foodId;
-            $itemsReceived->farmer_fk = $farmer->id;
-            $itemsReceived->food_request_fk = $requestId;
-            $itemsReceived->amount = $amount;
-            $itemsReceived->measurementUnit = $measurementUnit;
-            if($itemsReceived->save()) {
-                $message = "Item salvo";
-            }
-            return $message;
-        }
-        $existingItems->farmer_fk = $farmer->id;
-        $existingItems->amount += $amount;
-        $existingItems->measurementUnit = $measurementUnit;
-        if($existingItems->save()) {
-            $message = "Item atualizado";
+        $itemsReceived = new FoodRequestItemReceived();
+        $itemsReceived->food_fk = $foodId;
+        $itemsReceived->farmer_fk = $farmer->id;
+        $itemsReceived->food_request_fk = $requestId;
+        $itemsReceived->amount = $amount;
+        $itemsReceived->measurementUnit = $measurementUnit;
+        if($itemsReceived->save()) {
+            $message = "Item salvo";
         }
         return $message;
+    }
+
+    private function saveItemAccepted($requestId, $foodId, $farmerCpf, $amount, $measurementUnit) {
+        $farmer = FarmerRegister::model()->findByAttributes(array('cpf'=>$farmerCpf));
+
+        $itemAccepted = new FoodRequestItemAccepted();
+        $itemAccepted->food_fk = $foodId;
+        $itemAccepted->farmer_fk = $farmer->id;
+        $itemAccepted->food_request_fk = $requestId;
+        $itemAccepted->amount = $amount;
+        $itemAccepted->measurementUnit = $measurementUnit;
+        if($itemAccepted->save()) {
+            return true;
+        }
+        return false;
     }
 
     private function checkItemsReceived($requestId) {
@@ -220,14 +298,33 @@ class FoodrequestController extends Controller
             array('order' => 'food_fk ASC')
         );
 
+        $groupedItems = array();
+
+        foreach ($itemsReceived as $item) {
+            $foodFk = $item->food_fk;
+
+            if (!isset($groupedItems[$foodFk])) {
+                $groupedItems[$foodFk] = array(
+                    'foodFk' => $foodFk,
+                    'foodRequestFk' => $item->food_request_fk,
+                    'measurementUnit' => $item->measurementUnit,
+                    'totalAmount' => 0
+                );
+            }
+
+            $groupedItems[$foodFk]['totalAmount'] += $item->amount;
+        }
+
+        $groupedItems = array_values($groupedItems);
+
         $items = FoodRequestItem::model()->findAllByAttributes(
             array('food_request_fk' => $requestId),
             array('order' => 'food_fk ASC')
         );
 
-        if ((!empty($itemsReceived) && !empty($items)) && sizeOf($items) == sizeOf($itemsReceived)) {
-            for($i = 0; $i < sizeOf($items); $i++) {
-                if($items[$i]->amount != $itemsReceived[$i]->amount && $items[$i]->measurementUnit != $itemsReceived[$i]->measurementUnit) {
+        if ((!empty($groupedItems) && !empty($items)) && count($items) == count($groupedItems)) {
+            for($i = 0; $i < count($items); $i++) {
+                if($items[$i]->amount != $groupedItems[$i]['totalAmount'] && $items[$i]->measurementUnit != $groupedItems[$i]['measurementUnit']) {
                     return false;
                 }
             }
@@ -261,6 +358,7 @@ class FoodrequestController extends Controller
 
             $this->getFoodRequestItems($requestData, $request->id);
             $this->getFoodRequestItemsReceived($requestData, $request->id);
+            $this->getFoodRequestAcceptedItems($requestData, $request->id);
             $this->getFoodRequestFarmers($requestData, $request->id);
             $this->getFoodRequestSchools($requestData, $request->id);
 
@@ -326,6 +424,34 @@ class FoodrequestController extends Controller
         }
     }
 
+    private function getFoodRequestAcceptedItems(&$requestDataArray, $requestId) {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.food_request_fk = :requestId';
+        $criteria->params = array(':requestId' => $requestId);
+
+        $requestAcceptedItems = FoodRequestItemAccepted::model()->with(array(
+            'foodFk' => array(
+                'select' => 'description'
+            ),
+            'farmerFk' => array(
+                'select' => 'name'
+            ),
+        ))->findAll($criteria);
+
+        foreach ($requestAcceptedItems as $item) {
+            $requestDataArray["acceptedItems"][] = array(
+                'id' => $item->id,
+                'foodId' => $item->food_fk,
+                'foodName' => $item->foodFk->description,
+                "farmerId" => $item->farmer_fk,
+                "farmerName" => $item->farmerFk->name,
+                'amount' => $item->amount,
+                'measurementUnit' => $item->measurementUnit,
+                'date' => date('d/m/Y', strtotime($item->date))
+            );
+        }
+    }
+
     private function getFoodRequestFarmers(&$requestDataArray, $requestId) {
         $criteria = new CDbCriteria();
         $criteria->condition = 't.food_request_fk = :requestId';
@@ -373,6 +499,7 @@ class FoodrequestController extends Controller
 
             $foodRequest = new FoodRequest;
             $foodRequest->notice_fk = $noticeId;
+            $foodRequest->status = "Enviada para agricultores";
 
             if($foodRequest->save() && $this->saveRequestSchools($requestSchools, $foodRequest) &&
             $this->saveRequestFarmers($requestFarmers, $foodRequest) && $this->saveRequestItems($requestItems, $foodRequest)) {
