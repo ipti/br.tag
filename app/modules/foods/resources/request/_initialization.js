@@ -199,6 +199,9 @@ $(document).on("click", "#save-request", function () {
                 requestFarmers: requestFarmers,
                 requestItems: foodsRelation,
                 requestTitle: requestTitle
+            },
+            beforeSend: function() {
+                $(this).disabled = true;
             }
         }).success(function(response) {
             window.location.href = "?r=foods/foodRequest/index";

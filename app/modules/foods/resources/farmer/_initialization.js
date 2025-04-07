@@ -1,7 +1,6 @@
 let foodsRelation = [];
 
 $(document).ready(function() {
-    let foodSelect = $('#foodSelect');
     let foodNotice = $('#foodNotice');
 
     const $params = new URLSearchParams(window.location.search);
@@ -24,6 +23,18 @@ $(document).ready(function() {
         $('#farmerName').removeAttr('disabled');
         $('#farmerPhone').removeAttr('disabled');
         $('#farmerGroupType').removeAttr('disabled');
+        $.ajax({
+            type: 'POST',
+            url: "?r=foods/farmerregister/getFarmerDeliveries",
+            cache: false,
+            data: {
+                id: $id,
+            }
+        }).success(function(response) {
+            let data = DOMPurify.sanitize(response)
+            let farmerDeliveries = JSON.parse(data);
+            console.log(farmerDeliveries);
+        });
     }
 
     $.ajax({
@@ -41,24 +52,6 @@ $(document).ready(function() {
             }));
         });
     });
-
-    // $.ajax({
-    //     type: 'POST',
-    //     url: "?r=foods/farmerregister/getFoodAlias",
-    //     cache: false
-    // }).success(function(response) {
-    //     let data = DOMPurify.sanitize(response);
-    //     let foods_description = JSON.parse(data);
-
-    //     Object.entries(foods_description).forEach(function([id, value]) {
-    //         let description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
-    //         value = id + ',' + value.measurementUnit;
-    //         foodSelect.append($('<option>', {
-    //             value: value,
-    //             text: description
-    //         }));
-    //     });
-    // })
 });
 
 $(document).on("focusout", "#farmerCpf", function () {

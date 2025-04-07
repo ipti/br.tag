@@ -41,6 +41,7 @@ class FarmerRegisterController extends Controller
                     'getFarmerFoods',
                     'getFoodNotice',
                     'getFoodNoticeItems',
+                    'getFarmerDeliveries'
                 ),
                 'users' => array('*'),
             ),
@@ -283,6 +284,24 @@ class FarmerRegisterController extends Controller
         }
 
         echo json_encode($values);
+    }
+    public function actionGetFarmerDeliveries() {
+        $farmer = Yii::app()->request->getPost('farmer');
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.farmer_fk = :farmer';
+        $criteria->params = array(':farmer' => $farmer);
+
+        $farmerDeliveredFoods =  FoodRequestItemReceived::model()->findAll($criteria);
+
+        $farmerAcceptedFoods = FoodRequestItemAccepted::model()->findAll($criteria);
+
+        $farmerDeliveries = array(
+            "deliveredFoods" => array($farmerDeliveredFoods),
+            "acceptedFoods" => array($farmerAcceptedFoods),
+        );
+
+        echo json_encode($farmerDeliveries);
     }
     public function actionCreate()
     {
