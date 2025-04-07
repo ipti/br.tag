@@ -99,7 +99,7 @@ class GetStudentGradesByDisciplineUsecase
             $unityColumns[] = [
                 "name" => "Conceito Final",
                 "colspan" => 1 /*$unity->countGradeUnityModalities + ($unity->type === GradeUnity::TYPE_UNITY_WITH_RECOVERY ? 1 : 0)*/,
-                "modalities" => ["conceito final"],
+                "modalities" => ["Conceito Final"],
                 "calculationName" => "soma",
                 "recoveryPartialFk" => "",
                 "type" => "UC"

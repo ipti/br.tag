@@ -138,6 +138,7 @@ $("#save").on("click", function (e) {
             students: students,
             stage: $('#stage').val(),
             isConcept: $(".grades-table").attr("concept"),
+            isFinalConcept: $("#unities").val(),
         },
         beforeSend: function () {
             $(".js-grades-loading").css("display", "inline-block");

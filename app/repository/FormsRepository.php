@@ -734,6 +734,7 @@ class FormsRepository
                 ed.name AS discipline_name,
                 ed.id AS discipline_id,
                 gr.final_media,
+                gr.final_concept,
                 gr.situation,
                 se.status
                     FROM classroom c
@@ -808,9 +809,15 @@ class FormsRepository
                 foreach ($result as $r) {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
                         $finalMedia = $r['final_media'];
+                        $finalConcept = $r['final_concept'];
                         if($isMinorStage) {
                             $finalMedia = $this->checkConceptGradeRange($finalMedia, $concepts);
                         }
+
+                        if($finalConcept) {
+                            $finalMedia = GradeConcept::model()->findByPk($finalConcept)->acronym;
+                        }
+
                         $r['situation'] = mb_strtoupper($r['situation']);
                        if($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {
                             $finalSituation = 'DEIXOU DE FREQUENTAR';
