@@ -129,21 +129,6 @@
                             ->bindParam(":year", Yii::app()->user->year)
                             ->queryAll();
 
-                            // TO DO - REMOVER
-                            // $additionalClasses = Yii::app()->db->createCommand(
-                            //     "select cc.id, cp.name as cpname, ed.id as edid, ed.name as edname, cc.order, cc.content, cp.id as cpid
-                            //     from course_class cc
-                            //     join course_plan cp on cp.id = cc.course_plan_fk
-                            //     join course_plan_discipline_vs_abilities dvsa on dvsa.course_class_fk = cc.id
-                            //     join edcenso_discipline ed on ed.id = dvsa.discipline_fk
-                            //     where cp.school_inep_fk = :school_inep_fk and cp.modality_fk = :modality_fk and cp.users_fk = :users_fk
-                            //     order by ed.name, cp.name"
-                            // )
-                            //     ->bindParam(":school_inep_fk", Yii::app()->user->school)
-                            //     ->bindParam(":modality_fk", $schedule->classroomFk->edcenso_stage_vs_modality_fk)
-                            //     ->bindParam(":users_fk", Yii::app()->user->loginInfos->id)
-                            //     ->queryAll();
-
                             $courseClasses = array_merge($courseClasses, $additionalClasses);
                     } else {
                         $courseClasses = Yii::app()->db->createCommand(

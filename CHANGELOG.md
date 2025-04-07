@@ -1,3 +1,7 @@
+## [Versão 3.101.229]
+- Correção na funcionalidade de atribuir conteúdo ministrado em sala de aula, em diários de classe. Inconsistência apresentada ao
+salvar aulas corrigida.
+
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
 
