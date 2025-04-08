@@ -28,7 +28,7 @@ $(document).ready(function() {
             url: "?r=foods/farmerregister/getFarmerDeliveries",
             cache: false,
             data: {
-                id: $id,
+                farmer: $id,
             }
         }).success(function(response) {
             let data = DOMPurify.sanitize(response)

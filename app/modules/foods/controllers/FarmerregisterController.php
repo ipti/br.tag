@@ -291,14 +291,40 @@ class FarmerRegisterController extends Controller
         $criteria = new CDbCriteria();
         $criteria->condition = 't.farmer_fk = :farmer';
         $criteria->params = array(':farmer' => $farmer);
+        $criteria->with = array('foodFk');
 
         $farmerDeliveredFoods =  FoodRequestItemReceived::model()->findAll($criteria);
-
         $farmerAcceptedFoods = FoodRequestItemAccepted::model()->findAll($criteria);
 
+        $deliveredFoods = array();
+        foreach ($farmerDeliveredFoods as $delivered) {
+            $deliveredFoods[] = array(
+                'id' => $delivered->id,
+                'foodId' => $delivered->food_fk,
+                'foodName' => $delivered->foodFk->description,
+                'amount' => $delivered->amount,
+                'measurementUnit' => $delivered->measurementUnit,
+                'date' => date('d/m/Y', strtotime($delivered->date)),
+                'request' => $delivered->food_request_fk
+            );
+        }
+
+        $acceptedFoods = array();
+        foreach ($farmerAcceptedFoods as $accepted) {
+            $acceptedFoods[] = array(
+                'id' => $accepted->id,
+                'foodId' => $accepted->food_fk,
+                'foodName' => $delivered->foodFk->description,
+                'amount' => $accepted->amount,
+                'measurementUnit' => $accepted->measurementUnit,
+                'date' => date('d/m/Y', strtotime($accepted->date)),
+                'request' => $accepted->food_request_fk
+            );
+        }
+
         $farmerDeliveries = array(
-            "deliveredFoods" => array($farmerDeliveredFoods),
-            "acceptedFoods" => array($farmerAcceptedFoods),
+            "deliveredFoods" => $deliveredFoods,
+            "acceptedFoods" => $acceptedFoods,
         );
 
         echo json_encode($farmerDeliveries);

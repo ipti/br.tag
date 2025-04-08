@@ -165,8 +165,13 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
         <div class="tab-pane" id="farmer-deliveries">
             <div class="row">
-                <h3>Entregas</h3>
+                <h3>Solicitações aceitas</h3>
             </div>
+            <div id="requestAcceptedItems"></div>
+            <div class="row">
+                <h3>Relação de entregas</h3>
+            </div>
+            <div id="requestItemsReceived"></div>
         </div>
     </div>
 
