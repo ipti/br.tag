@@ -450,7 +450,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                 </li>
                             <?php endif ?>
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
-                            || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)): ?>
+                            || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id) ): ?>
                                 <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=reports") ? 'active' : '' ?> hide-responsive">
                                     <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('reports') ?>">

@@ -5,6 +5,7 @@ $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseUrl . '/css/reports.css');
 $cs->registerScriptFile($baseUrl . '/js/reports/index/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/index/initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 $this->pageTitle = 'TAG - ' . Yii::t('default', 'Reports');
 $this->breadcrumbs = array(
@@ -12,6 +13,8 @@ $this->breadcrumbs = array(
 );
 ?>
 <div class="main">
+
+    <div class='<?= Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id) ? "isInstructor" : "" ?>'></div>
 
     <div class="row-fluid">
         <div class="span12" style="margin-left: 20px;">
@@ -197,7 +200,7 @@ $this->breadcrumbs = array(
                     </button>
                 </a>
 
-                <a href="<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>" target="_blank" rel="noopener">
+                <a class="isVisibleForInstructor" href="<?php echo Yii::app()->createUrl('reports/electronicdiary') ?>" target="_blank" rel="noopener">
                     <button type="button" class="report-box-container" style="padding-left: 25px;">
                         <div class="pull-left" style="margin-right: 20px;">
                             <span class="t-icon-book t-reports_icons"></span>

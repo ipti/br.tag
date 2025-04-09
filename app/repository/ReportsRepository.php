@@ -2225,10 +2225,10 @@ class ReportsRepository
                 ." instructor_teaching_data.instructor_fk = instructor_identification.id ";
             // Adicionando condição de busca
             $criteria->condition =  "c.school_year = :school_year"
-                                    ."and c.school_inep_fk = :school_inep_fk"
+                                    ." and c.school_inep_fk = :school_inep_fk"
                                     ." and instructor_identification.users_fk = :users_fk";
             $criteria->order = "name";
-            $criteria->params = array(' :school_year' => $this->currentYear,
+            $criteria->params = array(':school_year' => $this->currentYear,
                                         ':school_inep_fk' => $this->currentSchool,
                                         ':users_fk' => Yii::app()->user->loginInfos->id);
 
