@@ -1,3 +1,10 @@
+## [Versão 3.101.229]
+- Correção de carregamento de plano de aula;
+- Correção de carregamento de  escola;
+- correção de lançamento de notas por conceito;
+- Correção de registro de ficha AEE;
+
+
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
 
