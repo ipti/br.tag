@@ -314,7 +314,7 @@ class FarmerRegisterController extends Controller
             $acceptedFoods[] = array(
                 'id' => $accepted->id,
                 'foodId' => $accepted->food_fk,
-                'foodName' => $delivered->foodFk->description,
+                'foodName' => $accepted->foodFk->description,
                 'amount' => $accepted->amount,
                 'measurementUnit' => $accepted->measurementUnit,
                 'date' => date('d/m/Y', strtotime($accepted->date)),

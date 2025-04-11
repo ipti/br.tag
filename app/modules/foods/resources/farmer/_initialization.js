@@ -34,6 +34,8 @@ $(document).ready(function() {
             let data = DOMPurify.sanitize(response)
             let farmerDeliveries = JSON.parse(data);
             console.log(farmerDeliveries);
+            renderAcceptedFoodsTable(farmerDeliveries.acceptedFoods);
+            renderDeliveredFoodsTable(farmerDeliveries.deliveredFoods);
         });
     }
 
