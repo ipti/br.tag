@@ -214,7 +214,7 @@ class CourseplanController extends Controller
         $criteria->alias = "cca";
         $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = cca.edcenso_stage_vs_modality_fk";
         $criteria->condition = "cca.code like :code";
-        $criteria->params = [":code" => '%'.$q.'%'];
+        $criteria->params = [":code" => '%' . $q . '%'];
 
         $abilities = CourseClassAbilities::model()->findAll($criteria);
 
@@ -318,7 +318,7 @@ class CourseplanController extends Controller
 
                 $courseClassIds[] = $courseClass->id;
 
-                $abilitiesMerged = is_array($cc['ability']) ? implode("', '", $cc['ability']): $cc['ability'];
+                $abilitiesMerged = is_array($cc['ability']) ? implode("', '", $cc['ability']) : $cc['ability'];
                 CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '" . $abilitiesMerged . "' )", [":course_class_fk" => $courseClass->id]);
                 foreach ($cc["ability"] as $abilityId) {
                     $courseClassHasClassAbility = CourseClassHasClassAbility::model()->find("course_class_fk = :course_class_fk and course_class_ability_fk = :course_class_ability_fk", ["course_class_fk" => $courseClass->id, "course_class_ability_fk" => $abilityId]);
@@ -492,10 +492,10 @@ class CourseplanController extends Controller
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
 
                 $criteria->condition = 'users_fk=' . Yii::app()->user->loginInfos->id .
-                        ' AND school_inep_fk=' . Yii::app()->user->school .
-                        ' AND modality_fk=' . $stageRequest .
-                        ' AND discipline_fk=' . $disciplineRequest .
-                        ' AND EXTRACT(YEAR FROM start_date) =' . (int)$year;
+                    ' AND school_inep_fk=' . Yii::app()->user->school .
+                    ' AND modality_fk=' . $stageRequest .
+                    ' AND discipline_fk=' . $disciplineRequest .
+                    ' AND EXTRACT(YEAR FROM start_date) =' . (int) $year;
 
                 TLog::info("Listagem de planos de aula para acesso de professor com filtro de disciplina", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
             }
@@ -503,9 +503,9 @@ class CourseplanController extends Controller
 
 
                 $criteria->condition = 'school_inep_fk=' . Yii::app()->user->school .
-                        ' AND modality_fk=' . $stageRequest .
-                        ' AND discipline_fk=' . $disciplineRequest .
-                        ' AND EXTRACT(YEAR FROM start_date) = ' . (int)$year;
+                    ' AND modality_fk=' . $stageRequest .
+                    ' AND discipline_fk=' . $disciplineRequest .
+                    ' AND EXTRACT(YEAR FROM start_date) = ' . (int) $year;
 
                 TLog::info("Listagem de planos de aula para acesso de administrador com filtro de disciplina");
             }
@@ -524,16 +524,23 @@ class CourseplanController extends Controller
         if (isset($stageRequest)) {
 
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                $criteria->condition = 'users_fk=' . Yii::app()->user->loginInfos->id .
-                    ' AND school_inep_fk=' . Yii::app()->user->school .
-                    ' AND modality_fk=' . $stageRequest .
-                    ' AND EXTRACT(YEAR FROM start_date) =' . (int)$year;
+                $criteria->condition = 'users_fk= : userId
+                    AND school_inep_fk= :school
+                    AND modality_fk= :stageRequest
+                    AND YEAR(start_date) = :year';
+
+                $criteria->params = [
+                    ":year" => (int) $year,
+                    ":stageRequest" => $stageRequest,
+                    ":school" => Yii::app()->user->school,
+                    ":userId" => Yii::app()->user->loginInfos->id
+                ];
 
                 TLog::info("Listagem de planos de aula para acesso de professor com filtro de etapa", ["UserInstructor" => Yii::app()->user->loginInfos->id]);
             }
 
             if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                $criteria->condition = 'school_inep_fk=' . Yii::app()->user->school .' AND modality_fk=' . $stageRequest .' AND EXTRACT(YEAR FROM start_date) = ' . (int)$year;
+                $criteria->condition = 'school_inep_fk=' . Yii::app()->user->school . ' AND modality_fk=' . $stageRequest . ' AND EXTRACT(YEAR FROM start_date) = ' . (int) $year;
                 TLog::info("Listagem de planos de aula para acesso de administrador com filtro de etapa");
             }
 
@@ -572,19 +579,19 @@ class CourseplanController extends Controller
         $criteria->condition = "situation = 'PENDENTE' AND school_inep_fk = :school";
 
         // Apply Filter to Instructor
-        if(isset($instructorRequest) && $instructorRequest != ""){
+        if (isset($instructorRequest) && $instructorRequest != "") {
             $criteria->condition .= " AND users_fk = :user";
             $tokenParams = array_merge($tokenParams, [':user' => $instructorRequest]);
         }
 
         // Apply filter to Stage
-        if(isset($stageRequest) && $stageRequest != ""){
+        if (isset($stageRequest) && $stageRequest != "") {
             $criteria->condition .= " AND modality_fk = :stage";
             $tokenParams = array_merge($tokenParams, [':stage' => $stageRequest]);
         }
 
         // Apply filter to Discipline
-        if(isset($disciplineRequest) && $disciplineRequest != ""){
+        if (isset($disciplineRequest) && $disciplineRequest != "") {
             $criteria->condition .= " AND discipline_fk = :discipline";
             $tokenParams = array_merge($tokenParams, [':discipline' => $disciplineRequest]);
         }
@@ -599,10 +606,10 @@ class CourseplanController extends Controller
         ));
 
         // Send Data to Select in index page
-        if(
+        if (
             !isset($instructorRequest) &&
             !isset($stageRequest)
-        ){
+        ) {
             $instructors = $this->getInstructors();
             $stages = $this->getStages();
             $this->render('pendingPlans', array(
@@ -613,9 +620,9 @@ class CourseplanController extends Controller
             Yii::app()->end();
         }
 
-        if(
+        if (
             !isset($instructorRequest)
-        ){
+        ) {
             $this->actionGetDisciplines();
             Yii::app()->end();
         }
