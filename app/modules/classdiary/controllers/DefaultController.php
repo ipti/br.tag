@@ -153,7 +153,7 @@ class DefaultController extends Controller
         $abilities = Yii::app()->request->getPost('abilities');
 
         if($hasNewClassContent){
-            $saveNewClassContent = new saveNewClassContent();
+            $saveNewClassContent = new SaveNewClassContent();
             $newClassContentId = $saveNewClassContent->exec($coursePlanId, $content, $methodology, $abilities);
             if($classContent != null){
                 $classContent[] = $newClassContentId;

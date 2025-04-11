@@ -1,7 +1,7 @@
 <?php
     yii::import('application.modules.classdiary.services.*');
     /**
-     * @property SaveNewClassContent $SaveNewClassContent
+     * @property ClassesService $classesService
      */
     class SaveNewClassContent
     {
@@ -12,7 +12,7 @@
         }
         public function exec($coursePlanId, $content, $methodology, $abilities)
         {
-            $response = $this->classesService->SaveNewClassContent($coursePlanId, $content, $methodology, $abilities);
+            $response = $this->classesService->saveNewClassContent($coursePlanId, $content, $methodology, $abilities);
             return  $response;
         }
     }
