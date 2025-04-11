@@ -524,7 +524,7 @@ class CourseplanController extends Controller
         if (isset($stageRequest)) {
 
             if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                $criteria->condition = 'users_fk= : userId
+                $criteria->condition = 'users_fk= :userId
                     AND school_inep_fk= :school
                     AND modality_fk= :stageRequest
                     AND YEAR(start_date) = :year';
@@ -540,7 +540,18 @@ class CourseplanController extends Controller
             }
 
             if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
-                $criteria->condition = 'school_inep_fk=' . Yii::app()->user->school . ' AND modality_fk=' . $stageRequest . ' AND EXTRACT(YEAR FROM start_date) = ' . (int) $year;
+
+                $criteria->condition = '
+                    AND school_inep_fk= :school
+                    AND modality_fk= :stageRequest
+                    AND YEAR(start_date) = :year';
+
+                $criteria->params = [
+                    ":school" => Yii::app()->user->school,
+                    ":stageRequest" => $stageRequest,
+                    ":year" => (int) $year
+                ];
+
                 TLog::info("Listagem de planos de aula para acesso de administrador com filtro de etapa");
             }
 
