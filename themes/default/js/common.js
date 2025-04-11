@@ -177,24 +177,37 @@ $(document).bind("ajaxComplete", function () {
 
 $(document).ajaxError(function (event, jqxhr, ajaxSettings, thrownError) {
     if (jqxhr.status === 401) {
-        // Redireciona para a página de login se receber o status 401
-        const response = JSON.parse(jqxhr.responseText);
-        if (response.redirect) {
-            window.location.href = response.redirect;
+        try {
+            const response = JSON.parse(jqxhr.responseText);
+            if (response.redirect) {
+                return window.location.href = response.redirect;
+            }
+        } catch (e) {
+            // JSON inválido, ignora
         }
     }
 
-    Raven.captureMessage(thrownError || jqxhr.statusText, {
-        extra: {
-            type: ajaxSettings.type,
-            url: ajaxSettings.url,
-            data: ajaxSettings.data,
-            status: jqxhr.status,
-            error: (thrownError || jqxhr.statusText) + jqxhr.responseText.substring(0, 100),
-            response: jqxhr.responseText.substring(0, 200),
-        },
-    });
+    const safeSubstring = (str, start, end) =>
+        typeof str === 'string' ? str.substring(start, end) : '';
 
+    const requestId = jqxhr?.getResponseHeader?.('X-Request-ID');
+
+    Raven.captureMessage(thrownError?.toString?.() || jqxhr.statusText || 'Erro AJAX desconhecido', {
+        extra: {
+            method: ajaxSettings?.type,
+            url: ajaxSettings?.url,
+            data: ajaxSettings?.data,
+            status: jqxhr?.status,
+            statusText: jqxhr?.statusText,
+            readyState: jqxhr?.readyState,
+            headers: jqxhr?.getAllResponseHeaders?.() || 'N/A',
+            responseSnippet: safeSubstring(jqxhr?.responseText, 0, 200),
+            fullResponse: safeSubstring(jqxhr?.responseText, 0, 1000),
+            requestId,
+            durationMs: ajaxSettings?._startTime ? (Date.now() - ajaxSettings._startTime) : null,
+            timestamp: new Date().toISOString(),
+        }
+    });
 });
 
 $(function () {
