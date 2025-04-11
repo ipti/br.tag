@@ -153,6 +153,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
         if ($classFaults == 0 && $grades == 0) {
             $enrollment = StudentEnrollment::model()->findByPk($idEnrollment);
+            StudentEnrollmentHistory::model()->deleteAll("student_enrollment_fk = :enrollment_fk", [":enrollment_fk" => $enrollment->id]);
             $enrollment->delete();
             echo json_encode(["success" => true, "message" => "matricula excluida com sucesso"]);
         } else {
