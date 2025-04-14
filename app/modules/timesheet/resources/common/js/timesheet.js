@@ -268,6 +268,7 @@ function sortResults(array, prop, asc) {
 }
 
 function changeNameLength(name, limit) {
+    if (!name || limit < 4) return name;
     return name.length > limit ? name.substring(0, limit - 3) + "..." : name;
 }
 
