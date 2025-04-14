@@ -16,7 +16,6 @@ $cs->registerScriptFile($baseUrl . '/js/student/form/_initialization.js?v=' . TA
 $cs->registerScriptFile($baseUrl . '/js/student/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/student/form/datepicker-pt-BR.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
