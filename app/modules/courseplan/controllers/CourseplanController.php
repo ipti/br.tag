@@ -556,7 +556,7 @@ class CourseplanController extends Controller
             if (!Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
 
                 $criteria->condition = '
-                    AND school_inep_fk= :school
+                    school_inep_fk= :school
                     AND modality_fk= :stageRequest
                     AND YEAR(start_date) = :year';
 
