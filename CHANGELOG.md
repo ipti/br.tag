@@ -1,3 +1,6 @@
+## [Versão 3.101.231]
+- Corrigido problema de carregamento de habilidades no plano de aula
+
 ## [Versão 3.101.230]
 - corrigido problema de deletar turmas
 
