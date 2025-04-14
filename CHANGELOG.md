@@ -1,3 +1,6 @@
+## [Versão 3.101.229]
+- Relatório de notas por aluno no diário eletrônico foi alterado para considerar a etapa de ensino vinculada à matrícula do aluno em turmas multisseriadas
+
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
 

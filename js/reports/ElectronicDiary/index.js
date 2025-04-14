@@ -65,10 +65,12 @@ $(".final-date").datepicker({
 });
 
 $(document).on("change", "#report", function () {
+    $(".js-alert").html("").hide()
     if ($(this).val() !== "") {
         if ($("#report").val() === "frequency") {
             $(".classroom-container, .date-container").show();
             $(".students-container").hide();
+            $(".stages-container").hide();
             if ($("#classroom").val() !== "" && $("#classroom > option:selected").attr("fundamentalMaior") === "1") {
                 $(".disciplines-container").show();
             }
@@ -82,11 +84,19 @@ $(document).on("change", "#report", function () {
         $(".dependent-filters").show();
     } else {
         $(".dependent-filters").hide();
+        $(".students-container").hide();
+        $(".stages-container").hide();
+        $(".date-container, .disciplines-container").hide();
     }
 });
 
 $("#classroom").on("change", function () {
+    $(".js-alert").html("").hide();
+    $(".stages-container").hide();
+    $("#stages").select2("val", "");
+
     $("#discipline, #student").val("").trigger("change.select2");
+    $(".js-grades-alert-multi").hide()
     if ($(this).val() !== "") {
         if ($("#classroom > option:selected").attr("fundamentalMaior") === "1") {
             $.ajax({
@@ -144,6 +154,45 @@ $("#classroom").on("change", function () {
     }
 });
 
+$("#student").on("change", function () {
+    if($("#classroom > option:selected").attr("isMultiStage") === "1") {
+        $.ajax({
+            type: "POST",
+            url: "?r=reports/getStagesMulti",
+            cache: false,
+            data: {
+                classroomId: $("#classroom").val(),
+                enrollmentId: $("#student").val(),
+            },
+            success: function (response) {
+                response = DOMPurify.sanitize(response)
+
+                if (response === "") {
+                    $("#stage").html("<option value='-1'></option>").trigger("change.select2").show();
+                } else {
+                    $("#stage").html(decodeHtml(response)).trigger("change.select2").show();
+                    $(".stages-container").show()
+                }
+            }
+        })
+    }
+})
+
+$("#stage").on("change", function(e) {
+
+    const isMulti = $("#classroom > option:selected").attr("isMultiStage") === "1";
+    const isClassroomStage = $("#stage option:selected").attr("data-classroom-stage");
+    const stage = $("#stage").val();
+    let alert = ""
+     if(isMulti == "1" && stage !== ""){
+        alert = isClassroomStage == "1" ?
+        "<h4><b>Turma Multiseriada</b></h4>Foi selecionada a etapa vinculada à TURMA<br>contudo, também existe a possibilidade de utilizar as etapas vinculadas diretamente ao ALUNOS."
+        :
+        "<h4><b>Turma Multiseriada</b></h4>Foi selecionada uma etapa vinculada ao ALUNO<br>contudo, também existe a possibilidade de utilizar a etapas vinculadas diretamente a TURMA."
+        $(".js-alert").html(alert).show()
+    }
+})
+
 $(document).on("click", "#loadreport", function () {
     $(".alert-report").hide();
     var valid = false;
@@ -155,7 +204,8 @@ $(document).on("click", "#loadreport", function () {
             }
             break;
         case "gradesByStudent":
-            if ($("#classroom").val() !== "" && $("#student").val() !== "") {
+            var isMulti =  $("#classroom > option:selected").attr("isMultiStage") === "1";
+            if ($("#classroom").val() !== "" && (!isMulti || $("#stage").val() !== "") && $("#student").val() !== "") {
                 valid = true;
             }
             break;
@@ -176,7 +226,9 @@ function loadReport() {
             type: $("#report").val(),
             classroom: $("#classroom").val(),
             fundamentalMaior: $("#classroom option:selected").attr("fundamentalmaior"),
+            isMultiStage: $("#classroom option:selected").attr("isMultiStage"),
             discipline: $("#discipline").val(),
+            stage:  $("#stage").val(),
             initialDate: $(".initial-date").val(),
             finalDate: $(".final-date").val(),
             student: $("#student").val()
