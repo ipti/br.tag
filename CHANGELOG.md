@@ -1,3 +1,6 @@
+## [Versão 3.101.230]
+- corrigido problema de deletar turmas
+
 ## [Versão 3.101.229]
 - Correção de carregamento de plano de aula;
 - Correção de carregamento de  escola;
