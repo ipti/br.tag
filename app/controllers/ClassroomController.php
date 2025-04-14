@@ -986,6 +986,8 @@ class ClassroomController extends Controller
                 $enrollments = StudentEnrollment::model()->findAllByAttributes(array("classroom_fk" => $classroom->id));
                 $graderules =  ClassroomVsGradeRules::model()->findAllByAttributes(array("classroom_fk"=>$classroom->id));
 
+                $workByExams = WorkByExam::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
+
                 if (count($enrollments) > 0) {
                     throw new Exception("Não foi possível excluir a turma porque existem alunos matriculados.");
                 }
@@ -996,6 +998,12 @@ class ClassroomController extends Controller
 
                 if(count( $graderules)  > 0){
                     throw new Exception("Não se pode remover turma com estruturas vinculadas.");
+                }
+
+                if(count( $workByExams)  > 0) {
+                    foreach ($workByExams as $workByExam) {
+                        $workByExam->delete();
+                    }
                 }
 
                 foreach ($teachingDatas as $teachingData) {
