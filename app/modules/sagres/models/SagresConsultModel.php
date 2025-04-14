@@ -846,7 +846,7 @@ class SagresConsultModel
     {
 
         $seriesList = [];
-        $edsensoCodes = [
+        $edcensoCodes = [
             1 => "INF1",
             2 => "INF2",
             14 => "FUN1",
@@ -868,7 +868,7 @@ class SagresConsultModel
             $serieType = new SerieTType();
             $edcensoCode = $serie->edcensoCode;
 
-            $idSerie = $this->getSerieID($serie, $edcensoCode, $edsensoCodes);
+            $idSerie = $this->getSerieID($serie, $edcensoCode, $edcensoCodes);
 
             if ($this->isIssetSerieId($idSerie, $schoolName, $serie)) {
                 continue;
@@ -949,14 +949,14 @@ class SagresConsultModel
         }
     }
 
-    private function getSerieID($serie, $edcensoCode, $edsensoCodes): string
+    private function getSerieID($serie, $edcensoCode, $edcensoCodes): string|null
     {
         if ((int) $serie->complementaryActivity === 1 && (int) $serie->schooling === 0) {
             return "COM1";
         } elseif ((int) $serie->aee === 1 || (int) $edcensoCode == 75) {
             return "AEE1";
         } else {
-            return $edsensoCodes[(int) $edcensoCode];
+            return $edcensoCodes[(int) $edcensoCode];
         }
     }
 
