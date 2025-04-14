@@ -176,6 +176,7 @@ class GradesController extends Controller
             $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
             $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
             $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
+            $criteria->group = 'gu.id';
             $criteria->params = array(':classroom' => $classroomId, ":stage"=>$stage);
 
             $unities = GradeUnity::model()->findAll($criteria);
@@ -187,6 +188,7 @@ class GradesController extends Controller
             $criteria->join .= ' INNER JOIN classroom c ON c.id = cgr.classroom_fk';
             $criteria->join .= ' INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.edcenso_stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk';
             $criteria->condition = 'cgr.classroom_fk = :classroomId';
+            $criteria->group = 'gu.id';
             $criteria->params = array(':classroomId' => $classroomId);
             $unities = GradeUnity::model()->findAll($criteria);
 
@@ -201,7 +203,7 @@ class GradesController extends Controller
             $result["finalConcept"] = "Conceito Final";
         }
 
-        if(isset(($stage)) && $stage !== "") {
+        if(isset(($stage)) && $stage !== "" && TagUtils::isStageMinorEducation($stage)) {
             $result["finalConcept"] = "Conceito  Final";
         }
 

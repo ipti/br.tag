@@ -264,6 +264,7 @@ function GradeTableBuilder(data) {
         const unitesGrade = unities
         .map((unity) => {
                 const isFinalConcept = unity.unityName === "Conceito Final"
+                let unityRow  = "";
                 if(isFinalConcept) {
                     return template`
                     <td class="grade-td">
@@ -275,7 +276,8 @@ function GradeTableBuilder(data) {
                         )}
                     </td>`;
                 } else {
-                const unityRow = unity.grades.map((grade) => {
+
+                 unityRow = unity.grades.map((grade) => {
                     return template`
                     <td class="grade-td">
                         ${buildInputOrSelect(
