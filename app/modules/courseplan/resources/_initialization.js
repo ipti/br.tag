@@ -25,7 +25,7 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
             placeholder: "Informe o código da habilidade",
             minimumInputLength: 4,
             ajax: {
-                url: "?r=courseplan/courseplan/getAbilities/?a=1",
+                url: "?r=courseplan/courseplan/getAbilities/&a=1",
                 dataType: 'json',
                 quietMillis: 250,
                 data: function (term, page) {
