@@ -36,7 +36,7 @@ class FoodRequest extends TagModel
         // will receive user inputs.
         return array(
             array('notice_fk', 'numerical', 'integerOnly'=>true),
-            array('status', 'length', 'max'=>12),
+            array('status', 'length', 'max'=>100),
             array('reference_id', 'length', 'max'=>36),
             array('date', 'safe'),
             // The following rule is used by search().
