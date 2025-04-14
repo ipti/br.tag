@@ -29,7 +29,7 @@ class DefaultController extends Controller
         $getCoursePlans = new GetCoursePlans();
         $coursePlans = $getCoursePlans->exec($discipline_fk,$stage_fk);
 
-        $getAbilities = new getAbilities();
+        $getAbilities = new GetAbilities();
         $abilities = $getAbilities->exec($discipline_fk, $stage_fk);
 
 		$this->render('classDiary', [
@@ -153,7 +153,7 @@ class DefaultController extends Controller
         $abilities = Yii::app()->request->getPost('abilities');
 
         if($hasNewClassContent){
-            $saveNewClassContent = new saveNewClassContent();
+            $saveNewClassContent = new SaveNewClassContent();
             $newClassContentId = $saveNewClassContent->exec($coursePlanId, $content, $methodology, $abilities);
             if($classContent != null){
                 $classContent[] = $newClassContentId;

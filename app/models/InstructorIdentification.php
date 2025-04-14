@@ -206,4 +206,25 @@ class InstructorIdentification extends AltActiveRecord
         return $disciplines;
     }
 
+    public function getClassrooms()
+    {
+        $instructorId = $this->id;
+
+        $sql = "SELECT c.id as cid, ii.name as instructor_name, c.name as classroom_name, c.school_year as syear, si.name as school_name
+        from instructor_teaching_data itd
+        join instructor_identification ii on itd.instructor_fk = ii.id
+        join classroom c on c.id = itd.classroom_id_fk
+        join school_identification si on si.inep_id = c.school_inep_fk
+        WHERE ii.id = :intructorId
+        ORDER BY ii.name;";
+
+        $command = Yii::app()->db->createCommand($sql);
+        $command->bindValue(':intructorId', $instructorId, PDO::PARAM_INT);
+
+
+        $classrooms = $command->queryAll();
+
+        return $classrooms;
+    }
+
 }

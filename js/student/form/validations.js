@@ -905,7 +905,7 @@ function checkCivilRegisterEnrollmentNumberValidity(element) {
     let id = "#" + $(element).attr("id");
     let id_caixa = $("#registerMessage");
     let id_icon = $("#registerIcon");
-    let value = $(element).cleanVal();
+    let value = $(element).val().replace(/\D/g, '');
     let valid = true;
     if (value !== "") {
         if (value.length < 32) {

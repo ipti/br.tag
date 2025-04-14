@@ -716,6 +716,7 @@ class ClassroomController extends Controller
             } else {
                 foreach ($enrollments as $enrollment) {
                     $studentEnrollment = StudentEnrollment::model()->findByPk($enrollment);
+
                     $frequencyAndMean = FrequencyAndMeanByDiscipline::model()
                         ->findAllByAttributes(array('enrollment_fk' => $studentEnrollment->id));
                     $gradeResults = GradeResults::model()
@@ -732,6 +733,7 @@ class ClassroomController extends Controller
                     foreach ($frequencyByExam as $frequencyExam) {
                         $frequencyExam->delete();
                     }
+                    StudentEnrollmentHistory::model()->deleteAll("student_enrollment_fk = :enrollment_fk", [":enrollment_fk" => $studentEnrollment->id]);
                     $studentEnrollment->delete();
                     Yii::app()->user->setFlash('success', 'Matrículas de alunos excluídas com sucesso');
                 }
@@ -952,7 +954,7 @@ class ClassroomController extends Controller
     {
         $classroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
         $teachingDatas = $this->loadModel($id, $this->MODEL_TEACHING_DATA);
-
+        $transaction = Yii::app()->db->beginTransaction();
         $ableToDelete = true;
         if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
             if ($classroom->gov_id !== null) {
@@ -981,15 +983,36 @@ class ClassroomController extends Controller
         }
         if ($ableToDelete) {
             try {
+                $enrollments = StudentEnrollment::model()->findAllByAttributes(array("classroom_fk" => $classroom->id));
+                $graderules =  ClassroomVsGradeRules::model()->findAllByAttributes(array("classroom_fk"=>$classroom->id));
+
+                if (count($enrollments) > 0) {
+                    throw new Exception("Não foi possível excluir a turma porque existem alunos matriculados.");
+                }
+
+                if (count($teachingDatas) > 0) {
+                    throw new Exception("Não se pode remover turma com professores vinculados.");
+                }
+
+                if(count( $graderules)  > 0){
+                    throw new Exception("Não se pode remover turma com estruturas vinculadas.");
+                }
+
                 foreach ($teachingDatas as $teachingData) {
                     $teachingData->delete();
                 }
                 if ($classroom->delete()) {
                     Log::model()->saveAction("classroom", $id, "D", $classroom->name);
+                    $transaction->commit();
                     echo json_encode(["valid" => true, "message" => "Turma excluída com sucesso!"]);
+                } else {
+                    throw new Exception("Falha ao excluir a turma.");
                 }
             } catch (Exception $e) {
-                echo json_encode(["valid" => false, "message" => "Não se pode remover turma com professores vinculados."]);
+                if(isset($transaction)){
+                    $transaction->rollback();
+                }
+                echo json_encode(["valid" => false, "message" => $e->getMessage()]);
             }
         } else {
             echo json_encode(["valid" => false, "message" => "Não foi possível remover a turma no SEDSP. Motivo: " . $erro]);
