@@ -1002,8 +1002,8 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = TURMA_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'O número de turmas multiseriada excede o limite de 3 series por turma ' . $schoolName;
-            $inconsistencyModel->action = 'Remova turmas';
+            $inconsistencyModel->description = 'Essa turma multiseriada excede o limite de 3 etapas por turma ' . $schoolName;
+            $inconsistencyModel->action = 'Avalie as etapas das matriculas';
             $inconsistencyModel->identifier = '10';
             $inconsistencyModel->idSchool = $inepId;
             $inconsistencyModel->insert();

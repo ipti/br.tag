@@ -63,7 +63,7 @@ let spOptions = {
 $(formIdentification + "responsable_telephone").mask(SPMaskBehavior, spOptions);
 $(formIdentification + "responsable_telephone").focusout(function () {
     let id = "#" + $(this).attr("id");
-    let phone = $(id).cleanVal();
+    let phone = $(id).val().replace(/\D/g, '');
     if (phone.length !== 11 && phone.length !== 10) {
         addError(
             id,
