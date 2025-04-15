@@ -27,8 +27,10 @@ var removeTeachingData = function () {
 var removeInstructor = function (instructor) {
     for (var i = 0; i < teachingData.length; i++) {
         if (teachingData[i].Instructor == instructor) {
-            for (var j = 0; j < teachingData[i].Disciplines.length; j++) {
-                removeDiscipline(instructor, teachingData[i].Disciplines[j])
+            if(teachingData[i].Disciplines) {
+                for (var j = 0; j < teachingData[i].Disciplines.length; j++) {
+                    removeDiscipline(instructor, teachingData[i].Disciplines[j])
+                }
             }
             teachingData.splice(i, 1);
         }
