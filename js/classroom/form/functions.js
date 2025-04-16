@@ -53,18 +53,18 @@ var removeInstructor = function (instructor) {
 
 var removeDiscipline = function (instructor, discipline) {
     var count = 0;
-    for (var i = 0; i < teachingData.length; i++) {
+    for (let i = 0; i < teachingData.length; i++) {
         if (teachingData[i].Instructor != instructor) {
-            for (var j = 0; j < teachingData[i].Disciplines.length; j++) {
+            for (let j = 0; j < teachingData[i].Disciplines.length; j++) {
                 if (discipline == teachingData[i].Disciplines[j])
                     count++;
             }
         }
     }
-    // debugger;
-    for (var i = teachingData.length; i--;) {
+
+    for (let i = teachingData.length; i--;) {
         if (teachingData[i].Instructor == instructor) {
-            for (var j = teachingData[i].Disciplines.length - 1;j>=0; j--) {
+            for (let j = teachingData[i].Disciplines.length - 1;j>=0; j--) {
                 if (teachingData[i].Disciplines[j] == discipline)
                     teachingData[i].Disciplines.splice(j, 1);
             }
