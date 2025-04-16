@@ -5,6 +5,8 @@ com o valor apresentado em diferentes sessões do sistema.
 - Correção na funcionalidade de contagem de matrícula ativas na tela inicial de turmas.
 - Correção na funcionalidade de atribuir conteúdo ministrado em sala de aula, em diários de classe. Inconsistência apresentada ao
 salvar aulas corrigida.
+- Adicionado campo etapas de ensino no formulário de cardápio
+- Adicionado etapas de ensino no relatório de cardápio
 
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.

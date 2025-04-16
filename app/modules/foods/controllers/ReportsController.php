@@ -15,6 +15,15 @@ class ReportsController extends Controller
         WHERE fmvfpt.food_menu_fk = :id";
         $publicTarget = Yii::app()->db->createCommand($publicTargetSql)->bindParam(':id', $modelFoodMenu->id)->queryRow();
 
+        $stagesSQL = "Select esvm.name FROM food_menu_vs_edcenso_stage_vs_modality fmesvsm
+        INNER JOIN food_menu fm on fm.id = fmesvsm.food_menu_fk
+        INNER JOIN edcenso_stage_vs_modality esvm on esvm.id = fmesvsm.edcenso_stage_vs_modality_fk
+        Where fmesvsm.food_menu_fk = :id";
+
+        $stagesNames = Yii::app()->db->createCommand($stagesSQL)
+            ->bindParam(':id', $modelFoodMenu->id)
+            ->queryColumn();
+
         $getFoodMenu = new GetFoodMenu();
         $foodMenu = $getFoodMenu->exec($modelFoodMenu, $publicTarget, $modelMenuMeals);
 
@@ -40,7 +49,8 @@ class ReportsController extends Controller
             "schoolLocation" => $schoolLocation,
             "schoolCity" => $schoolCity,
             "nutritionalValue" => $nutritionalValue,
-            "include_saturday" => $includeSatruday
+            "include_saturday" => $includeSatruday,
+            "stagesNames" => $stagesNames
         )
         );
     }
