@@ -20,18 +20,31 @@ var removeTeachingData = function () {
             removeInstructor(instructor);
         }
     } else {
-        removeDiscipline(instructor, discipline);
+        removeDiscipline(instructor, discipline)
+        const teachingDataInstructor = getTeachingData(instructor);
+        if(!teachingDataInstructor.Disciplines || teachingDataInstructor.Disciplines.length == 0){
+            removeInstructor(instructor);
+        }
+    }
+}
+
+function getTeachingData(instructor){
+    for (var i = 0; i < teachingData.length; i++) {
+        if (teachingData[i].Instructor == instructor) {
+            return teachingData[i];
+        }
     }
 }
 
 var removeInstructor = function (instructor) {
+
     for (var i = 0; i < teachingData.length; i++) {
         if (teachingData[i].Instructor == instructor) {
-            if(teachingData[i].Disciplines) {
-                for (var j = 0; j < teachingData[i].Disciplines.length; j++) {
-                    removeDiscipline(instructor, teachingData[i].Disciplines[j])
-                }
+            for (var j = 0; j < teachingData[i].Disciplines.length; j++) {
+                removeDiscipline(instructor, teachingData[i].Disciplines[j])
             }
+
+            $("li[instructor = " + instructor + "]").remove();
             teachingData.splice(i, 1);
         }
     }
@@ -41,29 +54,29 @@ var removeInstructor = function (instructor) {
 var removeDiscipline = function (instructor, discipline) {
     var count = 0;
     for (var i = 0; i < teachingData.length; i++) {
-        for (var j = 0; j < teachingData[i].Disciplines.length; j++) {
-            if (discipline == teachingData[i].Disciplines[j])
-                count++;
+        if (teachingData[i].Instructor != instructor) {
+            for (var j = 0; j < teachingData[i].Disciplines.length; j++) {
+                if (discipline == teachingData[i].Disciplines[j])
+                    count++;
+            }
         }
     }
-
+    // debugger;
     for (var i = teachingData.length; i--;) {
         if (teachingData[i].Instructor == instructor) {
-            for (var j = teachingData[i].Disciplines.length; j--;) {
+            for (var j = teachingData[i].Disciplines.length - 1;j>=0; j--) {
                 if (teachingData[i].Disciplines[j] == discipline)
                     teachingData[i].Disciplines.splice(j, 1);
             }
-            if (teachingData[i].Disciplines.length == 0) {
-                teachingData.splice(i, 1);
-                $("li[instructor = " + instructor + "]").remove();
-            }
-            if (count <= 1) {
+
+            if (count === 0) {
                 disciplines[discipline] = 0;
             }
         }
     }
     $("li[instructor = " + instructor + "] li[discipline = " + discipline + "]").remove();
 }
+
 $(document).on("change", "#Role", function () {
     $(".regent-teacher-container").hide()
     if ($(this).val() == 1 && RegentTeacherCount < 2) {
