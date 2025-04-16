@@ -42,23 +42,23 @@ $(document).ready(function() {
         });
     });
 
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/farmerregister/getFoodAlias",
-        cache: false
-    }).success(function(response) {
-        let data = DOMPurify.sanitize(response);
-        let foods_description = JSON.parse(data);
+    // $.ajax({
+    //     type: 'POST',
+    //     url: "?r=foods/farmerregister/getFoodAlias",
+    //     cache: false
+    // }).success(function(response) {
+    //     let data = DOMPurify.sanitize(response);
+    //     let foods_description = JSON.parse(data);
 
-        Object.entries(foods_description).forEach(function([id, value]) {
-            let description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
-            value = id + ',' + value.measurementUnit;
-            foodSelect.append($('<option>', {
-                value: value,
-                text: description
-            }));
-        });
-    })
+    //     Object.entries(foods_description).forEach(function([id, value]) {
+    //         let description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
+    //         value = id + ',' + value.measurementUnit;
+    //         foodSelect.append($('<option>', {
+    //             value: value,
+    //             text: description
+    //         }));
+    //     });
+    // })
 });
 
 $(document).on("focusout", "#farmerCpf", function () {
@@ -129,6 +129,32 @@ $(document).on("change", "#foodSelect", function () {
     measurementUnitSelect.trigger("change");
 });
 
+$(document).on("change", "#foodNotice", function () {
+    let $notice = $(this).val();
+
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/farmerRegister/getFoodNoticeItems",
+        cache: false,
+        data: {
+            notice: $notice,
+        }
+    }).success(function(response) {
+        let data = DOMPurify.sanitize(response);
+        let foodNoticeItems = JSON.parse(data);
+
+        $('#foodSelect').html('<option value="alimento">Selecione o Alimento</option>').trigger('change');
+
+        Object.entries(foodNoticeItems).forEach(function([id, value]) {
+            let foodId = value.foodId + ',' + value.measurementUnit;
+            $('#foodSelect').append($('<option>', {
+                value: foodId,
+                text: value.foodName
+            }));
+        });
+    });
+});
+
 $(document).on("click", "#js-add-food", function () {
     let food = $('#foodSelect').find('option:selected').text();
     let foodId = $('#foodSelect').val().split(',')[0];
@@ -150,6 +176,9 @@ $(document).on("click", "#js-add-food", function () {
             foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit, notice: notice, noticeId: noticeId});
         }
         renderFoodsTable(foodsRelation);
+
+        $('#measurementUnit').val(null).trigger('change');
+        $('#amount').val("");
     } else {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
     }
