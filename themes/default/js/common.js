@@ -190,12 +190,30 @@ $(document).ajaxError(function (event, jqxhr, ajaxSettings, thrownError) {
     const safeSubstring = (str, start, end) =>
         typeof str === 'string' ? str.substring(start, end) : '';
 
-    const requestId = jqxhr?.getResponseHeader?.('X-Request-ID');
+    const safeToString = (input) => {
+        if (input instanceof Error) return input.message;
+        if (typeof input === 'string') return input;
+        try {
+            return JSON.stringify(input);
+        } catch (e) {
+            return Object.prototype.toString.call(input);
+        }
+    };
 
-    Raven.captureMessage(thrownError?.toString?.() || jqxhr.statusText || 'Erro AJAX desconhecido', {
+    const requestId = jqxhr?.getResponseHeader?.('X-Request-ID');
+    const urlPath = ajaxSettings?.url || 'URL desconhecida';
+
+    const errorMessage = `[AJAX ERROR] ${urlPath} - ${safeToString(thrownError || jqxhr.statusText || 'Erro AJAX')}`;
+
+    Raven.captureMessage(errorMessage, {
+        tags: {
+            url: urlPath,
+            method: ajaxSettings?.type || 'GET',
+            status: jqxhr?.status || 'unknown',
+        },
         extra: {
             method: ajaxSettings?.type,
-            url: ajaxSettings?.url,
+            url: urlPath,
             data: ajaxSettings?.data,
             status: jqxhr?.status,
             statusText: jqxhr?.statusText,
@@ -209,6 +227,7 @@ $(document).ajaxError(function (event, jqxhr, ajaxSettings, thrownError) {
         }
     });
 });
+
 
 $(function () {
     $("[id2='school']").change(function () {
