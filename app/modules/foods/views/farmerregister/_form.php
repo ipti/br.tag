@@ -102,6 +102,12 @@ $form=$this->beginWidget('CActiveForm', array(
     </div>
 
     <div class="row">
+        <div class="column clearleft t-margin-none--bottom t-field-text is-one-tenth">
+            <?php echo CHtml::label('Edital', 'notice', array('class' => 't-field-select__label--required')); ?>
+            <select class="select-search-on t-field-select__input select2-container" id="foodNotice" name="foodNotice">
+                <option value="selecione">Selecione</option>
+            </select>
+        </div>
         <div class="column clearleft t-margin-none--bottom t-field-select is-one-third">
             <?php echo CHtml::label('Selecione o Alimento', 'food_fk', array('class' => 't-field-select__label--required')); ?>
             <select class="select-search-on t-field-select__input select2-container" id="foodSelect">
@@ -110,18 +116,12 @@ $form=$this->beginWidget('CActiveForm', array(
         </div>
         <div class="column clearleft t-margin-none--bottom t-field-text is-one-tenth">
             <?php echo $form->label($modelFarmerFoods,'amount', array('class' => 't-field-text__label--required')); ?>
-            <?php echo $form->textField($modelFarmerFoods,'amount', array('id' => 'amount','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input')); ?>
+            <?php echo $form->textField($modelFarmerFoods,'amount', array('id' => 'amount','size'=>60,'maxlength'=>100, 'class' => 't-field-text__input', 'placeholder' => 'Informe')); ?>
             <?php echo $form->error($modelFarmerFoods,'amount'); ?>
         </div>
         <div class="column clearleft t-margin-none--bottom t-field-text is-one-tenth">
             <?php echo CHtml::label('Unidade', 'measurementUnit', array('class' => 't-field-select__label--required')); ?>
             <select class="select-search-on t-field-select__input select2-container" id="measurementUnit" name="measurementUnit">
-                <option value="selecione">Selecione</option>
-            </select>
-        </div>
-        <div class="column clearleft t-margin-none--bottom t-field-text is-one-tenth">
-            <?php echo CHtml::label('Edital', 'notice', array('class' => 't-field-select__label--required')); ?>
-            <select class="select-search-on t-field-select__input select2-container" id="foodNotice" name="foodNotice">
                 <option value="selecione">Selecione</option>
             </select>
         </div>
