@@ -716,6 +716,7 @@ class ClassroomController extends Controller
             } else {
                 foreach ($enrollments as $enrollment) {
                     $studentEnrollment = StudentEnrollment::model()->findByPk($enrollment);
+
                     $frequencyAndMean = FrequencyAndMeanByDiscipline::model()
                         ->findAllByAttributes(array('enrollment_fk' => $studentEnrollment->id));
                     $gradeResults = GradeResults::model()
@@ -732,6 +733,7 @@ class ClassroomController extends Controller
                     foreach ($frequencyByExam as $frequencyExam) {
                         $frequencyExam->delete();
                     }
+                    StudentEnrollmentHistory::model()->deleteAll("student_enrollment_fk = :enrollment_fk", [":enrollment_fk" => $studentEnrollment->id]);
                     $studentEnrollment->delete();
                     Yii::app()->user->setFlash('success', 'Matrículas de alunos excluídas com sucesso');
                 }
@@ -984,6 +986,8 @@ class ClassroomController extends Controller
                 $enrollments = StudentEnrollment::model()->findAllByAttributes(array("classroom_fk" => $classroom->id));
                 $graderules =  ClassroomVsGradeRules::model()->findAllByAttributes(array("classroom_fk"=>$classroom->id));
 
+                $workByExams = WorkByExam::model()->findAllByAttributes(["classroom_fk" => $classroom->id]);
+
                 if (count($enrollments) > 0) {
                     throw new Exception("Não foi possível excluir a turma porque existem alunos matriculados.");
                 }
@@ -994,6 +998,12 @@ class ClassroomController extends Controller
 
                 if(count( $graderules)  > 0){
                     throw new Exception("Não se pode remover turma com estruturas vinculadas.");
+                }
+
+                if(count( $workByExams)  > 0) {
+                    foreach ($workByExams as $workByExam) {
+                        $workByExam->delete();
+                    }
                 }
 
                 foreach ($teachingDatas as $teachingData) {

@@ -142,7 +142,6 @@ $("#save, #save-button-mobile").on('click', function () {
                 diary: $(this).val()
             })
         });
-        console.log($(this).find("input.classroom-diary-of-the-day"),  $(this).find("input.classroom-diary-of-the-day").val(), "aaaa")
         classContents.push({
             day: $(this).attr("day"),
             diary: $(this).find(".classroom-diary-of-the-day").val(),

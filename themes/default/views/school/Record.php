@@ -2,14 +2,14 @@
 <div id="body-students-file-form" class="pageA4V">
   <?php
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-    $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk', Yii::app()->user->school);
+    $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :schoolId', [':schoolId' => Yii::app()->user->school]);
     $initial_date = strtotime($school->initial_date);
     $final_date =   strtotime($school->final_date);
     $datediff = $final_date - $initial_date;
 
     $totalDays = abs(round($datediff / (60 * 60 * 24)));
     $this->renderPartial('head');
-  ?>  
+  ?>
   <div class='container-report <?= $type == 1 ? 'mt-40' : 'mt-30' ?> text-center'>
     <h3><?= $title ?></h3>
   </div>
@@ -42,8 +42,8 @@
       </tr>
     </table>
   </div>
-  
-  <?php switch($type){ 
+
+  <?php switch($type){
       case 1:
         $this->renderPartial('_regular_education', array());
       break;
@@ -151,7 +151,7 @@
     display: flex;
     width: 100%;
   }
-  
+
   .mt-10 {
     margin-top: 10px;
   }
@@ -201,13 +201,13 @@
     flex: 0 0 25%;
     max-width: 25%;
   }
- 
+
   .line-style-head {
     line-height: 44px;
     font-weight: bold;
     font-size: 12px;
   }
-  
+
   .font-size-middle {
     font-size: 12px;
   }
@@ -241,11 +241,11 @@
     font-weight: bold;
     font-size: 11px
   }
-  
+
   .head-font-small {
     font-size: 10px;
   }
-  
+
   .assBox {
     margin-top: 46px;
   }
@@ -266,11 +266,11 @@
     font-size: 20px;
     line-height: 55px;
   }
-  
+
   .text-uppercase {
     text-transform: uppercase;
   }
-  
+
   .line-height-25 {
     line-height: 25px;
   }
@@ -317,14 +317,14 @@
   td, th {
     padding: 5px;
   }
-  
-  table { 
+
+  table {
     width: 100%;
     page-break-inside:auto
   }
 
   .no-padding table {
-    border: none !important; 
+    border: none !important;
   }
 
   tr { page-break-inside:avoid; page-break-after:auto }
@@ -363,7 +363,7 @@
     /* Standard */
     transform: rotate(-90deg);
   }
-  
+
   .size-cel {
     width: 66px;
   }
@@ -449,7 +449,7 @@
       -webkit-print-color-adjust: exact;
       background-color: #C6D9F1 !important;
     }
-    
+
     .background-black {
       -webkit-print-color-adjust: exact;
       background-color: #000 !important;
@@ -486,13 +486,13 @@
     .size-cel {
       width: 66px !important;
     }
-    
+
     .size-col-3 {
       width: 65px !important;
     }
-    
+
     table { font-size: 95%; }
-    
+
     .font-data-student {
       font-size: 90% !important;
     }
@@ -500,7 +500,7 @@
     .size-2 {
       font-size: 80%;
     }
-    
+
     .head-table {
       font-size: 90% !important;
     }
@@ -516,6 +516,6 @@
 
     .head-table td, .head-table th {
       padding: 3px !important;
-    } 
+    }
   }
 </style>
