@@ -1,3 +1,6 @@
+## [Versão 3.0.2]
+- Corrigindo o remover professor de turma e remover discplina ofertada por um professor em uma turma
+
 ## [Versão 3.0.1]
 - Correção no filtro de professores na tela de "Atribuir Professor Substituto" para exibir somente professores substitutos na lista.
 
