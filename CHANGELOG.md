@@ -2,6 +2,7 @@
 - Alteração no registro de data de matrícula. O campo "Data de Matrícula" do formulário de matrícula agora está diretamente relacionado
 com o valor apresentado em diferentes sessões do sistema.
 - Relatório de notas por aluno no diário eletrônico foi alterado para considerar a etapa de ensino vinculada à matrícula do aluno em turmas multisseriadas
+- Correção na funcionalidade de contagem de matrícula ativas na tela inicial de turmas.
 
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
