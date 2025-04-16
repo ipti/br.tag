@@ -63,7 +63,7 @@ let spOptions = {
 $(formIdentification + "responsable_telephone").mask(SPMaskBehavior, spOptions);
 $(formIdentification + "responsable_telephone").focusout(function () {
     let id = "#" + $(this).attr("id");
-    let phone = $(id).cleanVal();
+    let phone = $(id).val().replace(/\D/g, '');
     if (phone.length !== 11 && phone.length !== 10) {
         addError(
             id,
@@ -80,7 +80,7 @@ $(formIdentification + "responsable_cpf").mask("000.000.000-00", {
 $(formIdentification + "responsable_cpf").focusout(function () {
     let id = "#" + $(this).attr("id");
     removeError(id);
-    const validationState = validateCpf($(id).cleanVal());
+    const validationState = validateCpf($(id).val().replace(/\D/g, ''));
     if (!validationState.valid) {
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
@@ -115,7 +115,7 @@ $(formIdentification + "filiation_1_cpf").mask("000.000.000-00", {
 });
 $(formIdentification + "filiation_1_cpf").focusout(function () {
     let id = "#" + $(this).attr("id");
-    const validationState = validateCpf($(id).cleanVal());
+    const validationState = validateCpf($(id).val().replace(/\D/g, ''));
     if (!validationState.valid) {
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
@@ -128,7 +128,7 @@ $(formIdentification + "filiation_2_cpf").mask("000.000.000-00", {
 });
 $(formIdentification + "filiation_2_cpf").focusout(function () {
     let id = "#" + $(this).attr("id");
-    const validationState = validateCpf($(id).cleanVal());
+    const validationState = validateCpf($(id).val().replace(/\D/g, ''));
     if (!validationState.valid) {
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
@@ -822,7 +822,7 @@ $(formDocumentsAndAddress + "cpf").focusout(function () {
     $(id_icon).css("display", "none");
     $(id_caixa).attr("data-original-title", "");
 
-    const validationState = validateCpf($(id).cleanVal());
+    const validationState = validateCpf($(id).val().replace(/\D/g, ''));
     if (!validationState.valid) {
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {
@@ -830,7 +830,7 @@ $(formDocumentsAndAddress + "cpf").focusout(function () {
     }
 
     var idStudent = new URLSearchParams(window.location.search).get('id');
-    existsStudentWithCPF($(id).cleanVal(), idStudent, function (ret) {
+    existsStudentWithCPF($(id).val().replace(/\D/g, ''), idStudent, function (ret) {
         if (!ret[0] && $(id).val() != "") {
             addError(id);
             $(id_icon).css("display", "inline-block");
@@ -848,7 +848,7 @@ $(formDocumentsAndAddress + "cep").mask("00000-000", {
 });
 $(formDocumentsAndAddress + "cep").focusout(function () {
     let id = "#" + $(this).attr("id");
-    if (!validateCEP($(id).cleanVal())) {
+    if (!validateCEP($(id).val().replace(/\D/g, ''))) {
         addError(
             id,
             "Informe um CEP cadastrado nos correios. Apenas números são aceitos. Deve possuir no máximo 8 caracteres."
@@ -905,7 +905,7 @@ function checkCivilRegisterEnrollmentNumberValidity(element) {
     let id = "#" + $(element).attr("id");
     let id_caixa = $("#registerMessage");
     let id_icon = $("#registerIcon");
-    let value = $(element).cleanVal();
+    let value = $(element).val().replace(/\D/g, '');
     let valid = true;
     if (value !== "") {
         if (value.length < 32) {

@@ -292,53 +292,11 @@ class StudentIdentification extends AltActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('register_type', $this->register_type, true);
-        //        $school = Yii::app()->user->school;
-//        $criteria->compare('school_inep_id_fk', $school);
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
-        //        $criteria->compare('nis', $this->nis, true);
-//        $criteria->compare('birthday', $this->birthday, true);
-//        $criteria->compare('sex', $this->sex);
-//        $criteria->compare('color_race', $this->color_race);
-//        $criteria->compare('filiation', $this->filiation);
-//        $criteria->compare('id_email', $this->id_email);
-//        $criteria->compare('scholarity', $this->scholarity);
         $criteria->compare('filiation_1', $this->filiation_1, true);
-        //        $criteria->compare('father_name', $this->father_name, true);
-//        $criteria->compare('nationality', $this->nationality);
-//        $criteria->compare('edcenso_nation_fk', $this->edcenso_nation_fk);
-//        $criteria->compare('edcenso_uf_fk', $this->edcenso_uf_fk);
-//        $criteria->compare('edcenso_city_fk', $this->edcenso_city_fk);
-//        $criteria->compare('deficiency', $this->deficiency);
-//        $criteria->compare('deficiency_type_blindness', $this->deficiency_type_blindness);
-//        $criteria->compare('deficiency_type_low_vision', $this->deficiency_type_low_vision);
-//        $criteria->compare('deficiency_type_deafness', $this->deficiency_type_deafness);
-//        $criteria->compare('deficiency_type_disability_hearing', $this->deficiency_type_disability_hearing);
-//        $criteria->compare('deficiency_type_deafblindness', $this->deficiency_type_deafblindness);
-//        $criteria->compare('deficiency_type_phisical_disability', $this->deficiency_type_phisical_disability);
-//        $criteria->compare('deficiency_type_intelectual_disability', $this->deficiency_type_intelectual_disability);
-//        $criteria->compare('deficiency_type_multiple_disabilities', $this->deficiency_type_multiple_disabilities);
-//        $criteria->compare('deficiency_type_autism', $this->deficiency_type_autism);
-//        $criteria->compare('deficiency_type_aspenger_syndrome', $this->deficiency_type_aspenger_syndrome);
-//        $criteria->compare('deficiency_type_rett_syndrome', $this->deficiency_type_rett_syndrome);
-//        $criteria->compare('deficiency_type_childhood_disintegrative_disorder', $this->deficiency_type_childhood_disintegrative_disorder);
-//        $criteria->compare('deficiency_type_gifted', $this->deficiency_type_gifted);
-//        $criteria->compare('resource_aid_lector', $this->resource_aid_lector);
-//        $criteria->compare('resource_aid_transcription', $this->resource_aid_transcription);
-//        $criteria->compare('resource_interpreter_guide', $this->resource_interpreter_guide);
-//        $criteria->compare('resource_interpreter_libras', $this->resource_interpreter_libras);
-//        $criteria->compare('resource_lip_reading', $this->resource_lip_reading);
-//        $criteria->compare('resource_zoomed_test_16', $this->resource_zoomed_test_16);
-//        $criteria->compare('resource_zoomed_test_20', $this->resource_zoomed_test_20);
-//        $criteria->compare('resource_zoomed_test_24', $this->resource_zoomed_test_24);
-//        $criteria->compare('resource_zoomed_test_18', $this->resource_zoomed_test_18);
-//        $criteria->compare('resource_braille_test', $this->resource_braille_test);
-//        $criteria->compare('resource_proof_language', $this->resource_proof_language);
-//        $criteria->compare('resource_cd_audio', $this->resource_cd_audio);
-//        $criteria->compare('resource_video_libras', $this->resource_video_libras);
-//        $criteria->compare('resource_none', $this->resource_none);
-//        $criteria->compare('send_year', $this->send_year);
+
 
         return new CActiveDataProvider(
             $this,
