@@ -3,6 +3,8 @@
 com o valor apresentado em diferentes sessões do sistema.
 - Relatório de notas por aluno no diário eletrônico foi alterado para considerar a etapa de ensino vinculada à matrícula do aluno em turmas multisseriadas
 - Correção na funcionalidade de contagem de matrícula ativas na tela inicial de turmas.
+- Correção na funcionalidade de atribuir conteúdo ministrado em sala de aula, em diários de classe. Inconsistência apresentada ao
+salvar aulas corrigida.
 
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
