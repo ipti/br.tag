@@ -1,4 +1,8 @@
-## [Versão 3.101.229]
+## [Versão 3.1.0]
+- Alteração no registro de data de matrícula. O campo "Data de Matrícula" do formulário de matrícula agora está diretamente relacionado
+com o valor apresentado em diferentes sessões do sistema.
+- Relatório de notas por aluno no diário eletrônico foi alterado para considerar a etapa de ensino vinculada à matrícula do aluno em turmas multisseriadas
+- Correção na funcionalidade de contagem de matrícula ativas na tela inicial de turmas.
 - Correção na funcionalidade de atribuir conteúdo ministrado em sala de aula, em diários de classe. Inconsistência apresentada ao
 salvar aulas corrigida.
 
