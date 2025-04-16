@@ -27,16 +27,24 @@ $('#course-classes tbody').on('click', 'td.details-control', function () {
             ajax: {
                 url: "?r=courseplan/courseplan/getAbilities",
                 dataType: 'json',
-                quietMillis: 250,
+                quietMillis: 300,
+                timeout: 7000,
+                cache: true,
                 data: function (term, page) {
                     return {
                         q: term,
                     };
                 },
                 results: function (data, page) {
+                    if (!Array.isArray(data)) {
+                        console.warn("Resposta inesperada:", data);
+                        return { results: [] };
+                    }
                     return { results: data, text: 'description' };
                 },
-                cache: true
+                error: function (xhr, status, errorThrown) {
+                    console.error("Erro ao buscar habilidades:", status, errorThrown);
+                }
             },
             formatSelection: function (state) {
                 var textArray = `(${state.code}) ${state.description}`

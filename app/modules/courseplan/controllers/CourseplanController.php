@@ -206,10 +206,6 @@ class CourseplanController extends Controller
 
     public function actionGetAbilities($q)
     {
-        // $code = Yii::app()->request->get("code");
-        // $disciplineId = Yii::app()->request->getPost("discipline");
-        // $stage = Yii::app()->request->getPost("stage");
-
         $criteria = new CDbCriteria();
         $criteria->alias = "cca";
         $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = cca.edcenso_stage_vs_modality_fk";

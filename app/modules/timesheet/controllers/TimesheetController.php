@@ -1057,7 +1057,11 @@ class TimesheetController extends Controller
     {
         $classroom = Classroom::model()->findByPk(Yii::app()->request->getPost("classroom"));
 
-        $teachingData = InstructorTeachingData::model()->findAllByAttributes(array("classroom_id_fk" => $classroom->id));
+        $teachingData = InstructorTeachingData::model()->findAllByAttributes(
+            array(
+                "classroom_id_fk" => $classroom->id,
+                "role" => 9
+            ));
 
         $htmlOptions = CHtml::tag('option', array('value' => ""), CHtml::encode('Selecione o professor'), true);
 
