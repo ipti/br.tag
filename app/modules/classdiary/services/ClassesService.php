@@ -87,7 +87,7 @@
         public function getClassContents($classroom_fk, $stage_fk, $date, $discipline_fk) {
             // Fundamental menor
             $classroom = Classroom::model()->findByPk($classroom_fk);
-            $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : TagUtils::isStageMinorEducation($stage_fk);
+            $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
             if ($is_minor_schooling)
             {
                 $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule", ["classroom_fk" => $classroom_fk,
@@ -173,7 +173,7 @@
         {
              // Fundamental menor
              $classroom = Classroom::model()->findByPk($classroom_fk);
-             $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : TagUtils::isStageMinorEducation($stage_fk);
+             $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
              if ($is_minor_schooling)
              {
                  $schedule = Schedule::model()->find("classroom_fk = :classroom_fk and month = :month and day = :day and unavailable = 0 group by day order by day, schedule",
