@@ -683,7 +683,7 @@ preenchidos";
                     $array["instructorName"] = $enrollment->instructorFk->name;
                     $array["schedules"] = [];
                     foreach ($schedules as $schedule) {
-                        $instructorFault = InstructorFaults::model()->find("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $enrollment->id]);
+                        $instructorFault = InstructorFaults::model()->find("schedule_fk = :schedule_fk and instructor_fk = :instructor_fk", ["schedule_fk" => $schedule->id, "instructor_fk" => $enrollment->instructor_fk]);
                         $available = date("Y-m-d") >= Yii::app()->user->year . "-" . str_pad($schedule->month, 2, "0", STR_PAD_LEFT) . "-" . str_pad($schedule->day, 2, "0", STR_PAD_LEFT);
                         array_push($array["schedules"], [
                             "available" => $available,
@@ -746,15 +746,9 @@ preenchidos";
     public function actionSaveFrequency()
     {
         if ($_POST["instructorId"] != null) {
-            $instructorId = Yii::app()->request->getPost("instructorId");
-            $classroomId = Yii::app()->request->getPost("classroomId");
-            $teachingData = InstructorTeachingData::model()->findByAttributes(array(
-                "classroom_id_fk" => $classroomId,
-                "instructor_fk" => $instructorId
-            ));
             if ($_POST["fault"] == "1") {
                 $instructorFault = new InstructorFaults();
-                $instructorFault->instructor_fk = $teachingData->id;
+                $instructorFault->instructor_fk = $_POST["instructorId"];
                 $instructorFault->schedule_fk = $_POST["schedule"];
                 $instructorFault->save();
             } else {
