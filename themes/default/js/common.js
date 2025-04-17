@@ -203,7 +203,15 @@ $(document).ajaxError(function (event, jqxhr, ajaxSettings, thrownError) {
     const requestId = jqxhr?.getResponseHeader?.('X-Request-ID');
     const urlPath = ajaxSettings?.url || 'URL desconhecida';
 
+    try {
+        urlPath = new URL(urlPath, window.location.origin).pathname;
+    } catch (e) {
+        // Se não for uma URL válida, mantém como está
+    }
+
     const errorMessage = `[AJAX ERROR] ${urlPath} - ${safeToString(thrownError || jqxhr.statusText || 'Erro AJAX')}`;
+
+    if(safeToString(thrownError || jqxhr.statusText || 'Erro AJAX') == 'abort') return;
 
     Raven.captureMessage(errorMessage, {
         tags: {
