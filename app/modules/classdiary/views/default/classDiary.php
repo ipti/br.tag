@@ -6,7 +6,6 @@ $this->breadcrumbs = array(
 );
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseScriptUrl . '/classDiary/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/classDiary/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
 
 ?>
