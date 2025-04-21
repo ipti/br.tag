@@ -1,0 +1,1 @@
+RENAME TABLE student_pre_identification TO online_enrollment_student_identification;
