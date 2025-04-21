@@ -544,7 +544,7 @@ class TimesheetController extends Controller
                     ) AS workloadUsed,
                     cm.workload AS workloadTotal,
                     (
-                        SELECT ii.name
+                        select GROUP_CONCAT(ii.name SEPARATOR ', ')
                         FROM teaching_matrixes tm
                         JOIN instructor_teaching_data itd ON itd.id = tm.teaching_data_fk
                         JOIN instructor_identification ii ON ii.id = itd.instructor_fk
