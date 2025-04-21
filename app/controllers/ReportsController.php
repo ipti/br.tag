@@ -639,6 +639,47 @@ class ReportsController extends Controller
         $repository = new ReportsRepository;
         $repository->getDisciplines(Yii::app()->request);
     }
+    public function actionGetStagesMulti()
+    {
+        $classroomId = Yii::app()->request->getPost('classroomId');
+        $enrollmentId = Yii::app()->request->getPost('enrollmentId');
+
+        if (!is_numeric($classroomId) && !is_numeric($enrollmentId)) {
+            echo CHtml::tag('option', [], CHtml::encode("Invalid classroom ID"), true);
+            Yii::app()->end();
+        }
+
+        $classroom = Classroom::model()->findByPk($classroomId);
+        $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
+
+        if (!$classroom || !$enrollment) {
+            echo CHtml::tag('option', [], CHtml::encode("Classroom or enrollment not found"), true);
+            Yii::app()->end();
+        }
+
+        $classroomStage = $classroom->edcensoStageVsModalityFk;
+        $enrollmentStage = $enrollment->edcensoStageVsModalityFk;
+
+        // Opção padrão
+        echo CHtml::tag('option', [
+            'value' => "",
+            'data-classroom-stage' => '',
+        ], CHtml::encode("Selecione..."), true);
+
+        echo CHtml::tag('option', [
+            'value' => $classroomStage->id,
+            'data-classroom-stage' => '1',
+        ], CHtml::encode($classroomStage->name), true);
+
+
+        echo CHtml::tag('option', [
+            'value' => $enrollmentStage->id,
+            'data-classroom-stage' => '0',
+        ], CHtml::encode($enrollmentStage->name), true);
+
+
+        Yii::app()->end();
+    }
 
     public function actionGetEnrollments()
     {

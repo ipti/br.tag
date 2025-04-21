@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$('#StudentEnrollment_school_admission_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
-$('#StudentEnrollment_school_admission_date').focusout(function () {
+$('#StudentEnrollment_enrollment_date').mask("00/00/0000", {placeholder: "dd/mm/aaaa"});
+$('#StudentEnrollment_enrollment_date').focusout(function () {
     var id = '#' + $(this).attr("id");
-    var school_admission_date = stringToDate($('#StudentEnrollment_school_admission_date').val());
+    var enrollment_date = stringToDate($('#StudentEnrollment_enrollment_date').val());
 
 
-    if ((!validateDate($('#StudentEnrollment_school_admission_date').val()) || !validateYear(school_admission_date.year)) && ($(id).val() != '')) {
+    if ((!validateDate($('#StudentEnrollment_enrollment_date').val()) || !validateYear(enrollment_date.year)) && ($(id).val() != '')) {
         //$(formIdentification + 'birthday').attr('value', '');
         addError(id, "Informe uma data válida no formato Dia/Mês/Ano. Não pode ser superior a data atual.");
     } else {
@@ -33,7 +33,7 @@ function checkMulticlass() {
 $(".save-enrollment").click(function () {
     var error = false;
     var message = "";
-    if ($("#StudentEnrollment_school_admission_date").val() === "") {
+    if ($("#StudentEnrollment_enrollment_date").val() === "") {
         error = true;
         message += "Preencha o campo \"Data de Ingresso na Escola\" <br>";
     }
