@@ -126,7 +126,7 @@ class OnlineEnrollmentStudentIdentification extends CActiveRecord
         'cpf' => 'CPF',
         'sex' => 'Sexo',
         'color_race' => 'Cor/Raça',
-        'deficiency' => 'Deficiência',
+        'deficiency' => 'Possui Deficiência',
         'deficiency_type_blindness' => 'Cegueira',
         'deficiency_type_low_vision' => 'Baixa Visão',
         'deficiency_type_deafness' => 'Surdez',
