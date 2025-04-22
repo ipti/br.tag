@@ -79,12 +79,11 @@
         /**
          * Summary of getClassContents
          * @param mixed $classroom_fk
-         * @param mixed $stage_fk
          * @param mixed $date
          * @param mixed $discipline_fk
          * @return array
          */
-        public function getClassContents($classroom_fk, $stage_fk, $date, $discipline_fk) {
+        public function getClassContents($classroom_fk, $date, $discipline_fk) {
             // Fundamental menor
             $classroom = Classroom::model()->findByPk($classroom_fk);
             $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : TagUtils::isStageMinorEducation($classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id);
@@ -169,7 +168,7 @@
          * @param mixed $classroom_fk
          * @return void
          */
-        public function SaveClassContents($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent)
+        public function SaveClassContents($date, $discipline_fk, $classroom_fk, $classContent)
         {
              // Fundamental menor
              $classroom = Classroom::model()->findByPk($classroom_fk);

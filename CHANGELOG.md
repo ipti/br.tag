@@ -1,3 +1,6 @@
+## [Versão 3.101.230]
+- Correção na funcionalidade de aulas ministradas, filtro de aulas cadastradas por turma e disciplina foram ajustadas para turmas do fundamental menor.
+
 ## [Versão 3.101.229]
 - Relatório de notas por aluno no diário eletrônico foi alterado para considerar a etapa de ensino vinculada à matrícula do aluno em turmas multisseriadas
 
