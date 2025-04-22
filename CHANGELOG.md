@@ -1,8 +1,15 @@
-## [Versão 3.101.230]
+## [Versão 3.1.1]
 - Correção na funcionalidade de aulas ministradas, filtro de aulas cadastradas por turma e disciplina foram ajustadas para turmas do fundamental menor.
 
-## [Versão 3.101.229]
+## [Versão 3.1.0]
+- Alteração no registro de data de matrícula. O campo "Data de Matrícula" do formulário de matrícula agora está diretamente relacionado
+com o valor apresentado em diferentes sessões do sistema.
 - Relatório de notas por aluno no diário eletrônico foi alterado para considerar a etapa de ensino vinculada à matrícula do aluno em turmas multisseriadas
+- Correção na funcionalidade de contagem de matrícula ativas na tela inicial de turmas.
+- Correção na funcionalidade de atribuir conteúdo ministrado em sala de aula, em diários de classe. Inconsistência apresentada ao
+salvar aulas corrigida.
+- Adicionado campo etapas de ensino no formulário de cardápio
+- Adicionado etapas de ensino no relatório de cardápio
 
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
