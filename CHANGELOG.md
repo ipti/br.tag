@@ -1,3 +1,6 @@
+## [Versão 3.1.1]
+- Ajuste na estrutura de dados relacionados com as faltas de um professor em uma turma. Impacto na funcionalidade de "Frequência do professor", que agora deve funcionar adequadamente.
+
 ## [Versão 3.1.0]
 - Alteração no registro de data de matrícula. O campo "Data de Matrícula" do formulário de matrícula agora está diretamente relacionado
 com o valor apresentado em diferentes sessões do sistema.
