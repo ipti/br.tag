@@ -106,9 +106,47 @@ function renderDeliveredFoodsTable (farmerDeliveredFoods) {
 }
 
 function renderFoodRelationTable (farmerDeliveredFoods, foodsRelation) {
-    debugger;
     console.log(farmerDeliveredFoods);
     console.log(foodsRelation);
+
+    let deliveredSummary = {};
+
+    farmerDeliveredFoods.forEach(item => {
+        if (!deliveredSummary[item.foodId]) {
+            deliveredSummary[item.foodId] = 0;
+        }
+        deliveredSummary[item.foodId] += parseFloat(item.amount);
+    });
+
+    console.log(deliveredSummary);
+    let $requestFoodRelation;
+    $requestFoodRelation = `
+    <div class="row">
+    <div class="column clearfix">
+    <table id="requestFoodRelationTable"  aria-describedby="requestFoodRelationTable" class="tag-table-secondary align-start no-margin">
+        <tr>
+            <th>Alimento</th>
+            <th>Quantidade Total</th>
+            <th>Quantidade Entregue</th>
+            <th>Quantidade Restante</th>
+        </tr>
+    `;
+
+    $.each(foodsRelation, function(index, item) {
+        const deliveredAmount = deliveredSummary[parseInt(item.foodId)] || 0;
+        const remainingAmount = parseFloat(item.amount) - deliveredAmount;
+
+        $requestFoodRelation += `
+            <tr>
+                <td>${item.foodDescription}</td>
+                <td>${item.amount} (${item.measurementUnit})</td>
+                <td>${deliveredAmount.toFixed(2)} (${item.measurementUnit})</td>
+                <td>${remainingAmount.toFixed(2)} (${item.measurementUnit})</td>
+            </tr>
+        `;
+    });
+
+    $("#requestFoodRelation").html($requestFoodRelation);
 }
 
 function amountCalculation(existingAmount, amount, existingUnit, measurementUnit) {
