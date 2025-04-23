@@ -105,6 +105,12 @@ function renderDeliveredFoodsTable (farmerDeliveredFoods) {
     $("#requestDeliveredItems").html($requestDeliveredItems);
 }
 
+function renderFoodRelationTable (farmerDeliveredFoods, foodsRelation) {
+    debugger;
+    console.log(farmerDeliveredFoods);
+    console.log(foodsRelation);
+}
+
 function amountCalculation(existingAmount, amount, existingUnit, measurementUnit) {
     existingAmount = parseFloat(existingAmount);
     amount = parseFloat(amount);

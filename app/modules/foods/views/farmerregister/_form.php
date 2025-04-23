@@ -178,6 +178,10 @@ $form=$this->beginWidget('CActiveForm', array(
                 <h3>Relação de entregas</h3>
             </div>
             <div id="requestDeliveredItems"></div>
+            <div class="row">
+                <h3>Relação de produtos</h3>
+            </div>
+            <div id="requestFoodRelation"></div>
         </div>
     </div>
 

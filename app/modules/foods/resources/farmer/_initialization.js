@@ -34,9 +34,9 @@ $(document).ready(function() {
         }).success(function(response) {
             let data = DOMPurify.sanitize(response)
             let farmerDeliveries = JSON.parse(data);
-            console.log(farmerDeliveries);
             renderAcceptedFoodsTable(farmerDeliveries.acceptedFoods);
             renderDeliveredFoodsTable(farmerDeliveries.deliveredFoods);
+            renderFoodRelationTable(farmerDeliveries.deliveredFoods, foodsRelation);
         });
     }
 
@@ -159,7 +159,6 @@ $(document).on("change", "#foodNotice", function () {
 });
 
 $(document).on("click", "#js-add-food", function () {
-    debugger;
     let food = $('#foodSelect').find('option:selected').text();
     let foodId = $('#foodSelect').val().split(',')[0];
     let amount = $('#amount').val();
