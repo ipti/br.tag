@@ -172,4 +172,18 @@ class OnlineEnrollmentStudentIdentificationController extends Controller
             Yii::app()->end();
         }
     }
+
+    public function actionGetCities()
+    {
+
+        $uf = null;
+
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => $uf));
+        $data = CHtml::listData($data, 'id', 'name');
+
+        echo CHtml::tag('option', array('value' => null), 'Selecione uma cidade', true);
+        foreach ($data as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+    }
 }

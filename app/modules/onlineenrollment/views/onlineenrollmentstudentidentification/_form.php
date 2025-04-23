@@ -193,7 +193,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClient
     <div class="row">
         <div class="t-field-text column">
             <?php echo $form->labelEx($model,'responsable_telephone', array('class' => 't-field-text__label')); ?>
-            <?php echo $form->textField($model,'responsable_telephone',array('size'=>11,'maxlength'=>11, 'class'=>'t-field-text__input')); ?>
+            <?php echo $form->textField($model,'responsable_telephone',array('size'=>14,'maxlength'=>15, 'class'=>'t-field-text__input js-tel-mask')); ?>
             <?php echo $form->error($model,'responsable_telephone'); ?>
         </div>
         <div class="t-field-text column">
@@ -233,7 +233,7 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClient
     <div class="row">
         <div class="t-field-text column">
             <?php echo $form->labelEx($model,'cep', array('class' => 't-field-text__label')); ?>
-            <?php echo $form->textField($model,'cep',array('size'=>8,'maxlength'=>8, 'class'=>'t-field-text__input')); ?>
+            <?php echo $form->textField($model,'cep',array('size'=>8,'maxlength'=>8, 'class'=>'t-field-text__input js-cep-mask')); ?>
             <?php echo $form->error($model,'cep'); ?>
         </div>
         <div class="t-field-text column">
@@ -277,7 +277,17 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClient
 
         <div class="t-field-text column">
             <?php echo $form->labelEx($model,'edcenso_city_fk', array('class' => 't-field-text__label')); ?>
-            <?php echo $form->textField($model,'edcenso_city_fk', array('class'=>'t-field-text__input')); ?>
+            <?php
+                echo $form->dropDownList(
+                    $model,
+                    'edcenso_city_fk',
+                    CHtml::listData(EdcensoCity::model()->findAllByAttributes(
+                      array('edcenso_uf_fk' => $model->edcenso_uf_fk),
+                      array('order' => 'name')
+                    ), 'id', 'name'),
+                    array("prompt" => "Selecione uma cidade", "class" => "select-search-on t-field-select__input select2-container js-update-cities")
+                  );
+                  ?>
             <?php echo $form->error($model,'edcenso_city_fk'); ?>
         </div>
     </div>
@@ -286,7 +296,22 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClient
     <div class="row">
         <div class="t-field-text column">
             <?php echo $form->labelEx($model,'edcenso_uf_fk', array('class' => 't-field-text__label')); ?>
-            <?php echo $form->textField($model,'edcenso_uf_fk', array('class'=>'t-field-text__input')); ?>
+            <?php
+                 echo $form->dropDownList(
+                    $model,
+                    'edcenso_uf_fk',
+                    CHtml::listData(EdcensoUf::model()->findAll(array('order' => 'name')), 'id', 'name'),
+                    array(
+                      'ajax' => array(
+                        'type' => 'POST',
+                        'url' => CController::createUrl('OnlineEnrollmentStudentIdentification/getcities', array('rt' => 2)),
+                        'update' => '#OnlineEnrollmentStudentIdentification_edcenso_city_fk'
+                      ),
+                      "prompt" => "Selecione um estado",
+                      "class" => "select-search-on t-field-select__input select2-container"
+                    )
+                  );
+            ?>
             <?php echo $form->error($model,'edcenso_uf_fk'); ?>
         </div>
 
