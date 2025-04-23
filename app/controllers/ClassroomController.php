@@ -1,6 +1,5 @@
 <?php
 
-require_once 'app/vendor/autoload.php';
 Yii::import('application.modules.sedsp.models.Classroom.*');
 Yii::import('application.modules.sedsp.models.Enrollment.*');
 Yii::import('application.modules.sedsp.models.Student.*');
@@ -45,21 +44,42 @@ class ClassroomController extends Controller
     public function accessRules()
     {
         return array(
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('index', 'view', 'create', 'update', 'getassistancetype',
-                    'updateassistancetypedependencies', 'updatecomplementaryactivity',
-                    'batchupdatenrollment', 'getcomplementaryactivitytype', 'delete', 'updateDailyOrder',
-                    'updateTime', 'move', 'batchupdate', 'batchupdatetotal', 'updateDisciplines',
-                    'changeenrollments', 'batchupdatetransport', 'updateDisciplinesAndCalendars',
-                    'syncToSedsp', 'syncUnsyncedStudents', 'getCalendars', 'GetGradesRulesClassroom'
+            array(
+                'allow', // allow authenticated user to perform 'create' and 'update' actions
+                'actions' => array(
+                    'index',
+                    'view',
+                    'create',
+                    'update',
+                    'getassistancetype',
+                    'updateassistancetypedependencies',
+                    'updatecomplementaryactivity',
+                    'batchupdatenrollment',
+                    'getcomplementaryactivitytype',
+                    'delete',
+                    'updateDailyOrder',
+                    'updateTime',
+                    'move',
+                    'batchupdate',
+                    'batchupdatetotal',
+                    'updateDisciplines',
+                    'changeenrollments',
+                    'batchupdatetransport',
+                    'updateDisciplinesAndCalendars',
+                    'syncToSedsp',
+                    'syncUnsyncedStudents',
+                    'getCalendars',
+                    'GetGradesRulesClassroom'
                 ),
                 'users' => array('@'),
             ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
+            array(
+                'allow', // allow admin user to perform 'admin' and 'delete' actions
                 'actions' => array('admin'),
                 'users' => array('admin'),
             ),
-            array('deny', // deny all users
+            array(
+                'deny', // deny all users
                 'users' => array('*'),
             ),
         );
@@ -82,49 +102,49 @@ class ClassroomController extends Controller
         }
     }
     public function actionGetGradesRulesClassroom()
-{
-    $classroomId = Yii::app()->request->getPost("classroom_id");
+    {
+        $classroomId = Yii::app()->request->getPost("classroom_id");
 
-    // Critérios para opções pré-selecionadas
-    $criteria = new CDbCriteria;
-    $criteria->alias = 'gr';
-    $criteria->join = "
+        // Critérios para opções pré-selecionadas
+        $criteria = new CDbCriteria;
+        $criteria->alias = 'gr';
+        $criteria->join = "
         join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id
         join classroom c on c.id = cvgr.classroom_fk
     ";
-    $criteria->condition = 'c.id = :classroomId';
-    $criteria->params = [':classroomId' => $classroomId];
-    $selectedOptions = GradeRules::model()->findAll($criteria);
+        $criteria->condition = 'c.id = :classroomId';
+        $criteria->params = [':classroomId' => $classroomId];
+        $selectedOptions = GradeRules::model()->findAll($criteria);
 
-    // Todas as opções disponíveis (sem filtros)
+        // Todas as opções disponíveis (sem filtros)
 
-    $allOptions = GradeRules::model()->findAll();
+        $allOptions = GradeRules::model()->findAll();
 
-    // Gerar JSON com categorias separadas
-    $response = [
-        'selected' => [],
-        'available' => [],
-    ];
-
-    foreach ($selectedOptions as $option) {
-        $response['selected'][] = [
-            'id' => $option->id,
-            'name' => CHtml::encode($option->name),
+        // Gerar JSON com categorias separadas
+        $response = [
+            'selected' => [],
+            'available' => [],
         ];
-    }
 
-    foreach ($allOptions as $option) {
-        // Exclui as opções já selecionadas da lista "available"
-        if (!in_array($option->id, array_column($response['selected'], 'id'))) {
-            $response['available'][] = [
+        foreach ($selectedOptions as $option) {
+            $response['selected'][] = [
                 'id' => $option->id,
                 'name' => CHtml::encode($option->name),
             ];
         }
-    }
 
-    echo CJSON::encode($response); // Retorna JSON
-}
+        foreach ($allOptions as $option) {
+            // Exclui as opções já selecionadas da lista "available"
+            if (!in_array($option->id, array_column($response['selected'], 'id'))) {
+                $response['available'][] = [
+                    'id' => $option->id,
+                    'name' => CHtml::encode($option->name),
+                ];
+            }
+        }
+
+        echo CJSON::encode($response); // Retorna JSON
+    }
 
     public function actionGetAssistanceType()
     {
@@ -142,7 +162,8 @@ class ClassroomController extends Controller
                 2 => CHtml::encode('Unidade de Internação Socioeducativa'),
                 3 => CHtml::encode('Unidade Prisional'),
                 4 => CHtml::encode('Atividade Complementar'),
-                5 => CHtml::encode('Atendimento Educacional Especializado (AEE)'));
+                5 => CHtml::encode('Atendimento Educacional Especializado (AEE)')
+            );
 
             $selected = array(
                 0 => $classroom->assistance_type == 0 ? "selected" : "deselected",
@@ -641,7 +662,7 @@ class ClassroomController extends Controller
         $stages = EdcensoStageVsModality::model()->findAll($criteria);
 
         $gradeRulesStages = [];
-        foreach($stages as $stage) {
+        foreach ($stages as $stage) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gr';
             $criteria->select = 'gr.id';
@@ -879,7 +900,7 @@ class ClassroomController extends Controller
         $stages = EdcensoStageVsModality::model()->findAll($criteria);
 
         $gradeRulesStages = [];
-        foreach($stages as $stage) {
+        foreach ($stages as $stage) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gr';
             $criteria->select = 'gr.id';
@@ -920,7 +941,7 @@ class ClassroomController extends Controller
         $classroomVsGradeRule->classroom_fk = $classroom->id;
         $classroomVsGradeRule->grade_rules_fk = $gradeRule;
         $classroomVsGradeRule->save();
-        if(TagUtils::isMultiStage( $classroom->edcenso_stage_vs_modality_fk)){
+        if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'stages';
             $criteria->select = 'stages.*';
@@ -931,8 +952,8 @@ class ClassroomController extends Controller
             $criteria->params = array(':classroomId' => $classroom->id);
             $stages = EdcensoStageVsModality::model()->findAll($criteria);
 
-            foreach($stages as $stage) {
-                $gradeRule = $_POST['grade_rules_'.$stage->id];
+            foreach ($stages as $stage) {
+                $gradeRule = $_POST['grade_rules_' . $stage->id];
                 $classroomVsGradeRule = new ClassroomVsGradeRules();
                 $classroomVsGradeRule->classroom_fk = $classroom->id;
                 $classroomVsGradeRule->grade_rules_fk = $gradeRule;
@@ -1002,7 +1023,7 @@ class ClassroomController extends Controller
                     throw new Exception("Falha ao excluir a turma.");
                 }
             } catch (Exception $e) {
-                if(isset($transaction)){
+                if (isset($transaction)) {
                     $transaction->rollback();
                 }
                 echo json_encode(["valid" => false, "message" => $e->getMessage()]);
@@ -1163,7 +1184,8 @@ class ClassroomController extends Controller
         echo json_encode(["disciplines" => $disciplines, "calendars" => $calendars]);
     }
 
-    public function actionUpdateDailyOrder() {
+    public function actionUpdateDailyOrder()
+    {
         $ids = Yii::app()->request->getPost("list");
         $enrollments = StudentEnrollment::model()->findAllByPk($ids);
         $studentsNames = [];
@@ -1182,11 +1204,14 @@ class ClassroomController extends Controller
         }
 
         $result = array_map(function ($enrollment) {
-            return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name,
-                "daily_order" => $enrollment->daily_order];
+            return [
+                "id" => $enrollment->id,
+                "name" => $enrollment->studentFk->name,
+                "daily_order" => $enrollment->daily_order
+            ];
         }, $enrollments);
 
-        usort($result, function($a, $b) {
+        usort($result, function ($a, $b) {
             return $a['daily_order'] - $b['daily_order'];
         });
 
@@ -1210,15 +1235,19 @@ class ClassroomController extends Controller
         }
 
         $result = array_map(function ($enrollment) {
-            return ["id" => $enrollment->id, "name" => $enrollment->studentFk->name,
-                "daily_order" => $enrollment->daily_order];
+            return [
+                "id" => $enrollment->id,
+                "name" => $enrollment->studentFk->name,
+                "daily_order" => $enrollment->daily_order
+            ];
         }, $enrollments);
 
         echo json_encode($result);
         /* Yii::app()->user->setFlash('success', Yii::t('default', 'dayli order')); */
     }
 
-    public function getSchoolStagesModels() {
+    public function getSchoolStagesModels()
+    {
         $criteriaStages = new CDbCriteria();
         $criteriaStages->alias = "esvm";
         $criteriaStages->condition = 'ss.school_fk = :school_fk';
