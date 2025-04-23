@@ -121,6 +121,12 @@ $form=$this->beginWidget('CActiveForm', array(
             </div>
 
             <div class="row">
+                <div class="column clearfix">
+                    <div id="food-alert" class="t-badge-info hide"></span></div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="column clearleft t-margin-none--bottom t-field-text is-one-tenth">
                     <?php echo CHtml::label('Edital', 'notice', array('class' => 't-field-select__label--required')); ?>
                     <select class="select-search-on t-field-select__input select2-container" id="foodNotice" name="foodNotice">

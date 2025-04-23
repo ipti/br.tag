@@ -279,6 +279,7 @@ class FarmerRegisterController extends Controller
                 'id' => $item->id,
                 'foodId' => $item->food_id,
                 'foodName' => $item->name,
+                'yearAmount' => $item->year_amount,
                 'measurementUnit' => $item->food->measurementUnit,
             );
         }

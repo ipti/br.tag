@@ -1,4 +1,5 @@
 let foodsRelation = [];
+let foodNoticeItems = []
 
 $(document).ready(function() {
     let foodNotice = $('#foodNotice');
@@ -106,6 +107,7 @@ $(document).on("focusout", "#farmerCpf", function () {
 });
 
 $(document).on("change", "#foodSelect", function () {
+    let foodId = this.value.split(',')[0];
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');
     measurementUnitSelect.empty();
@@ -122,6 +124,12 @@ $(document).on("change", "#foodSelect", function () {
     }
     measurementUnitSelect.val('');
     measurementUnitSelect.trigger("change");
+
+    if(foodId != "alimento") {
+        foodId = parseInt(foodId);
+        const itemEncontrado = foodNoticeItems.find(item => item.foodId === foodId);
+        $('#food-alert').removeClass('hide').html(`<span class="t-info_positive"> A quantidade máxima do alimento selecionado no edital é: ${itemEncontrado.yearAmount}${itemEncontrado.measurementUnit}`);
+    }
 });
 
 $(document).on("change", "#foodNotice", function () {
@@ -136,7 +144,7 @@ $(document).on("change", "#foodNotice", function () {
         }
     }).success(function(response) {
         let data = DOMPurify.sanitize(response);
-        let foodNoticeItems = JSON.parse(data);
+        foodNoticeItems = JSON.parse(data);
 
         $('#foodSelect').html('<option value="alimento">Selecione o Alimento</option>').trigger('change');
 
@@ -151,6 +159,7 @@ $(document).on("change", "#foodNotice", function () {
 });
 
 $(document).on("click", "#js-add-food", function () {
+    debugger;
     let food = $('#foodSelect').find('option:selected').text();
     let foodId = $('#foodSelect').val().split(',')[0];
     let amount = $('#amount').val();
@@ -161,6 +170,7 @@ $(document).on("click", "#js-add-food", function () {
     if(foodId == "alimento" || amount == "" || noticeId == "selecione") {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     } else if(amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
+        foodId = parseInt(foodId);
         let existingIndex = $.map(foodsRelation, function(obj, index) {
             return obj.id === foodId ? index : null;
         })[0];
