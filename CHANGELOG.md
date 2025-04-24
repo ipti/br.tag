@@ -1,3 +1,6 @@
+## [Versão 3.0.3]
+- Correção na renderização da tela de notas.
+
 ## [Versão 3.0.1]
 - Correção no filtro de professores na tela de "Atribuir Professor Substituto" para exibir somente professores substitutos na lista.
 
