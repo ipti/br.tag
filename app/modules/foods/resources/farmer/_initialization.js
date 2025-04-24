@@ -109,7 +109,6 @@ $(document).on("focusout", "#farmerCpf", function () {
 });
 
 $(document).on("change", "#foodSelect", function () {
-    debugger;
     let foodId = this.value.split(',')[0];
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');
