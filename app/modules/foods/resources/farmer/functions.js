@@ -38,6 +38,12 @@ function renderAcceptedFoodsTable (farmerAcceptedFoods) {
         <div class="row">
         <div class="column clearfix">
         <table id="requestAcceptedItemsTable"  aria-describedby="requestAcceptedItemsTable" class="tag-table-secondary align-start no-margin">
+            <colgroup>
+                <col style="width: 25%;">
+                <col style="width: 25%;">
+                <col style="width: 25%;">
+                <col style="width: 25%;">
+            </colgroup>
             <tr>
                 <th>Solicitação</th>
                 <th>Alimento</th>
@@ -79,6 +85,12 @@ function renderDeliveredFoodsTable (farmerDeliveredFoods) {
         <div class="row">
         <div class="column clearfix">
         <table id="requestDeliveredItemsTable"  aria-describedby="requestDeliveredItemsTable" class="tag-table-secondary align-start no-margin">
+            <colgroup>
+                <col style="width: 25%;">
+                <col style="width: 25%;">
+                <col style="width: 25%;">
+                <col style="width: 25%;">
+            </colgroup>
             <tr>
                 <th>Solicitação</th>
                 <th>Alimento</th>
@@ -106,9 +118,6 @@ function renderDeliveredFoodsTable (farmerDeliveredFoods) {
 }
 
 function renderFoodRelationTable (farmerDeliveredFoods, foodsRelation) {
-    console.log(farmerDeliveredFoods);
-    console.log(foodsRelation);
-
     let deliveredSummary = {};
 
     farmerDeliveredFoods.forEach(item => {
@@ -118,12 +127,17 @@ function renderFoodRelationTable (farmerDeliveredFoods, foodsRelation) {
         deliveredSummary[item.foodId] += parseFloat(item.amount);
     });
 
-    console.log(deliveredSummary);
     let $requestFoodRelation;
     $requestFoodRelation = `
     <div class="row">
     <div class="column clearfix">
     <table id="requestFoodRelationTable"  aria-describedby="requestFoodRelationTable" class="tag-table-secondary align-start no-margin">
+        <colgroup>
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+            <col style="width: 25%;">
+        </colgroup>
         <tr>
             <th>Alimento</th>
             <th>Quantidade Total</th>
@@ -133,7 +147,7 @@ function renderFoodRelationTable (farmerDeliveredFoods, foodsRelation) {
     `;
 
     $.each(foodsRelation, function(index, item) {
-        const deliveredAmount = deliveredSummary[parseInt(item.foodId)] || 0;
+        const deliveredAmount = deliveredSummary[parseInt(item.id)] || 0;
         const remainingAmount = parseFloat(item.amount) - deliveredAmount;
 
         $requestFoodRelation += `

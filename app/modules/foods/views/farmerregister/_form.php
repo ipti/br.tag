@@ -61,14 +61,17 @@ $form=$this->beginWidget('CActiveForm', array(
                     <span class="t-tabs__numeration">1</span>
                     Agricultor
                 </a>
-                <img src="<?= Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
+
             </li>
+            <?php if(!$model->isNewRecord) { ?>
             <li id="tab-farmer-deliveries" class="t-tabs__item">
+                <img src="<?= Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 <a class="t-tabs__link" href="#farmer-deliveries" data-toggle="tab">
                     <span class="t-tabs__numeration">2</span>
                     Entregas
                 </a>
             </li>
+            <?php } ?>
         </ul>
     </div>
     <div class="tab-content">

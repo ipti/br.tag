@@ -20,24 +20,26 @@ $(document).ready(function() {
             let farmerFoods = JSON.parse(data);
             foodsRelation = farmerFoods;
             renderFoodsTable(farmerFoods);
+
+            $.ajax({
+                type: 'POST',
+                url: "?r=foods/farmerregister/getFarmerDeliveries",
+                cache: false,
+                data: {
+                    farmer: $id,
+                }
+            }).success(function(response) {
+                let data = DOMPurify.sanitize(response)
+                let farmerDeliveries = JSON.parse(data);
+                renderAcceptedFoodsTable(farmerDeliveries.acceptedFoods);
+                renderDeliveredFoodsTable(farmerDeliveries.deliveredFoods);
+                renderFoodRelationTable(farmerDeliveries.deliveredFoods, foodsRelation);
+            });
         });
         $('#farmerName').removeAttr('disabled');
         $('#farmerPhone').removeAttr('disabled');
         $('#farmerGroupType').removeAttr('disabled');
-        $.ajax({
-            type: 'POST',
-            url: "?r=foods/farmerregister/getFarmerDeliveries",
-            cache: false,
-            data: {
-                farmer: $id,
-            }
-        }).success(function(response) {
-            let data = DOMPurify.sanitize(response)
-            let farmerDeliveries = JSON.parse(data);
-            renderAcceptedFoodsTable(farmerDeliveries.acceptedFoods);
-            renderDeliveredFoodsTable(farmerDeliveries.deliveredFoods);
-            renderFoodRelationTable(farmerDeliveries.deliveredFoods, foodsRelation);
-        });
+
     }
 
     $.ajax({
