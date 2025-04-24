@@ -1,4 +1,5 @@
 let foodsRelation = [];
+let foodNoticeItems = [];
 let foodRequests;
 
 $(document).ready(function() {
@@ -199,6 +200,9 @@ $(document).on("click", "#save-request", function () {
                 requestFarmers: requestFarmers,
                 requestItems: foodsRelation,
                 requestTitle: requestTitle
+            },
+            beforeSend: function() {
+                $(this).disabled = true;
             }
         }).success(function(response) {
             window.location.href = "?r=foods/foodRequest/index";
@@ -243,7 +247,7 @@ $(document).on("change", "#foodNotice", function () {
         }
     }).success(function(response) {
         let data = DOMPurify.sanitize(response);
-        let foodNoticeItems = JSON.parse(data);
+        foodNoticeItems = JSON.parse(data);
 
         $('#foodSelect').html('<option value="alimento">Selecione o Alimento</option>').trigger('change');
 
@@ -258,6 +262,7 @@ $(document).on("change", "#foodNotice", function () {
 });
 
 $(document).on("change", "#foodSelect", function () {
+    let foodId = this.value.split(',')[0];
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');
     measurementUnitSelect.empty();
@@ -274,6 +279,12 @@ $(document).on("change", "#foodSelect", function () {
     }
     measurementUnitSelect.val('');
     measurementUnitSelect.trigger("change");
+
+    if(foodId != "alimento") {
+        foodId = parseInt(foodId);
+        const itemEncontrado = foodNoticeItems.find(item => item.foodId === foodId);
+        $('#food-alert').removeClass('hide').html(`<span class="t-info_positive"> A quantidade máxima do alimento selecionado no edital é: ${itemEncontrado.yearAmount}${itemEncontrado.measurementUnit}`);
+    }
 });
 
 $(document).on("click", "#remove-food-button", function () {
