@@ -265,7 +265,7 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
                     <div class="span12"><b>17 - Matrícula do aluno: </b></div>
                     <br>
                     <div class="span3"><b>Ano letivo: </b><span><?= $enrollment->classroomFk->school_year ?></span></div>
-                    <div class="span4"><b>Etapa: </b><span><?= $data["stage_name"] ?></span></div>
+                    <div class="span4"><b>Etapa: </b><span><?= TagUtils::isMultiStage($data["stage_id"]) ? $data["enrollment_stage_name"] : $data["stage_name"] ?></span></div>
                     <div class="span5"><b>Turma: </b><span><?= $enrollment->classroomFk->name ?></span></div>
                     <div class="span9"><b>Situação do aluno: </b><span>
                             <?php
@@ -289,7 +289,8 @@ $turns = ['M' => 'Manhã', 'T' => 'Tarde', 'N' => 'Noite'];
         </tr>
         <tr>
             <td>
-                <div class="span9"><b>19 - Data de ingresso nesta escola: <span style="font-size:12px;" class="school_admission_date"><?= $data['school_admission_date'] ?></span></b>
+                <?php $enrollment_date = DateTime::createFromFormat('Y-m-d', $data['enrollment_date'])->format('d/m/Y') ?>
+                <div class="span9"><b>19 - Data de matrícula: <span style="font-size:12px;" class="enrollment_date"><?= $enrollment_date ?></span></b>
                 </div>
             </td>
         </tr>

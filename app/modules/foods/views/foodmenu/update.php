@@ -20,7 +20,7 @@ $title = $model->description
 ?>
 
 
-<?php $this->renderPartial('_form', array('model'=>$model, 'title' => $title)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'title' => $title, 'stages' => $stages)); ?>
 <script type="text/javascript">
 	 var menuUpdate = <?php echo CJSON::encode($model); ?>;
 	 var mealTypeList = <?php echo CJSON::encode($mealTypeList); ?>;

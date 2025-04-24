@@ -160,6 +160,32 @@ $(document).on("change", "#foodNotice", function () {
     });
 });
 
+$(document).on("change", "#foodNotice", function () {
+    let $notice = $(this).val();
+
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/farmerRegister/getFoodNoticeItems",
+        cache: false,
+        data: {
+            notice: $notice,
+        }
+    }).success(function(response) {
+        let data = DOMPurify.sanitize(response);
+        let foodNoticeItems = JSON.parse(data);
+
+        $('#foodSelect').html('<option value="alimento">Selecione o Alimento</option>').trigger('change');
+
+        Object.entries(foodNoticeItems).forEach(function([id, value]) {
+            let foodId = value.foodId + ',' + value.measurementUnit;
+            $('#foodSelect').append($('<option>', {
+                value: foodId,
+                text: value.foodName
+            }));
+        });
+    });
+});
+
 $(document).on("click", "#js-add-food", function () {
     let food = $('#foodSelect').find('option:selected').text();
     let foodId = $('#foodSelect').val().split(',')[0];

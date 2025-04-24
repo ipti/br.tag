@@ -1,8 +1,30 @@
+## [Versão 3.1.0]
+- Alteração no registro de data de matrícula. O campo "Data de Matrícula" do formulário de matrícula agora está diretamente relacionado
+com o valor apresentado em diferentes sessões do sistema.
+- Relatório de notas por aluno no diário eletrônico foi alterado para considerar a etapa de ensino vinculada à matrícula do aluno em turmas multisseriadas
+- Correção na funcionalidade de contagem de matrícula ativas na tela inicial de turmas.
+- Correção na funcionalidade de atribuir conteúdo ministrado em sala de aula, em diários de classe. Inconsistência apresentada ao
+salvar aulas corrigida.
+- Adicionado campo etapas de ensino no formulário de cardápio
+- Adicionado etapas de ensino no relatório de cardápio
+
+## [Versão 3.101.228]
+- Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
+
+## [Versão 3.101.227]
+- Corrigido exibição da etapa no relatório de ficha individual de aluno
+
+## [Versão 3.101.226]
+- Alteração na estrutura do registro de Turmas para corrigir erro em salvamento de etapa com ID com 3 dígitos.
 
 ## [Versão 3.101.225]
 - Adicionando a possibilidade de editar os items do edital e adicionando a funcionalidade de pré carregar as informações da lista de compras no edital
 
-## [Versão 3.99.224]
+## [Versão 3.100.225]
+- Correção na funcionalidade de salvar data de matrícula: agora deve ser considerado
+o valor do campo "Data de Matrícula" para fins de frequência em turmas
+
+## [Versão 3.100.224]
 - Adicionando o filtro de ano na listagem de aulas possíveis para adicionar em aulas ministradas
 
 ## [Versão 3.100.223]
