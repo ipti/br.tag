@@ -109,18 +109,22 @@ $(document).on("focusout", "#farmerCpf", function () {
 });
 
 $(document).on("change", "#foodSelect", function () {
+    debugger;
     let foodId = this.value.split(',')[0];
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');
     measurementUnitSelect.empty();
     switch (measurementUnit) {
+        case "Kg":
+            measurementUnitSelect.append($('<option value="g" selected>g</option><option value="Kg">Kg</option>'));
+            break;
         case "g":
             measurementUnitSelect.append($('<option value="g" selected>g</option><option value="Kg">Kg</option>'));
             break;
-        case "u":
+        case "Und":
             measurementUnitSelect.append($('<option value="unidade" selected>Unidade</option><option value="g">g</option><option value="Kg">Kg</option>'));
             break;
-        case "l":
+        case "L":
             measurementUnitSelect.append($('<option value="l" selected>L</option>'));
             break;
     }
