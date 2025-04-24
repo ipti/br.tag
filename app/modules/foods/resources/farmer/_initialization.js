@@ -147,32 +147,7 @@ $(document).on("change", "#foodNotice", function () {
     }).success(function(response) {
         let data = DOMPurify.sanitize(response);
         foodNoticeItems = JSON.parse(data);
-
-        $('#foodSelect').html('<option value="alimento">Selecione o Alimento</option>').trigger('change');
-
-        Object.entries(foodNoticeItems).forEach(function([id, value]) {
-            let foodId = value.foodId + ',' + value.measurementUnit;
-            $('#foodSelect').append($('<option>', {
-                value: foodId,
-                text: value.foodName
-            }));
-        });
-    });
-});
-
-$(document).on("change", "#foodNotice", function () {
-    let $notice = $(this).val();
-
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/farmerRegister/getFoodNoticeItems",
-        cache: false,
-        data: {
-            notice: $notice,
-        }
-    }).success(function(response) {
-        let data = DOMPurify.sanitize(response);
-        let foodNoticeItems = JSON.parse(data);
+        console.log(foodNoticeItems);
 
         $('#foodSelect').html('<option value="alimento">Selecione o Alimento</option>').trigger('change');
 
