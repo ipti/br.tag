@@ -2,6 +2,9 @@ window.location.search.includes("update")
     ? $(".last").css("display", "flex")
     : $(".last").css("display", "none");
 
+
+const formStudentIdentification = '#StudentIdentification_';
+
 $(document).ready(function () {
     if ($("#others-check").is(":checked")) {
         $(".others-text-box").show();
@@ -35,112 +38,112 @@ $(document).ready(function () {
     $(".tab-student").show();
     $(".tab-content").show();
 
-    if ($(formIdentification + "deficiency_type_blindness").is(":checked")) {
-        $(formIdentification + "deficiency_type_low_vision").attr(
+    if ($(formStudentIdentification + "deficiency_type_blindness").is(":checked")) {
+        $(formStudentIdentification + "deficiency_type_low_vision").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_monocular_vision").attr(
+        $(formStudentIdentification + "deficiency_type_monocular_vision").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_deafness").attr(
+        $(formStudentIdentification + "deficiency_type_deafness").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_deafblindness").attr(
+        $(formStudentIdentification + "deficiency_type_deafblindness").attr(
             "disabled",
             "disabled"
         );
     }
-    if ($(formIdentification + "deficiency_type_low_vision").is(":checked")) {
-        $(formIdentification + "deficiency_type_blindness").attr(
+    if ($(formStudentIdentification + "deficiency_type_low_vision").is(":checked")) {
+        $(formStudentIdentification + "deficiency_type_blindness").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_deafblindness").attr(
+        $(formStudentIdentification + "deficiency_type_deafblindness").attr(
             "disabled",
             "disabled"
         );
     }
     if (
-        $(formIdentification + "deficiency_type_monocular_vision").is(
+        $(formStudentIdentification + "deficiency_type_monocular_vision").is(
             ":checked"
         )
     ) {
-        $(formIdentification + "deficiency_type_blindness").attr(
+        $(formStudentIdentification + "deficiency_type_blindness").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_deafblindness").attr(
+        $(formStudentIdentification + "deficiency_type_deafblindness").attr(
             "disabled",
             "disabled"
         );
     }
-    if ($(formIdentification + "deficiency_type_deafness").is(":checked")) {
-        $(formIdentification + "deficiency_type_blindness").attr(
+    if ($(formStudentIdentification + "deficiency_type_deafness").is(":checked")) {
+        $(formStudentIdentification + "deficiency_type_blindness").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_disability_hearing").attr(
+        $(formStudentIdentification + "deficiency_type_disability_hearing").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_deafblindness").attr(
+        $(formStudentIdentification + "deficiency_type_deafblindness").attr(
             "disabled",
             "disabled"
         );
     }
     if (
-        $(formIdentification + "deficiency_type_disability_hearing").is(
+        $(formStudentIdentification + "deficiency_type_disability_hearing").is(
             ":checked"
         )
     ) {
-        $(formIdentification + "deficiency_type_deafness").attr(
+        $(formStudentIdentification + "deficiency_type_deafness").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_deafblindness").attr(
+        $(formStudentIdentification + "deficiency_type_deafblindness").attr(
             "disabled",
             "disabled"
         );
     }
     if (
-        $(formIdentification + "deficiency_type_deafblindness").is(":checked")
+        $(formStudentIdentification + "deficiency_type_deafblindness").is(":checked")
     ) {
-        $(formIdentification + "deficiency_type_blindness").attr(
+        $(formStudentIdentification + "deficiency_type_blindness").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_low_vision").attr(
+        $(formStudentIdentification + "deficiency_type_low_vision").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_monocular_vision").attr(
+        $(formStudentIdentification + "deficiency_type_monocular_vision").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_deafness").attr(
+        $(formStudentIdentification + "deficiency_type_deafness").attr(
             "disabled",
             "disabled"
         );
-        $(formIdentification + "deficiency_type_disability_hearing").attr(
+        $(formStudentIdentification + "deficiency_type_disability_hearing").attr(
             "disabled",
             "disabled"
         );
     }
     if (
-        $(formIdentification + "deficiency_type_intelectual_disability").is(
+        $(formStudentIdentification + "deficiency_type_intelectual_disability").is(
             ":checked"
         )
     ) {
-        $(formIdentification + "deficiency_type_gifted").attr(
+        $(formStudentIdentification + "deficiency_type_gifted").attr(
             "disabled",
             "disabled"
         );
     }
-    if ($(formIdentification + "deficiency_type_gifted").is(":checked")) {
-        $(formIdentification + "deficiency_type_intelectual_disability").attr(
+    if ($(formStudentIdentification + "deficiency_type_gifted").is(":checked")) {
+        $(formStudentIdentification + "deficiency_type_intelectual_disability").attr(
             "disabled",
             "disabled"
         );
