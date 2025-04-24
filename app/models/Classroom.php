@@ -228,7 +228,7 @@ class Classroom extends AltActiveRecord
                 self::STAT,
                 'StudentEnrollment',
                 'classroom_fk',
-                'condition' => 'status IN (1, 6, 7, 8, 9, 10) or status IS NULL'
+                'condition' => 'status IN (1, 2, 6, 7, 8, 9, 10) or status IS NULL'
             ),
         );
     }

@@ -295,3 +295,9 @@ $(document).on("click", "#remove-food-button", function () {
     foodsRelation.splice(id, 1);
     renderFoodsTable(foodsRelation);
 });
+
+$(document).on("click", "#remove-food-button", function () {
+    let id = $(this).attr('data-foodId');
+    foodsRelation.splice(id, 1);
+    renderFoodsTable(foodsRelation);
+});

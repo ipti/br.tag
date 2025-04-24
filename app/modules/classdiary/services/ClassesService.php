@@ -212,7 +212,7 @@
             }
 
         }
-        public function SaveNewClassContent($coursePlanId, $content, $methodology, $abilities) {
+        public function saveNewClassContent($coursePlanId, $content, $methodology, $abilities) {
 
             $nextOrder = Yii::app()->db->createCommand("
             SELECT MAX(`order`) AS max_order

@@ -17,6 +17,7 @@ class FoodrequestController extends Controller
                     'getFoodNotice',
                     'getFoodNoticeItems',
                     'updateReceivedFoods',
+                    'updateRequestStatus',
                     'updateAcceptedFoods'
                 ),
                 'users' => array('*'),

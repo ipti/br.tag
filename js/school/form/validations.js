@@ -148,7 +148,7 @@ initDateFieldMaskAndValidation('#ManagerIdentification_birthday_date');
 
 $('#ManagerIdentification_cpf').focusout(function () {
     var id = '#' + $(this).attr("id");
-    const validationState = validateCpf($(id).cleanVal());
+    const validationState = validateCpf($(id).val().replace(/\D/g, ''));
     if (!validationState.valid) {
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {

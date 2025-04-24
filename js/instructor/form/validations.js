@@ -207,7 +207,7 @@ var formDocumentsAndAddress = '#InstructorDocumentsAndAddress_';
 $(formDocumentsAndAddress + 'cpf').mask("000.000.000-00", {placeholder: "___.___.___-__"});
 $(formDocumentsAndAddress + 'cpf').on('change', function () {
     const id = '#' + $(this).attr("id");
-    const validationState = validateCpf($(id).cleanVal());
+    const validationState = validateCpf($(id).val().replace(/\D/g, ''));
     if (!validationState.valid) {
         addError(id, "Informe um CPF válido. Deve possuir apenas números.");
     } else {

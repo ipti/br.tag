@@ -253,6 +253,7 @@ class InstructorController extends Controller
         if ($modelInstructorVariableData == null) {
             $modelInstructorVariableData = new InstructorVariableData();
         }
+        $scholId = $modelInstructorIdentification->school_inep_id_fk;
         // Uncomment the following line if AJAX validation is needed
         //			 $this->performAjaxValidation($modelInstructorIdentification);
 
@@ -318,8 +319,8 @@ preenchidos";
 
             if ($saveInstructor && $saveDocumentsAndAddress && $saveVariableData) {
                 // Setar todos os school_inep_id
-                $modelInstructorDocumentsAndAddress->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
-                $modelInstructorVariableData->school_inep_id_fk = $modelInstructorIdentification->school_inep_id_fk;
+                $modelInstructorDocumentsAndAddress->school_inep_id_fk = $scholId;
+                $modelInstructorVariableData->school_inep_id_fk = $scholId;
 
                 $modelInstructorVariableData->high_education_institution_code_1_fk =
                     empty($modelInstructorVariableData->high_education_institution_code_1_fk) ? NULL :

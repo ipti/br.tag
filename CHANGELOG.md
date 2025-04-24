@@ -9,6 +9,26 @@ salvar aulas corrigida.
 - Adicionado etapas de ensino no relatório de cardápio
 - Ajuste na estrutura de dados relacionados com as faltas de um professor em uma turma. Impacto na funcionalidade de "Frequência do professor", que agora deve funcionar adequadamente.
 
+## [Versão 3.0.3]
+- Correção na renderização da tela de notas.
+
+## [Versão 3.0.1]
+- Correção no filtro de professores na tela de "Atribuir Professor Substituto" para exibir somente professores substitutos na lista.
+
+## [Versão 3.0.0]
+- A versão foi reiniciada para implatanção de um novo modelo de atualização
+
+## [Versão 3.101.231]
+- Corrigido problema de carregamento de habilidades no plano de aula
+
+## [Versão 3.101.230]
+- corrigido problema de deletar turmas
+
+## [Versão 3.101.229]
+- Correção de carregamento de plano de aula;
+- Correção de carregamento de  escola;
+- correção de lançamento de notas por conceito;
+- Correção de registro de ficha AEE;
 
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
@@ -38,6 +58,14 @@ o valor do campo "Data de Matrícula" para fins de frequência em turmas
 ## [Versão 3.99.222]
 - Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
 - Removendo validação de espaço em branco no começo e no fim do nome do aluno, o espaço é removido automaticamente ao salvar
+
+
+## [Versão 3.99.222]
+- Adicionado cadastro de aulas no plano de aula na tela de diário de classe
+- Removendo validação de espaço em branco no começo e no fim do nome do aluno, o espaço é removido automaticamente ao salvar
+
+## [Versão 3.98.222]
+- Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
 
 ## [Verão 3.98.222]
 - Associadas estruturas de unidades e avaliação às turmas
