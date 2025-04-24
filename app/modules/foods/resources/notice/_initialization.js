@@ -76,21 +76,7 @@ if(noticeID)  {
         $(".js-notice-name").val(response.name)
         $(".js-date").val(response.date)
         data = response.noticeItems
-        table.destroy();
-        table = $('table').DataTable({
-            data: data,
-            ordering:  true,
-            searching: false,
-            paginate: true,
-            language: getLanguagePtbr(),
-            columnDefs: [
-                {
-                  targets: -1,
-                  data: null,
-                  defaultContent: '<a class="delete-btn" style="color:#d21c1c; font-size:25px; cursor:pointer;"><span class="t-icon-trash"></span></a>'
-                }
-              ]
-          });
+        renderFoodsTable();
         $("#loading-popup").removeClass("loading-center").addClass("hide");
     })
 }

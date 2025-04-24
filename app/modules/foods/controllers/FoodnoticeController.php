@@ -43,7 +43,6 @@ class FoodNoticeController extends Controller
                     'toggleNoticeStatus',
                     'getNoticePdfUrl',
                     'getShoppingList'
-
                 ),
                 'users' => array('*'),
             ),
