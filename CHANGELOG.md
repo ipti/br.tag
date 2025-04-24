@@ -7,6 +7,7 @@ com o valor apresentado em diferentes sessões do sistema.
 salvar aulas corrigida.
 - Adicionado campo etapas de ensino no formulário de cardápio
 - Adicionado etapas de ensino no relatório de cardápio
+- Adicionado conceito final para turmas conceito
 
 ## [Versão 3.101.228]
 - Regra de negócio aplicada a funcionalidade de "Excluir Professor" ajustada.
