@@ -138,7 +138,7 @@ class CalculateConceptGradeUsecase
                 FROM grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id= gum.grade_unity_fk
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "' and gu.type = 'UC'"
+                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "' and gu.type = 'UC' ORDER BY g.grade_unity_modality_fk"
         )->bindParam(":enrollment_id", $enrollmentId)
             ->bindParam(":discipline_id", $discipline)->queryAll(), "id");
 
@@ -146,11 +146,13 @@ class CalculateConceptGradeUsecase
             return [];
         }
 
-        return  Grade::model()->findAll(
+        return Grade::model()->findAll(
             array(
                 'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
+                'order' => 'grade_unity_modality_fk'
             )
         );
+
     }
 
     private function hasAllGrades($numUnities, $gradeResult)

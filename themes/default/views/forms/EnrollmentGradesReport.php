@@ -170,9 +170,9 @@ function calculateFrequence($numClasses, $numFalts): int {
                 <?php } ?>
                 </tbody>
                 <tr>
-                    <td colspan="1">MÉDIA FINAL</td>
+                    <td colspan="1"><?=  ($conceptUnities ? "CONCEITO FINAL" : "MÉDIA FINAL") ?></td>
                     <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) { ?>
-                        <td style="text-align: center;font-weight:bold;"><?= ($conceptUnities ? '' : $result[$i]['final_media']) ?></td>
+                        <td style="text-align: center;font-weight:bold;"><?= ($conceptUnities ? $result[$i]['final_concept'] : $result[$i]['final_media']) ?></td>
                     <?php } ?>
                     <td></td>
                     <td></td>

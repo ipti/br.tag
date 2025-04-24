@@ -197,6 +197,37 @@ class FormsRepository
         }
         return $result;
     }
+
+    private function getEnrollmentStageUnities($classroomId, $enrollmentStage)
+    {
+
+            $criteria = new CDbCriteria();
+            $criteria->alias = 'gu';
+            $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+            $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+            $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+            $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
+            $criteria->group = 'gu.id';
+            $criteria->params = array(':classroom' => $classroomId, ":stage"=>$enrollmentStage);
+
+           return GradeUnity::model()->findAll($criteria);
+    }
+    private function getClassromStageUnities($classroomId)
+    {
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'gu';
+        $criteria->join = 'INNER JOIN grade_rules gr ON gr.id = gu.grade_rules_fk';
+        $criteria->join .= ' INNER JOIN classroom_vs_grade_rules cgr ON cgr.grade_rules_fk = gu.grade_rules_fk';
+        $criteria->join .= ' INNER JOIN classroom c ON c.id = cgr.classroom_fk';
+        $criteria->join .= ' INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.edcenso_stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk';
+        $criteria->condition = 'cgr.classroom_fk = :classroomId';
+        $criteria->group = 'gu.id';
+        $criteria->order = "FIELD(type, 'RF') ASC";
+        $criteria->params = array(':classroomId' => $classroomId);
+
+           return GradeUnity::model()->findAll($criteria);
+    }
     /**
      * Ficha de Notas
      */
@@ -208,14 +239,15 @@ class FormsRepository
         $enrollment = StudentEnrollment::model()->with(['classFaults', "classroomFk"])->findByPk($enrollmentId);
         $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]); // medias do aluno na turma
         $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
-        $unities = GradeUnity::model()->findAllByAttributes(
-            ["edcenso_stage_vs_modality_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk],
-            ["order" => "FIELD(type, 'RF') ASC"]
-        ); // unidades da turma
+        if(TagUtils::isMultiStage($enrollment->classroomFk->edcenso_stage_vs_modality_fk)) {
+            $unities = $this->getEnrollmentStageUnities($enrollment->classroomFk->id, $enrollment->edcenso_stage_vs_modality_fk);
+        } else {
+            $unities = $this->getClassromStageUnities($enrollment->classroomFk->id);
+             // unidades da turma
+        }
         $curricularMatrix = CurricularMatrix::model()->with("disciplineFk")->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
         $partialRecovery = $this->getPartialRecovery($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
-        $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id);
-
+         $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
         // Aqui eu separo as disciplinas da BNCC das disciplinas diversas para depois montar o cabeçalho
         foreach ($curricularMatrix as $matrix) {
@@ -255,9 +287,15 @@ class FormsRepository
             foreach ($gradesResult as $gradeResult) {
                 // se existe notas para essa disciplina
                 if ($gradeResult->disciplineFk->id == $discipline) {
+                    $finalConcept = '';
+                    if ($gradeResult->final_concept) {
+                        $finalConcept = GradeConcept::model()->findByPk($gradeResult->final_concept)->acronym;
+                    }
+
                     array_push($result, [
                         "discipline_id" => $gradeResult->disciplineFk->id,
                         "final_media" => $gradeResult->final_media,
+                        "final_concept" => $finalConcept,
                         "grade_result" => $gradeResult,
                         "partial_recoveries" => $partialRecovery,
                         "total_number_of_classes" => $totalContentsPerDiscipline,
@@ -273,6 +311,7 @@ class FormsRepository
                 array_push($result, [
                     "discipline_id" => $discipline,
                     "final_media" => null,
+                    "final_concept" => null,
                     "grade_result" => null,
                     "partial_recoveries" => $partialRecovery,
                     "total_number_of_classes" => $totalContentsPerDiscipline,
@@ -734,6 +773,7 @@ class FormsRepository
                 ed.name AS discipline_name,
                 ed.id AS discipline_id,
                 gr.final_media,
+                gr.final_concept,
                 gr.situation,
                 se.status
                     FROM classroom c
@@ -808,9 +848,15 @@ class FormsRepository
                 foreach ($result as $r) {
                     if ($r['discipline_id'] == $d['discipline_id'] && $r['student_id'] == $s['student_fk']) {
                         $finalMedia = $r['final_media'];
+                        $finalConcept = $r['final_concept'];
                         if($isMinorStage) {
                             $finalMedia = $this->checkConceptGradeRange($finalMedia, $concepts);
                         }
+
+                        if($finalConcept) {
+                            $finalMedia = GradeConcept::model()->findByPk($finalConcept)->acronym;
+                        }
+
                         $r['situation'] = mb_strtoupper($r['situation']);
                        if($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {
                             $finalSituation = 'DEIXOU DE FREQUENTAR';
