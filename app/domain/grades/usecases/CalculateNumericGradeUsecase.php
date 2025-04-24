@@ -199,7 +199,8 @@ class CalculateNumericGradeUsecase
             $criteria->join = 'INNER JOIN grade_rules gr ON gr.id = gu.grade_rules_fk';
             $criteria->join .= ' INNER JOIN classroom_vs_grade_rules cgr ON cgr.grade_rules_fk = gu.grade_rules_fk';
             $criteria->join .= ' INNER JOIN classroom c ON c.id = cgr.classroom_fk';
-            $criteria->join .= ' INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm ON grvesvm.edcenso_stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk';
+            $criteria->join .= ' INNER JOIN grade_rules_vs_edcenso_stage_vs_modality grvesvm
+    ON grvesvm.grade_rules_fk = gr.id AND grvesvm.edcenso_stage_vs_modality_fk = c.edcenso_stage_vs_modality_fk';
             $criteria->condition = 'cgr.classroom_fk = :classroomId';
             $criteria->params = array(':classroomId' => $this->classroomId);
 
