@@ -19,6 +19,8 @@ use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use TagUtils;
 use ValidationSagresModel;
+use Classroom;
+use PeriodOptions;
 
 use Yii;
 use ZipArchive;
@@ -650,7 +652,7 @@ class SagresConsultModel
             $classType = new TurmaTType();
             $classId = $turma['classroomId'];
 
-            if (\TagUtils::isStageEJA(stage: $turma["stage"]) && $turma["period"] == \PeriodOptions::ANUALY->value) {
+            if (\TagUtils::isStageEJA( $turma["stage"]) && $turma["period"] == 0) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
 
