@@ -903,7 +903,7 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = SERIE_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa censo ';
+            $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa válida ';
             $inconsistencyModel->action = 'Adicione uma etapa válida';
             $inconsistencyModel->identifier = '12';
             $inconsistencyModel->idClass = $serie->edcensoCodeOriginal;
@@ -989,7 +989,7 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = SERIE_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'Etapa do edcenso para a turma ' . "está incorreta";
+            $inconsistencyModel->description = 'Etapa inválida para a turma ';
             $inconsistencyModel->action = 'Associe uma etapa válida';
             $inconsistencyModel->identifier = '10';
             $inconsistencyModel->idClass = $classId;
