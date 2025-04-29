@@ -24,7 +24,7 @@ services:
     volumes:
       - .:/app
       # - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
-      - /app/docker/mysql # commment this line if yout run project in linux ubuntu 24.0.1
+      - /app/docker/mysql # comment this line if yout run project in linux ubuntu 24.0.1
       - /app/vendor
       - /app/app/vendor
       - /app/assets
@@ -55,7 +55,7 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     volumes:
-      #- db-volume:/var/lib/mysql # add this line if your run the project in ubunutu 24.0.1
+      #- db-volume:/var/lib/mysql # add this line if your run the project in ubuntu 24.0.1
        - ./docker/mysql/dbfiles:/var/lib/mysql
       # - .\dump.sql:/docker-entrypoint-initdb.d/dump.sql
       # - ./dump-data.sql:/docker-entrypoint-initdb.d/dump-data.sql
