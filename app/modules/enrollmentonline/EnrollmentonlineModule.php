@@ -3,6 +3,7 @@
 class EnrollmentonlineModule extends CWebModule
 {
 
+    public $defaultController = 'enrollmentonlinestudentidentificationController';
 	public $baseScriptUrl;
 	public $baseUrl;
 
