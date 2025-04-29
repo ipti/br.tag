@@ -13,7 +13,7 @@ $this->menu=array(
 );
 
 $title = "Pre Matrícula";
-
+$this->pageTitle = 'TAG - Pré-Matrícula';
 ?>
 
 <?php $this->renderPartial('_form', array('model'=>$model, 'title' => $title)); ?>

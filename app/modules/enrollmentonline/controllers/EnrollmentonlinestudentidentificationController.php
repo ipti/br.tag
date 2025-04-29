@@ -28,7 +28,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view', 'getCities'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -170,4 +170,17 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+    public function actionGetCities()
+    {
+        $uf = null;
+        $uf = Yii::app()->request->getPost('state');
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => $uf));
+        $data = CHtml::listData($data, 'id', 'name');
+
+        echo CHtml::tag('option', array('value' => null), 'Selecione uma cidade', true);
+        foreach ($data as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+    }
 }

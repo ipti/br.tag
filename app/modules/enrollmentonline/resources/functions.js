@@ -15,3 +15,22 @@ $(".js-filiation-select").on("change", () => {
         $(".js-hide-filiation").hide()
     }
 });
+
+$(".js-uf").on("change", ()=>{
+
+    $.ajax({
+        type: "POST",
+        url: "?r=enrollmentonline/Enrollmentonlinestudentidentification/getCities",
+        cache: false,
+        data: {
+            state: $('select.js-uf').val(),
+        },
+        success: function (response) {
+            data = DOMPurify.sanitize(response);
+
+            $("select.js-cities").html(response)
+            $("select.js-cities").select2()
+            $("select.js-cities").removeAttr("disabled");
+        }
+    })
+})
