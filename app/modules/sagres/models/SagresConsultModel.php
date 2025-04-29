@@ -652,7 +652,7 @@ class SagresConsultModel
             $classType = new TurmaTType();
             $classId = $turma['classroomId'];
 
-            if (\TagUtils::isStageEJA( $turma["stage"]) && $turma["period"] == 0) {
+            if (\TagUtils::isStageEJA($turma["stage"]) && $turma["period"] == 0) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
 
@@ -1423,14 +1423,16 @@ class SagresConsultModel
         if ($isFoodEnabled->value) {
 
             $query = "SELECT
-                        fm.start_date as data,
-                        fm.description AS descricaoMerenda,
-                        fm.adjusted AS ajustado,
-                        fmm.turn AS turno,
-                        fmm.food_menuId
-                    FROM food_menu fm
-                        JOIN food_menu_meal fmm on fmm.food_menuId = fm.id
-                    WHERE YEAR(fm.start_date) = :year and month(fm.start_date) <= :month";
+	                    fm.start_date as data,
+	                    fmmc.description  AS descricaoMerenda,
+	                    fm.adjusted AS ajustado,
+	                    fmm.turn AS turno,
+	                    fmm.food_menuId
+                    FROM food_menu fm JOIN food_menu_meal fmm on fmm.food_menuId = fm.id
+                    JOIN food_menu_meal_component fmmc on fmmc.food_menu_mealId = fmm.id
+                    WHERE
+	                    YEAR(fm.start_date) = :year
+	                    and month(fm.start_date) <= :month;";
             $params = [
                 ':year' => $year,
                 ':month' => $month
