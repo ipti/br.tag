@@ -69,7 +69,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                 <div class="row">
                     <div class="t-field-text column">
                         <?php echo $form->labelEx($model, 'name', array('class' => 't-field-text__label')); ?>
-                        <?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome de Apresentação')); ?>
                         <?php echo $form->error($model, 'name'); ?>
                     </div>
                     <div class="t-field-text column">
@@ -217,7 +217,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                 <div class="row">
                     <div class="t-field-text column">
                         <?php echo $form->labelEx($model, 'responsable_name', array('class' => 't-field-text__label')); ?>
-                        <?php echo $form->textField($model, 'responsable_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->textField($model, 'responsable_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Responsável')); ?>
                         <?php echo $form->error($model, 'responsable_name'); ?>
                     </div>
 
@@ -253,13 +253,13 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                 <div class="row js-hide-filiation" style="display:none;">
                     <div class="t-field-text column">
                         <?php echo $form->labelEx($model, 'mother_name', array('class' => 't-field-text__label')); ?>
-                        <?php echo $form->textField($model, 'mother_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->textField($model, 'mother_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome da Mãe')); ?>
                         <?php echo $form->error($model, 'mother_name'); ?>
                     </div>
 
                     <div class="t-field-text column">
                         <?php echo $form->labelEx($model, 'father_name', array('class' => 't-field-text__label')); ?>
-                        <?php echo $form->textField($model, 'father_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->textField($model, 'father_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Pai')); ?>
                         <?php echo $form->error($model, 'father_name'); ?>
                     </div>
                 </div>
@@ -293,13 +293,13 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                 <div class="row">
                     <div class="t-field-text column">
                         <?php echo $form->labelEx($model, 'address', array('class' => 't-field-text__label')); ?>
-                        <?php echo $form->textField($model, 'address', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->textField($model, 'address', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Endereço')); ?>
                         <?php echo $form->error($model, 'address'); ?>
                     </div>
 
                     <div class="t-field-text column">
                         <?php echo $form->labelEx($model, 'number', array('class' => 't-field-text__label')); ?>
-                        <?php echo $form->textField($model, 'number', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->textField($model, 'number', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input',  'placeholder' => 'Digite o Número')); ?>
                         <?php echo $form->error($model, 'number'); ?>
                     </div>
                 </div>
@@ -307,13 +307,13 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                 <div class="row">
                     <div class="t-field-text column">
                         <?php echo $form->labelEx($model, 'complement', array('class' => 't-field-text__label')); ?>
-                        <?php echo $form->textField($model, 'complement', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->textField($model, 'complement', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input',  'placeholder' => 'Digite o Complemento')); ?>
                         <?php echo $form->error($model, 'complement'); ?>
                     </div>
 
                     <div class="t-field-text column">
                         <?php echo $form->labelEx($model, 'neighborhood', array('class' => 't-field-text__label')); ?>
-                        <?php echo $form->textField($model, 'neighborhood', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input')); ?>
+                        <?php echo $form->textField($model, 'neighborhood', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input',  'placeholder' => 'Digite o Bairro / Povoado')); ?>
                         <?php echo $form->error($model, 'neighborhood'); ?>
                     </div>
                 </div>
