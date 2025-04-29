@@ -210,7 +210,7 @@ class CourseplanController extends Controller
         $criteria->alias = "cca";
         $criteria->join = "join edcenso_stage_vs_modality esvm on esvm.id = cca.edcenso_stage_vs_modality_fk";
         $criteria->condition = "cca.code like :code";
-        $criteria->params = [":code" =>  $q . '%'];
+        $criteria->params = [":code" => '%' . $q . '%'];
 
         $abilities = CourseClassAbilities::model()->findAll($criteria);
 

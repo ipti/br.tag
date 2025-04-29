@@ -1,7 +1,7 @@
 let foodsRelation = [];
+let foodNoticeItems = []
 
 $(document).ready(function() {
-    let foodSelect = $('#foodSelect');
     let foodNotice = $('#foodNotice');
 
     const $params = new URLSearchParams(window.location.search);
@@ -20,10 +20,26 @@ $(document).ready(function() {
             let farmerFoods = JSON.parse(data);
             foodsRelation = farmerFoods;
             renderFoodsTable(farmerFoods);
+
+            $.ajax({
+                type: 'POST',
+                url: "?r=foods/farmerregister/getFarmerDeliveries",
+                cache: false,
+                data: {
+                    farmer: $id,
+                }
+            }).success(function(response) {
+                let data = DOMPurify.sanitize(response)
+                let farmerDeliveries = JSON.parse(data);
+                renderAcceptedFoodsTable(farmerDeliveries.acceptedFoods);
+                renderDeliveredFoodsTable(farmerDeliveries.deliveredFoods);
+                renderFoodRelationTable(farmerDeliveries.deliveredFoods, foodsRelation);
+            });
         });
         $('#farmerName').removeAttr('disabled');
         $('#farmerPhone').removeAttr('disabled');
         $('#farmerGroupType').removeAttr('disabled');
+
     }
 
     $.ajax({
@@ -41,24 +57,6 @@ $(document).ready(function() {
             }));
         });
     });
-
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/farmerregister/getFoodAlias",
-        cache: false
-    }).success(function(response) {
-        let data = DOMPurify.sanitize(response);
-        let foods_description = JSON.parse(data);
-
-        Object.entries(foods_description).forEach(function([id, value]) {
-            let description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
-            value = id + ',' + value.measurementUnit;
-            foodSelect.append($('<option>', {
-                value: value,
-                text: description
-            }));
-        });
-    })
 });
 
 $(document).on("focusout", "#farmerCpf", function () {
@@ -111,22 +109,59 @@ $(document).on("focusout", "#farmerCpf", function () {
 });
 
 $(document).on("change", "#foodSelect", function () {
+    let foodId = this.value.split(',')[0];
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');
     measurementUnitSelect.empty();
     switch (measurementUnit) {
+        case "Kg":
+            measurementUnitSelect.append($('<option value="g" selected>g</option><option value="Kg">Kg</option>'));
+            break;
         case "g":
             measurementUnitSelect.append($('<option value="g" selected>g</option><option value="Kg">Kg</option>'));
             break;
-        case "u":
+        case "Und":
             measurementUnitSelect.append($('<option value="unidade" selected>Unidade</option><option value="g">g</option><option value="Kg">Kg</option>'));
             break;
-        case "l":
+        case "L":
             measurementUnitSelect.append($('<option value="l" selected>L</option>'));
             break;
     }
     measurementUnitSelect.val('');
     measurementUnitSelect.trigger("change");
+
+    if(foodId != "alimento") {
+        foodId = parseInt(foodId);
+        const itemEncontrado = foodNoticeItems.find(item => item.foodId === foodId);
+        $('#food-alert').removeClass('hide').html(`<span class="t-info_positive"> A quantidade máxima do alimento selecionado no edital é: ${itemEncontrado.yearAmount}${itemEncontrado.measurementUnit}`);
+    }
+});
+
+$(document).on("change", "#foodNotice", function () {
+    let $notice = $(this).val();
+
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/farmerRegister/getFoodNoticeItems",
+        cache: false,
+        data: {
+            notice: $notice,
+        }
+    }).success(function(response) {
+        let data = DOMPurify.sanitize(response);
+        foodNoticeItems = JSON.parse(data);
+        console.log(foodNoticeItems);
+
+        $('#foodSelect').html('<option value="alimento">Selecione o Alimento</option>').trigger('change');
+
+        Object.entries(foodNoticeItems).forEach(function([id, value]) {
+            let foodId = value.foodId + ',' + value.measurementUnit;
+            $('#foodSelect').append($('<option>', {
+                value: foodId,
+                text: value.foodName
+            }));
+        });
+    });
 });
 
 $(document).on("click", "#js-add-food", function () {
@@ -140,6 +175,7 @@ $(document).on("click", "#js-add-food", function () {
     if(foodId == "alimento" || amount == "" || noticeId == "selecione") {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Campos obrigatórios precisam ser informados.");
     } else if(amount !== "" && !isNaN(amount) && parseFloat(amount) >= 0 && amount.indexOf(',') === -1) {
+        foodId = parseInt(foodId);
         let existingIndex = $.map(foodsRelation, function(obj, index) {
             return obj.id === foodId ? index : null;
         })[0];
@@ -150,6 +186,9 @@ $(document).on("click", "#js-add-food", function () {
             foodsRelation.push({id: foodId, foodDescription: food, amount: amount, measurementUnit: measurementUnit, notice: notice, noticeId: noticeId});
         }
         renderFoodsTable(foodsRelation);
+
+        $('#measurementUnit').val(null).trigger('change');
+        $('#amount').val("");
     } else {
         $('#info-alert').removeClass('hide').addClass('alert-error').html("Quantidade informada não é válida, utilize números positivos e se decimal, separe por '.'");
     }

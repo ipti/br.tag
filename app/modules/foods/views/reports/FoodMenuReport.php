@@ -92,6 +92,13 @@ if($include_saturday){
                         <div>
                             <?= $foodMenu->description . " - " . $publicTarget["name"] ?>
                         </div>
+                        <div class="t-margin-medium--top">
+                            <?php
+                                foreach ($stagesNames as $name) {
+                                   echo $name. "<br>";
+                                }
+                            ?>
+                        </div>
                         <br>
                         <div>
                             <?php switch ($schoolLocation) {

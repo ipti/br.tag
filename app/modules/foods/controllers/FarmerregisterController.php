@@ -39,7 +39,9 @@ class FarmerRegisterController extends Controller
                     'getFarmerRegister',
                     'getFoodAlias',
                     'getFarmerFoods',
-                    'getFoodNotice'
+                    'getFoodNotice',
+                    'getFoodNoticeItems',
+                    'getFarmerDeliveries'
                 ),
                 'users' => array('*'),
             ),
@@ -260,6 +262,73 @@ class FarmerRegisterController extends Controller
         }
 
         echo json_encode($values);
+    }
+    public function actionGetFoodNoticeItems() {
+        $notice = Yii::app()->request->getPost('notice');
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.foodNotice_fk = :notice';
+        $criteria->params = array(':notice' => $notice);
+        $criteria->with = array('food');
+
+        $foodNoticeItems =  FoodNoticeItem::model()->findAll($criteria);
+
+        $values = [];
+        foreach ($foodNoticeItems as $item) {
+            $values[] = array(
+                'id' => $item->id,
+                'foodId' => $item->food_id,
+                'foodName' => $item->name,
+                'yearAmount' => $item->year_amount,
+                'measurementUnit' => $item->measurement,
+            );
+        }
+
+        echo json_encode($values);
+    }
+    public function actionGetFarmerDeliveries() {
+        $farmer = Yii::app()->request->getPost('farmer');
+
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.farmer_fk = :farmer';
+        $criteria->params = array(':farmer' => $farmer);
+        $criteria->with = array('foodFk');
+
+        $farmerDeliveredFoods =  FoodRequestItemReceived::model()->findAll($criteria);
+        $farmerAcceptedFoods = FoodRequestItemAccepted::model()->findAll($criteria);
+
+        $deliveredFoods = array();
+        foreach ($farmerDeliveredFoods as $delivered) {
+            $deliveredFoods[] = array(
+                'id' => $delivered->id,
+                'foodId' => $delivered->food_fk,
+                'foodName' => $delivered->foodFk->description,
+                'amount' => $delivered->amount,
+                'measurementUnit' => $delivered->measurementUnit,
+                'date' => date('d/m/Y', strtotime($delivered->date)),
+                'request' => $delivered->food_request_fk
+            );
+        }
+
+        $acceptedFoods = array();
+        foreach ($farmerAcceptedFoods as $accepted) {
+            $acceptedFoods[] = array(
+                'id' => $accepted->id,
+                'foodId' => $accepted->food_fk,
+                'foodName' => $accepted->foodFk->description,
+                'amount' => $accepted->amount,
+                'measurementUnit' => $accepted->measurementUnit,
+                'date' => date('d/m/Y', strtotime($accepted->date)),
+                'request' => $accepted->food_request_fk
+            );
+        }
+
+        $farmerDeliveries = array(
+            "deliveredFoods" => $deliveredFoods,
+            "acceptedFoods" => $acceptedFoods,
+        );
+
+        echo json_encode($farmerDeliveries);
     }
     public function actionCreate()
     {

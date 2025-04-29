@@ -85,6 +85,10 @@ $this->menu=array(
                     </div>
                     <div id="requestItems"></div>
                     <div class="row">
+                        <h3>Solicitações aceitas</h3>
+                    </div>
+                    <div id="requestAcceptedItems"></div>
+                    <div class="row">
                         <h3>Relação de entregas</h3>
                     </div>
                     <div id="requestItemsReceived"></div>

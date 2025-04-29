@@ -105,13 +105,29 @@ $cs->registerScriptFile($baseScriptUrl . '/functions.js?v='.TAG_VERSION, CClient
 			</div>
 		</div>
         <div class="row">
+        <div class="t-margin-none--top column">
+                <label for="stages" class="t-field-select__label--required">Etapas de ensino</label>
+                <?php
+                    echo CHtml::dropDownList(
+                        'Etapas',
+                        $stages,
+                        CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'),
+                        array(
+                            'class' => 't-field-select__input js-stage-select select-search-on select2-container t-multiselect multiselect',
+                            'multiple' => 'multiple',
+                            'prompt' => 'Selecione o estágio...',
+                            'style' => 'width: 100%;',
+                            "required"=>"required"
+                        )
+                    );
+                ?>
+            </div>
             <div class="column">
                 <div class="t-field-checkbox t-margin-none--top">
                     <input class="t-field-checkbox__input js-include-saturday" type="checkbox" id="include-saturday" name="Sabado Letivo" style="margin-right:5px;">
                     <label class="t-field-checkbox__label" for="include-saturday">Incluir Sábado Letivo</label>
                 </div>
             </div>
-            <div class="column"></div>
         </div>
 		<div class="row">
 			<div class="column clearleft--on-mobile t-buttons-container">
