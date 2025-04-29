@@ -1,18 +1,19 @@
 <?php
-/* @var $this EnrollmentOnlineStudentIdentificationController */
-/* @var $model EnrollmentOnlineStudentIdentification */
+/* @var $this OnlineEnrollmentStudentIdentificationController */
+/* @var $model OnlineEnrollmentStudentIdentification */
 
 $this->breadcrumbs=array(
-	'Enrollment Online Student Identifications'=>array('index'),
+	'Online Enrollment Student Identifications'=>array('index'),
 	'Create',
 );
 
 $this->menu=array(
-	array('label'=>'List EnrollmentOnlineStudentIdentification', 'url'=>array('index')),
-	array('label'=>'Manage EnrollmentOnlineStudentIdentification', 'url'=>array('admin')),
+	array('label'=>'List OnlineEnrollmentStudentIdentification', 'url'=>array('index')),
+	array('label'=>'Manage OnlineEnrollmentStudentIdentification', 'url'=>array('admin')),
 );
+
+$title = "Pre Matrícula";
+
 ?>
 
-<h1>Create EnrollmentOnlineStudentIdentification</h1>
-
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'title' => $title)); ?>
