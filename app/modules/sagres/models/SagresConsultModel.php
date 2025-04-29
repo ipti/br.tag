@@ -991,7 +991,7 @@ class SagresConsultModel
             $inconsistencyModel->school = $schoolName;
             $inconsistencyModel->description = 'Etapa inválida para a turma ';
             $inconsistencyModel->action = 'Associe uma etapa válida';
-            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->identifier = '13';
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
         }
