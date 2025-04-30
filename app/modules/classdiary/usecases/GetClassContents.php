@@ -15,8 +15,8 @@
         public function __construct($classService = null){
             $this->classService = $classService ?? new ClassesService();
         }
-        public function exec($classroom_fk, $date, $discipline_fk){
-            $response = $this->classService->getClassContents($classroom_fk, $date, $discipline_fk);
+        public function exec($classroom_fk, $stage_fk, $date, $discipline_fk){
+            $response = $this->classService->getClassContents($classroom_fk, $stage_fk, $date, $discipline_fk);
             return $response;
         }
     }

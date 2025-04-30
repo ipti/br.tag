@@ -49,7 +49,7 @@ function updateClassesContents()
     const stage_fk = urlParams.get("stage_fk")
     $.ajax({
         type:'GET',
-        url:  `${window.location.host}?r=classdiary/default/GetClassesContents&classroom_fk=${classroom_fk}&date=${date}&discipline_fk=${discipline_fk}`
+        url:  `${window.location.host}?r=classdiary/default/GetClassesContents&classroom_fk=${classroom_fk}&stage_fk=${stage_fk}&date=${date}&discipline_fk=${discipline_fk}`
     }).success((response) => {
         if(response.valid==true){
             let options = "";

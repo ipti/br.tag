@@ -133,9 +133,9 @@ class DefaultController extends Controller
         }
 
     }
-	public function actionGetClassesContents($classroom_fk, $date, $discipline_fk){
+	public function actionGetClassesContents($classroom_fk, $stage_fk, $date, $discipline_fk){
 		$getClassContents = new GetClassContents();
-		$classContent = $getClassContents->exec($classroom_fk, $date, $discipline_fk);
+		$classContent = $getClassContents->exec($classroom_fk, $stage_fk, $date, $discipline_fk);
 		header('Content-Type: application/json; charset="UTF-8"');
 	    echo json_encode($classContent, JSON_OBJECT_AS_ARRAY);
 	}
@@ -162,7 +162,7 @@ class DefaultController extends Controller
             }
         }
 		$saveClassContent = new SaveClassContents();
-		$saveClassContent->exec($date, $discipline_fk, $classroom_fk, $classContent);
+		$saveClassContent->exec($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent);
 	}
 	public function actionRenderAccordion()
 	{

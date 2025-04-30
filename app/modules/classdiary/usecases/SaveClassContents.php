@@ -10,9 +10,9 @@
         {
             $this->classesService = $classesService ?? new ClassesService();
         }
-        public function exec($date, $discipline_fk, $classroom_fk, $classContent)
+        public function exec($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent)
         {
-            $response = $this->classesService->saveClassContents($date, $discipline_fk, $classroom_fk, $classContent);
+            $response = $this->classesService->saveClassContents($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent);
             return  $response;
         }
     }
