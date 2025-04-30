@@ -28,6 +28,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                     </h1>
                 </div>
             </div>
+            <div class="alert alert-error hide js-alert"></div>
             <div class="t-tabs js-tab-control" style="margin-left: 1em;">
                 <ul class="tab-student t-tabs__list">
                     <li id="tab-student-identify" class="t-tabs__item active">
@@ -365,13 +366,58 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                                 CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'),
                                 array(
                                     "prompt" => "Selecione um estado",
-                                    "class" => "select-search-on t-field-select__input select2-container js-uf"
+                                    "class" => "select-search-on t-field-select__input select2-container js-stage"
                                 )
                             );
                             ?>
                             <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
                         </div>
                         <div class="t-field-text column">
+                            <label for="" class="t-field-text__label">Priemira opção matrícula</label>
+                            <?php
+                                echo CHtml::dropDownList(
+                                    'school_1',
+                                    '',
+                                    [],
+                                    array(
+                                        "prompt" => "Selecione uma opção de matrícula",
+                                        "class" => "select-search-on t-field-select__input select2-container js-school-1",
+                                        "disabled" => "disabled"
+                                    )
+                                );
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="t-field-text column">
+                            <label for="" class="t-field-text__label">Segunda opção matrícula</label>
+                            <?php
+                                echo CHtml::dropDownList(
+                                    'school_2',
+                                    '',
+                                    [],
+                                    array(
+                                        "prompt" => "Selecione uma opção de matrícula",
+                                        "class" => "select-search-on t-field-select__input select2-container js-school-2",
+                                        "disabled" => "disabled"
+                                    )
+                                );
+                            ?>
+                        </div>
+                        <div class="t-field-text column">
+                            <label for="" class="t-field-text__label">Terceira opção matrícula</label>
+                            <?php
+                                echo CHtml::dropDownList(
+                                    'school_3',
+                                    '',
+                                    [],
+                                    array(
+                                        "prompt" => "Selecione uma opção de matrícula",
+                                        "class" => "select-search-on t-field-select__input select2-container js-school-3",
+                                        "disabled" => "disabled"
+                                    )
+                                );
+                            ?>
                         </div>
                     </div>
                 </div>

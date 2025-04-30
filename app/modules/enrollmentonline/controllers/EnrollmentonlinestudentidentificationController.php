@@ -29,7 +29,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 		return array(
             array(
                 'allow',  // allow all users to perform 'index', 'view', and 'create' actions
-                'actions' => array('index', 'view', 'create'),
+                'actions' => array('index', 'view', 'create', 'getCities', 'getSchools'),
                 'users' => array('*'),
             ),
             array(
@@ -184,6 +184,30 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         $data = CHtml::listData($data, 'id', 'name');
 
         echo CHtml::tag('option', array('value' => null), 'Selecione uma cidade', true);
+        foreach ($data as $value => $name) {
+            echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
+        }
+    }
+    public function actionGetSchools()
+    {
+        $stage = null;
+        $stage = Yii::app()->request->getPost('stage');
+
+
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'si';
+        $criteria->join = "
+            INNER JOIN school_stages ss
+            ON ss.school_fk = si.inep_id
+        ";
+        $criteria->condition = 'ss.edcenso_stage_vs_modality_fk = :stageModality';
+        $criteria->params = array(':stageModality' => $stage);
+
+        $schools = SchoolIdentification::model()->findAll($criteria);
+
+        $data = CHtml::listData($schools, 'inep_id', 'name');
+
+        echo CHtml::tag('option', array('value' => ""), 'Selecione uma opção de matrícula', true);
         foreach ($data as $value => $name) {
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
