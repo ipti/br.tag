@@ -58,9 +58,18 @@ CREATE TABLE
         CONSTRAINT `fk_oesi_event_pre_reg` FOREIGN KEY (`event_pre_registration_fk`) REFERENCES `event_pre_registration` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
         CONSTRAINT `fk_oesi_classroom` FOREIGN KEY (`classroom_fk`) REFERENCES `classroom` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
         CONSTRAINT `fk_oesi_city` FOREIGN KEY (`edcenso_city_fk`) REFERENCES `edcenso_city` (`id`),
-        CONSTRAINT `fk_oesi_uf` FOREIGN KEY (`edcenso_uf_fk`) REFERENCES `edcenso_uf` (`id`),
+
         CONSTRAINT `fk_oesi_status` FOREIGN KEY (`status_fk`) REFERENCES `student_pre_identification_status` (`id`) ON UPDATE CASCADE,
         CONSTRAINT `fk_oesi_student` FOREIGN KEY (`student_fk`) REFERENCES `student_identification` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
         CONSTRAINT `fk_oesi_school` FOREIGN KEY (`school_inep_id_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE CASCADE ON UPDATE CASCADE,
         CONSTRAINT `fk_oesi_stage_vacancy` FOREIGN KEY (`stages_vacancy_pre_registration_fk`) REFERENCES `stages_vacancy_pre_registration` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
+
+CREATE TABLE `enrollment_online_enrollment_solicitation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `school_inep_id_fk` varchar(8) COLLATE utf8_unicode_ci NOT NULL,
+  `status` INT(11),
+  PRIMARY KEY (`id`),
+  KEY `fk_enrollment_online_enrollment_solicitation_1_idx` (`school_inep_id_fk`),
+  CONSTRAINT `fk_enrollment_online_enrollment_solicitation_1` FOREIGN KEY (`school_inep_id_fk`) REFERENCES `school_identification` (`inep_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

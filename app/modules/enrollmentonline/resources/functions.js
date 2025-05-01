@@ -11,8 +11,12 @@ $(".js-tel-mask").mask("(00) 00000-0000", {
 $(".js-filiation-select").on("change", () => {
     if ($(".js-filiation-select").select2("val") === "1") {
         $(".js-hide-filiation").css("display", "flex");
+        $('.js-father-name').addClass('js-field-required');
+        $('.js-mother-name').addClass('js-field-required');
     } else {
         $(".js-hide-filiation").hide()
+        $('.js-father-name').removeClass('js-field-required');
+        $('.js-mother-name').removeClass('js-field-required');
     }
 });
 

@@ -1,5 +1,11 @@
 <?php
 
+use Sentry\Tracing\TransactionContext;
+use Sentry\SentrySdk;
+use Sentry\State\Hub;
+use Sentry\Event;
+
+Yii::import('application.modules.foods.repository.*');
 class EnrollmentOnlineStudentIdentificationController extends Controller
 {
 	/**
@@ -49,6 +55,56 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         );
 	}
 
+    public function init()
+{
+   if (!Yii::app()->user->isGuest) {
+
+            $authTimeout = Yii::app()->user->getState("authTimeout", SESSION_MAX_LIFETIME);
+            Yii::app()->user->authTimeout = $authTimeout;
+
+            Yii::app()->sentry->setUserContext([
+                'id' => Yii::app()->user->loginInfos->id,
+                'username' => Yii::app()->user->loginInfos->username,
+                'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id)
+            ]);
+        }
+}
+
+public function beforeAction($action)
+    {
+        $publicActions = ['getschools','getcities'];
+
+        if (Yii::app()->user->isGuest && Yii::app()->request->isAjaxRequest && !in_array($action->id, $publicActions)) {
+            // Se a sessão expirou e é uma requisição AJAX
+            header('HTTP/1.1 401 Unauthorized');
+            echo json_encode(['redirect' => Yii::app()->createUrl('site/login')]);
+            Yii::app()->end();
+        }
+
+        $transaction = SentrySdk::getCurrentHub()->startTransaction(new TransactionContext(
+            Yii::app()->controller->id . '/' . $action->id,
+        ));
+
+        SentrySdk::getCurrentHub()->setSpan($transaction);
+
+        if (parent::beforeAction($action)) {
+            // Verifica o timeout com base na última atividade
+            if (isset(Yii::app()->user->authTimeout)) {
+                $lastActivity = Yii::app()->user->getState('last_activity');
+                $timeout = Yii::app()->user->authTimeout;
+
+                if ($lastActivity !== null && (time() - $lastActivity > $timeout)) {
+                    Yii::app()->user->logout();
+                    return false;
+                }
+            }
+
+            // Atualiza a última atividade
+            Yii::app()->user->setState('last_activity', time());
+            return true;
+        }
+        return false;
+    }
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -74,6 +130,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 
 		if(isset($_POST['EnrollmentOnlineStudentIdentification']))
 		{
+            $repository = new EnrollmentonlinestudentidentificationRepository;
 			$model->attributes=$_POST['EnrollmentOnlineStudentIdentification'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));

@@ -7,6 +7,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
 ?>
 
 <div class="form">
@@ -71,12 +72,12 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                     <div class="row">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'name', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome de Apresentação')); ?>
+                            <?php echo $form->textField($model, 'name', array('size' => 60, 'maxlength' => 100, 'class' => 't-field-text__input js-field-required', 'placeholder' => 'Digite o Nome de Apresentação')); ?>
                             <?php echo $form->error($model, 'name'); ?>
                         </div>
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'birthday', array('class' => 't-field-text__label')); ?>
-                            <?php $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($model, 'birthday')); ?>
+                            <?php $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($model, 'birthday'), array('class' => 'js-field-required')); ?>
                             <?php echo $form->error($model, 'birthday'); ?>
                         </div>
                     </div>
@@ -84,7 +85,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                     <div class="row">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'cpf', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'cpf', array('size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input js-cpf-mask')); ?>
+                            <?php echo $form->textField($model, 'cpf', array('size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input js-cpf-mask js-field-required')); ?>
                             <?php echo $form->error($model, 'cpf'); ?>
                         </div>
 
@@ -94,7 +95,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                                 $model,
                                 'sex',
                                 array(null => "Selecione o sexo", "1" => "Masculino", "2" => "Feminino"),
-                                array('class' => 'select-search-off t-field-select__input select2-container')
+                                array('class' => 'select-search-off t-field-select__input select2-container js-field-required')
                             ); ?>
                             <?php echo $form->error($model, 'sex'); ?>
                         </div>
@@ -112,7 +113,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                                 "3" => "Parda",
                                 "4" => "Amarela",
                                 "5" => "Indígena"
-                            ), array('class' => 'select-search-off t-field-select__input select2-container'));
+                            ), array('class' => 'select-search-off t-field-select__input select2-container js-field-required'));
                             ?>
                             <?php echo $form->error($model, 'color_race'); ?>
                         </div>
@@ -219,13 +220,13 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                     <div class="row">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'responsable_name', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'responsable_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Responsável')); ?>
+                            <?php echo $form->textField($model, 'responsable_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-field-required', 'placeholder' => 'Digite o Nome do Responsável')); ?>
                             <?php echo $form->error($model, 'responsable_name'); ?>
                         </div>
 
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'responsable_cpf', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'responsable_cpf', array('size' => 11, 'maxlength' => 11, 'class' => 't-field-text__input  js-cpf-mask')); ?>
+                            <?php echo $form->textField($model, 'responsable_cpf', array('size' => 11, 'maxlength' => 11, 'class' => 't-field-text__input  js-cpf-mask js-field-required')); ?>
                             <?php echo $form->error($model, 'responsable_cpf'); ?>
                         </div>
                     </div>
@@ -233,7 +234,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                     <div class="row">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'responsable_telephone', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'responsable_telephone', array('size' => 14, 'maxlength' => 15, 'class' => 't-field-text__input js-tel-mask')); ?>
+                            <?php echo $form->textField($model, 'responsable_telephone', array('size' => 14, 'maxlength' => 15, 'class' => 't-field-text__input js-tel-mask js-field-required')); ?>
                             <?php echo $form->error($model, 'responsable_telephone'); ?>
                         </div>
                         <div class="t-field-text column">
@@ -247,7 +248,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                                     "0" => "Não declarada/ignorada",
                                     "1" => "Mãe e/ou Pai",
                                 ),
-                                array('class' => 'select-search-off t-field-select__input select2-container js-filiation-select')
+                                array('class' => 'select-search-off t-field-select__input select2-container js-filiation-select js-field-required')
                             );
                             ?>
                         </div>
@@ -255,13 +256,13 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                     <div class="row js-hide-filiation" style="display:none;">
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'mother_name', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'mother_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome da Mãe')); ?>
+                            <?php echo $form->textField($model, 'mother_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-mother-name', 'placeholder' => 'Digite o Nome da Mãe')); ?>
                             <?php echo $form->error($model, 'mother_name'); ?>
                         </div>
 
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'father_name', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'father_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input', 'placeholder' => 'Digite o Nome do Pai')); ?>
+                            <?php echo $form->textField($model, 'father_name', array('size' => 60, 'maxlength' => 90, 'class' => 't-field-text__input js-father-name', 'placeholder' => 'Digite o Nome do Pai')); ?>
                             <?php echo $form->error($model, 'father_name'); ?>
                         </div>
                     </div>
@@ -365,8 +366,8 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                                 'edcenso_stage_vs_modality_fk',
                                 CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'),
                                 array(
-                                    "prompt" => "Selecione um estado",
-                                    "class" => "select-search-on t-field-select__input select2-container js-stage"
+                                    "prompt" => "Selecione uma etapa",
+                                    "class" => "select-search-on t-field-select__input select2-container js-stage js-field-required"
                                 )
                             );
                             ?>
@@ -381,7 +382,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                                     [],
                                     array(
                                         "prompt" => "Selecione uma opção de matrícula",
-                                        "class" => "select-search-on t-field-select__input select2-container js-school-1",
+                                        "class" => "select-search-on t-field-select__input select2-container js-school-1 js-field-required",
                                         "disabled" => "disabled"
                                     )
                                 );
@@ -398,7 +399,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                                     [],
                                     array(
                                         "prompt" => "Selecione uma opção de matrícula",
-                                        "class" => "select-search-on t-field-select__input select2-container js-school-2",
+                                        "class" => "select-search-on t-field-select__input select2-container js-school-2 js-field-required",
                                         "disabled" => "disabled"
                                     )
                                 );
@@ -413,7 +414,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
                                     [],
                                     array(
                                         "prompt" => "Selecione uma opção de matrícula",
-                                        "class" => "select-search-on t-field-select__input select2-container js-school-3",
+                                        "class" => "select-search-on t-field-select__input select2-container js-school-3 js-field-required",
                                         "disabled" => "disabled"
                                     )
                                 );
