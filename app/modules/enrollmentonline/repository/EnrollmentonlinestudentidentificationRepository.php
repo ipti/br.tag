@@ -47,9 +47,9 @@ class EnrollmentonlinestudentidentificationRepository
 
         } catch (Exception $e) {
             $transaction->rollback();
-            // Aqui você pode registrar o erro ou lançar novamente
+
             Yii::log("Erro ao salvar pré-matrícula: " . $e->getMessage(), CLogger::LEVEL_ERROR);
-            throw $e; // ou lidando de outra forma
+            throw $e;
         }
     }
     private function saveSolicitations($inepId)
