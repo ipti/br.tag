@@ -19,5 +19,7 @@ $("form").on("submit", function (event) {
             mensage += "O campo <b>" + fieldName + "</b> é obrigatório.<br>";
         });
         $(".js-alert").html(mensage).show();
+    } else {
+        $(".js-alert").html('').hide();
     }
 })

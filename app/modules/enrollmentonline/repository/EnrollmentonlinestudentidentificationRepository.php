@@ -4,13 +4,14 @@ class EnrollmentonlinestudentidentificationRepository
 {
 
     private $studentIdentification;
+    private $user;
 
     public function __construct($model)
     {
         $this->studentIdentification = $model;
     }
 
-    public function sanvePreEnrollment()
+    public function savePreEnrollment()
     {
         // Limpeza dos campos
         $this->studentIdentification->cpf = preg_replace('/[\.\-\(\)\s]/', '', $this->studentIdentification->cpf);
@@ -32,8 +33,18 @@ class EnrollmentonlinestudentidentificationRepository
                 throw new CException('Falha ao salvar solicitações de matrícula.');
             }
 
+            if(
+               !$this->createUser()
+            ) {
+                throw new CException('Falha ao criar usuário');
+            }
 
             $transaction->commit();
+
+
+            return $this->user;
+
+
         } catch (Exception $e) {
             $transaction->rollback();
             // Aqui você pode registrar o erro ou lançar novamente
@@ -49,5 +60,28 @@ class EnrollmentonlinestudentidentificationRepository
         $enrollmentSolicitation->enrollment_online_student_identification_fk = $this->studentIdentification->id;
         return $enrollmentSolicitation->save();
 
+    }
+
+    private function createUser() {
+        $user = new Users();
+        $passwordHasher = new PasswordHasher;
+        $password = $passwordHasher->bcriptHash(preg_replace('/\//', '', $this->studentIdentification->birthday)    );
+        $user->password = $password;
+        $user->name = $this->studentIdentification->responsable_name;
+        $user->active = 1;
+        $user->role = "guardian";
+        $cpf = preg_replace('/\D/', '', $this->studentIdentification->responsable_cpf);
+        $user->username = $this->studentIdentification->id . $cpf;
+        if($user->save()){
+            $auth = new AuthAssignment();
+            $auth->itemname = $user->role;
+            $auth->userid = $user->id;
+            $auth->save();
+
+
+            $this->studentIdentification->user_fk = $user->id;
+            $this->user = $user;
+            return $this->studentIdentification->save();
+        };
     }
 }

@@ -5,6 +5,7 @@ CREATE TABLE
     `classroom_fk` int (11) DEFAULT NULL,
     `id` int (11) NOT NULL AUTO_INCREMENT,
     `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+    `user_fk` INT(11) DEFAULT NULL,
     `birthday` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
     `cpf` varchar(11) COLLATE utf8_unicode_ci DEFAULT NULL,
     `sex` smallint (6) NOT NULL,
@@ -56,6 +57,7 @@ CREATE TABLE
     CONSTRAINT `fk_oesi_event_pre_reg` FOREIGN KEY (`event_pre_registration_fk`) REFERENCES `event_pre_registration` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT `fk_oesi_classroom` FOREIGN KEY (`classroom_fk`) REFERENCES `classroom` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT `fk_oesi_city` FOREIGN KEY (`edcenso_city_fk`) REFERENCES `edcenso_city` (`id`),
+    CONSTRAINT `fk_oesi_user` FOREIGN KEY (`user_fk`) REFERENCES `users`(id) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT `fk_oesi_student` FOREIGN KEY (`student_fk`) REFERENCES `student_identification` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT `fk_oesi_stage_vacancy` FOREIGN KEY (`stages_vacancy_pre_registration_fk`) REFERENCES `stages_vacancy_pre_registration` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
@@ -78,3 +80,6 @@ insert into
   auth_item (name, type, description, bizrule, data)
 values
   ('guardian', 2, null, null, 'N;');
+
+ALTER TABLE users
+MODIFY COLUMN role ENUM('USER','ADMIN','INSTRUCTOR','MANAGER','NUTRITIONIST','GUARDIAN') NULL;

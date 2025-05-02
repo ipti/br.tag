@@ -132,9 +132,9 @@ public function beforeAction($action)
 		{
 			$model->attributes=$_POST['EnrollmentOnlineStudentIdentification'];
             $repository = new EnrollmentonlinestudentidentificationRepository($model);
-            $repository->sanvePreEnrollment();
-			// if($model->save())
-			// 	$this->redirect(array('view','id'=>$model->id));
+            $user = $repository->savePreEnrollment();
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora voê pode acompnhar o andamento no com seu login '. $user->username.''));
+
 		}
 
 		$this->render('create',array(

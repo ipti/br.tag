@@ -29,6 +29,11 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                     </h1>
                 </div>
             </div>
+            <?php if (Yii::app()->user->hasFlash('success') && (!$model->isNewRecord)): ?>
+                <div class="alert classroom-alert alert-success">
+                    <?= Yii::app()->user->getFlash('success') ?>
+                </div>
+            <?php endif; ?>
             <div class="alert alert-error hide js-alert"></div>
             <div class="t-tabs js-tab-control" style="margin-left: 1em;">
                 <ul class="tab-student t-tabs__list">
@@ -436,12 +441,12 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                             style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
                     </div>
                     <div class="column">
-                        <?= $model->isNewRecord ? "<a data-toggle='tab' class='t-button-primary t-margin-none--right t-padding-small--all nofloat next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
+                        <a data-toggle='tab' class='t-button-primary t-margin-none--right t-padding-small--all nofloat next'><?= Yii::t('default', 'Next') ?></a>
                         <button
                             class="t-button-primary t-padding-small--all t-margin-none--right last save-student"
                             type="submit"
                             style="display:none;width:100%;">
-                            <?= $model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                            <?= Yii::t('default', 'Save') ?>
                         </button>
                     </div>
                 </div>
