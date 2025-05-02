@@ -6,10 +6,12 @@
  * The followings are the available columns in table 'enrollment_online_enrollment_solicitation':
  * @property integer $id
  * @property string $school_inep_id_fk
+ * @property integer $enrollment_online_student_identification_fk
  * @property integer $status
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
+ * @property EnrollmentOnlineStudentIdentification $enrollmentOnlineStudentIdentificationFk
  */
 class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
 {
@@ -29,12 +31,12 @@ class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('school_inep_id_fk', 'required'),
-			array('status', 'numerical', 'integerOnly'=>true),
+			array('school_inep_id_fk, enrollment_online_student_identification_fk', 'required'),
+			array('enrollment_online_student_identification_fk, status', 'numerical', 'integerOnly'=>true),
 			array('school_inep_id_fk', 'length', 'max'=>8),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, school_inep_id_fk, status', 'safe', 'on'=>'search'),
+			array('id, school_inep_id_fk, enrollment_online_student_identification_fk, status', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -47,6 +49,7 @@ class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
+			'enrollmentOnlineStudentIdentificationFk' => array(self::BELONGS_TO, 'EnrollmentOnlineStudentIdentification', 'enrollment_online_student_identification_fk'),
 		);
 	}
 
@@ -58,6 +61,7 @@ class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'school_inep_id_fk' => 'School Inep Id Fk',
+			'enrollment_online_student_identification_fk' => 'Enrollment Online Student Identification Fk',
 			'status' => 'Status',
 		);
 	}
@@ -82,6 +86,7 @@ class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('school_inep_id_fk',$this->school_inep_id_fk,true);
+		$criteria->compare('enrollment_online_student_identification_fk',$this->enrollment_online_student_identification_fk);
 		$criteria->compare('status',$this->status);
 
 		return new CActiveDataProvider($this, array(

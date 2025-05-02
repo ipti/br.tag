@@ -14,3 +14,13 @@ $(".js-instructor-select").on("change", function (){
         $('.js-chage-name').val(name);
     }
 });
+
+$("select.js-role").on("change", function (){
+
+    if( $(this).select2("val") == "guardian") {
+       console.log($("select.js-schools"))
+        $(".js-schools").hide()
+    } else {
+        $(".js-schools").show()
+    }
+})

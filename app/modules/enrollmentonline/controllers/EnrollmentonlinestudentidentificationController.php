@@ -5,7 +5,7 @@ use Sentry\SentrySdk;
 use Sentry\State\Hub;
 use Sentry\Event;
 
-Yii::import('application.modules.foods.repository.*');
+Yii::import('application.modules.enrollmentonline.repository.*');
 class EnrollmentOnlineStudentIdentificationController extends Controller
 {
 	/**
@@ -40,7 +40,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             ),
             array(
                 'allow', // allow authenticated user to perform 'update' actions
-                'actions' => array('update'),
+                'actions' => array('update', 'StudentStatus'),
                 'users' => array('@'),
             ),
             array(
@@ -130,16 +130,21 @@ public function beforeAction($action)
 
 		if(isset($_POST['EnrollmentOnlineStudentIdentification']))
 		{
-            $repository = new EnrollmentonlinestudentidentificationRepository;
 			$model->attributes=$_POST['EnrollmentOnlineStudentIdentification'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+            $repository = new EnrollmentonlinestudentidentificationRepository($model);
+            $repository->sanvePreEnrollment();
+			// if($model->save())
+			// 	$this->redirect(array('view','id'=>$model->id));
 		}
 
 		$this->render('create',array(
 			'model'=>$model,
 		));
 	}
+    public function actionStudentStatus()
+	{
+        $this->render('studentstatus');
+    }
 
 	/**
 	 * Updates a particular model.

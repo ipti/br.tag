@@ -77,7 +77,11 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                         </div>
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'birthday', array('class' => 't-field-text__label')); ?>
-                            <?php $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($model, 'birthday'), array('class' => 'js-field-required')); ?>
+                            <?php
+                            $options = DatePickerWidget::renderDatePicker($model, 'birthday');
+                            $options['htmlOptions']['class'] = 'js-field-required';
+                            $this->widget('zii.widgets.jui.CJuiDatePicker', $options);
+                            ?>
                             <?php echo $form->error($model, 'birthday'); ?>
                         </div>
                     </div>
@@ -226,7 +230,7 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
 
                         <div class="t-field-text column">
                             <?php echo $form->labelEx($model, 'responsable_cpf', array('class' => 't-field-text__label')); ?>
-                            <?php echo $form->textField($model, 'responsable_cpf', array('size' => 11, 'maxlength' => 11, 'class' => 't-field-text__input  js-cpf-mask js-field-required')); ?>
+                            <?php echo $form->textField($model, 'responsable_cpf', array('size' => 14, 'maxlength' => 14, 'class' => 't-field-text__input  js-cpf-mask js-field-required')); ?>
                             <?php echo $form->error($model, 'responsable_cpf'); ?>
                         </div>
                     </div>
@@ -376,16 +380,16 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                         <div class="t-field-text column">
                             <label for="" class="t-field-text__label">Priemira opção matrícula</label>
                             <?php
-                                echo CHtml::dropDownList(
-                                    'school_1',
-                                    '',
-                                    [],
-                                    array(
-                                        "prompt" => "Selecione uma opção de matrícula",
-                                        "class" => "select-search-on t-field-select__input select2-container js-school-1 js-field-required",
-                                        "disabled" => "disabled"
-                                    )
-                                );
+                            echo CHtml::dropDownList(
+                                'school_1',
+                                '',
+                                [],
+                                array(
+                                    "prompt" => "Selecione uma opção de matrícula",
+                                    "class" => "select-search-on t-field-select__input select2-container js-school-1 js-field-required",
+                                    "disabled" => "disabled"
+                                )
+                            );
                             ?>
                         </div>
                     </div>
@@ -393,38 +397,54 @@ $cs->registerScriptFile($baseScriptUrl . '/validations.js?v=' . TAG_VERSION, CCl
                         <div class="t-field-text column">
                             <label for="" class="t-field-text__label">Segunda opção matrícula</label>
                             <?php
-                                echo CHtml::dropDownList(
-                                    'school_2',
-                                    '',
-                                    [],
-                                    array(
-                                        "prompt" => "Selecione uma opção de matrícula",
-                                        "class" => "select-search-on t-field-select__input select2-container js-school-2 js-field-required",
-                                        "disabled" => "disabled"
-                                    )
-                                );
+                            echo CHtml::dropDownList(
+                                'school_2',
+                                '',
+                                [],
+                                array(
+                                    "prompt" => "Selecione uma opção de matrícula",
+                                    "class" => "select-search-on t-field-select__input select2-container js-school-2 js-field-required",
+                                    "disabled" => "disabled"
+                                )
+                            );
                             ?>
                         </div>
                         <div class="t-field-text column">
                             <label for="" class="t-field-text__label">Terceira opção matrícula</label>
                             <?php
-                                echo CHtml::dropDownList(
-                                    'school_3',
-                                    '',
-                                    [],
-                                    array(
-                                        "prompt" => "Selecione uma opção de matrícula",
-                                        "class" => "select-search-on t-field-select__input select2-container js-school-3 js-field-required",
-                                        "disabled" => "disabled"
-                                    )
-                                );
+                            echo CHtml::dropDownList(
+                                'school_3',
+                                '',
+                                [],
+                                array(
+                                    "prompt" => "Selecione uma opção de matrícula",
+                                    "class" => "select-search-on t-field-select__input select2-container js-school-3 js-field-required",
+                                    "disabled" => "disabled"
+                                )
+                            );
                             ?>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row buttons" style="width:106px;">
-                <?php echo CHtml::submitButton($model->isNewRecord ? 'Criar' : 'Salvar', array('class' => 't-button-primary')); ?>
+            <div class="row reverse t-margin-large--top">
+                <div class="t-buttons-container">
+                    <div class="column"></div>
+                    <div class="column"></div>
+                    <div class="column">
+                        <a data-toggle="tab" class='t-button-secondary t-margin-none--right t-padding-small--all prev'
+                            style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+                    </div>
+                    <div class="column">
+                        <?= $model->isNewRecord ? "<a data-toggle='tab' class='t-button-primary t-margin-none--right t-padding-small--all nofloat next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
+                        <button
+                            class="t-button-primary t-padding-small--all t-margin-none--right last save-student"
+                            type="submit"
+                            style="display:none;width:100%;">
+                            <?= $model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                        </button>
+                    </div>
+                </div>
             </div>
             <?php $this->endWidget(); ?>
         </div>
