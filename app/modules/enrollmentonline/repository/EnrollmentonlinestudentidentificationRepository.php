@@ -47,6 +47,7 @@ class EnrollmentonlinestudentidentificationRepository
         $enrollmentSolicitation->status = 0;
         $enrollmentSolicitation->school_inep_id_fk = $inepId;
         $enrollmentSolicitation->enrollment_online_student_identification_fk = $this->studentIdentification->id;
-        $enrollmentSolicitation->save();
+        return $enrollmentSolicitation->save();
+
     }
 }
