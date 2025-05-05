@@ -1,6 +1,6 @@
 <?php
 
-require_once 'app/vendor/autoload.php';
+require_once 'vendor/autoload.php';
 Yii::import('application.modules.sedsp.models.Classroom.*');
 Yii::import('application.modules.sedsp.models.Enrollment.*');
 Yii::import('application.modules.sedsp.models.Student.*');
@@ -716,6 +716,7 @@ class ClassroomController extends Controller
             } else {
                 foreach ($enrollments as $enrollment) {
                     $studentEnrollment = StudentEnrollment::model()->findByPk($enrollment);
+
                     $frequencyAndMean = FrequencyAndMeanByDiscipline::model()
                         ->findAllByAttributes(array('enrollment_fk' => $studentEnrollment->id));
                     $gradeResults = GradeResults::model()
@@ -732,6 +733,7 @@ class ClassroomController extends Controller
                     foreach ($frequencyByExam as $frequencyExam) {
                         $frequencyExam->delete();
                     }
+                    StudentEnrollmentHistory::model()->deleteAll("student_enrollment_fk = :enrollment_fk", [":enrollment_fk" => $studentEnrollment->id]);
                     $studentEnrollment->delete();
                     Yii::app()->user->setFlash('success', 'Matrículas de alunos excluídas com sucesso');
                 }

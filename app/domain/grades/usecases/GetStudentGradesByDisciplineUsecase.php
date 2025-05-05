@@ -563,18 +563,18 @@ class StudentGradesResult
     public function toArray(): array
     {
         return [
-            'studentName' => $this->studentName,
-            'enrollmentId' => $this->enrollmentId,
-            'enrollmentStatus' => $this->enrollmentStatus,
-            'finalMedia' => $this->finalMedia,
-            'semAvarage' => $this->semAvarage,
-            'situation' => $this->situation,
-            'unities' => array_map(function (GradeUnityResult $unity) {
+            'studentName' => $this->studentName ?? null,
+            'enrollmentId' => $this->enrollmentId ?? null,
+            'enrollmentStatus' => $this->enrollmentStatus ?? null,
+            'finalMedia' => $this->finalMedia ?? null,
+            'semAvarage' => $this->semAvarage ?? null,
+            'situation' => $this->situation ?? null,
+            'unities' => is_array($this->unities) ? array_map(function (GradeUnityResult $unity) {
                 return $unity->toArray();
-            }, $this->unities),
-            'partialRecoveries' => array_map(function (GradePartialRecoveryResult $partialRecovery) {
+            }, $this->unities) : [],
+            'partialRecoveries' => is_array($this->partialRecoveries) ? array_map(function (GradePartialRecoveryResult $partialRecovery) {
                 return $partialRecovery->toArray();
-            }, $this->partialRecoveries ?? []),
+            }, $this->partialRecoveries) : [],
         ];
     }
 }

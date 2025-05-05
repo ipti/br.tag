@@ -19,6 +19,8 @@ use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use TagUtils;
 use ValidationSagresModel;
+use Classroom;
+use PeriodOptions;
 
 use Yii;
 use ZipArchive;
@@ -240,7 +242,7 @@ class SagresConsultModel
     {
         $schoolList = [];
 
-        $query = "SELECT inep_id FROM school_identification where situation = 1"; // 1: Ecolas Ativas
+        $query = "SELECT inep_id, name FROM school_identification where situation = 1"; // 1: Ecolas Ativas
         $schools = Yii::app()->db->createCommand($query)->queryAll();
 
         foreach ($schools as $school) {
@@ -253,17 +255,13 @@ class SagresConsultModel
 
             $schoolList[] = $schoolType;
 
-            $sql = "SELECT name FROM school_identification WHERE inep_id = :inepId";
-            $params = array(':inepId' => $school['inep_id']);
-            $schoolRes = Yii::app()->db->createCommand($sql)->bindValues($params)->queryRow();
-
-            $this->getSchoolsValidation($schoolType->getDiretor(), $schoolRes, $school);
+            $this->getSchoolsValidation($schoolType->getDiretor(), $school);
         }
 
         return $schoolList;
     }
 
-    private function getSchoolsValidation($diretor, $schoolRes, $school)
+    private function getSchoolsValidation($diretor, $school)
     {
         $strMaxLength = 100;
         $inconsistencies = [];
@@ -271,7 +269,7 @@ class SagresConsultModel
         if ($diretor->getNrAto() == null) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = 'DIRETOR';
-            $inconsistencyModel->school = $schoolRes['name'];
+            $inconsistencyModel->school = $school['name'];
             $inconsistencyModel->description = 'Número do ato de nomeação não pode ser vazio';
             $inconsistencyModel->action = 'Informar um número do ato de nomeação para o diretor';
             $inconsistencyModel->identifier = '4';
@@ -282,7 +280,7 @@ class SagresConsultModel
         if (strlen($diretor->getNrAto()) > $strMaxLength) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = 'DIRETOR';
-            $inconsistencyModel->school = $schoolRes['name'];
+            $inconsistencyModel->school = $school['name'];
             $inconsistencyModel->description = 'Número do ato de nomeação com mais de 100 caracteres';
             $inconsistencyModel->action = 'Informar um número do ato de nomeação com até 100 caracteres';
             $inconsistencyModel->identifier = '4';
@@ -293,7 +291,7 @@ class SagresConsultModel
         if ($diretor->getCpfDiretor() === null || !preg_match('/^[0-9]{11}$/', $diretor->getCpfDiretor())) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = 'DIRETOR';
-            $inconsistencyModel->school = $schoolRes['name'];
+            $inconsistencyModel->school = $school['name'];
             $inconsistencyModel->description = 'CPF não cadastrado ou CPF no formato inválido para o diretor';
             $inconsistencyModel->action = 'Informar um CPF válido para o diretor';
             $inconsistencyModel->identifier = '4';
@@ -304,7 +302,7 @@ class SagresConsultModel
         if (!$this->validaCPF($diretor->getCpfDiretor())) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = 'DIRETOR';
-            $inconsistencyModel->school = $schoolRes['name'];
+            $inconsistencyModel->school = $school['name'];
             $inconsistencyModel->description = 'CPF do diretor inválido';
             $inconsistencyModel->action = 'Informar um CPF válido para o diretor';
             $inconsistencyModel->identifier = '4';
@@ -315,7 +313,7 @@ class SagresConsultModel
         if (is_null($inconsistencies)) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = 'DIRETOR';
-            $inconsistencyModel->school = $schoolRes['name'];
+            $inconsistencyModel->school = $school['name'];
             $inconsistencyModel->description = 'Não existe diretor cadastrado para a escola';
             $inconsistencyModel->action = 'Adicione um diretor para a escola';
             $inconsistencyModel->identifier = '4';
@@ -654,7 +652,7 @@ class SagresConsultModel
             $classType = new TurmaTType();
             $classId = $turma['classroomId'];
 
-            if (\TagUtils::isStageEJA(stage: $turma["stage"]) && $turma["period"] == \PeriodOptions::ANUALY->value) {
+            if (\TagUtils::isStageEJA($turma["stage"]) && $turma["period"] == 0) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
 
@@ -876,7 +874,7 @@ class SagresConsultModel
 
             $serieType->setIdSerie($idSerie);
 
-            $this->getSerieValidation($serieType, $schoolName, $classId);
+            $this->getSerieValidation($serieType, $schoolName, $classId, $edcensoCode, $edcensoCodes);
 
 
             $matriculas = $this->getEnrollments($classId, $referenceYear, $finalClass, $inepId, $withoutCpf);
@@ -972,7 +970,7 @@ class SagresConsultModel
         return $response;
     }
 
-    private function getSerieValidation($serieType, $schoolName, $classId): void
+    private function getSerieValidation($serieType, $schoolName, $classId, $edcensoCode, $edcensoCodes): void
     {
 
 
@@ -987,6 +985,17 @@ class SagresConsultModel
             $inconsistencyModel->insert();
         }
 
+        if (!isset($edcensoCodes[$edcensoCode])) {
+            $inconsistencyModel = new ValidationSagresModel();
+            $inconsistencyModel->enrollment = SERIE_STRONG;
+            $inconsistencyModel->school = $schoolName;
+            $inconsistencyModel->description = 'Etapa do edcenso para a turma ' . "está incorreta";
+            $inconsistencyModel->action = 'Associe uma etapa válida';
+            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->idClass = $classId;
+            $inconsistencyModel->insert();
+        }
+
     }
 
     private function seriesNumberValidation($series, $maxNumber, $schoolName, $inepId): void
@@ -995,8 +1004,8 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = TURMA_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'O número de turmas multiseriada excede o limite de 3 series por turma ' . $schoolName;
-            $inconsistencyModel->action = 'Remova turmas';
+            $inconsistencyModel->description = 'Essa turma multiseriada excede o limite de 3 etapas por turma ' . $schoolName;
+            $inconsistencyModel->action = 'Avalie as etapas das matriculas';
             $inconsistencyModel->identifier = '10';
             $inconsistencyModel->idSchool = $inepId;
             $inconsistencyModel->insert();
@@ -1414,14 +1423,16 @@ class SagresConsultModel
         if ($isFoodEnabled->value) {
 
             $query = "SELECT
-                        fm.start_date as data,
-                        fm.description AS descricaoMerenda,
-                        fm.adjusted AS ajustado,
-                        fmm.turn AS turno,
-                        fmm.food_menuId
-                    FROM food_menu fm
-                        JOIN food_menu_meal fmm on fmm.food_menuId = fm.id
-                    WHERE YEAR(fm.start_date) = :year and month(fm.start_date) <= :month";
+	                    fm.start_date as data,
+	                    fmmc.description  AS descricaoMerenda,
+	                    fm.adjusted AS ajustado,
+	                    fmm.turn AS turno,
+	                    fmm.food_menuId
+                    FROM food_menu fm JOIN food_menu_meal fmm on fmm.food_menuId = fm.id
+                    JOIN food_menu_meal_component fmmc on fmmc.food_menu_mealId = fmm.id
+                    WHERE
+	                    YEAR(fm.start_date) = :year
+	                    and month(fm.start_date) <= :month;";
             $params = [
                 ':year' => $year,
                 ':month' => $month
@@ -2264,6 +2275,7 @@ class SagresConsultModel
         if (isset($situations[$situation])) {
             return $situations[$situation];
         }
+        return false;
     }
 
     public function returnNumberFaults($studentId, $referenceYear)

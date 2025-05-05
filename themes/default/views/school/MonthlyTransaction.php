@@ -2,15 +2,15 @@
 <div id="body-students-file-form" class="pageA4V">
   <?php
     $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-    $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk', Yii::app()->user->school);
+    $schoolStrcture = SchoolStructure::model()->find('school_inep_id_fk = :school_fk', [":school_fk" => Yii::app()->user->school]);
     $initial_date = strtotime($school->initial_date);
     $final_date =   strtotime($school->final_date);
     $datediff = $final_date - $initial_date;
 
     $totalDays = abs(round($datediff / (60 * 60 * 24)));
     $this->renderPartial('head');
-  ?>  
- 
+  ?>
+
   <div class='container-report mt-30 text-center'>
     <h3>Movimento Mensal</h3>
     <h5><?= $title ?></h5>
@@ -62,9 +62,9 @@
       </tr>
     </table>
   </div>
-  
+
   <div class='container-report mt-20'>
-    <?php switch($type){ 
+    <?php switch($type){
         case 1:
           $this->renderPartial('_initial_year', array());
         break;
@@ -187,14 +187,14 @@
 
 
 <style>
-   
+
   .mr-10 {
     margin-right: 10px;
   }
 
   .ml-10 {
     margin-left: 10px;
-  } 
+  }
 
   .width-50 {
     width: 50%;
@@ -372,7 +372,7 @@
     font-weight: bold;
     font-size: 12px;
   }
-  
+
   .font-size-middle {
     font-size: 12px;
   }
@@ -406,11 +406,11 @@
     font-weight: bold;
     font-size: 11px
   }
-  
+
   .head-font-small {
     font-size: 10px;
   }
-  
+
   .assBox {
     margin-top: 46px;
   }
@@ -431,11 +431,11 @@
     font-size: 20px;
     line-height: 55px;
   }
-  
+
   .text-uppercase {
     text-transform: uppercase;
   }
-  
+
   .line-height-25 {
     line-height: 25px;
   }
@@ -482,14 +482,14 @@
   td, th {
     padding: 5px;
   }
-  
-  table { 
+
+  table {
     width: 100%;
     page-break-inside:auto
   }
 
   .no-padding table {
-    border: none !important; 
+    border: none !important;
   }
 
   tr { page-break-inside:avoid; page-break-after:auto }
@@ -575,7 +575,7 @@
       -webkit-print-color-adjust: exact;
       background-color: #C6D9F1 !important;
     }
-    
+
     .background-black {
       -webkit-print-color-adjust: exact;
       background-color: #000 !important;

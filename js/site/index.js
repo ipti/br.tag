@@ -337,7 +337,7 @@ function getWarnsHtml({ limit = 8 } = {}) {
             $("#warns").html(response);
         },
         error: function () {
-            alert("Erro ao carregar dados!");
+            console.error("Erro ao carregar dados de warnings da página principal!");
         },
     });
 }

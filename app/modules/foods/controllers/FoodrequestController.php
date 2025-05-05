@@ -17,6 +17,7 @@ class FoodrequestController extends Controller
                     'getFoodNotice',
                     'getFoodNoticeItems',
                     'updateReceivedFoods',
+                    'updateRequestStatus',
                     'updateAcceptedFoods'
                 ),
                 'users' => array('*'),
@@ -93,7 +94,8 @@ class FoodrequestController extends Controller
                 'id' => $item->id,
                 'foodId' => $item->food_id,
                 'foodName' => $item->name,
-                'measurementUnit' => $item->food->measurementUnit,
+                'yearAmount' => $item->year_amount,
+                'measurementUnit' => $item->measurement,
             );
         }
 

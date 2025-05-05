@@ -132,7 +132,7 @@ $(function () {
                 return ui;
             },
             start: function (event, ui) {
-                if (typeof mainYScroller != "undefined"){
+                if (typeof mainYScroller != "undefined") {
                     mainYScroller.disable();
                 }
 
@@ -177,24 +177,69 @@ $(document).bind("ajaxComplete", function () {
 
 $(document).ajaxError(function (event, jqxhr, ajaxSettings, thrownError) {
     if (jqxhr.status === 401) {
-        // Redireciona para a página de login se receber o status 401
-        const response = JSON.parse(jqxhr.responseText);
-        if (response.redirect) {
-            window.location.href = response.redirect;
+        try {
+            const response = JSON.parse(jqxhr.responseText);
+            if (response.redirect) {
+                return (window.location.href = response.redirect);
+            }
+        } catch (e) {
+            // JSON inválido, ignora
         }
     }
 
-    Raven.captureMessage(thrownError || jqxhr.statusText, {
+    const safeSubstring = (str, start, end) =>
+        typeof str === "string" ? str.substring(start, end) : "";
+
+    const safeToString = (input) => {
+        if (input instanceof Error) return input.message;
+        if (typeof input === "string") return input;
+        try {
+            return JSON.stringify(input);
+        } catch (e) {
+            return Object.prototype.toString.call(input);
+        }
+    };
+
+    const requestId = jqxhr?.getResponseHeader?.("X-Request-ID");
+    const urlPath = ajaxSettings?.url || "URL desconhecida";
+
+    try {
+        urlPath = new URL(urlPath, window.location.origin).pathname;
+    } catch (e) {
+        // Se não for uma URL válida, mantém como está
+    }
+
+    const errorMessage = `[AJAX ERROR] ${urlPath} - ${safeToString(
+        thrownError || jqxhr.statusText || "Erro AJAX"
+    )}`;
+
+    if (safeToString(thrownError || jqxhr.statusText || "Erro AJAX") == "abort"){
+        return;
+    }
+
+    Raven.captureMessage(errorMessage, {
+        tags: {
+            url: urlPath,
+            method: ajaxSettings?.type || "GET",
+            status: jqxhr?.status || "unknown",
+        },
         extra: {
-            type: ajaxSettings.type,
-            url: ajaxSettings.url,
-            data: ajaxSettings.data,
-            status: jqxhr.status,
-            error: (thrownError || jqxhr.statusText) + jqxhr.responseText.substring(0, 100),
-            response: jqxhr.responseText.substring(0, 200),
+            method: ajaxSettings?.type,
+            url: urlPath,
+            data: ajaxSettings?.data,
+            status: jqxhr?.status,
+            statusText: jqxhr?.statusText,
+            readyState: jqxhr?.readyState,
+            headers: jqxhr?.getAllResponseHeaders?.() || "N/A",
+            responseSnippet: safeSubstring(jqxhr?.responseText, 0, 200),
+            fullResponse: safeSubstring(jqxhr?.responseText, 0, 1000),
+            requestId,
+            durationMs: ajaxSettings?._startTime
+                ? Date.now() - ajaxSettings._startTime
+                : null,
+            timestamp: new Date().toISOString(),
         },
     });
-
 });
 
 $(function () {

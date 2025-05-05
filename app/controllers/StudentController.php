@@ -75,7 +75,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'getcities',
                     'getnotaryoffice',
                     'getnations',
-                    'delete'),
+                    'delete'
+                ),
                 'users' => array('@'),
             ),
             array(
@@ -104,15 +105,15 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         if ($register_type == 0) {
             $student = new StudentIdentification();
             $student->attributes = $_POST[$this->STUDENT_IDENTIFICATION];
-            $uf = (int)$student->edcenso_uf_fk;
+            $uf = (int) $student->edcenso_uf_fk;
         } elseif ($register_type == 1) {
             $student = new StudentDocumentsAndAddress();
             $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
-            $uf = (int)$student->notary_office_uf_fk;
+            $uf = (int) $student->notary_office_uf_fk;
         } elseif ($register_type == 2) {
             $student = new StudentDocumentsAndAddress();
             $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
-            $uf = (int)$student->edcenso_uf_fk;
+            $uf = (int) $student->edcenso_uf_fk;
         }
 
         $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', array(':uf_id' => $uf));
@@ -123,7 +124,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             echo CHtml::tag('option', array('value' => $value), CHtml::encode($name), true);
         }
     }
-    public function actionGetGradesAndFrequency() {
+    public function actionGetGradesAndFrequency()
+    {
         $idEnrollment = Yii::app()->request->getPost("enrollmentId");
 
         if (!$idEnrollment) {
@@ -153,6 +155,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
         if ($classFaults == 0 && $grades == 0) {
             $enrollment = StudentEnrollment::model()->findByPk($idEnrollment);
+            StudentEnrollmentHistory::model()->deleteAll("student_enrollment_fk = :enrollment_fk", [":enrollment_fk" => $enrollment->id]);
             $enrollment->delete();
             echo json_encode(["success" => true, "message" => "matricula excluida com sucesso"]);
         } else {
@@ -182,16 +185,22 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         }
 
         $criteria = new CDbCriteria();
-
+        $query = $requestData['search']['value'];
+        $query = trim($query);
+        $search = '%' . $query . '%';
 
         // Filtrar a pesquisa
-        if (!empty($requestData['search']['value'])) {
-            $criteria->condition = "t.id LIKE '%" . $requestData['search']['value'] . "%' OR " .
-                "name LIKE '%" . $requestData['search']['value'] . "%' OR " .
-                "filiation_1 LIKE '%" . $requestData['search']['value'] . "%' OR " .
-                "birthday LIKE '%" . $requestData['search']['value'] . "%' OR " .
-                "documentsFk.cpf LIKE '%" . $requestData['search']['value'] . "%' OR " .
-                "inep_id LIKE '%" . $requestData['search']['value'] . "%'";
+        if (!empty($search)) {
+            $criteria->addCondition('(' .
+                't.id LIKE :search OR ' .
+                'name LIKE :search OR ' .
+                'filiation_1 LIKE :search OR ' .
+                'birthday LIKE :search OR ' .
+                'inep_id LIKE :search OR ' .
+                'documentsFk.cpf LIKE :search' .
+                ')');
+
+            $criteria->params = [':search' => $search];
         }
 
         // Obter o número total de registros
@@ -278,7 +287,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
         $student->attributes = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS];
 
         $data = EdcensoNotaryOffice::model()->findAllByAttributes(
-            array('city' => (int)$student->notary_office_city_fk), array('order' => 'name')
+            array('city' => (int) $student->notary_office_city_fk),
+            array('order' => 'name')
         );
         $data = CHtml::listData($data, 'cod', 'name');
 
@@ -405,7 +415,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             date_default_timezone_set("America/Recife");
             $modelStudentIdentification->last_change = date('Y-m-d G:i:s');
 
-            if(Yii::app()->features->isEnable("FEAT_SEDSP")){
+            if (Yii::app()->features->isEnable("FEAT_SEDSP")) {
                 $modelStudentIdentification->scenario = "formSubmit";
             }
 
@@ -474,7 +484,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                                 }
 
                                 Log::model()->saveAction(
-                                    "student", $modelStudentIdentification->id, "C", $modelStudentIdentification->name
+                                    "student",
+                                    $modelStudentIdentification->id,
+                                    "C",
+                                    $modelStudentIdentification->name
                                 );
                                 Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
 
@@ -540,12 +553,13 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
             $newCpf = $_POST[$this->STUDENT_DOCUMENTS_AND_ADDRESS]['cpf'];
 
-            if($oldCpf !== $newCpf && $newCpf !== "") {
+            if ($oldCpf !== $newCpf && $newCpf !== "") {
                 $existCpf = StudentDocumentsAndAddress::model()->findByAttributes(array('cpf' => $modelStudentDocumentsAndAddress->cpf));
 
-                if($existCpf !== null) {
+                if ($existCpf !== null) {
                     Yii::app()->user->setFlash(
-                        'error', Yii::t('default', 'Já existe um registro associado a este CPF de um aluno cadastrado!')
+                        'error',
+                        Yii::t('default', 'Já existe um registro associado a este CPF de um aluno cadastrado!')
                     );
                     $this->redirect(array('/student/update', 'id' => $modelStudentDocumentsAndAddress->id));
                 }
@@ -585,7 +599,8 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
                             if ($hasDuplicate) {
                                 Yii::app()->user->setFlash(
-                                    'error', Yii::t('default', 'Aluno já está matriculado nessa turma.')
+                                    'error',
+                                    Yii::t('default', 'Aluno já está matriculado nessa turma.')
                                 );
                             }
                         }
@@ -629,8 +644,10 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                             }
 
                             Log::model()->saveAction(
-                                "student", $modelStudentIdentification->id,
-                                "U", $modelStudentIdentification->name
+                                "student",
+                                $modelStudentIdentification->id,
+                                "U",
+                                $modelStudentIdentification->name
                             );
 
                             Yii::app()->user->setFlash($flash, Yii::t('default', $msg));
@@ -684,13 +701,16 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
 
                 $currentEnrollment->status = 2;
                 $currentEnrollment->transfer_date = date_create_from_format(
-                    'd/m/Y', $_POST['StudentEnrollment']['transfer_date']
+                    'd/m/Y',
+                    $_POST['StudentEnrollment']['transfer_date']
                 )->format('Y-m-d');
                 $currentEnrollment->current_enrollment = 0;
                 if ($currentEnrollment->save()) {
                     Log::model()->saveAction(
-                        "enrollment", $currentEnrollment->id,
-                        "U", $currentEnrollment->studentFk->name . "|" . $currentEnrollment->classroomFk->name
+                        "enrollment",
+                        $currentEnrollment->id,
+                        "U",
+                        $currentEnrollment->studentFk->name . "|" . $currentEnrollment->classroomFk->name
                     );
                 }
             }
@@ -722,6 +742,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelEnrollment->create_date = date('Y-m-d');
             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
             $modelEnrollment->enrollment_date = $currentEnrollment->transfer_date;
+            $modelEnrollment->school_admission_date = $currentEnrollment->transfer_date;
             $modelEnrollment->current_enrollment = 1;
 
             if ($modelEnrollment->validate()) {
@@ -803,10 +824,12 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             }
         } catch (\Throwable $th) {
             Yii::app()->user->setFlash(
-                'error', Yii::t(
-                'default', 'Esse aluno não pode ser excluído,
+                'error',
+                Yii::t(
+                    'default',
+                    'Esse aluno não pode ser excluído,
                     pois existem dados de frequência, notas ou matrículadas vinculadas a ele!'
-            )
+                )
             );
             $this->redirect('?r=student');
         }
@@ -877,9 +900,11 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $buttons .= CHtml::tag(
                     'a',
                     array(
-                        'target' => '_blank', 'href' => yii::app()->createUrl(
-                        '/forms/StudentFileForm', array('type' => $type, 'enrollment_id' => $enrollmentId)
-                    ),
+                        'target' => '_blank',
+                        'href' => yii::app()->createUrl(
+                            '/forms/StudentFileForm',
+                            array('type' => $type, 'enrollment_id' => $enrollmentId)
+                        ),
                         'class' => "btn btn-primary btn-icon glyphicons notes_2",
                         'style' => 'margin-top: 5px; width: 110px'
                     ),
