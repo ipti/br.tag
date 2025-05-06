@@ -1,5 +1,8 @@
-## [Versão 3.1.2]
+## [Versão 3.1.3]
 - Correção na funcionalidade de aulas ministradas, filtro de aulas cadastradas por turma e disciplina foram ajustadas para turmas do fundamental menor.
+
+## [Versão 3.1.2]
+- Alteração na estrutura da tabela que representa as aulas dentro de um plano, modificando o tipo da coluna metodologia para que aceite textos com mais de 1500 caracteres.
 
 ## [Versão 3.1.1]
 - Ajuste no preenchimento do nome do prato da merenda no XML exportado, capturando dinamicamente o nome do componente correspondente ao dia no cardápio.
