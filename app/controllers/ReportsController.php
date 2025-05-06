@@ -504,7 +504,7 @@ class ReportsController extends Controller
     private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
     {
         return Schedule::model()->findAll(
-            "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
+            "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 group by day order by day, schedule",
             [
                 "classroom_fk" => $classroomId,
                 "month" => $month,
@@ -539,6 +539,10 @@ class ReportsController extends Controller
                 if($classFault) {
                     $frequency[$schedule->day]["totalAbsentStudents"] += 1;
                 }
+            }
+            if($frequency[$schedule->day]["totalStudents"] == 0 ) {
+                Yii::app()->user->setFlash('error', Yii::t('default', "Não há alunos ativos nessa turma."));
+                return $this->redirect(array('classes/classContents'));
             }
             $frequency[$schedule->day]["attendance"] = round(100 - (($frequency[$schedule->day]["totalAbsentStudents"]/$frequency[$schedule->day]["totalStudents"])*100), 2);
         }
