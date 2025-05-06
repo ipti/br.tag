@@ -531,7 +531,7 @@ class ReportsController extends Controller
         foreach ($schedules as $schedule) {
             foreach ($students as $student) {
                 $studentStatus = StudentEnrollment::model()->findByAttributes(['student_fk' => $student["id"], 'classroom_fk' => $schedule->classroom_fk])->status ?? null;
-                if($studentStatus == 1) {
+                if($studentStatus == 1 || $studentStatus == 6 || $studentStatus == 7 || $studentStatus == 8) {
                     $frequency[$schedule->day]["totalStudents"] += 1;
                 }
 
