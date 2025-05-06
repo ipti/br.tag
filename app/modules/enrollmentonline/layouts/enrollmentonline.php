@@ -69,7 +69,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
         <span id="span-color-green"></span>
         <span id="span-color-yellow"></span>
     </div>
-    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag-title.png" style="padding: 20px 20px;position: absolute;top: 0;left: 0;" />
+    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/tag-title.png" style="padding: 20px 20px;position: absolute;top: 0;left: 0;" alt="Logo do TAG" />
     <?php echo $content; ?>
 </body>
 

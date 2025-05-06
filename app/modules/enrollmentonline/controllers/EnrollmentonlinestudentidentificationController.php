@@ -161,8 +161,9 @@ public function beforeAction($action)
 		if(isset($_POST['EnrollmentOnlineStudentIdentification']))
 		{
 			$model->attributes=$_POST['EnrollmentOnlineStudentIdentification'];
-			if($model->save())
+			if($model->save()) {
 				$this->redirect(array('view','id'=>$model->id));
+            }
 		}
 
 		$this->render('update',array(
@@ -202,8 +203,9 @@ public function beforeAction($action)
 	{
 		$model=new EnrollmentOnlineStudentIdentification('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['EnrollmentOnlineStudentIdentification']))
+		if(isset($_GET['EnrollmentOnlineStudentIdentification'])) {
 			$model->attributes=$_GET['EnrollmentOnlineStudentIdentification'];
+        }
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -221,7 +223,9 @@ public function beforeAction($action)
 	{
 		$model=EnrollmentOnlineStudentIdentification::model()->findByPk($id);
 		if($model===null)
-			throw new CHttpException(404,'The requested page does not exist.');
+        {
+                throw new CHttpException(404,'The requested page does not exist.');
+        }
 		return $model;
 	}
 
