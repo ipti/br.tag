@@ -325,7 +325,7 @@ class ClassesController extends Controller
         $instructorFilter = $this->getInstructorFilter(Classroom::model()->findByPk($classroomId));
 
         return Schedule::model()->findAll(
-            "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 " . $instructorFilter . " order by day, schedule",
+            "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 " . $instructorFilter . " group by day order by day, schedule",
             [
                 "classroom_fk" => $classroomId,
                 "month" => $month,
