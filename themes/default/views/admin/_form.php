@@ -76,7 +76,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                             $actual_role,
                                             $roles,
                                             array(
-                                                'class' => 'select-search-off t-field-select__input select2-container js-show-instructor-input'
+                                                'class' => 'select-search-off t-field-select__input select2-container js-role js-show-instructor-input'
                                             )
                                         ); ?>
                                 </div>
@@ -101,7 +101,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 </div>
                             </div>
                             <div class="column clearleft--on-mobile is-two-fifths">
-                                <div class="t-field-select">
+                                <div class="t-field-select  js-schools">
                                         <?php echo CHtml::label(Yii::t('default', 'Schools'), 'schools', array('class' => 't-field-select__label')); ?>
                                         <?php
                                             echo CHtml::dropDownList(
