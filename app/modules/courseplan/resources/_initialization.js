@@ -204,12 +204,24 @@ $(document).on("change", ".ability-structure-select", function () {
                 $(".loading-abilities-select").show();
             },
             success: function (data) {
-                data = JSON.parse(data);
-                if (data.options[0]?.code === null) {
+
+                let optionsWithCode = [];
+                let optionsWithoutCode = [];
+
+                data.options.forEach(option => {
+                    if (option.code !== null) {
+                        optionsWithCode.push(option);
+                    } else {
+                        optionsWithoutCode.push(option);
+                    }
+                    $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(optionsWithoutCode)));
+                    $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(optionsWithCode)));
+                });
+               /*  if (data.options[0]?.code === null) {
                     $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(data)));
                 } else {
                     $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(data)));
-                }
+                } */
                 $(".loading-abilities-select").hide();
                 $(".ability-structure-select").css('width', '100%');
             },
