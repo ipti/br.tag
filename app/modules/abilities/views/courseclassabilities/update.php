@@ -14,8 +14,7 @@ $this->menu=array(
 	array('label'=>'View CourseClassAbilities', 'url'=>array('view', 'id'=>$model->id)),
 	array('label'=>'Manage CourseClassAbilities', 'url'=>array('admin')),
 );
+$title = 'Habilidades';
 ?>
 
-<h1>Update CourseClassAbilities <?php echo $model->id; ?></h1>
-
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php $this->renderPartial('_form', array('model'=>$model, 'title'=>$title)); ?>

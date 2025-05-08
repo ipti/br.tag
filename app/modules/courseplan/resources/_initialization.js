@@ -204,24 +204,25 @@ $(document).on("change", ".ability-structure-select", function () {
                 $(".loading-abilities-select").show();
             },
             success: function (data) {
+                data = JSON.parse(data);
 
-                let optionsWithCode = [];
-                let optionsWithoutCode = [];
+                let optionsWithCode = {"options":[],  "selectTitle":'HABILIDADES'};
+                let optionsWithoutCode ={"options":[], "selectTitle": data.selectTitle};
 
                 data.options.forEach(option => {
                     if (option.code !== null) {
-                        optionsWithCode.push(option);
+                        optionsWithCode.options.push(option);
                     } else {
-                        optionsWithoutCode.push(option);
+                        optionsWithoutCode.options.push(option);
                     }
-                    $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(optionsWithoutCode)));
-                    $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(optionsWithCode)));
                 });
-               /*  if (data.options[0]?.code === null) {
-                    $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(data)));
-                } else {
-                    $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(data)));
-                } */
+                if(optionsWithoutCode.options.length > 0) {
+                    $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(optionsWithoutCode)));
+                }
+                if(optionsWithCode.options.length > 0) {
+                    $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(optionsWithCode)));
+                }
+
                 $(".loading-abilities-select").hide();
                 $(".ability-structure-select").css('width', '100%');
             },
