@@ -205,11 +205,24 @@ $(document).on("change", ".ability-structure-select", function () {
             },
             success: function (data) {
                 data = JSON.parse(data);
-                if (data.options[0]?.code === null) {
-                    $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(data)));
-                } else {
-                    $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(data)));
+
+                let optionsWithCode = {"options":[],  "selectTitle":'HABILIDADES'};
+                let optionsWithoutCode ={"options":[], "selectTitle": data.selectTitle};
+
+                data.options.forEach(option => {
+                    if (option.code !== null) {
+                        optionsWithCode.options.push(option);
+                    } else {
+                        optionsWithoutCode.options.push(option);
+                    }
+                });
+                if(optionsWithoutCode.options.length > 0) {
+                    $(".js-abilities-parents").append(DOMPurify.sanitize(buildAbilityStructureSelect(optionsWithoutCode)));
                 }
+                if(optionsWithCode.options.length > 0) {
+                    $(".js-abilities-panel").html(DOMPurify.sanitize(buildAbilityStructurePanel(optionsWithCode)));
+                }
+
                 $(".loading-abilities-select").hide();
                 $(".ability-structure-select").css('width', '100%');
             },

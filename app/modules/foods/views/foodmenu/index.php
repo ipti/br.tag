@@ -20,7 +20,7 @@ $this->menu = array(
 	<div class="row-fluid">
 		<div class="span12">
 			<h1>
-				<?php echo Yii::t('default', 'Food Menus') ?>
+				Habilidades
 			</h1>
 			<div class="t-buttons-container">
                 <?php

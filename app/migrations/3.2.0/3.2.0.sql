@@ -1,0 +1,3 @@
+ALTER TABLE course_class_abilities
+ADD COLUMN created_at DATETIME DEFAULT NULL,
+ADD COLUMN updated_at DATETIME DEFAULT NULL;

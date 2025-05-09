@@ -142,6 +142,17 @@ $this->pageTitle = 'TAG - ' . Yii::t('default', 'Administration');
                                 </div>
                             </button>
                         </a>
+                        <a href="<?php echo Yii::app()->createUrl('abilities/Courseclassabilities/') ?>">
+                            <button type="button" class="admin-box-container">
+                                <div class="pull-left" style="margin-right: 20px;">
+                                    <span class="t-status-active t-reports_icons"></span>
+                                </div>
+                                <div class="pull-left">
+                                    <span class="title">Gerenciar Habiliades</span><br>
+                                    <span class="subtitle">Gerencie as abilidades para os planos de aula</span>
+                                </div>
+                            </button>
+                        </a>
                     </div>
 
                     <div class="container-box">
