@@ -71,8 +71,9 @@ class CourseClassAbilitiesController extends Controller
             ]);
             $model->parent_fk = $parent->id;
 
-            if ($model->save())
-                $this->redirect(array('index', 'id' => $model->id));
+            if ($model->save()) {
+                $this->redirect(array('index'));
+            }
         }
 
         $this->render('create', array(
@@ -94,8 +95,9 @@ class CourseClassAbilitiesController extends Controller
 
         if (isset($_POST['CourseClassAbilities'])) {
             $model->attributes = $_POST['CourseClassAbilities'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
+            if ($model->save()){
+                $this->redirect(array('index'));
+            }
         }
 
         $this->render('update', array(
@@ -113,8 +115,9 @@ class CourseClassAbilitiesController extends Controller
         $this->loadModel($id)->delete();
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-        if (!isset($_GET['ajax']))
-            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+        if (!isset($_GET['ajax'])) {
+            $this->redirect(array('index'));
+        }
     }
 
     /**
