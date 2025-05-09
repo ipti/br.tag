@@ -16,31 +16,34 @@
     )); ?>
 
     <div class="main">
-        <div class="row">
-            <div class="column">
-                <h1>
-                    <?php echo $title; ?>
-                </h1>
+        <div class="mobile-row ">
+            <div class="column ">
+                <h1><?php echo $title; ?></h1>
+            </div>
+            <div class="column clearfix align-items--center justify-content--end show--desktop">
+                <button class="t-button-primary  last save-student" type="button">
+                    <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+                </button>
             </div>
         </div>
 
         <?php echo $form->errorSummary($model); ?>
 
         <div class="row">
-            <div class="t-field-text column">
+            <div class="t-field-text column is-two-fifths">
                 <?php echo $form->labelEx($model, 'description', array('class' => 't-field-text__label')); ?>
                 <?php echo $form->textField($model, 'description', array('size' => 60, 'maxlength' => 1500, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($model, 'description'); ?>
             </div>
 
-            <div class="t-field-text column">
+            <div class="t-field-text column is-two-fifths">
                 <?php echo $form->labelEx($model, 'code', array('class' => 't-field-text__label')); ?>
                 <?php echo $form->textField($model, 'code', array('size' => 20, 'maxlength' => 20, 'class' => 't-field-text__input')); ?>
                 <?php echo $form->error($model, 'code'); ?>
             </div>
         </div>
         <div class="row">
-            <div class="t-field-text column">
+            <div class="t-field-text column is-two-fifths">
                 <?php echo $form->labelEx($model, 'edcenso_discipline_fk', array('class' => 't-field-text__label')); ?>
                 <?php echo $form->dropDownList(
                     $model,
@@ -48,7 +51,7 @@
                     CHtml::listData(EdcensoDiscipline::model()->findAll(array('order' => 'name')), 'id', 'name'),
                     array(
                         'key' => 'id',
-                        'class' => 'select-search-on t-field-select__input',
+                        'class' => 'select-search-on t-field-select__input select2-container',
                         'prompt' => 'Selecione o componente curricular/eixo...',
                     )
                 );
@@ -56,7 +59,7 @@
                 <?php echo $form->error($model, 'edcenso_discipline_fk'); ?>
             </div>
 
-            <div class="t-field-text column">
+            <div class="t-field-text column is-two-fifths">
                 <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-text__label')); ?>
                 <?php
                 echo $form->dropDownList(
@@ -72,23 +75,14 @@
                 <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
             </div>
         </div>
-
-
-
-        <!-- <div class="row">
-        <?php echo $form->labelEx($model, 'parent_fk'); ?>
-        <?php echo $form->textField($model, 'parent_fk'); ?>
-        <?php echo $form->error($model, 'parent_fk'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'type'); ?>
-        <?php echo $form->textField($model, 'type', array('size' => 50, 'maxlength' => 50)); ?>
-        <?php echo $form->error($model, 'type'); ?>
-    </div> -->
-
-        <div class="row buttons">
-            <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array('class' => 't-button-primary')); ?>
+        <div class="row reverse show--tablet">
+          <div class="t-buttons-container">
+            <div class="column clearfix">
+              <a class="t-button-primary  last save-student" type="button">
+                <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
+              </a>
+            </div>
+          </div>
         </div>
     </div>
 
