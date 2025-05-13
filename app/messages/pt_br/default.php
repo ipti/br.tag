@@ -883,6 +883,7 @@ return array(
     'instructor' => 'Professor',
     'coordinator' => 'Coordenador Pedagógico',
     'nutritionist' => 'Nutricionista',
+    'guardian' => 'Pai/Mãe ou responsável',
     'reader' => 'Somente Leitura',
     'admin' => 'Administrador',
     'Edit Password' => 'Alterar Senha',
