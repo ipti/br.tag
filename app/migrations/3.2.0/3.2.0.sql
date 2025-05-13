@@ -1,4 +1,4 @@
--- `demo.tag.ong.br`.online_enrollment_student_identification definition
+-- online_enrollment_student_identification definition
 CREATE TABLE
   IF NOT EXISTS `enrollment_online_student_identification` (
     `classroom_inep_id` varchar(12) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -38,28 +38,22 @@ CREATE TABLE
     `unavailable` tinyint (1) NOT NULL DEFAULT '0',
     `student_fk` int (11) DEFAULT NULL,
     `edcenso_stage_vs_modality_fk` int (11) DEFAULT NULL,
-    `event_pre_registration_fk` int (11) DEFAULT NULL,
     `stages_vacancy_pre_registration_fk` int (11) DEFAULT NULL,
     `created_at` datetime DEFAULT NULL,
     `updated_at` datetime DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `id` (`id`),
     KEY `fk_student_pre_identification_1` (`classroom_fk`),
-    KEY `school_inep_id_fk` (`school_inep_id_fk`),
     KEY `fk_student_pre_identification_2` (`edcenso_city_fk`),
     KEY `fk_student_pre_identification_3` (`edcenso_uf_fk`),
-    KEY `fk_student_pre_identification_5` (`status_fk`),
-    KEY `fk_student_pre_identification_6` (`student_fk`),
-    KEY `event_pre_registration_fk` (`event_pre_registration_fk`),
+    KEY `fk_student_pre_identification_4` (`student_fk`),
     KEY `edcenso_stage_vs_modality_fk` (`edcenso_stage_vs_modality_fk`),
     KEY `stages_vacancy_pre_registration_fk` (`stages_vacancy_pre_registration_fk`),
     CONSTRAINT `fk_oesi_stage_modality` FOREIGN KEY (`edcenso_stage_vs_modality_fk`) REFERENCES `edcenso_stage_vs_modality` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk_oesi_event_pre_reg` FOREIGN KEY (`event_pre_registration_fk`) REFERENCES `event_pre_registration` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT `fk_oesi_classroom` FOREIGN KEY (`classroom_fk`) REFERENCES `classroom` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT `fk_oesi_city` FOREIGN KEY (`edcenso_city_fk`) REFERENCES `edcenso_city` (`id`),
     CONSTRAINT `fk_oesi_user` FOREIGN KEY (`user_fk`) REFERENCES `users`(id) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk_oesi_student` FOREIGN KEY (`student_fk`) REFERENCES `student_identification` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-    CONSTRAINT `fk_oesi_stage_vacancy` FOREIGN KEY (`stages_vacancy_pre_registration_fk`) REFERENCES `stages_vacancy_pre_registration` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+    CONSTRAINT `fk_oesi_student` FOREIGN KEY (`student_fk`) REFERENCES `student_identification` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;
 
 CREATE TABLE
