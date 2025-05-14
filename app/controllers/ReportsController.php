@@ -504,7 +504,7 @@ class ReportsController extends Controller
     private function getSchedulesFromMajorStage($classroomId, $month, $year, $disciplineId)
     {
         return Schedule::model()->findAll(
-            "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 order by day, schedule",
+            "classroom_fk = :classroom_fk and month = :month and year = :year and discipline_fk = :discipline_fk and unavailable = 0 group by day order by day, schedule",
             [
                 "classroom_fk" => $classroomId,
                 "month" => $month,
@@ -531,7 +531,7 @@ class ReportsController extends Controller
         foreach ($schedules as $schedule) {
             foreach ($students as $student) {
                 $studentStatus = StudentEnrollment::model()->findByAttributes(['student_fk' => $student["id"], 'classroom_fk' => $schedule->classroom_fk])->status ?? null;
-                if($studentStatus == 1) {
+                if($studentStatus == 1 || $studentStatus == 6 || $studentStatus == 7 || $studentStatus == 8) {
                     $frequency[$schedule->day]["totalStudents"] += 1;
                 }
 
@@ -539,6 +539,10 @@ class ReportsController extends Controller
                 if($classFault) {
                     $frequency[$schedule->day]["totalAbsentStudents"] += 1;
                 }
+            }
+            if($frequency[$schedule->day]["totalStudents"] == 0 ) {
+                Yii::app()->user->setFlash('error', Yii::t('default', "Não há alunos ativos nessa turma."));
+                return $this->redirect(array('classes/classContents'));
             }
             $frequency[$schedule->day]["attendance"] = round(100 - (($frequency[$schedule->day]["totalAbsentStudents"]/$frequency[$schedule->day]["totalStudents"])*100), 2);
         }
@@ -638,6 +642,47 @@ class ReportsController extends Controller
     {
         $repository = new ReportsRepository;
         $repository->getDisciplines(Yii::app()->request);
+    }
+    public function actionGetStagesMulti()
+    {
+        $classroomId = Yii::app()->request->getPost('classroomId');
+        $enrollmentId = Yii::app()->request->getPost('enrollmentId');
+
+        if (!is_numeric($classroomId) && !is_numeric($enrollmentId)) {
+            echo CHtml::tag('option', [], CHtml::encode("Invalid classroom ID"), true);
+            Yii::app()->end();
+        }
+
+        $classroom = Classroom::model()->findByPk($classroomId);
+        $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
+
+        if (!$classroom || !$enrollment) {
+            echo CHtml::tag('option', [], CHtml::encode("Classroom or enrollment not found"), true);
+            Yii::app()->end();
+        }
+
+        $classroomStage = $classroom->edcensoStageVsModalityFk;
+        $enrollmentStage = $enrollment->edcensoStageVsModalityFk;
+
+        // Opção padrão
+        echo CHtml::tag('option', [
+            'value' => "",
+            'data-classroom-stage' => '',
+        ], CHtml::encode("Selecione..."), true);
+
+        echo CHtml::tag('option', [
+            'value' => $classroomStage->id,
+            'data-classroom-stage' => '1',
+        ], CHtml::encode($classroomStage->name), true);
+
+
+        echo CHtml::tag('option', [
+            'value' => $enrollmentStage->id,
+            'data-classroom-stage' => '0',
+        ], CHtml::encode($enrollmentStage->name), true);
+
+
+        Yii::app()->end();
     }
 
     public function actionGetEnrollments()

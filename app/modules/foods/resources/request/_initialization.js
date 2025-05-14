@@ -1,4 +1,5 @@
 let foodsRelation = [];
+let foodNoticeItems = [];
 let foodRequests;
 
 $(document).ready(function() {
@@ -28,10 +29,10 @@ $(document).ready(function() {
         Object.entries(foods_description).forEach(function([id, value]) {
             let description = value.description.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '');
             value = id + ',' + value.measurementUnit + ','+ value.category;
-            foodSelect.append($('<option>', {
-                value: value,
-                text: description
-            }));
+            // foodSelect.append($('<option>', {
+            //     value: value,
+            //     text: description
+            // }));
             searchByFoodSelect.append($('<option>', {
                 value: value,
                 text: description
@@ -110,6 +111,37 @@ $(document).on("click", "#js-information-button", function () {
             </tr>
         `;
     });
+    $requestItems += `
+        </table>
+        </div>
+        </div>
+    `;
+    let $requestAcceptedItems = `
+        <div class="row">
+        <div class="column clearfix">
+        <table id="requestAcceptedItemsTable"  aria-describedby="requestAcceptedItemsTable" class="tag-table-secondary align-start no-margin">
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Agricultor</th>
+                <th>Data</th>
+            </tr>
+    `;
+    $.each(requestData.acceptedItems, function(index, item) {
+        $requestAcceptedItems += `
+            <tr>
+                <td>${item.foodName.replace(/,/g, '').replace(/\b(cru[ao]?)\b/g, '').trim()}</td>
+                <td>${item.amount} (${item.measurementUnit})</td>
+                <td>${item.farmerName}</td>
+                <td>${item.date}</td>
+            </tr>
+        `;
+    });
+    $requestAcceptedItems += `
+        </table>
+        </div>
+        </div>
+    `;
     let $requestItemsReceived = `
         <div class="row">
         <div class="column clearfix">
@@ -138,6 +170,7 @@ $(document).on("click", "#js-information-button", function () {
     `;
     $("#requestData").html($requestData);
     $("#requestItems").html($requestItems);
+    $("#requestAcceptedItems").html($requestAcceptedItems);
     $("#requestItemsReceived").html($requestItemsReceived);
 });
 
@@ -167,6 +200,9 @@ $(document).on("click", "#save-request", function () {
                 requestFarmers: requestFarmers,
                 requestItems: foodsRelation,
                 requestTitle: requestTitle
+            },
+            beforeSend: function() {
+                $(this).disabled = true;
             }
         }).success(function(response) {
             window.location.href = "?r=foods/foodRequest/index";
@@ -199,23 +235,65 @@ $(document).on("click", "#js-add-food", function () {
     }
 });
 
+$(document).on("change", "#foodNotice", function () {
+    let $notice = $(this).val();
+
+    $.ajax({
+        type: 'POST',
+        url: "?r=foods/foodrequest/getFoodNoticeItems",
+        cache: false,
+        data: {
+            notice: $notice,
+        }
+    }).success(function(response) {
+        let data = DOMPurify.sanitize(response);
+        foodNoticeItems = JSON.parse(data);
+
+        $('#foodSelect').html('<option value="alimento">Selecione o Alimento</option>').trigger('change');
+
+        Object.entries(foodNoticeItems).forEach(function([id, value]) {
+            let foodId = value.foodId + ',' + value.measurementUnit;
+            $('#foodSelect').append($('<option>', {
+                value: foodId,
+                text: value.foodName
+            }));
+        });
+    });
+});
+
 $(document).on("change", "#foodSelect", function () {
+    let foodId = this.value.split(',')[0];
     let measurementUnit = this.value.split(',')[1];
     let measurementUnitSelect = $('#measurementUnit');
     measurementUnitSelect.empty();
     switch (measurementUnit) {
+        case "Kg":
+            measurementUnitSelect.append($('<option value="g" selected>g</option><option value="Kg">Kg</option>'));
+            break;
         case "g":
             measurementUnitSelect.append($('<option value="g" selected>g</option><option value="Kg">Kg</option>'));
             break;
-        case "u":
+        case "Und":
             measurementUnitSelect.append($('<option value="unidade" selected>Unidade</option><option value="g">g</option><option value="Kg">Kg</option>'));
             break;
-        case "l":
+        case "L":
             measurementUnitSelect.append($('<option value="l" selected>L</option>'));
             break;
     }
     measurementUnitSelect.val('');
     measurementUnitSelect.trigger("change");
+
+    if(foodId != "alimento") {
+        foodId = parseInt(foodId);
+        const itemEncontrado = foodNoticeItems.find(item => item.foodId === foodId);
+        $('#food-alert').removeClass('hide').html(`<span class="t-info_positive"> A quantidade máxima do alimento selecionado no edital é: ${itemEncontrado.yearAmount}${itemEncontrado.measurementUnit}`);
+    }
+});
+
+$(document).on("click", "#remove-food-button", function () {
+    let id = $(this).attr('data-foodId');
+    foodsRelation.splice(id, 1);
+    renderFoodsTable(foodsRelation);
 });
 
 $(document).on("click", "#remove-food-button", function () {

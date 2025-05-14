@@ -16,7 +16,6 @@ $cs->registerScriptFile($baseUrl . '/js/student/form/_initialization.js?v=' . TA
 $cs->registerScriptFile($baseUrl . '/js/student/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/student/form/pagination.js?v=' . TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/student/form/datepicker-pt-BR.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -1845,9 +1844,9 @@ $form = $this->beginWidget(
             <!--  Data de ingresso na escola -->
             <div class="column clearleft is-two-fifths">
             <div class="t-field-text js-hide-not-required" id="ticketDate">
-                <?php echo $form->label($modelEnrollment, 'school_admission_date', array('class' => 't-field-text__label')); ?>
-                <?php echo $form->textField($modelEnrollment, 'school_admission_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
-                <?php echo $form->error($modelEnrollment, 'school_admission_date'); ?>
+                <?php echo $form->label($modelEnrollment, 'enrollment_date', array('class' => 't-field-text__label')); ?>
+                <?php echo $form->textField($modelEnrollment, 'enrollment_date', array('size' => 10, 'maxlength' => 10, 'class' => 't-field-text__input')); ?>
+                <?php echo $form->error($modelEnrollment, 'enrollment_date'); ?>
               </div>
             </div>
             <!-- Situação na série/etapa atual -->

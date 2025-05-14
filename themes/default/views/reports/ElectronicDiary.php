@@ -23,9 +23,10 @@
         </div>
     </div>
 
+    <div class="js-alert alert" style="display:none;"></div>
     <div class="innerLR">
         <div class="alert-report no-show alert alert-error hidden-print"></div>
-        <div class="filter-bar margin-bottom-none hidden-print" style="display:flex; width:100%;">
+        <div class="filter-bar margin-bottom-none hidden-print" style="display:flex; width:100%; flex-wrap: wrap;">
             <input type="hidden" class="school-year" value="<?= $schoolyear ?>">
             <div class="report-filter">
                 <?php echo CHtml::label("Relatório *", 'report-label', array('class' => 'control-label required electronic-diary-label')); ?>
@@ -43,7 +44,8 @@
                         <option value="">Selecione...</option>
                         <?php foreach ($classrooms as $classroom): ?>
                             <option value="<?= $classroom->id ?>"
-                                    fundamentalMaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ?>"><?= $classroom->name ?></option>
+                                    fundamentalMaior="<?= !TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk) ?>"
+                                    isMultiStage="<?=TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)?>"><?= $classroom->name ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -56,7 +58,16 @@
                         'class' => 'select-search-on',
                     ));
                     ?>
-                </div>
+            </div>
+            <div class="stages-container" style="display:none;">
+                    <?php echo CHtml::label("Etapa *", 'stage', array('class' => 'control-label required electronic-diary-label')); ?>
+                    <?php
+                        echo CHtml::dropDownList('stage', '', array(), array(
+                            'key' => 'id',
+                            'class' => 'select-search-on',
+                        ));
+                    ?>
+            </div>
             <div class="electronic-diary date-container" style="display:none;">
                     <?php echo CHtml::label("Período *", 'interval', array('class' => 'control-label required electronic-diary-label')); ?>
                     <div style="height: 100%; padding:5px 0 0 0; display: flex">

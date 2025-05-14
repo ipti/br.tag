@@ -2454,7 +2454,7 @@ class SagresConsultModel
 
     private function dataMax(DateTime $data): bool
     {
-        $dataMaxima = new DateTime("2024-04-30");
+        $dataMaxima = new DateTime("2024-08-30");
 
         return $data > $dataMaxima;
     }

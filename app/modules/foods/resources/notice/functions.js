@@ -212,27 +212,3 @@ $(document).on("click", "#edit-foods", function () {
 
 
 });
-
-$(document).on("change", ".js-notice_pdf", function(e) {
-    $(".uploaded-notice-name").text(e.target.files[0].name);
-});
-
-$(document).on("click", "#js-view-pdf", function () {
-    $.ajax({
-        type: 'POST',
-        url: "?r=foods/foodnotice/getNoticePdfUrl",
-        cache: false,
-        data: {
-            id: noticeID,
-        }
-    }).success(function(response) {
-        let data = DOMPurify.sanitize(response);
-        let url = JSON.parse(data);
-
-        if (url.error) {
-            $('#info-alert').removeClass('hide').addClass('alert-error').html("Não foi possível acessar a URL do PDF.");
-        } else {
-            window.open(url, '_blank');
-        }
-    });
-});

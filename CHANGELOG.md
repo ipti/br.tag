@@ -1,3 +1,20 @@
+## [Versão 3.1.5]
+- Corrigido problema ao imprimir relatório de aulas ministradas
+
+## [Versão 3.1.0]
+- Alteração no registro de data de matrícula. O campo "Data de Matrícula" do formulário de matrícula agora está diretamente relacionado
+com o valor apresentado em diferentes sessões do sistema.
+- Relatório de notas por aluno no diário eletrônico foi alterado para considerar a etapa de ensino vinculada à matrícula do aluno em turmas multisseriadas
+- Correção na funcionalidade de contagem de matrícula ativas na tela inicial de turmas.
+- Correção na funcionalidade de atribuir conteúdo ministrado em sala de aula, em diários de classe. Inconsistência apresentada ao
+salvar aulas corrigida.
+- Adicionado campo etapas de ensino no formulário de cardápio
+- Adicionado etapas de ensino no relatório de cardápio
+- Ajuste na estrutura de dados relacionados com as faltas de um professor em uma turma. Impacto na funcionalidade de "Frequência do professor", que agora deve funcionar adequadamente.
+
+## [Versão 3.0.3]
+- Correção na renderização da tela de notas.
+
 ## [Versão 3.0.1]
 - Correção no filtro de professores na tela de "Atribuir Professor Substituto" para exibir somente professores substitutos na lista.
 
@@ -44,6 +61,7 @@ o valor do campo "Data de Matrícula" para fins de frequência em turmas
 ## [Versão 3.99.222]
 - Adicionado para usuário professor, através da tela de diário de classe, cadastro de aulas no plano de aula.
 - Removendo validação de espaço em branco no começo e no fim do nome do aluno, o espaço é removido automaticamente ao salvar
+
 
 ## [Versão 3.99.222]
 - Adicionado cadastro de aulas no plano de aula na tela de diário de classe
