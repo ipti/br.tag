@@ -1,3 +1,6 @@
+## [Versão 3.1.5]
+- Corrigido problema ao imprimir relatório de aulas ministradas
+
 ## [Versão 3.1.4]
 - Corrigido o problema ao salvar observações em aulas ministradas no Ensino Fundamental – Anos Finais.
 
