@@ -1,3 +1,10 @@
+
+## [Versão 3.1.5]
+- Corrigido problema ao imprimir relatório de aulas ministradas
+
+## [Versão 3.1.4]
+- Corrigido o problema ao salvar observações em aulas ministradas no Ensino Fundamental – Anos Finais.
+
 ## [Versão 3.1.1]
 - Ajuste no preenchimento do nome do prato da merenda no XML exportado, capturando dinamicamente o nome do componente correspondente ao dia no cardápio.
 
