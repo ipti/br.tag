@@ -14,8 +14,11 @@ $schoolurl = yii::app()->createUrl('school');
 $select_school = '';
 
 
-if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)
-|| Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)) {
+if (
+       Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)
+    || Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)
+    || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)
+    ) {
     $select_school = CHtml::activeDropDownList(
         SchoolIdentification::model(),
         'inep_id',
@@ -23,17 +26,34 @@ if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginIn
         array('empty' => 'Selecione a escola', 'class' => 'select-school', 'id2' => 'school', 'options' => array(Yii::app()->user->school => array('selected' => true)))
     );
 } else {
-    $select_school = CHtml::activeDropDownList(
-        UsersSchool::model(),
-        'school_fk',
-        Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
-        [
-            'empty' => 'Selecione a escola',
-            'class' => 'select-school',
-            'id2' => 'school',
-            'options' => [Yii::app()->user->school => array('selected' => true)]
-        ]
-    );
+    if(Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)) {
+        $select_school = CHtml::activeDropDownList(
+            UsersSchool::model(),
+            'school_fk',
+            [],
+            [
+                'empty' => 'TAG',
+                'class' => 'select-school',
+                'disabled' => 'disabled',
+                'id2' => 'school',
+                'options' => [Yii::app()->user->school => array('selected' => true)]
+            ]
+        );
+    }
+
+    else {
+        $select_school = CHtml::activeDropDownList(
+            UsersSchool::model(),
+            'school_fk',
+            Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
+            [
+                'empty' => 'Selecione a escola',
+                'class' => 'select-school',
+                'id2' => 'school',
+                'options' => [Yii::app()->user->school => array('selected' => true)]
+            ]
+        );
+    }
 }
 
 
@@ -162,7 +182,6 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                             </form>
                             <div class="tag-topbar__username"><?= Yii::app()->user->loginInfos->username ?></div>
                         </div>
-
                     </div>
                 </li>
 
@@ -207,6 +226,16 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                     </div>
                     <div class="slim-scroll" data-scroll-height="800px">
                         <ul class="t-menu">
+                            <?php if(Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)):?>
+                            <li
+                                class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=enrollmentonline") || $_SERVER['REQUEST_URI'] == "/" ? 'active' : '' ?> hide-responsive">
+                                <a href="<?php echo yii::app()->createUrl('enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus') ?>" class="t-menu-item__link">
+                                    <span class="t-icon-backpack t-menu-item__icon"></span>
+                                    <span class="t-menu-item__text">Matrícula Online</span>
+                                </a>
+                            </li>
+                            <?php endif; ?>
+                            <?php if(!Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)):?>
                             <li
                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], "?r=site") || $_SERVER['REQUEST_URI'] == "/" ? 'active' : '' ?> hide-responsive">
                                 <a href="/" class="t-menu-item__link">
@@ -214,6 +243,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
                                     <span class="t-menu-item__text">Página Inicial</span>
                                 </a>
                             </li>
+                            <?php endif; ?>
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id)
                             || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id)
                             || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)): ?>
@@ -283,7 +313,8 @@ $cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION
 
                             <?php if (
                                 !Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id) &&
-                                !Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)
+                                !Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id) &&
+                                !Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)
                             ): ?>
                                 <li id="menu-electronic-diary" class="t-menu-group <?=
                                     strpos($_SERVER['REQUEST_URI'], "?r=courseplan") ||
