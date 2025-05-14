@@ -54,7 +54,12 @@ class UserIdentity extends CUserIdentity
         } elseif(!password_verify($this->password, $record->password)) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         } else {
-            if(Yii::app()->getAuthManager()->checkAccess('admin',$record->id)|| Yii::app()->getAuthManager()->checkAccess('nutritionist',$record->id)|| Yii::app()->getAuthManager()->checkAccess('reader',$record->id)){
+            if(
+                   Yii::app()->getAuthManager()->checkAccess('admin',$record->id)
+                || Yii::app()->getAuthManager()->checkAccess('nutritionist',$record->id)
+                || Yii::app()->getAuthManager()->checkAccess('reader',$record->id)
+                || Yii::app()->getAuthManager()->checkAccess('guardian',$record->id)
+            ){
                 $userSchools = [];
                 $this->setState('hardfoot',false);
                 //@done s2 - mostrar apenas escolas ativas

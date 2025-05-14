@@ -247,9 +247,12 @@ class SagresConsultModel
 
         foreach ($schools as $school) {
             $schoolType = new EscolaTType();
+
+            $turmas = $this->getClasses($school['inep_id'], $referenceYear, $month, $finalClass, $withoutCpf);
+
             $schoolType
                 ->setIdEscola($school['inep_id'])
-                ->setTurma($this->getClasses($school['inep_id'], $referenceYear, $month, $finalClass, $withoutCpf))
+                ->setTurma($turmas)
                 ->setDiretor($this->getDirectorSchool($school['inep_id']))
                 ->setCardapio($this->getMenuList($school['inep_id'], $referenceYear, $month));
 
@@ -678,7 +681,12 @@ class SagresConsultModel
                 ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN))
                 ->setMultiseriada($multiserie);
 
-            if ($classType->getHorario() !== null && !empty($serie) && $serie[0]->issetMatricula(0)) {
+            $temHorario = $classType->getHorario() !== null;
+            $seriePreenchida = !empty($serie);
+            $temMatricula = $this->hasAtLeastOneRegistration($seriePreenchida, $serie);
+
+
+            if ($temHorario && $seriePreenchida && $temMatricula) {
                 $classList[] = $classType;
             }
 
@@ -693,6 +701,16 @@ class SagresConsultModel
         }
 
         return $classList;
+    }
+
+    private function hasAtLeastOneRegistration($seriePreenchida, $serie)
+    {
+        if ($seriePreenchida) {
+            $matricula = $serie[0]->getMatricula();
+            $numMatriculas = count($matricula);
+            return $numMatriculas > 0;
+        }
+        return false;
     }
     private function getTurmasInClasses($inepId, $referenceYear)
     {
@@ -903,7 +921,7 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = SERIE_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa censo ';
+            $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa válida ';
             $inconsistencyModel->action = 'Adicione uma etapa válida';
             $inconsistencyModel->identifier = '12';
             $inconsistencyModel->idClass = $serie->edcensoCodeOriginal;
@@ -989,9 +1007,9 @@ class SagresConsultModel
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = SERIE_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'Etapa do edcenso para a turma ' . "está incorreta";
+            $inconsistencyModel->description = 'Etapa inválida para a turma ';
             $inconsistencyModel->action = 'Associe uma etapa válida';
-            $inconsistencyModel->identifier = '10';
+            $inconsistencyModel->identifier = '13';
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
         }
