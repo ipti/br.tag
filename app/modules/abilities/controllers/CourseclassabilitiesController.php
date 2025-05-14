@@ -95,7 +95,13 @@ class CourseClassAbilitiesController extends Controller
 
         if (isset($_POST['CourseClassAbilities'])) {
             $model->attributes = $_POST['CourseClassAbilities'];
-            if ($model->save()){
+
+            $parent = CourseClassAbilities::model()->find([
+                'condition' => 'edcenso_discipline_fk = :disc AND parent_fk IS NULL',
+                'params' => [':disc' => $model->edcenso_discipline_fk]
+            ]);
+            $model->parent_fk = $parent->id;
+            if ($model->save()) {
                 $this->redirect(array('index'));
             }
         }

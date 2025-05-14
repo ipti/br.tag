@@ -38,7 +38,7 @@
 
             <div class="t-field-text column is-two-fifths">
                 <?php echo $form->labelEx($model, 'code', array('class' => 't-field-text__label')); ?>
-                <?php echo $form->textField($model, 'code', array('size' => 20, 'maxlength' => 20, 'class' => 't-field-text__input')); ?>
+                <?php echo $form->textField($model, 'code', array('size' => 20, 'maxlength' => 20, 'class' => 't-field-text__input', 'required'=> 'required')); ?>
                 <?php echo $form->error($model, 'code'); ?>
             </div>
         </div>
@@ -53,6 +53,7 @@
                         'key' => 'id',
                         'class' => 'select-search-on t-field-select__input select2-container',
                         'prompt' => 'Selecione o componente curricular/eixo...',
+                        'required'=> 'required'
                     )
                 );
                 ?>
@@ -68,7 +69,8 @@
                     CHtml::listData(EdcensoStageVsModality::model()->findAll(array('order' => 'name')), 'id', 'name'),
                     array(
                         "prompt" => "Selecione uma etapa",
-                        "class" => "select-search-on t-field-select__input select2-container js-stage js-field-required"
+                        "class" => "select-search-on t-field-select__input select2-container js-stage js-field-required",
+                        'required'=> 'required'
                     )
                 );
                 ?>
