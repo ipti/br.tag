@@ -742,7 +742,6 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
             $modelEnrollment->create_date = date('Y-m-d');
             $modelEnrollment->daily_order = $modelEnrollment->getDailyOrder();
             $modelEnrollment->enrollment_date = $currentEnrollment->transfer_date;
-            $modelEnrollment->school_admission_date = $currentEnrollment->transfer_date;
             $modelEnrollment->current_enrollment = 1;
 
             if ($modelEnrollment->validate()) {

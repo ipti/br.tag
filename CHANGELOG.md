@@ -1,3 +1,9 @@
+## [Versão 3.1.5]
+- Corrigido problema ao imprimir relatório de aulas ministradas
+
+## [Versão 3.1.4]
+- Corrigido o problema ao salvar observações em aulas ministradas no Ensino Fundamental – Anos Finais.
+
 ## [Versão 3.1.3]
 - Correção na funcionalidade de aulas ministradas, filtro de aulas cadastradas por turma e disciplina foram ajustadas para turmas do fundamental menor.
 
