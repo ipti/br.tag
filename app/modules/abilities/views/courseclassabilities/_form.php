@@ -21,7 +21,7 @@
                 <h1><?php echo $title; ?></h1>
             </div>
             <div class="column clearfix align-items--center justify-content--end show--desktop">
-                <button class="t-button-primary  last save-student" type="button">
+                <button class="t-button-primary  last save-student" type="submit">
                     <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
                 </button>
             </div>
@@ -78,9 +78,7 @@
         <div class="row reverse show--tablet">
           <div class="t-buttons-container">
             <div class="column clearfix">
-              <a class="t-button-primary  last save-student" type="button">
-                <?= $modelStudentIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
-              </a>
+                 <?php echo CHtml::submitButton($model->isNewRecord ? 'Criar' : 'Salvar', array('class' => 't-button-primary')); ?>
             </div>
           </div>
         </div>
