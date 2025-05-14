@@ -15,7 +15,10 @@
  * The followings are the available model relations:
  * @property EdcensoDiscipline $edcensoDisciplineFk
  * @property EdcensoStageVsModality $edcensoStageVsModalityFk
+ * @property CourseClassAbilities $parentFk
+ * @property CourseClassAbilities[] $courseClassAbilities
  * @property CourseClassHasClassAbility[] $courseClassHasClassAbilities
+ * @property CoursePlanDisciplineVsAbilities[] $coursePlanDisciplineVsAbilities
  */
 class CourseClassAbilities extends TagModel
 {
@@ -40,9 +43,10 @@ class CourseClassAbilities extends TagModel
 			array('edcenso_discipline_fk, edcenso_stage_vs_modality_fk, parent_fk', 'numerical', 'integerOnly'=>true),
 			array('description', 'length', 'max'=>1500),
 			array('code', 'length', 'max'=>20),
+			array('type', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, description, code, edcenso_discipline_fk, edcenso_stage_vs_modality_fk, parent_fk', 'safe', 'on'=>'search'),
+			array('id, description, code, type, edcenso_discipline_fk, edcenso_stage_vs_modality_fk, parent_fk', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,7 +60,10 @@ class CourseClassAbilities extends TagModel
 		return array(
 			'edcensoDisciplineFk' => array(self::BELONGS_TO, 'EdcensoDiscipline', 'edcenso_discipline_fk'),
 			'edcensoStageVsModalityFk' => array(self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'),
+			'parentFk' => array(self::BELONGS_TO, 'CourseClassAbilities', 'parent_fk'),
+			'courseClassAbilities' => array(self::HAS_MANY, 'CourseClassAbilities', 'parent_fk'),
 			'courseClassHasClassAbilities' => array(self::HAS_MANY, 'CourseClassHasClassAbility', 'course_class_ability_fk'),
+			'coursePlanDisciplineVsAbilities' => array(self::HAS_MANY, 'CoursePlanDisciplineVsAbilities', 'ability_fk'),
 		);
 	}
 
@@ -67,10 +74,10 @@ class CourseClassAbilities extends TagModel
 	{
 		return array(
 			'id' => 'ID',
-			'description' => 'Description',
-			'code' => 'Code',
-			'edcenso_discipline_fk' => 'Edcenso Discipline Fk',
-			'edcenso_stage_vs_modality_fk' => 'Edcenso Stage Vs Modality Fk',
+			'description' => 'Descrição',
+			'code' => 'Código',
+			'edcenso_discipline_fk' => 'Componente Curricular',
+			'edcenso_stage_vs_modality_fk' => 'Etapa de ensino',
 			'parent_fk' => "parent_fk"
 		);
 	}
@@ -91,17 +98,18 @@ class CourseClassAbilities extends TagModel
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria = new CDbCriteria;
+		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('description',$this->description,true);
 		$criteria->compare('code',$this->code,true);
+		$criteria->compare('type',$this->type,true);
 		$criteria->compare('edcenso_discipline_fk',$this->edcenso_discipline_fk);
 		$criteria->compare('edcenso_stage_vs_modality_fk',$this->edcenso_stage_vs_modality_fk);
 		$criteria->compare('parent_fk',$this->parent_fk);
 
 		return new CActiveDataProvider($this, array(
-			'criteria' => $criteria,
+			'criteria'=>$criteria,
 		));
 	}
 

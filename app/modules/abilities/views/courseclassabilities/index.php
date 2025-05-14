@@ -1,23 +1,28 @@
 <?php
-/* @var $this AdminController */
+/* @var $this CourseClassAbilitiesController */
+/* @var $dataProvider CActiveDataProvider */
 
-$baseUrl = Yii::app()->baseUrl;
-$cs = Yii::app()->getClientScript();
-$this->pageTitle = 'TAG - ' . Yii::t('defgault', 'Estrutura de Unidades');
+$this->breadcrumbs=array(
+	'Course Class Abilities',
+);
 
+$this->menu=array(
+	array('label'=>'Create CourseClassAbilities', 'url'=>array('create')),
+	array('label'=>'Manage CourseClassAbilities', 'url'=>array('admin')),
+);
 ?>
 
 <div class="main">
 
     <div class="row-fluid">
         <div class="span12">
-            <h1><?php echo Yii::t('default', 'Estruturas'); ?></h1>
+            <h1>Habilidades</h1>
         </div>
     </div>
     <div class="row-fluid">
         <div class="span12">
             <div class="t-buttons-container">
-                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl("admin/gradesStructure") ?>" class="t-button-primary  "> Adicionar Estrutura</a>
+                <a class="t-button-primary" href="<?php echo Yii::app()->createUrl("abilities/courseclassabilities/create") ?>" class="t-button-primary  "> Adicionar Habilidade</a>
             </div>
         </div>
     </div>
@@ -35,27 +40,31 @@ $this->pageTitle = 'TAG - ' . Yii::t('defgault', 'Estrutura de Unidades');
                         array(
                             'name' => 'Código',
                             'type' => 'raw',
-                            'value' => '$data->id',
+                            'value' => '$data->code',
                         ),
                         array(
-                            'name' => 'nome',
+                            'name' => 'Descrição',
                             'type' => 'raw',
-                            'value' => 'CHtml::link($data->name,Yii::app()->createUrl("admin/gradesStructure",array("id"=>$data->id)))',
+                            'value' => 'CHtml::link($data->description,Yii::app()->createUrl("abilities/courseclassabilities/update",array("id"=>$data->id)))',
                         ),
                         array(
-                            'name' => 'etapa',
+                            'name' => 'Disciplina',
                             'type' => 'raw',
-                            'value' => '$data->edcensoStageVsModalityFk->name',
+                            'value' => '$data->edcensoDisciplineFk->name',
                         ),
                         array(
                             'header' => 'Ações',
                             'class' => 'CButtonColumn',
-                            'template' => '{update}',
+                            'template' => '{update}{delete}',
                             'buttons' => array(
                                 'update' => array(
                                     'imageUrl' => Yii::app()->theme->baseUrl . '/img/editar.svg',
-                                    'url' => 'Yii::app()->createUrl("admin/gradesStructure&id=$data->id")',
+                                    'url' => 'Yii::app()->createUrl("abilities/courseclassabilities/update",array("id"=>$data->id))',
                                 ),
+                                'delete' => array(
+                                    'imageUrl' => Yii::app()->theme->baseUrl.'/img/deletar.svg',
+                                    'url' => 'Yii::app()->createUrl("abilities/courseclassabilities/delete",array("id"=>$data->id))'
+                                )
                             ),
                             'updateButtonOptions' => array('style' => 'margin-right: 20px;'),
                             'deleteButtonOptions' => array('style' => 'cursor: pointer;'),

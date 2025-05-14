@@ -1,3 +1,7 @@
+ALTER TABLE course_class_abilities
+ADD COLUMN created_at DATETIME DEFAULT NULL,
+ADD COLUMN updated_at DATETIME DEFAULT NULL;
+
 -- online_enrollment_student_identification definition
 CREATE TABLE
   IF NOT EXISTS `enrollment_online_student_identification` (

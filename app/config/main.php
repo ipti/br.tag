@@ -119,6 +119,7 @@ return array(
         'courseplan',
         'aeerecord',
         'gradeconcept',
+        'abilities',
         'enrollmentonline'
     ),
     // application components
