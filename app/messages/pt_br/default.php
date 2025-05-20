@@ -448,6 +448,7 @@ return array(
     'Birthday' => 'Data de Nascimento',
     'Sex' => 'Sexo',
     'Color Race' => 'Cor / Raça',
+    'Id Indigenous People' => 'Id da Tabela de Povos Indígenas do Brasil',
     'Filiation' => 'Filiação',
     'Id Email' => 'E-mail',
     'Scholarity' => 'Escolaridade',

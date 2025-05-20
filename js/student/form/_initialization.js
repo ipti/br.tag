@@ -277,3 +277,11 @@ $(".update-student-from-sedsp").click(function () {
 $(".import-student-button").click(function () {
     $("#importStudentFromSEDSP").find("form").submit();
 });
+
+$(document).on("change", "#StudentIdentification_color_race", function() {
+    if ($(this).val() == "5") {
+        $(".js-is-indigenous").show()
+    } else {
+        $(".js-is-indigenous").hide()
+    }
+});
