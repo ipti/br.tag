@@ -420,11 +420,12 @@ $form = $this->beginWidget(
           <div class="row">
             <div class="column clearleft is-two-fifths js-is-indigenous hide">
                 <?php echo $form->label($modelStudentIdentification, 'id_indigenous_people', array('class' => 't-field-text__label t-field-select__label--required')); ?>
-                <?php echo $form->textField(
+                <?php echo $form->dropDownList(
                   $modelStudentIdentification,
                   'id_indigenous_people',
-                  array('size' => 60, 'maxlength' => 8, 'class' => 't-field-text__input', 'placeholder' => 'Digite o id')
-                ); ?>
+                  CHtml::listData(EdcensoIndigenousPeople::model()->findAll(array('order' => 'id_indigenous_people')), 'id_indigenous_people', 'name'),
+                    array("class" => "select-search-on t-field-select__input select2-container", "prompt"=> "Selecione um povo indígena")
+                )?>
                 <?php echo $form->error($modelStudentIdentification, 'id_indigenous_people'); ?>
             </div>
             <div class="column clearleft is-two-fifths"></div>

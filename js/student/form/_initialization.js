@@ -282,6 +282,7 @@ $(document).on("change", "#StudentIdentification_color_race", function() {
     if ($(this).val() == "5") {
         $(".js-is-indigenous").show()
     } else {
+        $("#StudentIdentification_id_indigenous_people").val(null).trigger("change");
         $(".js-is-indigenous").hide()
     }
 });

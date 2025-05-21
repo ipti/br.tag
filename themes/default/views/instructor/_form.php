@@ -403,15 +403,12 @@ $isModel = isset($modelInstructorIdentification->id);
                                         ); ?>
                                     </div>
                                     <div class="controls">
-                                        <?php echo $form->textField(
+                                        <?php echo $form->dropDownList(
                                             $modelInstructorIdentification,
                                             'id_indigenous_people',
-                                            array(
-                                                'size' => 60,
-                                                'maxlength' => 8,
-                                                'placeholder' => 'Digite o id'
-                                            )
-                                        ); ?>
+                                            CHtml::listData(EdcensoIndigenousPeople::model()->findAll(array('order' => 'id_indigenous_people')), 'id_indigenous_people', 'name'),
+                                                array("class" => "select-search-on control-input", "prompt"=> "Selecione um povo indígena")
+                                            )?>
                                     <?php echo $form->error($modelInstructorIdentification, 'id_indigenous_people'); ?>
                                 </div>
                             </div>

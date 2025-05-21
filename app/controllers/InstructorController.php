@@ -88,7 +88,10 @@ class InstructorController extends Controller
         $error[] = '';
         if (isset($iIdentification, $iDocumentsAndAddress, $iVariableData)) {
             $modelInstructorIdentification->attributes = $iIdentification;
-            // $modelInstructorIdentification->id_indigenous_people = $iIdentification['id_indigenous_people'];
+
+            $id_indigenous_people = $_POST['InstructorIdentification']['id_indigenous_people'];
+            $modelInstructorIdentification->id_indigenous_people = $id_indigenous_people === "" ? null : $id_indigenous_people;
+
             $modelInstructorDocumentsAndAddress->attributes = $iDocumentsAndAddress;
             $modelInstructorVariableData->attributes = $iVariableData;
 
@@ -267,7 +270,10 @@ class InstructorController extends Controller
         if (isset($_POST['InstructorIdentification'], $_POST['InstructorDocumentsAndAddress'], $_POST['InstructorVariableData']))
         {
             $modelInstructorIdentification->attributes = $_POST['InstructorIdentification'];
-            $modelInstructorIdentification->id_indigenous_people = $_POST['InstructorIdentification']['id_indigenous_people'];
+
+            $id_indigenous_people = $_POST['InstructorIdentification']['id_indigenous_people'];
+            $modelInstructorIdentification->id_indigenous_people = $id_indigenous_people === "" ? null : $id_indigenous_people;
+
             $modelInstructorDocumentsAndAddress->attributes = $_POST['InstructorDocumentsAndAddress'];
             $modelInstructorVariableData->attributes = $_POST['InstructorVariableData'];
             if (!isset($modelInstructorIdentification->edcenso_nation_fk)) {
