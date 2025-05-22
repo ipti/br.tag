@@ -51,6 +51,16 @@ class studentIdentificationValidation extends Register
             return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma FIC Concomitante.");
         } else if ($classroomStage == 19 && ($interval->y < 8 || $interval->y > 50)) {
             return array("status" => false, "erro" => "O aluno não pode ter menos de 08 anos ou mais de 50 anos e estar matriculado em uma turma do 6º Ano do Ensino Fundamental.");
+        } else if(($classroomStage == 25 || $classroomStage == 35) && ($interval->y < 12 || $interval->y > 58)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 58 anos e estar matriculado em uma turma do 1º Ano do Ensino Médio.");
+        } else if(($classroomStage == 26 || $classroomStage == 36) && ($interval->y < 12 || $interval->y > 58)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 58 anos e estar matriculado em uma turma do 2º Ano do Ensino Médio.");
+        } else if(($classroomStage == 27 || $classroomStage == 37) && ($interval->y < 12 || $interval->y > 58)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 58 anos e estar matriculado em uma turma do 3º Ano do Ensino Médio.");
+        } else if(($classroomStage == 28 || $classroomStage == 38) && ($interval->y < 12 || $interval->y > 58)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 58 anos e estar matriculado em uma turma do 4º Ano do Ensino Médio.");
+        } else if($classroomStage == 29 && ($interval->y < 12 || $interval->y > 58)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 58 anos e estar matriculado em uma turma do do Ensino Médio não seriada.");
         }
         return array("status" => true, "erro" => "");
     }

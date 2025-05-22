@@ -66,6 +66,7 @@
  * @property integer $resource_proof_language
  * @property integer $resource_cd_audio
  * @property integer $resource_video_libras
+ * @property integer $resource_additional_time
  * @property integer $resource_none
  * @property integer $send_year
  * @property string $last_change
@@ -179,6 +180,7 @@ class StudentIdentification extends AltActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'edcensoNationFk' => array(self::BELONGS_TO, 'EdcensoNation', 'edcenso_nation_fk'),
+            'studentDisorders' => array(self::HAS_MANY, 'StudentDisorder', 'student_fk'),
             'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
             'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
@@ -255,7 +257,8 @@ class StudentIdentification extends AltActiveRecord
             'resource_braille_test' => Yii::t('default', 'Resource Braille Test'),
             'resource_proof_language' => Yii::t('default', 'Resource Proof Language'),
             'resource_cd_audio' => Yii::t('default', 'Resource Cd Audio'),
-            'resource_video_libras' => Yii::t('default', 'Resource Video Libras'),
+            'resource_video_libras' => Yii::t('default', 'Resource Additional Time'),
+            'resource_additional_time' =>  Yii::t('default', 'Resource Video Libras'),
             'resource_none' => Yii::t('default', 'Resource None'),
             'send_year' => Yii::t('default', 'Pós Censo'),
             'last_change' => Yii::t('default', 'Last Change'),

@@ -119,6 +119,7 @@ class Register30
                         $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
                         $students[$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
                         $students[$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
+                        $students[$enrollment->student_fk]['disorders'] = $enrollment->studentFk->studentDisorders->attributes;
                         $students[$enrollment->student_fk]['classroom'] = $classroom->attributes;
                     }
 
@@ -284,6 +285,18 @@ class Register30
 
 
         return $register;
+    }
+
+    public static function exportStudentDisorders($student, $register, $aliases) {
+        foreach ($student as $key => $attr) {
+            $alias_index = array_search($key, array_column($aliases, 'attr'));
+            $alias = $alias_index !== false ? $aliases[$alias_index] : null;
+            if (isset($alias["corder"])) {
+                  $register[$alias["corder"]] = $attr;
+            }
+
+            return $register;
+        }
     }
 
     private static function exportInstructorIdentification($instructor, $register, $school, $resetEmail, $aliases)
@@ -528,6 +541,7 @@ class Register30
 
             $register = self::exportStudentIdentification($student['identification'], $register, $school, $aliasesStudent);
             $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent);
+            $register = self::exportStudentDisorders($student['disorders'], $register, $aliasesStudent);
 
             ksort($register);
             array_push($registers, implode('|', $register));

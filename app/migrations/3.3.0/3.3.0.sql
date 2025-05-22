@@ -371,3 +371,7 @@ ALTER TABLE student_disorder
   ADD COLUMN dyslalia TINYINT(1) DEFAULT 0,
   ADD COLUMN dyslexia TINYINT(1) DEFAULT 0,
   ADD COLUMN tpac TINYINT(1) DEFAULT 0;
+
+ALTER TABLE student_identification
+ADD COLUMN resource_additional_time TINYINT DEFAULT 0;
+
