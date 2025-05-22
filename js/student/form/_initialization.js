@@ -286,3 +286,9 @@ $(document).on("change", "#StudentIdentification_color_race", function() {
         $(".js-is-indigenous").hide()
     }
 });
+
+  $('.js-disorder-impact-learning').on('change', function () {
+    const isChecked = $('.js-disorder-impact-learning:checked').length > 0;
+
+    $('.js-disorders-impact-learning').prop('checked', isChecked);
+  });

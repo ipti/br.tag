@@ -2469,6 +2469,124 @@ $form = $this->beginWidget(
           <!-- Titulo -->
 
           <div class="row">
+            <div class="column clearleft--on-mobile is-two-fifths">
+                <h3>
+                    Transtornos
+                </h3>
+                <div class="t-field-checkbox-group" id="transtorno-checkbox">
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'tdah', array('value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                        Transtorno do déficit de atenção com hiperatividade (TDAH)
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'depressao', array('value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                        Transtorno depressivo (depressão)
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'tab', array('value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                        Transtorno bipolar (TAB)
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'toc', array('value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                        Transtorno obsessivo compulsivo (TOC)
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'tag', array('value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                        Transtorno de ansiedade generalizada (TAG)
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'tod', array('value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                        Distúrbio desafiador e de oposição (TOD)
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'tcne', array('value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                        Transtorno de conduta não especificado
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $modelStudentDisorder->others != null ?
+                        "<input type='checkbox' id='others-check' checked>" :
+                        "<input type='checkbox' id='others-check'>" ?>
+                    <label class="t-field-checkbox">
+                        Outros transtornos de conduta
+                    </label>
+                    </div>
+                    <div class="row others-text-box" style="display: none;">
+                    <?php echo $form->textArea($modelStudentDisorder, 'others', array('rows' => 6, 'cols' => 50)); ?>
+                    </div>
+                </div>
+                <h3>
+                    Transtorno(s) que impacta(m) o desenvolvimento da aprendizagem
+                </h3>
+                <div class="t-field-checkbox-group" id="transtorno-checkbox">
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'dyscalculia', array('class'=>'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                        Discalculia ou outro transtorno da matemática e raciocínio lógico
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'dysgraphia', array('class'=>'js-disorder-impact-learning',  'value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                        Disgrafia, Disortografia ou outro transtorno da escrita e ortografia
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'dyslalia', array('class'=>'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                       Dislalia ou outro transtorno da linguagem e comunicação
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'dyslexia', array('class'=>'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                       Dislexia
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'tdah', array('class'=>'js-disorder-impact-learning','value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                       Transtorno do Déficit de Atenção com Hiperatividade (TDAH)
+                    </label>
+                    </div>
+                    <div class="t-field-checkbox">
+                    <?php echo $form->checkBox($modelStudentDisorder, 'tpac', array('class'=>'js-disorder-impact-learning', 'value' => 1, 'uncheckValue' => 0)); ?>
+                    <label class="t-field-checkbox">
+                       Transtorno do Processamento Auditivo Central (TPAC)
+                    </label>
+                    </div>
+                    <?php echo $form->checkBox($modelStudentDisorder, 'disorders_impact_learning', array('class' => 'js-disorders-impact-learning', 'style' => 'display:none;', 'checked' => false)); ?>
+                </div>
+            </div>
+            <!-- Vacinas -->
+            <div class="column clearleft--on-mobile is-two-fifths">
+              <h3>
+                Vacinas
+              </h3>
+              <div class="t-field-checkbox-group vaccines-container">
+                <?php foreach ($vaccines as $vaccine): ?>
+                  <div class="t-field-checkbox" id="vaccine-checkbox">
+                    <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
+                    <label class="t-field-checkbox">
+                      <?= $vaccine->name; ?>
+                    </label>
+                  </div>
+                <?php endforeach; ?>
+              </div>
+            </div>
             <div class="column clearleft is-two-fifths">
               <h3>Restrições</h3>
               <div class="t-field-checkbox-group" id="restrictions-checkbox">
@@ -2530,82 +2648,6 @@ $form = $this->beginWidget(
                 </div>
                 <div class="row others-text-box" style="display: none;">
                   <?php echo $form->textArea($modelStudentRestrictions, 'others', array('rows' => 6, 'cols' => 50)); ?>
-                </div>
-              </div>
-            </div>
-            <!-- Vacinas -->
-            <div class="column clearleft--on-mobile is-two-fifths">
-              <h3>
-                Vacinas
-              </h3>
-              <div class="t-field-checkbox-group vaccines-container">
-                <?php foreach ($vaccines as $vaccine): ?>
-                  <div class="t-field-checkbox" id="vaccine-checkbox">
-                    <?php echo CHtml::activeCheckBox($vaccine, "vaccine_id[]", array('checked' => in_array($vaccine->id, $studentVaccinesSaves), 'value' => $vaccine->id, 'uncheckValue' => null, 'class' => 'vaccine-checkbox', 'code' => $vaccine->code)); ?>
-                    <label class="t-field-checkbox">
-                      <?= $vaccine->name; ?>
-                    </label>
-                  </div>
-                <?php endforeach; ?>
-              </div>
-            </div>
-            <div class="column clearleft--on-mobile is-two-fifths">
-              <h3>
-                Transtornos
-              </h3>
-              <div class="t-field-checkbox-group" id="transtorno-checkbox">
-                <div class="t-field-checkbox">
-                  <?php echo $form->checkBox($modelStudentDisorder, 'tdah', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
-                    Transtorno do déficit de atenção com hiperatividade (TDAH)
-                  </label>
-                </div>
-                <div class="t-field-checkbox">
-                  <?php echo $form->checkBox($modelStudentDisorder, 'depressao', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
-                    Transtorno depressivo (depressão)
-                  </label>
-                </div>
-                <div class="t-field-checkbox">
-                  <?php echo $form->checkBox($modelStudentDisorder, 'tab', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
-                    Transtorno bipolar (TAB)
-                  </label>
-                </div>
-                <div class="t-field-checkbox">
-                  <?php echo $form->checkBox($modelStudentDisorder, 'toc', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
-                    Transtorno obsessivo compulsivo (TOC)
-                  </label>
-                </div>
-                <div class="t-field-checkbox">
-                  <?php echo $form->checkBox($modelStudentDisorder, 'tag', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
-                    Transtorno de ansiedade generalizada (TAG)
-                  </label>
-                </div>
-                <div class="t-field-checkbox">
-                  <?php echo $form->checkBox($modelStudentDisorder, 'tod', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
-                    Distúrbio desafiador e de oposição (TOD)
-                  </label>
-                </div>
-                <div class="t-field-checkbox">
-                  <?php echo $form->checkBox($modelStudentDisorder, 'tcne', array('value' => 1, 'uncheckValue' => 0)); ?>
-                  <label class="t-field-checkbox">
-                    Transtorno de conduta não especificado
-                  </label>
-                </div>
-                <div class="t-field-checkbox">
-                  <?php echo $modelStudentDisorder->others != null ?
-                    "<input type='checkbox' id='others-check' checked>" :
-                    "<input type='checkbox' id='others-check'>" ?>
-                  <label class="t-field-checkbox">
-                    Outros transtornos de conduta
-                  </label>
-                </div>
-                <div class="row others-text-box" style="display: none;">
-                  <?php echo $form->textArea($modelStudentDisorder, 'others', array('rows' => 6, 'cols' => 50)); ?>
                 </div>
               </div>
             </div>

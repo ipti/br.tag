@@ -362,3 +362,12 @@ INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUES
 	 ('309.00','yurutí'),
 	 ('310.00','zo''é'),
 	 ('311.00','zoró');
+
+
+ALTER TABLE student_disorder
+  ADD COLUMN disorders_impact_learning TINYINT(1) DEFAULT 0,
+  ADD COLUMN dyscalculia TINYINT(1) DEFAULT 0,
+  ADD COLUMN dysgraphia TINYINT(1) DEFAULT 0,
+  ADD COLUMN dyslalia TINYINT(1) DEFAULT 0,
+  ADD COLUMN dyslexia TINYINT(1) DEFAULT 0,
+  ADD COLUMN tpac TINYINT(1) DEFAULT 0;
