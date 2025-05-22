@@ -1126,6 +1126,10 @@ class CensoController extends Controller
             $collumn['resource_braille_test'],
             $collumn['resource_none']);
 
+        $disorders = array(
+             $collumn['tdah'],
+        );
+
         array_pop($deficiencies_whole);
         $result = $stiv->inNeedOfResources($collumn['deficiency'], $deficiencies_whole, $resources);
         if (!$result["status"]) array_push($log, array("Recursos requeridos em avaliacoes do INEP" => $result["erro"]));
