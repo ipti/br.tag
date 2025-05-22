@@ -4,7 +4,7 @@
     * @property GetClassContents $GetClassContent
     */
 
-    class GetClassContents 
+    class GetClassContents
     {
         /**
          * Summary of classService

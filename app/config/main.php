@@ -118,7 +118,9 @@ return array(
         'dashboard',
         'courseplan',
         'aeerecord',
-        'gradeconcept'
+        'gradeconcept',
+        'abilities',
+        'enrollmentonline'
     ),
     // application components
     'components' => array(
