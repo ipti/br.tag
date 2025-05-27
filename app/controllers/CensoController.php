@@ -608,7 +608,7 @@ class CensoController extends Controller
         if (!$result['status']) array_push($log, array('pedagogical_mediation_type' => $result['erro']));
 
         //campos 7 a 10
-        $result = $crv->isValidClassroomTime($column['initial_hour'], $column['initial_minute'],
+        $result = $crv->isValidClassroomTime($column['initial_hour'],  $column['initial_minute'],
             $column['final_hour'], $column['final_minute'],
             $column['pedagogical_mediation_type']);
         if (!$result['status']) array_push($log, array('classroom_time' => $result['erro']));
@@ -646,8 +646,8 @@ class CensoController extends Controller
 
         //campo 37
 
-        $result = $crv->isValidModality($column['modality'], $column['pedagogical_mediation_type'], $column["complementary_activity"]);
-        if (!$result['status']) array_push($log, array('modality' => $result['erro']));
+        // $result = $crv->isValidModality($column['modality'], $column['pedagogical_mediation_type'], $column["complementary_activity"]);
+        // if (!$result['status']) array_push($log, array('modality' => $result['erro']));
 
         //campo 38
 

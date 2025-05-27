@@ -71,12 +71,11 @@ class EnrollmentonlinestudentidentificationRepository
         $user->password = $password;
         $user->name = $this->studentIdentification->responsable_name;
         $user->active = 1;
-        $user->role = "guardian";
         $cpf = preg_replace('/\D/', '', $this->studentIdentification->responsable_cpf);
         $user->username = $this->studentIdentification->id . $cpf;
         if ($user->save()) {
             $auth = new AuthAssignment();
-            $auth->itemname = $user->role;
+            $auth->itemname ="guardian";
             $auth->userid = $user->id;
             $auth->save();
 
