@@ -126,15 +126,15 @@
 class SchoolStructure extends AltActiveRecord
 {
     public $stages;
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return SchoolStructure the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return SchoolStructure the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
     /**
      * @return string the associated database table name
@@ -286,6 +286,7 @@ class SchoolStructure extends AltActiveRecord
                 dependencies_indoor_roomspublic,
                 dependencies_climate_roomspublic,
                 dependencies_acessibility_roomspublic,
+                dependencies_reading_corners,
                 acessability_handrails_guardrails,
                 acessability_elevator,
                 acessability_tactile_floor,
@@ -367,7 +368,8 @@ class SchoolStructure extends AltActiveRecord
                 board_organ_inexistent,
                 provide_potable_water,
                 dependencies_student_repose_room',
-                'numerical', 'integerOnly' => true
+                'numerical',
+                'integerOnly' => true
             ),
             array('register_type', 'length', 'max' => 2),
             array(
@@ -378,7 +380,8 @@ class SchoolStructure extends AltActiveRecord
             shared_school_inep_id_4,
             shared_school_inep_id_5,
             shared_school_inep_id_6',
-                'length', 'max' => 8
+                'length',
+                'max' => 8
             ),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
@@ -498,7 +501,7 @@ class SchoolStructure extends AltActiveRecord
             'internet_access' => Yii::t('default', 'Have Internet Access'),
             'bandwidth' => Yii::t('default', 'Bandwidth'),
             'employees_count' => Yii::t('default', 'Employees Count'),
-            'feeding' => Yii::t('default', 'Feeding'). " *",
+            'feeding' => Yii::t('default', 'Feeding') . " *",
             'aee' => Yii::t('default', 'Aee'),
             'complementary_activities' => Yii::t('default', 'Complementary Activities'),
             'modalities_regular' => Yii::t('default', 'Modalities Regular'),
@@ -523,7 +526,7 @@ class SchoolStructure extends AltActiveRecord
             'energy_supply_generator_alternative' => Yii::t('default', 'Generator Alternative'),
             'sewage_fossa_common' => Yii::t('default', 'Fossa Common'),
             'garbage_destination_public' => Yii::t('default', 'Destination Public'),
-            'supply_food' => Yii::t('default', 'Food'). " *",
+            'supply_food' => Yii::t('default', 'Food') . " *",
             'treatment_garbage_parting_garbage' => Yii::t('default', 'Garbage Parting'),
             'treatment_garbage_resuse' => Yii::t('default', 'Garbage Resuse'),
             'traetment_garbage_inexistent' => Yii::t('default', 'Garbage Inexistent'),
@@ -539,6 +542,7 @@ class SchoolStructure extends AltActiveRecord
             'dependencies_indoor_roomspublic' => Yii::t('default', 'Indoor Rooms Public'),
             'dependencies_climate_roomspublic' => Yii::t('default', 'Climate Rooms Public'),
             'dependencies_acessibility_roomspublic' => Yii::t('default', 'Acessibility Rooms Public'),
+            'dependencies_reading_corners' => Yii::t('default', "Reading Room Count"),
             'acessability_handrails_guardrails' => Yii::t('default', 'Handrails Guardrails'),
             'acessability_elevator' => Yii::t('default', 'Elevator'),
             'acessability_tactile_floor' => Yii::t('default', 'Tactile Floor'),

@@ -1071,14 +1071,14 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text">
                                 <?php echo $form->label(
                                     $modelSchoolStructure,
-                                    'dependencies_outside_roomspublic',
+                                    'dependencies_reading_corners',
                                     array(
                                         'class' => 't-field-text__label'
                                     )
                                 ); ?>
                                 <?php echo $form->textField(
                                     $modelSchoolStructure,
-                                    'dependencies_outside_roomspublic',
+                                    'dependencies_reading_corners',
                                     array(
                                         'placeholder' => 'Digite o Número de salas de leitura',
                                         'class' => 't-field-text__input'
