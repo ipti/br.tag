@@ -1126,8 +1126,20 @@ class CensoController extends Controller
             $collumn['resource_braille_test'],
             $collumn['resource_none']);
 
+
+        $studenteDisorder = StudentIdentification::model()->findByPk($student_id)->studentDisorders->attributes;
+        $disorders = array(
+            $studenteDisorder['disorders_impact_learning'],
+            $studenteDisorder['dyscalculia'],
+            $studenteDisorder['dysgraphia'],
+            $studenteDisorder['dyslalia'],
+            $studenteDisorder['dyslexia'],
+            $studenteDisorder['tdah'],
+            $studenteDisorder['tpac'],
+        );
+
         array_pop($deficiencies_whole);
-        $result = $stiv->inNeedOfResources($collumn['deficiency'], $deficiencies_whole, $resources);
+        $result = $stiv->inNeedOfResources($collumn['deficiency'], $deficiencies_whole, $resources, $disorders);
         if (!$result["status"]) array_push($log, array("Recursos requeridos em avaliacoes do INEP" => $result["erro"]));
 
         $result = $stiv->atLeastOne($deficiencies_whole);
