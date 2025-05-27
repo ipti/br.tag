@@ -734,6 +734,7 @@ class CensoController extends Controller
             array_push($log, array('pedagogical_mediation_type' => $result['erro']));
 
         //campos 7 a 10
+
         $result = $crv->isValidClassroomTime(
             $column['initial_hour'],
             $column['initial_minute'],
@@ -791,9 +792,8 @@ class CensoController extends Controller
 
         //campo 37
 
-        $result = $crv->isValidModality($column['modality'], $column['pedagogical_mediation_type'], $column["complementary_activity"]);
-        if (!$result['status'])
-            array_push($log, array('modality' => $result['erro']));
+        // $result = $crv->isValidModality($column['modality'], $column['pedagogical_mediation_type'], $column["complementary_activity"]);
+        // if (!$result['status']) array_push($log, array('modality' => $result['erro']));
 
         //campo 38
 
@@ -1362,8 +1362,21 @@ class CensoController extends Controller
             $collumn['resource_none']
         );
 
+
+        $studenteDisorder = StudentIdentification::model()->findByPk($student_id)->studentDisorders->attributes;
+        $disorders = array(
+            $studenteDisorder['disorders_impact_learning'],
+            $studenteDisorder['dyscalculia'],
+            $studenteDisorder['dysgraphia'],
+            $studenteDisorder['dyslalia'],
+            $studenteDisorder['dyslexia'],
+            $studenteDisorder['tdah'],
+            $studenteDisorder['tpac'],
+        );
+
         array_pop($deficiencies_whole);
-        $result = $stiv->inNeedOfResources($collumn['deficiency'], $deficiencies_whole, $resources);
+
+        $result = $stiv->inNeedOfResources($collumn['deficiency'], $deficiencies_whole, $resources, $disorders);
         if (!$result["status"])
             array_push($log, array("Recursos requeridos em avaliacoes do INEP" => $result["erro"]));
 

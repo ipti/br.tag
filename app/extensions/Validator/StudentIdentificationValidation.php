@@ -45,12 +45,18 @@ class studentIdentificationValidation extends Register
             return array("status" => false, "erro" => "O aluno não pode ter menos de 09 anos ou mais de 50 anos e estar matriculado em uma turma do 7º Ano do Ensino Fundamental.");
         } else if (($classroomStage == 69 || $classroomStage == 70 || $classroomStage == 72) && ($interval->y < 12 || $interval->y > 94)) {
             return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma EJA do Ensino Fundamental.");
-        } else if ($classroomStage == 73 && ($interval->y < 12 || $interval->y > 94)) {
-            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma FIC Integrado à Modalidade EJA do Ensino Fundamental.");
-        } else if ($classroomStage == 68 && ($interval->y < 12 || $interval->y > 94)) {
-            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 94 anos e estar matriculado em uma turma FIC Concomitante.");
         } else if ($classroomStage == 19 && ($interval->y < 8 || $interval->y > 50)) {
             return array("status" => false, "erro" => "O aluno não pode ter menos de 08 anos ou mais de 50 anos e estar matriculado em uma turma do 6º Ano do Ensino Fundamental.");
+        } else if(($classroomStage == 25 || $classroomStage == 35) && ($interval->y < 12 || $interval->y > 58)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 58 anos e estar matriculado em uma turma do 1º Ano do Ensino Médio.");
+        } else if(($classroomStage == 26 || $classroomStage == 36) && ($interval->y < 12 || $interval->y > 58)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 58 anos e estar matriculado em uma turma do 2º Ano do Ensino Médio.");
+        } else if(($classroomStage == 27 || $classroomStage == 37) && ($interval->y < 12 || $interval->y > 58)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 58 anos e estar matriculado em uma turma do 3º Ano do Ensino Médio.");
+        } else if(($classroomStage == 28 || $classroomStage == 38) && ($interval->y < 12 || $interval->y > 58)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 58 anos e estar matriculado em uma turma do 4º Ano do Ensino Médio.");
+        } else if($classroomStage == 29 && ($interval->y < 12 || $interval->y > 58)) {
+            return array("status" => false, "erro" => "O aluno não pode ter menos de 12 anos ou mais de 58 anos e estar matriculado em uma turma do do Ensino Médio não seriada.");
         }
         return array("status" => true, "erro" => "");
     }
@@ -73,12 +79,13 @@ class studentIdentificationValidation extends Register
 
     }
 
-    function inNeedOfResources($hasDeficiency, $deficiencies, $resources)
+    function inNeedOfResources($hasDeficiency, $deficiencies, $resources, $disorder)
     {
         if ($hasDeficiency == 1) {
             $atLeastOneDeficiency = $this->atLeastOne($deficiencies);
             $atLeastOneResource = $this->atLeastOne($resources);
-            if ($atLeastOneDeficiency["status"] && $atLeastOneResource["status"]) {
+            $atLeastOneDisorder = $this->atLeastOne($disorder);
+            if (($atLeastOneDeficiency["status"] || $atLeastOneDisorder["status"]) && $atLeastOneResource["status"]) {
                 if ($resources[0] == 1 && ($deficiencies[0] != 1 && $deficiencies[1] != 1 && $deficiencies[4] != 1 && $deficiencies[5] != 1 && $deficiencies[6] != 1 && $deficiencies[8] != 1)) {
                     return array("status" => false, "erro" => "Auxílio ledor não pode ser selecionado quando nenhum dos campos Cegueira, Baixa visão, Surdocegueira, Deficiência Física, Deficiência Intelectual e Autismo for selecionado.");
                 } else if ($resources[0] == 1 && $deficiencies[2] == 1) {
@@ -128,7 +135,7 @@ class studentIdentificationValidation extends Register
 
                 }
             } else {
-                return array("status" => false, "erro" => "Quando for selecionado um tipo de deficiência (exceto superdotação), é preciso selecionar pelo menos um recurso, ou vice-versa.");
+                return array("status" => false, "erro" => "Quando for selecionado um tipo de deficiência (exceto superdotação) ou um Transtorno que impacta o desenvolvimento da aprendizagem, é preciso selecionar pelo menos um recurso, ou vice-versa.");
             }
         }
         return array("status" => true, "erro" => "");
