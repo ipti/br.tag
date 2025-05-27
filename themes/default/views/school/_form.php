@@ -23,7 +23,8 @@ $form = $this->beginWidget('CActiveForm', array(
         <h1><?php echo $title; ?></h1>
     </div>
     <div class="column clearfix align-items--center justify-content--end show--desktop">
-        <a data-toggle="tab" class='hide-responsive t-button-secondary prev' style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
+        <a data-toggle="tab" class='hide-responsive t-button-secondary prev'
+            style="display:none;"><?php echo Yii::t('default', 'Previous') ?><i></i></a>
         <?= $modelSchoolIdentification->isNewRecord ? "<a data-toggle='tab' class='t-button-primary  next'>" . Yii::t('default', 'Next') . "</a>" : '' ?>
         <button class="t-button-primary  last save-school-button" type="button">
             <?= $modelSchoolIdentification->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save') ?>
@@ -56,34 +57,38 @@ $form = $this->beginWidget('CActiveForm', array(
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
 
-                <li id="tab-school-structure" class="t-tabs__item"><a class="t-tabs__link" href="#school-structure" data-toggle="tab">
+                <li id="tab-school-structure" class="t-tabs__item"><a class="t-tabs__link" href="#school-structure"
+                        data-toggle="tab">
                         <span class="t-tabs__numeration">3</span>
                         <?php echo Yii::t('default', 'Structure') ?>
 
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
-                <li id="tab-school-equipment" class="t-tabs__item"><a class="t-tabs__link" href="#school-equipment" data-toggle="tab">
+                <li id="tab-school-equipment" class="t-tabs__item"><a class="t-tabs__link" href="#school-equipment"
+                        data-toggle="tab">
                         <span class="t-tabs__numeration">4</span>
                         <?php echo Yii::t('default', 'Equipments') ?>
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
-                <li id="tab-school-manager" class="t-tabs__item"><a class="t-tabs__link" href="#school-manager" data-toggle="tab">
+                <li id="tab-school-manager" class="t-tabs__item"><a class="t-tabs__link" href="#school-manager"
+                        data-toggle="tab">
                         <span class="t-tabs__numeration">5</span>
                         <?php echo Yii::t('default', 'manager') ?>
                     </a>
                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                 </li>
-                <li id="tab-school-education" class="t-tabs__item"><a class="t-tabs__link" href="#school-education" data-toggle="tab">
+                <li id="tab-school-education" class="t-tabs__item"><a class="t-tabs__link" href="#school-education"
+                        data-toggle="tab">
                         <span class="t-tabs__numeration">6</span>
                         <?php echo Yii::t('default', 'Educational Data') ?>
                     </a>
-                    <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
+                    <?php if (!$modelSchoolIdentification->isNewRecord): ?>
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/seta-tabs.svg" alt="seta">
                     <?php endif ?>
                 </li>
-                <?php if (!$modelSchoolIdentification->isNewRecord) : ?>
+                <?php if (!$modelSchoolIdentification->isNewRecord): ?>
                     <li id="tab-school-reports" class="t-tabs__item hide-responsive">
 
                         <a class="t-tabs__link" href="#school-reports" data-toggle="tab">
@@ -116,8 +121,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'size' => 100,
                                         'maxlength' => 100,
                                         'placeholder' =>
-                                        'Digite o Nome da Escola',
-                                        'class' => 't-field-text__input', 'disabled' => $disabledFields
+                                            'Digite o Nome da Escola',
+                                        'class' => 't-field-text__input',
+                                        'disabled' => $disabledFields
                                     )
                                 ); ?>
                                 <?php echo $form->error(
@@ -135,7 +141,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                                 <?php
                                 echo
-                                $modelSchoolIdentification->isNewRecord ?
+                                    $modelSchoolIdentification->isNewRecord ?
                                     $form->textField(
                                         $modelSchoolIdentification,
                                         'inep_id',
@@ -146,11 +152,12 @@ $form = $this->beginWidget('CActiveForm', array(
                                             'class' => 't-field-text__input'
                                         )
                                     )
-                                    :  $form->textField(
+                                    : $form->textField(
                                         $modelSchoolIdentification,
                                         'inep_id',
                                         array(
-                                            'size' => 8, '
+                                            'size' => 8,
+                                            '
                                             maxlength' => 8,
                                             'placeholder' => 'Digite o Código INEP',
                                             'class' => 't-field-text__input',
@@ -206,7 +213,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     array(
                                         null => 'Selecione a situação',
                                         1 => 'Em Atividade',
-                                        2 => 'Paralisada', 3 => 'Extinta'
+                                        2 => 'Paralisada',
+                                        3 => 'Extinta'
                                     ),
                                     array('class' => 'select-search-off t-field-select__input select2-container')
                                 ); ?>
@@ -290,7 +298,9 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'regulation',
                                     array(
                                         null => 'Selecione a situação de regulamentação',
-                                        0 => 'Não', 1 => 'Sim', 2 => 'Em tramitação'
+                                        0 => 'Não',
+                                        1 => 'Sim',
+                                        2 => 'Em tramitação'
                                     ),
                                     array('class' => 'select-search-off t-field-select__input select2-container')
                                 ); ?>
@@ -312,8 +322,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <button class="btn btn-icon glyphicons upload upload-logo-button" type="button">
                                     <i></i>Anexar
                                 </button>
-                                <span class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ?
-                                                                        $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)) . '" class="deleteTeachingData" title="Excluir"></a>' : '' ?> </span>
+                                <span
+                                    class="uploaded-logo-name"><?php echo $modelSchoolIdentification->logo_file_name !== null ?
+                                        $modelSchoolIdentification->logo_file_name . '<a href="' . Yii::app()->controller->createUrl('school/removeLogo', array('id' => $modelSchoolIdentification->inep_id)) . '" class="deleteTeachingData" title="Excluir"></a>' : '' ?>
+                                </span>
                                 <?php echo $form->fileField(
                                     $modelSchoolIdentification,
                                     'logo_file_content'
@@ -376,7 +388,8 @@ $form = $this->beginWidget('CActiveForm', array(
                         <h3 class="titulos required">Esfera do Órgão regulador</h3>
                     </div>
                     <div class="row">
-                        <div class="t-field-checkbox-group clear-margin--top" id="SchoolIdentification_regulation_organ">
+                        <div class="t-field-checkbox-group clear-margin--top"
+                            id="SchoolIdentification_regulation_organ">
                             <div class="t-field-checkbox">
                                 <?= $form->checkBox(
                                     $modelSchoolIdentification,
@@ -489,7 +502,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'cep',
                                     array(
                                         'placeholder' => 'Digite o CEP',
-                                        'size' => 8, 'maxlength' => 8,
+                                        'size' => 8,
+                                        'maxlength' => 8,
                                         'class' => 't-field-text__input',
                                         'ajax' => array(
                                             'type' => 'POST',
@@ -521,9 +535,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolIdentification,
                                     'address',
                                     array(
-                                        'size' => 60, 'maxlength' => 100,
+                                        'size' => 60,
+                                        'maxlength' => 100,
                                         'placeholder' => 'Digite o Endereço',
-                                        'class' => 't-field-text__input',  'disabled' => $disabledFields
+                                        'class' => 't-field-text__input',
+                                        'disabled' => $disabledFields
                                     )
                                 ); ?>
                                 <?php echo $form->error(
@@ -577,9 +593,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolIdentification,
                                     'address_number',
                                     array(
-                                        'size' => 10, 'maxlength' => 10,
+                                        'size' => 10,
+                                        'maxlength' => 10,
                                         'class' => 't-field-text__input',
-                                        'placeholder' => 'Digite o Número',  'disabled' => $disabledFields
+                                        'placeholder' => 'Digite o Número',
+                                        'disabled' => $disabledFields
                                     )
                                 ); ?>
                                 <?php echo $form->error(
@@ -602,9 +620,11 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolIdentification,
                                     'address_neighborhood',
                                     array(
-                                        'size' => 50, 'maxlength' => 50,
+                                        'size' => 50,
+                                        'maxlength' => 50,
                                         'placeholder' => 'Digite o Bairro ou Povoado',
-                                        'class' => 't-field-text__input',  'disabled' => $disabledFields
+                                        'class' => 't-field-text__input',
+                                        'disabled' => $disabledFields
                                     )
                                 ); ?>
                                 <?php echo $form->error(
@@ -661,7 +681,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         'size' => 20,
                                         'maxlength' => 20,
                                         'placeholder' => 'Digite o Complemento',
-                                        'class' => 't-field-text__input',  'disabled' => $disabledFields
+                                        'class' => 't-field-text__input',
+                                        'disabled' => $disabledFields
                                     )
                                 ); ?>
                                 <?php echo $form->error(
@@ -728,7 +749,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolIdentification,
                                     'id_difflocation',
                                     array(
-                                        null => 'Selecione a localização', 1 => 'Área de assentamento',
+                                        null => 'Selecione a localização',
+                                        1 => 'Área de assentamento',
                                         2 => 'Terra indígena',
                                         3 => 'Comunidade quilombola',
                                         7 => 'A escola não está em área diferenciada',
@@ -779,7 +801,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'longitude',
                                     array(
                                         'placeholder' => 'Digite a Longitude',
-                                        'class' => 't-field-text__input',  'disabled' => $disabledFields
+                                        'class' => 't-field-text__input',
+                                        'disabled' => $disabledFields
                                     )
                                 ); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'longitude'); ?>
@@ -800,7 +823,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 <?php
                                 $criteria = new CDbCriteria();
                                 $criteria->select = 't.*';
-                                $criteria->join =  'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
+                                $criteria->join = 'LEFT JOIN edcenso_city city ON city.id = t.edcenso_city_fk ';
                                 $criteria->condition = 'city.edcenso_uf_fk = "' . $modelSchoolIdentification->edcenso_uf_fk . '"';
                                 $criteria->order = 'name';
                                 echo $form->dropDownList(
@@ -826,7 +849,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolIdentification,
                                     'offer_or_linked_unity',
                                     array(
-                                        null => 'Selecione a localização', 0 => 'Não',
+                                        null => 'Selecione a localização',
+                                        0 => 'Não',
                                         1 => 'Unidade vinculada a escola de Educação Básica',
                                         2 => 'Unidade ofertante de Ensino Superior'
                                     ),
@@ -850,8 +874,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'class' => 't-field-text__label'
                                 )); ?>
                                 <?php echo $form->textField($modelSchoolIdentification, 'ddd', array(
-                                    'size' => 2, 'maxlength' => 2,
-                                    'class' => 't-field-text__input', 'placeholder' => '(__)'
+                                    'size' => 2,
+                                    'maxlength' => 2,
+                                    'class' => 't-field-text__input',
+                                    'placeholder' => '(__)'
                                 )); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'ddd'); ?>
                             </div>
@@ -862,8 +888,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     'class' => 't-field-text__label'
                                 )); ?>
                                 <?php echo $form->textField($modelSchoolIdentification, 'phone_number', array(
-                                    'size' => 9, 'maxlength' => 9,
-                                    'class' => 't-field-text__input', 'placeholder' => '_____-____'
+                                    'size' => 9,
+                                    'maxlength' => 9,
+                                    'class' => 't-field-text__input',
+                                    'placeholder' => '_____-____'
                                 )); ?>
                                 <?php echo $form->error($modelSchoolIdentification, 'phone_number'); ?>
                             </div>
@@ -881,8 +909,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolIdentification,
                                     'email',
                                     array(
-                                        'size' => 50, 'maxlength' => 50,
-                                        'placeholder' => 'Digite o E-mail', 'class' => 't-field-text__input'
+                                        'size' => 50,
+                                        'maxlength' => 50,
+                                        'placeholder' => 'Digite o E-mail',
+                                        'class' => 't-field-text__input'
                                     )
                                 ); ?>
                                 <?php echo $form->error(
@@ -902,8 +932,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolIdentification,
                                     'other_phone_number',
                                     array(
-                                        'size' => 9, 'maxlength' => 9,
-                                        'placeholder' => '_____-____', 'class' => 't-field-text__input'
+                                        'size' => 9,
+                                        'maxlength' => 9,
+                                        'placeholder' => '_____-____',
+                                        'class' => 't-field-text__input'
                                     )
                                 ); ?>
                                 <?php echo $form->error(
@@ -1033,6 +1065,26 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'dependencies_acessibility_roomspublic'
                                 ); ?>
+                            </div>
+                        </div>
+                        <div class="column clearleft--on-mobile is-two-fifths">
+                            <div class="t-field-text">
+                                <?php echo $form->label(
+                                    $modelSchoolStructure,
+                                    'dependencies_outside_roomspublic',
+                                    array(
+                                        'class' => 't-field-text__label'
+                                    )
+                                ); ?>
+                                <?php echo $form->textField(
+                                    $modelSchoolStructure,
+                                    'dependencies_outside_roomspublic',
+                                    array(
+                                        'placeholder' => 'Digite o Número de salas de leitura',
+                                        'class' => 't-field-text__input'
+                                    )
+                                ); ?>
+                                <?php echo $form->error($modelSchoolStructure, 'dependencies_outside_roomspublic'); ?>
                             </div>
                         </div>
                     </div>
@@ -1406,7 +1458,8 @@ $form = $this->beginWidget('CActiveForm', array(
 
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
-                            <div class="t-field-checkbox-group clear-margin--top" id="SchoolStructure_operation_location">
+                            <div class="t-field-checkbox-group clear-margin--top"
+                                id="SchoolStructure_operation_location">
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
@@ -1595,7 +1648,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         $modelSchoolStructure,
                                         'dependencies_bathroom_workes',
                                         array(
-                                            'value' => 1, 'uncheckValue' => 0
+                                            'value' => 1,
+                                            'uncheckValue' => 0
                                         )
                                     ); ?>
                                     <label class="t-field-checkbox">
@@ -2181,10 +2235,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->label(
-                                                $modelSchoolStructure,
-                                                'space_schoolenviroment',
-                                                array('class' => 'control-label')
-                                            ); ?> -->
+                                        $modelSchoolStructure,
+                                        'space_schoolenviroment',
+                                        array('class' => 'control-label')
+                                    ); ?> -->
                                     <?php echo SchoolStructure::model()->attributeLabels()['space_schoolenviroment']; ?>
                                     <?php echo $form->error(
                                         $modelSchoolStructure,
@@ -2200,10 +2254,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->label(
-                                                $modelSchoolStructure,
-                                                'community_integration',
-                                                array('class' => 'control-label')
-                                            ); ?> -->
+                                        $modelSchoolStructure,
+                                        'community_integration',
+                                        array('class' => 'control-label')
+                                    ); ?> -->
                                     <?php echo SchoolStructure::model()->attributeLabels()['community_integration']; ?>
                                     <?php echo $form->error(
                                         $modelSchoolStructure,
@@ -2574,7 +2628,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelManagerIdentification,
                                     'name',
                                     array(
-                                        'size' => 60, 'maxlength' => 100,
+                                        'size' => 60,
+                                        'maxlength' => 100,
                                         'placeholder' => 'Digite o Nome do Gestor',
                                         'class' => 't-field-text__input',
                                         'id' => 'ManagerIdentification_name'
@@ -2597,7 +2652,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelManagerIdentification,
                                     'cpf',
                                     array(
-                                        'size' => 60, 'maxlength' => 14,
+                                        'size' => 60,
+                                        'maxlength' => 14,
                                         'placeholder' => 'Digite o CPF do Gestor',
                                         'class' => 't-field-text__input',
                                         'id' => 'ManagerIdentification_cpf'
@@ -2678,7 +2734,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelManagerIdentification,
                                     'email',
                                     array(
-                                        'size' => 50, 'maxlength' => 50,
+                                        'size' => 50,
+                                        'maxlength' => 50,
                                         'placeholder' => 'Digite o E-mail do Gestor',
                                         'class' => 't-field-text__input',
                                         'id' => 'ManagerIdentification_email'
@@ -2702,17 +2759,20 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelManagerIdentification,
                                     'nationality',
                                     array(
-                                        null => "Selecione a nacionalidade", "1" =>
-                                        "Brasileira",
+                                        null => "Selecione a nacionalidade",
+                                        "1" =>
+                                            "Brasileira",
                                         "2" => "Brasileira: Nascido no exterior ou Naturalizado",
                                         "3" => "Estrangeira"
                                     ),
                                     array('class' => 'select-search-off t-field-select__input select2-container'),
-                                    array('ajax' => array(
-                                        'type' => 'POST',
-                                        'url' => CController::createUrl('student/getnations'),
-                                        'update' => '#ManagerIdentification_edcenso_nation_fk'
-                                    ))
+                                    array(
+                                        'ajax' => array(
+                                            'type' => 'POST',
+                                            'url' => CController::createUrl('student/getnations'),
+                                            'update' => '#ManagerIdentification_edcenso_nation_fk'
+                                        )
+                                    )
                                 );
                                 ?>
                                 <?php echo $form->error($modelManagerIdentification, 'nationality'); ?>
@@ -2822,7 +2882,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         null => "Selecione o vínculo",
                                         "1" => "Concursado/Efetivo",
                                         "2" => "Temporário",
-                                        "3" => "Terceirizado", "4" => "CLT"
+                                        "3" => "Terceirizado",
+                                        "4" => "CLT"
                                     ),
                                     array('class' => 'select-search-off t-field-select__input select2-container')
                                 ); ?>
@@ -2967,7 +3028,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         $modelManagerIdentification,
                                         'filiation_1_rg',
                                         array(
-                                            'size' => 60, 'maxlength' => 45,
+                                            'size' => 60,
+                                            'maxlength' => 45,
                                             "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
                                             'placeholder' => 'Digite o RG da filiação 1'
                                         )
@@ -2989,7 +3051,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         $modelManagerIdentification,
                                         'filiation_2_rg',
                                         array(
-                                            'size' => 60, 'maxlength' => 45,
+                                            'size' => 60,
+                                            'maxlength' => 45,
                                             "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
                                             'placeholder' => 'Digite o RG da filiação 2'
                                         )
@@ -3100,7 +3163,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         $modelManagerIdentification,
                                         'filiation_2_job',
                                         array(
-                                            'size' => 60, 'maxlength' => 100,
+                                            'size' => 60,
+                                            'maxlength' => 100,
                                             "class" => "js-disabled-finputs js-finput-clear t-field-text__input",
                                             'placeholder' => 'Digite a Profissão da filiação 2'
                                         )
@@ -3151,7 +3215,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'equipments_dvd',
                                     array(
-                                        'size' => 4, 'maxlength' => 4,
+                                        'size' => 4,
+                                        'maxlength' => 4,
                                         'class' => 'equipments_input t-field-text__input',
                                         'placeholder' => 'Digite o Número de DVDs'
                                     )
@@ -3173,7 +3238,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'equipments_vcr',
                                     array(
-                                        'size' => 4, 'maxlength' => 4,
+                                        'size' => 4,
+                                        'maxlength' => 4,
                                         'class' => 'equipments_input t-field-text__input',
                                         'placeholder' => 'Digite o Número de VCRs'
                                     )
@@ -3197,7 +3263,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'equipments_stereo_system',
                                     array(
-                                        'size' => 4, 'maxlength' => 4,
+                                        'size' => 4,
+                                        'maxlength' => 4,
                                         'class' => 'equipments_input t-field-text__input',
                                         'placeholder' => 'Digite o Número de Aparelhos de Som'
                                     )
@@ -3219,7 +3286,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'equipments_data_show',
                                     array(
-                                        'size' => 4, 'maxlength' => 4,
+                                        'size' => 4,
+                                        'maxlength' => 4,
                                         'class' => 'equipments_input t-field-text__input',
                                         'placeholder' => 'Digite o Número de DataShows'
                                     )
@@ -3243,7 +3311,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'equipments_tv',
                                     array(
-                                        'size' => 4, 'maxlength' => 4,
+                                        'size' => 4,
+                                        'maxlength' => 4,
                                         'class' => 'equipments_input t-field-text__input',
                                         'placeholder' => 'Digite o Número de Tvs'
                                     )
@@ -3265,7 +3334,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'equipments_fax',
                                     array(
-                                        'size' => 4, 'maxlength' => 4,
+                                        'size' => 4,
+                                        'maxlength' => 4,
                                         'class' => 'equipments_input t-field-text__input',
                                         'placeholder' => 'Digite o Número de Faxs'
                                     )
@@ -3337,7 +3407,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'equipments_overhead_projector',
                                     array(
-                                        'size' => 4, 'maxlength' => 4,
+                                        'size' => 4,
+                                        'maxlength' => 4,
                                         'class' => 'equipments_input t-field-text__input',
                                         'placeholder' => 'Digite o Número de Retroprojetores'
                                     )
@@ -3359,7 +3430,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'administrative_computers_count',
                                     array(
-                                        'size' => 4, 'maxlength' => 4,
+                                        'size' => 4,
+                                        'maxlength' => 4,
                                         'class' => 'equipments_input t-field-text__input',
                                         'placeholder' => 'Digite o Número de Computadores de Uso Administrativo'
                                     )
@@ -3380,7 +3452,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'equipments_qtd_desktop',
                                     array(
-                                        'size' => 4, 'maxlength' => 4,
+                                        'size' => 4,
+                                        'maxlength' => 4,
                                         'class' => 'equipments_input t-field-text__input',
                                         'placeholder' => 'Digite o Número de Computadores de Mesa (Desktop)'
                                     )
@@ -3402,7 +3475,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'student_computers_count',
                                     array(
-                                        'size' => 4, 'maxlength' => 4,
+                                        'size' => 4,
+                                        'maxlength' => 4,
                                         'class' => 'equipments_input t-field-text__input',
                                         'placeholder' => 'Digite o Número de Computadores de Uso Infantil'
                                     )
@@ -3426,7 +3500,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                     $modelSchoolStructure,
                                     'equipments_qtd_tabletstudent',
                                     array(
-                                        'size' => 4, 'maxlength' => 4,
+                                        'size' => 4,
+                                        'maxlength' => 4,
                                         'class' => 'equipments_input t-field-text__input',
                                         'placeholder' => 'Digite o Número de Tablets de Uso Estudantil'
                                     )
@@ -3614,7 +3689,9 @@ $form = $this->beginWidget('CActiveForm', array(
                     <div class="row">
                         <div class="column is-two-fifths clearleft">
                             <div class="t-field-checkbox-group equipments-material-container">
-                                <label class="t-field-checkbox-group__label--required"><?php echo Yii::t('default', 'Material, sociocultural and/or pedagogical instruments in use at school for the development of teaching and learning activities'); ?> </label>
+                                <label
+                                    class="t-field-checkbox-group__label--required"><?php echo Yii::t('default', 'Material, sociocultural and/or pedagogical instruments in use at school for the development of teaching and learning activities'); ?>
+                                </label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
@@ -3789,7 +3866,8 @@ $form = $this->beginWidget('CActiveForm', array(
                         </div>
                         <div class="column clearleft--on-mobile is-two-fifths">
                             <div class="t-field-checkbox-group">
-                                <label class="t-field-checkbox-group__label"><?php echo Yii::t('default', 'Internet Access Connected Devices'); ?></label>
+                                <label
+                                    class="t-field-checkbox-group__label"><?php echo Yii::t('default', 'Internet Access Connected Devices'); ?></label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
@@ -3987,10 +4065,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->label(
-                                                $modelSchoolStructure,
-                                                'native_education',
-                                                array('class' => 'control-label')
-                                            ); ?> -->
+                                        $modelSchoolStructure,
+                                        'native_education',
+                                        array('class' => 'control-label')
+                                    ); ?> -->
                                     <?php echo SchoolStructure::model()->attributeLabels()['native_education']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'native_education'); ?>
                                 </label>
@@ -4107,10 +4185,10 @@ $form = $this->beginWidget('CActiveForm', array(
                                 ); ?>
                                 <label class="t-field-checkbox__label">
                                     <!-- <?php echo $form->label(
-                                                $modelSchoolStructure,
-                                                'brazil_literate',
-                                                array('class' => 'control-label')
-                                            ); ?> -->
+                                        $modelSchoolStructure,
+                                        'brazil_literate',
+                                        array('class' => 'control-label')
+                                    ); ?> -->
                                     <?php echo SchoolStructure::model()->attributeLabels()['brazil_literate']; ?>
                                     <?php echo $form->error($modelSchoolStructure, 'brazil_literate'); ?>
                                 </label>
@@ -4185,7 +4263,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         $modelSchoolStructure,
                                         'modalities_professional',
                                         array(
-                                            'value' => 1, 'uncheckValue' => 0
+                                            'value' => 1,
+                                            'uncheckValue' => 0
                                         )
                                     ); ?>
                                     <label class="t-field-checkbox">
@@ -4202,7 +4281,8 @@ $form = $this->beginWidget('CActiveForm', array(
                                         $modelSchoolStructure,
                                         'org_teaching_series_year',
                                         array(
-                                            'value' => 1, 'uncheckValue' => 0
+                                            'value' => 1,
+                                            'uncheckValue' => 0
                                         )
                                     ); ?>
                                     <label class="t-field-checkbox">
@@ -4262,7 +4342,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="t-field-checkbox-group">
-                                <label class="t-field-checkbox-group__label"><?php echo Yii::t('default', 'Selection Exam'); ?></label>
+                                <label
+                                    class="t-field-checkbox-group__label"><?php echo Yii::t('default', 'Selection Exam'); ?></label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
@@ -4276,7 +4357,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
 
                             <div class="t-field-checkbox-group booking-container">
-                                <label class="t-field-checkbox-group__label"><?php echo Yii::t('default', 'Reservation by Quota System'); ?></label>
+                                <label
+                                    class="t-field-checkbox-group__label"><?php echo Yii::t('default', 'Reservation by Quota System'); ?></label>
                                 <div class="t-field-checkbox">
                                     <?php echo $form->checkBox(
                                         $modelSchoolStructure,
@@ -4352,11 +4434,12 @@ $form = $this->beginWidget('CActiveForm', array(
                         <row class="reports">
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
-                                                                                                        'school/reportsMonthlyTransaction',
-                                                                                                        array(
-                                                                                                            'id' => $modelSchoolIdentification->inep_id, 'type' => 1
-                                                                                                        )
-                                                                                                    ); ?>">
+                                    'school/reportsMonthlyTransaction',
+                                    array(
+                                        'id' => $modelSchoolIdentification->inep_id,
+                                        'type' => 1
+                                    )
+                                ); ?>">
                                     <span class="t-icon-printer"></span>
 
                                     Movimentação Mensal Anos Iniciais
@@ -4364,9 +4447,9 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
-                                                                                                        'school/reportsMonthlyTransaction',
-                                                                                                        array('id' => $modelSchoolIdentification->inep_id, 'type' => 2)
-                                                                                                    ); ?>">
+                                    'school/reportsMonthlyTransaction',
+                                    array('id' => $modelSchoolIdentification->inep_id, 'type' => 2)
+                                ); ?>">
 
                                     <span class="t-icon-printer"></span>
                                     Movimentação Mensal Anos Finais
@@ -4374,34 +4457,36 @@ $form = $this->beginWidget('CActiveForm', array(
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
-                                                                                                        'school/reportsMonthlyTransaction',
-                                                                                                        array('id' => $modelSchoolIdentification->inep_id, 'type' => 3)
-                                                                                                    ); ?>">
+                                    'school/reportsMonthlyTransaction',
+                                    array('id' => $modelSchoolIdentification->inep_id, 'type' => 3)
+                                ); ?>">
                                     <span class="t-icon-printer"></span>
                                     Movimentação Mensal Educação Infantil
                                 </a>
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl(
-                                                                                                        'school/reports',
-                                                                                                        array('id' => $modelSchoolIdentification->inep_id)
-                                                                                                    ); ?>">
+                                    'school/reports',
+                                    array('id' => $modelSchoolIdentification->inep_id)
+                                ); ?>">
                                     <span class="t-icon-printer"></span>
                                     Resumo Mensal de Frequência
                                 </a>
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/record', array(
-                                                                                                        'id' => $modelSchoolIdentification->inep_id, 'type' => 1
-                                                                                                    )); ?>">
+                                    'id' => $modelSchoolIdentification->inep_id,
+                                    'type' => 1
+                                )); ?>">
                                     <span class="t-icon-printer"></span>
                                     Histórico Ensino Regular
                                 </a>
                             </div>
                             <div class="reports_cards">
                                 <a class="t-button-secondary" rel="noopener" target="_blank" href="<?= @Yii::app()->createUrl('school/record', array(
-                                                                                                        'id' => $modelSchoolIdentification->inep_id, 'type' => 2
-                                                                                                    )); ?>">
+                                    'id' => $modelSchoolIdentification->inep_id,
+                                    'type' => 2
+                                )); ?>">
                                     <span class="t-icon-printer"></span>
                                     Histórico Ensino EJA
                                 </a>
