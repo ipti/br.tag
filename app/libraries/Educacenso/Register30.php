@@ -287,16 +287,17 @@ class Register30
         return $register;
     }
 
-    public static function exportStudentDisorders($student, $register, $aliases) {
+    public static function exportStudentDisorders($student, $register, $aliases)
+    {
         foreach ($student as $key => $attr) {
             $alias_index = array_search($key, array_column($aliases, 'attr'));
             $alias = $alias_index !== false ? $aliases[$alias_index] : null;
             if (isset($alias["corder"])) {
-                  $register[$alias["corder"]] = $attr;
+                $register[$alias["corder"]] = $attr;
             }
-
-            return $register;
         }
+
+        return $register;
     }
 
     private static function exportInstructorIdentification($instructor, $register, $school, $resetEmail, $aliases)
@@ -426,9 +427,11 @@ class Register30
 
         $hasCourse1 = false;
         $hasCourse2 = false;
-        if (empty($instructor['high_education_course_code_1_fk'])
+        if (
+            empty($instructor['high_education_course_code_1_fk'])
             || (isset($instructor['high_education_course_code_1_fk'])
-                && (empty($instructor['high_education_situation_1']) || $instructor['high_education_situation_1'] == '2' || empty($instructor['high_education_final_year_1'])))) {
+                && (empty($instructor['high_education_situation_1']) || $instructor['high_education_situation_1'] == '2' || empty($instructor['high_education_final_year_1'])))
+        ) {
             $instructor['scholarity'] = 7;
         } else {
             $hasCourse1 = true;
@@ -437,10 +440,12 @@ class Register30
             }
         }
         if ($hasCourse1) {
-            if (isset($instructor['high_education_course_code_2_fk'])
+            if (
+                isset($instructor['high_education_course_code_2_fk'])
                 && $instructor['high_education_course_code_2_fk'] !== $instructor['high_education_course_code_1_fk']
                 && $instructor['high_education_situation_2'] == '1'
-                && !empty($instructor['high_education_final_year_2'])) {
+                && !empty($instructor['high_education_final_year_2'])
+            ) {
                 $hasCourse2 = true;
                 if (empty($instructor['high_education_institution_code_2_fk'])) {
                     $instructor['high_education_institution_code_2_fk'] = '9999999';
@@ -455,11 +460,13 @@ class Register30
             }
         }
         if ($hasCourse2) {
-            if (isset($instructor['high_education_course_code_3_fk'])
+            if (
+                isset($instructor['high_education_course_code_3_fk'])
                 && $instructor['high_education_course_code_3_fk'] !== $instructor['high_education_course_code_1_fk']
                 && $instructor['high_education_course_code_3_fk'] !== $instructor['high_education_course_code_2_fk']
                 && $instructor['high_education_situation_3'] == '1'
-                && !empty($instructor['high_education_final_year_3'])) {
+                && !empty($instructor['high_education_final_year_3'])
+            ) {
                 if (empty($instructor['high_education_institution_code_3_fk'])) {
                     $instructor['high_education_institution_code_3_fk'] = '9999999';
                 }
@@ -550,7 +557,7 @@ class Register30
         $managerIsAnInstructor = false;
         $managerIsAnInstructorId = 'II90999';
         foreach ($instructors as $instructor) {
-            $id = (String)'II' . $instructor['identification']['id'];
+            $id = (String) 'II' . $instructor['identification']['id'];
             $instructor['identification']['id'] = $id;
             $instructor['documents']['id'] = $id;
             $instructor['variable']['id'] = $id;
@@ -585,7 +592,9 @@ class Register30
                 $managerIdentification['filiation_2'] = '';
             }
 
-            array_push($registers, '30|' . Yii::app()->user->school . '|' . $managerIsAnInstructorId . '||' // 1 a 4
+            array_push(
+                $registers,
+                '30|' . Yii::app()->user->school . '|' . $managerIsAnInstructorId . '||' // 1 a 4
                 . $managerIdentification["cpf"] . '|' . $managerIdentification["name"] . '|' . $managerIdentification["birthday_date"] . '|' . $managerIdentification["filiation"] . '|' // 5 a 8
                 . $managerIdentification["filiation_1"] . '|' . $managerIdentification["filiation_2"] . '|' . $managerIdentification["sex"] . '|' . $managerIdentification["color_race"] . '|' // 9 a 12
                 . $managerIdentification["nationality"] . '|' . $managerIdentification["edcenso_nation_fk"] . '|' . $managerIdentification["edcenso_city_fk"] . '|' // 13 a 15
