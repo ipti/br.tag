@@ -394,6 +394,24 @@ $isModel = isset($modelInstructorIdentification->id);
                                     <?php echo $form->error($modelInstructorIdentification, 'filiation_2'); ?>
                                 </div>
                             </div>
+                            <div class="control-group js-is-indigenous hide">
+                                    <div class="controls">
+                                        <?php echo $form->label(
+                                            $modelInstructorIdentification,
+                                            'id_indigenous_people',
+                                            array('class' => 't-field-select__label--required')
+                                        ); ?>
+                                    </div>
+                                    <div class="controls">
+                                        <?php echo $form->dropDownList(
+                                            $modelInstructorIdentification,
+                                            'id_indigenous_people',
+                                            CHtml::listData(EdcensoIndigenousPeople::model()->findAll(array('order' => 'id_indigenous_people')), 'id_indigenous_people', 'name'),
+                                                array("class" => "select-search-on control-input", "prompt"=> "Selecione um povo indígena")
+                                            )?>
+                                    <?php echo $form->error($modelInstructorIdentification, 'id_indigenous_people'); ?>
+                                </div>
+                            </div>
                         </div>
 
                         <div class=" span6">
@@ -497,7 +515,6 @@ $isModel = isset($modelInstructorIdentification->id);
                                     <?php echo $form->error($modelInstructorIdentification, 'edcenso_city_fk'); ?>
                                 </div>
                             </div>
-
 
                             <div class="control-group">
                                 <div class="controls">

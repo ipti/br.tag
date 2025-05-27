@@ -66,6 +66,7 @@
  * @property integer $resource_proof_language
  * @property integer $resource_cd_audio
  * @property integer $resource_video_libras
+ * @property integer $resource_additional_time
  * @property integer $resource_none
  * @property integer $send_year
  * @property string $last_change
@@ -82,6 +83,7 @@
  * @property integer $no_documents_desc
  * @property string $fkid
  * @property integer $sedsp_sync
+ * @property string $id_indigenous_people
  *
  * The followings are the available model relations:
  * @property StudentEnrollment[] $studentEnrollments
@@ -165,7 +167,7 @@ class StudentIdentification extends AltActiveRecord
             array('last_change, civil_name', 'safe'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, inep_id, id, name, civil_name, birthday, sex, color_race, filiation, id_email, scholarity, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, responsable_telephone, fkid, no_documents_desc', 'safe', 'on' => 'search'),
+            array('register_type, id_indigenous_people, school_inep_id_fk, inep_id, id, name, civil_name, birthday, sex, color_race, filiation, id_email, scholarity, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, deficiency_type_autism, deficiency_type_aspenger_syndrome, deficiency_type_rett_syndrome, deficiency_type_childhood_disintegrative_disorder, deficiency_type_gifted, resource_aid_lector, resource_aid_transcription, resource_interpreter_guide, resource_interpreter_libras, resource_lip_reading, resource_zoomed_test_16, resource_zoomed_test_20, resource_zoomed_test_24, resource_zoomed_test_18, resource_braille_test, resource_proof_language, resource_cd_audio, resource_video_libras, resource_none, send_year, last_change, responsable, responsable_name, responsable_rg, responsable_cpf, responsable_scholarity, responsable_job, bf_participator, responsable_telephone, fkid, no_documents_desc', 'safe', 'on' => 'search'),
         );
     }
 
@@ -178,6 +180,7 @@ class StudentIdentification extends AltActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'edcensoNationFk' => array(self::BELONGS_TO, 'EdcensoNation', 'edcenso_nation_fk'),
+            'studentDisorders' => array(self::HAS_MANY, 'StudentDisorder', 'student_fk'),
             'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
             'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
@@ -254,7 +257,8 @@ class StudentIdentification extends AltActiveRecord
             'resource_braille_test' => Yii::t('default', 'Resource Braille Test'),
             'resource_proof_language' => Yii::t('default', 'Resource Proof Language'),
             'resource_cd_audio' => Yii::t('default', 'Resource Cd Audio'),
-            'resource_video_libras' => Yii::t('default', 'Resource Video Libras'),
+            'resource_video_libras' => Yii::t('default', 'Resource Additional Time'),
+            'resource_additional_time' =>  Yii::t('default', 'Resource Video Libras'),
             'resource_none' => Yii::t('default', 'Resource None'),
             'send_year' => Yii::t('default', 'Pós Censo'),
             'last_change' => Yii::t('default', 'Last Change'),
@@ -276,7 +280,8 @@ class StudentIdentification extends AltActiveRecord
             'filiation_2_birthday' => Yii::t('default', 'Father Birthday'),
             'filiation_2_scholarity' => Yii::t('default', 'Father Scholarity'),
             'filiation_2_job' => Yii::t('default', 'Father Job'),
-            'no_document_desc' => Yii::t('default', 'No Documents Desc')
+            'no_document_desc' => Yii::t('default', 'No Documents Desc'),
+            'id_indigenous_people' => Yii::t('default', 'Id Indigenous People')
         );
     }
 

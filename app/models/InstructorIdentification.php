@@ -36,6 +36,7 @@
  * @property boolean $deficiency_type_gifted
  * @property integer $hash
  * @property integer $users_fk
+ * @property string $id_indigenous_people
  *
  * The followings are the available model relations:
  * @property ClassBoard[] $classBoards
@@ -92,7 +93,7 @@ class InstructorIdentification extends AltActiveRecord
             array('hash', 'length', 'max'=>40),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, inep_id, id, name, civil_name, email, nis, birthday_date, sex, color_race, filiation, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, hash, users_fk', 'safe', 'on'=>'search'),
+            array('register_type, id_indigenous_people,school_inep_id_fk, inep_id, id, name, civil_name, email, nis, birthday_date, sex, color_race, filiation, filiation_1, filiation_2, nationality, edcenso_nation_fk, edcenso_uf_fk, edcenso_city_fk, deficiency, deficiency_type_blindness, deficiency_type_low_vision, deficiency_type_monocular_vision, deficiency_type_deafness, deficiency_type_disability_hearing, deficiency_type_deafblindness, deficiency_type_phisical_disability, deficiency_type_intelectual_disability, deficiency_type_multiple_disabilities, hash, users_fk', 'safe', 'on'=>'search'),
         );
     }
 
@@ -152,6 +153,7 @@ class InstructorIdentification extends AltActiveRecord
             'deficiency_type_autism' => Yii::t('default', 'Deficiency Type Autism'),
             'deficiency_type_gifted' => Yii::t('default', 'Deficiency Type Gifted'),
             'users_fk' => 'Users Fk',
+            'id_indigenous_people' => Yii::t('default', 'Id Indigenous People')
         );
     }
 
