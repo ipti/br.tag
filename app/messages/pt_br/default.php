@@ -442,6 +442,7 @@ return array(
     'AEE' => 'Atendimento Educacional Especializado (AEE)',
     "Ignore On Sagres" => 'Excluir da exportação do SAGRES',
     'Period' => 'Periodo',
+    'Is Special Education' => 'Turma de Educação Especial (classe especial)',
 
     //Student Identification
     'Nis' => 'Nº de Identificação Social (INEP)',

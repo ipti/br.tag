@@ -42,11 +42,11 @@ UPDATE edcenso_stage_vs_modality
 UPDATE edcenso_stage_vs_modality
 	SET aggregated_stage=304
 	WHERE id IN (25,26,27,28,29);
-	
+
 UPDATE edcenso_stage_vs_modality
 	SET aggregated_stage=305
 	WHERE id IN (35,36,37,38);
-	
+
 UPDATE edcenso_stage_vs_modality
 	SET aggregated_stage=306
 	WHERE id IN (69,70,72,71,74,73,67);
@@ -55,3 +55,14 @@ UPDATE edcenso_stage_vs_modality
 UPDATE edcenso_stage_vs_modality
 	SET aggregated_stage=308
 	WHERE id IN (39,40,64,68);
+
+
+ALTER TABLE classroom ADD is_special_education TINYINT DEFAULT 0 NOT NULL;
+
+
+UPDATE edcenso_alias
+	SET attr='is_special_education'
+	WHERE register=20
+		AND corder=24
+	    AND `year`=2025;
+

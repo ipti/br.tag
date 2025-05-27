@@ -464,6 +464,22 @@ $form = $this->beginWidget(
 
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <div class="t-field-checkbox" id="some">
+                                    <?= $form->checkBox(
+                                        $modelClassroom,
+                                        'is_special_education',
+                                        array('class' => 't-field-checkbox__input', 'id' => 'Classroom[is_special_education]')
+                                    ); ?>
+                                    <?= $form->error($modelClassroom, 'is_special_education'); ?>
+                                    <label for="Atividade Complementar">
+                                        <?= yii::t("default", Classroom::model()->attributeLabels()['is_special_education']); ?>
+                                    </label>
+
+                                </div>
+                            </div>
+
+
                             <div class="control-group" id="complementary_activity">
                                 <div class="">
                                     <?= $form->label($modelClassroom, 'complementary_activity_type_1', array('class' => 't-field-text__label--required')); ?>

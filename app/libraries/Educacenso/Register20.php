@@ -4,6 +4,7 @@ class Register20
 {
 
     // 2024: 32 ~> 2025: 26
+    private const REGISTER_ATTR_ETAPA_AGREGADA = 25;
     private const REGISTER_ATTR_ETAPA = 26;
     // 2024: 34 ~> 2025: 28
     private const REGISTER_ATTR_SERIE = 28;
@@ -252,7 +253,7 @@ class Register20
                     //     }
                     // }
 
-                    if ($edcensoAlias->corder === 25) {
+                    if ($edcensoAlias->corder === self::REGISTER_ATTR_ETAPA_AGREGADA) {
                         $register[$edcensoAlias->corder] = $edcensoStageVsModality->aggregated_stage;
                     }
 
