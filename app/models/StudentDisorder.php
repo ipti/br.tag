@@ -14,6 +14,14 @@
  * @property integer $tod
  * @property integer $tcne
  * @property string $others
+ * @property string $created_at
+ * @property string $updated_at
+ * @property integer $disorders_impact_learning
+ * @property integer $dyscalculia
+ * @property integer $dysgraphia
+ * @property integer $dyslalia
+ * @property integer $dyslexia
+ * @property integer $tpac
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -28,7 +36,6 @@ class StudentDisorder extends TagModel
 		return 'student_disorder';
 	}
 
-
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -38,11 +45,12 @@ class StudentDisorder extends TagModel
 		// will receive user inputs.
 		return array(
 			array('student_fk', 'required'),
-			array('student_fk, tdah, depressao, tab, toc, tag, tod, tcne', 'numerical', 'integerOnly'=>true),
+			array('student_fk, tdah, depressao, tab, toc, tag, tod, tcne, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac', 'numerical', 'integerOnly'=>true),
 			array('others', 'length', 'max'=>200),
+			array('created_at, updated_at', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, student_fk, tdah, depressao, tab, toc, tag, tod, tcne, others', 'safe', 'on'=>'search'),
+			array('id, student_fk, tdah, depressao, tab, toc, tag, tod, tcne, others, created_at, updated_at, disorders_impact_learning, dyscalculia, dysgraphia, dyslalia, dyslexia, tpac', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,7 +82,16 @@ class StudentDisorder extends TagModel
 			'tod' => 'Tod',
 			'tcne' => 'Tcne',
 			'others' => 'Others',
+			'created_at' => 'Created At',
+			'updated_at' => 'Updated At',
+			'disorders_impact_learning' => 'Transtorno(s) que impacta(m) o desenvolvimento da aprendizagem',
+			'dyscalculia' => 'Discalculia',
+			'dysgraphia' => 'Disgrafia',
+			'dyslalia' => 'Dislalia',
+			'dyslexia' => 'Dislexia',
+			'tpac' => 'Tpac',
 		);
+
 	}
 
 	/**
@@ -105,6 +122,14 @@ class StudentDisorder extends TagModel
 		$criteria->compare('tod',$this->tod);
 		$criteria->compare('tcne',$this->tcne);
 		$criteria->compare('others',$this->others,true);
+		$criteria->compare('created_at',$this->created_at,true);
+		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('disorders_impact_learning',$this->disorders_impact_learning);
+		$criteria->compare('dyscalculia',$this->dyscalculia);
+		$criteria->compare('dysgraphia',$this->dysgraphia);
+		$criteria->compare('dyslalia',$this->dyslalia);
+		$criteria->compare('dyslexia',$this->dyslexia);
+		$criteria->compare('tpac',$this->tpac);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -387,26 +387,29 @@ class ClassroomValidation extends Register
         }
         return array('status' => true, 'erro' => '');
     }
-
     //campo 38
     function isValidStage($stage, $complementaryActivity, $mediation, $modality, $diffLocation)
     {
+        $validScolarshipStages = [1,2,3,14,15,16,17,18,19,20,21,41,22,23,56,25,26,27,28,29,35,36,37,38,69,70,72,71,74,73,67,39,40,64,68];
+
         if ($stage != null) {
-            if (in_array($stage, [43, 44, 51, 65, 45, 62, 60, 47, 46, 58, 48, 63, 61])) {
+            if (in_array($stage, [30, 31, 32, 33, 34, 43, 44, 51, 65, 45, 62, 60, 47, 46, 58, 48, 63, 61, 67, 68, 73, 74])) {
                 return array('status' => false, 'erro' => 'A etapa de ensino selecionada não faz mais parte do censo. Modifique-a.');
             }
-            if ($complementaryActivity == 1 && in_array($stage, array(1, 2, 3, 39, 40, 56, 64, 67, 68, 69, 70, 71, 72, 73, 74))) {
+            if ($complementaryActivity == 1 && in_array($stage, array(1, 2, 3, 39, 40, 56, 64, 69, 70, 71, 72))) {
                 return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando o tipo de atendimento "Atividade Complementar" for selecionado.');
             }
-            if ($modality == 1 && !in_array($stage, array(1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 35, 36, 37, 38, 41, 56))) {
-                return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Ensino Regular" for selecionada.');
-            }
-            if ($modality == 2 && !in_array($stage, array(1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 41, 56, 39, 40, 69, 70, 71, 72, 73, 74, 64, 67, 68))) {
-                return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação Especial - Modalidade Substitutiva" for selecionada.');
-            }
-            if ($modality == 3 && !in_array($stage, array(69, 70, 71, 72))) {
-                return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação de Jovens e Adultos (EJA)" for selecionada.');
-            }
+
+            // if ($modality == 1 && !in_array($stage, array(1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 35, 36, 37, 38, 41, 56))) {
+            //     return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Ensino Regular" for selecionada.');
+            // }
+            // if ($modality == 2 && !in_array($stage, array(1, 2, 3, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 41, 56, 39, 40, 69, 70, 71, 72, 73, 74, 64, 67, 68))) {
+            //     return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação Especial - Modalidade Substitutiva" for selecionada.');
+            // }
+            // if ($modality == 3 && !in_array($stage, array(69, 70, 71, 72))) {
+            //     return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a modalidade "Educação de Jovens e Adultos (EJA)" for selecionada.');
+            // }
+
             if ($mediation == 2 && !in_array($stage, array(69, 70, 71, 72))) {
                 return array('status' => false, 'erro' => 'Nao pode ser preenchido com essa etapa quando a mediação didático-pedagócica "Semipresencial" for selecionada.');
             }
@@ -498,9 +501,9 @@ class ClassroomValidation extends Register
 
     public function isValidAttendanceType($schooling, $complementaryActivity, $aee)
     {
-        if ($schooling == null || $complementaryActivity == null || $aee == null) {
+        if ($schooling === null || $complementaryActivity === null || $aee === null) {
             return array('status' => false, 'erro' => 'Atualize a turma.');
-        } else if ($schooling == '0' && $complementaryActivity == "0" && $aee == "0") {
+        } else if ($schooling === '0' && $complementaryActivity === "0" && $aee === "0") {
             return array('status' => false, 'erro' => 'Selecione ao menos uma opção em "Tipo de Atendimento".');
         }
         return array('status' => true, 'erro' => '');
@@ -508,7 +511,7 @@ class ClassroomValidation extends Register
 
     public function isValidDiffLocation($pedagogicalMediationType, $diffLocation)
     {
-        if ($pedagogicalMediationType == "1" && ($diffLocation == null || $diffLocation == "")) {
+        if ($pedagogicalMediationType === "1" && ($diffLocation === null || $diffLocation === "")) {
             return array('status' => false, 'erro' => 'Quando o tipo de mediação didático-pedagógica for presencial, o campo se torna obrigatório');
         }
         return array('status' => true, 'erro' => '');
@@ -516,7 +519,7 @@ class ClassroomValidation extends Register
 
     public function isValidRoleForInstructor($instructorsTeachingData, $complementaryActivity)
     {
-        if ($complementaryActivity == null || $complementaryActivity === "0") {
+        if ($complementaryActivity === null || $complementaryActivity === "0") {
             foreach ($instructorsTeachingData as $instructorTeachingData) {
                 if (!empty($instructorTeachingData->teachingMatrixes) && $instructorTeachingData->role === "3") {
                     return array('status' => false, 'erro' => 'O cargo de um professor não pode ser "Monitor" quando o campo da turma "Tipo de Atendimento - Atividade Complementar" não for selecionado.');
