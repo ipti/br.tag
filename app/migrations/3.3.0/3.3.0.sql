@@ -391,8 +391,6 @@ INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (251,'Tr
 INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (252,'Trumái')
 INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (253,'Tukano')
 
-
-
 ALTER TABLE student_disorder
   ADD COLUMN disorders_impact_learning TINYINT(1) DEFAULT 0,
   ADD COLUMN dyscalculia TINYINT(1) DEFAULT 0,
@@ -400,6 +398,10 @@ ALTER TABLE student_disorder
   ADD COLUMN dyslalia TINYINT(1) DEFAULT 0,
   ADD COLUMN dyslexia TINYINT(1) DEFAULT 0,
   ADD COLUMN tpac TINYINT(1) DEFAULT 0;
+
+UPDATE edcenso_alias
+	SET attr = NULL
+	WHERE register=302 AND corder in (29,30,31,32,33,34,35,47,48,57)  AND `year`= 2025;
 
 ALTER TABLE student_identification
 ADD COLUMN resource_additional_time TINYINT DEFAULT 0;
@@ -415,7 +417,6 @@ WHERE register = 301 and year = 2025 and cdesc = "Tempo adicional";
 UPDATE edcenso_alias
 SET attr = 'disorders_impact_learning'
 WHERE register = 301 and year = 2025 and cdesc = "Pessoa física com transtorno(s) que impacta(m) o desenvolvimento da aprendizagem";
-
 
 UPDATE edcenso_alias
 SET attr = 'dyscalculia'

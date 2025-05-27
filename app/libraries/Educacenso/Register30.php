@@ -292,9 +292,15 @@ class Register30
         foreach ($student as $key => $attr) {
             $alias_index = array_search($key, array_column($aliases, 'attr'));
             $alias = $alias_index !== false ? $aliases[$alias_index] : null;
-            if (isset($alias["corder"])) {
+
+            if (isset($alias["corder"])  &&  $student['disorders_impact_learning'] != 0) {
                 $register[$alias["corder"]] = $attr;
             }
+
+            if($student['disorders_impact_learning'] != 0) {
+                $register[$alias["corder"]] = '';
+            }
+
         }
 
         return $register;
