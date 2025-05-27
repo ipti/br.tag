@@ -84,8 +84,8 @@ class studentIdentificationValidation extends Register
         if ($hasDeficiency == 1) {
             $atLeastOneDeficiency = $this->atLeastOne($deficiencies);
             $atLeastOneResource = $this->atLeastOne($resources);
-            $atLeastOneResource = $this->atLeastOne($disorder);
-            if ($atLeastOneDeficiency["status"] && $atLeastOneResource["status"]) {
+            $atLeastOneDisorder = $this->atLeastOne($disorder);
+            if (($atLeastOneDeficiency["status"] || $atLeastOneDisorder["status"]) && $atLeastOneResource["status"]) {
                 if ($resources[0] == 1 && ($deficiencies[0] != 1 && $deficiencies[1] != 1 && $deficiencies[4] != 1 && $deficiencies[5] != 1 && $deficiencies[6] != 1 && $deficiencies[8] != 1)) {
                     return array("status" => false, "erro" => "Auxílio ledor não pode ser selecionado quando nenhum dos campos Cegueira, Baixa visão, Surdocegueira, Deficiência Física, Deficiência Intelectual e Autismo for selecionado.");
                 } else if ($resources[0] == 1 && $deficiencies[2] == 1) {
@@ -135,7 +135,7 @@ class studentIdentificationValidation extends Register
 
                 }
             } else {
-                return array("status" => false, "erro" => "Quando for selecionado um tipo de deficiência (exceto superdotação), é preciso selecionar pelo menos um recurso, ou vice-versa.");
+                return array("status" => false, "erro" => "Quando for selecionado um tipo de deficiência (exceto superdotação) ou um Transtorno que impacta o desenvolvimento da aprendizagem, é preciso selecionar pelo menos um recurso, ou vice-versa.");
             }
         }
         return array("status" => true, "erro" => "");

@@ -375,3 +375,40 @@ ALTER TABLE student_disorder
 ALTER TABLE student_identification
 ADD COLUMN resource_additional_time TINYINT DEFAULT 0;
 
+UPDATE edcenso_alias
+SET attr = 'resource_braille_test'
+WHERE register = 301 and year = 2025 and cdesc = "Prova em Braille";
+
+UPDATE edcenso_alias
+SET attr = 'resource_additional_time'
+WHERE register = 301 and year = 2025 and cdesc = "Tempo adicional";
+
+UPDATE edcenso_alias
+SET attr = 'disorders_impact_learning'
+WHERE register = 301 and year = 2025 and cdesc = "Pessoa física com transtorno(s) que impacta(m) o desenvolvimento da aprendizagem";
+
+
+UPDATE edcenso_alias
+SET attr = 'dyscalculia'
+WHERE register = 301 and year = 2025 and cdesc = "Discalculia ou outro transtorno da matemática e raciocínio lógico";
+
+UPDATE edcenso_alias
+SET attr = 'dysgraphia'
+WHERE register = 301 and year = 2025 and cdesc = "Disgrafia, Disortografia ou outro transtorno da escrita e ortografia";
+
+UPDATE edcenso_alias
+SET attr = 'dyslalia'
+WHERE register = 301 and year = 2025 and cdesc = "Dislalia ou outro transtorno da linguagem e comunicação";
+
+UPDATE edcenso_alias
+SET attr = 'dyslexia'
+WHERE register = 301 and year = 2025 and cdesc = "Dislexia";
+
+UPDATE edcenso_alias
+SET attr = 'tdah'
+WHERE register = 301 and year = 2025 and cdesc = "Transtorno do Déficit de Atenção com Hiperatividade (TDAH)";
+
+UPDATE edcenso_alias
+SET attr = 'tpac'
+WHERE register = 301 and year = 2025 and cdesc = "Transtorno do Processamento Auditivo Central (TPAC)";
+
