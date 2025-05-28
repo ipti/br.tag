@@ -287,17 +287,20 @@ class Register30
         return $register;
     }
 
-    public static function exportStudentDisorders($student, $register, $aliases)
+    public static function exportStudentDisorders($studentDisorders, $register, $aliases)
     {
-        foreach ($student as $key => $attr) {
+        foreach ($studentDisorders as $key => $attr) {
+
+            if($key === "id") continue;
+
             $alias_index = array_search($key, array_column($aliases, 'attr'));
             $alias = $alias_index !== false ? $aliases[$alias_index] : null;
 
-            if (isset($alias["corder"])  &&  $student['disorders_impact_learning'] != 0) {
+            if (isset($alias["corder"])  &&  $studentDisorders['disorders_impact_learning'] != 0) {
                 $register[$alias["corder"]] = $attr;
             }
 
-            if(isset($alias["corder"])  &&  $student['disorders_impact_learning'] == 0) {
+            if(isset($alias["corder"])  &&  $studentDisorders['disorders_impact_learning'] == 0) {
                 $register[$alias["corder"]] = '';
             }
 
