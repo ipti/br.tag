@@ -513,9 +513,9 @@ class SchoolIdentificationValidation extends Register
             return array("status" => false, "erro" => "Quando o telefone tiver 9 dígitos, o primeiro caractere deve ser o dígito 9.");
         } else if ((!$phoneNumberEmpty && count(array_unique(str_split($phoneNumber))) === 1) || (!$otherPhoneNumberEmpty && count(array_unique(str_split($otherPhoneNumber))) === 1)) {
             return array("status" => false, "erro" => "Os campos de telefone não podem ser a repetição de um mesmo algarismo.");
-        } else if ($phoneNumberEmpty && (!$otherPhoneNumberEmpty && !$otherPhoneNumberIsValid)) {
+        } else if ($phoneNumberIsValid && (!$otherPhoneNumberEmpty && !$otherPhoneNumberIsValid)) {
             return array("status" => false, "erro" => "O campo de outro telefone com 8 dígitos não pode começar com o caractere numérico 9.");
-        } else if ($otherPhoneNumberEmpty && (!$phoneNumberEmpty && !$phoneNumberIsValid)) {
+        } else if ($otherPhoneNumberIsValid && (!$phoneNumberEmpty && !$phoneNumberIsValid)) {
             return array("status" => false, "erro" => "O campo de telefone com 8 dígitos não pode começar com o caractere numérico 9.");
         }
         return array("status" => true, "erro" => "");
