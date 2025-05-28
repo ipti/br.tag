@@ -277,3 +277,18 @@ $(".update-student-from-sedsp").click(function () {
 $(".import-student-button").click(function () {
     $("#importStudentFromSEDSP").find("form").submit();
 });
+
+$(document).on("change", "#StudentIdentification_color_race", function() {
+    if ($(this).val() == "5") {
+        $(".js-is-indigenous").show()
+    } else {
+        $("#StudentIdentification_id_indigenous_people").val(null).trigger("change");
+        $(".js-is-indigenous").hide()
+    }
+});
+
+  $('.js-disorder-impact-learning').on('change', function () {
+    const isChecked = $('.js-disorder-impact-learning:checked').length > 0;
+
+    $('.js-disorders-impact-learning').prop('checked', isChecked);
+  });

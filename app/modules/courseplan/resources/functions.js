@@ -104,7 +104,7 @@ function format_validate(d){
 
     let methodology = $('<div class="t-field-text control-group courseplan-methodology-container"></div>');
     let methodologyLabel = $('<label class="t-field-text__label" for="course-class[' + d.class + '][methodology][]">Metodologia</label>');
-    let methodologyInput = $('<textarea readonly="readonly" class="t-field-tarea__input course-class-methodology" name="course-class[' + d.class + '][methodology]" maxlength="1500"></textarea>');
+    let methodologyInput = $('<textarea readonly="readonly" class="t-field-tarea__input course-class-methodology" name="course-class[' + d.class + '][methodology]"></textarea>');
     methodologyInput.val(d.methodology);
 
     let resourceButtonContainer = $('<div class="t-buttons-container control-group no-margin"></div>');
@@ -193,7 +193,7 @@ function format(d) {
 
     let methodology = $('<div class="t-field-text control-group courseplan-methodology-container"></div>');
     let methodologyLabel = $('<label class="t-field-tarea__label" for="course-class[' + d.class + '][methodology][]">Metodologia</label>');
-    let methodologyInput = $('<textarea class="t-field-tarea__input course-class-methodology" name="course-class[' + d.class + '][methodology]" maxlength="1500"></textarea>');
+    let methodologyInput = $('<textarea class="t-field-tarea__input course-class-methodology" name="course-class[' + d.class + '][methodology]"></textarea>');
     methodologyInput.val(d.methodology);
 
     let resourceButtonContainer = $('<div class="t-buttons-container control-group no-margin"></div>');

@@ -3,7 +3,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$this->pageTitle = 'TAG - ' . Yii::t('default', 'Estrutura de Unidades');
+$this->pageTitle = 'TAG - ' . Yii::t('defgault', 'Estrutura de Unidades');
 
 ?>
 

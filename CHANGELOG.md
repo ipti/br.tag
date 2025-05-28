@@ -1,3 +1,12 @@
+## [Versão 3.2.0]
+- Criado tela de cadastro de pre matrícula dos alunos
+- Criado módulo de habilidades para gerênciar habilidades regionais
+- Corrigido problema ao imprimir relatório de aulas ministradas
+- Corrigido o problema ao salvar observações em aulas ministradas no Ensino Fundamental – Anos Finais.
+- Correção na funcionalidade de aulas ministradas, filtro de aulas cadastradas por turma e disciplina foram ajustadas para turmas do fundamental menor.
+- Alteração na estrutura da tabela que representa as aulas dentro de um plano, modificando o tipo da coluna metodologia para que aceite textos com mais de 1500 caracteres.
+- Ajuste no preenchimento do nome do prato da merenda no XML exportado, capturando dinamicamente o nome do componente correspondente ao dia no cardápio.
+
 ## [Versão 3.1.0]
 - Alteração no registro de data de matrícula. O campo "Data de Matrícula" do formulário de matrícula agora está diretamente relacionado
 com o valor apresentado em diferentes sessões do sistema.

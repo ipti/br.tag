@@ -721,7 +721,7 @@ $(deficiency).change(function () {
             "change",
             [true]
         );
-        $(".resources-container").show();
+         $(".resources-container").show();
     } else {
         $(allDeficiency).attr("disabled", "disabled").removeAttr("checked");
         $("#StudentIdentification_deficiencies")
@@ -730,7 +730,7 @@ $(deficiency).change(function () {
         $("#StudentIdentification_resource_aid_lector")
             .closest(".js-visibility-dresource")
             .hide();
-        $(".resources-container").hide();
+         $(".resources-container").hide();
         $(".resources-container input[type=checkbox]").prop("checked", false);
     }
 });
