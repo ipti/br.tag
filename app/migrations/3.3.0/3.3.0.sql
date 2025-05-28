@@ -412,3 +412,12 @@ UPDATE edcenso_alias
 SET attr = 'tpac'
 WHERE register = 301 and year = 2025 and cdesc = "Transtorno do Processamento Auditivo Central (TPAC)";
 
+
+UPDATE edcenso_alias
+SET attr = 'dependencies_reading_corners'
+WHERE corder = 94
+  AND year = 2025
+  AND register = 10;
+
+ALTER TABLE school_structure
+ADD COLUMN dependencies_reading_corners INTEGER DEFAULT 0;
