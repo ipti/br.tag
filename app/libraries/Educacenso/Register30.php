@@ -297,7 +297,7 @@ class Register30
                 $register[$alias["corder"]] = $attr;
             }
 
-            if($student['disorders_impact_learning'] == 0) {
+            if(isset($alias["corder"])  &&  $student['disorders_impact_learning'] == 0) {
                 $register[$alias["corder"]] = '';
             }
 
