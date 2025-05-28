@@ -4,7 +4,7 @@ window.location.search.includes("update") ? $('.last').css('display', 'block') :
 
  $(window).load(function () {
     $("#IES").select2();
-   
+
     $(formInstructorvariableData + 'scholarity').trigger('change');
     $(formInstructorIdentification + 'birthday_date').mask("99/99/9999");
     $(formInstructorvariableData + "high_education_institution_code_1_fk, "
@@ -75,3 +75,14 @@ function initDropDownInstitution() {
     });
 
 }
+if($('#InstructorIdentification_color_race').val() == "5") {
+     $(".js-is-indigenous").show()
+}
+$(document).on("change", "#InstructorIdentification_color_race", function() {
+    if ($(this).val() == "5") {
+        $(".js-is-indigenous").show()
+    } else {
+        $("#InstructorIdentification_id_indigenous_people").val(null).trigger("change");
+        $(".js-is-indigenous").hide()
+    }
+});
