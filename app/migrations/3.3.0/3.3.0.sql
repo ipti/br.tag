@@ -449,3 +449,12 @@ WHERE sd.id is null;
 
 insert into  student_disorder (student_fk)
 select * from fix_student_without_disorders;
+
+UPDATE edcenso_alias
+SET attr = 'dependencies_reading_corners'
+WHERE corder = 94
+  AND year = 2025
+  AND register = 10;
+
+ALTER TABLE school_structure
+ADD COLUMN dependencies_reading_corners INTEGER DEFAULT 0;

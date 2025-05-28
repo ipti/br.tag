@@ -22,8 +22,10 @@ class Register10
                 $attributes['shared_school_inep_id_4'] = '';
                 $attributes['shared_school_inep_id_5'] = '';
                 $attributes['shared_school_inep_id_6'] = '';
-            } else if ($attributes['shared_school_inep_id_1'] == null && $attributes['shared_school_inep_id_2'] == null && $attributes['shared_school_inep_id_3'] == null
-                && $attributes['shared_school_inep_id_4'] == null && $attributes['shared_school_inep_id_5'] == null && $attributes['shared_school_inep_id_6'] == null) {
+            } else if (
+                $attributes['shared_school_inep_id_1'] == null && $attributes['shared_school_inep_id_2'] == null && $attributes['shared_school_inep_id_3'] == null
+                && $attributes['shared_school_inep_id_4'] == null && $attributes['shared_school_inep_id_5'] == null && $attributes['shared_school_inep_id_6'] == null
+            ) {
                 $attributes['shared_building_with_school'] = '0';
             }
         } else {
@@ -214,21 +216,31 @@ class Register10
             $attributes['board_organ_others'] = '0';
         }
 
+        if (empty($attributes['classroom_count']) || empty($attributes['dependencies_outside_roomspublic'])) {
+            $attributes['dependencies_reading_corners'] = null;
+        } else if ($attributes['dependencies_reading_corners'] > 4) {
+            $attributes['dependencies_reading_corners'] = 4;
+        } else if ($attributes['dependencies_reading_corners'] === 0) {
+            $attributes['dependencies_reading_corners'] = null;
+        }
+
         $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 10 order by corder', [":year" => $year]);
         foreach ($edcensoAliases as $edcensoAlias) {
             if ($edcensoAlias->corder == 44) {
                 $register[$edcensoAlias->corder] =
                     $attributes["dependencies_prysical_disability_bathroom"] == 1 || $attributes["dependencies_child_bathroom"] == 1 ||
                     $attributes["dependencies_bathroom_workes"] == 1 || $attributes["dependencies_bathroom_with_shower"] == 1
-                        ? 1 : 0;
+                    ? 1 : 0;
             } else if ($edcensoAlias->corder == 138) {
                 $register[$edcensoAlias->corder] = null;
-                if ($attributes["workers_garden_planting_agricultural"] == null && $attributes["workers_administrative_assistant"] == null
+                if (
+                    $attributes["workers_garden_planting_agricultural"] == null && $attributes["workers_administrative_assistant"] == null
                     && $attributes["workers_service_assistant"] == null && $attributes["workers_librarian"] == null
                     && $attributes["workers_firefighter"] == null && $attributes["workers_coordinator_shift"] == null && $attributes["workers_speech_therapist"] == null
                     && $attributes["workers_nutritionist"] == null && $attributes["workers_psychologist"] == null && $attributes["workers_cooker"] == null
                     && $attributes["workers_support_professionals"] == null && $attributes["workers_school_secretary"] == null && $attributes["workers_security_guards"] == null
-                    && $attributes["workers_monitors"] == null && $attributes["workers_braille"] == null) {
+                    && $attributes["workers_monitors"] == null && $attributes["workers_braille"] == null
+                ) {
                     $register[$edcensoAlias->corder] = 1;
                 }
             } else {

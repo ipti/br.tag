@@ -19,8 +19,10 @@ class SchoolStructureValidation extends Register
 
         if ($collun3 == 1) {
             if (!($value == 1 || $value == 2 || $value == 3)) {
-                return array("status" => false,
-                    "erro" => "operation_location_building é 1. Valor $value não está enre as õpções");
+                return array(
+                    "status" => false,
+                    "erro" => "operation_location_building é 1. Valor $value não está enre as õpções"
+                );
             }
         } elseif ($collun3 != 1 && $collun8 != 1) {
             if ($value != null) {
@@ -56,9 +58,11 @@ class SchoolStructureValidation extends Register
         if ($collun13 == 1) {
             foreach ($shared_schools_inep_ids as $school_inep_id) {
                 if ($school_inep_id !== null) {
-                    $result = $this->isEqual(substr($inep_id, 0, 2),
+                    $result = $this->isEqual(
+                        substr($inep_id, 0, 2),
                         substr($school_inep_id, 0, 2),
-                        "Escolas não são do mesmo estado");
+                        "Escolas não são do mesmo estado"
+                    );
                     if ($result["status"]) {
                         if ($inep_id == $school_inep_id) {
                             return array("status" => false, "erro" => "Não se deve inserir a mesma escola.");
@@ -97,8 +101,10 @@ class SchoolStructureValidation extends Register
         if ($supply_locations[$len - 1] == "1") { //ultimo campo
             for ($i = 0; $i < ($len - 1); $i++) { //primeiros campos
                 if ($supply_locations[$i] == "1") {
-                    return array("status" => false,
-                        "erro" => "Quando o campo de inexistência é marcado, nenhum outro deve estar.");
+                    return array(
+                        "status" => false,
+                        "erro" => "Quando o campo de inexistência é marcado, nenhum outro deve estar."
+                    );
                 }
             }
         }
@@ -193,10 +199,13 @@ class SchoolStructureValidation extends Register
     // falta validação 'bruta'
 
 
-    public function checkModalities($collun90, $collun91, $modalities,
-                             $are_there_students_by_modalitie,
-                             $are_there_instructors_by_modalitie)
-    {
+    public function checkModalities(
+        $collun90,
+        $collun91,
+        $modalities,
+        $are_there_students_by_modalitie,
+        $are_there_instructors_by_modalitie
+    ) {
 
         if ($collun90 != 2 && $collun91 != 2) {
             if (!($collun90 == 1 && $collun91 == 1)) {
@@ -210,18 +219,35 @@ class SchoolStructureValidation extends Register
         foreach ($modalities as $key => $value) {
             if ($value == "1") {
                 if (!$are_there_students_by_modalitie[$key]) {
-                    return array("status" => false,
-                        "erro" => "$key é 1 e não há estudantes nessa modalidade");
+                    return array(
+                        "status" => false,
+                        "erro" => "$key é 1 e não há estudantes nessa modalidade"
+                    );
                 }
                 if (!$are_there_instructors_by_modalitie[$key]) {
-                    return array("status" => false,
-                        "erro" => "$key é 1 e não há instrutores nessa modalidade");
+                    return array(
+                        "status" => false,
+                        "erro" => "$key é 1 e não há instrutores nessa modalidade"
+                    );
                 }
             }
         }
 
 
         return array("status" => true, "erro" => "");
+    }
+
+    //94
+
+    public function hasReadingCornerClassroomCount($column90, $column91, $column94)
+    {
+        if ((empty($column90) || empty($column91)) && !empty($column94)) {
+            return array("status" => false, "erro" => "O campo foi preenchido quando deveria não ser preenchido.");
+        }
+        if ($column94 > 4) {
+            return array("status" => false, "erro" => "Numero máximo de salas de cantinho de leitura é 4");
+        }
+
     }
 
     //96
@@ -253,13 +279,19 @@ class SchoolStructureValidation extends Register
         }
 
         if ($collun0029 == 1) {
-            if ($value == 1) return array("status" => false,
-                "erro" => "Valor $value não permitido 
-													pois coluna 29 do registro é $collun0029");
+            if ($value == 1)
+                return array(
+                    "status" => false,
+                    "erro" => "Valor $value não permitido
+													pois coluna 29 do registro é $collun0029"
+                );
         } elseif ($collun0029 == 2) {
-            if ($value != 1) return array("status" => false,
-                "erro" => "Valor $value não permitido 
-													pois coluna 29 do registro é $collun0029");
+            if ($value != 1)
+                return array(
+                    "status" => false,
+                    "erro" => "Valor $value não permitido
+													pois coluna 29 do registro é $collun0029"
+                );
         }
 
         return array("status" => true, "erro" => "");
@@ -325,8 +357,10 @@ class SchoolStructureValidation extends Register
             $result = Yii::app()->db->createCommand($sql)->queryAll();
             if (empty($array)) {
                 $value = $this->ifNull($value);
-                return array("status" => false,
-                    "erro" => "Valor $value não está entre os valores de edcenso_native_languages");
+                return array(
+                    "status" => false,
+                    "erro" => "Valor $value não está entre os valores de edcenso_native_languages"
+                );
             }
         }
 
@@ -356,12 +390,3 @@ class SchoolStructureValidation extends Register
 
 
 }//fim de classe
-
-
-
-
-
-
-
-
-
