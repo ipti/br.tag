@@ -602,9 +602,9 @@ class Register30
                 $registers,
                 '30|' . Yii::app()->user->school . '|' . $managerIsAnInstructorId . '||' // 1 a 4
                 . $managerIdentification["cpf"] . '|' . $managerIdentification["name"] . '|' . $managerIdentification["birthday_date"] . '|' . $managerIdentification["filiation"] . '|' // 5 a 8
-                . $managerIdentification["filiation_1"] . '|' . $managerIdentification["filiation_2"] . '|' . $managerIdentification["sex"] . '|' . $managerIdentification["color_race"] . '|' // 9 a 12
+                . $managerIdentification["filiation_1"] . '|' . $managerIdentification["filiation_2"] . '|' . $managerIdentification["sex"] . '|' . $managerIdentification["color_race"] . '||' // 9 a 12
                 . $managerIdentification["nationality"] . '|' . $managerIdentification["edcenso_nation_fk"] . '|' . $managerIdentification["edcenso_city_fk"] . '|' // 13 a 15
-                . '0||||||||||||||||||||||||||||||' // 16 a 45 (deficiencias, certidão e dados de residência (ignoráveis para o registro 40)
+                . '0|||||||||||||||||||||||||||||||||||||||' // 16 a 45 (deficiencias, certidão e dados de residência (ignoráveis para o registro 40)
                 . '6||0113P011|2008|3||||||||||||||||||||||||||||1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|' // 46 a 97 (escolaridade, cursos e pós-graduações)
                 . $managerIdentification["email"]
             );
