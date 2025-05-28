@@ -488,34 +488,34 @@ class SchoolIdentificationValidation extends Register
         $dddEmpty = $ddd === "" || $ddd === null;
         $phoneNumberEmpty = $phoneNumber === "" || $phoneNumber === null;
         $otherPhoneNumberEmpty = $otherPhoneNumber === "" || $otherPhoneNumber === null;
-        $phoneNumberIsValid = strlen($phoneNumber) === 8 && str_starts_with($phoneNumber, '9');
-        $otherPhoneNumberIsValid = strlen($otherPhoneNumber) === 8 && str_starts_with($otherPhoneNumber, '9');
+        $phoneNumberIsInvalid = strlen($phoneNumber) === 8 && str_starts_with($phoneNumber, needle: '9');
+        $otherPhoneNumberIsInvalid = strlen($otherPhoneNumber) === 8 && str_starts_with($otherPhoneNumber, '9');
 
         if (!$dddEmpty && $phoneNumberEmpty && $otherPhoneNumberEmpty) {
             return array("status" => false, "erro" => "Quando o DDD é prenchido, pelo menos um dos telefones também deve ser preenchido.");
-        } else if ($dddEmpty && (!$phoneNumberEmpty || !$otherPhoneNumberEmpty)) {
+        } elseif ($dddEmpty && (!$phoneNumberEmpty || !$otherPhoneNumberEmpty)) {
             return array("status" => false, "erro" => "Quando um dos telefones é preenchido, o DDD também deve ser preenchido.");
-        } else if (!$dddEmpty && strlen($ddd) != 2) {
+        } elseif (!$dddEmpty && strlen($ddd) != 2) {
             return array("status" => false, "erro" => "DDD deve conter 2 dígitos.");
-        } else if (!$phoneNumberEmpty && !$otherPhoneNumberEmpty && ($phoneNumber === $otherPhoneNumber)) {
+        } elseif (!$phoneNumberEmpty && !$otherPhoneNumberEmpty && ($phoneNumber === $otherPhoneNumber)) {
             return array("status" => false, "erro" => "Os dois campos de números de telefone não podem ser iguais.");
-        } else if (
+        } elseif (
             (!$phoneNumberEmpty && (strlen($phoneNumber) < 8 || strlen($phoneNumber) > 9))
             || (!$otherPhoneNumberEmpty && (strlen($otherPhoneNumber) < 8 || strlen($otherPhoneNumber) > 9))
         ) {
             return array("status" => false, "erro" => "Os campos de telefone, quando preenchidos, devem conter 8 ou 9 dígitos.");
-        } else if ((!$phoneNumberEmpty && !is_numeric($phoneNumber)) || (!$otherPhoneNumberEmpty && !is_numeric($otherPhoneNumber))) {
+        } elseif ((!$phoneNumberEmpty && !is_numeric($phoneNumber)) || (!$otherPhoneNumberEmpty && !is_numeric($otherPhoneNumber))) {
             return array("status" => false, "erro" => "Apenas dígitos devem ser informados, sem hífens.");
-        } else if (
+        } elseif (
             (!$phoneNumberEmpty && strlen($phoneNumber) === 9 && substr($phoneNumber, 0, 1) !== "9")
             || (!$otherPhoneNumberEmpty && strlen($otherPhoneNumber) === 9 && substr($otherPhoneNumber, 0, 1) !== "9")
         ) {
             return array("status" => false, "erro" => "Quando o telefone tiver 9 dígitos, o primeiro caractere deve ser o dígito 9.");
-        } else if ((!$phoneNumberEmpty && count(array_unique(str_split($phoneNumber))) === 1) || (!$otherPhoneNumberEmpty && count(array_unique(str_split($otherPhoneNumber))) === 1)) {
+        } elseif ((!$phoneNumberEmpty && count(array_unique(str_split($phoneNumber))) === 1) || (!$otherPhoneNumberEmpty && count(array_unique(str_split($otherPhoneNumber))) === 1)) {
             return array("status" => false, "erro" => "Os campos de telefone não podem ser a repetição de um mesmo algarismo.");
-        } else if ($phoneNumberEmpty && (!$otherPhoneNumberEmpty && !$otherPhoneNumberIsValid)) {
+        } elseif ($phoneNumberEmpty && (!$otherPhoneNumberEmpty && $otherPhoneNumberIsInvalid)) {
             return array("status" => false, "erro" => "O campo de outro telefone com 8 dígitos não pode começar com o caractere numérico 9.");
-        } else if ($otherPhoneNumberEmpty && (!$phoneNumberEmpty && !$phoneNumberIsValid)) {
+        } elseif ($otherPhoneNumberEmpty && (!$phoneNumberEmpty && $phoneNumberIsInvalid)) {
             return array("status" => false, "erro" => "O campo de telefone com 8 dígitos não pode começar com o caractere numérico 9.");
         }
         return array("status" => true, "erro" => "");
