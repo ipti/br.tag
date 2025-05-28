@@ -1,3 +1,73 @@
+-- alterações do censo no registro 20
+
+CREATE TABLE edcenso_aggregated_stage (
+	id INT auto_increment NOT NULL,
+	name varchar(255) NULL,
+	CONSTRAINT edcenso_aggregated_stage_PK PRIMARY KEY (id)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_general_ci;
+
+INSERT INTO edcenso_aggregated_stage (id,name)
+	VALUES (301,'Educação Infantil');
+INSERT INTO edcenso_aggregated_stage (id,name)
+	VALUES (302,'Ensino Fundamental ');
+INSERT INTO edcenso_aggregated_stage (id,name)
+	VALUES (303,'Multi e correção de fluxo');
+INSERT INTO edcenso_aggregated_stage (id,name)
+	VALUES (304,'Ensino Médio');
+INSERT INTO edcenso_aggregated_stage (id,name)
+	VALUES (305,'Ensino Médio - Normal/ Magistério');
+INSERT INTO edcenso_aggregated_stage (id,name)
+	VALUES (306,'Educação de Jovens e Adultos');
+INSERT INTO edcenso_aggregated_stage (id,name)
+	VALUES (308,'Curso Técnico e FIC - Concomitante ou Subsequente');
+
+
+ALTER TABLE edcenso_stage_vs_modality ADD aggregated_stage_id INT NULL;
+
+UPDATE edcenso_stage_vs_modality
+	SET aggregated_stage=301
+	WHERE id IN (1,2,3);
+
+UPDATE edcenso_stage_vs_modality
+	SET aggregated_stage=302
+	WHERE id IN (14,15,16,17,18,19,20,21,41);
+
+UPDATE edcenso_stage_vs_modality
+	SET aggregated_stage=303
+	WHERE id IN (22,23,56);
+
+
+UPDATE edcenso_stage_vs_modality
+	SET aggregated_stage=304
+	WHERE id IN (25,26,27,28,29);
+
+UPDATE edcenso_stage_vs_modality
+	SET aggregated_stage=305
+	WHERE id IN (35,36,37,38);
+
+UPDATE edcenso_stage_vs_modality
+	SET aggregated_stage=306
+	WHERE id IN (69,70,72,71,74,73,67);
+
+
+UPDATE edcenso_stage_vs_modality
+	SET aggregated_stage=308
+	WHERE id IN (39,40,64,68);
+
+
+ALTER TABLE classroom ADD is_special_education TINYINT DEFAULT 0 NOT NULL;
+
+
+UPDATE edcenso_alias
+	SET attr='is_special_education'
+	WHERE register=20
+		AND corder=24
+	    AND `year`=2025;
+
+
 -- alterações do censo no registro 30
 
 ALTER TABLE student_identification
@@ -16,353 +86,310 @@ CREATE TABLE edcenso_indigenous_people (
     name VARCHAR(50) NOT NULL
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
-INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUES
-	 ('001.00','aconă'),
-	 ('002.00','aikană'),
-	 ('003.00','aikewara'),
-	 ('004.00','aimore'),
-	 ('005.00','ajuru'),
-	 ('006.00','akuntsú'),
-	 ('007.00','amanayé'),
-	 ('008.00','amondáwa'),
-	 ('009.00','anacé'),
-	 ('010.00','anambé'),
-	 ('011.00','apalaí'),
-	 ('012.00','apiaká'),
-	 ('013.00','apinayé'),
-	 ('014.00','apolima-arara'),
-	 ('015.00','apurină'),
-	 ('016.00','arană'),
-	 ('017.00','arapáso'),
-	 ('018.00','arapiun'),
-	 ('019.00','arara de rondônia'),
-	 ('020.00','arara do acre'),
-	 ('021.00','arara do aripuană'),
-	 ('022.00','arara do pará'),
-	 ('023.00','arara vermelha'),
-	 ('024.00','araweté'),
-	 ('025.00','arikapú'),
-	 ('026.00','arikén'),
-	 ('027.00','arikosé'),
-	 ('028.00','aruá'),
-	 ('029.00','ashaninka'),
-	 ('030.00','asurini do tocantins'),
-	 ('031.00','asurini do xingu'),
-	 ('032.00','atikum'),
-	 ('033.00','ava-canoeiro'),
-	 ('034.00','awá guajá'),
-	 ('035.00','aweti'),
-	 ('036.00','baenă'),
-	 ('037.00','bakairí'),
-	 ('038.00','banawa'),
-	 ('039.00','baniwa'),
-	 ('040.00','bará'),
-	 ('041.00','barasána'),
-	 ('042.00','baré'),
-	 ('043.00','bóra'),
-	 ('044.00','borari'),
-	 ('045.00','bororo'),
-	 ('046.00','botocudo'),
-	 ('047.00','caboclos do assu'),
-	 ('048.00','catokin'),
-	 ('049.00','chamakóko'),
-	 ('050.00','charrua'),
-	 ('051.00','chiquitáno'),
-	 ('052.00','cinta larga'),
-	 ('053.00','dâw'),
-	 ('054.00','dení'),
-	 ('055.00','desána'),
-	 ('056.00','diahói'),
-	 ('057.00','djeoromitxí - jabutí'),
-	 ('058.00','enawenę-nawę'),
-	 ('059.00','e-ńepá'),
-	 ('060.00','fulni-ô'),
-	 ('061.00','galibi do oiapoque'),
-	 ('062.00','galibí marwórno'),
-	 ('063.00','gamela'),
-	 ('064.00','gaviăo de rondônia'),
-	 ('065.00','gaviăo krikateję'),
-	 ('066.00','gaviăo parkateję'),
-	 ('067.00','gaviăo pukobię'),
-	 ('068.00','guaikurú'),
-	 ('069.00','guajá'),
-	 ('070.00','guajajara'),
-	 ('071.00','guaraní'),
-	 ('072.00','guarani kaiowá'),
-	 ('073.00','guarani mbya'),
-	 ('074.00','guarani nhandeva'),
-	 ('075.00','guarasugwe'),
-	 ('076.00','guató'),
-	 ('077.00','himarimă'),
-	 ('078.00','hixkaryána'),
-	 ('079.00','hupd''äh'),
-	 ('080.00','ikpeng'),
-	 ('081.00','ingarikó'),
-	 ('082.00','irántxe'),
-	 ('083.00','issé'),
-	 ('084.00','jamamadí'),
-	 ('085.00','jaraqui'),
-	 ('086.00','jarawára'),
-	 ('087.00','jaricuna'),
-	 ('088.00','javaé'),
-	 ('089.00','jenipapo-kanindé'),
-	 ('090.00','jeripancó'),
-	 ('091.00','juma'),
-	 ('092.00','juruna'),
-	 ('093.00','ka''apor'),
-	 ('094.00','kadiwéu'),
-	 ('095.00','kaeté'),
-	 ('096.00','kahyana'),
-	 ('097.00','kaiabi'),
-	 ('098.00','kaimbé'),
-	 ('099.00','kaingang'),
-	 ('100.00','kaixana'),
-	 ('101.00','kalabaça'),
-	 ('102.00','kalankó'),
-	 ('103.00','kalapalo'),
-	 ('104.00','kamakă'),
-	 ('105.00','kamayurá'),
-	 ('106.00','kamba'),
-	 ('107.00','kambéba'),
-	 ('108.00','kambiwá'),
-	 ('109.00','kambiwá-pipipă'),
-	 ('110.00','kampé'),
-	 ('111.00','kanamanti'),
-	 ('112.00','kanamarí'),
-	 ('113.00','kanela'),
-	 ('114.00','kanela apaniekra'),
-	 ('115.00','kanela rankocamekra'),
-	 ('116.00','kanindé'),
-	 ('117.00','kanoé'),
-	 ('118.00','kantaruré'),
-	 ('119.00','kapinawá'),
-	 ('120.00','karafawyana'),
-	 ('121.00','karajá'),
-	 ('122.00','karapană'),
-	 ('123.00','karapotó'),
-	 ('124.00','karijó'),
-	 ('125.00','karipuna'),
-	 ('126.00','karipúna do amapá'),
-	 ('127.00','kariri'),
-	 ('128.00','kariri-xocó'),
-	 ('129.00','karitiana'),
-	 ('130.00','kassupá'),
-	 ('131.00','katawixí'),
-	 ('132.00','katukina'),
-	 ('133.00','katukina do acre'),
-	 ('134.00','katwena'),
-	 ('135.00','katxuyana'),
-	 ('136.00','kaxarari'),
-	 ('137.00','kaxinawá'),
-	 ('138.00','kaxixó'),
-	 ('139.00','kayapó'),
-	 ('139.01','kararao'),
-	 ('139.02','mebęngôkre kayapó'),
-	 ('139.03','menkrangnoti'),
-	 ('139.04','mentuktire'),
-	 ('139.05','xikrin (mebengôkre)'),
-	 ('140.00','kayuisiana'),
-	 ('141.00','kinikinau'),
-	 ('142.00','kiriri'),
-	 ('143.00','kisędję'),
-	 ('144.00','koiupanká'),
-	 ('145.00','kokama'),
-	 ('146.00','kokuiregateję'),
-	 ('147.00','kontanawá'),
-	 ('148.00','korubo'),
-	 ('149.00','krahô'),
-	 ('150.00','krahô-kanela'),
-	 ('151.00','krenák'),
-	 ('152.00','krenyę'),
-	 ('153.00','krikati'),
-	 ('154.00','kubeo'),
-	 ('155.00','kuikuro'),
-	 ('156.00','kujubim'),
-	 ('157.00','kulina madijá'),
-	 ('158.00','kulina páno'),
-	 ('159.00','kumaruara'),
-	 ('160.00','kuntanawa'),
-	 ('161.00','kuripako'),
-	 ('162.00','kuruáya'),
-	 ('163.00','kwazá'),
-	 ('164.00','laiana'),
-	 ('165.00','makú'),
-	 ('166.00','makúna'),
-	 ('167.00','makuráp'),
-	 ('168.00','makuxí'),
-	 ('169.00','manao'),
-	 ('170.00','manchineri'),
-	 ('171.00','maragua'),
-	 ('172.00','marimă'),
-	 ('173.00','marúbo'),
-	 ('174.00','matipú'),
-	 ('175.00','matís'),
-	 ('176.00','matsés'),
-	 ('177.00','mawayána'),
-	 ('178.00','maxakali'),
-	 ('179.00','maya'),
-	 ('180.00','maytapu'),
-	 ('181.00','mehináku'),
-	 ('182.00','menkü'),
-	 ('183.00','migueléno'),
-	 ('184.00','miránha'),
-	 ('185.00','mirititapuia'),
-	 ('186.00','mucurim'),
-	 ('187.00','munduruku'),
-	 ('188.00','munduruku carapreta'),
-	 ('189.00','múra'),
-	 ('190.00','nadëb'),
-	 ('191.00','nahukuá'),
-	 ('192.00','nambikwára'),
-	 ('192.01','alaketesu'),
-	 ('192.02','alantesu'),
-	 ('192.03','hahaintesu'),
-	 ('192.04','halotesu'),
-	 ('192.05','kithaulu'),
-	 ('192.06','lakondę'),
-	 ('192.07','latundę'),
-	 ('192.08','mamaindę'),
-	 ('192.09','manduka'),
-	 ('192.10','negarotę'),
-	 ('192.11','sabanę'),
-	 ('192.12','sarare'),
-	 ('192.13','sawentesu'),
-	 ('192.14','tawandę'),
-	 ('192.15','waikisu'),
-	 ('192.16','wakalitesu'),
-	 ('192.17','wasusu'),
-	 ('193.00','nawa'),
-	 ('194.00','noke koi'),
-	 ('195.00','nukiní'),
-	 ('196.00','ofayé'),
-	 ('197.00','oro win'),
-	 ('198.00','paiaku'),
-	 ('199.00','pakaa nova'),
-	 ('199.01','oro at'),
-	 ('199.02','oro eo'),
-	 ('199.03','oro jowin'),
-	 ('199.04','oro mon'),
-	 ('199.05','oro náo'),
-	 ('199.06','oro wam'),
-	 ('199.07','oro waram'),
-	 ('199.08','oro waram xijein'),
-	 ('200.00','palikur'),
-	 ('201.00','panará'),
-	 ('202.00','pankaiuká'),
-	 ('203.00','pankará'),
-	 ('204.00','pankará da aldeia serrote dos campos'),
-	 ('205.00','pankararé'),
-	 ('206.00','pankararú'),
-	 ('207.00','pankararú - karuazu'),
-	 ('208.00','pankaru'),
-	 ('209.00','papavó'),
-	 ('210.00','parakană'),
-	 ('211.00','paresí'),
-	 ('212.00','parintintim'),
-	 ('213.00','pataxó'),
-	 ('214.00','pataxo há-há-há'),
-	 ('215.00','paumarí'),
-	 ('216.00','paumelenho'),
-	 ('217.00','payayá'),
-	 ('218.00','pipipă'),
-	 ('219.00','pirahă'),
-	 ('220.00','piratapuya'),
-	 ('221.00','piri-piri'),
-	 ('222.00','pitaguari'),
-	 ('223.00','potiguara'),
-	 ('224.00','povo do xinane'),
-	 ('225.00','poyanáwa'),
-	 ('226.00','puri'),
-	 ('227.00','puroborá'),
-	 ('228.00','rikbaktsa'),
-	 ('229.00','sakurabiat'),
-	 ('230.00','salamăy'),
-	 ('231.00','sapará'),
-	 ('232.00','sateré-mawé'),
-	 ('233.00','shanenáwa'),
-	 ('234.00','sikiyana'),
-	 ('235.00','siriano'),
-	 ('236.00','suruí de rondônia'),
-	 ('237.00','suruwaha'),
-	 ('238.00','tabajara'),
-	 ('239.00','tamoio'),
-	 ('240.00','tapajós'),
-	 ('241.00','tapayuna'),
-	 ('242.00','tapeba'),
-	 ('243.00','tapirapé'),
-	 ('244.00','tapiuns'),
-	 ('245.00','tapuia'),
-	 ('246.00','tariana'),
-	 ('247.00','taurepang'),
-	 ('248.00','tembé'),
-	 ('249.00','tenetehara'),
-	 ('250.00','tenharim'),
-	 ('251.00','terena'),
-	 ('252.00','tikúna'),
-	 ('253.00','timbira'),
-	 ('254.00','tingui-botó'),
-	 ('255.00','tiriyó'),
-	 ('256.00','torá'),
-	 ('257.00','tremembé'),
-	 ('258.00','truká'),
-	 ('259.00','trumái'),
-	 ('260.00','tsohom djapa'),
-	 ('261.00','tukano'),
-	 ('262.00','tükuna'),
-	 ('263.00','tumbalalá'),
-	 ('264.00','tupaiu'),
-	 ('265.00','tuparí'),
-	 ('266.00','tupi'),
-	 ('267.00','tupi-guarani'),
-	 ('268.00','tupinambá'),
-	 ('269.00','tupinambaraná'),
-	 ('270.00','tupiniquim'),
-	 ('271.00','turiwára'),
-	 ('272.00','tuxá'),
-	 ('273.00','tuxi'),
-	 ('274.00','tuyúca'),
-	 ('275.00','umutina'),
-	 ('276.00','urucú'),
-	 ('277.00','uru-eu-wau-wau'),
-	 ('278.00','uru-pa-in'),
-	 ('279.00','waiăpy'),
-	 ('280.00','waimiri atroari'),
-	 ('281.00','wanana'),
-	 ('282.00','wapixana'),
-	 ('283.00','warao'),
-	 ('284.00','warekena'),
-	 ('285.00','waripi'),
-	 ('286.00','wassú'),
-	 ('287.00','wauja'),
-	 ('288.00','wayana'),
-	 ('289.00','witóto'),
-	 ('290.00','xacriabá'),
-	 ('291.00','xambioá'),
-	 ('292.00','xavante'),
-	 ('293.00','xerente'),
-	 ('294.00','xereu'),
-	 ('295.00','xetá'),
-	 ('296.00','xipáya'),
-	 ('297.00','xocó'),
-	 ('298.00','xokléng'),
-	 ('299.00','xucuru'),
-	 ('300.00','xukuru-kariri'),
-	 ('301.00','yaipiyana'),
-	 ('302.00','yamináwa'),
-	 ('303.00','yanomami'),
-	 ('303.01','ninám'),
-	 ('303.02','sanumá'),
-	 ('303.03','XIRIANA'),
-	 ('303.04','yanomán'),
-	 ('304.00','yawalapití'),
-	 ('305.00','yawanawá'),
-	 ('306.00','ye''kuana'),
-	 ('307.00','yudjá'),
-	 ('308.00','yuhúp'),
-	 ('309.00','yurutí'),
-	 ('310.00','zo''é'),
-	 ('311.00','zoró');
-
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (254,'Tumbalalá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (255,'Tunayana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (256,'Tupaiu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (257,'Tuparí')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (258,'Tupinambá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (259,'Tupinambaraná')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (260,'Tupiniquim')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (261,'Turiwára')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (262,'Tuxá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (263,'Tuyúca')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (264,'Umutina')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (265,'Urucú')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (266,'Uru-Eu-Wau-Wau')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (267,'Wai Wai')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (268,'Waiãpy')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (269,'Waikisu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (270,'Waimiri Atroari')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (271,'Wakalitesu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (272,'Wanana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (273,'Wapixana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (274,'Warekena')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (275,'Wassú')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (276,'Wasusu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (277,'Wauja')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (278,'Wayana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (279,'Witóto')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (280,'Xacriabá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (281,'Xambioá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (282,'Xavante')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (283,'Xerente')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (284,'Xereu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (285,'Xetá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (286,'Xipáya')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (287,'Xocó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (288,'Xokléng')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (289,'Xucuru')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (290,'Xucuru - Kariri')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (291,'Yaipiyana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (292,'Yamináwa')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (293,'Yanomámi')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (294,'Yanomán')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (295,'Yawalapití')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (296,'Yawanawá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (297,'Yekuana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (298,'Yudjá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (299,'Yurutí')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (300,'Zoé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (301,'Zoró')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (302,'Zuruahã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (998,'Outro povo/etnia indígena')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (999,'Não Declarada')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (1,'Aconã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (2,'Aikaná')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (3,'Aimore')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (4,'Ajuru')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (5,'Akuntsú')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (6,'Alaketesu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (7,'Alantesu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (8,'Amanayé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (9,'Amondáwa')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (10,'Anacé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (11,'Anambé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (12,'Apalaí')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (13,'Apiaká')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (14,'Apinayé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (15,'Apolima  Arara')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (16,'Apurinã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (17,'Aranã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (18,'Arapáso')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (19,'Arapiun')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (20,'Arara de Rondônia')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (21,'Arara do Acre')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (22,'Arara do Aripuanã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (23,'Arara do Pará')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (24,'Araweté')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (25,'Arikapú')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (26,'Arikén')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (27,'Arikosé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (28,'Aruá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (29,'Ashaninka')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (30,'Asurini do Tocantins')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (31,'Asurini do Xingu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (32,'Atikum')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (33,'Ava-Canoeiro')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (34,'Aweti')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (35,'Baenã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (36,'Bakairí')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (37,'Banawa')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (38,'Baniwa')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (39,'Bará')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (40,'Barasána')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (41,'Baré')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (42,'Bóra')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (43,'Borari')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (44,'Bororo')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (45,'Botocudo')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (46,'Catokin')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (47,'Chamakóko')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (48,'Charrua')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (49,'Chiquitáno')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (50,'Cinta Larga')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (51,'Dâw')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (52,'Dení')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (53,'Desána')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (54,'Diahói')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (55,'Djeoromitxí - Jabutí')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (56,'Enawenê-Nawê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (57,'Fulni-ô')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (58,'Galibi do Oiapoque')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (59,'Galibí Marwórno')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (60,'Gavião de Rondônia')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (61,'Gavião Krikatejê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (62,'Gavião Parkatejê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (63,'Gavião Pukobiê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (64,'Guaikurú')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (65,'Guajá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (66,'Guaraní')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (67,'Guarani Kaiowá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (68,'Guarani Mbya')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (69,'Guarani Nhandeva')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (70,'Guató')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (71,'Hahaintesu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (72,'Halotesu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (73,'Hixkaryána')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (74,'Hupda')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (75,'Ikpeng')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (76,'Ingarikó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (77,'Irántxe')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (78,'Issé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (79,'Jamamadí')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (80,'Jarawára')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (81,'Jaricuna')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (82,'Javaé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (83,'Jeripancó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (84,'Juma')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (85,'Kaapor')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (86,'Kadiwéu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (87,'Kaeté')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (88,'Kahyana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (89,'Kaiabi')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (90,'Kaimbé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (91,'Kaingang')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (92,'Kaixana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (93,'Kalabaça')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (94,'Kalankó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (95,'Kalapalo')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (96,'Kamakã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (97,'Kamayurá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (98,'Kamba')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (99,'Kambéba')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (100,'Kambiwá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (101,'Kambiwá-Pipipã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (102,'Kampé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (103,'Kanamanti')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (104,'Kanamarí')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (105,'Kanela')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (106,'Kanela Apaniekra')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (107,'Kanela Rankocamekra')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (108,'Kanindé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (109,'Kanoé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (110,'Kantaruré')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (111,'Kapinawá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (112,'Kapon Patamóna')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (113,'Karafawyana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (114,'Karajá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (115,'Karapanã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (116,'Karapotó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (117,'Karijó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (118,'Karipuna')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (119,'Karipúna do Amapá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (120,'Kariri')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (121,'Kariri - Xocó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (122,'Karitiana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (123,'Katawixí')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (124,'Katuena')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (125,'Katukina')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (126,'Katukina do Acre')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (127,'Kawahíb')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (128,'Kaxarari')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (129,'Kaxinawá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (130,'Kaxixó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (131,'Kaxuyana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (132,'Kayapó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (133,'Kayuisiana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (134,'Kinikinau')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (135,'Kiriri')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (136,'Kisêdjê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (137,'Kithaulu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (138,'Koiupanká')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (139,'Kokama')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (140,'Kokuiregatejê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (141,'Kontanawá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (142,'Korúbo')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (143,'Krahô')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (144,'Krahô-Kanela')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (145,'Krenák')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (146,'Krenyê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (147,'Krikati')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (148,'Kubeo')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (149,'Kuikuro')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (150,'Kujubim')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (151,'Kulina Madijá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (152,'Kulina Páno')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (153,'Kuripako')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (154,'Kuruáya')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (155,'Kwazá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (156,'Laiana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (157,'Lakondê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (158,'Latundê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (159,'Makú')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (160,'Makúna')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (161,'Makuráp')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (162,'Makuxí')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (163,'Mamaindê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (164,'Manao')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (165,'Manchineri')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (166,'Manduka')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (167,'Maragua')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (168,'Marimã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (169,'Marúbo')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (170,'Matipú')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (171,'Matís')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (172,'Matsés')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (173,'Mawayána')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (174,'Maxakali')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (175,'Maya')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (176,'Maytapu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (177,'Mehináku')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (178,'Migueléno')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (179,'Miránha')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (180,'Mirititapuia')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (181,'Mucurim')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (182,'Múra')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (183,'Mynky')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (184,'Nadëb')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (185,'Nahukuá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (186,'Nambikwára')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (187,'Naravute')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (188,'Nawa')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (189,'Negarotê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (190,'Ninám')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (191,'Nukiní')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (192,'Ofayé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (193,'Oro Win')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (194,'Paiaku')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (195,'Pakaa Nova')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (196,'Palikur')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (197,'Panará')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (198,'Pankará')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (199,'Pankararé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (200,'Pankararú')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (201,'Pankararú - Karuazu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (202,'Pankaru')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (203,'Papavó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (204,'Parakanã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (205,'Paresí')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (206,'Parintintim')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (207,'Pataxó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (208,'Pataxo Há-Há-Há')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (209,'Paumarí')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (210,'Paumelenho')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (211,'Pirahã')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (212,'Piratapuya')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (213,'Piri-Piri')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (214,'Pitaguari')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (215,'Potiguara')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (216,'Poyanáwa')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (217,'Puri')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (218,'Puroborá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (219,'Rikbaktsa')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (220,'Sabanê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (221,'Sakurabiat')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (222,'Salamãy')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (223,'Sanumá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (224,'Sapará')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (225,'Sarare')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (226,'Sawentesu')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (227,'Shanenáwa')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (228,'Siriano')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (229,'Suruí de Rondônia')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (230,'Suruí do Pará')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (231,'Tabajara')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (232,'Tamoio')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (233,'Tapajós')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (234,'Tapayuna')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (235,'Tapirapé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (236,'Tapiuns')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (237,'Tapuia')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (238,'Tariana')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (239,'Taulipáng')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (240,'Tawandê')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (241,'Tembé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (242,'Tenetehara')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (243,'Tenharim')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (244,'Terena')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (245,'Tikúna')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (246,'Timbira')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (247,'Tingui-Botó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (248,'Tiriyó')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (249,'Torá')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (250,'Tremembé')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (251,'Truká')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (252,'Trumái')
+INSERT INTO edcenso_indigenous_people (id_indigenous_people,name) VALUE (253,'Tukano')
 
 ALTER TABLE student_disorder
   ADD COLUMN disorders_impact_learning TINYINT(1) DEFAULT 0,
@@ -371,6 +398,10 @@ ALTER TABLE student_disorder
   ADD COLUMN dyslalia TINYINT(1) DEFAULT 0,
   ADD COLUMN dyslexia TINYINT(1) DEFAULT 0,
   ADD COLUMN tpac TINYINT(1) DEFAULT 0;
+
+UPDATE edcenso_alias
+	SET attr = NULL
+	WHERE register=302 AND corder in (29,30,31,32,33,34,35,47,48,57)  AND `year`= 2025;
 
 ALTER TABLE student_identification
 ADD COLUMN resource_additional_time TINYINT DEFAULT 0;
@@ -386,7 +417,6 @@ WHERE register = 301 and year = 2025 and cdesc = "Tempo adicional";
 UPDATE edcenso_alias
 SET attr = 'disorders_impact_learning'
 WHERE register = 301 and year = 2025 and cdesc = "Pessoa física com transtorno(s) que impacta(m) o desenvolvimento da aprendizagem";
-
 
 UPDATE edcenso_alias
 SET attr = 'dyscalculia'
@@ -412,3 +442,10 @@ UPDATE edcenso_alias
 SET attr = 'tpac'
 WHERE register = 301 and year = 2025 and cdesc = "Transtorno do Processamento Auditivo Central (TPAC)";
 
+create temporary table fix_student_without_disorders
+SELECT si.id as student_fk from student_identification si
+left join student_disorder sd on si.id=  sd.student_fk
+WHERE sd.id is null;
+
+insert into  student_disorder (student_fk)
+select * from fix_student_without_disorders;

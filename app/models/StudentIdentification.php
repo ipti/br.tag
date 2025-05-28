@@ -180,7 +180,7 @@ class StudentIdentification extends AltActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'edcensoNationFk' => array(self::BELONGS_TO, 'EdcensoNation', 'edcenso_nation_fk'),
-            'studentDisorders' => array(self::HAS_MANY, 'StudentDisorder', 'student_fk'),
+            'studentDisorders' => array(self::HAS_ONE, 'StudentDisorder', 'student_fk'),
             'edcensoUfFk' => array(self::BELONGS_TO, 'EdcensoUf', 'edcenso_uf_fk'),
             'edcensoCityFk' => array(self::BELONGS_TO, 'EdcensoCity', 'edcenso_city_fk'),
             'schoolInepIdFk' => array(self::BELONGS_TO, 'SchoolIdentification', 'school_inep_id_fk'),
