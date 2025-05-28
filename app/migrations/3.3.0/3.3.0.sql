@@ -442,3 +442,10 @@ UPDATE edcenso_alias
 SET attr = 'tpac'
 WHERE register = 301 and year = 2025 and cdesc = "Transtorno do Processamento Auditivo Central (TPAC)";
 
+create temporary table fix_student_without_disorders
+SELECT si.id as student_fk from student_identification si
+left join student_disorder sd on si.id=  sd.student_fk
+WHERE sd.id is null;
+
+insert into  student_disorder (student_fk)
+select * from fix_student_without_disorders;
