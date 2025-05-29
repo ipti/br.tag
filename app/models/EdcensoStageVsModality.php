@@ -11,7 +11,7 @@
      * @property integer $edcenso_associated_stage_id
      * @property integer $is_edcenso_stage
      * @property integer $unified_frequency
-     * @property integer $aggregated_stage_id
+     * @property integer $aggregated_stage
      *
      * The followings are the available model relations:
      * @property SchoolStages[] $schoolStages
@@ -126,7 +126,7 @@
             // will receive user inputs.
             return [
                 ['name, stage, is_edcenso_stage', 'required'],
-                ['stage, edcenso_associated_stage_id, is_edcenso_stage, aggregated_stage_id', 'numerical', 'integerOnly' => TRUE],
+                ['stage, edcenso_associated_stage_id, is_edcenso_stage, aggregated_stage', 'numerical', 'integerOnly' => TRUE],
                 ['name', 'length', 'max' => 100], // The following rule is used by search().
                 ['alias', 'length', 'max'=>20],
                 // Please remove those attributes that should not be searched.
