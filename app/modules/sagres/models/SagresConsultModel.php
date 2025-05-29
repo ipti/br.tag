@@ -886,7 +886,7 @@ class SagresConsultModel
 
             $idSerie = $this->getSerieID($serie, $edcensoCode, $edcensoCodes);
 
-            if ($this->isIssetSerieId($idSerie, $schoolName, $serie)) {
+            if ($this->isIssetSerieId($idSerie, $schoolName, $classId)) {
                 continue;
             }
 
@@ -915,7 +915,7 @@ class SagresConsultModel
 
     }
 
-    private function isIssetSerieId($idSerie, $schoolName, $serie)
+    private function isIssetSerieId($idSerie, $schoolName, $classId)
     {
         if (!isset($idSerie)) {
             $inconsistencyModel = new ValidationSagresModel();
@@ -923,8 +923,8 @@ class SagresConsultModel
             $inconsistencyModel->school = $schoolName;
             $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa válida ';
             $inconsistencyModel->action = 'Adicione uma etapa válida';
-            $inconsistencyModel->identifier = '12';
-            $inconsistencyModel->idClass = $serie->edcensoCodeOriginal;
+            $inconsistencyModel->identifier = '13';
+            $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
             return true;
         }
