@@ -886,7 +886,7 @@ class SagresConsultModel
 
             $idSerie = $this->getSerieID($serie, $edcensoCode, $edcensoCodes);
 
-            if ($this->isIssetSerieId($idSerie, $schoolName, $serie, $classId, $multiStage)) {
+            if ($this->isIssetSerieId($idSerie, $schoolName, $classId, $multiStage)) {
                 continue;
             }
 
