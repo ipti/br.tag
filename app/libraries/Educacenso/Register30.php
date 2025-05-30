@@ -166,6 +166,7 @@ class Register30
             $student['deficiency_type_multiple_disabilities'] = '';
             $student['deficiency_type_autism'] = '';
             $student['deficiency_type_gifted'] = '';
+            $student['resource_additional_time'] = '';
             $student['resource_none'] = '';
             $student['resource_aid_lector'] = '';
             $student['resource_aid_transcription'] = '';
