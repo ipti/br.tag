@@ -62,9 +62,9 @@ class Register00
         }
 
         if (!empty($attributes['edcenso_district_fk'])) {
-            $school = SchoolIdentification::model()->findByPk($attributes['inep_id']);
-            $attributes['edcenso_district_fk'] = $school->edcensoDistrictFk->code;
-            $attributes['edcenso_district_fk'] = 05;
+            // $school = SchoolIdentification::model()->findByPk($attributes['inep_id']);
+            // $attributes['edcenso_district_fk'] = str_pad($school->edcensoDistrictFk->code, 2, "0", STR_PAD_LEFT);
+            $attributes['edcenso_district_fk'] = '05';
         }
 
         // O campo Categorial da Escola Privada não pode ser preenchido quando o campo dependencia administrativa não for preenchido com o valor 4 (Privada)
