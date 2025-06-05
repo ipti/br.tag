@@ -5,7 +5,7 @@ $cs = Yii::app()->getClientScript();
 $form = $this->beginWidget('CActiveForm', array(
     'id' => 'classroom-form',
     'enableAjaxValidation' => false,
-        ));
+));
 ?>
 
 
@@ -28,48 +28,52 @@ $form = $this->beginWidget('CActiveForm', array(
                         <div id="widget-StudentsList" class="widget" style="margin-top: 8px;">
                             <?php
                             if (!$modelClassroom->isNewRecord) {
-                            $classroom = $modelClassroom->id;
-                            $criteria = new CDbCriteria();
-                            $criteria->alias = 'e';
-                            $criteria->select = '*';
-                            $criteria->join = 'JOIN student_identification s ON s.id = e.student_fk';
-                            $criteria->condition = "classroom_fk = $classroom";
-                            $criteria->order = 's.name';
-                            $enrollments = StudentEnrollment::model()->findAll($criteria);
-                            ?>
-                            <style type="text/css" media="print">
-                                a[href]:after {
-                                    content:"" !important;
-                                }
-                            </style>
-                            <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
-                                <sumary>Turma <?php echo $modelClassroom->name ?></sumary>
-                                <thead>
-                                    <tr><th>Nome</th><th>Etapa Individual</th><th>Situação da matrícula</th></tr>
-                                </thead>
-                                <tbody>
-                                     <?php
-                                     if(isset($enrollments)){
-                                        foreach ($enrollments as $enr) {
-                                            $namestg = $enr->id.'[edcenso_stage_vs_modality_fk]';
-                                            $status = $enr->id.'[status]';
-                                            echo "<tr><td>".$enr->studentFk->name."</a></td>";
-                                            echo "<td>".CHtml::dropDownList($namestg, $enr->edcenso_stage_vs_modality_fk, $options_stage)."</td>";
-                                            echo "<td>".CHtml::dropDownList($status, $enr->status, StudentEnrollment::getListStatus())."</td></tr>";
-                                        }
-                                        echo "<tr><th>Total:</th><td colspan='2'>" . count($enrollments) . "</td></tr>";
-                                    } else {
-                                        echo "<tr><th>Não há alunos matriculados.</th></tr>";
+                                $classroom = $modelClassroom->id;
+                                $criteria = new CDbCriteria();
+                                $criteria->alias = 'e';
+                                $criteria->select = '*';
+                                $criteria->join = 'JOIN student_identification s ON s.id = e.student_fk';
+                                $criteria->condition = "classroom_fk = $classroom";
+                                $criteria->order = 's.name';
+                                $enrollments = StudentEnrollment::model()->findAll($criteria);
+                                ?>
+                                <style type="text/css" media="print">
+                                    a[href]:after {
+                                        content: "" !important;
                                     }
-                                    ?>
-                                </tbody>
-                                <tfooter>
-                                    <?php
-                                    echo '<tr><td colspan="3"><input value="Atualizar Todos" type="submit" class="btn btn-icon btn-primary"><i></i></input></td></tr>';
-                                    ?>
-                                </tfooter>
-                            </table>
-                            <?php }?>
+                                </style>
+                                <table id="StudentsList" class="table table-bordered table-striped" style="display: table;">
+                                    <sumary>Turma <?php echo $modelClassroom->name ?></sumary>
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Etapa Individual</th>
+                                            <th>Situação da matrícula</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if (isset($enrollments)) {
+                                            foreach ($enrollments as $enr) {
+                                                $namestg = $enr->id . '[edcenso_stage_vs_modality_fk]';
+                                                $status = $enr->id . '[status]';
+                                                echo "<tr><td>" . $enr->studentFk->name . "</a></td>";
+                                                echo "<td>" . CHtml::dropDownList($namestg, $enr->edcenso_stage_vs_modality_fk, $options_stage, ['class' => 'select-search-on t-field-select__input select2-container']) . "</td>";
+                                                echo "<td>" . CHtml::dropDownList($status, $enr->status, StudentEnrollment::getListStatus()) . "</td></tr>";
+                                            }
+                                            echo "<tr><th>Total:</th><td colspan='2'>" . count($enrollments) . "</td></tr>";
+                                        } else {
+                                            echo "<tr><th>Não há alunos matriculados.</th></tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                    <tfooter>
+                                        <?php
+                                        echo '<tr><td colspan="3"><input value="Atualizar Todos" type="submit" class="btn btn-icon btn-primary"><i></i></input></td></tr>';
+                                        ?>
+                                    </tfooter>
+                                </table>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -78,4 +82,3 @@ $form = $this->beginWidget('CActiveForm', array(
     </div>
     <?php $this->endWidget(); ?>
 </div>
-
