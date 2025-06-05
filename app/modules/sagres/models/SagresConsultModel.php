@@ -31,7 +31,7 @@ define("STUDENT_STRONG", '<strong>ESTUDANTE<strong>');
 define('DATA_MATRICULA_INV', 'Data da matrícula no formato inválido: ');
 define('DATE_FORMAT', 'd/m/Y');
 //Variavéis de inconsistência
-define('INCONSISTENCY_BIRTH_AFTER_LIMIT', 'A data de nascimento não pode ser posterior a 30 de abril de 2024');
+define('INCONSISTENCY_BIRTH_AFTER_LIMIT', 'A data de nascimento não pode ser posterior a 30 de agosto de 2024');
 define('INCONSISTENCY_BIRTH_BEFORE_LIMIT', 'A data de nascimento não pode ser inferior a 01 de janeiro de 1930');
 define('INCONSISTENCY_STUDENT_NAME_TOO_SHORT', 'Nome do estudante com menos de 5 caracteres');
 define('INCONSISTENCY_ACTION_STUDENT_NAME_TOO_SHORT', 'Adicione um nome para o estudante com pelo menos 5 caracteres');
@@ -886,7 +886,7 @@ class SagresConsultModel
 
             $idSerie = $this->getSerieID($serie, $edcensoCode, $edcensoCodes);
 
-            if ($this->isIssetSerieId($idSerie, $schoolName, $serie)) {
+            if ($this->isIssetSerieId($idSerie, $schoolName, $classId, $multiStage)) {
                 continue;
             }
 
@@ -915,16 +915,16 @@ class SagresConsultModel
 
     }
 
-    private function isIssetSerieId($idSerie, $schoolName, $serie)
+    private function isIssetSerieId($idSerie, $schoolName, $classId, $multiStage)
     {
-        if (!isset($idSerie)) {
+        if (!isset($idSerie) && $multiStage) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = SERIE_STRONG;
             $inconsistencyModel->school = $schoolName;
             $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa válida ';
             $inconsistencyModel->action = 'Adicione uma etapa válida';
-            $inconsistencyModel->identifier = '12';
-            $inconsistencyModel->idClass = $serie->edcensoCodeOriginal;
+            $inconsistencyModel->identifier = '13';
+            $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
             return true;
         }
@@ -1001,14 +1001,12 @@ class SagresConsultModel
             $inconsistencyModel->identifier = '10';
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
-        }
-
-        if (!isset($edcensoCodes[$edcensoCode])) {
+        } else if (!isset($edcensoCodes[$edcensoCode])) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = SERIE_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'Etapa inválida para a turma ';
-            $inconsistencyModel->action = 'Associe uma etapa válida';
+            $inconsistencyModel->description = 'Há alunos na turma com etapa de ensino não associada a nenhuma etapa válida.';
+            $inconsistencyModel->action = 'Atualize a etapa de ensino de cada aluno para uma etapa válida.';
             $inconsistencyModel->identifier = '13';
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
