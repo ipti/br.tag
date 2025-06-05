@@ -853,7 +853,7 @@ class SagresConsultModel
         $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
 
         $seriesList = $this->seriesAssembly($series, $school->name, $classId, $referenceYear, $finalClass, $inepId, $withoutCpf, $multiStage);
-        $this->seriesNumberValidation($series, 3, $school->name, $inepId);
+        $this->seriesNumberValidation($series, 3, $school->name, $classId);
 
         return $seriesList;
     }
@@ -1016,16 +1016,17 @@ class SagresConsultModel
 
     }
 
-    private function seriesNumberValidation($series, $maxNumber, $schoolName, $inepId): void
+    private function seriesNumberValidation($series, $maxNumber, $schoolName, $idClass): void
     {
         if (count($series) > $maxNumber) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = TURMA_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'Essa turma multiseriada excede o limite de 3 etapas por turma ' . $schoolName;
-            $inconsistencyModel->action = 'Avalie as etapas das matriculas';
-            $inconsistencyModel->identifier = '10';
-            $inconsistencyModel->idSchool = $inepId;
+            $inconsistencyModel->description = 'Turmas multiseriadas apenas aceitam 3 etapas de ensino diferentes ' . $schoolName;
+            $inconsistencyModel->action = 'Avalie as etapas das matrículas e deixe apenas 3 etapas diferentes';
+            $inconsistencyModel->identifier = '13';
+
+            $inconsistencyModel->idClass = $idClass;
             $inconsistencyModel->insert();
         }
     }
@@ -2364,8 +2365,6 @@ class SagresConsultModel
         $tempArchiveZip->close();
         $content = null;
     }
-
-
 
     public function validatorSagresEduExportXML($object)
     {
