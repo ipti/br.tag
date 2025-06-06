@@ -981,7 +981,9 @@ return array(
     // setflas
     'dayli order' => 'Ordem do diario alterado com sucesso!',
     // Unidades
-    'Unity Name' => "Nome da unidade"
-)
+    'Unity Name' => "Nome da unidade",
 
+    // Online Enrollment
+    'Login Online Enrollment' => 'Login - Matrícula Online',
+)
     ?>

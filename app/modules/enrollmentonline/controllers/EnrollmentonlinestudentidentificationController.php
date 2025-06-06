@@ -143,7 +143,30 @@ public function beforeAction($action)
 	}
     public function actionStudentStatus()
 	{
-        $this->render('studentstatus');
+        $solicitationId = Yii::app()->request->getPost('enrollmentId');
+
+        $enrollmentStudentIdentification = EnrollmentOnlineStudentIdentification::model()->findByPk($solicitationId);
+
+        $criteria = CDbCriteria();
+        $criteria->join = "join school_identification on inep_id = enrollment_online_student_identification_fk";
+        $criteria->addCondition("enrollment_online_student_identification_fk = :enrollment");
+        $criteria->params = array(':enrollment'=>$enrollmentStudentIdentification->id);
+
+        $enrollmentSolicitations = EnrollmentOnlineEnrollmentSolicitation::model()->findAll($criteria);
+
+        $enrollments = [];
+
+        foreach($enrollmentSolicitations as $solicitation){
+
+        }
+
+        // buscar os registros de solicitação de matricula associados ao responsável
+
+        // organizar os dados para apresentação
+
+        $this->renderPartial('studentstatus', array(
+            "enrollmentSolicitations" => $result
+        ));
     }
 
 	/**
