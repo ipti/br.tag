@@ -1,3 +1,6 @@
+## [Versão 3.3.0]
+- Correção do cálculo de carga horário e remoção de cálculo inadequado de "Total de Aulas Dadas" do relatório de "Ficha de Notas".
+
 ## [Versão 3.2.0]
 - Criado tela de cadastro de pre matrícula dos alunos
 - Criado módulo de habilidades para gerênciar habilidades regionais

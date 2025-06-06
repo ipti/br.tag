@@ -179,19 +179,6 @@ function calculateFrequence($numClasses, $numFalts): int {
                     <td></td>
                 </tr>
                 <tr>
-                    <td style="text-align:right;" colspan="1">TOTAL DE AULAS DADAS</td>
-                    <?php if ($isMinorEducation): ?>
-                        <td style="text-align:right;" colspan="<?= $diciplinesColumnsCount ?>"><?= $result[0]['total_number_of_classes']?></td>
-                    <?php else: ?>
-                        <?php for ($i = 0; $i < $diciplinesColumnsCount; $i++) : ?>
-                            <td style="text-align: center;"><?= $result[$i]['total_number_of_classes'] ?></td>
-                        <?php endfor; ?>
-                    <?php endif;?>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
                     <td style="text-align:right;" colspan="1">TOTAL DE FALTAS</td>
                     <?php if ($isMinorEducation): ?>
                         <td style="text-align:right;" colspan="<?= $diciplinesColumnsCount ?>"><?= $result[0]['total_faults']?></td>

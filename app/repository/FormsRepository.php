@@ -97,6 +97,7 @@ class FormsRepository
             if ($i < count($unityDates) - 1) {
                 $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk
                 and unavailable = 0
+                and (week_day not in (6,7) or (week_day = 6 and discipline_fk is not null))
                 and concat(:year,'-', LPAD(month, 2, '0'), '-', LPAD(day, 2, '0')) >= :initial_date
                 and concat(:year,'-', LPAD(month, 2, '0'), '-', LPAD(day, 2, '0')) < :final_date", [
                     ":year" => $classroomFk->school_year,
@@ -107,6 +108,7 @@ class FormsRepository
             } else {
                 $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk
                 and unavailable = 0
+                and (week_day not in (6,7) or (week_day = 6 and discipline_fk is not null))
                 and concat(:year,'-', LPAD(month, 2, '0'), '-', LPAD(day, 2, '0')) >= :initial_date", [
                     ":year" => $classroomFk->school_year,
                     ":classroom_fk" => $classroomFk->id,
@@ -157,17 +159,27 @@ class FormsRepository
         if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
             $faultsPerUnityPeriods = $this->schoolDaysCalculate($faultsPerUnityPeriods);
         } else {
-            $faultsPerUnityPeriods = $this->workloadsCalculate($faultsPerUnityPeriods);
+            $faultsPerUnityPeriods = $this->workloadsCalcuteBySchedule($faultsPerUnityPeriods);
         }
         return $faultsPerUnityPeriods;
     }
 
-    private function workloadsCalculate($schedulesPerUnityPeriods)
-    {
+    private function workloadsCalcuteBySchedule($faultsPerUnityPeriods){
         // Cálculo da carga horária por unidade
         $workloadsPerUnity = [];
         foreach ($schedulesPerUnityPeriods as $schedules) {
             array_push($workloadsPerUnity, count($schedules));
+        }
+
+         return $workloadsPerUnity;
+    }
+
+    private function workloadsCalculate($unities, $totalWorkload)
+    {
+        // Cálculo da carga horária por unidade
+        $workloadsPerUnity = [];
+        for($i=0;$i<$unities;$i++){
+            $workloadsPerUnity[$i] = $totalWorkload/$unities;
         }
 
         return $workloadsPerUnity;
@@ -226,8 +238,11 @@ class FormsRepository
             }
         }
 
+        // Somatório total de carga horária
+        $totalWorkload = $this->calculateTotalWorkload($curricularMatrix);
+
         // Junto todas as disciplinas na ordem do cabeçalho
-        $totalDisciplines = array_unique(array_merge($baseDisciplines, $diversifiedDisciplines));
+        $totalDisciplines = array_unique(array: array_merge($baseDisciplines, $diversifiedDisciplines));
 
         // Retorna todos os schedules dentro do periodo das unidades
         $schedulesPerUnityPeriods = $this->getSchedulesPerUnityPeriods($enrollment->classroomFk, $unities);
@@ -236,7 +251,7 @@ class FormsRepository
         $schoolDaysPerUnity = $this->schoolDaysCalculate($schedulesPerUnityPeriods);
 
         // Cálculo da carga horária por unidade
-        $workloadPerUnity = $this->workloadsCalculate($schedulesPerUnityPeriods);
+        $workloadPerUnity = $this->workloadsCalculate(unities: count($unities), totalWorkload: $totalWorkload);
 
         // Cálculo de faltas de todas as unidades que possuem dias letivos
         $faultsPerUnity = $this->faultsPerUnityCalculate($schedulesPerUnityPeriods, $classFaults, $enrollment->classroomFk);
@@ -309,6 +324,16 @@ class FormsRepository
         return $response;
     }
 
+
+    private function calculateTotalWorkload($curricularMatrixes){
+        $totalWorkload = 0;
+
+        foreach($curricularMatrixes as $matrix){
+            $totalWorkload += $matrix->workload;
+        }
+
+        return $totalWorkload;
+    }
 
     private function calculateFrequency($diasLetivos, $totalFaltas): int
     {
