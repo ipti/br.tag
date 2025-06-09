@@ -30,7 +30,7 @@ $form = $this->beginWidget(
         <?php
         if (!$modelClassroom->isNewRecord && Yii::app()->features->isEnable("FEAT_SEDSP")) {
             $sedspSync = Classroom::model()->findByPk($modelClassroom->id)->sedsp_sync;
-            ?>
+        ?>
             <div style="display: flex;align-items: center;margin-right: 10px;margin-top: 13px;">
                 <?php if ($sedspSync) { ?>
                     <div style="font-weight: bold;margin-right: 20px;">
@@ -136,8 +136,7 @@ $form = $this->beginWidget(
                             echo
                             $modelClassroom->isNewRecord ?
                                 $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => Yii::app()->user->school)) :
-                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => $modelClassroom->school_inep_fk))
-                            ;
+                                $form->hiddenField($modelClassroom, 'school_inep_fk', array('value' => $modelClassroom->school_inep_fk));
                             echo CHtml::hiddenField("teachingData", '', array('id' => 'teachingData'));
                             echo CHtml::hiddenField("disciplines", '', array('id' => 'disciplines'));
                             echo CHtml::hiddenField("events", '', array('id' => 'events'));
@@ -211,7 +210,9 @@ $form = $this->beginWidget(
                                 <?= $form->label($modelClassroom, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label--required')); ?>
                                 <?= $form->DropDownList($modelClassroom, 'edcenso_stage_vs_modality_fk', CHtml::listData($edcensoStageVsModalities, 'id', 'name'), array(
                                     'prompt' => 'Selecione o estágio vs modalidade',
-                                    'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'), 'style' => 'width: 80%')); ?>
+                                    'class' => ($disabledFields ? 'select-search-off t-field-select__input disabled-field' : 'select-search-off t-field-select__input'),
+                                    'style' => 'width: 80%'
+                                )); ?>
                                 <?= $form->error($modelClassroom, 'edcenso_stage_vs_modality_fk'); ?>
                                 <img class="loading-disciplines" style="display:none;position: fixed;margin: 5px 20px;"
                                     height="20px" width="20px"
@@ -221,8 +222,8 @@ $form = $this->beginWidget(
 
 
 
-                             <!-- Periodo -->
-                             <div class="t-field-select">
+                            <!-- Periodo -->
+                            <div class="t-field-select">
                                 <?= $form->label($modelClassroom, 'period', ['class' => 't-field-select__label--required']) ?>
                                 <?= $form->DropDownList($modelClassroom, 'period',  PeriodOptions::asArray(), ['class' => 'select-search-off t-field-select__input', 'prompt' => 'Selecione a unidade escolar']) ?>
                                 <?= $form->error($modelClassroom, 'period'); ?>
@@ -235,7 +236,7 @@ $form = $this->beginWidget(
                                 <div class="t-field-checkbox">
                                     <?= $form->checkBox($modelClassroom, 'ignore_on_sagres', array('value' => 1, 'uncheckValue' => 0)); ?>
                                     <label class="t-field-checkbox" for="Classroom_ignore_on_sagres">
-                                        <?=Yii::t("default",  Classroom::model()->attributeLabels()['ignore_on_sagres']) ?>
+                                        <?= Yii::t("default",  Classroom::model()->attributeLabels()['ignore_on_sagres']) ?>
                                     </label>
 
                                 </div>
@@ -446,7 +447,7 @@ $form = $this->beginWidget(
                             <!-- Participante do programa Mais Educação -->
                             <div class="control-group" id="mais_educacao">
                                 <div id="none">
-                                    <?= CHtml::activeHiddenField($modelClassroom, 'mais_educacao_participator', array('disabled' => 'disabled', )) ?>
+                                    <?= CHtml::activeHiddenField($modelClassroom, 'mais_educacao_participator', array('disabled' => 'disabled',)) ?>
                                 </div>
                                 <div class="t-field-checkbox" id="some">
                                     <?= $form->checkBox(
@@ -485,8 +486,31 @@ $form = $this->beginWidget(
                                     <?= $form->label($modelClassroom, 'complementary_activity_type_1', array('class' => 't-field-text__label--required')); ?>
                                 </div>
                                 <div class="">
-                                    <?= $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-search-on control-input', 'key' => 'id')); ?>
-                                    <!-- <?= $form->dropDownList($modelClassroom, 'complementary_activity_type_1', CHtml::listData(EdcensoComplementaryActivityType::model()->findAll(), 'id', 'name'), array('multiple' => true, 'class' => 'select-ComplementaryAT', 'key' => 'id')); ?> -->
+                                    <?php
+
+                                    $activities = EdcensoComplementaryActivityType::model()->findAll();
+
+                                    $options = [];
+                                    foreach ($activities as $activity) {
+                                        $label = $activity->name;
+                                        if ($activity->deprecated == 1) {
+                                            $label .= ' (inválida para o censo)';
+                                        }
+                                        $options[$activity->id] = $label;
+                                    }
+
+                                    echo $form->dropDownList(
+                                        $modelClassroom,
+                                        'complementary_activity_type_1',
+                                        $options,
+                                        array(
+                                            'multiple' => true,
+                                            'class' => 'select-search-on t-multiselect t-field-select__input select2-container',
+                                            'key' => 'id'
+                                        )
+                                    );
+                                    ?>
+
 
                                     <?= $form->error($modelClassroom, 'complementary_activity_type_1'); ?>
                                     <!-- atividade complementar -->
@@ -591,45 +615,57 @@ $form = $this->beginWidget(
                             </div>
                             <!-- Estrutura de Avaliação -->
                             <div class="t-field-select js-grade-rules">
-                                    <label class="t-field-select__label--required">
-                                     Estrutura de Avaliação
-                                    </label>
-                                    <?php echo CHtml::dropDownList('grade_rules', '',  CHtml::listData($gradeRules, 'id', 'name'),
-                                        array(
+                                <label class="t-field-select__label--required">
+                                    Estrutura de Avaliação
+                                </label>
+                                <?php echo CHtml::dropDownList(
+                                    'grade_rules',
+                                    '',
+                                    CHtml::listData($gradeRules, 'id', 'name'),
+                                    array(
                                         'class' => 'select-search-on select2-container',
                                         'prompt' => 'Selecione a Regra de Avaliação',
-                                        'id' => 'gradeRules', 'style' => 'width: 100%;')); ?>
+                                        'id' => 'gradeRules',
+                                        'style' => 'width: 100%;'
+                                    )
+                                ); ?>
 
                             </div>
                             <?php
-                                if(TagUtils::isMultiStage( $modelClassroom->edcenso_stage_vs_modality_fk)):
+                            if (TagUtils::isMultiStage($modelClassroom->edcenso_stage_vs_modality_fk)):
                             ?>
-                            <div class="js-mutiple-structure">
-                            <h3>
-                                Estruturas de Unidade Por Etapa
-                            </h3>
-                            <div class="column t-padding-small--bottom">
+                                <div class="js-mutiple-structure">
+                                    <h3>
+                                        Estruturas de Unidade Por Etapa
+                                    </h3>
+                                    <div class="column t-padding-small--bottom">
 
-                                    <?php foreach($stages as $stage):?>
-                                        <div class="row">
-                                            <div class="column clearfix t-field-select">
-                                                <label class="t-field-text__label--required">
-                                                    <?= $stage->name ?>
-                                                </label>
-                                                <?php echo CHtml::dropDownList('grade_rules_' . $stage->id, $gradeRulesStages[$stage->id],  CHtml::listData($gradeRules, 'id', 'name'),
-                                                    array(
-                                                    'class' => 'select-search-on select2-container',
-                                                    'prompt' => 'Selecione a Regra de Avaliação',
-                                                    'id' => 'gradeRules', 'style' => 'width: 100%;')); ?>
+                                        <?php foreach ($stages as $stage): ?>
+                                            <div class="row">
+                                                <div class="column clearfix t-field-select">
+                                                    <label class="t-field-text__label--required">
+                                                        <?= $stage->name ?>
+                                                    </label>
+                                                    <?php echo CHtml::dropDownList(
+                                                        'grade_rules_' . $stage->id,
+                                                        $gradeRulesStages[$stage->id],
+                                                        CHtml::listData($gradeRules, 'id', 'name'),
+                                                        array(
+                                                            'class' => 'select-search-on select2-container',
+                                                            'prompt' => 'Selecione a Regra de Avaliação',
+                                                            'id' => 'gradeRules',
+                                                            'style' => 'width: 100%;'
+                                                        )
+                                                    ); ?>
+                                                </div>
                                             </div>
-                                        </div>
-                                    <?php endforeach;?>
+                                        <?php endforeach; ?>
 
-                            </div>
-                        </div>
-                        <?php
+                                    </div>
+                                </div>
+                            <?php
                             endif;
-                        ?>
+                            ?>
                         </div>
                         <div class="column">
                         </div>
@@ -928,7 +964,7 @@ $form = $this->beginWidget(
                                                     </a>
                                                 </td>
                                             </tr>
-                                            <?php
+                                        <?php
                                             $i++;
                                         endforeach;
                                         ?>
@@ -971,7 +1007,7 @@ $form = $this->beginWidget(
                         if (isset($modelEnrollments)) {
                             $i = 1;
                             foreach ($modelEnrollments as $enrollment) {
-                                ?>
+                        ?>
                                 <li id="<?= $enrollment["enrollmentId"] ?>" class="ui-state-default">
                                     <span class="t-icon-slip"></span>
                                     <?= $enrollment["dailyOrder"] ?>
@@ -979,7 +1015,7 @@ $form = $this->beginWidget(
                                         <?= $enrollment["studentName"] ?>
                                     </span>
                                 </li>
-                                <?php
+                        <?php
                                 $i++;
                             }
                         }
@@ -1130,7 +1166,7 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
     var btnCreate = "<?= Yii::t('default', 'Create'); ?>";
     var btnCancel = "<?= Yii::t('default', 'Cancel'); ?>";
 
-    $("#print").on('click', function () {
+    $("#print").on('click', function() {
         window.print();
     });
 </script>
