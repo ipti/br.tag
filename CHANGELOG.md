@@ -1,3 +1,6 @@
+## [Versão 3.2.1]
+- Atividades complementares autalizadas para o Educacenso 2025
+
 ## [Versão 3.2.0]
 - Criado tela de cadastro de pre matrícula dos alunos
 - Criado módulo de habilidades para gerênciar habilidades regionais
