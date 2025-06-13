@@ -215,6 +215,9 @@ public function beforeAction($action)
                 $lastUpdatedStatus = EnrollmentOnlineHistory::model()->findAll($criteria);
 
                 $enrollmentSolicitation = array(
+                    "id" => $enrollment->id,
+                    "studentName" => $enrollment->name,
+                    "cpf" => $enrollment->cpf,
                     "schoolName" => $school->name,
                     "schoolInepId" => $school->inep_id,
                     "solicitationStatus" => $lastUpdatedStatus->statusLabel(),

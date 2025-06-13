@@ -13,6 +13,10 @@ $cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v=' . TAG_VERSION,
 $cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 ?>
 
-<div class="main">
-    <h1>Solicitações de Matrícula</h1>
+<div id="content">
+    <div class="main">
+        <h1>Solicitações de Matrícula</h1>
+        <div class="js-add-solicitations">
+        </div>
+    </div>
 </div>

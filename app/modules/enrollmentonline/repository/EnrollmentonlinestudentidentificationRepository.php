@@ -43,6 +43,12 @@ class EnrollmentonlinestudentidentificationRepository
                 throw new CException('Falha ao criar usuário');
             }
 
+            if (
+                !$this->createParent()
+            ) {
+                throw new CException('Falha ao cadastrar o responsável');
+            }
+
             $transaction->commit();
 
 
@@ -65,23 +71,37 @@ class EnrollmentonlinestudentidentificationRepository
 
     private function createUser()
     {
-        $user = new Users();
-        $passwordHasher = new PasswordHasher;
-        $password = $passwordHasher->bcriptHash(str_replace('/', '',$this->studentIdentification->birthday));
-        $user->password = $password;
-        $user->name = $this->studentIdentification->responsable_name;
-        $user->active = 1;
         $cpf = preg_replace('/\D/', '', $this->studentIdentification->responsable_cpf);
-        $user->username = $this->studentIdentification->id . $cpf;
-        if ($user->save()) {
-            $auth = new AuthAssignment();
-            $auth->itemname ="guardian";
-            $auth->userid = $user->id;
-            $auth->save();
+        $user = Users::model()->findAllByAttributes(array("username" => $cpf));
+
+        if(!isset($user)){
+            $user = new Users();
+            $passwordHasher = new PasswordHasher;
+            $password = $passwordHasher->bcriptHash(str_replace('/', '',$this->studentIdentification->birthday));
+            $user->password = $password;
+            $user->name = $this->studentIdentification->responsable_name;
+            $user->active = 1;
+            $user->username = $this->studentIdentification->id . $cpf;
 
 
-            $this->studentIdentification->user_fk = $user->id;
-            $this->user = $user;
+            if ($user->save()) {
+                $auth = new AuthAssignment();
+                $auth->itemname ="guardian";
+                $auth->userid = $user->id;
+                $auth->save();
+            }
+        }
+
+        $this->studentIdentification->user_fk = $user->id;
+        $this->user = $user;
+        return $this->studentIdentification->save();
+    }
+
+    private function createParent(){
+        $parent = new ParentIdentification();
+        $parent->user_fk = $this->user->id;
+        $this->studentIdentification->parent_fk = $parent->id;
+        if ($parent->save()){
             return $this->studentIdentification->save();
         }
     }
