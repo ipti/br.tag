@@ -2,19 +2,17 @@
 /* @var $this EnrollmentOnlineStudentIdentificationController */
 /* @var $dataProvider CActiveDataProvider */
 
+$this->setPageTitle('TAG - '. Yii::t('default', 'Solicitações de Matrícula'));
 $this->breadcrumbs=array(
-	'Enrollment Online Student Identifications',
+	$this->module->id,
 );
 
-$this->menu=array(
-	array('label'=>'Create EnrollmentOnlineStudentIdentification', 'url'=>array('create')),
-	array('label'=>'Manage EnrollmentOnlineStudentIdentification', 'url'=>array('admin')),
-);
+$baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
+$cs = Yii::app()->getClientScript();
+$cs->registerScriptFile($baseScriptUrl . '/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 ?>
 
-<h1>Enrollment Online Student Identifications</h1>
-
-<?php $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-)); ?>
+<div class="main">
+    <h1>Solicitações de Matrícula</h1>
+</div>

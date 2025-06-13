@@ -12,7 +12,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	public $layout='fullmenu';
 
 	/**
 	 * @return array action filters
@@ -133,8 +133,8 @@ public function beforeAction($action)
 			$model->attributes=$_POST['EnrollmentOnlineStudentIdentification'];
             $repository = new EnrollmentonlinestudentidentificationRepository($model);
             $user = $repository->savePreEnrollment();
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora voê pode acompnhar o andamento no com seu login '. $user->username.''));
-
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora você pode acompnhar o andamento no com seu login '. $user->username.''));
+            $this->redirect(array('index'));
 		}
 
 		$this->render('create',array(
@@ -143,7 +143,7 @@ public function beforeAction($action)
 	}
     public function actionStudentStatus()
 	{
-        $this->render('studentstatus');
+
     }
 
 	/**
@@ -190,11 +190,45 @@ public function beforeAction($action)
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('EnrollmentOnlineStudentIdentification');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+        $this->render('index', array());
+        Yii::app()->end();
+    }
+
+    public function actionLoadSolicitations(){
+        $userId = Yii::app()->user->loginInfos->id;
+        $parent = ParentIdentification::model()->findAllByAttributes(["user_fk" => $userId]);
+
+        $enrollments = EnrollmentOnlineStudentIdentification::model()->findAllByAttributes(["parent_fk" => $parent->id]);
+
+        $solicitations = [];
+
+        if(!empty($enrollments)){
+            foreach($enrollments as $enrollment){
+                $solicitation = EnrollmentOnlineEnrollmentSolicitation::model()->
+                    findByAttributes(["enrollment_online_student_identification_fk" => $enrollment->id]);
+
+                $school = SchoolIdentification::model()->findByAttributes(["inep_id" => $solicitation->school_inep_id_fk]);
+
+                $criteria = new CDbCriteria();
+                $criteria->limit = 1;
+                $criteria->order = "created_at DESC";
+                $lastUpdatedStatus = EnrollmentOnlineHistory::model()->findAll($criteria);
+
+                $enrollmentSolicitation = array(
+                    "schoolName" => $school->name,
+                    "schoolInepId" => $school->inep_id,
+                    "solicitationStatus" => $lastUpdatedStatus->statusLabel(),
+                    "solicitationDate" => $lastUpdatedStatus->formatedDate()
+                );
+                array_push($solicitations, $enrollmentSolicitation);
+            }
+            echo json_encode(["valid" => true, "solicitations" => $solicitations]);
+            Yii::app()->end();
+        }
+
+        echo json_encode(["valid" => false]);
+        Yii::app()->end();
+    }
 
 	/**
 	 * Manages all models.
