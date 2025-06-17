@@ -1539,6 +1539,10 @@ class CensoController extends Controller
         if (!$result["status"])
             array_push($log, array("Localizacao/Zona de residencia" => $result["erro"]));
 
+        $cityInfo = Yii::app()->db->createCommand("Select * From edcenso_city ec where id = :edcenso_fk")->bindParam(":edcenso_fk", $collumn['edcenso_city_fk'])->queryRow();
+        $cepInitial = $cityInfo['cep_initial'];
+        $cepFinal = $cityInfo['cep_final'];
+        $sda->cepVerify($collumn["cep"], $cepInitial, $cepFinal);
         return $log;
     }
 
