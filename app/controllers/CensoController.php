@@ -1674,8 +1674,9 @@ class CensoController extends Controller
             array_push($log, array("student_entry_form" => $result["erro"]));
 
         $result = $sev->isValidMultiClassroom($edcenso_svm, $collumn["edcenso_stage_vs_modality_fk"]);
+
         if (!$result["status"])
-            array_push($log, array("Etapa de Ensino" => $result["erro"]));
+            array_push($log, array("Etapa de Ensino" => $result["erro"], "type" => $result['type']));
 
         $aeeTypes = array(
             $collumn['aee_cognitive_functions'],
