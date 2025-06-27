@@ -442,13 +442,15 @@ class StudentDocumentsAndAddressValidation extends Register
         return array("status" => true, "erro" => "");
     }
 
-    public function cepVerify($studentZipCode, $initialZipCode, $lastZipCode)
+    public function cepVerify($cityFk, $studentZipCode)
     {
-
-        $min = min($initialZipCode, $lastZipCode);
-        $max = max($initialZipCode, $lastZipCode);
-        if (!($studentZipCode >= $min && $studentZipCode <= $max)) {
-            return array("status" => false, "erro" => "O CEP do aluno não corresponde à faixa do município.");
+        if (!isset($cityFk)) {
+            return array("status" => false, "erro" => "O município do aluno não foi adicionado.");
+        }
+        $city = EdcensoCity::model()->findByPk($cityFk);
+        $result = $city->validateContainsCep($studentZipCode);
+        if (!$result) {
+            return array("status" => false, "erro" => "O CEP do aluno não corresponde à faixa do município selecionado.");
         }
     }
     //campo 24,25,26,27,28,29
