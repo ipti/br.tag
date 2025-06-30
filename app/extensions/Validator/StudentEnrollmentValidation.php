@@ -30,8 +30,25 @@ class studentEnrollmentValidation extends Register
             }
 
             if ($demand == '24') {
-                $result = $this->isAllowed($value, array('4', '5', '6', '7', '8', '9', '10', '11',
-                    '14', '15', '16', '17', '18', '19', '20', '21', '41'));
+                $result = $this->isAllowed($value, array(
+                    '4',
+                    '5',
+                    '6',
+                    '7',
+                    '8',
+                    '9',
+                    '10',
+                    '11',
+                    '14',
+                    '15',
+                    '16',
+                    '17',
+                    '18',
+                    '19',
+                    '20',
+                    '21',
+                    '41'
+                ));
                 if (!$result['status']) {
                     return array("status" => false, "erro" => $result['erro']);
                 }
@@ -45,8 +62,27 @@ class studentEnrollmentValidation extends Register
             }
 
             if ($demand == '56') {
-                $result = $this->isAllowed($value, array('1', '2', '4', '5', '6', '7', '8', '9', '10', '11',
-                    '14', '15', '16', '17', '18', '19', '20', '21', '41'));
+                $result = $this->isAllowed($value, array(
+                    '1',
+                    '2',
+                    '4',
+                    '5',
+                    '6',
+                    '7',
+                    '8',
+                    '9',
+                    '10',
+                    '11',
+                    '14',
+                    '15',
+                    '16',
+                    '17',
+                    '18',
+                    '19',
+                    '20',
+                    '21',
+                    '41'
+                ));
                 if (!$result['status']) {
                     return array("status" => false, "erro" => $result['erro']);
                 }
@@ -168,7 +204,8 @@ class studentEnrollmentValidation extends Register
         return array("status" => true, "erro" => "");
     }
 
-    public function hasAEETypeSelected($aee, $aeeTypes) {
+    public function hasAEETypeSelected($aee, $aeeTypes)
+    {
         if ($aee == 1) {
             $result = $this->atLeastOne($aeeTypes);
             if (!$result['status']) {
