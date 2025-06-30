@@ -253,7 +253,8 @@ class Register20
                     // }
 
                     if ($edcensoAlias->corder === self::REGISTER_ATTR_ETAPA_AGREGADA) {
-                        $register[$edcensoAlias->corder] = $edcensoStageVsModality->aggregated_stage;
+                        $edcensoAssocietedStage = EdcensoStageVsModality::model()->findByPk($edcensoStageVsModality->edcenso_associated_stage_id);
+                        $register[$edcensoAlias->corder] = $edcensoAssocietedStage->aggregated_stage;
                     }
 
                     if (in_array($edcensoAlias->corder, [7, 8, 9, 10, 11, 12, 13])) {
