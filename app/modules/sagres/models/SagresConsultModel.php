@@ -654,30 +654,35 @@ class SagresConsultModel
 
             $classType = new TurmaTType();
             $classId = $turma['classroomId'];
+            $className = $turma["classroomName"];
 
             if (\TagUtils::isStageEJA($turma["stage"]) && $turma["period"] == 0) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
 
                 $inconsistencyModel->school = $schoolName;
-                $inconsistencyModel->description = 'A turma <strong>' . $classType->getDescricao() . '</strong> é do tipo EJA, mas o perído está selecionado como anual.';
-                $inconsistencyModel->action = 'Altere o periodo para 1º ou 2º semestre: ' . $classType->getDescricao();
+                $inconsistencyModel->description = 'A turma <strong>' . $className . '</strong> é do tipo EJA, mas o perído está selecionado como anual.';
+                $inconsistencyModel->action = 'Altere o periodo para 1º ou 2º semestre: ' . $className;
                 $inconsistencyModel->identifier = '10';
                 $inconsistencyModel->idClass = $classId;
                 $inconsistencyModel->idSchool = $inepId;
                 $inconsistencyModel->insert();
             }
 
-            $serie = $this->getSeries2025($classId, $inepId, $referenceYear, $month, $finalClass, $withoutCpf);
+            if ($classId == 1219) {
+                $teste = "ok";
+            }
+            $serie = $this->getSeries2025($classId, $inepId, $referenceYear, $className, $finalClass, $withoutCpf);
 
             $multiserie = $this->isMulti($classId);
 
+            $schedules = $this->getSchedules($classId, $month, $inepId);
             $classType
                 ->setPeriodo($turma["period"]) //0 - Anual
-                ->setDescricao($turma["classroomName"])
+                ->setDescricao($className)
                 ->setTurno($this->convertTurn($turma['classroomTurn']))
                 ->setSerie($serie)
-                ->setHorario($this->getSchedules($classId, $month, $inepId))
+                ->setHorario($schedules)
                 ->setFinalTurma(filter_var($finalClass, FILTER_VALIDATE_BOOLEAN))
                 ->setMultiseriada($multiserie);
 
@@ -837,7 +842,7 @@ class SagresConsultModel
      * Summary of SerieTType
      * @return SerieTType[]
      */
-    public function getSeries2025($classId, $inepId, $referenceYear, $month, $finalClass, $withoutCpf)
+    public function getSeries2025($classId, $inepId, $referenceYear, $className, $finalClass, $withoutCpf)
     {
         $seriesList = [];
 
@@ -853,7 +858,7 @@ class SagresConsultModel
         $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
 
         $seriesList = $this->seriesAssembly($series, $school->name, $classId, $referenceYear, $finalClass, $inepId, $withoutCpf, $multiStage);
-        $this->seriesNumberValidation($series, 3, $school->name, $classId);
+        $this->seriesNumberValidation($series, 3, $school->name, $classId, $className);
 
         return $seriesList;
     }
@@ -1014,16 +1019,15 @@ class SagresConsultModel
 
     }
 
-    private function seriesNumberValidation($series, $maxNumber, $schoolName, $idClass): void
+    private function seriesNumberValidation($series, $maxNumber, $schoolName, $idClass, $className): void
     {
         if (count($series) > $maxNumber) {
             $inconsistencyModel = new ValidationSagresModel();
-            $inconsistencyModel->enrollment = TURMA_STRONG;
+            $inconsistencyModel->enrollment = TURMA_STRONG . " " . preg_replace('/\s*TURMA\s*/', '', $className);
             $inconsistencyModel->school = $schoolName;
             $inconsistencyModel->description = 'Turmas multiseriadas apenas aceitam 3 etapas de ensino diferentes ' . $schoolName;
             $inconsistencyModel->action = 'Avalie as etapas das matrículas e deixe apenas 3 etapas diferentes';
             $inconsistencyModel->identifier = '13';
-
             $inconsistencyModel->idClass = $idClass;
             $inconsistencyModel->insert();
         }
@@ -1164,20 +1168,20 @@ class SagresConsultModel
         foreach ($schedules as $schedule) {
             $scheduleType = new HorarioTType();
 
-            $queryGetDuration = "SELECT
-                            ROUND( (t.credits / COUNT(*))) AS duration
-                        FROM (
-                            SELECT ed.name AS disciplineName, cm.credits AS credits
-                                FROM schedule s
-                                JOIN edcenso_discipline ed ON ed.id = s.discipline_fk
-                                JOIN classroom c ON c.id = s.classroom_fk
-                                JOIN curricular_matrix cm ON cm.discipline_fk = ed.id
-                            WHERE s.classroom_fk = $classId and s.month <= $month
-                            GROUP BY s.week_day
-                        ) t
-                        WHERE t.disciplineName = '" . $schedule['disciplineName'] . "'";
+            // $queryGetDuration = "SELECT
+            //                 ROUND( (t.credits / COUNT(*))) AS duration
+            //             FROM (
+            //                 SELECT ed.name AS disciplineName, cm.credits AS credits
+            //                     FROM schedule s
+            //                     JOIN edcenso_discipline ed ON ed.id = s.discipline_fk
+            //                     JOIN classroom c ON c.id = s.classroom_fk
+            //                     JOIN curricular_matrix cm ON cm.discipline_fk = ed.id
+            //                 WHERE s.classroom_fk = $classId and s.month <= $month
+            //                 GROUP BY s.week_day
+            //             ) t
+            //             WHERE t.disciplineName = '" . $schedule['disciplineName'] . "'";
 
-            $duration = Yii::app()->db->createCommand($queryGetDuration)->queryRow();
+            // $duration = Yii::app()->db->createCommand($queryGetDuration)->queryRow();
 
             $disciplina = mb_convert_encoding(substr($schedule['disciplineName'], 0, 50), 'UTF-8', 'UTF-8');
 
