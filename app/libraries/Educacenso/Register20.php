@@ -4,6 +4,8 @@ class Register20
 {
 
     // 2024: 32 ~> 2025: 26
+
+    private const REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL = 24;
     private const REGISTER_ATTR_ETAPA_AGREGADA = 25;
     private const REGISTER_ATTR_ETAPA = 26;
     // 2024: 34 ~> 2025: 28
@@ -134,6 +136,8 @@ class Register20
                     $attributes["schooling"] = '0';
                     $attributes["complementary_activity"] = '0';
                 }
+
+
 
                 if (
                     $attributes["complementary_activity_type_1"] == null && $attributes["complementary_activity_type_2"] == null && $attributes["complementary_activity_type_3"] == null
@@ -317,11 +321,26 @@ class Register20
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
                     }
 
-                    if ($edcensoAlias->corder >= self::REGISTER_ATTR_QUIMICA && $edcensoAlias->corder <= self::REGISTER_ATTR_OUTRAS_DISCIPLINAS) {
+                    $clear_coders = new CList(
+                        [
+                            self::REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL,
+                            self::REGISTER_ATTR_ETAPA_AGREGADA,
+                            self::REGISTER_ATTR_ETAPA
+                        ],
+                        true
+                    );
+
+                    if ($clear_coders->contains($edcensoAlias->corder) || $edcensoAlias->corder >= self::REGISTER_ATTR_QUIMICA && $edcensoAlias->corder <= self::REGISTER_ATTR_OUTRAS_DISCIPLINAS) {
                         if ($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1' && $attributes["schooling"] == '0')) {
                             $register[$edcensoAlias->corder] = '';
                         }
                     }
+
+                    // if ($clear_coders->contains(strval($edcensoAlias->corder))) {
+                    //     if (($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1') && $attributes["schooling"] == '0')) {
+                    //         $register[$edcensoAlias->corder] = '';
+                    //     }
+                    // }
 
                     if (in_array($edcensoAlias->corder, [7, 8, 9, 10, 11, 12, 13])) {
                         $register[$edcensoAlias->corder] = $attributes['initial_hour'] . ":" . $attributes["initial_minute"] . "-" . $attributes['final_hour'] . ":" . $attributes['final_minute'];
