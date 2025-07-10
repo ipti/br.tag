@@ -102,7 +102,7 @@ class RegisterIdentification
         $anoRegistro = intval(substr($matricula, 12, 4));  // posições 13 a 16
 
         // Acervo "02" só permitido até 2009
-        if ($codigoAcervo === '02' && $anoRegistro > 2009) {
+        if ($codigoAcervo === '02' && $anoRegistro > 2009 && $anoRegistro < 1900) {
             return false;
         }
 
