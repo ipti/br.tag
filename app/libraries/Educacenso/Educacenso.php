@@ -13,6 +13,7 @@ class Educacenso
         include __DIR__ . '/Register50.php';
         include __DIR__ . '/Register60.php';
         include __DIR__ . '/Register99.php';
+        include __DIR__ . '/RegisterIdentification.php';
     }
 
     private function register00($year)
@@ -55,6 +56,11 @@ class Educacenso
         $this->registers['99'] = Register99::export();
     }
 
+    private function registerIdentification()
+    {
+        return  RegisterIdentification::export();
+    }
+
     public function exportar($year)
     {
         $this->register00($year);
@@ -72,6 +78,20 @@ class Educacenso
             foreach ($registerType as $register) {
                 array_push($lines, $register);
             }
+        }
+
+        return implode("\n", $lines);
+    }
+
+    public function exportarIdentification()
+    {
+
+        $registerForIdentification = $this->registerIdentification();
+
+
+        $lines = [];
+        foreach ($registerForIdentification as $register) {
+            array_push($lines, $register);
         }
 
         return implode("\n", $lines);

@@ -1,4 +1,6 @@
 /app/runtime/
+/app/export/*.txt
+/app/export/SagresEdu/**
 /app/backup/
 /assets/**
 .idea/
