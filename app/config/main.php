@@ -86,7 +86,11 @@ return array(
         'application.modules.sagres.soap.src.sagresEdu.*',
         'application.components.utils.TagUtils',
         'application.components.utils.TLog',
-        'ext.bncc-import.BNCCImport'
+        'ext.bncc-import.BNCCImport',
+        'application.modules.sagres.domain.builders.*',
+        'application.modules.sagres.domain.extractor.*',
+        'application.modules.sagres.domain.exporter.*',
+
     ),
     'modules' => array(
         // uncomment the following to enable the Gii tool
@@ -216,7 +220,7 @@ return array(
         ),
         'sentry' => [
             'class' => \Websupport\YiiSentry\Client::class,
-            'dsn' => getenv("SENTRY_DSN")   ,
+            'dsn' => getenv("SENTRY_DSN"),
             'jsDsn' => getenv("SENTRY_DSN"),
             'options' => [
                 'traces_sampler' => function (\Sentry\Tracing\SamplingContext $context): float {

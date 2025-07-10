@@ -59,7 +59,13 @@ define('INCONSISTENCY_ACTION_INVALID_APPROVED_STATUS_VALUE', 'Adicione um valor 
  */
 class SagresConsultModel
 {
+    public function buildNewVersion($year, $month, $finalClass, $noMovement, $withoutCpf)
+    {
+        $educationObj = new \EducationBuilder($year, $month);
 
+        return $educationObj->build();
+
+    }
     public function cleanInconsistences()
     {
         $connection = Yii::app()->db;
@@ -91,9 +97,9 @@ class SagresConsultModel
 
         try {
             $education
-                ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $month))
-                ->setEscola($this->getSchools($referenceYear, $month, $finalClass, $withoutCpf))
-                ->setProfissional($this->getProfessionals($referenceYear, $month));
+                ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $month));
+            // ->setEscola($this->getSchools($referenceYear, $month, $finalClass, $withoutCpf))
+            // ->setProfissional($this->getProfessionals($referenceYear, $month));
 
             $this->enrolledSimultaneouslyInRegularClasses($referenceYear);
             //$this->getStudentAEE($referenceYear);
