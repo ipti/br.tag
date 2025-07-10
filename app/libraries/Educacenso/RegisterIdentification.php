@@ -98,11 +98,11 @@ class RegisterIdentification
     public static function validarCodigoAcervo(string $matricula): bool
     {
 
-        $codigoAcervo = substr($matricula, 6, 2);  // posições 7 e 8
-        $anoRegistro = intval(substr($matricula, 12, 4));  // posições 13 a 16
+        $codigoAcervo = substr($matricula, 6, 2);
+        $anoRegistro = intval(substr($matricula, 10, 4));
 
         // Acervo "02" só permitido até 2009
-        if ($codigoAcervo === '02' && $anoRegistro > 2009 && $anoRegistro < 1900) {
+        if ($codigoAcervo == '02' && $anoRegistro > 2009) {
             return false;
         }
 
