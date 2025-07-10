@@ -44,12 +44,12 @@ class RegisterIdentification
         $register[self::EDCENSO_COD_NA_UNIDADE] = $identification['id'];
         $register[self::EDCENSO_CPF] = $documents['cpf'];
         $register[self::EDCENSO_CERT_NASCIMENTO] = strlen($documents['civil_register_enrollment_number']) == 32? $documents['civil_register_enrollment_number'] : null;
-        $register[self::EDCENSO_NOME] = $identification['name'];
+        $register[self::EDCENSO_NOME] = self::fixName($identification['name']);
         $register[self::EDCENSO_DATA_NASCIMENTO] = $identification['birthday'];
         $register[self::EDCENSO_FILIATION_1] = $identification['filiation_1'];
         $register[self::EDCENSO_FILIATION_2] = $identification['filiation_2'];
-        $register[self::EDCENSO_MUN_NASCIMENTO] = $identification['filiation_2'];
-        $register[self::EDCENSO_INEP_ID] = $identification['inep_id'];
+        $register[self::EDCENSO_MUN_NASCIMENTO] = $identification['edcenso_city_fk'];
+        $register[self::EDCENSO_INEP_ID] = null;
 
 
 
