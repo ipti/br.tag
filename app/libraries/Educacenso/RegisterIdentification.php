@@ -14,6 +14,10 @@ class RegisterIdentification
 
     private static function fixName($name)
     {
+        if (!isset($name)) {
+            return null;
+        }
+
         return preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($name));
     }
 
@@ -23,7 +27,7 @@ class RegisterIdentification
         if (count($classroom->instructorTeachingDatas) >= 1) {
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
                 if ($enrollment->isActive()) {
-                if (!isset($students[$enrollment->student_fk])) {
+                    if (!isset($students[$enrollment->student_fk])) {
                         $students[$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
                         $students[$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
                     }
@@ -43,11 +47,11 @@ class RegisterIdentification
 
         $register[self::EDCENSO_COD_NA_UNIDADE] = $identification['id'];
         $register[self::EDCENSO_CPF] = $documents['cpf'];
-        $register[self::EDCENSO_CERT_NASCIMENTO] = strlen($documents['civil_register_enrollment_number']) == 32? $documents['civil_register_enrollment_number'] : null;
+        $register[self::EDCENSO_CERT_NASCIMENTO] = self::validarMatriculaRegistroCivil($documents['civil_register_enrollment_number']) ? $documents['civil_register_enrollment_number'] : null;
         $register[self::EDCENSO_NOME] = self::fixName($identification['name']);
         $register[self::EDCENSO_DATA_NASCIMENTO] = $identification['birthday'];
-        $register[self::EDCENSO_FILIATION_1] = $identification['filiation_1'];
-        $register[self::EDCENSO_FILIATION_2] = $identification['filiation_2'];
+        $register[self::EDCENSO_FILIATION_1] = self::fixName($identification['filiation_1']);
+        $register[self::EDCENSO_FILIATION_2] = self::fixName($identification['filiation_2']);
         $register[self::EDCENSO_MUN_NASCIMENTO] = $identification['edcenso_city_fk'];
         $register[self::EDCENSO_INEP_ID] = null;
 
@@ -76,5 +80,32 @@ class RegisterIdentification
         }
 
         return $registers;
+    }
+
+    public static function validarMatriculaRegistroCivil(string $matricula): bool
+    {
+        // Remove caracteres não numéricos
+        $matricula = preg_replace('/\D/', '', $matricula);
+
+        // Verifica se tem exatamente 32 dígitos
+        if (strlen($matricula) !== 32) {
+            return false;
+        }
+
+        return self::validarCodigoAcervo($matricula);
+    }
+
+    public static function validarCodigoAcervo(string $matricula): bool
+    {
+
+        $codigoAcervo = substr($matricula, 6, 2);  // posições 7 e 8
+        $anoRegistro = intval(substr($matricula, 12, 4));  // posições 13 a 16
+
+        // Acervo "02" só permitido até 2009
+        if ($codigoAcervo === '02' && $anoRegistro > 2009) {
+            return false;
+        }
+
+        return true;
     }
 }
