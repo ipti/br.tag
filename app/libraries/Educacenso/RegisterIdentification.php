@@ -82,6 +82,75 @@ class RegisterIdentification
         return $registers;
     }
 
+    public static function import($identificationFile)
+    {
+        set_time_limit(0);
+        ignore_user_abort();
+
+        $errors = [];
+        $success = 0;
+        $fail = 0;
+
+        $file = fopen($identificationFile, 'r');
+        if (!$file) {
+            return [
+                'success' => 0,
+                'fail' => 0,
+                'errors' => ['O arquivo não pôde ser aberto.']
+            ];
+        }
+
+        $lineNumber = 0;
+
+        while (($line = fgets($file)) !== false) {
+            $lineNumber++;
+
+            if (trim($line) === '')
+                continue;
+
+            $fields = array_map('trim', explode('|', $line));
+
+            if (self::updateStudents($fields, $errors, $lineNumber, $line)) {
+                $success++;
+            } else {
+                $fail++;
+            }
+        }
+
+        fclose($file);
+
+        return [
+            'success' => $success,
+            'fail' => $fail,
+            'errors' => $errors
+        ];
+    }
+
+    public static function updateStudents(array $register, array &$errors = [], int $lineNumber = 0, string $rawLine = '')
+    {
+        if (!isset($register[self::EDCENSO_COD_NA_UNIDADE], $register[self::EDCENSO_INEP_ID])) {
+            $errors[] = "Linha {$lineNumber}: campos obrigatórios ausentes. Conteúdo: {$rawLine}";
+            return false;
+        }
+
+        $student = StudentIdentification::model()->findByPk($register[self::EDCENSO_COD_NA_UNIDADE]);
+
+        if ($student === null) {
+            $errors[] = "Linha {$lineNumber}: aluno com código {". $register[self::EDCENSO_COD_NA_UNIDADE]. "} não encontrado. Conteúdo: {$rawLine}";
+            return false;
+        }
+
+        $student->inep_id = $register[self::EDCENSO_INEP_ID];
+
+        if (!$student->save()) {
+            $errorDetails = CVarDumper::dumpAsString($student->getErrors());
+            $errors[] = "Linha {$lineNumber}: erro ao salvar aluno ID {$student->id}. Erros: {$errorDetails}. Conteúdo: {$rawLine}";
+            return false;
+        }
+
+        return true;
+    }
+
     public static function validarMatriculaRegistroCivil(string $matricula): bool
     {
         // Remove caracteres não numéricos

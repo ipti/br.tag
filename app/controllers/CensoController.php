@@ -3104,8 +3104,9 @@ class CensoController extends Controller
                 $lineFields[] = $lineFields_Aux;
             }
             $imported = "";
+            $counter = 0;
             foreach ($lineFields as $index => $line) {
-                $student = StudentIdentification::model()->findByPk($line[0]);
+                $student = StudentIdentification::model()->with('documentsFk')->with("studentEnrollments")->findByPk($line[0]);
                 if (isset($student)) {
                     $student->documentsFk->student_fk = $line[8];
                     $student->documentsFk->update(array('student_fk'));
@@ -3120,7 +3121,7 @@ class CensoController extends Controller
                     }
 
                     $student->update(array('inep_id'));
-                    $imported .= $this->printImported('Student', $line);
+                    // $imported .= $this->printImported('Student', $line);
                 } else {
                     $instructor = InstructorIdentification::model()->findByPk($line[0]);
                     if (isset($instructor)) {
@@ -3145,7 +3146,7 @@ class CensoController extends Controller
                 }
             }
             Yii::app()->user->setFlash("success", "Importação realizada com sucesso!");
-            Yii::app()->user->setFlash("log", $imported);
+            Yii::app()->user->setFlash("log", "{$counter} registros importados com sucesso");
         } catch (Exception $e) {
             Yii::app()->user->setFlash("error", "Ocorreu um erro inesperado.");
         }

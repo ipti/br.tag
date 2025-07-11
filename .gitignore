@@ -13,3 +13,4 @@ dump.sql
 vendor
 docker/mysql/dbfiles
 node_modules
+app/import/*

@@ -7,105 +7,105 @@
     $actualYear = date('Y');
 
 
-    for ($i=0; $i < 5; $i++) {
+    for ($i = 0; $i < 5; $i++) {
         $year = $actualYear - $i;
         $listYears[$year] = $year;
     }
 
     ?>
 
-    <div class="row-fluid hidden-print">
-        <div class="span12">
-            <h1>Importação de INEP ID</h1>
-        </div>
-    </div>
+
 
     <?php echo CHtml::beginForm('', 'post', ["enctype" => "multipart/form-data"]); ?>
+<div class="row main">
+	<div class="column">
+		<h1>Importar arquivo de Identificação</h1>
+        <span class="subheading">Baixe o arquivo no site do censo e atualize o INEP ID dos alunos. APENAS o arquivo "RESULTADO_ENCONTRADO"</span>
+	</div>
+</div>
 
-    <div class="innerLR">
-
-        <div class="widget widget-tabs border-bottom-none">
-            <div class="widget-head">
-                <ul class="tab-import">
-                    <li id="tab-import-indentify" class="active">
-                        <a class="glyphicons file" href="#import-indentify" ata-toggle="tab">
-                            <i></i><?php echo Yii::t('default', 'Import') ?>
+    <div class="form">
+        <div class="t-tabs row">
+            <div class="column">
+                <ul class="t-tabs__list">
+                    <li class="active t-tabs__item">
+                        <a data-toggle="tab" class="t-tabs__link">
+                            <span class="t-tabs__numeration">1</span>
+                            <?php echo Yii::t('default', 'Import') ?>
                         </a>
                     </li>
                 </ul>
             </div>
+        </div>
+        <div class="main form-content">
 
-            <div class="widget-body form-horizontal">
-                <div class="tab-content">
-                    <div class="tab-pane active" id="import-indentify">
-                        <?php if(Yii::app()->user->hasFlash('success')): ?>
-                            <div class="row-fluid">
-                                <div class="span12">
-                                    <div class="alert alert-success">
-                                        <button type="button" class="close" data-dismiss="alert">×</button>
-                                        <strong><?= Yii::app()->user->getFlash('success'); ?></strong>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <?php if(Yii::app()->user->hasFlash('error')): ?>
-                            <div class="row-fluid">
-                                <div class="span12">
-                                    <div class="alert alert-error">
-                                        <button type="button" class="close" data-dismiss="alert">×</button>
-                                        <strong><?= Yii::app()->user->getFlash('error'); ?></strong>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-
-                        <?php if($importModel->hasErrors()): ?>
-                            <div class="row-fluid">
-                                <div class="span12">
-                                    <?= CHtml::errorSummary($importModel); ?>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <div class="row-fluid">
-                            <div class="span4">
-                                <div class="control-group">
-                                    <?= CHtml::activeLabel($importModel, 'file', array('class' => 'control-label')); ?>
-                                    <div class="controls">
-                                        <?= CHtml::activeFileField($importModel, 'file'); ?>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row-fluid">
-                                <div class="span4">
-                                    <div class="control-group">
-                                        <?= CHtml::activeLabel($importModel, 'probable', array('class' => 'control-label')); ?>
-                                        <div class="controls">
-                                            <?= CHtml::activeCheckBox($importModel, 'probable'); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <?php if (Yii::app()->user->hasFlash('success')): ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong><?= Yii::app()->user->getFlash('success'); ?></strong>
                         </div>
-                        <div class="row-fluid">
-                            <div class="span12">
-                                <div class="control-group">
-                                    <?= CHtml::submitButton('Importar', ['class'=> 'btn btn-primary']); ?>
-                                </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <?php if (Yii::app()->user->hasFlash('error')): ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-error">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong><?= Yii::app()->user->getFlash('error'); ?></strong>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($importModel->hasErrors()): ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?= CHtml::errorSummary($importModel); ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="t-field-text">
+                        <?= CHtml::activeLabel($importModel, 'file', array('class' => 't-field-text__label')); ?>
+                        <div class="controls">
+                            <?= CHtml::activeFileField($importModel, 'file'); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="row hidden">
+                    <div class="col-md-4">
+                        <div class="t-field-text">
+                            <?= CHtml::activeLabel($importModel, 'probable', array('class' => 't-field-text__label')); ?>
+                            <div class="controls">
+                                <?= CHtml::activeCheckBox($importModel, 'probable'); ?>
                             </div>
                         </div>
                     </div>
-                    <?php if(Yii::app()->user->hasFlash('log')): ?>
-                        <div class="row-fluid">
-                            <div class="span12">
-                                <?= Yii::app()->user->getFlash('log'); ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="t-field-text">
+                        <?= CHtml::submitButton('Importar', ['class' => 'btn btn-primary']); ?>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        <?php if (Yii::app()->user->hasFlash('log')): ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?= Yii::app()->user->getFlash('log'); ?>
+                </div>
+            </div>
+        <?php endif; ?>
 
-    <?php echo CHtml::endForm(); ?>
+    </div>
+</div>
+
+<?php echo CHtml::endForm(); ?>
 
 </div>

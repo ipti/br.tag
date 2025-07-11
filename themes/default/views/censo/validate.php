@@ -124,6 +124,10 @@
                     style="margin:0;">
                     <?= Yii::t('default', 'Exportar arquivo de identificação') ?>
                 </a>
+                 <a href="<?= CHtml::normalizeUrl(array('censo/inepImport')) ?>" class="t-button-secondary"
+                    style="margin:0;">
+                    <?= Yii::t('default', 'Importar INEP ID') ?>
+                </a>
             <?php endif; ?>
         </div>
         <!-- Widget Heading END -->
