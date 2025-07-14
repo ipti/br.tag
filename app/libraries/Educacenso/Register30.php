@@ -113,7 +113,7 @@ class Register30
     {
         if (count($classroom->instructorTeachingDatas) >= 1) {
             foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-                if ($enrollment->status == 1 || $enrollment->status == null) {
+                if ($enrollment->isActive()) {
                     if (!isset($students[$enrollment->student_fk])) {
                         $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
                         $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
