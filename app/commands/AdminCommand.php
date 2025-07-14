@@ -74,9 +74,6 @@ class AdminCommand extends CConsoleCommand
 
     }
 
-
-
-
     public function mres($value)
     {
         $search = array("\\", "\x00", "\n", "\r", "'", '"', "\x1a");
@@ -90,7 +87,103 @@ class AdminCommand extends CConsoleCommand
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '-1');
         set_time_limit(0);
-        foreach ($loads['schools'] as $index => $scholl) {
+
+        $this->loadSchools($loads['schools']);
+        $this->loadSchoolStructure($loads['schools_structure']);
+        $this->loadClass($loads['classrooms']);
+        $this->loadInstructors($loads['instructors']);
+        $this->loadAddress($loads['idocuments']);
+        $this->loadTeachingData($loads['instructorsteachingdata']);
+        $this->loadVariableData($loads['instructorsvariabledata']);
+        //@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
+
+    }
+
+    private function loadTeachingData($data)
+    {
+
+        foreach ($data as $index => $teachingdata) {
+            echo "Importando Teaching Data" . $teachingdata['hash'] . "..\n";
+            $saveteaching = new InstructorTeachingData();
+            $saveteaching->setScenario('search');
+            $saveteaching->setDb2Connection(true);
+            $saveteaching->refreshMetaData();
+            $saveteaching = $saveteaching->findByAttributes(array('hash' => $teachingdata['hash']));
+            if (!isset($saveteaching)) {
+                $saveteaching = new InstructorTeachingData();
+                $saveteaching->setScenario('search');
+                $saveteaching->setDb2Connection(true);
+                $saveteaching->refreshMetaData();
+            }
+            $saveteaching->attributes = $teachingdata;
+            $saveteaching->hash = $teachingdata['hash'];
+            $saveteaching->hash_classroom = $teachingdata['hash_classroom'];
+            $saveteaching->hash_instructor = $teachingdata['hash_instructor'];
+            $saveteaching->refreshMetaData();
+            $saveteaching->save();
+            if (!empty($saveteaching->errors)) {
+                var_dump($saveteaching->errors);
+                exit;
+            }
+        }
+
+    }
+    private function loadVariableData($data)
+    {
+
+        foreach ($data as $i => $variabledata) {
+            echo "Importando Variable Data Professor" . $variabledata['hash'] . "..\n";
+            $savevariable = new InstructorVariableData();
+            $savevariable->setScenario('search');
+            $savevariable->setDb2Connection(true);
+            $savevariable->refreshMetaData();
+            $savevariable = $savevariable->findByAttributes(array('hash' => $variabledata['hash']));
+            if (!isset($savevariable)) {
+                $savevariable = new InstructorVariableData();
+                $savevariable->setScenario('search');
+                $savevariable->setDb2Connection(true);
+                $savevariable->refreshMetaData();
+                echo 'entrou';
+            }
+            $savevariable->attributes = $variabledata;
+            $savevariable->hash = $variabledata['hash'];
+            $savevariable->refreshMetaData();
+            $savevariable->save();
+            if (!empty($savevariable->errors)) {
+                var_dump($savevariable->errors);
+            }
+        }
+    }
+    private function loadAddress($document)
+    {
+
+        foreach ($document as $i => $documentsaddress) {
+            echo "Importando Documento Professor" . $documentsaddress['hash'] . "..\n";
+            $saveidocument = new InstructorDocumentsAndAddress();
+            $saveidocument->setScenario('search');
+            $saveidocument->setDb2Connection(true);
+            $saveidocument->refreshMetaData();
+            $saveidocument = $saveidocument->findByAttributes(array('hash' => $documentsaddress['hash']));
+            if (!isset($saveidocument)) {
+                $saveidocument = new InstructorDocumentsAndAddress();
+                $saveidocument->setScenario('search');
+                $saveidocument->setDb2Connection(true);
+                $saveidocument->refreshMetaData();
+            }
+            $saveidocument->attributes = $documentsaddress;
+            $saveidocument->hash = $documentsaddress['hash'];
+            $saveidocument->refreshMetaData();
+            $saveidocument->save();
+            if (!empty($saveidocument->errors)) {
+                var_dump($saveidocument->errors);
+                exit;
+            }
+        }
+
+    }
+    private function loadSchools($schools)
+    {
+        foreach ($schools as $index => $scholl) {
             echo "Importando escola" . $scholl['name'] . "..\n";
             $saveschool = new SchoolIdentification();
             $saveschool->setDb2Connection(true);
@@ -110,7 +203,10 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-        foreach ($loads['schools_structure'] as $index => $structure) {
+    }
+    private function loadSchoolStructure($data)
+    {
+        foreach ($data as $index => $structure) {
             $saveschool = new SchoolStructure();
             $saveschool->setDb2Connection(true);
             $saveschool->setScenario('search');
@@ -129,7 +225,11 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-        foreach ($loads['classrooms'] as $index => $class) {
+    }
+
+    private function loadClass($classroomsData)
+    {
+        foreach ($classroomsData as $index => $class) {
             echo "Importando turma" . $class['name'] . "..\n";
             $saveclass = new Classroom();
             $saveclass->setScenario('search');
@@ -150,9 +250,11 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
+    }
 
-
-        foreach ($loads['instructors'] as $i => $instructor) {
+    private function loadInstructors($instructors)
+    {
+        foreach ($instructors as $i => $instructor) {
             echo "Importando Professor" . $instructor['name'] . "..\n";
             $saveinstructor = new InstructorIdentification();
             $saveinstructor->setScenario('search');
@@ -182,79 +284,8 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-        foreach ($loads['idocuments'] as $i => $documentsaddress) {
-            echo "Importando Documento Professor" . $documentsaddress['hash'] . "..\n";
-            $saveidocument = new InstructorDocumentsAndAddress();
-            $saveidocument->setScenario('search');
-            $saveidocument->setDb2Connection(true);
-            $saveidocument->refreshMetaData();
-            $saveidocument = $saveidocument->findByAttributes(array('hash' => $documentsaddress['hash']));
-            if (!isset($saveidocument)) {
-                $saveidocument = new InstructorDocumentsAndAddress();
-                $saveidocument->setScenario('search');
-                $saveidocument->setDb2Connection(true);
-                $saveidocument->refreshMetaData();
-            }
-            $saveidocument->attributes = $documentsaddress;
-            $saveidocument->hash = $documentsaddress['hash'];
-            $saveidocument->refreshMetaData();
-            $saveidocument->save();
-            if (!empty($saveidocument->errors)) {
-                var_dump($saveidocument->errors);
-                exit;
-            }
-        }
-        foreach ($loads['instructorsteachingdata'] as $index => $teachingdata) {
-            echo "Importando Teaching Data" . $teachingdata['hash'] . "..\n";
-            $saveteaching = new InstructorTeachingData();
-            $saveteaching->setScenario('search');
-            $saveteaching->setDb2Connection(true);
-            $saveteaching->refreshMetaData();
-            $saveteaching = $saveteaching->findByAttributes(array('hash' => $teachingdata['hash']));
-            if (!isset($saveteaching)) {
-                $saveteaching = new InstructorTeachingData();
-                $saveteaching->setScenario('search');
-                $saveteaching->setDb2Connection(true);
-                $saveteaching->refreshMetaData();
-            }
-            $saveteaching->attributes = $teachingdata;
-            $saveteaching->hash = $teachingdata['hash'];
-            $saveteaching->hash_classroom = $teachingdata['hash_classroom'];
-            $saveteaching->hash_instructor = $teachingdata['hash_instructor'];
-            $saveteaching->refreshMetaData();
-            $saveteaching->save();
-            if (!empty($saveteaching->errors)) {
-                var_dump($saveteaching->errors);
-                exit;
-            }
-        }
-        foreach ($loads['instructorsvariabledata'] as $i => $variabledata) {
-            echo "Importando Variable Data Professor" . $variabledata['hash'] . "..\n";
-            $savevariable = new InstructorVariableData();
-            $savevariable->setScenario('search');
-            $savevariable->setDb2Connection(true);
-            $savevariable->refreshMetaData();
-            $savevariable = $savevariable->findByAttributes(array('hash' => $variabledata['hash']));
-            if (!isset($savevariable)) {
-                $savevariable = new InstructorVariableData();
-                $savevariable->setScenario('search');
-                $savevariable->setDb2Connection(true);
-                $savevariable->refreshMetaData();
-                echo 'entrou';
-            }
-            $savevariable->attributes = $variabledata;
-            $savevariable->hash = $variabledata['hash'];
-            $savevariable->refreshMetaData();
-            $savevariable->save();
-            if (!empty($savevariable->errors)) {
-                var_dump($savevariable->errors);
-            }
-        }
-
-
-        //@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
-
     }
+
     public function prepareExport()
     {
         ini_set('max_execution_time', 0);
