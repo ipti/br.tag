@@ -32,12 +32,18 @@ class StudentDocumentsAndAddressValidation extends Register
         if (strlen($Reg70Field5) != 0) {
             if ($Reg60Field12 == 1 || $Reg60Field12 == 2) {
                 if (strlen($EmissorOrgan) == 0) {
-                    return array("status" => false, "erro" =>
-                        " Orgao emissor deve ser  preenchido");
+                    return array(
+                        "status" => false,
+                        "erro" =>
+                            " Orgao emissor deve ser  preenchido"
+                    );
                 }
                 if (strlen($EmissorOrgan) != 2) {
-                    return array("status" => false, "erro" =>
-                        " Orgao emissor preenchido com tamanho inválido");
+                    return array(
+                        "status" => false,
+                        "erro" =>
+                            " Orgao emissor preenchido com tamanho inválido"
+                    );
                 } else {
                     return array("status" => true, "erro" => "");
                 }
@@ -166,9 +172,9 @@ class StudentDocumentsAndAddressValidation extends Register
     function dateValid($date)
     {
         $data = explode('/', $date);
-        $dia = (int)$data[0];
-        $mes = (int)$data[1];
-        $ano = (int)$data[2];
+        $dia = (int) $data[0];
+        $mes = (int) $data[1];
+        $ano = (int) $data[2];
 
         // verifica se a data é valida
         if (!checkdate($mes, $dia, $ano)) {
@@ -270,10 +276,10 @@ class StudentDocumentsAndAddressValidation extends Register
             return array("status" => false, "erro" => "com o ano de registro (dígitos de 11 a 14) anterior ao ano de nascimento.");
         }
 
-        if(!$this->validateCertidao($value)){
+        if (!$this->validateCertidao($value)) {
             return array("status" => false, "erro" => "O número da matrícula da certidão inserida é inválido.");
         }
-        
+
 
         return array("status" => true, "erro" => "");
     }
@@ -297,12 +303,12 @@ class StudentDocumentsAndAddressValidation extends Register
 
         $dv1 = $dv1 > 9 ? 1 : $dv1;
 
-        $dv2 = $this->weightedSumCertidao($num.$dv1) % 11;
+        $dv2 = $this->weightedSumCertidao($num . $dv1) % 11;
 
         $dv2 = $dv2 > 9 ? 1 : $dv2;
 
         // Compara o dv recebido com os dois numeros calculados
-        if ($dv === $dv1.$dv2) {
+        if ($dv === $dv1 . $dv2) {
             return true;
         }
 
@@ -436,6 +442,17 @@ class StudentDocumentsAndAddressValidation extends Register
         return array("status" => true, "erro" => "");
     }
 
+    public function cepVerify($cityFk, $studentZipCode)
+    {
+        if (!isset($cityFk)) {
+            return array("status" => false, "erro" => "O município do aluno não foi adicionado.");
+        }
+        $city = EdcensoCity::model()->findByPk($cityFk);
+        $result = $city->validateContainsCep($studentZipCode);
+        if (!$result) {
+            return array("status" => false, "erro" => "O CEP do aluno não corresponde à faixa do município selecionado.");
+        }
+    }
     //campo 24,25,26,27,28,29
     function isAdressValid($field, $cep, $allowed_lenght)
     {

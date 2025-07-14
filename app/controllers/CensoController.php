@@ -48,10 +48,7 @@ class CensoController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
-        $this->render('index');
-    }
+
 
     public function actionImportDegreeCodes()
     {
@@ -1539,6 +1536,11 @@ class CensoController extends Controller
         if (!$result["status"])
             array_push($log, array("Localizacao/Zona de residencia" => $result["erro"]));
 
+        $cepValidation = $sda->cepVerify($collumn["edcenso_city_fk"], $collumn["cep"]);
+        if(isset($cepValidation)){
+            array_push($log, ["edcenso_city_fk" => $cepValidation["erro"]]);
+        }
+
         return $log;
     }
 
@@ -1674,8 +1676,9 @@ class CensoController extends Controller
             array_push($log, array("student_entry_form" => $result["erro"]));
 
         $result = $sev->isValidMultiClassroom($edcenso_svm, $collumn["edcenso_stage_vs_modality_fk"]);
+
         if (!$result["status"])
-            array_push($log, array("Etapa de Ensino" => $result["erro"]));
+            array_push($log, array("Etapa de Ensino" => $result["erro"], "type" => $result['type']));
 
         $aeeTypes = array(
             $collumn['aee_cognitive_functions'],
@@ -1710,7 +1713,7 @@ class CensoController extends Controller
         $log['school']['info'] = $school->attributes;
         $log['school']['validate']['identification'] = $this->validateSchool($schoolcolumn, $managerIdentificationColumn);
         $log['school']['validate']['structure'] = $this->validateSchoolStructure($schoolstructurecolumn, $schoolcolumn);
-        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->with("studentEnrollments")->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
 
         $processedInstructors = [];
         foreach ($classrooms as $iclass => $classroom) {
@@ -1740,8 +1743,17 @@ class CensoController extends Controller
             }
         }
 
-        $this->render('validate', ['log' => $log]);
+
+        $this->renderPartial('_validatemessages', ['log' => $log], false, true);
+        Yii::app()->end();
     }
+
+    public function actionIndex()
+    {
+
+        $this->render('validate');
+    }
+
 
     public function fixName($name)
     {
@@ -2875,7 +2887,7 @@ class CensoController extends Controller
             Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
         }
 
-        return $this->redirect(array('validate'));
+        return $this->redirect(array('index'));
 
         //        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 //        $this->normalizeField2019($school->register_type, $school->attributes);
@@ -2975,9 +2987,50 @@ class CensoController extends Controller
 //        $this->redirect(array('validate'));
     }
 
+    public function actionExportIdentification()
+    {
+        include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
+        $Educacenso = new Educacenso;
+        $export = $Educacenso->exportarIdentification();
+
+        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '_IDENTIFICACAO.TXT';
+
+        Yii::import('ext.FileManager.fileManager');
+        $fm = new fileManager();
+        $result = $fm->write($fileDir, $export);
+
+        if ($result) {
+            $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
+            Log::model()->saveAction("educacenso", Yii::app()->user->school, "E", $school->name);
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFileIdentification" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de identificação!!!</a>'));
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+        }
+
+        return $this->redirect(array('index'));
+    }
+
     public function actionDownloadExportFile()
     {
         $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+        if (file_exists($fileDir)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($fileDir) . '"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($fileDir));
+            readfile($fileDir);
+        } else {
+            Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado!!! Tente exportar novamente.'));
+            $this->render('index');
+        }
+    }
+
+    public function actionDownloadExportFileIdentification()
+    {
+        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '_IDENTIFICACAO.TXT';
         if (file_exists($fileDir)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
@@ -3051,8 +3104,9 @@ class CensoController extends Controller
                 $lineFields[] = $lineFields_Aux;
             }
             $imported = "";
+            $counter = 0;
             foreach ($lineFields as $index => $line) {
-                $student = StudentIdentification::model()->findByPk($line[0]);
+                $student = StudentIdentification::model()->with('documentsFk')->with("studentEnrollments")->findByPk($line[0]);
                 if (isset($student)) {
                     $student->documentsFk->student_fk = $line[8];
                     $student->documentsFk->update(array('student_fk'));
@@ -3067,7 +3121,7 @@ class CensoController extends Controller
                     }
 
                     $student->update(array('inep_id'));
-                    $imported .= $this->printImported('Student', $line);
+                    // $imported .= $this->printImported('Student', $line);
                 } else {
                     $instructor = InstructorIdentification::model()->findByPk($line[0]);
                     if (isset($instructor)) {
@@ -3092,7 +3146,7 @@ class CensoController extends Controller
                 }
             }
             Yii::app()->user->setFlash("success", "Importação realizada com sucesso!");
-            Yii::app()->user->setFlash("log", $imported);
+            Yii::app()->user->setFlash("log", "{$counter} registros importados com sucesso");
         } catch (Exception $e) {
             Yii::app()->user->setFlash("error", "Ocorreu um erro inesperado.");
         }

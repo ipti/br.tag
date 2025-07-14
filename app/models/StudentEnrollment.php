@@ -702,7 +702,7 @@ class StudentEnrollment extends AltActiveRecord
             null
         ];
         $stages = new CList($refActiveStatus, true);
-        return $stages->contains($this->status);
+        return $stages->contains($this->status."");
     }
 
     public static function getStatusId($status)
