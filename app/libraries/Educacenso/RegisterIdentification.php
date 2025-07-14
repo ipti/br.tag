@@ -63,16 +63,11 @@ class RegisterIdentification
         $documents = $person['documents'];
 
 
-        if($type === RegisterIdentificationType::INSTRUCTOR){
-            $register[self::EDCENSO_COD_NA_UNIDADE] = 'II' . $identification['id'];
-        } else {
-            $register[self::EDCENSO_COD_NA_UNIDADE] = $identification['id'];
-        }
-
+        $register[self::EDCENSO_COD_NA_UNIDADE] = $type === RegisterIdentificationType::INSTRUCTOR ? 'II' . $identification['id'] : $identification['id'];
         $register[self::EDCENSO_CPF] = $documents['cpf'];
         $register[self::EDCENSO_CERT_NASCIMENTO] = self::validarMatriculaRegistroCivil($documents['civil_register_enrollment_number']) ? $documents['civil_register_enrollment_number'] : null;
         $register[self::EDCENSO_NOME] = self::fixName($identification['name']);
-        $register[self::EDCENSO_DATA_NASCIMENTO] = $identification['birthday'];
+        $register[self::EDCENSO_DATA_NASCIMENTO] = $type === RegisterIdentificationType::INSTRUCTOR ? $identification['birthday_date'] : $identification['birthday'];
         $register[self::EDCENSO_FILIATION_1] = self::fixName($identification['filiation_1']);
         $register[self::EDCENSO_FILIATION_2] = self::fixName($identification['filiation_2']);
         $register[self::EDCENSO_MUN_NASCIMENTO] = $identification['edcenso_city_fk'];
@@ -185,7 +180,7 @@ class RegisterIdentification
     public static function validarMatriculaRegistroCivil($matricula): bool
     {
         // Remove caracteres não numéricos
-        if($matricula == null){
+        if ($matricula == null) {
             return false;
         }
 
