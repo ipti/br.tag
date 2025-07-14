@@ -289,6 +289,7 @@ class CourseplanController extends Controller
                 $logSituation = "C";
             }
             $startTimestamp = $this->dataConverter($request["start_date"], 0);
+
             $request["start_date"] = $startTimestamp;
             $coursePlan->attributes = $request;
             $coursePlan->situation = 'PENDENTE';
@@ -398,18 +399,40 @@ class CourseplanController extends Controller
 
     public static function dataConverter($data, $case)
     {
-        // Caso 0: converte dd/mm/yyyy para yyyy-mm-dd
-        if ($case == 0) {
-            $dataObj = date_create_from_format('d/m/Y', $data);
-            if (!$dataObj == false)
-                return date_format($dataObj, 'Y-m-d');
+        if (empty($data)) {
+            return false;
         }
 
-        // Caso 1: converte yyyy-mm-dd para dd/mm/yyyy
-        if ($case == 1) {
-            $dataObj = date_create_from_format('Y-m-d G:i:s', $data);
-            if (!$dataObj == false)
-                return date_format($dataObj, 'd/m/Y');
+        switch ($case) {
+            // Caso 0: converte dd/mm/yyyy para yyyy-mm-dd
+            case 0:
+                $dataObj = date_create_from_format('d/m/Y', $data);
+                break;
+
+            // Caso 1: converte yyyy-mm-dd [opcionalmente com hora] para dd/mm/yyyy
+            case 1:
+                // Tenta primeiro com hora completa
+                $dataObj = date_create_from_format('Y-m-d H:i:s', $data);
+                if (!$dataObj) {
+                    // Tenta com hora sem zero à esquerda (ex: "2024-07-03 7:5:0")
+                    $dataObj = date_create_from_format('Y-m-d G:i:s', $data);
+                }
+                if (!$dataObj) {
+                    // Tenta apenas a data
+                    $dataObj = date_create_from_format('Y-m-d', $data);
+                }
+                break;
+
+            default:
+                return false;
+        }
+
+        // Verifica se houve erros no parsing da data
+        $errors = DateTime::getLastErrors();
+        if ($dataObj !== false && $errors['warning_count'] === 0 && $errors['error_count'] === 0) {
+            return $case === 0
+                ? date_format($dataObj, 'Y-m-d')
+                : date_format($dataObj, 'd/m/Y');
         }
 
         return false;

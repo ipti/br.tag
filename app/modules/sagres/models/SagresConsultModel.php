@@ -853,7 +853,7 @@ class SagresConsultModel
         $series = Yii::app()->db->createCommand($query)->bindValue(":id", $classId)->queryAll();
 
         $seriesList = $this->seriesAssembly($series, $school->name, $classId, $referenceYear, $finalClass, $inepId, $withoutCpf, $multiStage);
-        $this->seriesNumberValidation($series, 3, $school->name, $inepId);
+        $this->seriesNumberValidation($series, 3, $school->name, $classId);
 
         return $seriesList;
     }
@@ -915,14 +915,14 @@ class SagresConsultModel
 
     }
 
-    private function isIssetSerieId($idSerie, $schoolName, $classId, $isMulti)
+    private function isIssetSerieId($idSerie, $schoolName, $classId, $multiStage)
     {
-        if (!isset($idSerie) && $isMulti) {
+        if (!isset($idSerie) && $multiStage) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = SERIE_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = ' A série possui alunos com etapa de ensino não associada ';
-            $inconsistencyModel->action = 'Atualize a etapa para os alunos';
+            $inconsistencyModel->description = 'Série não esta associada a nenhuma etapa válida ';
+            $inconsistencyModel->action = 'Adicione uma etapa válida';
             $inconsistencyModel->identifier = '13';
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
@@ -1001,14 +1001,12 @@ class SagresConsultModel
             $inconsistencyModel->identifier = '10';
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
-        }
-
-        if (!isset($edcensoCodes[$edcensoCode])) {
+        } else if (!isset($edcensoCodes[$edcensoCode])) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = SERIE_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'Etapa inválida para a turma ';
-            $inconsistencyModel->action = 'Associe uma etapa válida';
+            $inconsistencyModel->description = 'Há alunos na turma com etapa de ensino não associada a nenhuma etapa válida.';
+            $inconsistencyModel->action = 'Atualize a etapa de ensino de cada aluno para uma etapa válida.';
             $inconsistencyModel->identifier = '13';
             $inconsistencyModel->idClass = $classId;
             $inconsistencyModel->insert();
@@ -1016,16 +1014,17 @@ class SagresConsultModel
 
     }
 
-    private function seriesNumberValidation($series, $maxNumber, $schoolName, $inepId): void
+    private function seriesNumberValidation($series, $maxNumber, $schoolName, $idClass): void
     {
         if (count($series) > $maxNumber) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = TURMA_STRONG;
             $inconsistencyModel->school = $schoolName;
-            $inconsistencyModel->description = 'Essa turma multiseriada excede o limite de 3 etapas por turma ' . $schoolName;
-            $inconsistencyModel->action = 'Avalie as etapas das matriculas';
-            $inconsistencyModel->identifier = '10';
-            $inconsistencyModel->idSchool = $inepId;
+            $inconsistencyModel->description = 'Turmas multiseriadas apenas aceitam 3 etapas de ensino diferentes ' . $schoolName;
+            $inconsistencyModel->action = 'Avalie as etapas das matrículas e deixe apenas 3 etapas diferentes';
+            $inconsistencyModel->identifier = '13';
+
+            $inconsistencyModel->idClass = $idClass;
             $inconsistencyModel->insert();
         }
     }
@@ -2364,8 +2363,6 @@ class SagresConsultModel
         $tempArchiveZip->close();
         $content = null;
     }
-
-
 
     public function validatorSagresEduExportXML($object)
     {

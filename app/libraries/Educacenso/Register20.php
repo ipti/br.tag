@@ -4,6 +4,8 @@ class Register20
 {
 
     // 2024: 32 ~> 2025: 26
+
+    private const REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL = 24;
     private const REGISTER_ATTR_ETAPA_AGREGADA = 25;
     private const REGISTER_ATTR_ETAPA = 26;
     // 2024: 34 ~> 2025: 28
@@ -133,8 +135,9 @@ class Register20
                 if ($attributes["aee"] == '1') {
                     $attributes["schooling"] = '0';
                     $attributes["complementary_activity"] = '0';
-
                 }
+
+
 
                 if (
                     $attributes["complementary_activity_type_1"] == null && $attributes["complementary_activity_type_2"] == null && $attributes["complementary_activity_type_3"] == null
@@ -188,11 +191,11 @@ class Register20
 
                 $complementaryActivitiesArray = [];
                 if ($attributes["complementary_activity_type_1"] != null) {
-                    $attributes["complementary_activity_type_1"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_1"]);
+
                     array_push($complementaryActivitiesArray, $attributes["complementary_activity_type_1"]);
                 }
                 if ($attributes["complementary_activity_type_2"] != null) {
-                    $attributes["complementary_activity_type_2"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_2"]);
+
                     if (in_array($attributes["complementary_activity_type_2"], $complementaryActivitiesArray)) {
                         $attributes["complementary_activity_type_2"] = "";
                     } else {
@@ -200,7 +203,7 @@ class Register20
                     }
                 }
                 if ($attributes["complementary_activity_type_3"] != null) {
-                    $attributes["complementary_activity_type_3"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_3"]);
+
                     if (in_array($attributes["complementary_activity_type_3"], $complementaryActivitiesArray)) {
                         $attributes["complementary_activity_type_3"] = "";
                     } else {
@@ -208,7 +211,7 @@ class Register20
                     }
                 }
                 if ($attributes["complementary_activity_type_4"] != null) {
-                    $attributes["complementary_activity_type_4"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_4"]);
+
                     if (in_array($attributes["complementary_activity_type_4"], $complementaryActivitiesArray)) {
                         $attributes["complementary_activity_type_4"] = "";
                     } else {
@@ -216,7 +219,7 @@ class Register20
                     }
                 }
                 if ($attributes["complementary_activity_type_5"] != null) {
-                    $attributes["complementary_activity_type_5"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_5"]);
+
                     if (in_array($attributes["complementary_activity_type_5"], $complementaryActivitiesArray)) {
                         $attributes["complementary_activity_type_5"] = "";
                     } else {
@@ -224,7 +227,7 @@ class Register20
                     }
                 }
                 if ($attributes["complementary_activity_type_6"] != null) {
-                    $attributes["complementary_activity_type_6"] = self::convertComplementaryActivityTypes($attributes["complementary_activity_type_6"]);
+
                     if (in_array($attributes["complementary_activity_type_6"], $complementaryActivitiesArray)) {
                         $attributes["complementary_activity_type_6"] = "";
                     }
@@ -254,7 +257,8 @@ class Register20
                     // }
 
                     if ($edcensoAlias->corder === self::REGISTER_ATTR_ETAPA_AGREGADA) {
-                        $register[$edcensoAlias->corder] = $edcensoStageVsModality->aggregated_stage;
+                        $edcensoAssocietedStage = EdcensoStageVsModality::model()->findByPk($edcensoStageVsModality->edcenso_associated_stage_id);
+                        $register[$edcensoAlias->corder] = $edcensoAssocietedStage->aggregated_stage;
                     }
 
                     if (in_array($edcensoAlias->corder, [7, 8, 9, 10, 11, 12, 13])) {
@@ -317,16 +321,30 @@ class Register20
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias["attr"]];
                     }
 
-                    if ($edcensoAlias->corder >= self::REGISTER_ATTR_QUIMICA && $edcensoAlias->corder <= self::REGISTER_ATTR_OUTRAS_DISCIPLINAS) {
+                    $clear_coders = new CList(
+                        [
+                            self::REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL,
+                            self::REGISTER_ATTR_ETAPA_AGREGADA,
+                            self::REGISTER_ATTR_ETAPA
+                        ],
+                        true
+                    );
+
+                    if ($clear_coders->contains($edcensoAlias->corder) || $edcensoAlias->corder >= self::REGISTER_ATTR_QUIMICA && $edcensoAlias->corder <= self::REGISTER_ATTR_OUTRAS_DISCIPLINAS) {
                         if ($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1' && $attributes["schooling"] == '0')) {
                             $register[$edcensoAlias->corder] = '';
                         }
                     }
 
+                    // if ($clear_coders->contains(strval($edcensoAlias->corder))) {
+                    //     if (($attributes["aee"] == '1' || ($attributes["complementary_activity"] == '1') && $attributes["schooling"] == '0')) {
+                    //         $register[$edcensoAlias->corder] = '';
+                    //     }
+                    // }
+
                     if (in_array($edcensoAlias->corder, [7, 8, 9, 10, 11, 12, 13])) {
                         $register[$edcensoAlias->corder] = $attributes['initial_hour'] . ":" . $attributes["initial_minute"] . "-" . $attributes['final_hour'] . ":" . $attributes['final_minute'];
                     }
-
                 }
 
                 array_push($registers, implode('|', $register));
@@ -334,83 +352,5 @@ class Register20
         }
 
         return $registers;
-    }
-
-    private static function convertComplementaryActivityTypes($code)
-    {
-        switch ($code) {
-            case "13106":
-                return "13104";
-            case "16101":
-                return "16001";
-            case "51001":
-            case "51002":
-                return "13301";
-            case "45910":
-                return "41007";
-            case "10111":
-                return "10103";
-            case "15001":
-                return "15001";
-            case "15005":
-                return "15004";
-            case "1112":
-                return "14103";
-            case "2":
-                return "29999";
-            case "22011":
-                return "22011";
-            case "31001":
-                return "31001";
-            case "31015":
-                return "31017";
-            case "31002":
-                return "31016";
-            case "61007":
-                return "14999";
-            case "10101":
-            case "10102":
-            case "10999":
-                return "10103";
-            case "11001":
-            case "11003":
-            case "11005":
-            case "11007":
-            case "11008":
-            case "11009":
-            case "11010":
-                return "11011";
-            case "11004":
-                return "11006";
-            case "11101":
-                return "14104";
-            case "11102":
-                return "14103";
-            case "11103":
-                return "14102";
-            case "11104":
-                return "14105";
-            case "11999":
-            case "11105":
-                return "14101";
-            case "12001":
-            case "12002":
-            case "12006":
-                return "12007";
-            case "12101":
-                return "17102";
-            case "71004":
-                return "19106";
-            case "91002":
-                return "29999";
-            case "22001":
-                return "22018";
-            case "99999":
-            case "31003":
-            case "31014":
-                return "39999";
-            default:
-                return $code;
-        }
     }
 }

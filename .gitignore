@@ -1,4 +1,6 @@
 /app/runtime/
+/app/export/*.txt
+/app/export/SagresEdu/**
 /app/backup/
 /assets/**
 .idea/
@@ -11,3 +13,4 @@ dump.sql
 vendor
 docker/mysql/dbfiles
 node_modules
+app/import/*

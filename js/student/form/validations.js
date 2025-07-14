@@ -722,7 +722,7 @@ $(deficiency).change(function () {
             [true]
         );
          $(".resources-container").show();
-    } else {
+    } else if (!$(this).is(":checked") && !$('.js-disorders-impact-learning').is(":checked")){
         $(allDeficiency).attr("disabled", "disabled").removeAttr("checked");
         $("#StudentIdentification_deficiencies")
             .parent(".js-visibility-deficiencies")
