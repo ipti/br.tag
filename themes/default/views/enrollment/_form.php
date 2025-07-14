@@ -2,8 +2,8 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/enrollment/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerScriptFile($baseUrl . '/js/enrollment/form/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 //@done S1 - 15 - A matricula precisa estar atribuida a um ano letivo, senão ela fica atemporal.
 $form = $this->beginWidget('CActiveForm', array(
@@ -16,9 +16,10 @@ $form = $this->beginWidget('CActiveForm', array(
 <div class="row" style="margin-left: 20px;">
     <div class="span12">
         <h1><?php echo $title; ?>
-            <span> | <?php echo Yii::t('default', 'Fields with * are required.') ?></h1>
+            <span> | <?php echo Yii::t('default', 'Fields with * are required.') ?>
+        </h1>
         <div class="tag-buttons-container buttons hide-responsive">
-            <button class="t-button-primary last  save-enrollment"type="button">
+            <button class="t-button-primary last  save-enrollment" type="button">
                 <?= $model->isNewRecord ? Yii::t('default', 'Enroll') : Yii::t('default', 'Save') ?>
             </button>
         </div>
@@ -45,8 +46,8 @@ $form = $this->beginWidget('CActiveForm', array(
         <div class="t-tabs">
             <ul class="t-tabs__list">
                 <li class="t-tabs__item active"><a href="#enrollment" class="t-tabs__link" data-toggle="tab">
-                    <span class="t-tabs__numeration">1</span>
-                    <?php echo Yii::t('default', 'Enrollment') ?></a>
+                        <span class="t-tabs__numeration">1</span>
+                        <?php echo Yii::t('default', 'Enrollment') ?></a>
                 </li>
             </ul>
         </div>
@@ -65,91 +66,98 @@ $form = $this->beginWidget('CActiveForm', array(
                                 //@done S1 -  18 - Primeiro seleciona a etapa dae faz um filtro nas turma disponiveis para aquela etapa.
                                 echo $form->labelEx($model, 'classroom_fk', array('class' => 't-field-select__label')); ?>
 
-                                    <?php
-                                    $options = [];
-                                    foreach ($classrooms as $classroom) {
-                                        $options[$classroom->id] = array('data-isMulti' =>
+                                <?php
+                                $options = [];
+                                foreach ($classrooms as $classroom) {
+                                    $options[$classroom->id] = array(
+                                        'data-isMulti' =>
                                         (int)(TagUtils::isMultiStage(
-                                            $classroom->edcenso_stage_vs_modality_fk))
-                                        );
-                                    }
-                                    echo $form->dropDownList(
-                                        $model,
-                                        'classroom_fk',
-                                        CHtml::listData($classrooms, 'id', 'name', 'schoolInepFk.name'),
-                                        array(
-                                            'class' => 'select-search-on t-field-select__input',
-                                            'style' => 'width:100%',
-                                            'options' => $options, // Adiciona os atributos data
-                                        )
+                                            $classroom->edcenso_stage_vs_modality_fk
+                                        ))
                                     );
-                                    echo $form->error($model, 'classroom_fk');
+                                }
+                                echo $form->dropDownList(
+                                    $model,
+                                    'classroom_fk',
+                                    CHtml::listData($classrooms, 'id', 'name', 'schoolInepFk.name'),
+                                    array(
+                                        'class' => 'select-search-on t-field-select__input',
+                                        'style' => 'width:100%',
+                                        'options' => $options, // Adiciona os atributos data
+                                    )
+                                );
+                                echo $form->error($model, 'classroom_fk');
 
-                                    ?>
+                                ?>
 
                             </div>
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'unified_class', array('class' => 't-field-select__label')); ?>
-                                    <?php echo $form->DropDownList($model, 'unified_class',
+                                <?php echo $form->DropDownList(
+                                    $model,
+                                    'unified_class',
                                     array(
                                         null => "Selecione o tipo de turma infantil",
                                         "1" => "CRECHE",
                                         "2" => "PRÉ-ESCOLA",
                                         "3" => "NÃO POSSUI"
-                                    ), array('class' => 'select-search-off t-field-select__input', 'style' => 'width:100%')); ?>
-                                    <?php echo $form->error($model, 'unified_class'); ?>
+                                    ),
+                                    array('class' => 'select-search-off t-field-select__input', 'style' => 'width:100%')
+                                ); ?>
+                                <?php echo $form->error($model, 'unified_class'); ?>
                             </div>
 
                             <?php //@done s1 - criar campo de selecionar o Stage
                             //@done s1 - alterar banco para suprir a necessidade do filtro por Stage
-                            //@done s1 - criar requisição ajax para filtrar a modalidade por Stage?>
+                            //@done s1 - criar requisição ajax para filtrar a modalidade por Stage
+                            ?>
                             <div class="t-field-select">
                                 <?php echo CHtml::label("Etapa", 'Stage', array('class' => 't-field-select__label')); ?>
 
-                                    <?php echo CHtml::dropDownList("Stage", null, array(
-                                        "0" => "Selecione a Modalidade",
-                                        "1" => "Infantil",
-                                        "2" => "Fundamental Menor",
-                                        "3" => "Fundamental Maior",
-                                        "4" => "Médio",
-                                        "5" => "Profissional",
-                                        "6" => "EJA",
-                                        "7" => "Outros",
-                                    ), array(
-                                        'class' => 'select-search-off t-field-select__input',
-                                        'ajax' => array(
-                                            'type' => 'POST',
-                                            'url' => CController::createUrl('enrollment/getmodalities'),
-                                            'success' => 'function(data){
+                                <?php echo CHtml::dropDownList("Stage", $model->edcensoStageVsModalityFk->stage, array(
+                                    "0" => "Selecione a Modalidade",
+                                    "1" => "Infantil",
+                                    "2" => "Fundamental Menor",
+                                    "3" => "Fundamental Maior",
+                                    "4" => "Médio",
+                                    "5" => "Profissional",
+                                    "6" => "EJA",
+                                    "7" => "Outros",
+                                ), array(
+                                    'class' => 'select-search-off t-field-select__input',
+                                    'ajax' => array(
+                                        'type' => 'POST',
+                                        'url' => CController::createUrl('enrollment/getmodalities'),
+                                        'success' => 'function(data){
                                                 $("#StudentEnrollment_edcenso_stage_vs_modality_fk").html(decodeHtml(data));
                                             }'
-                                        ),
-                                        'style' => 'width:100%'
-                                    )); ?>
+                                    ),
+                                    'style' => 'width:100%'
+                                )); ?>
                             </div>
 
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'edcenso_stage_vs_modality_fk', array('class' => 't-field-select__label')); ?>
-                                    <?php echo $form->dropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on t-field-select__input')); ?>
-                                   <!--  <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark"
+                                <?php echo $form->dropDownList($model, 'edcenso_stage_vs_modality_fk', CHtml::listData(EdcensoStageVsModality::model()->findAll(), 'id', 'name'), array("prompt" => "Selecione a etapa", 'class' => 'select-search-on t-field-select__input')); ?>
+                                <!--  <span style="margin: 0;" class="btn-action single glyphicons circle_question_mark"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="<?php echo Yii::t('help', 'Edcenso Stage Vs Modality Fk Help'); ?>"><i></i></span> -->
-                                    <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
+                                <?php echo $form->error($model, 'edcenso_stage_vs_modality_fk'); ?>
                             </div>
 
                             <div class="t-field-select">
-                                    <?php echo $form->labelEx($model, 'admission_type', array('class' => 't-field-select__label')); ?>
-                                    <?php echo $form->DropDownList($model, 'admission_type', array("1" => "Rematrícula", "2" => "Transferência interna", "3" => "Transferência externa"), array("prompt" => "Selecione", 'class' => 't-field-select__input select-search-off', 'style'=>'width:100%')); ?>
-                                    <?php echo $form->error($model, 'admission_type'); ?>
+                                <?php echo $form->labelEx($model, 'admission_type', array('class' => 't-field-select__label')); ?>
+                                <?php echo $form->DropDownList($model, 'admission_type', array("1" => "Rematrícula", "2" => "Transferência interna", "3" => "Transferência externa"), array("prompt" => "Selecione", 'class' => 't-field-select__input select-search-off', 'style' => 'width:100%')); ?>
+                                <?php echo $form->error($model, 'admission_type'); ?>
                             </div>
 
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'status', array('class' => 't-field-select__label')); ?>
-                                <?php echo $form->DropDownList($model, 'status', StudentEnrollment::getListStatus(), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off t-field-select__input', 'style'=>'width:100%')); ?>
+                                <?php echo $form->DropDownList($model, 'status', StudentEnrollment::getListStatus(), array('options' => array('1' => array('selected' => true)), "prompt" => "Selecione", 'class' => 'select-search-off t-field-select__input', 'style' => 'width:100%')); ?>
                                 <?php echo $form->error($model, 'status'); ?>
                             </div>
 
-                            <?php if(Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
+                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
                                 <div class="t-field-select" id="reasonDropdown" style="display: none;">
                                     <label for="reason">Tipo da baixa</label>
                                     <select name="reason" id="reason" class="select-search-off t-field-select__input" style="width:100%">
@@ -181,48 +189,56 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'current_stage_situation', array('class' => 't-field-select__label')); ?>
-                                    <?php echo $form->DropDownList($model, 'current_stage_situation',
-                                        array(
-                                            null => "Selecione",
-                                            "0" => "Primeira matrícula no curso",
-                                            "1" => "Promovido na série anterior do mesmo curso",
-                                            "2" => "Repetente"
-                                        ),
-                                        array('class' => 't-field-select__input select-search-off')); ?>
-                                    <?php echo $form->error($model, 'current_stage_situation'); ?>
+                                <?php echo $form->DropDownList(
+                                    $model,
+                                    'current_stage_situation',
+                                    array(
+                                        null => "Selecione",
+                                        "0" => "Primeira matrícula no curso",
+                                        "1" => "Promovido na série anterior do mesmo curso",
+                                        "2" => "Repetente"
+                                    ),
+                                    array('class' => 't-field-select__input select-search-off')
+                                ); ?>
+                                <?php echo $form->error($model, 'current_stage_situation'); ?>
                             </div>
 
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'previous_stage_situation', array('class' => 't-field-select__label')); ?>
-                                    <?php echo $form->DropDownList($model, 'previous_stage_situation',
-                                        array(
-                                            null => "Selecione",
-                                            "0" => "Não frequentou",
-                                            "1" => "Reprovado",
-                                            "2" => "Afastado por transferência",
-                                            "3" => "Afastado por abandono",
-                                            "4" => "Matrícula final em Educação Infantil",
-                                            "5" => "Promovido"
-                                        ),
-                                        array('class' => 't-field-select__input select-search-off')); ?>
-                                    <?php echo $form->error($model, 'previous_stage_situation'); ?>
+                                <?php echo $form->DropDownList(
+                                    $model,
+                                    'previous_stage_situation',
+                                    array(
+                                        null => "Selecione",
+                                        "0" => "Não frequentou",
+                                        "1" => "Reprovado",
+                                        "2" => "Afastado por transferência",
+                                        "3" => "Afastado por abandono",
+                                        "4" => "Matrícula final em Educação Infantil",
+                                        "5" => "Promovido"
+                                    ),
+                                    array('class' => 't-field-select__input select-search-off')
+                                ); ?>
+                                <?php echo $form->error($model, 'previous_stage_situation'); ?>
                             </div>
 
                             <div class="t-field-select" style="visibility: hidden;">
                                 <?php echo $form->labelEx($model, 'student_entry_form', array('class' => 't-field-select__label')); ?>
-                                    <?php
-                                    echo $form->DropDownList($model, 'student_entry_form', array(null => "Selecione a forma de ingresso do aluno",
-                                        "1" => "Sem processo seletivo",
-                                        "2" => "Sorteio",
-                                        "3" => "Transferência",
-                                        "4" => "Exame de seleção sem reserva de vaga",
-                                        "5" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino",
-                                        "6" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino, com baixa renda e autodeclarado preto, pardo ou indígena",
-                                        "7" => "Exame de seleção, vaga reservada para outros programas de ação afirmativa",
-                                        "8" => "Outra forma de ingresso",
-                                        "9" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino, com baixa renda"), array('class' => 'select-search-off t-field-select__input'));
-                                    ?>
-                                    <?php echo $form->error($model, 'student_entry_form'); ?>
+                                <?php
+                                echo $form->DropDownList($model, 'student_entry_form', array(
+                                    null => "Selecione a forma de ingresso do aluno",
+                                    "1" => "Sem processo seletivo",
+                                    "2" => "Sorteio",
+                                    "3" => "Transferência",
+                                    "4" => "Exame de seleção sem reserva de vaga",
+                                    "5" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino",
+                                    "6" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino, com baixa renda e autodeclarado preto, pardo ou indígena",
+                                    "7" => "Exame de seleção, vaga reservada para outros programas de ação afirmativa",
+                                    "8" => "Outra forma de ingresso",
+                                    "9" => "Exame de seleção, vaga reservada para alunos da rede pública de ensino, com baixa renda"
+                                ), array('class' => 'select-search-off t-field-select__input'));
+                                ?>
+                                <?php echo $form->error($model, 'student_entry_form'); ?>
                             </div>
 
                         </div>
@@ -230,8 +246,8 @@ $form = $this->beginWidget('CActiveForm', array(
                             <div class="t-field-text">
                                 <?php echo $form->label($model, 'enrollment_date', array('class' => 't-field-text__label--required')); ?>
                                 <?php
-                                    $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($model, 'enrollment_date'));
-                                    echo $form->error($model, 'enrollment_date');
+                                $this->widget('zii.widgets.jui.CJuiDatePicker', DatePickerWidget::renderDatePicker($model, 'enrollment_date'));
+                                echo $form->error($model, 'enrollment_date');
                                 ?>
                             </div>
 
@@ -260,13 +276,13 @@ $form = $this->beginWidget('CActiveForm', array(
 
                             </div>
                             <div class="t-field-select" id="transport_responsable">
-                                    <?php echo $form->labelEx($model, 'transport_responsable_government', array('class' => 't-field-select__label required')); ?>
-                                    <?php echo $form->dropDownList($model, 'transport_responsable_government', array(null => "Selecione o poder público do transporte", "1" => "Estadual", "2" => "Municipal"), array('class' => 'select-search-off t-field-select__input')); ?>
-                                    <?php echo $form->error($model, 'transport_responsable_government'); ?>
+                                <?php echo $form->labelEx($model, 'transport_responsable_government', array('class' => 't-field-select__label required')); ?>
+                                <?php echo $form->dropDownList($model, 'transport_responsable_government', array(null => "Selecione o poder público do transporte", "1" => "Estadual", "2" => "Municipal"), array('class' => 'select-search-off t-field-select__input')); ?>
+                                <?php echo $form->error($model, 'transport_responsable_government'); ?>
                             </div>
                             <div class="control-group hide-responsive" id="transport_type">
                                 <label class="t-field-checkbox__label--required required"><?php echo Yii::t('default', 'Transport Type'); ?>
-                                    </label>
+                                </label>
                                 <div class="uniformjs t-field-checkbox-group">
                                     <div class="t-field-checkbox">
                                         <?php echo $form->checkBox($model, 'vehicle_type_van', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
@@ -275,7 +291,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox($model, 'vehicle_type_microbus', array('value' => 1, 'uncheckValue' => 0, 'class'=>'t-field-checkbox__input')); ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_microbus', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label" for="StudentEnrollment_vehicle_type_microbus">
                                             <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_microbus']; ?>
                                         </label>
@@ -287,14 +303,14 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox($model, 'vehicle_type_bike', array('value' => 1, 'uncheckValue' => 0, 'class'=>'t-field-checkbox__input')); ?>
+                                        <?php echo $form->checkBox($model, 'vehicle_type_bike', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label" for="StudentEnrollment_vehicle_type_bike">
                                             <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_bike']; ?>
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
                                         <?php echo $form->checkBox($model, 'vehicle_type_animal_vehicle', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
-                                         <label class="t-field-checkbox__label" for="StudentEnrollment_vehicle_type_animal_vehicle">
+                                        <label class="t-field-checkbox__label" for="StudentEnrollment_vehicle_type_animal_vehicle">
                                             <?php echo StudentEnrollment::model()->attributeLabels()['vehicle_type_animal_vehicle']; ?>
                                         </label>
                                     </div>
@@ -348,67 +364,67 @@ $form = $this->beginWidget('CActiveForm', array(
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox($model, 'aee_curriculum_enrichment', array('value' => 1, 'uncheckValue' => 0, 'class' =>'t-field-checkbox__input')); ?>
+                                        <?php echo $form->checkBox($model, 'aee_curriculum_enrichment', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label">
                                             <?php echo $model->attributeLabels()['aee_curriculum_enrichment']; ?>
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox($model, 'aee_accessible_teaching', array('value' => 1, 'uncheckValue' => 0, 'class' =>'t-field-checkbox__input')); ?>
+                                        <?php echo $form->checkBox($model, 'aee_accessible_teaching', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label">
                                             <?php echo $model->attributeLabels()['aee_accessible_teaching']; ?>
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox($model, 'aee_libras', array('value' => 1, 'uncheckValue' => 0, 'class' =>'t-field-checkbox__input')); ?>
+                                        <?php echo $form->checkBox($model, 'aee_libras', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label">
                                             <?php echo $model->attributeLabels()['aee_libras']; ?>
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox($model, 'aee_portuguese', array('value' => 1, 'uncheckValue' => 0, 'class' =>'t-field-checkbox__input')); ?>
+                                        <?php echo $form->checkBox($model, 'aee_portuguese', array('value' => 1, 'uncheckValue' => 0, 'class' => 't-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label">
                                             <?php echo $model->attributeLabels()['aee_portuguese']; ?>
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox($model, 'aee_soroban', array('value' => 1, 'uncheckValue' => 0,  'class' =>'t-field-checkbox__input')); ?>
+                                        <?php echo $form->checkBox($model, 'aee_soroban', array('value' => 1, 'uncheckValue' => 0,  'class' => 't-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label">
                                             <?php echo $model->attributeLabels()['aee_soroban']; ?>
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox($model, 'aee_braille', array('value' => 1, 'uncheckValue' => 0,  'class' =>'t-field-checkbox__input')); ?>
+                                        <?php echo $form->checkBox($model, 'aee_braille', array('value' => 1, 'uncheckValue' => 0,  'class' => 't-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label">
                                             <?php echo $model->attributeLabels()['aee_braille']; ?>
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox($model, 'aee_mobility_techniques', array('value' => 1, 'uncheckValue' => 0,  'class' =>'t-field-checkbox__input')); ?>
+                                        <?php echo $form->checkBox($model, 'aee_mobility_techniques', array('value' => 1, 'uncheckValue' => 0,  'class' => 't-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label">
                                             <?php echo $model->attributeLabels()['aee_mobility_techniques']; ?>
                                         </label>
                                     </div>
                                     <div class="t-field-checkbox">
-                                        <?php echo $form->checkBox($model, 'aee_caa', array('value' => 1, 'uncheckValue' => 0,  'class' =>'t-field-checkbox__input')); ?>
+                                        <?php echo $form->checkBox($model, 'aee_caa', array('value' => 1, 'uncheckValue' => 0,  'class' => 't-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label">
                                             <?php echo $model->attributeLabels()['aee_caa']; ?>
                                         </label>
                                     </div>
-                                   <div  class="t-field-checkbox">
-                                        <?php echo $form->checkBox($model, 'aee_optical_nonoptical', array('value' => 1, 'uncheckValue' => 0,  'class' =>'t-field-checkbox__input')); ?>
+                                    <div class="t-field-checkbox">
+                                        <?php echo $form->checkBox($model, 'aee_optical_nonoptical', array('value' => 1, 'uncheckValue' => 0,  'class' => 't-field-checkbox__input')); ?>
                                         <label class="t-field-checkbox__label">
                                             <?php echo $model->attributeLabels()['aee_optical_nonoptical']; ?>
                                         </label>
-                                   </div>
+                                    </div>
 
                                 </div>
                             </div>
 
                             <div class="t-field-tarea js-hide-not-required">
-                                    <?php echo $form->labelEx($model, 'observation', array('class' => 't-field-tarea__label control-label')); ?>
-                                    <?php echo $form->textArea($model,'observation',array('rows'=>6, 'cols'=>50, 'class' => 't-field-tarea__input')); ?>
-                                    <?php echo $form->error($model, 'observation'); ?>
+                                <?php echo $form->labelEx($model, 'observation', array('class' => 't-field-tarea__label control-label')); ?>
+                                <?php echo $form->textArea($model, 'observation', array('rows' => 6, 'cols' => 50, 'class' => 't-field-tarea__input')); ?>
+                                <?php echo $form->error($model, 'observation'); ?>
                             </div>
 
                         </div>
@@ -428,8 +444,6 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
 ?>
 
 <script type="text/javascript">
-
     var formEnrollment = '#StudentEnrollment_';
-    var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies')?>';
-
+    var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
 </script>
