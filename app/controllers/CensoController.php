@@ -1537,7 +1537,7 @@ class CensoController extends Controller
             array_push($log, array("Localizacao/Zona de residencia" => $result["erro"]));
 
         $cepValidation = $sda->cepVerify($collumn["edcenso_city_fk"], $collumn["cep"]);
-        if(isset($cepValidation)){
+        if (isset($cepValidation)) {
             array_push($log, ["edcenso_city_fk" => $cepValidation["erro"]]);
         }
 
@@ -3104,26 +3104,17 @@ class CensoController extends Controller
                 $lineFields[] = $lineFields_Aux;
             }
             $imported = "";
-            $counter = 0;
+            $counterStudents = 0;
+            $counterInstructos = 0;
             foreach ($lineFields as $index => $line) {
-                $student = StudentIdentification::model()->with('documentsFk')->with("studentEnrollments")->findByPk($line[0]);
-                if (isset($student)) {
-                    $student->documentsFk->student_fk = $line[8];
-                    $student->documentsFk->update(array('student_fk'));
-                    $student->inep_id = $line[8];
-                    $enrollments = $student->studentEnrollments;
+                if ($line[8] == null || !preg_match('/^[0-9]+$/', $line[8])) {
+                    continue;
+                }
 
-                    if (count($enrollments) > 0) {
-                        foreach ($enrollments as $enrollment) {
-                            $enrollment->student_inep_id = $line[8];
-                            $enrollment->update(array('student_inep_id'));
-                        }
-                    }
-
-                    $student->update(array('inep_id'));
-                    // $imported .= $this->printImported('Student', $line);
-                } else {
-                    $instructor = InstructorIdentification::model()->findByPk($line[0]);
+                $isAInstructor = str_starts_with($line[0], 'II');
+                if ($isAInstructor) {
+                    $instructoId = substr($line[0], 2, strlen($line[0]));
+                    $instructor = InstructorIdentification::model()->findByPk($instructoId);
                     if (isset($instructor)) {
                         $instructor->documents->inep_id = $line[8];
                         $instructor->documents->update(array('inep_id'));
@@ -3139,14 +3130,37 @@ class CensoController extends Controller
                             foreach ($teachingDatas as $teachingData) {
                                 $teachingData->instructor_inep_id = $line[8];
                                 $teachingData->update(array('instructor_inep_id'));
+                                $counterInstructos++;
                             }
                         }
-                        $imported .= $this->printImported('Instructor', $line);
+
+                        // $imported .= $this->printImported('Instructor', $line);
                     }
+                } else {
+                    $student = StudentIdentification::model()->with('documentsFk')->with("studentEnrollments")->findByPk($line[0]);
+
+                    if(!isset($student)){
+                        continue;
+                    }
+                    $student->documentsFk->student_fk = $line[8];
+                    $student->documentsFk->update(array('student_fk'));
+                    $student->inep_id = $line[8];
+                    $enrollments = $student->studentEnrollments;
+
+                    if (count($enrollments) > 0) {
+                        foreach ($enrollments as $enrollment) {
+                            $enrollment->student_inep_id = $line[8];
+                            $enrollment->update(array('student_inep_id'));
+                        }
+                    }
+
+                    $student->update(array('inep_id'));
+                    $counterStudents++;
+
                 }
             }
             Yii::app()->user->setFlash("success", "Importação realizada com sucesso!");
-            Yii::app()->user->setFlash("log", "{$counter} registros importados com sucesso");
+            Yii::app()->user->setFlash("log", "{$counterInstructos} registros de Professores importados com sucesso\n {$counterStudents} registros de alunos importados com sucesso");
         } catch (Exception $e) {
             Yii::app()->user->setFlash("error", "Ocorreu um erro inesperado.");
         }
