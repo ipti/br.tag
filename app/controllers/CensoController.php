@@ -991,6 +991,12 @@ class CensoController extends Controller
         $result = $iiv->checkMultiple($collumn['deficiency'], $collumn['deficiency_type_multiple_disabilities'], $deficiencies);
         //if(!$result["status"]) array_push($log, array("deficiency_type_multiple_disabilities"=>$result["erro"]));
 
+        $variabelData = InstructorVariableData::model()->findByPk($collumn['id']);
+        if(!isset($variabelData)){
+             array_push($log, array("Escolaridade" => "Formação educacional não foi informada"));
+        }
+
+
         return $log;
     }
 
@@ -1134,63 +1140,11 @@ class CensoController extends Controller
             $status_instructor,
             $status_student
         );
-        if (!$result["status"])
+
+        if (!$result["status"]) {
             array_push($log, array("role" => $result["erro"]));
+        }
 
-        //campo 08
-        $sql = "SELECT se.administrative_dependence
-			FROM school_identification AS se
-			WHERE se.inep_id = '$school_inep_id_fk';";
-
-        $check = Yii::app()->db->createCommand($sql)->queryAll();
-
-        $administrative_dependence = $check[0]['administrative_dependence'];
-
-        /*
-         * Ocultando validação pois a mesma já está sendo tratada
-         * $result = $itdv->checkContactType($collumn['contract_type'], $collumn['role'], $administrative_dependence);
-         * if(!$result["status"]) array_push($log, array("contract_type"=>$result["erro"]));
-         */
-
-        //campo 09
-//        $result = $itdv->disciplineOne($collumn['discipline_1_fk'], $collumn['role'], $assistance_type, $edcenso_svm);
-//        if (!$result["status"]) array_push($log, array("discipline_1_fk" => $result["erro"]));
-
-        //campo 09 à 21
-
-        //        $disciplines_codes = array($collumn['discipline_1_fk'],
-//            $collumn['discipline_2_fk'],
-//            $collumn['discipline_3_fk'],
-//            $collumn['discipline_4_fk'],
-//            $collumn['discipline_5_fk'],
-//            $collumn['discipline_6_fk'],
-//            $collumn['discipline_7_fk'],
-//            $collumn['discipline_8_fk'],
-//            $collumn['discipline_9_fk'],
-//            $collumn['discipline_10_fk'],
-//            $collumn['discipline_11_fk'],
-//            $collumn['discipline_12_fk'],
-//            $collumn['discipline_13_fk']);
-//
-//
-//        $sql = "SELECT discipline_chemistry, discipline_physics, discipline_mathematics, discipline_biology,
-//						discipline_science, discipline_language_portuguese_literature,
-//						discipline_foreign_language_english, discipline_foreign_language_spanish,
-//						discipline_foreign_language_franch, discipline_foreign_language_other,
-//						discipline_arts, discipline_physical_education, discipline_history, discipline_geography,
-//						discipline_philosophy, discipline_social_study, discipline_sociology, discipline_informatics,
-//						discipline_professional_disciplines, discipline_special_education_and_inclusive_practices,
-//						discipline_sociocultural_diversity, discipline_libras, discipline_pedagogical,
-//						discipline_religious, discipline_native_language, discipline_others
-//			FROM 		classroom
-//			WHERE 	id = '$classroom_fk';";
-//
-//        $check = Yii::app()->db->createCommand($sql)->queryAll();
-//
-//        $disciplines = array_values($check[0]);
-//        $result = $itdv->checkDisciplineCode($disciplines_codes, $collumn['role'], $assistance_type,
-//            $edcenso_svm, $disciplines);
-//        if (!$result["status"]) array_push($log, array("disciplines_codes" => $result["erro"]));
 
         return $log;
     }
@@ -1303,7 +1257,7 @@ class CensoController extends Controller
         @$result = $stiv->specialNeeds(
             $collumn['deficiency'],
             array("0", "1"),
-            $hasspecialneeds["status"]
+            key_exists("status", $hasspecialneeds) ? $hasspecialneeds["status"] : null
         );
         if (!$result["status"])
             array_push($log, array("pedagogical_formation_by_alternance" => $result["erro"]));
@@ -1360,7 +1314,7 @@ class CensoController extends Controller
         );
 
 
-        $studenteDisorder = StudentIdentification::model()->findByPk($student_id)->studentDisorders->attributes;
+        $studenteDisorder = StudentIdentification::model()->with("studentDisorders")->findByPk($student_id)->studentDisorders->attributes;
         $disorders = array(
             $studenteDisorder['disorders_impact_learning'],
             $studenteDisorder['dyscalculia'],
@@ -1406,9 +1360,9 @@ class CensoController extends Controller
 
         $nationality = $studentident['nationality'];
 
-        $foreign = $sda->isAllowed($nationality, array("3"));
-        $field6006 = $collumn['birthday'];
-        $field7005 = $collumn['rg_number'];
+        // $foreign = $sda->isAllowed($nationality, array("3"));
+        // $field6006 = $collumn['birthday'];
+        // $field7005 = $collumn['rg_number'];
 
         date_default_timezone_set('America/Bahia');
         $date = date('d/m/Y');
@@ -1713,7 +1667,7 @@ class CensoController extends Controller
         $log['school']['info'] = $school->attributes;
         $log['school']['validate']['identification'] = $this->validateSchool($schoolcolumn, $managerIdentificationColumn);
         $log['school']['validate']['structure'] = $this->validateSchoolStructure($schoolstructurecolumn, $schoolcolumn);
-        $classrooms = Classroom::model()->with("studentEnrollments")->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->with("studentEnrollments.classroomFk")->with("instructorTeachingDatas.instructorFk")->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
 
         $processedInstructors = [];
         foreach ($classrooms as $iclass => $classroom) {
@@ -3139,7 +3093,7 @@ class CensoController extends Controller
                 } else {
                     $student = StudentIdentification::model()->with('documentsFk')->with("studentEnrollments")->findByPk($line[0]);
 
-                    if(!isset($student)){
+                    if (!isset($student)) {
                         continue;
                     }
                     $student->documentsFk->student_fk = $line[8];

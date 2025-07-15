@@ -80,6 +80,9 @@ class Register30
         foreach ($instructorsTeachingDatas as $iteaching => $teachingData) {
             if (!isset($instructors[$teachingData->instructor_fk])) {
                 $teachingData->instructorFk->documents->school_inep_id_fk = $school->inep_id;
+                if(!isset($teachingData->instructorFk->instructorVariableData)){
+                    continue;
+                }
                 $teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
                 $teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
 

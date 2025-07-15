@@ -8,7 +8,7 @@ final class CantSaveGradeUnityModalityException extends Exception
         parent::__construct("Não foi possivel salvar a modalidade de avaliação em uma unidade dessa estrutura de avaliação \n". $messages, $code, $previous);
     }
 
-    public function __toString() {
+    public function __toString(): string {
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
 }

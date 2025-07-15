@@ -7,7 +7,7 @@ final class CantSaveGradeRulesException extends Exception
         parent::__construct("Não foi possivel salvar regras de aprovação para essa estrutura", $code, $previous);
     }
 
-    public function __toString() {
+    public function __toString(): string {
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
 }
