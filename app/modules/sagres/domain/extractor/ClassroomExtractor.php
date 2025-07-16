@@ -5,28 +5,17 @@ class ClassroomExtractor
 {
     protected $inepId;
     protected $referenceYear;
+    protected $finalClass;
+    protected $withoutCpf;
 
-    public function __construct($inepId, $referenceYear)
+    public function __construct($inepId, $referenceYear, $finalClass, $withoutCpf)
     {
         $this->inepId = $inepId;
         $this->referenceYear = $referenceYear;
+        $this->finalClass = $finalClass;
+        $this->withoutCpf = $withoutCpf;
     }
 
-    private $query = "SELECT
-                    c.initial_hour AS initialHour,
-                    c.school_inep_fk AS schoolInepFk,
-                    c.id AS classroomId,
-                    c.name AS classroomName,
-                    c.turn AS classroomTurn,
-                    COALESCE(esvm.edcenso_associated_stage_id, c.edcenso_stage_vs_modality_fk) as stage,
-                    c.period,
-                    c.ignore_on_sagres
-                FROM
-                    classroom c
-                    join edcenso_stage_vs_modality esvm on c.edcenso_stage_vs_modality_fk = esvm.id
-                WHERE
-                    c.school_inep_fk = :schoolInepFk
-                    AND c.school_year = :referenceYear";
 
     /**
      * @return Classroom[]
@@ -38,12 +27,13 @@ class ClassroomExtractor
         $criteria->alias = 'c';
 
         $criteria->select = [
-            'c.initial_hour AS initialHour',
-            'c.school_inep_fk AS schoolInepFk',
-            'c.id AS classroomId',
-            'c.name AS classroomName',
-            'c.turn AS classroomTurn',
-            'COALESCE(esvm.edcenso_associated_stage_id, c.edcenso_stage_vs_modality_fk) AS stage',
+            'c.initial_hour',
+            'c.school_inep_fk',
+            'c.id',
+            'c.name',
+            'c.turn',
+            'esvm.edcenso_associated_stage_id',
+            'c.edcenso_stage_vs_modality_fk',
             'c.period',
             'c.ignore_on_sagres',
         ];
@@ -53,12 +43,22 @@ class ClassroomExtractor
         $criteria->condition = 'c.school_inep_fk = :schoolInepFk AND c.school_year = :referenceYear';
         $criteria->params = [
             ':schoolInepFk' => $this->inepId,
-            ':referenceYear' => $this->referenceYear
+            ':referenceYear' => $this->referenceYear,
         ];
 
-        return Classroom::model()->findAll($criteria);
+        $turmas = Classroom::model()->findAll($criteria);
+        return $turmas;
 
 
+    }
+
+    public function getFinalClass()
+    {
+        return $this->finalClass;
+    }
+    public function getWithoutCpf()
+    {
+        return $this->withoutCpf;
     }
 
 

@@ -61,7 +61,7 @@ class SagresConsultModel
 {
     public function buildNewVersion($year, $month, $finalClass, $noMovement, $withoutCpf)
     {
-        $educationObj = new \EducationBuilder($year, $month);
+        $educationObj = new \EducationBuilder($year, $month, $finalClass, $withoutCpf, $noMovement);
 
         return $educationObj->build();
 
@@ -97,8 +97,8 @@ class SagresConsultModel
 
         try {
             $education
-                ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $month));
-            // ->setEscola($this->getSchools($referenceYear, $month, $finalClass, $withoutCpf))
+                ->setPrestacaoContas($this->getManagementUnit($managementUnitId, $referenceYear, $month))
+                ->setEscola($this->getSchools($referenceYear, $month, $finalClass, $withoutCpf));
             // ->setProfissional($this->getProfessionals($referenceYear, $month));
 
             $this->enrolledSimultaneouslyInRegularClasses($referenceYear);
@@ -664,7 +664,6 @@ class SagresConsultModel
             if (\TagUtils::isStageEJA($turma["stage"]) && $turma["period"] == 0) {
                 $inconsistencyModel = new ValidationSagresModel();
                 $inconsistencyModel->enrollment = TURMA_STRONG;
-
                 $inconsistencyModel->school = $schoolName;
                 $inconsistencyModel->description = 'A turma <strong>' . $classType->getDescricao() . '</strong> é do tipo EJA, mas o perído está selecionado como anual.';
                 $inconsistencyModel->action = 'Altere o periodo para 1º ou 2º semestre: ' . $classType->getDescricao();

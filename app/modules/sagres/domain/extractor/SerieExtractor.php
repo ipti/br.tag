@@ -39,6 +39,7 @@ class SerieExtractorParams
     {
 
         $this->multiStage = $multiStage;
+        $this->classid = $classid;
     }
 }
 
@@ -107,6 +108,8 @@ class SerieOneStageStrategy implements ISerieExtractorStrategy
         $criteria->params = [':id' => $this->params->classid];
 
         $result = Classroom::model()->find($criteria);
+
+        return $result;
     }
 
 }

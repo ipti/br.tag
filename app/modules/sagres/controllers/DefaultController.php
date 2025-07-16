@@ -69,7 +69,8 @@ class DefaultController extends Controller
 
             $sagres = new SagresConsultModel;
             $sagres->cleanInconsistences();
-            $sagresEduData = $sagres->getSagresEdu($year, $month, $finalClass, $noMovement, $withoutCpf);
+            // $sagresEduData = $sagres->getSagresEdu($year, $month, $finalClass, $noMovement, $withoutCpf);
+            $sagresEduData = $sagres->buildNewVersion($year, $month, $finalClass, $noMovement, $withoutCpf);
             $sagresEduXML = $sagres->generatesSagresEduXML($sagresEduData);
             $sagres->actionExportSagresXML($sagresEduXML);
 
