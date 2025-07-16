@@ -315,7 +315,7 @@
 			$mode = 'r';
 
 			$fileImport = fopen($fileDir, $mode);
-			if ($fileImport == FALSE) {
+			if ($fileImport == false) {
 				die('O arquivo não existe.');
 			}
 
@@ -326,7 +326,7 @@
 			}
 			fclose($fileImport);
 
-			$json = json_decode($jsonSyncTag, TRUE);
+			$json = json_decode($jsonSyncTag, true);
 			$students = isset($json['student']) ? $json['student'] : [];
 			//student[fkid][attributes]
 			//student[fkid][documents][attributes]
@@ -343,8 +343,8 @@
 			$studentModel = StudentIdentification::model();
 			foreach ($students as $student) {
 				$myStudent = $studentModel->findByAttributes(['fkid' => $student['attributes']['fkid']]);
-				if ($myStudent === NULL) {
-					$student['attributes']['id'] = NULL;
+				if ($myStudent === null) {
+					$student['attributes']['id'] = null;
 				} else {
 					$student['attributes']['id'] = $myStudent->id;
 				}
@@ -358,8 +358,8 @@
 			foreach ($students as $student) {
 				$document = $student['documents'];
 				$myDocument = $documentModel->findByAttributes(['fkid' => $document['attributes']['fkid']]);
-				if ($myDocument === NULL) {
-					$student['documents']['attributes']['id'] = NULL;
+				if ($myDocument === null) {
+					$student['documents']['attributes']['id'] = null;
 				} else {
 					$document['attributes']['id'] = $myDocument->id;
 				}
@@ -373,8 +373,8 @@
 			$classroomModel = Classroom::model();
 			foreach ($classrooms as $classroom) {
 				$myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
-				if ($myClassroom === NULL) {
-					$classroom['attributes']['id'] = NULL;
+				if ($myClassroom === null) {
+					$classroom['attributes']['id'] = null;
 				} else {
 					$classroom['attributes']['id'] = $myClassroom->id;
 				}
@@ -389,9 +389,9 @@
 			foreach ($classrooms as $classroom) {
 				foreach ($classroom['classes'] as $class) {
 					$myClass = $classesModel->findByAttributes(['fkid' => $class['attributes']['fkid']]);
-					if ($myClass === NULL) {
+					if ($myClass === null) {
 						$myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
-						$class['attributes']['id'] = NULL;
+						$class['attributes']['id'] = null;
 						$class['attributes']['classroom_fk'] = $myClassroom->id;
 					} else {
 						$class['attributes']['id'] = $myClass->id;
@@ -409,9 +409,9 @@
 			foreach ($classrooms as $classroom) {
 				foreach ($classroom['enrollments'] as $enrollment) {
 					$myEnrollment = $enrollmentsModel->findByAttributes(['fkid' => $enrollment['attributes']['fkid']]);
-					if ($myEnrollment === NULL) {
+					if ($myEnrollment === null) {
 						$myClassroom = $classroomModel->findByAttributes(['fkid' => $classroom['attributes']['fkid']]);
-						$studentFkid = NULL;
+						$studentFkid = null;
 						foreach ($students as $student) {
 							$id = explode(';', $student['attributes']['fkid'])[1];
 							if ($enrollment['attributes']['student_fk'] == $id) {
@@ -420,7 +420,7 @@
 							}
 						}
 						$myStudent = $studentModel->findByAttributes(['fkid' => $studentFkid]);
-						$enrollment['attributes']['id'] = NULL;
+						$enrollment['attributes']['id'] = null;
 						$enrollment['attributes']['classroom_fk'] = $myClassroom->id;
 						$enrollment['attributes']['student_fk'] = $myStudent->id;
 					} else {
@@ -441,9 +441,9 @@
 				foreach ($classroom['classes'] as $class) {
 					foreach ($class['faults'] as $fault) {
 						$myFault = $faultsModel->findByAttributes(['fkid' => $fault['attributes']['fkid']]);
-						if ($myFault === NULL) {
+						if ($myFault === null) {
 							$myClass = $classesModel->findByAttributes(['fkid' => $class['attributes']['fkid']]);
-							$enrollmentFkid = NULL;
+							$enrollmentFkid = null;
 							foreach ($classroom['enrollments'] as $enrollment) {
 								$id = $enrollment['attributes']['student_fk'];
 								if ($fault['attributes']['student_fk'] == $id) {
@@ -452,7 +452,7 @@
 								}
 							}
 							$myEnrollment = $enrollmentsModel->findByAttributes(['fkid' => $enrollmentFkid]);
-							$fault['attributes']['id'] = NULL;
+							$fault['attributes']['id'] = null;
 							$fault['attributes']['schedule_fk'] = $myClass->id;
 							$fault['attributes']['student_fk'] = $myEnrollment->student_fk;
 						} else {
@@ -524,10 +524,10 @@
 					if ($version != "" && $version < $fileName) {
 						$file = $fm->open($updateDir . $fileName);
 						$sql = "";
-						while (TRUE) {
+						while (true) {
 							$fileLine = fgets($file);
 							$sql .= $fileLine;
-							if ($fileLine == NULL) {
+							if ($fileLine == null) {
 								break;
 							}
 						}
@@ -556,7 +556,7 @@
 		 * @param boolean $return - Defaults True
 		 * @return redirecrToIndex|boolean Return to the index page with a FlashMenssage or return $boolean
 		 */
-		public static function actionBackup($return = TRUE) {
+		public static function actionBackup($return = true) {
 			/* Yii::import('ext.dumpDB.dumpDB');
 			  $dumper = new dumpDB();
 			  $dump = $dumper->getDump(false);
@@ -584,7 +584,7 @@
 		 * @param boolean $file - Defaults True
 		 * @return redirecrToData - Return to the Data page.
 		 */
-		public function actionData($file = TRUE) {
+		public function actionData($file = true) {
 			$data = [];
 			//Turma
 			$where = "school_year = " . date('Y');
@@ -656,7 +656,7 @@
         $criteria->params = array(":year" => date('Y'));
         $criteria->group = 't.id';
         $students = StudentIdentification::model()->findAll($criteria);
-        foreach ($students as $key => $student) {
+        foreach ($students as $student) {
             $a = $student;
             $export .= "|" . $a->id
                 . "|" . $a->name
@@ -687,7 +687,7 @@
 
 			//Escolas
 			$schools = SchoolIdentification::model()->findAll();
-			foreach ($schools as $key => $school) {
+			foreach ($schools as $school) {
 				$attributes = $school->attributes;
 				// Remove
 				array_pop($attributes);
@@ -755,7 +755,6 @@
 				$instructorVariables = InstructorVariableData::model()->findByPk($instructor->id);
 				$export .= implode('|', $instructorVariables->attributes);
 				$export .= "\n";
-				//$export .= "50|\n";
 
             //Dados de Docência do Professor
             $criteria->select = 't.*';
@@ -816,7 +815,7 @@
 				array_pop($attributes);
 				array_pop($attributes);
 				// Remove
-				array_pop($attributes);;
+				array_pop($attributes);
 				$export .= implode('|', $attributes);
 				$export .= "\n";
 
@@ -887,7 +886,7 @@
 						$model->password = $passwordHasher->bcriptHash($password);
 						// form inputs are valid, do something here
 						if ($model->save()) {
-							$save = TRUE;
+							$save = true;
 							foreach ($_POST['schools'] as $school) {
 								$userSchool = new UsersSchool;
 								$userSchool->user_fk = $model->id;
@@ -928,7 +927,7 @@
 
 			//Abre o arquivo
 			$file = fopen($fileDir, $mode);
-			if ($file == FALSE) {
+			if ($file == false) {
 				die('O arquivo não existe.');
 			}
 
@@ -948,10 +947,10 @@
 			$lineCount['80'] = 0;
 
 			//Pega campos do arquivo
-			while (TRUE) {
+			while (true) {
 				//Próxima linha do arquivo
 				$fileLine = fgets($file);
-				if ($fileLine == NULL) {
+				if ($fileLine == null) {
 					break;
 				}
 
@@ -972,7 +971,6 @@
 			}
 			//Pega os valores para preencher o insert.
 			$values = $this->getInsertValues($registerLines);
-			$instructorInepIds = $values['instructor'];
 			$insertValue = $values['insert'];
 
 			//Pega o código SQL com os valores passados
@@ -1094,28 +1092,28 @@
 					$totalColumns = count($lines[$line]) - 2;
 					for ($column = 0; $column <= $totalColumns; $column++) {
 						$value = $lines[$line][$column];
-						$withoutcomma = FALSE;
+						$withoutcomma = false;
 
 						if ($column == 0) {
 							$insertValue[$regType] .= "(";
-						} else if ($regType != 00 && $regType != 10 && $regType != 51 && $regType != 80 && $column == 3) {
+						} elseif ($regType != 00 && $regType != 10 && $regType != 51 && $regType != 80 && $column == 3) {
 							$value = "null";
-						} else if ($regType == 20 && $column == 4) {
+						} elseif ($regType == 20 && $column == 4) {
 							$value = str_replace("º", "", $value);
-						} else if($regType == 50 && $column > 41 && $column < 44){
+						} elseif($regType == 50 && $column > 41 && $column < 44){
 							continue;
 						} else {
 							if ($regType == '51' && $column == 3) {
-								$withoutcomma = TRUE;
+								$withoutcomma = true;
 								$value = "(SELECT id FROM instructor_identification WHERE BINARY inep_id = BINARY " . $lines[$line][2] . " LIMIT 0,1)";
-							} else if ($regType == '51' && $column == 5) {
-								$withoutcomma = TRUE;
+							} elseif ($regType == '51' && $column == 5) {
+								$withoutcomma = true;
 								$value = "(SELECT id FROM classroom WHERE BINARY inep_id = BINARY " . $lines[$line][4] . " LIMIT 0,1)";
-							} else if ($regType == '80' && $column == 3) {
-								$withoutcomma = TRUE;
+							} elseif ($regType == '80' && $column == 3) {
+								$withoutcomma = true;
 								$value = "(SELECT id FROM student_identification WHERE BINARY inep_id = BINARY " . $lines[$line][2] . " LIMIT 0,1)";
-							} else if ($regType == '80' && $column == 5) {
-								$withoutcomma = TRUE;
+							} elseif ($regType == '80' && $column == 5) {
+								$withoutcomma = true;
 								$value = "(SELECT id FROM classroom WHERE BINARY inep_id = BINARY " . $lines[$line][4] . " LIMIT 0,1)";
 							}
 						}
@@ -1129,7 +1127,7 @@
 								$instructorInepIds[$line] = $value;
 							}
 							if ($column == 10) {
-								$withoutcomma = TRUE;
+								$withoutcomma = true;
 								$value = "'0','" . $value . "',null";
 							}
 						}
@@ -1159,43 +1157,47 @@
                 }
             }
         endforeach;
-        $return = array('insert' => $insertValue, 'instructor' => $instructorInepIds);
-        return $return;
+
+        return array('insert' => $insertValue, 'instructor' => $instructorInepIds);
     }
 
 		public function areThereByModalitie($sql){
-			$people_by_modalitie = Yii::app()->db->createCommand($sql)->queryAll();
-			$modalities_regular	= false;
-			$modalities_especial = false;
-			$modalities_eja = false;
-			$modalities_professional = false;
-			foreach ($people_by_modalitie as $key => $item) {
+			$peopleByModalitie = Yii::app()->db->createCommand($sql)->queryAll();
+			$modalitiesRegular	= false;
+			$modalitiesEspecial = false;
+			$modalitiesEja = false;
+			$modalitiesProfessional = false;
+			foreach ($peopleByModalitie as $item) {
 				switch ($item['modalities']) {
 
 					case '1':
-						if($item['number_of'] > '0')
-							$modalities_regular = true;
+						if($item['number_of'] > '0') {
+							$modalitiesRegular = true;
+                        }
 						break;
 					case '2':
-						if($item['number_of'] > '0')
-							$modalities_especial = true;
+						if($item['number_of'] > '0') {
+							$modalitiesEspecial = true;
+                        }
 						break;
 
 					case '3':
-						if($item['number_of'] > '0')
-							$modalities_eja = true;
+						if($item['number_of'] > '0') {
+							$modalitiesEja = true;
+                        }
 						break;
 
 					case '4':
-						if($item['number_of'] > '0')
-							$modalities_professional = true;
+						if($item['number_of'] > '0') {
+							$modalitiesProfessional = true;
+                        }
 						break;
 				}
 			}
-			return array("modalities_regular" => $modalities_regular,
-				"modalities_especial" => $modalities_especial,
-				"modalities_eja" => $modalities_eja,
-				"modalities_professional" => $modalities_professional);
+			return array("modalities_regular" => $modalitiesRegular,
+				"modalities_especial" => $modalitiesEspecial,
+				"modalities_eja" => $modalitiesEja,
+				"modalities_professional" => $modalitiesProfessional);
 		}
 		private function getInsertSQL($insertValue) {
 			$str_fields = [];
@@ -1304,11 +1306,11 @@
 
 			}
 			$sql = json_encode($loads);
-			$importToFile = FALSE;
+			$importToFile = false;
 			try {
 				Yii::app()->db2;
 			} catch (Exception $e) {
-				$importToFile = TRUE;
+				$importToFile = true;
 			}
 			if ($importToFile) {
 				ini_set('memory_limit', '128M');
@@ -1333,7 +1335,7 @@
 				$saveschool->attributes = $loads['school'];
 				$saveschool->save();
 
-				foreach ($loads['classrooms'] as $index => $class) {
+				foreach ($loads['classrooms'] as $class) {
 					$saveclass = new Classroom();
 					$saveclass->setDb2Connection(true);
 					$saveclass->refreshMetaData();
@@ -1341,7 +1343,7 @@
 					$saveclass->hash = $class['hash'];
 					$saveclass->save();
 				}
-				foreach ($loads['students'] as $i => $student) {
+				foreach ($loads['students'] as $student) {
 					$savestudent = new StudentIdentification();
 					$savestudent->setDb2Connection(true);
 					$savestudent->refreshMetaData();
@@ -1349,7 +1351,7 @@
 					$savestudent->hash = $student['hash'];
 					$savestudent->save();
 				}
-				foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
+				foreach ($loads['documentsaddress'] as $documentsaddress) {
 					$savedocument = new StudentDocumentsAndAddress();
 					$savedocument->setDb2Connection(true);
 					$savedocument->refreshMetaData();
@@ -1357,7 +1359,7 @@
 					$savedocument->hash = $documentsaddress['hash'];
 					$savedocument->save();
 				}
-				foreach ($loads['enrollments'] as $index => $enrollment) {
+				foreach ($loads['enrollments'] as $enrollment) {
 					$saveenrollment = new StudentEnrollment();
 					$saveenrollment->setDb2Connection(true);
 					$saveenrollment->refreshMetaData();
@@ -1380,11 +1382,11 @@
 
 		}
 		public function actionExportToMaster() {
-			$importToFile = FALSE;
+			$importToFile = false;
 			try {
 				Yii::app()->db2;
 			} catch (Exception $e) {
-				$importToFile = TRUE;
+				$importToFile = true;
 			}
 
 			ini_set('memory_limit', '256M');
@@ -1558,7 +1560,6 @@
 							$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "', '" . $studentIndetification_tagId[$studentIdentification->id] . "', '" . $classroom_tagId[$classroom->id] . "'),";
 							break;
 					}
-					//$sql .= " ('" . str_replace("''", "null", implode("', '", $value)) . "', '" . $tagId . "'),";
 				}
 				$sql = substr($sql, 0, -1) . " ON DUPLICATE KEY UPDATE ";
 				foreach ($keys as $key) {
@@ -1614,9 +1615,9 @@
 			return Yii::app()->db2->schema->commandBuilder->createSqlCommand($sql)->query();
 		}
 
-		private function getTableRow($object, $value = NULL, $where = NULL) {
+		private function getTableRow($object, $value = null, $where = null) {
 			$table = $object->tableName();
-			if ($where == NULL) {
+			if ($where == null) {
 				$sql = "select * from $table where tag_id = '$value';";
 			} else {
 				$sql = "select * from $table where $where;";
@@ -1649,12 +1650,12 @@
 			foreach ($instructorTgs as $row) {
 				$instructor1 = $this->getTableRow(new InstructorIdentification(), $row["tg1"]);
 				$instructor2 = $this->getTableRow(new InstructorIdentification(), $row["tg2"]);
-				$instructor1->documents = $this->getTableRow(new InstructorDocumentsAndAddress(), NULL, "school_inep_id_fk = $instructor1->school_inep_id_fk and id = $instructor1->id");
-				$instructor2->documents = $this->getTableRow(new InstructorDocumentsAndAddress(), NULL, "school_inep_id_fk = $instructor2->school_inep_id_fk and id = $instructor2->id");
-				$instructor1->instructorVariableData = $this->getTableRow(new InstructorVariableData(), NULL, "school_inep_id_fk = $instructor1->school_inep_id_fk and id = $instructor1->id");
-				$instructor2->instructorVariableData = $this->getTableRow(new InstructorVariableData(), NULL, "school_inep_id_fk = $instructor2->school_inep_id_fk and id = $instructor2->id");
-				$instructor1->instructorTeachingDatas = $this->getTableRow(new InstructorTeachingData(), NULL, "school_inep_id_fk = $instructor1->school_inep_id_fk and instructor_fk = $instructor1->id");
-				$instructor2->instructorTeachingDatas = $this->getTableRow(new InstructorTeachingData(), NULL, "school_inep_id_fk = $instructor2->school_inep_id_fk and instructor_fk = $instructor2->id");
+				$instructor1->documents = $this->getTableRow(new InstructorDocumentsAndAddress(), null, "school_inep_id_fk = $instructor1->school_inep_id_fk and id = $instructor1->id");
+				$instructor2->documents = $this->getTableRow(new InstructorDocumentsAndAddress(), null, "school_inep_id_fk = $instructor2->school_inep_id_fk and id = $instructor2->id");
+				$instructor1->instructorVariableData = $this->getTableRow(new InstructorVariableData(), null, "school_inep_id_fk = $instructor1->school_inep_id_fk and id = $instructor1->id");
+				$instructor2->instructorVariableData = $this->getTableRow(new InstructorVariableData(), null, "school_inep_id_fk = $instructor2->school_inep_id_fk and id = $instructor2->id");
+				$instructor1->instructorTeachingDatas = $this->getTableRow(new InstructorTeachingData(), null, "school_inep_id_fk = $instructor1->school_inep_id_fk and instructor_fk = $instructor1->id");
+				$instructor2->instructorTeachingDatas = $this->getTableRow(new InstructorTeachingData(), null, "school_inep_id_fk = $instructor2->school_inep_id_fk and instructor_fk = $instructor2->id");
 				array_push($conflicts['instructors'], [$instructor1, $instructor2]);
 			}
 
@@ -1679,10 +1680,10 @@
 			foreach ($studentTgs as $row) {
 				$student1 = $this->getTableRow(new StudentIdentification(), $row["tg1"]);
 				$student2 = $this->getTableRow(new StudentIdentification(), $row["tg2"]);
-				$student1->documentsFk = $this->getTableRow(new StudentDocumentsAndAddress(), NULL, "school_inep_id_fk = $student1->school_inep_id_fk and student_fk = $student1->id");
-				$student2->documentsFk = $this->getTableRow(new StudentDocumentsAndAddress(), NULL, "school_inep_id_fk = $student2->school_inep_id_fk and student_fk = $student2->id");
-				$student1->studentEnrollments = $this->getTableRow(new StudentEnrollment(), NULL, "school_inep_id_fk = $student1->school_inep_id_fk and student_fk = $student1->id");
-				$student2->studentEnrollments = $this->getTableRow(new StudentEnrollment(), NULL, "school_inep_id_fk = $student2->school_inep_id_fk and student_fk = $student2->id");
+				$student1->documentsFk = $this->getTableRow(new StudentDocumentsAndAddress(), null, "school_inep_id_fk = $student1->school_inep_id_fk and student_fk = $student1->id");
+				$student2->documentsFk = $this->getTableRow(new StudentDocumentsAndAddress(), null, "school_inep_id_fk = $student2->school_inep_id_fk and student_fk = $student2->id");
+				$student1->studentEnrollments = $this->getTableRow(new StudentEnrollment(), null, "school_inep_id_fk = $student1->school_inep_id_fk and student_fk = $student1->id");
+				$student2->studentEnrollments = $this->getTableRow(new StudentEnrollment(), null, "school_inep_id_fk = $student2->school_inep_id_fk and student_fk = $student2->id");
 				array_push($conflicts['students'], [$student1, $student2]);
 			}
 
@@ -1690,112 +1691,6 @@
 		}
 
 		public function actionImportFromMaster() {
-
-//			$tables = [
-//				"school_identification", "school_structure", "classroom", "instructor_identification",
-//				"instructor_documents_and_address", "instructor_variable_data", "instructor_teaching_data",
-//				"student_identification", "student_documents_and_address", "student_enrollment"
-//			];
-//
-//			for ($i = 0; $i < count($tables); $i++) {
-//				$model = $pk = $object = null;
-//				switch ($i) {
-//					case "0":
-//						$model = SchoolIdentification::model();
-//						$pk = "inep_id";
-//						$sqlCondition = "inep_id = :id";
-//						$object = new SchoolIdentification();
-//						break;
-//					case "1":
-//						$model = SchoolStructure::model();
-//						$pk = "school_inep_id_fk";
-//						$sqlCondition = "school_inep_id_fk = :id";
-//						$object = new SchoolStructure();
-//						break;
-//					case "2":
-//						$model = Classroom::model();
-//						$pk = "id";
-//						$sqlCondition = "school_inep_fk = :school and id = :id";
-//						$schoolKey = "school_inep_fk";
-//						$object = new Classroom();
-//						break;
-//					case "3":
-//						$model = InstructorIdentification::model();
-//						$pk = "id";
-//						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-//						$schoolKey = "school_inep_id_fk";
-//						$object = new InstructorIdentification();
-//						break;
-//					case "4":
-//						$model = InstructorDocumentsAndAddress::model();
-//						$pk = "id";
-//						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-//						$schoolKey = "school_inep_id_fk";
-//						$object = new InstructorDocumentsAndAddress();
-//						break;
-//					case "5":
-//						$model = InstructorVariableData::model();
-//						$pk = "id";
-//						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-//						$schoolKey = "school_inep_id_fk";
-//						$object = new InstructorVariableData();
-//						break;
-//					case "6":
-//						$model = InstructorTeachingData::model();
-//						$pk = "id";
-//						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-//						$schoolKey = "school_inep_id_fk";
-//						$object = new InstructorTeachingData();
-//						break;
-//					case "7":
-//						$model = StudentIdentification::model();
-//						$pk = "id";
-//						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-//						$schoolKey = "school_inep_id_fk";
-//						$object = new StudentIdentification();
-//						break;
-//					case "8":
-//						$model = StudentDocumentsAndAddress::model();
-//						$pk = "id";
-//						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-//						$schoolKey = "school_inep_id_fk";
-//						$object = new StudentDocumentsAndAddress();
-//						break;
-//					case "9":
-//						$model = StudentEnrollment::model();
-//						$pk = "id";
-//						$sqlCondition = "school_inep_id_fk = :school and id = :id";
-//						$schoolKey = "school_inep_id_fk";
-//						$object = new StudentEnrollment();
-//						break;
-//				}
-//				$sql = "select * from $tables[$i];";
-//				$db2Arrays = yii::app()->db2->createCommand($sql)->queryAll();
-//				foreach ($db2Arrays as $db2array) {
-//					if($i < 2){
-//						$dbObject = $model->find($sqlCondition, [
-//							":id" => $db2array[$pk]
-//						]);
-//					}else {
-//						$dbObject = $model->find($sqlCondition, [
-//							":id" => $db2array[$pk], ":school" => $db2array[$schoolKey]
-//						]);
-//					}
-//					if ($dbObject == NULL) {
-//						$dbObject = $object;
-//					}
-//					if ($i == 0) {
-//						$logoFileContent = $dbObject->logo_file_content;
-//						$dbObject->attributes = $db2array;
-//						$dbObject->logo_file_content = $logoFileContent;
-//					} else {
-//						$dbObject->attributes = $db2array;
-//					}
-//					$dbObject->save();
-//				}
-//			}
 			$this->redirect(['index']);
 		}
 	}
-
-?>
