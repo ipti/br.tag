@@ -33,5 +33,9 @@ $(document).on("click", ".js-remove-enrollment", function () {
         }
     });
 });
+$('.js-trim-name').on('focusout', function () {
+    let name = $(this).val();
+    $(this).val(name.trim());
+});
 
 
