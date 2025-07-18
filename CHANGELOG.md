@@ -1,3 +1,6 @@
+## [Versão 3.2.2]
+- Adicionado tratamento automático para remoção de espaços em branco no início e fim do valor do campo nome nos formulários de professor e aluno
+
 ## [Versão 3.2.1]
 - Atividades complementares autalizadas para o Educacenso 2025
 
