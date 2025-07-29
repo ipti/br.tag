@@ -1,12 +1,18 @@
-
-
 $('.js-withoutCertificates').on('change', function () {
-    const isChecked = $(this).is(':checked');
-    const value = isChecked ? 'true' : 'false';
+  const checkbox = this;
+  const exportLink = $('.js-export-link');
 
-    const baseUrl = $('.js-export-link').attr('href').split('?')[0]; // remove parâmetros antigos
+  if (!exportLink.length) return;
 
-    const newUrl = baseUrl + '?withoutCertificates=' + value;
+  // Pega o valor atual do href
+  const currentHref = exportLink.attr('href');
 
-    $('.js-export-link').attr('href', newUrl);
-})
+  // Cria objeto de URL com base no href atual
+  const url = new URL(currentHref, window.location.origin);
+
+  // Atualiza o parâmetro
+  url.searchParams.set('withoutCertificates', checkbox.checked); // true ou false
+
+  // Atualiza o href do link
+  exportLink.attr('href', url.toString());
+});

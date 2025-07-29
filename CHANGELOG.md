@@ -1,3 +1,6 @@
+## [Versão 3.2.2]
+- Permitir exportação do censo com ou sem certidões de nascimento
+
 ## [Versão 3.2.1]
 - Atividades complementares autalizadas para o Educacenso 2025
 
