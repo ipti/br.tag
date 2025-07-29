@@ -254,7 +254,7 @@ class Register30
         return $register;
     }
 
-    private static function exportStudentDocuments($student, $register, $school, $aliases)
+    private static function exportStudentDocuments($student, $register, $school, $aliases,  $withoutCertificates)
     {
         $student['register_type'] = '30';
 
@@ -264,7 +264,7 @@ class Register30
         }
 
 
-        if ($student['civil_certification'] != 2) {
+        if ($student['civil_certification'] != 2 || $withoutCertificates == true) {
             $student['civil_register_enrollment_number'] = '';
         }
 
@@ -536,7 +536,7 @@ class Register30
         return $highEducationCourses[$found_key]['cine_id'];
     }
 
-    public static function export($year)
+    public static function export($year,  $withoutCertificates)
     {
         $registers = [];
 
@@ -560,7 +560,7 @@ class Register30
             $register = [];
 
             $register = self::exportStudentIdentification($student['identification'], $register, $school, $aliasesStudent);
-            $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent);
+            $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent,  $withoutCertificates);
             $register = self::exportStudentDisorders($student['disorders'], $register, $aliasesStudent);
 
             ksort($register);

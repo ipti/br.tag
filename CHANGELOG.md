@@ -1,3 +1,6 @@
+## [Versão 3.2.3]
+- Permitir exportação do censo com ou sem certidões de nascimento
+
 ## [Versão 3.2.2]
 - Adicionado tratamento automático para remoção de espaços em branco no início e fim do valor do campo nome nos formulários de professor e aluno
 
