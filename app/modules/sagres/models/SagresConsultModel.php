@@ -1867,6 +1867,8 @@ class SagresConsultModel
                         c.edcenso_stage_vs_modality_fk,
                         c.modality,
                         se.id as numero,
+                        c.school_inep_fk as inep_id,
+                        se.classroom_fk as class_id,
                         se.student_fk,
                         se.create_date AS data_matricula,
                         se.date_cancellation_enrollment AS data_cancelamento,
@@ -1879,6 +1881,7 @@ class SagresConsultModel
                         ifnull(si.deficiency, 0) AS deficiency,
                         si.sex AS gender,
                         si.id,
+                        si2.name AS school_name,
                         CASE
                             WHEN c.edcenso_stage_vs_modality_fk IN (2, 3, 4, 5, 6, 7, 8, 9, 14, 15, 16, 17, 18, 19, 75)  THEN
                                 (SELECT if(((SELECT COUNT(schedule) FROM class_faults cf
@@ -1907,6 +1910,7 @@ class SagresConsultModel
                         join student_documents_and_address sdaa on si.id = sdaa.id
                         left join class_faults cf on cf.student_fk = si.id
                         left join schedule s on cf.schedule_fk = s.id
+                        join school_identification si2 on si2.inep_id= c.school_inep_fk
                   WHERE
                         se.classroom_fk  =  :classId AND
                         (se.status in ($strAcceptedStatus) or se.status is null) AND
@@ -1924,7 +1928,6 @@ class SagresConsultModel
 
         return $command->queryAll();
     }
-
     private function studentValidation($studentType, $schoolName, $cpf, $classId, $enrollment, $strlen): void
     {
 
