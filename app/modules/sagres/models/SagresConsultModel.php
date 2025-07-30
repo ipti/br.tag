@@ -1715,10 +1715,6 @@ class SagresConsultModel
     public function getEnrollments($classId, $referenceYear, $finalClass, $inepId, $withoutCpf): array|null
     {
         $enrollmentList = [];
-        $strlen = 5;
-        $school = (object) \SchoolIdentification::model()->findByAttributes(array('inep_id' => $inepId));
-        $schoolName = $school->name;
-
         $enrollments = $this->getEnrollmentsInDB($classId, $referenceYear);
 
         if (empty($enrollments)) {
@@ -1726,7 +1722,7 @@ class SagresConsultModel
         }
 
         foreach ($enrollments as $enrollment) {
-
+            $schoolName = $enrollment['school_name'];
             $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
 
             if ($convertedBirthdate === false) {
@@ -1745,91 +1741,7 @@ class SagresConsultModel
 
             $cpf = $this->getStudentCpf($enrollment);
 
-            $this->checkSingleStudentWithoutCpf($enrollments, $cpf, $classId, $referenceYear, $school, $inepId);
-
-            if ($withoutCpf) {
-                $studentType = new AlunoTType();
-                if (!empty($cpf)) {
-                    $birthdate = DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate);
-                    $studentType
-                        ->setNome($enrollment['name'])
-                        ->setDataNascimento($birthdate)
-                        ->setCpfAluno($cpf)
-                        ->setPcd($enrollment['deficiency'])
-                        ->setSexo($enrollment['gender']);
-
-                    $arrayStudentInfo = [
-                        "studentFk" => $enrollment['student_fk'],
-                        "classroomFk" => $classId,
-                        "schoolInepIdFk" => $inepId
-                    ];
-
-                    $modality = $enrollment['modality'];
-                    //3 - EJA
-                    if ($modality === 3) {
-                        $educationLevel = (int) $this->getStageById($enrollment['edcenso_stage_vs_modality_fk']);
-                        $age = $this->calculateAge($birthdate);
-                        $this->checkAge($age, $educationLevel, $arrayStudentInfo);
-                    }
-
-                    $this->studentValidation($studentType, $school->name, $cpf, $classId, $enrollment, $strlen);
-
-                    $this->isNullStudentType($studentType, $school, $enrollment, $classId);
-
-                } else {
-                    $birthdate = DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate);
-                    $studentType
-                        ->setNome($enrollment['name'])
-                        ->setDataNascimento($birthdate)
-                        ->setPcd($enrollment['deficiency'])
-                        ->setSexo($enrollment['gender'])
-                        ->setJustSemCpf($enrollment['cpf_reason']);
-
-                    $this->studentValidationWhioutCpf($studentType, $schoolName, $enrollment['cpf_reason'], $classId, $enrollment, $strlen);
-                    $arrayStudentInfo = [
-                        "studentFk" => $enrollment['student_fk'],
-                        "classroomFk" => $classId,
-                        "schoolInepIdFk" => $inepId
-                    ];
-
-                    $modality = $enrollment['modality'];
-                    //3 - EJA
-                    if ($modality === 3) {
-                        $educationLevel = (int) $this->getStageById($enrollment['edcenso_stage_vs_modality_fk']);
-                        $age = $this->calculateAge($birthdate);
-                        $this->checkAge($age, $educationLevel, $arrayStudentInfo);
-                    }
-
-                    $this->isNullStudentType($studentType, $school, $enrollment, $classId);
-
-                }
-            } else {
-                $studentType = new AlunoTType();
-                $convertedBirthdate = $this->convertBirthdate($enrollment['birthdate']);
-
-                if (!empty($cpf)) {
-                    $studentType
-                        ->setNome($enrollment['name'])
-                        ->setDataNascimento(DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate))
-                        ->setCpfAluno($cpf)
-                        ->setPcd($enrollment['deficiency'])
-                        ->setSexo($enrollment['gender']);
-
-                    $this->studentValidation($studentType, $schoolName, $cpf, $classId, $enrollment, $strlen);
-                } else {
-                    $studentType
-                        ->setNome($enrollment['name'])
-                        ->setDataNascimento(DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate))
-                        ->setJustSemCpf($enrollment['cpf_reason'])
-                        ->setPcd($enrollment['deficiency'])
-                        ->setSexo($enrollment['gender']);
-
-                    $this->studentValidationWhioutCpf($studentType, $schoolName, $enrollment['cpf_reason'], $classId, $enrollment, $strlen);
-                }
-
-                $this->isNullStudentType($studentType, $school, $enrollment, $classId);
-
-            }
+            $studentType = $this->generateStudentType( $withoutCpf, $convertedBirthdate,$enrollment,$cpf);
 
             $enrollmentType = new MatriculaTType();
             $enrollmentType
@@ -1839,7 +1751,8 @@ class SagresConsultModel
                 ->setAluno($studentType)
                 ->setEnrollmentStage($enrollment['enrollment_stage']);
 
-            $this->matriculaValidation($enrollment, $enrollmentType, $studentType, $school->name, $classId, $finalClass);
+            $this->matriculaValidation($enrollment, $enrollmentType, $studentType, $schoolName, $classId, $finalClass);
+            $this->checkSingleStudentWithoutCpf($enrollments, $cpf, $classId, $referenceYear, $schoolName, $inepId);
 
             $enrollmentList[] = $enrollmentType;
 
@@ -1848,6 +1761,83 @@ class SagresConsultModel
         return $enrollmentList;
     }
 
+    private function generateStudentType ($withoutCpf,$convertedBirthdate,$enrollment,$cpf){
+        $studentType = new AlunoTType();
+
+        $studentType = $withoutCpf
+            ? $this->studentTypeCaseWithoutCpf($convertedBirthdate, $enrollment, $cpf)
+            : $this->studentTypeCaseWithCpf($enrollment, $convertedBirthdate, $cpf);
+
+        return $studentType;
+    }
+
+    private function studentTypeCaseWithCpf($enrollment,$convertedBirthdate,$cpf){
+        $birthdate = DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate);
+        $strlen = 5;
+        $schoolName = $enrollment['school_name'];
+        $classId = $enrollment['class_id'];
+
+        $studentType = new AlunoTType();
+        $studentType
+            ->setNome($enrollment['name'])
+            ->setDataNascimento($birthdate)
+            ->setPcd($enrollment['deficiency'])
+            ->setSexo($enrollment['gender']);
+
+        if (!empty($cpf)) {
+            $studentType->setCpfAluno($cpf);
+            $this->studentValidation($studentType, $schoolName, $cpf, $classId, $enrollment, $strlen);
+        } else {
+            $studentType->setJustSemCpf($enrollment['cpf_reason']);
+            $this->studentValidationWhioutCpf($studentType, $schoolName, $enrollment['cpf_reason'], $classId, $enrollment, $strlen);
+        }
+
+        $this->checkStudentModality($enrollment, $convertedBirthdate);
+        $this->isNullStudentType($studentType, $schoolName, $enrollment, $classId);
+        return $studentType;
+    }
+    private function studentTypeCaseWithoutCpf($convertedBirthdate,$enrollment,$cpf){
+        $strlen = 5;
+        $schoolName = $enrollment['school_name'];
+        $classId = $enrollment['class_id'];
+        $birthdate = DateTime::createFromFormat(DATE_FORMAT, $convertedBirthdate);
+        $studentType = new AlunoTType();
+        $studentType
+            ->setNome($enrollment['name'])
+            ->setDataNascimento($birthdate)
+            ->setPcd($enrollment['deficiency'])
+            ->setSexo($enrollment['gender']);
+
+        if (!empty($cpf)) {
+            $studentType->setCpfAluno($cpf);
+            $this->studentValidation($studentType, $schoolName, $cpf, $classId, $enrollment, $strlen);
+        } else {
+            $studentType->setJustSemCpf($enrollment['cpf_reason']);
+            $this->studentValidationWhioutCpf($studentType, $schoolName, $enrollment['cpf_reason'], $classId, $enrollment, $strlen);
+        }
+
+        $this->checkStudentModality($enrollment, $convertedBirthdate);
+        $this->isNullStudentType($studentType, $schoolName, $enrollment, $classId);
+        return $studentType;
+    }
+
+    private function checkStudentModality ($enrollment,$birthdate){
+        $arrayStudentInfo = [
+            "studentFk" => $enrollment['student_fk'],
+            "classroomFk" =>$enrollment['class_id'],
+            "schoolInepIdFk" => $enrollment['inep_id']
+        ];
+        $modality = $enrollment['modality'];
+        //3 - EJA
+        if ($modality === 3) {
+            $educationLevel = (int) $this->getStageById($enrollment['edcenso_stage_vs_modality_fk']);
+            $age = $this->calculateAge($birthdate);
+            $this->checkAge($age, $educationLevel, $arrayStudentInfo);
+        }
+
+    }
+
+
     private function getStudentCpf($enrollment)
     {
         $query1 = "SELECT cpf from student_documents_and_address WHERE id = :idStudent";
@@ -1855,12 +1845,12 @@ class SagresConsultModel
         $command->bindValues([':idStudent' => $enrollment['id']]);
         return $command->queryScalar();
     }
-    private function isNullStudentType($studentType, $school, $enrollment, $classId)
+    private function isNullStudentType($studentType, $schoolName, $enrollment, $classId)
     {
         if (is_null($studentType)) {
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = STUDENT_STRONG;
-            $inconsistencyModel->school = $school->name;
+            $inconsistencyModel->school = $schoolName;
             $inconsistencyModel->description = INCONSISTENCY_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
             $inconsistencyModel->action = INCONSISTENCY_ACTION_STUDENT_NOT_FOUND_FOR_CLASS_REGISTRATION;
             $inconsistencyModel->identifier = '9';
@@ -1880,6 +1870,8 @@ class SagresConsultModel
                         c.edcenso_stage_vs_modality_fk,
                         c.modality,
                         se.id as numero,
+                        c.school_inep_fk as inep_id,
+                        se.classroom_fk as class_id,
                         se.student_fk,
                         se.create_date AS data_matricula,
                         se.date_cancellation_enrollment AS data_cancelamento,
@@ -1892,6 +1884,7 @@ class SagresConsultModel
                         ifnull(si.deficiency, 0) AS deficiency,
                         si.sex AS gender,
                         si.id,
+                        si2.name AS school_name,
                         CASE
                             WHEN c.edcenso_stage_vs_modality_fk IN (2, 3, 4, 5, 6, 7, 8, 9, 14, 15, 16, 17, 18, 19, 75)  THEN
                                 (SELECT if(((SELECT COUNT(schedule) FROM class_faults cf
@@ -1920,6 +1913,7 @@ class SagresConsultModel
                         join student_documents_and_address sdaa on si.id = sdaa.id
                         left join class_faults cf on cf.student_fk = si.id
                         left join schedule s on cf.schedule_fk = s.id
+                        join school_identification si2 on si2.inep_id= c.school_inep_fk
                   WHERE
                         se.classroom_fk  =  :classId AND
                         (se.status in ($strAcceptedStatus) or se.status is null) AND
@@ -2220,14 +2214,14 @@ class SagresConsultModel
 
     }
 
-    private function checkSingleStudentWithoutCpf(array $enrollments, $cpf, $classId, $referenceYear, $school, $inepId)
+    private function checkSingleStudentWithoutCpf(array $enrollments, $cpf, $classId, $referenceYear, $schoolName, $inepId)
     {
         if (count($enrollments) === 1 && empty($cpf)) {
             $className = $this->getClassName($classId, $referenceYear);
 
             $inconsistencyModel = new ValidationSagresModel();
             $inconsistencyModel->enrollment = TURMA_STRONG;
-            $inconsistencyModel->school = $school->name;
+            $inconsistencyModel->school = $schoolName;
             $inconsistencyModel->description = 'A turma: <strong>' . $className . '</strong> possui apenas um estudante sem CPF. Como o sistema não aceita matrículas sem CPF, esta turma é considerada sem alunos matriculados.';
             $inconsistencyModel->action = 'Adicione o CPF do aluno ou delete a turma.';
             $inconsistencyModel->identifier = '10';
