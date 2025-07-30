@@ -1766,7 +1766,6 @@ class SagresConsultModel
         return $withoutCpf
             ? $this->studentTypeCaseWithoutCpf($convertedBirthdate, $enrollment, $cpf)
             : $this->studentTypeCaseWithCpf($enrollment, $convertedBirthdate, $cpf);
-;
     }
 
     private function studentTypeCaseWithCpf($enrollment,$convertedBirthdate,$cpf){
