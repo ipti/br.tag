@@ -108,21 +108,37 @@ class InstructorDocumentsAndAddressValidation extends Register
     }
 
     //campo 8, 9, 10, 11, 12, 13
-    function isAdressValid($field, $cep, $allowedLenght)
+    public function isAdressValid($field, $cep, $allowedLenght)
     {
         $regex = "/^[0-9 a-z.,-ºª ]+$/";
-        if ($cep == null) {
-            if ($field == null) {
-                return array("status" => false, "erro" => "O campo não pode ser nulo.");
-            }
-        } else if (strlen($field) > $allowedLenght || strlen($field) <= 0) {
-            return array("status" => false, "erro" => "O campo está com tamanho incorreto.");
-        } else if (!preg_match($regex, $field)) {
-            return array("status" => false, "erro" => "O campo foi preenchido com valor inválido.");
-        } else if ($field == null) {
+        $checkAdress = $this->checkAdress($field,$regex,$allowedLenght);
+        if ($cep == null && $field == null) {
             return array("status" => false, "erro" => "O campo não pode ser nulo.");
         }
+        if ($checkAdress != null){
+            return $checkAdress;
+        }
         return array("status" => true, "erro" => "");
+    }
+    private function checkAdress($field,$regex,$allowedLenght)
+    {
+        if (strlen($field) > $allowedLenght || strlen($field) <= 0) {
+            return array("status" => false, "erro" => "O campo está com tamanho incorreto.");
+        }
+        $checkAdressType = $this->checkAdressTypeIsValid($field,$regex);
+        if($checkAdressType != null) {
+            return $checkAdressType;
+        }
+        return null;
+    }
+    private function checkAdressTypeIsValid ($field,$regex){
+        if (!preg_match($regex, $field)) {
+            return array("status" => false, "erro" => "O campo foi preenchido com valor inválido.");
+        }
+         if ($field == null) {
+            return array("status" => false, "erro" => "O campo não pode ser nulo.");
+        }
+        return null;
     }
 }
 ?>
