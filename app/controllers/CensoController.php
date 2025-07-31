@@ -119,18 +119,21 @@ class CensoController extends Controller
 
         //ok
         $result = $siv->isRegister("00", $schoolIdentificationColumn['register_type']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("register_type" => $result["erro"]));
+        }
 
         //ok
         $result = $siv->isInepIdValid($schoolIdentificationColumn['inep_id']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("inep_id" => $result["erro"]));
+        }
 
         //campo 7 - ok
         $result = $siv->isSituationValid($schoolIdentificationColumn['situation']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("situation" => $result["erro"]));
+        }
 
         //campo 8 e 9
         /*@todo
@@ -139,13 +142,15 @@ class CensoController extends Controller
 
         */
         $result = $siv->isSchoolYearValid($schoolIdentificationColumn['initial_date'], $schoolIdentificationColumn['final_date']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("Datas" => $result["erro"]));
+        }
 
         //campo 10
         $result = $siv->isSchoolNameValid($schoolIdentificationColumn['name']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("name" => $result["erro"]));
+        }
 
         //campo 11
         //$result = $siv->isLatitudeValid($collumn['latitude']);
@@ -157,33 +162,38 @@ class CensoController extends Controller
 
         //campo 13
         $result = $siv->isCEPValid($schoolIdentificationColumn['cep']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("cep" => $result["erro"]));
+        }
 
 
         $result = $siv->isAddressValid($schoolIdentificationColumn['address'], 100, false);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("address" => $result["erro"]));
+        }
 
         //campo 15
         if ($schoolIdentificationColumn['address_number'] !== "" && $schoolIdentificationColumn["address_number"] !== null) {
             $result = $siv->isAddressValid($schoolIdentificationColumn['address_number'], 10, true);
-            if (!$result["status"])
+            if (!$result["status"]){
                 array_push($log, array("address_number" => $result["erro"]));
+            }
         }
 
         //campo 16
         if ($schoolIdentificationColumn['address_complement'] !== "" && $schoolIdentificationColumn["address_complement"] !== null) {
             $result = $siv->isAddressValid($schoolIdentificationColumn['address_complement'], 20, true);
-            if (!$result["status"])
+            if (!$result["status"]){
                 array_push($log, array("address_complement" => $result["erro"]));
+            }
         }
 
         //campo 17
         if ($schoolIdentificationColumn['address_neighborhood'] !== "" && $schoolIdentificationColumn["address_neighborhood"] !== null) {
             $result = $siv->isAddressValid($schoolIdentificationColumn['address_neighborhood'], 50, true);
-            if (!$result["status"])
+            if (!$result["status"]){
                 array_push($log, array("address_neighborhood" => $result["erro"]));
+            }
         }
 
         //campo 18
@@ -206,14 +216,16 @@ class CensoController extends Controller
         //campo 21-25
 
         $result = $siv->checkPhoneNumbers($schoolIdentificationColumn['ddd'], $schoolIdentificationColumn['phone_number'], $schoolIdentificationColumn['other_phone_number']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("DDD e Telefones" => $result["erro"]));
+        }
 
         //campo 26
         if ($schoolIdentificationColumn['email'] !== "" && $schoolIdentificationColumn['email'] !== null) {
             $result = $siv->isEmailValid($schoolIdentificationColumn['email']);
-            if (!$result["status"])
+            if (!$result["status"]){
                 array_push($log, array("email" => $result["erro"]));
+            }
         }
 
         //campo 27
@@ -221,13 +233,15 @@ class CensoController extends Controller
 
         //campo 28
         $result = $siv->isAdministrativeDependenceValid($schoolIdentificationColumn['administrative_dependence'], $schoolIdentificationColumn['edcenso_uf_fk']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("administrative_dependence" => $result["erro"]));
+        }
 
         //campo 29
         $result = $siv->isLocationValid($schoolIdentificationColumn['location']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("location" => $result["erro"]));
+        }
 
         //campo 30
         $result = $siv->checkPrivateSchoolCategory(
@@ -235,8 +249,9 @@ class CensoController extends Controller
             $schoolIdentificationColumn['situation'],
             $schoolIdentificationColumn['administrative_dependence']
         );
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("private_school_category" => $result["erro"]));
+        }
 
         //campo 31
         $result = $siv->isPublicContractValid(
@@ -244,8 +259,9 @@ class CensoController extends Controller
             $schoolIdentificationColumn['situation'],
             $schoolIdentificationColumn['administrative_dependence']
         );
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("public_contract" => $result["erro"]));
+        }
 
         //campo 32 - 36
         $keepers = array(
@@ -264,8 +280,9 @@ class CensoController extends Controller
             $schoolIdentificationColumn['situation'],
             $schoolIdentificationColumn['administrative_dependence']
         );
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("private_school_maintainer_cnpj" => $result["erro"]));
+        }
 
         //campo 38
         $result = $siv->isCNPJValid(
@@ -273,18 +290,21 @@ class CensoController extends Controller
             $schoolIdentificationColumn['situation'],
             $schoolIdentificationColumn['administrative_dependence']
         );
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("private_school_cnpj" => $result["erro"]));
+        }
 
         //campo 39
         $result = $siv->isRegulationValid($schoolIdentificationColumn['regulation'], $schoolIdentificationColumn['situation']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("regulation" => $result["erro"]));
+        }
 
         //campo 40
         $result = $siv->isRegulationValid($schoolIdentificationColumn['offer_or_linked_unity'], $schoolIdentificationColumn['situation']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("offer_or_linked_unity" => $result["erro"]));
+        }
 
         //campo 41
         $inepHeadSchool = $schoolIdentificationColumn['inep_head_school'];
@@ -300,30 +320,36 @@ class CensoController extends Controller
                 $check[0]['situation'],
                 $check[0]['inep_head_school']
             );
-            if (!$result["status"])
+            if (!$result["status"]){
                 array_push($log, array("inep_head_school" => $result["erro"]));
+            }
         }
         //campo 42
         $result = $siv->iesCode($schoolIdentificationColumn['ies_code'], $schoolIdentificationColumn['administrative_dependence'], $schoolIdentificationColumn['offer_or_linked_unity']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("ies_code" => $result["erro"]));
+        }
 
         $result = $siv->isNotNullValid($schoolIdentificationColumn["id_difflocation"]);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("id_difflocation" => $result["erro"]));
+        }
 
         $result = $siv->isValidLinkedOrgan($schoolIdentificationColumn["administrative_dependence"], $schoolIdentificationColumn["linked_mec"], $schoolIdentificationColumn["linked_army"], $schoolIdentificationColumn["linked_helth"], $schoolIdentificationColumn["linked_other"]);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("Orgao ao qual a escola publica esta vinculada" => $result["erro"]));
+        }
 
         $result = $siv->regulationOrganSphere($schoolIdentificationColumn["administrative_dependence"], $schoolIdentificationColumn["regulation_organ_federal"], $schoolIdentificationColumn["regulation_organ_state"], $schoolIdentificationColumn["regulation_organ_municipal"]);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("Esfera do Orgao Regulador" => $result["erro"]));
+        }
 
         //campo 3 - ok
         $result = $siv->isManagerCPFValid($managerIdentificationColumn['cpf']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("CPF do Gestor Escolar" => $result["erro"]));
+        }
 
         //campo 4 - ok
         $result = $siv->isManagerNameValid($managerIdentificationColumn['name']);
