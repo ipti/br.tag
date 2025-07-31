@@ -9,7 +9,7 @@ class InstructorDocumentsAndAddressValidation extends Register
 {
 
     //campo 5
-    function isCPFValid($cpfStr)
+    public function isCPFValid($cpfStr)
     {
         if ($cpfStr !== "" && $cpfStr !== null) {
             $cpf = "$cpfStr";
@@ -68,7 +68,7 @@ class InstructorDocumentsAndAddressValidation extends Register
     }
 
     //campo 7
-    function isCEPValid($cep)
+    public function isCEPValid($cep)
     {
         // retira espacos em branco
         $cep = trim($cep);
@@ -89,14 +89,14 @@ class InstructorDocumentsAndAddressValidation extends Register
     }
 
     //campo 8, 9, 10, 11, 12, 13
-    function isAdressValid($field, $cep, $allowed_lenght)
+    function isAdressValid($field, $cep, $allowedLenght)
     {
         $regex = "/^[0-9 a-z.,-ºª ]+$/";
         if ($cep == null) {
             if ($field == null) {
                 return array("status" => false, "erro" => "O campo não pode ser nulo.");
             }
-        } else if (strlen($field) > $allowed_lenght || strlen($field) <= 0) {
+        } else if (strlen($field) > $allowedLenght || strlen($field) <= 0) {
             return array("status" => false, "erro" => "O campo está com tamanho incorreto.");
         } else if (!preg_match($regex, $field)) {
             return array("status" => false, "erro" => "O campo foi preenchido com valor inválido.");
