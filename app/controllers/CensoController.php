@@ -251,12 +251,7 @@ class CensoController extends Controller
             $schoolIdentificationColumn['private_school_s_system']
         );
 
-        /*
-        $result = $siv->checkPrivateSchoolCategory($keepers,
-            $collumn['situation'],
-            $collumn['administrative_dependence']);
-        if(!$result["status"]) array_push($log, array("keepers"=>$result["erro"]));
-        */
+
 
         //campo 37
         $result = $siv->isCNPJValid(
@@ -1357,10 +1352,6 @@ class CensoController extends Controller
         $log = array();
 
         $nationality = $studentident['nationality'];
-
-        // $foreign = $sda->isAllowed($nationality, array("3"));
-        // $field6006 = $collumn['birthday'];
-        // $field7005 = $collumn['rg_number'];
 
         date_default_timezone_set('America/Bahia');
         $date = date('d/m/Y');
@@ -3069,7 +3060,6 @@ class CensoController extends Controller
                             }
                         }
 
-                        // $imported .= $this->printImported('Instructor', $line);
                     }
                 } else {
                     $student = StudentIdentification::model()->with('documentsFk')->with("studentEnrollments")->findByPk($line[0]);
