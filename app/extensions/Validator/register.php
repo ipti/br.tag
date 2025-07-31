@@ -13,7 +13,7 @@ class Register
 
     function isEmpty($value)
     {
-        if (trim($value) === '' || !isset($value)) {
+        if ($value === null || trim($value) === '' || !isset($value)) {
             return array('status' => true, 'erro' => '');
         }
         return array('status' => false, 'erro' => 'O valor nao eh vazio');
@@ -400,7 +400,7 @@ class Register
         return array("status" => true, "erro" => "");
 
     }
-    
+
 
     function ufcity($nationality, $nation, $city)
     {
@@ -410,7 +410,7 @@ class Register
         } else if (!($city == "" || isset($city))) {
             return array("status" => false, "erro" => "Cidade não deveria ser preenchida");
         }
-    
+
         return array("status" => true, "erro" => "");
     }
 
