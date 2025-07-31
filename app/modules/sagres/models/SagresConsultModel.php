@@ -1762,7 +1762,6 @@ class SagresConsultModel
     }
 
     private function generateStudentType ($withoutCpf,$convertedBirthdate,$enrollment,$cpf){
-
         return $withoutCpf
             ? $this->studentTypeCaseWithoutCpf($convertedBirthdate, $enrollment, $cpf)
             : $this->studentTypeCaseWithCpf($enrollment, $convertedBirthdate, $cpf);
