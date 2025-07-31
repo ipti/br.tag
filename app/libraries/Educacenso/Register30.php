@@ -264,7 +264,7 @@ class Register30
         }
 
 
-        if ($student['civil_certification'] != 2 || $withoutCertificates == true) {
+        if ($student['civil_certification'] != 2 || $withoutCertificates) {
             $student['civil_register_enrollment_number'] = '';
         }
 
