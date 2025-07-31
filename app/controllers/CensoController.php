@@ -353,39 +353,47 @@ class CensoController extends Controller
 
         //campo 4 - ok
         $result = $siv->isManagerNameValid($managerIdentificationColumn['name']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("Nome do Gestor Escolar" => $result["erro"]));
+        }
 
         $year = Yii::app()->user->year;
         $result = $siv->isManagerBirthdayValid($managerIdentificationColumn["birthday_date"], $year);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("Data de Nascimento do Gestor Escolar" => $result["erro"]));
+        }
 
         //campo 11, 12, 13
         $result = $siv->isNameValid(trim($managerIdentificationColumn['filiation_1']), 100);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("Filiacao do Gestor Escolar" => $result["erro"]));
+        }
         $result = $siv->isNameValid(trim($managerIdentificationColumn['filiation_2']), 100);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("Filiacao do Gestor Escolar" => $result["erro"]));
+        }
         $result = $siv->validateFiliation($managerIdentificationColumn['filiation'], $managerIdentificationColumn['filiation_1'], $managerIdentificationColumn['filiation_2']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("Filiacao do Gestor Escolar" => $result["erro"]));
+        }
 
         //campo 9
         $result = $siv->oneOfTheValues($managerIdentificationColumn['sex']);
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("Sexo do Gestor Escolar" => $result["erro"]));
+        }
 
         //campo 10
         $result = $siv->isAllowed($managerIdentificationColumn['color_race'], array("0", "1", "2", "3", "4", "5"));
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("Cor/Raca do Gestor Escolar" => $result["erro"]));
+        }
 
         //campo 14, 15
         $result = $siv->checkNation($managerIdentificationColumn['nationality'], $managerIdentificationColumn['edcenso_nation_fk'], array("1", "2", "3"));
-        if (!$result["status"])
+        if (!$result["status"]){
             array_push($log, array("Nacionalidade do Gestor Escolar" => $result["erro"]));
+        }
 
         //campo 16
         $result = $siv->ufcity($managerIdentificationColumn['nationality'], $managerIdentificationColumn['edcenso_nation_fk'], $managerIdentificationColumn['edcenso_uf_fk']);
