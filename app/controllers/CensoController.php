@@ -78,24 +78,29 @@ class CensoController extends Controller
         $modalitiesProfessional = false;
         foreach ($peopleByModalitie  as $key => $item) {
             switch ($item['modalities']) {
-
                 case '1':
-                    if ($item['number_of'] > '0')
+                    if ($item['number_of'] > '0'){
                         $modalitiesRegular = true;
+                    }
                     break;
                 case '2':
-                    if ($item['number_of'] > '0')
+                    if ($item['number_of'] > '0'){
                         $modalitiesEspecial = true;
+                    }
                     break;
 
                 case '3':
-                    if ($item['number_of'] > '0')
+                    if ($item['number_of'] > '0'){
                         $modalitiesEja = true;
+                    }
                     break;
 
                 case '4':
-                    if ($item['number_of'] > '0')
+                    if ($item['number_of'] > '0'){
                         $modalitiesProfessional = true;
+                    }
+                    break;
+                default:
                     break;
             }
         }
