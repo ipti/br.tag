@@ -71,39 +71,39 @@ class CensoController extends Controller
 
     public function areThereByModalitie($sql)
     {
-        $people_by_modalitie = Yii::app()->db->createCommand($sql)->queryAll();
-        $modalities_regular = false;
-        $modalities_especial = false;
-        $modalities_eja = false;
-        $modalities_professional = false;
-        foreach ($people_by_modalitie as $key => $item) {
+        $peopleByModalitie  = Yii::app()->db->createCommand($sql)->queryAll();
+        $modalitiesRegular = false;
+        $modalitiesEspecial = false;
+        $modalitiesEja = false;
+        $modalitiesProfessional = false;
+        foreach ($peopleByModalitie  as $key => $item) {
             switch ($item['modalities']) {
 
                 case '1':
                     if ($item['number_of'] > '0')
-                        $modalities_regular = true;
+                        $modalitiesRegular = true;
                     break;
                 case '2':
                     if ($item['number_of'] > '0')
-                        $modalities_especial = true;
+                        $modalitiesEspecial = true;
                     break;
 
                 case '3':
                     if ($item['number_of'] > '0')
-                        $modalities_eja = true;
+                        $modalitiesEja = true;
                     break;
 
                 case '4':
                     if ($item['number_of'] > '0')
-                        $modalities_professional = true;
+                        $modalitiesProfessional = true;
                     break;
             }
         }
         return array(
-            "modalities_regular" => $modalities_regular,
-            "modalities_especial" => $modalities_especial,
-            "modalities_eja" => $modalities_eja,
-            "modalities_professional" => $modalities_professional
+            "modalities_regular" => $modalitiesRegular,
+            "modalities_especial" => $modalitiesEspecial,
+            "modalities_eja" => $modalitiesEja,
+            "modalities_professional" => $modalitiesProfessional
         );
     }
 
@@ -171,7 +171,7 @@ class CensoController extends Controller
         if ($schoolIdentificationColumn['address_complement'] !== "" && $schoolIdentificationColumn["address_complement"] !== null) {
             $result = $siv->isAddressValid($schoolIdentificationColumn['address_complement'], 20, true);
             if (!$result["status"])
-                array_push($log, array("address_complement" => $result["erro"]));;
+                array_push($log, array("address_complement" => $result["erro"]));
         }
 
         //campo 17
@@ -287,10 +287,10 @@ class CensoController extends Controller
             array_push($log, array("offer_or_linked_unity" => $result["erro"]));
 
         //campo 41
-        $inep_head_school = $schoolIdentificationColumn['inep_head_school'];
+        $inepHeadSchool = $schoolIdentificationColumn['inep_head_school'];
         $sql = "SELECT 	si.inep_head_school, si.situation
 			FROM 	school_identification AS si
-			WHERE 	inep_id = '$inep_head_school';";
+			WHERE 	inep_id = '$inepHeadSchool';";
         $check = Yii::app()->db->createCommand($sql)->queryAll();
         if (!empty($check)) {
             $result = $siv->inepHeadSchool(
@@ -1094,7 +1094,7 @@ class CensoController extends Controller
         $sql = "SELECT assistance_type, pedagogical_mediation_type, edcenso_stage_vs_modality_fk
 			FROM classroom
 			WHERE id = '$classroom_fk';";
-        $check = Yii::app()->db->createCommand($sql)->queryAll();;
+        $check = Yii::app()->db->createCommand($sql)->queryAll();
         $assistance_type = $check[0]['assistance_type'];
         $pedagogical_mediation_type = $check[0]['pedagogical_mediation_type'];
         $edcenso_svm = $check[0]['edcenso_stage_vs_modality_fk'];
