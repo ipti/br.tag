@@ -1,29 +1,27 @@
 <?php
 
 // require(dirname(__FILE__).'/main.php');
-defined("DBNAME") or define("DBNAME", "demo.tag.ong.br");
-$HOST = "localhost:3306";
+defined('DBNAME') or define('DBNAME', 'demo.tag.ong.br');
+$HOST = 'localhost:3306';
 $USER = 'root';
 $SECRET = 'root';
 
-define("DBCONFIG", serialize(array(
+define('DBCONFIG', serialize([
     'connectionString' => "mysql:host=$HOST;dbname=demo.tag.ong.br",
     'emulatePrepare' => true,
     'username' => $USER,
     'password' => $SECRET,
     'charset' => 'utf8',
-)));
-
+]));
 
 return CMap::mergeArray(
     require(dirname(__FILE__) . '/main.php'),
-
-    array(
-        'components' => array(
-            'fixture' => array(
+    [
+        'components' => [
+            'fixture' => [
                 'class' => 'system.test.CDbFixtureManager',
-            ),
+            ],
 
-        ),
-    )
+        ],
+    ]
 );

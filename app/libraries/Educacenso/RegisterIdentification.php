@@ -24,9 +24,8 @@ class RegisterIdentification
             return null;
         }
 
-        return preg_replace("/&([a-z])[a-z]+;/i", "$1", htmlentities($name));
+        return preg_replace('/&([a-z])[a-z]+;/i', '$1', htmlentities($name));
     }
-
 
     private static function getStudents($classroom, $students)
     {
@@ -62,7 +61,6 @@ class RegisterIdentification
         $identification = $person['identification'];
         $documents = $person['documents'];
 
-
         $register[self::EDCENSO_COD_NA_UNIDADE] = $type === RegisterIdentificationType::INSTRUCTOR ? 'II' . $identification['id'] : $identification['id'];
         $register[self::EDCENSO_CPF] = $documents['cpf'];
         $register[self::EDCENSO_CERT_NASCIMENTO] = self::validarMatriculaRegistroCivil($documents['civil_register_enrollment_number']) ? $documents['civil_register_enrollment_number'] : null;
@@ -73,12 +71,8 @@ class RegisterIdentification
         $register[self::EDCENSO_MUN_NASCIMENTO] = $identification['edcenso_city_fk'];
         $register[self::EDCENSO_INEP_ID] = null;
 
-
-
         return $register;
     }
-
-
 
     public static function export()
     {
@@ -131,8 +125,9 @@ class RegisterIdentification
         while (($line = fgets($file)) !== false) {
             $lineNumber++;
 
-            if (trim($line) === '')
+            if (trim($line) === '') {
                 continue;
+            }
 
             $fields = array_map('trim', explode('|', $line));
 
@@ -196,7 +191,6 @@ class RegisterIdentification
 
     public static function validarCodigoAcervo(string $matricula): bool
     {
-
         $codigoAcervo = substr($matricula, 6, 2);
         $anoRegistro = intval(substr($matricula, 10, 4));
 

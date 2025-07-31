@@ -7,7 +7,6 @@
  */
 class FeaturesComponent extends CApplicationComponent
 {
-
     /**
      * Checa se feature está ativa no sistema
      *
@@ -17,9 +16,9 @@ class FeaturesComponent extends CApplicationComponent
      */
     public function isEnable($featureKey)
     {
-        $feature = InstanceConfig::model()->findByAttributes(["parameter_key" => $featureKey]);
+        $feature = InstanceConfig::model()->findByAttributes(['parameter_key' => $featureKey]);
 
-        if($feature->value){
+        if ($feature->value) {
             return (bool) $feature->value;
         }
 
@@ -35,16 +34,16 @@ class FeaturesComponent extends CApplicationComponent
      */
     public function disable($featureKey)
     {
-        $feature = InstanceConfig::model()->findByAttributes(["parameter_key" => $featureKey]);
+        $feature = InstanceConfig::model()->findByAttributes(['parameter_key' => $featureKey]);
         if ($feature === false) {
-            throw new Exception("Feature não encontrada na base de dados", 1);
+            throw new Exception('Feature não encontrada na base de dados', 1);
         }
 
         $feature->value = false;
         $result = $feature->save();
 
         if ($result === false) {
-            throw new Exception("Não foi possível desativar feature, verifique se ela existe na base de dados", 1);
+            throw new Exception('Não foi possível desativar feature, verifique se ela existe na base de dados', 1);
         }
     }
 
@@ -57,17 +56,17 @@ class FeaturesComponent extends CApplicationComponent
      */
     public function enable($featureKey)
     {
-        $feature = InstanceConfig::model()->findByAttributes(["parameter_key" => $featureKey]);
+        $feature = InstanceConfig::model()->findByAttributes(['parameter_key' => $featureKey]);
 
         if ($feature === false) {
-            throw new Exception("Feature não encontrada na base de dados", 1);
+            throw new Exception('Feature não encontrada na base de dados', 1);
         }
 
         $feature->value = true;
         $result = $feature->save();
 
         if ($result === false) {
-            throw new Exception("Não foi possível ativar feature, verifique se ela existe na base de dados", 1);
+            throw new Exception('Não foi possível ativar feature, verifique se ela existe na base de dados', 1);
         }
     }
 
@@ -83,5 +82,4 @@ class FeaturesComponent extends CApplicationComponent
         $features = InstanceConfig::model()->findAll("parameter_key LIKE '%FEAT_%'");
         return $features;
     }
-
 }

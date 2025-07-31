@@ -6,20 +6,20 @@ class ToolsController extends Controller
 
     public function actionIndex()
     {
-        $tools = array(
-            array('name' => 'Visualizar Logs', 'url' => Yii::app()->createUrl('tools/viewLogs')),
-            array('name' => 'OpCache', 'url' => Yii::app()->createUrl('tools/opcache'))
+        $tools = [
+            ['name' => 'Visualizar Logs', 'url' => Yii::app()->createUrl('tools/viewLogs')],
+            ['name' => 'OpCache', 'url' => Yii::app()->createUrl('tools/opcache')]
 
-        );
+        ];
 
-        $this->render('index', array(
+        $this->render('index', [
             'tools' => $tools,
-        ));
+        ]);
     }
+
     public function actionOpcache()
     {
-
-        $this->layout = "reportsclean";
+        $this->layout = 'reportsclean';
         // Caminho completo para o OPcache GUI
         $opcacheGuiPath = Yii::getPathOfAlias('application.extensions.opcache-gui') . '/index.php';
         // Verifica se o arquivo existe
@@ -36,7 +36,7 @@ class ToolsController extends Controller
     public function actionViewLogs()
     {
         // Caminho do diretório onde os logs são armazenados
-        $logPath = "/app/app/runtime/" . INSTANCE . "/" . date("Y-m-d");
+        $logPath = '/app/app/runtime/' . INSTANCE . '/' . date('Y-m-d');
         $logFiles = glob($logPath . '/application.log*'); // Encontra todos os arquivos de log
         $logs = [];
 
@@ -46,32 +46,28 @@ class ToolsController extends Controller
         if (!empty($logFiles)) {
             foreach ($logFiles as $file) {
                 // Adiciona o cabeçalho com o nome do arquivo
-                array_unshift($logs, ["type" => "header", "file" => basename($file)]); // Coloca no início
+                array_unshift($logs, ['type' => 'header', 'file' => basename($file)]); // Coloca no início
 
                 // Abre o arquivo e lê linha por linha
                 $fileHandle = fopen($file, 'r');
                 if ($fileHandle) {
                     while (($line = fgets($fileHandle)) !== false) {
-                        array_unshift($logs, ["type" => "log", "line" => $line]); // Coloca no início
+                        array_unshift($logs, ['type' => 'log', 'line' => $line]); // Coloca no início
                     }
                     fclose($fileHandle);
                 }
             }
         }
 
-        $dataProvider = new CArrayDataProvider($logs, array(
+        $dataProvider = new CArrayDataProvider($logs, [
             'id' => 'log',
-            'pagination' => array(
+            'pagination' => [
                 'pageSize' => 50, // Exibir 50 linhas por página
-            ),
-        ));
+            ],
+        ]);
 
-        $this->render('viewLogs', array(
+        $this->render('viewLogs', [
             'dataProvider' => $dataProvider,
-        ));
+        ]);
     }
-
-
 }
-
-

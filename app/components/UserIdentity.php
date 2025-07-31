@@ -16,20 +16,20 @@ class UserIdentity extends CUserIdentity
      * @return boolean whether authentication succeeds.
      */
     //	public function authenticate()
-//	{
-//		$users=array(
-//			// username => password
-//			'demo'=>'demo',
-//			'admin'=>'admin',
-//		);
-//		if(!isset($users[$this->username]))
-//			$this->errorCode=self::ERROR_USERNAME_INVALID;
-//		elseif($users[$this->username]!==$this->password)
-//			$this->errorCode=self::ERROR_PASSWORD_INVALID;
-//		else
-//			$this->errorCode=self::ERROR_NONE;
-//		return !$this->errorCode;
-//	}
+    //	{
+    //		$users=array(
+    //			// username => password
+    //			'demo'=>'demo',
+    //			'admin'=>'admin',
+    //		);
+    //		if(!isset($users[$this->username]))
+    //			$this->errorCode=self::ERROR_USERNAME_INVALID;
+    //		elseif($users[$this->username]!==$this->password)
+    //			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+    //		else
+    //			$this->errorCode=self::ERROR_NONE;
+    //		return !$this->errorCode;
+    //	}
 //
     public function isMd5($string)
     {
@@ -39,11 +39,11 @@ class UserIdentity extends CUserIdentity
 
     public function authenticate()
     {
-        $record = Users::model()->findByAttributes(array('username' => $this->username));
+        $record = Users::model()->findByAttributes(['username' => $this->username]);
 
         if ($this->isMd5($record->password)) {
             if ($record->password === md5($this->password)) {
-                $passwordHasher = new PasswordHasher;
+                $passwordHasher = new PasswordHasher();
                 $record->password = $passwordHasher->bcriptHash($this->password);
                 $record->save();
             } else {
@@ -65,7 +65,7 @@ class UserIdentity extends CUserIdentity
                 $userSchools = [];
                 $this->setState('hardfoot', false);
                 //@done s2 - mostrar apenas escolas ativas
-                $userSchools = SchoolIdentification::model()->findAllByAttributes(array('situation' => '1'), array('order' => 'name'));
+                $userSchools = SchoolIdentification::model()->findAllByAttributes(['situation' => '1'], ['order' => 'name']);
                 $school = isset($userSchools[0]) ? $userSchools[0]->inep_id : '';
             } else {
                 $this->setState('hardfoot', true);

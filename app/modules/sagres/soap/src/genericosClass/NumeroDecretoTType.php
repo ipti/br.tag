@@ -5,7 +5,7 @@ namespace Genericos;
 /**
  * Class representing NumeroDecretoTType
  *
- * 
+ *
  * XSD Type: numeroDecreto_t
  */
 class NumeroDecretoTType
@@ -64,4 +64,3 @@ class NumeroDecretoTType
         return $this;
     }
 }
-

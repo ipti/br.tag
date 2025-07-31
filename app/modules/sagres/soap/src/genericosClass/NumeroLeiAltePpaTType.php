@@ -5,7 +5,7 @@ namespace Genericos;
 /**
  * Class representing NumeroLeiAltePpaTType
  *
- * 
+ *
  * XSD Type: numeroLeiAltePpa_t
  */
 class NumeroLeiAltePpaTType
@@ -64,4 +64,3 @@ class NumeroLeiAltePpaTType
         return $this;
     }
 }
-

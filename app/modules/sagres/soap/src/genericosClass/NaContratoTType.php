@@ -5,7 +5,7 @@ namespace Genericos;
 /**
  * Class representing NaContratoTType
  *
- * 
+ *
  * XSD Type: naContrato_t
  */
 class NaContratoTType
@@ -91,4 +91,3 @@ class NaContratoTType
         return $this;
     }
 }
-

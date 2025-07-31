@@ -17,20 +17,20 @@
 
                 <?php
                 foreach ($this->tableSchema->columns as $column) {
-                    if ($column->autoIncrement)
+                    if ($column->autoIncrement) {
                         continue;
-                    ?>
+                    } ?>
                     <div class="control-group">
-                        <?php echo "<?php echo " . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n"; ?>
+                        <?php echo '<?php echo ' . $this->generateActiveLabel($this->modelClass, $column) . "; ?>\n"; ?>
                         <div class="controls">
-                            <?php echo "<?php echo " . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
+                            <?php echo '<?php echo ' . $this->generateActiveField($this->modelClass, $column) . "; ?>\n"; ?>
                             <?php echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; ?>
                         </div>
                     </div>
 
                     <?php
                 }
-                ?>
+?>
                 <div class="formField buttonWizardBar">
                     <?php echo "<?php echo CHtml::submitButton(\$model->isNewRecord ? Yii::t('default', 'Create') : Yii::t('default', 'Save'),array('class' => 'buttonLink button')); ?>\n"; ?>
                 </div>

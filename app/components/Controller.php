@@ -6,9 +6,7 @@ use Sentry\Tracing\TransactionContext;
  * All controller classes for this application should extend from this base class.
  */
 
-
 use Sentry\SentrySdk;
-
 use Sentry\State\Hub;
 use Sentry\Event;
 
@@ -22,23 +20,20 @@ class Controller extends CController
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
      */
-    public $menu = array();
+    public $menu = [];
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
      * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
      * for more details on how to specify this property.
      */
-    public $breadcrumbs = array();
-
+    public $breadcrumbs = [];
 
     public function init()
     {
         parent::init();
 
-
         if (!Yii::app()->user->isGuest) {
-
-            $authTimeout = Yii::app()->user->getState("authTimeout", SESSION_MAX_LIFETIME);
+            $authTimeout = Yii::app()->user->getState('authTimeout', SESSION_MAX_LIFETIME);
             Yii::app()->user->authTimeout = $authTimeout;
 
             Yii::app()->sentry->setUserContext([
@@ -92,6 +87,4 @@ class Controller extends CController
 
         return parent::afterAction($action);
     }
-
-
 }
