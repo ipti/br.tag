@@ -86,8 +86,8 @@ class InstructorDocumentsAndAddressValidation extends Register
 
     private function verifyCep($cep, $avaliaCep){
 
-       $isInvalidValue = $this->checkCepInvalidValue($cep);
-       if($isInvalidValue != null) {
+        $isInvalidValue = $this->checkCepInvalidValue($cep);
+        if($isInvalidValue != null) {
             return $isInvalidValue;
         }
         if (strlen($cep) != 8 || !$avaliaCep) {
