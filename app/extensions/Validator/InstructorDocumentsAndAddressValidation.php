@@ -75,17 +75,36 @@ class InstructorDocumentsAndAddressValidation extends Register
         // expressao regular para avaliar o cep
         $avaliaCep = preg_match('/^[0-9]{5}[0-9]{3}$/', $cep);
 
-        if ($cep == null) {
-            return array("status" => false, "erro" => "O campo CEP é uma informação obrigatória.");
+        $verification = $this->verifyCep($cep, $avaliaCep);
+
+        if($verification !=null) {
+            return $verification;
+        }
+
+        return array("status" => true, "erro" => "");
+    }
+
+    private function verifyCep($cep, $avaliaCep){
+
+       $isInvalidValue = $this->checkCepInvalidValue($cep);
+       if($isInvalidValue != null) {
+            return $isInvalidValue;
         }
         if (strlen($cep) != 8 || !$avaliaCep) {
             return array("status" => false, "erro" => "O campo CEP está com tamanho diferente do especificado.");
         }
-        if (!is_numeric($cep)) {
+        return null;
+
+    }
+
+    private function checkCepInvalidValue($cep){
+        if ($cep == null) {
+            return array("status" => false, "erro" => "O campo CEP é uma informação obrigatória.");
+        }
+         if (!is_numeric($cep)) {
             return array("status" => false, "erro" => "O campo CEP foi preenchido com valor inválido.");
         }
-
-        return array("status" => true, "erro" => "");
+        return null;
     }
 
     //campo 8, 9, 10, 11, 12, 13
