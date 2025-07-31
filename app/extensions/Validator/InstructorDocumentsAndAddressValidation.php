@@ -9,7 +9,7 @@ class InstructorDocumentsAndAddressValidation extends Register
 {
 
     //campo 5
-    function isCPFValid($cpfStr)
+    public function isCPFValid($cpfStr)
     {
         if ($cpfStr !== "" && $cpfStr !== null) {
             $cpf = "$cpfStr";
@@ -68,42 +68,77 @@ class InstructorDocumentsAndAddressValidation extends Register
     }
 
     //campo 7
-    function isCEPValid($cep)
+    public function isCEPValid($cep)
     {
         // retira espacos em branco
         $cep = trim($cep);
         // expressao regular para avaliar o cep
         $avaliaCep = preg_match('/^[0-9]{5}[0-9]{3}$/', $cep);
 
-        if ($cep == null) {
-            return array("status" => false, "erro" => "O campo CEP é uma informação obrigatória.");
-        }
-        if (strlen($cep) != 8 || !$avaliaCep) {
-            return array("status" => false, "erro" => "O campo CEP está com tamanho diferente do especificado.");
-        }
-        if (!is_numeric($cep)) {
-            return array("status" => false, "erro" => "O campo CEP foi preenchido com valor inválido.");
+        $verification = $this->verifyCep($cep, $avaliaCep);
+
+        if($verification !=null) {
+            return $verification;
         }
 
         return array("status" => true, "erro" => "");
     }
 
+    private function verifyCep($cep, $avaliaCep){
+
+        $isInvalidValue = $this->checkCepInvalidValue($cep);
+        if($isInvalidValue != null) {
+            return $isInvalidValue;
+        }
+        if (strlen($cep) != 8 || !$avaliaCep) {
+            return array("status" => false, "erro" => "O campo CEP está com tamanho diferente do especificado.");
+        }
+        return null;
+
+    }
+
+    private function checkCepInvalidValue($cep){
+        if ($cep == null) {
+            return array("status" => false, "erro" => "O campo CEP é uma informação obrigatória.");
+        }
+         if (!is_numeric($cep)) {
+            return array("status" => false, "erro" => "O campo CEP foi preenchido com valor inválido.");
+        }
+        return null;
+    }
+
     //campo 8, 9, 10, 11, 12, 13
-    function isAdressValid($field, $cep, $allowed_lenght)
+    public function isAdressValid($field, $cep, $allowedLenght)
     {
         $regex = "/^[0-9 a-z.,-ºª ]+$/";
-        if ($cep == null) {
-            if ($field == null) {
-                return array("status" => false, "erro" => "O campo não pode ser nulo.");
-            }
-        } else if (strlen($field) > $allowed_lenght || strlen($field) <= 0) {
-            return array("status" => false, "erro" => "O campo está com tamanho incorreto.");
-        } else if (!preg_match($regex, $field)) {
-            return array("status" => false, "erro" => "O campo foi preenchido com valor inválido.");
-        } else if ($field == null) {
+        $checkAdress = $this->checkAdress($field,$regex,$allowedLenght);
+        if ($cep == null && $field == null) {
             return array("status" => false, "erro" => "O campo não pode ser nulo.");
         }
+        if ($checkAdress != null){
+            return $checkAdress;
+        }
         return array("status" => true, "erro" => "");
+    }
+    private function checkAdress($field,$regex,$allowedLenght)
+    {
+        if (strlen($field) > $allowedLenght || strlen($field) <= 0) {
+            return array("status" => false, "erro" => "O campo está com tamanho incorreto.");
+        }
+        $checkAdressType = $this->checkAdressTypeIsValid($field,$regex);
+        if($checkAdressType != null) {
+            return $checkAdressType;
+        }
+        return null;
+    }
+    private function checkAdressTypeIsValid ($field,$regex){
+        if (!preg_match($regex, $field)) {
+            return array("status" => false, "erro" => "O campo foi preenchido com valor inválido.");
+        }
+         if ($field == null) {
+            return array("status" => false, "erro" => "O campo não pode ser nulo.");
+        }
+        return null;
     }
 }
 ?>
