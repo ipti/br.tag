@@ -76,14 +76,14 @@ class InstructorController extends Controller
         $modelInstructorIdentification = new InstructorIdentification();
         $modelInstructorDocumentsAndAddress = new InstructorDocumentsAndAddress();
         $modelInstructorVariableData = new InstructorVariableData();
-        $saveInstructor = FALSE;
-        $saveDocumentsAndAddress = FALSE;
-        $saveVariableData = FALSE;
+        $saveInstructor = false;
+        $saveDocumentsAndAddress = false;
+        $saveVariableData = false;
 
         // i is an abbreviation for instructor
-        $iIdentification = Yii::app()->request->getPost('InstructorIdentification', NULL);
-        $iDocumentsAndAddress = Yii::app()->request->getPost('InstructorDocumentsAndAddress', NULL);
-        $iVariableData = Yii::app()->request->getPost('InstructorVariableData', NULL);
+        $iIdentification = Yii::app()->request->getPost('InstructorIdentification', null);
+        $iDocumentsAndAddress = Yii::app()->request->getPost('InstructorDocumentsAndAddress', null);
+        $iVariableData = Yii::app()->request->getPost('InstructorVariableData', null);
 
         $error[] = '';
         if (isset($iIdentification, $iDocumentsAndAddress, $iVariableData)) {
@@ -261,9 +261,9 @@ class InstructorController extends Controller
         // Uncomment the following line if AJAX validation is needed
         //			 $this->performAjaxValidation($modelInstructorIdentification);
 
-        $saveInstructor = FALSE;
-        $saveDocumentsAndAddress = FALSE;
-        $saveVariableData = FALSE;
+        $saveInstructor = false;
+        $saveDocumentsAndAddress = false;
+        $saveVariableData = false;
         //==================================
 
         $error[] = '';
@@ -287,7 +287,7 @@ class InstructorController extends Controller
             }
 
 
-            $saveInstructor = TRUE;
+            $saveInstructor = true;
 
             //=== MODEL DocumentsAndAddress
             $modelInstructorDocumentsAndAddress->cpf = str_replace([".", "-"], "", $modelInstructorDocumentsAndAddress->cpf);
@@ -301,19 +301,19 @@ class InstructorController extends Controller
                         !empty($modelInstructorDocumentsAndAddress->edcenso_uf_fk) &&
                         isset($modelInstructorDocumentsAndAddress->edcenso_city_fk) &&
                         !empty($modelInstructorDocumentsAndAddress->edcenso_city_fk)) {
-                    $saveDocumentsAndAddress = TRUE;
+                    $saveDocumentsAndAddress = true;
                 } else {
                     $error['documentsAndAddress'] = 'CEP preenchido então, o Endereço, Bairro, UF e Cidade são Obrigatórios !';
                 }
             } else {
-                $saveDocumentsAndAddress = TRUE;
+                $saveDocumentsAndAddress = true;
             }
             //======================================
             //=== MODEL VariableData
             if (isset($modelInstructorVariableData->scholarity)) {
                 if ($modelInstructorVariableData->scholarity == 6) {
                     if (isset($modelInstructorVariableData->high_education_situation_1, $modelInstructorVariableData->high_education_course_code_1_fk, $modelInstructorVariableData->high_education_institution_code_1_fk) || isset($modelInstructorVariableData->high_education_situation_2, $modelInstructorVariableData->high_education_course_code_2_fk, $modelInstructorVariableData->high_education_institution_code_2_fk) || isset($modelInstructorVariableData->high_education_situation_3, $modelInstructorVariableData->high_education_course_code_3_fk, $modelInstructorVariableData->high_education_institution_code_3_fk)) {
-                        $saveVariableData = TRUE;
+                        $saveVariableData = true;
                     } else {
                         $error['variableData'] = "Pelo menos uma situação do curso superior, código
 do curso superior, tipo de instituição e instituição
@@ -321,7 +321,7 @@ do curso superior deverão ser obrigatoriamente
 preenchidos";
                     }
                 } else {
-                    $saveVariableData = TRUE;
+                    $saveVariableData = true;
                 }
             }
 
@@ -331,15 +331,15 @@ preenchidos";
                 $modelInstructorVariableData->school_inep_id_fk = $scholId;
 
                 $modelInstructorVariableData->high_education_institution_code_1_fk =
-                    empty($modelInstructorVariableData->high_education_institution_code_1_fk) ? NULL :
+                    empty($modelInstructorVariableData->high_education_institution_code_1_fk) ? null :
                     $modelInstructorVariableData->high_education_institution_code_1_fk;
 
                 $modelInstructorVariableData->high_education_institution_code_2_fk =
-                    empty($modelInstructorVariableData->high_education_institution_code_2_fk) ? NULL :
+                    empty($modelInstructorVariableData->high_education_institution_code_2_fk) ? null :
                     $modelInstructorVariableData->high_education_institution_code_2_fk;
 
                 $modelInstructorVariableData->high_education_institution_code_3_fk =
-                    empty($modelInstructorVariableData->high_education_institution_code_3_fk) ? NULL :
+                    empty($modelInstructorVariableData->high_education_institution_code_3_fk) ? null :
                     $modelInstructorVariableData->high_education_institution_code_3_fk;
 
                 if (    $modelInstructorIdentification->validate() &&
@@ -351,15 +351,15 @@ preenchidos";
                     $modelInstructorIdentification = $this->checkHasUser($modelInstructorIdentification, $modelInstructorDocumentsAndAddress);
 
                     $modelInstructorVariableData->high_education_course_code_1_fk =
-                        empty($modelInstructorVariableData->high_education_course_code_1_fk) ? NULL :
+                        empty($modelInstructorVariableData->high_education_course_code_1_fk) ? null :
                         $modelInstructorVariableData->high_education_course_code_1_fk;
 
                     $modelInstructorVariableData->high_education_course_code_2_fk =
-                        empty($modelInstructorVariableData->high_education_course_code_2_fk) ? NULL :
+                        empty($modelInstructorVariableData->high_education_course_code_2_fk) ? null :
                         $modelInstructorVariableData->high_education_course_code_2_fk;
 
                     $modelInstructorVariableData->high_education_course_code_3_fk =
-                        empty($modelInstructorVariableData->high_education_course_code_3_fk) ? NULL :
+                        empty($modelInstructorVariableData->high_education_course_code_3_fk) ? null :
                         $modelInstructorVariableData->high_education_course_code_3_fk;
 
                     if ($modelInstructorDocumentsAndAddress->save() && $modelInstructorVariableData->save()) {
@@ -391,7 +391,7 @@ preenchidos";
         $modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
         $modelInstructorTeachingData = $this->loadModel($id, $this->InstructorTeachingData);
 
-        $delete = TRUE;
+        $delete = true;
         $numClassrooms = count($modelInstructorTeachingData);
         if($numClassrooms > 0){
             // $classroomsInstructorIsAssociated = array_map()
@@ -482,13 +482,13 @@ preenchidos";
     public function actionGetCityByCep()
     {
         $cep = Yii::app()->request->getPost('cep');
-        $data = NULL;
+        $data = null;
 
         if (!empty($cep)) {
             $data = EdcensoCity::model()->find('cep_initial <= ' . $cep . ' and cep_final >= ' . $cep);
         }
 
-        $result = ($data == NULL) ? ['UF' => NULL, 'City' => NULL] : [
+        $result = ($data == null) ? ['UF' => null, 'City' => null] : [
             'UF' => $data->edcenso_uf_fk, 'City' => $data->id
 
         ];
@@ -543,9 +543,9 @@ preenchidos";
         ]);
         $data = CHtml::listData($data, 'id', 'name');
 
-        echo CHtml::tag('option', ['value' => ''], 'Selecione o Curso', TRUE);
+        echo CHtml::tag('option', ['value' => ''], 'Selecione o Curso', true);
         foreach ($data as $value => $name) {
-            echo CHtml::tag('option', ['value' => $value], CHtml::encode($name), TRUE);
+            echo CHtml::tag('option', ['value' => $value], CHtml::encode($name), true);
         }
     }
 
@@ -632,10 +632,10 @@ preenchidos";
             'order' => 'name', 'condition' => 'email is null'
         ]);
         if (!empty($_POST)) {
-            $success = FALSE;
+            $success = false;
             foreach ($_POST as $id => $email) {
                 if ($email != "") {
-                    $success = TRUE;
+                    $success = true;
                     $instructor = InstructorIdentification::model()->findByPk($id);
                     $instructor->email = strtoupper($email);
                     $instructor->save();
@@ -776,7 +776,7 @@ preenchidos";
 
     public function actionGetClassrooms($instructorId = null) {
         if($instructorId == null){
-            $instructorId = Yii::app()->request->getPost('instructorId', NULL);
+            $instructorId = Yii::app()->request->getPost('instructorId', null);
         }
         $sql = "SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name
         from instructor_teaching_data itd

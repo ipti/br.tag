@@ -80,13 +80,8 @@ class TagUtils extends CApplicationComponent
         // Remove espaços em branco do início e do fim da string
         $date = trim($date);
 
-        // Verifica se a date é vazia ou nula
-        if (empty($date) || is_null($date)) {
-            return $date;
-        }
-
-        // Verifica se a date está no formato dd/mm/yyyy
-        if (preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
+        // Verifica se a date é vazia ou nula ou no formato dd/mm/yyyy
+        if (empty($date) || is_null($date) || preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $date)) {
             return $date;
         }
 
@@ -103,7 +98,8 @@ class TagUtils extends CApplicationComponent
         return $date;
     }
 
-    public static function isSubstituteInstructor($classroom){
+    public static function isSubstituteInstructor($classroom)
+    {
 
         $instructor = InstructorIdentification::model()->findByAttributes(array("users_fk" => Yii::app()->user->loginInfos->id));
         $teachingData = InstructorTeachingData::model()->findByAttributes(
@@ -140,7 +136,7 @@ class TagUtils extends CApplicationComponent
         $roles = Yii::app()->authManager->getRoles(Yii::app()->user->id);
         $role = !empty($roles) ? key($roles) : 'default_role';  // Valor padrão
 
-        return $prefix . "_" .$role . "_" . $year . "_" . $schoolId;
+        return $prefix . "_" . $role . "_" . $year . "_" . $schoolId;
     }
 
     /**

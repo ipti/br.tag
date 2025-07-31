@@ -70,8 +70,9 @@ class ClassFaultsController extends Controller
 		if(isset($_POST['ClassFaults']))
 		{
 			$model->attributes=$_POST['ClassFaults'];
-			if($model->save())
+			if($model->save()) {
 				$this->redirect(array('view','id'=>$model->id));
+            }
 		}
 
 		$this->render('create',array(
@@ -94,8 +95,9 @@ class ClassFaultsController extends Controller
 		if(isset($_POST['ClassFaults']))
 		{
 			$model->attributes=$_POST['ClassFaults'];
-			if($model->save())
+			if($model->save()) {
 				$this->redirect(array('view','id'=>$model->id));
+            }
 		}
 
 		$this->render('update',array(
@@ -135,8 +137,9 @@ class ClassFaultsController extends Controller
 	{
 		$model=new ClassFaults('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['ClassFaults']))
+		if(isset($_GET['ClassFaults'])) {
 			$model->attributes=$_GET['ClassFaults'];
+        }
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -153,8 +156,9 @@ class ClassFaultsController extends Controller
 	public function loadModel($id)
 	{
 		$model=ClassFaults::model()->findByPk($id);
-		if($model===null)
+		if($model===null) {
 			throw new CHttpException(404,'The requested page does not exist.');
+        }
 		return $model;
 	}
 

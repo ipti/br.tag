@@ -599,9 +599,6 @@ class ClassesController extends Controller
                 )
             );
         }
-        // $this->render('frequency', array(
-        //     'classrooms' => $classrooms
-        // ));
     }
 
     /**

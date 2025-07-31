@@ -216,10 +216,11 @@ return array(
         ),
         'sentry' => [
             'class' => \Websupport\YiiSentry\Client::class,
-            'dsn' => getenv("SENTRY_DSN")   ,
+            'dsn' => getenv("SENTRY_DSN"),
             'jsDsn' => getenv("SENTRY_DSN"),
             'options' => [
                 'traces_sampler' => function (\Sentry\Tracing\SamplingContext $context): float {
+                    Yii::log('Sentry traces_sampler called' . $context, CLogger::LEVEL_INFO, 'application');
                     return 0.25;
                 },
                 'traces_sample_rate' => 0.25,

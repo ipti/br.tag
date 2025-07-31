@@ -110,18 +110,9 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
     public function actionUpdateDependencies()
     {
-        //$enrollment = new StudentEnrollment;
-        //$enrollment->attributes = $_POST["StudentEnrollment"];
-        //$students = StudentIdentification::model()->findAll('school_inep_id_fk=:id order by name ASC', array(':id' => $enrollment->school_inep_id_fk));
-        //$students = CHtml::listData($students, 'id', 'name');
 
         $classrooms = Classroom::model()->findAllByAttributes(array("school_year" => Yii::app()->user->year, "school_inep_fk" => Yii::app()->user->school));
-        //$classrooms = CHtml::listData($classrooms, 'id', 'name');
 
-        /* $result['Students'] = CHtml::tag('option', array('value' => null), 'Selecione um Aluno', true);
-          foreach ($students as $value => $name) {
-          $result['Students'] .= CHtml::tag('option', array('value' => $value, ($enrollment->student_fk == $value ? "selected" : "deselected") => ($enrollment->student_fk == $value ? "selected" : "deselected")), CHtml::encode($name), true);
-          } */
         $class = new Classroom();
         $result['Classrooms'] = CHtml::tag('option', array('value' => 0), 'Selecione uma Turma', true);
         foreach ($classrooms as $class) {
@@ -180,7 +171,6 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 } catch (Exception $exc) {
                     $model->addError('student_fk', Yii::t('default', 'Student Fk') . ' ' . Yii::t('default', 'already enrolled in this classroom.'));
                     $model->addError('classroom_fk', Yii::t('default', 'Classroom') . ' ' . Yii::t('default', 'already have in this student enrolled.'));
-                    //echo $exc->getTraceAsString();
 
                 }
             } else {
@@ -218,7 +208,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         $oldClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
 
         $modelStudentIdentification = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"');
-        if ($model->student_fk == NULL && $model->classroom_fk == NULL) {
+        if ($model->student_fk == null && $model->classroom_fk == null) {
             $model->student_fk = $modelStudentIdentification->id;
             $model->classroom_fk = Classroom::model()->find('inep_id="' . $model->classroom_inep_id . '"')->id;
         }
@@ -568,7 +558,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             )
                 ->bindParam(":stage_fk", $classroom->edcenso_stage_vs_modality_fk)
                 ->bindParam(":year", Yii::app()->user->year)->queryAll();
-            foreach ($classr as $i => $discipline) {
+            foreach ($classr as $discipline) {
                 if (isset($discipline['discipline_fk'])) {
                     echo htmlspecialchars(CHtml::tag('option', array('value' => $discipline['discipline_fk']), CHtml::encode($disciplinesLabels[$discipline['discipline_fk']]), true));
                 }
@@ -728,8 +718,9 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     public function loadModel($id)
     {
         $model = StudentEnrollment::model()->with("studentFk")->findByPk($id);
-        if ($model === null)
+        if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
+        }
         return $model;
     }
 
