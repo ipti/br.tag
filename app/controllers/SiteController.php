@@ -172,7 +172,7 @@ class SiteController extends Controller
 
     private function loadLogsHtml($limit, $date = null)
     {
-        $baseUrl = Yii::app()->theme->baseUrl;
+
         $isInstructor = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id);
         $criteria = new CDbCriteria();
         $criteria->compare('school_fk', Yii::app()->user->school);
@@ -333,7 +333,7 @@ class SiteController extends Controller
             }
         }
 
-        if (count($warns) == 0) {
+        if (empty(count($warns))) {
             $this->renderPartial('_warns', [
                 'total' => 0,
                 'limit' => $limit,
