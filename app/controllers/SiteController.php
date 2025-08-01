@@ -223,14 +223,37 @@ class SiteController extends Controller
     {
         $year = $_POST['year'];
         $school = Yii::app()->user->school;
-        $sql = 'select ' .
-            'month(date) as month, ' .
-            "(select  count(*) from log where crud = 'C' and reference = 'school' and year(date) = $year and month(date) = month and school_fk = $school) as schools, " .
-            "(select  count(*) from log where crud = 'C' and reference = 'classroom' and year(date) = $year and month(date) = month and school_fk = $school) as classrooms, " .
-            "(select  count(*) from log where crud = 'C' and reference = 'instructor' and year(date) = $year and month(date) = month and school_fk = $school) as instructors, " .
-            "(select  count(*) from log where crud = 'C' and reference = 'student' and year(date) = $year and month(date) = month and school_fk = $school) as students " .
-            'from log ' .
-            'group by month(date)';
+       $sql = "
+    SELECT
+        MONTH(date) AS month,
+        (
+            SELECT COUNT(*)
+            FROM log
+            WHERE crud = 'C' AND reference = 'school' AND YEAR(date) = $year
+                AND MONTH(date) = MONTH(l.date) AND school_fk = $school
+        ) AS schools,
+        (
+            SELECT COUNT(*)
+            FROM log
+            WHERE crud = 'C' AND reference = 'classroom' AND YEAR(date) = $year
+                AND MONTH(date) = MONTH(l.date) AND school_fk = $school
+        ) AS classrooms,
+        (
+            SELECT COUNT(*)
+            FROM log
+            WHERE crud = 'C' AND reference = 'instructor' AND YEAR(date) = $year
+                AND MONTH(date) = MONTH(l.date) AND school_fk = $school
+        ) AS instructors,
+        (
+            SELECT COUNT(*)
+            FROM log
+            WHERE crud = 'C' AND reference = 'student' AND YEAR(date) = $year
+                AND MONTH(date) = MONTH(l.date) AND school_fk = $school
+        ) AS students
+    FROM log l
+    WHERE YEAR(date) = $year AND school_fk = $school
+    GROUP BY MONTH(date)
+";
         $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryAll();
         $monthsFilled = [];
         foreach ($chartData as $data) {
@@ -294,6 +317,8 @@ class SiteController extends Controller
                 case '12':
                     $chartData[$key]['month'] = 'Dezembro';
                     break;
+                default:
+                    break;
             }
         }
         echo json_encode($chartData);
@@ -303,11 +328,25 @@ class SiteController extends Controller
     {
         $school = Yii::app()->user->school;
         $year = $_POST['year'];
-        $sql = 'select ' .
-            '1 as schools, ' .
-            "(select count(*) from classroom where school_inep_fk = $school and school_year = $year) as classrooms, " .
-            "(select count(*) from instructor_identification where school_inep_id_fk = $school) as instructors, " .
-            "(select count(*) from student_identification where school_inep_id_fk = $school) as students";
+       $sql = "
+    SELECT
+        1 AS schools,
+        (
+            SELECT COUNT(*)
+            FROM classroom
+            WHERE school_inep_fk = $school AND school_year = $year
+        ) AS classrooms,
+        (
+            SELECT COUNT(*)
+            FROM instructor_identification
+            WHERE school_inep_id_fk = $school
+        ) AS instructors,
+        (
+            SELECT COUNT(*)
+            FROM student_identification
+            WHERE school_inep_id_fk = $school
+        ) AS students
+";
         $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryRow();
         echo json_encode($chartData);
     }
