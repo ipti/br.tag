@@ -201,7 +201,7 @@ $(document).ajaxError(function (event, jqxhr, ajaxSettings, thrownError) {
     };
 
     const requestId = jqxhr?.getResponseHeader?.("X-Request-ID");
-    const urlPath = ajaxSettings?.url || "URL desconhecida";
+    let urlPath = ajaxSettings?.url || "URL desconhecida";
 
     try {
         urlPath = new URL(urlPath, window.location.origin).pathname;

@@ -52,7 +52,6 @@ class StudentService
                 foreach ($enrollments as $enrollment) {
                     $array['studentId'] = $enrollment->student_fk;
                     $array['studentName'] = $enrollment->studentFk->name;
-                    $array['studentName'] = $enrollment->studentFk->name;
                     $array['status'] = $enrollment->status;
                     $array['statusLabel'] = $enrollment->getCurrentStatus();
                     foreach ($schedule as $s) {
