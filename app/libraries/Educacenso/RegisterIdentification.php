@@ -55,7 +55,7 @@ class RegisterIdentification
         return $instructors;
     }
 
-    private static function exportPerson($person, $type)
+    private static function exportPerson($person, $type, $withoutCertificates)
     {
         $register = [];
 
@@ -65,7 +65,11 @@ class RegisterIdentification
 
         $register[self::EDCENSO_COD_NA_UNIDADE] = $type === RegisterIdentificationType::INSTRUCTOR ? 'II' . $identification['id'] : $identification['id'];
         $register[self::EDCENSO_CPF] = $documents['cpf'];
-        $register[self::EDCENSO_CERT_NASCIMENTO] = self::validarMatriculaRegistroCivil($documents['civil_register_enrollment_number']) ? $documents['civil_register_enrollment_number'] : null;
+        if($withoutCertificates == true) {
+            $register[self::EDCENSO_CERT_NASCIMENTO] = '';
+        } else {
+            $register[self::EDCENSO_CERT_NASCIMENTO] = self::validarMatriculaRegistroCivil($documents['civil_register_enrollment_number']) ? $documents['civil_register_enrollment_number'] : null;
+        }
         $register[self::EDCENSO_NOME] = self::fixName($identification['name']);
         $register[self::EDCENSO_DATA_NASCIMENTO] = $type === RegisterIdentificationType::INSTRUCTOR ? $identification['birthday_date'] : $identification['birthday'];
         $register[self::EDCENSO_FILIATION_1] = self::fixName($identification['filiation_1']);
@@ -80,7 +84,7 @@ class RegisterIdentification
 
 
 
-    public static function export()
+    public static function export($withoutCertificates)
     {
         $registers = [];
 
@@ -94,12 +98,12 @@ class RegisterIdentification
         }
 
         foreach ($instructors as $instructor) {
-            $register = self::exportPerson($instructor, RegisterIdentificationType::INSTRUCTOR);
+            $register = self::exportPerson($instructor, RegisterIdentificationType::INSTRUCTOR, $withoutCertificates);
             array_push($registers, implode('|', $register));
         }
 
         foreach ($students as $student) {
-            $register = self::exportPerson($student, RegisterIdentificationType::STUDENT);
+            $register = self::exportPerson($student, RegisterIdentificationType::STUDENT, $withoutCertificates);
             array_push($registers, implode('|', $register));
         }
 
