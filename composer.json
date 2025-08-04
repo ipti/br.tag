@@ -9,7 +9,7 @@
         "goetas-webservices/xsd2php-runtime": "^0.2.2",
         "bensontrent/firestore-php": "^3.1",
         "ramsey/uuid": "^4.2",
-        "scssphp/scssphp": "^2.0.1",
+        "scssphp/scssphp": "^1.12.1",
         "websupport/yii-sentry": "0.x-dev"
     },
     "require-dev": {
