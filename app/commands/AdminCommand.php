@@ -12,7 +12,6 @@ class AdminCommand extends CConsoleCommand
         ini_set('memory_limit', '288M');
         set_time_limit(0);
         ignore_user_abort();
-        Yii::app()->db2;
         $sql = "SELECT DISTINCT `TABLE_SCHEMA` FROM `information_schema`.`TABLES` WHERE TABLE_SCHEMA LIKE 'io.escola.%' OR TABLE_SCHEMA LIKE 'br.ong.tag.%';";
         $loads = [];
         $dbs = Yii::app()->db2->createCommand($sql)->queryAll();
@@ -31,7 +30,7 @@ class AdminCommand extends CConsoleCommand
                 @$fileNameBak = $dbname . '.json.bak';
                 $fileImportBak = fopen($fileNameBak, 'r');
 
-                if ($fileImport == false && $fileImportBak == false) {
+                if ($fileImport === false && $fileImportBak === false) {
                     echo "Exportando..\n";
                     $loads = $this->prepareExport();
 

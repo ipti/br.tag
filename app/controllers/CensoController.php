@@ -2017,9 +2017,6 @@ class CensoController extends Controller
             '20' => [
                 'COLUMNS' => 65,
             ],
-            '20' => [
-                'COLUMNS' => 65,
-            ],
             '30' => [
                 'COLUMNS' => 26,
             ],

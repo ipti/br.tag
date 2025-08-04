@@ -202,7 +202,6 @@ class Classroom extends AltActiveRecord
             'schoolInepFk' => [self::BELONGS_TO, 'SchoolIdentification', 'school_inep_fk'],
             'edcensoStageVsModalityFk' => [self::BELONGS_TO, 'EdcensoStageVsModality', 'edcenso_stage_vs_modality_fk'],
             'classroomHasCoursePlans' => [self::HAS_MANY, 'ClassroomHasCoursePlan', 'classroom_fk'],
-            'calendarFk' => [self::BELONGS_TO, 'Calendar', 'calendar_fk'],
             'sedspSchoolUnityFk' => [self::BELONGS_TO, 'SedspSchoolUnities', 'sedsp_school_unity_fk'],
             'instructorTeachingDatas' => [self::HAS_MANY, 'InstructorTeachingData', 'classroom_id_fk'],
             'edcensoProfessionalEducationCourseFk' => [
