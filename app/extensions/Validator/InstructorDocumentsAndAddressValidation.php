@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . $DS . 'register.php';
 class InstructorDocumentsAndAddressValidation extends Register
 {
     //campo 5
-    public function isCPFValid($cpfStr)
+    function isCPFValid($cpfStr)
     {
         if ($cpfStr !== '' && $cpfStr !== null) {
             $cpf = "$cpfStr";
@@ -64,7 +64,7 @@ class InstructorDocumentsAndAddressValidation extends Register
     }
 
     //campo 7
-    public function isCEPValid($cep)
+    function isCEPValid($cep)
     {
         // retira espacos em branco
         $cep = trim($cep);
@@ -100,11 +100,12 @@ class InstructorDocumentsAndAddressValidation extends Register
         if (!is_numeric($cep)) {
             return ['status' => false, 'erro' => 'O campo CEP foi preenchido com valor inválido.'];
         }
-        return null;
+
+        return array("status" => true, "erro" => "");
     }
 
     //campo 8, 9, 10, 11, 12, 13
-    public function isAdressValid($field, $cep, $allowedLenght)
+    function isAdressValid($field, $cep, $allowed_lenght)
     {
         $regex = '/^[0-9 a-z.,-ºª ]+$/';
         $checkAdress = $this->checkAdress($field, $regex, $allowedLenght);

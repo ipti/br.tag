@@ -74,6 +74,7 @@ class CensoController extends Controller
         $modalitiesProfessional = false;
         foreach ($peopleByModalitie as $item) {
             switch ($item['modalities']) {
+
                 case '1':
                     if ($item['number_of'] > '0') {
                         $modalitiesRegular = true;
@@ -1161,7 +1162,7 @@ class CensoController extends Controller
         $sql = "SELECT assistance_type, pedagogical_mediation_type, edcenso_stage_vs_modality_fk
 			FROM classroom
 			WHERE id = '$classroom_fk';";
-        $check = Yii::app()->db->createCommand($sql)->queryAll();
+        $check = Yii::app()->db->createCommand($sql)->queryAll();;
         $assistance_type = $check[0]['assistance_type'];
         $pedagogical_mediation_type = $check[0]['pedagogical_mediation_type'];
         $edcenso_svm = $check[0]['edcenso_stage_vs_modality_fk'];
@@ -1434,6 +1435,10 @@ class CensoController extends Controller
         $log = [];
 
         $nationality = $studentident['nationality'];
+
+        // $foreign = $sda->isAllowed($nationality, array("3"));
+        // $field6006 = $collumn['birthday'];
+        // $field7005 = $collumn['rg_number'];
 
         date_default_timezone_set('America/Bahia');
         $date = date('d/m/Y');
