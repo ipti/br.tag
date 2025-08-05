@@ -176,10 +176,8 @@ class CensoController extends Controller
         //campo 16
         if ($schoolIdentificationColumn['address_complement'] !== '' && $schoolIdentificationColumn['address_complement'] !== null) {
             $result = $siv->isAddressValid($schoolIdentificationColumn['address_complement'], 20, true);
-            if (!$result['status']) {
-                array_push($log, ['address_complement' => $result['erro']]);
-            }
-            ;
+            if (!$result["status"])
+                array_push($log, array("address_complement" => $result["erro"]));;
         }
 
         //campo 17
@@ -468,9 +466,9 @@ class CensoController extends Controller
         }
 
         //campo 13
-//        $result = $ssv->sharedBuildingSchool($collumn["operation_location_building"],
-//            $collumn["shared_building_with_school"]);
-//        if (!$result["status"]) array_push($log, array("shared_building_with_school" => $result["erro"]));
+        //        $result = $ssv->sharedBuildingSchool($collumn["operation_location_building"],
+        //            $collumn["shared_building_with_school"]);
+        //        if (!$result["status"]) array_push($log, array("shared_building_with_school" => $result["erro"]));
 
         //campos 14 à 19
         $shared_school_inep_ids = [
@@ -487,8 +485,8 @@ class CensoController extends Controller
         }
 
         //campo 20
-//        $result = $ssv->oneOfTheValues($collumn["consumed_water_type"]);
-//        if (!$result["status"]) array_push($log, array("consumed_water_type" => $result["erro"]));
+        //        $result = $ssv->oneOfTheValues($collumn["consumed_water_type"]);
+        //        if (!$result["status"]) array_push($log, array("consumed_water_type" => $result["erro"]));
 
         //campos 21 à 25
         $water_supplys = [
@@ -620,8 +618,8 @@ class CensoController extends Controller
         }
 
         //        //campo 70
-//        $result = $ssv->usedClassroomCount($collumn["used_classroom_count"]);
-//        if (!$result["status"]) array_push($log, array("used_classroom_count" => $result["erro"]));
+        //        $result = $ssv->usedClassroomCount($collumn["used_classroom_count"]);
+        //        if (!$result["status"]) array_push($log, array("used_classroom_count" => $result["erro"]));
 
         //campo 86
         $internetAccess = [
@@ -683,8 +681,8 @@ class CensoController extends Controller
         }
 
         //campo 88
-//        $result = $ssv->isGreaterThan($collumn["employees_count"], "0");
-//        if (!$result["status"]) array_push($log, array("employees_count" => $result["erro"]));
+        //        $result = $ssv->isGreaterThan($collumn["employees_count"], "0");
+        //        if (!$result["status"]) array_push($log, array("employees_count" => $result["erro"]));
 
         $school_inep_fk = $school['inep_id'];
         //campo 89
@@ -714,18 +712,18 @@ class CensoController extends Controller
         }
 
         //campo 97
-//        $result = $ssv->differentiatedLocation($school["inep_id"],
-//            $collumn["different_location"]);
-//        if (!$result["status"]) array_push($log, array("different_location" => $result["erro"]));
+        //        $result = $ssv->differentiatedLocation($school["inep_id"],
+        //            $collumn["different_location"]);
+        //        if (!$result["status"]) array_push($log, array("different_location" => $result["erro"]));
 
         //        //101
-//        $result = $ssv->isAllowed($collumn["native_education"], array("0", "1"));
-//        if (!$result["status"]) array_push($log, array("native_education" => $result["erro"]));
-//
-//        //104
-//        $result = $ssv->edcensoNativeLanguages($collumn["native_education_language_native"],
-//            $collumn["edcenso_native_languages_fk"]);
-//        if (!$result["status"]) array_push($log, array("edcenso_native_languages_fk" => $result["erro"]));
+        //        $result = $ssv->isAllowed($collumn["native_education"], array("0", "1"));
+        //        if (!$result["status"]) array_push($log, array("native_education" => $result["erro"]));
+        //
+        //        //104
+        //        $result = $ssv->edcensoNativeLanguages($collumn["native_education_language_native"],
+        //            $collumn["edcenso_native_languages_fk"]);
+        //        if (!$result["status"]) array_push($log, array("edcenso_native_languages_fk" => $result["erro"]));
 
         //107
         $sql = "SELECT 	COUNT(esm.id ) AS number_of
@@ -819,8 +817,8 @@ class CensoController extends Controller
         //acima: imprimir "classroom_days" no erro ou um erro pra cada um dos campos?
 
         //campo 18
-//        $result = $crv->isValidAssistanceType($schoolstructure, $column['assistance_type'], $column['pedagogical_mediation_type']);
-//        if (!$result['status']) array_push($log, array('assistance_type' => $result['erro']));
+        //        $result = $crv->isValidAssistanceType($schoolstructure, $column['assistance_type'], $column['pedagogical_mediation_type']);
+        //        if (!$result['status']) array_push($log, array('assistance_type' => $result['erro']));
 
         //campos 20 a 25
         $activities = [
@@ -870,14 +868,14 @@ class CensoController extends Controller
         }
 
         //campos 40 a 65
-//        $disciplinesArray = array($column['discipline_chemistry'], $column['discipline_physics'], $column['discipline_mathematics'], $column['discipline_biology'], $column['discipline_science'],
-//            $column['discipline_language_portuguese_literature'], $column['discipline_foreign_language_english'], $column['discipline_foreign_language_spanish'], $column['discipline_foreign_language_franch'], $column['discipline_foreign_language_other'],
-//            $column['discipline_arts'], $column['discipline_physical_education'], $column['discipline_history'], $column['discipline_geography'], $column['discipline_philosophy'],
-//            $column['discipline_social_study'], $column['discipline_sociology'], $column['discipline_informatics'], $column['discipline_professional_disciplines'], $column['discipline_special_education_and_inclusive_practices'],
-//            $column['discipline_sociocultural_diversity'], $column['discipline_libras'], $column['discipline_pedagogical'], $column['discipline_religious'], $column['discipline_native_language'],
-//            $column['discipline_others']);
-//        $result = $crv->isValidDiscipline($disciplinesArray, $column['pedagogical_mediation_type'], $column['assistance_type'], $column['edcenso_stage_vs_modality_fk']);
-//        if (!$result['status']) array_push($log, array('disciplines' => $result['erro']));
+        //        $disciplinesArray = array($column['discipline_chemistry'], $column['discipline_physics'], $column['discipline_mathematics'], $column['discipline_biology'], $column['discipline_science'],
+        //            $column['discipline_language_portuguese_literature'], $column['discipline_foreign_language_english'], $column['discipline_foreign_language_spanish'], $column['discipline_foreign_language_franch'], $column['discipline_foreign_language_other'],
+        //            $column['discipline_arts'], $column['discipline_physical_education'], $column['discipline_history'], $column['discipline_geography'], $column['discipline_philosophy'],
+        //            $column['discipline_social_study'], $column['discipline_sociology'], $column['discipline_informatics'], $column['discipline_professional_disciplines'], $column['discipline_special_education_and_inclusive_practices'],
+        //            $column['discipline_sociocultural_diversity'], $column['discipline_libras'], $column['discipline_pedagogical'], $column['discipline_religious'], $column['discipline_native_language'],
+        //            $column['discipline_others']);
+        //        $result = $crv->isValidDiscipline($disciplinesArray, $column['pedagogical_mediation_type'], $column['assistance_type'], $column['edcenso_stage_vs_modality_fk']);
+        //        if (!$result['status']) array_push($log, array('disciplines' => $result['erro']));
 
         $result = $crv->isValidAttendanceType($column['schooling'], $column['complementary_activity'], $column['aee']);
         if (!$result['status']) {
@@ -1049,16 +1047,20 @@ class CensoController extends Controller
             $collumn['deficiency_type_intelectual_disability']
         ];
 
-        $excludingdeficiencies = [
-            $collumn['deficiency_type_blindness'] => [
+        $excludingdeficiencies = array(
+            $collumn['deficiency_type_blindness'] =>
+            array(
                 $collumn['deficiency_type_low_vision'],
                 $collumn['deficiency_type_deafness'],
                 $collumn['deficiency_type_deafblindness']
-            ],
-            $collumn['deficiency_type_low_vision'] => [$collumn['deficiency_type_deafblindness']],
-            $collumn['deficiency_type_deafness'] => [$collumn['deficiency_type_disability_hearing'], $collumn['deficiency_type_disability_hearing']],
-            $collumn['deficiency_type_disability_hearing'] => [$collumn['deficiency_type_deafblindness']]
-        ];
+            ),
+            $collumn['deficiency_type_low_vision'] =>
+            array($collumn['deficiency_type_deafblindness']),
+            $collumn['deficiency_type_deafness'] =>
+            array($collumn['deficiency_type_disability_hearing'], $collumn['deficiency_type_disability_hearing']),
+            $collumn['deficiency_type_disability_hearing'] =>
+            array($collumn['deficiency_type_deafblindness'])
+        );
 
         if (!empty($collumn['deficiency'])) {
             $result = $iiv->checkDeficiencies($collumn['deficiency'], $deficiencies, $excludingdeficiencies);
@@ -1072,7 +1074,7 @@ class CensoController extends Controller
 
         $variabelData = InstructorVariableData::model()->findByPk($collumn['id']);
         if (!isset($variabelData)) {
-            array_push($log, ['Escolaridade' => 'Formação educacional não foi informada']);
+            array_push($log, array("Escolaridade" => "Formação educacional não foi informada"));
         }
 
         return $log;
@@ -1181,8 +1183,7 @@ class CensoController extends Controller
         $sql = "SELECT assistance_type, pedagogical_mediation_type, edcenso_stage_vs_modality_fk
 			FROM classroom
 			WHERE id = '$classroom_fk';";
-        $check = Yii::app()->db->createCommand($sql)->queryAll();
-        ;
+        $check = Yii::app()->db->createCommand($sql)->queryAll();;
         $assistance_type = $check[0]['assistance_type'];
         $pedagogical_mediation_type = $check[0]['pedagogical_mediation_type'];
         $edcenso_svm = $check[0]['edcenso_stage_vs_modality_fk'];
@@ -1519,20 +1520,20 @@ class CensoController extends Controller
                 array_push($log, ['civil_register_enrollment_number' => $result['erro']]);
             }
             //            } else if ($collumn['civil_register_enrollment_number'] !== "") {
-//                return array("status" => false, "erro" => "Como foi preenchido o nº de matrícula da certidão nova, a nacionalidade do aluno deveria ser brasileira, nascido no exterior ou não.");
-//            }
+            //                return array("status" => false, "erro" => "Como foi preenchido o nº de matrícula da certidão nova, a nacionalidade do aluno deveria ser brasileira, nascido no exterior ou não.");
+            //            }
         }
 
         //        if (empty($collumn['cpf']) && empty($collumn['nis'])) {
-//            //campo 10
-//            $result = $sda->isCivilCertificationTypeValid($civil_certification, $field7005, $nationality, $field6006, $date);
-//            if (!$result["status"]) array_push($log, array("civil_certification_type" => $result["erro"]));
-//
-//            //campo 11
-//            $civil_certification = $collumn['civil_certification'];
-//
-//            if ($civil_certification == 1) {
-//                array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
+        //            //campo 10
+        //            $result = $sda->isCivilCertificationTypeValid($civil_certification, $field7005, $nationality, $field6006, $date);
+        //            if (!$result["status"]) array_push($log, array("civil_certification_type" => $result["erro"]));
+        //
+        //            //campo 11
+        //            $civil_certification = $collumn['civil_certification'];
+        //
+        //            if ($civil_certification == 1) {
+        //                array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
         ////
         ////                $result = $sda->isFieldValid(8, $collumn['civil_certification_term_number'], $nationality, $civil_certification);
         ////                if (!$result["status"]) array_push($log, array("civil_certification_term_number" => $result["erro"]));
@@ -1560,13 +1561,13 @@ class CensoController extends Controller
         ////                //campo 17
         ////                $result = $sda->isFieldValid(6, $collumn['edcenso_notary_office_fk'], $nationality, $civil_certification);
         ////                if (!$result["status"]) array_push($log, array("edcenso_notary_office_fk" => $result["erro"]));
-//
-//            } else {
-//                //campo 18
-//                $result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $nationality, $civil_certification);
-//                if (!$result["status"]) array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
-//            }
-//        }
+        //
+        //            } else {
+        //                //campo 18
+        //                $result = $sda->isCivilRegisterNumberValid($collumn['civil_register_enrollment_number'], $nationality, $civil_certification);
+        //                if (!$result["status"]) array_push($log, array("civil_register_enrollment_number" => $result["erro"]));
+        //            }
+        //        }
         //campo 19
         if (!empty($collumn['cpf'])) {
             $result = $sda->isCPFValid($collumn['cpf']);
@@ -1581,10 +1582,10 @@ class CensoController extends Controller
         }
 
         //campo 21
-//        if (!empty($collumn['nis'])) {
-//            $result = $sda->isNISValid($collumn['nis']);
-//            if (!$result["status"]) array_push($log, array("nis" => $result["erro"]));
-//        }
+        //        if (!empty($collumn['nis'])) {
+        //            $result = $sda->isNISValid($collumn['nis']);
+        //            if (!$result["status"]) array_push($log, array("nis" => $result["erro"]));
+        //        }
 
         $result = $sda->isAreaOfResidenceValid($collumn['residence_zone']);
         if (!$result['status']) {
@@ -2251,7 +2252,7 @@ class CensoController extends Controller
                     'internet_access_local_wireless',
                     'internet_access_local_inexistet',
                     'equipments_computer' .
-                    'garbage_destination_throw_away',
+                        'garbage_destination_throw_away',
                     'treatment_garbage_parting_garbage',
                     'treatment_garbage_resuse',
                     'garbage_destination_recycle',
@@ -2902,11 +2903,12 @@ class CensoController extends Controller
         return $attributes;
     }
 
-    public function actionExport()
+    public function actionExport($withoutCertificates)
     {
+
         include dirname(__DIR__) . '/libraries/Educacenso/Educacenso.php';
-        $Educacenso = new Educacenso();
-        $export = $Educacenso->exportar(date('Y'));
+        $Educacenso = new Educacenso;
+        $export = $Educacenso->exportar(date("Y"), $withoutCertificates);
 
         $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
 
@@ -2925,101 +2927,101 @@ class CensoController extends Controller
         return $this->redirect(['index']);
 
         //        $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-//        $this->normalizeField2019($school->register_type, $school->attributes);
-//        $schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
-//        $this->normalizeField2019($schoolStructure->register_type, $schoolStructure->attributes);
-//        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
-//        foreach ($classrooms as $iclass => $classroom) {
-//            $log['classrooms'][$iclass] = $classroom->attributes;
-//            foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
-//                if (!isset($log['instructors'][$teachingData->instructor_fk])) {
-//                    //@Todo fazer o sistema atualizar automaticamente quando o o cadastro entrar na escola
-//                    $teachingData->instructorFk->documents->school_inep_id_fk = $school->inep_id;
-//                    $teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
-//                    $teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
-//                    $log['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
-//                    $log['instructors'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
-//                    $instructor_inepid_id = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
-//                    if (isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id)) {
-//                        $variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
-//                    } else {
-//                        $variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
-//                    }
-//                    $variabledata->id = $teachingData->instructorFk->id;
-//                    $variabledata->inep_id = $teachingData->instructorFk->inep_id;
-//                    $variabledata->school_inep_id_fk = $school->inep_id;
-//                    $log['instructors'][$teachingData->instructor_fk]['variable'] = $variabledata->attributes;
-//                } else {
-//
-//                }
-//                $teachingData->instructor_inep_id = $teachingData->instructorFk->inep_id;
-//                $teachingData->school_inep_id_fk = $school->inep_id;
-//                $log['instructors'][$teachingData->instructor_fk]['teaching'][$classroom->id] = $teachingData->attributes;
-//            }
-//            foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-//                if (!isset($log['students'][$enrollment->student_fk])) {
-//                    $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
-//                    $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
-//                    $log['students'][$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
-//                    $log['students'][$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
-//                }
-//                $enrollment->school_inep_id_fk = $school->inep_id;
-//                $log['students'][$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
-//            }
-//        }
-//        foreach ($log['classrooms'] as $classroom) {
-//            $this->normalizeField2019($classroom['register_type'], $classroom);
-//        }
-//        foreach ($log['instructors'] as $instructor) {
-//            $id = (String)'90' . $instructor['identification']['id'];
-//            $instructor['identification']['id'] = $id;
-//            $instructor['documents']['id'] = $id;
-//            $instructor['variable']['id'] = $id;
-//            $this->normalizeField2019($instructor['identification']['register_type'], $instructor['identification']);
-//            $this->normalizeField2019($instructor['documents']['register_type'], $instructor['documents']);
-//            $this->normalizeField2019($instructor['variable']['register_type'], $instructor['variable']);
-//            foreach ($instructor['teaching'] as $teaching) {
-//                $teaching['instructor_fk'] = $id;
-//                $this->normalizeField2019($teaching['register_type'], $teaching);
-//            }
-//        }
-//        foreach ($log['students'] as $student) {
-//            $this->normalizeField2019($student['identification']['register_type'], $student['identification']);
-//            $this->normalizeField2019($student['documents']['register_type'], $student['documents']);
-//            foreach ($student['enrollments'] as $enrollment) {
-//                $this->normalizeField2019($enrollment['register_type'], $enrollment);
-//            }
-//        }
-//        //ksort($this->tmpexp['c'][5076]);
-//        //print_r($this->tmpexp['c'][5076]);exit;
-//
-//        foreach ($this->tmpexp as $kpos => $pos) {
-//            foreach ($pos as $kline => $line) {
-//                ksort($line);
-//                $this->export[$kpos] .= implode('|', $line);
-//                $this->export[$kpos] .= "\n";
-//            }
-//        }
-//        $this->export['e'] .= '30|' . Yii::app()->user->school . '|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||2|3|1|76|2800670|0|||||||||||||||||||||||||||||1||6||145F01|2008|3||||||||||1|0|0|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR' . "\n";
-//        $this->export['eb'] .= '40|' . Yii::app()->user->school . '|909999||1|2||1' . "\n";
-//        $this->export["i"] .= '99|';
-//
-//        ksort($this->export);
-//        foreach ($this->export as $key => $txtexport) {
-//            $export .= $txtexport;
-//        }
-//        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
-//
-//        Yii::import('ext.FileManager.fileManager');
-//        $fm = new fileManager();
-//        $result = $fm->write($fileDir, $export);
-//
-//        if ($result) {
-//            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
-//        } else {
-//            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
-//        }
-//        $this->redirect(array('validate'));
+        //        $this->normalizeField2019($school->register_type, $school->attributes);
+        //        $schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
+        //        $this->normalizeField2019($schoolStructure->register_type, $schoolStructure->attributes);
+        //        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+        //        foreach ($classrooms as $iclass => $classroom) {
+        //            $log['classrooms'][$iclass] = $classroom->attributes;
+        //            foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
+        //                if (!isset($log['instructors'][$teachingData->instructor_fk])) {
+        //                    //@Todo fazer o sistema atualizar automaticamente quando o o cadastro entrar na escola
+        //                    $teachingData->instructorFk->documents->school_inep_id_fk = $school->inep_id;
+        //                    $teachingData->instructorFk->instructorVariableData->school_inep_id_fk = $school->inep_id;
+        //                    $teachingData->instructorFk->school_inep_id_fk = $school->inep_id;
+        //                    $log['instructors'][$teachingData->instructor_fk]['identification'] = $teachingData->instructorFk->attributes;
+        //                    $log['instructors'][$teachingData->instructor_fk]['documents'] = $teachingData->instructorFk->documents->attributes;
+        //                    $instructor_inepid_id = isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id) ? $teachingData->instructorFk->inep_id : $teachingData->instructorFk->id;
+        //                    if (isset($teachingData->instructorFk->inep_id) && !empty($teachingData->instructorFk->inep_id)) {
+        //                        $variabledata = InstructorVariableData::model()->findByAttributes(['inep_id' => $instructor_inepid_id]);
+        //                    } else {
+        //                        $variabledata = InstructorVariableData::model()->findByPk($instructor_inepid_id);
+        //                    }
+        //                    $variabledata->id = $teachingData->instructorFk->id;
+        //                    $variabledata->inep_id = $teachingData->instructorFk->inep_id;
+        //                    $variabledata->school_inep_id_fk = $school->inep_id;
+        //                    $log['instructors'][$teachingData->instructor_fk]['variable'] = $variabledata->attributes;
+        //                } else {
+        //
+        //                }
+        //                $teachingData->instructor_inep_id = $teachingData->instructorFk->inep_id;
+        //                $teachingData->school_inep_id_fk = $school->inep_id;
+        //                $log['instructors'][$teachingData->instructor_fk]['teaching'][$classroom->id] = $teachingData->attributes;
+        //            }
+        //            foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
+        //                if (!isset($log['students'][$enrollment->student_fk])) {
+        //                    $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
+        //                    $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
+        //                    $log['students'][$enrollment->student_fk]['identification'] = $enrollment->studentFk->attributes;
+        //                    $log['students'][$enrollment->student_fk]['documents'] = $enrollment->studentFk->documentsFk->attributes;
+        //                }
+        //                $enrollment->school_inep_id_fk = $school->inep_id;
+        //                $log['students'][$enrollment->student_fk]['enrollments'][$ienrollment] = $enrollment->attributes;
+        //            }
+        //        }
+        //        foreach ($log['classrooms'] as $classroom) {
+        //            $this->normalizeField2019($classroom['register_type'], $classroom);
+        //        }
+        //        foreach ($log['instructors'] as $instructor) {
+        //            $id = (String)'90' . $instructor['identification']['id'];
+        //            $instructor['identification']['id'] = $id;
+        //            $instructor['documents']['id'] = $id;
+        //            $instructor['variable']['id'] = $id;
+        //            $this->normalizeField2019($instructor['identification']['register_type'], $instructor['identification']);
+        //            $this->normalizeField2019($instructor['documents']['register_type'], $instructor['documents']);
+        //            $this->normalizeField2019($instructor['variable']['register_type'], $instructor['variable']);
+        //            foreach ($instructor['teaching'] as $teaching) {
+        //                $teaching['instructor_fk'] = $id;
+        //                $this->normalizeField2019($teaching['register_type'], $teaching);
+        //            }
+        //        }
+        //        foreach ($log['students'] as $student) {
+        //            $this->normalizeField2019($student['identification']['register_type'], $student['identification']);
+        //            $this->normalizeField2019($student['documents']['register_type'], $student['documents']);
+        //            foreach ($student['enrollments'] as $enrollment) {
+        //                $this->normalizeField2019($enrollment['register_type'], $enrollment);
+        //            }
+        //        }
+        //        //ksort($this->tmpexp['c'][5076]);
+        //        //print_r($this->tmpexp['c'][5076]);exit;
+        //
+        //        foreach ($this->tmpexp as $kpos => $pos) {
+        //            foreach ($pos as $kline => $line) {
+        //                ksort($line);
+        //                $this->export[$kpos] .= implode('|', $line);
+        //                $this->export[$kpos] .= "\n";
+        //            }
+        //        }
+        //        $this->export['e'] .= '30|' . Yii::app()->user->school . '|909999|183258253160|84278560591|RUANCELI DO NASCIMENTO SANTOS|23/05/1988|1|TANIA MARIA DO NASCIMENTO||2|3|1|76|2800670|0|||||||||||||||||||||||||||||1||6||145F01|2008|3||||||||||1|0|0|0|0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0|RUAN@IPTI.ORG.BR' . "\n";
+        //        $this->export['eb'] .= '40|' . Yii::app()->user->school . '|909999||1|2||1' . "\n";
+        //        $this->export["i"] .= '99|';
+        //
+        //        ksort($this->export);
+        //        foreach ($this->export as $key => $txtexport) {
+        //            $export .= $txtexport;
+        //        }
+        //        $fileDir = Yii::app()->basePath . '/export/' . date('Y_') . Yii::app()->user->school . '.TXT';
+        //
+        //        Yii::import('ext.FileManager.fileManager');
+        //        $fm = new fileManager();
+        //        $result = $fm->write($fileDir, $export);
+        //
+        //        if ($result) {
+        //            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluida com Sucesso.<br><a href="?r=/censo/DownloadExportFile" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
+        //        } else {
+        //            Yii::app()->user->setFlash('error', Yii::t('default', 'Houve algum erro na Exportação.'));
+        //        }
+        //        $this->redirect(array('validate'));
     }
 
     public function actionExportIdentification()

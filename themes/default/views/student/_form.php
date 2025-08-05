@@ -161,15 +161,15 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
               <div class="t-field-text" id="nameStudents">
                 <?php echo $form->label($modelStudentIdentification, 'name', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->textField(
-    $modelStudentIdentification,
-    'name',
-    [
-        'size' => 60,
-        'maxlength' => 100,
-        'class' => 't-field-text__input',
-        'placeholder' => 'Digite o Nome de Apresentação'
-    ]
-); ?>
+                  $modelStudentIdentification,
+                  'name',
+                  array(
+                    'size' => 60,
+                    'maxlength' => 100,
+                    'class' => 't-field-text__input js-trim-name',
+                    'placeholder' => 'Digite o Nome de Apresentação'
+                  )
+                ); ?>
                 <span id="similarMessage" data-toggle="tooltip" data-placement="top" data-original-title="">
                   <img id="warningNameIcon" onclick="displayRecords()" style="display: none;"
                     src="<?php echo $themeUrl . '/img/warning-icon.svg' ?>" alt="icone aviso">
@@ -190,14 +190,14 @@ echo $form->errorSummary($modelStudentDocumentsAndAddress);
               <div class="t-field-text student-civil-name" id="civilName" style="display: none;">
                 <?php echo $form->label($modelStudentIdentification, 'civil_name', ['class' => 't-field-text__label--required']); ?>
                 <?php echo $form->textField(
-                    $modelStudentIdentification,
-                    'civil_name',
-                    [
-                        'size' => 60,
-                        'maxlength' => 100,
-                        'class' => 't-field-text__input',
-                        'placeholder' => 'Digite o Nome Civil'
-                    ]
+                  $modelStudentIdentification,
+                  'civil_name',
+                  array(
+                    'size' => 60,
+                    'maxlength' => 100,
+                    'class' => 't-field-text__input js-trim-name',
+                    'placeholder' => 'Digite o Nome Civil'
+                  )
                 ); ?>
                 <?php echo $form->error($modelStudentIdentification, 'civil_name'); ?>
               </div>

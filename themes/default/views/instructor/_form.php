@@ -129,6 +129,7 @@ echo isset($error['variableData']) ? $error['variableData'] : '';
                                         [
                                             'size' => 60,
                                             'maxlength' => 100,
+                                            'class'=>'js-trim-name',
                                             'placeholder' => 'Digite o Nome de Apresentação'
                                         ]
                                     );
@@ -159,15 +160,16 @@ echo isset($error['variableData']) ? $error['variableData'] : '';
                                 </div>
                                 <div class="controls">
                                     <?php echo $form->textField(
-    $modelInstructorIdentification,
-    'civil_name',
-    [
-        'size' => 60,
-        'maxlength' => 100,
-        'placeholder' => 'Digite o Nome Civil'
-    ]
-);
-?>
+                                        $modelInstructorIdentification,
+                                        'civil_name',
+                                        array(
+                                            'size' => 60,
+                                            'maxlength' => 100,
+                                            'class'=>'js-trim-name',
+                                            'placeholder' => 'Digite o Nome Civil'
+                                        )
+                                    );
+                                    ?>
                                     <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo Yii::t('help', 'Instructor Full Civil Name'); ?>"><i></i></span>
                                     <?php echo $form->error($modelInstructorIdentification, 'civil_name'); ?>
                                 </div>

@@ -201,17 +201,14 @@ class FormsRepository
      */
     public function getEnrollmentGrades($enrollmentId): array
     {
-        $result = []; // array de notas
-        $baseDisciplines = []; // disciplinas da BNCC
-        $diversifiedDisciplines = []; //disciplinas diversas
-        $enrollment = StudentEnrollment::model()->with(['classFaults', 'classroomFk'])->findByPk($enrollmentId);
-        $gradesResult = GradeResults::model()->findAllByAttributes(['enrollment_fk' => $enrollmentId]); // medias do aluno na turma
-        $classFaults = ClassFaults::model()->findAllByAttributes(['student_fk' => $enrollment->studentFk->id]); // faltas do aluno na turma
-        $unities = GradeUnity::model()->findAllByAttributes(
-            ['edcenso_stage_vs_modality_fk' => $enrollment->classroomFk->edcenso_stage_vs_modality_fk],
-            ['order' => "FIELD(type, 'RF') ASC"]
-        ); // unidades da turma
-        $curricularMatrix = CurricularMatrix::model()->with('disciplineFk')->findAllByAttributes(['stage_fk' => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, 'school_year' => $enrollment->classroomFk->school_year]); // matriz da turma
+        $result = array(); // array de notas
+        $baseDisciplines = array(); // disciplinas da BNCC
+        $diversifiedDisciplines = array(); //disciplinas diversas
+        $enrollment = StudentEnrollment::model()->with(['classFaults', "classroomFk"])->findByPk($enrollmentId);
+        $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]); // medias do aluno na turma
+        $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
+        $unities = $this->getUnities($enrollment->classroomFk->id, $enrollment->classroomFk->edcenso_stage_vs_modality_fk); // unidades da turma
+        $curricularMatrix = CurricularMatrix::model()->with("disciplineFk")->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
         $partialRecovery = $this->getPartialRecovery($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
         $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
@@ -303,6 +300,20 @@ class FormsRepository
         ];
 
         return $response;
+    }
+
+    private function getUnities($classroomId, $stage)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->alias = 'gu';
+        $criteria->distinct = true;
+        $criteria->join = 'join grade_rules gr on gr.id = gu.grade_rules_fk';
+        $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
+        $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
+        $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
+        $criteria->params = array(':classroom' => $classroomId, ":stage" => $stage);
+
+        return GradeUnity::model()->findAll($criteria);
     }
 
     private function calculateFrequency($diasLetivos, $totalFaltas): int
