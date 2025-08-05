@@ -42,7 +42,8 @@ class GradesController extends Controller
                     'getReportCardGrades',
                     'saveGradesReportCard',
                     'saveGradesRelease',
-                    'getClassroomStages'
+                    'getClassroomStages',
+                    'ClassClosure'
                 ),
                 'users' => array('@'),
             ),
@@ -648,6 +649,10 @@ class GradesController extends Controller
         $result = $usecase->exec();
         echo CJSON::encode($result);
 
+    }
+
+    public function actionClassClosure($classroom) {
+        var_dump("ssaaa");
     }
 
     public function actionCalculateFinalMedia()
