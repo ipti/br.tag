@@ -3,9 +3,9 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/admin/activeDisableUser/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/index/dialogs.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/index/global.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/admin/activeDisableUser/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $themeUrl = Yii::app()->theme->baseUrl;
 
 ?>
@@ -54,8 +54,8 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Users'));
                                 </td>
                                 <td><?= $user->username?></td>
                                 <td style="text-align:center;">
-                                    <a href="/?r=admin/<?php echo $user->active ? "disable" : "active"?>User&id=<?=$user->id?>" style="cursor: pointer;">
-                                        <img src="/themes/default/img/<?php echo $user->active ? "disable" : "active"?>User.svg" alt="Link">
+                                    <a href="/?r=admin/<?php echo $user->active ? 'disable' : 'active'?>User&id=<?=$user->id?>" style="cursor: pointer;">
+                                        <img src="/themes/default/img/<?php echo $user->active ? 'disable' : 'active'?>User.svg" alt="Link">
                                     </a>
                                 </td>
                             </tr>

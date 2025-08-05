@@ -2,10 +2,10 @@
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 
-$form = $this->beginWidget('CActiveForm', array(
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'classroom-form',
     'enableAjaxValidation' => false,
-));
+]);
 ?>
 
 
@@ -35,8 +35,7 @@ $form = $this->beginWidget('CActiveForm', array(
                                 $criteria->join = 'JOIN student_identification s ON s.id = e.student_fk';
                                 $criteria->condition = "classroom_fk = $classroom";
                                 $criteria->order = 's.name';
-                                $enrollments = StudentEnrollment::model()->findAll($criteria);
-                                ?>
+                                $enrollments = StudentEnrollment::model()->findAll($criteria); ?>
                                 <style type="text/css" media="print">
                                     a[href]:after {
                                         content: "" !important;
@@ -57,23 +56,22 @@ $form = $this->beginWidget('CActiveForm', array(
                                             foreach ($enrollments as $enr) {
                                                 $namestg = $enr->id . '[edcenso_stage_vs_modality_fk]';
                                                 $status = $enr->id . '[status]';
-                                                echo "<tr><td>" . $enr->studentFk->name . "</a></td>";
-                                                echo "<td>" . CHtml::dropDownList($namestg, $enr->edcenso_stage_vs_modality_fk, $options_stage, ['class' => 'select-search-on t-field-select__input select2-container']) . "</td>";
-                                                echo "<td>" . CHtml::dropDownList($status, $enr->status, StudentEnrollment::getListStatus()) . "</td></tr>";
+                                                echo '<tr><td>' . $enr->studentFk->name . '</a></td>';
+                                                echo '<td>' . CHtml::dropDownList($namestg, $enr->edcenso_stage_vs_modality_fk, $options_stage, ['class' => 'select-search-on t-field-select__input select2-container']) . '</td>';
+                                                echo '<td>' . CHtml::dropDownList($status, $enr->status, StudentEnrollment::getListStatus()) . '</td></tr>';
                                             }
-                                            echo "<tr><th>Total:</th><td colspan='2'>" . count($enrollments) . "</td></tr>";
+                                            echo "<tr><th>Total:</th><td colspan='2'>" . count($enrollments) . '</td></tr>';
                                         } else {
-                                            echo "<tr><th>Não há alunos matriculados.</th></tr>";
-                                        }
-                                        ?>
+                                            echo '<tr><th>Não há alunos matriculados.</th></tr>';
+                                        } ?>
                                     </tbody>
                                     <tfooter>
                                         <?php
-                                        echo '<tr><td colspan="3"><input value="Atualizar Todos" type="submit" class="btn btn-icon btn-primary"><i></i></input></td></tr>';
-                                        ?>
+                                        echo '<tr><td colspan="3"><input value="Atualizar Todos" type="submit" class="btn btn-icon btn-primary"><i></i></input></td></tr>'; ?>
                                     </tfooter>
                                 </table>
-                            <?php } ?>
+                            <?php
+                            } ?>
                         </div>
                     </div>
                 </div>

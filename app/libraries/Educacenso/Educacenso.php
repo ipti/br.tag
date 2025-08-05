@@ -1,4 +1,5 @@
 <?php
+
 class Educacenso
 {
     private $registers = [];
@@ -85,9 +86,7 @@ class Educacenso
 
     public function exportarIdentification()
     {
-
         $registerForIdentification = $this->registerIdentification();
-
 
         $lines = [];
         foreach ($registerForIdentification as $register) {

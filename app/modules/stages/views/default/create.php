@@ -2,18 +2,18 @@
     /* @var $this DefaultController */
     /* @var $model EdcensoStageVsModality */
 
-    $this->breadcrumbs=array(
-        'Edcenso Stage Vs Modalities'=>array('index'),
+    $this->breadcrumbs = [
+        'Edcenso Stage Vs Modalities' => ['index'],
         'Create',
-    );
+    ];
 
-    $this->menu=array(
-        array('label'=>'List EdcensoStageVsModality', 'url'=>array('index')),
-        array('label'=>'Manage EdcensoStageVsModality', 'url'=>array('admin')),
-    );
-    ?>
+$this->menu = [
+    ['label' => 'List EdcensoStageVsModality', 'url' => ['index']],
+    ['label' => 'Manage EdcensoStageVsModality', 'url' => ['admin']],
+];
+?>
 
 
     <div id="mainPage" class="main">
-        <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+        <?php $this->renderPartial('_form', ['model' => $model]); ?>
     </div>

@@ -23,7 +23,7 @@ class AddStudentToSED
      * @param mixed $tag_student_id
      * @return mixed
      */
-    /* 
+    /*
     public function exec($tag_student_id)
     {
         $student = $this->studentTAGDataSource->getStudent($tag_student_id);
@@ -33,5 +33,4 @@ class AddStudentToSED
         //Acessando os dados do aluno
         return json_decode($content);
     } */
-     
 }

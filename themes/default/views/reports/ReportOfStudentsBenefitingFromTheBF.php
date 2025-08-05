@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/ReportOfStudentsBenefitingFromTheBF/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/ReportOfStudentsBenefitingFromTheBF/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
@@ -28,9 +28,9 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
             <th>TEL. RESPONSÁVEL</th>
         </thead>
         <tbody>
-            <?php foreach($report as $r) { ?>
+            <?php foreach ($report as $r) { ?>
                 <tr>
-                    <?php echo $allSchools ? "<td>".$r['school_name']."</td>" : "<td>".$r['classroom_name']."</td>"?>
+                    <?php echo $allSchools ? '<td>' . $r['school_name'] . '</td>' : '<td>' . $r['classroom_name'] . '</td>'?>
                     <td><?= $r['name'] ?></td>
                     <td><?= TagUtils::convertDateFormat($r['birthday'])?></td>
                     <td><?= $r['nis'] ?></td>
@@ -38,17 +38,18 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     <td><?= $r['responsable_telephone'] ?></td>
                 </tr>
             <?php }
-            if($countTotal) {
-            ?>
+            if ($countTotal) {
+                ?>
             <tr>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <?php echo $allSchools ? "<td></td>" : ""?>
-                <td><b>TOTAL:<?php echo " ".count($report)?></b></td>
+                <?php echo $allSchools ? '<td></td>' : ''?>
+                <td><b>TOTAL:<?php echo ' ' . count($report)?></b></td>
             </tr>
-            <?php }?>
+            <?php
+            }?>
         </tbody>
     </table>
 </div>

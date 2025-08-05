@@ -61,10 +61,10 @@
 </div>
 <div class="body">
     <div class="body-title">DECLARAÇÃO DE CONCLUSÃO DE CURSO</div>
-    <div class="body-content">Atesto para os devidos fins, que o aluno <?php echo $student->studentFk->name ?>, filha de <?php echo $student->studentFk->filiation_1?> e de <?php echo $student->studentFk->filiation_2?>, nascida em <?php echo $student->studentFk->birthday?>, na cidade de <?php echo $city["name"] . " - " . strtoupper($state["name"]);?>, concluiu o(a) <?php echo $student->classroomFk->name; ?> no ano de <?php echo $school_year?></div>
+    <div class="body-content">Atesto para os devidos fins, que o aluno <?php echo $student->studentFk->name ?>, filha de <?php echo $student->studentFk->filiation_1?> e de <?php echo $student->studentFk->filiation_2?>, nascida em <?php echo $student->studentFk->birthday?>, na cidade de <?php echo $city['name'] . ' - ' . strtoupper($state['name']); ?>, concluiu o(a) <?php echo $student->classroomFk->name; ?> no ano de <?php echo $school_year?></div>
 </div>
 <div class="footer">
-    <div class = "date">Aracaju-SE, <?php echo $today_date["mday"] ?> de <?php echo Yii::t('default', $today_date["month"]) ?> de <?php echo $today_date["year"]?></div>
+    <div class = "date">Aracaju-SE, <?php echo $today_date['mday'] ?> de <?php echo Yii::t('default', $today_date['month']) ?> de <?php echo $today_date['year']?></div>
     <div class="informer">
         <div>O presente atestado não tem validade para matrícula.</div>
         <div>Informante: Administrador do sistema.</div>

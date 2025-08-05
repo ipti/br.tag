@@ -5,7 +5,7 @@ namespace Genericos;
 /**
  * Class representing NaConvenioTType
  *
- * 
+ *
  * XSD Type: naConvenio_t
  */
 class NaConvenioTType
@@ -91,4 +91,3 @@ class NaConvenioTType
         return $this;
     }
 }
-

@@ -6,7 +6,7 @@ $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('lunchModule.stock', 'Stock
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerCssFile($baseScriptUrl . '/common/css/layout.css?v=1.0');
-$cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseScriptUrl . '/common/js/stock.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $cs->registerCssFile($baseUrl . '/css/lunch.css');
 ?>
 
@@ -58,9 +58,9 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                                     <?php foreach ($this->school->itemsAmount() as $item) : ?>
                                         <tr>
                                             <td><?= $item['name'] ?></td>
-                                            <td><?= $item['amount'] * $item['measure'] . " " . $zitem['unity'] ?></td>
-                                            <td class="<?= $item['amount'] * $item['measure'] != 0 ? "in" : "out" ?>">
-                                                <?php echo $item['amount'] * $item['measure'] != 0 ? "Não" : "Sim" ?>
+                                            <td><?= $item['amount'] * $item['measure'] . ' ' . $zitem['unity'] ?></td>
+                                            <td class="<?= $item['amount'] * $item['measure'] != 0 ? 'in' : 'out' ?>">
+                                                <?php echo $item['amount'] * $item['measure'] != 0 ? 'Não' : 'Sim' ?>
                                             </td>
                                             <td id="js-removeItem" data-id="<?= $item['id'] ?>">
                                                 <span class="t-icon-trash t-button-icon-danger js-change-cursor"></span>
@@ -93,15 +93,15 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                                         $isSpent = !is_null($transaction['motivation']);
                                         $amount = ($isSpent ? (-1) : (1)) * $transaction['amount'] * $transaction['measure'] . $transaction['acronym'];
                                         $name = $transaction['name'];
-                                        $date = date("d/m/Y", strtotime($transaction['date']));
-                                    ?>
+                                        $date = date('d/m/Y', strtotime($transaction['date'])); ?>
                                     <tr>
-                                        <td style="text-align: center;" class="<?= $isSpent ? "out" : "in" ?>"><?php echo $isSpent ? "Saída" : "Entrada" ?></td>
+                                        <td style="text-align: center;" class="<?= $isSpent ? 'out' : 'in' ?>"><?php echo $isSpent ? 'Saída' : 'Entrada' ?></td>
                                         <td><?= $name?></td>
                                         <td><?= $amount?></td>
                                         <td><?= $date?></td>
                                     </tr>
-                                    <?php } ?>
+                                    <?php
+                                    } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -121,12 +121,12 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
             <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Item'); ?></h4>
         </div>
         <?php
-        $form = $this->beginWidget('CActiveForm', array(
-            'id' => 'add-item',
-            'enableAjaxValidation' => false,
-            'action' => Yii::app()->createUrl('lunch/stock/addItem')
-        ));
-        ?>
+                                            $form = $this->beginWidget('CActiveForm', [
+                                                'id' => 'add-item',
+                                                'enableAjaxValidation' => false,
+                                                'action' => Yii::app()->createUrl('lunch/stock/addItem')
+                                            ]);
+?>
         <div class="modal-body">
 
             <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
@@ -139,15 +139,15 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
 
                     <div class="row-fluid">
                         <div class=" span8">
-                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', array('class' => 'control-label')); ?>
+                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', ['class' => 'control-label']); ?>
                             <div class="controls span12">
                                 <?= CHtml::dropDownList(
-                                    'Inventory[item]',
-                                    '',
+    'Inventory[item]',
+    '',
                                     // [],
                                     $items,
-                                    ['class' => 'pull-left span12']
-                                ); ?>
+    ['class' => 'pull-left span12']
+); ?>
 
                             </div>
                         </div>
@@ -160,7 +160,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                             </div>
                         </div>
                         <div class=" span2" style="width: 23%;">
-                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label', 'style' => 'width: 100%')); ?>
+                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', ['class' => 'control-label', 'style' => 'width: 100%']); ?>
                             <?= CHtml::numberField('Inventory[amount]', '1', ['min' => '0', 'step' => '1', 'style' => 'height:33px;width:90%;']); ?>
                         </div>
                     </div>
@@ -175,25 +175,25 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                 <div class="widget-body" style="overflow: hidden;">
                     <div class="row-fluid">
                         <div class=" span5" style="margin-right:12px">
-                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Name'), 'Name', array('class' => 'control-label')); ?>
+                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Name'), 'Name', ['class' => 'control-label']); ?>
                             <div class="controls span12">
                                 <?= CHtml::textField('Item[name]', '', ['class' => ' span10', 'style' => 'height:44px;width:100%;']); ?>
                             </div>
                         </div>
                         <div class=" span2" style="margin-right:10px">
-                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label')); ?>
+                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', ['class' => 'control-label']); ?>
                             <div class="controls span12">
                                 <?= CHtml::numberField('Inventory[amount]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
                             </div>
                         </div>
                         <div class=" span2" style="margin-right:10px">
-                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label')); ?>
+                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', ['class' => 'control-label']); ?>
                             <div class="controls span12">
                                 <?= CHtml::numberField('Item[measure]', '1', ['min' => '0', 'step' => '1', 'class' => 'span10', 'style' => 'height:44px;width:100%;']); ?>
                             </div>
                         </div>
                         <div class=" span2" style="">
-                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', array('class' => 'control-label', 'style' => 'width:auto')); ?>
+                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Measure'), 'Measure', ['class' => 'control-label', 'style' => 'width:auto']); ?>
                             <div class="controls span12">
                                 <?= CHtml::dropDownList(
                                     'Item[unity_fk]',
@@ -207,7 +207,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                     </div>
                     <div class="row-fluid">
                         <div class=" span12">
-                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Description'), 'Description', array('class' => 'control-label')); ?>
+                            <?= CHtml::label(Yii::t('lunchModule.labels', 'Description'), 'Description', ['class' => 'control-label']); ?>
                             <div class="controls span12">
                                 <?= CHtml::textField('Item[description]', '', ['class' => ' span11', 'style' => 'width:99%']); ?>
                             </div>
@@ -233,36 +233,36 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
             <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Remove Item'); ?></h4>
         </div>
         <?php
-        $form = $this->beginWidget('CActiveForm', array(
+        $form = $this->beginWidget('CActiveForm', [
             'id' => 'remove-item',
             'enableAjaxValidation' => false,
             'action' => Yii::app()->createUrl('lunch/stock/removeItem')
-        ));
-        ?>
+        ]);
+?>
         <div class="modal-body" style="overflow: hidden;">
             <div class="row-fluid">
                 <div class=" span6" style="width: 75%;">
-                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', array('class' => 'control-label')); ?>
+                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Item'), 'Item', ['class' => 'control-label']); ?>
                     <div class="controls span12">
                         <?= CHtml::dropDownList(
-                            'Item',
-                            '',
+    'Item',
+    '',
                             // [],
                             $items,
-                            ['class' => 'span10', 'style' => 'width: 100%']
-                        ); ?>
+    ['class' => 'span10', 'style' => 'width: 100%']
+); ?>
                     </div>
                 </div>
                 <div class=" span6" style="width: 21%; margin-left: 20px;">
-                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', array('class' => 'control-label')); ?>
+                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Amount'), 'Amount', ['class' => 'control-label']); ?>
                     <?= CHtml::numberField('Amount', '1', ['min' => '0', 'step' => '0.1', 'class' => 'span10', 'style' => 'height:44px; width:99%;']); ?>
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="span12">
-                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Motivation'), 'Motivation', array('class' => 'control-label')); ?>
+                    <?= CHtml::label(Yii::t('lunchModule.labels', 'Motivation'), 'Motivation', ['class' => 'control-label']); ?>
                     <div class="controls span12">
-                        <?= CHtml::textField('Motivation', "", ['class' => 'span11', 'style' => 'width:99%']); ?>
+                        <?= CHtml::textField('Motivation', '', ['class' => 'span11', 'style' => 'width:99%']); ?>
                     </div>
                 </div>
             </div>

@@ -3,26 +3,26 @@
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Edit Password'));
     $title = Yii::t('default', 'Edit Password');
     $contextDesc = Yii::t('default', 'Available actions that may be taken on User.');
-    $this->menu = array(
-        array(
+    $this->menu = [
+        [
             'label' => Yii::t('default', 'List User'),
-            'url' => array('index'),
+            'url' => ['index'],
             'description' => Yii::t('default', 'This action list all User, you can search, delete and update')
-        ),
-    );
+        ],
+    ];
     ?>
 
     <?php
 
     $baseUrl = Yii::app()->baseUrl;
     $cs = Yii::app()->getClientScript();
-    $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js?v='.TAG_VERSION, CClientScript::POS_END);
-    $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+    $cs->registerScriptFile($baseUrl . '/js/admin/form/validations.js?v=' . TAG_VERSION, CClientScript::POS_END);
+    $cs->registerScriptFile($baseUrl . '/js/admin/form/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
-    $form = $this->beginWidget('CActiveForm', array(
+    $form = $this->beginWidget('CActiveForm', [
         'id' => 'users-createUser-form',
         'enableAjaxValidation' => false,
-    ));
+    ]);
     ?>
     <?php echo $form->errorSummary($model); ?>
 
@@ -34,12 +34,12 @@
                 <div class="buttons">
                     <div class="buttons" id="save">
                         <?php echo CHtml::htmlButton(
-                            '<i></i>' . ($model->isNewRecord
+        '<i></i>' . ($model->isNewRecord
                                 ? Yii::t('default', 'Create')
                                 : Yii::t('default', 'Save')),
-                            array('type' => 'submit', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok')
-                        );
-                        ?>
+        ['type' => 'submit', 'class' => 'btn btn-icon btn-primary last glyphicons circle_ok']
+    );
+    ?>
                     </div>
                 </div>
             </div>
@@ -63,18 +63,18 @@
                             <div class="column is-two-thirds">
                                 <div class="column is-two-thirds" style="position: relative;">
                                     <div class="t-field-text">
-                                        <?php echo $form->labelEx($model, 'password', array('class' => 't-field-text__label--required')); ?>
+                                        <?php echo $form->labelEx($model, 'password', ['class' => 't-field-text__label--required']); ?>
                                         <div class="t-field-text__password">
                                             <span class="t-icon-eye show-password-icon" id="showPassword"></span>
-                                            <?php echo $form->passwordField($model, 'password', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input')); ?>
+                                            <?php echo $form->passwordField($model, 'password', ['size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input']); ?>
                                             <?php echo $form->error($model, 'password'); ?>
                                         </div>
                                     </div>
                                     <div class="t-field-text">
-                                        <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', array('class' => 't-field-text__label--required')); ?>
+                                        <?php echo CHtml::label(Yii::t('default', 'Confirm'), 'Confirm', ['class' => 't-field-text__label--required']); ?>
                                         <div class="t-field-text__password">
                                             <span class="t-icon-eye show-password-icon" id="showPasswordConfirm"></span>
-                                            <?php echo CHtml::passwordField('Confirm', '', array('size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input')); ?>
+                                            <?php echo CHtml::passwordField('Confirm', '', ['size' => 32, 'maxlength' => 32, 'class' => 't-field-text__input password-input']); ?>
                                         </div>
                                     </div>
                                 </div>

@@ -8,22 +8,21 @@
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization_instructor.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/classes/frequency/_initialization_instructor.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Classes'));
-
 
 $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 
 <div class="main">
     <?php
-    $form = $this->beginWidget('CActiveForm', array(
+    $form = $this->beginWidget('CActiveForm', [
         'id' => 'classes-form',
         'enableAjaxValidation' => false,
-        'action' => CHtml::normalizeUrl(array('classes/saveFrequency')),
-    ));
+        'action' => CHtml::normalizeUrl(['classes/saveFrequency']),
+    ]);
 
-    ?>
+?>
     <div class="row-fluid">
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Frequency'); ?></h1>
@@ -45,14 +44,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <!-- Mês -->
                 <div class="column clearleft">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Classroom'),
-                            'classroom', array('class' => 't-field-select__label--required')); ?>
+                        <?php echo CHtml::label(
+    yii::t('default', 'Classroom'),
+    'classroom',
+    ['class' => 't-field-select__label--required']
+); ?>
                         <select class="select-search-on frequency-input t-field-select__input" id="classroom">
                             <option value="">Selecione a turma</option>
                             <?php foreach ($classrooms as $classroom) : ?>
                                 <option value="<?= $classroom->id ?>"
                                         fundamentalMaior="<?= (int)(!TagUtils::isStageMinorEducation(
-                                            $classroom->edcenso_stage_vs_modality_fk)) . "" ?>">
+                                $classroom->edcenso_stage_vs_modality_fk
+                            )) . '' ?>">
                                     <?= $classroom->name ?>
                                 </option>
                             <?php endforeach; ?>
@@ -62,8 +65,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
                 <div class="column month-container">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Month') . "/Ano",
-                            'month', array('class' => 't-field-select__label--required')); ?>
+                        <?php echo CHtml::label(
+                                                yii::t('default', 'Month') . '/Ano',
+                                                'month',
+                                                ['class' => 't-field-select__label--required']
+                                            ); ?>
                         <select class="select-search-on t-field-select__input js-load-frequency" id="month"
                                 style="min-width: 185px;"></select>
                     </div>
@@ -72,14 +78,14 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="mobile-row helper">
                 <div class="column clearleft on-tablet disciplines-container">
                     <div class="t-field-select js-load-frequency" id="classesSearch">
-                        <?php echo CHtml::label(yii::t('default', 'Discipline') . " *", 'disciplines', array('class' => 't-field-select__label--required js-load-frequency')); ?>
+                        <?php echo CHtml::label(yii::t('default', 'Discipline') . ' *', 'disciplines', ['class' => 't-field-select__label--required js-load-frequency']); ?>
                         <?php
-                        echo CHtml::dropDownList('disciplines', '', array(), array(
+                        echo CHtml::dropDownList('disciplines', '', [], [
                             'key' => 'id',
                             'class' => 'select-search-on t-field-select__input',
                             'prompt' => 'Selecione o mês',
-                        ));
-                        ?>
+                        ]);
+?>
                     </div>
                 </div>
             </div>
@@ -115,7 +121,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="t-modal__body">
                 <div class="row-fluid">
                     <div class="span12">
-                        <?= chtml::label("Justificativa", "title", array('class' => 'control-label')); ?>
+                        <?= chtml::label('Justificativa', 'title', ['class' => 'control-label']); ?>
                         <div class="form-control">
                             <input type="hidden" id="justification-classroomid">
                             <input type="hidden" id="justification-studentid">

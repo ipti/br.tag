@@ -11,15 +11,15 @@ $cs->registerCssFile($baseUrl . '/css/bootstrap.min.css');
 $cs->registerCssFile($baseUrl . '/css/responsive.min.css');
 $cs->registerCssFile($baseUrl . '/css/template.css?v=1.0');
 $cs->registerCssFile($baseUrl . '/css/template2.css');
-$cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
-$cs->registerScriptFile(Yii::app()->baseUrl . '/js/site/login.js?v='.TAG_VERSION, CClientScript::POS_END);
-$form = $this->beginWidget('CActiveForm', array(
+$cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION);
+$cs->registerScriptFile(Yii::app()->baseUrl . '/js/site/login.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'login-form',
     'enableClientValidation' => true,
-    'clientOptions' => array(
+    'clientOptions' => [
         'validateOnSubmit' => true,
-    ),
-));
+    ],
+]);
 ?>
 
 <body class="login" style="overflow-x: hidden;">
@@ -40,45 +40,45 @@ $form = $this->beginWidget('CActiveForm', array(
                     <h4 class="strong login-title"><?php echo INSTANCE ?></h4>
                     <p>Entre com as suas credenciais</p>
                     <label>Usuário</label>
-                    <?php echo $form->textField($model, 'username', array('class' => 'input-block-level', 'placeholder' => 'Digite o usuário')); ?>
+                    <?php echo $form->textField($model, 'username', ['class' => 'input-block-level', 'placeholder' => 'Digite o usuário']); ?>
                     <?php echo $form->error($model, 'username'); ?>
                     <label>Senha</label>
                     <span class="t-icon-eye" id="showPassword" style="position:absolute;right:6px;margin-top:10px;cursor:pointer;font-size:20px;"></span>
-                    <?php echo $form->passwordField($model, 'password', array('class' => 'input-block-level', 'placeholder' => 'Digite sua senha')); ?>
+                    <?php echo $form->passwordField($model, 'password', ['class' => 'input-block-level', 'placeholder' => 'Digite sua senha']); ?>
                     <?php echo $form->error($model, 'password'); ?>
                     <label>Ano Letivo</label>
                     <?php
-                    $rightbrowser = FALSE;
-                    if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE) {
-                        $browser = 'Microsoft Internet Explorer';
-                    } elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== FALSE) {
-                        $browser = 'Google Chrome';
-                        $rightbrowser = TRUE;
-                    } elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') !== FALSE) {
-                        $browser = 'Mozilla Firefox';
-                    } elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') !== FALSE) {
-                        $browser = 'Opera';
-                    } elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') !== FALSE) {
-                        $browser = 'Apple Safari';
-                    } else {
-                        $browser = 'error'; //<-- Browser not found.
-                    }
+                    $rightbrowser = false;
+if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
+    $browser = 'Microsoft Internet Explorer';
+} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== false) {
+    $browser = 'Google Chrome';
+    $rightbrowser = true;
+} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') !== false) {
+    $browser = 'Mozilla Firefox';
+} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') !== false) {
+    $browser = 'Opera';
+} elseif (strpos($_SERVER['HTTP_USER_AGENT'], 'Safari') !== false) {
+    $browser = 'Apple Safari';
+} else {
+    $browser = 'error'; //<-- Browser not found.
+}
 
-                    echo $form->dropDownList($model, 'year', $years, array('class' => 'input-block-level select-search-off', 'style' => 'height: 44px', 'options' => array(
-                        date("Y") => array('selected' => true) // Define o ano atual como selecionado
-                    ),));
-                    // @done S1 - Alinhar o checkbox com os inputs
-                    ?>
+echo $form->dropDownList($model, 'year', $years, ['class' => 'input-block-level select-search-off', 'style' => 'height: 44px', 'options' => [
+    date('Y') => ['selected' => true] // Define o ano atual como selecionado
+], ]);
+// @done S1 - Alinhar o checkbox com os inputs
+?>
                     <div class="uniformjs">
                         <label class="checkbox text-input">
-                            <?php echo $form->checkBox($model, 'rememberMe', array( "style"=>"margin: 0px 6px 20px 0")); ?>
+                            <?php echo $form->checkBox($model, 'rememberMe', ['style' => 'margin: 0px 6px 20px 0']); ?>
                             Mantenha-me conectado
                             <!-- <input type="checkbox" style="margin:  0px 6px 20px 0" value="remember-me">Mantenha-me conectado -->
                         </label>
                     </div>
                     <div class="row-fluid">
                         <div>
-                            <?php echo CHtml::submitButton('Entrar', array('class' => 'submit-button-login')); ?>
+                            <?php echo CHtml::submitButton('Entrar', ['class' => 'submit-button-login']); ?>
                         </div>
                     </div>
                 </form>

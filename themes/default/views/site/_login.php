@@ -11,15 +11,15 @@ $cs->registerCssFile($baseUrl . '/css/bootstrap.min.css');
 $cs->registerCssFile($baseUrl . '/css/responsive.min.css');
 $cs->registerCssFile($baseUrl . '/css/template.css?v=1.0');
 $cs->registerCssFile($baseUrl . '/css/template2.css');
-$cs->registerCssFile(Yii::app()->baseUrl . "/sass/css/main.css?v=" . TAG_VERSION);
-$cs->registerScriptFile(Yii::app()->baseUrl . '/js/site/login.js?v='.TAG_VERSION, CClientScript::POS_END);
-$form = $this->beginWidget('CActiveForm', array(
+$cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION);
+$cs->registerScriptFile(Yii::app()->baseUrl . '/js/site/login.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$form = $this->beginWidget('CActiveForm', [
     'id' => 'login-form',
     'enableClientValidation' => true,
-    'clientOptions' => array(
+    'clientOptions' => [
         'validateOnSubmit' => true,
-    ),
-));
+    ],
+]);
 ?>
 
 <body class="login" style="overflow-x: hidden;">

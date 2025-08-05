@@ -5,7 +5,7 @@
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/StudentsInAlphabeticalOrderRelationReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/StudentsInAlphabeticalOrderRelationReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
 ?>
@@ -35,31 +35,30 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
         <?php
         $ordem = 1;
-        foreach($students as $s) {
+foreach ($students as $s) {
+    $html = '';
+    $html .= '<tr>'
+        . '<td>' . $ordem . '</td>'
+        . '<td>' . $s['studentInepId'] . '</td>'
+        . '<td>' . $s['studentName'] . '</td>'
+        . '<td>' . $s['birthday'] . '</td>'
+        . '<td>' . $s['classroom_inep_id'] . '</td>'
+        . '<td>' . $s['name'] . '</td>'
+        . '<td>' . $s['assistance_type'] . '</td>'
+        . '<td>' . $s['modality'] . '</td>'
+        . '<td>' . $s['stage'] . '</td>'
+        . '</tr>';
 
-            $html = "";
-            $html .= "<tr>"
-                . "<td>" . $ordem . "</td>"
-                . "<td>" . $s['studentInepId'] . "</td>"
-                . "<td>" . $s['studentName'] . "</td>"
-                . "<td>" . $s['birthday'] . "</td>"
-                . "<td>" . $s['classroom_inep_id'] . "</td>"
-                . "<td>" . $s['name'] . "</td>"
-                . "<td>" . $s['assistance_type'] . "</td>"
-                . "<td>" . $s['modality'] . "</td>"
-                . "<td>" . $s['stage'] . "</td>"
-                . "</tr>";
+    $ordem++;
+    echo $html;
+}
+$html = '';
+$html .= '<tr>'
+        . '<td colspan= 4>' . ' <b> Total de alunos: </b>' . ($ordem - 1) . '</td>'
+    . '</tr>';
 
-            $ordem++;
-            echo $html;
-        }
-        $html = "";
-        $html .= "<tr>"
-                . "<td colspan= 4>" . " <b> Total de alunos: </b>" . ($ordem-1) . "</td>"
-            . "</tr>";
-
-        echo $html;
-        ?>
+echo $html;
+?>
 
     </table>
 </div>

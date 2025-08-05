@@ -21,12 +21,14 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
 
 <div class="main">
     <?php
-    $form = $this->beginWidget('CActiveForm', array(
+    $form = $this->beginWidget(
+    'CActiveForm',
+    [
         'id' => 'classes-form',
         'enableAjaxValidation' => false
-    )
-    );
-    ?>
+    ]
+);
+?>
     <div class="row">
         <div class="column clearleft">
             <h1>
@@ -51,28 +53,36 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
     <div class="row">
         <div class="column is-one-fifth clearleft ">
             <div class="t-field-select">
-                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', array('class' => 't-field-select__label--required')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', ['class' => 't-field-select__label--required']); ?>
                 <?php
-                echo CHtml::dropDownList('classroom', '', $classrooms, array(
-                    'key' => 'id',
-                    'class' => 'select-search-on t-field-select__input select2-container',
-                    'prompt' => 'Selecione...',
-                )
-                );
-                ?>
+            echo CHtml::dropDownList(
+    'classroom',
+    '',
+    $classrooms,
+    [
+        'key' => 'id',
+        'class' => 'select-search-on t-field-select__input select2-container',
+        'prompt' => 'Selecione...',
+    ]
+);
+?>
             </div>
         </div>
         <div class="column is-one-fifth">
             <div class="t-field-select">
-                <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', array('class' => 't-field-select__label--required')); ?>
+                <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', ['class' => 't-field-select__label--required']); ?>
                 <?php
-                echo CHtml::dropDownList('discipline', '', array(), array(
-                    'key' => 'id',
-                    'class' => 'select-search-on t-field-select__input select2-container',
-                    'prompt' => 'Selecione...',
-                )
-                );
-                ?>
+echo CHtml::dropDownList(
+    'discipline',
+    '',
+    [],
+    [
+        'key' => 'id',
+        'class' => 'select-search-on t-field-select__input select2-container',
+        'prompt' => 'Selecione...',
+    ]
+);
+?>
             </div>
         </div>
         <div class="column is-one-tenth">

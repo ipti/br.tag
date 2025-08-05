@@ -7,8 +7,8 @@
 Yii::app()->clientScript->registerCoreScript('jquery');
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/ClassContentsReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
-$cs->registerScriptFile($baseUrl . '/js/reports/ClassContentsReport/functions.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/ClassContentsReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/ClassContentsReport/functions.js?v=' . TAG_VERSION, CClientScript::POS_END);
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
 
@@ -61,10 +61,10 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     </table>
 
     <?php
-    $html = "";
-    foreach ($classContents as $id => $day) {
-        $html .= "<table class='table table-bordered table-striped'>";
-        $html .= "
+    $html = '';
+foreach ($classContents as $id => $day) {
+    $html .= "<table class='table table-bordered table-striped'>";
+    $html .= "
         <thead>
             <tr>
                 <th colspan='2' style='padding: 4px 10px;'>
@@ -75,48 +75,48 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                 </th>
             </tr>
         </thead>";
-        $html .= "<tbody>";
-        foreach ($day["contents"] as $content) {
-            $html .= "
+    $html .= '<tbody>';
+    foreach ($day['contents'] as $content) {
+        $html .= "
             <tr>
                 <td colspan='2'>
                     <b>Aula: </b>{$content['order']}
                     <b> Plano de aula: </b>{$content['name']}
                     <b> Conteúdo: </b>{$content['content']} </br>";
-                    foreach ($content["abilities"] as $ability) {
-                        $html .= "
+        foreach ($content['abilities'] as $ability) {
+            $html .= "
                         <b>{$ability['code']}: </b>{$ability['description']} </br>
                         ";
-                    }
-            $html .= "
+        }
+        $html .= '
                 </td>
             </tr>
-            ";
-        }
-        $html .= "</tbody>";
-        $html .= "
+            ';
+    }
+    $html .= '</tbody>';
+    $html .= "
         <thead>
             <tr>
                 <th colspan='2'>OBSERVAÇÕES DE AULA</th>
             </tr>
         </thead>";
-        $html .= "
+    $html .= "
         <tbody>
             <tr>
-                <td colspan='2'>{$day["diary"]}</td>
+                <td colspan='2'>{$day['diary']}</td>
             </tr>
         </tbody>
         ";
-        $html .= "
+    $html .= "
         <thead>
             <tr>
                 <th colspan='2'>OBSERVAÇÕES DE AULA POR ALUNO</th>
             </tr>
         </thead>";
-        $html .= "<tbody>";
-        foreach ($day["students"][0] as $student) {
-            if($student["diary"]) {
-                $html .= "
+    $html .= '<tbody>';
+    foreach ($day['students'][0] as $student) {
+        if ($student['diary']) {
+            $html .= "
                 <tr>
                     <td class='studentName'>
                         <b>{$student['name']}</b>
@@ -126,13 +126,13 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
                     </td>
                 </tr>
                 ";
-            }
         }
-        $html .= "</tbody>";
-        $html .= "</table>";
     }
-    echo $html;
-    ?>
+    $html .= '</tbody>';
+    $html .= '</table>';
+}
+echo $html;
+?>
     <div class="signaturesContainer">
         <div class="signature">PROFESSOR(A)</div>
         <div class="signature">COORDENADOR(A)</div>

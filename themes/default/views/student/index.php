@@ -2,9 +2,9 @@
     <?php
     $this->setPageTitle('TAG - ' . Yii::t('default', 'Student Identifications'));
     $contextDesc = Yii::t('default', 'Available actions that may be taken on StudentIdentification.');
-    $this->menu = array(
-        array('label' => Yii::t('default', 'Create a new StudentIdentification'), 'url' => array('create'), 'description' => Yii::t('default', 'This action create a new StudentIdentification')),
-    );
+    $this->menu = [
+        ['label' => Yii::t('default', 'Create a new StudentIdentification'), 'url' => ['create'], 'description' => Yii::t('default', 'This action create a new StudentIdentification')],
+    ];
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();
 
@@ -14,14 +14,14 @@
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Student Identifications') ?></h1>
             <div class="t-buttons-container">
-                <!--<a href="<?= CHtml::normalizeUrl(array('student/create')) ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>-->
+                <!--<a href="<?= CHtml::normalizeUrl(['student/create']) ?>" class="btn btn-primary btn-icon glyphicons circle_plus"><i></i> Alunos PNE</a>-->
                 <a class="t-button-primary"
-                   href="<?= CHtml::normalizeUrl(array('student/create')) ?>"><?= Yii::t('default', 'Add') ?></a>
+                   href="<?= CHtml::normalizeUrl(['student/create']) ?>"><?= Yii::t('default', 'Add') ?></a>
                 <div class="mobile-row">
                     <a class="t-button-secondary"
-                       href="<?= CHtml::normalizeUrl(array('student/create', 'simple' => 1)) ?>"> <?= Yii::t('default', 'Add (Fast)') ?></a>
+                       href="<?= CHtml::normalizeUrl(['student/create', 'simple' => 1]) ?>"> <?= Yii::t('default', 'Add (Fast)') ?></a>
                     <a class="t-button-secondary"
-                       href="<?= CHtml::normalizeUrl(array('wizard/configuration/student')) ?>">Matrícula em Grupo</a>
+                       href="<?= CHtml::normalizeUrl(['wizard/configuration/student']) ?>">Matrícula em Grupo</a>
                 </div>
             </div>
         </div>
@@ -33,8 +33,9 @@
                 <?php echo Yii::app()->user->getFlash('error') ?>
             </div>
             <?php
-            if (isset($buttons))
+            if (isset($buttons)) {
                 echo $buttons;
+            }
             ?>
             <br/>
         <?php endif ?>
@@ -43,8 +44,9 @@
                 <?php echo Yii::app()->user->getFlash('success') ?>
             </div>
             <?php
-            if (isset($buttons))
+            if (isset($buttons)) {
                 echo $buttons;
+            }
             ?>
         <?php endif ?>
         <div class="widget clearmargin">
@@ -62,7 +64,7 @@
                             <th>CPF</th>
                             <th>ID INEP</th>
                             <th style="width: 104px;text-align: center;">Ações</th>
-                            <?php if (Yii::app()->features->isEnable("FEAT_SEDSP")): ?>
+                            <?php if (Yii::app()->features->isEnable('FEAT_SEDSP')): ?>
                                 <th style="width: 1px;text-align: center;">Sincronizado</th>
                             <?php endif; ?>
                         </tr>

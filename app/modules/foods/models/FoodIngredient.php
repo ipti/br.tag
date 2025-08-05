@@ -27,7 +27,6 @@ class FoodIngredient extends TagModel
         return 'food_ingredient';
     }
 
-
     /**
      * @return array validation rules for model attributes.
      */
@@ -35,14 +34,14 @@ class FoodIngredient extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('amount', 'required'),
-            array('replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'numerical', 'integerOnly'=>true),
-            array('observation', 'length', 'max'=>191),
+        return [
+            ['amount', 'required'],
+            ['replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'numerical', 'integerOnly' => true],
+            ['observation', 'length', 'max' => 191],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, observation, amount, replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'safe', 'on'=>'search'),
-        );
+            ['id, observation, amount, replaceable, food_menu_meal_componentId, food_measurement_fk, food_id_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -52,12 +51,12 @@ class FoodIngredient extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'foodMenuMealComponent' => array(self::BELONGS_TO, 'FoodMenuMealComponent', 'food_menu_meal_componentId'),
-            'foodMeasurementFk' => array(self::BELONGS_TO, 'FoodMeasurement', 'food_measurement_fk'),
-            'foodIdFk' => array(self::BELONGS_TO, 'Food', 'food_id_fk'),
-            'foodIngredientAlternatives' => array(self::HAS_MANY, 'FoodIngredientAlternatives', 'food_ingredient_fk'),
-        );
+        return [
+            'foodMenuMealComponent' => [self::BELONGS_TO, 'FoodMenuMealComponent', 'food_menu_meal_componentId'],
+            'foodMeasurementFk' => [self::BELONGS_TO, 'FoodMeasurement', 'food_measurement_fk'],
+            'foodIdFk' => [self::BELONGS_TO, 'Food', 'food_id_fk'],
+            'foodIngredientAlternatives' => [self::HAS_MANY, 'FoodIngredientAlternatives', 'food_ingredient_fk'],
+        ];
     }
 
     /**
@@ -65,7 +64,7 @@ class FoodIngredient extends TagModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'observation' => 'Observation',
             'amount' => 'Amount',
@@ -73,7 +72,7 @@ class FoodIngredient extends TagModel
             'food_menu_meal_componentId' => 'Food Menu Meal Component',
             'food_measurement_fk' => 'Food Measurement Fk',
             'food_id_fk' => 'Food Id Fk'
-        );
+        ];
     }
 
     /**
@@ -92,19 +91,19 @@ class FoodIngredient extends TagModel
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria();
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('observation',$this->observation,true);
-        $criteria->compare('amount',$this->amount);
-        $criteria->compare('replaceable',$this->replaceable);
-        $criteria->compare('food_menu_meal_componentId',$this->food_menu_meal_componentId);
-        $criteria->compare('food_measurement_fk',$this->food_measurement_fk);
-        $criteria->compare('food_id_fk',$this->food_id_fk);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('observation', $this->observation, true);
+        $criteria->compare('amount', $this->amount);
+        $criteria->compare('replaceable', $this->replaceable);
+        $criteria->compare('food_menu_meal_componentId', $this->food_menu_meal_componentId);
+        $criteria->compare('food_measurement_fk', $this->food_measurement_fk);
+        $criteria->compare('food_id_fk', $this->food_id_fk);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -113,7 +112,7 @@ class FoodIngredient extends TagModel
      * @param string $className active record class name.
      * @return FoodIngredient the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

@@ -3,7 +3,7 @@
 /* @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
-$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js?v='.TAG_VERSION, CClientScript::POS_END);
+$cs->registerScriptFile($baseUrl . '/js/reports/BFReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 ?>
@@ -27,18 +27,18 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
         <tbody>
             <?php
             $countTotalClass = 0;
-            $countTotalEnrollments = 0;
-            foreach($report as $r) { ?>
+$countTotalEnrollments = 0;
+foreach ($report as $r) { ?>
                 <tr>
                     <td><?= $r['school_name'] ?></td>
                     <td><?= $r['count_class'] ?></td>
                     <td><?= $r['count_enrollments'] ?></td>
                 </tr>
             <?php
-            $countTotalClass += $r['count_class'];
-            $countTotalEnrollments += $r['count_enrollments'];
-            }
-            ?>
+$countTotalClass += $r['count_class'];
+    $countTotalEnrollments += $r['count_enrollments'];
+}
+?>
             <tr>
                 <td style="text-align: center;"><b>TOTAL</b></td>
                 <td><b><?= $countTotalClass ?></b></td>

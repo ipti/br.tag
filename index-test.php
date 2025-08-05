@@ -5,11 +5,11 @@
  */
 
 // change the following paths if necessary
-$yii=dirname(__FILE__).'/app/vendor/yiisoft/yii/framework/yii.php';
-$config=dirname(__FILE__).'/app/config/test.php';
+$yii = dirname(__FILE__) . '/app/vendor/yiisoft/yii/framework/yii.php';
+$config = dirname(__FILE__) . '/app/config/test.php';
 
 // remove the following line when in production mode
-defined('YII_DEBUG') or define('YII_DEBUG',true);
+defined('YII_DEBUG') or define('YII_DEBUG', true);
 
-require_once($yii);
+require_once $yii;
 Yii::createWebApplication($config)->run();

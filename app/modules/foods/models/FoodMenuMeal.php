@@ -35,8 +35,6 @@ class FoodMenuMeal extends TagModel
         return 'food_menu_meal';
     }
 
-
-
     /**
      * @return array validation rules for model attributes.
      */
@@ -44,15 +42,15 @@ class FoodMenuMeal extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('food_meal_type_fk', 'required'),
-            array('sequence, food_meal_type_fk, friday, monday, saturday, sunday, thursday, tuesday, wednesday, food_menuId', 'numerical', 'integerOnly'=>true),
-            array('description, observation, turn', 'length', 'max'=>100),
-            array('meal_time', 'safe'),
+        return [
+            ['food_meal_type_fk', 'required'],
+            ['sequence, food_meal_type_fk, friday, monday, saturday, sunday, thursday, tuesday, wednesday, food_menuId', 'numerical', 'integerOnly' => true],
+            ['description, observation, turn', 'length', 'max' => 100],
+            ['meal_time', 'safe'],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, description, observation, sequence, food_meal_type_fk, friday, monday, saturday, sunday, thursday, tuesday, wednesday, food_menuId, meal_time, turn', 'safe', 'on'=>'search'),
-        );
+            ['id, description, observation, sequence, food_meal_type_fk, friday, monday, saturday, sunday, thursday, tuesday, wednesday, food_menuId, meal_time, turn', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -62,11 +60,11 @@ class FoodMenuMeal extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'foodMenu' => array(self::BELONGS_TO, 'FoodMenu', 'food_menuId'),
-            'foodMealTypeFk' => array(self::BELONGS_TO, 'FoodMealType', 'food_meal_type_fk'),
-            'foodMenuMealComponents' => array(self::HAS_MANY, 'FoodMenuMealComponent', 'food_menu_mealId'),
-        );
+        return [
+            'foodMenu' => [self::BELONGS_TO, 'FoodMenu', 'food_menuId'],
+            'foodMealTypeFk' => [self::BELONGS_TO, 'FoodMealType', 'food_meal_type_fk'],
+            'foodMenuMealComponents' => [self::HAS_MANY, 'FoodMenuMealComponent', 'food_menu_mealId'],
+        ];
     }
 
     /**
@@ -74,7 +72,7 @@ class FoodMenuMeal extends TagModel
      */
     public function attributeLabels()
     {
-        return array(
+        return [
             'id' => 'ID',
             'description' => 'Description',
             'observation' => 'Observation',
@@ -90,7 +88,7 @@ class FoodMenuMeal extends TagModel
             'food_menuId' => 'Food Menu',
             'meal_time' => 'Meal Time',
             'turn' => 'Turn',
-        );
+        ];
     }
 
     /**
@@ -109,27 +107,27 @@ class FoodMenuMeal extends TagModel
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria();
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('description',$this->description,true);
-        $criteria->compare('observation',$this->observation,true);
-        $criteria->compare('sequence',$this->sequence);
-        $criteria->compare('food_meal_type_fk',$this->food_meal_type_fk);
-        $criteria->compare('friday',$this->friday);
-        $criteria->compare('monday',$this->monday);
-        $criteria->compare('saturday',$this->saturday);
-        $criteria->compare('sunday',$this->sunday);
-        $criteria->compare('thursday',$this->thursday);
-        $criteria->compare('tuesday',$this->tuesday);
-        $criteria->compare('wednesday',$this->wednesday);
-        $criteria->compare('food_menuId',$this->food_menuId);
-        $criteria->compare('meal_time',$this->meal_time,true);
-        $criteria->compare('turn',$this->turn,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('description', $this->description, true);
+        $criteria->compare('observation', $this->observation, true);
+        $criteria->compare('sequence', $this->sequence);
+        $criteria->compare('food_meal_type_fk', $this->food_meal_type_fk);
+        $criteria->compare('friday', $this->friday);
+        $criteria->compare('monday', $this->monday);
+        $criteria->compare('saturday', $this->saturday);
+        $criteria->compare('sunday', $this->sunday);
+        $criteria->compare('thursday', $this->thursday);
+        $criteria->compare('tuesday', $this->tuesday);
+        $criteria->compare('wednesday', $this->wednesday);
+        $criteria->compare('food_menuId', $this->food_menuId);
+        $criteria->compare('meal_time', $this->meal_time, true);
+        $criteria->compare('turn', $this->turn, true);
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+        ]);
     }
 
     /**
@@ -138,7 +136,7 @@ class FoodMenuMeal extends TagModel
      * @param string $className active record class name.
      * @return FoodMenuMeal the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }

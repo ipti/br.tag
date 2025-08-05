@@ -25,13 +25,14 @@ array('label'=> Yii::t('default', 'List <?php echo $this->modelClass; ?>'), 'url
             <div class="panelGroup form">
                 <div class="panelGroupHeader"><div class=""><?php echo"<?php echo Yii::t('default', 'View $this->modelClass # '.\$model->{$this->tableSchema->primaryKey}.' :')?>" ?></div></div>
                 <div class="panelGroupBody">
-                    <?php echo "<?php"; ?> $this->widget('zii.widgets.CDetailView', array(
+                    <?php echo '<?php'; ?> $this->widget('zii.widgets.CDetailView', array(
                     'data'=>$model,
                     'attributes'=>array(
                     <?php
-                    foreach ($this->tableSchema->columns as $column)
+                    foreach ($this->tableSchema->columns as $column) {
                         echo "\t\t'" . $column->name . "',\n";
-                    ?>
+                    }
+?>
                     ),
                     )); ?>
                 </div>   

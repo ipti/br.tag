@@ -3,9 +3,9 @@
 /* @var $tools array */
 
 $this->setPageTitle('TAG - Ferramentas');
-$this->breadcrumbs = array(
+$this->breadcrumbs = [
     'Ferramentas',
-);
+];
 
 ?>
 

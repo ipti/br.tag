@@ -16,13 +16,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
 ?>
 <div class="main">
     <?php
-    $form = $this->beginWidget('CActiveForm', array(
+    $form = $this->beginWidget('CActiveForm', [
         'id' => 'classes-form',
         'enableAjaxValidation' => false,
-        'action' => CHtml::normalizeUrl(array('classes/saveFrequency')),
-    ));
+        'action' => CHtml::normalizeUrl(['classes/saveFrequency']),
+    ]);
 
-    ?>
+?>
     <div class="row-fluid">
         <div class="span12">
             <h1><?php echo Yii::t('default', 'Frequency'); ?></h1>
@@ -33,11 +33,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
     <table class="table table-bordered table-striped visible-print">
         <tr>
             <th>Escola:</th>
-            <td colspan="7"><?php echo $school->inep_id . " - " . $school->name ?></td>
+            <td colspan="7"><?php echo $school->inep_id . ' - ' . $school->name ?></td>
         <tr>
         <tr>
             <th>Estado:</th>
-            <td colspan="2"><?php echo $school->edcensoUfFk->name . " - " . $school->edcensoUfFk->acronym ?></td>
+            <td colspan="2"><?php echo $school->edcensoUfFk->name . ' - ' . $school->edcensoUfFk->acronym ?></td>
             <th>Municipio:</th>
             <td colspan="2"><?php echo $school->edcensoCityFk->name ?></td>
             <th>Endereço:</th>
@@ -45,13 +45,13 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
         <tr>
         <tr>
             <th>Localização:</th>
-            <td colspan="2"><?php echo($school->location == 1 ? "URBANA" : "RURAL") ?></td>
+            <td colspan="2"><?php echo($school->location == 1 ? 'URBANA' : 'RURAL') ?></td>
             <th>Dependência Administrativa:</th>
             <td colspan="4"><?php
-                $ad = $school->administrative_dependence;
-                echo($ad == 1 ? "FEDERAL" : ($ad == 2 ? "ESTADUAL" : ($ad == 3 ? "MUNICIPAL" :
-                    "PRIVADA")));
-                ?></td>
+            $ad = $school->administrative_dependence;
+echo($ad == 1 ? 'FEDERAL' : ($ad == 2 ? 'ESTADUAL' : ($ad == 3 ? 'MUNICIPAL' :
+    'PRIVADA')));
+?></td>
         <tr>
     </table>
     <br>
@@ -69,14 +69,18 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 <!-- Mês -->
                 <div class="column clearleft">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Classroom'),
-                            'classroom', array('class' => 't-field-select__label--required')); ?>
+                        <?php echo CHtml::label(
+    yii::t('default', 'Classroom'),
+    'classroom',
+    ['class' => 't-field-select__label--required']
+); ?>
                         <select class="select-search-on frequency-input t-field-select__input" id="classroom">
                             <option value="">Selecione a turma</option>
                             <?php foreach ($classrooms as $classroom) : ?>
                                 <option value="<?= $classroom->id ?>"
                                         fundamentalMaior="<?= (int)(!TagUtils::isStageMinorEducation(
-                                            $classroom->edcenso_stage_vs_modality_fk)) . "" ?>">
+                                $classroom->edcenso_stage_vs_modality_fk
+                            )) . '' ?>">
                                     <?= $classroom->name ?>
                                 </option>
                             <?php endforeach; ?>
@@ -86,8 +90,11 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
                 <div class="column month-container">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Month') . "/Ano",
-                            'month', array('class' => 't-field-select__label--required')); ?>
+                        <?php echo CHtml::label(
+                                                yii::t('default', 'Month') . '/Ano',
+                                                'month',
+                                                ['class' => 't-field-select__label--required']
+                                            ); ?>
                         <select class="select-search-on t-field-select__input js-load-frequency" id="month"
                                 style="min-width: 185px;"></select>
                     </div>
@@ -96,14 +103,17 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="mobile-row helper">
                 <div class="column  clearleft on-tablet disciplines-container">
                     <div class="t-field-select js-load-frequency">
-                        <?php echo CHtml::label(yii::t('default', 'Discipline'),
-                            'disciplines', array('class' => 't-field-select__label--required')); ?>
+                        <?php echo CHtml::label(
+                                yii::t('default', 'Discipline'),
+                                'disciplines',
+                                ['class' => 't-field-select__label--required']
+                            ); ?>
                         <?php
-                        echo CHtml::dropDownList('disciplines', '', array(), array(
+                        echo CHtml::dropDownList('disciplines', '', [], [
                             'key' => 'id',
                             'class' => 'select-search-on t-field-select__input',
-                        ));
-                        ?>
+                        ]);
+?>
                     </div>
                 </div>
             </div>
@@ -138,7 +148,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <div class="t-modal__body">
                 <div class="row-fluid">
                     <div class="span12">
-                        <?= chtml::label("Justificativa", "title", array('class' => 'control-label')); ?>
+                        <?= chtml::label('Justificativa', 'title', ['class' => 'control-label']); ?>
                         <div class="form-control">
                             <input type="hidden" id="justification-classroomid">
                             <input type="hidden" id="justification-studentid">
