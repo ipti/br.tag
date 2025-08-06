@@ -41,7 +41,7 @@ class FarmerRegisterController extends Controller
                     'getFarmerFoods',
                     'getFoodNotice',
                     'getFoodNoticeItems',
-                    'getFarmerDeliveries'
+                    'getFarmerDeliveries',
                 ],
                 'users' => ['*'],
             ],
@@ -237,7 +237,7 @@ class FarmerRegisterController extends Controller
         foreach ($foodsDescription as $food) {
             $values[$food->id] = (object) [
                 'description' => $food->description,
-                'measurementUnit' => $food->measurementUnit
+                'measurementUnit' => $food->measurementUnit,
             ];
         }
 
@@ -256,7 +256,7 @@ class FarmerRegisterController extends Controller
         $values = [];
         foreach ($foodNotices as $notice) {
             $values[$notice->id] = (object) [
-                'name' => $notice->name
+                'name' => $notice->name,
             ];
         }
 
@@ -309,7 +309,7 @@ class FarmerRegisterController extends Controller
                 'amount' => $delivered->amount,
                 'measurementUnit' => $delivered->measurementUnit,
                 'date' => date('d/m/Y', strtotime($delivered->date)),
-                'request' => $delivered->food_request_fk
+                'request' => $delivered->food_request_fk,
             ];
         }
 
@@ -322,7 +322,7 @@ class FarmerRegisterController extends Controller
                 'amount' => $accepted->amount,
                 'measurementUnit' => $accepted->measurementUnit,
                 'date' => date('d/m/Y', strtotime($accepted->date)),
-                'request' => $accepted->food_request_fk
+                'request' => $accepted->food_request_fk,
             ];
         }
 
@@ -397,7 +397,7 @@ class FarmerRegisterController extends Controller
         $dataProvider = new CActiveDataProvider('FarmerRegister');
         $dataProvider->setCriteria($criteria);
         $this->render('index', [
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -405,7 +405,7 @@ class FarmerRegisterController extends Controller
     {
         $farmers = FarmerRegister::model()->findAll();
         $this->render('activateFarmers', [
-            'farmers' => $farmers
+            'farmers' => $farmers,
         ]);
     }
 
@@ -444,6 +444,7 @@ class FarmerRegisterController extends Controller
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -458,6 +459,7 @@ class FarmerRegisterController extends Controller
         if ($modelFarmerFoods === null) {
             $modelFarmerFoods = new FarmerFoods();
         }
+
         return $modelFarmerFoods;
     }
 

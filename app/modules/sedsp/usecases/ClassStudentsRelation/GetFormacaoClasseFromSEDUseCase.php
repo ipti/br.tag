@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Summary of GetFormacaoClasseFromSEDUseCase
+ * Summary of GetFormacaoClasseFromSEDUseCase.
  * @property ClassStudentsRelationSEDDataSource $classStudentsRelationSEDDataSource
  * @property GetExibirFichaAlunoFromSEDUseCase $getExibirFichaAlunoFromSEDUseCase
  */
 class GetFormacaoClasseFromSEDUseCase
 {
     /**
-     * Summary of exec
+     * Summary of exec.
      * @param InFormacaoClasse $inNumClasse
      * @throws InvalidArgumentException
      */
@@ -21,7 +21,7 @@ class GetFormacaoClasseFromSEDUseCase
     }
 
     /**
-     * Summary of exec
+     * Summary of exec.
      * @param InFormacaoClasse $inNumClasse
      */
     public function exec(InFormacaoClasse $inFormacaoClasse)
@@ -46,7 +46,7 @@ class GetFormacaoClasseFromSEDUseCase
                     $inAluno = new InAluno($student->gov_id, null, $student->uf);
                     $studentIdentification = $this->getExibirFichaAlunoFromSEDUseCase->exec($inAluno);
                     $this->createEnrollment($tagClassroom, $studentIdentification);
-                } catch (\Throwable $th) {
+                } catch (Throwable $th) {
                     $log = new LogError();
                     $log->salvarDadosEmArquivo($th->getMessage());
                     $status = false;
@@ -57,13 +57,14 @@ class GetFormacaoClasseFromSEDUseCase
             $params = [':classroomId' => $tagClassroom->id, ':year' => $year];
             $count = StudentEnrollment::model()->count(['condition' => $condition, 'params' => $params]);
 
-            $dados = [[$tagClassroom->gov_id, $count, $response->outQtdAtual], ];
+            $dados = [[$tagClassroom->gov_id, $count, $response->outQtdAtual]];
             $this->createCSVFile($tagClassroom->gov_id, $dados);
 
             return $status;
         } catch (Exception $e) {
             $log = new LogError();
             $log->salvarDadosEmArquivo($e->getMessage());
+
             return false;
         }
     }
@@ -93,9 +94,7 @@ class GetFormacaoClasseFromSEDUseCase
     }
 
     /**
-     * Summary of createEnrollment
-     * @param Classroom $classroom
-     * @param StudentIdentification $studentModel
+     * Summary of createEnrollment.
      *
      * @return bool
      */
@@ -130,15 +129,17 @@ class GetFormacaoClasseFromSEDUseCase
                 } else {
                     $studentEnrollment->sedsp_sync = 0;
                     Yii::log($studentEnrollment->getErrors(), CLogger::LEVEL_ERROR);
+
                     return $studentEnrollment->save();
                 }
             }
+
             return false;
         }
     }
 
     /**
-     * Summary of findStudentIdentificationByGovId
+     * Summary of findStudentIdentificationByGovId.
      * @param string $studentGovId
      * @return StudentIdentification
      */
@@ -148,7 +149,7 @@ class GetFormacaoClasseFromSEDUseCase
     }
 
     /**
-     * Summary of findStudentIdentificationByName
+     * Summary of findStudentIdentificationByName.
      * @param mixed $studentName
      * @return mixed
      */
@@ -158,7 +159,7 @@ class GetFormacaoClasseFromSEDUseCase
     }
 
     /**
-     * Summary of createNewStudent
+     * Summary of createNewStudent.
      * @param mixed $inNumRA
      * @param mixed $inDigitoRA
      * @param mixed $inSiglaUFRA
@@ -170,8 +171,7 @@ class GetFormacaoClasseFromSEDUseCase
     }
 
     /**
-     * Summary of getFichaAluno
-     * @param InAluno $inAluno
+     * Summary of getFichaAluno.
      */
     public function getFichaAluno(InAluno $inAluno)
     {

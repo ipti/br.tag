@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @property int $studentEnrollmentId
  * @property int $disciplineId
@@ -24,7 +25,7 @@ class GetStudentGradesResultUsecase
             'enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk',
             [
                 'enrollment_fk' => $this->studentEnrollmentId,
-                'discipline_fk' => $this->disciplineId
+                'discipline_fk' => $this->disciplineId,
             ]
         );
 

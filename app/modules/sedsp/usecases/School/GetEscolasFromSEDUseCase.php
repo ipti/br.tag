@@ -20,6 +20,7 @@ class GetEscolasFromSEDUseCase
     public function fetchSchoolData(InEscola $inEscola)
     {
         $dataSource = new SchoolSEDDataSource();
+
         return $dataSource->getSchool($inEscola);
     }
 
@@ -32,7 +33,7 @@ class GetEscolasFromSEDUseCase
     }
 
     /**
-     * Summary of createAndSaveNewSchool
+     * Summary of createAndSaveNewSchool.
      * @param mixed $schoolAttributes
      * @throws \SedspException
      * @return bool
@@ -40,10 +41,7 @@ class GetEscolasFromSEDUseCase
     public function saveSchool($school)
     {
         if (!$school->SchoolIdentification->validate()) {
-            throw new SedspException(CJSON::encode([
-                'data' => $school->SchoolIdentification->attributes,
-                'errors' => $school->SchoolIdentification->getErrors()
-            ]));
+            throw new SedspException(CJSON::encode(['data' => $school->SchoolIdentification->attributes, 'errors' => $school->SchoolIdentification->getErrors()]));
         }
 
         $status = $school->SchoolIdentification->save();
@@ -51,15 +49,13 @@ class GetEscolasFromSEDUseCase
             foreach ($school->SchoolUnities as $unity) {
                 if ($status) {
                     if (!$unity->validate()) {
-                        throw new SedspException(CJSON::encode([
-                            'data' => $unity->attributes,
-                            'errors' => $unity->getErrors()
-                        ]));
+                        throw new SedspException(CJSON::encode(['data' => $unity->attributes, 'errors' => $unity->getErrors()]));
                     }
                     $status = $unity->save();
                 }
             }
         }
+
         return $status;
     }
 
@@ -73,6 +69,7 @@ class GetEscolasFromSEDUseCase
     public function getSchoolClasses(InRelacaoClasses $inRelacaoClasses)
     {
         $classes = new GetRelacaoClassesFromSEDUseCase();
+
         return $classes->exec($inRelacaoClasses);
     }
 }

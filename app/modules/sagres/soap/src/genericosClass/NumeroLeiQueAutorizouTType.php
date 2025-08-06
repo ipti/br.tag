@@ -3,8 +3,7 @@
 namespace Genericos;
 
 /**
- * Class representing NumeroLeiQueAutorizouTType
- *
+ * Class representing NumeroLeiQueAutorizouTType.
  *
  * XSD Type: numeroLeiQueAutorizou_t
  */
@@ -21,7 +20,7 @@ class NumeroLeiQueAutorizouTType
     private $ano = null;
 
     /**
-     * Gets as numero
+     * Gets as numero.
      *
      * @return string
      */
@@ -31,7 +30,7 @@ class NumeroLeiQueAutorizouTType
     }
 
     /**
-     * Sets a new numero
+     * Sets a new numero.
      *
      * @param string $numero
      * @return self
@@ -39,11 +38,12 @@ class NumeroLeiQueAutorizouTType
     public function setNumero($numero)
     {
         $this->numero = $numero;
+
         return $this;
     }
 
     /**
-     * Gets as ano
+     * Gets as ano.
      *
      * @return string
      */
@@ -53,7 +53,7 @@ class NumeroLeiQueAutorizouTType
     }
 
     /**
-     * Sets a new ano
+     * Sets a new ano.
      *
      * @param string $ano
      * @return self
@@ -61,6 +61,7 @@ class NumeroLeiQueAutorizouTType
     public function setAno($ano)
     {
         $this->ano = $ano;
+
         return $this;
     }
 }

@@ -2,8 +2,8 @@
 
 class SiteController extends Controller
 {
-    //@done S2 -FAzer Cadastro de usuário
-    //@done s1 -Limitar a escolha de escolas apenas para o Administrador
+    // @done S2 -FAzer Cadastro de usuário
+    // @done s1 -Limitar a escolha de escolas apenas para o Administrador
 
     /**
      * Declares class-based actions.
@@ -72,7 +72,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays the contact page
+     * Displays the contact page.
      */
     public function actionContact()
     {
@@ -93,7 +93,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays the login page
+     * Displays the login page.
      */
     public function actionLogin()
     {
@@ -224,7 +224,7 @@ class SiteController extends Controller
     {
         $warns = [];
 
-        //Verifica a existência de turmas na escola
+        // Verifica a existência de turmas na escola
         $listSchoolClassrooms = Classroom::model()->findallByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
         if (count($listSchoolClassrooms) == 0) {
             $schoolModel = SchoolIdentification::model()->findByAttributes(['inep_id' => yii::app()->user->school]);
@@ -240,7 +240,7 @@ class SiteController extends Controller
             array_push($warns, $htmlpart);
         } else {
             foreach ($listSchoolClassrooms as $classroom) {
-                //Se houver turma, verificar se existe etapa vinculada à turma
+                // Se houver turma, verificar se existe etapa vinculada à turma
                 $stage = $classroom->edcensoStageVsModalityFk;
                 if ($stage == null) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem etapa.';
@@ -252,7 +252,7 @@ class SiteController extends Controller
                         . '</li>';
                     array_push($warns, $htmlpart);
                 } else {
-                    //Se houver etapa, verificar matriz curricular
+                    // Se houver etapa, verificar matriz curricular
                     $listCurricularMatrixs = $stage->curricularMatrixes;
                     if (count($listCurricularMatrixs) == 0) {
                         $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem matriz curricular.';
@@ -265,7 +265,7 @@ class SiteController extends Controller
                         array_push($warns, $htmlpart);
                     }
 
-                    //Se houver etapa, verificar se existe estrutura de notas
+                    // Se houver etapa, verificar se existe estrutura de notas
                     $listGradeUnities = $stage->gradeUnities;
                     if (count($listGradeUnities) == 0) {
                         $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem estrutura de notas.';
@@ -279,7 +279,7 @@ class SiteController extends Controller
                     }
                 }
 
-                //Se houver turma, verificar se existe calendario vinculado a ela
+                // Se houver turma, verificar se existe calendario vinculado a ela
                 $calendar = $classroom->calendarFk;
                 if ($calendar == null) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> não possui calendário vinculado.';
@@ -292,7 +292,7 @@ class SiteController extends Controller
                     array_push($warns, $htmlpart);
                 }
 
-                //Se houver turma, verificar se existe quadro de horários
+                // Se houver turma, verificar se existe quadro de horários
                 $listSchedules = $classroom->schedules;
                 if (count($listSchedules) == 0) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem quadro de horários.';
@@ -305,7 +305,7 @@ class SiteController extends Controller
                     array_push($warns, $htmlpart);
                 }
 
-                //Se houver turma, verificar se existe professor
+                // Se houver turma, verificar se existe professor
                 $listInstructors = $classroom->instructorTeachingDatas;
                 if (count($listInstructors) == 0) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem professores.';
@@ -318,7 +318,7 @@ class SiteController extends Controller
                     array_push($warns, $htmlpart);
                 }
 
-                //Se houver turma, verificar se existe aluno matriculado
+                // Se houver turma, verificar se existe aluno matriculado
                 $listStudentEnrollments = $classroom->studentEnrollments;
                 if (count($listStudentEnrollments) == 0) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem alunos matriculados.';
@@ -337,18 +337,18 @@ class SiteController extends Controller
             $this->renderPartial('_warns', [
                 'total' => 0,
                 'limit' => $limit,
-                'html' => '<div class="no-recent-activitive t-badge-info" id="no-recent-warnings"><span class="t-info_positive t-badge-info__icon"></span>Não há cadastros pendentes.</div>'
+                'html' => '<div class="no-recent-activitive t-badge-info" id="no-recent-warnings"><span class="t-info_positive t-badge-info__icon"></span>Não há cadastros pendentes.</div>',
             ]);
         } else {
             $html = '';
-            $count = min([$limit, count($warns)]) ;
+            $count = min([$limit, count($warns)]);
             for ($i = 0; $i < $count; $i++) {
                 $html .= $warns[$i];
             }
             $this->renderPartial('_warns', [
                 'total' => count($warns),
                 'limit' => $limit,
-                'html' => $html
+                'html' => $html,
             ]);
         }
 

@@ -16,7 +16,7 @@ class IdentifyMultipleStudentRACode
     }
 
     /**
-     * Summary of exec
+     * Summary of exec.
      * @param int $school_id School Id from TAG
      * @return DadosAluno
      */

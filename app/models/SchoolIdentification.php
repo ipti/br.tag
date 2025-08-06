@@ -8,9 +8,9 @@
  * @property string $inep_id
  * @property string $manager_cpf
  * @property string $manager_name
- * @property integer $manager_role
+ * @property int $manager_role
  * @property string $manager_email
- * @property integer $situation
+ * @property int $situation
  * @property string $initial_date
  * @property string $final_date
  * @property string $name
@@ -21,9 +21,9 @@
  * @property string $address_number
  * @property string $address_complement
  * @property string $address_neighborhood
- * @property integer $edcenso_uf_fk
- * @property integer $edcenso_city_fk
- * @property integer $edcenso_district_fk
+ * @property int $edcenso_uf_fk
+ * @property int $edcenso_city_fk
+ * @property int $edcenso_district_fk
  * @property string $ddd
  * @property string $phone_number
  * @property string $public_phone_number
@@ -31,27 +31,27 @@
  * @property string $fax_number
  * @property string $email
  * @property string $edcenso_regional_education_organ_fk
- * @property integer $administrative_dependence
- * @property integer $location
- * @property integer $private_school_category
- * @property integer $public_contract
- * @property integer $private_school_business_or_individual
- * @property integer $private_school_syndicate_or_association
- * @property integer $private_school_ong_or_oscip
- * @property integer $private_school_non_profit_institutions
- * @property integer $private_school_s_system
+ * @property int $administrative_dependence
+ * @property int $location
+ * @property int $private_school_category
+ * @property int $public_contract
+ * @property int $private_school_business_or_individual
+ * @property int $private_school_syndicate_or_association
+ * @property int $private_school_ong_or_oscip
+ * @property int $private_school_non_profit_institutions
+ * @property int $private_school_s_system
  * @property string $private_school_maintainer_cnpj
  * @property string $private_school_cnpj
- * @property integer $offer_or_linked_unity
+ * @property int $offer_or_linked_unity
  * @property string $inep_head_school
  * @property string $ies_code
- * @property integer $regulation
+ * @property int $regulation
  * @property string $logo_file_name
  * @property string $logo_file_type
  * @property string $logo_file_content
  * @property string $act_of_acknowledgement
  * @property string $number_ato
- * @property integer $hash
+ * @property int $hash
  *
  * The followings are the available model relations:
  * @property Calendar[] $calendars
@@ -76,7 +76,7 @@ class SchoolIdentification extends AltActiveRecord
 {
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return SchoolIdentification the static model class
      */
     public static function model($className = __CLASS__)
@@ -93,7 +93,7 @@ class SchoolIdentification extends AltActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -120,7 +120,7 @@ class SchoolIdentification extends AltActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -209,7 +209,7 @@ class SchoolIdentification extends AltActiveRecord
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {
@@ -260,10 +260,10 @@ class SchoolIdentification extends AltActiveRecord
             'criteria' => $criteria,
             'sort' => [
                 'defaultOrder' => [
-                    'name' => CSort::SORT_ASC
+                    'name' => CSort::SORT_ASC,
                 ],
             ],
-            'pagination' => false
+            'pagination' => false,
         ]);
     }
 }

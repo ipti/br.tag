@@ -39,6 +39,7 @@ class RegisterIdentification
                 }
             }
         }
+
         return $students;
     }
 
@@ -116,7 +117,7 @@ class RegisterIdentification
             return [
                 'success' => 0,
                 'fail' => 0,
-                'errors' => ['O arquivo não pôde ser aberto.']
+                'errors' => ['O arquivo não pôde ser aberto.'],
             ];
         }
 
@@ -143,7 +144,7 @@ class RegisterIdentification
         return [
             'success' => $success,
             'fail' => $fail,
-            'errors' => $errors
+            'errors' => $errors,
         ];
     }
 
@@ -151,6 +152,7 @@ class RegisterIdentification
     {
         if (!isset($register[self::EDCENSO_COD_NA_UNIDADE], $register[self::EDCENSO_INEP_ID])) {
             $errors[] = "Linha {$lineNumber}: campos obrigatórios ausentes. Conteúdo: {$rawLine}";
+
             return false;
         }
 
@@ -158,6 +160,7 @@ class RegisterIdentification
 
         if ($student === null) {
             $errors[] = "Linha {$lineNumber}: aluno com código {" . $register[self::EDCENSO_COD_NA_UNIDADE] . "} não encontrado. Conteúdo: {$rawLine}";
+
             return false;
         }
 
@@ -166,6 +169,7 @@ class RegisterIdentification
         if (!$student->save()) {
             $errorDetails = CVarDumper::dumpAsString($student->getErrors());
             $errors[] = "Linha {$lineNumber}: erro ao salvar aluno ID {$student->id}. Erros: {$errorDetails}. Conteúdo: {$rawLine}";
+
             return false;
         }
 

@@ -1,12 +1,11 @@
 <?php
 
     /**
-     * Class m160311_140704_timeseet_tables
+     * Class m160311_140704_timeseet_tables.
      *
      * $yiic migrate up --migrationPath=application.modules.timesheet.migrations
      *
      */
-
     class m160311_140704_timeseet_tables extends CDbMigration
     {
         public function up()
@@ -42,26 +41,26 @@
                 'instructor_fk' => 'int NOT NULL',
             ], 'ENGINE=InnoDB CHARSET=utf8 COLLATE=utf8_unicode_ci');
 
-            //instructor -> instructor_discipline
+            // instructor -> instructor_discipline
             $this->addForeignKey('instructor_instructor_discipline', 'instructor_disciplines', 'instructor_fk', 'instructor_identification', 'id', 'CASCADE', 'CASCADE');
-            //discipline -> instructor_discipline
+            // discipline -> instructor_discipline
             $this->addForeignKey('discipline_instructor_discipline', 'instructor_disciplines', 'discipline_fk', 'edcenso_discipline', 'id', 'CASCADE', 'CASCADE');
-            //stage -> instructor_discipline
+            // stage -> instructor_discipline
             $this->addForeignKey('stage_instructor_discipline', 'instructor_disciplines', 'stage_vs_modality_fk', 'edcenso_stage_vs_modality', 'id', 'CASCADE', 'CASCADE');
 
-            //instructor -> unavailability
+            // instructor -> unavailability
             $this->addForeignKey('instructor_unavailability', 'unavailability', 'instructor_fk', 'instructor_identification', 'id', 'CASCADE', 'CASCADE');
 
-            //instructor -> schedule
+            // instructor -> schedule
             $this->addForeignKey('instructor_schedule', 'schedule', 'instructor_fk', 'instructor_identification', 'id', 'CASCADE', 'CASCADE');
-            //discipline -> schedule
+            // discipline -> schedule
             $this->addForeignKey('discipline_schedule', 'schedule', 'discipline_fk', 'edcenso_discipline', 'id', 'CASCADE', 'CASCADE');
-            //discipline -> classroom
+            // discipline -> classroom
             $this->addForeignKey('classroom_schedule', 'schedule', 'classroom_fk', 'classroom', 'id', 'CASCADE', 'CASCADE');
 
-            //instructor -> instructor_discipline
+            // instructor -> instructor_discipline
             $this->addForeignKey('instructor_instructor_school', 'instructor_school', 'instructor_fk', 'instructor_identification', 'id', 'CASCADE', 'CASCADE');
-            //discipline -> instructor_discipline
+            // discipline -> instructor_discipline
             $this->addForeignKey('school_instructor_school', 'instructor_school', 'school_fk', 'school_identification', 'inep_id', 'CASCADE', 'CASCADE');
         }
 

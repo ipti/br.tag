@@ -36,7 +36,7 @@ class AdminController extends Controller
                     'gradesStructure',
                     'indexGradesStructure',
                     'instanceConfig',
-                    'editInstanceConfigs'
+                    'editInstanceConfigs',
                 ],
                 'users' => ['@'],
             ],
@@ -100,7 +100,7 @@ SELECT
                     'professores' => $result['professores'] ?? 0,
                     'alunos' => $result['alunos'] ?? 0,
                     'secretarios' => $result['secretarios'] ?? 0,
-                    'coordenadores' => $result['coordenadores'] ?? 0
+                    'coordenadores' => $result['coordenadores'] ?? 0,
                 ];
             } catch (Exception $e) {
                 // $results[] = ["database" => $dbname, "professores" => 'Erro', "alunos" => 'Erro', "gestores" => 'Erro', "secretarios" => $e->getMessage()];
@@ -423,11 +423,11 @@ SELECT
         $modelValidate = Users::model()->findByAttributes(
             [
                 'name' => $_POST['Users']['name'],
-                'username' => $_POST['Users']['name']
+                'username' => $_POST['Users']['name'],
             ]
         );
         if (isset($_POST['Users'])) {
-            if (!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader' && ($_POST['Role'] != 'guardian')) {
+            if (!isset($_POST['schools']) && $_POST['Role'] != 'admin' && $_POST['Role'] != 'nutritionist' && $_POST['Role'] != 'reader' && ($_POST['Role'] != 'guardian')) {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'É necessário atribuir uma escola para o novo usuário criado!'));
                 $this->redirect(['index']);
             }
@@ -471,6 +471,7 @@ SELECT
         );
         $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
+
             return $carry;
         }, []);
         $this->render('createUser', ['model' => $model, 'instructors' => $instructorsResult]);
@@ -482,7 +483,7 @@ SELECT
         $dataProvider->pagination = false;
 
         $this->render('indexGradesStructure', [
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -501,7 +502,7 @@ SELECT
         $this->render('gradesStructure', [
             'gradeUnity' => $gradeUnity,
             'stages' => $stages,
-            'formulas' => $formulas
+            'formulas' => $formulas,
         ]);
     }
 
@@ -591,7 +592,7 @@ SELECT
                             'id' => $weight['id'],
                             'unity_fk' => $weight['unity_fk'],
                             'weight' => $weight['weight'],
-                            'name' => $weight['unity_fk'] !== null ? $weight->unityFk->name : 'recuperação'
+                            'name' => $weight['unity_fk'] !== null ? $weight->unityFk->name : 'recuperação',
                         ]
                     );
                 }
@@ -623,7 +624,7 @@ SELECT
                             'id' => $weight['id'],
                             'unity_fk' => $weight['unity_fk'],
                             'weight' => $weight['weight'],
-                            'name' => $weight['unity_fk'] !== null ? $weight->unityFk->name : 'recuperação'
+                            'name' => $weight['unity_fk'] !== null ? $weight->unityFk->name : 'recuperação',
                         ]
                     );
                 }
@@ -724,7 +725,7 @@ SELECT
             }
 
             echo json_encode(['valid' => true, 'gradeRules' => $gradeRules->id]);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Yii::log($th->getMessage(), CLogger::LEVEL_ERROR);
             Yii::log($th->getTraceAsString(), CLogger::LEVEL_ERROR);
 
@@ -826,8 +827,8 @@ SELECT
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
             $passwordHasher = new PasswordHasher();
-            $password = ($_POST['Users']['password']);
-            $confirm = ($_POST['Confirm']);
+            $password = $_POST['Users']['password'];
+            $confirm = $_POST['Confirm'];
             if ($password == $confirm) {
                 $model->password = $passwordHasher->bcriptHash($password);
                 if ($model->save()) {
@@ -867,7 +868,7 @@ SELECT
             'Users',
             [
                 'criteria' => $criteria,
-                'pagination' => false
+                'pagination' => false,
             ]
         );
 
@@ -938,6 +939,7 @@ SELECT
         $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk' => null], ['select' => 'id, name']);
         $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
+
             return $carry;
         }, []);
 
@@ -954,7 +956,7 @@ SELECT
                 'actual_role' => $actualRole,
                 'userSchools' => $result,
                 'instructors' => $instructorsResult,
-                'selectedInstructor' => $selectedInstructor
+                'selectedInstructor' => $selectedInstructor,
             ]
         );
     }
@@ -973,7 +975,7 @@ SELECT
             'História',
             'Língua Inglesa',
             'Língua Portuguesa',
-            'Matemática'
+            'Matemática',
         ];
 
         foreach ($disciplines as $discipline) {
@@ -990,7 +992,7 @@ SELECT
     {
         $configs = InstanceConfig::model()->findAll();
         $this->render('instanceConfig', [
-            'configs' => $configs
+            'configs' => $configs,
         ]);
     }
 
@@ -1015,7 +1017,7 @@ SELECT
         $this->render('auditory', [
             'schools' => $schools,
             'users' => $users,
-            'schoolyear' => Yii::app()->user->year
+            'schoolyear' => Yii::app()->user->year,
         ]);
     }
 
@@ -1076,7 +1078,7 @@ SELECT
             $array['school'] = $log->schoolFk->name;
             $array['user'] = $log->userFk->name;
             $array['action'] = $log->crud == 'U' ? 'Editar' : ($log->crud == 'C' ? 'Criar' : 'Remover');
-            $date = new \DateTime($log->date);
+            $date = new DateTime($log->date);
             $array['date'] = $date->format('d/m/Y H:i:s');
             $array['event'] = $log->loadIconsAndTexts($log)['text'];
             array_push($result['data'], $array);

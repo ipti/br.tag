@@ -4,13 +4,13 @@
  * This is the model class for table "course_class_abilities".
  *
  * The followings are the available columns in table 'course_class_abilities':
- * @property integer $id
+ * @property int $id
  * @property string $description
  * @property string $code
  * @property string $type
- * @property integer $edcenso_discipline_fk
- * @property integer $edcenso_stage_vs_modality_fk
- * @property integer $parent_fk
+ * @property int $edcenso_discipline_fk
+ * @property int $edcenso_stage_vs_modality_fk
+ * @property int $parent_fk
  *
  * The followings are the available model relations:
  * @property EdcensoDiscipline $edcensoDisciplineFk
@@ -33,7 +33,7 @@ class CourseClassAbilities extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -52,7 +52,7 @@ class CourseClassAbilities extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -79,7 +79,7 @@ class CourseClassAbilities extends TagModel
             'code' => 'Código',
             'edcenso_discipline_fk' => 'Componente Curricular',
             'edcenso_stage_vs_modality_fk' => 'Etapa de ensino',
-            'parent_fk' => 'parent_fk'
+            'parent_fk' => 'parent_fk',
         ];
     }
 
@@ -93,7 +93,7 @@ class CourseClassAbilities extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -117,7 +117,7 @@ class CourseClassAbilities extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return CourseClassAbilities the static model class
      */
     public static function model($className = __CLASS__)

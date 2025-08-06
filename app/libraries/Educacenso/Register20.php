@@ -259,7 +259,7 @@ class Register20
                                 self::REGISTER_ATTR_PERIODO,
                                 self::REGISTER_ATTR_CICLO,
                                 self::REGISTER_ATTR_GRUPO_NAO_SERIADO,
-                                self::REGISTER_ATTR_MODULO
+                                self::REGISTER_ATTR_MODULO,
                             ]
                         )
                     ) {
@@ -310,7 +310,7 @@ class Register20
                         [
                             self::REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL,
                             self::REGISTER_ATTR_ETAPA_AGREGADA,
-                            self::REGISTER_ATTR_ETAPA
+                            self::REGISTER_ATTR_ETAPA,
                         ],
                         true
                     );

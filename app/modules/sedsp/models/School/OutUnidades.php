@@ -57,24 +57,28 @@ class OutUnidades
     public function setOutCodUnidade(?string $outCodUnidade): self
     {
         $this->outCodUnidade = $outCodUnidade;
+
         return $this;
     }
 
     public function setOutDescNomeUnidade(?string $outDescNomeUnidade): self
     {
         $this->outDescNomeUnidade = $outDescNomeUnidade;
+
         return $this;
     }
 
     public function setOutDdd(?string $outDDD): self
     {
         $this->outDDD = $outDDD;
+
         return $this;
     }
 
     public function setOutTelefone(?string $outTelefone): self
     {
         $this->outTelefone = $outTelefone;
+
         return $this;
     }
 
@@ -84,6 +88,7 @@ class OutUnidades
     public function setOutNumSalas(?array $outNumSalas): self
     {
         $this->outNumSalas = $outNumSalas;
+
         return $this;
     }
 

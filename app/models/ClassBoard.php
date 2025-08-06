@@ -4,10 +4,10 @@
  * This is the model class for table "class_board".
  *
  * The followings are the available columns in table 'class_board':
- * @property integer $id
- * @property integer $discipline_fk
- * @property integer $classroom_fk
- * @property integer $instructor_fk
+ * @property int $id
+ * @property int $discipline_fk
+ * @property int $classroom_fk
+ * @property int $instructor_fk
  * @property string $week_day_monday
  * @property string $week_day_tuesday
  * @property string $week_day_wednesday
@@ -15,9 +15,9 @@
  * @property string $week_day_friday
  * @property string $week_day_saturday
  * @property string $week_day_sunday
- * @property integer $estimated_classes
- * @property integer $given_classes
- * @property integer $replaced_classes
+ * @property int $estimated_classes
+ * @property int $given_classes
+ * @property int $replaced_classes
  * @property string $fkid
  *
  * The followings are the available model relations:
@@ -45,7 +45,7 @@ class ClassBoard extends TagModel
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true,
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
+            ],
         ];
 
         // Verifica se o usuário está associado a uma escola
@@ -61,7 +61,7 @@ class ClassBoard extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -78,7 +78,7 @@ class ClassBoard extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -124,7 +124,7 @@ class ClassBoard extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -155,7 +155,7 @@ class ClassBoard extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return ClassBoard the static model class
      */
     public static function model($className = __CLASS__)

@@ -7,8 +7,6 @@ use Sentry\Tracing\TransactionContext;
  */
 
 use Sentry\SentrySdk;
-use Sentry\State\Hub;
-use Sentry\Event;
 
 class Controller extends CController
 {
@@ -39,7 +37,7 @@ class Controller extends CController
             Yii::app()->sentry->setUserContext([
                 'id' => Yii::app()->user->loginInfos->id,
                 'username' => Yii::app()->user->loginInfos->username,
-                'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id)
+                'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id),
             ]);
         }
 
@@ -67,14 +65,17 @@ class Controller extends CController
 
                 if ($lastActivity !== null && (time() - $lastActivity > $timeout)) {
                     Yii::app()->user->logout();
+
                     return false;
                 }
             }
 
             // Atualiza a última atividade
             Yii::app()->user->setState('last_activity', time());
+
             return true;
         }
+
         return false;
     }
 

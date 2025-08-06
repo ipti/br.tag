@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @property integer $id
+ * @property int $id
  * @property string $enrollment
  * @property string $school;
  * @property string $description;
  * @property string $action;
  * @property string $inep_id;
  * @property string $idSchool;
- * @property integer $idClass;
- * @property integer $identifier;
- * @property integer $idStudent;
- * @property integer $idLunch
+ * @property int $idClass;
+ * @property int $identifier;
+ * @property int $idStudent;
+ * @property int $idLunch
  *
  */
 class ValidationSagresModel extends TagModel
@@ -49,7 +50,7 @@ class ValidationSagresModel extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return ValidationSagresModel the static model class
      */
     public static function model($className = __CLASS__)

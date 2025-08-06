@@ -42,24 +42,28 @@ class InFiltrosNomes implements JsonSerializable
     public function setInNomeAluno(?string $inNomeAluno): self
     {
         $this->inNomeAluno = $inNomeAluno;
+
         return $this;
     }
 
     public function setInNomeSocial(?string $inNomeSocial): self
     {
         $this->inNomeSocial = $inNomeSocial;
+
         return $this;
     }
 
     public function setInNomeMae(?string $inNomeMae): self
     {
         $this->inNomeMae = $inNomeMae;
+
         return $this;
     }
 
     public function setInNomePai(?string $inNomePai): self
     {
         $this->inNomePai = $inNomePai;
+
         return $this;
     }
 

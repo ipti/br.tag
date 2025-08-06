@@ -6,11 +6,10 @@ use PHPUnit\Extensions\Selenium2TestCase;
  * This file contains the CWebTestCase class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link https://www.yiiframework.com/
+ * @see https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
-
 Yii::import('system.test.CTestCase');
 
 require_once 'Tests/Selenium2TestCase/BaseTestCase.php';
@@ -24,7 +23,6 @@ require_once 'Tests/Selenium2TestCase/BaseTestCase.php';
  * @property CDbFixtureManager $fixtureManager The database fixture manager.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @package system.test
  * @since 1.1
  */
 abstract class CWebTestCaseCustom extends Selenium2TestCase
@@ -79,7 +77,7 @@ abstract class CWebTestCaseCustom extends Selenium2TestCase
     }
 
     /**
-     * @param string $name the fixture name (the key value in {@link fixtures}).
+     * @param string $name the fixture name (the key value in {@link fixtures})
      * @return array the named fixture data
      */
     public function getFixtureData($name)
@@ -88,7 +86,7 @@ abstract class CWebTestCaseCustom extends Selenium2TestCase
     }
 
     /**
-     * @param string $name the fixture name (the key value in {@link fixtures}).
+     * @param string $name the fixture name (the key value in {@link fixtures})
      * @param string $alias the alias of the fixture data row
      * @return CActiveRecord the ActiveRecord instance corresponding to the specified alias in the named fixture.
      * False is returned if there is no such fixture or the record cannot be found.

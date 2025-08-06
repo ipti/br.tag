@@ -59,7 +59,7 @@ class LoginForm extends CFormModel
 
     /**
      * Logs in the user using the given username and password in the model.
-     * @return boolean whether login is successful
+     * @return bool whether login is successful
      */
     public function login()
     {
@@ -74,6 +74,7 @@ class LoginForm extends CFormModel
             Yii::app()->user->login($this->_identity);
             Yii::app()->user->setState('authTimout', $duration);
             Yii::app()->user->setState('rememberMe', $this->rememberMe);
+
             return true;
         } else {
             return false;

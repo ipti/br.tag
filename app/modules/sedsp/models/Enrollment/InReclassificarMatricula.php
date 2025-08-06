@@ -34,18 +34,21 @@ class InReclassificarMatricula implements JsonSerializable
     public function setInAluno(?InAluno $inAluno): self
     {
         $this->inAluno = $inAluno;
+
         return $this;
     }
 
     public function setInMatricula(?InMatricula $inMatricula): self
     {
         $this->inMatricula = $inMatricula;
+
         return $this;
     }
 
     public function setInNivelEnsino(?InNivelEnsino $inNivelEnsino): self
     {
         $this->inNivelEnsino = $inNivelEnsino;
+
         return $this;
     }
 

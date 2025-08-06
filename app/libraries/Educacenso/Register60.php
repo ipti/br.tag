@@ -68,7 +68,7 @@ class Register60
                                 $enrollment[$i] = $attr;
                             }
                         }
-                        //preencher um campo aee qualquer quando todos forem zerados
+                        // preencher um campo aee qualquer quando todos forem zerados
                         if (!$hasAeeFilled) {
                             $enrollment['aee_cognitive_functions'] = '1';
                         }
@@ -107,7 +107,7 @@ class Register60
                         }
                     }
 
-                    //um copia e cola do que se resolve no backend do registro 20 pra nao gerar inconsistencia (schooling, pedagogical_mediation_type e diff_location)
+                    // um copia e cola do que se resolve no backend do registro 20 pra nao gerar inconsistencia (schooling, pedagogical_mediation_type e diff_location)
                     $pedagogicalMediationType = $classroom->pedagogical_mediation_type == null ? '1' : $classroom->pedagogical_mediation_type;
                     $aee = $classroom->aee;
                     $complementaryActivity = $classroom->complementary_activity;

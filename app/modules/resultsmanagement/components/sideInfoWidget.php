@@ -12,7 +12,7 @@ where classroom.school_year = :year')->queryAll(true, ['year' => $year]);
 
         $this->render('sideInfo', [
             'schools' => $schools,
-            'enrollments' => $enrollments
+            'enrollments' => $enrollments,
         ]);
     }
 }

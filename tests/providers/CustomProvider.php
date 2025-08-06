@@ -4,7 +4,7 @@ use Faker\Provider\Base;
 
 class CustomProvider extends Base
 {
-    public function __construct(\Faker\Generator $generator)
+    public function __construct(Faker\Generator $generator)
     {
         $this->generator = $generator;
     }
@@ -122,9 +122,9 @@ class CustomProvider extends Base
     }
 
     /**
-    * Método que gera um nome para filiação.
-    * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-    */
+     * Método que gera um nome para filiação.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
     public function filiationName()
     {
         $firstName = $this->generator->firstName();
@@ -134,9 +134,9 @@ class CustomProvider extends Base
     }
 
     /**
-         * Método que gera um nome para turma.
-         * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
-         */
+     * Método que gera um nome para turma.
+     * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
+     */
     public function generateRandomClassName()
     {
         $adjectives = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange', 'Silver', 'Golden'];

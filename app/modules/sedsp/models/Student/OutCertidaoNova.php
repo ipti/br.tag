@@ -82,61 +82,68 @@ class OutCertidaoNova
     public function setOutCertMatr01(?string $outCertMatr01): self
     {
         $this->outCertMatr01 = $outCertMatr01;
+
         return $this;
     }
 
     public function setOutCertMatr02(?string $outCertMatr02): self
     {
         $this->outCertMatr02 = $outCertMatr02;
+
         return $this;
     }
 
     public function setOutCertMatr03(?string $outCertMatr03): self
     {
         $this->outCertMatr03 = $outCertMatr03;
+
         return $this;
     }
 
     public function setOutCertMatr04(?string $outCertMatr04): self
     {
         $this->outCertMatr04 = $outCertMatr04;
+
         return $this;
     }
 
     public function setOutCertMatr05(?string $outCertMatr05): self
     {
         $this->outCertMatr05 = $outCertMatr05;
+
         return $this;
     }
 
     public function setOutCertMatr06(?string $outCertMatr06): self
     {
         $this->outCertMatr06 = $outCertMatr06;
+
         return $this;
     }
 
     public function setOutCertMatr07(?string $outCertMatr07): self
     {
         $this->outCertMatr07 = $outCertMatr07;
+
         return $this;
     }
 
     public function setOutCertMatr08(?string $outCertMatr08): self
     {
         $this->outCertMatr08 = $outCertMatr08;
+
         return $this;
     }
 
     public function setOutCertMatr09(?string $outCertMatr09): self
     {
         $this->outCertMatr09 = $outCertMatr09;
+
         return $this;
     }
 
     /**
-     * Summary of fromJson
-     * @param array $data
-     * @return OutCertidaoNova
+     * Summary of fromJson.
      */
     public static function fromJson(array $data): self
     {

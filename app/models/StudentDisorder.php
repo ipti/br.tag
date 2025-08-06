@@ -4,24 +4,24 @@
  * This is the model class for table "student_disorder".
  *
  * The followings are the available columns in table 'student_disorder':
- * @property integer $id
- * @property integer $student_fk
- * @property integer $tdah
- * @property integer $depressao
- * @property integer $tab
- * @property integer $toc
- * @property integer $tag
- * @property integer $tod
- * @property integer $tcne
+ * @property int $id
+ * @property int $student_fk
+ * @property int $tdah
+ * @property int $depressao
+ * @property int $tab
+ * @property int $toc
+ * @property int $tag
+ * @property int $tod
+ * @property int $tcne
  * @property string $others
  * @property string $created_at
  * @property string $updated_at
- * @property integer $disorders_impact_learning
- * @property integer $dyscalculia
- * @property integer $dysgraphia
- * @property integer $dyslalia
- * @property integer $dyslexia
- * @property integer $tpac
+ * @property int $disorders_impact_learning
+ * @property int $dyscalculia
+ * @property int $dysgraphia
+ * @property int $dyslalia
+ * @property int $dyslexia
+ * @property int $tpac
  *
  * The followings are the available model relations:
  * @property StudentIdentification $studentFk
@@ -37,7 +37,7 @@ class StudentDisorder extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -55,7 +55,7 @@ class StudentDisorder extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -103,7 +103,7 @@ class StudentDisorder extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -138,7 +138,7 @@ class StudentDisorder extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return StudentDisorder the static model class
      */
     public static function model($className = __CLASS__)

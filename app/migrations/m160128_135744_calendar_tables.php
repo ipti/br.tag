@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class m160128_135744_calendar_tables
+ * Class m160128_135744_calendar_tables.
  *
  * $yiic migrate up --migrationPath=application.modules.calendar.migrations
  *
@@ -39,15 +39,15 @@ class m160128_135744_calendar_tables extends CDbMigration
 
         $this->addColumn('classroom', 'calendar_fk', 'int');
 
-        //school_identification -> calendar
+        // school_identification -> calendar
         $this->addForeignKey('school_calendar', 'calendar', 'school_fk', 'school_identification', 'inep_id', 'CASCADE', 'CASCADE');
 
-        //calendar -> calendar_event
+        // calendar -> calendar_event
         $this->addForeignKey('calendar_events', 'calendar_event', 'calendar_fk', 'calendar', 'id', 'CASCADE', 'CASCADE');
-        //calendar_event_type -> calendar_event
+        // calendar_event_type -> calendar_event
         $this->addForeignKey('event_type', 'calendar_event', 'calendar_event_type_fk', 'calendar_event_type', 'id', 'CASCADE', 'CASCADE');
 
-        //classroom -> calendar
+        // classroom -> calendar
         $this->addForeignKey('classroom_calendar', 'classroom', 'calendar_fk', 'calendar', 'id', 'CASCADE', 'CASCADE');
 
         $this->insert('calendar_event_type', ['id' => 101, 'name' => 'Holyday', 'icon' => 'fa-square', 'color' => 'red', 'copyable' => 1]);

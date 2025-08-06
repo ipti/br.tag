@@ -266,192 +266,224 @@ class OutDadosPessoais
     public function setOutNumRa(?string $outNumRA): self
     {
         $this->outNumRA = $outNumRA;
+
         return $this;
     }
 
     public function setOutDigitoRa(?string $outDigitoRA): self
     {
         $this->outDigitoRA = $outDigitoRA;
+
         return $this;
     }
 
     public function setOutSiglaUfra(?string $outSiglaUFRA): self
     {
         $this->outSiglaUFRA = $outSiglaUFRA;
+
         return $this;
     }
 
     public function setOutNomeAluno(?string $outNomeAluno): self
     {
         $this->outNomeAluno = $outNomeAluno;
+
         return $this;
     }
 
     public function setOutNomeMae(?string $outNomeMae): self
     {
         $this->outNomeMae = $outNomeMae;
+
         return $this;
     }
 
     public function setOutNomePai(?string $outNomePai): self
     {
         $this->outNomePai = $outNomePai;
+
         return $this;
     }
 
     public function setOutNomeSocial(?string $outNomeSocial): self
     {
         $this->outNomeSocial = $outNomeSocial;
+
         return $this;
     }
 
     public function setOutNomeAfetivo(?string $outNomeAfetivo): self
     {
         $this->outNomeAfetivo = $outNomeAfetivo;
+
         return $this;
     }
 
     public function setOutDataNascimento(?string $outDataNascimento): self
     {
         $this->outDataNascimento = $outDataNascimento;
+
         return $this;
     }
 
     public function setOutCorRaca(?string $outCorRaca): self
     {
         $this->outCorRaca = $outCorRaca;
+
         return $this;
     }
 
     public function setOutDescCorRaca(?string $outDescCorRaca): self
     {
         $this->outDescCorRaca = $outDescCorRaca;
+
         return $this;
     }
 
     public function setOutCodSexo(?string $outCodSexo): self
     {
         $this->outCodSexo = $outCodSexo;
+
         return $this;
     }
 
     public function setOutSexo(?string $outSexo): self
     {
         $this->outSexo = $outSexo;
+
         return $this;
     }
 
     public function setOutEmail(?string $outEmail): self
     {
         $this->outEmail = $outEmail;
+
         return $this;
     }
 
     public function setOutNacionalidade(?string $outNacionalidade): self
     {
         $this->outNacionalidade = $outNacionalidade;
+
         return $this;
     }
 
     public function setOutDescNacionalidade(?string $outDescNacionalidade): self
     {
         $this->outDescNacionalidade = $outDescNacionalidade;
+
         return $this;
     }
 
     public function setOutCodPaisOrigem(?string $outCodPaisOrigem): self
     {
         $this->outCodPaisOrigem = $outCodPaisOrigem;
+
         return $this;
     }
 
     public function setOutNomePaisOrigem(?string $outNomePaisOrigem): self
     {
         $this->outNomePaisOrigem = $outNomePaisOrigem;
+
         return $this;
     }
 
     public function setOutDataEntradaPais(?string $outDataEntradaPais): self
     {
         $this->outDataEntradaPais = $outDataEntradaPais;
+
         return $this;
     }
 
     public function setOutCodBolsaFamilia(?string $outCodBolsaFamilia): self
     {
         $this->outCodBolsaFamilia = $outCodBolsaFamilia;
+
         return $this;
     }
 
     public function setOutPossuiInternet(?string $outPossuiInternet): self
     {
         $this->outPossuiInternet = $outPossuiInternet;
+
         return $this;
     }
 
     public function setOutPossuiNotebookSmartphoneTablet(?string $outPossuiNotebookSmartphoneTablet): self
     {
         $this->outPossuiNotebookSmartphoneTablet = $outPossuiNotebookSmartphoneTablet;
+
         return $this;
     }
 
     public function setOutBolsaFamilia(?string $outBolsaFamilia): self
     {
         $this->outBolsaFamilia = $outBolsaFamilia;
+
         return $this;
     }
 
     public function setOutQuilombola(?string $outQuilombola): self
     {
         $this->outQuilombola = $outQuilombola;
+
         return $this;
     }
 
     public function setOutTipoSanguineo(?string $outTipoSanguineo): self
     {
         $this->outTipoSanguineo = $outTipoSanguineo;
+
         return $this;
     }
 
     public function setOutDoadorOrgaos(?string $outDoadorOrgaos): self
     {
         $this->outDoadorOrgaos = $outDoadorOrgaos;
+
         return $this;
     }
 
     public function setOutNumeroCns(?string $outNumeroCNS): self
     {
         $this->outNumeroCNS = $outNumeroCNS;
+
         return $this;
     }
 
     public function setOutNomeMunNascto(?string $outNomeMunNascto): self
     {
         $this->outNomeMunNascto = $outNomeMunNascto;
+
         return $this;
     }
 
     public function setOutUfMunNascto(?string $outUFMunNascto): self
     {
         $this->outUFMunNascto = $outUFMunNascto;
+
         return $this;
     }
 
     public function setOutCodMunNasctoDne(?string $outCodMunNasctoDNE): self
     {
         $this->outCodMunNasctoDNE = $outCodMunNasctoDNE;
+
         return $this;
     }
 
     public function setOutAlunoFalecido(?string $outAlunoFalecido): self
     {
         $this->outAlunoFalecido = $outAlunoFalecido;
+
         return $this;
     }
 
     public function setOutDataFalecimento(?string $outDataFalecimento): self
     {
         $this->outDataFalecimento = $outDataFalecimento;
+
         return $this;
     }
 

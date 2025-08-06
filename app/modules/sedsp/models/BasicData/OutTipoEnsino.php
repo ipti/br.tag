@@ -41,12 +41,14 @@ class OutTipoEnsino
     public function setOutCodTipoEnsino(?string $outCodTipoEnsino): self
     {
         $this->outCodTipoEnsino = $outCodTipoEnsino;
+
         return $this;
     }
 
     public function setOutDescTipoEnsino(?string $outDescTipoEnsino): self
     {
         $this->outDescTipoEnsino = $outDescTipoEnsino;
+
         return $this;
     }
 
@@ -56,6 +58,7 @@ class OutTipoEnsino
     public function setOutSerieAno(?array $outSerieAno): self
     {
         $this->outSerieAno = $outSerieAno;
+
         return $this;
     }
 

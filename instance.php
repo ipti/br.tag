@@ -2,8 +2,8 @@
 
 $_FORMS[0] = ['name' => 'Ficha de Matrícula', 'action' => 'StudentFileForm'];
 $_FORMS[1] = ['name' => 'Declaração de Matrícula', 'action' => 'EnrollmentDeclarationReport'];
-//$_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReport');
-//$_FORMS[3] = array('name'=>'Notificação de Matrícula','action'=>'EnrollmentNotification');
+// $_FORMS[2] = array('name'=>'Ficha de Notas','action'=>'EnrollmentGradesReport');
+// $_FORMS[3] = array('name'=>'Notificação de Matrícula','action'=>'EnrollmentNotification');
 $_FORMS[4] = ['name' => 'Declaração de Aluno', 'action' => 'StudentsDeclarationReport'];
 $_FORMS[5] = ['name' => 'Formulário de Transferência', 'action' => 'TransferForm'];
 $_FORMS[6] = ['name' => 'Requerimento de Transferência', 'action' => 'TransferRequirement'];

@@ -7,8 +7,8 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         if (Yii::app()->user->hardfoot) {
-            //$this->redirect('');
-            //echo 'hardfoot';exit;
+            // $this->redirect('');
+            // echo 'hardfoot';exit;
             $this->redirect(['ManagementSchool/index', 'sid' => Yii::app()->user->school]);
         } else {
             $this->render('index');

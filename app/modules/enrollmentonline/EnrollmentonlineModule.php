@@ -19,6 +19,7 @@ class EnrollmentonlineModule extends CWebModule
     public function beforeControllerAction($controller, $action)
     {
         $controller->layout = 'webroot.themes.default.views.layouts.fullmenu';
+
         return parent::beforeControllerAction($controller, $action);
     }
 }

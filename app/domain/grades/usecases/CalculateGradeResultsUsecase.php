@@ -36,8 +36,9 @@ class CalculateGradeResultsUsecase
             TLog::info('Notas numéricas calculadas com sucesso.', [
                 'Classroom' => $classroom->id,
                 'GradeRules' => $gradeRules->id,
-                'Rule' => $gradeRules->id
+                'Rule' => $gradeRules->id,
             ]);
+
             return;
         } elseif ($gradeRules->rule_type === 'C') {
             $usercase = new CalculateConceptGradeUsecase($this->classroomId, $this->discipline, $this->stage);
@@ -45,8 +46,9 @@ class CalculateGradeResultsUsecase
             TLog::info('Notas por conceito calculadas com sucesso.', [
                 'Classroom' => $classroom->id,
                 'GradeRules' => $gradeRules->id,
-                'Rule' => $gradeRules->rule_type
+                'Rule' => $gradeRules->rule_type,
             ]);
+
             return;
         }
 

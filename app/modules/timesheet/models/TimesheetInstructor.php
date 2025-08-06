@@ -2,7 +2,7 @@
 
     /**
      *
-     * @property integer $id
+     * @property int $id
      * @property string $name
      *
      * The followings are the available model relations:
@@ -11,7 +11,6 @@
      * @property InstructorDisciplines[] $instructorStages
      * @property InstructorDisciplines[] $instructorDisciplines
      */
-
     class TimesheetInstructor extends TagModel
     {
         public static function model($className = __CLASS__)
@@ -32,18 +31,18 @@
             return [
                 'stages' => [
                     self::HAS_MANY, 'EdcensoStageVsModality', 'instructor_fk', 'with' => 'instructor_stages',
-                    'order' => 'stageVsModalityFk.name asc'
+                    'order' => 'stageVsModalityFk.name asc',
                 ], 'instructor_stages' => [
                     self::MANY_MANY, 'InstructorStages', 'instructor_disciplines(instructor_fk, stage_vs_modality_fk)',
-                    'order' => 'name asc'
+                    'order' => 'name asc',
                 ],
 
                 'disciplines' => [
                     self::HAS_MANY, 'EdcensoDiscipline', 'instructor_fk', 'with' => 'instructor_disciplines',
-                    'order' => 'disciplineFk.name asc'
+                    'order' => 'disciplineFk.name asc',
                 ], 'instructor_disciplines' => [
                     self::MANY_MANY, 'InstructorDisciplines', 'instructor_disciplines(instructor_fk, discipline_fk)',
-                    'order' => 'name asc'
+                    'order' => 'name asc',
                 ],
             ];
         }
@@ -51,7 +50,7 @@
         public function countConflicts($week_day, $turn, $schedule)
         {
             $schedules = Schedule::model()->findAll('instructor_fk = :instructor and turn = :turn and week_day = :week_day and schedule = :schedule', [
-                ':instructor' => $this->id, ':turn' => $turn, ':week_day' => $week_day, ':schedule' => $schedule
+                ':instructor' => $this->id, ':turn' => $turn, ':week_day' => $week_day, ':schedule' => $schedule,
             ]);
 
             return count($schedules);
@@ -64,7 +63,7 @@
             ]);
             $una = Unavailability::model()->findAll('instructor_school_fk = :instructorSchool and turn = :turn and week_day = :week_day and schedule = :schedule', [
                 ':instructorSchool' => $instructorSchool->id, ':turn' => $turn, ':week_day' => $week_day,
-                ':schedule' => $schedule
+                ':schedule' => $schedule,
             ]);
 
             return $una != null;

@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Summary of inNumClasse
+ * Summary of inNumClasse.
  */
 class InFormacaoClasse implements JsonSerializable
 {
     public $inNumClasse;
 
     /**
-     * Summary of __construct
+     * Summary of __construct.
      * @param string $inNumClasse
      */
     public function __construct($inNumClasse)
@@ -26,11 +26,11 @@ class InFormacaoClasse implements JsonSerializable
 
     /**
      * @param string $inNumClasse
-     * @return self
      */
     public function setInNumClasse($inNumClasse): self
     {
         $this->inNumClasse = $inNumClasse;
+
         return $this;
     }
 

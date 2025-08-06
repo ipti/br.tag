@@ -11,6 +11,7 @@ class Register
         if ($value === null || trim($value) === '' || !isset($value)) {
             return ['status' => true, 'erro' => ''];
         }
+
         return ['status' => false, 'erro' => 'O valor nao eh vazio'];
     }
 
@@ -19,6 +20,7 @@ class Register
         if ($x == null) {
             return ['status' => true, 'erro' => ''];
         }
+
         return ['status' => false, 'erro' => 'Valor não é nulo'];
     }
 
@@ -27,10 +29,11 @@ class Register
         if ($value == null) {
             $value = 'nulo';
         }
+
         return $value;
     }
 
-    //campo 1002
+    // campo 1002
     public function isEqual($x, $y, $msg)
     {
         $result = $this->isNUll($x);
@@ -41,10 +44,11 @@ class Register
         if ($x != $y) {
             return ['status' => false, 'erro' => $msg];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
-    //campo 1003 à 1011, 1033 à 1038
+    // campo 1003 à 1011, 1033 à 1038
     public function atLeastOne($items)
     {
         $number_of_ones = 0;
@@ -56,6 +60,7 @@ class Register
         if ($number_of_ones == 0) {
             return ['status' => false, 'erro' => 'Selecione ao menos uma opção.'];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
@@ -70,6 +75,7 @@ class Register
         if ($number_of_not_empty == 0) {
             return ['status' => false, 'erro' => 'Não há nenhum valor preenchido'];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
@@ -84,10 +90,11 @@ class Register
         if ($number_of_ones < 2) {
             return ['status' => false, 'erro' => 'Não há mais de um valor marcado'];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
-    //campo 1001, 3001, 4001, 6001
+    // campo 1001, 3001, 4001, 6001
     public function isRegister($number, $value)
     {
         $result = $this->isEqual($value, $number, "O tipo de registro não deveria ser $value e sim $number");
@@ -98,7 +105,7 @@ class Register
         return ['status' => true, 'erro' => ''];
     }
 
-    //campo 1002, 3002, 4002, 6002
+    // campo 1002, 3002, 4002, 6002
     public function isAllowedInepId($inep_id, $allowed_inep_ids)
     {
         if (!in_array($inep_id, $allowed_inep_ids)) {
@@ -108,7 +115,7 @@ class Register
         return ['status' => true, 'erro' => ''];
     }
 
-    //campo 3003, 6003
+    // campo 3003, 6003
     public function isNumericOfSize($allowed_length, $value)
     {
         if (is_numeric($value)) {
@@ -118,23 +125,26 @@ class Register
             }
         } else {
             $value = $this->ifNull($value);
+
             return ['status' => false, 'erro' => "valor $value deve ser constituído apenas de números. Remova quaisquer letras, símbolos ou espaços em branco."];
         }
 
         return ['status' => true, 'erro' => ''];
     }
 
-    //1070, 1088
+    // 1070, 1088
     public function isGreaterThan($value, $target)
     {
         if ($value <= $target) {
             $value = $this->ifNull($value);
+
             return ['status' => false, 'erro' => "Valor $value não é maior que o alvo."];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
-    //3004, 6004
+    // 3004, 6004
     public function isNotGreaterThan($value, $target)
     {
         $result = $this->isGreaterThan(strlen($value), $target);
@@ -155,7 +165,7 @@ class Register
         return ['status' => true, 'erro' => ''];
     }
 
-    //3005, 6005
+    // 3005, 6005
     public function isNameValid($value, $target, $cpf = null)
     {
         $result = $this->isGreaterThan(strlen($value), $target);
@@ -192,7 +202,7 @@ class Register
             return ['status' => false, 'erro' => 'Campo obrigatório.'];
         }
 
-        //separa data em dia, mês e ano
+        // separa data em dia, mês e ano
         $mdy = explode('/', $date);
 
         // verifica se a data é valida. Mês-dia-ano
@@ -206,6 +216,7 @@ class Register
     public function getAge($birthyear, $currentyear)
     {
         $age = $currentyear - $birthyear;
+
         return $age;
     }
 
@@ -231,24 +242,27 @@ class Register
         return ['status' => true, 'erro' => ''];
     }
 
-    //campo 1020, 3009, 6007
+    // campo 1020, 3009, 6007
     public function oneOfTheValues($value)
     {
         if ($value == 1 || $value == 2) {
             return ['status' => true, 'erro' => ''];
         }
         $value = $this->ifNull($value);
+
         return ['status' => false, 'erro' => 'Preencha o campo com uma opção válida'];
     }
 
-    //10101, 10105, 10106, 3010, 6008
+    // 10101, 10105, 10106, 3010, 6008
     public function isAllowed($value, $allowed_values)
     {
         if (!in_array($value, $allowed_values)) {
             $value = $this->ifNull($value);
+
             return ['status' => false,
                 'erro' => 'Preencha o campo com uma opção válida'];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
@@ -302,6 +316,7 @@ class Register
                 return ['status' => false, 'erro' => "'$cpfStr' inválido."];
             }
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
@@ -322,7 +337,7 @@ class Register
         return ['status' => true, 'erro' => ''];
     }
 
-    //3011, 3012, 3013, 6009.6010, 6011
+    // 3011, 3012, 3013, 6009.6010, 6011
     public function validateFiliation($filiation, $filiation_mother, $filiation_father, $cpf = null, $high_limit = null)
     {
         $result = $this->isAllowed($filiation, ['0', '1']);
@@ -347,7 +362,7 @@ class Register
         return ['status' => true, 'erro' => ''];
     }
 
-    //3014, 3015, 6012, 6013
+    // 3014, 3015, 6012, 6013
     public function checkNation($nationality, $nation, $allowedvalues)
     {
         if (!in_array($nationality, $allowedvalues)) {
@@ -469,10 +484,11 @@ class Register
         if ($number_of_ones > $limit) {
             return ['status' => false, 'erro' => 'Há valores marcados além do permitido'];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
-    //Registro 10 ( 21 à 25, 26 à 29, 30 à 32, 39 à 68 )
+    // Registro 10 ( 21 à 25, 26 à 29, 30 à 32, 39 à 68 )
     public function checkRangeOfArray($array, $allowed_values)
     {
         foreach ($array as $key => $value) {
@@ -481,6 +497,7 @@ class Register
                 return ['status' => false, 'erro' => "Valor $value de ordem $key não está entre as opções"];
             }
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
@@ -491,7 +508,7 @@ class Register
         foreach ($items as $key => $value) {
             if ($value != null) {
                 if (array_key_exists($value, $result)) {
-                    $result[$value] += 1;
+                    ++$result[$value];
                 } else {
                     $result[$value] = 1;
                 }
@@ -501,7 +518,7 @@ class Register
         return $result;
     }
 
-    //1098 à 10100
+    // 1098 à 10100
     public function exclusive($items)
     {
         $count = $this->adaptedArrayCount($items);
@@ -533,6 +550,7 @@ class Register
                 return ['status' => false, 'erro' => $result['erro']];
             }
         }
+
         return ['status' => true, 'erro' => ''];
     }
 }

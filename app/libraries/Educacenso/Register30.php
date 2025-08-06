@@ -131,6 +131,7 @@ class Register30
                 }
             }
         }
+
         return $students;
     }
 
@@ -251,17 +252,17 @@ class Register30
         }
 
         $register[self::REGISTER_TYPE] = '30';
+
         return $register;
     }
 
-    private static function exportStudentDocuments($student, $register, $school, $aliases,  $withoutCertificates)
+    private static function exportStudentDocuments($student, $register, $school, $aliases, $withoutCertificates)
     {
         $student['register_type'] = '30';
 
         if (empty($student['cep']) && isset($student['edcenso_city_fk'])) {
             $student['edcenso_city_fk'] = '';
         }
-
 
         if ($student['civil_certification'] != 2 || $withoutCertificates == true) {
             $student['civil_register_enrollment_number'] = '';
@@ -530,10 +531,11 @@ class Register30
     private static function convertCourseCodes($code, $highEducationCourses)
     {
         $found_key = array_search($code, array_column($highEducationCourses, 'id'));
+
         return $highEducationCourses[$found_key]['cine_id'];
     }
 
-    public static function export($year,  $withoutCertificates)
+    public static function export($year, $withoutCertificates)
     {
         $registers = [];
 
@@ -557,7 +559,7 @@ class Register30
             $register = [];
 
             $register = self::exportStudentIdentification($student['identification'], $register, $school, $aliasesStudent);
-            $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent,  $withoutCertificates);
+            $register = self::exportStudentDocuments($student['documents'], $register, $school, $aliasesStudent, $withoutCertificates);
             $register = self::exportStudentDisorders($student['disorders'], $register, $aliasesStudent);
 
             ksort($register);

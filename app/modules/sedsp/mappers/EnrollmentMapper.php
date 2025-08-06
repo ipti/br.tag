@@ -18,7 +18,7 @@ class EnrollmentMapper
         $stage = (object) $classroomMapper->convertStageToTipoEnsino($edcensoStage);
         $inNivelEnsino = new InNivelEnsino($stage->tipoEnsino, $stage->serieAno);
 
-        //Matrículas
+        // Matrículas
         $inEnrollment = new InMatricularAluno();
         $inEnrollment->setInAnoLetivo($inAnoLetivo);
         $inEnrollment->setInAluno($inAluno);

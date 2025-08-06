@@ -2,12 +2,12 @@
 
     Yii::import('application.modules.dashboard.services.*');
     /**
-      * @property GetToken $GetToken
-      */
+     * @property GetToken $GetToken
+     */
     class GetToken
     {
         /**
-         * Summary of dashboardService
+         * Summary of dashboardService.
          * @var DashboardService $dashboardService
          */
         private $dashboardService;

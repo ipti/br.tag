@@ -2,8 +2,8 @@
 
     Yii::import('application.modules.classdiary.services.*');
     /**
-    * @property GetCoursePlans $GetCoursePlans
-    */
+     * @property GetCoursePlans $GetCoursePlans
+     */
     class GetCoursePlans
     {
         private $courseClassService;
@@ -16,6 +16,7 @@
         public function exec($discipline_fk, $stage)
         {
             $response = $this->courseClassService->getCoursePlans($discipline_fk, $stage);
-            return  $response;
+
+            return $response;
         }
     }

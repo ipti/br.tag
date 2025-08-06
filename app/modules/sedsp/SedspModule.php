@@ -42,7 +42,7 @@ class SedspModule extends CWebModule
             'sedsp.usecases.tests.*',
             'sedsp.usecases.Enrollment.*',
             'sedsp.mappers.*',
-            'sedsp.*'
+            'sedsp.*',
         ]);
     }
 

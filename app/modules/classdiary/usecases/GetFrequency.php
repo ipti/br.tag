@@ -2,8 +2,8 @@
 
     Yii::import('application.modules.classdiary.services.*');
     /**
-    * @property GetFrequency $GetFrequency
-    */
+     * @property GetFrequency $GetFrequency
+     */
     class GetFrequency
     {
         private $studentService;
@@ -16,6 +16,7 @@
         public function exec($classroom_fk, $stage_fk, $discipline_fk, $date)
         {
             $response = $this->studentService->getFrequency($classroom_fk, $stage_fk, $discipline_fk, $date);
-            return  $response;
+
+            return $response;
         }
     }

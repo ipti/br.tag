@@ -171,18 +171,21 @@ class OutExibirFichaAluno
     public function setOutDataAlteracaoFicha(?string $outDataAlteracaoFicha): self
     {
         $this->outDataAlteracaoFicha = $outDataAlteracaoFicha;
+
         return $this;
     }
 
     public function setOutOperador(?string $outOperador): self
     {
         $this->outOperador = $outOperador;
+
         return $this;
     }
 
     public function setOutDadosPessoais(?OutDadosPessoais $outDadosPessoais): self
     {
         $this->outDadosPessoais = $outDadosPessoais;
+
         return $this;
     }
 
@@ -192,48 +195,56 @@ class OutExibirFichaAluno
     public function setOutIrmaos(?array $outIrmaos): self
     {
         $this->outIrmaos = $outIrmaos;
+
         return $this;
     }
 
     public function setOutDocumentos(?OutDocumentos $outDocumentos): self
     {
         $this->outDocumentos = $outDocumentos;
+
         return $this;
     }
 
     public function setOutCodJustificativa(?string $outCodJustificativa): self
     {
         $this->outCodJustificativa = $outCodJustificativa;
+
         return $this;
     }
 
     public function setOutJustificativaDocumento(?string $outJustificativaDocumento): self
     {
         $this->outJustificativaDocumento = $outJustificativaDocumento;
+
         return $this;
     }
 
     public function setOutCertidaoNova(?OutCertidaoNova $outCertidaoNova): self
     {
         $this->outCertidaoNova = $outCertidaoNova;
+
         return $this;
     }
 
     public function setOutCertidaoAntiga(?OutCertidaoAntiga $outCertidaoAntiga): self
     {
         $this->outCertidaoAntiga = $outCertidaoAntiga;
+
         return $this;
     }
 
     public function setOutEnderecoResidencial(?OutEnderecoResidencial $outEnderecoResidencial): self
     {
         $this->outEnderecoResidencial = $outEnderecoResidencial;
+
         return $this;
     }
 
     public function setOutEnderecoIndicativo(?OutEnderecoIndicativo $outEnderecoIndicativo): self
     {
         $this->outEnderecoIndicativo = $outEnderecoIndicativo;
+
         return $this;
     }
 
@@ -243,12 +254,14 @@ class OutExibirFichaAluno
     public function setOutTelefones(?array $outTelefones): self
     {
         $this->outTelefones = $outTelefones;
+
         return $this;
     }
 
     public function setOutDeficiencia(?OutDeficiencia $outDeficiencia): self
     {
         $this->outDeficiencia = $outDeficiencia;
+
         return $this;
     }
 
@@ -258,37 +271,40 @@ class OutExibirFichaAluno
     public function setOutListaNecessidadesEspeciais(?array $outListaNecessidadesEspeciais): self
     {
         $this->outListaNecessidadesEspeciais = $outListaNecessidadesEspeciais;
+
         return $this;
     }
 
     public function setOutRecursoAvaliacao(?OutRecursoAvaliacao $outRecursoAvaliacao): self
     {
         $this->outRecursoAvaliacao = $outRecursoAvaliacao;
+
         return $this;
     }
 
     public function setOutSucesso(?string $outSucesso): self
     {
         $this->outSucesso = $outSucesso;
+
         return $this;
     }
 
     public function setOutErro(?string $outErro): self
     {
         $this->outErro = $outErro;
+
         return $this;
     }
 
     public function setOutProcessoId(?string $outProcessoID): self
     {
         $this->outProcessoID = $outProcessoID;
+
         return $this;
     }
 
     /**
-     * Summary of fromJson
-     * @param array $data
-     * @return OutExibirFichaAluno
+     * Summary of fromJson.
      */
     public static function fromJson(array $data): self
     {

@@ -34,18 +34,21 @@ class OutHandleApiResult implements JsonSerializable
     public function setOutSucesso(?string $outSucesso): self
     {
         $this->outSucesso = $outSucesso;
+
         return $this;
     }
 
     public function setOutErro(?string $outErro): self
     {
         $this->outErro = $outErro;
+
         return $this;
     }
 
     public function setOutProcessoId(?string $outProcessoID): self
     {
         $this->outProcessoID = $outProcessoID;
+
         return $this;
     }
 

@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Summary of ExportModel
+ * Summary of ExportModel.
  */
 class ExportModel
 {
     /**
-     * Summary of getInstructorsIdentification
+     * Summary of getInstructorsIdentification.
      * @return array<array>
      */
     public function getInstructorsIdentification()
@@ -44,27 +44,29 @@ class ExportModel
     }
 
     /**
-     * Summary of getInstructorDocumentsAndAddress
+     * Summary of getInstructorDocumentsAndAddress.
      * @return array<array>
      */
     public function getInstructorDocumentsAndAddress($instructor)
     {
         $query = 'SELECT * FROM instructor_documents_and_address WHERE id = ' . $instructor;
+
         return Yii::app()->db->createCommand($query)->queryRow();
     }
 
     /**
-     * Summary of getInstructorVariableData
+     * Summary of getInstructorVariableData.
      * @return array<array>
      */
     public function getInstructorVariableData($id)
     {
         $query = 'SELECT * FROM instructor_variable_data WHERE id = ' . $id;
+
         return Yii::app()->db->createCommand($query)->queryRow();
     }
 
     /**
-     * Summary of getInstructorsTeachingData
+     * Summary of getInstructorsTeachingData.
      * @return array<array>
      */
     public function getInstructorsTeachingData()
@@ -85,7 +87,7 @@ class ExportModel
     }
 
     /**
-     * Summary of getTeachingMatrixes
+     * Summary of getTeachingMatrixes.
      * @return array<array>
      */
     public function getTeachingMatrixes()
@@ -106,7 +108,7 @@ class ExportModel
     }
 
     /**
-     * Summary of getSchoolIdentification
+     * Summary of getSchoolIdentification.
      * @return array<array>
      */
     public function getSchoolIdentification()
@@ -128,7 +130,7 @@ class ExportModel
     }
 
     /**
-     * Summary of getSchoolStructure
+     * Summary of getSchoolStructure.
      * @return array<array>
      */
     public function getSchoolStructure()
@@ -150,7 +152,7 @@ class ExportModel
     }
 
     /**
-     * Summary of getClassrooms
+     * Summary of getClassrooms.
      * @return array<array>
      */
     public function getClassrooms()
@@ -172,7 +174,7 @@ class ExportModel
     }
 
     /**
-     * Summary of getStudentIdentification
+     * Summary of getStudentIdentification.
      * @return array<array>
      */
     public function getStudentIdentification()
@@ -194,7 +196,7 @@ class ExportModel
     }
 
     /**
-     * Summary of getStudentDocumentsAndAddress
+     * Summary of getStudentDocumentsAndAddress.
      * @return array<array>
      */
     public function getStudentDocumentsAndAddress()
@@ -215,7 +217,7 @@ class ExportModel
     }
 
     /**
-     * Summary of getStudentEnrollment
+     * Summary of getStudentEnrollment.
      * @return array
      */
     public function getStudentEnrollment()

@@ -8,8 +8,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validation;
 
 /**
- * Class representing DiretorTType
- *
+ * Class representing DiretorTType.
  *
  * XSD Type: diretor_t
  */
@@ -31,6 +30,7 @@ class DiretorTType
     public function setCpfDiretor(string $cpfDiretor): self
     {
         $this->cpfDiretor = $cpfDiretor;
+
         return $this;
     }
 
@@ -42,6 +42,7 @@ class DiretorTType
     public function setNrAto(string $nrAto): self
     {
         $this->nrAto = $nrAto;
+
         return $this;
     }
 

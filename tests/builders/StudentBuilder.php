@@ -16,14 +16,14 @@ Yii::createWebApplication($config);
  * @property [] $studentEnrollment
  * @property Faker\Generator $faker
  * @property CustomProvider $fakerCustom
-*/
+ */
 class StudentBuilder
 {
     private $faker = null;
     private $fakerCustom = null;
 
     /**
-     * Summary of student
+     * Summary of student.
      * @var $student
      * @var $studentDocument
      * @var $studentEnrollment

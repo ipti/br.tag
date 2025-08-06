@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @property string $inep_id
@@ -7,7 +8,7 @@
  * @property Inventory[] $inventories
  * @property Item[] $items
  * @property Menu[] $menus
- * @property Array itemsAmount
+ * @property array itemsAmount
 */
 class School extends TagModel
 {
@@ -35,7 +36,7 @@ class School extends TagModel
 
     /**
      *
-     * @return Array Array with the itens amounts.
+     * @return array array with the itens amounts
      */
     public function itemsAmount()
     {
@@ -61,8 +62,8 @@ class School extends TagModel
     }
 
     /**
-     * @param String $initialDate Format(Y-m-d) default Null
-     * @param String $finalDate Format(Y-m-d) default Null
+     * @param string $initialDate Format(Y-m-d) default Null
+     * @param string $finalDate Format(Y-m-d) default Null
      *
      * @return CDbCommand
      */

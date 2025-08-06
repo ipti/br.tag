@@ -45,7 +45,7 @@ class CourseplanController extends Controller
                     'pendingPlans',
                     'validatePlan',
                     'enableCoursePlanEdition',
-                    'checkResourceExists'
+                    'checkResourceExists',
                 ],
                 'users' => ['*'],
             ],
@@ -80,7 +80,7 @@ class CourseplanController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -114,6 +114,7 @@ class CourseplanController extends Controller
         } else {
             $stages = Yii::app()->db->createCommand('select esvm.id, esvm.name from edcenso_stage_vs_modality esvm join curricular_matrix cm on cm.stage_fk = esvm.id where school_year = :year order by esvm.name')->bindParam(':year', Yii::app()->user->year)->queryAll();
         }
+
         return $stages;
     }
 
@@ -165,7 +166,7 @@ class CourseplanController extends Controller
         // Log e saída JSON com a estrutura original mantida
         TLog::info('Listagem de aulas por plano de aula.', [
             'CoursePlan' => $coursePlan->id,
-            'CourseClasses' => $courseClassesIds
+            'CourseClasses' => $courseClassesIds,
         ]);
 
         echo json_encode(['data' => array_values($courseClasses)]);
@@ -217,7 +218,7 @@ class CourseplanController extends Controller
             $formattedAbilities[] = [
                 'id' => $ability->id,
                 'code' => $ability->code,
-                'description' => $ability->description
+                'description' => $ability->description,
             ];
         }
 
@@ -287,7 +288,7 @@ class CourseplanController extends Controller
             }
             $startTimestamp = $this->dataConverter($request['start_date'], 0);
 
-            $request['start_date'] = $startTimestamp !== null ? $startTimestamp : date_format(new DateTime(), 'Y-m-d')  ;
+            $request['start_date'] = $startTimestamp !== null ? $startTimestamp : date_format(new DateTime(), 'Y-m-d');
             $coursePlan->attributes = $request;
             $coursePlan->situation = 'PENDENTE';
             if ($coursePlan->save()) {
@@ -547,7 +548,7 @@ class CourseplanController extends Controller
 
             $dataProvider = new CActiveDataProvider('CoursePlan', [
                 'criteria' => $criteria,
-                'pagination' => false
+                'pagination' => false,
             ]);
 
             $this->renderPartial('_table', [
@@ -567,7 +568,7 @@ class CourseplanController extends Controller
                     ':year' => (int) $year,
                     ':stageRequest' => $stageRequest,
                     ':school' => Yii::app()->user->school,
-                    ':userId' => Yii::app()->user->loginInfos->id
+                    ':userId' => Yii::app()->user->loginInfos->id,
                 ];
 
                 TLog::info('Listagem de planos de aula para acesso de professor com filtro de etapa', ['UserInstructor' => Yii::app()->user->loginInfos->id]);
@@ -582,7 +583,7 @@ class CourseplanController extends Controller
                 $criteria->params = [
                     ':school' => Yii::app()->user->school,
                     ':stageRequest' => $stageRequest,
-                    ':year' => (int) $year
+                    ':year' => (int) $year,
                 ];
 
                 TLog::info('Listagem de planos de aula para acesso de administrador com filtro de etapa');
@@ -590,7 +591,7 @@ class CourseplanController extends Controller
 
             $dataProvider = new CActiveDataProvider('CoursePlan', [
                 'criteria' => $criteria,
-                'pagination' => false
+                'pagination' => false,
             ]);
 
             $this->renderPartial('_table', [
@@ -601,7 +602,7 @@ class CourseplanController extends Controller
         }
 
         $this->render('index', [
-            'stages' => $this->getStages()
+            'stages' => $this->getStages(),
         ]);
     }
 
@@ -645,7 +646,7 @@ class CourseplanController extends Controller
         // Create Data provider
         $dataProvider = new CActiveDataProvider('CoursePlan', [
             'criteria' => $criteria,
-            'pagination' => false
+            'pagination' => false,
         ]);
 
         // Send Data to Select in index page
@@ -731,19 +732,20 @@ class CourseplanController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return CoursePlan the loaded model
      * @throws CHttpException
      */
     public function loadModel(
             $id
         ) {
-            $model = CoursePlan::model()->findByPk($id);
-            if ($model === null) {
-                throw new CHttpException(404, 'The requested page does not exist.');
-            }
-            return $model;
+        $model = CoursePlan::model()->findByPk($id);
+        if ($model === null) {
+            throw new CHttpException(404, 'The requested page does not exist.');
         }
+
+        return $model;
+    }
 
     /**
      * Performs the AJAX validation.

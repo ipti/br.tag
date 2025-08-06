@@ -2,8 +2,8 @@
 
     Yii::import('application.modules.classdiary.services.*');
     /**
-    * @property GetStudent $GetStudent
-    */
+     * @property GetStudent $GetStudent
+     */
     class GetStudent
     {
         private $studentService;
@@ -16,6 +16,7 @@
         public function exec($student_id)
         {
             $response = $this->studentService->GetStudent($student_id);
-            return  $response;
+
+            return $response;
         }
     }

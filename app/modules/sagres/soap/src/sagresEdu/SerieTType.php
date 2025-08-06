@@ -5,16 +5,12 @@ namespace SagresEdu;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * Class representing SerieTType
- *
+ * Class representing SerieTType.
  *
  * XSD Type: serie_t
  */
 class SerieTType
 {
-    /**
-     * @var string $idSerie
-     */
     #[Serializer\SerializedName('edu:idSerie')]
     #[Serializer\XmlElement(cdata: false)]
     private ?string $idSerie = null;
@@ -26,9 +22,8 @@ class SerieTType
     private $matricula = [];
 
     /**
-     * Gets as idSerie
+     * Gets as idSerie.
      *
-     * @return string
      */
     public function getIdSerie(): ?string
     {
@@ -36,34 +31,31 @@ class SerieTType
     }
 
     /**
-     * Sets a new idSerie
+     * Sets a new idSerie.
      *
-     * @param string $idSerie
-     * @return self
      */
     public function setIdSerie(string $idSerie): self
     {
         $this->idSerie = $idSerie;
+
         return $this;
     }
 
     /**
-     * Adds as matricula
+     * Adds as matricula.
      *
-     * @return self
-     * @param \SagresEdu\MatriculaTType $matricula
      */
     public function addToMatricula(MatriculaTType $matricula): self
     {
         $this->matricula[] = $matricula;
+
         return $this;
     }
 
     /**
-     * isset matricula
+     * isset matricula.
      *
      * @param int|string $index
-     * @return bool
      */
     public function issetMatricula($index): bool
     {
@@ -71,10 +63,9 @@ class SerieTType
     }
 
     /**
-     * unset matricula
+     * unset matricula.
      *
      * @param int|string $index
-     * @return void
      */
     public function unsetMatricula($index): void
     {
@@ -82,7 +73,7 @@ class SerieTType
     }
 
     /**
-     * Gets as matricula
+     * Gets as matricula.
      *
      * @return \SagresEdu\MatriculaTType[]
      */
@@ -92,14 +83,14 @@ class SerieTType
     }
 
     /**
-     * Sets a new matricula
+     * Sets a new matricula.
      *
      * @param \SagresEdu\MatriculaTType[] $matricula
-     * @return self
      */
     public function setMatricula(?array $matricula): self
     {
         $this->matricula = $matricula;
+
         return $this;
     }
 }

@@ -11,13 +11,14 @@ class InstructorIdentificationValidation extends Register
         // code...
     }
 
-    //3006
+    // 3006
     public function isEmailValid($value, $target)
     {
         if ($value != '') {
             $result = $this->isGreaterThan(strlen($value), $target);
             if ($result['status']) {
                 $len = strlen($value);
+
                 return ['status' => false, 'erro' => "'$value' contém número de caracteres maior que o permitido."];
             }
 
@@ -30,7 +31,7 @@ class InstructorIdentificationValidation extends Register
         return ['status' => true, 'erro' => ''];
     }
 
-    //campo 08
+    // campo 08
     public function validateBirthday($date, $low_limit, $high_limit, $currentyear)
     {
         $result = $this->validateDateformart($date);

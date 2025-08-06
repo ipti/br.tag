@@ -5,36 +5,36 @@
  *
  * The followings are the available columns in table 'manager_identification':
  * @property string $register_type
- * @property integer $id
+ * @property int $id
  * @property string $school_inep_id_fk
  * @property string $inep_id
  * @property string $name
  * @property string $email
  * @property string $birthday_date
- * @property integer $sex
- * @property integer $color_race
- * @property integer $nationality
- * @property integer $role
- * @property integer $residence_zone
+ * @property int $sex
+ * @property int $color_race
+ * @property int $nationality
+ * @property int $role
+ * @property int $residence_zone
  * @property string $access_criterion
- * @property integer $contract_type
+ * @property int $contract_type
  * @property string $cpf
  * @property string $number_ato
- * @property integer $filiation
+ * @property int $filiation
  * @property string $filiation_1
  * @property string $filiation_2
  * @property string $filiation_1_rg
  * @property string $filiation_1_cpf
- * @property integer $filiation_1_scholarity
+ * @property int $filiation_1_scholarity
  * @property string $filiation_1_job
  * @property string $filiation_2_rg
  * @property string $filiation_2_cpf
- * @property integer $filiation_2_scholarity
+ * @property int $filiation_2_scholarity
  * @property string $filiation_2_job
- * @property integer $edcenso_nation_fk
- * @property integer $edcenso_uf_fk
- * @property integer $edcenso_city_fk
- * @property integer $users_fk
+ * @property int $edcenso_nation_fk
+ * @property int $edcenso_uf_fk
+ * @property int $edcenso_city_fk
+ * @property int $users_fk
  *
  * The followings are the available model relations:
  * @property EdcensoNation $edcensoNationFk
@@ -53,7 +53,7 @@ class ManagerIdentification extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -73,7 +73,7 @@ class ManagerIdentification extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -139,7 +139,7 @@ class ManagerIdentification extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -187,7 +187,7 @@ class ManagerIdentification extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return ManagerIdentification the static model class
      */
     public static function model($className = __CLASS__)
