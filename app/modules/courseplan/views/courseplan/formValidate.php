@@ -1,8 +1,8 @@
 <?php
-/* @var $this CoursePlanController */
-/* @var $coursePlan CoursePlan */
-/* @var $courseClasses CourseClass[] */
-/* @var $form CActiveForm */
+/** @var $this CoursePlanController */
+/** @var $coursePlan CoursePlan */
+/** @var $courseClasses CourseClass[] */
+/** @var $form CActiveForm */
 ?>
 
 <?php

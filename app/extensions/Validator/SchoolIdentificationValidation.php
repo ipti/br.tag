@@ -231,7 +231,7 @@ class SchoolIdentificationValidation extends Register
     // auxiliar dos campos 8 e 9
     public function isDateValid($date)
     {
-        if ($date == '' || $date == null) {
+        if ($date === '' || $date === null) {
             return ['status' => false, 'erro' => 'Data no formato incorreto'];
         }
 
@@ -550,7 +550,7 @@ class SchoolIdentificationValidation extends Register
                 return ['status' => false, 'erro' => $result['erro']];
             }
         } else {
-            if ($value != null) {
+            if ($value !== null) {
                 return ['status' => false, 'erro' => "Valor $value deveria ser nulo"];
             }
         }
@@ -563,7 +563,7 @@ class SchoolIdentificationValidation extends Register
     public function isPublicContractValid($value, $situation, $administrative_dependence)
     {
         if (!($situation == '1' && $administrative_dependence == '4')) {
-            if ($value != null) {
+            if ($value !== null) {
                 return ['status' => false, 'erro' => "Valor $value deveria ser nulo"];
             } else {
                 return ['status' => true, 'erro' => ''];
@@ -589,7 +589,7 @@ class SchoolIdentificationValidation extends Register
             }
         } else {
             foreach ($keepers as $key => $value) {
-                if ($value != null) {
+                if ($value !== null) {
                     return ['status' => false, 'erro' => 'Valor deveria ser nulo'];
                 }
             }
@@ -602,7 +602,7 @@ class SchoolIdentificationValidation extends Register
     public function isCNPJValid($cnpj, $situation, $administrative_dependence)
     {
         if (!($situation == '1' && $administrative_dependence == '4')) {
-            if ($cnpj != null) {
+            if ($cnpj !== null) {
                 return ['status' => false, 'erro' => "Valor $cnpj deveria ser nulo"];
             } else {
                 return ['status' => true, 'erro' => ''];
@@ -628,7 +628,7 @@ class SchoolIdentificationValidation extends Register
                 return ['status' => false, 'erro' => 'Campo Obrigatório'];
             }
         } else {
-            if ($value != null) {
+            if ($value !== null) {
                 return ['status' => false, 'erro' => "Valor $value deveria ser nulo"];
             }
         }
@@ -665,7 +665,7 @@ class SchoolIdentificationValidation extends Register
         $head_of_head_school
     ) {
         if ($offer_or_linked_unity == '1') {
-            if ($value == '' && $value == null) {
+            if ($value === '' && $value === null) {
                 return ['status' => false, 'erro' => 'O campo não foi preenchido quando deveria ser preenchido.'];
             }
             if (!is_numeric($value)) {
@@ -687,7 +687,7 @@ class SchoolIdentificationValidation extends Register
                 return ['status' => false, 'erro' => 'Escola sede não pode ter atual como sede'];
             }
         } else {
-            if ($value != null) {
+            if ($value !== null) {
                 return ['status' => false, 'erro' => "Valor $value deveria ser nulo"];
             }
         }
@@ -699,7 +699,7 @@ class SchoolIdentificationValidation extends Register
     public function iesCode($value, $administrativeDependence, $offer_or_linked_unity)
     {
         if ($offer_or_linked_unity == '2') {
-            if ($value == '' && $value == null) {
+            if ($value === '' && $value === null) {
                 return ['status' => false, 'erro' => 'O campo não foi preenchido quando deveria ser preenchido.'];
             }
             if (!is_numeric($value)) {
@@ -718,7 +718,7 @@ class SchoolIdentificationValidation extends Register
                 return ['status' => false, 'erro' => 'O código IES deve ser preenchido com um valor permitido, estar ativo e ser da mesma dependência administrativa.'];
             }
         } else {
-            if ($value != null || $value != '') {
+            if ($value !== null || $value != '') {
                 return ['status' => false, 'erro' => "Valor $value deveria ser nulo"];
             }
         }
@@ -728,7 +728,7 @@ class SchoolIdentificationValidation extends Register
 
     public function isNotNullValid($value)
     {
-        if ($value == null) {
+        if ($value === null) {
             return ['status' => false, 'erro' => 'O campo não foi preenchido quando deveria ser preenchido'];
         }
 
@@ -739,13 +739,13 @@ class SchoolIdentificationValidation extends Register
     {
         if ($administrativeDependence == '1' || $administrativeDependence == '2' || $administrativeDependence == '3') {
             if (
-                ($linkedMec == null || $linkedMec == '0') && ($linkedArmy == null || $linkedArmy == '0')
-                && ($linkedHealth == null || $linkedHealth == '0') && ($linkedOther == null || $linkedOther == '0')
+                ($linkedMec === null || $linkedMec == '0') && ($linkedArmy === null || $linkedArmy == '0')
+                && ($linkedHealth === null || $linkedHealth == '0') && ($linkedOther === null || $linkedOther == '0')
             ) {
                 return ['status' => false, 'erro' => 'Quando a dependência administrativa for federal, estadual ou municipal, o campo se torna obrigatório.'];
             }
         } else {
-            if ($linkedMec != null || $linkedArmy != null || $linkedHealth != null || $linkedOther != null) {
+            if ($linkedMec !== null || $linkedArmy !== null || $linkedHealth !== null || $linkedOther !== null) {
                 return ['status' => false, 'erro' => 'Quando a dependência administrativa for privada, as opções do campo deve ser todas vazias.'];
             }
         }
@@ -755,7 +755,7 @@ class SchoolIdentificationValidation extends Register
 
     public function regulationOrganSphere($administrativeDependence, $federal, $state, $municipal)
     {
-        if (($federal == 0 || $federal == null) && ($state == 0 || $state == null) && ($municipal == 0 || $municipal == null)) {
+        if (($federal == 0 || $federal === null) && ($state == 0 || $state === null) && ($municipal == 0 || $municipal === null)) {
             return ['status' => false, 'erro' => 'Selecione pelo menos uma opção.'];
         }
 

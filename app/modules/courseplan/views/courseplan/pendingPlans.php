@@ -1,5 +1,5 @@
 <?php
-/* @var $this DefaultController */
+/** @var $this DefaultController */
 
 $this->breadcrumbs = [
     $this->module->id,
@@ -13,8 +13,8 @@ $this->menu = [
 ?>
 
 <?php
-/* @var $this CoursePlanController */
-/* @var $dataProvider CActiveDataProvider */
+/** @var $this CoursePlanController */
+/** @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Course Plan'));
 

@@ -1,9 +1,11 @@
 <?php
 
     Yii::import('application.modules.classdiary.services.*');
+
     /**
      * @property SaveJustification $SaveJustification
      */
+
     class SaveJustification
     {
         private $studentService;

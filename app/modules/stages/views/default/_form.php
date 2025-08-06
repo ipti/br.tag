@@ -1,7 +1,7 @@
 <?php
-/* @var $this DefaultController */
-/* @var $model EdcensoStageVsModality */
-/* @var $form CActiveForm */
+/** @var $this DefaultController */
+/** @var $model EdcensoStageVsModality */
+/** @var $form CActiveForm */
 
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile('app\modules\stages\resources\_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -91,10 +91,10 @@ $form = $this->beginWidget('CActiveForm', [
         <div class="column clearfix">
         <div class="t-field-checkbox">
             <?php echo $form->checkBox(
-                    $model,
-                    'unified_frequency',
-                    ['value' => 1, 'uncheckValue' => 0]
-                ); ?>
+                                        $model,
+                                        'unified_frequency',
+                                        ['value' => 1, 'uncheckValue' => 0]
+                                    ); ?>
             <?php echo $form->label($model, 'unified_frequency', ['class' => 't-field-text__label']); ?>
         </div>
         </div>

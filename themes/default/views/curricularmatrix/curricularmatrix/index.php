@@ -1,5 +1,5 @@
 <?php
-/* @var $this TimesheetController
+/** @var $this TimesheetController
  * @var $cs CClientScript
  * @var $filter CurricularMatrix
  * @var $dataProvider CActiveDataProvider

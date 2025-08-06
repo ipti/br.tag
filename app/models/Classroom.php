@@ -332,7 +332,7 @@ class Classroom extends AltActiveRecord
 
     public function getGradeRules($stageId = null)
     {
-        if ($stageId == null) {
+        if ($stageId === null) {
             $stageId = $this->edcenso_stage_vs_modality_fk;
         }
 
@@ -439,7 +439,7 @@ class Classroom extends AltActiveRecord
 
     public function getSchoolDaysByExam($exam)
     {
-        /* @var $schoolConfiguration SchoolConfiguration */
+        /** @var $schoolConfiguration SchoolConfiguration */
         $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
         $schoolDays = 0;
         switch ($exam) {
@@ -479,7 +479,7 @@ class Classroom extends AltActiveRecord
 
     public function getWorkingHoursByExam($exam)
     {
-        /* @var $schoolConfiguration SchoolConfiguration */
+        /** @var $schoolConfiguration SchoolConfiguration */
         $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
         $workingHours = 0;
         switch ($exam) {
@@ -515,7 +515,7 @@ class Classroom extends AltActiveRecord
 
     public function getWorkingDaysByDiscipline($discipline)
     {
-        /* @var $schoolConfiguration SchoolConfiguration */
+        /** @var $schoolConfiguration SchoolConfiguration */
         $model = WorkByDiscipline::model()->find('classroom_fk=:classroom_fk AND discipline_fk=:discipline_fk', [':classroom_fk' => $this->id, ':discipline_fk' => $discipline]);
 
         return $model->school_days;
@@ -547,8 +547,8 @@ class Classroom extends AltActiveRecord
         $calendarFirstDay = Yii::app()->db->createCommand('select DATE(ce.start_date) as start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id  where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk = 1000;')->bindParam(':stage', $this->edcenso_stage_vs_modality_fk)->bindParam(':year', Yii::app()->user->year)->queryRow();
         $calendarLastDay = Yii::app()->db->createCommand('select DATE(ce.end_date) as end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk  = 1001;')->bindParam(':stage', $this->edcenso_stage_vs_modality_fk)->bindParam(':year', Yii::app()->user->year)->queryRow();
 
-        $firstDay = date('d/m/Y', $calendarFirstDay == null ? strtotime('first monday of January ' . Yii::app()->user->year) : strtotime($calendarFirstDay['start_date']));
-        $lastDay = date('d/m/Y', $calendarLastDay == null ? strtotime('last friday of December ' . Yii::app()->user->year) : strtotime($calendarLastDay['end_date']));
+        $firstDay = date('d/m/Y', $calendarFirstDay === null ? strtotime('first monday of January ' . Yii::app()->user->year) : strtotime($calendarFirstDay['start_date']));
+        $lastDay = date('d/m/Y', $calendarLastDay === null ? strtotime('last friday of December ' . Yii::app()->user->year) : strtotime($calendarLastDay['end_date']));
 
         if ($sedspAction == 'create') {
             $tipoEnsinoAndStage = ClassroomMapper::convertStageToTipoEnsino($this->edcenso_stage_vs_modality_fk);

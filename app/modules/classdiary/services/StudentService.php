@@ -25,8 +25,8 @@ class StudentService
         $criteria->order = 'name';
         $enrollments = StudentEnrollment::model()->findAllByAttributes(['classroom_fk' => $classroom_fk], $criteria);
 
-        if ($schedule != null) {
-            if ($enrollments != null && $is_minor_schooling) {
+        if ($schedule !== null) {
+            if ($enrollments !== null && $is_minor_schooling) {
                 $students = [];
                 foreach ($enrollments as $enrollment) {
                     $array['studentId'] = $enrollment->student_fk;
@@ -40,7 +40,7 @@ class StudentService
                         'available' => $available,
                         'day' => $schedule->day,
                         'schedule' => $schedule->schedule,
-                        'fault' => $classFault != null,
+                        'fault' => $classFault !== null,
                         'justification' => $classFault->justification,
                         'valid' => $valid,
                     ];
@@ -48,7 +48,7 @@ class StudentService
                 }
 
                 return ['valid' => true, 'students' => $students, 'isMinorEducation' => true];
-            } elseif ($enrollments != null && !$is_minor_schooling) {
+            } elseif ($enrollments !== null && !$is_minor_schooling) {
                 $students = [];
                 foreach ($enrollments as $enrollment) {
                     $array['studentId'] = $enrollment->student_fk;
@@ -64,7 +64,7 @@ class StudentService
                             'available' => $available,
                             'day' => $s->day,
                             'schedule' => $s->schedule,
-                            'fault' => $classFault != null,
+                            'fault' => $classFault !== null,
                             'justification' => $classFault->justification,
                             'valid' => $valid,
                         ];
@@ -73,7 +73,7 @@ class StudentService
                 }
 
                 return ['valid' => true, 'students' => $students, 'isMinorEducation' => false];
-            } elseif ($enrollments == null) {
+            } elseif ($enrollments === null) {
                 return ['valid' => false, 'error' => 'Matricule alunos nesta turma para trazer o quadro de frequência.'];
             }
         } else {
@@ -174,7 +174,7 @@ class StudentService
                 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m')]);
             foreach ($schedules as $schedule) {
                 $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $student_id]);
-                $classFault->justification = $justification == '' ? null : $justification;
+                $classFault->justification = $justification === '' ? null : $justification;
                 $classFault->save();
             }
         } else {
@@ -183,7 +183,7 @@ class StudentService
                 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
                 'schedule' => $schedule]);
             $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $student_id]);
-            $classFault->justification = $justification == '' ? null : $justification;
+            $classFault->justification = $justification === '' ? null : $justification;
             $classFault->save();
         }
     }
@@ -271,7 +271,7 @@ class StudentService
 
         if ($student_observation != '') {
             $classDiary = ClassDiaries::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', [':schedule_fk' => $schedule->id, ':student_fk' => $student_fk]);
-            if ($classDiary == null) {
+            if ($classDiary === null) {
                 $classDiary = new ClassDiaries();
                 $classDiary->schedule_fk = $schedule->id;
                 $classDiary->student_fk = $student_fk;

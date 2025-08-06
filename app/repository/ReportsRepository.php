@@ -883,7 +883,7 @@ class ReportsRepository
             $turno = 'Vesperitino';
         } elseif ($turno == 'N') {
             $turno = 'Noturno';
-        } elseif ($turno == '' || $turno == null) {
+        } elseif ($turno === '' || $turno === null) {
             $turno = '___________';
         }
 
@@ -944,7 +944,7 @@ class ReportsRepository
             ];
         }
 
-        if ($result == null) {
+        if ($result === null) {
             $error = true;
             $message = 'A turma ' . $classroom_model->name . ' não possui professores para a disciplina de ' . $discipline_model->name;
         }
@@ -1103,7 +1103,7 @@ class ReportsRepository
             $title = 'EDUCAÇÃO INFANTIL';
         }
 
-        if ($classrooms[0] != null) {
+        if ($classrooms[0] !== null) {
             if ($currentReport == 1) {
                 $view = 'buzios/quarterly/QuarterlyClassCouncil';
                 $result = [
@@ -2042,7 +2042,7 @@ class ReportsRepository
                         : 'N/A';
                 }
                 $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']['Classroom'] = $classroom->name;
-                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']['NIS'] = $studentEnrollment->studentFk->documentsFk->nis == null ? 'Não Informado' : $studentEnrollment->studentFk->documentsFk->nis;
+                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']['NIS'] = $studentEnrollment->studentFk->documentsFk->nis === null ? 'Não Informado' : $studentEnrollment->studentFk->documentsFk->nis;
                 $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']['birthday'] = $studentEnrollment->studentFk->birthday;
             }
         }
@@ -2077,7 +2077,7 @@ class ReportsRepository
         $query = $command->queryAll();
 
         foreach ($query as $result) {
-            if ($result['student'] != null) {
+            if ($result['student'] !== null) {
                 $count = isset($result['count']) ? $result['count'] : 0;
                 $faults = isset($result['faults']) ? $result['faults'] : 0;
                 $groupByClassroom[$result['classroom']][$result['student']]['Classes'][$result['month']] = ($count == 0) ? ('N/A') : (floor((($count - $faults) / $count) * 100 * 100) / 100) . '%';
@@ -2461,30 +2461,30 @@ class ReportsRepository
                 foreach ($arr['grades'] as &$grade) {
                     switch ($grade['gradeUnityType']) {
                         case 'U':
-                            $grade['unityGrade'] = $gradeResult['grade_' . ($gradeIndex + 1)] != null ? $gradeResult['grade_' . ($gradeIndex + 1)] : '';
+                            $grade['unityGrade'] = $gradeResult['grade_' . ($gradeIndex + 1)] !== null ? $gradeResult['grade_' . ($gradeIndex + 1)] : '';
                             $gradeIndex++;
                             break;
                         case 'UR':
-                            $grade['unityGrade'] = $gradeResult['grade_' . ($gradeIndex + 1)] != null ? $gradeResult['grade_' . ($gradeIndex + 1)] : '';
-                            $grade['unityRecoverGrade'] = $gradeResult['rec_partial_' . ($gradeIndex + 1)] != null ? $gradeResult['rec_partial_' . ($gradeIndex + 1)] : '';
+                            $grade['unityGrade'] = $gradeResult['grade_' . ($gradeIndex + 1)] !== null ? $gradeResult['grade_' . ($gradeIndex + 1)] : '';
+                            $grade['unityRecoverGrade'] = $gradeResult['rec_partial_' . ($gradeIndex + 1)] !== null ? $gradeResult['rec_partial_' . ($gradeIndex + 1)] : '';
                             $gradeIndex++;
                             break;
                         case 'RS':
-                            $grade['unityGrade'] = $gradeResult['sem_rec_partial_' . ($recSemIndex + 1)] != null ? $gradeResult['sem_rec_partial_' . ($recSemIndex + 1)] : '';
+                            $grade['unityGrade'] = $gradeResult['sem_rec_partial_' . ($recSemIndex + 1)] !== null ? $gradeResult['sem_rec_partial_' . ($recSemIndex + 1)] : '';
                             $recSemIndex++;
                             break;
                         case 'RF':
-                            $grade['unityGrade'] = $gradeResult['rec_final'] != null ? $gradeResult['rec_final'] : '';
+                            $grade['unityGrade'] = $gradeResult['rec_final'] !== null ? $gradeResult['rec_final'] : '';
                             break;
                         case 'UC':
-                            $grade['unityGrade'] = $gradeResult['grade_concept_' . ($gradeIndex + 1)] != null ? $gradeResult['grade_concept_' . ($gradeIndex + 1)] : '';
+                            $grade['unityGrade'] = $gradeResult['grade_concept_' . ($gradeIndex + 1)] !== null ? $gradeResult['grade_concept_' . ($gradeIndex + 1)] : '';
                             $gradeIndex++;
                             break;
                     }
                 }
 
-                $arr['finalMedia'] = $gradeResult != null ? ($gradeResult->final_media != null ? $gradeResult->final_media : '') : '';
-                $arr['situation'] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : '') : '';
+                $arr['finalMedia'] = $gradeResult !== null ? ($gradeResult->final_media !== null ? $gradeResult->final_media : '') : '';
+                $arr['situation'] = $gradeResult !== null ? ($gradeResult->situation !== null ? $gradeResult->situation : '') : '';
                 array_push($result['rows'], $arr);
             }
             $result['valid'] = true;

@@ -115,7 +115,7 @@ class ClassroomMapper
         $arrayClasses = [];
         foreach ($outClasses as $classe) {
             $classroom = Classroom::model()->find('gov_id = :gov_id', ['gov_id' => $classe->getOutNumClasse()]);
-            if ($classroom == null) {
+            if ($classroom === null) {
                 $classroom = new Classroom();
                 $classroom->school_inep_fk = $schoolInepFk;
                 $classroom->gov_id = $classe->getOutNumClasse();

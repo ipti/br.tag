@@ -1,7 +1,7 @@
 <?php
-/* @var $this ReportsController */
-/* @var $role mixed */
-/* @var $classroom mixed */
+/** @var $this ReportsController */
+/** @var $role mixed */
+/** @var $classroom mixed */
 
 $baseUrl = Yii::app()->baseUrl;
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));

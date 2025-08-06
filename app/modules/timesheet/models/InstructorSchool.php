@@ -12,6 +12,7 @@
      * @property InstructorIdentification $instructorFk
      * @property SchoolIdentification $schoolFk
      */
+
     class InstructorSchool extends TagModel
     {
         /**

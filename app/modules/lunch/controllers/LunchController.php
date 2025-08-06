@@ -50,7 +50,7 @@ class LunchController extends Controller
 
     public function actionUpdate($id)
     {
-        /* @var $menu Menu */
+        /** @var $menu Menu */
         $request = Yii::app()->getRequest();
         $menuPost = $request->getPost('Menu', false);
 
@@ -106,7 +106,7 @@ class LunchController extends Controller
 
     public function actionRemovePortion()
     {
-        /* @var $mealPortion MealPortion */
+        /** @var $mealPortion MealPortion */
 
         $request = Yii::app()->getRequest();
         $portionId = $request->getPost('id', false);
@@ -164,8 +164,8 @@ class LunchController extends Controller
 
     public function actionAddPortion()
     {
-        /* @var $mealPortion MealPortion */
-        /* @var $portion Portion */
+        /** @var $mealPortion MealPortion */
+        /** @var $portion Portion */
 
         $request = Yii::app()->getRequest();
         $menuPost = $request->getPost('Menu', false);
@@ -213,8 +213,8 @@ class LunchController extends Controller
 
     public function actionAddMeal()
     {
-        /* @var $menuMeal MenuMeal */
-        /* @var $meal Meal */
+        /** @var $menuMeal MenuMeal */
+        /** @var $meal Meal */
 
         $request = Yii::app()->getRequest();
         $menuMealPost = $request->getPost('MenuMeal', false);
@@ -247,8 +247,8 @@ class LunchController extends Controller
 
     public function actionChangeMeal()
     {
-        /* @var $menuMeal MenuMeal */
-        /* @var $meal Meal */
+        /** @var $menuMeal MenuMeal */
+        /** @var $meal Meal */
 
         $request = Yii::app()->getRequest();
         $menuMealPost = $request->getPost('MenuMeal', false);

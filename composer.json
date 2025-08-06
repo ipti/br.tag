@@ -31,7 +31,7 @@
         "phpstan/phpstan-strict-rules": "2.0.x-dev"
     },
     "scripts": {
-        "format": "./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run",
+        "format": "./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php",
         "lint": "./vendor/bin/phpstan analyse",
         "mess": "./vendor/bin/phpmd",
         "sass": "./vendor/bin/pscss",

@@ -1,5 +1,5 @@
 <?php
-/* @var $this ManagementSchoolController
+/** @var $this ManagementSchoolController
  * @var $school SchoolIdentification
  * @var $efficiencies array
  */

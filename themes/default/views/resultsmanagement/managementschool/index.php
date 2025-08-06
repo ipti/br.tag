@@ -1,5 +1,5 @@
 <?php
-/* @var $this SchoolController
+/** @var $this SchoolController
  * @var $school SchoolIdentification
  */
 $this->headerDescription = CHtml::tag('span', [], $school->name);

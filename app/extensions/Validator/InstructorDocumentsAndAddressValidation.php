@@ -72,7 +72,7 @@ class InstructorDocumentsAndAddressValidation extends Register
         // expressao regular para avaliar o cep
         $avaliaCep = preg_match('/^[0-9]{5}[0-9]{3}$/', $cep);
 
-        if ($cep == null) {
+        if ($cep === null) {
             return ['status' => false, 'erro' => 'O campo CEP é uma informação obrigatória.'];
         }
         if (strlen($cep) != 8 || !$avaliaCep) {
@@ -89,15 +89,15 @@ class InstructorDocumentsAndAddressValidation extends Register
     public function isAdressValid($field, $cep, $allowed_lenght)
     {
         $regex = '/^[0-9 a-z.,-ºª ]+$/';
-        if ($cep == null) {
-            if ($field == null) {
+        if ($cep === null) {
+            if ($field === null) {
                 return ['status' => false, 'erro' => 'O campo não pode ser nulo.'];
             }
         } elseif (strlen($field) > $allowed_lenght || strlen($field) <= 0) {
             return ['status' => false, 'erro' => 'O campo está com tamanho incorreto.'];
         } elseif (!preg_match($regex, $field)) {
             return ['status' => false, 'erro' => 'O campo foi preenchido com valor inválido.'];
-        } elseif ($field == null) {
+        } elseif ($field === null) {
             return ['status' => false, 'erro' => 'O campo não pode ser nulo.'];
         }
 

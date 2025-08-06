@@ -76,7 +76,7 @@ class TimesheetController extends Controller
 
     public function actionGetTimesheet($classroomId = null)
     {
-        if ($classroomId == null) {
+        if ($classroomId === null) {
             $classroomId = $_POST['cid'];
         }
         $classroom = Classroom::model()->find('id = :classroomId', [':classroomId' => $classroomId]);
@@ -286,7 +286,7 @@ class TimesheetController extends Controller
                 ':stage' => $classroom->edcenso_stage_vs_modality_fk,
                 ':year' => Yii::app()->user->year,
             ]);
-            if ($curricularMatrix != null) {
+            if ($curricularMatrix !== null) {
                 Schedule::model()->deleteAll('classroom_fk = :classroom', [':classroom' => $classroomId]);
 
                 $schedulesQuantity = 10;
@@ -435,15 +435,15 @@ class TimesheetController extends Controller
         $lastClassContentDate = new DateTime($lastClassContentDay['year'] . '-' . str_pad($lastClassContentDay['month'], 2, '0', STR_PAD_LEFT) . '-' . str_pad($lastClassContentDay['day'], 2, '0', STR_PAD_LEFT));
 
         if (
-            ($lastClassFaultDay == null || ($firstScheduleDate > $lastClassFaultDate && $secondScheduleDate > $lastClassFaultDate)) &&
-            ($lastClassContentDay == null || ($firstScheduleDate > $lastClassContentDate && $secondScheduleDate > $lastClassContentDate))
+            ($lastClassFaultDay === null || ($firstScheduleDate > $lastClassFaultDate && $secondScheduleDate > $lastClassFaultDate)) &&
+            ($lastClassContentDay === null || ($firstScheduleDate > $lastClassContentDate && $secondScheduleDate > $lastClassContentDate))
         ) {
             $schedulesToCheckHardUnavailability = [];
             $softUnavailableDays = $this->getUnavailableDays($_POST['classroomId'], true, 'soft');
             while ($firstScheduleDate <= $finalDate || $secondScheduleDate <= $finalDate) {
                 $firstSchedule = Schedule::model()->findByAttributes(['classroom_fk' => $_POST['classroomId'], 'year' => $firstScheduleDate->format('Y'), 'month' => $firstScheduleDate->format('n'), 'day' => $firstScheduleDate->format('j'), 'schedule' => $_POST['firstSchedule']['schedule']]);
                 $secondSchedule = Schedule::model()->findByAttributes(['classroom_fk' => $_POST['classroomId'], 'year' => $secondScheduleDate->format('Y'), 'month' => $secondScheduleDate->format('n'), 'day' => $secondScheduleDate->format('j'), 'schedule' => $_POST['secondSchedule']['schedule']]);
-                if ($firstSchedule != null && $secondSchedule != null) {
+                if ($firstSchedule !== null && $secondSchedule !== null) {
                     array_push($changes, [
                         'firstSchedule' => ['day' => $firstSchedule->day, 'month' => $firstSchedule->month, 'year' => $firstSchedule->year, 'schedule' => $firstSchedule->schedule],
                         'secondSchedule' => ['day' => $secondSchedule->day, 'month' => $secondSchedule->month, 'year' => $secondSchedule->year, 'schedule' => $secondSchedule->schedule],
@@ -477,8 +477,8 @@ class TimesheetController extends Controller
 
                     array_push($schedulesToCheckHardUnavailability, $firstSchedule);
                     array_push($schedulesToCheckHardUnavailability, $secondSchedule);
-                } elseif ($firstSchedule != null || $secondSchedule != null) {
-                    if ($secondSchedule != null) {
+                } elseif ($firstSchedule !== null || $secondSchedule !== null) {
+                    if ($secondSchedule !== null) {
                         array_push($changes, [
                             'firstSchedule' => ['day' => $firstScheduleDate->format('j'), 'month' => $firstScheduleDate->format('n'), 'year' => $firstScheduleDate->format('Y'), 'schedule' => $_POST['firstSchedule']['schedule']],
                             'secondSchedule' => ['day' => $secondSchedule->day, 'month' => $secondSchedule->month, 'year' => $secondSchedule->year, 'schedule' => $secondSchedule->schedule],
@@ -569,8 +569,8 @@ class TimesheetController extends Controller
         } else {
             echo CJSON::encode([
                 'valid' => false,
-                'lastClassFaultDate' => $lastClassFaultDay != null ? str_pad($lastClassFaultDay['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($lastClassFaultDay['month'], 2, '0', STR_PAD_LEFT) . '/' . $lastClassFaultDay['year'] : '',
-                'lastClassContentDate' => $lastClassContentDay != null ? str_pad($lastClassContentDay['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($lastClassContentDay['month'], 2, '0', STR_PAD_LEFT) . '/' . $lastClassContentDay['year'] : '',
+                'lastClassFaultDate' => $lastClassFaultDay !== null ? str_pad($lastClassFaultDay['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($lastClassFaultDay['month'], 2, '0', STR_PAD_LEFT) . '/' . $lastClassFaultDay['year'] : '',
+                'lastClassContentDate' => $lastClassContentDay !== null ? str_pad($lastClassContentDay['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($lastClassContentDay['month'], 2, '0', STR_PAD_LEFT) . '/' . $lastClassContentDay['year'] : '',
             ]);
         }
     }
@@ -592,7 +592,7 @@ class TimesheetController extends Controller
         $hours = $vha['value'] / 60;
         for ($date = $selectedDate; $date <= $finalDate; $date->modify('+7 days')) {
             $schedule = Schedule::model()->findByAttributes(['classroom_fk' => $_POST['classroomId'], 'year' => $date->format('Y'), 'month' => $date->format('n'), 'day' => $date->format('j'), 'schedule' => $_POST['schedule']['schedule']]);
-            if ($schedule != null) {
+            if ($schedule !== null) {
                 array_push($removes, ['day' => $schedule->day, 'month' => $schedule->month, 'year' => $schedule->year, 'schedule' => $schedule->schedule]);
                 if (!$schedule->unavailable) {
                     $key = array_search($schedule->discipline_fk, array_column($disciplines, 'disciplineId'));
@@ -668,7 +668,7 @@ class TimesheetController extends Controller
         for ($date = $selectedDate; $date <= $finalDate; $date->modify('+7 days')) {
             if (!in_array($date->format('Y-m-d'), $hardUnavailableDays) || $_POST['hardUnavailableDaySelected']) {
                 $schedule = Schedule::model()->findByAttributes(['classroom_fk' => $_POST['classroomId'], 'year' => $date->format('Y'), 'month' => $date->format('n'), 'day' => $date->format('j'), 'schedule' => $_POST['schedule']['schedule']]);
-                if ($schedule == null) {
+                if ($schedule === null) {
                     $schedule = new Schedule();
                     $schedule->discipline_fk = $_POST['disciplineId'];
                     $schedule->classroom_fk = $_POST['classroomId'];
@@ -697,7 +697,7 @@ class TimesheetController extends Controller
                         // Verifica quais alunos de fundamental menor tomou falta esse DIA. Nesse caso, para quem tomou, criar a falta também para esse schedule.
                         // OBS: Para aulas ministradas não precisa, uma vez que o registro de aula ministrada fica vinculado apenas na primeira schedule do dia.
                         $anyOtherScheduleInTheDay = Schedule::model()->findByAttributes(['classroom_fk' => $_POST['classroomId'], 'year' => $date->format('Y'), 'month' => $date->format('n'), 'day' => $date->format('j')], 'schedule != :schedule', [':schedule' => $_POST['schedule']['schedule']]);
-                        if ($anyOtherScheduleInTheDay != null && !empty($anyOtherScheduleInTheDay->classFaults)) {
+                        if ($anyOtherScheduleInTheDay !== null && !empty($anyOtherScheduleInTheDay->classFaults)) {
                             foreach ($anyOtherScheduleInTheDay->classFaults as $cf) {
                                 $classFault = new ClassFaults();
                                 $classFault->student_fk = $cf->student_fk;
@@ -777,7 +777,7 @@ class TimesheetController extends Controller
         );
 
         // Se não existir, cria um novo
-        if ($substituteInstructor == null) {
+        if ($substituteInstructor === null) {
             $substituteInstructor = new SubstituteInstructor();
             $substituteInstructor->teaching_data_fk = $teachingData->id;
             $substituteInstructor->instructor_fk = $instructor->id;
@@ -896,7 +896,7 @@ class TimesheetController extends Controller
                 ]
             );
 
-            if ($allSchedules == null) {
+            if ($allSchedules === null) {
                 $substituteInstructor->delete();
             }
 
@@ -961,7 +961,7 @@ class TimesheetController extends Controller
 
         foreach ($schedules as $schedule) {
             $date = $this->generateDate($schedule->day, $schedule->month, $schedule->year, 0);
-            $classDay = $schedule->substitute_instructor_fk != null;
+            $classDay = $schedule->substitute_instructor_fk !== null;
             array_push($response['schedules'], [
                 'day' => $schedule->day,
                 'week_day' => $dayName[$schedule->week_day],

@@ -29,7 +29,7 @@ class GetStudentGradesResultUsecase
             ]
         );
 
-        $isNewGradeResult = $gradeResult == null;
+        $isNewGradeResult = $gradeResult === null;
 
         if ($isNewGradeResult) {
             $gradeResult = new GradeResults();

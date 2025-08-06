@@ -242,7 +242,7 @@ class SiteController extends Controller
             foreach ($listSchoolClassrooms as $classroom) {
                 // Se houver turma, verificar se existe etapa vinculada à turma
                 $stage = $classroom->edcensoStageVsModalityFk;
-                if ($stage == null) {
+                if ($stage === null) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem etapa.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
@@ -281,7 +281,7 @@ class SiteController extends Controller
 
                 // Se houver turma, verificar se existe calendario vinculado a ela
                 $calendar = $classroom->calendarFk;
-                if ($calendar == null) {
+                if ($calendar === null) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> não possui calendário vinculado.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'

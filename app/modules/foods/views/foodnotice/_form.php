@@ -1,7 +1,7 @@
 <?php
-/* @var $this FoodNoticeController */
-/* @var $model FoodNotice */
-/* @var $form CActiveForm */
+/** @var $this FoodNoticeController */
+/** @var $model FoodNotice */
+/** @var $form CActiveForm */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cs = Yii::app()->getClientScript();

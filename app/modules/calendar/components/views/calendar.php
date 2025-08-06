@@ -38,7 +38,7 @@ $calendars = Calendar::model()->findAll('YEAR(start_date) = :year', [':year' => 
 
 ?>
 
-<div class="no-calendars-alert alert alert-warning <?= $calendars == null ? '' : 'no-show' ?>">Nenhum Calendário
+<div class="no-calendars-alert alert alert-warning <?= $calendars === null ? '' : 'no-show' ?>">Nenhum Calendário
     cadastrado para <?= Yii::app()->user->year ?>.
 </div>
 <div class="accordion" id="calendars">
@@ -223,7 +223,7 @@ $calendars = Calendar::model()->findAll('YEAR(start_date) = :year', [':year' => 
                 id="myModalLabel"><?= Yii::t('calendarModule.index', 'New Calendar') ?></h4>
         </div>
         <?php
-        /* @var $form CActiveForm */
+        /** @var $form CActiveForm */
         $form = $this->beginWidget('CActiveForm', [
             'id' => 'createCalendar',
             'action' => '?r=/calendar/default/create',
@@ -289,11 +289,11 @@ $calendars = Calendar::model()->findAll('YEAR(start_date) = :year', [':year' => 
                     <?= CHtml::label(Yii::t('calendarModule.labels', 'Copy From'), 'copy', ['class' => 'control-label']); ?>
                     <div class="form-control">
                         <?= CHtml::dropDownList(
-                    'copy',
-                    '',
-                    CHtml::listData(Calendar::model()->findAll(), 'id', 'title'),
-                    ['prompt' => Yii::t('calendarModule.labels', 'Select calendar base'), 'class' => 'span9', 'style' => 'width:100%']
-                ) ?>
+                            'copy',
+                            '',
+                            CHtml::listData(Calendar::model()->findAll(), 'id', 'title'),
+                            ['prompt' => Yii::t('calendarModule.labels', 'Select calendar base'), 'class' => 'span9', 'style' => 'width:100%']
+                        ) ?>
                     </div>
                 </div>
             </div>
@@ -323,7 +323,7 @@ $calendars = Calendar::model()->findAll('YEAR(start_date) = :year', [':year' => 
                 id="myModalLabel"><?= Yii::t('calendarModule.index', 'Edit Calendar') ?></h4>
         </div>
         <?php
-/* @var $form CActiveForm */
+/** @var $form CActiveForm */
 $editCalendar = new Calendar();
 $form = $this->beginWidget('CActiveForm', [
     'id' => 'createCalendar',
@@ -441,7 +441,7 @@ $this->endWidget();
                 id="myModalLabel"><?= Yii::t('calendarModule.index', 'Change Event') ?></h4>
         </div>
         <?php
-/* @var $form CActiveForm */
+/** @var $form CActiveForm */
 $form = $this->beginWidget('CActiveForm', [
     'id' => 'createEvent',
     'action' => '?r=/calendar/default/changeEvent',

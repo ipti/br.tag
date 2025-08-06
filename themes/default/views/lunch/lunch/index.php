@@ -1,5 +1,5 @@
 <?php
-/* @var $this StockController
+/** @var $this StockController
  * @var $school School
  *
  */

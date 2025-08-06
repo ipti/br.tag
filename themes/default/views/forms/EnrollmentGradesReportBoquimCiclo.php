@@ -1,6 +1,6 @@
 <?php
-/* @var $this ReportsController */
-/* @var $enrollment StudentEnrollment */
+/** @var $this ReportsController */
+/** @var $enrollment StudentEnrollment */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentGradesReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -54,8 +54,8 @@ for ($i = 1; $i <= 4; $i++) {
 }
 
 foreach ($enrollment->grades as $grades) {
-    /* @var $grades Grade */
-    /* @var $discipline EdcensoDiscipline */
+    /** @var $grades Grade */
+    /** @var $discipline EdcensoDiscipline */
     $discipline = $grades->disciplineFk;
     $disciplineId = $discipline->id;
     $type = '';
@@ -68,11 +68,11 @@ foreach ($enrollment->grades as $grades) {
     $disciplines[$type][$disciplineId] = $discipline->name;
     $faults = $enrollment->classFaults;
 
-    $exams[1][$type][$disciplineId] = $grades->grade1 != null ? $grades->grade1 : '';
-    $exams[2][$type][$disciplineId] = $grades->grade2 != null ? $grades->grade2 : '';
-    $exams[3][$type][$disciplineId] = $grades->grade3 != null ? $grades->grade3 : '';
-    $exams[4][$type][$disciplineId] = $grades->grade4 != null ? $grades->grade4 : '';
-    $finals[$type][$disciplineId] = $grades->recovery_final_grade != null ? $grades->recovery_final_grade : '';
+    $exams[1][$type][$disciplineId] = $grades->grade1 !== null ? $grades->grade1 : '';
+    $exams[2][$type][$disciplineId] = $grades->grade2 !== null ? $grades->grade2 : '';
+    $exams[3][$type][$disciplineId] = $grades->grade3 !== null ? $grades->grade3 : '';
+    $exams[4][$type][$disciplineId] = $grades->grade4 !== null ? $grades->grade4 : '';
+    $finals[$type][$disciplineId] = $grades->recovery_final_grade !== null ? $grades->recovery_final_grade : '';
     $averages[$type][$disciplineId] = $grades->getAverage();
     $finalAverage[$type][$disciplineId] = $grades->getFinalAverage();
 

@@ -1,6 +1,6 @@
 <?php
-/* @var $this FarmerRegisterController */
-/* @var $dataProvider CActiveDataProvider */
+/** @var $this FarmerRegisterController */
+/** @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = [
     'Farmer Registers',

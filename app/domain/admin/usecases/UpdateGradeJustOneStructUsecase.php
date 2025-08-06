@@ -79,7 +79,7 @@ class UpdateGradeJustOneStructUsecase
             if ($unity['operation'] === self::OP_CREATE || $unity['operation'] === self::OP_UPDATE) {
                 $unityModel = GradeUnity::model()->find('id = :id', [':id' => $unity['id']]);
 
-                if ($unityModel == null) {
+                if ($unityModel === null) {
                     $unityModel = new GradeUnity();
                 }
 
@@ -111,7 +111,7 @@ class UpdateGradeJustOneStructUsecase
 
             if ($m['operation'] === self::OP_CREATE || $m['operation'] === self::OP_UPDATE) {
                 $modalityModel = GradeUnityModality::model()->find('id = :id', [':id' => $m['id']]);
-                if ($modalityModel == null) {
+                if ($modalityModel === null) {
                     $modalityModel = new GradeUnityModality();
                 }
                 $modalityModel->name = $m['name'];

@@ -1,6 +1,6 @@
 <?php
-/* @var $this ReportsController */
-/* @var $report mixed */
+/** @var $this ReportsController */
+/** @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -67,7 +67,7 @@ $tableWhiteFieldsComplete = '<td></td><td></td><td></td><td></td><td></td>
             </thead>
             <tbody>
                 <?php
-                            $count = 1;
+                                        $count = 1;
 foreach ($students as $student) { ?>
                     <tr>
                         <td><?= $count < 10 ? '0' . $count : $count?></td>

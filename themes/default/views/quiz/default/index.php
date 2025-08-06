@@ -1,5 +1,5 @@
 <?php
-/* @var $this DefaultController */
+/** @var $this DefaultController */
 
 $baseUrl = Yii::app()->baseUrl;
 

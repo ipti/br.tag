@@ -13,6 +13,7 @@
      * The followings are the available model relations:
      * @property InstructorIdentification $instructorSchoolFk
      */
+
     class Unavailability extends TagModel
     {
         /**

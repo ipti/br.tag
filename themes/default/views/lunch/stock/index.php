@@ -1,5 +1,5 @@
 <?php
-/* @var $this StockController
+/** @var $this StockController
  */
 
 $this->pageTitle = Yii::app()->name . ' - ' . Yii::t('lunchModule.stock', 'Stock');
@@ -121,11 +121,11 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
             <h4 class="modal-title"><?= Yii::t('lunchModule.stock', 'Add Item'); ?></h4>
         </div>
         <?php
-                                            $form = $this->beginWidget('CActiveForm', [
-                                                'id' => 'add-item',
-                                                'enableAjaxValidation' => false,
-                                                'action' => Yii::app()->createUrl('lunch/stock/addItem')
-                                            ]);
+                                                                                $form = $this->beginWidget('CActiveForm', [
+                                                                                    'id' => 'add-item',
+                                                                                    'enableAjaxValidation' => false,
+                                                                                    'action' => Yii::app()->createUrl('lunch/stock/addItem')
+                                                                                ]);
 ?>
         <div class="modal-body">
 

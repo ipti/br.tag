@@ -14,6 +14,7 @@
      * @property TimesheetInstructor $instructorFk
      * @property EdcensoStageVsModality $stageVsModalityFk
      */
+
     class InstructorDisciplines extends TagModel
     {
         /**

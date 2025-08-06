@@ -17,7 +17,7 @@
         ?>
             <tr>
                 <td>
-                    <label class="t-badge-info t-margin-none--left <?=$f['status'] == '1' || $f['status'] == '' ? 'hide' : ''; ?>">
+                    <label class="t-badge-info t-margin-none--left <?=$f['status'] == '1' || $f['status'] === '' ? 'hide' : ''; ?>">
                         <?= $f['statusLabel'] ?>
                     </label>
                     <?php echo $f['studentName']; ?>

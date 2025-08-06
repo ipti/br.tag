@@ -1,8 +1,8 @@
 <?php
-/* @var $this ReportsController */
-/* @var $report mixed */
-/* @var $classroom Classroom*/
-/* @var $students StudentEnrollment[]*/
+/** @var $this ReportsController */
+/** @var $report mixed */
+/** @var $classroom Classroom*/
+/** @var $students StudentEnrollment[]*/
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/AtaSchoolPerformance/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -249,7 +249,7 @@ if ($turno == 'M') {
     $turno = 'Tarde';
 } elseif ($turno == 'N') {
     $turno = 'Noite';
-} elseif ($turno == '' || $turno == null) {
+} elseif ($turno === '' || $turno === null) {
     $turno = '______________________';
 }
 ?>
@@ -380,7 +380,7 @@ if ($turno == 'M') {
             </tr>
             <tr>
                 <?php foreach ($baseDisciplines as $discipline) {
-                    $name = $discipline['discipline_abbreviation'] == null ? $discipline['discipline_name'] : $discipline['discipline_abbreviation'];
+                    $name = $discipline['discipline_abbreviation'] === null ? $discipline['discipline_name'] : $discipline['discipline_abbreviation'];
                     if (strlen($name) <= 20) {
                         echo "<th scope='col' class='vertical-text'><div>" . $name . '</div></th>';
                     } else {
@@ -389,7 +389,7 @@ if ($turno == 'M') {
                 }
 ?>
                 <?php foreach ($diversifiedDisciplines as $discipline) {
-                    $name = $discipline['discipline_abbreviation'] == null ? $discipline['discipline_name'] : $discipline['discipline_abbreviation'];
+                    $name = $discipline['discipline_abbreviation'] === null ? $discipline['discipline_name'] : $discipline['discipline_abbreviation'];
                     if (strlen($name) <= 20) {
                         echo "<th scope='col' class='vertical-text'><div>" . $name . '</div></th>';
                     } else {

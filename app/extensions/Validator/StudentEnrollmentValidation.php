@@ -94,7 +94,7 @@ class studentEnrollmentValidation extends Register
                 }
             }
         } else {
-            if ($value != null) {
+            if ($value !== null) {
                 return ['status' => false, 'erro' => "value $value deveria ser nulo", 'type' => 'normal'];
             }
         }
@@ -109,7 +109,7 @@ class studentEnrollmentValidation extends Register
                 return ['status' => false, 'erro' => "value $value não é disponível", 'type' => 'normal'];
             }
         } else {
-            if ($value != null) {
+            if ($value !== null) {
                 return ['status' => false, 'erro' => "value $value deveria ser nulo", 'type' => 'normal'];
             }
         }
@@ -131,7 +131,7 @@ class studentEnrollmentValidation extends Register
             }
         } else {
             foreach ($types as $key => $value) {
-                if ($value != null) {
+                if ($value !== null) {
                     return ['status' => false, 'erro' => "value $value deveria ser nulo", 'type' => 'normal'];
                 }
             }
@@ -152,7 +152,7 @@ class studentEnrollmentValidation extends Register
                 return ['status' => false, 'erro' => $result['erro'], 'type' => 'normal'];
             }
         } else {
-            if ($value != null) {
+            if ($value !== null) {
                 return ['status' => false, 'erro' => "value $value deveria ser nulo", 'type' => 'normal'];
             }
         }

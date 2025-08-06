@@ -14,6 +14,7 @@
      * @property EdcensoDiscipline $disciplineFk
      * @property EdcensoStageVsModality $stageFk
      */
+
     class TimesheetCurricularMatrix extends TagModel
     {
         /**

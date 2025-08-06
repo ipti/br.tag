@@ -107,5 +107,5 @@ return (new PhpCsFixer\Config())
         'space_after_semicolon' => true,
         // 'single_blank_line_at_eof' => false
     ])
-    // ->setIndent("\t")
+    ->setIndent('    ')
     ->setLineEnding("\n");

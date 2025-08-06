@@ -133,7 +133,7 @@ class TagUtils extends CApplicationComponent
                 return strtoupper($element);
             }, $instance);
 
-            return in_array(strtoupper(INSTANCE), $instances);
+            return in_array(strtoupper(INSTANCE), $instances, false);
         }
 
         return strtoupper(INSTANCE) === strtoupper($instance);

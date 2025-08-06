@@ -56,7 +56,7 @@ class DefaultController extends Controller
     {
         $result = [];
         $classroom = Classroom::model()->findByPk($_POST['classroom']);
-        if ($classroom->calendar_fk != null) {
+        if ($classroom->calendar_fk !== null) {
             $result['months'] = [];
             $calendar = $classroom->calendarFk;
             $begin = new DateTime($calendar->start_date);
@@ -123,7 +123,7 @@ class DefaultController extends Controller
         $criteria->together = true;
         $criteria->order = 'name';
 
-        if ($schedules != null) {
+        if ($schedules !== null) {
             $scheduleDays = $this->getScheduleDays($schedules);
             echo json_encode(
                 [
@@ -165,7 +165,7 @@ class DefaultController extends Controller
         if ($hasNewClassContent) {
             $saveNewClassContent = new SaveNewClassContent();
             $newClassContentId = $saveNewClassContent->exec($coursePlanId, $content, $methodology, $abilities);
-            if ($classContent != null) {
+            if ($classContent !== null) {
                 $classContent[] = $newClassContentId;
             } else {
                 $classContent = [$newClassContentId];
@@ -210,7 +210,7 @@ class DefaultController extends Controller
         $student = $getStudent->exec($student_id);
 
         $getStudentFault = new GetStudentFault();
-        $studentFault = $getStudentFault->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id, $schedule) != null;
+        $studentFault = $getStudentFault->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id, $schedule) !== null;
 
         $getStudentDiary = new GetStudentDiary();
         $student_observation = $getStudentDiary->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id);

@@ -70,8 +70,8 @@ class School extends TagModel
     public function transactions($initialDate = null, $finalDate = null)
     {
         $whereSchool = "school = $this->inep_id";
-        $whereInitial = $initialDate != null ? " AND date >= $initialDate" : ' ';
-        $whereFinal = $finalDate != null ? " AND date <= $finalDate" : ' ';
+        $whereInitial = $initialDate !== null ? " AND date >= $initialDate" : ' ';
+        $whereFinal = $finalDate !== null ? " AND date <= $finalDate" : ' ';
         $sql = "select school, inventory, date, motivation, item, li.name, li.measure, lu.acronym, amount
                 from (
                     select lr.id, lr.date, null motivation, lr.inventory_fk inventory, li.school_fk school, li.item_fk item, li.amount from lunch_received lr

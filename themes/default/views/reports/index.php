@@ -1,5 +1,5 @@
 <?php
-/* @var $this ReportsController */
+/** @var $this ReportsController */
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();

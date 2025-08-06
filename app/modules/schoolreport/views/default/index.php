@@ -1,3 +1,3 @@
 <?php
 
-/* @var $this DefaultController */
+/** @var $this DefaultController */

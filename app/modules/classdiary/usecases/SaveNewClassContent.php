@@ -1,9 +1,11 @@
 <?php
 
     Yii::import('application.modules.classdiary.services.*');
+
     /**
      * @property ClassesService $classesService
      */
+
     class SaveNewClassContent
     {
         private $classesService;

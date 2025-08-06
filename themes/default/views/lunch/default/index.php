@@ -1,5 +1,5 @@
 <?php
-/* @var $this LunchController */
+/** @var $this LunchController */
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();

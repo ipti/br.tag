@@ -52,7 +52,7 @@ class ManagementschoolController extends CController
 
     public function actionFrequency($sid)
     {
-        /* @var $classrooms Classroom[] */
+        /** @var $classrooms Classroom[] */
         $school = SchoolIdentification::model()->findByPk($sid);
         $classrooms = Classroom::model()->findAll(['condition' => 'school_inep_fk = :sid and school_year = :year', 'order' => 'name', 'params' => [':sid' => $sid, ':year' => Yii::app()->user->year]]);
         $classroomOptions = [];

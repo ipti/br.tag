@@ -411,7 +411,7 @@ class StudentEnrollment extends AltActiveRecord
 
     public function getFaultsByExam($exam)
     {
-        /* @var $schoolConfiguration SchoolConfiguration */
+        /** @var $schoolConfiguration SchoolConfiguration */
         $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
         $faults = [];
         switch ($exam) {

@@ -68,7 +68,7 @@ class CurricularmatrixController extends Controller
                         ]
                     );
                     $logSituation = 'U';
-                    if ($matrix == null) {
+                    if ($matrix === null) {
                         $matrix = new CurricularMatrix();
                         $matrix->setAttributes(
                             [
@@ -105,7 +105,7 @@ class CurricularmatrixController extends Controller
         $curricularMatrixesPreviousYear = CurricularMatrix::model()->findAll('school_year = :year', [':year' => Yii::app()->user->year - 1]);
         foreach ($curricularMatrixesPreviousYear as $curricularMatrixPreviousYear) {
             $curricularMatrixCurrentYear = CurricularMatrix::model()->find('stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year', [':stage_fk' => $curricularMatrixPreviousYear->stage_fk, ':discipline_fk' => $curricularMatrixPreviousYear->discipline_fk, ':year' => Yii::app()->user->year]);
-            if ($curricularMatrixCurrentYear == null) {
+            if ($curricularMatrixCurrentYear === null) {
                 $curricularMatrixCurrentYear = new CurricularMatrix();
                 $curricularMatrixCurrentYear->stage_fk = $curricularMatrixPreviousYear->stage_fk;
                 $curricularMatrixCurrentYear->discipline_fk = $curricularMatrixPreviousYear->discipline_fk;

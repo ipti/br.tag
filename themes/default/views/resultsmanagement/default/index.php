@@ -1,5 +1,5 @@
 <?php
-/* @var $this DefaultController */
+/** @var $this DefaultController */
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cityName = 'Município';

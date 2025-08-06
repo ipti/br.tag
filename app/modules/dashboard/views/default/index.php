@@ -1,5 +1,5 @@
 <?php
-/* @var $this DefaultController */
+/** @var $this DefaultController */
 
 $this->breadcrumbs = [
     $this->module->id,

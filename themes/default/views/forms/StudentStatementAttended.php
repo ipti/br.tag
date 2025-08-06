@@ -1,7 +1,7 @@
 <?php
-/* @var $this ReportsController */
-/* @var $report Mixed */
-/* @var $school SchoolIdentification*/
+/** @var $this ReportsController */
+/** @var $report Mixed */
+/** @var $school SchoolIdentification*/
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/StudentsDeclarationReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);

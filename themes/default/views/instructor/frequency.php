@@ -1,7 +1,7 @@
 <?php
 
-/* @var $this InstructorController */
-/* @var $dataProvider CActiveDataProvider */
+/** @var $this InstructorController */
+/** @var $dataProvider CActiveDataProvider */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;

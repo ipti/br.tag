@@ -1,6 +1,6 @@
 <?php
-/* @var $this StudentAeeRecordController */
-/* @var $dataProvider CActiveDataProvider */
+/** @var $this StudentAeeRecordController */
+/** @var $dataProvider CActiveDataProvider */
 
 $this->setPageTitle('TAG - ' . Yii::t('default', 'Ficha AEE'));
 $this->breadcrumbs = [

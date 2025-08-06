@@ -63,14 +63,14 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             // Validação CPF->Nome
-            if ($modelStudentDocumentsAndAddress->cpf != null) {
+            if ($modelStudentDocumentsAndAddress->cpf !== null) {
                 $student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', [':cpf' => $modelStudentDocumentsAndAddress->cpf]);
                 if (isset($student_test_cpf)) {
                     Yii::app()->user->setFlash('error', Yii::t('default', 'O Aluno já está cadastrado'));
                     $this->redirect(['index']);
                 }
             }
-            if ($modelStudentIdentification->name != null) {
+            if ($modelStudentIdentification->name !== null) {
                 $student_test_name = StudentIdentification::model()->find('name=:name', [':name' => $modelStudentIdentification->name]);
                 if (isset($student_test_name)) {
                     Yii::app()->user->setFlash('error', Yii::t('default', 'O Aluno já está cadastrado'));
@@ -191,7 +191,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $modelSchoolStructure = new SchoolStructure();
             $modelSchoolStructure->school_inep_id_fk = $modelSchool->inep_id;
             // Bloqueio de duplicação por inep id
-            if ($modelSchool->inep_id != null) {
+            if ($modelSchool->inep_id !== null) {
                 $school_test_name = SchoolIdentification::model()->find(
                     'inep_id=:inep_id',
                     [':inep_id' => $modelSchool->inep_id]

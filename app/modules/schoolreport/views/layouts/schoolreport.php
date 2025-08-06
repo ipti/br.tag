@@ -1,5 +1,5 @@
 <?php
-/* @var $content String Conteúdo da página.
+/** @var $content String Conteúdo da página.
  * @var $enrollment StudentEnrollment
  */
 $themeUrl = Yii::app()->theme->baseUrl;

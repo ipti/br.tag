@@ -1,6 +1,6 @@
 <?php
 /** @var FormsController $this ReportsController */
-/* @var $report mixed */
+/** @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/StudentsFileReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);

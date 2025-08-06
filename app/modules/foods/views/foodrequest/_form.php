@@ -1,7 +1,7 @@
 <?php
-/* @var $this FoodRequestController */
-/* @var $model FoodRequest */
-/* @var $form CActiveForm */
+/** @var $this FoodRequestController */
+/** @var $model FoodRequest */
+/** @var $form CActiveForm */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;

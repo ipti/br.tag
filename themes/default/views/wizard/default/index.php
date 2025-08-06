@@ -1,8 +1,8 @@
 <?php
 
-/** 
+/**
  * @var DefaultController $this
- * 
+ *
  **/
 
 $this->breadcrumbs = [

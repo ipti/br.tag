@@ -1,6 +1,6 @@
 <?php
-/* @var $this EnrollmentOnlineStudentIdentificationController */
-/* @var $dataProvider CActiveDataProvider */
+/** @var $this EnrollmentOnlineStudentIdentificationController */
+/** @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = [
     'Enrollment Online Student Identifications',

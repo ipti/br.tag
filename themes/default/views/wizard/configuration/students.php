@@ -1,7 +1,7 @@
 <?php
-/* @var $this ClassroomConfigurationControler */
-/* @var $form CActiveForm */
-/* @var $title String */
+/** @var $this ClassroomConfigurationControler */
+/** @var $form CActiveForm */
+/** @var $title String */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
