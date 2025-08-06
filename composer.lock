@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a47416e4ed842dcdf0e542605a880bf",
+    "content-hash": "9a1337ca28094ecbbcfd7f206d7bcdfb",
     "packages": [
         {
             "name": "bensontrent/firestore-php",
@@ -5341,12 +5341,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "682acb4e4d4659a25c93fc29716d25272330168e"
+                "reference": "c0e6f0ebc4a48125022ff35c96dfdaef86d4d4a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/682acb4e4d4659a25c93fc29716d25272330168e",
-                "reference": "682acb4e4d4659a25c93fc29716d25272330168e",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c0e6f0ebc4a48125022ff35c96dfdaef86d4d4a8",
+                "reference": "c0e6f0ebc4a48125022ff35c96dfdaef86d4d4a8",
                 "shasum": ""
             },
             "require": {
@@ -5392,7 +5392,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-08-05T14:01:25+00:00"
+            "time": "2025-08-06T14:12:02+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -8156,7 +8156,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "websupport/yii-sentry": 20,
-        "rector/rector": 20
+        "rector/rector": 20,
+        "phpstan/phpstan": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

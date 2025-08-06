@@ -26,9 +26,12 @@
         "rector/rector": "dev-main",
         "goetas-webservices/xsd2php-runtime": "0.2.16",
         "phpunit/phpunit": "^8.5",
-        "phpunit/phpunit-selenium": "^8.0"
+        "phpunit/phpunit-selenium": "^8.0",
+        "phpstan/phpstan": "2.1.x-dev"
     },
     "scripts": {
+        "format": "./vendor/php-cs-fixer fix --config=.php-cs-fixer.php",
+        "lint": "./vendor/bin/phpstan analyse",
         "mess": "./vendor/bin/phpmd",
         "sass": "./vendor/bin/pscss",
         "test": "./vendor/bin/codecept run acceptance --steps",

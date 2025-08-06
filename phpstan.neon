@@ -1,0 +1,10 @@
+parameters:
+  level: 1
+  paths:
+    - app
+    - themes
+  excludePaths:
+    - vendor/
+  ignoreErrors:
+    - '#Call to an undefined method CActiveRecord::.+#'
+    - '#Access to an undefined property CActiveRecord::.+#'

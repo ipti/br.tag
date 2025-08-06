@@ -1,5 +1,13 @@
 <?php
 
+
+$finder = PhpCsFixer\Finder::create()
+    ->exclude([
+        'vendor',
+        'runtime',
+    ])
+    ->name('*.php');
+
 return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR12' => true,
@@ -9,7 +17,6 @@ return (new PhpCsFixer\Config())
         'class_attributes_separation' => ['elements' => ['method' => 'one',]],
         'multiline_whitespace_before_semicolons' => false,
         'single_quote' => true,
-
         'binary_operator_spaces' => [
             'operators' => [
                 // '=>' => 'align',
