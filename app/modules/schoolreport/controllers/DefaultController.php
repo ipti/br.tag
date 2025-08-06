@@ -135,19 +135,19 @@ class DefaultController extends Controller
             )->queryAll(true, [':cid' => $classroom->id]);
 
             foreach ($classesList as $c) {
-                $did = $c['discipline_fk'] == null ? -1 : $c['discipline_fk'];
-                $dName = $c['discipline_fk'] == null ? 'Todos os componentes curriculares/eixos' : $c['discipline_name'];
+                $did = null == $c['discipline_fk'] ? -1 : $c['discipline_fk'];
+                $dName = null == $c['discipline_fk'] ? 'Todos os componentes curriculares/eixos' : $c['discipline_name'];
                 $classes = $c['classes'];
                 $month = $c['month'];
                 if (!isset($frequency[$did])) {
                     $frequency[$did] = [];
                     $frequency[$did]['name'] = $dName;
                     $frequency[$did]['months'] = [];
-                    for ($i = 1; $i <= 12; $i++) {
+                    for ($i = 1; $i <= 12; ++$i) {
                         $frequency[$did]['months'][$i] = [];
                     }
                 }
-                $did_query = $did == -1 ? 'IS NULL' : "= $did";
+                $did_query = -1 == $did ? 'IS NULL' : "= $did";
                 $f = Yii::app()->db->createCommand(
                     "select  month, discipline_fk, se.classroom_fk cid, se.id eid, count(cf.id) faults from class_faults cf
                       join schedule sc on sc.id = cf.schedule_fk
@@ -157,7 +157,7 @@ class DefaultController extends Controller
                       and month = :month
                     GROUP BY eid, discipline_fk,  month;"
                 )->queryRow(true, [':eid' => $eid, ':month' => $month]);
-                $faults = $f['faults'] == null ? 0 : $f['faults'];
+                $faults = null == $f['faults'] ? 0 : $f['faults'];
                 $frequency[$did]['months'][$month] = ['faults' => intval($faults), 'classes' => intval($classes)];
             }
             asort($frequency, SORT_STRING);

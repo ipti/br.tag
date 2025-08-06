@@ -12,7 +12,7 @@ Yii::import('application.modules.sedsp.mappers.*');
 Yii::import('application.modules.sedsp.usecases.*');
 Yii::import('application.modules.sedsp.usecases.Enrollment.*');
 
-//-----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
+// -----------------------------------------CLASSE VALIDADA ATÉ A SEQUENCIA 35!!------------------------
 class ClassroomController extends Controller
 {
     public const CREATE = 'create';
@@ -69,7 +69,7 @@ class ClassroomController extends Controller
                     'syncToSedsp',
                     'syncUnsyncedStudents',
                     'getCalendars',
-                    'GetGradesRulesClassroom'
+                    'GetGradesRulesClassroom',
                 ],
                 'users' => ['@'],
             ],
@@ -155,32 +155,32 @@ class ClassroomController extends Controller
         $result = ['html' => '', 'val' => ''];
 
         $result['html'] = CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione o Tipo de Atendimento'), true);
-        if ($schoolStructure != null) {
+        if (null != $schoolStructure) {
             $encode = [
                 0 => CHtml::encode('Não se Aplica'),
                 1 => CHtml::encode('Classe Hospitalar'),
                 2 => CHtml::encode('Unidade de Internação Socioeducativa'),
                 3 => CHtml::encode('Unidade Prisional'),
                 4 => CHtml::encode('Atividade Complementar'),
-                5 => CHtml::encode('Atendimento Educacional Especializado (AEE)')
+                5 => CHtml::encode('Atendimento Educacional Especializado (AEE)'),
             ];
 
             $selected = [
-                0 => $classroom->assistance_type == 0 ? 'selected' : 'deselected',
-                1 => $classroom->assistance_type == 1 ? 'selected' : 'deselected',
-                2 => $classroom->assistance_type == 2 ? 'selected' : 'deselected',
-                3 => $classroom->assistance_type == 3 ? 'selected' : 'deselected',
-                4 => $classroom->assistance_type == 4 ? 'selected' : 'deselected',
-                5 => $classroom->assistance_type == 5 ? 'selected' : 'deselected'
+                0 => 0 == $classroom->assistance_type ? 'selected' : 'deselected',
+                1 => 1 == $classroom->assistance_type ? 'selected' : 'deselected',
+                2 => 2 == $classroom->assistance_type ? 'selected' : 'deselected',
+                3 => 3 == $classroom->assistance_type ? 'selected' : 'deselected',
+                4 => 4 == $classroom->assistance_type ? 'selected' : 'deselected',
+                5 => 5 == $classroom->assistance_type ? 'selected' : 'deselected',
             ];
 
-            for ($i = 0; $i <= 3; $i++) {
+            for ($i = 0; $i <= 3; ++$i) {
                 $result['html'] .= CHtml::tag('option', ['value' => "$i", $selected[$i] => $selected[$i]], $encode[$i], true);
             }
-            if ($schoolStructure->complementary_activities == 1 || $schoolStructure->complementary_activities == 2) {
+            if (1 == $schoolStructure->complementary_activities || 2 == $schoolStructure->complementary_activities) {
                 $result['html'] .= CHtml::tag('option', ['value' => '4', $selected[4] => $selected[4]], $encode[4], true);
             }
-            if ($schoolStructure->aee == 1 || $schoolStructure->aee == 2) {
+            if (1 == $schoolStructure->aee || 2 == $schoolStructure->aee) {
                 $result['html'] .= CHtml::tag('option', ['value' => '5', $selected[5] => $selected[5]], $encode[5], true);
             }
         }
@@ -200,12 +200,12 @@ class ClassroomController extends Controller
         $id6 = $classroom->complementary_activity_type_6;
 
         $where = '';
-        $where .= $id1 != 'null' ? 'id!="' . $id1 . '" ' : '';
-        $where .= $id2 != 'null' ? '&& id!="' . $id2 . '" ' : '';
-        $where .= $id3 != 'null' ? '&& id!="' . $id3 . '" ' : '';
-        $where .= $id4 != 'null' ? '&& id!="' . $id4 . '" ' : '';
-        $where .= $id5 != 'null' ? '&& id!="' . $id5 . '" ' : '';
-        $where .= $id6 != 'null' ? '&& id!="' . $id6 . '" ' : '';
+        $where .= 'null' != $id1 ? 'id!="' . $id1 . '" ' : '';
+        $where .= 'null' != $id2 ? '&& id!="' . $id2 . '" ' : '';
+        $where .= 'null' != $id3 ? '&& id!="' . $id3 . '" ' : '';
+        $where .= 'null' != $id4 ? '&& id!="' . $id4 . '" ' : '';
+        $where .= 'null' != $id5 ? '&& id!="' . $id5 . '" ' : '';
+        $where .= 'null' != $id6 ? '&& id!="' . $id6 . '" ' : '';
 
         $data = EdcensoComplementaryActivityType::model()->findAll($where);
         $data = CHtml::listData($data, 'id', 'name');
@@ -237,9 +237,9 @@ class ClassroomController extends Controller
 
         $at = $classroom->assistance_type;
 
-        $result['MaisEdu'] = $at == 1 || $at == 5;
-        $result['AeeActivity'] = $at != 5;
-        $modality = $at != 4 || $at != 5;
+        $result['MaisEdu'] = 1 == $at || 5 == $at;
+        $result['AeeActivity'] = 5 != $at;
+        $modality = 4 != $at || 5 != $at;
 
         $where = '';
         $result['Modality'] = CHtml::tag('option', ['value' => ''], CHtml::encode('Selecione a Modalidade'), true);
@@ -249,15 +249,15 @@ class ClassroomController extends Controller
         }
 
         if ($modality) {
-            $result['Modality'] .= CHtml::tag('option', ['value' => '1', $classroom->modality == 1 ? 'selected' : 'deselected' => $classroom->modality == 1 ? 'selected' : 'deselected'], CHtml::encode('Ensino Regular'), true);
-            $result['Modality'] .= CHtml::tag('option', ['value' => '2', $classroom->modality == 2 ? 'selected' : 'deselected' => $classroom->modality == 2 ? 'selected' : 'deselected'], CHtml::encode('Educação Especial - Modalidade Substitutiva'), true);
-            $result['Modality'] .= CHtml::tag('option', ['value' => '3', $classroom->modality == 3 ? 'selected' : 'deselected' => $classroom->modality == 3 ? 'selected' : 'deselected'], CHtml::encode('Educação de Jovens e Adultos (EJA)'), true);
+            $result['Modality'] .= CHtml::tag('option', ['value' => '1', 1 == $classroom->modality ? 'selected' : 'deselected' => 1 == $classroom->modality ? 'selected' : 'deselected'], CHtml::encode('Ensino Regular'), true);
+            $result['Modality'] .= CHtml::tag('option', ['value' => '2', 2 == $classroom->modality ? 'selected' : 'deselected' => 2 == $classroom->modality ? 'selected' : 'deselected'], CHtml::encode('Educação Especial - Modalidade Substitutiva'), true);
+            $result['Modality'] .= CHtml::tag('option', ['value' => '3', 3 == $classroom->modality ? 'selected' : 'deselected' => 3 == $classroom->modality ? 'selected' : 'deselected'], CHtml::encode('Educação de Jovens e Adultos (EJA)'), true);
         }
 
         $result['StageEmpty'] = false;
-        if ($at == 0 || $at == 1) {
+        if (0 == $at || 1 == $at) {
             $data = EdcensoStageVsModality::model()->findAll($where);
-        } elseif ($at == 2 || $at == 3) {
+        } elseif (2 == $at || 3 == $at) {
             $data = EdcensoStageVsModality::model()->findAll('id!=1 && id!=2 && id!=3 && id!=56 ' . $where);
         } else {
             $data = [];
@@ -277,7 +277,7 @@ class ClassroomController extends Controller
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -290,7 +290,7 @@ class ClassroomController extends Controller
     {
         $type = $modelClassroom->assistance_type;
         $stage = $modelClassroom->edcenso_stage_vs_modality_fk;
-        $putNull = ($type == 4 || $type == 5) || ($stage == 1 || $stage == 2 || $stage == 3 || $stage == 65);
+        $putNull = (4 == $type || 5 == $type) || (1 == $stage || 2 == $stage || 3 == $stage || 65 == $stage);
 
         $modelClassroom->discipline_chemistry = $putNull ? null : (isset($discipline[1]) ? $discipline[1] : 0);
         $modelClassroom->discipline_physics = $putNull ? null : (isset($discipline[2]) ? $discipline[2] : 0);
@@ -320,7 +320,7 @@ class ClassroomController extends Controller
         $modelClassroom->discipline_others = $putNull ? null : (isset($discipline[99]) ? $discipline[99] : 0);
     }
 
-    //@done s1 - criar função para pegar os labels das disciplinas separando pelo id do educacenso
+    // @done s1 - criar função para pegar os labels das disciplinas separando pelo id do educacenso
 
     public static function classroomDisciplineLabelArray()
     {
@@ -329,6 +329,7 @@ class ClassroomController extends Controller
         foreach ($disciplines as $value) {
             $labels[$value->id] = $value->name;
         }
+
         return $labels;
     }
 
@@ -339,6 +340,7 @@ class ClassroomController extends Controller
         foreach ($disciplines as $value) {
             $labels[$value->id] = $value->name;
         }
+
         return $labels;
     }
 
@@ -370,10 +372,11 @@ class ClassroomController extends Controller
         $disciplines['discipline_sociology'] = 29;
         $disciplines['discipline_foreign_language_franch'] = 30;
         $disciplines['discipline_others'] = 99;
+
         return $disciplines;
     }
 
-    //@done s1 - criar função para transformar as disciplinas do Classroom em Array
+    // @done s1 - criar função para transformar as disciplinas do Classroom em Array
 
     public static function classroomDiscipline2array($classroom)
     {
@@ -389,7 +392,7 @@ class ClassroomController extends Controller
         return $disciplines;
     }
 
-    //@done s1 - criar função para transformas as Disciplinas do TeachingData em Array
+    // @done s1 - criar função para transformas as Disciplinas do TeachingData em Array
 
     public static function teachingDataDiscipline2array($instructor)
     {
@@ -441,13 +444,13 @@ class ClassroomController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionBatchupdate($id)
     {
-        //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
-        //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
-        //@done s1 - Atualizar o teachingdata ao atualizar o classroom
+        // @done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
+        // @done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
+        // @done s1 - Atualizar o teachingdata ao atualizar o classroom
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
 
         if (!empty($_POST)) {
@@ -487,15 +490,15 @@ class ClassroomController extends Controller
         }
         $this->render('batchupdatetotal', [
             'modelClassroom' => $modelClassroom,
-            'options_stage' => $optionsStage
+            'options_stage' => $optionsStage,
         ]);
     }
 
     public function actionBatchUpdateTransport($id)
     {
-        //@done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
-        //@done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
-        //@done s1 - Atualizar o teachingdata ao atualizar o classroom
+        // @done S1 - Modificar o banco para ter a relação estrangeira dos professores e turmas
+        // @done S1 - Criar Trigger ou solução similar para colocar o auto increment do professor no instructor_fk da turma
+        // @done s1 - Atualizar o teachingdata ao atualizar o classroom
         $modelClassroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
 
         if (!empty($_POST)) {
@@ -658,7 +661,7 @@ class ClassroomController extends Controller
             $criteria->params = [':classroomId' => $modelClassroom->id, ':stageId' => $stage->id];
             $gradeRulesQuery = GradeRules::model()->find($criteria);
 
-            $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
+            $gradeRulesStages[$stage->id] = null == $gradeRulesQuery ? '' : $gradeRulesQuery;
         }
 
         $gradeRules = GradeRules::model()->findAll();
@@ -672,7 +675,7 @@ class ClassroomController extends Controller
             'modelTeachingData' => $modelTeachingData,
             'edcensoStageVsModalities' => $edcensoStageVsModalities,
             'calendars' => [],
-            'modelEnrollments' => []
+            'modelEnrollments' => [],
         ]);
     }
 
@@ -700,7 +703,7 @@ class ClassroomController extends Controller
         $edcensoStageVsModalities = $this->getSchoolStagesModels();
 
         $disableFieldsWhenItsUBATUBA = false;
-        if (Yii::app()->features->isEnable('FEAT_SEDSP') && $modelClassroom->gov_id != null && !empty($modelClassroom->studentEnrollments)) {
+        if (Yii::app()->features->isEnable('FEAT_SEDSP') && null != $modelClassroom->gov_id && !empty($modelClassroom->studentEnrollments)) {
             $disableFieldsWhenItsUBATUBA = true;
         }
 
@@ -832,7 +835,7 @@ class ClassroomController extends Controller
                                     [
                                         'stage_fk' => $modelClassroom->edcenso_stage_vs_modality_fk,
                                         'discipline_fk' => $discipline,
-                                        'year' => Yii::app()->user->year
+                                        'year' => Yii::app()->user->year,
                                     ]
                                 );
                                 $teachingMatrixes = new TeachingMatrixes();
@@ -855,7 +858,7 @@ class ClassroomController extends Controller
                             $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
                             if (!property_exists($outConsultaTurmaClasse, 'outErro')) {
-                                $result = $modelClassroom->syncToSEDSP('edit', $outConsultaTurmaClasse->outAnoLetivo != null ? 'edit' : 'create');
+                                $result = $modelClassroom->syncToSEDSP('edit', null != $outConsultaTurmaClasse->outAnoLetivo ? 'edit' : 'create');
                             } else {
                                 $result = ['flash' => 'error', 'message' => $outConsultaTurmaClasse->outErro];
                             }
@@ -892,7 +895,7 @@ class ClassroomController extends Controller
             $criteria->params = [':classroomId' => $modelClassroom->id, ':stageId' => $stage->id];
             $gradeRulesQuery = GradeRules::model()->find($criteria);
 
-            $gradeRulesStages[$stage->id] = $gradeRulesQuery == null ? '' : $gradeRulesQuery;
+            $gradeRulesStages[$stage->id] = null == $gradeRulesQuery ? '' : $gradeRulesQuery;
         }
 
         $gradeRules = GradeRules::model()->findAll();
@@ -905,7 +908,7 @@ class ClassroomController extends Controller
             'modelTeachingData' => $modelTeachingData,
             'modelEnrollments' => $modelEnrollments,
             'edcensoStageVsModalities' => $edcensoStageVsModalities,
-            'disabledFields' => $disableFieldsWhenItsUBATUBA
+            'disabledFields' => $disableFieldsWhenItsUBATUBA,
         ]);
     }
 
@@ -945,9 +948,9 @@ class ClassroomController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
-    //@done s1 - excluir Matriculas, TeachingData e Turma
+    // @done s1 - excluir Matriculas, TeachingData e Turma
     public function actionDelete($id)
     {
         $classroom = $this->loadModel($id, $this->MODEL_CLASSROOM);
@@ -955,7 +958,7 @@ class ClassroomController extends Controller
         $transaction = Yii::app()->db->beginTransaction();
         $ableToDelete = true;
         if (Yii::app()->features->isEnable('FEAT_SEDSP')) {
-            if ($classroom->gov_id !== null) {
+            if (null !== $classroom->gov_id) {
                 $loginUseCase = new LoginUseCase();
                 $loginUseCase->checkSEDToken();
 
@@ -969,7 +972,7 @@ class ClassroomController extends Controller
                 if (!property_exists($outConsultaTurmaClasse, 'outErro')) {
                     $inExcluirTurmaClasse = new InExcluirTurmaClasse($classroom->gov_id);
                     $result = $dataSource->excluirTurmaClasse($inExcluirTurmaClasse);
-                    if ($result->outErro !== null) {
+                    if (null !== $result->outErro) {
                         $ableToDelete = false;
                         $erro = $result->outErro;
                     }
@@ -1027,7 +1030,7 @@ class ClassroomController extends Controller
         $outConsultaTurmaClasse = $dataSource->getConsultClass($inConsultaTurmaClasse);
 
         if (!property_exists($outConsultaTurmaClasse, 'outErro')) {
-            $result = $modelClassroom->syncToSEDSP('edit', $outConsultaTurmaClasse->outAnoLetivo != null ? 'edit' : 'create');
+            $result = $modelClassroom->syncToSEDSP('edit', null != $outConsultaTurmaClasse->outAnoLetivo ? 'edit' : 'create');
         } else {
             $result = ['flash' => 'error', 'message' => $outConsultaTurmaClasse->outErro];
         }
@@ -1067,7 +1070,7 @@ class ClassroomController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer the ID of the model to be loaded
+     * @param int the ID of the model to be loaded
      */
     public function loadModel($id, $model)
     {
@@ -1076,22 +1079,22 @@ class ClassroomController extends Controller
         if ($model == $this->MODEL_CLASSROOM) {
             $return = Classroom::model()->findByPk($id);
             $complementaryActivitiesArray = [];
-            if ($return->complementary_activity_type_1 != null) {
+            if (null != $return->complementary_activity_type_1) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_1);
             }
-            if ($return->complementary_activity_type_2 != null) {
+            if (null != $return->complementary_activity_type_2) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_2);
             }
-            if ($return->complementary_activity_type_3 != null) {
+            if (null != $return->complementary_activity_type_3) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_3);
             }
-            if ($return->complementary_activity_type_4 != null) {
+            if (null != $return->complementary_activity_type_4) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_4);
             }
-            if ($return->complementary_activity_type_5 != null) {
+            if (null != $return->complementary_activity_type_5) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_5);
             }
-            if ($return->complementary_activity_type_6 != null) {
+            if (null != $return->complementary_activity_type_6) {
                 array_push($complementaryActivitiesArray, $return->complementary_activity_type_6);
             }
             $return->complementary_activity_type_1 = $complementaryActivitiesArray;
@@ -1105,9 +1108,10 @@ class ClassroomController extends Controller
             $return = $student;
         }
 
-        if ($return === null) {
+        if (null === $return) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $return;
     }
 
@@ -1117,7 +1121,7 @@ class ClassroomController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'classroom-form') {
+        if (isset($_POST['ajax']) && 'classroom-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
@@ -1129,16 +1133,16 @@ class ClassroomController extends Controller
         if (isset($_POST['Classroom']['turn'])) {
             $turn = $_POST['Classroom']['turn'];
             $config = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
-            if ($turn == 'M') {
+            if ('M' == $turn) {
                 $return['first'] = $config->morning_initial;
                 $return['last'] = $config->morning_final;
-            } elseif ($turn == 'T') {
+            } elseif ('T' == $turn) {
                 $return['first'] = $config->afternoom_initial;
                 $return['last'] = $config->afternoom_final;
-            } elseif ($turn == 'N') {
+            } elseif ('N' == $turn) {
                 $return['first'] = $config->night_initial;
                 $return['last'] = $config->night_final;
-            } elseif ($turn == 'I') {
+            } elseif ('I' == $turn) {
                 $return['first'] = $config->allday_initial;
                 $return['last'] = $config->allday_final;
             }
@@ -1186,7 +1190,7 @@ class ClassroomController extends Controller
             return [
                 'id' => $enrollment->id,
                 'name' => $enrollment->studentFk->name,
-                'daily_order' => $enrollment->daily_order
+                'daily_order' => $enrollment->daily_order,
             ];
         }, $enrollments);
 
@@ -1205,6 +1209,7 @@ class ClassroomController extends Controller
         usort($enrollments, function ($a, $b) use ($ids) {
             $pos_a = array_search($a->id, $ids);
             $pos_b = array_search($b->id, $ids);
+
             return $pos_a - $pos_b;
         });
 
@@ -1217,7 +1222,7 @@ class ClassroomController extends Controller
             return [
                 'id' => $enrollment->id,
                 'name' => $enrollment->studentFk->name,
-                'daily_order' => $enrollment->daily_order
+                'daily_order' => $enrollment->daily_order,
             ];
         }, $enrollments);
 
@@ -1235,6 +1240,7 @@ class ClassroomController extends Controller
         ];
         $criteriaStages->join = 'join school_stages ss on ss.edcenso_stage_vs_modality_fk = esvm.id';
         $criteriaStages->order = 'esvm.name';
+
         return EdcensoStageVsModality::model()->findAll($criteriaStages);
     }
 
@@ -1249,18 +1255,18 @@ class ClassroomController extends Controller
             $studentIdentification = $studentEnrollment->studentFk;
             if (!$studentIdentification->sedsp_sync || !$studentEnrollment->sedsp_sync) {
                 $response = $studentIdentification->syncStudentWithSED($studentIdentification->id, $studentEnrollment, self::UPDATE);
-                if ($response['identification']->outErro !== null || $response['enrollment']->outErro !== null) {
+                if (null !== $response['identification']->outErro || null !== $response['enrollment']->outErro) {
                     array_push($result, [
                         'enrollmentId' => $studentEnrollment->id,
                         'valid' => false,
                         'studentName' => $studentIdentification->name,
-                        'identificationMessage' => $response['identification'] != null ? $response['identification']->outErro : null,
-                        'enrollmentMessage' => $response['enrollment'] != null ? $response['enrollment']->outErro : null
+                        'identificationMessage' => null != $response['identification'] ? $response['identification']->outErro : null,
+                        'enrollmentMessage' => null != $response['enrollment'] ? $response['enrollment']->outErro : null,
                     ]);
                 } else {
                     array_push($result, [
                         'enrollmentId' => $studentEnrollment->id,
-                        'valid' => true
+                        'valid' => true,
                     ]);
                 }
             }

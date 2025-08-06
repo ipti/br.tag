@@ -42,24 +42,28 @@ class InRemanejarMatricula implements JsonSerializable
     public function setInAluno(?InAluno $inAluno): self
     {
         $this->inAluno = $inAluno;
+
         return $this;
     }
 
     public function setInMatriculaRemanejar(?InMatriculaRemanejar $inMatriculaRemanejar): self
     {
         $this->inMatriculaRemanejar = $inMatriculaRemanejar;
+
         return $this;
     }
 
     public function setInNivelEnsino(?InNivelEnsino $inNivelEnsino): self
     {
         $this->inNivelEnsino = $inNivelEnsino;
+
         return $this;
     }
 
     public function setInAnoLetivo(?string $inAnoLetivo): self
     {
         $this->inAnoLetivo = $inAnoLetivo;
+
         return $this;
     }
 

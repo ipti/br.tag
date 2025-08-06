@@ -16,19 +16,19 @@ class FormsRepository
         // calculando o total de aulas ministradas naquela turma na disciplina específica
         $totalContents = 0;
 
-        //Prioriza o que está preenchido em gradeResults
+        // Prioriza o que está preenchido em gradeResults
         $gradeResult = GradeResults::model()->find('enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk', [
             ':enrollment_fk' => $enrollmentId,
-            ':discipline_fk' => $disciplineId
+            ':discipline_fk' => $disciplineId,
         ]);
-        if ($gradeResult != null) {
-            for ($i = 1; $i <= 8; $i++) {
+        if (null != $gradeResult) {
+            for ($i = 1; $i <= 8; ++$i) {
                 $totalContents += $gradeResult['given_classes_' . $i];
             }
         }
 
-        if ($totalContents == 0) {
-            //Caso não haja preenchimento em gradeResults ou seja 0
+        if (0 == $totalContents) {
+            // Caso não haja preenchimento em gradeResults ou seja 0
             if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
                 $totalContents = ClassContents::model()->getTotalClassesMinorStage(
                     $classroom->id,
@@ -49,29 +49,30 @@ class FormsRepository
         // calculando o total de faltas na disciplina específica
         $totalFaults = 0;
 
-        //Prioriza o que está preenchido em gradeResults
+        // Prioriza o que está preenchido em gradeResults
         $gradeResult = GradeResults::model()->find('enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk', [
             ':enrollment_fk' => $enrollmentId,
-            ':discipline_fk' => $disciplineId
+            ':discipline_fk' => $disciplineId,
         ]);
-        if ($gradeResult != null) {
-            for ($i = 1; $i <= 8; $i++) {
+        if (null != $gradeResult) {
+            for ($i = 1; $i <= 8; ++$i) {
                 $totalFaults += $gradeResult['grade_faults_' . $i];
             }
         }
 
-        if ($totalFaults == 0) {
-            //Caso não haja preenchimento em gradeResults ou seja 0
+        if (0 == $totalFaults) {
+            // Caso não haja preenchimento em gradeResults ou seja 0
             foreach ($schedulesPerUnityPeriods as $schedules) {
                 foreach ($schedules as $schedule) {
                     foreach ($classFaults as $classFault) {
                         if ($schedule->discipline_fk == $disciplineId && $classFault->schedule_fk == $schedule->id) {
-                            $totalFaults++;
+                            ++$totalFaults;
                         }
                     }
                 }
             }
         }
+
         return $totalFaults;
     }
 
@@ -84,14 +85,14 @@ class FormsRepository
             $unityPeriods = GradeUnityPeriods::model()->find('calendar_fk = :calendar_fk
                 and grade_unity_fk = :grade_unity_fk', [
                 ':calendar_fk' => $classroomFk->calendar_fk,
-                ':grade_unity_fk' => $unity->id
+                ':grade_unity_fk' => $unity->id,
             ]);
-            if ($unityPeriods != null) {
+            if (null != $unityPeriods) {
                 array_push($unityDates, $unityPeriods->initial_date);
             }
         }
 
-        for ($i = 0; $i < count($unityDates); $i++) {
+        for ($i = 0; $i < count($unityDates); ++$i) {
             if ($i < count($unityDates) - 1) {
                 $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk
                 and unavailable = 0
@@ -100,7 +101,7 @@ class FormsRepository
                     ':year' => $classroomFk->school_year,
                     ':classroom_fk' => $classroomFk->id,
                     ':initial_date' => $unityDates[$i],
-                    ':final_date' => $unityDates[$i + 1]
+                    ':final_date' => $unityDates[$i + 1],
                 ]);
             } else {
                 $schedules = Schedule::model()->findAll("classroom_fk = :classroom_fk
@@ -108,7 +109,7 @@ class FormsRepository
                 and concat(:year,'-', LPAD(month, 2, '0'), '-', LPAD(day, 2, '0')) >= :initial_date", [
                     ':year' => $classroomFk->school_year,
                     ':classroom_fk' => $classroomFk->id,
-                    ':initial_date' => $unityDates[$i]
+                    ':initial_date' => $unityDates[$i],
                 ]);
             }
 
@@ -157,6 +158,7 @@ class FormsRepository
         } else {
             $faultsPerUnityPeriods = $this->workloadsCalculate($faultsPerUnityPeriods);
         }
+
         return $faultsPerUnityPeriods;
     }
 
@@ -189,26 +191,27 @@ class FormsRepository
             $result['rec_partial_' . $partialRecovery->order_partial_recovery] = [];
             foreach ($unities as $key => $unity) {
                 if ($unity->parcial_recovery_fk == $partialRecovery->id) {
-                    array_push($result['rec_partial_' . $partialRecovery->order_partial_recovery], ('grade_' . ($key + 1)));
+                    array_push($result['rec_partial_' . $partialRecovery->order_partial_recovery], 'grade_' . ($key + 1));
                 }
             }
         }
+
         return $result;
     }
 
     /**
-     * Ficha de Notas
+     * Ficha de Notas.
      */
     public function getEnrollmentGrades($enrollmentId): array
     {
-        $result = array(); // array de notas
-        $baseDisciplines = array(); // disciplinas da BNCC
-        $diversifiedDisciplines = array(); //disciplinas diversas
-        $enrollment = StudentEnrollment::model()->with(['classFaults', "classroomFk"])->findByPk($enrollmentId);
-        $gradesResult = GradeResults::model()->findAllByAttributes(["enrollment_fk" => $enrollmentId]); // medias do aluno na turma
-        $classFaults = ClassFaults::model()->findAllByAttributes(["student_fk" => $enrollment->studentFk->id]); // faltas do aluno na turma
+        $result = []; // array de notas
+        $baseDisciplines = []; // disciplinas da BNCC
+        $diversifiedDisciplines = []; // disciplinas diversas
+        $enrollment = StudentEnrollment::model()->with(['classFaults', 'classroomFk'])->findByPk($enrollmentId);
+        $gradesResult = GradeResults::model()->findAllByAttributes(['enrollment_fk' => $enrollmentId]); // medias do aluno na turma
+        $classFaults = ClassFaults::model()->findAllByAttributes(['student_fk' => $enrollment->studentFk->id]); // faltas do aluno na turma
         $unities = $this->getUnities($enrollment->classroomFk->id, $enrollment->classroomFk->edcenso_stage_vs_modality_fk); // unidades da turma
-        $curricularMatrix = CurricularMatrix::model()->with("disciplineFk")->findAllByAttributes(["stage_fk" => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, "school_year" => $enrollment->classroomFk->school_year]); // matriz da turma
+        $curricularMatrix = CurricularMatrix::model()->with('disciplineFk')->findAllByAttributes(['stage_fk' => $enrollment->classroomFk->edcenso_stage_vs_modality_fk, 'school_year' => $enrollment->classroomFk->school_year]); // matriz da turma
         $partialRecovery = $this->getPartialRecovery($enrollment->classroomFk->edcenso_stage_vs_modality_fk);
         $isMinorEducation = TagUtils::isStageMinorEducation($enrollment->classroomFk->edcensoStageVsModalityFk->edcenso_associated_stage_id);
 
@@ -255,7 +258,7 @@ class FormsRepository
                         'partial_recoveries' => $partialRecovery,
                         'total_number_of_classes' => $totalContentsPerDiscipline,
                         'total_faults' => $totalFaultsPerDicipline,
-                        'frequency_percentage' => round((($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100)
+                        'frequency_percentage' => round((($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100),
                     ]);
                     $mediaExists = true;
                     break; // quebro o laço para diminuir a complexidade do algoritmo para O(log n)2
@@ -270,7 +273,7 @@ class FormsRepository
                     'partial_recoveries' => $partialRecovery,
                     'total_number_of_classes' => $totalContentsPerDiscipline,
                     'total_faults' => $totalFaultsPerDicipline,
-                    'frequency_percentage' => round((($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100)
+                    'frequency_percentage' => round((($totalContentsPerDiscipline - $totalFaultsPerDicipline) / ($totalContentsPerDiscipline ?: 1)) * 100),
                 ]);
             }
         }
@@ -290,13 +293,13 @@ class FormsRepository
         $response = [
             'enrollment' => $enrollment,
             'result' => $report,
-            'baseDisciplines' => array_unique($baseDisciplines), //função usada para evitar repetição
-            'diversifiedDisciplines' => array_unique($diversifiedDisciplines), //função usada para evitar repetição
+            'baseDisciplines' => array_unique($baseDisciplines), // função usada para evitar repetição
+            'diversifiedDisciplines' => array_unique($diversifiedDisciplines), // função usada para evitar repetição
             'unities' => $unities,
             'school_days' => $schoolDaysPerUnity,
             'faults' => $faultsPerUnity,
             'workload' => $workloadPerUnity,
-            'isMinorEducation' => $isMinorEducation
+            'isMinorEducation' => $isMinorEducation,
         ];
 
         return $response;
@@ -311,14 +314,14 @@ class FormsRepository
         $criteria->join .= ' join grade_rules_vs_edcenso_stage_vs_modality grvesvm on gr.id = grvesvm.grade_rules_fk';
         $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
         $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
-        $criteria->params = array(':classroom' => $classroomId, ":stage" => $stage);
+        $criteria->params = [':classroom' => $classroomId, ':stage' => $stage];
 
         return GradeUnity::model()->findAll($criteria);
     }
 
     private function calculateFrequency($diasLetivos, $totalFaltas): int
     {
-        if ($diasLetivos === 0) {
+        if (0 === $diasLetivos) {
             return 0; // Evitar divisão por zero
         }
 
@@ -328,7 +331,7 @@ class FormsRepository
     }
 
     /**
-     * Ficha Individual
+     * Ficha Individual.
      */
     public function getIndividualRecord($enrollmentId): array
     {
@@ -356,7 +359,7 @@ class FormsRepository
         foreach ($curricularMatrix as $c) {
             foreach ($gradesResult as $g) {
                 if ($c->disciplineFk->id == $g->discipline_fk) {
-                    if ($c->disciplineFk->id == 6 && $minorFundamental) {
+                    if (6 == $c->disciplineFk->id && $minorFundamental) {
                         array_push($portuguese, [
                             'grade1' => $g->grade_1,
                             'faults1' => $g->grade_faults_1,
@@ -370,9 +373,9 @@ class FormsRepository
                             'grade4' => $g->grade_4,
                             'faults4' => $g->grade_faults_4,
                             'givenClasses4' => $g->given_classes_4,
-                            'final_media' => $g->final_media
+                            'final_media' => $g->final_media,
                         ]);
-                    } elseif ($c->disciplineFk->id == 12 && $minorFundamental) {
+                    } elseif (12 == $c->disciplineFk->id && $minorFundamental) {
                         array_push($history, [
                             'grade1' => $g->grade_1,
                             'faults1' => $g->grade_faults_1,
@@ -386,9 +389,9 @@ class FormsRepository
                             'grade4' => $g->grade_4,
                             'faults4' => $g->grade_faults_4,
                             'givenClasses4' => $g->given_classes_4,
-                            'final_media' => $g->final_media
+                            'final_media' => $g->final_media,
                         ]);
-                    } elseif ($c->disciplineFk->id == 13 && $minorFundamental) {
+                    } elseif (13 == $c->disciplineFk->id && $minorFundamental) {
                         array_push($geography, [
                             'grade1' => $g->grade_1,
                             'faults1' => $g->grade_faults_1,
@@ -402,9 +405,9 @@ class FormsRepository
                             'grade4' => $g->grade_4,
                             'faults4' => $g->grade_faults_4,
                             'givenClasses4' => $g->given_classes_4,
-                            'final_media' => $g->final_media
+                            'final_media' => $g->final_media,
                         ]);
-                    } elseif ($c->disciplineFk->id == 3 && $minorFundamental) {
+                    } elseif (3 == $c->disciplineFk->id && $minorFundamental) {
                         array_push($mathematics, [
                             'grade1' => $g->grade_1,
                             'faults1' => $g->grade_faults_1,
@@ -418,9 +421,9 @@ class FormsRepository
                             'grade4' => $g->grade_4,
                             'faults4' => $g->grade_faults_4,
                             'givenClasses4' => $g->given_classes_4,
-                            'final_media' => $g->final_media
+                            'final_media' => $g->final_media,
                         ]);
-                    } elseif ($c->disciplineFk->id == 5 && $minorFundamental) {
+                    } elseif (5 == $c->disciplineFk->id && $minorFundamental) {
                         array_push($sciences, [
                             'grade1' => $g->grade_1,
                             'faults1' => $g->grade_faults_1,
@@ -434,7 +437,7 @@ class FormsRepository
                             'grade4' => $g->grade_4,
                             'faults4' => $g->grade_faults_4,
                             'givenClasses4' => $g->given_classes_4,
-                            'final_media' => $g->final_media
+                            'final_media' => $g->final_media,
                         ]);
                     } else {
                         array_push($disciplines, [
@@ -451,7 +454,7 @@ class FormsRepository
                             'grade4' => $g->grade_4,
                             'faults4' => $g->grade_faults_4,
                             'givenClasses4' => $g->given_classes_4,
-                            'final_media' => $g->final_media
+                            'final_media' => $g->final_media,
                         ]);
                     }
                 }
@@ -479,33 +482,36 @@ class FormsRepository
             'workload' => $workload,
             'schedules' => $schedules,
             'frequency' => $frequency,
-            'minorFundamental' => $minorFundamental
+            'minorFundamental' => $minorFundamental,
         ];
+
         return $response;
     }
 
     /**
-     * Relatório de Notas de Boquim
+     * Relatório de Notas de Boquim.
      */
     public function getEnrollmentGradesBoquim($enrollmentId): array
     {
         $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
         $response = ['enrollment' => $enrollment];
+
         return $response;
     }
 
     /**
-     * Relatório de Notas de Boquim (Ciclo)
+     * Relatório de Notas de Boquim (Ciclo).
      */
     public function getEnrollmentGradesBoquimCiclo($enrollmentId): array
     {
         $enrollment = StudentEnrollment::model()->findByPk($enrollmentId);
         $response = ['enrollment' => $enrollment];
+
         return $response;
     }
 
     /**
-     * Declaração de Matrícula
+     * Declaração de Matrícula.
      */
     public function getEnrollmentDeclaration($enrollmentId): array
     {
@@ -524,13 +530,14 @@ class FormsRepository
             'enrollment_id' => $enrollmentId,
             'gender' => $result['gender'],
             'stage' => $result['stage'],
-            'class' => $result['class']
+            'class' => $result['class'],
         ];
+
         return $response;
     }
 
     /**
-     * Certificado de Conclusão
+     * Certificado de Conclusão.
      */
     public function getConclusionCertification($enrollmentId): array
     {
@@ -545,7 +552,7 @@ class FormsRepository
             ->bindParam(':enrollment_id', $enrollmentId)
             ->queryRow();
 
-        if ($result['status'] == '6' || $result['status'] == '7' || $result['status'] == '8' || $result['status'] == '9') {
+        if ('6' == $result['status'] || '7' == $result['status'] || '8' == $result['status'] || '9' == $result['status']) {
             $status = 'concluiu';
         } else {
             $status = 'não concluiu';
@@ -575,9 +582,9 @@ class FormsRepository
                 $modality = 'ENSINO';
         }
 
-        if ($result['nation'] == '1') {
+        if ('1' == $result['nation']) {
             $nation = 'BRASILEIRA';
-        } elseif ($result['nation'] == '2') {
+        } elseif ('2' == $result['nation']) {
             $nation = 'BRASILEIRA (Nascido no exterior ou Naturalizado)';
         } else {
             $nation = 'ESTRANGEIRA';
@@ -591,13 +598,14 @@ class FormsRepository
             'status' => $status,
             'alias' => $result['alias'],
             'modality' => $modality,
-            'nation' => $nation
+            'nation' => $nation,
         ];
+
         return $response;
     }
 
     /**
-     * Carrega informações da declaração de matrícula
+     * Carrega informações da declaração de matrícula.
      */
     public function getEnrollmentDeclarationInformation($enrollmentId)
     {
@@ -618,7 +626,7 @@ class FormsRepository
     }
 
     /**
-     * Requerimento de Transferência
+     * Requerimento de Transferência.
      */
     public function getTransferRequirement($enrollmentId): array
     {
@@ -639,14 +647,14 @@ class FormsRepository
             'enrollment_id' => $enrollmentId,
             'gender' => $result['gender'],
             'stage' => $result['stage'],
-            'class' => $result['class']
+            'class' => $result['class'],
         ];
 
         return $response;
     }
 
     /**
-     * Carrega informações do Requerimento de Transferência
+     * Carrega informações do Requerimento de Transferência.
      */
     public function getTransferRequirementInformation($enrollmentId)
     {
@@ -664,7 +672,7 @@ class FormsRepository
     }
 
     /**
-     * Comunicado de Matrícula
+     * Comunicado de Matrícula.
      */
     public function getEnrollmentNotification($enrollmentId): array
     {
@@ -684,7 +692,7 @@ class FormsRepository
     }
 
     /**
-     * Carrega informações do Comunicado de Matrícula
+     * Carrega informações do Comunicado de Matrícula.
      */
     public function getEnrollmentNotificationInformation($enrollmentId)
     {
@@ -699,7 +707,7 @@ class FormsRepository
     }
 
     /**
-     * Declaração de Aluno
+     * Declaração de Aluno.
      */
     public function getStudentsDeclaration($enrollmentId): array
     {
@@ -715,7 +723,7 @@ class FormsRepository
     }
 
     /**
-     * Carrega a Ficha de Matrícula
+     * Carrega a Ficha de Matrícula.
      */
     public function getStudentsFileInformation($enrollmentId)
     {
@@ -727,7 +735,7 @@ class FormsRepository
     }
 
     /**
-     * Ata de Notas
+     * Ata de Notas.
      */
     public function getAtaSchoolPerformance($classroomId): array
     {
@@ -815,15 +823,15 @@ class FormsRepository
                             $finalMedia = $this->checkConceptGradeRange($finalMedia, $concepts);
                         }
                         $r['situation'] = mb_strtoupper($r['situation']);
-                        if ($s->getCurrentStatus() == 'DEIXOU DE FREQUENTAR') {
+                        if ('DEIXOU DE FREQUENTAR' == $s->getCurrentStatus()) {
                             $finalSituation = 'DEIXOU DE FREQUENTAR';
-                        } elseif ($r['situation'] == 'REPROVADO') {
+                        } elseif ('REPROVADO' == $r['situation']) {
                             $finalSituation = 'REPROVADO';
-                        } elseif ($r['situation'] == 'RECUPERAÇÃO' && $finalSituation != 'REPROVADO') {
+                        } elseif ('RECUPERAÇÃO' == $r['situation'] && 'REPROVADO' != $finalSituation) {
                             $finalSituation = 'RECUPERAÇÃO';
-                        } elseif ($r['situation'] == 'APROVADO' && $finalSituation != 'REPROVADO' && $finalSituation != 'RECUPERAÇÃO') {
+                        } elseif ('APROVADO' == $r['situation'] && 'REPROVADO' != $finalSituation && 'RECUPERAÇÃO' != $finalSituation) {
                             $finalSituation = 'APROVADO';
-                        } elseif ($r['situation'] == 'TRANSFERIDO' && $finalSituation != 'REPROVADO' && $finalSituation != 'RECUPERAÇÃO' && $finalSituation != 'APROVADO') {
+                        } elseif ('TRANSFERIDO' == $r['situation'] && 'REPROVADO' != $finalSituation && 'RECUPERAÇÃO' != $finalSituation && 'APROVADO' != $finalSituation) {
                             $finalSituation = 'TRANSFERIDO';
                         }
                         break;
@@ -838,7 +846,7 @@ class FormsRepository
                         'student_name' => $s['studentFk']['name'],
                         'student_id' => $s['student_fk'],
                         'final_media' => $finalMedia,
-                        'situation' => $found ? $s->getCurrentStatus() : $finalSituation
+                        'situation' => $found ? $s->getCurrentStatus() : $finalSituation,
                     ]
                 );
             }
@@ -851,7 +859,7 @@ class FormsRepository
             'disciplines' => $disciplines,
             'baseDisciplines' => $baseDisciplines,
             'diversifiedDisciplines' => $diversifiedDisciplines,
-            'grades' => $grades
+            'grades' => $grades,
         ];
 
         return $response;
@@ -862,20 +870,21 @@ class FormsRepository
         $matchedConcept = null;
 
         foreach ($concepts as $concept) {
-            if ($finalMedia >= $concept['value'] && $concept['value'] != null) {
+            if ($finalMedia >= $concept['value'] && null != $concept['value']) {
                 $matchedConcept = $concept['name'];
                 break;
             }
         }
 
-        if ($matchedConcept != null) {
+        if (null != $matchedConcept) {
             return $matchedConcept;
         }
+
         return $finalMedia;
     }
 
     /**
-     * Ficha de Matrícula
+     * Ficha de Matrícula.
      */
     public function getStudentFileForm($enrollmentId): array
     {
@@ -896,14 +905,14 @@ class FormsRepository
         $response = [
             'classroom_id' => $classroomId,
             'enrollments' => $enrollments,
-            'school' => $school
+            'school' => $school,
         ];
 
         return $response;
     }
 
     /**
-     * Formulário de Transferência
+     * Formulário de Transferência.
      */
     public function getTransferForm($enrollmentId): array
     {
@@ -922,7 +931,7 @@ class FormsRepository
     }
 
     /**
-     * Carrega as informações de Formulário de Transferência
+     * Carrega as informações de Formulário de Transferência.
      */
     public function getTransferFormInformation($enrollmentId)
     {
@@ -947,7 +956,7 @@ class FormsRepository
     }
 
     /**
-     * Declaração de ano cursado na escola
+     * Declaração de ano cursado na escola.
      */
     public function getStatementAttended($enrollmentId): array
     {
@@ -966,7 +975,7 @@ class FormsRepository
         $modality = [
             '1' => 'Ensino Regular',
             '2' => 'Educação Especial - Modalidade Substitutiva',
-            '3' => 'Educação de Jovens e Adultos (EJA)'
+            '3' => 'Educação de Jovens e Adultos (EJA)',
         ];
 
         $c = '';
@@ -1052,14 +1061,14 @@ class FormsRepository
         $response = [
             'student' => $data,
             'modality' => $modality,
-            'descCategory' => $descCategory
+            'descCategory' => $descCategory,
         ];
 
         return $response;
     }
 
     /**
-     * Termo de Advertência
+     * Termo de Advertência.
      */
     public function getWarningTerm($enrollmentId): array
     {
@@ -1100,7 +1109,7 @@ class FormsRepository
     }
 
     /**
-     * Termo de Suspensão
+     * Termo de Suspensão.
      */
     public function getSuspensionTerm($enrollmentId): array
     {

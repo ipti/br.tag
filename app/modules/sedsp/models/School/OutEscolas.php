@@ -169,108 +169,126 @@ class OutEscolas
     public function setOutCodEscola(?string $outCodEscola): self
     {
         $this->outCodEscola = $outCodEscola;
+
         return $this;
     }
 
     public function setOutDescNomeEscola(?string $outDescNomeEscola): self
     {
         $this->outDescNomeEscola = $outDescNomeEscola;
+
         return $this;
     }
 
     public function setOutCodDiretoria(?string $outCodDiretoria): self
     {
         $this->outCodDiretoria = $outCodDiretoria;
+
         return $this;
     }
 
     public function setOutDescNomeDiretoria(?string $outDescNomeDiretoria): self
     {
         $this->outDescNomeDiretoria = $outDescNomeDiretoria;
+
         return $this;
     }
 
     public function setOutTipoLogradouro(?string $outTipoLogradouro): self
     {
         $this->outTipoLogradouro = $outTipoLogradouro;
+
         return $this;
     }
 
     public function setOutDescEndereco(?string $outDescEndereco): self
     {
         $this->outDescEndereco = $outDescEndereco;
+
         return $this;
     }
 
     public function setOutNumero(?string $outNumero): self
     {
         $this->outNumero = $outNumero;
+
         return $this;
     }
 
     public function setOutDescBairro(?string $outDescBairro): self
     {
         $this->outDescBairro = $outDescBairro;
+
         return $this;
     }
 
     public function setOutDescComplemento(?string $outDescComplemento): self
     {
         $this->outDescComplemento = $outDescComplemento;
+
         return $this;
     }
 
     public function setOutCodMunicipio(?string $outCodMunicipio): self
     {
         $this->outCodMunicipio = $outCodMunicipio;
+
         return $this;
     }
 
     public function setOutDescMunicipio(?string $outDescMunicipio): self
     {
         $this->outDescMunicipio = $outDescMunicipio;
+
         return $this;
     }
 
     public function setOutLatitude(?string $outLatitude): self
     {
         $this->outLatitude = $outLatitude;
+
         return $this;
     }
 
     public function setOutLongitude(?string $outLongitude): self
     {
         $this->outLongitude = $outLongitude;
+
         return $this;
     }
 
     public function setOutCodRedeEnsino(?string $outCodRedeEnsino): self
     {
         $this->outCodRedeEnsino = $outCodRedeEnsino;
+
         return $this;
     }
 
     public function setOutNomeRedeEnsino(?string $outNomeRedeEnsino): self
     {
         $this->outNomeRedeEnsino = $outNomeRedeEnsino;
+
         return $this;
     }
 
     public function setOutCodDistrito(?string $outCodDistrito): self
     {
         $this->outCodDistrito = $outCodDistrito;
+
         return $this;
     }
 
     public function setOutCep(?string $outCEP): self
     {
         $this->outCEP = $outCEP;
+
         return $this;
     }
 
     public function setOutNomeDistrito(?string $outNomeDistrito): self
     {
         $this->outNomeDistrito = $outNomeDistrito;
+
         return $this;
     }
 
@@ -280,6 +298,7 @@ class OutEscolas
     public function setOutUnidades(?array $outUnidades): self
     {
         $this->outUnidades = $outUnidades;
+
         return $this;
     }
 

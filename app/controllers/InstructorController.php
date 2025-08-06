@@ -2,11 +2,11 @@
 
 class InstructorController extends Controller
 {
-    //@done s1 - Tirar Aba Dados do Instrutor do update de instrutor
-    //@done s1 - Adicionar validações em todos os campos que estão faltando
-    //@done s1 - Recuperar endereço pelo CEP
-    //@done s1 - validar CPF
-    //@done s1 - corrigir o delete do instructor
+    // @done s1 - Tirar Aba Dados do Instrutor do update de instrutor
+    // @done s1 - Adicionar validações em todos os campos que estão faltando
+    // @done s1 - Recuperar endereço pelo CEP
+    // @done s1 - validar CPF
+    // @done s1 - corrigir o delete do instructor
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -42,7 +42,7 @@ class InstructorController extends Controller
                     'index', 'view', 'create', 'update', 'updateEmails', 'frequency',
                     'saveEmails', 'getCity', 'getCityByCep', 'getInstitutions', 'getInstitution',
                     'getCourses', 'delete', 'getFrequency', 'getFrequencyDisciplines', 'getFrequencyClassroom',
-                    'saveFrequency', 'saveJustification', 'getClassrooms'
+                    'saveFrequency', 'saveJustification', 'getClassrooms',
                 ], 'users' => ['@'],
             ], [
                 'allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -56,7 +56,7 @@ class InstructorController extends Controller
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -88,7 +88,7 @@ class InstructorController extends Controller
             $modelInstructorIdentification->attributes = $iIdentification;
 
             $id_indigenous_people = $_POST['InstructorIdentification']['id_indigenous_people'];
-            $modelInstructorIdentification->id_indigenous_people = $id_indigenous_people === '' ? null : $id_indigenous_people;
+            $modelInstructorIdentification->id_indigenous_people = '' === $id_indigenous_people ? null : $id_indigenous_people;
 
             $modelInstructorDocumentsAndAddress->attributes = $iDocumentsAndAddress;
             $modelInstructorVariableData->attributes = $iVariableData;
@@ -105,9 +105,9 @@ class InstructorController extends Controller
 
             $saveInstructor = true;
 
-            //=== MODEL DocumentsAndAddress
+            // === MODEL DocumentsAndAddress
             if (isset($modelInstructorDocumentsAndAddress->cep) && !empty($modelInstructorDocumentsAndAddress->cep)) {
-                //Então o endereço, uf e cidade são obrigatórios
+                // Então o endereço, uf e cidade são obrigatórios
                 if (isset($modelInstructorDocumentsAndAddress->address) &&
                         !empty($modelInstructorDocumentsAndAddress->address) &&
                         isset($modelInstructorDocumentsAndAddress->neighborhood) &&
@@ -123,9 +123,9 @@ class InstructorController extends Controller
             } else {
                 $saveDocumentsAndAddress = true;
             }
-            //======================================
-            //=== MODEL VariableData
-            if (isset($modelInstructorVariableData->scholarity) && $modelInstructorVariableData->scholarity == 6) {
+            // ======================================
+            // === MODEL VariableData
+            if (isset($modelInstructorVariableData->scholarity) && 6 == $modelInstructorVariableData->scholarity) {
                 if (isset($modelInstructorVariableData->high_education_situation_1,
                     $modelInstructorVariableData->high_education_course_code_1_fk,
                     $modelInstructorVariableData->high_education_institution_code_1_fk) ||
@@ -200,6 +200,7 @@ class InstructorController extends Controller
         $user->name = $modelInstructorIdentification->name;
         $user->username = $modelInstructorDocumentsAndAddress->cpf;
         $user->password = $this->hashBirthdayDate($modelInstructorIdentification->birthday_date);
+
         return $user;
     }
 
@@ -207,6 +208,7 @@ class InstructorController extends Controller
     {
         $passwordHasher = new PasswordHasher();
         $birthdayDate = str_replace('/', '', $birthdayDate);
+
         return $passwordHasher->bcriptHash($birthdayDate);
     }
 
@@ -232,22 +234,23 @@ class InstructorController extends Controller
                 $instructorIdentification->users_fk = $user->id;
             }
         }
+
         return $instructorIdentification;
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
-        //=======================================
+        // =======================================
         $modelInstructorIdentification = $this->loadModel($id, $this->InstructorIdentification);
         $modelInstructorDocumentsAndAddress = $this->loadModel($id, $this->InstructorDocumentsAndAddress);
         $modelInstructorDocumentsAndAddress = isset($modelInstructorDocumentsAndAddress) ? $modelInstructorDocumentsAndAddress : new InstructorDocumentsAndAddress();
         $modelInstructorVariableData = $this->loadModel($id, $this->InstructorVariableData);
-        if ($modelInstructorVariableData == null) {
+        if (null == $modelInstructorVariableData) {
             $modelInstructorVariableData = new InstructorVariableData();
         }
         $scholId = $modelInstructorIdentification->school_inep_id_fk;
@@ -257,14 +260,14 @@ class InstructorController extends Controller
         $saveInstructor = false;
         $saveDocumentsAndAddress = false;
         $saveVariableData = false;
-        //==================================
+        // ==================================
 
         $error[] = '';
         if (isset($_POST['InstructorIdentification'], $_POST['InstructorDocumentsAndAddress'], $_POST['InstructorVariableData'])) {
             $modelInstructorIdentification->attributes = $_POST['InstructorIdentification'];
 
             $id_indigenous_people = $_POST['InstructorIdentification']['id_indigenous_people'];
-            $modelInstructorIdentification->id_indigenous_people = $id_indigenous_people === '' ? null : $id_indigenous_people;
+            $modelInstructorIdentification->id_indigenous_people = '' === $id_indigenous_people ? null : $id_indigenous_people;
 
             $modelInstructorDocumentsAndAddress->attributes = $_POST['InstructorDocumentsAndAddress'];
             $modelInstructorVariableData->attributes = $_POST['InstructorVariableData'];
@@ -280,10 +283,10 @@ class InstructorController extends Controller
 
             $saveInstructor = true;
 
-            //=== MODEL DocumentsAndAddress
+            // === MODEL DocumentsAndAddress
             $modelInstructorDocumentsAndAddress->cpf = str_replace(['.', '-'], '', $modelInstructorDocumentsAndAddress->cpf);
             if (isset($modelInstructorDocumentsAndAddress->cep) && !empty($modelInstructorDocumentsAndAddress->cep)) {
-                //Então o endereço, uf e cidade são obrigatórios
+                // Então o endereço, uf e cidade são obrigatórios
                 if (isset($modelInstructorDocumentsAndAddress->address) &&
                         !empty($modelInstructorDocumentsAndAddress->address) &&
                         isset($modelInstructorDocumentsAndAddress->neighborhood) &&
@@ -299,10 +302,10 @@ class InstructorController extends Controller
             } else {
                 $saveDocumentsAndAddress = true;
             }
-            //======================================
-            //=== MODEL VariableData
+            // ======================================
+            // === MODEL VariableData
             if (isset($modelInstructorVariableData->scholarity)) {
-                if ($modelInstructorVariableData->scholarity == 6) {
+                if (6 == $modelInstructorVariableData->scholarity) {
                     if (isset($modelInstructorVariableData->high_education_situation_1, $modelInstructorVariableData->high_education_course_code_1_fk, $modelInstructorVariableData->high_education_institution_code_1_fk) || isset($modelInstructorVariableData->high_education_situation_2, $modelInstructorVariableData->high_education_course_code_2_fk, $modelInstructorVariableData->high_education_institution_code_2_fk) || isset($modelInstructorVariableData->high_education_situation_3, $modelInstructorVariableData->high_education_course_code_3_fk, $modelInstructorVariableData->high_education_institution_code_3_fk)) {
                         $saveVariableData = true;
                     } else {
@@ -361,7 +364,7 @@ preenchidos';
             }
         }
 
-        //====================================
+        // ====================================
         $this->render('update', [
             'modelInstructorIdentification' => $modelInstructorIdentification,
             'modelInstructorDocumentsAndAddress' => $modelInstructorDocumentsAndAddress,
@@ -372,7 +375,7 @@ preenchidos';
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -428,7 +431,7 @@ preenchidos';
         $dataProvider = InstructorIdentification::model()->search();
 
         $this->render('index', [
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -437,17 +440,18 @@ preenchidos';
         $text = preg_replace('/[\t\n\r\0\x0B]/', '', $text);
         $text = preg_replace('/([\s])\1+/', ' ', $text);
         $text = trim($text);
+
         return $text;
     }
 
-    //Método para Solicitação Ajax para o select UF x Cities
+    // Método para Solicitação Ajax para o select UF x Cities
 
     public function actionGetCity()
     {
         $edcenso_uf_fk = $_POST['edcenso_uf_fk'];
         $current_city = $_POST['current_city'];
 
-        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => (int)$edcenso_uf_fk]);
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => (int) $edcenso_uf_fk]);
         $data = CHtml::listData($data, 'id', 'name');
 
         $options = [];
@@ -456,7 +460,7 @@ preenchidos';
                 'option',
                 [
                     'value' => $value,
-                    'selected' => $value == $current_city
+                    'selected' => $value == $current_city,
                 ],
                 CHtml::encode($name),
                 true
@@ -475,15 +479,14 @@ preenchidos';
             $data = EdcensoCity::model()->find('cep_initial <= ' . $cep . ' and cep_final >= ' . $cep);
         }
 
-        $result = ($data == null) ? ['UF' => null, 'City' => null] : [
-            'UF' => $data->edcenso_uf_fk, 'City' => $data->id
-
+        $result = (null == $data) ? ['UF' => null, 'City' => null] : [
+            'UF' => $data->edcenso_uf_fk, 'City' => $data->id,
         ];
         echo json_encode($result);
     }
 
-    //@done s1 - Criar Função que retorna instituições filtrando por tipo
-    //@done s1 - Modificar função para que ela fique mais rápida
+    // @done s1 - Criar Função que retorna instituições filtrando por tipo
+    // @done s1 - Modificar função para que ela fique mais rápida
     public function actionGetInstitutions()
     {
         $institutionName = Yii::app()->request->getPost('q');
@@ -493,7 +496,7 @@ preenchidos';
                                 WHERE NAME like :q')
             ->bindValue(':q', '%' . $institutionName . '%')->queryAll();
 
-        $total = (int)$results[0]['total'];
+        $total = (int) $results[0]['total'];
 
         $data = EdcensoIES::model()->findAll("name like '%" . $institutionName . "%' ORDER BY name LIMIT 0,10");
         $data = CHtml::listData($data, 'id', 'name');
@@ -522,12 +525,12 @@ preenchidos';
         echo json_encode($return, JSON_OBJECT_AS_ARRAY);
     }
 
-    //@done s1 - criar funçao que retorna os cursos baseados na área de atuação
+    // @done s1 - criar funçao que retorna os cursos baseados na área de atuação
     public function actionGetCourses($tdid = 1)
     {
         $area = $_POST['high_education_course_area' . $tdid];
         $data = EdcensoCourseOfHigherEducation::model()->findAll([
-            'order' => 'name', 'condition' => 'cod=:x', 'params' => [':x' => $area]
+            'order' => 'name', 'condition' => 'cod=:x', 'params' => [':x' => $area],
         ]);
         $data = CHtml::listData($data, 'id', 'name');
 
@@ -562,14 +565,14 @@ preenchidos';
             'modelInstructorIdentification' => $modelInstructorIdentification,
             'modelInstructorDocumentsAndAddress' => $modelInstructorDocumentsAndAddress,
             'modelInstructorVariableData' => $modelInstructorVariableData,
-            'modelInstructorTeachingData' => $modelInstructorTeachingData
+            'modelInstructorTeachingData' => $modelInstructorTeachingData,
         ]);
     }
 
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer the ID of the model to be loaded
+     * @param int the ID of the model to be loaded
      */
     public function loadModel($id, $model)
     {
@@ -586,14 +589,14 @@ preenchidos';
             $return = InstructorTeachingData::model()->findAllByAttributes(['instructor_fk' => $instructorId]);
         }
 
-        if ($return === null && $model == $this->InstructorIdentification) {
+        if (null === $return && $model == $this->InstructorIdentification) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
-        if ($return === null && $model == $this->InstructorDocumentsAndAddress) {
+        if (null === $return && $model == $this->InstructorDocumentsAndAddress) {
             $return = InstructorDocumentsAndAddress::model()->findByPk($id);
         }
 
-        if ($return === null && $model == $this->InstructorVariableData) {
+        if (null === $return && $model == $this->InstructorVariableData) {
             $return = InstructorVariableData::model()->findByPk($id);
         }
 
@@ -606,7 +609,7 @@ preenchidos';
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'instructor-identification-form') {
+        if (isset($_POST['ajax']) && 'instructor-identification-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
@@ -615,12 +618,12 @@ preenchidos';
     public function actionUpdateEmails()
     {
         $instructors = InstructorIdentification::model()->findAll([
-            'order' => 'name', 'condition' => 'email is null'
+            'order' => 'name', 'condition' => 'email is null',
         ]);
         if (!empty($_POST)) {
             $success = false;
             foreach ($_POST as $id => $email) {
-                if ($email != '') {
+                if ('' != $email) {
                     $success = true;
                     $instructor = InstructorIdentification::model()->findByPk($id);
                     $instructor->email = strtoupper($email);
@@ -669,8 +672,8 @@ preenchidos';
         $criteria->together = true;
         $criteria->order = 'name';
         $enrollments = InstructorTeachingData::model()->findAllByAttributes(['classroom_id_fk' => $_POST['classroom'], 'instructor_fk' => $_POST['instructor']], $criteria);
-        if ($schedules != null) {
-            if ($enrollments != null) {
+        if (null != $schedules) {
+            if (null != $enrollments) {
                 $instructors = [];
                 $dayName = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
                 foreach ($enrollments as $enrollment) {
@@ -686,8 +689,8 @@ preenchidos';
                             'week_day' => $dayName[$schedule->week_day],
                             'schedule' => $schedule->schedule,
                             'idSchedule' => $schedule->id,
-                            'fault' => $instructorFault != null,
-                            'justification' => $instructorFault->justification
+                            'fault' => null != $instructorFault,
+                            'justification' => $instructorFault->justification,
                         ]);
                     }
                     array_push($instructors, $array);
@@ -740,8 +743,8 @@ preenchidos';
 
     public function actionSaveFrequency()
     {
-        if ($_POST['instructorId'] != null) {
-            if ($_POST['fault'] == '1') {
+        if (null != $_POST['instructorId']) {
+            if ('1' == $_POST['fault']) {
                 $instructorFault = new InstructorFaults();
                 $instructorFault->instructor_fk = $_POST['instructorId'];
                 $instructorFault->schedule_fk = $_POST['schedule'];
@@ -756,13 +759,13 @@ preenchidos';
     {
         $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and id = :schedule', ['classroom_fk' => $_POST['classroomId'], 'day' => $_POST['day'], 'month' => $_POST['month'], 'schedule' => $_POST['schedule']]);
         $instructorFault = InstructorFaults::model()->find('schedule_fk = :schedule_fk and instructor_fk = :instructor_fk', ['schedule_fk' => $schedule->id, 'instructor_fk' => $_POST['instructorId']]);
-        $instructorFault->justification = $_POST['justification'] == '' ? null : $_POST['justification'];
+        $instructorFault->justification = '' == $_POST['justification'] ? null : $_POST['justification'];
         $instructorFault->save();
     }
 
     public function actionGetClassrooms($instructorId = null)
     {
-        if ($instructorId == null) {
+        if (null == $instructorId) {
             $instructorId = Yii::app()->request->getPost('instructorId', null);
         }
         $sql = 'SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk, ed.name as discipline_name, esvm.name as stage_name, c.name

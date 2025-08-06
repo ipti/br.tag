@@ -50,30 +50,35 @@ class InTelefone implements JsonSerializable
     public function setInTipoTelefone(?string $inTipoTelefone): self
     {
         $this->inTipoTelefone = $inTipoTelefone;
+
         return $this;
     }
 
     public function setInDddNumero(?string $inDDDNumero): self
     {
         $this->inDDDNumero = $inDDDNumero;
+
         return $this;
     }
 
     public function setInNumero(?string $inNumero): self
     {
         $this->inNumero = $inNumero;
+
         return $this;
     }
 
     public function setInComplemento(?string $inComplemento): self
     {
         $this->inComplemento = $inComplemento;
+
         return $this;
     }
 
     public function setInSms(?int $inSMS): self
     {
         $this->inSMS = $inSMS;
+
         return $this;
     }
 

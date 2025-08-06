@@ -34,5 +34,4 @@ return [
 
     'Schedule' => 'Horário',
     'Turn' => 'Turno',
-
 ];

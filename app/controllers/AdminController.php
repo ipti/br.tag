@@ -36,7 +36,7 @@ class AdminController extends Controller
                     'gradesStructure',
                     'indexGradesStructure',
                     'instanceConfig',
-                    'editInstanceConfigs'
+                    'editInstanceConfigs',
                 ],
                 'users' => ['@'],
             ],
@@ -100,7 +100,7 @@ SELECT
                     'professores' => $result['professores'] ?? 0,
                     'alunos' => $result['alunos'] ?? 0,
                     'secretarios' => $result['secretarios'] ?? 0,
-                    'coordenadores' => $result['coordenadores'] ?? 0
+                    'coordenadores' => $result['coordenadores'] ?? 0,
                 ];
             } catch (Exception $e) {
                 // $results[] = ["database" => $dbname, "professores" => 'Erro', "alunos" => 'Erro', "gestores" => 'Erro', "secretarios" => $e->getMessage()];
@@ -275,7 +275,7 @@ SELECT
 
         $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
         foreach ($classrooms as $classroom) {
-            if ($classroom->calendar_fk != null) {
+            if (null != $classroom->calendar_fk) {
                 $dates = Yii::app()->db->createCommand('select start_date, end_date from calendar join classroom on calendar.id = classroom.calendar_fk where classroom.id = ' . $classroom->id)->queryRow();
                 $start = (new DateTime($dates['start_date']))->modify('first day of this month');
                 $end = (new DateTime($dates['end_date']))->modify('first day of next month');
@@ -301,11 +301,11 @@ SELECT
                             if ($month == str_pad($schedule->month, 2, '0', STR_PAD_LEFT) . '/' . $schedule->year) {
                                 if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
                                     if (!in_array($schedule->day . $schedule->month . $schedule->year, $usedDaysForMinorEducation)) {
-                                        $row['total_faltas']++;
+                                        ++$row['total_faltas'];
                                         array_push($usedDaysForMinorEducation, $schedule->day . $schedule->month . $schedule->year);
                                     }
                                 } else {
-                                    $row['total_faltas']++;
+                                    ++$row['total_faltas'];
                                 }
                             }
                         }
@@ -327,7 +327,7 @@ SELECT
             // Create a file pointer with PHP.
             $output = fopen($path, 'w');
 
-            if ($output !== false) {
+            if (false !== $output) {
                 // Escrever os cabeçalhos no arquivo CSV
                 fputcsv($output, array_keys($result[0]), ';');
 
@@ -423,11 +423,11 @@ SELECT
         $modelValidate = Users::model()->findByAttributes(
             [
                 'name' => $_POST['Users']['name'],
-                'username' => $_POST['Users']['name']
+                'username' => $_POST['Users']['name'],
             ]
         );
         if (isset($_POST['Users'])) {
-            if (!isset($_POST['schools']) && ($_POST['Role']) != 'admin' && ($_POST['Role']) != 'nutritionist' && ($_POST['Role']) != 'reader' && ($_POST['Role'] != 'guardian')) {
+            if (!isset($_POST['schools']) && 'admin' != $_POST['Role'] && 'nutritionist' != $_POST['Role'] && 'reader' != $_POST['Role'] && ('guardian' != $_POST['Role'])) {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'É necessário atribuir uma escola para o novo usuário criado!'));
                 $this->redirect(['index']);
             }
@@ -451,7 +451,7 @@ SELECT
                             $auth = Yii::app()->authManager;
                             $auth->assign($_POST['Role'], $model->id);
                         }
-                        if (isset($_POST['instructor']) && $_POST['instructor'] != '') {
+                        if (isset($_POST['instructor']) && '' != $_POST['instructor']) {
                             $instructors = InstructorIdentification::model()->find('id = :id', ['id' => $_POST['instructor']]);
                             $instructors->users_fk = $model->id;
                             $instructors->save();
@@ -471,6 +471,7 @@ SELECT
         );
         $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
+
             return $carry;
         }, []);
         $this->render('createUser', ['model' => $model, 'instructors' => $instructorsResult]);
@@ -482,7 +483,7 @@ SELECT
         $dataProvider->pagination = false;
 
         $this->render('indexGradesStructure', [
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -501,7 +502,7 @@ SELECT
         $this->render('gradesStructure', [
             'gradeUnity' => $gradeUnity,
             'stages' => $stages,
-            'formulas' => $formulas
+            'formulas' => $formulas,
         ]);
     }
 
@@ -582,7 +583,7 @@ SELECT
             $resultPartialRecovery['order'] = $partialRecovery->order_partial_recovery;
             $resultPartialRecovery['grade_calculation_fk'] = $partialRecovery->grade_calculation_fk;
             $resultPartialRecovery['weights'] = [];
-            if ($partialRecovery->gradeCalculationFk->name == 'Peso') {
+            if ('Peso' == $partialRecovery->gradeCalculationFk->name) {
                 $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(['partial_recovery_fk' => $partialRecovery->id]);
                 foreach ($gradeRecoveryWeights as $weight) {
                     array_push(
@@ -591,7 +592,7 @@ SELECT
                             'id' => $weight['id'],
                             'unity_fk' => $weight['unity_fk'],
                             'weight' => $weight['weight'],
-                            'name' => $weight['unity_fk'] !== null ? $weight->unityFk->name : 'recuperação'
+                            'name' => null !== $weight['unity_fk'] ? $weight->unityFk->name : 'recuperação',
                         ]
                     );
                 }
@@ -614,7 +615,7 @@ SELECT
             $resultPartialRecovery['grade_calculation_fk'] = $partialRecovery->grade_calculation_fk;
             $resultPartialRecovery['semester'] = $partialRecovery->semester;
             $resultPartialRecovery['weights'] = [];
-            if ($partialRecovery->gradeCalculationFk->name == 'Peso') {
+            if ('Peso' == $partialRecovery->gradeCalculationFk->name) {
                 $gradeRecoveryWeights = GradePartialRecoveryWeights::model()->findAllByAttributes(['partial_recovery_fk' => $partialRecovery->id]);
                 foreach ($gradeRecoveryWeights as $weight) {
                     array_push(
@@ -623,7 +624,7 @@ SELECT
                             'id' => $weight['id'],
                             'unity_fk' => $weight['unity_fk'],
                             'weight' => $weight['weight'],
-                            'name' => $weight['unity_fk'] !== null ? $weight->unityFk->name : 'recuperação'
+                            'name' => null !== $weight['unity_fk'] ? $weight->unityFk->name : 'recuperação',
                         ]
                     );
                 }
@@ -654,8 +655,8 @@ SELECT
         $finalRecoveryWeight = Yii::app()->request->getPost('finalRecoveryWeight');
         $finalMediaWeight = Yii::app()->request->getPost('finalMediaWeight');
         $ruleType = Yii::app()->request->getPost('ruleType');
-        $hasFinalRecovery = Yii::app()->request->getPost('hasFinalRecovery') === 'true';
-        $hasPartialRecovery = Yii::app()->request->getPost('hasPartialRecovery') === 'true';
+        $hasFinalRecovery = 'true' === Yii::app()->request->getPost('hasFinalRecovery');
+        $hasPartialRecovery = 'true' === Yii::app()->request->getPost('hasPartialRecovery');
         $partialRecoveries = Yii::app()->request->getPost('partialRecoveries');
 
         try {
@@ -675,10 +676,10 @@ SELECT
             );
             $gradeRules = $usecase->exec();
 
-            if ($hasFinalRecovery === true) {
+            if (true === $hasFinalRecovery) {
                 $recoveryUnity = GradeUnity::model()->find('id = :id', [':id' => $finalRecovery['id']]);
 
-                if ($recoveryUnity === null) {
+                if (null === $recoveryUnity) {
                     $recoveryUnity = new GradeUnity();
                 }
 
@@ -690,7 +691,7 @@ SELECT
 
                 $gradeCalculation = GradeCalculation::model()->findByPk($finalRecovery['grade_calculation_fk']);
 
-                if ($gradeCalculation->name === 'Peso') {
+                if ('Peso' === $gradeCalculation->name) {
                     $recoveryUnity->weight_final_media = $finalRecovery['WeightfinalMedia'];
                     $recoveryUnity->weight_final_recovery = $finalRecovery['WeightfinalRecovery'];
                 }
@@ -703,7 +704,7 @@ SELECT
                 $recoveryUnity->save();
 
                 $modalityModel = GradeUnityModality::model()->findByAttributes(['grade_unity_fk' => $recoveryUnity->id]);
-                if ($modalityModel == null) {
+                if (null == $modalityModel) {
                     $modalityModel = new GradeUnityModality();
                 }
                 $modalityModel->name = 'Avaliação/Prova';
@@ -716,7 +717,7 @@ SELECT
                 }
 
                 $modalityModel->save();
-            } elseif ($hasFinalRecovery === false && $finalRecovery['operation'] === 'delete' && $gradeRules->rule_type === 'N') {
+            } elseif (false === $hasFinalRecovery && 'delete' === $finalRecovery['operation'] && 'N' === $gradeRules->rule_type) {
                 $recoveryUnity = GradeUnity::model()->find('id = :id', [':id' => $finalRecovery['id']]);
                 $recoveryUnity?->delete();
                 echo json_encode(['valid' => true, 'gradeRules' => $gradeRules->id]);
@@ -724,7 +725,7 @@ SELECT
             }
 
             echo json_encode(['valid' => true, 'gradeRules' => $gradeRules->id]);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Yii::log($th->getMessage(), CLogger::LEVEL_ERROR);
             Yii::log($th->getTraceAsString(), CLogger::LEVEL_ERROR);
 
@@ -786,21 +787,21 @@ SELECT
         $instructorId = InstructorIdentification::model()->findByAttributes(['users_fk' => $id]);
         $delete = false;
 
-        if ($user !== null) {
+        if (null !== $user) {
             // Atualizando a coluna que referência ao usuário na tabela de identificação de professor
             // A função save abstrai o processo de identificar se está ocorrendo um UPDATE ou INSERT
-            if ($instructorId !== null) {
+            if (null !== $instructorId) {
                 $instructorId->users_fk = null;
                 $instructorId->save();
             }
 
             // Excluindo o registro na tabela que representa o cargo de um profissional cadastrado
-            if ($authAssign !== null) {
+            if (null !== $authAssign) {
                 $authAssign->delete('auth_assignment', 'userid =' . $id);
             }
 
             // Excluindo o registro na tabela que representa o acesso às escolas do usuário
-            if ($userSchool !== null) {
+            if (null !== $userSchool) {
                 foreach ($userSchool as $register) {
                     $register->delete('users_school', 'user_fk=' . $id);
                 }
@@ -826,8 +827,8 @@ SELECT
 
         if (isset($_POST['Users'], $_POST['Confirm'])) {
             $passwordHasher = new PasswordHasher();
-            $password = ($_POST['Users']['password']);
-            $confirm = ($_POST['Confirm']);
+            $password = $_POST['Users']['password'];
+            $confirm = $_POST['Confirm'];
             if ($password == $confirm) {
                 $model->password = $passwordHasher->bcriptHash($password);
                 if ($model->save()) {
@@ -867,7 +868,7 @@ SELECT
             'Users',
             [
                 'criteria' => $criteria,
-                'pagination' => false
+                'pagination' => false,
             ]
         );
 
@@ -896,7 +897,7 @@ SELECT
             $model->username = $users['username'];
             $model->active = $users['active'];
             if ($model->validate()) {
-                if ($users['password'] !== '') {
+                if ('' !== $users['password']) {
                     $passwordHasher = new PasswordHasher();
                     $model->password = $passwordHasher->bcriptHash($users['password']);
                 }
@@ -916,7 +917,7 @@ SELECT
                         $auth->revoke($actualRole, $model->id);
                         $auth->assign($role, $model->id);
                     }
-                    if (isset($instructor) && $instructor != '') {
+                    if (isset($instructor) && '' != $instructor) {
                         $instructors = InstructorIdentification::model()->find('id = :id', ['id' => $instructor]);
 
                         $instructors->users_fk = $model->id;
@@ -932,12 +933,13 @@ SELECT
         $i = 0;
         foreach ($userSchools as $scholl) {
             $result[$i] = $scholl->school_fk;
-            $i++;
+            ++$i;
         }
 
         $instructors = InstructorIdentification::model()->findAllByAttributes(['users_fk' => null], ['select' => 'id, name']);
         $instructorsResult = array_reduce($instructors, function ($carry, $item) {
             $carry[$item['id']] = $item['name'];
+
             return $carry;
         }, []);
 
@@ -954,7 +956,7 @@ SELECT
                 'actual_role' => $actualRole,
                 'userSchools' => $result,
                 'instructors' => $instructorsResult,
-                'selectedInstructor' => $selectedInstructor
+                'selectedInstructor' => $selectedInstructor,
             ]
         );
     }
@@ -973,7 +975,7 @@ SELECT
             'História',
             'Língua Inglesa',
             'Língua Portuguesa',
-            'Matemática'
+            'Matemática',
         ];
 
         foreach ($disciplines as $discipline) {
@@ -990,7 +992,7 @@ SELECT
     {
         $configs = InstanceConfig::model()->findAll();
         $this->render('instanceConfig', [
-            'configs' => $configs
+            'configs' => $configs,
         ]);
     }
 
@@ -1015,7 +1017,7 @@ SELECT
         $this->render('auditory', [
             'schools' => $schools,
             'users' => $users,
-            'schoolyear' => Yii::app()->user->year
+            'schoolyear' => Yii::app()->user->year,
         ]);
     }
 
@@ -1029,15 +1031,15 @@ SELECT
         $finalDate = $arr[2] . '-' . $arr[1] . '-' . $arr[0] . ' 23:59:59';
         $criteria->addBetweenCondition('date', $initialDate, $finalDate);
 
-        if ($_POST['school'] !== '') {
+        if ('' !== $_POST['school']) {
             $criteria->addColumnCondition(['school_fk' => $_POST['school']]);
         }
 
-        if ($_POST['action'] !== '') {
+        if ('' !== $_POST['action']) {
             $criteria->addColumnCondition(['crud' => $_POST['action']]);
         }
 
-        if ($_POST['user'] !== '') {
+        if ('' !== $_POST['user']) {
             $criteria->addColumnCondition(['user_fk' => $_POST['user']]);
         }
 
@@ -1075,8 +1077,8 @@ SELECT
         foreach ($logs as $log) {
             $array['school'] = $log->schoolFk->name;
             $array['user'] = $log->userFk->name;
-            $array['action'] = $log->crud == 'U' ? 'Editar' : ($log->crud == 'C' ? 'Criar' : 'Remover');
-            $date = new \DateTime($log->date);
+            $array['action'] = 'U' == $log->crud ? 'Editar' : ('C' == $log->crud ? 'Criar' : 'Remover');
+            $date = new DateTime($log->date);
             $array['date'] = $date->format('d/m/Y H:i:s');
             $array['event'] = $log->loadIconsAndTexts($log)['text'];
             array_push($result['data'], $array);

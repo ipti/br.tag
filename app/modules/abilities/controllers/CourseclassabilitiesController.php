@@ -66,7 +66,7 @@ class CourseClassAbilitiesController extends Controller
 
             $parent = CourseClassAbilities::model()->find([
                 'condition' => 'edcenso_discipline_fk = :disc AND parent_fk IS NULL',
-                'params' => [':disc' => $model->edcenso_discipline_fk]
+                'params' => [':disc' => $model->edcenso_discipline_fk],
             ]);
             $model->parent_fk = $parent->id;
 
@@ -83,7 +83,7 @@ class CourseClassAbilitiesController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -97,7 +97,7 @@ class CourseClassAbilitiesController extends Controller
 
             $parent = CourseClassAbilities::model()->find([
                 'condition' => 'edcenso_discipline_fk = :disc AND parent_fk IS NULL',
-                'params' => [':disc' => $model->edcenso_discipline_fk]
+                'params' => [':disc' => $model->edcenso_discipline_fk],
             ]);
             $model->parent_fk = $parent->id;
             if ($model->save()) {
@@ -113,7 +113,7 @@ class CourseClassAbilitiesController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -151,16 +151,17 @@ class CourseClassAbilitiesController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return CourseClassAbilities the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = CourseClassAbilities::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -170,7 +171,7 @@ class CourseClassAbilitiesController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'course-class-abilities-form') {
+        if (isset($_POST['ajax']) && 'course-class-abilities-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

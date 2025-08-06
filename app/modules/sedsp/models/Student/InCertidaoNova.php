@@ -90,60 +90,70 @@ class InCertidaoNova implements JsonSerializable
     public function setInCertMatr01(?string $inCertMatr01): self
     {
         $this->inCertMatr01 = $inCertMatr01;
+
         return $this;
     }
 
     public function setInCertMatr02(?string $inCertMatr02): self
     {
         $this->inCertMatr02 = $inCertMatr02;
+
         return $this;
     }
 
     public function setInCertMatr03(?string $inCertMatr03): self
     {
         $this->inCertMatr03 = $inCertMatr03;
+
         return $this;
     }
 
     public function setInCertMatr04(?string $inCertMatr04): self
     {
         $this->inCertMatr04 = $inCertMatr04;
+
         return $this;
     }
 
     public function setInCertMatr05(?string $inCertMatr05): self
     {
         $this->inCertMatr05 = $inCertMatr05;
+
         return $this;
     }
 
     public function setInCertMatr06(?string $inCertMatr06): self
     {
         $this->inCertMatr06 = $inCertMatr06;
+
         return $this;
     }
 
     public function setInCertMatr07(?string $inCertMatr07): self
     {
         $this->inCertMatr07 = $inCertMatr07;
+
         return $this;
     }
 
     public function setInCertMatr08(?string $inCertMatr08): self
     {
         $this->inCertMatr08 = $inCertMatr08;
+
         return $this;
     }
 
     public function setInCertMatr09(?string $inCertMatr09): self
     {
         $this->inCertMatr09 = $inCertMatr09;
+
         return $this;
     }
 
     public function setInDataEmissaoCertidao(?string $inDataEmissaoCertidao): self
     {
         $this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
+
         return $this;
     }
 

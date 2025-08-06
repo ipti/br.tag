@@ -6,7 +6,7 @@ class StudentService
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroom_fk);
-        $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
+        $is_minor_schooling = 1 == $classroom->edcensoStageVsModalityFk->unified_frequency ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
         if ($is_minor_schooling) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and
             unavailable = 0 group by day order by day, schedule', ['classroom_fk' => $classroom_fk,
@@ -25,8 +25,8 @@ class StudentService
         $criteria->order = 'name';
         $enrollments = StudentEnrollment::model()->findAllByAttributes(['classroom_fk' => $classroom_fk], $criteria);
 
-        if ($schedule != null) {
-            if ($enrollments != null && $is_minor_schooling) {
+        if (null != $schedule) {
+            if (null != $enrollments && $is_minor_schooling) {
                 $students = [];
                 foreach ($enrollments as $enrollment) {
                     $array['studentId'] = $enrollment->student_fk;
@@ -40,14 +40,15 @@ class StudentService
                         'available' => $available,
                         'day' => $schedule->day,
                         'schedule' => $schedule->schedule,
-                        'fault' => $classFault != null,
+                        'fault' => null != $classFault,
                         'justification' => $classFault->justification,
-                        'valid' => $valid
+                        'valid' => $valid,
                     ];
                     array_push($students, $array);
                 }
+
                 return ['valid' => true, 'students' => $students, 'isMinorEducation' => true];
-            } elseif ($enrollments != null && !$is_minor_schooling) {
+            } elseif (null != $enrollments && !$is_minor_schooling) {
                 $students = [];
                 foreach ($enrollments as $enrollment) {
                     $array['studentId'] = $enrollment->student_fk;
@@ -63,16 +64,17 @@ class StudentService
                             'available' => $available,
                             'day' => $s->day,
                             'schedule' => $s->schedule,
-                            'fault' => $classFault != null,
+                            'fault' => null != $classFault,
                             'justification' => $classFault->justification,
-                            'valid' => $valid
+                            'valid' => $valid,
                         ];
                     }
                     array_push($students, $array);
                 }
+
                 return ['valid' => true, 'students' => $students, 'isMinorEducation' => false];
-            } elseif ($enrollments == null) {
-                return  ['valid' => false, 'error' => 'Matricule alunos nesta turma para trazer o quadro de frequência.'];
+            } elseif (null == $enrollments) {
+                return ['valid' => false, 'error' => 'Matricule alunos nesta turma para trazer o quadro de frequência.'];
             }
         } else {
             return ['valid' => false, 'error' => 'No quadro de horário da turma, não existe dia letivo para este componente curricular/eixo na data selecionada.'];
@@ -116,10 +118,12 @@ class StudentService
             case 0:
                 $day = ($day < 10) ? '0' . $day : $day;
                 $month = ($month < 10) ? '0' . $month : $month;
+
                 return $day . '/' . $month . '/' . $year;
             case 1:
                 $day = ($day < 10) ? '0' . $day : $day;
                 $month = ($month < 10) ? '0' . $month : $month;
+
                 return $day . '-' . $month . '-' . $year;
             default:
                 break;
@@ -130,7 +134,7 @@ class StudentService
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroom_id);
-        $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
+        $is_minor_schooling = 1 == $classroom->edcensoStageVsModalityFk->unified_frequency ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
         if ($is_minor_schooling) {
             $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and month = :month', ['classroom_fk' => $classroom_id,
                 'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'),
@@ -149,7 +153,7 @@ class StudentService
 
     private function saveFrequency($schedule, $student_id, $fault)
     {
-        if ($fault == '1') {
+        if ('1' == $fault) {
             $classFault = new ClassFaults();
             $classFault->student_fk = $student_id;
             $classFault->schedule_fk = $schedule->id;
@@ -163,14 +167,14 @@ class StudentService
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroom_id);
-        $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
+        $is_minor_schooling = 1 == $classroom->edcensoStageVsModalityFk->unified_frequency ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
         if ($is_minor_schooling) {
             $schedules = Schedule::model()->findAll('classroom_fk = :classroom_fk and day = :day and month = :month', ['classroom_fk' => $classroom_id,
                 'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'),
                 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m')]);
             foreach ($schedules as $schedule) {
                 $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $student_id]);
-                $classFault->justification = $justification == '' ? null : $justification;
+                $classFault->justification = '' == $justification ? null : $justification;
                 $classFault->save();
             }
         } else {
@@ -179,7 +183,7 @@ class StudentService
                 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
                 'schedule' => $schedule]);
             $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $student_id]);
-            $classFault->justification = $justification == '' ? null : $justification;
+            $classFault->justification = '' == $justification ? null : $justification;
             $classFault->save();
         }
     }
@@ -187,6 +191,7 @@ class StudentService
     public function getStudent($student_id)
     {
         $student = StudentIdentification::model()->findByPk($student_id);
+
         return $student;
     }
 
@@ -194,7 +199,7 @@ class StudentService
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroom_fk);
-        $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
+        $is_minor_schooling = 1 == $classroom->edcensoStageVsModalityFk->unified_frequency ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
         if ($is_minor_schooling) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and
             unavailable = 0 group by day order by day, schedule', ['classroom_fk' => $classroom_fk,
@@ -208,15 +213,16 @@ class StudentService
         }
 
         $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $student_fk]);
-        return  $classFault;
+
+        return $classFault;
     }
 
     public function getStudentDiary($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk)
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroom_fk);
-        $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
-        if ($is_minor_schooling == '1') {
+        $is_minor_schooling = 1 == $classroom->edcensoStageVsModalityFk->unified_frequency ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
+        if ('1' == $is_minor_schooling) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0 group by day order by day, schedule', ['classroom_fk' => $classroom_fk,
                 'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'),
                 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m')]);
@@ -233,7 +239,7 @@ class StudentService
                     'classroom_fk' => $classroom_fk,
                     'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'),
                     'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
-                    'discipline_fk' => $discipline_fk
+                    'discipline_fk' => $discipline_fk,
                 ]
             );
         }
@@ -252,8 +258,8 @@ class StudentService
     {
         // Fundamental menor
         $classroom = Classroom::model()->findByPk($classroom_fk);
-        $is_minor_schooling = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
-        if ($is_minor_schooling == '1') {
+        $is_minor_schooling = 1 == $classroom->edcensoStageVsModalityFk->unified_frequency ? true : Yii::app()->utils->isStageMinorEducation($stage_fk);
+        if ('1' == $is_minor_schooling) {
             $schedule = Schedule::model()->find('classroom_fk = :classroom_fk and day = :day and month = :month and unavailable = 0 group by day order by schedule, schedule', ['classroom_fk' => $classroom_fk,
                 'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'),
                 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m')]);
@@ -263,21 +269,21 @@ class StudentService
                 'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'), 'discipline_fk' => $discipline_fk]);
         }
 
-        if ($student_observation != '') {
+        if ('' != $student_observation) {
             $classDiary = ClassDiaries::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', [':schedule_fk' => $schedule->id, ':student_fk' => $student_fk]);
-            if ($classDiary == null) {
+            if (null == $classDiary) {
                 $classDiary = new ClassDiaries();
                 $classDiary->schedule_fk = $schedule->id;
                 $classDiary->student_fk = $student_fk;
             }
-            $classDiary->diary = $student_observation === '' ? null : $student_observation;
+            $classDiary->diary = '' === $student_observation ? null : $student_observation;
             if ($classDiary->save()) {
                 // Atualização bem-sucedida
             } else {
                 // Erro ao atualizar
                 $errors = $classDiary->getErrors();
                 var_dump($errors);
-                exit();
+                exit;
             }
         } else {
             ClassDiaries::model()->deleteAll('schedule_fk = :schedule_fk and student_fk = :student_fk', [':schedule_fk' => $schedule->id, ':student_fk' => $student_fk]);

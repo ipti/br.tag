@@ -62,8 +62,8 @@ class DefaultController extends Controller
 
             ini_set('memory_limit', '2048M');
 
-            $noMovement = ($noMovement === 'true') ? true : false;
-            $withoutCpf = ($withoutCpf === 'true') ? true : false;
+            $noMovement = ('true' === $noMovement) ? true : false;
+            $withoutCpf = ('true' === $withoutCpf) ? true : false;
 
             $sagres = new SagresConsultModel();
             $sagres->cleanInconsistences();
@@ -88,6 +88,7 @@ class DefaultController extends Controller
         if (!$fileDir || !file_exists($fileDir)) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado! Tente exportar novamente.'));
             $this->render('index');
+
             return;
         }
 

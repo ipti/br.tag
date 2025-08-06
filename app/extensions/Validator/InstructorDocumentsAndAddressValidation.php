@@ -4,18 +4,18 @@ $DS = DIRECTORY_SEPARATOR;
 
 require_once dirname(__FILE__) . $DS . 'register.php';
 
-//registro 40
+// registro 40
 class InstructorDocumentsAndAddressValidation extends Register
 {
-    //campo 5
+    // campo 5
     public function isCPFValid($cpfStr)
     {
-        if ($cpfStr !== '' && $cpfStr !== null) {
+        if ('' !== $cpfStr && null !== $cpfStr) {
             $cpf = "$cpfStr";
-            if (strpos($cpf, '-') !== false) {
+            if (false !== strpos($cpf, '-')) {
                 $cpf = str_replace('-', '', $cpf);
             }
-            if (strpos($cpf, '.') !== false) {
+            if (false !== strpos($cpf, '.')) {
                 $cpf = str_replace('.', '', $cpf);
             }
             $sum = 0;
@@ -23,7 +23,7 @@ class InstructorDocumentsAndAddressValidation extends Register
             $cpftrueverifier = [];
             $cpfnumbers = array_splice($cpf, 0, 9);
             $cpfdefault = [10, 9, 8, 7, 6, 5, 4, 3, 2];
-            for ($i = 0; $i <= 8; $i++) {
+            for ($i = 0; $i <= 8; ++$i) {
                 $sum += $cpfnumbers[$i] * $cpfdefault[$i];
             }
             $sumresult = $sum % 11;
@@ -35,7 +35,7 @@ class InstructorDocumentsAndAddressValidation extends Register
             $sum = 0;
             $cpfdefault = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
             $cpfnumbers[9] = $cpftrueverifier[0];
-            for ($i = 0; $i <= 9; $i++) {
+            for ($i = 0; $i <= 9; ++$i) {
                 $sum += $cpfnumbers[$i] * $cpfdefault[$i];
             }
             $sumresult = $sum % 11;
@@ -51,7 +51,7 @@ class InstructorDocumentsAndAddressValidation extends Register
 
             $cpfver = array_merge($cpfnumbers, $cpf);
 
-            if (count(array_unique($cpfver)) == 1 || $cpfver == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) {
+            if (1 == count(array_unique($cpfver)) || $cpfver == [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) {
                 $returner = false;
             }
             if (!$returner) {
@@ -60,10 +60,11 @@ class InstructorDocumentsAndAddressValidation extends Register
         } else {
             return ['status' => false, 'erro' => 'O campo CPF é obrigatório.'];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
-    //campo 7
+    // campo 7
     public function isCEPValid($cep)
     {
         // retira espacos em branco
@@ -71,10 +72,10 @@ class InstructorDocumentsAndAddressValidation extends Register
         // expressao regular para avaliar o cep
         $avaliaCep = preg_match('/^[0-9]{5}[0-9]{3}$/', $cep);
 
-        if ($cep == null) {
+        if (null == $cep) {
             return ['status' => false, 'erro' => 'O campo CEP é uma informação obrigatória.'];
         }
-        if (strlen($cep) != 8 || !$avaliaCep) {
+        if (8 != strlen($cep) || !$avaliaCep) {
             return ['status' => false, 'erro' => 'O campo CEP está com tamanho diferente do especificado.'];
         }
         if (!is_numeric($cep)) {
@@ -84,21 +85,22 @@ class InstructorDocumentsAndAddressValidation extends Register
         return ['status' => true, 'erro' => ''];
     }
 
-    //campo 8, 9, 10, 11, 12, 13
+    // campo 8, 9, 10, 11, 12, 13
     public function isAdressValid($field, $cep, $allowed_lenght)
     {
         $regex = '/^[0-9 a-z.,-ºª ]+$/';
-        if ($cep == null) {
-            if ($field == null) {
+        if (null == $cep) {
+            if (null == $field) {
                 return ['status' => false, 'erro' => 'O campo não pode ser nulo.'];
             }
         } elseif (strlen($field) > $allowed_lenght || strlen($field) <= 0) {
             return ['status' => false, 'erro' => 'O campo está com tamanho incorreto.'];
         } elseif (!preg_match($regex, $field)) {
             return ['status' => false, 'erro' => 'O campo foi preenchido com valor inválido.'];
-        } elseif ($field == null) {
+        } elseif (null == $field) {
             return ['status' => false, 'erro' => 'O campo não pode ser nulo.'];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 }

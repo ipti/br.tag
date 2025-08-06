@@ -4,11 +4,11 @@
  * This is the model class for table "calendar_event_type".
  *
  * The followings are the available columns in table 'calendar_event_type':
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $icon
  * @property string $color
- * @property integer $unique_day
+ * @property int $unique_day
  *
  * The followings are the available model relations:
  * @property CalendarEvent[] $calendarEvents
@@ -24,7 +24,7 @@ class CalendarEventType extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -41,7 +41,7 @@ class CalendarEventType extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -62,7 +62,7 @@ class CalendarEventType extends TagModel
             'name' => yii::t('calendarModule.labels', 'Name'),
             'icon' => yii::t('calendarModule.labels', 'Icon'),
             'color' => yii::t('calendarModule.labels', 'Color'),
-            'unique_day' => yii::t('calendarModule.labels', 'Unique Day')
+            'unique_day' => yii::t('calendarModule.labels', 'Unique Day'),
         ];
     }
 
@@ -76,7 +76,7 @@ class CalendarEventType extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -98,7 +98,7 @@ class CalendarEventType extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return CalendarEventType the static model class
      */
     public static function model($className = __CLASS__)

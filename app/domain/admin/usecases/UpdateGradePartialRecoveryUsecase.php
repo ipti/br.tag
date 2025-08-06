@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Caso de uso para atualização dos parametros para calculo de média
+ * Caso de uso para atualização dos parametros para calculo de média.
  *
  * @property int $gradeRules
  * @property [] $partialRecoveries
@@ -16,16 +16,16 @@ class UpdateGradePartialRecoveryUsecase
 
     public function exec()
     {
-        foreach ($this->partialRecoveries as  $partialRecovery) {
+        foreach ($this->partialRecoveries as $partialRecovery) {
             $modelPartialRecovery = GradePartialRecovery::model()->findByPk($partialRecovery['id']);
 
-            if ($partialRecovery['operation'] === 'delete') {
+            if ('delete' === $partialRecovery['operation']) {
                 $this->deleteRecovery($modelPartialRecovery);
                 echo json_encode(['valid' => true]);
                 Yii::app()->end();
             }
 
-            if ($modelPartialRecovery === null) {
+            if (null === $modelPartialRecovery) {
                 $modelPartialRecovery = new GradePartialRecovery();
             }
 
@@ -41,11 +41,11 @@ class UpdateGradePartialRecoveryUsecase
             }
 
             if ($modelPartialRecovery->save()) {
-                if ($partialRecovery['weights'] != null) {
+                if (null != $partialRecovery['weights']) {
                     $this->savePartialRecoveryWeights($partialRecovery['weights'], $modelPartialRecovery->id);
                 }
 
-                if ($modelPartialRecovery->gradeCalculationFk->name !== 'Peso') {
+                if ('Peso' !== $modelPartialRecovery->gradeCalculationFk->name) {
                     $this->deletePartialRecoveryWeights($modelPartialRecovery->id);
                 }
 
@@ -91,7 +91,7 @@ class UpdateGradePartialRecoveryUsecase
     {
         foreach ($weights as $recoveryWeight) {
             $recoveryWeights = GradePartialRecoveryWeights::model()->findByPk($recoveryWeight->id);
-            if ($recoveryWeights == null) {
+            if (null == $recoveryWeights) {
                 $recoveryWeights = new GradePartialRecoveryWeights();
             }
             $recoveryWeights->weight = $recoveryWeight['weight'];

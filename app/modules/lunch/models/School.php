@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * @property string $inep_id
@@ -7,7 +8,7 @@
  * @property Inventory[] $inventories
  * @property Item[] $items
  * @property Menu[] $menus
- * @property Array itemsAmount
+ * @property array itemsAmount
 */
 class School extends TagModel
 {
@@ -35,7 +36,7 @@ class School extends TagModel
 
     /**
      *
-     * @return Array Array with the itens amounts.
+     * @return array array with the itens amounts
      */
     public function itemsAmount()
     {
@@ -61,16 +62,16 @@ class School extends TagModel
     }
 
     /**
-     * @param String $initialDate Format(Y-m-d) default Null
-     * @param String $finalDate Format(Y-m-d) default Null
+     * @param string $initialDate Format(Y-m-d) default Null
+     * @param string $finalDate Format(Y-m-d) default Null
      *
      * @return CDbCommand
      */
     public function transactions($initialDate = null, $finalDate = null)
     {
         $whereSchool = "school = $this->inep_id";
-        $whereInitial = $initialDate != null ? " AND date >= $initialDate" : ' ';
-        $whereFinal = $finalDate != null ? " AND date <= $finalDate" : ' ';
+        $whereInitial = null != $initialDate ? " AND date >= $initialDate" : ' ';
+        $whereFinal = null != $finalDate ? " AND date <= $finalDate" : ' ';
         $sql = "select school, inventory, date, motivation, item, li.name, li.measure, lu.acronym, amount
                 from (
                     select lr.id, lr.date, null motivation, lr.inventory_fk inventory, li.school_fk school, li.item_fk item, li.amount from lunch_received lr

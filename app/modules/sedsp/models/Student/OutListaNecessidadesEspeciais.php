@@ -24,19 +24,17 @@ class OutListaNecessidadesEspeciais
     public function setOutCodNecesEspecial(?string $outCodNecesEspecial): self
     {
         $this->outCodNecesEspecial = $outCodNecesEspecial;
+
         return $this;
     }
 
     public function setOutNomeNecesEspecial(?string $outNomeNecesEspecial): self
     {
         $this->outNomeNecesEspecial = $outNomeNecesEspecial;
+
         return $this;
     }
 
-    /**
-     * @param array $data
-     * @return self
-     */
     public static function fromJson(array $data): self
     {
         return new self(

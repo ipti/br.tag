@@ -4,10 +4,10 @@
  * This is the model class for table "lunch_inventory".
  *
  * The followings are the available columns in table 'lunch_inventory':
- * @property integer $id
+ * @property int $id
  * @property string $school_fk
- * @property integer $item_fk
- * @property double $amount
+ * @property int $item_fk
+ * @property float $amount
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolFk
@@ -19,7 +19,7 @@ class Inventory extends TagModel
 {
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return Inventory the static model class
      */
     public static function model($className = __CLASS__)
@@ -36,7 +36,7 @@ class Inventory extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -54,7 +54,7 @@ class Inventory extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -64,7 +64,7 @@ class Inventory extends TagModel
             'school' => [self::BELONGS_TO, 'SchoolIdentification', 'school_fk'],
             'received' => [self::BELONGS_TO, 'Received', 'inventory_fk'],
             'spent' => [self::BELONGS_TO, 'Spent', 'inventory_fk'],
-            'item' => [self::BELONGS_TO, 'Item', 'item_fk']
+            'item' => [self::BELONGS_TO, 'Item', 'item_fk'],
         ];
     }
 
@@ -83,7 +83,7 @@ class Inventory extends TagModel
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {

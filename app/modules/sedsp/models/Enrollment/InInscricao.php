@@ -162,114 +162,133 @@ class InInscricao implements JsonSerializable
     public function setInAnoLetivo(?string $inAnoLetivo): self
     {
         $this->inAnoLetivo = $inAnoLetivo;
+
         return $this;
     }
 
     public function setInCodEscola(?string $inCodEscola): self
     {
         $this->inCodEscola = $inCodEscola;
+
         return $this;
     }
 
     public function setInCodUnidade(?string $inCodUnidade): self
     {
         $this->inCodUnidade = $inCodUnidade;
+
         return $this;
     }
 
     public function setInFase(?string $inFase): self
     {
         $this->inFase = $inFase;
+
         return $this;
     }
 
     public function setInInteresseIntegral(?string $inInteresseIntegral): self
     {
         $this->inInteresseIntegral = $inInteresseIntegral;
+
         return $this;
     }
 
     public function setInInteresseEspanhol(?string $inInteresseEspanhol): self
     {
         $this->inInteresseEspanhol = $inInteresseEspanhol;
+
         return $this;
     }
 
     public function setInNecesAtendNoturno(?string $inNecesAtendNoturno): self
     {
         $this->inNecesAtendNoturno = $inNecesAtendNoturno;
+
         return $this;
     }
 
     public function setInInteresseNovoTec(?string $inInteresseNovoTec): self
     {
         $this->inInteresseNovoTec = $inInteresseNovoTec;
+
         return $this;
     }
 
     public function setInCodigoObservacaoOpcaoNoturno(?string $inCodigoObservacaoOpcaoNoturno): self
     {
         $this->inCodigoObservacaoOpcaoNoturno = $inCodigoObservacaoOpcaoNoturno;
+
         return $this;
     }
 
     public function setInCodigoEixoNovotecOpcaoUm(?string $inCodigoEixoNovotecOpcaoUm): self
     {
         $this->inCodigoEixoNovotecOpcaoUm = $inCodigoEixoNovotecOpcaoUm;
+
         return $this;
     }
 
     public function setInCodigoEscolaNovotecOpcaoUm(?string $inCodigoEscolaNovotecOpcaoUm): self
     {
         $this->inCodigoEscolaNovotecOpcaoUm = $inCodigoEscolaNovotecOpcaoUm;
+
         return $this;
     }
 
     public function setInCodigoUnidadeNovotecOpcaoUm(?string $inCodigoUnidadeNovotecOpcaoUm): self
     {
         $this->inCodigoUnidadeNovotecOpcaoUm = $inCodigoUnidadeNovotecOpcaoUm;
+
         return $this;
     }
 
     public function setInFlInteresseCentroIdiomas(?string $inFl_InteresseCentroIdiomas): self
     {
         $this->inFl_InteresseCentroIdiomas = $inFl_InteresseCentroIdiomas;
+
         return $this;
     }
 
     public function setInFlAceiteEscolaPeiDistante(?string $inFl_AceiteEscolaPEIDistante): self
     {
         $this->inFl_AceiteEscolaPEIDistante = $inFl_AceiteEscolaPEIDistante;
+
         return $this;
     }
 
     public function setInCodigoEixoCelOpcaoUm(?string $inCodigoEixoCELOpcaoUm): self
     {
         $this->inCodigoEixoCELOpcaoUm = $inCodigoEixoCELOpcaoUm;
+
         return $this;
     }
 
     public function setInCodigoEscolaCelOpcaoUm(?string $inCodigoEscolaCELOpcaoUm): self
     {
         $this->inCodigoEscolaCELOpcaoUm = $inCodigoEscolaCELOpcaoUm;
+
         return $this;
     }
 
     public function setInCodigoUnidadeCelOpcaoUm(?string $inCodigoUnidadeCELOpcaoUm): self
     {
         $this->inCodigoUnidadeCELOpcaoUm = $inCodigoUnidadeCELOpcaoUm;
+
         return $this;
     }
 
     public function setInCodigoEixoNovotecOpcaoDois(?string $inCodigoEixoNovotecOpcaoDois): self
     {
         $this->inCodigoEixoNovotecOpcaoDois = $inCodigoEixoNovotecOpcaoDois;
+
         return $this;
     }
 
     public function setInCodigoEixoNovotecOpcaoTres(?string $inCodigoEixoNovotecOpcaoTres): self
     {
         $this->inCodigoEixoNovotecOpcaoTres = $inCodigoEixoNovotecOpcaoTres;
+
         return $this;
     }
 

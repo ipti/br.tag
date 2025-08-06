@@ -7,7 +7,7 @@ class ManagementschoolController extends CController
     public function actionIndex($sid)
     {
         $school = SchoolIdentification::model()->findByPk($sid);
-        $this->render('index', ['school' => $school, ]);
+        $this->render('index', ['school' => $school]);
     }
 
     public function actionPerformance($sid)
@@ -15,7 +15,7 @@ class ManagementschoolController extends CController
         $school = SchoolIdentification::model()->findByPk($sid);
         $media = 5;
         $efficiencies = [];
-        for ($i = 1; $i <= 4; $i++) {
+        for ($i = 1; $i <= 4; ++$i) {
             $unity = $i;
             $sql = "select b.grade, count(b.grade) count
 					  from (select if(a.grade > :media+1, 1, if(a.grade <= :media+1 && a.grade >= :media, 0, -1)) grade
@@ -30,14 +30,14 @@ class ManagementschoolController extends CController
             $efficiency = yii::app()->db->createCommand($sql)->queryAll(true, [
                 ':sid' => $sid,
                 ':year' => yii::app()->user->year,
-                ':media' => $media
+                ':media' => $media,
             ]);
             $efficiencies[$unity . 'º Bimestre'] = [];
             $efficiencies[$unity . 'º Bimestre']['bad'] = 0;
             $efficiencies[$unity . 'º Bimestre']['regular'] = 0;
             $efficiencies[$unity . 'º Bimestre']['good'] = 0;
             foreach ($efficiency as $e) {
-                $grade = $e['grade'] == -1 ? 'bad' : ($e['grade'] == 0 ? 'regular' : 'good');
+                $grade = -1 == $e['grade'] ? 'bad' : (0 == $e['grade'] ? 'regular' : 'good');
                 $efficiencies[$unity . 'º Bimestre'][$grade] = $e['count'];
             }
         }
@@ -52,7 +52,7 @@ class ManagementschoolController extends CController
 
     public function actionFrequency($sid)
     {
-        /* @var $classrooms Classroom[]*/
+        /* @var $classrooms Classroom[] */
         $school = SchoolIdentification::model()->findByPk($sid);
         $classrooms = Classroom::model()->findAll(['condition' => 'school_inep_fk = :sid and school_year = :year', 'order' => 'name', 'params' => [':sid' => $sid, ':year' => yii::app()->user->year]]);
         $classroomOptions = [];
@@ -66,7 +66,7 @@ class ManagementschoolController extends CController
     public function actionLoadClassroomInfos($sid, $cid)
     {
         $results = null;
-        if ($cid == 'all') {
+        if ('all' == $cid) {
             $sql = "SELECT distinct sc.month, IFNULL(d.id,'-1') did, IFNULL(d.name,'Disciplinas Fundamental Menor') discipline FROM classroom as c
 					join schedule sc on (sc.classroom_fk = c.id)
 					left join edcenso_discipline d on (sc.discipline_fk = d.id)
@@ -81,14 +81,15 @@ class ManagementschoolController extends CController
             return false;
         }
         echo json_encode($results);
+
         return true;
     }
 
     public function actionLoadChartData($sid, $cid, $mid, $did)
     {
-        $cFilter = ($cid != 'all' ? 'and cr.id = :cid ' : ' ');
-        $mFilter = ($mid != 'all' ? 'and month = :mid ' : ' ');
-        $dFilter = ($did == 'all' ? ' ' : ($did == '-1' ? ' and d.id is null ' : 'and d.id  = :did '));
+        $cFilter = ('all' != $cid ? 'and cr.id = :cid ' : ' ');
+        $mFilter = ('all' != $mid ? 'and month = :mid ' : ' ');
+        $dFilter = ('all' == $did ? ' ' : ('-1' == $did ? ' and d.id is null ' : 'and d.id  = :did '));
         $sql = "Select cr.id cid, cr.name cname, day, month,  d.id did, IFNULL(d.name,'Disciplinas Fundamental Menor') dname, count(cf.id) as faults from schedule sc
 					left join class_faults cf on (sc.id = cf.schedule_fk)
 					join classroom cr on (cr.id = sc.classroom_fk)
@@ -100,17 +101,17 @@ class ManagementschoolController extends CController
 				group by sc.day, sc.month, sc.discipline_fk
 				order by sc.month, sc.day, sc.discipline_fk;";
         $i = 0;
-        $params = [':sid' => $sid, ':year' => yii::app()->user->year, ];
-        ($cid != 'all' ? $params[':cid'] = $cid : $i);
-        ($mid != 'all' ? $params[':mid'] = $mid : $i);
-        ($did != 'all' && $did != '-1' ? $params[':did'] = $did : $i);
+        $params = [':sid' => $sid, ':year' => yii::app()->user->year];
+        'all' != $cid ? $params[':cid'] = $cid : $i;
+        'all' != $mid ? $params[':mid'] = $mid : $i;
+        'all' != $did && '-1' != $did ? $params[':did'] = $did : $i;
         $classes = yii::app()->db->createCommand($sql)->queryAll(true, $params);
         $sql = "Select count(*) from student_enrollment e
 					join classroom cr on (cr.id = e.classroom_fk)
 					where cr.school_year = :year and cr.school_inep_fk = :sid
 					$cFilter;";
-        $params = [':sid' => $sid, ':year' => yii::app()->user->year, ];
-        ($cid != 'all' ? $params[':cid'] = $cid : $i);
+        $params = [':sid' => $sid, ':year' => yii::app()->user->year];
+        'all' != $cid ? $params[':cid'] = $cid : $i;
         $enrollments = yii::app()->db->createCommand($sql)->queryScalar($params);
         echo json_encode(['classes' => $classes, 'enrollments' => $enrollments]);
     }
@@ -118,7 +119,7 @@ class ManagementschoolController extends CController
     public function actionLoadPerformanceClassroomInfos($sid, $cid)
     {
         $results = null;
-        $cFilter = ($cid != 'all' ? ' && c.id = :cid' : ' ');
+        $cFilter = ('all' != $cid ? ' && c.id = :cid' : ' ');
         $sql = "select distinct g.bimester unit, g.discipline_fk did, d.name discipline, se.classroom_fk cid from (
 				   select grade1 grade, id, 'g1' bimester, discipline_fk, enrollment_fk from grade
 				   union ( SELECT grade2 grade, id, 'g2' bimester, discipline_fk, enrollment_fk FROM grade)
@@ -135,19 +136,20 @@ class ManagementschoolController extends CController
 				  LEFT JOIN edcenso_discipline d on d.id = g.discipline_fk
 				WHERE c.school_inep_fk = :sid && c.school_year = :year $cFilter;";
         $params = [':sid' => $sid, ':year' => yii::app()->user->year];
-        if ($cid != 'all') {
+        if ('all' != $cid) {
             $params[':cid'] = $cid;
         }
         $results = yii::app()->db->createCommand($sql)->queryAll(true, $params);
         echo json_encode($results);
+
         return true;
     }
 
     public function actionLoadPerformanceChartData($sid, $cid, $bid, $did)
     {
-        $cFilter = ($cid == 'all') ? ' ' : " se.classroom_fk in ($cid) && ";
-        $bFilter = ($bid == 'all') ? ' ' : " g.bimester in ($bid) && ";
-        $dFilter = ($did == 'all') ? ' ' : " g.discipline_fk in ($did) && ";
+        $cFilter = ('all' == $cid) ? ' ' : " se.classroom_fk in ($cid) && ";
+        $bFilter = ('all' == $bid) ? ' ' : " g.bimester in ($bid) && ";
+        $dFilter = ('all' == $did) ? ' ' : " g.discipline_fk in ($did) && ";
         $sql = "select g.id, g.grade, g.bimester, g.discipline_fk did, g.enrollment_fk eid, se.classroom_fk cid from (
 					select grade1 grade, id, 'g1' bimester, discipline_fk, enrollment_fk from grade
 					union ( SELECT grade2 grade, id, 'g2' bimester, discipline_fk, enrollment_fk FROM grade)
@@ -167,7 +169,7 @@ class ManagementschoolController extends CController
 					$dFilter
 				  c.school_year = :year && c.school_inep_fk = :sid";
 
-        $params = [':sid' => $sid, ':year' => yii::app()->user->year, ];
+        $params = [':sid' => $sid, ':year' => yii::app()->user->year];
         $grades = yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
         echo json_encode(['grades' => $grades]);
@@ -175,7 +177,7 @@ class ManagementschoolController extends CController
 
     public function actionLoadDisciplineInfo($sid, $cid)
     {
-        $cFilter = ($cid == 'all') ? ' ' : "c.id in ($cid) and";
+        $cFilter = ('all' == $cid) ? ' ' : "c.id in ($cid) and";
         $sql = "select distinct c.id cid, ed.id did, ed.name discipline, c.school_year `year` from classroom c
 					join student_enrollment se on c.id = se.classroom_fk
 					join grade g on se.id = g.enrollment_fk
@@ -193,8 +195,8 @@ class ManagementschoolController extends CController
     public function actionLoadDataForProficiency($sid, $cid, $did)
     {
         $grade = 5;
-        $cFilter = ($cid == 'all') ? ' ' : "c.id in ($cid) and";
-        $dFilter = ($did == 'all') ? ' ' : "d.id in ($did) and";
+        $cFilter = ('all' == $cid) ? ' ' : "c.id in ($cid) and";
+        $dFilter = ('all' == $did) ? ' ' : "d.id in ($did) and";
         $sql = "select if(grade >= $grade , grade, recovery) grade, g.discipline_fk did, se.classroom_fk cid, bimester, count(*) count
 					from
 					(select grade1 grade, id, 'g1' bimester, discipline_fk, enrollment_fk, recovery_grade1 recovery from grade
@@ -222,7 +224,7 @@ class ManagementschoolController extends CController
             $option = ($g['grade'] < 5) ? 'bad'
                     : (($g['grade'] >= 5 && $g['grade'] < 7) ? 'regular'
                     : (($g['grade'] >= 7 && $g['grade'] < 9) ? 'good'
-                    : 'best')) ;
+                    : 'best'));
             $result[$g['bimester']][$option] += intval($g['count']);
         }
 
@@ -232,8 +234,8 @@ class ManagementschoolController extends CController
     public function actionLoadDataForEvolution($sid, $cid, $did)
     {
         $grade = 5;
-        $cFilter = ($cid == 'all') ? ' ' : "c.id in ($cid) and";
-        $dFilter = ($did == 'all') ? ' ' : "d.id in ($did) and";
+        $cFilter = ('all' == $cid) ? ' ' : "c.id in ($cid) and";
+        $dFilter = ('all' == $did) ? ' ' : "d.id in ($did) and";
         $sql = "select distinct if(grade >= $grade , grade, recovery) grade, g.bimester bimester, g.discipline_fk did, se.classroom_fk cid, count(*) count
 				  from
 				  (select grade1 grade, id, 'g1' bimester, discipline_fk, enrollment_fk, recovery_grade1 recovery from grade

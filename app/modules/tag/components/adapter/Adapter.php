@@ -3,7 +3,7 @@
 class Adapter implements ExportableInterface, ImportableInterface
 {
     /**
-     * Summary of export
+     * Summary of export.
      * @param mixed $data
      * @return bool|string
      */
@@ -13,7 +13,7 @@ class Adapter implements ExportableInterface, ImportableInterface
     }
 
     /**
-     * Summary of import
+     * Summary of import.
      * @param mixed $data
      * @return mixed
      */

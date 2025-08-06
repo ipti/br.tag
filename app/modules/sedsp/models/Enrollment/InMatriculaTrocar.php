@@ -50,30 +50,35 @@ class InMatriculaTrocar implements JsonSerializable
     public function setInAnoLetivo(?string $inAnoLetivo): self
     {
         $this->inAnoLetivo = $inAnoLetivo;
+
         return $this;
     }
 
     public function setInDataTroca(?string $inDataTroca): self
     {
         $this->inDataTroca = $inDataTroca;
+
         return $this;
     }
 
     public function setInNumAluno(?string $inNumAluno): self
     {
         $this->inNumAluno = $inNumAluno;
+
         return $this;
     }
 
     public function setInNumClasseOrigem(?string $inNumClasseOrigem): self
     {
         $this->inNumClasseOrigem = $inNumClasseOrigem;
+
         return $this;
     }
 
     public function setInNumClasseDestino(?string $inNumClasseDestino): self
     {
         $this->inNumClasseDestino = $inNumClasseDestino;
+
         return $this;
     }
 

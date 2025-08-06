@@ -20,7 +20,7 @@ class DefaultController extends Controller
 
         $this->render('quiz/quiz', [
             'dataProvider' => $dataProvider,
-            'filter' => $filter
+            'filter' => $filter,
         ]);
     }
 
@@ -36,6 +36,7 @@ class DefaultController extends Controller
                 if ($quiz->save()) {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Questionário cadastrado com sucesso'));
                     $url = Yii::app()->createUrl('quiz/default/quiz');
+
                     return $this->redirect($url);
                 }
             }
@@ -68,28 +69,32 @@ class DefaultController extends Controller
         $quizQuestion = new QuizQuestion();
 
         if (isset($_POST['Quiz'])) {
-            if (count($questions) == 0) {
-                if (count($questionGroups) == 0) {
+            if (0 == count($questions)) {
+                if (0 == count($questionGroups)) {
                     if ($quiz->delete()) {
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Questionário excluído com sucesso'));
                     } else {
                         $quiz->attributes = $_POST['Quiz'];
                         Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir questionário'));
+
                         return $this->render('quiz/update', ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
                     }
                 } else {
                     $quiz->attributes = $_POST['Quiz'];
                     Yii::app()->user->setFlash('error', Yii::t('default', 'Existe grupo vinculado ao questionário'));
+
                     return $this->render('quiz/update', ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
                 }
             } else {
                 $quiz->attributes = $_POST['Quiz'];
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Existe questão vinculada ao questionário'));
+
                 return $this->render('quiz/update', ['quiz' => $quiz, 'quizQuestion' => $quizQuestion]);
             }
         }
 
         $url = Yii::app()->createUrl('quiz/default/quiz');
+
         return $this->redirect($url);
     }
 
@@ -108,7 +113,7 @@ class DefaultController extends Controller
 
         $this->render('group/index', [
             'dataProvider' => $dataProvider,
-            'filter' => $filter
+            'filter' => $filter,
         ]);
     }
 
@@ -122,6 +127,7 @@ class DefaultController extends Controller
                 if ($group->save()) {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo cadastrado com sucesso'));
                     $url = Yii::app()->createUrl('quiz/default/group');
+
                     return $this->redirect($url);
                 }
             }
@@ -152,22 +158,25 @@ class DefaultController extends Controller
         $questions = $group->questions;
 
         if (isset($_POST['QuestionGroup'])) {
-            if (count($questions) == 0) {
+            if (0 == count($questions)) {
                 if ($group->delete()) {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Grupo excluído com sucesso'));
                 } else {
                     $group->attributes = $_POST['QuestionGroup'];
                     Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir grupo'));
+
                     return $this->render('group/update', ['group' => $group]);
                 }
             } else {
                 $group->attributes = $_POST['QuestionGroup'];
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Existe questão vinculada ao grupo'));
+
                 return $this->render('group/update', ['group' => $group]);
             }
         }
 
         $url = Yii::app()->createUrl('quiz/default/group');
+
         return $this->redirect($url);
     }
 
@@ -186,7 +195,7 @@ class DefaultController extends Controller
 
         $this->render('questiongroup/index', [
             'dataProvider' => $dataProvider,
-            'filter' => $filter
+            'filter' => $filter,
         ]);
     }
 
@@ -202,6 +211,7 @@ class DefaultController extends Controller
                 if ($questionGroup->validate()) {
                     if ($questionGroup->save()) {
                         Yii::app()->user->setFlash('success', Yii::t('default', 'Questão adicionada ao grupo'));
+
                         return $this->actionQuestionGroup();
                     }
                 }
@@ -239,11 +249,13 @@ class DefaultController extends Controller
             } else {
                 $questionGroup->attributes = $_POST['QuestionGroupQuestion'];
                 Yii::app()->user->setFlash('success', Yii::t('default', 'Erro ao excluir grupo de questões'));
+
                 return $this->render('questiongroup/update', ['questionGroup' => $questionGroup]);
             }
         }
 
         $url = Yii::app()->createUrl('quiz/default/questionGroup');
+
         return $this->redirect($url);
     }
 
@@ -262,7 +274,7 @@ class DefaultController extends Controller
 
         $this->render('question/index', [
             'dataProvider' => $dataProvider,
-            'filter' => $filter
+            'filter' => $filter,
         ]);
     }
 
@@ -277,6 +289,7 @@ class DefaultController extends Controller
                 if ($question->save()) {
                     Yii::app()->user->setFlash('success', Yii::t('default', 'Questão cadastrada com sucesso'));
                     $url = Yii::app()->createUrl('quiz/default/question');
+
                     return $this->redirect($url);
                 }
             }
@@ -313,11 +326,13 @@ class DefaultController extends Controller
             } else {
                 $question->attributes = $_POST['QuestionGroup'];
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro ao excluir questão'));
+
                 return $this->render('question/update', ['group' => $question, 'option' => $option]);
             }
         }
 
         $url = Yii::app()->createUrl('quiz/default/question');
+
         return $this->redirect($url);
     }
 
@@ -493,7 +508,7 @@ class DefaultController extends Controller
 
         $this->render('answer/view', [
             'quizId' => $quizId,
-            'studentId' => $studentId
+            'studentId' => $studentId,
         ]);
     }
 }

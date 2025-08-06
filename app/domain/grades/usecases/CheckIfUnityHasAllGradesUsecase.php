@@ -27,7 +27,7 @@ class CheckIfUnityHasAllGradesUsecase
         );
 
         $countGrades = count(array_filter(array_column($grades, 'grade'), function ($item) {
-            return isset($item) && $item != null && $item != '';
+            return isset($item) && null != $item && '' != $item;
         }));
 
         $countModalities = $this->unity->countGradeUnityModalities;
@@ -48,7 +48,7 @@ class CheckIfUnityHasAllGradesUsecase
             ->bindParam(':discipline_id', $discipline)
             ->bindParam(':unity_id', $unityId)->queryAll(), 'id');
 
-        if ($gradesIds == null) {
+        if (null == $gradesIds) {
             return [];
         }
 

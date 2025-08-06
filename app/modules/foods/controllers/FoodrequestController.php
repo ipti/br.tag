@@ -18,7 +18,7 @@ class FoodrequestController extends Controller
                     'getFoodNoticeItems',
                     'updateReceivedFoods',
                     'updateRequestStatus',
-                    'updateAcceptedFoods'
+                    'updateAcceptedFoods',
                 ],
                 'users' => ['*'],
             ],
@@ -55,7 +55,7 @@ class FoodrequestController extends Controller
             $values[$food->id] = (object) [
                 'description' => $food->description,
                 'measurementUnit' => $food->measurementUnit,
-                'category' => $food->category
+                'category' => $food->category,
             ];
         }
 
@@ -72,7 +72,7 @@ class FoodrequestController extends Controller
         $values = [];
         foreach ($foodNotices as $notice) {
             $values[$notice->id] = (object) [
-                'name' => $notice->name
+                'name' => $notice->name,
             ];
         }
 
@@ -130,6 +130,7 @@ class FoodrequestController extends Controller
                 return false;
             }
         }
+
         return true;
     }
 
@@ -145,6 +146,7 @@ class FoodrequestController extends Controller
                 return false;
             }
         }
+
         return true;
     }
 
@@ -162,6 +164,7 @@ class FoodrequestController extends Controller
                 return false;
             }
         }
+
         return true;
     }
 
@@ -174,7 +177,7 @@ class FoodrequestController extends Controller
             Yii::app()->end();
         }
 
-        if ($authHeader != 'Bearer $2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6') {
+        if ('Bearer $2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6' != $authHeader) {
             echo json_encode(['error' => 'token nao autorizado']);
             Yii::app()->end();
         }
@@ -224,7 +227,7 @@ class FoodrequestController extends Controller
             Yii::app()->end();
         }
 
-        if ($authHeader != 'Bearer $2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6') {
+        if ('Bearer $2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6' != $authHeader) {
             echo json_encode(['error' => 'token nao autorizado']);
             Yii::app()->end();
         }
@@ -263,7 +266,7 @@ class FoodrequestController extends Controller
             Yii::app()->end();
         }
 
-        if ($itemSaveStatus != 'Erro') {
+        if ('Erro' != $itemSaveStatus) {
             echo json_encode(['success' => 'Alimento registrado com sucesso']);
             Yii::app()->end();
         }
@@ -285,6 +288,7 @@ class FoodrequestController extends Controller
         if ($itemsReceived->save()) {
             $message = 'Item salvo';
         }
+
         return $message;
     }
 
@@ -301,6 +305,7 @@ class FoodrequestController extends Controller
         if ($itemAccepted->save()) {
             return true;
         }
+
         return false;
     }
 
@@ -321,7 +326,7 @@ class FoodrequestController extends Controller
                     'foodFk' => $foodFk,
                     'foodRequestFk' => $item->food_request_fk,
                     'measurementUnit' => $item->measurementUnit,
-                    'totalAmount' => 0
+                    'totalAmount' => 0,
                 ];
             }
 
@@ -336,13 +341,15 @@ class FoodrequestController extends Controller
         );
 
         if ((!empty($groupedItems) && !empty($items)) && count($items) == count($groupedItems)) {
-            for ($i = 0; $i < count($items); $i++) {
+            for ($i = 0; $i < count($items); ++$i) {
                 if ($items[$i]->amount != $groupedItems[$i]['totalAmount'] && $items[$i]->measurementUnit != $groupedItems[$i]['measurementUnit']) {
                     return false;
                 }
             }
+
             return true;
         }
+
         return false;
     }
 
@@ -350,8 +357,8 @@ class FoodrequestController extends Controller
     {
         $foodRequestData = FoodRequest::model()->with([
             'noticeFk' => [
-                'select' => 'name'
-            ]
+                'select' => 'name',
+            ],
         ])->findAll();
 
         $requestsList = [];
@@ -365,8 +372,7 @@ class FoodrequestController extends Controller
                 ],
                 'items' => [],
                 'farmers' => [],
-                'schools' => []
-
+                'schools' => [],
             ];
 
             $this->getFoodRequestItems($requestData, $request->id);
@@ -381,6 +387,7 @@ class FoodrequestController extends Controller
         usort($requestsList, function ($date1, $date2) {
             $dateA = DateTime::createFromFormat('d/m/Y', $date1['requestInfo']['date']);
             $dateB = DateTime::createFromFormat('d/m/Y', $date2['requestInfo']['date']);
+
             return $dateB <=> $dateA;
         });
 
@@ -395,8 +402,8 @@ class FoodrequestController extends Controller
 
         $requestItems = FoodRequestItem::model()->with([
             'foodFk' => [
-                'select' => 'description'
-            ]
+                'select' => 'description',
+            ],
         ])->findAll($criteria);
 
         foreach ($requestItems as $item) {
@@ -405,7 +412,7 @@ class FoodrequestController extends Controller
                 'foodId' => $item->food_fk,
                 'foodName' => $item->foodFk->description,
                 'amount' => $item->amount,
-                'measurementUnit' => $item->measurementUnit
+                'measurementUnit' => $item->measurementUnit,
             ];
         }
     }
@@ -418,10 +425,10 @@ class FoodrequestController extends Controller
 
         $requestItemsReceived = FoodRequestItemReceived::model()->with([
             'foodFk' => [
-                'select' => 'description'
+                'select' => 'description',
             ],
             'farmerFk' => [
-                'select' => 'name'
+                'select' => 'name',
             ],
         ])->findAll($criteria);
 
@@ -434,7 +441,7 @@ class FoodrequestController extends Controller
                 'farmerName' => $item->farmerFk->name,
                 'amount' => $item->amount,
                 'measurementUnit' => $item->measurementUnit,
-                'date' => date('d/m/Y', strtotime($item->date))
+                'date' => date('d/m/Y', strtotime($item->date)),
             ];
         }
     }
@@ -447,10 +454,10 @@ class FoodrequestController extends Controller
 
         $requestAcceptedItems = FoodRequestItemAccepted::model()->with([
             'foodFk' => [
-                'select' => 'description'
+                'select' => 'description',
             ],
             'farmerFk' => [
-                'select' => 'name'
+                'select' => 'name',
             ],
         ])->findAll($criteria);
 
@@ -463,7 +470,7 @@ class FoodrequestController extends Controller
                 'farmerName' => $item->farmerFk->name,
                 'amount' => $item->amount,
                 'measurementUnit' => $item->measurementUnit,
-                'date' => date('d/m/Y', strtotime($item->date))
+                'date' => date('d/m/Y', strtotime($item->date)),
             ];
         }
     }
@@ -475,8 +482,8 @@ class FoodrequestController extends Controller
         $criteria->params = [':requestId' => $requestId];
         $requestFarmers = FoodRequestVsFarmerRegister::model()->with([
             'farmerFk' => [
-                'select' => 'name'
-            ]
+                'select' => 'name',
+            ],
         ])->findAll($criteria);
 
         foreach ($requestFarmers as $farmer) {
@@ -494,8 +501,8 @@ class FoodrequestController extends Controller
         $criteria->params = [':requestId' => $requestId];
         $requestSchools = FoodRequestVsSchoolIdentification::model()->with([
             'schoolFk' => [
-                'select' => 'name'
-            ]
+                'select' => 'name',
+            ],
         ])->findAll($criteria);
 
         foreach ($requestSchools as $school) {
@@ -616,15 +623,16 @@ class FoodrequestController extends Controller
     public function loadModel($id)
     {
         $model = FoodRequest::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'food-request-form') {
+        if (isset($_POST['ajax']) && 'food-request-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

@@ -215,6 +215,7 @@ class ReportsController extends Controller
         $query = $repository->getQuarterlyFollowUpReport(Yii::app()->request);
         if ($query['error']) {
             Yii::app()->user->setFlash('error', Yii::t('default', $query['message']));
+
             return $this->redirect(['index']);
         } else {
             $this->render('buzios/quarterly/QuarterlyFollowUpReport', $query['response']);
@@ -227,6 +228,7 @@ class ReportsController extends Controller
         $query = $repository->getEvaluationFollowUpStudentsReport(Yii::app()->request);
         if ($query['error']) {
             Yii::app()->user->setFlash('error', Yii::t('default', $query['message']));
+
             return $this->redirect(['index']);
         } else {
             $this->render('buzios/quarterly/EvaluationFollowUpReport', $query['response']);
@@ -239,6 +241,7 @@ class ReportsController extends Controller
         $query = $repository->getClassCouncilReport(Yii::app()->request);
         if ($query['error']) {
             Yii::app()->user->setFlash('error', Yii::t('default', $query['message']));
+
             return $this->redirect(['index']);
         } else {
             $this->render($query['view'], $query['response']);
@@ -408,36 +411,36 @@ class ReportsController extends Controller
         $criteria->order = 'edcenso_stage_vs_modality_fk, name ASC';
         $criteria->condition = 'school_year = :year';
         $criteria->params = ['year' => Yii::app()->user->year];
-        //Consulta todas as classes abertas no ano atual
+        // Consulta todas as classes abertas no ano atual
         $classrooms = Classroom::model()->findAll($criteria);
         $stages = [];
         $schools = [];
         foreach ($classrooms as $classroom) {
-            //Coloca em um array o nome de todas as escolas que já não estão no mesmo (através da lista de classes)
+            // Coloca em um array o nome de todas as escolas que já não estão no mesmo (através da lista de classes)
             if (!in_array($classroom->schoolInepFk->name, $schools)) {
                 $schools[] = $classroom->schoolInepFk->name;
             }
-            //Coloca em um array todos o stage number e nome dos estágios que
+            // Coloca em um array todos o stage number e nome dos estágios que
             // já não estão no mesmo (através da lista de classes)
-            if (array_search($classroom->edcensoStageVsModalityFk->name, array_column($stages, 'name')) === false) {
+            if (false === array_search($classroom->edcensoStageVsModalityFk->name, array_column($stages, 'name'))) {
                 array_push($stages, ['stageNumber' => $classroom->edcensoStageVsModalityFk->stage,
                     'name' => $classroom->edcensoStageVsModalityFk->name,
                     'alias' => $classroom->edcensoStageVsModalityFk->alias]);
             }
         }
-        //Cria a primeira linha da tabela com o grupo de estágios
+        // Cria a primeira linha da tabela com o grupo de estágios
         $stageNumberGroups = [];
         foreach ($stages as $stage) {
-            if ($stageNumberGroups[$stage['stageNumber']] == null) {
-                //Adiciona indexado pelo stageNumber do array $stage a quantidade de celulas do estágio e o nome
+            if (null == $stageNumberGroups[$stage['stageNumber']]) {
+                // Adiciona indexado pelo stageNumber do array $stage a quantidade de celulas do estágio e o nome
                 $stageNumberGroups[$stage['stageNumber']]['colspan'] = 0;
                 $stageNumberGroups[$stage['stageNumber']]['colname'] = $this->translateStageNumbers($stage['stageNumber']);
             }
-            //Pra cada estagio, concatena mais uma celula ao grupo de estagios
-            $stageNumberGroups[$stage['stageNumber']]['colspan']++;
+            // Pra cada estagio, concatena mais uma celula ao grupo de estagios
+            ++$stageNumberGroups[$stage['stageNumber']]['colspan'];
         }
 
-        //Inicializa as celulas de contagem de matriculas com valor 0
+        // Inicializa as celulas de contagem de matriculas com valor 0
         $schoolStages = [];
         foreach ($schools as $school) {
             foreach ($stages as $stage) {
@@ -445,7 +448,7 @@ class ReportsController extends Controller
             }
         }
 
-        //Para cada classe incrementa o contador de matriculas em cada celular dos estágios
+        // Para cada classe incrementa o contador de matriculas em cada celular dos estágios
         foreach ($classrooms as $classroom) {
             $schoolStages[$classroom->schoolInepFk->name][$classroom->edcensoStageVsModalityFk->stage][$classroom->edcensoStageVsModalityFk->name] += count($classroom->activeStudentEnrollments);
         }
@@ -453,7 +456,7 @@ class ReportsController extends Controller
         $this->render('EnrollmentStatisticsByYearReport', [
             'schoolStages' => $schoolStages,
             'stageNumberGroups' => $stageNumberGroups,
-            'stages' => $stages
+            'stages' => $stages,
         ]);
     }
 
@@ -461,7 +464,7 @@ class ReportsController extends Controller
     {
         $classroom = Classroom::model()->findByPk($classroomId);
         $classroomName = $classroom->name;
-        $disciplineId = $disciplineId === 'null' ? null : $disciplineId;
+        $disciplineId = 'null' === $disciplineId ? null : $disciplineId;
         $disciplineName = EdcensoDiscipline::model()->findByAttributes(['id' => $disciplineId])->name ?? null;
         if (TagUtils::isInstructor()) {
             $instructorName = InstructorIdentification::model()->findByAttributes(['users_fk' => Yii::app()->user->loginInfos->id])->name ?? null;
@@ -473,7 +476,7 @@ class ReportsController extends Controller
         )
         ->bindParam(':classroom_fk', $classroomId)
         ->queryAll();
-        $isMinorEducation = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : Classroom::model()->checkIsStageMinorEducation($classroom);
+        $isMinorEducation = 1 == $classroom->edcensoStageVsModalityFk->unified_frequency ? true : Classroom::model()->checkIsStageMinorEducation($classroom);
         $totalClasses = ClassContents::model()->getTotalClassesByMonth($classroomId, $month, $year, $disciplineId);
         $totalClassContents = ClassContents::model()->getTotalClassContentsByMonth($classroomId, $month, $year, $disciplineId);
 
@@ -498,7 +501,7 @@ class ReportsController extends Controller
             'classroomName' => $classroomName,
             'frequency' => $frequency,
             'month' => $month,
-            'year' => $year
+            'year' => $year,
         ]);
     }
 
@@ -510,7 +513,7 @@ class ReportsController extends Controller
                 'classroom_fk' => $classroomId,
                 'month' => $month,
                 'year' => $year,
-                'discipline_fk' => $disciplineId
+                'discipline_fk' => $disciplineId,
             ]
         );
     }
@@ -522,7 +525,7 @@ class ReportsController extends Controller
             [
                 'classroom_fk' => $classroomId,
                 'month' => $month,
-                'year' => $year
+                'year' => $year,
             ]
         );
     }
@@ -533,21 +536,23 @@ class ReportsController extends Controller
         foreach ($schedules as $schedule) {
             foreach ($students as $student) {
                 $studentStatus = StudentEnrollment::model()->findByAttributes(['student_fk' => $student['id'], 'classroom_fk' => $schedule->classroom_fk])->status ?? null;
-                if ($studentStatus == 1 || $studentStatus == 6 || $studentStatus == 7 || $studentStatus == 8) {
-                    $frequency[$schedule->day]['totalStudents'] += 1;
+                if (1 == $studentStatus || 6 == $studentStatus || 7 == $studentStatus || 8 == $studentStatus) {
+                    ++$frequency[$schedule->day]['totalStudents'];
                 }
 
                 $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $student['id']]);
                 if ($classFault) {
-                    $frequency[$schedule->day]['totalAbsentStudents'] += 1;
+                    ++$frequency[$schedule->day]['totalAbsentStudents'];
                 }
             }
-            if ($frequency[$schedule->day]['totalStudents'] == 0) {
+            if (0 == $frequency[$schedule->day]['totalStudents']) {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Não há alunos ativos nessa turma.'));
+
                 return $this->redirect(['classes/classContents']);
             }
             $frequency[$schedule->day]['attendance'] = round(100 - (($frequency[$schedule->day]['totalAbsentStudents'] / $frequency[$schedule->day]['totalStudents']) * 100), 2);
         }
+
         return $frequency;
     }
 

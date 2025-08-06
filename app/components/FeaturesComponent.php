@@ -2,13 +2,13 @@
 
 /**
  * Componente para controle de feature flag do sistema.
- * Todas as Features precisam obrigatoriamente iniciar sua chave com "FEAT_" + NOME_DA_FEATURE
+ * Todas as Features precisam obrigatoriamente iniciar sua chave com "FEAT_" + NOME_DA_FEATURE.
  *
  */
 class FeaturesComponent extends CApplicationComponent
 {
     /**
-     * Checa se feature está ativa no sistema
+     * Checa se feature está ativa no sistema.
      *
      * @var string $featureKey
      *
@@ -26,7 +26,7 @@ class FeaturesComponent extends CApplicationComponent
     }
 
     /**
-     * Desativa uma feature para instancia
+     * Desativa uma feature para instancia.
      *
      * @var string $featureKey
      *
@@ -35,20 +35,20 @@ class FeaturesComponent extends CApplicationComponent
     public function disable($featureKey)
     {
         $feature = InstanceConfig::model()->findByAttributes(['parameter_key' => $featureKey]);
-        if ($feature === false) {
+        if (false === $feature) {
             throw new Exception('Feature não encontrada na base de dados', 1);
         }
 
         $feature->value = false;
         $result = $feature->save();
 
-        if ($result === false) {
+        if (false === $result) {
             throw new Exception('Não foi possível desativar feature, verifique se ela existe na base de dados', 1);
         }
     }
 
     /**
-     * Ativa uma feature para instancia
+     * Ativa uma feature para instancia.
      *
      * @var string $featureKey
      *
@@ -58,20 +58,20 @@ class FeaturesComponent extends CApplicationComponent
     {
         $feature = InstanceConfig::model()->findByAttributes(['parameter_key' => $featureKey]);
 
-        if ($feature === false) {
+        if (false === $feature) {
             throw new Exception('Feature não encontrada na base de dados', 1);
         }
 
         $feature->value = true;
         $result = $feature->save();
 
-        if ($result === false) {
+        if (false === $result) {
             throw new Exception('Não foi possível ativar feature, verifique se ela existe na base de dados', 1);
         }
     }
 
     /**
-     * Lista todas a features da instancia
+     * Lista todas a features da instancia.
      *
      * @var string $featureKey
      *
@@ -80,6 +80,7 @@ class FeaturesComponent extends CApplicationComponent
     public function listAll()
     {
         $features = InstanceConfig::model()->findAll("parameter_key LIKE '%FEAT_%'");
+
         return $features;
     }
 }

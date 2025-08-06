@@ -33,7 +33,7 @@ class Import extends CFormModel
             'year' => 'Ano do arquivo',
             'file' => 'Arquivo',
             'importWithError' => 'Importar com erro?',
-            'probable' => 'Resultado provável?'
+            'probable' => 'Resultado provável?',
         ];
     }
 
@@ -43,8 +43,9 @@ class Import extends CFormModel
         ignore_user_abort();
 
         $file = fopen($this->file, 'r');
-        if ($file == false) {
+        if (false == $file) {
             $this->setError('file', 'O arquivo não existe.');
+
             return;
         }
 
@@ -54,7 +55,7 @@ class Import extends CFormModel
 
         while (true) {
             $line = fgets($file);
-            if ($line == null) {
+            if (null == $line) {
                 break;
             }
 
@@ -63,7 +64,7 @@ class Import extends CFormModel
             $fields = array_map('trim', $fields);
 
             if (in_array($registerType, [40, 50])) {
-                if ($fields[2] !== '') {
+                if ('' !== $fields[2]) {
                     array_push($instructorOwnSystemCodes, $fields[2]);
                 }
                 array_push($instructorInepId, $fields[3]);
@@ -109,7 +110,7 @@ class Import extends CFormModel
 
         foreach ($lines as $line) {
             $schoolIdentificationModel = SchoolIdentification::model()->find('inep_id = :inep_id', ['inep_id' => $line[1]]);
-            if ($schoolIdentificationModel == null) {
+            if (null == $schoolIdentificationModel) {
                 $schoolIdentificationModel = new SchoolIdentification();
             }
 
@@ -117,7 +118,7 @@ class Import extends CFormModel
                 $columnName = $field->attr;
                 $collumnOrder = $field->corder - 1;
 
-                if (isset($line[$collumnOrder]) && $line[$collumnOrder] != '' && in_array($columnName, $attributes)) {
+                if (isset($line[$collumnOrder]) && '' != $line[$collumnOrder] && in_array($columnName, $attributes)) {
                     $schoolIdentificationModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                 }
             }
@@ -127,7 +128,7 @@ class Import extends CFormModel
             $edcensoDistrict = EdcensoDistrict::model()->findByAttributes(['edcenso_city_fk' => $edcensoCityId]);
             $schoolIdentificationModel->edcenso_uf_fk = $edcensoCity->edcenso_uf_fk;
             $schoolIdentificationModel->edcenso_district_fk = $edcensoDistrict->id;
-            $schoolIdentificationModel->id_difflocation = $schoolIdentificationModel->id_difflocation == '' ? 7 : $schoolIdentificationModel->id_difflocation;
+            $schoolIdentificationModel->id_difflocation = '' == $schoolIdentificationModel->id_difflocation ? 7 : $schoolIdentificationModel->id_difflocation;
             if (!$schoolIdentificationModel->save()) {
                 $this->setFailure('00', $line);
             }
@@ -142,7 +143,7 @@ class Import extends CFormModel
 
         foreach ($lines as $line) {
             $schoolStructureModel = SchoolStructure::model()->find('school_inep_id_fk = :school_inep_id_fk', ['school_inep_id_fk' => $line[1]]);
-            if ($schoolStructureModel == null) {
+            if (null == $schoolStructureModel) {
                 $schoolStructureModel = new SchoolStructure();
             }
 
@@ -150,7 +151,7 @@ class Import extends CFormModel
                 $columnName = $field->attr;
                 $collumnOrder = $field->corder - 1;
 
-                if (isset($line[$collumnOrder]) && $line[$collumnOrder] != '' && in_array($columnName, $attributes)) {
+                if (isset($line[$collumnOrder]) && '' != $line[$collumnOrder] && in_array($columnName, $attributes)) {
                     $schoolStructureModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                 }
             }
@@ -169,16 +170,16 @@ class Import extends CFormModel
 
         foreach ($lines as $line) {
             $classroomModel = Classroom::model()->find('school_inep_fk = :school_inep_fk and school_year = :year and name = :name', ['school_inep_fk' => $line[1], 'year' => $year, 'name' => $line[4]]);
-            if ($classroomModel == null) {
+            if (null == $classroomModel) {
                 $classroomModel = new Classroom();
             }
 
             foreach ($fields as $field) {
-                if ($field->attr !== 'id') {
+                if ('id' !== $field->attr) {
                     $columnName = $field->attr;
                     $collumnOrder = $field->corder - 1;
 
-                    if (isset($line[$collumnOrder]) && $line[$collumnOrder] != '' && in_array($columnName, $attributes)) {
+                    if (isset($line[$collumnOrder]) && '' != $line[$collumnOrder] && in_array($columnName, $attributes)) {
                         $classroomModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                     }
                 }
@@ -211,22 +212,22 @@ class Import extends CFormModel
         $fields = EdcensoAlias::model()->findAllByAttributes(['register' => 301, 'year' => $year]);
 
         $studentIdentificationModel = StudentIdentification::model()->find("inep_id is not null and inep_id != '' and inep_id = :inep_id", ['inep_id' => $line[3]]);
-        if ($studentIdentificationModel == null) {
+        if (null == $studentIdentificationModel) {
             $studentDocumentModel = StudentDocumentsAndAddress::model()->find("cpf is not null and cpf != '' and cpf = :cpf", ['cpf' => $line[4]]);
-            if ($studentDocumentModel == null) {
+            if (null == $studentDocumentModel) {
                 $studentIdentificationModel = StudentIdentification::model()->find('name = :name and birthday = :birthday', ['name' => $line[5], 'birthday' => $line[6]]);
             }
         }
-        if ($studentIdentificationModel !== null) {
+        if (null !== $studentIdentificationModel) {
             $studentDocumentModel = StudentDocumentsAndAddress::model()->find('id = :id', ['id' => $studentIdentificationModel->id]);
-        } elseif ($studentDocumentModel !== null) {
+        } elseif (null !== $studentDocumentModel) {
             $studentIdentificationModel = StudentIdentification::model()->find('id = :id', ['id' => $studentDocumentModel->id]);
         } else {
             $studentIdentificationModel = new StudentIdentification();
             $studentDocumentModel = new StudentDocumentsAndAddress();
         }
         foreach ($fields as $field) {
-            if ($field->attr !== 'id') {
+            if ('id' !== $field->attr) {
                 $columnName = $field->attr;
                 $collumnOrder = $field->corder - 1;
                 $modelType = $field->stable;
@@ -235,9 +236,9 @@ class Import extends CFormModel
                     continue;
                 }
 
-                $model = $modelType == self::STUDENT_IDENTIFICATION ? $studentIdentificationModel : $studentDocumentModel;
+                $model = self::STUDENT_IDENTIFICATION == $modelType ? $studentIdentificationModel : $studentDocumentModel;
 
-                if (isset($line[$collumnOrder]) && $line[$collumnOrder] != '' && in_array($columnName, $model->attributeNames())) {
+                if (isset($line[$collumnOrder]) && '' != $line[$collumnOrder] && in_array($columnName, $model->attributeNames())) {
                     $model->{$columnName} = utf8_encode($line[$collumnOrder]);
                 }
             }
@@ -246,13 +247,14 @@ class Import extends CFormModel
         $studentIdentificationModel->censo_own_system_code = $line[2];
         $studentIdentificationModel->send_year = $this->year;
         $studentDocumentModel->school_inep_id_fk = $studentIdentificationModel->school_inep_id_fk;
-        $studentDocumentModel->residence_zone = $studentDocumentModel->residence_zone == '' ? 1 : $studentDocumentModel->residence_zone;
+        $studentDocumentModel->residence_zone = '' == $studentDocumentModel->residence_zone ? 1 : $studentDocumentModel->residence_zone;
         $studentDocumentModel->setScenario('censoimport');
         if ($studentIdentificationModel->validate() && $studentDocumentModel->validate()) {
             if ($studentIdentificationModel->save(false)) {
                 $studentDocumentModel->student_fk = $studentIdentificationModel->inep_id;
                 $studentDocumentModel->id = $studentIdentificationModel->id;
                 $studentDocumentModel->save();
+
                 return;
             }
         }
@@ -265,15 +267,15 @@ class Import extends CFormModel
         $fields = EdcensoAlias::model()->findAllByAttributes(['register' => 302, 'year' => $year]);
 
         $instructorIdentificationModel = InstructorIdentification::model()->find("inep_id is not null and inep_id != '' and inep_id = :inep_id", ['inep_id' => $line[3]]);
-        if ($instructorIdentificationModel == null) {
+        if (null == $instructorIdentificationModel) {
             $instructorDocumentModel = InstructorDocumentsAndAddress::model()->find("cpf is not null and cpf != '' and cpf = :cpf", ['cpf' => $line[4]]);
-            if ($instructorDocumentModel == null) {
+            if (null == $instructorDocumentModel) {
                 $instructorIdentificationModel = InstructorIdentification::model()->find('name = :name and birthday_date = :birthday_date', ['name' => $line[5], 'birthday_date' => $line[6]]);
             }
         }
-        if ($instructorIdentificationModel !== null) {
+        if (null !== $instructorIdentificationModel) {
             $instructorDocumentModel = InstructorDocumentsAndAddress::model()->find('id = :id', ['id' => $instructorIdentificationModel->id]);
-        } elseif ($instructorDocumentModel !== null) {
+        } elseif (null !== $instructorDocumentModel) {
             $instructorIdentificationModel = InstructorIdentification::model()->find('id = :id', ['id' => $instructorDocumentModel->id]);
         } else {
             $instructorIdentificationModel = new InstructorIdentification(InstructorIdentification::SCENARIO_IMPORT);
@@ -281,7 +283,7 @@ class Import extends CFormModel
         }
 
         foreach ($fields as $field) {
-            if ($field->attr !== 'id') {
+            if ('id' !== $field->attr) {
                 $columnName = $field->attr;
                 $collumnOrder = $field->corder - 1;
                 $modelType = $field->stable;
@@ -290,9 +292,9 @@ class Import extends CFormModel
                     continue;
                 }
 
-                $model = $modelType == self::INSTRUCTOR_IDENTIFICATION ? $instructorIdentificationModel : $instructorDocumentModel;
+                $model = self::INSTRUCTOR_IDENTIFICATION == $modelType ? $instructorIdentificationModel : $instructorDocumentModel;
 
-                if (isset($line[$collumnOrder]) && $line[$collumnOrder] != '' && in_array($columnName, $model->attributeNames())) {
+                if (isset($line[$collumnOrder]) && '' != $line[$collumnOrder] && in_array($columnName, $model->attributeNames())) {
                     $model->{$columnName} = utf8_encode($line[$collumnOrder]);
                 }
             }
@@ -304,6 +306,7 @@ class Import extends CFormModel
             if ($instructorIdentificationModel->save(false)) {
                 $instructorDocumentModel->id = $instructorIdentificationModel->id;
                 $instructorDocumentModel->save();
+
                 return;
             }
         }
@@ -332,7 +335,7 @@ class Import extends CFormModel
                     $columnName = $field->attr;
                     $collumnOrder = $field->corder - 1;
 
-                    if (isset($line[$collumnOrder]) && $line[$collumnOrder] != '' && in_array($columnName, $attributes)) {
+                    if (isset($line[$collumnOrder]) && '' != $line[$collumnOrder] && in_array($columnName, $attributes)) {
                         $schoolModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                     }
                 }
@@ -374,18 +377,18 @@ class Import extends CFormModel
             $classroom = Classroom::model()->findByAttributes(['school_inep_fk' => $line[1], 'school_year' => $year, 'censo_own_system_code' => $line[4]]);
             $instructor = InstructorIdentification::model()->findByAttributes(['school_inep_id_fk' => $line[1], 'censo_own_system_code' => $line[2]]);
             $instructorTeachingModel = InstructorTeachingData::model()->find('instructor_fk = :instructor_fk and classroom_id_fk = :classroom_id_fk', ['instructor_fk' => $instructor->id, 'classroom_id_fk' => $classroom->id]);
-            if ($instructorTeachingModel == null) {
+            if (null == $instructorTeachingModel) {
                 $instructorTeachingModel = new InstructorTeachingData(InstructorTeachingData::SCENARIO_IMPORT);
                 $instructorTeachingModel->classroom_id_fk = $classroom->id;
                 $instructorTeachingModel->instructor_fk = $instructor->id;
             }
 
             foreach ($fields as $field) {
-                if ($field->attr !== 'instructor_fk' && $field->attr !== 'classroom_id_fk') {
+                if ('instructor_fk' !== $field->attr && 'classroom_id_fk' !== $field->attr) {
                     $columnName = $field->attr;
                     $collumnOrder = $field->corder - 1;
 
-                    if (isset($line[$collumnOrder]) && $line[$collumnOrder] != '' && in_array($columnName, $attributes)) {
+                    if (isset($line[$collumnOrder]) && '' != $line[$collumnOrder] && in_array($columnName, $attributes)) {
                         $instructorTeachingModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                     }
                 }
@@ -411,18 +414,18 @@ class Import extends CFormModel
             // $student = StudentIdentification::model()->findByAttributes(['school_inep_id_fk' => $line[1], 'censo_own_system_code' => $line[2]]);
             $student = StudentIdentification::model()->findByAttributes(['inep_id' => $inepId]);
             $studentEnrollmentModel = StudentEnrollment::model()->find('student_fk = :student_fk and classroom_fk = :classroom_fk', ['student_fk' => $student->id, 'classroom_fk' => $classroom->id]);
-            if ($studentEnrollmentModel == null) {
+            if (null == $studentEnrollmentModel) {
                 $studentEnrollmentModel = new StudentEnrollment();
                 $studentEnrollmentModel->classroom_fk = $classroom->id;
                 $studentEnrollmentModel->student_fk = $student->id;
             }
 
             foreach ($fields as $field) {
-                if ($field->attr !== 'student_fk' && $field->attr !== 'classroom_fk') {
+                if ('student_fk' !== $field->attr && 'classroom_fk' !== $field->attr) {
                     $columnName = $field->attr;
                     $collumnOrder = $field->corder - 1;
 
-                    if (isset($line[$collumnOrder]) && $line[$collumnOrder] != '' && in_array($columnName, $attributes)) {
+                    if (isset($line[$collumnOrder]) && '' != $line[$collumnOrder] && in_array($columnName, $attributes)) {
                         $studentEnrollmentModel->{$columnName} = utf8_encode($line[$collumnOrder]);
                     }
                 }

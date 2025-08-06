@@ -43,7 +43,7 @@ class FoodNoticeController extends Controller
                     'activateNotice',
                     'toggleNoticeStatus',
                     'getNoticePdfUrl',
-                    'getShoppingList'
+                    'getShoppingList',
                 ],
                 'users' => ['*'],
             ],
@@ -66,7 +66,7 @@ class FoodNoticeController extends Controller
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -102,7 +102,7 @@ class FoodNoticeController extends Controller
         $model = new FoodNotice();
         $noticeData = json_decode(Yii::app()->request->getPost('notice'), true);
 
-        if ($noticeData != null) {
+        if (null != $noticeData) {
             $date = date('Y-m-d', strtotime(str_replace('/', '-', $noticeData['date'])));
             $uuid = Uuid::uuid4();
             $model->name = $noticeData['name'];
@@ -137,6 +137,7 @@ class FoodNoticeController extends Controller
                 'timeout' => 30.0,
             ]);
         }
+
         return $this->client;
     }
 
@@ -161,14 +162,14 @@ class FoodNoticeController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
         $noticeData = json_decode(Yii::app()->request->getPost('notice'), true);
 
-        if ($noticeData != null) {
+        if (null != $noticeData) {
             $date = strtotime(str_replace('/', '-', $noticeData['date']));
 
             $model->name = $noticeData['name'];
@@ -211,8 +212,9 @@ class FoodNoticeController extends Controller
         try {
             $result = $this->getClient()->request('GET', $pdfUrlPath);
             $pdfUrl = CJSON::decode($result->getBody()->getContents());
+
             return $pdfUrl['url'];
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
+        } catch (GuzzleHttp\Exception\RequestException $e) {
             return '';
         }
     }
@@ -235,23 +237,23 @@ class FoodNoticeController extends Controller
     {
         $fileUploaded = CUploadedFile::getInstanceByName('noticePdf');
         $file = fopen($fileUploaded->tempName, 'r');
-        $fileStream = \GuzzleHttp\Psr7\Utils::streamFor($file);
+        $fileStream = Psr7\Utils::streamFor($file);
 
         try {
             $this->getClient()->put('/appNhamAgricultor/edit/pdf', [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
+                    'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6',
                 ],
                 'multipart' => [
                     ['name' => 'notice_pdf', 'Content-Type' => 'multipart/form-data', 'contents' => $fileStream, 'filename' => $fileUploaded->name],
                     ['name' => 'id', 'contents' => $existingId],
                     ['name' => 'name', 'contents' => $noticeData['name']],
                     ['name' => 'date', 'contents' => date('Y-m-d', strtotime(str_replace('/', '-', $noticeData['date'])))],
-                    ['name' => 'url', 'contents' => $pdfUrl]
-                ]
+                    ['name' => 'url', 'contents' => $pdfUrl],
+                ],
             ]);
             fclose($file);
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
+        } catch (GuzzleHttp\Exception\RequestException $e) {
             $request = $e->getRequest();
             CVarDumper::dump($request, 10, true);
         } catch (Exception $e) {
@@ -262,37 +264,37 @@ class FoodNoticeController extends Controller
     private function uploadFile($fileUploaded, $id, $noticeData, $date)
     {
         $file = fopen($fileUploaded->tempName, 'r');
-        $fileStream = \GuzzleHttp\Psr7\Utils::streamFor($file);
+        $fileStream = Psr7\Utils::streamFor($file);
 
         try {
             $this->getClient()->post('/appNhamAgricultor/upload', [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6'
+                    'Authorization' => 'Bearer ' . '$2b$05$JjoO4oqoZeJF4ISTXvu/4ugg4KpdnjEAVgrdEXO9JBluQvu0vnck6',
                 ],
                 'multipart' => [
                     [
                         'name' => 'notice_pdf',
                         'Content-Type' => 'multipart/form-data',
                         'contents' => $fileStream,
-                        'filename' => $fileUploaded->name
+                        'filename' => $fileUploaded->name,
                     ],
                     [
                         'name' => 'id',
-                        'contents' => $id
+                        'contents' => $id,
                     ],
                     [
                         'name' => 'name',
-                        'contents' => $noticeData['name']
+                        'contents' => $noticeData['name'],
                     ],
                     [
                         'name' => 'date',
-                        'contents' => $date
-                    ]
-                ]
+                        'contents' => $date,
+                    ],
+                ],
             ]);
 
             fclose($file);
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
+        } catch (GuzzleHttp\Exception\RequestException $e) {
             $request = $e->getRequest();
             CVarDumper::dump($request, 10, true);
         } catch (Exception $e) {
@@ -362,7 +364,7 @@ class FoodNoticeController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -372,7 +374,7 @@ class FoodNoticeController extends Controller
 
         $foodNotice = FoodNotice::model()->find($criteria);
 
-        if ($foodNotice !== null) {
+        if (null !== $foodNotice) {
             $foodNotice->status = 'Inativo';
             $foodNotice->save();
             Yii::app()->user->setFlash('success', Yii::t('default', 'Edital inativado com sucesso!'));
@@ -383,7 +385,7 @@ class FoodNoticeController extends Controller
     {
         $notices = FoodNotice::model()->findAll();
         $this->render('activateNotice', [
-            'notices' => $notices
+            'notices' => $notices,
         ]);
     }
 
@@ -393,10 +395,10 @@ class FoodNoticeController extends Controller
         $status = Yii::app()->request->getPost('status');
         $notice = FoodNotice::model()->findByPk($id);
 
-        $notice->status = $status == 'Ativo' ? 'Inativo' : 'Ativo';
+        $notice->status = 'Ativo' == $status ? 'Inativo' : 'Ativo';
 
         if ($notice->save()) {
-            $message = $status === 'Ativo' ? 'Edital inativado com sucesso!' : 'Edital ativado com sucesso!';
+            $message = 'Ativo' === $status ? 'Edital inativado com sucesso!' : 'Edital ativado com sucesso!';
             Yii::app()->user->setFlash('success', Yii::t('default', $message));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
@@ -443,16 +445,17 @@ class FoodNoticeController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return FoodNotice the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = FoodNotice::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -462,7 +465,7 @@ class FoodNoticeController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'food-notice-form') {
+        if (isset($_POST['ajax']) && 'food-notice-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

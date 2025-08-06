@@ -5,11 +5,11 @@ class AdminCommand extends CConsoleCommand
     // Define attributes and methods!
     public function run($args)
     {
-        //defined('YII_DEBUG') or define('YII_DEBUG',false);
+        // defined('YII_DEBUG') or define('YII_DEBUG',false);
         ini_set('display_errors', '1');
         error_reporting(1);
-        //define("YII_ENBLE_ERROR_HANDLER",false);
-        //define("YII_ENBLE_EXCEPTION_HANDLER",false);
+        // define("YII_ENBLE_ERROR_HANDLER",false);
+        // define("YII_ENBLE_EXCEPTION_HANDLER",false);
 
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '288M');
@@ -20,8 +20,8 @@ class AdminCommand extends CConsoleCommand
         $loads = [];
         $dbs = Yii::app()->db2->createCommand($sql)->queryAll();
         foreach ($dbs as $db) {
-            if ($db['TABLE_SCHEMA'] != 'io.escola.demo' && $db['TABLE_SCHEMA'] != 'br.ong.tag.cras.indiaroba' && $db['TABLE_SCHEMA'] != 'io.escola.adefib'
-                        && $db['TABLE_SCHEMA'] != 'io.escola.joaobosco' && $db['TABLE_SCHEMA'] != 'io.escola.cloc') {
+            if ('io.escola.demo' != $db['TABLE_SCHEMA'] && 'br.ong.tag.cras.indiaroba' != $db['TABLE_SCHEMA'] && 'io.escola.adefib' != $db['TABLE_SCHEMA']
+                        && 'io.escola.joaobosco' != $db['TABLE_SCHEMA'] && 'io.escola.cloc' != $db['TABLE_SCHEMA']) {
                 $dbname = $db['TABLE_SCHEMA'];
                 echo "Conectando a $dbname..\n";
                 Yii::app()->db->setActive(false);
@@ -32,26 +32,26 @@ class AdminCommand extends CConsoleCommand
                 @$fileNameBak = $dbname . '.json.bak';
                 $fileImportBak = fopen($fileNameBak, 'r');
 
-                if ($fileImport == false && $fileImportBak == false) {
+                if (false == $fileImport && false == $fileImportBak) {
                     echo "Exportando..\n";
                     $loads = $this->prepareExport();
-                    //var_dump($loads['classroom']);exit;
-                    //if(isset($loads['classroom'])){
+                    // var_dump($loads['classroom']);exit;
+                    // if(isset($loads['classroom'])){
                     $datajson = serialize($loads);
                     $file = fopen($fileName, 'w');
                     fwrite($file, $datajson);
                     fclose($file);
-                    //}
+                    // }
                 }
 
-                //$fileName = $dbname . ".json";
-                //rename($fileName.'.bak.json', $fileName);
+                // $fileName = $dbname . ".json";
+                // rename($fileName.'.bak.json', $fileName);
                 echo 'fim exportação\n';
             }
         }
         foreach ($dbs as $db) {
-            if ($db['TABLE_SCHEMA'] != 'io.escola.demo' && $db['TABLE_SCHEMA'] != 'io.escola.adefib'
-                         && $db['TABLE_SCHEMA'] != 'io.escola.joaobosco' && $db['TABLE_SCHEMA'] != 'io.escola.cloc') {
+            if ('io.escola.demo' != $db['TABLE_SCHEMA'] && 'io.escola.adefib' != $db['TABLE_SCHEMA']
+                         && 'io.escola.joaobosco' != $db['TABLE_SCHEMA'] && 'io.escola.cloc' != $db['TABLE_SCHEMA']) {
                 $dbname = $db['TABLE_SCHEMA'];
                 echo "Conectando a $dbname..\n";
                 $fileName = $dbname . '.json';
@@ -86,7 +86,7 @@ class AdminCommand extends CConsoleCommand
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '-1');
         set_time_limit(0);
-        //ignore_user_abort();
+        // ignore_user_abort();
         foreach ($loads['schools'] as $index => $scholl) {
             echo 'Importando escola' . $scholl['name'] . "..\n";
             $saveschool = new SchoolIdentification();
@@ -251,7 +251,7 @@ class AdminCommand extends CConsoleCommand
             $saveidocument->setDb2Connection(true);
             $saveidocument->refreshMetaData();
             $saveidocument = $saveidocument->findByAttributes(['hash' => $documentsaddress['hash']]);
-            //var_dump($saveidocument);
+            // var_dump($saveidocument);
             if (!isset($saveidocument)) {
                 $saveidocument = new InstructorDocumentsAndAddress();
                 $saveidocument->setScenario('search');
@@ -314,7 +314,7 @@ class AdminCommand extends CConsoleCommand
             }
         }
 
-        //@TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
+        // @TODO FAZER A PARTE DE PROFESSORES A PARTIR DAQUI
     }
 
     public function prepareExport()
@@ -329,7 +329,7 @@ class AdminCommand extends CConsoleCommand
                 JOIN classroom b ON(a.`classroom_fk`=b.id)
                 WHERE
                 b.`school_year`=$year";
-        //$sql = "SELECT inep_id as school_inep_id_fk  FROM school_identification where situation='1'";
+        // $sql = "SELECT inep_id as school_inep_id_fk  FROM school_identification where situation='1'";
         $schools = Yii::app()->db->createCommand($sql)->queryAll();
         $istudent = new StudentIdentification();
         $iteach = new InstructorIdentification();
@@ -379,7 +379,7 @@ class AdminCommand extends CConsoleCommand
 
         foreach ($schools as $index => $schll) {
             $year = 2019;
-            //padronizar o ano no futuro
+            // padronizar o ano no futuro
             $ischool = new SchoolIdentification();
             $ischool->setDb2Connection(false);
             $ischool->refreshMetaData();
@@ -392,7 +392,7 @@ class AdminCommand extends CConsoleCommand
             $hash_school = hexdec(crc32($school->inep_id . $school->name));
             $loads['schools'][$hash_school] = $school->attributes;
             $loads['schools'][$hash_school]['hash'] = $hash_school;
-            //@todo adicionado load na tabela de schoolstructure
+            // @todo adicionado load na tabela de schoolstructure
             $loads['schools_structure'][$hash_school] = $school->structure->attributes;
             $loads['schools_structure'][$hash_school]['hash'] = $hash_school;
             foreach ($classrooms as $iclass => $classroom) {
@@ -419,7 +419,7 @@ class AdminCommand extends CConsoleCommand
                 }*/
 
                 foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {
-                    //CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
+                    // CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
                     $hash_instructor = hexdec(crc32($teachingData->instructorFk->name . $teachingData->instructorFk->birthday_date));
                     $hash_teachingdata = hexdec(crc32($hash_classroom . $hash_instructor));
                     $loads['instructorsteachingdata'][$hash_teachingdata] = $teachingData->attributes;
@@ -427,7 +427,7 @@ class AdminCommand extends CConsoleCommand
                     $loads['instructorsteachingdata'][$hash_teachingdata]['hash_classroom'] = $hash_classroom;
                     $loads['instructorsteachingdata'][$hash_teachingdata]['hash'] = $hash_teachingdata;
 
-                    //CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
+                    // CARREGAR AS INFORMAÇÕES DE TEACHING DATA;
                     if (!isset($loads['instructors'][$hash_instructor])) {
                         $loads['instructors'][$hash_instructor] = $teachingData->instructorFk->attributes;
                         $loads['instructors'][$hash_instructor]['hash'] = $hash_instructor;

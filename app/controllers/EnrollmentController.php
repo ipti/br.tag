@@ -13,9 +13,9 @@ Yii::import('application.repository.FormsRepository');
 
 class EnrollmentController extends Controller implements AuthenticateSEDTokenInterface
 {
-    //@done s1 - Validar Ano Letivo
-    //@done s1 - Verificar erro - Ao matricular um aluno que acabou de ser cadastrado não está salvando eno bancoo e aparece a mensagem de 'Aluno ja matriculado'
-    //@done s1 - Filtrar aluno e turma por escola
+    // @done s1 - Validar Ano Letivo
+    // @done s1 - Verificar erro - Ao matricular um aluno que acabou de ser cadastrado não está salvando eno bancoo e aparece a mensagem de 'Aluno ja matriculado'
+    // @done s1 - Filtrar aluno e turma por escola
 
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -66,7 +66,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                     'reportCard',
                     'getReportCardGrades',
                     'saveGradesReportCard',
-                    'gradesRelease'
+                    'gradesRelease',
                 ],
                 'users' => ['@'],
             ],
@@ -84,7 +84,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -111,13 +111,13 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
     public function actionUpdateDependencies()
     {
-        //$enrollment = new StudentEnrollment;
-        //$enrollment->attributes = $_POST["StudentEnrollment"];
-        //$students = StudentIdentification::model()->findAll('school_inep_id_fk=:id order by name ASC', array(':id' => $enrollment->school_inep_id_fk));
-        //$students = CHtml::listData($students, 'id', 'name');
+        // $enrollment = new StudentEnrollment;
+        // $enrollment->attributes = $_POST["StudentEnrollment"];
+        // $students = StudentIdentification::model()->findAll('school_inep_id_fk=:id order by name ASC', array(':id' => $enrollment->school_inep_id_fk));
+        // $students = CHtml::listData($students, 'id', 'name');
 
         $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year, 'school_inep_fk' => Yii::app()->user->school]);
-        //$classrooms = CHtml::listData($classrooms, 'id', 'name');
+        // $classrooms = CHtml::listData($classrooms, 'id', 'name');
 
         /* $result['Students'] = CHtml::tag('option', array('value' => null), 'Selecione um Aluno', true);
           foreach ($students as $value => $name) {
@@ -126,7 +126,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         $class = new Classroom();
         $result['Classrooms'] = CHtml::tag('option', ['value' => 0], 'Selecione uma Turma', true);
         foreach ($classrooms as $class) {
-            if (strpos($class->edcensoStageVsModalityFk->name, 'Multi') !== false) {
+            if (false !== strpos($class->edcensoStageVsModalityFk->name, 'Multi')) {
                 $multi = 1;
             } else {
                 $multi = 0;
@@ -140,7 +140,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     public function actionGetModalities()
     {
         $stage = $_POST['Stage'];
-        $where = ($stage == '0') ? '' : "stage = $stage";
+        $where = ('0' == $stage) ? '' : "stage = $stage";
         $data = EdcensoStageVsModality::model()->findAll($where);
         $data = CHtml::listData($data, 'id', 'name');
 
@@ -181,7 +181,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 } catch (Exception $exc) {
                     $model->addError('student_fk', Yii::t('default', 'Student Fk') . ' ' . Yii::t('default', 'already enrolled in this classroom.'));
                     $model->addError('classroom_fk', Yii::t('default', 'Classroom') . ' ' . Yii::t('default', 'already have in this student enrolled.'));
-                    //echo $exc->getTraceAsString();
+                    // echo $exc->getTraceAsString();
                 }
             } else {
                 unset($model->s);
@@ -200,7 +200,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -208,17 +208,17 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
         $rawDate = $model->enrollment_date ?? '';
 
-        $date = (!empty($rawDate) && $rawDate !== '0000-00-00')
+        $date = (!empty($rawDate) && '0000-00-00' !== $rawDate)
             ? DateTime::createFromFormat('Y-m-d', $rawDate) ?: new DateTime()
             : new DateTime();
 
         $model->enrollment_date = $date->format('d/m/Y');
 
         $class = Classroom::model()->findByPk($model->classroom_fk);
-        $oldClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+        $oldClass = null === $class->gov_id ? $class->inep_id : $class->gov_id;
 
         $modelStudentIdentification = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"');
-        if ($model->student_fk == null && $model->classroom_fk == null) {
+        if (null == $model->student_fk && null == $model->classroom_fk) {
             $model->student_fk = $modelStudentIdentification->id;
             $model->classroom_fk = Classroom::model()->find('inep_id="' . $model->classroom_inep_id . '"')->id;
         }
@@ -270,14 +270,14 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                             $inNumRA = StudentIdentification::model()->findByPk($model->student_fk);
                             $inAluno = new InAluno($inNumRA->gov_id, null, 'SP');
                             $class = Classroom::model()->findByPk($model->classroom_fk);
-                            $newClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                            $newClass = null === $class->gov_id ? $class->inep_id : $class->gov_id;
 
-                            if ($model->sedsp_sync == 0) {
+                            if (0 == $model->sedsp_sync) {
                                 $model->studentFk->processEnrollment($model->studentFk, $model);
                             }
 
-                            if ($model->status === '2' || $model->status === '5') {
-                                //addTrocarAlunoEntreClasses
+                            if ('2' === $model->status || '5' === $model->status) {
+                                // addTrocarAlunoEntreClasses
                                 $classroomMapper = new ClassroomMapper();
                                 $ensino = (object) $classroomMapper->convertStageToTipoEnsino($class->edcenso_stage_vs_modality_fk);
 
@@ -294,20 +294,20 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
                                 $trocarAlunoEntreClassesUseCase = new TrocarAlunoEntreClassesUseCase();
                                 $result = $trocarAlunoEntreClassesUseCase->exec($inTrocarAlunoEntreClasses);
-                            } elseif ($model->status === '3' || $model->status === '11') {
-                                //excluirmatricula
+                            } elseif ('3' === $model->status || '11' === $model->status) {
+                                // excluirmatricula
                                 $class = Classroom::model()->findByPk($model->classroom_fk);
-                                $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                                $inNumClasse = null === $class->gov_id ? $class->inep_id : $class->gov_id;
 
                                 $inExcluirMatricula = new InExcluirMatricula($inAluno, $inNumClasse);
 
                                 $deleteEnrollmentUseCase = new DeleteEnrollmentUseCase();
                                 $result = $deleteEnrollmentUseCase->exec($inExcluirMatricula);
-                            } elseif ($model->status === '4') {
-                                //baixarmatricula
+                            } elseif ('4' === $model->status) {
+                                // baixarmatricula
 
                                 $inTipoBaixa = $_POST['reason'];
-                                if ($inTipoBaixa == '1') {
+                                if ('1' == $inTipoBaixa) {
                                     $inMotivoBaixa = $_POST['secondReason'];
                                 } else {
                                     $inMotivoBaixa = null;
@@ -315,7 +315,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
 
                                 $inDataBaixa = date('Y-m-d');
                                 $class = Classroom::model()->findByPk($model->classroom_fk);
-                                $inNumClasse = $class->gov_id === null ? $class->inep_id : $class->gov_id;
+                                $inNumClasse = null === $class->gov_id ? $class->inep_id : $class->gov_id;
 
                                 $inBaixarMatricula = new InBaixarMatricula($inAluno, $inTipoBaixa, $inMotivoBaixa, $inDataBaixa, $inNumClasse);
 
@@ -323,7 +323,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                                 $result = $terminateEnrollmentUseCase->exec($inBaixarMatricula);
                             }
 
-                            if ($result->outErro === null) {
+                            if (null === $result->outErro) {
                                 $flash = 'success';
                                 $message .= 'Matrícula alterada com sucesso!';
                             } else {
@@ -346,7 +346,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             [
                 'model' => $model,
                 'modelStudentIdentification' => $modelStudentIdentification,
-                'classrooms' => $classrooms
+                'classrooms' => $classrooms,
             ]
         );
     }
@@ -354,7 +354,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -413,7 +413,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             'index',
             [
                 'dataProvider' => $dataProvider,
-                'model' => $model
+                'model' => $model,
             ]
         );
     }
@@ -507,7 +507,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     }
 
     /**
-     * Show the view
+     * Show the view.
      */
     public function actionGrades()
     {
@@ -578,7 +578,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         $classroom = Classroom::model()->findByPk($classroomId);
 
         $gradeRules = GradeRules::model()->findByAttributes([
-            'edcenso_stage_vs_modality_fk' => $classroom->edcenso_stage_vs_modality_fk
+            'edcenso_stage_vs_modality_fk' => $classroom->edcenso_stage_vs_modality_fk,
         ]);
 
         foreach ($students as $std) {
@@ -591,17 +591,14 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             $hasAllValues = true;
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
-                $hasAllValues = $hasAllValues && (isset($gradeResult['grade_' . $index]) && $gradeResult['grade_' . $index] != '');
+                $hasAllValues = $hasAllValues && (isset($gradeResult['grade_' . $index]) && '' != $gradeResult['grade_' . $index]);
                 $gradeResult->{'grade_' . $index} = $std['grades'][$key]['value'];
                 $gradeResult->{'grade_faults_' . $index} = $std['grades'][$key]['faults'];
                 $gradeResult->{'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
             }
 
             if (!$gradeResult->validate()) {
-                throw new CHttpException(
-                    '400',
-                    'Não foi possível validar as notas adicionadas: ' . TagUtils::stringfyValidationErrors($gradeResult)
-                );
+                throw new CHttpException('400', 'Não foi possível validar as notas adicionadas: ' . TagUtils::stringfyValidationErrors($gradeResult));
             }
 
             $gradeResult->save();
@@ -641,7 +638,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         $criteria->order = 'si.name';
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
-        if ($studentEnrollments != null) {
+        if (null != $studentEnrollments) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gum';
             $criteria->join = 'join grade_unity gu on gu.id = gum.grade_unity_fk';
@@ -649,12 +646,12 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             $criteria->params = [':stage' => $studentEnrollments[0]->classroomFk->edcenso_stage_vs_modality_fk];
             $gradeModalities = GradeUnityModality::model()->findAll($criteria);
 
-            if ($gradeModalities != null) {
+            if (null != $gradeModalities) {
                 $conceptOptions = GradeConcept::model()->findAll();
                 foreach ($conceptOptions as $conceptOption) {
                     $result['conceptOptions'][$conceptOption->id] = $conceptOption->name;
                 }
-                $result['isUnityConcept'] = $gradeModalities[0]->gradeUnityFk->type == 'UC';
+                $result['isUnityConcept'] = 'UC' == $gradeModalities[0]->gradeUnityFk->type;
                 $unityName = $gradeModalities[0]->gradeUnityFk->name;
                 $unityColspan = 0;
                 $result['unityColumns'] = [];
@@ -662,7 +659,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                 foreach ($gradeModalities as $index => $gradeModality) {
                     array_push($result['modalityColumns'], $gradeModality->name);
                     if ($unityName == $gradeModality->gradeUnityFk->name) {
-                        $unityColspan++;
+                        ++$unityColspan;
                     } else {
                         array_push($result['unityColumns'], ['name' => $unityName, 'colspan' => $unityColspan]);
                         $unityName = $gradeModality->gradeUnityFk->name;
@@ -693,9 +690,9 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                     }
                     $gradeResult = GradeResults::model()->find('enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk', ['enrollment_fk' => $studentEnrollment->id, 'discipline_fk' => $_POST['discipline']]);
                     if (!$result['isUnityConcept']) {
-                        $arr['finalMedia'] = $gradeResult != null ? $gradeResult->final_media : '';
+                        $arr['finalMedia'] = null != $gradeResult ? $gradeResult->final_media : '';
                     }
-                    $arr['situation'] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : '') : '';
+                    $arr['situation'] = null != $gradeResult ? (null != $gradeResult->situation ? $gradeResult->situation : '') : '';
                     array_push($result['students'], $arr);
                 }
 
@@ -714,14 +711,15 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer the ID of the model to be loaded
+     * @param int the ID of the model to be loaded
      */
     public function loadModel($id)
     {
         $model = StudentEnrollment::model()->with('studentFk')->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -731,7 +729,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'student-enrollment-form') {
+        if (isset($_POST['ajax']) && 'student-enrollment-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

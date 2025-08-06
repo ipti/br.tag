@@ -5,8 +5,7 @@ namespace SagresEdu;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * Class representing AlunoTType
- *
+ * Class representing AlunoTType.
  *
  * XSD Type: aluno_t
  */
@@ -45,6 +44,7 @@ class AlunoTType
     public function setCpfAluno(string|null $cpfAluno): self
     {
         $this->cpfAluno = $cpfAluno;
+
         return $this;
     }
 
@@ -56,6 +56,7 @@ class AlunoTType
     public function setDataNascimento(\DateTime $dataNascimento): self
     {
         $this->dataNascimento = $dataNascimento;
+
         return $this;
     }
 
@@ -67,6 +68,7 @@ class AlunoTType
     public function setNome(string $nome)
     {
         $this->nome = $nome;
+
         return $this;
     }
 
@@ -78,6 +80,7 @@ class AlunoTType
     public function setPcd(bool $pcd): self
     {
         $this->pcd = $pcd;
+
         return $this;
     }
 
@@ -89,6 +92,7 @@ class AlunoTType
     public function setSexo(int $sexo): self
     {
         $this->sexo = $sexo;
+
         return $this;
     }
 
@@ -100,6 +104,7 @@ class AlunoTType
     public function setJustSemCpf(int $justSemCpf)
     {
         $this->justSemCpf = $justSemCpf;
+
         return $this;
     }
 }

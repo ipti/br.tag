@@ -2,7 +2,7 @@
 
 Yii::import('application.modules.foods.models.FoodMeasurement', true);
 /**
- * Class LunchController
+ * Class LunchController.
  *
  * @property School $school
  */
@@ -73,7 +73,7 @@ class LunchController extends Controller
                 $meals,
                 [
                     'meal' => Meal::model()->findByPk($menuMeal->meal_fk),
-                    'portions' => $tmpPortions
+                    'portions' => $tmpPortions,
                 ]
             );
         }
@@ -100,6 +100,7 @@ class LunchController extends Controller
     {
         $request = Yii::app()->getRequest();
         $menu = Menu::model()->findByPk($request->getPost('id'));
+
         return $menu->delete();
     }
 
@@ -145,10 +146,11 @@ class LunchController extends Controller
                     'id' => $foodMeasurement->id,
                     'unit' => $foodMeasurement->unit,
                     'value' => $foodMeasurement->value,
-                    'measure' => $foodMeasurement->measure
+                    'measure' => $foodMeasurement->measure,
                 ]
             );
         }
+
         return $options;
     }
 

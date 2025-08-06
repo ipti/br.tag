@@ -35,7 +35,7 @@ class DefaultController extends Controller
                     'getAeeRecord',
                     'checkStudentAeeRecord',
                     'delete',
-                    'admin'
+                    'admin',
                 ],
                 'users' => ['@'],
             ],
@@ -63,7 +63,7 @@ class DefaultController extends Controller
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -196,7 +196,7 @@ class DefaultController extends Controller
         $model = $this->loadModel($id);
         $recordId = Yii::app()->request->getPost('recordId');
 
-        if ($recordId != null) {
+        if (null != $recordId) {
             $learningNeeds = Yii::app()->request->getPost('learningNeeds');
             $characterization = Yii::app()->request->getPost('characterization');
 
@@ -216,7 +216,7 @@ class DefaultController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -246,12 +246,12 @@ class DefaultController extends Controller
                             'condition' => 'classroomFk.school_inep_fk=:schoolId and classroomFk.school_year = :schoolYear',
                             'params' => [
                                 ':schoolId' => Yii::app()->user->school,
-                                ':schoolYear' => Yii::app()->user->year
+                                ':schoolYear' => Yii::app()->user->year,
                             ],
                         ],
                     ],
                 ],
-                'pagination' => false
+                'pagination' => false,
             ]);
         } else {
             $dataProvider = new CActiveDataProvider('StudentAeeRecord', [
@@ -262,12 +262,12 @@ class DefaultController extends Controller
                             'condition' => 'classroomFk.school_inep_fk=:schoolId and classroomFk.school_year = :schoolYear',
                             'params' => [
                                 ':schoolId' => Yii::app()->user->school,
-                                ':schoolYear' => Yii::app()->user->year
+                                ':schoolYear' => Yii::app()->user->year,
                             ],
                         ],
                     ],
                 ],
-                'pagination' => false
+                'pagination' => false,
             ]);
         }
 
@@ -291,7 +291,7 @@ class DefaultController extends Controller
                     ],
                 ],
             ],
-            'pagination' => false
+            'pagination' => false,
         ]);
 
         $this->render('admin', [
@@ -302,16 +302,17 @@ class DefaultController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return StudentAeeRecord the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = StudentAeeRecord::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -321,7 +322,7 @@ class DefaultController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'student-aee-record-form') {
+        if (isset($_POST['ajax']) && 'student-aee-record-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

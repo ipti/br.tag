@@ -77,11 +77,12 @@ class InitialDbMigrationCommand extends CConsoleCommand
         if (!$col->allowNull) {
             $result .= ' NOT NULL';
         }
-        if ($col->defaultValue != null) {
+        if (null != $col->defaultValue) {
             $result .= " DEFAULT '{$col->defaultValue}'";
         } elseif ($col->allowNull) {
             $result .= ' DEFAULT NULL';
         }
+
         return addslashes($result);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Caso de uso para salvavemto da estrutura de notas e avaliação
+ * Caso de uso para salvavemto da estrutura de notas e avaliação.
  *
  * @property string $gradeRulesId
  * @property string $gradeRulesName
@@ -35,8 +35,7 @@ class UpdateGradeStructUsecase
         $ruleType,
         $hasPartialRecovery,
         $partialRecoveries
-    )
-    {
+    ) {
         $this->gradeRulesId = $gradeRulesId;
         $this->gradeRulesName = $gradeRulesName;
         $this->reply = $reply;
@@ -53,7 +52,7 @@ class UpdateGradeStructUsecase
 
     public function exec()
     {
-        if ($this->reply === self::JUST_CURRENT_STAGE) {
+        if (self::JUST_CURRENT_STAGE === $this->reply) {
             $justOneUsecase = new UpdateGradeJustOneStructUsecase(
                 $this->gradeRulesId,
                 $this->gradeRulesName,
@@ -67,12 +66,13 @@ class UpdateGradeStructUsecase
                 $this->hasPartialRecovery,
                 $this->partialRecoveries
             );
+
             return $justOneUsecase->exec();
-        } elseif ($this->reply === self::ALL_STAGES) {
+        } elseif (self::ALL_STAGES === $this->reply) {
             // A = Toda a Matriz Curricular
             $matrixes = $this->getAllMatrixes();
             $this->saveAndReplayForSimliarStages($matrixes, $this->unities, $this->approvalMedia, $this->finalRecoverMedia, $this->calculationFinalMedia, $this->hasFinalRecovery, $this->ruleType, $this->partialRecoveries);
-        } elseif ($this->reply === self::STAGES_FROM_SAME_MODALITY) {
+        } elseif (self::STAGES_FROM_SAME_MODALITY === $this->reply) {
             // S = Todas as etapas de a modalidade selecionada.
             $stages = $this->getMatrixesForAllModalities($this->stages);
             $this->saveAndReplayForSimliarStages($stages, $this->unities, $this->approvalMedia, $this->finalRecoverMedia, $this->calculationFinalMedia, $this->hasFinalRecovery, $this->ruleType, $this->partialRecoveries);
@@ -110,6 +110,7 @@ class UpdateGradeStructUsecase
     private function getMatrixesForAllModalities($stage)
     {
         $modality = EdcensoStageVsModality::model()->find('id = :id', [':id' => $stage]);
+
         return Yii::app()->db->createCommand('
             select esvm.id from curricular_matrix cm
             join edcenso_stage_vs_modality esvm on esvm.id = cm.stage_fk

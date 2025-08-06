@@ -4,13 +4,8 @@ use Ramsey\Uuid\Uuid;
 use MrShan0\PHPFirestore\FirestoreClient;
 use MrShan0\PHPFirestore\FirestoreDocument;
 // Optional, depending on your usage
-use MrShan0\PHPFirestore\Fields\FirestoreTimestamp;
 use MrShan0\PHPFirestore\Fields\FirestoreArray;
-use MrShan0\PHPFirestore\Fields\FirestoreBytes;
-use MrShan0\PHPFirestore\Fields\FirestoreGeoPoint;
 use MrShan0\PHPFirestore\Fields\FirestoreObject;
-use MrShan0\PHPFirestore\Fields\FirestoreReference;
-use MrShan0\PHPFirestore\Attributes\FirestoreDeleteAttribute;
 
 class FireBaseService
 {
@@ -96,11 +91,11 @@ class FireBaseService
 
         try {
             $userField = $farmerRegister->get('user');
-        } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+        } catch (MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
             $userField = '';
         }
 
-        if ($userField == '') {
+        if ('' == $userField) {
             $this->firestoreClient->deleteDocument($documentPath);
             $this->deleteFarmerFoods($farmerId);
         }
@@ -112,13 +107,14 @@ class FireBaseService
 
         try {
             $userField = $farmerRegister->get('user');
-        } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+        } catch (MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
             $userField = '';
         }
 
-        if ($userField == '') {
+        if ('' == $userField) {
             return false;
         }
+
         return true;
     }
 
@@ -137,7 +133,7 @@ class FireBaseService
                     'groupType' => $farmerRegister->get('groupType'),
                     'cpf' => $newcpf,
                     'phone' => $this->getFieldOrDefault($farmerRegister, 'phone'),
-                    'user' => $this->getFieldOrDefault($farmerRegister, 'user')
+                    'user' => $this->getFieldOrDefault($farmerRegister, 'user'),
                 ];
             }
         }
@@ -149,7 +145,7 @@ class FireBaseService
     {
         try {
             return $document->get($field);
-        } catch (\MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
+        } catch (MrShan0\PHPFirestore\Exceptions\Client\FieldNotFound $e) {
             return $default;
         }
     }
@@ -205,7 +201,7 @@ class FireBaseService
             'Outros alimentos industrializados' => 'outros_alimentos_industrializados',
             'Alimentos preparados' => 'alimentos_preparados',
             'Leguminosas e derivados' => 'leguminosas_e_derivados',
-            'Nozes e sementes' => 'nozes_e_sementes'
+            'Nozes e sementes' => 'nozes_e_sementes',
         ];
 
         foreach ($requestItems as &$item) {
@@ -256,8 +252,8 @@ function mask($val, $mask)
 {
     $maskared = '';
     $k = 0;
-    for ($i = 0; $i <= strlen($mask) - 1; $i++) {
-        if ($mask[$i] == '#') {
+    for ($i = 0; $i <= strlen($mask) - 1; ++$i) {
+        if ('#' == $mask[$i]) {
             if (isset($val[$k])) {
                 $maskared .= $val[$k++];
             }
@@ -267,5 +263,6 @@ function mask($val, $mask)
             }
         }
     }
+
     return $maskared;
 }

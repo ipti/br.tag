@@ -22,6 +22,7 @@ class StagesModule extends CWebModule
             // you may place customized code here
             return true;
         }
+
         return false;
     }
 }

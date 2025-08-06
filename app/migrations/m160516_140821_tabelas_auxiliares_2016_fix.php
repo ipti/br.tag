@@ -11,6 +11,7 @@ class m160516_140821_tabelas_auxiliares_2016_fix extends CDbMigration
     public function safeDown()
     {
         echo "m160516_140821_tabelas_auxiliares_2016_fix does not support migration down.\n";
+
         return false;
     }
 }

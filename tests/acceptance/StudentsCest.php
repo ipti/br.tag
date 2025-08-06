@@ -25,7 +25,7 @@ class StudentsCest
 
     /**
      * Adicionar (rápido) estudantes, preenchendo apenas campos obrigatórios.
-     * Filiado - Não declarado/Ignorado
+     * Filiado - Não declarado/Ignorado.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function addStudentsRapidFieldsRequired(AcceptanceTester $teste)
@@ -75,7 +75,7 @@ class StudentsCest
 
     /**
      * Adicionar (rápido) estudantes, preenchendo apenas campos obrigatórios.
-     * Filiado - Pai e/ou Mãe
+     * Filiado - Pai e/ou Mãe.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function addStudentsRapidFieldsRequiredWithMotherAndFather(AcceptanceTester $teste)
@@ -212,7 +212,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);
         $robots->gender($dataStudent->student['sex']);
@@ -276,7 +276,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);
         $robots->gender($dataStudent->student['sex']);
@@ -328,7 +328,7 @@ class StudentsCest
      */
     public function fieldsNotFilledIn(AcceptanceTester $teste)
     {
-        //Data Students
+        // Data Students
         sleep(5);
         $teste->amOnPage('?r=student/create');
         $robots = new StudentsRobots($teste);
@@ -378,7 +378,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilNamebox();
         sleep(1);
@@ -502,7 +502,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilNamebox();
         sleep(1);
@@ -613,7 +613,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilNamebox();
         sleep(1);
@@ -746,7 +746,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilNamebox();
         sleep(1);

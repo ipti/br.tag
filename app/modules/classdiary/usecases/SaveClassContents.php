@@ -16,6 +16,7 @@
         public function exec($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent)
         {
             $response = $this->classesService->saveClassContents($stage_fk, $date, $discipline_fk, $classroom_fk, $classContent);
-            return  $response;
+
+            return $response;
         }
     }

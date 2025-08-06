@@ -20,12 +20,14 @@ class ApplyFormulaOnGradesUsecase
     public function setGrades($grades)
     {
         $this->grades = $grades;
+
         return $this;
     }
 
     public function setWeights($weights)
     {
         $this->weights = $weights;
+
         return $this;
     }
 
@@ -42,6 +44,7 @@ class ApplyFormulaOnGradesUsecase
                 $result = array_reduce($this->grades, function ($acc, $grade) {
                     /** @var Grade $grade */
                     $acc += floatval($grade);
+
                     return $acc;
                 });
                 break;
@@ -55,6 +58,7 @@ class ApplyFormulaOnGradesUsecase
                 $finalGrade = array_reduce($this->grades, function ($acc, $grade) {
                     /** @var Grade $grade */
                     $acc += floatval($grade);
+
                     return $acc;
                 });
                 $result = $finalGrade / sizeof($this->grades);

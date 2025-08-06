@@ -4,9 +4,9 @@
  * This is the model class for table "teaching_matrixes".
  *
  * The followings are the available columns in table 'teaching_matrixes':
- * @property integer $id
- * @property integer $teaching_data_fk
- * @property integer $curricular_matrix_fk
+ * @property int $id
+ * @property int $teaching_data_fk
+ * @property int $curricular_matrix_fk
  *
  * The followings are the available model relations:
  * @property InstructorTeachingData $teachingDataFk
@@ -23,7 +23,7 @@ class TeachingMatrixes extends AltActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -39,7 +39,7 @@ class TeachingMatrixes extends AltActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -73,7 +73,7 @@ class TeachingMatrixes extends AltActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -93,7 +93,7 @@ class TeachingMatrixes extends AltActiveRecord
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return TeachingMatrixes the static model class
      */
     public static function model($className = __CLASS__)

@@ -10,9 +10,9 @@ class DefaultController extends Controller
             $getDisciplines = new GetDisciplines();
             $disciplines = $getDisciplines->exec();
             $this->render('index', [
-                'disciplines' => $disciplines
+                'disciplines' => $disciplines,
             ]);
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao carregar as turmas.'));
             var_dump($th);
         }
@@ -48,7 +48,7 @@ class DefaultController extends Controller
     {
         $this->render('classDays', [
             'discipline_name' => $discipline_name,
-            'classroom_name' => $classroom_name
+            'classroom_name' => $classroom_name,
         ]);
     }
 
@@ -56,12 +56,12 @@ class DefaultController extends Controller
     {
         $result = [];
         $classroom = Classroom::model()->findByPk($_POST['classroom']);
-        if ($classroom->calendar_fk != null) {
+        if (null != $classroom->calendar_fk) {
             $result['months'] = [];
             $calendar = $classroom->calendarFk;
-            $begin = new Datetime($calendar->start_date);
+            $begin = new DateTime($calendar->start_date);
             $begin->modify('first day of this month');
-            $end = new Datetime($calendar->end_date);
+            $end = new DateTime($calendar->end_date);
             $end->modify('first day of next month');
             $interval = DateInterval::createFromDateString('1 month');
             $period = new DatePeriod($begin, $interval, $end);
@@ -83,6 +83,7 @@ class DefaultController extends Controller
         }
 
         $condition = TagUtils::isSubstituteInstructor($classroom) ? 'is not null' : 'is null';
+
         return 'and substitute_instructor_fk ' . $condition;
     }
 
@@ -94,16 +95,16 @@ class DefaultController extends Controller
         $disciplineId = $_POST['discipline'];
         $classroom = Classroom::model()->findByPk($classroomId);
         $discipline = EdcensoDiscipline::model()->findByPk($disciplineId);
-        $isMinor = $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ? true : $this->checkIsStageMinorEducation($classroom);
+        $isMinor = 1 == $classroom->edcensoStageVsModalityFk->unified_frequency ? true : $this->checkIsStageMinorEducation($classroom);
         $instructorFilter = $this->getInstructorFilter($classroom);
-        if ($isMinor == false) {
+        if (false == $isMinor) {
             $schedules = Schedule::model()->findAll(
                 'classroom_fk = :classroom_fk and year = :year and month = :month and discipline_fk = :discipline_fk and unavailable = 0 ' . $instructorFilter . ' order by day, schedule',
                 [
                     'classroom_fk' => $classroomId,
                     'year' => $year,
                     'month' => $month,
-                    'discipline_fk' => $disciplineId
+                    'discipline_fk' => $disciplineId,
                 ]
             );
         } else {
@@ -112,7 +113,7 @@ class DefaultController extends Controller
                 [
                     'classroom_fk' => $classroomId,
                     'year' => $year,
-                    'month' => $month
+                    'month' => $month,
                 ]
             );
         }
@@ -122,7 +123,7 @@ class DefaultController extends Controller
         $criteria->together = true;
         $criteria->order = 'name';
 
-        if ($schedules != null) {
+        if (null != $schedules) {
             $scheduleDays = $this->getScheduleDays($schedules);
             echo json_encode(
                 [
@@ -136,7 +137,7 @@ class DefaultController extends Controller
                 ]
             );
         } else {
-            echo json_encode(['valid' => false, 'error' => 'Mês/Ano ' . ($isMinor == false ? 'e Disciplina' : '') . ' sem aula no Quadro de Horário.']);
+            echo json_encode(['valid' => false, 'error' => 'Mês/Ano ' . (false == $isMinor ? 'e Disciplina' : '') . ' sem aula no Quadro de Horário.']);
         }
     }
 
@@ -164,7 +165,7 @@ class DefaultController extends Controller
         if ($hasNewClassContent) {
             $saveNewClassContent = new SaveNewClassContent();
             $newClassContentId = $saveNewClassContent->exec($coursePlanId, $content, $methodology, $abilities);
-            if ($classContent != null) {
+            if (null != $classContent) {
                 $classContent[] = $newClassContentId;
             } else {
                 $classContent = [$newClassContentId];
@@ -177,7 +178,7 @@ class DefaultController extends Controller
     public function actionRenderAccordion()
     {
         $course_class_id = $_POST['id'];
-        $getCourseClasses = new  GetCourseClasses();
+        $getCourseClasses = new GetCourseClasses();
         $types = $getCourseClasses->exec($course_class_id);
         $plan_name = $_POST['plan_name'];
         $this->renderPartial('_accordion', ['plan_name' => $plan_name]);
@@ -209,7 +210,7 @@ class DefaultController extends Controller
         $student = $getStudent->exec($student_id);
 
         $getStudentFault = new GetStudentFault();
-        $studentFault = $getStudentFault->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id, $schedule) != null;
+        $studentFault = null != $getStudentFault->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id, $schedule);
 
         $getStudentDiary = new GetStudentDiary();
         $student_observation = $getStudentDiary->exec($stage_fk, $classroom_id, $discipline_fk, $date, $student_id);
@@ -263,7 +264,7 @@ class DefaultController extends Controller
             $month = ($schedule->month < 10) ? '0' . $schedule->month : $schedule->month;
             $date = $day . '/' . $month . '/' . $schedule->year;
             $index = array_search($date, array_column($result, 'date'));
-            if ($index === false) {
+            if (false === $index) {
                 array_push($result, [
                     'day' => $schedule->day,
                     'date' => $date,
@@ -271,6 +272,7 @@ class DefaultController extends Controller
                 ]);
             }
         }
+
         return $result;
     }
 }

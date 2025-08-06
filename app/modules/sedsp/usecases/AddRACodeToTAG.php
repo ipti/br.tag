@@ -20,7 +20,7 @@ class AddRACodeToTAG
     }
 
     /**
-     * Summary of exec
+     * Summary of exec.
      * @param int $tag_student_id StudentIdentificantion Id from TAG
      * @return StudentIdentification
      */

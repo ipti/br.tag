@@ -36,7 +36,7 @@ return [
             'username' => 'admin',
             'password' => '123456',
             'charset' => 'utf8',
-            'class' => 'CDbConnection'
+            'class' => 'CDbConnection',
         ],
         'db' => unserialize(DBCONFIG),
         'authManager' => [
@@ -45,6 +45,6 @@ return [
             'itemTable' => 'auth_item',
             'assignmentTable' => 'auth_assignment',
             'itemChildTable' => 'auth_item_child',
-        ]
+        ],
     ],
 ];

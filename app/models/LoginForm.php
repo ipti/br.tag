@@ -59,21 +59,22 @@ class LoginForm extends CFormModel
 
     /**
      * Logs in the user using the given username and password in the model.
-     * @return boolean whether login is successful
+     * @return bool whether login is successful
      */
     public function login()
     {
         $this->_identity->setState('year', $this->year);
-        if ($this->_identity === null) {
+        if (null === $this->_identity) {
             // local desta bagaça ./app/components/UserIdentity.php
             $this->_identity = new UserIdentity($this->username, $this->password);
             $this->_identity->authenticate();
         }
-        if ($this->_identity->errorCode === UserIdentity::ERROR_NONE) {
+        if (UserIdentity::ERROR_NONE === $this->_identity->errorCode) {
             $duration = $this->rememberMe ? 3600 * 24 * 30 : 20 * 60; // 30 days or 20 min
             Yii::app()->user->login($this->_identity);
             Yii::app()->user->setState('authTimout', $duration);
             Yii::app()->user->setState('rememberMe', $this->rememberMe);
+
             return true;
         } else {
             return false;

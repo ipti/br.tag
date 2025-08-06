@@ -13,7 +13,7 @@ class Register60
         foreach ($classrooms as $iclass => $classroom) {
             if (count($classroom->instructorTeachingDatas) >= 1) {
                 foreach ($classroom->studentEnrollments as $ienrollment => $enrollment) {
-                    if ($enrollment->status == 1 || $enrollment->status == null) {
+                    if (1 == $enrollment->status || null == $enrollment->status) {
                         if (!isset($students[$enrollment->student_fk])) {
                             $enrollment->studentFk->school_inep_id_fk = $school->inep_id;
                             $enrollment->studentFk->documentsFk->school_inep_id_fk = $school->inep_id;
@@ -40,17 +40,17 @@ class Register60
                     $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($classroom->edcenso_stage_vs_modality_fk);
                     $classroomAssociatedStage = $edcensoStageVsModality->edcenso_associated_stage_id;
 
-                    if ($classroom->schooling == 0 || ($classroomAssociatedStage != 3 && $classroomAssociatedStage != 22 && $classroomAssociatedStage != 23
-                            && $classroomAssociatedStage != 72 && $classroomAssociatedStage != 56 && $classroomAssociatedStage != 64)) {
+                    if (0 == $classroom->schooling || (3 != $classroomAssociatedStage && 22 != $classroomAssociatedStage && 23 != $classroomAssociatedStage
+                            && 72 != $classroomAssociatedStage && 56 != $classroomAssociatedStage && 64 != $classroomAssociatedStage)) {
                         $enrollment['edcenso_stage_vs_modality_fk'] = '';
                     }
 
-                    if ($enrollment['edcenso_stage_vs_modality_fk'] != '') {
+                    if ('' != $enrollment['edcenso_stage_vs_modality_fk']) {
                         $edcensoStageVsModality = EdcensoStageVsModality::model()->findByPk($enrollment['edcenso_stage_vs_modality_fk']);
                         $enrollment['edcenso_stage_vs_modality_fk'] = $edcensoStageVsModality->edcenso_associated_stage_id;
                     }
 
-                    if ($classroom->aee == 0) {
+                    if (0 == $classroom->aee) {
                         foreach ($enrollment as $i => $attr) {
                             $pos = strstr($i, 'aee_');
                             if ($pos) {
@@ -62,88 +62,88 @@ class Register60
                         foreach ($enrollment as $i => $attr) {
                             $pos = strstr($i, 'aee_');
                             if ($pos) {
-                                if ($attr == '1') {
+                                if ('1' == $attr) {
                                     $hasAeeFilled = true;
                                 }
                                 $enrollment[$i] = $attr;
                             }
                         }
-                        //preencher um campo aee qualquer quando todos forem zerados
+                        // preencher um campo aee qualquer quando todos forem zerados
                         if (!$hasAeeFilled) {
                             $enrollment['aee_cognitive_functions'] = '1';
                         }
-                        if ($enrollment['aee_cognitive_functions'] == '' || $enrollment['aee_cognitive_functions'] == null) {
+                        if ('' == $enrollment['aee_cognitive_functions'] || null == $enrollment['aee_cognitive_functions']) {
                             $enrollment['aee_cognitive_functions'] = '0';
                         }
-                        if ($enrollment['aee_autonomous_life'] == '' || $enrollment['aee_autonomous_life'] == null) {
+                        if ('' == $enrollment['aee_autonomous_life'] || null == $enrollment['aee_autonomous_life']) {
                             $enrollment['aee_autonomous_life'] = '0';
                         }
-                        if ($enrollment['aee_curriculum_enrichment'] == '' || $enrollment['aee_curriculum_enrichment'] == null) {
+                        if ('' == $enrollment['aee_curriculum_enrichment'] || null == $enrollment['aee_curriculum_enrichment']) {
                             $enrollment['aee_curriculum_enrichment'] = '0';
                         }
-                        if ($enrollment['aee_accessible_teaching'] == '' || $enrollment['aee_accessible_teaching'] == null) {
+                        if ('' == $enrollment['aee_accessible_teaching'] || null == $enrollment['aee_accessible_teaching']) {
                             $enrollment['aee_accessible_teaching'] = '0';
                         }
-                        if ($enrollment['aee_libras'] == '' || $enrollment['aee_libras'] == null) {
+                        if ('' == $enrollment['aee_libras'] || null == $enrollment['aee_libras']) {
                             $enrollment['aee_libras'] = '0';
                         }
-                        if ($enrollment['aee_portuguese'] == '' || $enrollment['aee_portuguese'] == null) {
+                        if ('' == $enrollment['aee_portuguese'] || null == $enrollment['aee_portuguese']) {
                             $enrollment['aee_portuguese'] = '0';
                         }
-                        if ($enrollment['aee_soroban'] == '' || $enrollment['aee_soroban'] == null) {
+                        if ('' == $enrollment['aee_soroban'] || null == $enrollment['aee_soroban']) {
                             $enrollment['aee_soroban'] = '0';
                         }
-                        if ($enrollment['aee_braille'] == '' || $enrollment['aee_braille'] == null) {
+                        if ('' == $enrollment['aee_braille'] || null == $enrollment['aee_braille']) {
                             $enrollment['aee_braille'] = '0';
                         }
-                        if ($enrollment['aee_mobility_techniques'] == '' || $enrollment['aee_mobility_techniques'] == null) {
+                        if ('' == $enrollment['aee_mobility_techniques'] || null == $enrollment['aee_mobility_techniques']) {
                             $enrollment['aee_mobility_techniques'] = '0';
                         }
-                        if ($enrollment['aee_caa'] == '' || $enrollment['aee_caa'] == null) {
+                        if ('' == $enrollment['aee_caa'] || null == $enrollment['aee_caa']) {
                             $enrollment['aee_caa'] = '0';
                         }
-                        if ($enrollment['aee_optical_nonoptical'] == '' || $enrollment['aee_optical_nonoptical'] == null) {
+                        if ('' == $enrollment['aee_optical_nonoptical'] || null == $enrollment['aee_optical_nonoptical']) {
                             $enrollment['aee_optical_nonoptical'] = '0';
                         }
                     }
 
-                    //um copia e cola do que se resolve no backend do registro 20 pra nao gerar inconsistencia (schooling, pedagogical_mediation_type e diff_location)
-                    $pedagogicalMediationType = $classroom->pedagogical_mediation_type == null ? '1' : $classroom->pedagogical_mediation_type;
+                    // um copia e cola do que se resolve no backend do registro 20 pra nao gerar inconsistencia (schooling, pedagogical_mediation_type e diff_location)
+                    $pedagogicalMediationType = null == $classroom->pedagogical_mediation_type ? '1' : $classroom->pedagogical_mediation_type;
                     $aee = $classroom->aee;
                     $complementaryActivity = $classroom->complementary_activity;
                     $schooling = $classroom->schooling;
                     $diffLocation = $classroom->diff_location;
-                    if ($pedagogicalMediationType != '1') {
+                    if ('1' != $pedagogicalMediationType) {
                         $schooling = '1';
                         $aee = '0';
                         $complementaryActivity = '0';
                     }
-                    if ($aee == '1') {
+                    if ('1' == $aee) {
                         $schooling = '0';
                         $complementaryActivity = '0';
                     }
-                    if ($classroom->complementary_activity_type_1 == null && $classroom->complementary_activity_type_2 == null && $classroom->complementary_activity_type_3 == null
-                        && $classroom->complementary_activity_type_4 == null && $classroom->complementary_activity_type_5 == null && $classroom->complementary_activity_type_6 == null) {
+                    if (null == $classroom->complementary_activity_type_1 && null == $classroom->complementary_activity_type_2 && null == $classroom->complementary_activity_type_3
+                        && null == $classroom->complementary_activity_type_4 && null == $classroom->complementary_activity_type_5 && null == $classroom->complementary_activity_type_6) {
                         $complementaryActivity = '0';
                     }
-                    if ($pedagogicalMediationType != '1') {
+                    if ('1' != $pedagogicalMediationType) {
                         $diffLocation = '';
-                    } elseif ($diffLocation == null) {
+                    } elseif (null == $diffLocation) {
                         $diffLocation = '0';
                     }
-                    if ($classroom->modality == '3') {
+                    if ('3' == $classroom->modality) {
                         $complementaryActivity = '0';
                     }
-                    if ($complementaryActivity == '0' && $schooling == '0' && $aee == '0') {
+                    if ('0' == $complementaryActivity && '0' == $schooling && '0' == $aee) {
                         $schooling = '1';
                     }
                     // fim
 
-                    if ($schooling != '1' || $pedagogicalMediationType != '1' || ($diffLocation != '0' && $diffLocation != '1')) {
+                    if ('1' != $schooling || '1' != $pedagogicalMediationType || ('0' != $diffLocation && '1' != $diffLocation)) {
                         $enrollment['another_scholarization_place'] = '';
                     }
 
-                    if ($pedagogicalMediationType != '1' || $schooling != '1') {
+                    if ('1' != $pedagogicalMediationType || '1' != $schooling) {
                         $enrollment['public_transport'] = '';
                         $enrollment['transport_responsable_government'] = '';
                         $enrollment['vehicle_type_bike'] = '';
@@ -156,7 +156,7 @@ class Register60
                         $enrollment['vehicle_type_waterway_boat_5_15'] = '';
                         $enrollment['vehicle_type_waterway_boat_15_35'] = '';
                         $enrollment['vehicle_type_waterway_boat_35'] = '';
-                    } elseif ($enrollment['public_transport'] == 0) {
+                    } elseif (0 == $enrollment['public_transport']) {
                         $enrollment['transport_responsable_government'] = '';
                         $enrollment['vehicle_type_bike'] = '';
                         $enrollment['vehicle_type_microbus'] = '';
@@ -177,7 +177,7 @@ class Register60
                         foreach ($enrollment as $i => $attr) {
                             $pos = strstr($i, 'vehicle_type_');
                             if ($pos) {
-                                if ($enrollment[$i] == '1') {
+                                if ('1' == $enrollment[$i]) {
                                     $hasVehicle = true;
                                 }
                             }
@@ -186,44 +186,44 @@ class Register60
                             $enrollment['vehicle_type_bus'] = '1';
                         }
 
-                        if ($enrollment['vehicle_type_bike'] == '1' && $enrollment['vehicle_type_microbus'] == '1' && $enrollment['vehicle_type_bus'] == '1'
-                            && $enrollment['vehicle_type_animal_vehicle'] == '1' && $enrollment['vehicle_type_van'] == '1' && $enrollment['vehicle_type_other_vehicle'] == '1') {
+                        if ('1' == $enrollment['vehicle_type_bike'] && '1' == $enrollment['vehicle_type_microbus'] && '1' == $enrollment['vehicle_type_bus']
+                            && '1' == $enrollment['vehicle_type_animal_vehicle'] && '1' == $enrollment['vehicle_type_van'] && '1' == $enrollment['vehicle_type_other_vehicle']) {
                             $enrollment['vehicle_type_bike'] = '0';
                         }
 
-                        if ($enrollment['vehicle_type_waterway_boat_5'] == '1' && $enrollment['vehicle_type_waterway_boat_5_15'] == '1'
-                            && $enrollment['vehicle_type_waterway_boat_15_35'] == '1' && $enrollment['vehicle_type_waterway_boat_35'] == '1') {
+                        if ('1' == $enrollment['vehicle_type_waterway_boat_5'] && '1' == $enrollment['vehicle_type_waterway_boat_5_15']
+                            && '1' == $enrollment['vehicle_type_waterway_boat_15_35'] && '1' == $enrollment['vehicle_type_waterway_boat_35']) {
                             $enrollment['vehicle_type_waterway_boat_5'] = '0';
                         }
 
-                        if ($enrollment['vehicle_type_bike'] == null) {
+                        if (null == $enrollment['vehicle_type_bike']) {
                             $enrollment['vehicle_type_bike'] = 0;
                         }
-                        if ($enrollment['vehicle_type_microbus'] == null) {
+                        if (null == $enrollment['vehicle_type_microbus']) {
                             $enrollment['vehicle_type_microbus'] = 0;
                         }
-                        if ($enrollment['vehicle_type_bus'] == null) {
+                        if (null == $enrollment['vehicle_type_bus']) {
                             $enrollment['vehicle_type_bus'] = 0;
                         }
-                        if ($enrollment['vehicle_type_animal_vehicle'] == null) {
+                        if (null == $enrollment['vehicle_type_animal_vehicle']) {
                             $enrollment['vehicle_type_animal_vehicle'] = 0;
                         }
-                        if ($enrollment['vehicle_type_van'] == null) {
+                        if (null == $enrollment['vehicle_type_van']) {
                             $enrollment['vehicle_type_van'] = 0;
                         }
-                        if ($enrollment['vehicle_type_other_vehicle'] == null) {
+                        if (null == $enrollment['vehicle_type_other_vehicle']) {
                             $enrollment['vehicle_type_other_vehicle'] = 0;
                         }
-                        if ($enrollment['vehicle_type_waterway_boat_5'] == null) {
+                        if (null == $enrollment['vehicle_type_waterway_boat_5']) {
                             $enrollment['vehicle_type_waterway_boat_5'] = 0;
                         }
-                        if ($enrollment['vehicle_type_waterway_boat_5_15'] == null) {
+                        if (null == $enrollment['vehicle_type_waterway_boat_5_15']) {
                             $enrollment['vehicle_type_waterway_boat_5_15'] = 0;
                         }
-                        if ($enrollment['vehicle_type_waterway_boat_15_35'] == null) {
+                        if (null == $enrollment['vehicle_type_waterway_boat_15_35']) {
                             $enrollment['vehicle_type_waterway_boat_15_35'] = 0;
                         }
-                        if ($enrollment['vehicle_type_waterway_boat_35'] == null) {
+                        if (null == $enrollment['vehicle_type_waterway_boat_35']) {
                             $enrollment['vehicle_type_waterway_boat_35'] = 0;
                         }
                     }
@@ -236,7 +236,7 @@ class Register60
                     $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 60 order by corder', [':year' => $year]);
                     foreach ($edcensoAliases as $edcensoAlias) {
                         $register[$edcensoAlias->corder] = $edcensoAlias->default;
-                        if ($edcensoAlias['attr'] != null && $enrollment[$edcensoAlias['attr']] !== $edcensoAlias->default) {
+                        if (null != $edcensoAlias['attr'] && $enrollment[$edcensoAlias['attr']] !== $edcensoAlias->default) {
                             $register[$edcensoAlias->corder] = $enrollment[$edcensoAlias['attr']];
                         }
                     }

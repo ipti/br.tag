@@ -4,10 +4,10 @@
  * This is the model class for table "enrollment_online_enrollment_solicitation".
  *
  * The followings are the available columns in table 'enrollment_online_enrollment_solicitation':
- * @property integer $id
+ * @property int $id
  * @property string $school_inep_id_fk
- * @property integer $enrollment_online_student_identification_fk
- * @property integer $status
+ * @property int $enrollment_online_student_identification_fk
+ * @property int $status
  *
  * The followings are the available model relations:
  * @property SchoolIdentification $schoolInepIdFk
@@ -24,7 +24,7 @@ class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -41,7 +41,7 @@ class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -76,7 +76,7 @@ class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -97,7 +97,7 @@ class EnrollmentOnlineEnrollmentSolicitation extends CActiveRecord
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return EnrollmentOnlineEnrollmentSolicitation the static model class
      */
     public static function model($className = __CLASS__)

@@ -73,13 +73,13 @@ class ConfigurationController extends Controller
                         $save = $save && $newTeachingData->save();
                     }
 
-                    //Sincronizar com o SEDSP
+                    // Sincronizar com o SEDSP
                     if (Yii::app()->features->isEnable('FEAT_SEDSP')) {
                         $loginUseCase = new LoginUseCase();
                         $loginUseCase->checkSEDToken();
 
                         $syncResult = $newClassroom->syncToSEDSP('create', 'create');
-                        if ($syncResult['flash'] == 'error') {
+                        if ('error' == $syncResult['flash']) {
                             array_push($errors, $classroom->name . ': ' . $syncResult['message']);
                         }
                     }
@@ -101,13 +101,14 @@ class ConfigurationController extends Controller
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('default', 'Erro na reutilização das Turmas.'));
                 $this->render('classrooms', [
-                    'title' => Yii::t('default', 'Reaproveitamento das Turmas')
+                    'title' => Yii::t('default', 'Reaproveitamento das Turmas'),
                 ]);
             }
+
             return true;
         }
         $this->render('classrooms', [
-            'title' => Yii::t('default', 'Reaproveitamento das Turmas')
+            'title' => Yii::t('default', 'Reaproveitamento das Turmas'),
         ]);
     }
 
@@ -130,8 +131,8 @@ class ConfigurationController extends Controller
                         'classroom_fk = :c AND student_fk = :s',
                         ['c' => $c->id, 's' => $st->id]
                     );
-                    //Se não existe, cadastra
-                    if (count($exist) == 0) {
+                    // Se não existe, cadastra
+                    if (0 == count($exist)) {
                         $enrollment->school_inep_id_fk = Yii::app()->user->school;
                         $enrollment->student_fk = $st->id;
                         $enrollment->classroom_fk = $c->id;
@@ -150,7 +151,7 @@ class ConfigurationController extends Controller
             $this->render('index');
         } else {
             $this->render('students', [
-                'title' => Yii::t('default', 'Student Configuration')
+                'title' => Yii::t('default', 'Student Configuration'),
             ]);
         }
     }

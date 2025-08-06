@@ -1,10 +1,10 @@
 <?php
 
 return [
-    //Title
+    // Title
     'City Information' => 'Informações do Município',
 
-    //Enrollments
+    // Enrollments
     'Enrollments' => 'Matrículas',
 
     'TOTAL SCHOOLS' => 'TOTAL DE ESCOLAS',
@@ -27,7 +27,7 @@ return [
     'ADULT EDUCATION' => 'EDUC. JOVENS E ADULTOS',
     'SPECIAL EDUCATION' => 'EDUCAÇÃO ESPECIAL',
 
-    //Services
+    // Services
     'Services' => 'Serviços',
 
     'Water' => 'Água',

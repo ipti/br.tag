@@ -3,7 +3,7 @@
 require_once __DIR__ . '/CWebTestCaseCustom.php';
 /**
  * Change the following URL based on your server configuration
- * Make sure the URL ends with a slash so that we can use relative URLs in test cases
+ * Make sure the URL ends with a slash so that we can use relative URLs in test cases.
  */
 define('TEST_BASE_URL', 'http://localhost');
 
@@ -24,7 +24,7 @@ class WebTestCase extends CWebTestCaseCustom
     {
         parent::setUp();
         $selenium_host = getenv('SELENIUM_HOST');
-        if ($selenium_host === false) {
+        if (false === $selenium_host) {
             $selenium_host = 'localhost';
         }
         $this->setHost($selenium_host);

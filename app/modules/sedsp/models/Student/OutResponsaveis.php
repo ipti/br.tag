@@ -169,108 +169,126 @@ class OutResponsaveis
     public function setOutNome(?string $outNome): self
     {
         $this->outNome = $outNome;
+
         return $this;
     }
 
     public function setOutResponsabilidade(?string $outResponsabilidade): self
     {
         $this->outResponsabilidade = $outResponsabilidade;
+
         return $this;
     }
 
     public function setOutCodTipoResponsabilidade(?string $outCodTipoResponsabilidade): self
     {
         $this->outCodTipoResponsabilidade = $outCodTipoResponsabilidade;
+
         return $this;
     }
 
     public function setOutLogin(?string $outLogin): self
     {
         $this->outLogin = $outLogin;
+
         return $this;
     }
 
     public function setOutCpf(?string $outCPF): self
     {
         $this->outCPF = $outCPF;
+
         return $this;
     }
 
     public function setOutRgrnm(?string $outRGRNM): self
     {
         $this->outRGRNM = $outRGRNM;
+
         return $this;
     }
 
     public function setOutTipoOrigem(?string $outTipoOrigem): self
     {
         $this->outTipoOrigem = $outTipoOrigem;
+
         return $this;
     }
 
     public function setOutNrrg(?string $outNRRG): self
     {
         $this->outNRRG = $outNRRG;
+
         return $this;
     }
 
     public function setOutDigitoRg(?string $outDigitoRG): self
     {
         $this->outDigitoRG = $outDigitoRG;
+
         return $this;
     }
 
     public function setOutUfrg(?string $outUFRG): self
     {
         $this->outUFRG = $outUFRG;
+
         return $this;
     }
 
     public function setOutCodSexo(?string $outCodSexo): self
     {
         $this->outCodSexo = $outCodSexo;
+
         return $this;
     }
 
     public function setOutCodEstadoCivil(?string $outCodEstadoCivil): self
     {
         $this->outCodEstadoCivil = $outCodEstadoCivil;
+
         return $this;
     }
 
     public function setOutEmailResponsavel(?string $outEmailResponsavel): self
     {
         $this->outEmailResponsavel = $outEmailResponsavel;
+
         return $this;
     }
 
     public function setOutDataNascimento(?string $outDataNascimento): self
     {
         $this->outDataNascimento = $outDataNascimento;
+
         return $this;
     }
 
     public function setOutCidadeNascimento(?string $outCidadeNascimento): self
     {
         $this->outCidadeNascimento = $outCidadeNascimento;
+
         return $this;
     }
 
     public function setOutUfNascimento(?string $outUFNascimento): self
     {
         $this->outUFNascimento = $outUFNascimento;
+
         return $this;
     }
 
     public function setOutNomePaisNascimento(?string $outNomePaisNascimento): self
     {
         $this->outNomePaisNascimento = $outNomePaisNascimento;
+
         return $this;
     }
 
     public function setOutEnderecoResidencial(?OutEnderecoResidencial $outEnderecoResidencial): self
     {
         $this->outEnderecoResidencial = $outEnderecoResidencial;
+
         return $this;
     }
 
@@ -280,6 +298,7 @@ class OutResponsaveis
     public function setOutLstTelefone(?array $outLstTelefone): self
     {
         $this->outLstTelefone = $outLstTelefone;
+
         return $this;
     }
 

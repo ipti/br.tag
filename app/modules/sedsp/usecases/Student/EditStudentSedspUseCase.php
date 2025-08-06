@@ -5,9 +5,7 @@ Yii::import('application.modules.sedsp.datasources.sed.Enrollment.*');
 class EditStudentSedspUseCase
 {
     /**
-     * Summary of exec
-     * @param OutListarAluno $outListStudent
-     * @param object $student
+     * Summary of exec.
      * @param mixed $studentIdentification
      * @return OutHandleApiResult
      */
@@ -24,7 +22,7 @@ class EditStudentSedspUseCase
         $dataSource = new StudentSEDDataSource();
         $statusEditStudent = $dataSource->editStudent($inManutencao);
 
-        if ($statusEditStudent->outErro === null) {
+        if (null === $statusEditStudent->outErro) {
             $studentIdentification->sedsp_sync = 1;
             $studentIdentification->save();
         }
@@ -34,7 +32,7 @@ class EditStudentSedspUseCase
 
     // Função para criar objeto InManutencao em caso de aluno cadastrado
     /**
-     * Summary of createInManutencao
+     * Summary of createInManutencao.
      * @param mixed $student
      * @return InManutencao
      */

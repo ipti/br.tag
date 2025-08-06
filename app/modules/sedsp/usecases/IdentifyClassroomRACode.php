@@ -14,7 +14,7 @@ class IdentifyClassroomRACode
     private $studentSEDDataSource;
 
     /**
-     * Summary of __construct
+     * Summary of __construct.
      * @param StudentTAGDataSource $studentTAGDataSource
      * @param StudentSEDDataSource $studentSEDDataSource
      */
@@ -29,7 +29,7 @@ class IdentifyClassroomRACode
         $students = $this->studentTAGDataSource->getAllStudentBySchool($tag_student_id);
         $response = $this->studentSEDDataSource->getAllStudentsRA($students);
 
-        //Acessando os dados do aluno
+        // Acessando os dados do aluno
         return $response;
     }
 }

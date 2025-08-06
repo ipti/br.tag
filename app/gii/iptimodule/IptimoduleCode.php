@@ -68,15 +68,15 @@ EOD;
         $files = CFileHelper::findFiles($templatePath, [
             'exclude' => [
                 '.svn',
-                '.gitignore'
+                '.gitignore',
             ],
         ]);
 
         foreach ($files as $file) {
             if ($file !== $moduleTemplateFile) {
-                if (CFileHelper::getExtension($file) === 'php') {
+                if ('php' === CFileHelper::getExtension($file)) {
                     $content = $this->render($file);
-                } elseif (basename($file) === '.yii') {  // an empty directory
+                } elseif ('.yii' === basename($file)) {  // an empty directory
                     $file = dirname($file);
                     $content = null;
                 } else {

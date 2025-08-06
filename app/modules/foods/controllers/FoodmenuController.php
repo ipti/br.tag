@@ -17,7 +17,7 @@ class FoodmenuController extends Controller
         $transaction = Yii::app()->db->beginTransaction();
         // Verifica se há dados na requisição enviada
         // Caso negativo, renderiza o formulário
-        if ($request === null) {
+        if (null === $request) {
             $mealTypeList = $this->actionGetMealType();
             $tacoFoodsList = $this->actionGetTacoFoods();
             $foodMeasurementList = $this->actionGetFoodMeasurement();
@@ -39,7 +39,7 @@ class FoodmenuController extends Controller
             isset($request['description']) &&
             isset($request['stages']);
 
-        if ($allFieldsAreFilled === false) {
+        if (false === $allFieldsAreFilled) {
             // Caso de erro> Falha quando um dos campos obrigatórios do cardápio não foram enviados
             $message = 'Ocorreu um erro! Campos obrigatórios do Cardápio não foram preenchidos.';
             throw new CHttpException(400, $message);
@@ -59,7 +59,7 @@ class FoodmenuController extends Controller
         // Verifica se a ação de salvar foodMenu ocorreu com sucesso, caso falhe encerra a aplicação
         $saveFoodMenuResult = $modelFoodMenu->save();
 
-        if ($saveFoodMenuResult == false) {
+        if (false == $saveFoodMenuResult) {
             $message = 'Ocorreu um erro ao salvar o cardápio! Tente novamente.';
             $transaction->rollback();
             throw new CHttpException(500, $message);
@@ -96,14 +96,14 @@ class FoodmenuController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
         $request = Yii::app()->request->getPost('foodMenu');
         $modelFoodMenu = $this->loadModel($id);
         $modelMenuMeals = FoodMenuMeal::model()->findAllByAttributes(['food_menuId' => $modelFoodMenu->id]);
-        if ($request == null) {
+        if (null == $request) {
             // Bloco de código para identificar qual o público alvo do cardápio
             $publicTargetSql = '
              SELECT fpt.id, fpt.name FROM food_public_target fpt
@@ -144,7 +144,7 @@ class FoodmenuController extends Controller
         // Trecho do código para excluir todos os registros associados ao cardápio
         $transaction = Yii::app()->db->beginTransaction();
 
-        if ($modelFoodMenu != null) {
+        if (null != $modelFoodMenu) {
             $modelFoodMenu->start_date = DateTime::createFromFormat('d/m/Y', $request['start_date'])->format('Y-m-d');
             $modelFoodMenu->final_date = DateTime::createFromFormat('d/m/Y', $request['final_date'])->format('Y-m-d');
             $modelFoodMenu->week = $request['week'];
@@ -153,7 +153,7 @@ class FoodmenuController extends Controller
             $modelFoodMenu->include_saturday = intval($request['include_saturday']);
             $modelFoodMenu->save();
 
-            //atualiza FoodMenuvVsPublicTarget
+            // atualiza FoodMenuvVsPublicTarget
             $foodMenuVsPublicTarget = FoodMenuVsFoodPublicTarget::model()
                 ->findByAttributes(['food_menu_fk' => $modelFoodMenu->id]);
             $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
@@ -204,13 +204,14 @@ class FoodmenuController extends Controller
     {
         $foods = Food::model()->findAll(
             [
-                'select' => 'id, description'
+                'select' => 'id, description',
             ]
         );
         $resultArray = [];
         foreach ($foods as $food) {
             $resultArray[$food->id] = $food->description;
         }
+
         return $resultArray;
     }
 
@@ -233,7 +234,7 @@ class FoodmenuController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -272,7 +273,7 @@ class FoodmenuController extends Controller
 
     /**
      * Essa função deve retornar um objeto com todas as refeições em todos os cardápios
-     * cadastrados para cada um dos dias da semana, onde a semana será baseada no dia atual
+     * cadastrados para cada um dos dias da semana, onde a semana será baseada no dia atual.
      */
     public function actionViewLunch()
     {
@@ -308,7 +309,7 @@ class FoodmenuController extends Controller
         $this->render(
             'viewlunch',
             [
-                'studentsByTurn' => $result
+                'studentsByTurn' => $result,
             ]
         );
         Yii::app()->end();
@@ -331,7 +332,7 @@ class FoodmenuController extends Controller
         $dataProvider = new CActiveDataProvider(
             'FoodMenu',
             [
-                'pagination' => false
+                'pagination' => false,
             ]
         );
 
@@ -365,16 +366,17 @@ class FoodmenuController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return FoodMenu the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = FoodMenu::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -384,20 +386,20 @@ class FoodmenuController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'food-menu-form') {
+        if (isset($_POST['ajax']) && 'food-menu-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
     }
 
     /**
-     * Método que retorna os públicos alvos que podem estar relacionados a um cardápio
+     * Método que retorna os públicos alvos que podem estar relacionados a um cardápio.
      */
     public function actionGetPublicTarget()
     {
         $publicsTarget = FoodPublicTarget::model()->findAll(
             [
-                'select' => 'id, name'
+                'select' => 'id, name',
             ]
         );
         $resultArray = [];
@@ -408,7 +410,7 @@ class FoodmenuController extends Controller
     }
 
     /**
-     * Método que retorna os tipos de refeição
+     * Método que retorna os tipos de refeição.
      */
     public function actionGetMealType()
     {
@@ -426,11 +428,12 @@ class FoodmenuController extends Controller
                 )
             );
         }
+
         return $options;
     }
 
     /**
-     * Método que retorna os tipos de medidas que podem ser utilizadas ao cadastrar um ingrediente a um prato
+     * Método que retorna os tipos de medidas que podem ser utilizadas ao cadastrar um ingrediente a um prato.
      */
     public function actionGetFoodMeasurement()
     {
@@ -443,10 +446,11 @@ class FoodmenuController extends Controller
                     'id' => $foodMeasurement->id,
                     'unit' => $foodMeasurement->unit,
                     'value' => $foodMeasurement->value,
-                    'measure' => $foodMeasurement->measure
+                    'measure' => $foodMeasurement->measure,
                 ]
             );
         }
+
         return $options;
     }
 }

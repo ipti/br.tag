@@ -38,7 +38,7 @@
 
         public function GetCoursePlans($discipline_fk, $stage_fk)
         {
-            $year = (int)Yii::app()->user->year;
+            $year = (int) Yii::app()->user->year;
 
             $criteria = new CDbCriteria();
             $criteria->condition = 'users_fk = :user_id AND YEAR(start_date) = :year AND school_inep_fk= :school_fk';

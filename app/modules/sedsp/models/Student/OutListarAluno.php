@@ -44,18 +44,21 @@ class OutListarAluno
     public function setOutListaAlunos(?array $outListaAlunos): self
     {
         $this->outListaAlunos = $outListaAlunos;
+
         return $this;
     }
 
     public function setOutErro(?string $outErro): self
     {
         $this->outErro = $outErro;
+
         return $this;
     }
 
     public function setOutProcessoId(?string $outProcessoID): self
     {
         $this->outProcessoID = $outProcessoID;
+
         return $this;
     }
 

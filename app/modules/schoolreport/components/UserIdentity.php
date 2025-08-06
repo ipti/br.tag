@@ -15,29 +15,31 @@ class UserIdentity extends CUserIdentity
             foreach ($names as $n) {
                 $pass .= $n[0];
             }
-            //var_dump($pass);exit;
+
+            // var_dump($pass);exit;
             return strtoupper($pass);
         }
+
         return '';
     }
 
     /**
      * Authenticates a user.
      *
-     * @return boolean whether authentication succeeds.
+     * @return bool whether authentication succeeds
      */
     public function authenticate()
     {
         $students = StudentIdentification::model()->findAllByAttributes(['responsable_cpf' => $this->username]);
-        if ($students[0]->responsable == 0) {
+        if (0 == $students[0]->responsable) {
             $responsible = $students[0]->filiation_2;
-        } elseif ($students[0]->responsable == 1) {
+        } elseif (1 == $students[0]->responsable) {
             $responsible = $students[0]->filiation_1;
         } else {
             $responsible = $students[0]->responsable_name;
         }
 
-        if (count($students) === 0) {
+        if (0 === count($students)) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
         } elseif (strtoupper($this->password) !== $this->schoolReportPassword($responsible)) {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
@@ -57,13 +59,14 @@ class UserIdentity extends CUserIdentity
                     $result[$classroom->school_year][$enrollment->id] = [
                         'name' => $student->name,
                         'classroom_id' => $classroom->id,
-                        'classroom_name' => $classroom->name
+                        'classroom_name' => $classroom->name,
                     ];
                 }
             }
             $this->setState('enrollments', $result);
             $this->errorCode = self::ERROR_NONE;
         }
+
         return !$this->errorCode;
     }
 }

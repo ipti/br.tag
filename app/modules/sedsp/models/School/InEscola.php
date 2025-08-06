@@ -42,24 +42,28 @@ class InEscola implements JsonSerializable
     public function setInNomeEscola(?string $inNomeEscola): self
     {
         $this->inNomeEscola = $inNomeEscola;
+
         return $this;
     }
 
     public function setInBairro(?string $inBairro): self
     {
         $this->inBairro = $inBairro;
+
         return $this;
     }
 
     public function setInEndereco(?string $inEndereco): self
     {
         $this->inEndereco = $inEndereco;
+
         return $this;
     }
 
     public function setInMunicipio(?string $inMunicipio): self
     {
         $this->inMunicipio = $inMunicipio;
+
         return $this;
     }
 

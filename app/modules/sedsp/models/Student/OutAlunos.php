@@ -90,60 +90,70 @@ class OutAlunos
     public function setOutNumRa(?string $outNumRA): self
     {
         $this->outNumRA = $outNumRA;
+
         return $this;
     }
 
     public function setOutDigitoRa(?string $outDigitoRA): self
     {
         $this->outDigitoRA = $outDigitoRA;
+
         return $this;
     }
 
     public function setOutSiglaUfra(?string $outSiglaUFRA): self
     {
         $this->outSiglaUFRA = $outSiglaUFRA;
+
         return $this;
     }
 
     public function setOutNomeAluno(?string $outNomeAluno): self
     {
         $this->outNomeAluno = $outNomeAluno;
+
         return $this;
     }
 
     public function setOutNumAluno(?string $outNumAluno): self
     {
         $this->outNumAluno = $outNumAluno;
+
         return $this;
     }
 
     public function setOutDataNascimento(?string $outDataNascimento): self
     {
         $this->outDataNascimento = $outDataNascimento;
+
         return $this;
     }
 
     public function setOutGrauNivel(?string $outGrauNivel): self
     {
         $this->outGrauNivel = $outGrauNivel;
+
         return $this;
     }
 
     public function setOutSerieNivel(?string $outSerieNivel): self
     {
         $this->outSerieNivel = $outSerieNivel;
+
         return $this;
     }
 
     public function setOutCodSitMatricula(?string $outCodSitMatricula): self
     {
         $this->outCodSitMatricula = $outCodSitMatricula;
+
         return $this;
     }
 
     public function setOutDescSitMatricula(?string $outDescSitMatricula): self
     {
         $this->outDescSitMatricula = $outDescSitMatricula;
+
         return $this;
     }
 

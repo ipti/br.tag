@@ -4,15 +4,15 @@
  * This is the model class for table "student_restrictions".
  *
  * The followings are the available columns in table 'student_restrictions':
- * @property integer $student_fk
- * @property integer $celiac
- * @property integer $diabetes
- * @property integer $hypertension
- * @property integer $iron_deficiency_anemia
- * @property integer $sickle_cell_anemia
- * @property integer $lactose_intolerance
- * @property integer $malnutrition
- * @property integer $obesity
+ * @property int $student_fk
+ * @property int $celiac
+ * @property int $diabetes
+ * @property int $hypertension
+ * @property int $iron_deficiency_anemia
+ * @property int $sickle_cell_anemia
+ * @property int $lactose_intolerance
+ * @property int $malnutrition
+ * @property int $obesity
  * @property string $others
  *
  * The followings are the available model relations:
@@ -29,7 +29,7 @@ class StudentRestrictions extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -46,7 +46,7 @@ class StudentRestrictions extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -72,7 +72,7 @@ class StudentRestrictions extends TagModel
             'lactose_intolerance' => 'Intolerância à lactose',
             'malnutrition' => 'Desnutrição',
             'obesity' => 'Obesidade',
-            'others' => 'Outros'
+            'others' => 'Outros',
         ];
     }
 
@@ -86,7 +86,7 @@ class StudentRestrictions extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -113,7 +113,7 @@ class StudentRestrictions extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return StudentRestrictions the static model class
      */
     public static function model($className = __CLASS__)

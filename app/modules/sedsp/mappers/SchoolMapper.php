@@ -6,8 +6,7 @@ class SchoolMapper
     private const CODIGO_UF = '35';
 
     /**
-     * Summary of parseToTAGSchool
-     * @param OutEscola $outEscola
+     * Summary of parseToTAGSchool.
      * @return array<SchoolIdentification>
      */
     public static function parseToTAGSchool(OutEscola $outEscola)
@@ -18,7 +17,7 @@ class SchoolMapper
 
         $school_id = self::mapToTAGInepId($outEscolas->outCodEscola);
         $school_tag = SchoolIdentification::model()->find('inep_id = :inep_id', [':inep_id' => $school_id]);
-        if ($school_tag == null) {
+        if (null == $school_tag) {
             $school_tag = new SchoolIdentification();
             $school_tag->inep_id = $school_id;
             $school_tag->regulation = 1;
@@ -30,16 +29,16 @@ class SchoolMapper
         $school_tag->name = $outEscolas->outDescNomeEscola;
         $school_tag->edcenso_city_fk = intval(EdcensoCity::model()->find('name = :name', [':name' => $outEscolas->outDescMunicipio])->id);
         $school_tag->edcenso_district_fk = intval(EdcensoDistrict::model()->find('name = :name', [':name' => $outEscolas->outNomeDistrito])->id);
-        if ($outEscolas->outNomeRedeEnsino == 'FEDERAL') {
+        if ('FEDERAL' == $outEscolas->outNomeRedeEnsino) {
             $school_tag->administrative_dependence = 1;
         }
-        if ($outEscolas->outNomeRedeEnsino == 'ESTADUAL') {
+        if ('ESTADUAL' == $outEscolas->outNomeRedeEnsino) {
             $school_tag->administrative_dependence = 2;
         }
-        if ($outEscolas->outNomeRedeEnsino == 'MUNICIPAL') {
+        if ('MUNICIPAL' == $outEscolas->outNomeRedeEnsino) {
             $school_tag->administrative_dependence = 3;
         }
-        if ($outEscolas->outNomeRedeEnsino == 'PRIVADA') {
+        if ('PRIVADA' == $outEscolas->outNomeRedeEnsino) {
             $school_tag->administrative_dependence = 4;
         }
         $school_tag->latitude = $outEscolas->outLatitude;
@@ -53,7 +52,7 @@ class SchoolMapper
         $result['SchoolUnities'] = [];
         foreach ($outEscolas->getOutUnidades() as $outUnidade) {
             $school_unity_tag = SedspSchoolUnities::model()->find('code = :code', [':code' => $outUnidade->getOutCodUnidade()]);
-            if ($school_unity_tag == null) {
+            if (null == $school_unity_tag) {
                 $school_unity_tag = new SedspSchoolUnities();
                 $school_unity_tag->code = $outUnidade->getOutCodUnidade();
                 $school_unity_tag->school_inep_id_fk = $school_id;
@@ -72,6 +71,7 @@ class SchoolMapper
         if (strlen($sedInepId) < 6) {
             return self::CODIGO_UF . '0' . $sedInepId;
         }
+
         return self::CODIGO_UF . $sedInepId;
     }
 

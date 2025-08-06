@@ -63,14 +63,14 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $modelStudentDocumentsAndAddress->school_inep_id_fk = $modelStudentIdentification->school_inep_id_fk;
             $modelStudentDocumentsAndAddress->student_fk = $modelStudentIdentification->inep_id;
             // Validação CPF->Nome
-            if ($modelStudentDocumentsAndAddress->cpf != null) {
+            if (null != $modelStudentDocumentsAndAddress->cpf) {
                 $student_test_cpf = StudentDocumentsAndAddress::model()->find('cpf=:cpf', [':cpf' => $modelStudentDocumentsAndAddress->cpf]);
                 if (isset($student_test_cpf)) {
                     Yii::app()->user->setFlash('error', Yii::t('default', 'O Aluno já está cadastrado'));
                     $this->redirect(['index']);
                 }
             }
-            if ($modelStudentIdentification->name != null) {
+            if (null != $modelStudentIdentification->name) {
                 $student_test_name = StudentIdentification::model()->find('name=:name', [':name' => $modelStudentIdentification->name]);
                 if (isset($student_test_name)) {
                     Yii::app()->user->setFlash('error', Yii::t('default', 'O Aluno já está cadastrado'));
@@ -87,7 +87,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                     $this->redirect(['index']);
                 }
             }
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro ao cadastrar o aluno. Certifique-se de digitar um RA válido'));
             $this->redirect(['index']);
         }
@@ -124,6 +124,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 return $modelStudentIdentification->name;
             }
         }
+
         return false;
     }
 
@@ -146,14 +147,14 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             }
 
             $this->redirect(['index']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
             $this->redirect(['index']);
         }
     }
 
     /**
-     * Summary of registerClassroom
+     * Summary of registerClassroom.
      * @param string $classroomNum
      * @return void
      */
@@ -165,6 +166,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
         if ($existingClassroom) {
             $msg = 'O Cadastro da Turma ' . $existingClassroom->name . " já existe! <a href='" . Yii::app()->createUrl('classroom/update&id=' . $existingClassroom->id) . "' style='color:white;'>Clique aqui para visualizar.</a>";
             Yii::app()->user->setFlash('error', Yii::t('default', $msg));
+
             return;
         }
 
@@ -189,7 +191,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $modelSchoolStructure = new SchoolStructure();
             $modelSchoolStructure->school_inep_id_fk = $modelSchool->inep_id;
             // Bloqueio de duplicação por inep id
-            if ($modelSchool->inep_id != null) {
+            if (null != $modelSchool->inep_id) {
                 $school_test_name = SchoolIdentification::model()->find(
                     'inep_id=:inep_id',
                     [':inep_id' => $modelSchool->inep_id]
@@ -212,7 +214,7 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
                 Yii::app()->user->setFlash('success', Yii::t('default', $msg));
                 $this->redirect(['index']);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
             $this->redirect(['index']);
         }
@@ -271,9 +273,9 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $escola = new GetEscolasFromSEDUseCase();
             $statusSave = $escola->exec($inEscola);
 
-            if ($statusSave === true) {
+            if (true === $statusSave) {
                 Yii::app()->user->setFlash('success', 'Escola e classes importadas com sucesso.');
-            } elseif ($statusSave === 2) {
+            } elseif (2 === $statusSave) {
                 Yii::app()->user->setFlash(
                     'success',
                     'A escola foi importada com sucesso, mas não foram encontradas classes associadas a ela.'
@@ -324,17 +326,17 @@ class DefaultController extends Controller implements AuthenticateSEDTokenInterf
             $statusSave = $exibirFicha->exec($inAluno);
             $id = (int) $_GET['id'];
 
-            if ($statusSave === -1) {
+            if (-1 === $statusSave) {
                 Yii::app()->user->setFlash('error', 'O estudante foi sincronizado com sucesso, no entanto, a matrícula não foi sincronizada.');
                 $this->redirect([self::REDIRECT_PATH, 'id' => $id]);
             }
 
-            if ($statusSave === 401) {
+            if (401 === $statusSave) {
                 Yii::app()->user->setFlash('error', 'Não foi possível fazer a sincronização da SED para o TAG.');
                 $this->redirect([self::REDIRECT_PATH, 'id' => $id]);
             }
 
-            if ($statusSave === 23000) {
+            if (23000 === $statusSave) {
                 Yii::app()->user->setFlash('error', 'Turma não localizada! Por favor, importe ou adicione uma turma.');
                 $this->redirect([self::REDIRECT_PATH, 'id' => $id]);
             }

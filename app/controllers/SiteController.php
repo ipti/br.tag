@@ -2,8 +2,8 @@
 
 class SiteController extends Controller
 {
-    //@done S2 -FAzer Cadastro de usuário
-    //@done s1 -Limitar a escolha de escolas apenas para o Administrador
+    // @done S2 -FAzer Cadastro de usuário
+    // @done s1 -Limitar a escolha de escolas apenas para o Administrador
 
     /**
      * Declares class-based actions.
@@ -72,7 +72,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays the contact page
+     * Displays the contact page.
      */
     public function actionContact()
     {
@@ -93,7 +93,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays the login page
+     * Displays the login page.
      */
     public function actionLogin()
     {
@@ -102,7 +102,7 @@ class SiteController extends Controller
         $model = new LoginForm();
 
         // if it is ajax validation request
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
+        if (isset($_POST['ajax']) && 'login-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
@@ -128,7 +128,7 @@ class SiteController extends Controller
             $year = $year + 1;
             $model->year = 1;
         }
-        for ($i = $year; $i >= 2014; $i--) {
+        for ($i = $year; $i >= 2014; --$i) {
             $years[$i] = $i;
         }
 
@@ -183,7 +183,7 @@ class SiteController extends Controller
             $criteria->compare('user_fk', Yii::app()->user->loginInfos->id);
         }
 
-        if ($date !== null) {
+        if (null !== $date) {
             $criteria->addCondition("date < STR_TO_DATE(:date, '%d/%m/%Y à\s %H:%i:%s')");
             $criteria->params[':date'] = $date;
         }
@@ -224,9 +224,9 @@ class SiteController extends Controller
     {
         $warns = [];
 
-        //Verifica a existência de turmas na escola
+        // Verifica a existência de turmas na escola
         $listSchoolClassrooms = Classroom::model()->findallByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
-        if (count($listSchoolClassrooms) == 0) {
+        if (0 == count($listSchoolClassrooms)) {
             $schoolModel = SchoolIdentification::model()->findByAttributes(['inep_id' => yii::app()->user->school]);
             $warning = 'Escola <b>' . $schoolModel->name . '</b> está sem turmas cadastradas.';
 
@@ -240,9 +240,9 @@ class SiteController extends Controller
             array_push($warns, $htmlpart);
         } else {
             foreach ($listSchoolClassrooms as $classroom) {
-                //Se houver turma, verificar se existe etapa vinculada à turma
+                // Se houver turma, verificar se existe etapa vinculada à turma
                 $stage = $classroom->edcensoStageVsModalityFk;
-                if ($stage == null) {
+                if (null == $stage) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem etapa.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
@@ -252,9 +252,9 @@ class SiteController extends Controller
                         . '</li>';
                     array_push($warns, $htmlpart);
                 } else {
-                    //Se houver etapa, verificar matriz curricular
+                    // Se houver etapa, verificar matriz curricular
                     $listCurricularMatrixs = $stage->curricularMatrixes;
-                    if (count($listCurricularMatrixs) == 0) {
+                    if (0 == count($listCurricularMatrixs)) {
                         $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem matriz curricular.';
                         $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                             . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
@@ -265,9 +265,9 @@ class SiteController extends Controller
                         array_push($warns, $htmlpart);
                     }
 
-                    //Se houver etapa, verificar se existe estrutura de notas
+                    // Se houver etapa, verificar se existe estrutura de notas
                     $listGradeUnities = $stage->gradeUnities;
-                    if (count($listGradeUnities) == 0) {
+                    if (0 == count($listGradeUnities)) {
                         $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem estrutura de notas.';
                         $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                             . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
@@ -279,9 +279,9 @@ class SiteController extends Controller
                     }
                 }
 
-                //Se houver turma, verificar se existe calendario vinculado a ela
+                // Se houver turma, verificar se existe calendario vinculado a ela
                 $calendar = $classroom->calendarFk;
-                if ($calendar == null) {
+                if (null == $calendar) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> não possui calendário vinculado.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
@@ -292,9 +292,9 @@ class SiteController extends Controller
                     array_push($warns, $htmlpart);
                 }
 
-                //Se houver turma, verificar se existe quadro de horários
+                // Se houver turma, verificar se existe quadro de horários
                 $listSchedules = $classroom->schedules;
-                if (count($listSchedules) == 0) {
+                if (0 == count($listSchedules)) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem quadro de horários.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
@@ -305,9 +305,9 @@ class SiteController extends Controller
                     array_push($warns, $htmlpart);
                 }
 
-                //Se houver turma, verificar se existe professor
+                // Se houver turma, verificar se existe professor
                 $listInstructors = $classroom->instructorTeachingDatas;
-                if (count($listInstructors) == 0) {
+                if (0 == count($listInstructors)) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem professores.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
@@ -318,9 +318,9 @@ class SiteController extends Controller
                     array_push($warns, $htmlpart);
                 }
 
-                //Se houver turma, verificar se existe aluno matriculado
+                // Se houver turma, verificar se existe aluno matriculado
                 $listStudentEnrollments = $classroom->studentEnrollments;
-                if (count($listStudentEnrollments) == 0) {
+                if (0 == count($listStudentEnrollments)) {
                     $warning = 'Turma <b>' . $classroom->name . '</b> está sem alunos matriculados.';
                     $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
                         . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
@@ -333,22 +333,22 @@ class SiteController extends Controller
             }
         }
 
-        if (count($warns) == 0) {
+        if (0 == count($warns)) {
             $this->renderPartial('_warns', [
                 'total' => 0,
                 'limit' => $limit,
-                'html' => '<div class="no-recent-activitive t-badge-info" id="no-recent-warnings"><span class="t-info_positive t-badge-info__icon"></span>Não há cadastros pendentes.</div>'
+                'html' => '<div class="no-recent-activitive t-badge-info" id="no-recent-warnings"><span class="t-info_positive t-badge-info__icon"></span>Não há cadastros pendentes.</div>',
             ]);
         } else {
             $html = '';
-            $count = min([$limit, count($warns)]) ;
-            for ($i = 0; $i < $count; $i++) {
+            $count = min([$limit, count($warns)]);
+            for ($i = 0; $i < $count; ++$i) {
                 $html .= $warns[$i];
             }
             $this->renderPartial('_warns', [
                 'total' => count($warns),
                 'limit' => $limit,
-                'html' => $html
+                'html' => $html,
             ]);
         }
 
@@ -372,7 +372,7 @@ class SiteController extends Controller
         foreach ($chartData as $data) {
             array_push($monthsFilled, $data['month']);
         }
-        for ($i = 1; $i <= 12; $i++) {
+        for ($i = 1; $i <= 12; ++$i) {
             if (!in_array($i, $monthsFilled)) {
                 $emptyMonth = [
                     'month' => $i,

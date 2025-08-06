@@ -26,7 +26,7 @@ class ImportModel
 
     public function saveClassroomsDB($jsonClassrooms)
     {
-        foreach ($jsonClassrooms as  $classroom) {
+        foreach ($jsonClassrooms as $classroom) {
             $classroomModel = new Classroom();
             $classroomModel->setDb2Connection(true);
             $classroomModel->refreshMetaData();

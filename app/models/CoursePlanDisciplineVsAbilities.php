@@ -4,11 +4,11 @@
  * This is the model class for table "course_plan_discipline_vs_abilities".
  *
  * The followings are the available columns in table 'course_plan_discipline_vs_abilities':
- * @property integer $id
- * @property integer $course_plan_fk
- * @property integer $discipline_fk
- * @property integer $course_class_fk
- * @property integer $ability_fk
+ * @property int $id
+ * @property int $course_plan_fk
+ * @property int $discipline_fk
+ * @property int $course_class_fk
+ * @property int $ability_fk
  * @property string $created_at
  * @property string $updated_at
  *
@@ -29,7 +29,7 @@ class CoursePlanDisciplineVsAbilities extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -45,7 +45,7 @@ class CoursePlanDisciplineVsAbilities extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -85,7 +85,7 @@ class CoursePlanDisciplineVsAbilities extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -107,7 +107,7 @@ class CoursePlanDisciplineVsAbilities extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return CoursePlanDisciplineVsAbilities the static model class
      */
     public static function model($className = __CLASS__)

@@ -4,9 +4,9 @@
  * This is the model class for table "substitute_instructor".
  *
  * The followings are the available columns in table 'substitute_instructor':
- * @property integer $id
- * @property integer $instructor_fk
- * @property integer $teaching_data_fk
+ * @property int $id
+ * @property int $instructor_fk
+ * @property int $teaching_data_fk
  *
  * The followings are the available model relations:
  * @property Schedule[] $schedules
@@ -24,7 +24,7 @@ class SubstituteInstructor extends CActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -40,7 +40,7 @@ class SubstituteInstructor extends CActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -75,7 +75,7 @@ class SubstituteInstructor extends CActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -95,7 +95,7 @@ class SubstituteInstructor extends CActiveRecord
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return SubstituteInstructor the static model class
      */
     public static function model($className = __CLASS__)

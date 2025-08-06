@@ -5,7 +5,7 @@ include_once 'vendor/autoload.php';
 class BNCCImport
 {
     /**
-     * Summary of importCSV
+     * Summary of importCSV.
      * @return array
      */
     public function importCSVInfantil()
@@ -44,7 +44,7 @@ class BNCCImport
             file_put_contents($filePath, str_replace("\xEF\xBB\xBF", '', file_get_contents($filePath)));
             $file = fopen($filePath, 'r');
 
-            if ($file !== false) {
+            if (false !== $file) {
                 while (($data = fgetcsv($file, 1000, ';')) !== false) {
                     $csvData[] = $data;
                 }
@@ -80,7 +80,7 @@ class BNCCImport
                         'name' => $currentCategory,
                         'type' => 'Campo de experiências',
                         'stage' => $stage,
-                        'children' => []
+                        'children' => [],
                     ];
                 }
                 $currentSubCategory = '';
@@ -114,7 +114,7 @@ class BNCCImport
         foreach ($csvData as $line) {
             $disciplineName = $line[0];
 
-            if (in_array($disciplineName, $arrayDisciplines)) { //ARTE - EDUCAÇÃO FÍSICA - GEOGRAFIA - HISTÓRIA - ENSINO RELIGIOSO OK
+            if (in_array($disciplineName, $arrayDisciplines)) { // ARTE - EDUCAÇÃO FÍSICA - GEOGRAFIA - HISTÓRIA - ENSINO RELIGIOSO OK
                 $component = trim($line[0]);
                 $stages = explode(';', trim($line[1]));
                 $unity = trim($line[2]);
@@ -130,7 +130,7 @@ class BNCCImport
                                 'name' => $currentCategory,
                                 'type' => 'COMPONENTE',
                                 'stage' => $stage,
-                                'children' => []
+                                'children' => [],
                             ];
                         }
                     }
@@ -152,7 +152,7 @@ class BNCCImport
                         $parsedData[$component]['children'][$unity]['children'][$objective]['children'][$abilitie] = ['name' => $abilitie, 'type' => 'HABILIDADE'];
                     }
                 }
-            } elseif ($disciplineName == 'Matemática' || $disciplineName == 'Ciências') { // Matematica e Ciencias
+            } elseif ('Matemática' == $disciplineName || 'Ciências' == $disciplineName) { // Matematica e Ciencias
                 $component = trim($line[0]);
                 $stages = explode(';', trim($line[1]));
                 $unity = trim($line[2]);
@@ -168,7 +168,7 @@ class BNCCImport
                                 'name' => $currentCategory,
                                 'type' => 'COMPONENTE',
                                 'stage' => $stage,
-                                'children' => []
+                                'children' => [],
                             ];
                         }
                     }
@@ -185,7 +185,7 @@ class BNCCImport
                         $parsedData[$component]['children'][$unity]['children'][$objective]['children'][$abilitie] = ['name' => $abilitie, 'type' => 'HABILIDADE'];
                     }
                 }
-            } elseif ($disciplineName == 'Língua Portuguesa') { // Lingua Portuguesa OK
+            } elseif ('Língua Portuguesa' == $disciplineName) { // Lingua Portuguesa OK
                 $component = trim($line[0]);
                 $stages = explode(';', trim($line[1]));
                 $fields = trim($line[2]);
@@ -202,7 +202,7 @@ class BNCCImport
                                 'name' => $currentCategory,
                                 'type' => 'COMPONENTE',
                                 'stage' => $stage,
-                                'children' => []
+                                'children' => [],
                             ];
                         }
                     }
@@ -229,7 +229,7 @@ class BNCCImport
                         $parsedData[$component]['children'][$fields]['children'][$practices]['children'][$objective]['children'][$abilitie] = ['name' => $abilitie, 'type' => 'HABILIDADE'];
                     }
                 }
-            } elseif ($disciplineName == 'Língua Inglesa') {
+            } elseif ('Língua Inglesa' == $disciplineName) {
                 $component = trim($line[0]);
                 $stages = explode(';', trim($line[1]));
                 $axle = trim($line[2]);
@@ -246,7 +246,7 @@ class BNCCImport
                                 'name' => $currentCategory,
                                 'type' => 'COMPONENTE',
                                 'stage' => $stage,
-                                'children' => []
+                                'children' => [],
                             ];
                         }
                     }
@@ -275,6 +275,7 @@ class BNCCImport
                 }
             }
         }
+
         return $parsedData;
     }
 
@@ -285,6 +286,7 @@ class BNCCImport
 
         if (isset($matches[1])) {
             $result = $matches[1];
+
             return $result;
         }
 
@@ -295,10 +297,12 @@ class BNCCImport
     {
         $startPosInit = strpos($abilitie, '(');
         $startPos = strpos($abilitie, ')') + 1; // Encontra a posição após o parêntese fechado
-        if ($startPos !== false && $startPosInit === 0) {
+        if (false !== $startPos && 0 === $startPosInit) {
             $result = trim(substr($abilitie, $startPos)); // Extrai o texto após o parêntese fechado e remove espaços em branco
+
             return $result;
         }
+
         return $abilitie;
     }
 
@@ -316,7 +320,7 @@ class BNCCImport
             '6º' => 19,
             '7º' => 20,
             '8º' => 21,
-            '9º' => 41
+            '9º' => 41,
         ];
 
         $result = null;
@@ -344,7 +348,7 @@ class BNCCImport
             'Educação Física' => 11,
             'História' => 12,
             'Geografia' => 13,
-            'Ensino Religioso' => 26
+            'Ensino Religioso' => 26,
         ];
 
         return $disciplines[$disciplineName];
@@ -378,7 +382,7 @@ class BNCCImport
             } else {
                 Yii::log($newAbilities);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             CVarDumper::dump($newAbilities, 10, true);
             echo $e;
         }

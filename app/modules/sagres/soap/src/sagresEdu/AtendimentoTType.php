@@ -5,8 +5,7 @@ namespace SagresEdu;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * Class representing AtendimentoTType
- *
+ * Class representing AtendimentoTType.
  *
  * XSD Type: atendimento_t
  */
@@ -30,6 +29,7 @@ class AtendimentoTType
     public function setData(\DateTime $data): self
     {
         $this->data = $data;
+
         return $this;
     }
 
@@ -41,6 +41,7 @@ class AtendimentoTType
     public function setLocal(string $local): self
     {
         $this->local = $local;
+
         return $this;
     }
 }
