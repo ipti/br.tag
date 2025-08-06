@@ -22,7 +22,7 @@ class CalculateConceptGradeUsecase
         if (TagUtils::isMultiStage($classroom->edcenso_stage_vs_modality_fk)) {
             foreach ($TotalEnrollments as $enrollment) {
                 if ($enrollment->edcenso_stage_vs_modality_fk == $this->stage) {
-                    array_push($studentEnrollments, $enrollment);
+                    $studentEnrollments[] = $enrollment;
                 }
             }
         } else {
@@ -61,11 +61,11 @@ class CalculateConceptGradeUsecase
             'enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk',
             [
                 'enrollment_fk' => $studentEnrollmentId,
-                'discipline_fk' => $disciplineId
+                'discipline_fk' => $disciplineId,
             ]
         );
 
-        $isNewGradeResult = $gradeResult == null;
+        $isNewGradeResult = null == $gradeResult;
 
         if ($isNewGradeResult) {
             $gradeResult = new GradeResults();
@@ -79,15 +79,15 @@ class CalculateConceptGradeUsecase
     private function calculateConceptGrades($studentEnrollment, $disciplineId)
     {
         $gradeResult = $this->getGradesResultForStudent($studentEnrollment->id, $disciplineId);
-        //notas por conceito
+        // notas por conceito
         $hasAllGrades = true;
         $conceptGradeValues = 0;
         $grades = $this->getStudentGrades(
             $studentEnrollment->id,
             $disciplineId,
         );
-        foreach ($grades as  $gradeKey => $grade) {
-            $gradeResult['grade_concept_' . ($gradeKey + 1)] = $grade->gradeConceptFk->acronym;
+        foreach ($grades as $gradeKey => $grade) {
+            $gradeResult['grade_concept_'.($gradeKey + 1)] = $grade->gradeConceptFk->acronym;
             $conceptGradeValues += $grade->gradeConceptFk->value;
         }
 
@@ -107,7 +107,7 @@ class CalculateConceptGradeUsecase
 
         if ($gradeResult->save()) {
             TLog::info('GradesResult para nota por conceito salvo com sucesso.', [
-                'GradesResult' => $gradeResult->id
+                'GradesResult' => $gradeResult->id,
             ]);
         }
     }
@@ -127,28 +127,29 @@ class CalculateConceptGradeUsecase
                 FROM grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id= gum.grade_unity_fk
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "' and gu.type = 'UC'"
+                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gum.type = '".GradeUnityModality::TYPE_COMMON."' and gu.type = 'UC'"
         )->bindParam(':enrollment_id', $enrollmentId)
             ->bindParam(':discipline_id', $discipline)->queryAll(), 'id');
 
-        if ($gradesIds == null) {
+        if (null == $gradesIds) {
             return [];
         }
 
-        return  Grade::model()->findAll(
+        return Grade::model()->findAll(
             [
-                'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
+                'condition' => 'id IN ('.implode(',', $gradesIds).')',
             ]
         );
     }
 
     private function hasAllGrades($numUnities, $gradeResult)
     {
-        for ($i = 1; $i <= $numUnities; $i++) {
-            if (!isset($gradeResult['grade_concept_' . $i]) || $gradeResult['grade_concept_' . $i] === '') {
+        for ($i = 1; $i <= $numUnities; ++$i) {
+            if (!isset($gradeResult['grade_concept_'.$i]) || '' === $gradeResult['grade_concept_'.$i]) {
                 return false;
             }
         }
+
         return true;
     }
 }

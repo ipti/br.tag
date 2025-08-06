@@ -10,7 +10,7 @@ class DashboardService
         $clientId = getenv('CLIENT_ID_POWER_BI');
 
         $headers = [
-            'Content-Type: application/x-www-form-urlencoded'
+            'Content-Type: application/x-www-form-urlencoded',
         ];
 
         $formData = [
@@ -19,14 +19,14 @@ class DashboardService
             'resource' => 'https://analysis.windows.net/powerbi/api',
             'scope' => 'openid',
             'username' => $username,
-            'password' => $pss
+            'password' => $pss,
         ];
 
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($formData));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, \CURLOPT_POST, true);
+        curl_setopt($ch, \CURLOPT_POSTFIELDS, http_build_query($formData));
+        curl_setopt($ch, \CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
         $error = curl_error($ch);
@@ -34,32 +34,33 @@ class DashboardService
         curl_close($ch);
 
         if ($error) {
-            die('Erro ao obter o token de acesso: ' . $error);
+            exit('Erro ao obter o token de acesso: '.$error);
         }
 
         $bodyObj = json_decode($response, true);
+
         // echo 'Access Token: ' . $bodyObj['access_token'];
         return $bodyObj['access_token'];
     }
 
     public function getReportEmbedToken($accessToken, $groupId, $reportId)
     {
-        $url = 'https://api.powerbi.com/v1.0/myorg/groups/' . $groupId . '/reports/' . $reportId . '/GenerateToken';
+        $url = 'https://api.powerbi.com/v1.0/myorg/groups/'.$groupId.'/reports/'.$reportId.'/GenerateToken';
 
         $headers = [
             'Content-Type: application/x-www-form-urlencoded',
-            'Authorization: Bearer ' . $accessToken
+            'Authorization: Bearer '.$accessToken,
         ];
 
         $formData = [
-            'accessLevel' => 'view'
+            'accessLevel' => 'view',
         ];
 
         $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($formData));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, \CURLOPT_POST, true);
+        curl_setopt($ch, \CURLOPT_POSTFIELDS, http_build_query($formData));
+        curl_setopt($ch, \CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, \CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
         $error = curl_error($ch);
@@ -67,10 +68,11 @@ class DashboardService
         curl_close($ch);
 
         if ($error) {
-            die('Erro ao obter o token de inserção do relatório: ' . $error);
+            exit('Erro ao obter o token de inserção do relatório: '.$error);
         }
 
         $bodyObj = json_decode($response, true);
+
         // echo 'Embed Token: ' . $bodyObj['token'];
         return $bodyObj['token'];
     }
@@ -79,6 +81,7 @@ class DashboardService
     {
         $accessToken = $this->getAccessToken();
         $embedToken = $this->getReportEmbedToken($accessToken, $groupId, $reportId);
+
         return $embedToken;
         // echo "Renderizar página com os parâmetros necessários.";
         // Lógica para renderizar a página com os parâmetros necessários

@@ -20,16 +20,16 @@
                     $resource['value'] = $courseClassHasClassResource->course_class_resource_fk;
                     $resource['description'] = $courseClassHasClassResource->courseClassResourceFk->name;
                     $resource['amount'] = $courseClassHasClassResource->amount;
-                    array_push($courseClasses[$order]['resources'], $resource);
+                    $courseClasses[$order]['resources'][] = $resource;
                 }
                 foreach ($courseClass->courseClassHasClassTypes as $courseClassHasClassType) {
-                    array_push($courseClasses[$order]['types'], $courseClassHasClassType->course_class_type_fk);
+                    $courseClasses[$order]['types'][] = $courseClassHasClassType->course_class_type_fk;
                 }
                 foreach ($courseClass->courseClassHasClassAbilities as $courseClassHasClassAbility) {
                     $ability['id'] = $courseClassHasClassAbility->courseClassAbilityFk->id;
                     $ability['code'] = $courseClassHasClassAbility->courseClassAbilityFk->code;
                     $ability['description'] = $courseClassHasClassAbility->courseClassAbilityFk->description;
-                    array_push($courseClasses[$order]['abilities'], $ability);
+                    $courseClasses[$order]['abilities'][] = $ability;
                 }
                 $courseClasses[$order]['deleteButton'] = empty($courseClass->classContents) ? '' : 'js-unavailable';
             }
@@ -38,7 +38,7 @@
 
         public function GetCoursePlans($discipline_fk, $stage_fk)
         {
-            $year = (int)Yii::app()->user->year;
+            $year = (int) Yii::app()->user->year;
 
             $criteria = new CDbCriteria();
             $criteria->condition = 'users_fk = :user_id AND YEAR(start_date) = :year AND school_inep_fk= :school_fk';

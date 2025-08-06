@@ -3,9 +3,9 @@
 /**
  * @property GradeResults $gradeResult
  * @property GradeRules $gradeRule
- * @property integer $numUnities
- * @property integer $frequency
- * @property integer $stage
+ * @property int $numUnities
+ * @property int $frequency
+ * @property int $stage
  */
 class ChageStudentStatusByGradeUsecase
 {
@@ -37,12 +37,14 @@ class ChageStudentStatusByGradeUsecase
         if (!$this->isEnrollmentStatusAllowed($enrollment)) {
             $this->gradeResult->situation = $enrollment->getCurrentStatus();
             $this->gradeResult->save();
+
             return;
         }
 
         if (!$this->hasAllGrades()) {
             $this->gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
             $this->gradeResult->save();
+
             return;
         }
 
@@ -63,8 +65,9 @@ class ChageStudentStatusByGradeUsecase
             null,
             StudentEnrollment::STATUS_ACTIVE,
             StudentEnrollment::STATUS_APPROVED,
-            StudentEnrollment::STATUS_DISAPPROVED
+            StudentEnrollment::STATUS_DISAPPROVED,
         ];
+
         return in_array($enrollment->getCurrentStatus(), $allowedStatus);
     }
 
@@ -73,11 +76,12 @@ class ChageStudentStatusByGradeUsecase
      */
     private function hasAllGrades()
     {
-        for ($i = 1; $i <= $this->numUnities; $i++) {
-            if (!isset($this->gradeResult['grade_' . $i]) || $this->gradeResult['grade_' . $i] === '') {
+        for ($i = 1; $i <= $this->numUnities; ++$i) {
+            if (!isset($this->gradeResult['grade_'.$i]) || '' === $this->gradeResult['grade_'.$i]) {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -86,7 +90,7 @@ class ChageStudentStatusByGradeUsecase
      */
     private function updateStudentSituation()
     {
-        if ($this->gradeResult->final_media === null || $this->gradeResult->final_media === '') {
+        if (null === $this->gradeResult->final_media || '' === $this->gradeResult->final_media) {
             throw new Exception('Aluno não tem média final', 1);
         }
 
@@ -100,13 +104,13 @@ class ChageStudentStatusByGradeUsecase
 
         $this->gradeResult->situation = $disapprovedSituation;
 
-        if ($finalMedia >= $approvationMedia && ($frequency >= '75' || $frequency == null)) {
+        if ($finalMedia >= $approvationMedia && ($frequency >= '75' || null == $frequency)) {
             $this->gradeResult->situation = $approvedSituation;
         } elseif ($this->gradeRule->has_final_recovery) {
             $recoveryMedia = $this->gradeResult->rec_final;
             $finalRecoveryMedia = $this->gradeRule->final_recover_media;
 
-            $hasRecoveryGrade = isset($recoveryMedia) && $recoveryMedia !== '';
+            $hasRecoveryGrade = isset($recoveryMedia) && '' !== $recoveryMedia;
             if (!$hasRecoveryGrade) {
                 $this->gradeResult->situation = $recoverySituation;
             } elseif ($recoveryMedia >= $finalRecoveryMedia) {

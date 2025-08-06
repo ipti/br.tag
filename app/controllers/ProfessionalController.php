@@ -1,6 +1,6 @@
 <?php
 
-class DefaultController extends Controller
+class ProfessionalController extends Controller
 {
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -64,12 +64,12 @@ class DefaultController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
         $criteria = new CDbCriteria();
-        $criteria->condition = 'professional_fk = ' . $id;
+        $criteria->condition = 'professional_fk = '.$id;
         $modelProfessional = Professional::model()->findByPk($id);
         $modelAttendance = new Attendance();
         $modelAttendances = Attendance::model()->findAll($criteria);
@@ -93,14 +93,14 @@ class DefaultController extends Controller
         $this->render('update', [
             'modelProfessional' => $modelProfessional,
             'modelAttendances' => $modelAttendances,
-            'modelAttendance' => $modelAttendance
+            'modelAttendance' => $modelAttendance,
         ]);
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -126,10 +126,10 @@ class DefaultController extends Controller
         $dataProvider = new CActiveDataProvider('Professional', [
             'criteria' => [
                 'order' => 'name ASC',
-                'condition' => 'inep_id_fk = ' . Yii::app()->user->school,
+                'condition' => 'inep_id_fk = '.Yii::app()->user->school,
             ], 'pagination' => [
                 'pageSize' => count($query),
-            ]
+            ],
         ]);
         $this->render('index', [
             'dataProvider' => $dataProvider,

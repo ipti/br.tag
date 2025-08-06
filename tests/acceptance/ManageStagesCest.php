@@ -1,9 +1,9 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__ . '/../robots/LoginRobots.php';
-require_once __DIR__ . '/../robots/ManageStagesRobots.php';
-require_once __DIR__ . '/../builders/ManageStagesBuilder.php';
+require_once __DIR__.'/../robots/LoginRobots.php';
+require_once __DIR__.'/../robots/ManageStagesRobots.php';
+require_once __DIR__.'/../builders/ManageStagesBuilder.php';
 
 class ManageStagesCest
 {
@@ -30,7 +30,7 @@ class ManageStagesCest
 
         $stage = $builder->buildCompleted();
 
-        //stages
+        // stages
         $robots->name($stage['name']);
         $robots->stage($stage['stage']);
         $robots->alias($stage['alias']);
@@ -50,7 +50,7 @@ class ManageStagesCest
 
         $stage = $builder->buildCompleted();
 
-        //stages
+        // stages
         $robots->name($stage['name']);
         $robots->stage($stage['stage']);
 
@@ -69,7 +69,7 @@ class ManageStagesCest
 
         $stage = $builder->buildCompleted();
 
-        //stages
+        // stages
         $robots->name($stage['name']);
         $robots->stage($stage['stage']);
         $robots->alias($stage['alias']);
@@ -101,7 +101,7 @@ class ManageStagesCest
 
         $stage = $builder->buildCompleted();
 
-        //stages
+        // stages
         $robots->name($stage['name']);
         $robots->stage($stage['stage']);
         $robots->alias($stage['alias']);

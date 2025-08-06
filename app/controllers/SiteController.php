@@ -2,8 +2,8 @@
 
 class SiteController extends Controller
 {
-    //@done S2 -FAzer Cadastro de usuário
-    //@done s1 -Limitar a escolha de escolas apenas para o Administrador
+    // @done S2 -FAzer Cadastro de usuário
+    // @done s1 -Limitar a escolha de escolas apenas para o Administrador
 
     /**
      * Declares class-based actions.
@@ -72,7 +72,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays the contact page
+     * Displays the contact page.
      */
     public function actionContact()
     {
@@ -80,9 +80,9 @@ class SiteController extends Controller
         if (isset($_POST['ContactForm'])) {
             $model->attributes = $_POST['ContactForm'];
             if ($model->validate()) {
-                $name = '=?UTF-8?B?' . base64_encode($model->name) . '?=';
-                $subject = '=?UTF-8?B?' . base64_encode($model->subject) . '?=';
-                $headers = "From: $name <{$model->email}>\r\n" . "Reply-To: {$model->email}\r\n" . "MIME-Version: 1.0\r\n" . 'Content-type: text/plain; charset=UTF-8';
+                $name = '=?UTF-8?B?'.base64_encode($model->name).'?=';
+                $subject = '=?UTF-8?B?'.base64_encode($model->subject).'?=';
+                $headers = "From: $name <{$model->email}>\r\n"."Reply-To: {$model->email}\r\n"."MIME-Version: 1.0\r\n".'Content-type: text/plain; charset=UTF-8';
 
                 mail(Yii::app()->params['adminEmail'], $subject, $model->body, $headers);
                 Yii::app()->user->setFlash('contact', 'Thank you for contacting us. We will respond to you as soon as possible.');
@@ -93,7 +93,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays the login page
+     * Displays the login page.
      */
     public function actionLogin()
     {
@@ -102,7 +102,7 @@ class SiteController extends Controller
         $model = new LoginForm();
 
         // if it is ajax validation request
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
+        if (isset($_POST['ajax']) && 'login-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }
@@ -128,7 +128,7 @@ class SiteController extends Controller
             $year = $year + 1;
             $model->year = 1;
         }
-        for ($i = $year; $i >= 2014; $i--) {
+        for ($i = $year; $i >= 2014; --$i) {
             $years[$i] = $i;
         }
 
@@ -183,7 +183,7 @@ class SiteController extends Controller
             $criteria->compare('user_fk', Yii::app()->user->loginInfos->id);
         }
 
-        if ($date !== null) {
+        if (null !== $date) {
             $criteria->addCondition("date < STR_TO_DATE(:date, '%d/%m/%Y à\s %H:%i:%s')");
             $criteria->params[':date'] = $date;
         }
@@ -198,15 +198,15 @@ class SiteController extends Controller
                 $elements = $log->loadIconsAndTexts($log);
                 $bgColor = 'gray' == $bgColor ? 'blue' : 'gray';
                 $date = date("d/m/Y à\s H:i:s", strtotime($log->date));
-                $html .= '<li class="row justify-content--start  home-page-table-item ' . $bgColor . '" title=\'' . $elements['text'] . '\'>'
-                    . '<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
-                    . '<img style="background-color:' . $elements['color'] . '" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/' . $elements['icon'] . '.svg"/>'
-                    . $elements['text'] . '</div>'
-                    . '<div class="column">'
-                    . '<div class="log-date">' . $date . '</div>'
-                    . '<div class="log-author">' . $log->userFk->name . ' - </div>'
-                    . '</div>'
-                    . '</li>';
+                $html .= '<li class="row justify-content--start  home-page-table-item '.$bgColor.'" title=\''.$elements['text'].'\'>'
+                    .'<div  class="column align-items--center" style="max-width:815px;text-overflow: ellipsis;">'
+                    .'<img style="background-color:'.$elements['color'].'" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/'.$elements['icon'].'.svg"/>'
+                    .$elements['text'].'</div>'
+                    .'<div class="column">'
+                    .'<div class="log-date">'.$date.'</div>'
+                    .'<div class="log-author">'.$log->userFk->name.' - </div>'
+                    .'</div>'
+                    .'</li>';
             }
         } else {
             $html = '<div class="no-recent-activitive t-badge-info" id="no-recent-activitives"><span class="t-info_positive t-badge-info__icon"></span>Não há atividades recentes.</div>';
@@ -224,131 +224,131 @@ class SiteController extends Controller
     {
         $warns = [];
 
-        //Verifica a existência de turmas na escola
+        // Verifica a existência de turmas na escola
         $listSchoolClassrooms = Classroom::model()->findallByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
-        if (count($listSchoolClassrooms) == 0) {
+        if (0 == count($listSchoolClassrooms)) {
             $schoolModel = SchoolIdentification::model()->findByAttributes(['inep_id' => yii::app()->user->school]);
-            $warning = 'Escola <b>' . $schoolModel->name . '</b> está sem turmas cadastradas.';
+            $warning = 'Escola <b>'.$schoolModel->name.'</b> está sem turmas cadastradas.';
 
-            $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/turmas.svg"/>'
-                . '<span>' . $warning . '</span>'
-                . '</div>'
-                . '</li>';
+            $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\''.$warning.'\'>'
+                .'<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                .'<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/turmas.svg"/>'
+                .'<span>'.$warning.'</span>'
+                .'</div>'
+                .'</li>';
 
-            array_push($warns, $htmlpart);
+            $warns[] = $htmlpart;
         } else {
             foreach ($listSchoolClassrooms as $classroom) {
-                //Se houver turma, verificar se existe etapa vinculada à turma
+                // Se houver turma, verificar se existe etapa vinculada à turma
                 $stage = $classroom->edcensoStageVsModalityFk;
-                if ($stage == null) {
-                    $warning = 'Turma <b>' . $classroom->name . '</b> está sem etapa.';
-                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                        . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/plano_de_aula.svg"/>'
-                        . '<span>' . $warning . '</span>'
-                        . '</div>'
-                        . '</li>';
-                    array_push($warns, $htmlpart);
+                if (null == $stage) {
+                    $warning = 'Turma <b>'.$classroom->name.'</b> está sem etapa.';
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\''.$warning.'\'>'
+                        .'<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                        .'<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/plano_de_aula.svg"/>'
+                        .'<span>'.$warning.'</span>'
+                        .'</div>'
+                        .'</li>';
+                    $warns[] = $htmlpart;
                 } else {
-                    //Se houver etapa, verificar matriz curricular
+                    // Se houver etapa, verificar matriz curricular
                     $listCurricularMatrixs = $stage->curricularMatrixes;
-                    if (count($listCurricularMatrixs) == 0) {
-                        $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem matriz curricular.';
-                        $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                            . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                            . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/matriz_curricular.svg"/>'
-                            . '<span>' . $warning . '</span>'
-                            . '</div>'
-                            . '</li>';
-                        array_push($warns, $htmlpart);
+                    if (0 == count($listCurricularMatrixs)) {
+                        $warning = 'Etapa <b>'.$stage->name.'</b> da turma <b>'.$classroom->name.'</b> está sem matriz curricular.';
+                        $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\''.$warning.'\'>'
+                            .'<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                            .'<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/matriz_curricular.svg"/>'
+                            .'<span>'.$warning.'</span>'
+                            .'</div>'
+                            .'</li>';
+                        $warns[] = $htmlpart;
                     }
 
-                    //Se houver etapa, verificar se existe estrutura de notas
+                    // Se houver etapa, verificar se existe estrutura de notas
                     $listGradeUnities = $stage->gradeUnities;
-                    if (count($listGradeUnities) == 0) {
-                        $warning = 'Etapa <b>' . $stage->name . '</b> da turma <b>' . $classroom->name . '</b> está sem estrutura de notas.';
-                        $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                            . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                            . '<img style="background-color:orange; color:black;" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/notas.svg"/>'
-                            . '<span>' . $warning . '</span>'
-                            . '</div>'
-                            . '</li>';
-                        array_push($warns, $htmlpart);
+                    if (0 == count($listGradeUnities)) {
+                        $warning = 'Etapa <b>'.$stage->name.'</b> da turma <b>'.$classroom->name.'</b> está sem estrutura de notas.';
+                        $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\''.$warning.'\'>'
+                            .'<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                            .'<img style="background-color:orange; color:black;" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/notas.svg"/>'
+                            .'<span>'.$warning.'</span>'
+                            .'</div>'
+                            .'</li>';
+                        $warns[] = $htmlpart;
                     }
                 }
 
-                //Se houver turma, verificar se existe calendario vinculado a ela
+                // Se houver turma, verificar se existe calendario vinculado a ela
                 $calendar = $classroom->calendarFk;
-                if ($calendar == null) {
-                    $warning = 'Turma <b>' . $classroom->name . '</b> não possui calendário vinculado.';
-                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                        . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/calendario.svg"/>'
-                        . '<span>' . $warning . '</span>'
-                        . '</div>'
-                        . '</li>';
-                    array_push($warns, $htmlpart);
+                if (null == $calendar) {
+                    $warning = 'Turma <b>'.$classroom->name.'</b> não possui calendário vinculado.';
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\''.$warning.'\'>'
+                        .'<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                        .'<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/calendario.svg"/>'
+                        .'<span>'.$warning.'</span>'
+                        .'</div>'
+                        .'</li>';
+                    $warns[] = $htmlpart;
                 }
 
-                //Se houver turma, verificar se existe quadro de horários
+                // Se houver turma, verificar se existe quadro de horários
                 $listSchedules = $classroom->schedules;
-                if (count($listSchedules) == 0) {
-                    $warning = 'Turma <b>' . $classroom->name . '</b> está sem quadro de horários.';
-                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                        . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/quadro_de_horario.svg"/>'
-                        . '<span>' . $warning . '</span>'
-                        . '</div>'
-                        . '</li>';
-                    array_push($warns, $htmlpart);
+                if (0 == count($listSchedules)) {
+                    $warning = 'Turma <b>'.$classroom->name.'</b> está sem quadro de horários.';
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\''.$warning.'\'>'
+                        .'<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                        .'<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/quadro_de_horario.svg"/>'
+                        .'<span>'.$warning.'</span>'
+                        .'</div>'
+                        .'</li>';
+                    $warns[] = $htmlpart;
                 }
 
-                //Se houver turma, verificar se existe professor
+                // Se houver turma, verificar se existe professor
                 $listInstructors = $classroom->instructorTeachingDatas;
-                if (count($listInstructors) == 0) {
-                    $warning = 'Turma <b>' . $classroom->name . '</b> está sem professores.';
-                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                        . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/professores.svg"/>'
-                        . '<span>' . $warning . '</span>'
-                        . '</div>'
-                        . '</li>';
-                    array_push($warns, $htmlpart);
+                if (0 == count($listInstructors)) {
+                    $warning = 'Turma <b>'.$classroom->name.'</b> está sem professores.';
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\''.$warning.'\'>'
+                        .'<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                        .'<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/professores.svg"/>'
+                        .'<span>'.$warning.'</span>'
+                        .'</div>'
+                        .'</li>';
+                    $warns[] = $htmlpart;
                 }
 
-                //Se houver turma, verificar se existe aluno matriculado
+                // Se houver turma, verificar se existe aluno matriculado
                 $listStudentEnrollments = $classroom->studentEnrollments;
-                if (count($listStudentEnrollments) == 0) {
-                    $warning = 'Turma <b>' . $classroom->name . '</b> está sem alunos matriculados.';
-                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'
-                        . '<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
-                        . '<img style="background-color:orange" src="' . Yii::app()->theme->baseUrl . '/img/homePageIcons/matricula.svg"/>'
-                        . '<span>' . $warning . '</span>'
-                        . '</div>'
-                        . '</li>';
-                    array_push($warns, $htmlpart);
+                if (0 == count($listStudentEnrollments)) {
+                    $warning = 'Turma <b>'.$classroom->name.'</b> está sem alunos matriculados.';
+                    $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\''.$warning.'\'>'
+                        .'<div  class="column align-items--center warn-div" style="text-overflow: ellipsis;">'
+                        .'<img style="background-color:orange" src="'.Yii::app()->theme->baseUrl.'/img/homePageIcons/matricula.svg"/>'
+                        .'<span>'.$warning.'</span>'
+                        .'</div>'
+                        .'</li>';
+                    $warns[] = $htmlpart;
                 }
             }
         }
 
-        if (count($warns) == 0) {
+        if (0 == count($warns)) {
             $this->renderPartial('_warns', [
                 'total' => 0,
                 'limit' => $limit,
-                'html' => '<div class="no-recent-activitive t-badge-info" id="no-recent-warnings"><span class="t-info_positive t-badge-info__icon"></span>Não há cadastros pendentes.</div>'
+                'html' => '<div class="no-recent-activitive t-badge-info" id="no-recent-warnings"><span class="t-info_positive t-badge-info__icon"></span>Não há cadastros pendentes.</div>',
             ]);
         } else {
             $html = '';
-            $count = min([$limit, count($warns)]) ;
-            for ($i = 0; $i < $count; $i++) {
+            $count = min([$limit, count($warns)]);
+            for ($i = 0; $i < $count; ++$i) {
                 $html .= $warns[$i];
             }
             $this->renderPartial('_warns', [
                 'total' => count($warns),
                 'limit' => $limit,
-                'html' => $html
+                'html' => $html,
             ]);
         }
 
@@ -359,20 +359,20 @@ class SiteController extends Controller
     {
         $year = $_POST['year'];
         $school = Yii::app()->user->school;
-        $sql = 'select ' .
-            'month(date) as month, ' .
-            "(select  count(*) from log where crud = 'C' and reference = 'school' and year(date) = $year and month(date) = month and school_fk = $school) as schools, " .
-            "(select  count(*) from log where crud = 'C' and reference = 'classroom' and year(date) = $year and month(date) = month and school_fk = $school) as classrooms, " .
-            "(select  count(*) from log where crud = 'C' and reference = 'instructor' and year(date) = $year and month(date) = month and school_fk = $school) as instructors, " .
-            "(select  count(*) from log where crud = 'C' and reference = 'student' and year(date) = $year and month(date) = month and school_fk = $school) as students " .
-            'from log ' .
+        $sql = 'select '.
+            'month(date) as month, '.
+            "(select  count(*) from log where crud = 'C' and reference = 'school' and year(date) = $year and month(date) = month and school_fk = $school) as schools, ".
+            "(select  count(*) from log where crud = 'C' and reference = 'classroom' and year(date) = $year and month(date) = month and school_fk = $school) as classrooms, ".
+            "(select  count(*) from log where crud = 'C' and reference = 'instructor' and year(date) = $year and month(date) = month and school_fk = $school) as instructors, ".
+            "(select  count(*) from log where crud = 'C' and reference = 'student' and year(date) = $year and month(date) = month and school_fk = $school) as students ".
+            'from log '.
             'group by month(date)';
         $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryAll();
         $monthsFilled = [];
         foreach ($chartData as $data) {
-            array_push($monthsFilled, $data['month']);
+            $monthsFilled[] = $data['month'];
         }
-        for ($i = 1; $i <= 12; $i++) {
+        for ($i = 1; $i <= 12; ++$i) {
             if (!in_array($i, $monthsFilled)) {
                 $emptyMonth = [
                     'month' => $i,
@@ -381,7 +381,7 @@ class SiteController extends Controller
                     'instructors' => 0,
                     'students' => 0,
                 ];
-                array_push($chartData, $emptyMonth);
+                $chartData[] = $emptyMonth;
             }
         }
 
@@ -439,10 +439,10 @@ class SiteController extends Controller
     {
         $school = Yii::app()->user->school;
         $year = $_POST['year'];
-        $sql = 'select ' .
-            '1 as schools, ' .
-            "(select count(*) from classroom where school_inep_fk = $school and school_year = $year) as classrooms, " .
-            "(select count(*) from instructor_identification where school_inep_id_fk = $school) as instructors, " .
+        $sql = 'select '.
+            '1 as schools, '.
+            "(select count(*) from classroom where school_inep_fk = $school and school_year = $year) as classrooms, ".
+            "(select count(*) from instructor_identification where school_inep_id_fk = $school) as instructors, ".
             "(select count(*) from student_identification where school_inep_id_fk = $school) as students";
         $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryRow();
         echo json_encode($chartData);
@@ -452,8 +452,8 @@ class SiteController extends Controller
     {
         $school = Yii::app()->user->school;
         $year = $_POST['year'];
-        $sql = 'select ' .
-            "(select count(*) from student_identification si where si.school_inep_id_fk = $school) as students, " .
+        $sql = 'select '.
+            "(select count(*) from student_identification si where si.school_inep_id_fk = $school) as students, ".
             "(select distinct count(*) from student_identification si join student_enrollment se on si.id = se.student_fk join classroom c on c.id = se.classroom_fk where c.school_year = $year and si.school_inep_id_fk = $school) as enrollments";
         $chartData = Yii::app()->db->schema->commandBuilder->createSqlCommand($sql)->queryRow();
         echo json_encode($chartData);
@@ -462,7 +462,7 @@ class SiteController extends Controller
     public function actionViewFileLogs($page = 1)
     {
         // Caminho para o arquivo de log
-        $logFilePath = Yii::app()->getRuntimePath() . '/' . INSTANCE . '/application.log';
+        $logFilePath = Yii::app()->getRuntimePath().'/'.INSTANCE.'/application.log';
 
         // Número de linhas por página
         $linesPerPage = 100;
@@ -501,7 +501,7 @@ class SiteController extends Controller
     public function actionDownloadFileLog(): void
     {
         // Caminho para o arquivo de log
-        $logFilePath = Yii::app()->getRuntimePath() . '/' . INSTANCE . '/application.log';
+        $logFilePath = Yii::app()->getRuntimePath().'/'.INSTANCE.'/application.log';
         $this->download($logFilePath);
     }
 
@@ -509,8 +509,8 @@ class SiteController extends Controller
     {
         header('Content-Type: application/force-download');
         header('Content-Type: application/octet-stream;');
-        header('Content-Length:' . filesize($arquivo));
-        header('Content-disposition: attachment; filename=' . $arquivo);
+        header('Content-Length:'.filesize($arquivo));
+        header('Content-disposition: attachment; filename='.$arquivo);
         header('Pragma: no-cache');
         header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
         header('Expires: 0');

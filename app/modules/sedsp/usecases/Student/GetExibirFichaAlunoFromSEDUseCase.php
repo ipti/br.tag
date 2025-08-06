@@ -3,8 +3,7 @@
 class GetExibirFichaAlunoFromSEDUseCase
 {
     /**
-     * Summary of exec
-     * @param InAluno $inAluno
+     * Summary of exec.
      * @return StudentIdentification|bool
      */
     public function exec(InAluno $inAluno)
@@ -12,7 +11,7 @@ class GetExibirFichaAlunoFromSEDUseCase
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
 
-        $mapper = (object)StudentMapper::parseToTAGExibirFichaAluno($response);
+        $mapper = (object) StudentMapper::parseToTAGExibirFichaAluno($response);
         $studentIdentification = $mapper->StudentIdentification;
 
         try {
@@ -32,7 +31,7 @@ class GetExibirFichaAlunoFromSEDUseCase
     {
         $documentos = StudentDocumentsAndAddress::model()->find('id = :studentFk', [':studentFk' => $studentIdentification->id]);
 
-        if ($documentos === null) {
+        if (null === $documentos) {
             if ($studentDocumentsAndAddress->validate() && $studentDocumentsAndAddress->save()) {
                 return $studentDocumentsAndAddress;
             } else {

@@ -1,6 +1,6 @@
 <?php
 
-class GradesController extends Controller
+class ReportCardController extends Controller
 {
     public $layout = 'fullmenu';
 
@@ -25,7 +25,6 @@ class GradesController extends Controller
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-
                     'getmodalities',
                     'grades',
                     'getGrades',
@@ -35,7 +34,7 @@ class GradesController extends Controller
                     'calculateFinalMedia',
                     'reportCard',
                     'getReportCardGrades',
-                    'saveGradesReportCard'
+                    'saveGradesReportCard',
                 ],
                 'users' => ['@'],
             ],
@@ -54,7 +53,7 @@ class GradesController extends Controller
     public function actionGetModalities()
     {
         $stage = $_POST['Stage'];
-        $where = ($stage == '0') ? '' : "stage = $stage";
+        $where = ('0' == $stage) ? '' : "stage = $stage";
         $data = EdcensoStageVsModality::model()->findAll($where);
         $data = CHtml::listData($data, 'id', 'name');
 
@@ -64,7 +63,7 @@ class GradesController extends Controller
     }
 
     /**
-     * Show the view
+     * Show the view.
      */
     public function actionGrades()
     {
@@ -75,8 +74,8 @@ class GradesController extends Controller
             $criteria = new CDbCriteria();
             $criteria->alias = 'c';
             $criteria->join = ''
-                . ' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id '
-                . ' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ';
+                .' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id '
+                .' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ';
             $criteria->condition = 'c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk';
             $criteria->order = 'name';
             $criteria->params = [':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id];
@@ -135,8 +134,8 @@ class GradesController extends Controller
             $criteria = new CDbCriteria();
             $criteria->alias = 'c';
             $criteria->join = ''
-                . ' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id '
-                . ' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ';
+                .' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id '
+                .' join instructor_identification on instructor_teaching_data.instructor_fk = instructor_identification.id ';
             $criteria->condition = 'c.school_year = :school_year and c.school_inep_fk = :school_inep_fk and instructor_identification.users_fk = :users_fk';
             $criteria->order = 'name';
             $criteria->params = [':school_year' => $year, ':school_inep_fk' => $school, ':users_fk' => Yii::app()->user->loginInfos->id];
@@ -168,16 +167,16 @@ class GradesController extends Controller
 
             foreach ($std['grades'] as $key => $value) {
                 $index = $key + 1;
-                $gradeResult->{'grade_' . $index} = $std['grades'][$key]['value'];
-                $gradeResult->{'grade_faults_' . $index} = $std['grades'][$key]['faults'];
-                $gradeResult->{'given_classes_' . $index} = $std['grades'][$key]['givenClasses'];
+                $gradeResult->{'grade_'.$index} = $std['grades'][$key]['value'];
+                $gradeResult->{'grade_faults_'.$index} = $std['grades'][$key]['faults'];
+                $gradeResult->{'given_classes_'.$index} = $std['grades'][$key]['givenClasses'];
 
-                $mediaFinal += floatval($gradeResult->attributes['grade_' . $index] * ($index == 3 ? 2 : 1));
+                $mediaFinal += (float) ($gradeResult->attributes['grade_'.$index] * (3 == $index ? 2 : 1));
             }
 
             $gradeResult->final_media = number_format($mediaFinal / 4, 1);
             if (!$gradeResult->validate()) {
-                die(print_r($gradeResult->getErrors()));
+                exit(print_r($gradeResult->getErrors()));
             }
             $gradeResult->save();
         }
@@ -195,7 +194,7 @@ class GradesController extends Controller
         $criteria->order = 'se.daily_order, si.name';
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
-        if ($studentEnrollments != null) {
+        if (null != $studentEnrollments) {
             $result = [];
             $result['students'] = [];
             $arr = [];
@@ -211,19 +210,18 @@ class GradesController extends Controller
                     ['enrollment_fk' => $studentEnrollment->id, 'discipline_fk' => $_POST['discipline']]
                 );
 
-                for ($index = 1; $index <= 3; $index++) {
-                    array_push(
-                        $arr['grades'],
+                for ($index = 1; $index <= 3; ++$index) {
+                        $arr['grades'][] =
                         [
-                            'value' => $gradeResult['grade_' . $index],
-                            'faults' => $gradeResult['grade_faults_' . $index],
-                            'givenClasses' => $gradeResult['given_classes_' . $index]
+                            'value' => $gradeResult['grade_'.$index],
+                            'faults' => $gradeResult['grade_faults_'.$index],
+                            'givenClasses' => $gradeResult['given_classes_'.$index],
                         ]
-                    );
+                    ;
                 }
 
-                $arr['finalMedia'] = $gradeResult != null ? $gradeResult->final_media : '';
-                array_push($result['students'], $arr);
+                $arr['finalMedia'] = null != $gradeResult ? $gradeResult->final_media : '';
+                $result['students'][] = $arr;
             }
 
             $result['valid'] = true;
@@ -245,7 +243,7 @@ class GradesController extends Controller
             foreach ($student['grades'] as $grade) {
                 $gradeObject = Grade::model()->find('id = :id', [':id' => $grade->id]);
 
-                if ($gradeObject == null) {
+                if (null == $gradeObject) {
                     $gradeObject = new Grade();
                     $gradeObject->enrollment_fk = $student['enrollmentId'];
                     $gradeObject->discipline_fk = $disciplineId;
@@ -274,7 +272,7 @@ class GradesController extends Controller
         $criteria->order = 'si.name';
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
-        if ($studentEnrollments != null) {
+        if (null != $studentEnrollments) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gum';
             $criteria->join = 'join grade_unity gu on gu.id = gum.grade_unity_fk';
@@ -282,27 +280,27 @@ class GradesController extends Controller
             $criteria->params = [':stage' => $studentEnrollments[0]->classroomFk->edcenso_stage_vs_modality_fk];
             $gradeModalities = GradeUnityModality::model()->findAll($criteria);
 
-            if ($gradeModalities != null) {
+            if (null != $gradeModalities) {
                 $conceptOptions = GradeConcept::model()->findAll();
                 foreach ($conceptOptions as $conceptOption) {
                     $result['conceptOptions'][$conceptOption->id] = $conceptOption->name;
                 }
-                $result['isUnityConcept'] = $gradeModalities[0]->gradeUnityFk->type == 'UC';
+                $result['isUnityConcept'] = 'UC' == $gradeModalities[0]->gradeUnityFk->type;
                 $unityName = $gradeModalities[0]->gradeUnityFk->name;
                 $unityColspan = 0;
                 $result['unityColumns'] = [];
                 $result['modalityColumns'] = [];
                 foreach ($gradeModalities as $index => $gradeModality) {
-                    array_push($result['modalityColumns'], $gradeModality->name);
+                    $result['modalityColumns'][] = $gradeModality->name;
                     if ($unityName == $gradeModality->gradeUnityFk->name) {
-                        $unityColspan++;
+                        ++$unityColspan;
                     } else {
-                        array_push($result['unityColumns'], ['name' => $unityName, 'colspan' => $unityColspan]);
+                        $result['unityColumns'][] = ['name' => $unityName, 'colspan' => $unityColspan];
                         $unityName = $gradeModality->gradeUnityFk->name;
                         $unityColspan = 1;
                     }
                     if ($index == count($gradeModalities) - 1) {
-                        array_push($result['unityColumns'], ['name' => $unityName, 'colspan' => $unityColspan]);
+                        $result['unityColumns'][] = ['name' => $unityName, 'colspan' => $unityColspan];
                     }
                 }
 
@@ -322,14 +320,14 @@ class GradesController extends Controller
                                 break;
                             }
                         }
-                        array_push($arr['grades'], ['value' => $gradeValue, 'concept' => $gradeConcept, 'modalityId' => $modalityId]);
+                        $arr['grades'][] = ['value' => $gradeValue, 'concept' => $gradeConcept, 'modalityId' => $modalityId];
                     }
                     $gradeResult = GradeResults::model()->find('enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk', ['enrollment_fk' => $studentEnrollment->id, 'discipline_fk' => $_POST['discipline']]);
                     if (!$result['isUnityConcept']) {
-                        $arr['finalMedia'] = $gradeResult != null ? $gradeResult->final_media : '';
+                        $arr['finalMedia'] = null != $gradeResult ? $gradeResult->final_media : '';
                     }
-                    $arr['situation'] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : '') : '';
-                    array_push($result['students'], $arr);
+                    $arr['situation'] = null != $gradeResult ? (null != $gradeResult->situation ? $gradeResult->situation : '') : '';
+                    $result['students'][] = $arr;
                 }
 
                 $result['valid'] = true;
@@ -367,23 +365,23 @@ class GradesController extends Controller
                 'enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk',
                 [
                     'enrollment_fk' => $studentEnrollment->id,
-                    'discipline_fk' => $discipline
+                    'discipline_fk' => $discipline,
                 ]
             );
-            if ($gradeResult == null) {
+            if (null == $gradeResult) {
                 $gradeResult = new GradeResults();
                 $gradeResult->enrollment_fk = $studentEnrollment->id;
                 $gradeResult->discipline_fk = $discipline;
             }
 
-            if ($gradeUnitiesByClassroom[0]->type != 'UC') {
-                //notas sem ser conceito
+            if ('UC' != $gradeUnitiesByClassroom[0]->type) {
+                // notas sem ser conceito
 
                 $arr['grades'] = [];
                 foreach ($gradeUnitiesByClassroom as $gradeUnity) {
-                    array_push($arr['grades'], $gradeUnity->type == 'UR'
+                    $arr['grades'][] = 'UR' == $gradeUnity->type
                         ? ['unityId' => $gradeUnity->id, 'unityGrade' => '', 'unityRecoverGrade' => '', 'gradeUnityType' => $gradeUnity->type]
-                        : ['unityId' => $gradeUnity->id, 'unityGrade' => '', 'gradeUnityType' => $gradeUnity->type]);
+                        : ['unityId' => $gradeUnity->id, 'unityGrade' => '', 'gradeUnityType' => $gradeUnity->type];
                 }
 
                 $criteria->select = 'distinct gu.id, gu.*';
@@ -399,7 +397,7 @@ class GradesController extends Controller
                     $arr['grades'][$key] = self::getUnidadeValues($gradeUnity, $studentEnrollment->id, $discipline);
                 }
 
-                //Cálculo da média final
+                // Cálculo da média final
                 $arr['finalMedia'] = '';
                 $sums = 0;
                 $sumsCount = 0;
@@ -413,45 +411,45 @@ class GradesController extends Controller
                 foreach ($arr['grades'] as $grade) {
                     switch ($grade['gradeUnityType']) {
                         case 'UR':
-                            if ($grade['unityGrade'] != '' || $grade['unityRecoverGrade'] != '') {
+                            if ('' != $grade['unityGrade'] || '' != $grade['unityRecoverGrade']) {
                                 $sums += $grade['unityRecoverGrade'] > $grade['unityGrade'] ? $grade['unityRecoverGrade'] : $grade['unityGrade'];
                             } else {
                                 $allNormalUnitiesFilled = false;
                             }
-                            $sumsCount++;
+                            ++$sumsCount;
 
-                            $resultGradeResult = $grade['unityGrade'] != '' ? number_format($grade['unityGrade'], 1) : null;
+                            $resultGradeResult = '' != $grade['unityGrade'] ? number_format($grade['unityGrade'], 1) : null;
 
-                            $gradeResult['grade_' . ($gradeIndex + 1)] = $resultGradeResult <= 10.0 ? $resultGradeResult : 10.0;
+                            $gradeResult['grade_'.($gradeIndex + 1)] = $resultGradeResult <= 10.0 ? $resultGradeResult : 10.0;
 
-                            $gradeResult['rec_partial_' . ($gradeIndex + 1)] = $grade['unityRecoverGrade'] != '' ? number_format($grade['unityRecoverGrade'], 1) : null;
-                            $gradeIndex++;
+                            $gradeResult['rec_partial_'.($gradeIndex + 1)] = '' != $grade['unityRecoverGrade'] ? number_format($grade['unityRecoverGrade'], 1) : null;
+                            ++$gradeIndex;
                             break;
                         case 'RS':
                             if ($sums > 0) {
                                 $semesterMedia = $sums / $sumsCount;
                                 $semesterRecoverMedia = ($semesterMedia + $grade['unityGrade']) / 2;
-                                array_push($arr['semesterMedias'], $semesterMedia > $semesterRecoverMedia ? $semesterMedia : $semesterRecoverMedia);
+                                $arr['semesterMedias'][] = $semesterMedia > $semesterRecoverMedia ? $semesterMedia : $semesterRecoverMedia;
                             } else {
-                                array_push($arr['semesterMedias'], 0);
+                                $arr['semesterMedias'][] = 0;
                             }
                             $sums = 0;
                             $sumsCount = 0;
 
                             $lastRSFilledGrade = $grade['unityGrade'];
 
-                            $gradeResult['sem_rec_partial_' . ($recSemIndex + 1)] = $grade['unityGrade'] != '' ? number_format($grade['unityGrade'], 1) : null;
-                            $recSemIndex++;
+                            $gradeResult['sem_rec_partial_'.($recSemIndex + 1)] = '' != $grade['unityGrade'] ? number_format($grade['unityGrade'], 1) : null;
+                            ++$recSemIndex;
                             break;
                         case 'RF':
                             $hasRF = true;
                             if ($sums > 0) {
                                 $media = $sums / $sumsCount;
-                                array_push($arr['semesterMedias'], $media);
+                                $arr['semesterMedias'][] = $media;
                             }
 
                             $finalMedia = array_sum($arr['semesterMedias']) / count($arr['semesterMedias']);
-                            if ($grade['unityGrade'] != '') {
+                            if ('' != $grade['unityGrade']) {
                                 $finalRecoverMedia = ($finalMedia + $grade['unityGrade']) / 2;
                                 $finalMedia = number_format($finalRecoverMedia, 1);
                             } else {
@@ -459,34 +457,34 @@ class GradesController extends Controller
                                 $rfFilled = false;
                             }
 
-                            $gradeResult['rec_final'] = $grade['unityGrade'] != '' ? number_format($grade['unityGrade'], 1) : null;
+                            $gradeResult['rec_final'] = '' != $grade['unityGrade'] ? number_format($grade['unityGrade'], 1) : null;
                             break;
                         case 'U':
                         default:
-                            if ($grade['unityGrade'] != '') {
+                            if ('' != $grade['unityGrade']) {
                                 $sums += $grade['unityGrade'];
                             } else {
                                 $allNormalUnitiesFilled = false;
                             }
-                            $sumsCount++;
+                            ++$sumsCount;
 
-                            $resultGradeResult = $grade['unityGrade'] != '' ? number_format($grade['unityGrade'], 1) : null;
+                            $resultGradeResult = '' != $grade['unityGrade'] ? number_format($grade['unityGrade'], 1) : null;
 
-                            $gradeResult['grade_' . ($gradeIndex + 1)] = $resultGradeResult <= 10.0 ? $resultGradeResult : 10.0;
+                            $gradeResult['grade_'.($gradeIndex + 1)] = $resultGradeResult <= 10.0 ? $resultGradeResult : 10.0;
 
-                            $gradeIndex++;
+                            ++$gradeIndex;
                             break;
                     }
                 }
                 if (!$hasRF) {
                     if ($sums > 0) {
                         $media = $sums / $sumsCount;
-                        array_push($arr['semesterMedias'], $media);
+                        $arr['semesterMedias'][] = $media;
                     }
                     $finalMedia = number_format(array_sum($arr['semesterMedias']) / count($arr['semesterMedias']), 1);
                 }
 
-                //traz a situação do aluno (se null, aprovado, recuperação ou reprovado)
+                // traz a situação do aluno (se null, aprovado, recuperação ou reprovado)
                 $gradeRules = GradeRules::model()->find('edcenso_stage_vs_modality_fk = :stage', [':stage' => $gradeUnitiesByClassroom[0]->edcenso_stage_vs_modality_fk]);
                 $situation = null;
                 if ($allNormalUnitiesFilled) {
@@ -504,7 +502,7 @@ class GradesController extends Controller
                                 $situation = 'Recuperação';
                             }
                         } elseif ($recSemIndex > 0) {
-                            if ($lastRSFilledGrade !== '') {
+                            if ('' !== $lastRSFilledGrade) {
                                 $situation = 'Reprovado';
                             } else {
                                 $situation = 'Recuperação';
@@ -519,7 +517,7 @@ class GradesController extends Controller
                 $gradeResult->final_media = $finalMedia;
                 $gradeResult->save();
             } else {
-                //notas por conceito
+                // notas por conceito
                 $index = 0;
                 foreach ($gradeUnitiesByClassroom as $gradeUnity) {
                     foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
@@ -532,8 +530,8 @@ class GradesController extends Controller
                             }
                         );
                         foreach ($studentGrades as $grade) {
-                            $gradeResult['grade_concept_' . ($index + 1)] = $grade->gradeConceptFk->acronym;
-                            $index++;
+                            $gradeResult['grade_concept_'.($index + 1)] = $grade->gradeConceptFk->acronym;
+                            ++$index;
                         }
                     }
                 }
@@ -541,25 +539,25 @@ class GradesController extends Controller
                 $gradeResult->save();
             }
 
-            //Mudar status da matrícula
-            //1 = Matriculado; 6 = Aprovado; 8 = Reprovado
-            if ($studentEnrollment->status == '1' || $studentEnrollment->status == '6' || $studentEnrollment->status == '8') {
+            // Mudar status da matrícula
+            // 1 = Matriculado; 6 = Aprovado; 8 = Reprovado
+            if ('1' == $studentEnrollment->status || '6' == $studentEnrollment->status || '8' == $studentEnrollment->status) {
                 $allGradesFilled = true;
                 $situation = 'Aprovado';
                 foreach ($studentEnrollment->gradeResults as $gradeResult) {
-                    if ($gradeResult->situation == null) {
+                    if (null == $gradeResult->situation) {
                         $allGradesFilled = false;
-                    } elseif ($gradeResult->situation == 'Reprovado') {
+                    } elseif ('Reprovado' == $gradeResult->situation) {
                         $situation = 'Reprovado';
                         break;
-                    } elseif ($gradeResult->situation == 'Recuperação') {
+                    } elseif ('Recuperação' == $gradeResult->situation) {
                         $situation = 'Matriculado';
                         break;
                     }
                 }
-                if ($allGradesFilled && $situation == 'Aprovado') {
+                if ($allGradesFilled && 'Aprovado' == $situation) {
                     $studentEnrollment->status = 6;
-                } elseif ($situation == 'Reprovado') {
+                } elseif ('Reprovado' == $situation) {
                     $studentEnrollment->status = 8;
                 } else {
                     $studentEnrollment->status = 1;
@@ -578,8 +576,8 @@ class GradesController extends Controller
         $commonModalitiesCount = 0;
 
         foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
-            if ($gradeUnityModality->type == 'C') {
-                $commonModalitiesCount++;
+            if ('C' == $gradeUnityModality->type) {
+                ++$commonModalitiesCount;
                 $weightsSum += $gradeUnityModality->weight;
             }
 
@@ -591,12 +589,12 @@ class GradesController extends Controller
             );
 
             foreach ($studentGrades as $grade) {
-                if ($gradeUnityModality->type == 'C') {
+                if ('C' == $gradeUnityModality->type) {
                     if (!$turnedEmptyToZero) {
                         $unityGrade = 0;
                         $turnedEmptyToZero = true;
                     }
-                    $unityGrade += $gradeUnity->gradeCalculationFk->name === 'Peso'
+                    $unityGrade += 'Peso' === $gradeUnity->gradeCalculationFk->name
                         ? $grade->grade * $gradeUnityModality->weight
                         : $grade->grade;
                 } else {
@@ -604,14 +602,15 @@ class GradesController extends Controller
                 }
             }
         }
-        if ($unityGrade !== '') {
-            if ($gradeUnity->gradeCalculationFk->name === 'Média') {
+        if ('' !== $unityGrade) {
+            if ('Média' === $gradeUnity->gradeCalculationFk->name) {
                 $unityGrade = number_format($unityGrade / $commonModalitiesCount, 2);
-            } elseif ($gradeUnity->gradeCalculationFk->name === 'Peso') {
+            } elseif ('Peso' === $gradeUnity->gradeCalculationFk->name) {
                 $unityGrade = number_format($unityGrade / $weightsSum, 2);
             }
         }
-        return $gradeUnity->type == 'UR'
+
+        return 'UR' == $gradeUnity->type
             ? ['unityId' => $gradeUnity->id, 'unityGrade' => $unityGrade, 'unityRecoverGrade' => $unityRecoverGrade, 'gradeUnityType' => $gradeUnity->type]
             : ['unityId' => $gradeUnity->id, 'unityGrade' => $unityGrade, 'gradeUnityType' => $gradeUnity->type];
     }

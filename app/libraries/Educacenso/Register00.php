@@ -20,32 +20,32 @@ class Register00
 
         $attributes['name'] = trim(strtoupper(self::sanitizeString($attributes['name'])));
 
-        if ($attributes['address_complement'] !== '' && $attributes['address_complement'] !== null) {
+        if ('' !== $attributes['address_complement'] && null !== $attributes['address_complement']) {
             $attributes['address_complement'] = strtoupper($attributes['address_complement']);
         }
 
         $attributes['situation'] = '1';
-        if ($attributes['situation'] == '1') {
+        if ('1' == $attributes['situation']) {
             $attributes['regulation'] = '2';
-            $attributes['initial_date'] = '25/02/' . $year;
-            $attributes['final_date'] = '12/12/' . $year;
+            $attributes['initial_date'] = '25/02/'.$year;
+            $attributes['final_date'] = '12/12/'.$year;
         } else {
             $attributes['initial_date'] = '';
             $attributes['final_date'] = '';
         }
 
         $hasInepHeadSchool = false;
-        if (empty($attributes['inep_head_school']) || $attributes['inep_head_school'] == null) {
+        if (empty($attributes['inep_head_school']) || null == $attributes['inep_head_school']) {
             $attributes['offer_or_linked_unity'] = '0';
         } else {
             $attributes['offer_or_linked_unity'] = '1';
             $hasInepHeadSchool = true;
         }
-        if (!$hasInepHeadSchool && ($attributes['ies_code'] != null && !empty($attributes['ies_code']))) {
+        if (!$hasInepHeadSchool && (null != $attributes['ies_code'] && !empty($attributes['ies_code']))) {
             $attributes['offer_or_linked_unity'] = '2';
         }
 
-        if (empty($attributes['ddd']) || $attributes['ddd'] == null) {
+        if (empty($attributes['ddd']) || null == $attributes['ddd']) {
             $attributes['phone_number'] = '';
             $attributes['other_phone_number'] = '';
         }
@@ -68,7 +68,7 @@ class Register00
         }
 
         // O campo Categorial da Escola Privada não pode ser preenchido quando o campo dependencia administrativa não for preenchido com o valor 4 (Privada)
-        if ($attributes['administrative_dependence'] != '4') {
+        if ('4' != $attributes['administrative_dependence']) {
             $attributes['private_school_business_or_individual'] = '';
             $attributes['private_school_syndicate_or_association'] = '';
             $attributes['private_school_ong_or_oscip'] = '';
@@ -79,7 +79,7 @@ class Register00
         }
 
         // Caso o municipio seja Brasilia, o campo municipal não pode ser preenchido com o valor 1 (Sim)
-        if ($attributes['edcenso_city_fk'] == '5300108' && $attributes['regulation_organ_municipal'] == '1') {
+        if ('5300108' == $attributes['edcenso_city_fk'] && '1' == $attributes['regulation_organ_municipal']) {
             $attributes['regulation_organ_municipal'] = '0';
         }
 
@@ -94,23 +94,23 @@ class Register00
             if (in_array($attributes['administrative_dependence'], ['1', '2'])) {
                 $attributes['regulation_organ_municipal'] = '0';
             }
-            if ($attributes['regulation_organ_federal'] == '1') {
+            if ('1' == $attributes['regulation_organ_federal']) {
                 $attributes['regulation_organ_municipal'] = '0';
             }
 
-            if ($attributes['regulation_organ_municipal'] == '0' && $attributes['regulation_organ_state'] == '0' && $attributes['regulation_organ_federal'] == '0') {
-                if ($attributes['administrative_dependence'] == '1') {
+            if ('0' == $attributes['regulation_organ_municipal'] && '0' == $attributes['regulation_organ_state'] && '0' == $attributes['regulation_organ_federal']) {
+                if ('1' == $attributes['administrative_dependence']) {
                     $attributes['regulation_organ_federal'] = '1';
-                } elseif ($attributes['administrative_dependence'] == '3') {
+                } elseif ('3' == $attributes['administrative_dependence']) {
                     $attributes['regulation_organ_municipal'] = '1';
                 } else {
                     $attributes['regulation_organ_state'] = '1';
                 }
             }
-            if ($attributes['regulation_organ_state'] == null) {
+            if (null == $attributes['regulation_organ_state']) {
                 $attributes['regulation_organ_state'] = '0';
             }
-            if ($attributes['regulation_organ_municipal'] == null) {
+            if (null == $attributes['regulation_organ_municipal']) {
                 $attributes['regulation_organ_municipal'] = '0';
             }
         }
@@ -118,12 +118,12 @@ class Register00
         $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 0 order by corder', [':year' => $year]);
         foreach ($edcensoAliases as $edcensoAlias) {
             $register[$edcensoAlias->corder] = $edcensoAlias->default;
-            if ($edcensoAlias['attr'] != null && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
+            if (null != $edcensoAlias['attr'] && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
                 $register[$edcensoAlias->corder] = $attributes[$edcensoAlias['attr']];
             }
         }
 
-        array_push($registers, implode('|', $register));
+        $registers[] = implode('|', $register);
 
         return $registers;
     }

@@ -1,6 +1,6 @@
 <?php
 
-class AeeRecordModule extends CWebModule
+class AeerecordModule extends CWebModule
 {
     public $baseScriptUrl;
     public $baseUrl;

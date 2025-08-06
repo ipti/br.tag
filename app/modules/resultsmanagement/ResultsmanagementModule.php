@@ -1,6 +1,6 @@
 <?php
 
-class ResultsManagementModule extends CWebModule
+class ResultsmanagementModule extends CWebModule
 {
     public $baseScriptUrl;
     public $baseUrl;

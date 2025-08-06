@@ -35,7 +35,7 @@ class DefaultController extends Controller
 
             if ($model->validate() && $model->save()) {
                 $msg = $managementUnitCode ? 'atualizada' : 'criada';
-                Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade ' . $msg . ' com sucesso!'));
+                Yii::app()->user->setFlash('success', Yii::t('default', 'Unidade '.$msg.' com sucesso!'));
                 $this->redirect(['index', 'cod_unidade_gestora' => $model->cod_unidade_gestora]);
             }
         }
@@ -62,8 +62,8 @@ class DefaultController extends Controller
 
             ini_set('memory_limit', '2048M');
 
-            $noMovement = ($noMovement === 'true') ? true : false;
-            $withoutCpf = ($withoutCpf === 'true') ? true : false;
+            $noMovement = ('true' === $noMovement) ? true : false;
+            $withoutCpf = ('true' === $withoutCpf) ? true : false;
 
             $sagres = new SagresConsultModel();
             $sagres->cleanInconsistences();
@@ -71,7 +71,7 @@ class DefaultController extends Controller
             $sagresEduXML = $sagres->generatesSagresEduXML($sagresEduData);
             $sagres->actionExportSagresXML($sagresEduXML);
 
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluída com Sucesso. <br><a href="' . Yii::app()->createUrl('sagres/default/download') . '" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Exportação Concluída com Sucesso. <br><a href="'.Yii::app()->createUrl('sagres/default/download').'" class="btn btn-mini" target="_blank"><i class="icon-download-alt"></i>Clique aqui para fazer o Download do arquivo de exportação!!!</a>'));
         } catch (Exception $e) {
             Yii::app()->user->setFlash('error', Yii::t('default', $e->getMessage()));
         } finally {
@@ -82,23 +82,24 @@ class DefaultController extends Controller
 
     public function actionDownload()
     {
-        $inst = 'File_' . INSTANCE . '/';
-        $fileDir = realpath('./app/export/SagresEdu/' . $inst . 'Educacao.zip');
+        $inst = 'File_'.INSTANCE.'/';
+        $fileDir = realpath('./app/export/SagresEdu/'.$inst.'Educacao.zip');
 
         if (!$fileDir || !file_exists($fileDir)) {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Arquivo de exportação não encontrado! Tente exportar novamente.'));
             $this->render('index');
+
             return;
         }
 
         // Configura os cabeçalhos para download
         header('Content-Description: File Transfer');
         header('Content-Type: application/zip');
-        header('Content-Disposition: attachment; filename="' . basename($fileDir) . '"');
+        header('Content-Disposition: attachment; filename="'.basename($fileDir).'"');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . filesize($fileDir));
+        header('Content-Length: '.filesize($fileDir));
 
         flush(); // Garante que os buffers estejam limpos
         readfile($fileDir);

@@ -1,10 +1,10 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__ . '/../robots/LoginRobots.php';
-require_once __DIR__ . '/../robots/StudentsRobots.php';
-require_once __DIR__ . '/../providers/CustomProvider.php';
-require_once __DIR__ . '/../builders/StudentBuilder.php';
+require_once __DIR__.'/../robots/LoginRobots.php';
+require_once __DIR__.'/../robots/StudentsRobots.php';
+require_once __DIR__.'/../providers/CustomProvider.php';
+require_once __DIR__.'/../builders/StudentBuilder.php';
 
 class StudentsCest
 {
@@ -25,7 +25,7 @@ class StudentsCest
 
     /**
      * Adicionar (rápido) estudantes, preenchendo apenas campos obrigatórios.
-     * Filiado - Não declarado/Ignorado
+     * Filiado - Não declarado/Ignorado.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function addStudentsRapidFieldsRequired(AcceptanceTester $teste)
@@ -67,7 +67,7 @@ class StudentsCest
         // health
         $robots->btnCriar();
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -75,7 +75,7 @@ class StudentsCest
 
     /**
      * Adicionar (rápido) estudantes, preenchendo apenas campos obrigatórios.
-     * Filiado - Pai e/ou Mãe
+     * Filiado - Pai e/ou Mãe.
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function addStudentsRapidFieldsRequiredWithMotherAndFather(AcceptanceTester $teste)
@@ -129,7 +129,7 @@ class StudentsCest
         // health
         $robots->btnCriar();
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -193,7 +193,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -212,7 +212,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);
         $robots->gender($dataStudent->student['sex']);
@@ -257,7 +257,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(12);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -276,7 +276,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);
         $robots->gender($dataStudent->student['sex']);
@@ -316,7 +316,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(12);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -328,7 +328,7 @@ class StudentsCest
      */
     public function fieldsNotFilledIn(AcceptanceTester $teste)
     {
-        //Data Students
+        // Data Students
         sleep(5);
         $teste->amOnPage('?r=student/create');
         $robots = new StudentsRobots($teste);
@@ -378,7 +378,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilNamebox();
         sleep(1);
@@ -482,7 +482,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -502,7 +502,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilNamebox();
         sleep(1);
@@ -593,7 +593,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -613,7 +613,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilNamebox();
         sleep(1);
@@ -726,7 +726,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -746,7 +746,7 @@ class StudentsCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilNamebox();
         sleep(1);
@@ -847,7 +847,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;

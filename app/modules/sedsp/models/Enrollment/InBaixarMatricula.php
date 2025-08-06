@@ -50,30 +50,35 @@ class InBaixarMatricula implements JsonSerializable
     public function setInAluno(?InAluno $inAluno): self
     {
         $this->inAluno = $inAluno;
+
         return $this;
     }
 
     public function setInTipoBaixa(?string $inTipoBaixa): self
     {
         $this->inTipoBaixa = $inTipoBaixa;
+
         return $this;
     }
 
     public function setInMotivoBaixa(?string $inMotivoBaixa): self
     {
         $this->inMotivoBaixa = $inMotivoBaixa;
+
         return $this;
     }
 
     public function setInDataBaixa(?string $inDataBaixa): self
     {
         $this->inDataBaixa = $inDataBaixa;
+
         return $this;
     }
 
     public function setInNumClasse(?string $inNumClasse): self
     {
         $this->inNumClasse = $inNumClasse;
+
         return $this;
     }
 

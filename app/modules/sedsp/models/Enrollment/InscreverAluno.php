@@ -34,18 +34,21 @@ class InscreverAluno implements JsonSerializable
     public function setInAluno(?InAluno $inAluno): self
     {
         $this->inAluno = $inAluno;
+
         return $this;
     }
 
     public function setInInscricao(?InInscricao $inInscricao): self
     {
         $this->inInscricao = $inInscricao;
+
         return $this;
     }
 
     public function setInNivelEnsino(?InNivelEnsino $inNivelEnsino): self
     {
         $this->inNivelEnsino = $inNivelEnsino;
+
         return $this;
     }
 

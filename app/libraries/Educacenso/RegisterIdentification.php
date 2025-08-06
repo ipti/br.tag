@@ -39,6 +39,7 @@ class RegisterIdentification
                 }
             }
         }
+
         return $students;
     }
 
@@ -61,11 +62,11 @@ class RegisterIdentification
         $identification = $person['identification'];
         $documents = $person['documents'];
 
-        $register[self::EDCENSO_COD_NA_UNIDADE] = $type === RegisterIdentificationType::INSTRUCTOR ? 'II' . $identification['id'] : $identification['id'];
+        $register[self::EDCENSO_COD_NA_UNIDADE] = RegisterIdentificationType::INSTRUCTOR === $type ? 'II'.$identification['id'] : $identification['id'];
         $register[self::EDCENSO_CPF] = $documents['cpf'];
         $register[self::EDCENSO_CERT_NASCIMENTO] = self::validarMatriculaRegistroCivil($documents['civil_register_enrollment_number']) ? $documents['civil_register_enrollment_number'] : null;
         $register[self::EDCENSO_NOME] = self::fixName($identification['name']);
-        $register[self::EDCENSO_DATA_NASCIMENTO] = $type === RegisterIdentificationType::INSTRUCTOR ? $identification['birthday_date'] : $identification['birthday'];
+        $register[self::EDCENSO_DATA_NASCIMENTO] = RegisterIdentificationType::INSTRUCTOR === $type ? $identification['birthday_date'] : $identification['birthday'];
         $register[self::EDCENSO_FILIATION_1] = self::fixName($identification['filiation_1']);
         $register[self::EDCENSO_FILIATION_2] = self::fixName($identification['filiation_2']);
         $register[self::EDCENSO_MUN_NASCIMENTO] = $identification['edcenso_city_fk'];
@@ -89,15 +90,15 @@ class RegisterIdentification
 
         foreach ($instructors as $instructor) {
             $register = self::exportPerson($instructor, RegisterIdentificationType::INSTRUCTOR);
-            array_push($registers, implode('|', $register));
+            $registers[] = implode('|', $register);
         }
 
         foreach ($students as $student) {
             $register = self::exportPerson($student, RegisterIdentificationType::STUDENT);
-            array_push($registers, implode('|', $register));
+            $registers[] = implode('|', $register);
         }
 
-        sort($registers, SORT_STRING);
+        sort($registers, \SORT_STRING);
 
         return $registers;
     }
@@ -116,25 +117,25 @@ class RegisterIdentification
             return [
                 'success' => 0,
                 'fail' => 0,
-                'errors' => ['O arquivo não pôde ser aberto.']
+                'errors' => ['O arquivo não pôde ser aberto.'],
             ];
         }
 
         $lineNumber = 0;
 
         while (($line = fgets($file)) !== false) {
-            $lineNumber++;
+            ++$lineNumber;
 
-            if (trim($line) === '') {
+            if ('' === trim($line)) {
                 continue;
             }
 
             $fields = array_map('trim', explode('|', $line));
 
             if (self::updateStudents($fields, $errors, $lineNumber, $line)) {
-                $success++;
+                ++$success;
             } else {
-                $fail++;
+                ++$fail;
             }
         }
 
@@ -143,7 +144,7 @@ class RegisterIdentification
         return [
             'success' => $success,
             'fail' => $fail,
-            'errors' => $errors
+            'errors' => $errors,
         ];
     }
 
@@ -151,13 +152,15 @@ class RegisterIdentification
     {
         if (!isset($register[self::EDCENSO_COD_NA_UNIDADE], $register[self::EDCENSO_INEP_ID])) {
             $errors[] = "Linha {$lineNumber}: campos obrigatórios ausentes. Conteúdo: {$rawLine}";
+
             return false;
         }
 
         $student = StudentIdentification::model()->findByPk($register[self::EDCENSO_COD_NA_UNIDADE]);
 
-        if ($student === null) {
-            $errors[] = "Linha {$lineNumber}: aluno com código {" . $register[self::EDCENSO_COD_NA_UNIDADE] . "} não encontrado. Conteúdo: {$rawLine}";
+        if (null === $student) {
+            $errors[] = "Linha {$lineNumber}: aluno com código {".$register[self::EDCENSO_COD_NA_UNIDADE]."} não encontrado. Conteúdo: {$rawLine}";
+
             return false;
         }
 
@@ -166,6 +169,7 @@ class RegisterIdentification
         if (!$student->save()) {
             $errorDetails = CVarDumper::dumpAsString($student->getErrors());
             $errors[] = "Linha {$lineNumber}: erro ao salvar aluno ID {$student->id}. Erros: {$errorDetails}. Conteúdo: {$rawLine}";
+
             return false;
         }
 
@@ -175,14 +179,14 @@ class RegisterIdentification
     public static function validarMatriculaRegistroCivil($matricula): bool
     {
         // Remove caracteres não numéricos
-        if ($matricula == null) {
+        if (null == $matricula) {
             return false;
         }
 
         $matricula = preg_replace('/\D/', '', $matricula);
 
         // Verifica se tem exatamente 32 dígitos
-        if (strlen($matricula) !== 32) {
+        if (32 !== strlen($matricula)) {
             return false;
         }
 
@@ -192,10 +196,10 @@ class RegisterIdentification
     public static function validarCodigoAcervo(string $matricula): bool
     {
         $codigoAcervo = substr($matricula, 6, 2);
-        $anoRegistro = intval(substr($matricula, 10, 4));
+        $anoRegistro = (int) substr($matricula, 10, 4);
 
         // Acervo "02" só permitido até 2009
-        if ($codigoAcervo == '02' && $anoRegistro > 2009) {
+        if ('02' == $codigoAcervo && $anoRegistro > 2009) {
             return false;
         }
 

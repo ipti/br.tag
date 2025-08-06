@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../robots/LoginRobots.php';
+require_once __DIR__.'/../robots/LoginRobots.php';
 
 class ExitCest
 {

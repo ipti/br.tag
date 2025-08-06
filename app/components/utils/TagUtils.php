@@ -14,9 +14,10 @@ class TagUtils extends CApplicationComponent
         $criteria->params = [':id' => Yii::app()->user->loginInfos->id];
         $authAssignment = AuthAssignment::model()->find($criteria);
 
-        if ($authAssignment->itemname == 'manager') {
+        if ('manager' == $authAssignment->itemname) {
             return true;
         }
+
         return false;
     }
 
@@ -35,10 +36,11 @@ class TagUtils extends CApplicationComponent
             '15',
             '16',
             '17',
-            '18'
+            '18',
         ];
         $stages = new CList($refMinorStages, true);
-        return $stages->contains(strval($stage));
+
+        return $stages->contains((string) $stage);
     }
 
     public static function isStageChildishEducation($stage)
@@ -46,17 +48,19 @@ class TagUtils extends CApplicationComponent
         $refMinorStages = [
             '1',
             '2',
-            '3'
+            '3',
         ];
         $stages = new CList($refMinorStages, true);
-        return $stages->contains(strval($stage));
+
+        return $stages->contains((string) $stage);
     }
 
     public static function isStageEJA($stage): bool
     {
         $refMinorStages = ['43', '44', '45', '46', '47', '48', '51', '58', '60', '61', '62', '63', '65', '66', '69', '70', '71', '72', '73', '74'];
         $stages = new CList($refMinorStages, true);
-        return $stages->contains(strval($stage));
+
+        return $stages->contains((string) $stage);
     }
 
     public static function isMultiStage($stage)
@@ -69,10 +73,11 @@ class TagUtils extends CApplicationComponent
             '24',
             '56',
             '83',
-            '84'
+            '84',
         ];
         $stages = new CList($refMinorStages, true);
-        return $stages->contains(strval($stage));
+
+        return $stages->contains((string) $stage);
     }
 
     public static function convertDateFormat($date)
@@ -81,7 +86,7 @@ class TagUtils extends CApplicationComponent
         $date = trim($date);
 
         // Verifica se a date é vazia ou nula
-        if (empty($date) || is_null($date)) {
+        if (empty($date) || null === $date) {
             return $date;
         }
 
@@ -96,6 +101,7 @@ class TagUtils extends CApplicationComponent
             $dia = $dateParts[2];
             $mes = $dateParts[1];
             $ano = $dateParts[0];
+
             return "$dia/$mes/$ano";
         }
 
@@ -109,14 +115,15 @@ class TagUtils extends CApplicationComponent
         $teachingData = InstructorTeachingData::model()->findByAttributes(
             [
                 'instructor_fk' => $instructor->id,
-                'classroom_id_fk' => $classroom->id
+                'classroom_id_fk' => $classroom->id,
             ]
         );
 
         $refTeachingData = ['9'];
 
         $roles = new CList($refTeachingData, true);
-        return $roles->contains(strval($teachingData->role));
+
+        return $roles->contains((string) $teachingData->role);
     }
 
     public static function isInstance($instance)
@@ -139,7 +146,7 @@ class TagUtils extends CApplicationComponent
         $roles = Yii::app()->authManager->getRoles(Yii::app()->user->id);
         $role = !empty($roles) ? key($roles) : 'default_role';  // Valor padrão
 
-        return $prefix . '_' . $role . '_' . $year . '_' . $schoolId;
+        return $prefix.'_'.$role.'_'.$year.'_'.$schoolId;
     }
 
     /**
@@ -149,10 +156,11 @@ class TagUtils extends CApplicationComponent
     {
         $errors = $record->getErrors();
         $result = array_map(function ($key, $messages) use ($record) {
-            $message = Yii::t('default', $record->getAttributeLabel($key)) . ": \n";
+            $message = Yii::t('default', $record->getAttributeLabel($key)).": \n";
             foreach ($messages as $value) {
-                $message .= '- ' . $value . "\n";
+                $message .= '- '.$value."\n";
             }
+
             return $message;
         }, array_keys($errors), array_values($errors));
 

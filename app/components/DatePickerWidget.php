@@ -11,12 +11,12 @@ class DatePickerWidget
                 'dateFormat' => 'dd/mm/yy',
                 'changeYear' => true,
                 'changeMonth' => true,
-                'yearRange' => '1930:' . date('Y'),
+                'yearRange' => '1930:'.date('Y'),
                 'showOn' => 'focus',
                 'maxDate' => 0,
                 'monthNamesShort' => [
                     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
                 ],
                 'dayNames' => [
                     'Domingo',
@@ -25,7 +25,7 @@ class DatePickerWidget
                     'Quarta-feira',
                     'Quinta-feira',
                     'Sexta-feira',
-                    'Sábado'
+                    'Sábado',
                 ],
                 'dayNamesShort' => ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
                 'dayNamesMin' => ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
@@ -34,7 +34,7 @@ class DatePickerWidget
                 'id' => 'initial_date_picker',
                 'readonly' => 'readonly',
                 'style' => 'cursor: pointer;',
-                'placeholder' => 'Clique aqui para escolher a data'
+                'placeholder' => 'Clique aqui para escolher a data',
             ],
         ];
     }
@@ -42,6 +42,7 @@ class DatePickerWidget
     public static function renderDatePickerFinal($model, $attribute)
     {
         $year = (date('Y') + 1);
+
         return [
             'model' => $model,
             'attribute' => $attribute,
@@ -49,12 +50,12 @@ class DatePickerWidget
                 'dateFormat' => 'dd/mm/yy',
                 'changeYear' => true,
                 'changeMonth' => true,
-                'yearRange' => '1930:' . $year,
+                'yearRange' => '1930:'.$year,
                 'showOn' => 'focus',
-                'maxDate' => '31/12/' . ($year + 1),
+                'maxDate' => '31/12/'.($year + 1),
                 'monthNamesShort' => [
                     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
                 ],
                 'dayNames' => [
                     'Domingo',
@@ -63,7 +64,7 @@ class DatePickerWidget
                     'Quarta-feira',
                     'Quinta-feira',
                     'Sexta-feira',
-                    'Sábado'
+                    'Sábado',
                 ],
                 'dayNamesShort' => ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
                 'dayNamesMin' => ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
@@ -72,7 +73,7 @@ class DatePickerWidget
                 'id' => 'final_date_picker',
                 'readonly' => 'readonly',
                 'style' => 'cursor: pointer;',
-                'placeholder' => 'Clique aqui para escolher a data'
+                'placeholder' => 'Clique aqui para escolher a data',
             ],
         ];
     }

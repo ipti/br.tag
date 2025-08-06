@@ -4,19 +4,19 @@
  * This is the model class for table "food_menu_meal".
  *
  * The followings are the available columns in table 'food_menu_meal':
- * @property integer $id
+ * @property int $id
  * @property string $description
  * @property string $observation
- * @property integer $sequence
- * @property integer $food_meal_type_fk
- * @property integer $friday
- * @property integer $monday
- * @property integer $saturday
- * @property integer $sunday
- * @property integer $thursday
- * @property integer $tuesday
- * @property integer $wednesday
- * @property integer $food_menuId
+ * @property int $sequence
+ * @property int $food_meal_type_fk
+ * @property int $friday
+ * @property int $monday
+ * @property int $saturday
+ * @property int $sunday
+ * @property int $thursday
+ * @property int $tuesday
+ * @property int $wednesday
+ * @property int $food_menuId
  * @property string $meal_time
  * @property string $turn
  *
@@ -36,7 +36,7 @@ class FoodMenuMeal extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -54,7 +54,7 @@ class FoodMenuMeal extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -101,7 +101,7 @@ class FoodMenuMeal extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -133,7 +133,7 @@ class FoodMenuMeal extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return FoodMenuMeal the static model class
      */
     public static function model($className = __CLASS__)

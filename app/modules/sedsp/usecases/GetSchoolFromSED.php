@@ -21,6 +21,7 @@ class GetSchoolFromSED
     {
         $response = $this->schoolSEDDataSource->getSchool($schoolName, $schoolMun);
         $content = $response->getBody()->getContents();
+
         return SchoolMapper::parseToTAGSchool($content);
     }
 }

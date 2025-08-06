@@ -1,6 +1,6 @@
 <?php
 
-class CertidaoNasc
+class InCertidaoNasc
 {
     public $inLivroCertidaoNasc;
     public $inFolhaCertidaoNasc;
@@ -34,18 +34,21 @@ class CertidaoNasc
     public function setInLivroCertidaoNasc(?string $inLivroCertidaoNasc): self
     {
         $this->inLivroCertidaoNasc = $inLivroCertidaoNasc;
+
         return $this;
     }
 
     public function setInFolhaCertidaoNasc(?string $inFolhaCertidaoNasc): self
     {
         $this->inFolhaCertidaoNasc = $inFolhaCertidaoNasc;
+
         return $this;
     }
 
     public function setInNumCertidaoNasc(?string $inNumCertidaoNasc): self
     {
         $this->inNumCertidaoNasc = $inNumCertidaoNasc;
+
         return $this;
     }
 

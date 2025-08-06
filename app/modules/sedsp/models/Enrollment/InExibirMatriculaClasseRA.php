@@ -42,24 +42,28 @@ class InExibirMatriculaClasseRA implements JsonSerializable
     public function setInAluno(?InAluno $inAluno): self
     {
         $this->inAluno = $inAluno;
+
         return $this;
     }
 
     public function setInNumClasse(?string $inNumClasse): self
     {
         $this->inNumClasse = $inNumClasse;
+
         return $this;
     }
 
     public function setInSituacao(?string $inSituacao): self
     {
         $this->inSituacao = $inSituacao;
+
         return $this;
     }
 
     public function setInDataInicioMatricula(?string $inDataInicioMatricula): self
     {
         $this->inDataInicioMatricula = $inDataInicioMatricula;
+
         return $this;
     }
 

@@ -7,7 +7,7 @@ class UpdateFichaAlunoInTAGUseCase
         $studentDatasource = new StudentSEDDataSource();
         $response = $studentDatasource->exibirFichaAluno($inAluno);
 
-        if (method_exists($response, 'getOutErro') && $response->getOutErro() === '' && $response->getCode() === 401) {
+        if (method_exists($response, 'getOutErro') && '' === $response->getOutErro() && 401 === $response->getCode()) {
             $student = StudentIdentification::model()->findByAttributes(['gov_id' => $inAluno->inNumRA]);
             $student->sedsp_sync = 0;
             $student->save();
@@ -15,7 +15,7 @@ class UpdateFichaAlunoInTAGUseCase
             return $response->getCode();
         }
 
-        if (method_exists($response, 'getCode') && $response->getCode() === 401) {
+        if (method_exists($response, 'getCode') && 401 === $response->getCode()) {
             $student = StudentIdentification::model()->findByAttributes(['gov_id' => $inAluno->inNumRA]);
             $student->sedsp_sync = 0;
             $student->save();
@@ -34,13 +34,14 @@ class UpdateFichaAlunoInTAGUseCase
             $this->updateStudentDocsAndAddress($mapperStudentDocuments, $studentId);
             $statusUpdateEnrollment = $this->createOrUpdateStudentEnrollment($mapper->StudentEnrollment);
 
-            if ($statusUpdateEnrollment === false) {
+            if (false === $statusUpdateEnrollment) {
                 return -1;
             } else {
                 return $studentIdentification;
             }
         } catch (Exception $e) {
             $this->handleException($mapperStudentIdentification, $e);
+
             return $e->getCode();
         }
     }
@@ -54,6 +55,7 @@ class UpdateFichaAlunoInTAGUseCase
 
             if ($existingStudent->validate() && $existingStudent->save()) {
                 $existingStudent->sedsp_sync = 1;
+
                 return $existingStudent->save();
             }
 
@@ -67,7 +69,7 @@ class UpdateFichaAlunoInTAGUseCase
     {
         $studentDocument = StudentDocumentsAndAddress::model()->findByAttributes(['id' => $studentId]);
 
-        if ($studentDocument === null) {
+        if (null === $studentDocument) {
             return $this->createStudentDocumentsAndAddress($docsAndAddress, $studentId);
         } else {
             $studentDocument->attributes = $docsAndAddress->attributes;
@@ -90,12 +92,12 @@ class UpdateFichaAlunoInTAGUseCase
                 ],
             ]);
 
-            if ($enrollment === null) {
+            if (null === $enrollment) {
                 $newEnrollment = new StudentEnrollment();
                 $newEnrollment->attributes = $studentEnrollment->attributes;
                 $newEnrollment->sedsp_sync = 0;
 
-                if ($newEnrollment->classroom_fk === null) {
+                if (null === $newEnrollment->classroom_fk) {
                     return false;
                 } else {
                     if ($newEnrollment->validate() && $newEnrollment->save()) {
@@ -111,6 +113,7 @@ class UpdateFichaAlunoInTAGUseCase
                 if ($enrollment->validate() && $enrollment->save()) {
                     $enrollment->sedsp_sync = 1;
                 }
+
                 return $enrollment->save();
             }
         }

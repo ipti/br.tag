@@ -8,6 +8,7 @@ class DisciplineService
         $command = Yii::app()->db->createCommand($sql);
         $command->bindValue(':discipline_fk', $discipline_fk, PDO::PARAM_INT);
         $discipline = $command->queryAll();
+
         return $discipline;
     }
 }

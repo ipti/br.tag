@@ -5,8 +5,7 @@ Yii::import('application.modules.sedsp.models.*');
 class EnrollmentSEDDataSource extends SedDataSource
 {
     /**
-     * Summary of getListarMatriculasRA
-     * @param InAluno $inAluno
+     * Summary of getListarMatriculasRA.
      * @return OutListaMatriculaRA|OutErro
      * @throws Exception
      */
@@ -15,6 +14,7 @@ class EnrollmentSEDDataSource extends SedDataSource
         try {
             $url = '/ncaapi/api/Matricula/ListarMatriculasRA';
             $response = $this->getApiResponse('GET', $url, ['inAluno' => $inAluno]);
+
             return OutListaMatriculaRA::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -24,8 +24,7 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of addInscreverAluno
-     * @param InscreverAluno $inscreverAluno
+     * Summary of addInscreverAluno.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
@@ -36,10 +35,11 @@ class EnrollmentSEDDataSource extends SedDataSource
             $data = [
                 'inAluno' => $inscreverAluno->getInAluno(),
                 'inInscricao' => $inscreverAluno->getInInscricao(),
-                'inNivelEnsino' => $inscreverAluno->getInNivelEnsino()
+                'inNivelEnsino' => $inscreverAluno->getInNivelEnsino(),
             ];
 
             $response = $this->getApiResponse('POST', $url, $data);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -54,6 +54,7 @@ class EnrollmentSEDDataSource extends SedDataSource
             $url = '/ncaapi/api/Matricula/ExcluirMatricula';
 
             $response = $this->getApiResponse('POST', $url, $inExcluirMatricula);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -63,8 +64,7 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of addMatricularAluno
-     * @param InMatricularAluno $inMatricularAluno
+     * Summary of addMatricularAluno.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
@@ -76,9 +76,10 @@ class EnrollmentSEDDataSource extends SedDataSource
                 'inAnoLetivo' => $inMatricularAluno->getInAnoLetivo(),
                 'inAluno' => $inMatricularAluno->getInAluno(),
                 'inMatricula' => $inMatricularAluno->getInMatricula(),
-                'inNivelEnsino' => $inMatricularAluno->getInNivelEnsino()
+                'inNivelEnsino' => $inMatricularAluno->getInNivelEnsino(),
             ];
             $response = $this->getApiResponse('POST', $url, $data);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -88,8 +89,7 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of getExibirMatriculaClasseRA
-     * @param InExibirMatriculaClasseRA $inExibirMatriculaClasseRA
+     * Summary of getExibirMatriculaClasseRA.
      * @return OutExibirMatriculaClasseRA|OutErro
      * @throws Exception
      */
@@ -98,6 +98,7 @@ class EnrollmentSEDDataSource extends SedDataSource
         try {
             $url = '/ncaapi/api/Matricula/ExibirMatriculaClasseRA';
             $response = $this->getApiResponse('GET', $url, $inExibirMatriculaClasseRA);
+
             return OutExibirMatriculaClasseRA::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -107,8 +108,7 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of addRemanejarMatricula
-     * @param InRemanejarMatricula $inRemanejarMatricula
+     * Summary of addRemanejarMatricula.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
@@ -117,6 +117,7 @@ class EnrollmentSEDDataSource extends SedDataSource
         try {
             $url = '/ncaapi/api/Matricula/RemanejarMatricula';
             $response = $this->getApiResponse('POST', $url, $inRemanejarMatricula);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -126,8 +127,7 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of addReclassificarMatricula
-     * @param InReclassificarMatricula $inReclassificarMatricula
+     * Summary of addReclassificarMatricula.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
@@ -136,6 +136,7 @@ class EnrollmentSEDDataSource extends SedDataSource
         try {
             $url = '/ncaapi/api/Matricula/ReclassificarMatricula';
             $response = $this->getApiResponse('POST', $url, $inReclassificarMatricula);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -145,8 +146,7 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of addBaixarMatricula
-     * @param InBaixarMatricula $inBaixarMatricula
+     * Summary of addBaixarMatricula.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
@@ -155,6 +155,7 @@ class EnrollmentSEDDataSource extends SedDataSource
         try {
             $url = '/ncaapi/api/Matricula/BaixarMatricula';
             $response = $this->getApiResponse('POST', $url, $inBaixarMatricula);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -164,8 +165,7 @@ class EnrollmentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of addBaixarMatricula
-     * @param InTrocarAlunoEntreClasses $inTrocarAlunoEntreClasses
+     * Summary of addBaixarMatricula.
      * @return OutHandleApiResult|OutErro
      * @throws Exception
      */
@@ -177,10 +177,11 @@ class EnrollmentSEDDataSource extends SedDataSource
             $data = [
                 'inAluno' => $inTrocarAlunoEntreClasses->getInAluno(),
                 'inMatricula' => $inTrocarAlunoEntreClasses->getInMatricula(),
-                'inNivelEnsino' => $inTrocarAlunoEntreClasses->getInNivelEnsino()
+                'inNivelEnsino' => $inTrocarAlunoEntreClasses->getInNivelEnsino(),
             ];
 
             $response = $this->getApiResponse('POST', $url, $data);
+
             return OutHandleApiResult::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -198,7 +199,7 @@ class EnrollmentSEDDataSource extends SedDataSource
     private function getApiResponse($httpMethod, $url, $data)
     {
         $response = $this->client->request($httpMethod, $url, [
-            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
+            'body' => json_encode($data, \JSON_UNESCAPED_UNICODE),
         ]);
 
         return json_decode($response->getBody()->getContents(), true);

@@ -4,13 +4,13 @@
  * This is the model class for table "grade_rules".
  *
  * The followings are the available columns in table 'grade_rules':
- * @property integer $id
- * @property integer $edcenso_stage_vs_modality_fk
- * @property double $approvation_media
- * @property double $final_recover_media
- * @property integer $grade_calculation_fk
- * @property integer $has_final_recovery
- * @property integer $has_partial_recovery
+ * @property int $id
+ * @property int $edcenso_stage_vs_modality_fk
+ * @property float $approvation_media
+ * @property float $final_recover_media
+ * @property int $grade_calculation_fk
+ * @property int $has_final_recovery
+ * @property int $has_partial_recovery
  * @property string $rule_type
  *
  * The followings are the available model relations:
@@ -28,7 +28,7 @@ class GradeRules extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -46,7 +46,7 @@ class GradeRules extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -85,7 +85,7 @@ class GradeRules extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -110,7 +110,7 @@ class GradeRules extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return GradeRules the static model class
      */
     public static function model($className = __CLASS__)

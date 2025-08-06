@@ -2,7 +2,7 @@
 
 Yii::import('application.modules.foods.models.FoodMeasurement', true);
 /**
- * Class LunchController
+ * Class LunchController.
  *
  * @property School $school
  */
@@ -65,17 +65,17 @@ class LunchController extends Controller
 
             // Inserir porções em array temporário
             foreach ($mealsPortion as $mealPortion) {
-                array_push($tmpPortions, Portion::model()->findByPk($mealPortion->portion_fk));
+                $tmpPortions[] = Portion::model()->findByPk($mealPortion->portion_fk);
             }
 
             // Inserir par Refeição:Porções em array Refeições
-            array_push(
-                $meals,
+
+                $meals[] =
                 [
                     'meal' => Meal::model()->findByPk($menuMeal->meal_fk),
-                    'portions' => $tmpPortions
+                    'portions' => $tmpPortions,
                 ]
-            );
+            ;
         }
 
         if ($menuPost) {
@@ -100,6 +100,7 @@ class LunchController extends Controller
     {
         $request = Yii::app()->getRequest();
         $menu = Menu::model()->findByPk($request->getPost('id'));
+
         return $menu->delete();
     }
 
@@ -139,16 +140,16 @@ class LunchController extends Controller
         $foodMeasurements = FoodMeasurement::model()->findAll();
         $options = [];
         foreach ($foodMeasurements as $foodMeasurement) {
-            array_push(
-                $options,
+                $options[] =
                 [
                     'id' => $foodMeasurement->id,
                     'unit' => $foodMeasurement->unit,
                     'value' => $foodMeasurement->value,
-                    'measure' => $foodMeasurement->measure
+                    'measure' => $foodMeasurement->measure,
                 ]
-            );
+            ;
         }
+
         return $options;
     }
 

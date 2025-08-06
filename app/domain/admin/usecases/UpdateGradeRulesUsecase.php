@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Caso de uso para atualização dos parametros para calculo de média
+ * Caso de uso para atualização dos parametros para calculo de média.
  *
  * @property int $gradeRulesId
  * @property string $gradeRulesName
@@ -29,8 +29,7 @@ class UpdateGradeRulesUsecase
         $ruleType,
         $hasPartialRecovery,
         $partialRecoveries
-    )
-    {
+    ) {
         $this->gradeRulesId = $gradeRulesId;
         $this->gradeRulesName = $gradeRulesName;
         $this->stages = $stages;
@@ -49,7 +48,7 @@ class UpdateGradeRulesUsecase
          * @var GradeRules $gradeRules
          * */
         $gradeRules = GradeRules::model()->findByPk($this->gradeRulesId);
-        if ($gradeRules == null) {
+        if (null == $gradeRules) {
             $gradeRules = new GradeRules();
         }
 
@@ -79,10 +78,11 @@ class UpdateGradeRulesUsecase
             $gradeRulesVsStage->save();
         }
 
-        if ($this->hasPartialRecovery === true) {
+        if (true === $this->hasPartialRecovery) {
             $pRecoveryUseCase = new UpdateGradePartialRecoveryUsecase($gradeRules->id, $this->partialRecoveries);
             $pRecoveryUseCase->exec();
         }
+
         return $gradeRules;
     }
 

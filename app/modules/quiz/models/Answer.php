@@ -4,9 +4,9 @@
  * This is the model class for table "answer".
  *
  * The followings are the available columns in table 'answer':
- * @property integer $quiz_id
- * @property integer $question_id
- * @property integer $student_id
+ * @property int $quiz_id
+ * @property int $question_id
+ * @property int $student_id
  * @property string $value
  */
 class Answer extends TagModel
@@ -20,7 +20,7 @@ class Answer extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -36,7 +36,7 @@ class Answer extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -45,7 +45,7 @@ class Answer extends TagModel
         return [
             'quiz' => [self::BELONGS_TO, 'Quiz', 'quiz_id'],
             'question' => [self::BELONGS_TO, 'Question', 'question_id'],
-            'student' => [self::BELONGS_TO, 'Student', 'student_id']
+            'student' => [self::BELONGS_TO, 'Student', 'student_id'],
         ];
     }
 
@@ -72,7 +72,7 @@ class Answer extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -93,7 +93,7 @@ class Answer extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return Answer the static model class
      */
     public static function model($className = __CLASS__)

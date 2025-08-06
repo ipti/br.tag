@@ -3,8 +3,7 @@
 class GetRelacaoClassesFromSEDUseCase
 {
     /**
-     * Summary of exec
-     * @param InRelacaoClasses $inRelacaoClasses
+     * Summary of exec.
      */
     public function exec(InRelacaoClasses $inRelacaoClasses)
     {
@@ -12,12 +11,13 @@ class GetRelacaoClassesFromSEDUseCase
             $classes = new ClassStudentsRelationSEDDataSource();
             $response = $classes->getRelacaoClasses($inRelacaoClasses);
 
-            $mapper = (object)ClassroomMapper::parseToTAGRelacaoClasses($response);
+            $mapper = (object) ClassroomMapper::parseToTAGRelacaoClasses($response);
             $classrooms = $mapper->Classrooms;
 
             if (empty($classrooms)) {
                 $log = new LogError();
                 $log->salvarDadosEmArquivo($response->getOutErro());
+
                 return 2;
             }
 
@@ -51,6 +51,7 @@ class GetRelacaoClassesFromSEDUseCase
     {
         $inNumClasse = new InFormacaoClasse($numClasse);
         $formacaoClasseSEDUseCase = new GetFormacaoClasseFromSEDUseCase();
+
         return $formacaoClasseSEDUseCase->exec($inNumClasse);
     }
 }

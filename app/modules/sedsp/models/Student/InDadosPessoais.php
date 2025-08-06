@@ -194,138 +194,161 @@ class InDadosPessoais implements JsonSerializable
     public function setInNomeAluno(?string $inNomeAluno): self
     {
         $this->inNomeAluno = $inNomeAluno;
+
         return $this;
     }
 
     public function setInNomeMae(?string $inNomeMae): self
     {
         $this->inNomeMae = $inNomeMae;
+
         return $this;
     }
 
     public function setInNomePai(?string $inNomePai): self
     {
         $this->inNomePai = $inNomePai;
+
         return $this;
     }
 
     public function setInNomeSocial(?string $inNomeSocial): self
     {
         $this->inNomeSocial = $inNomeSocial;
+
         return $this;
     }
 
     public function setInNomeAfetivo(?string $inNomeAfetivo): self
     {
         $this->inNomeAfetivo = $inNomeAfetivo;
+
         return $this;
     }
 
     public function setInDataNascimento(?string $inDataNascimento): self
     {
         $this->inDataNascimento = $inDataNascimento;
+
         return $this;
     }
 
     public function setInCorRaca(?string $inCorRaca): self
     {
         $this->inCorRaca = $inCorRaca;
+
         return $this;
     }
 
     public function setInSexo(?string $inSexo): self
     {
         $this->inSexo = $inSexo;
+
         return $this;
     }
 
     public function setInBolsaFamilia(?string $inBolsaFamilia): self
     {
         $this->inBolsaFamilia = $inBolsaFamilia;
+
         return $this;
     }
 
     public function setInQuilombola(?string $inQuilombola): self
     {
         $this->inQuilombola = $inQuilombola;
+
         return $this;
     }
 
     public function setInPossuiInternet(?string $inPossuiInternet): self
     {
         $this->inPossuiInternet = $inPossuiInternet;
+
         return $this;
     }
 
     public function setInPossuiNotebookSmartphoneTablet(?string $inPossuiNotebookSmartphoneTablet): self
     {
         $this->inPossuiNotebookSmartphoneTablet = $inPossuiNotebookSmartphoneTablet;
+
         return $this;
     }
 
     public function setInTipoSanguineo(?string $inTipoSanguineo): self
     {
         $this->inTipoSanguineo = $inTipoSanguineo;
+
         return $this;
     }
 
     public function setInDoadorOrgaos(?string $inDoadorOrgaos): self
     {
         $this->inDoadorOrgaos = $inDoadorOrgaos;
+
         return $this;
     }
 
     public function setInNumeroCns(?string $inNumeroCNS): self
     {
         $this->inNumeroCNS = $inNumeroCNS;
+
         return $this;
     }
 
     public function setInEmail(?string $inEmail): self
     {
         $this->inEmail = $inEmail;
+
         return $this;
     }
 
     public function setInNacionalidade(?string $inNacionalidade): self
     {
         $this->inNacionalidade = $inNacionalidade;
+
         return $this;
     }
 
     public function setInNomeMunNascto(?string $inNomeMunNascto): self
     {
         $this->inNomeMunNascto = $inNomeMunNascto;
+
         return $this;
     }
 
     public function setInUfMunNascto(?string $inUFMunNascto): self
     {
         $this->inUFMunNascto = $inUFMunNascto;
+
         return $this;
     }
 
     public function setInCodMunNasctoDne(?string $inCodMunNasctoDNE): self
     {
         $this->inCodMunNasctoDNE = $inCodMunNasctoDNE;
+
         return $this;
     }
 
     public function setInDataEntradaPais(?string $inDataEntradaPais): self
     {
         $this->inDataEntradaPais = $inDataEntradaPais;
+
         return $this;
     }
 
     public function setInCodPaisOrigem(?string $inCodPaisOrigem): self
     {
         $this->inCodPaisOrigem = $inCodPaisOrigem;
+
         return $this;
     }
 
     public function setInPaisOrigem(?string $inPaisOrigem): self
     {
         $this->inPaisOrigem = $inPaisOrigem;
+
         return $this;
     }
 

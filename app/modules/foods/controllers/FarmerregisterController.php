@@ -1,6 +1,6 @@
 <?php
 
-class FarmerRegisterController extends Controller
+class FarmerregisterController extends Controller
 {
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -41,7 +41,7 @@ class FarmerRegisterController extends Controller
                     'getFarmerFoods',
                     'getFoodNotice',
                     'getFoodNoticeItems',
-                    'getFarmerDeliveries'
+                    'getFarmerDeliveries',
                 ],
                 'users' => ['*'],
             ],
@@ -189,9 +189,9 @@ class FarmerRegisterController extends Controller
     {
         $cpf = Yii::app()->request->getPost('farmerCpf');
 
-        if ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == 'Ativo') {
+        if ($this->verifyFarmerCpf($cpf) && 'Ativo' == $this->verifyFarmerStatus($cpf)) {
             echo json_encode(['error' => 'Existente ativo']);
-        } elseif ($this->verifyFarmerCpf($cpf) && $this->verifyFarmerStatus($cpf) == 'Inativo') {
+        } elseif ($this->verifyFarmerCpf($cpf) && 'Inativo' == $this->verifyFarmerStatus($cpf)) {
             echo json_encode(['error' => 'Existente inativo']);
         } else {
             $getFarmerRegister = new GetFarmerRegister();
@@ -207,7 +207,7 @@ class FarmerRegisterController extends Controller
 
         $criteria = new CDbCriteria();
         $criteria->with = ['foodFk', 'foodNoticeFk'];
-        $criteria->condition = 't.farmer_fk = ' . $id;
+        $criteria->condition = 't.farmer_fk = '.$id;
         $farmerFoodsData = FarmerFoods::model()->findAll($criteria);
 
         $values = [];
@@ -237,7 +237,7 @@ class FarmerRegisterController extends Controller
         foreach ($foodsDescription as $food) {
             $values[$food->id] = (object) [
                 'description' => $food->description,
-                'measurementUnit' => $food->measurementUnit
+                'measurementUnit' => $food->measurementUnit,
             ];
         }
 
@@ -256,7 +256,7 @@ class FarmerRegisterController extends Controller
         $values = [];
         foreach ($foodNotices as $notice) {
             $values[$notice->id] = (object) [
-                'name' => $notice->name
+                'name' => $notice->name,
             ];
         }
 
@@ -309,7 +309,7 @@ class FarmerRegisterController extends Controller
                 'amount' => $delivered->amount,
                 'measurementUnit' => $delivered->measurementUnit,
                 'date' => date('d/m/Y', strtotime($delivered->date)),
-                'request' => $delivered->food_request_fk
+                'request' => $delivered->food_request_fk,
             ];
         }
 
@@ -322,7 +322,7 @@ class FarmerRegisterController extends Controller
                 'amount' => $accepted->amount,
                 'measurementUnit' => $accepted->measurementUnit,
                 'date' => date('d/m/Y', strtotime($accepted->date)),
-                'request' => $accepted->food_request_fk
+                'request' => $accepted->food_request_fk,
             ];
         }
 
@@ -377,7 +377,7 @@ class FarmerRegisterController extends Controller
 
         $farmerRegister = FarmerRegister::model()->find($criteria);
 
-        if ($farmerRegister !== null) {
+        if (null !== $farmerRegister) {
             $farmerRegister->status = 'Inativo';
             $farmerRegister->save();
             Yii::app()->user->setFlash('success', Yii::t('default', 'Agricultor inativado com sucesso!'));
@@ -397,7 +397,7 @@ class FarmerRegisterController extends Controller
         $dataProvider = new CActiveDataProvider('FarmerRegister');
         $dataProvider->setCriteria($criteria);
         $this->render('index', [
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -405,7 +405,7 @@ class FarmerRegisterController extends Controller
     {
         $farmers = FarmerRegister::model()->findAll();
         $this->render('activateFarmers', [
-            'farmers' => $farmers
+            'farmers' => $farmers,
         ]);
     }
 
@@ -415,10 +415,10 @@ class FarmerRegisterController extends Controller
         $status = Yii::app()->request->getPost('status');
         $farmer = FarmerRegister::model()->findByPk($id);
 
-        $farmer->status = $status == 'Ativo' ? 'Inativo' : 'Ativo';
+        $farmer->status = 'Ativo' == $status ? 'Inativo' : 'Ativo';
 
         if ($farmer->save()) {
-            $message = $status === 'Ativo' ? 'Agricutor inativado com sucesso!' : 'Agricutor ativado com sucesso!';
+            $message = 'Ativo' === $status ? 'Agricutor inativado com sucesso!' : 'Agricutor ativado com sucesso!';
             Yii::app()->user->setFlash('success', Yii::t('default', $message));
         } else {
             Yii::app()->user->setFlash('error', Yii::t('default', 'Ocorreu um erro. Tente novamente!'));
@@ -441,9 +441,10 @@ class FarmerRegisterController extends Controller
     public function loadModel($id)
     {
         $model = FarmerRegister::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -455,15 +456,16 @@ class FarmerRegisterController extends Controller
                 'params' => [':id' => $id],
             ]
         );
-        if ($modelFarmerFoods === null) {
+        if (null === $modelFarmerFoods) {
             $modelFarmerFoods = new FarmerFoods();
         }
+
         return $modelFarmerFoods;
     }
 
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'farmer-register-form') {
+        if (isset($_POST['ajax']) && 'farmer-register-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

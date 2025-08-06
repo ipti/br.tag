@@ -74,55 +74,61 @@ class OutDocumentos
     public function setOutCodInep(?string $outCodINEP): self
     {
         $this->outCodINEP = $outCodINEP;
+
         return $this;
     }
 
     public function setOutCpf(?string $outCPF): self
     {
         $this->outCPF = $outCPF;
+
         return $this;
     }
 
     public function setOutNumNis(?string $outNumNIS): self
     {
         $this->outNumNIS = $outNumNIS;
+
         return $this;
     }
 
     public function setOutNumDoctoCivil(?string $outNumDoctoCivil): self
     {
         $this->outNumDoctoCivil = $outNumDoctoCivil;
+
         return $this;
     }
 
     public function setOutDigitoDoctoCivil(?string $outDigitoDoctoCivil): self
     {
         $this->outDigitoDoctoCivil = $outDigitoDoctoCivil;
+
         return $this;
     }
 
     public function setOutUfDoctoCivil(?string $outUFDoctoCivil): self
     {
         $this->outUFDoctoCivil = $outUFDoctoCivil;
+
         return $this;
     }
 
     public function setOutDataEmissaoDoctoCivil(?string $outDataEmissaoDoctoCivil): self
     {
         $this->outDataEmissaoDoctoCivil = $outDataEmissaoDoctoCivil;
+
         return $this;
     }
 
     public function setOutDataEmissaoCertidao(?string $outDataEmissaoCertidao): self
     {
         $this->outDataEmissaoCertidao = $outDataEmissaoCertidao;
+
         return $this;
     }
 
     /**
-     * Summary of fromJson
-     * @param array $data
-     * @return OutDocumentos
+     * Summary of fromJson.
      */
     public static function fromJson(array $data): self
     {

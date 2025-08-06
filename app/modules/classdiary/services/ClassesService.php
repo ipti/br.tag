@@ -15,7 +15,7 @@
 
         public function getClassroomsInstructor($discipline)
         {
-            if ($discipline != '') {
+            if ('' != $discipline) {
                 $sql = 'SELECT c.id, esvm.id as stage_fk, ii.name as instructor_name, ed.id as edcenso_discipline_fk,
                 ed.name as discipline_name, esvm.name as stage_name, c.name
                 from instructor_teaching_data itd
@@ -58,8 +58,8 @@
             return [
                 'valid' => true,
                 'classrooms' => $classrooms,
-                'minorSchoolingClassroom' => $minorSchoolingClassroom
-            ] ;
+                'minorSchoolingClassroom' => $minorSchoolingClassroom,
+            ];
         }
 
         public function getMinorSchoolingClassrooms()
@@ -80,7 +80,7 @@
         }
 
         /**
-         * Summary of getClassContents
+         * Summary of getClassContents.
          * @param mixed $classroom_fk
          * @param mixed $date
          * @param mixed $discipline_fk
@@ -148,7 +148,7 @@
                 }
                 $classContents = [];
                 foreach ($schedule->classContents as $classContent) {
-                    array_push($classContents, $classContent->courseClassFk->id);
+                    $classContents[] = $classContent->courseClassFk->id;
                 }
 
                 return [
@@ -162,7 +162,7 @@
         }
 
         /**
-         * Summary of SaveClassContents
+         * Summary of SaveClassContents.
          * @param mixed $classContent
          * @param mixed $stage_fk
          * @param mixed $date
@@ -194,12 +194,12 @@
                 'schedule_fk = :schedule_fk and coursePlanFk.users_fk = :user_fk',
                 [
                     'schedule_fk' => $schedule->id,
-                    'user_fk' => Yii::app()->user->loginInfos->id
+                    'user_fk' => Yii::app()->user->loginInfos->id,
                 ]
             ), 'id');
 
             if (!empty($contentsToExclude)) {
-                ClassContents::model()->deleteAll('id IN (' . implode(' , ', $contentsToExclude) . ')');
+                ClassContents::model()->deleteAll('id IN ('.implode(' , ', $contentsToExclude).')');
             }
 
             foreach ($classContent as $content) {
@@ -248,7 +248,7 @@
         public function isMinorSchooling($classroom, $stageFk)
         {
             return
-                $classroom->edcensoStageVsModalityFk->unified_frequency == 1 ||
+                1 == $classroom->edcensoStageVsModalityFk->unified_frequency ||
                 TagUtils::isStageMinorEducation($stageFk) ||
                 TagUtils::isStageMinorEducation(
                     $classroom->edcensoStageVsModalityFk->edcenso_associated_stage_id

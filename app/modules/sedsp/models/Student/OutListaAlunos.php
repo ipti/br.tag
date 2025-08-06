@@ -74,48 +74,56 @@ class OutListaAlunos
     public function setOutNumRa(?string $outNumRA): self
     {
         $this->outNumRA = $outNumRA;
+
         return $this;
     }
 
     public function setOutDigitoRa(?string $outDigitoRA): self
     {
         $this->outDigitoRA = $outDigitoRA;
+
         return $this;
     }
 
     public function setOutSiglaUfra(?string $outSiglaUFRA): self
     {
         $this->outSiglaUFRA = $outSiglaUFRA;
+
         return $this;
     }
 
     public function setOutNomeAluno(?string $outNomeAluno): self
     {
         $this->outNomeAluno = $outNomeAluno;
+
         return $this;
     }
 
     public function setOutNomeMae(?string $outNomeMae): self
     {
         $this->outNomeMae = $outNomeMae;
+
         return $this;
     }
 
     public function setOutNomePai(?string $outNomePai): self
     {
         $this->outNomePai = $outNomePai;
+
         return $this;
     }
 
     public function setOutNomeSocial(?string $outNomeSocial): self
     {
         $this->outNomeSocial = $outNomeSocial;
+
         return $this;
     }
 
     public function setOutDataNascimento(?string $outDataNascimento): self
     {
         $this->outDataNascimento = $outDataNascimento;
+
         return $this;
     }
 

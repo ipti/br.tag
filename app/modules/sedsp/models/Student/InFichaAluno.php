@@ -74,48 +74,56 @@ class InFichaAluno implements JsonSerializable
     public function setInDadosPessoais(?InDadosPessoais $inDadosPessoais): self
     {
         $this->inDadosPessoais = $inDadosPessoais;
+
         return $this;
     }
 
     public function setInDeficiencia(?InDeficiencia $inDeficiencia): self
     {
         $this->inDeficiencia = $inDeficiencia;
+
         return $this;
     }
 
     public function setInRecursoAvaliacao(?InRecursoAvaliacao $inRecursoAvaliacao): self
     {
         $this->inRecursoAvaliacao = $inRecursoAvaliacao;
+
         return $this;
     }
 
     public function setInDocumentos(?InDocumentos $inDocumentos): self
     {
         $this->inDocumentos = $inDocumentos;
+
         return $this;
     }
 
     public function setInCertidaoAntiga(?InCertidaoAntiga $inCertidaoAntiga): self
     {
         $this->inCertidaoAntiga = $inCertidaoAntiga;
+
         return $this;
     }
 
     public function setInCertidaoNova(?InCertidaoNova $inCertidaoNova): self
     {
         $this->inCertidaoNova = $inCertidaoNova;
+
         return $this;
     }
 
     public function setInEnderecoResidencial(?InEnderecoResidencial $inEnderecoResidencial): self
     {
         $this->inEnderecoResidencial = $inEnderecoResidencial;
+
         return $this;
     }
 
     public function setInRastreio(?InRastreio $inRastreio): self
     {
         $this->inRastreio = $inRastreio;
+
         return $this;
     }
 

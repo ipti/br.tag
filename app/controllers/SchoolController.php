@@ -2,7 +2,7 @@
 
 class SchoolController extends Controller
 {
-    //@done s1 - Recuperar endereço pelo CEP
+    // @done s1 - Recuperar endereço pelo CEP
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
      * using two-column layout. See 'protected/views/layouts/column2.php'.
@@ -47,7 +47,7 @@ class SchoolController extends Controller
                     'updateufdependencies',
                     'updatecitydependencies',
                     'displayLogo',
-                    'RemoveLogo'
+                    'RemoveLogo',
                 ],
                 'users' => ['@'],
             ],
@@ -78,7 +78,7 @@ class SchoolController extends Controller
         echo json_encode($result);
     }
 
-    //@done s1 - Funcionalidade de atualização dos Distritos e dos Órgãos Regionáis de Educação
+    // @done s1 - Funcionalidade de atualização dos Distritos e dos Órgãos Regionáis de Educação
     public function actionUpdateUfDependencies()
     {
         $school = new SchoolIdentification();
@@ -109,9 +109,9 @@ class SchoolController extends Controller
             $school = new SchoolIdentification();
             $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
         }
-        $uf = $Uf == null ? $school->edcenso_uf_fk : $Uf;
+        $uf = null == $Uf ? $school->edcenso_uf_fk : $Uf;
 
-        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => (int)$school->edcenso_uf_fk]);
+        $data = EdcensoCity::model()->findAll('edcenso_uf_fk=:uf_id', [':uf_id' => (int) $school->edcenso_uf_fk]);
         $data = CHtml::listData($data, 'id', 'name');
 
         $result = CHtml::tag('option', ['value' => ''], 'Selecione a cidade', true);
@@ -128,7 +128,7 @@ class SchoolController extends Controller
             $school = new SchoolIdentification();
             $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
         }
-        $city = $CITY == null ? $school->edcenso_city_fk : $CITY;
+        $city = null == $CITY ? $school->edcenso_city_fk : $CITY;
 
         $data = EdcensoDistrict::model()->findAll('edcenso_city_fk=:city_id', [':city_id' => $city]);
         $data = CHtml::listData($data, 'code', 'name');
@@ -144,7 +144,7 @@ class SchoolController extends Controller
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -229,7 +229,7 @@ class SchoolController extends Controller
                         $this->redirect(['index']);
                     }
                 } else {
-                    $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank'));
+                    $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location').' '.Yii::t('default', 'cannot be blank'));
                 }
             }
         }
@@ -239,7 +239,7 @@ class SchoolController extends Controller
             [
                 'modelSchoolIdentification' => $modelSchoolIdentification,
                 'modelSchoolStructure' => $modelSchoolStructure,
-                'modelManagerIdentification' => $modelManagerIdentification
+                'modelManagerIdentification' => $modelManagerIdentification,
             ]
         );
     }
@@ -247,7 +247,7 @@ class SchoolController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -307,13 +307,13 @@ class SchoolController extends Controller
                             ':school_fk' => $modelSchoolIdentification->inep_id,
                         ];
 
-                        if ($_POST[$this->SCHOOL_STRUCTURE]['stages'] != '') {
+                        if ('' != $_POST[$this->SCHOOL_STRUCTURE]['stages']) {
                             $criteriaStages->addNotInCondition('edcenso_stage_vs_modality_fk', $_POST[$this->SCHOOL_STRUCTURE]['stages']);
                             SchoolStages::model()->deleteAll($criteriaStages);
 
                             foreach ($_POST[$this->SCHOOL_STRUCTURE]['stages'] as $stage) {
                                 $schoolStages = SchoolStages::model()->find('school_fk = :school_fk and edcenso_stage_vs_modality_fk = :edcenso_stage_vs_modality_fk', [':school_fk' => $modelSchoolIdentification->inep_id, ':edcenso_stage_vs_modality_fk' => $stage]);
-                                if ($schoolStages == null) {
+                                if (null == $schoolStages) {
                                     $schoolStages = new SchoolStages();
                                     $schoolStages->school_fk = $modelSchoolIdentification->inep_id;
                                     $schoolStages->edcenso_stage_vs_modality_fk = $stage;
@@ -329,7 +329,7 @@ class SchoolController extends Controller
                         $this->redirect(['index']);
                     }
                 } else {
-                    $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location') . ' ' . Yii::t('default', 'cannot be blank'));
+                    $modelSchoolStructure->addError('operation_location_building', Yii::t('default', 'Operation Location').' '.Yii::t('default', 'cannot be blank'));
                 }
             }
         }
@@ -340,7 +340,7 @@ class SchoolController extends Controller
                 'modelSchoolIdentification' => $modelSchoolIdentification,
                 'modelSchoolStructure' => $modelSchoolStructure,
                 'modelManagerIdentification' => $modelManagerIdentification,
-                'disabledFields' => $disableFieldWhenItsUBATUBA
+                'disabledFields' => $disableFieldWhenItsUBATUBA,
             ]
         );
     }
@@ -348,7 +348,7 @@ class SchoolController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -375,7 +375,7 @@ class SchoolController extends Controller
             'index',
             [
                 'dataProvider' => $dataProvider,
-                'filter' => $filter
+                'filter' => $filter,
             ]
         );
     }
@@ -407,7 +407,7 @@ class SchoolController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer the ID of the model to be loaded
+     * @param int the ID of the model to be loaded
      */
     public function loadModel($id, $model)
     {
@@ -421,7 +421,7 @@ class SchoolController extends Controller
     }
 
     /**
-     * Summary of loadSchoolIdentification
+     * Summary of loadSchoolIdentification.
      * @param string $id
      *
      * @throws \CHttpException
@@ -448,27 +448,27 @@ class SchoolController extends Controller
         $stagesArray = [];
         $schoolStages = SchoolStages::model()->findAll('school_fk = :school_fk', ['school_fk' => $id]);
         foreach ($schoolStages as $stage) {
-            array_push($stagesArray, $stage->edcenso_stage_vs_modality_fk);
+            $stagesArray[] = $stage->edcenso_stage_vs_modality_fk;
         }
         $schoolStruct->stages = $stagesArray;
         $sharedSchoolInedIdArray = [];
-        if ($schoolStruct->shared_school_inep_id_1 != null) {
-            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_1);
+        if (null != $schoolStruct->shared_school_inep_id_1) {
+            $sharedSchoolInedIdArray[] = $schoolStruct->shared_school_inep_id_1;
         }
-        if ($schoolStruct->shared_school_inep_id_2 != null) {
-            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_2);
+        if (null != $schoolStruct->shared_school_inep_id_2) {
+            $sharedSchoolInedIdArray[] = $schoolStruct->shared_school_inep_id_2;
         }
-        if ($schoolStruct->shared_school_inep_id_3 != null) {
-            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_1);
+        if (null != $schoolStruct->shared_school_inep_id_3) {
+            $sharedSchoolInedIdArray[] = $schoolStruct->shared_school_inep_id_1;
         }
-        if ($schoolStruct->shared_school_inep_id_4 != null) {
-            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_4);
+        if (null != $schoolStruct->shared_school_inep_id_4) {
+            $sharedSchoolInedIdArray[] = $schoolStruct->shared_school_inep_id_4;
         }
-        if ($schoolStruct->shared_school_inep_id_5 != null) {
-            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_5);
+        if (null != $schoolStruct->shared_school_inep_id_5) {
+            $sharedSchoolInedIdArray[] = $schoolStruct->shared_school_inep_id_5;
         }
-        if ($schoolStruct->shared_school_inep_id_6 != null) {
-            array_push($sharedSchoolInedIdArray, $schoolStruct->shared_school_inep_id_6);
+        if (null != $schoolStruct->shared_school_inep_id_6) {
+            $sharedSchoolInedIdArray[] = $schoolStruct->shared_school_inep_id_6;
         }
         $schoolStruct->shared_school_inep_id_1 = $sharedSchoolInedIdArray;
 
@@ -489,17 +489,18 @@ class SchoolController extends Controller
     public function actionDisplayLogo($id)
     {
         $model = $this->loadModel($id, $this->SCHOOL_IDENTIFICATION);
-        header('Content-Type: ' . $model->logo_file_type);
-        if ($model->logo_file_content != null) {
-            print $model->logo_file_content;
+        header('Content-Type: '.$model->logo_file_type);
+        if (null != $model->logo_file_content) {
+            echo $model->logo_file_content;
+
             return;
         }
 
         $baseUrl = Yii::app()->getBaseUrl(true);
         $themeUrl = Yii::app()->theme->baseUrl;
-        $schoolLogo = $baseUrl . $themeUrl . '/img/emblema-escola.svg';
+        $schoolLogo = $baseUrl.$themeUrl.'/img/emblema-escola.svg';
         header('Content-Type: image/svg+xml');
-        print file_get_contents($schoolLogo);
+        echo file_get_contents($schoolLogo);
     }
 
     public function actionRemoveLogo($id)
@@ -519,7 +520,7 @@ class SchoolController extends Controller
         $this->render(
             'MonthlySummary',
             [
-                'model' => $model
+                'model' => $model,
             ]
         );
     }
@@ -548,7 +549,7 @@ class SchoolController extends Controller
             [
                 'model' => $model,
                 'type' => $type,
-                'title' => $title
+                'title' => $title,
             ]
         );
     }
@@ -574,7 +575,7 @@ class SchoolController extends Controller
             [
                 'model' => $model,
                 'type' => $type,
-                'title' => $title
+                'title' => $title,
             ]
         );
     }
@@ -585,7 +586,7 @@ class SchoolController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'school') {
+        if (isset($_POST['ajax']) && 'school' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

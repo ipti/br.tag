@@ -1,11 +1,11 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__ . '/../providers/CustomProvider.php';
+require_once __DIR__.'/../providers/CustomProvider.php';
 
-$yiit = __DIR__ . '\..\..\app\vendor\yiisoft\yii\framework\yiit.php';
+$yiit = __DIR__.'\..\..\app\vendor\yiisoft\yii\framework\yiit.php';
 require_once $yiit;
-$config = __DIR__ . '/../../app/config/test.php';
+$config = __DIR__.'/../../app/config/test.php';
 Yii::createWebApplication($config);
 
 /**
@@ -22,7 +22,7 @@ class InstructorBuilder
     private $fakerCustom = null;
 
     /**
-     * Summary of instructor
+     * Summary of instructor.
      * @var $instructor
      * @var $instructorVariable
      * @var $instructorDocumentsAddress
@@ -50,7 +50,7 @@ class InstructorBuilder
         $this->instructor['color_race'] = $this->faker->randomElement([0, 1, 2, 3, 4, 5]);
         $this->instructor['filiation'] = '1';
         $this->instructor['filiation_1'] = $this->faker->name();
-        $this->instructorDocumentsAddress['address'] = 'RUA ' . $this->faker->name();
+        $this->instructorDocumentsAddress['address'] = 'RUA '.$this->faker->name();
         $this->instructorDocumentsAddress['address_number'] = $this->faker->buildingNumber();
         $this->instructorDocumentsAddress['neighborhood'] = 'Centro';
         $this->instructorDocumentsAddress['diff_location'] = '7';

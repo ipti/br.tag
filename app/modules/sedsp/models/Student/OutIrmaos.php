@@ -58,43 +58,47 @@ class OutIrmaos
     public function setOutNomeAluno(?string $outNomeAluno): self
     {
         $this->outNomeAluno = $outNomeAluno;
+
         return $this;
     }
 
     public function setOutDataNascimento(?string $outDataNascimento): self
     {
         $this->outDataNascimento = $outDataNascimento;
+
         return $this;
     }
 
     public function setOutNumRa(?string $outNumRA): self
     {
         $this->outNumRA = $outNumRA;
+
         return $this;
     }
 
     public function setOutDigitoRa(?string $outDigitoRA): self
     {
         $this->outDigitoRA = $outDigitoRA;
+
         return $this;
     }
 
     public function setOutSiglaUfra(?string $outSiglaUFRA): self
     {
         $this->outSiglaUFRA = $outSiglaUFRA;
+
         return $this;
     }
 
     public function setOutGemeo(?string $outGemeo): self
     {
         $this->outGemeo = $outGemeo;
+
         return $this;
     }
 
     /**
-     * Summary of fromJson
-     * @param array $data
-     * @return OutIrmaos
+     * Summary of fromJson.
      */
     public static function fromJson(array $data): self
     {

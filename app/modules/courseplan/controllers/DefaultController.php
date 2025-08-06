@@ -62,7 +62,7 @@ class DefaultController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -94,6 +94,7 @@ class DefaultController extends Controller
         } else {
             $stages = Yii::app()->db->createCommand('select esvm.id, esvm.name from edcenso_stage_vs_modality esvm join curricular_matrix cm on cm.stage_fk = esvm.id where school_year = :year order by esvm.name')->bindParam(':year', Yii::app()->user->year)->queryAll();
         }
+
         return $stages;
     }
 
@@ -115,13 +116,13 @@ class DefaultController extends Controller
                 $resource['value'] = $courseClassHasClassResource->course_class_resource_fk;
                 $resource['description'] = $courseClassHasClassResource->courseClassResourceFk->name;
                 $resource['amount'] = $courseClassHasClassResource->amount;
-                array_push($courseClasses[$order]['resources'], $resource);
+                $courseClasses[$order]['resources'][] = $resource;
             }
             foreach ($courseClass->courseClassHasClassAbilities as $courseClassHasClassAbility) {
                 $ability['id'] = $courseClassHasClassAbility->courseClassAbilityFk->id;
                 $ability['code'] = $courseClassHasClassAbility->courseClassAbilityFk->code;
                 $ability['description'] = $courseClassHasClassAbility->courseClassAbilityFk->description;
-                array_push($courseClasses[$order]['abilities'], $ability);
+                $courseClasses[$order]['abilities'][] = $ability;
             }
             $courseClasses[$order]['deleteButton'] = empty($courseClass->classContents) ? '' : 'js-unavailable';
         }
@@ -143,13 +144,13 @@ class DefaultController extends Controller
             )
                 ->bindParam(':userid', Yii::app()->user->loginInfos->id)->bindParam(':stage_fk', $_POST['stage'])->bindParam(':year', Yii::app()->user->year)->queryAll();
             foreach ($disciplines as $discipline) {
-                array_push($result, ['id' => $discipline['id'], 'name' => CHtml::encode($disciplinesLabels[$discipline['id']])]);
+                $result[] = ['id' => $discipline['id'], 'name' => CHtml::encode($disciplinesLabels[$discipline['id']])];
             }
         } else {
             $disciplines = Yii::app()->db->createCommand('select curricular_matrix.discipline_fk from curricular_matrix join edcenso_discipline ed on ed.id = curricular_matrix.discipline_fk where stage_fk = :stage_fk and school_year = :year order by ed.name')->bindParam(':stage_fk', $_POST['stage'])->bindParam(':year', Yii::app()->user->year)->queryAll();
             foreach ($disciplines as $i => $discipline) {
                 if (isset($discipline['discipline_fk'])) {
-                    array_push($result, ['id' => $discipline['discipline_fk'], 'name' => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']])]);
+                    $result[] = ['id' => $discipline['discipline_fk'], 'name' => CHtml::encode($disciplinesLabels[$discipline['discipline_fk']])];
                 }
             }
         }
@@ -166,7 +167,7 @@ class DefaultController extends Controller
 
         $abilities = [];
 
-        if ($disciplineId != null) {
+        if (null != $disciplineId) {
             $criteria->condition = 'cca.edcenso_discipline_fk = :discipline and parent_fk is null';
             $criteria->params = [':discipline' => $disciplineId];
             $abilities = CourseClassAbilities::model()->findAll($criteria);
@@ -175,10 +176,10 @@ class DefaultController extends Controller
         $result = [];
         $result['options'] = [];
         foreach ($abilities as $i => $ability) {
-            if ($i == 0) {
+            if (0 == $i) {
                 $result['selectTitle'] = $ability['type'];
             }
-            array_push($result['options'], ['id' => $ability->id, 'code' => $ability->code, 'description' => $ability->description]);
+            $result['options'][] = ['id' => $ability->id, 'code' => $ability->code, 'description' => $ability->description];
         }
 
         echo CJSON::encode($result);
@@ -191,10 +192,10 @@ class DefaultController extends Controller
         $result = [];
         $result['options'] = [];
         foreach ($abilities as $i => $ability) {
-            if ($i == 0) {
+            if (0 == $i) {
                 $result['selectTitle'] = $ability['type'];
             }
-            array_push($result['options'], ['id' => $ability->id, 'code' => $ability->code, 'description' => $ability->description]);
+            $result['options'][] = ['id' => $ability->id, 'code' => $ability->code, 'description' => $ability->description];
         }
 
         echo CJSON::encode($result);
@@ -207,7 +208,7 @@ class DefaultController extends Controller
     {
         $request = Yii::app()->request->getPost('CoursePlan');
 
-        if ($id !== null) {
+        if (null !== $id) {
             $coursePlan = CoursePlan::model()->findByPk($id);
             $logSituation = 'U';
         } else {
@@ -224,7 +225,7 @@ class DefaultController extends Controller
         $courseClassIds = [];
         $i = 1;
         foreach ($_POST['course-class'] as $cc) {
-            if ($cc['id'] == '') {
+            if ('' == $cc['id']) {
                 $courseClass = new CourseClass();
                 $courseClass->course_plan_fk = $coursePlan->id;
             } else {
@@ -235,12 +236,12 @@ class DefaultController extends Controller
             $courseClass->type = $cc['type'];
             $courseClass->save();
 
-            array_push($courseClassIds, $courseClass->id);
+            $courseClassIds[] = $courseClass->id;
 
-            CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '" . implode("', '", $cc['ability']) . "' )", [':course_class_fk' => $courseClass->id]);
+            CourseClassHasClassAbility::model()->deleteAll("course_class_fk = :course_class_fk and course_class_ability_fk not in ( '".implode("', '", $cc['ability'])."' )", [':course_class_fk' => $courseClass->id]);
             foreach ($cc['ability'] as $abilityId) {
                 $courseClassHasClassAbility = CourseClassHasClassAbility::model()->find('course_class_fk = :course_class_fk and course_class_ability_fk = :course_class_ability_fk', ['course_class_fk' => $courseClass->id, 'course_class_ability_fk' => $abilityId]);
-                if ($courseClassHasClassAbility == null) {
+                if (null == $courseClassHasClassAbility) {
                     $courseClassHasClassAbility = new CourseClassHasClassAbility();
                     $courseClassHasClassAbility->course_class_fk = $courseClass->id;
                     $courseClassHasClassAbility->course_class_ability_fk = $abilityId;
@@ -248,20 +249,20 @@ class DefaultController extends Controller
                 }
             }
 
-            if ($cc['resource'] != null) {
+            if (null != $cc['resource']) {
                 $idsArray = [];
                 foreach ($cc['resource'] as $r) {
                     $courseClassHasClassResource = CourseClassHasClassResource::model()->find('id = :id', ['id' => $r['id']]);
-                    if ($courseClassHasClassResource == null) {
+                    if (null == $courseClassHasClassResource) {
                         $courseClassHasClassResource = new CourseClassHasClassResource();
                         $courseClassHasClassResource->course_class_fk = $courseClass->id;
                         $courseClassHasClassResource->course_class_resource_fk = $r['value'];
                     }
                     $courseClassHasClassResource->amount = $r['amount'];
                     $courseClassHasClassResource->save();
-                    array_push($idsArray, $courseClassHasClassResource->id);
+                    $idsArray[] = $courseClassHasClassResource->id;
                 }
-                CourseClassHasClassResource::model()->deleteAll("course_class_fk = :course_class_fk and id not in ( '" . implode("', '", $idsArray) . "' )", [':course_class_fk' => $courseClass->id]);
+                CourseClassHasClassResource::model()->deleteAll("course_class_fk = :course_class_fk and id not in ( '".implode("', '", $idsArray)."' )", [':course_class_fk' => $courseClass->id]);
             } else {
                 CourseClassHasClassResource::model()->deleteAll('course_class_fk = :course_class_fk', [':course_class_fk' => $courseClass->id]);
             }
@@ -270,7 +271,7 @@ class DefaultController extends Controller
         if (empty($courseClassIds)) {
             CourseClass::model()->deleteAll('course_plan_fk = :course_plan_fk', [':course_plan_fk' => $coursePlan->id]);
         } else {
-            CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '" . implode("', '", $courseClassIds) . "' )", [':course_plan_fk' => $coursePlan->id]);
+            CourseClass::model()->deleteAll("course_plan_fk = :course_plan_fk and id not in ( '".implode("', '", $courseClassIds)."' )", [':course_plan_fk' => $coursePlan->id]);
         }
         Log::model()->saveAction('courseplan', $id, $logSituation, $coursePlan->name);
         Yii::app()->user->setFlash('success', Yii::t('default', 'Plano de Curso salvo com sucesso!'));
@@ -298,17 +299,17 @@ class DefaultController extends Controller
     public function dataConverter($data, $case)
     {
         // Caso 0: converte dd/mm/yyyy para yyyy-mm-dd
-        if ($case == 0) {
+        if (0 == $case) {
             $dataObj = date_create_from_format('d/m/Y', $data);
-            if (!$dataObj == false) {
+            if (false == !$dataObj) {
                 return date_format($dataObj, 'Y-m-d');
             }
         }
 
         // Caso 1: converte yyyy-mm-dd para dd/mm/yyyy
-        if ($case == 1) {
+        if (1 == $case) {
             $dataObj = date_create_from_format('d/m/Y');
-            if (!$dataObj == false) {
+            if (false == !$dataObj) {
                 return date_format($dataObj, 'Y-m-d');
             }
         }
@@ -322,15 +323,14 @@ class DefaultController extends Controller
         $resources = CHtml::listData($resources, 'id', 'name');
         $options = [];
         foreach ($resources as $value => $name) {
-            array_push(
-                $options,
+                $options[] =
                 CHtml::tag(
                     'option',
                     ['value' => $value],
                     CHtml::encode($name),
                     true
                 )
-            );
+            ;
         }
         echo CJSON::encode($options);
     }
@@ -365,13 +365,13 @@ class DefaultController extends Controller
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $dataProvider = new CActiveDataProvider('CoursePlan', [
                 'criteria' => [
-                    'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id,
+                    'condition' => 'users_fk='.Yii::app()->user->loginInfos->id,
                 ],
-                'pagination' => false
+                'pagination' => false,
             ]);
         } else {
             $dataProvider = new CActiveDataProvider('CoursePlan', [
-                'pagination' => false
+                'pagination' => false,
             ]);
         }
 
@@ -388,11 +388,11 @@ class DefaultController extends Controller
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $dataProvider = new CActiveDataProvider('CoursePlan', [
                 'criteria' => $criteria,
-                'pagination' => false
+                'pagination' => false,
             ]);
         } else {
             $dataProvider = new CActiveDataProvider('CoursePlan', [
-                'pagination' => false
+                'pagination' => false,
             ]);
         }
 
@@ -404,16 +404,17 @@ class DefaultController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return CoursePlan the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = CoursePlan::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -423,7 +424,7 @@ class DefaultController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'course-plan-form') {
+        if (isset($_POST['ajax']) && 'course-plan-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

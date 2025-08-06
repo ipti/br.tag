@@ -2,11 +2,9 @@
 
 use Sentry\Tracing\TransactionContext;
 use Sentry\SentrySdk;
-use Sentry\State\Hub;
-use Sentry\Event;
 
 Yii::import('application.modules.enrollmentonline.repository.*');
-class EnrollmentOnlineStudentIdentificationController extends Controller
+class EnrollmentonlinestudentidentificationController extends Controller
 {
     /**
      * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -64,7 +62,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             Yii::app()->sentry->setUserContext([
                 'id' => Yii::app()->user->loginInfos->id,
                 'username' => Yii::app()->user->loginInfos->username,
-                'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id)
+                'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id),
             ]);
         }
     }
@@ -81,7 +79,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         }
 
         $transaction = SentrySdk::getCurrentHub()->startTransaction(new TransactionContext(
-            Yii::app()->controller->id . '/' . $action->id,
+            Yii::app()->controller->id.'/'.$action->id,
         ));
 
         SentrySdk::getCurrentHub()->setSpan($transaction);
@@ -92,22 +90,25 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
                 $lastActivity = Yii::app()->user->getState('last_activity');
                 $timeout = Yii::app()->user->authTimeout;
 
-                if ($lastActivity !== null && (time() - $lastActivity > $timeout)) {
+                if (null !== $lastActivity && (time() - $lastActivity > $timeout)) {
                     Yii::app()->user->logout();
+
                     return false;
                 }
             }
 
             // Atualiza a última atividade
             Yii::app()->user->setState('last_activity', time());
+
             return true;
         }
+
         return false;
     }
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -132,7 +133,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             $model->attributes = $_POST['EnrollmentOnlineStudentIdentification'];
             $repository = new EnrollmentonlinestudentidentificationRepository($model);
             $user = $repository->savePreEnrollment();
-            Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora voê pode acompnhar o andamento no com seu login ' . $user->username . ''));
+            Yii::app()->user->setFlash('success', Yii::t('default', 'Pre-matricula realizada om sucesso! Agora voê pode acompnhar o andamento no com seu login '.$user->username.''));
         }
 
         $this->render('create', [
@@ -148,7 +149,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -172,7 +173,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -213,16 +214,17 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return EnrollmentOnlineStudentIdentification the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = EnrollmentOnlineStudentIdentification::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -232,7 +234,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'enrollment-online-student-identification-form') {
+        if (isset($_POST['ajax']) && 'enrollment-online-student-identification-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

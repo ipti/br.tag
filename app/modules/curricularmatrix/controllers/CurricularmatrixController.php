@@ -56,7 +56,7 @@ class CurricularmatrixController extends Controller
         $disciplines = $_POST['disciplines'];
         $workload = $_POST['workload'];
         $credits = $_POST['credits'];
-        if ($stages !== '' && $disciplines !== '' && $workload !== '' && $credits !== '') {
+        if ('' !== $stages && '' !== $disciplines && '' !== $workload && '' !== $credits) {
             foreach ($stages as $stage) {
                 foreach ($disciplines as $discipline) {
                     $matrix = CurricularMatrix::model()->find(
@@ -64,17 +64,17 @@ class CurricularmatrixController extends Controller
                         [
                             ':stage' => $stage,
                             ':discipline' => $discipline,
-                            ':year' => Yii::app()->user->year
+                            ':year' => Yii::app()->user->year,
                         ]
                     );
                     $logSituation = 'U';
-                    if ($matrix == null) {
+                    if (null == $matrix) {
                         $matrix = new CurricularMatrix();
                         $matrix->setAttributes(
                             [
                                 'stage_fk' => $stage,
                                 'discipline_fk' => $discipline,
-                                'school_year' => Yii::app()->user->year
+                                'school_year' => Yii::app()->user->year,
                             ]
                         );
                         $logSituation = 'C';
@@ -90,7 +90,7 @@ class CurricularmatrixController extends Controller
                     $result = $matrix->save();
 
                     if ($result) {
-                        Log::model()->saveAction('curricular_matrix', $stage . '|' . $discipline, $logSituation, $stageName . '|' . $disciplineName);
+                        Log::model()->saveAction('curricular_matrix', $stage.'|'.$discipline, $logSituation, $stageName.'|'.$disciplineName);
                     }
                 }
             }
@@ -105,7 +105,7 @@ class CurricularmatrixController extends Controller
         $curricularMatrixesPreviousYear = CurricularMatrix::model()->findAll('school_year = :year', [':year' => Yii::app()->user->year - 1]);
         foreach ($curricularMatrixesPreviousYear as $curricularMatrixPreviousYear) {
             $curricularMatrixCurrentYear = CurricularMatrix::model()->find('stage_fk = :stage_fk and discipline_fk = :discipline_fk and school_year = :year', [':stage_fk' => $curricularMatrixPreviousYear->stage_fk, ':discipline_fk' => $curricularMatrixPreviousYear->discipline_fk, ':year' => Yii::app()->user->year]);
-            if ($curricularMatrixCurrentYear == null) {
+            if (null == $curricularMatrixCurrentYear) {
                 $curricularMatrixCurrentYear = new CurricularMatrix();
                 $curricularMatrixCurrentYear->stage_fk = $curricularMatrixPreviousYear->stage_fk;
                 $curricularMatrixCurrentYear->discipline_fk = $curricularMatrixPreviousYear->discipline_fk;
@@ -133,18 +133,19 @@ class CurricularmatrixController extends Controller
             $return = CurricularMatrix::model()->findByPk($id);
         }
 
-        if ($return === null) {
+        if (null === $return) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $return;
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
-    //@done s1 - excluir Matrix Curricular
+    // @done s1 - excluir Matrix Curricular
     public function actionDelete($id, $confirm = 0)
     {
         $curricularMatrix = $this->loadModel($id, $this->MODEL_CURRICULAR_MATRIX);
@@ -164,7 +165,7 @@ class CurricularmatrixController extends Controller
             <br>
             <br>
             <br>
-            Ao excluir essa matriz, você pode estar removendo <strong>aulas</strong>, <strong>frequência</strong> e dados do <strong>quadro de horário</strong> das turmas de todas as escolas que usam essa matriz, caso tenha certeza e deseje continuar clique <a data-id="' . $id . '" class="confirm-delete" href="/?r=curricularmatrix/curricularmatrix/delete&id=' . $id . '&confirm=1"> <strong>>> aqui <<</strong></a>
+            Ao excluir essa matriz, você pode estar removendo <strong>aulas</strong>, <strong>frequência</strong> e dados do <strong>quadro de horário</strong> das turmas de todas as escolas que usam essa matriz, caso tenha certeza e deseje continuar clique <a data-id="'.$id.'" class="confirm-delete" href="/?r=curricularmatrix/curricularmatrix/delete&id='.$id.'&confirm=1"> <strong>>> aqui <<</strong></a>
             <br>
             <br>
             <br>

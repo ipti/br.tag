@@ -14,7 +14,7 @@ class DefaultController extends Controller
         $transaction = Yii::app()->db->beginTransaction();
         // Verifica se há dados na requisição enviada
         // Caso negativo, renderiza o formulário
-        if ($request === null) {
+        if (null === $request) {
             $this->render('create', [
                 'model' => $modelFoodMenu,
             ]);
@@ -26,7 +26,7 @@ class DefaultController extends Controller
             isset($request['food_public_target']) &&
             isset($request['description']);
 
-        if ($allFieldsAreFilled === false) {
+        if (false === $allFieldsAreFilled) {
             // Caso de erro> Falha quando um dos campos obrigatórios do cardápio não foram enviados
             $message = 'Ocorreu um erro! Campos obrigatórios do Cardápio não foram preenchidos.';
             throw new CHttpException(400, $message);
@@ -44,7 +44,7 @@ class DefaultController extends Controller
         // Verifica se a ação de salvar foodMenu ocorreu com sucesso, caso falhe encerra a aplicação
         $saveFoodMenuResult = $modelFoodMenu->save();
 
-        if ($saveFoodMenuResult == false) {
+        if (false == $saveFoodMenuResult) {
             $message = 'Ocorreu um erro ao salvar o cardápio! Tente novamente.';
             $transaction->rollback();
             throw new CHttpException(500, $message);

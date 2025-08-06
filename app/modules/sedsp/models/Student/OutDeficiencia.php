@@ -58,43 +58,45 @@ class OutDeficiencia
     public function setOutMobilidadeReduzida(?string $outMobilidadeReduzida): self
     {
         $this->outMobilidadeReduzida = $outMobilidadeReduzida;
+
         return $this;
     }
 
     public function setOutDescMobilidadeReduzida(?string $outDescMobilidadeReduzida): self
     {
         $this->outDescMobilidadeReduzida = $outDescMobilidadeReduzida;
+
         return $this;
     }
 
     public function setOutCuidador(?string $outCuidador): self
     {
         $this->outCuidador = $outCuidador;
+
         return $this;
     }
 
     public function setOutDescCuidador(?string $outDescCuidador): self
     {
         $this->outDescCuidador = $outDescCuidador;
+
         return $this;
     }
 
     public function setOutProfSaude(?string $outProfSaude): self
     {
         $this->outProfSaude = $outProfSaude;
+
         return $this;
     }
 
     public function setOutDescProfSaude(?string $outDescProfSaude): self
     {
         $this->outDescProfSaude = $outDescProfSaude;
+
         return $this;
     }
 
-    /**
-     * @param array $data
-     * @return self
-     */
     public static function fromJson(array $data): self
     {
         return new self(

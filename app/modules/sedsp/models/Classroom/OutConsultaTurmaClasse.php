@@ -210,150 +210,175 @@ class OutConsultaTurmaClasse
     public function setOutAnoLetivo(?int $outAnoLetivo): self
     {
         $this->outAnoLetivo = $outAnoLetivo;
+
         return $this;
     }
 
     public function setOutCodEscola(?int $outCodEscola): self
     {
         $this->outCodEscola = $outCodEscola;
+
         return $this;
     }
 
     public function setOutNomeEscola(?string $outNomeEscola): self
     {
         $this->outNomeEscola = $outNomeEscola;
+
         return $this;
     }
 
     public function setOutCodUnidade(?int $outCodUnidade): self
     {
         $this->outCodUnidade = $outCodUnidade;
+
         return $this;
     }
 
     public function setOutCodTipoClasse(?int $outCodTipoClasse): self
     {
         $this->outCodTipoClasse = $outCodTipoClasse;
+
         return $this;
     }
 
     public function setOutCodTurno(?int $outCodTurno): self
     {
         $this->outCodTurno = $outCodTurno;
+
         return $this;
     }
 
     public function setOutDescricaoTurno(?string $outDescricaoTurno): self
     {
         $this->outDescricaoTurno = $outDescricaoTurno;
+
         return $this;
     }
 
     public function setOutTurma(?string $outTurma): self
     {
         $this->outTurma = $outTurma;
+
         return $this;
     }
 
     public function setOutDescricaoTurma(?string $outDescricaoTurma): self
     {
         $this->outDescricaoTurma = $outDescricaoTurma;
+
         return $this;
     }
 
     public function setOutNrCapacidadeFisicaMaxima(?int $outNrCapacidadeFisicaMaxima): self
     {
         $this->outNrCapacidadeFisicaMaxima = $outNrCapacidadeFisicaMaxima;
+
         return $this;
     }
 
     public function setOutNrAlunosAtivos(?int $outNrAlunosAtivos): self
     {
         $this->outNrAlunosAtivos = $outNrAlunosAtivos;
+
         return $this;
     }
 
     public function setOutDataInicioAula(?string $outDataInicioAula): self
     {
         $this->outDataInicioAula = $outDataInicioAula;
+
         return $this;
     }
 
     public function setOutDataFimAula(?string $outDataFimAula): self
     {
         $this->outDataFimAula = $outDataFimAula;
+
         return $this;
     }
 
     public function setOutHorarioInicioAula(?string $outHorarioInicioAula): self
     {
         $this->outHorarioInicioAula = $outHorarioInicioAula;
+
         return $this;
     }
 
     public function setOutHorarioFimAula(?string $outHorarioFimAula): self
     {
         $this->outHorarioFimAula = $outHorarioFimAula;
+
         return $this;
     }
 
     public function setOutCodDuracao(?int $outCodDuracao): self
     {
         $this->outCodDuracao = $outCodDuracao;
+
         return $this;
     }
 
     public function setOutCodHabilitacao(?int $outCodHabilitacao): self
     {
         $this->outCodHabilitacao = $outCodHabilitacao;
+
         return $this;
     }
 
     public function setOutAtividadesComplementar(?array $outAtividadesComplementar): self
     {
         $this->outAtividadesComplementar = $outAtividadesComplementar;
+
         return $this;
     }
 
     public function setOutCodTipoEnsino(?int $outCodTipoEnsino): self
     {
         $this->outCodTipoEnsino = $outCodTipoEnsino;
+
         return $this;
     }
 
     public function setOutNomeTipoEnsino(?string $outNomeTipoEnsino): self
     {
         $this->outNomeTipoEnsino = $outNomeTipoEnsino;
+
         return $this;
     }
 
     public function setOutNumeroSala(?string $outNumeroSala): self
     {
         $this->outNumeroSala = $outNumeroSala;
+
         return $this;
     }
 
     public function setOutCodSerieAno(?int $outCodSerieAno): self
     {
         $this->outCodSerieAno = $outCodSerieAno;
+
         return $this;
     }
 
     public function setOutDescricaoSerieAno(?string $outDescricaoSerieAno): self
     {
         $this->outDescricaoSerieAno = $outDescricaoSerieAno;
+
         return $this;
     }
 
     public function setOutDiasSemana(?OutDiasSemana $outDiasSemana): self
     {
         $this->outDiasSemana = $outDiasSemana;
+
         return $this;
     }
 
     public function setOutProcessoId(?int $outProcessoID): self
     {
         $this->outProcessoID = $outProcessoID;
+
         return $this;
     }
 
@@ -384,7 +409,7 @@ class OutConsultaTurmaClasse
             $data['outCodSerieAno'] ?? null,
             $data['outDescricaoSerieAno'] ?? null,
             ($data['outDiasSemana'] ?? null) !== null ? OutDiasSemana::fromJson($data['outDiasSemana']) : null,
-            intval($data['outProcessoID']) ?? null
+            (int) $data['outProcessoID'] ?? null
         );
     }
 }

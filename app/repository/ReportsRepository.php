@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__ . '/../vendor/yiisoft/yii/framework/db/schema/CDbCriteria.php';
+include_once __DIR__.'/../vendor/yiisoft/yii/framework/db/schema/CDbCriteria.php';
 
 class ReportsRepository
 {
@@ -44,7 +44,7 @@ class ReportsRepository
     }
 
     /**
-     * Total de Alunos Matriculados por Escola
+     * Total de Alunos Matriculados por Escola.
      */
     public function getTotalNumberOfStudentsEnrolled(): array
     {
@@ -71,7 +71,7 @@ class ReportsRepository
     }
 
     /**
-     * Alunos com CPF, RG e NIS de todas as Escolas
+     * Alunos com CPF, RG e NIS de todas as Escolas.
      */
     public function getStudentCpfRgNisAllSchools(): array
     {
@@ -92,13 +92,13 @@ class ReportsRepository
 
         $allSchools = true;
 
-        $title = 'RELATÓRIO DE ALUNOS DE TODAS AS ESCOLAS (CPF, RG E NIS)<br>' . $school->name;
+        $title = 'RELATÓRIO DE ALUNOS DE TODAS AS ESCOLAS (CPF, RG E NIS)<br>'.$school->name;
 
         return ['report' => $result, 'allSchools' => $allSchools, 'title' => $title];
     }
 
     /**
-     * Alunos com CPF, RG e NIS de todas as Turmas
+     * Alunos com CPF, RG e NIS de todas as Turmas.
      */
     public function getStudentCpfRgNisAllClassrooms(): array
     {
@@ -119,13 +119,13 @@ class ReportsRepository
 
         $allClassrooms = true;
 
-        $title = 'RELATÓRIO DE ALUNOS POR ESCOLA (CPF, RG E NIS)<br>' . $school->name;
+        $title = 'RELATÓRIO DE ALUNOS POR ESCOLA (CPF, RG E NIS)<br>'.$school->name;
 
         return ['report' => $result, 'allClassrooms' => $allClassrooms, 'title' => $title];
     }
 
     /**
-     * Alunos com CPF, RG e NIS por Turma
+     * Alunos com CPF, RG e NIS por Turma.
      */
     public function getStudentCpfRgNisPerClassroom(CHttpRequest $request): array
     {
@@ -145,13 +145,13 @@ class ReportsRepository
             ->bindParam(':classroom', $classroom)
             ->queryAll();
 
-        $title = 'RELATÓRIO DE ALUNOS POR TURMA (CPF, RG E NIS)<br>' . $classroomModel->name;
+        $title = 'RELATÓRIO DE ALUNOS POR TURMA (CPF, RG E NIS)<br>'.$classroomModel->name;
 
         return ['report' => $result, 'title' => $title];
     }
 
     /**
-     * Número de Alunos Matriculados por Período em todas as Escolas
+     * Número de Alunos Matriculados por Período em todas as Escolas.
      */
     public function getNumberOfStudentsEnrolledPerPeriodAllSchools(CHttpRequest $request): array
     {
@@ -198,7 +198,7 @@ class ReportsRepository
     }
 
     /**
-     * Número de Alunos Matriculados por Período por Escola
+     * Número de Alunos Matriculados por Período por Escola.
      */
     public function getNumberOfStudentsEnrolledPerPeriodPerSchool(CHttpRequest $request): array
     {
@@ -242,13 +242,13 @@ class ReportsRepository
 
         $allClassrooms = true;
 
-        $title = 'QUANTITATIVO DE ALUNOS MATRICULADOS POR PERÍODO<br>' . $school->name;
+        $title = 'QUANTITATIVO DE ALUNOS MATRICULADOS POR PERÍODO<br>'.$school->name;
 
         return ['report' => $result, 'allClassrooms' => $allClassrooms, 'title' => $title];
     }
 
     /**
-     * Número de Alunos Matriculados por Período por Turma
+     * Número de Alunos Matriculados por Período por Turma.
      */
     public function getNumberOfStudentsEnrolledPerPeriodPerClassroom(CHttpRequest $request): array
     {
@@ -286,13 +286,13 @@ class ReportsRepository
             ->bindParam(':end_date', $endDate)
             ->queryAll();
 
-        $title = 'QUANTITATIVO DE ALUNOS MATRICULADOS POR PERÍODO<br>' . $classroom->name;
+        $title = 'QUANTITATIVO DE ALUNOS MATRICULADOS POR PERÍODO<br>'.$classroom->name;
 
         return ['report' => $result, 'title' => $title];
     }
 
     /**
-     * Alunos Beneficiários do Bolsa Família de todas as Turmas
+     * Alunos Beneficiários do Bolsa Família de todas as Turmas.
      */
     public function getAllClassroomsReportOfStudentsBenefitingFromTheBF(): array
     {
@@ -309,7 +309,7 @@ class ReportsRepository
 
         $school = SchoolIdentification::model()->findByPk($this->currentSchool);
         $allSchools = false;
-        $title = 'BENEFICIÁRIOS DO BOLSA FAMÍLIA DE TODAS AS TURMAS<br>' . $school->name;
+        $title = 'BENEFICIÁRIOS DO BOLSA FAMÍLIA DE TODAS AS TURMAS<br>'.$school->name;
 
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(':school_year', $this->currentYear)
@@ -320,7 +320,7 @@ class ReportsRepository
     }
 
     /**
-     * Alunos Beneficiários do Bolsa Família de todas as Escolas
+     * Alunos Beneficiários do Bolsa Família de todas as Escolas.
      */
     public function getAllSchoolsReportOfStudentsBenefitingFromTheBF(): array
     {
@@ -346,7 +346,7 @@ class ReportsRepository
     }
 
     /**
-     * Alunos Beneficiários do Bolsa Família por Turma
+     * Alunos Beneficiários do Bolsa Família por Turma.
      */
     public function getReportOfStudentsBenefitingFromTheBFPerClassroom(CHttpRequest $request): array
     {
@@ -366,7 +366,7 @@ class ReportsRepository
         $allSchools = false;
         $classroom = Classroom::model()->findByPk($classroomId);
 
-        $title = 'BENEFICIÁRIOS DO BOLSA FAMÍLIA<br> ' . $classroom->name;
+        $title = 'BENEFICIÁRIOS DO BOLSA FAMÍLIA<br> '.$classroom->name;
         $result = Yii::app()->db->createCommand($sql)
             ->bindParam(':school_year', $this->currentYear)
             ->bindParam(':classroom_id', $classroomId)
@@ -376,12 +376,12 @@ class ReportsRepository
     }
 
     /**
-     * Quantidade de Turmas por Escola
+     * Quantidade de Turmas por Escola.
      */
     public function getNumberOfClassesPerSchool(): array
     {
         $criteria = new CDbCriteria();
-        $criteria->condition = "school_year = '" . $this->currentYear . "'";
+        $criteria->condition = "school_year = '".$this->currentYear."'";
 
         $schools = SchoolIdentification::model()->findAll();
         $classrooms = Classroom::model()->findAll($criteria);
@@ -391,22 +391,21 @@ class ReportsRepository
         $result = [];
 
         foreach ($schools as $school) {
-            array_push(
-                $result,
+                $result[] =
                 [
                     'school' => $school,
                     'classrooms' => array_filter($classrooms, function ($classroom) use ($school) {
                         return $classroom->school_inep_fk == $school->inep_id;
-                    })
+                    }),
                 ]
-            );
+            ;
         }
 
         return ['report' => $result, 'title' => $title];
     }
 
     /**
-     * Ata de Formação de Professores
+     * Ata de Formação de Professores.
      */
     public function getTeacherTrainingReport(CHttpRequest $request): array
     {
@@ -447,11 +446,11 @@ class ReportsRepository
 
         $disciplines = [];
         foreach ($result as $r) {
-            array_push($disciplines, $r['discipline']);
+            $disciplines[] = $r['discipline'];
         }
         $disciplines = array_unique($disciplines);
 
-        $title = $modelReport . 'º Ano - Formação de Professores na Modalidade Normal, em Nível Médio';
+        $title = $modelReport.'º Ano - Formação de Professores na Modalidade Normal, em Nível Médio';
 
         return [
             'classroom' => $result,
@@ -461,12 +460,12 @@ class ReportsRepository
             'quarterly' => $quarterly,
             'year' => $year,
             'title' => $title,
-            'disciplines' => $disciplines
+            'disciplines' => $disciplines,
         ];
     }
 
     /**
-     * Dados Estatísticos
+     * Dados Estatísticos.
      */
     public function getStatisticalData(): array
     {
@@ -495,14 +494,14 @@ class ReportsRepository
             $studentsByStage = array_filter($students, function ($student) use ($stage) {
                 return $student['stage'] == $stage->id;
             });
-            array_push($result, ['stage' => $stage, 'students' => $studentsByStage]);
+            $result[] = ['stage' => $stage, 'students' => $studentsByStage];
         }
 
         return ['report' => $result];
     }
 
     /**
-     * Relatório de Transferência da Turma
+     * Relatório de Transferência da Turma.
      */
     public function getClassroomTransferReport(CHttpRequest $request): array
     {
@@ -526,7 +525,7 @@ class ReportsRepository
     }
 
     /**
-     * Relatório de Transferência da Escola
+     * Relatório de Transferência da Escola.
      */
     public function getSchoolTransferReport(): array
     {
@@ -549,7 +548,7 @@ class ReportsRepository
     }
 
     /**
-     * Relatório de Transferência de todas as Escolas
+     * Relatório de Transferência de todas as Escolas.
      */
     public function getAllSchoolsTransferReport(): array
     {
@@ -570,7 +569,7 @@ class ReportsRepository
     }
 
     /**
-     * Professores por Etapa
+     * Professores por Etapa.
      */
     public function getTeachersByStage(): array
     {
@@ -594,14 +593,14 @@ class ReportsRepository
             $instructorByStage = array_filter($instructors, function ($instructor) use ($stage) {
                 return $instructor['stage'] == $stage->id;
             });
-            array_push($result, ['stage' => $stage, 'instructors' => $instructorByStage]);
+            $result[] = ['stage' => $stage, 'instructors' => $instructorByStage];
         }
 
         return ['report' => $result];
     }
 
     /**
-     * Professores por Escola
+     * Professores por Escola.
      */
     public function getTeachersBySchool(): array
     {
@@ -631,14 +630,14 @@ class ReportsRepository
             $instructorBySchool = array_filter($instructors, function ($instructor) use ($school) {
                 return $instructor['school_inep_fk'] == $school->inep_id;
             });
-            array_push($result, ['school' => $school, 'instructors' => $instructorBySchool]);
+            $result[] = ['school' => $school, 'instructors' => $instructorBySchool];
         }
 
         return ['report' => $result];
     }
 
     /**
-     * Relatório CNS por Turma
+     * Relatório CNS por Turma.
      */
     public function getCnsPerClassroomReport(CHttpRequest $request): array
     {
@@ -664,7 +663,7 @@ class ReportsRepository
     }
 
     /**
-     * Relatório CNS de todas as Escolas
+     * Relatório CNS de todas as Escolas.
      */
     public function getCnsSchools(): array
     {
@@ -691,7 +690,7 @@ class ReportsRepository
     }
 
     /**
-     * Relatório CNS por Escola
+     * Relatório CNS por Escola.
      */
     public function getCnsPerSchool(): array
     {
@@ -719,7 +718,7 @@ class ReportsRepository
     }
 
     /**
-     * Relatório Trimestral
+     * Relatório Trimestral.
      */
     public function getQuarterlyReport(CHttpRequest $request): array
     {
@@ -753,7 +752,7 @@ class ReportsRepository
             ->bindParam(':classroom_id', $classroom->id)
             ->queryAll();
 
-        if ($model == 1) {
+        if (1 == $model) {
             $view = 'buzios/quarterly/QuarterlyReportFirstYear';
             $result = [
                 'student_identification' => $studentIdent,
@@ -761,9 +760,9 @@ class ReportsRepository
                 'classroom' => $classroom,
                 'school' => $school,
                 'current_year' => $currentYear,
-                'regentTeachers' => $regentTeachers
+                'regentTeachers' => $regentTeachers,
             ];
-        } elseif ($model == 2) {
+        } elseif (2 == $model) {
             $view = 'buzios/quarterly/QuarterlyReportSecondYear';
             $result = [
                 'student_identification' => $studentIdent,
@@ -771,9 +770,9 @@ class ReportsRepository
                 'classroom' => $classroom,
                 'school' => $school,
                 'current_year' => $currentYear,
-                'regentTeachers' => $regentTeachers
+                'regentTeachers' => $regentTeachers,
             ];
-        } elseif ($model == 3) {
+        } elseif (3 == $model) {
             $view = 'buzios/quarterly/QuarterlyReportThreeYear';
             $result = [
                 'student_identification' => $studentIdent,
@@ -781,9 +780,9 @@ class ReportsRepository
                 'classroom' => $classroom,
                 'school' => $school,
                 'current_year' => $currentYear,
-                'regentTeachers' => $regentTeachers
+                'regentTeachers' => $regentTeachers,
             ];
-        } elseif ($model == 4) {
+        } elseif (4 == $model) {
             $view = 'buzios/quarterly/QuarterlyReportNurseryrII';
             $result = [
                 'student_identification' => $studentIdent,
@@ -793,9 +792,9 @@ class ReportsRepository
                 'school' => $school,
                 'current_year' => $currentYear,
                 'dateFormatCorrect' => $dateFormatCorrect,
-                'regentTeachers' => $regentTeachers
+                'regentTeachers' => $regentTeachers,
             ];
-        } elseif ($model == 5) {
+        } elseif (5 == $model) {
             $view = 'buzios/quarterly/QuarterlyReportNurseryrIII';
             $result = [
                 'student_identification' => $studentIdent,
@@ -805,9 +804,9 @@ class ReportsRepository
                 'school' => $school,
                 'current_year' => $currentYear,
                 'dateFormatCorrect' => $dateFormatCorrect,
-                'regentTeachers' => $regentTeachers
+                'regentTeachers' => $regentTeachers,
             ];
-        } elseif ($model == 6) {
+        } elseif (6 == $model) {
             $view = 'buzios/quarterly/QuarterlyReportNurseryrIV';
             $result = [
                 'student_identification' => $studentIdent,
@@ -817,9 +816,9 @@ class ReportsRepository
                 'school' => $school,
                 'current_year' => $currentYear,
                 'dateFormatCorrect' => $dateFormatCorrect,
-                'regentTeachers' => $regentTeachers
+                'regentTeachers' => $regentTeachers,
             ];
-        } elseif ($model == 7) {
+        } elseif (7 == $model) {
             $view = 'buzios/quarterly/QuarterlyReportPreI';
             $result = [
                 'student_identification' => $studentIdent,
@@ -829,9 +828,9 @@ class ReportsRepository
                 'school' => $school,
                 'current_year' => $currentYear,
                 'dateFormatCorrect' => $dateFormatCorrect,
-                'regentTeachers' => $regentTeachers
+                'regentTeachers' => $regentTeachers,
             ];
-        } elseif ($model == 8) {
+        } elseif (8 == $model) {
             $view = 'buzios/quarterly/QuarterlyReportPreII';
             $result = [
                 'student_identification' => $studentIdent,
@@ -841,7 +840,7 @@ class ReportsRepository
                 'school' => $school,
                 'current_year' => $currentYear,
                 'dateFormatCorrect' => $dateFormatCorrect,
-                'regentTeachers' => $regentTeachers
+                'regentTeachers' => $regentTeachers,
             ];
         }
 
@@ -849,7 +848,7 @@ class ReportsRepository
     }
 
     /**
-     * Relatório Trimestral de Acompanhamento
+     * Relatório Trimestral de Acompanhamento.
      */
     public function getQuarterlyFollowUpReport(CHttpRequest $request): array
     {
@@ -877,13 +876,13 @@ class ReportsRepository
             ->bindParam(':classroom_id', $classroomId)
             ->queryAll();
         $turno = $result[0]['classroom_turn'];
-        if ($turno == 'M') {
+        if ('M' == $turno) {
             $turno = 'Matutino';
-        } elseif ($turno == 'T') {
+        } elseif ('T' == $turno) {
             $turno = 'Vesperitino';
-        } elseif ($turno == 'N') {
+        } elseif ('N' == $turno) {
             $turno = 'Noturno';
-        } elseif ($turno == '' || $turno == null) {
+        } elseif ('' == $turno || null == $turno) {
             $turno = '___________';
         }
 
@@ -907,8 +906,8 @@ class ReportsRepository
         $anosPosition = 0;
         $stageVerify = false;
 
-        for ($i = 0; $i < count($anos1); $i++) {
-            if (strpos($stage_name, $anos1[$i]) !== false) {
+        for ($i = 0; $i < count($anos1); ++$i) {
+            if (false !== strpos($stage_name, $anos1[$i])) {
                 $anosTitulo = '1º, 2º e 3º ANOS';
                 $anosVerify = 1;
                 $anosPosition = $i + 1;
@@ -917,7 +916,7 @@ class ReportsRepository
             }
         }
         foreach ($anos2 as $value) {
-            if (strpos($stage_name, $value) !== false) {
+            if (false !== strpos($stage_name, $value)) {
                 $anosTitulo = '4º E 5º ANOS';
                 $anosVerify = 2;
                 $anosPosition = $i + 4;
@@ -928,7 +927,7 @@ class ReportsRepository
 
         if (!$stageVerify) {
             $error = true;
-            $message = 'A turma ' . $classroom_model->name . ' não possui uma etapa correspondente ao relatório. Etapa da Turma: ' . $classroom_stage_name;
+            $message = 'A turma '.$classroom_model->name.' não possui uma etapa correspondente ao relatório. Etapa da Turma: '.$classroom_stage_name;
         } else {
             $result = [
                 'report' => $result,
@@ -940,20 +939,20 @@ class ReportsRepository
                 'anosTitulo' => $anosTitulo,
                 'anosVerify' => $anosVerify,
                 'anosPosition' => $anosPosition,
-                'stage_name' => $stage_name
+                'stage_name' => $stage_name,
             ];
         }
 
-        if ($result == null) {
+        if (null == $result) {
             $error = true;
-            $message = 'A turma ' . $classroom_model->name . ' não possui professores para a disciplina de ' . $discipline_model->name;
+            $message = 'A turma '.$classroom_model->name.' não possui professores para a disciplina de '.$discipline_model->name;
         }
 
         return ['error' => $error, 'message' => $message, 'response' => $result];
     }
 
     /**
-     * Acompanhamento avaliativo dos alunos
+     * Acompanhamento avaliativo dos alunos.
      */
     public function getEvaluationFollowUpStudentsReport(CHttpRequest $request): array
     {
@@ -999,7 +998,7 @@ class ReportsRepository
         $stageVerify = false;
 
         foreach ($anos1 as $key => $value) {
-            if (strpos($stage_name, $value) !== false) {
+            if (false !== strpos($stage_name, $value)) {
                 $anosTitulo = '1º, 2º e 3º ANOS';
                 $anosVerify = 1;
                 $anosPosition = $key + 1;
@@ -1009,7 +1008,7 @@ class ReportsRepository
         }
 
         foreach ($anos2 as $key => $value) {
-            if (strpos($stage_name, $value) !== false) {
+            if (false !== strpos($stage_name, $value)) {
                 $anosTitulo = '4º E 5º ANOS';
                 $anosVerify = 2;
                 $anosPosition = $key + 4;
@@ -1020,7 +1019,7 @@ class ReportsRepository
 
         if (!$stageVerify) {
             $error = true;
-            $message = 'A turma ' . $classroom->name . ' não possui uma etapa correspondente ao relatório. Etapa da Turma: ' . $classroom_stage_name;
+            $message = 'A turma '.$classroom->name.' não possui uma etapa correspondente ao relatório. Etapa da Turma: '.$classroom_stage_name;
         }
 
         if ($instructor) {
@@ -1033,22 +1032,22 @@ class ReportsRepository
                     'anosTitulo' => $anosTitulo,
                     'anosVerify' => $anosVerify,
                     'anosPosition' => $anosPosition,
-                    'quarterly' => $quarterly
+                    'quarterly' => $quarterly,
                 ];
             } else {
                 $error = true;
-                $message = 'A turma ' . $classroom->name . ' não possui alunos matriculados';
+                $message = 'A turma '.$classroom->name.' não possui alunos matriculados';
             }
         } else {
             $error = true;
-            $message = 'A turma ' . $classroom->name . ' não possui professores para a disciplina de ' . $discipline->name;
+            $message = 'A turma '.$classroom->name.' não possui professores para a disciplina de '.$discipline->name;
         }
 
         return ['error' => $error, 'message' => $message, 'response' => $result];
     }
 
     /**
-     * Ata de Conselho de Classe
+     * Ata de Conselho de Classe.
      */
     public function getClassCouncilReport(CHttpRequest $request): array
     {
@@ -1090,11 +1089,11 @@ class ReportsRepository
 
         $stageId = $classrooms[0]['stage_id'];
         $currentReport = 0;
-        if ($stageId == 1 || $stageId == 2) {
+        if (1 == $stageId || 2 == $stageId) {
             $currentReport = 1;
-        } elseif ($stageId == 3 || $stageId == 7) {
+        } elseif (3 == $stageId || 7 == $stageId) {
             $currentReport = 2;
-        } elseif ($stageId == 4) {
+        } elseif (4 == $stageId) {
             $currentReport = 3;
         }
 
@@ -1103,8 +1102,8 @@ class ReportsRepository
             $title = 'EDUCAÇÃO INFANTIL';
         }
 
-        if ($classrooms[0] != null) {
-            if ($currentReport == 1) {
+        if (null != $classrooms[0]) {
+            if (1 == $currentReport) {
                 $view = 'buzios/quarterly/QuarterlyClassCouncil';
                 $result = [
                     'classroom' => $classrooms,
@@ -1113,9 +1112,9 @@ class ReportsRepository
                     'hour' => $hour,
                     'quarterly' => $quarterly,
                     'year' => $year,
-                    'title' => $title
+                    'title' => $title,
                 ];
-            } elseif ($currentReport == 2) {
+            } elseif (2 == $currentReport) {
                 $view = 'buzios/quarterly/QuarterlyClassCouncilSixNineYear';
                 $result = [
                     'classroom' => $classrooms,
@@ -1123,9 +1122,9 @@ class ReportsRepository
                     'mounth' => $mounth,
                     'hour' => $hour,
                     'quarterly' => $quarterly,
-                    'year' => $year
+                    'year' => $year,
                 ];
-            } elseif ($currentReport == 3) {
+            } elseif (3 == $currentReport) {
                 $view = 'buzios/quarterly/QuarterlyClassCouncilHighSchool';
                 $result = [
                     'classroom' => $classrooms,
@@ -1133,7 +1132,7 @@ class ReportsRepository
                     'mounth' => $mounth,
                     'hour' => $hour,
                     'quarterly' => $quarterly,
-                    'year' => $year
+                    'year' => $year,
                 ];
             }
         } else {
@@ -1145,7 +1144,7 @@ class ReportsRepository
     }
 
     /**
-     * Relação Transporte Escolar
+     * Relação Transporte Escolar.
      */
     public function getStudentsUsingSchoolTransportationRelationReport(): array
     {
@@ -1179,7 +1178,7 @@ class ReportsRepository
     }
 
     /**
-     * Relação acessibilidade por Turma
+     * Relação acessibilidade por Turma.
      */
     public function getStudentsWithDisabilitiesPerClassroom(CHttpRequest $request): array
     {
@@ -1206,7 +1205,7 @@ class ReportsRepository
     }
 
     /**
-     * Relação acessibilidade de todas as Escolas
+     * Relação acessibilidade de todas as Escolas.
      */
     public function getStudentsWithDisabilitiesPerSchool(): array
     {
@@ -1226,18 +1225,18 @@ class ReportsRepository
             $studentsBySchool = array_filter($students, function ($students) use ($school) {
                 return $students['school_inep_id_fk'] == $school->inep_id;
             });
-            array_push($result, ['school' => $school, 'students' => $studentsBySchool]);
+            $result[] = ['school' => $school, 'students' => $studentsBySchool];
         }
 
         return [
             'students' => $students,
             'schools' => $schools,
-            'report' => $result
+            'report' => $result,
         ];
     }
 
     /**
-     * Relação Acessibilidade
+     * Relação Acessibilidade.
      */
     public function getStudentsWithDisabilitiesRelationReport(): array
     {
@@ -1278,7 +1277,7 @@ class ReportsRepository
     }
 
     /**
-     * Relação de alunos em ordem alfabética
+     * Relação de alunos em ordem alfabética.
      */
     public function getStudentsInAlphabeticalOrderRelationReport(): array
     {
@@ -1301,12 +1300,12 @@ class ReportsRepository
 
         return [
             'school' => $school,
-            'students' => $students
+            'students' => $students,
         ];
     }
 
     /**
-     * Relatório de Matrícula
+     * Relatório de Matrícula.
      */
     public function getEnrollmentPerClassroomReport($classroomId): array
     {
@@ -1326,7 +1325,7 @@ class ReportsRepository
     }
 
     /**
-     * Alunos com documentos pendentes
+     * Alunos com documentos pendentes.
      */
     public function getStudentPendingDocument(): array
     {
@@ -1346,11 +1345,11 @@ class ReportsRepository
             ->bindParam(':school_year', $this->currentYear)
             ->queryAll();
 
-        return ['report' => $result, ];
+        return ['report' => $result];
     }
 
     /**
-     * Lista de Alunos
+     * Lista de Alunos.
      */
     public function getStudentPerClassroom($classroomId): array
     {
@@ -1371,7 +1370,7 @@ class ReportsRepository
     }
 
     /**
-     * Relação Cloc por Turma (descontinuada)
+     * Relação Cloc por Turma (descontinuada).
      */
     public function getClocPerClassroom($classroomId): array
     {
@@ -1429,7 +1428,7 @@ class ReportsRepository
     }
 
     /**
-     * Relação de alunos por Turma
+     * Relação de alunos por Turma.
      */
     public function getStudentsByClassroomReport(): array
     {
@@ -1468,7 +1467,7 @@ class ReportsRepository
     }
 
     /**
-     * Alunos com idade entre 5 e 14 anos (SUS)
+     * Alunos com idade entre 5 e 14 anos (SUS).
      */
     public function getStudentsBetween5And14YearsOldReport(): array
     {
@@ -1509,7 +1508,7 @@ class ReportsRepository
     }
 
     /**
-     * Monitores de Atividade Complementar
+     * Monitores de Atividade Complementar.
      */
     public function getComplementarActivityAssistantByClassroomReport(): array
     {
@@ -1550,7 +1549,7 @@ class ReportsRepository
     }
 
     /**
-     * Relação componente curricular por docente
+     * Relação componente curricular por docente.
      */
     public function getDisciplineAndInstructorRelationReport(): array
     {
@@ -1601,7 +1600,7 @@ class ReportsRepository
     }
 
     /**
-     * Alunos com Idade Incompatível por Turma
+     * Alunos com Idade Incompatível por Turma.
      */
     public function getIncompatibleStudentAgeByClassroomReport(): array
     {
@@ -1639,7 +1638,7 @@ class ReportsRepository
     }
 
     /**
-     * Alunos com matrícula em outra escola (descontinuada)
+     * Alunos com matrícula em outra escola (descontinuada).
      */
     public function getStudentsWithOtherSchoolEnrollmentReport(): array
     {
@@ -1671,7 +1670,7 @@ class ReportsRepository
     }
 
     /**
-     * Auxiliar Educacional por Turma
+     * Auxiliar Educacional por Turma.
      */
     public function getEducationalAssistantPerClassroomReport(): array
     {
@@ -1713,7 +1712,7 @@ class ReportsRepository
     }
 
     /**
-     * Relação de turmas sem instrutor
+     * Relação de turmas sem instrutor.
      */
     public function getClassroomWithoutInstructorRelationReport(): array
     {
@@ -1755,7 +1754,7 @@ class ReportsRepository
     }
 
     /**
-     * Relação de Número de Alunos e Professores por Turma
+     * Relação de Número de Alunos e Professores por Turma.
      */
     public function getStudentInstructorNumbersRelationReport(): array
     {
@@ -1787,7 +1786,7 @@ class ReportsRepository
     }
 
     /**
-     * Numero de profissionais da escola por turma
+     * Numero de profissionais da escola por turma.
      */
     public function getSchoolProfessionalNumberByClassroomReport(): array
     {
@@ -1823,7 +1822,7 @@ class ReportsRepository
     }
 
     /**
-     * Alunos por Turma
+     * Alunos por Turma.
      */
     public function getStudentByClassroom(CHttpRequest $request): array
     {
@@ -1856,7 +1855,7 @@ class ReportsRepository
     }
 
     /**
-     * Análise Comparativa de Matrículas
+     * Análise Comparativa de Matrículas.
      */
     public function getEnrollmentComparativeAnalysis(): array
     {
@@ -1899,12 +1898,12 @@ class ReportsRepository
             'classrooms' => $classrooms,
             'school' => $school,
             'matricula1' => $enrollment1,
-            'matricula2' => $enrollment2
+            'matricula2' => $enrollment2,
         ];
     }
 
     /**
-     * Número de Alunos por Turma
+     * Número de Alunos por Turma.
      */
     public function getNumberStudentsPerClassroom(): array
     {
@@ -1922,7 +1921,7 @@ class ReportsRepository
     }
 
     /**
-     * Número de Alunos por Etapa da Turma (descontinuada)
+     * Número de Alunos por Etapa da Turma (descontinuada).
      */
     public function getClocReport(): array
     {
@@ -1960,7 +1959,7 @@ class ReportsRepository
     }
 
     /**
-     * Professores por Turma
+     * Professores por Turma.
      */
     public function getInstructorsPerClassroom(): array
     {
@@ -1978,7 +1977,7 @@ class ReportsRepository
     }
 
     /**
-     * Relatório do Bolsa Família
+     * Relatório do Bolsa Família.
      * @done s3 - Verificar se a frequencia dos últimos 3 meses foi adicionada(existe pelo menso 1 class cadastrado no mês)
      * @done S3 - Selecionar todas as aulas de todas as turmas ativas dos ultimos 3 meses
      * @done s3 - Pegar todos os alunos matriculados nas turmas atuais.
@@ -1993,7 +1992,7 @@ class ReportsRepository
 
         $groupByClassroom = [];
 
-        //FUNDAMENTAL MENOR
+        // FUNDAMENTAL MENOR
         $arrFields = [':year' => $year, ':school' => Yii::app()->user->school];
         $conditions = ' AND c.school_inep_fk = :school';
         $conditions .= ' AND c.id = :id_classroom ';
@@ -2001,7 +2000,7 @@ class ReportsRepository
         $criteria = new CDbCriteria();
         $criteria->alias = 'c';
         $criteria->join = 'join edcenso_stage_vs_modality svm on svm.id = c.edcenso_stage_vs_modality_fk';
-        $criteria->condition = 'c.school_year = :year and svm.id >= 14 and svm.id <= 16 ' . $conditions;
+        $criteria->condition = 'c.school_year = :year and svm.id >= 14 and svm.id <= 16 '.$conditions;
         $criteria->params = $arrFields;
         $criteria->order = 'c.name';
         $classrooms = Classroom::model()->findAll($criteria);
@@ -2013,7 +2012,7 @@ class ReportsRepository
                 [
                     'classroom_fk' => $classroom->id,
                     ':monthI' => $monthI,
-                    ':monthF' => $monthF
+                    ':monthF' => $monthF,
                 ]
             );
             foreach ($schedules as $schedule) {
@@ -2021,33 +2020,33 @@ class ReportsRepository
                     $days[$schedule->month] = [];
                 }
                 if (!in_array($schedule->day, $days[$schedule->month])) {
-                    array_push($days[$schedule->month], $schedule->day);
+                    $days[$schedule->month][] = $schedule->day;
                 }
                 foreach ($schedule->classFaults as $classFault) {
                     if (!isset($faultDays[$classFault->studentFk->studentFk->name][$schedule->month])) {
                         $faultDays[$classFault->studentFk->studentFk->name][$schedule->month] = [];
                     }
                     if (!in_array($schedule->day, $faultDays[$classFault->studentFk->studentFk->name][$schedule->month])) {
-                        array_push($faultDays[$classFault->studentFk->studentFk->name][$schedule->month], $schedule->day);
+                        $faultDays[$classFault->studentFk->studentFk->name][$schedule->month][] = $schedule->day;
                     }
                 }
             }
             foreach ($classroom->studentEnrollments as $studentEnrollment) {
-                for ($i = $monthI; $i <= $monthF; $i++) {
+                for ($i = $monthI; $i <= $monthF; ++$i) {
                     $daysCount = isset($days[$i]) && is_array($days[$i]) ? count($days[$i]) : 0;
                     $faultDaysCount = isset($faultDays[$studentEnrollment->studentFk->name][$i]) && is_array($faultDays[$studentEnrollment->studentFk->name][$i]) ? count($faultDays[$studentEnrollment->studentFk->name][$i]) : 0;
 
                     $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Classes'][$i] = $daysCount > 0
-                        ? (floor((($daysCount - $faultDaysCount) / $daysCount) * 100 * 100) / 100) . '%'
+                        ? (floor((($daysCount - $faultDaysCount) / $daysCount) * 100 * 100) / 100).'%'
                         : 'N/A';
                 }
                 $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']['Classroom'] = $classroom->name;
-                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']['NIS'] = $studentEnrollment->studentFk->documentsFk->nis == null ? 'Não Informado' : $studentEnrollment->studentFk->documentsFk->nis;
+                $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']['NIS'] = null == $studentEnrollment->studentFk->documentsFk->nis ? 'Não Informado' : $studentEnrollment->studentFk->documentsFk->nis;
                 $groupByClassroom[$classroom->name][$studentEnrollment->studentFk->name]['Info']['birthday'] = $studentEnrollment->studentFk->birthday;
             }
         }
 
-        //FUNDAMENTAL MAIOR
+        // FUNDAMENTAL MAIOR
         $arrFields = [':year' => $year, ':monthI' => $monthI, ':monthF' => $monthF, ':school' => Yii::app()->user->school];
         $conditions = ' AND t.month >= :monthI AND t.month <= :monthF AND t.unavailable = 0 AND c.school_inep_fk = :school';
         $conditions .= ' AND c.id = :id_classroom ';
@@ -2069,7 +2068,7 @@ class ReportsRepository
             on (c.id = cf.classroom_fk AND se.student_fk = cf.student_fk AND cf.month = t.month) ';
         $command->where(
             'c.school_year = :year and (svm.id < 14 or svm.id > 16) '
-                . $conditions,
+                .$conditions,
             $arrFields
         );
         $command->group = 'c.id, t.month, si.id, cf.faults';
@@ -2077,13 +2076,13 @@ class ReportsRepository
         $query = $command->queryAll();
 
         foreach ($query as $result) {
-            if ($result['student'] != null) {
+            if (null != $result['student']) {
                 $count = isset($result['count']) ? $result['count'] : 0;
                 $faults = isset($result['faults']) ? $result['faults'] : 0;
-                $groupByClassroom[$result['classroom']][$result['student']]['Classes'][$result['month']] = ($count == 0) ? ('N/A') : (floor((($count - $faults) / $count) * 100 * 100) / 100) . '%';
+                $groupByClassroom[$result['classroom']][$result['student']]['Classes'][$result['month']] = (0 == $count) ? ('N/A') : (floor((($count - $faults) / $count) * 100 * 100) / 100).'%';
 
                 $groupByClassroom[$result['classroom']][$result['student']]['Info']['Classroom'] = $result['classroom'];
-                $groupByClassroom[$result['classroom']][$result['student']]['Info']['NIS'] = $result['nis'] !== '' && $result['nis'] !== null ? $result['nis'] : 'Não Informado';
+                $groupByClassroom[$result['classroom']][$result['student']]['Info']['NIS'] = '' !== $result['nis'] && null !== $result['nis'] ? $result['nis'] : 'Não Informado';
                 $groupByClassroom[$result['classroom']][$result['student']]['Info']['birthday'] = $result['birthday'];
             }
         }
@@ -2092,7 +2091,7 @@ class ReportsRepository
     }
 
     /**
-     * Alunos Participantes do Bolsa Família
+     * Alunos Participantes do Bolsa Família.
      */
     public function getStudentsParticipatingInBF(): array
     {
@@ -2114,7 +2113,7 @@ class ReportsRepository
     }
 
     /**
-     * Diário Eletrônico
+     * Diário Eletrônico.
      */
     public function getElectronicDiary(): array
     {
@@ -2122,18 +2121,18 @@ class ReportsRepository
             $criteria = new CDbCriteria();
             $criteria->alias = 'c';
             $criteria->join = ''
-                . ' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id '
-                . ' join instructor_identification on'
-                . ' instructor_teaching_data.instructor_fk = instructor_identification.id ';
+                .' join instructor_teaching_data on instructor_teaching_data.classroom_id_fk = c.id '
+                .' join instructor_identification on'
+                .' instructor_teaching_data.instructor_fk = instructor_identification.id ';
             // Adicionando condição de busca
             $criteria->condition = 'c.school_year = :school_year'
-                . 'and c.school_inep_fk = :school_inep_fk'
-                . ' and instructor_identification.users_fk = :users_fk';
+                .'and c.school_inep_fk = :school_inep_fk'
+                .' and instructor_identification.users_fk = :users_fk';
             $criteria->order = 'name';
             $criteria->params = [
                 ' :school_year' => $this->currentYear,
                 ':school_inep_fk' => $this->currentSchool,
-                ':users_fk' => Yii::app()->user->loginInfos->id
+                ':users_fk' => Yii::app()->user->loginInfos->id,
             ];
 
             $classrooms = Classroom::model()->findAll($criteria);
@@ -2147,7 +2146,7 @@ class ReportsRepository
     }
 
     /**
-     * Alunos fora da cidade
+     * Alunos fora da cidade.
      */
     public function getOutOfTownStudents(): array
     {
@@ -2175,7 +2174,7 @@ class ReportsRepository
     }
 
     /**
-     * Alunos Cardápios Especiais
+     * Alunos Cardápios Especiais.
      */
     public function getStudentSpecialFood(): array
     {
@@ -2199,7 +2198,7 @@ class ReportsRepository
     }
 
     /**
-     * Carregar caixa de seleção de disciplinas em Diário Eletrônico
+     * Carregar caixa de seleção de disciplinas em Diário Eletrônico.
      */
     public function getDisciplines(CHttpRequest $request): void
     {
@@ -2243,7 +2242,7 @@ class ReportsRepository
     }
 
     /**
-     * Carregar a caixa de seleção com os alunos matriculados pelo id da turma
+     * Carregar a caixa de seleção com os alunos matriculados pelo id da turma.
      */
     public function getStudentClassroomsOptions($id)
     {
@@ -2251,16 +2250,17 @@ class ReportsRepository
         $enrollments = $classroom->studentEnrollments;
         $students = [];
         foreach ($enrollments as $enrollment) {
-            array_push($students, [
+            $students[] = [
                 'id' => $enrollment->studentFk->id,
-                'name' => $enrollment->studentFk->name
-            ]);
+                'name' => $enrollment->studentFk->name,
+            ];
         }
+
         return $students;
     }
 
     /**
-     * Carregar a caixa de seleção com os alunos matriculados
+     * Carregar a caixa de seleção com os alunos matriculados.
      */
     public function getEnrollments(CHttpRequest $request): void
     {
@@ -2278,67 +2278,67 @@ class ReportsRepository
     }
 
     /**
-     * Monta o relatório de frequência
+     * Monta o relatório de frequência.
      */
     private function getFrequencyData($initialDate, $finalDate, $fundamentalMaior, $classroom): array
     {
         $arr = explode('/', $initialDate);
-        $initialDate = $arr[2] . '-' . $arr[1] . '-' . $arr[0];
+        $initialDate = $arr[2].'-'.$arr[1].'-'.$arr[0];
         $arr = explode('/', $finalDate);
-        $finalDate = $arr[2] . '-' . $arr[1] . '-' . $arr[0];
+        $finalDate = $arr[2].'-'.$arr[1].'-'.$arr[0];
         $students = [];
-        if ($fundamentalMaior == '1') {
+        if ('1' == $fundamentalMaior) {
             $schedules = Schedule::model()
                 ->findAll(
-                    'classroom_fk = :classroom_fk and date_format(concat(' . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and discipline_fk = :discipline_fk and unavailable = 0 order by month, day, schedule",
+                    'classroom_fk = :classroom_fk and date_format(concat('.Yii::app()->user->year.", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and discipline_fk = :discipline_fk and unavailable = 0 order by month, day, schedule",
                     ['classroom_fk' => $classroom, 'initial_date' => $initialDate, 'final_date' => $finalDate, 'discipline_fk' => $_POST['discipline']]
                 );
-            if ($schedules !== null) {
+            if (null !== $schedules) {
                 foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
                     $classroomName = $this->getEjaClassroomNameForReport($studentEnrollment, Yii::app()->user->year);
-                    array_push($students, ['id' => $studentEnrollment->student_fk, 'name' => $studentEnrollment->studentFk->name, 'infoClassroom' => $classroomName, 'total' => count($schedules), 'faults' => [], 'frequency' => '']);
+                    $students[] = ['id' => $studentEnrollment->student_fk, 'name' => $studentEnrollment->studentFk->name, 'infoClassroom' => $classroomName, 'total' => count($schedules), 'faults' => [], 'frequency' => ''];
                 }
                 foreach ($schedules as $schedule) {
                     foreach ($schedule->classFaults as $classFault) {
                         $key = array_search($classFault->student_fk, array_column($students, 'id'));
-                        array_push($students[$key]['faults'], str_pad($schedule['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($schedule['month'], 2, '0', STR_PAD_LEFT) . ' (' . $schedule['schedule'] . 'º Hor.)');
+                        $students[$key]['faults'][] = str_pad($schedule['day'], 2, '0', \STR_PAD_LEFT).'/'.str_pad($schedule['month'], 2, '0', \STR_PAD_LEFT).' ('.$schedule['schedule'].'º Hor.)';
                     }
                 }
                 foreach ($students as &$student) {
-                    $student['frequency'] = (floor((($student['total'] - count($student['faults'])) / $student['total']) * 100 * 100) / 100) . '%';
+                    $student['frequency'] = (floor((($student['total'] - count($student['faults'])) / $student['total']) * 100 * 100) / 100).'%';
                 }
                 unset($student);
             }
         } else {
             $schedules = Schedule::model()
                 ->findAll(
-                    'classroom_fk = :classroom_fk and date_format(concat(' . Yii::app()->user->year . ", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and unavailable = 0 order by month, day",
+                    'classroom_fk = :classroom_fk and date_format(concat('.Yii::app()->user->year.", '-', month, '-', day), '%Y-%m-%d') between :initial_date and :final_date and unavailable = 0 order by month, day",
                     ['classroom_fk' => $classroom, 'initial_date' => $initialDate, 'final_date' => $finalDate]
                 );
-            if ($schedules !== null) {
+            if (null !== $schedules) {
                 foreach ($schedules[0]->classroomFk->studentEnrollments as $studentEnrollment) {
-                    array_push($students, ['id' => $studentEnrollment->student_fk, 'name' => $studentEnrollment->studentFk->name, 'classroom' => null, 'days' => 0, 'faults' => [], 'frequency' => '']);
+                    $students[] = ['id' => $studentEnrollment->student_fk, 'name' => $studentEnrollment->studentFk->name, 'classroom' => null, 'days' => 0, 'faults' => [], 'frequency' => ''];
                 }
                 $days = [];
                 foreach ($schedules as $schedule) {
-                    if (!in_array($schedule['day'] . $schedule['month'], $days)) {
-                        array_push($days, $schedule['day'] . $schedule['month']);
+                    if (!in_array($schedule['day'].$schedule['month'], $days)) {
+                        $days[] = $schedule['day'].$schedule['month'];
                     }
                     foreach ($schedule->classFaults as $classFault) {
                         $key = array_search($classFault->student_fk, array_column($students, 'id'));
-                        if (!in_array(str_pad($schedule['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($schedule['month'], 2, '0', STR_PAD_LEFT), $students[$key]['faults'])) {
-                            array_push($students[$key]['faults'], str_pad($schedule['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($schedule['month'], 2, '0', STR_PAD_LEFT));
+                        if (!in_array(str_pad($schedule['day'], 2, '0', \STR_PAD_LEFT).'/'.str_pad($schedule['month'], 2, '0', \STR_PAD_LEFT), $students[$key]['faults'])) {
+                            $students[$key]['faults'][] = str_pad($schedule['day'], 2, '0', \STR_PAD_LEFT).'/'.str_pad($schedule['month'], 2, '0', \STR_PAD_LEFT);
                         }
                     }
                 }
                 foreach ($students as &$student) {
                     $student['total'] = count($days);
-                    $student['frequency'] = (floor((($student['total'] - count($student['faults'])) / $student['total']) * 100 * 100) / 100) . '%';
+                    $student['frequency'] = (floor((($student['total'] - count($student['faults'])) / $student['total']) * 100 * 100) / 100).'%';
                 }
             }
         }
         $col = array_column($students, 'name');
-        array_multisort($col, SORT_ASC, $students);
+        array_multisort($col, \SORT_ASC, $students);
         $result['students'] = $students;
 
         return $result;
@@ -2400,7 +2400,7 @@ class ReportsRepository
     }
 
     /**
-     * Monta o relatório de notas
+     * Monta o relatório de notas.
      */
     private function getGradesData($classroomId, $studentId, $isMulti, $stage)
     {
@@ -2412,29 +2412,29 @@ class ReportsRepository
         if ($isMulti) {
             $gradeUnitiesByClassroom = $this->getUnities($classroomId, $stage);
         }
-        if ($gradeUnitiesByClassroom !== null) {
-            $result['isUnityConcept'] = $gradeUnitiesByClassroom[0]->type == 'UC';
+        if (null !== $gradeUnitiesByClassroom) {
+            $result['isUnityConcept'] = 'UC' == $gradeUnitiesByClassroom[0]->type;
             $result['unityNames'] = [];
             $result['subunityNames'] = [];
 
             foreach ($gradeUnitiesByClassroom as $gradeUnity) {
-                array_push($result['unityNames'], ['name' => $gradeUnity['name'], 'colspan' => 1]);
+                $result['unityNames'][] = ['name' => $gradeUnity['name'], 'colspan' => 1];
                 $commonModalitiesName = '';
                 $firstCommonModality = false;
                 foreach ($gradeUnity->gradeUnityModalities as $index => $gradeUnityModality) {
-                    if ($gradeUnityModality->type == 'C') {
+                    if ('C' == $gradeUnityModality->type) {
                         if (!$firstCommonModality) {
                             $commonModalitiesName .= $gradeUnityModality->name;
                             $firstCommonModality = true;
                         } else {
-                            $commonModalitiesName .= ' + ' . $gradeUnityModality->name;
+                            $commonModalitiesName .= ' + '.$gradeUnityModality->name;
                         }
                     }
                 }
-                array_push($result['subunityNames'], $commonModalitiesName);
+                $result['subunityNames'][] = $commonModalitiesName;
             }
 
-            //Montar linhas das disciplinas e notas
+            // Montar linhas das disciplinas e notas
             $result['rows'] = [];
             $disciplines = Yii::app()->db->createCommand('
                 select ed.id, ed.name from curricular_matrix cm
@@ -2449,9 +2449,9 @@ class ReportsRepository
 
                 $arr['grades'] = [];
                 foreach ($gradeUnitiesByClassroom as $gradeUnity) {
-                    array_push($arr['grades'], $gradeUnity->type == 'UR'
+                    $arr['grades'][] = 'UR' == $gradeUnity->type
                         ? ['unityId' => $gradeUnity->id, 'unityGrade' => '', 'unityRecoverGrade' => '', 'gradeUnityType' => $gradeUnity->type]
-                        : ['unityId' => $gradeUnity->id, 'unityGrade' => '', 'gradeUnityType' => $gradeUnity->type]);
+                        : ['unityId' => $gradeUnity->id, 'unityGrade' => '', 'gradeUnityType' => $gradeUnity->type];
                 }
 
                 $gradeResult = GradeResults::model()->find('enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk', ['enrollment_fk' => $studentId, 'discipline_fk' => $discipline['id']]);
@@ -2460,31 +2460,31 @@ class ReportsRepository
                 foreach ($arr['grades'] as &$grade) {
                     switch ($grade['gradeUnityType']) {
                         case 'U':
-                            $grade['unityGrade'] = $gradeResult['grade_' . ($gradeIndex + 1)] != null ? $gradeResult['grade_' . ($gradeIndex + 1)] : '';
-                            $gradeIndex++;
+                            $grade['unityGrade'] = null != $gradeResult['grade_'.($gradeIndex + 1)] ? $gradeResult['grade_'.($gradeIndex + 1)] : '';
+                            ++$gradeIndex;
                             break;
                         case 'UR':
-                            $grade['unityGrade'] = $gradeResult['grade_' . ($gradeIndex + 1)] != null ? $gradeResult['grade_' . ($gradeIndex + 1)] : '';
-                            $grade['unityRecoverGrade'] = $gradeResult['rec_partial_' . ($gradeIndex + 1)] != null ? $gradeResult['rec_partial_' . ($gradeIndex + 1)] : '';
-                            $gradeIndex++;
+                            $grade['unityGrade'] = null != $gradeResult['grade_'.($gradeIndex + 1)] ? $gradeResult['grade_'.($gradeIndex + 1)] : '';
+                            $grade['unityRecoverGrade'] = null != $gradeResult['rec_partial_'.($gradeIndex + 1)] ? $gradeResult['rec_partial_'.($gradeIndex + 1)] : '';
+                            ++$gradeIndex;
                             break;
                         case 'RS':
-                            $grade['unityGrade'] = $gradeResult['sem_rec_partial_' . ($recSemIndex + 1)] != null ? $gradeResult['sem_rec_partial_' . ($recSemIndex + 1)] : '';
-                            $recSemIndex++;
+                            $grade['unityGrade'] = null != $gradeResult['sem_rec_partial_'.($recSemIndex + 1)] ? $gradeResult['sem_rec_partial_'.($recSemIndex + 1)] : '';
+                            ++$recSemIndex;
                             break;
                         case 'RF':
-                            $grade['unityGrade'] = $gradeResult['rec_final'] != null ? $gradeResult['rec_final'] : '';
+                            $grade['unityGrade'] = null != $gradeResult['rec_final'] ? $gradeResult['rec_final'] : '';
                             break;
                         case 'UC':
-                            $grade['unityGrade'] = $gradeResult['grade_concept_' . ($gradeIndex + 1)] != null ? $gradeResult['grade_concept_' . ($gradeIndex + 1)] : '';
-                            $gradeIndex++;
+                            $grade['unityGrade'] = null != $gradeResult['grade_concept_'.($gradeIndex + 1)] ? $gradeResult['grade_concept_'.($gradeIndex + 1)] : '';
+                            ++$gradeIndex;
                             break;
                     }
                 }
 
-                $arr['finalMedia'] = $gradeResult != null ? ($gradeResult->final_media != null ? $gradeResult->final_media : '') : '';
-                $arr['situation'] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : '') : '';
-                array_push($result['rows'], $arr);
+                $arr['finalMedia'] = null != $gradeResult ? (null != $gradeResult->final_media ? $gradeResult->final_media : '') : '';
+                $arr['situation'] = null != $gradeResult ? (null != $gradeResult->situation ? $gradeResult->situation : '') : '';
+                $result['rows'][] = $arr;
             }
             $result['valid'] = true;
         } else {
@@ -2495,18 +2495,18 @@ class ReportsRepository
     }
 
     /**
-     * Monta os dados do relatório de frequência e notas
+     * Monta os dados do relatório de frequência e notas.
      */
     public function getElectronicDiaryData(CHttpRequest $request): void
     {
         $result = [];
-        if ($request->getPost('type') === 'frequency') {
+        if ('frequency' === $request->getPost('type')) {
             $initialDate = $request->getPost('initialDate');
             $finalDate = $request->getPost('finalDate');
             $fundamentalMaior = $request->getPost('fundamentalMaior');
             $classroom = $request->getPost('classroom');
             $result = $this->getFrequencyData($initialDate, $finalDate, $fundamentalMaior, $classroom);
-        } elseif ($request->getPost('type') === 'gradesByStudent') {
+        } elseif ('gradesByStudent' === $request->getPost('type')) {
             $result = $this->getGradesData($request->getPost('classroom'), $request->getPost('student'), $request->getPost('isMultiStage'), $request->getPost('stage'));
         }
         echo json_encode($result);

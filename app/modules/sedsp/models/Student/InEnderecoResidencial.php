@@ -106,72 +106,84 @@ class InEnderecoResidencial implements JsonSerializable
     public function setInLogradouro(?string $inLogradouro): self
     {
         $this->inLogradouro = $inLogradouro;
+
         return $this;
     }
 
     public function setInNumero(?string $inNumero): self
     {
         $this->inNumero = $inNumero;
+
         return $this;
     }
 
     public function setInBairro(?string $inBairro): self
     {
         $this->inBairro = $inBairro;
+
         return $this;
     }
 
     public function setInNomeCidade(?string $inNomeCidade): self
     {
         $this->inNomeCidade = $inNomeCidade;
+
         return $this;
     }
 
     public function setInUfCidade(?string $inUFCidade): self
     {
         $this->inUFCidade = $inUFCidade;
+
         return $this;
     }
 
     public function setInComplemento(?string $inComplemento): self
     {
         $this->inComplemento = $inComplemento;
+
         return $this;
     }
 
     public function setInCep(?string $inCep): self
     {
         $this->inCep = $inCep;
+
         return $this;
     }
 
     public function setInAreaLogradouro(?string $inAreaLogradouro): self
     {
         $this->inAreaLogradouro = $inAreaLogradouro;
+
         return $this;
     }
 
     public function setInCodLocalizacaoDiferenciada(?string $inCodLocalizacaoDiferenciada): self
     {
         $this->inCodLocalizacaoDiferenciada = $inCodLocalizacaoDiferenciada;
+
         return $this;
     }
 
     public function setInCodMunicipioDne(?string $inCodMunicipioDNE): self
     {
         $this->inCodMunicipioDNE = $inCodMunicipioDNE;
+
         return $this;
     }
 
     public function setInLatitude(?string $inLatitude): self
     {
         $this->inLatitude = $inLatitude;
+
         return $this;
     }
 
     public function setInLongitude(?string $inLongitude): self
     {
         $this->inLongitude = $inLongitude;
+
         return $this;
     }
 

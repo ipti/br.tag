@@ -34,12 +34,14 @@ class OutEscola
     public function setOutEscolas(?array $outEscolas): self
     {
         $this->outEscolas = $outEscolas;
+
         return $this;
     }
 
     public function setOutProcessoId(?string $outProcessoID): self
     {
         $this->outProcessoID = $outProcessoID;
+
         return $this;
     }
 

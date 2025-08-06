@@ -17,6 +17,7 @@ class InExcluirTurmaClasse implements JsonSerializable
     public function setInNrClasse(?string $inNrClasse): self
     {
         $this->inNrClasse = $inNrClasse;
+
         return $this;
     }
 

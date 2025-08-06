@@ -13,6 +13,7 @@ class FoodMenuService
             $publicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(['food_menu_fk' => $modelFoodMenu->id]);
             $foodMenu->setDayMeals($day, $modelMenuMeals, $publicTarget->food_public_target_fk);
         }
+
         return $foodMenu;
     }
 
@@ -48,9 +49,10 @@ class FoodMenuService
         }
 
         $result['totalStudents'] = $totalStudents;
-        if ($students != null && $foods != null) {
+        if (null != $students && null != $foods) {
             $result['processFood'] = $this->processFood($foods, $studentsTurn);
         }
+
         return $result;
     }
 
@@ -70,7 +72,7 @@ class FoodMenuService
                         $measure = 'Kg';
                         break;
                     case 'ml':
-                        $measure = ($food['measurementUnit'] == 'g') ? 'kg' : 'L';
+                        $measure = ('g' == $food['measurementUnit']) ? 'kg' : 'L';
                         break;
                     default:
                         $measure = $food['measure'];
@@ -87,12 +89,13 @@ class FoodMenuService
             // Atualiza o total
             $value = $food['total'];
 
-            if ($food['measure'] == 'g' || $food['measure'] == 'ml') {
+            if ('g' == $food['measure'] || 'ml' == $food['measure']) {
                 $value = $food['total'] / 1000;
             }
             $result[$idFood]['total'] +=
                 ($value * $studentsTurn[$turn]) + ($value * $studentsTurn['Integral']);
         }
+
         return $result;
     }
 
@@ -106,7 +109,8 @@ class FoodMenuService
 
             $studentsTurn[$turn] = $totalStudents;
         }
-        return  $studentsTurn;
+
+        return $studentsTurn;
     }
 
     private function getStudents()
@@ -186,19 +190,19 @@ class FoodMenuService
         $calTotal = 0;
         $ptnTotal = 0;
         $lpdTotal = 0;
-        $daysOFWeek = $includeSatruday == 1 ? 6 : 5;
+        $daysOFWeek = 1 == $includeSatruday ? 6 : 5;
         foreach ($nutritionalValue as $item) {
-            $isUnit = $item['measure'] == 'u';
+            $isUnit = 'u' == $item['measure'];
             $value = $isUnit ? $item['amount_for_unit'] : $item['value'];
             $portion = $value * $item['amount'];
 
             $measure = $isUnit ? $item['measurement_for_unit'] : $item['measure'];
-            if ($measure == 'g' || $measure == 'ml') {
+            if ('g' == $measure || 'ml' == $measure) {
                 $kcal += (is_numeric($item['energy_kcal']) ? $item['energy_kcal'] : 0) * $portion / 100;
                 $calTotal += (is_numeric($item['carbohydrate_g']) ? $item['carbohydrate_g'] : 0) * $portion / 100;
                 $ptnTotal += (is_numeric($item['protein_g']) ? $item['protein_g'] : 0) * $portion / 100;
                 $lpdTotal += (is_numeric($item['lipidius_g']) ? $item['lipidius_g'] : 0) * $portion / 100;
-            } elseif ($measure == 'Kg' || $measure == 'L') {
+            } elseif ('Kg' == $measure || 'L' == $measure) {
                 $kgTog = $portion * 1000;
                 $kcal += (is_numeric($item['energy_kcal']) ? $item['energy_kcal'] : 0) * $kgTog / 100;
                 $calTotal += (is_numeric($item['carbohydrate_g']) ? $item['carbohydrate_g'] : 0) * $kgTog / 100;
@@ -213,7 +217,7 @@ class FoodMenuService
         $ptnAvarage = $ptnTotal / $daysOFWeek;
         $lpdAvarage = $lpdTotal / $daysOFWeek;
 
-        if ($kcalAverage != 0) {
+        if (0 != $kcalAverage) {
             $calpct = (($calAverage * 4) * 100) / $kcalAverage;
             $ptnpct = (($ptnAvarage * 4) * 100) / $kcalAverage;
             $lpdpct = (($lpdAvarage * 9) * 100) / $kcalAverage;
@@ -264,6 +268,7 @@ class FoodMenuService
                 $foodMenu->setDayMeals($day, $modelMeals, $publicTarget, $stages);
             }
         }
+
         return $foodMenu;
     }
 
@@ -272,7 +277,7 @@ class FoodMenuService
         $weekDays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
         foreach ($weekDays as $day) {
             // Verifica se existe alguma refeição para o dia
-            if ($request[$day] !== null) {
+            if (null !== $request[$day]) {
                 // $meals se trata da lista de refeições que um dia da semana pode ter
                 $meals = $request[$day];
                 $this->createMeals($modelFoodMenu, $meals, $day, $transaction);
@@ -281,7 +286,7 @@ class FoodMenuService
     }
 
     /**
-     * Método que salva no banco as alterações referentes às refeições
+     * Método que salva no banco as alterações referentes às refeições.
      */
     private function createMeals($modelFoodMenu, $meals, $day, $transaction)
     {
@@ -297,7 +302,7 @@ class FoodMenuService
 
             // Verifica se a refeição foi salva com sucesso
             $saveMenuMealResult = $foodMenuMeal->save();
-            if ($saveMenuMealResult === false) {
+            if (false === $saveMenuMealResult) {
                 // Caso de erro: Falha quando ocorre um erro ao tentar salvar uma refeição
                 $message = 'Ocorreu um erro ao salvar uma refeição! Tente novamente';
                 $transaction->rollback();
@@ -309,7 +314,7 @@ class FoodMenuService
     }
 
     /**
-     * Método que salva no banco as alterações referentes aos pratos
+     * Método que salva no banco as alterações referentes aos pratos.
      */
     private function createComponents($foodMenuMeal, $meal, $transaction)
     {
@@ -319,7 +324,7 @@ class FoodMenuService
             $foodMenuMealComponent->description = $component['description'];
             // Verifica se o prato foi salvo com sucesso
             $saveComponentResult = $foodMenuMealComponent->save();
-            if ($saveComponentResult === false) {
+            if (false === $saveComponentResult) {
                 $message = 'Ocorreu um erro ao salvar um prato! Verifique as informações e tente novamente';
                 $transaction->rollback();
                 throw new CHttpException(500, $message);
@@ -329,7 +334,7 @@ class FoodMenuService
     }
 
     /**
-     * Método que salva no banco as alterações relacionadas aos ingredientes de um prato
+     * Método que salva no banco as alterações relacionadas aos ingredientes de um prato.
      */
     private function createIngredients($modelComponent, $component, $transaction)
     {
@@ -342,13 +347,13 @@ class FoodMenuService
             $foodIngredient->food_menu_meal_componentId = $modelComponent->id;
             $foodMeasurement = FoodMeasurement::model()->findByPk($ingredient['food_measure_unit_id']);
             $foodIngredient->food_measurement_fk = $foodMeasurement->id;
-            $foodIngredient->measurement_for_unit = $ingredient['measurement_for_unit'] != '' ? $ingredient['measurement_for_unit'] : null;
-            $foodIngredient->amount_for_unit = $ingredient['amount_for_unit'] != '' ? $ingredient['amount_for_unit'] : null;
+            $foodIngredient->measurement_for_unit = '' != $ingredient['measurement_for_unit'] ? $ingredient['measurement_for_unit'] : null;
+            $foodIngredient->amount_for_unit = '' != $ingredient['amount_for_unit'] ? $ingredient['amount_for_unit'] : null;
             $foodIngredient->validate();
             CVarDumper::dump($foodIngredient->getErrors());
             $saveIngredientResult = $foodIngredient->save();
 
-            if ($saveIngredientResult === false) {
+            if (false === $saveIngredientResult) {
                 // Caso de erro: Falha quando ocorre um erro ao tentar salvar um ingrediente de um prato
                 $message = 'Ocorreu um erro ao salvar um ingrediente! Verifique as informações e tente novamente';
                 $transaction->rollback();
@@ -358,7 +363,7 @@ class FoodMenuService
     }
 }
 /**
- * Classes that represents a foodMenu which will be manipulated and send as response to client request
+ * Classes that represents a foodMenu which will be manipulated and send as response to client request.
  */
 class FoodMenuObject
 {
@@ -380,7 +385,7 @@ class FoodMenuObject
 
     public function __construct($model = null, $foodPublicTarget = null)
     {
-        if ($model !== null && $foodPublicTarget !== null) {
+        if (null !== $model && null !== $foodPublicTarget) {
             $this->id = $model->id;
             $this->week = $model->week;
             $this->description = $model->description;
@@ -406,13 +411,13 @@ class FoodMenuObject
                 $modelMealType = FoodMealType::model()->findByPk($modelMeal->food_meal_type_fk);
                 $meal = new MealObject($modelMeal, $publicTarget, $modelMealType->description, $stages);
                 $meal->setComponentMeal($modelComponents);
-                array_push($this->$day, (array) $meal);
+                $this->$day[] = (array) $meal;
             }
         }
     }
 }
 /**
- * Classe that represents a meal from a foodMenu to be loaded in JSON response
+ * Classe that represents a meal from a foodMenu to be loaded in JSON response.
  */
 class MealObject
 {
@@ -445,12 +450,12 @@ class MealObject
             $modelIngredients = FoodIngredient::model()->findAllByAttributes(['food_menu_meal_componentId' => $modelComponent->id]);
             $component = new MealComponentObject($modelComponent);
             $component->setComponentIngredients($modelIngredients);
-            array_push($this->mealsComponent, (array) $component);
+            $this->mealsComponent[] = (array) $component;
         }
     }
 }
 /**
- * Classe that represents a Component from a meal to be loaded in JSON response
+ * Classe that represents a Component from a meal to be loaded in JSON response.
  */
 class MealComponentObject
 {
@@ -467,12 +472,12 @@ class MealComponentObject
         foreach ($modelIngredients as $modelIngredient) {
             $foodModel = Food::model()->findByPk($modelIngredient->food_id_fk);
             $ingredient = new IngredientObject($modelIngredient, $foodModel);
-            array_push($this->ingredients, (array) $ingredient);
+            $this->ingredients[] = (array) $ingredient;
         }
     }
 }
 /**
- * Classe that represents an ingredient from a component to be loaded in JSON response
+ * Classe that represents an ingredient from a component to be loaded in JSON response.
  */
 class IngredientObject
 {

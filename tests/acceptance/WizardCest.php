@@ -1,9 +1,9 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__ . '/../robots/LoginRobots.php';
-require_once __DIR__ . '/../robots/WizardRobots.php';
-require_once __DIR__ . '/../builders/WizardBuilder.php';
+require_once __DIR__.'/../robots/LoginRobots.php';
+require_once __DIR__.'/../robots/WizardRobots.php';
+require_once __DIR__.'/../builders/WizardBuilder.php';
 
 class WizardCest
 {

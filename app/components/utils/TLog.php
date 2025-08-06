@@ -5,14 +5,14 @@ class TLog extends CApplicationComponent
     // Função auxiliar para gerar a mensagem de log
     private static function generateLogMessage($message, $data = null): string
     {
-        $module = Yii::app()->controller->module ? Yii::app()->controller->module->id . '/' : '';
+        $module = Yii::app()->controller->module ? Yii::app()->controller->module->id.'/' : '';
 
-        $route = $module . Yii::app()->controller->id . '/' . Yii::app()->controller->action->id;
+        $route = $module.Yii::app()->controller->id.'/'.Yii::app()->controller->action->id;
         $builderMessage = "[$route]: $message";
 
         if (isset($data)) {
             // Garante que dados sejam codificados como JSON
-            $builderMessage .= ' | ' . CJSON::encode($data);
+            $builderMessage .= ' | '.CJSON::encode($data);
         }
 
         return $builderMessage;

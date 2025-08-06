@@ -4,11 +4,11 @@
  * This is the model class for table "grade_unity_modality".
  *
  * The followings are the available columns in table 'grade_unity_modality':
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $type
- * @property integer $weight
- * @property integer $grade_unity_fk
+ * @property int $weight
+ * @property int $grade_unity_fk
  *
  * The followings are the available model relations:
  * @property Grade[] $grades
@@ -28,7 +28,7 @@ class GradeUnityModality extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -46,7 +46,7 @@ class GradeUnityModality extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -82,7 +82,7 @@ class GradeUnityModality extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -104,7 +104,7 @@ class GradeUnityModality extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return GradeUnityModality the static model class
      */
     public static function model($className = __CLASS__)

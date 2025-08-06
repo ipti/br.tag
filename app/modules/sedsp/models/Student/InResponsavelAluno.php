@@ -12,7 +12,7 @@ class InResponsavelAluno implements JsonSerializable
     }
 
     /**
-     * Get the value of inDocumentosAluno
+     * Get the value of inDocumentosAluno.
      */
     public function getInDocumentosAluno()
     {
@@ -20,7 +20,7 @@ class InResponsavelAluno implements JsonSerializable
     }
 
     /**
-     * Set the value of inDocumentosAluno
+     * Set the value of inDocumentosAluno.
      */
     public function setInDocumentosAluno($inDocumentosAluno): self
     {
@@ -30,7 +30,7 @@ class InResponsavelAluno implements JsonSerializable
     }
 
     /**
-     * Get the value of inAluno
+     * Get the value of inAluno.
      */
     public function getInAluno()
     {
@@ -38,7 +38,7 @@ class InResponsavelAluno implements JsonSerializable
     }
 
     /**
-     * Set the value of inAluno
+     * Set the value of inAluno.
      */
     public function setInAluno($inAluno): self
     {

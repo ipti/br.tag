@@ -40,7 +40,7 @@ class FoodinventoryController extends Controller
                     'checkFoodInventorySpent',
                     'getStockMovement',
                     'updateFoodInventoryStatus',
-                    'GetIsNutritionist'
+                    'GetIsNutritionist',
                 ],
                 'users' => ['@'],
             ],
@@ -64,7 +64,7 @@ class FoodinventoryController extends Controller
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -85,7 +85,7 @@ class FoodinventoryController extends Controller
         foreach ($foods_description as $food) {
             $values[$food->id] = (object) [
                 'description' => $food->description,
-                'measurementUnit' => $food->measurementUnit
+                'measurementUnit' => $food->measurementUnit,
             ];
         }
 
@@ -100,7 +100,7 @@ class FoodinventoryController extends Controller
             foreach ($foodsOnStock as $foodData) {
                 $existingFood = FoodInventory::model()->findByAttributes(['food_fk' => $foodData['id'], 'school_fk' => Yii::app()->user->school]);
                 $expirationDate = null;
-                if ($foodData['expiration_date'] != '') {
+                if ('' != $foodData['expiration_date']) {
                     $expirationDate = date('Y-m-d', strtotime(str_replace('/', '-', $foodData['expiration_date'])));
                 }
 
@@ -123,7 +123,7 @@ class FoodinventoryController extends Controller
                     } else {
                         Yii::app()->request->sendStatusCode(400);
                         $errors = $FoodInventory->getErrors();
-                        echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
+                        echo json_encode(['error' => 'Ocorreu um erro ao salvar: '.reset($errors)[0]]);
                     }
                 } else {
                     $FoodInventoryReceived = new FoodInventoryReceived();
@@ -133,9 +133,9 @@ class FoodinventoryController extends Controller
 
                     $FoodInventoryReceived->save();
 
-                    if ($existingFood->measurementUnit == 'Kg' && $foodData['measurementUnit'] == 'g') {
+                    if ('Kg' == $existingFood->measurementUnit && 'g' == $foodData['measurementUnit']) {
                         $existingFood->amount += $foodData['amount'] / 1000;
-                    } elseif ($existingFood->measurementUnit == 'g' && $foodData['measurementUnit'] == 'Kg') {
+                    } elseif ('g' == $existingFood->measurementUnit && 'Kg' == $foodData['measurementUnit']) {
                         $existingFood->amount += $foodData['amount'] * 1000;
                     } else {
                         $existingFood->amount += $foodData['amount'];
@@ -185,7 +185,7 @@ class FoodinventoryController extends Controller
         if (!$FoodInventorySpent->save()) {
             Yii::app()->request->sendStatusCode(400);
             $errors = $FoodInventorySpent->getErrors();
-            echo json_encode(['error' => 'Ocorreu um erro ao salvar: ' . reset($errors)[0]]);
+            echo json_encode(['error' => 'Ocorreu um erro ao salvar: '.reset($errors)[0]]);
         }
     }
 
@@ -218,10 +218,10 @@ class FoodinventoryController extends Controller
         $values = [];
 
         foreach ($receivedData as $data) {
-            array_push($values, ['type' => 'Entrada', 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
+            $values[] = ['type' => 'Entrada', 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit];
         }
         foreach ($spentData as $data) {
-            array_push($values, ['type' => 'Saída', 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit]);
+            $values[] = ['type' => 'Saída', 'amount' => $data->amount, 'date' => date('d/m/Y', strtotime($data->date)), 'measurementUnit' => $data->foodInventoryFk->measurementUnit];
         }
 
         echo json_encode($values);
@@ -245,9 +245,9 @@ class FoodinventoryController extends Controller
                 'description' => $stock->foodRelation->description,
                 'amount' => $stock->amount,
                 'measurementUnit' => $stock->measurementUnit,
-                'expiration_date' => ($stock->expiration_date != null) ? date('d/m/Y', strtotime($stock->expiration_date)) : 'Não informada',
+                'expiration_date' => (null != $stock->expiration_date) ? date('d/m/Y', strtotime($stock->expiration_date)) : 'Não informada',
                 'status' => $stock->status,
-                'spent' => ($stock->amount > 0) ? false : true
+                'spent' => ($stock->amount > 0) ? false : true,
             ];
         }
 
@@ -283,14 +283,14 @@ class FoodinventoryController extends Controller
         }
 
         $this->render('create', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -314,7 +314,7 @@ class FoodinventoryController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -345,7 +345,7 @@ class FoodinventoryController extends Controller
         }
 
         $this->render('create', [
-            'model' => $model
+            'model' => $model,
         ]);
     }
 
@@ -368,16 +368,17 @@ class FoodinventoryController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return FoodInventory the loaded model
      * @throws CHttpException
      */
     public function loadModel($id)
     {
         $model = FoodInventory::model()->findByPk($id);
-        if ($model === null) {
+        if (null === $model) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -387,7 +388,7 @@ class FoodinventoryController extends Controller
      */
     protected function performAjaxValidation($model)
     {
-        if (isset($_POST['ajax']) && $_POST['ajax'] === 'food-inventory-form') {
+        if (isset($_POST['ajax']) && 'food-inventory-form' === $_POST['ajax']) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
         }

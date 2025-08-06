@@ -1,10 +1,10 @@
 <?php
 
-$DS = DIRECTORY_SEPARATOR;
+$DS = \DIRECTORY_SEPARATOR;
 
-require_once dirname(__FILE__) . $DS . 'register.php';
+require_once __DIR__.$DS.'register.php';
 
-class instructorTeachingDataValidation extends Register
+class InstructorTeachingDataValidation extends Register
 {
     public function checkRole($value, $pedagogical_mediation_type, $assistance_type, $status_instructor, $status_student)
     {
@@ -14,32 +14,32 @@ class instructorTeachingDataValidation extends Register
             return ['status' => false, 'erro' => $result['erro']];
         }
 
-        if ($pedagogical_mediation_type != '1') {
-            if (!($value == '5' || $value == '6')) {
+        if ('1' != $pedagogical_mediation_type) {
+            if (!('5' == $value || '6' == $value)) {
                 return ['status' => false, 'erro' => "$translate[$value] indisponível devido ao tipo de mediação Didático-Pedagógica"];
             }
         }
 
-        if ($assistance_type == '4' || $assistance_type == '5') {
-            if ($value == '2') {
+        if ('4' == $assistance_type || '5' == $assistance_type) {
+            if ('2' == $value) {
                 return ['status' => false, 'erro' => "$translate[$value] indisponível devido ao tipo de atendimento"];
             }
         }
 
-        if ($pedagogical_mediation_type != '3') {
-            if ($value == '5' || $value == '6') {
+        if ('3' != $pedagogical_mediation_type) {
+            if ('5' == $value || '6' == $value) {
                 return ['status' => false, 'erro' => "$translate[$value] indisponível devido ao tipo de atendimento"];
             }
         }
 
-        if ($value == '6' || $value == '4') {
-            if ($status_instructor != '1') {
+        if ('6' == $value || '4' == $value) {
+            if ('1' != $status_instructor) {
                 return ['status' => false, 'erro' => 'Não há instrutores além do tipo 4 e 6'];
             }
         }
 
-        if ($value == '4') {
-            if ($status_student != '1') {
+        if ('4' == $value) {
+            if ('1' != $status_student) {
                 return ['status' => false, 'erro' => 'Não há alunos ou instrutores com deficiência'];
             }
         }
@@ -55,7 +55,7 @@ class instructorTeachingDataValidation extends Register
                 return ['status' => false, 'erro' => $result['erro']];
             }
         } else {
-            if ($value != null) {
+            if (null != $value) {
                 return ['status' => false, 'erro' => "value $value deveria ser nulo"];
             }
         }
@@ -66,7 +66,7 @@ class instructorTeachingDataValidation extends Register
     public function disciplineOne($discipline_code_one, $role, $assistance_type, $edcenso_svm)
     {
         if (in_array($role, ['1', '5']) && !in_array($assistance_type, ['4', '5']) && !in_array($edcenso_svm, ['1', '2', '3', '65'])) {
-            if ($discipline_code_one == null) {
+            if (null == $discipline_code_one) {
                 return ['status' => false, 'erro' => 'value não deveria ser nulo'];
             }
         }
@@ -88,7 +88,7 @@ class instructorTeachingDataValidation extends Register
                 in_array($assistance_type, ['4', '5']) ||
                 in_array($edcenso_svm, ['1', '2', '3', '65']))) {
             foreach ($disciplines_codes as $key => $value) {
-                if ($value != null) {
+                if (null != $value) {
                     return ['status' => false, 'erro' => "value de $value de ordem $key deveria ser nulo"];
                 }
             }

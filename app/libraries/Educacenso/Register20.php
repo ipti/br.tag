@@ -41,7 +41,7 @@ class Register20
         $teachingDatasOfClassroom = Classroom::model()->findByPk($id)->instructorTeachingDatas;
         foreach ($teachingDatasOfClassroom as $key => $teachingData) {
             foreach ($teachingData->teachingMatrixes as $teachingMatrix) {
-                if ($teachingMatrix->curricularMatrixFk->discipline_fk > 99 || $teachingMatrix->curricularMatrixFk->discipline_fk == 20 || $teachingMatrix->curricularMatrixFk->discipline_fk == 21) {
+                if ($teachingMatrix->curricularMatrixFk->discipline_fk > 99 || 20 == $teachingMatrix->curricularMatrixFk->discipline_fk || 21 == $teachingMatrix->curricularMatrixFk->discipline_fk) {
                     $teachingDataDisciplines[99] = 99;
                 } else {
                     $teachingDataDisciplines[$teachingMatrix->curricularMatrixFk->discipline_fk] = $teachingMatrix->curricularMatrixFk->discipline_fk;
@@ -94,7 +94,7 @@ class Register20
         foreach ($classrooms as $iclass => $attributes) {
             $hasEnrolledStudent = false;
             foreach ($attributes->studentEnrollments as $enrollment) {
-                if ($enrollment->status == 1 || $enrollment->status == null) {
+                if (1 == $enrollment->status || null == $enrollment->status) {
                     $hasEnrolledStudent = true;
                     break;
                 }
@@ -107,11 +107,11 @@ class Register20
 
                 $attributes['name'] = trim(strtoupper(self::sanitizeString($attributes['name'])));
 
-                if ($attributes['pedagogical_mediation_type'] == null) {
+                if (null == $attributes['pedagogical_mediation_type']) {
                     $attributes['pedagogical_mediation_type'] = 1;
                 }
 
-                if ($attributes['pedagogical_mediation_type'] != '1') {
+                if ('1' != $attributes['pedagogical_mediation_type']) {
                     $attributes['initial_hour'] = '';
                     $attributes['initial_minute'] = '';
                     $attributes['final_hour'] = '';
@@ -128,33 +128,33 @@ class Register20
                     $attributes['aee'] = '0';
                 }
 
-                if ($attributes['aee'] == '1') {
+                if ('1' == $attributes['aee']) {
                     $attributes['schooling'] = '0';
                     $attributes['complementary_activity'] = '0';
                 }
 
                 if (
-                    $attributes['complementary_activity_type_1'] == null && $attributes['complementary_activity_type_2'] == null && $attributes['complementary_activity_type_3'] == null
-                    && $attributes['complementary_activity_type_4'] == null && $attributes['complementary_activity_type_5'] == null && $attributes['complementary_activity_type_6'] == null
+                    null == $attributes['complementary_activity_type_1'] && null == $attributes['complementary_activity_type_2'] && null == $attributes['complementary_activity_type_3']
+                    && null == $attributes['complementary_activity_type_4'] && null == $attributes['complementary_activity_type_5'] && null == $attributes['complementary_activity_type_6']
                 ) {
                     $attributes['complementary_activity'] = '0';
                 }
 
-                if ($attributes['pedagogical_mediation_type'] != '1') {
+                if ('1' != $attributes['pedagogical_mediation_type']) {
                     $attributes['diff_location'] = '';
-                } elseif ($attributes['diff_location'] == null) {
+                } elseif (null == $attributes['diff_location']) {
                     $attributes['diff_location'] = '0';
                 }
 
-                if ($attributes['modality'] == '3') {
+                if ('3' == $attributes['modality']) {
                     $attributes['complementary_activity'] = '0';
                 }
 
-                if ($attributes['pedagogical_mediation_type'] == '3' && ($attributes['modality'] == null || $attributes['modality'] == '')) {
+                if ('3' == $attributes['pedagogical_mediation_type'] && (null == $attributes['modality'] || '' == $attributes['modality'])) {
                     $attributes['modality'] = '1';
                 }
 
-                if ($attributes['complementary_activity'] == '0' && $attributes['schooling'] == '0' && $attributes['aee'] == '0') {
+                if ('0' == $attributes['complementary_activity'] && '0' == $attributes['schooling'] && '0' == $attributes['aee']) {
                     $attributes['schooling'] = '1';
                 }
 
@@ -162,7 +162,7 @@ class Register20
                     $attributes['course'] = '';
                 }
 
-                if ($attributes['edcenso_stage_vs_modality_fk'] == '' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
+                if ('' == $attributes['edcenso_stage_vs_modality_fk'] || 1 == $attributes['edcenso_stage_vs_modality_fk'] || 2 == $attributes['edcenso_stage_vs_modality_fk'] || 3 == $attributes['edcenso_stage_vs_modality_fk']) {
                     foreach ($attributes as $i => $attr) {
                         $pos = strstr($i, 'discipline');
                         if ($pos) {
@@ -184,38 +184,38 @@ class Register20
                 }
 
                 $complementaryActivitiesArray = [];
-                if ($attributes['complementary_activity_type_1'] != null) {
-                    array_push($complementaryActivitiesArray, $attributes['complementary_activity_type_1']);
+                if (null != $attributes['complementary_activity_type_1']) {
+                    $complementaryActivitiesArray[] = $attributes['complementary_activity_type_1'];
                 }
-                if ($attributes['complementary_activity_type_2'] != null) {
+                if (null != $attributes['complementary_activity_type_2']) {
                     if (in_array($attributes['complementary_activity_type_2'], $complementaryActivitiesArray)) {
                         $attributes['complementary_activity_type_2'] = '';
                     } else {
-                        array_push($complementaryActivitiesArray, $attributes['complementary_activity_type_2']);
+                        $complementaryActivitiesArray[] = $attributes['complementary_activity_type_2'];
                     }
                 }
-                if ($attributes['complementary_activity_type_3'] != null) {
+                if (null != $attributes['complementary_activity_type_3']) {
                     if (in_array($attributes['complementary_activity_type_3'], $complementaryActivitiesArray)) {
                         $attributes['complementary_activity_type_3'] = '';
                     } else {
-                        array_push($complementaryActivitiesArray, $attributes['complementary_activity_type_3']);
+                        $complementaryActivitiesArray[] = $attributes['complementary_activity_type_3'];
                     }
                 }
-                if ($attributes['complementary_activity_type_4'] != null) {
+                if (null != $attributes['complementary_activity_type_4']) {
                     if (in_array($attributes['complementary_activity_type_4'], $complementaryActivitiesArray)) {
                         $attributes['complementary_activity_type_4'] = '';
                     } else {
-                        array_push($complementaryActivitiesArray, $attributes['complementary_activity_type_4']);
+                        $complementaryActivitiesArray[] = $attributes['complementary_activity_type_4'];
                     }
                 }
-                if ($attributes['complementary_activity_type_5'] != null) {
+                if (null != $attributes['complementary_activity_type_5']) {
                     if (in_array($attributes['complementary_activity_type_5'], $complementaryActivitiesArray)) {
                         $attributes['complementary_activity_type_5'] = '';
                     } else {
-                        array_push($complementaryActivitiesArray, $attributes['complementary_activity_type_5']);
+                        $complementaryActivitiesArray[] = $attributes['complementary_activity_type_5'];
                     }
                 }
-                if ($attributes['complementary_activity_type_6'] != null) {
+                if (null != $attributes['complementary_activity_type_6']) {
                     if (in_array($attributes['complementary_activity_type_6'], $complementaryActivitiesArray)) {
                         $attributes['complementary_activity_type_6'] = '';
                     }
@@ -241,13 +241,13 @@ class Register20
                     //     }
                     // }
 
-                    if ($edcensoAlias->corder === self::REGISTER_ATTR_ETAPA_AGREGADA) {
+                    if (self::REGISTER_ATTR_ETAPA_AGREGADA === $edcensoAlias->corder) {
                         $edcensoAssocietedStage = EdcensoStageVsModality::model()->findByPk($edcensoStageVsModality->edcenso_associated_stage_id);
                         $register[$edcensoAlias->corder] = $edcensoAssocietedStage->aggregated_stage;
                     }
 
                     if (in_array($edcensoAlias->corder, [7, 8, 9, 10, 11, 12, 13])) {
-                        $register[$edcensoAlias->corder] = $attributes['initial_hour'] . ':' . $attributes['initial_minute'] . '-' . $attributes['final_hour'] . ':' . $attributes['final_minute'];
+                        $register[$edcensoAlias->corder] = $attributes['initial_hour'].':'.$attributes['initial_minute'].'-'.$attributes['final_hour'].':'.$attributes['final_minute'];
                     }
 
                     if (
@@ -259,35 +259,35 @@ class Register20
                                 self::REGISTER_ATTR_PERIODO,
                                 self::REGISTER_ATTR_CICLO,
                                 self::REGISTER_ATTR_GRUPO_NAO_SERIADO,
-                                self::REGISTER_ATTR_MODULO
+                                self::REGISTER_ATTR_MODULO,
                             ]
                         )
                     ) {
-                        if ($register[self::REGISTER_ATTR_ETAPA] == '' || in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3])) {
+                        if ('' == $register[self::REGISTER_ATTR_ETAPA] || in_array($attributes['edcenso_stage_vs_modality_fk'], [1, 2, 3])) {
                             $register[$edcensoAlias->corder] = '';
-                        } elseif ($edcensoAlias->corder == self::REGISTER_ATTR_SERIE && !in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 56, 69, 70, 71, 72, 73, 74, 67])) {
+                        } elseif (self::REGISTER_ATTR_SERIE == $edcensoAlias->corder && !in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 56, 69, 70, 71, 72, 73, 74, 67])) {
                             $register[self::REGISTER_ATTR_SERIE] = '0';
-                        } elseif ($register[self::REGISTER_ATTR_SERIE] == '0' && $edcensoAlias->corder == self::REGISTER_ATTR_PERIODO) {
+                        } elseif ('0' == $register[self::REGISTER_ATTR_SERIE] && self::REGISTER_ATTR_PERIODO == $edcensoAlias->corder) {
                             $register[self::REGISTER_ATTR_PERIODO] = '1';
                             if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 69, 70, 71, 72, 73, 74, 67, 68])) {
                                 $register[self::REGISTER_ATTR_PERIODO] = '0';
                             }
-                        } elseif ($register[self::REGISTER_ATTR_SERIE] == '0' && $register[self::REGISTER_ATTR_PERIODO] == '0' && $edcensoAlias->corder == self::REGISTER_ATTR_CICLO) {
+                        } elseif ('0' == $register[self::REGISTER_ATTR_SERIE] && '0' == $register[self::REGISTER_ATTR_PERIODO] && self::REGISTER_ATTR_CICLO == $edcensoAlias->corder) {
                             $register[self::REGISTER_ATTR_CICLO] = '1';
                             if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 56])) {
                                 $register[self::REGISTER_ATTR_CICLO] = '0';
                             }
-                        } elseif ($register[self::REGISTER_ATTR_SERIE] == '0' && $register[self::REGISTER_ATTR_PERIODO] == '0' && $register[self::REGISTER_ATTR_CICLO] == '0' && $edcensoAlias->corder == self::REGISTER_ATTR_GRUPO_NAO_SERIADO) {
+                        } elseif ('0' == $register[self::REGISTER_ATTR_SERIE] && '0' == $register[self::REGISTER_ATTR_PERIODO] && '0' == $register[self::REGISTER_ATTR_CICLO] && self::REGISTER_ATTR_GRUPO_NAO_SERIADO == $edcensoAlias->corder) {
                             $register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] = '1';
                             if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 56, 69, 70, 71, 72, 73, 74, 67, 68])) {
                                 $register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] = '0';
                             }
-                        } elseif ($register[self::REGISTER_ATTR_SERIE] == '0' && $register[self::REGISTER_ATTR_PERIODO] == '0' && $register[self::REGISTER_ATTR_CICLO] == '0' && $register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] == '0' && $edcensoAlias->corder == self::REGISTER_ATTR_MODULO) {
+                        } elseif ('0' == $register[self::REGISTER_ATTR_SERIE] && '0' == $register[self::REGISTER_ATTR_PERIODO] && '0' == $register[self::REGISTER_ATTR_CICLO] && '0' == $register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] && self::REGISTER_ATTR_MODULO == $edcensoAlias->corder) {
                             $register[self::REGISTER_ATTR_MODULO] = '1';
                             if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 56, 69, 70, 71, 72, 73, 74, 67, 68])) {
                                 $register[self::REGISTER_ATTR_MODULO] = '0';
                             }
-                        } elseif ($register[self::REGISTER_ATTR_SERIE] == '0' && $register[self::REGISTER_ATTR_PERIODO] == '0' && $register[self::REGISTER_ATTR_CICLO] == '0' && $register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] == '0' && $register[self::REGISTER_ATTR_MODULO] == '0' && $edcensoAlias->corder == self::REGISTER_ATTR_ALTERNACIA_REGULAR) {
+                        } elseif ('0' == $register[self::REGISTER_ATTR_SERIE] && '0' == $register[self::REGISTER_ATTR_PERIODO] && '0' == $register[self::REGISTER_ATTR_CICLO] && '0' == $register[self::REGISTER_ATTR_GRUPO_NAO_SERIADO] && '0' == $register[self::REGISTER_ATTR_MODULO] && self::REGISTER_ATTR_ALTERNACIA_REGULAR == $edcensoAlias->corder) {
                             $register[self::REGISTER_ATTR_ALTERNACIA_REGULAR] = '1';
                             if (!in_array($attributes['edcenso_stage_vs_modality_fk'], [19, 20, 21, 22, 23, 41, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 64, 69, 70, 71, 72, 73, 74, 67, 68])) {
                                 $register[self::REGISTER_ATTR_ALTERNACIA_REGULAR] = '0';
@@ -296,13 +296,13 @@ class Register20
                         }
                     }
 
-                    if ($edcensoAlias->corder == self::REGISTER_ATTR_PROJETO_DE_VIDA) {
-                        if ($attributes['edcenso_stage_vs_modality_fk'] == '' || $attributes['edcenso_stage_vs_modality_fk'] == 1 || $attributes['edcenso_stage_vs_modality_fk'] == 2 || $attributes['edcenso_stage_vs_modality_fk'] == 3) {
+                    if (self::REGISTER_ATTR_PROJETO_DE_VIDA == $edcensoAlias->corder) {
+                        if ('' == $attributes['edcenso_stage_vs_modality_fk'] || 1 == $attributes['edcenso_stage_vs_modality_fk'] || 2 == $attributes['edcenso_stage_vs_modality_fk'] || 3 == $attributes['edcenso_stage_vs_modality_fk']) {
                             $register[$edcensoAlias->corder] = '';
                         } else {
                             $register[$edcensoAlias->corder] = '0';
                         }
-                    } elseif ($edcensoAlias['attr'] != null && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
+                    } elseif (null != $edcensoAlias['attr'] && $attributes[$edcensoAlias['attr']] !== $edcensoAlias->default) {
                         $register[$edcensoAlias->corder] = $attributes[$edcensoAlias['attr']];
                     }
 
@@ -310,13 +310,13 @@ class Register20
                         [
                             self::REGISTER_ATTR_TURMA_EDUCACAO_ESPECIAL,
                             self::REGISTER_ATTR_ETAPA_AGREGADA,
-                            self::REGISTER_ATTR_ETAPA
+                            self::REGISTER_ATTR_ETAPA,
                         ],
                         true
                     );
 
                     if ($clear_coders->contains($edcensoAlias->corder) || $edcensoAlias->corder >= self::REGISTER_ATTR_QUIMICA && $edcensoAlias->corder <= self::REGISTER_ATTR_OUTRAS_DISCIPLINAS) {
-                        if ($attributes['aee'] == '1' || ($attributes['complementary_activity'] == '1' && $attributes['schooling'] == '0')) {
+                        if ('1' == $attributes['aee'] || ('1' == $attributes['complementary_activity'] && '0' == $attributes['schooling'])) {
                             $register[$edcensoAlias->corder] = '';
                         }
                     }
@@ -328,11 +328,11 @@ class Register20
                     // }
 
                     if (in_array($edcensoAlias->corder, [7, 8, 9, 10, 11, 12, 13])) {
-                        $register[$edcensoAlias->corder] = $attributes['initial_hour'] . ':' . $attributes['initial_minute'] . '-' . $attributes['final_hour'] . ':' . $attributes['final_minute'];
+                        $register[$edcensoAlias->corder] = $attributes['initial_hour'].':'.$attributes['initial_minute'].'-'.$attributes['final_hour'].':'.$attributes['final_minute'];
                     }
                 }
 
-                array_push($registers, implode('|', $register));
+                $registers[] = implode('|', $register);
             }
         }
 

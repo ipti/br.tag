@@ -10,11 +10,11 @@ class LogError
             mkdir($caminhoPasta, 0777, true);
         }
 
-        $caminhoArquivo = $caminhoPasta . 'errosImports.txt';
+        $caminhoArquivo = $caminhoPasta.'errosImports.txt';
         $arquivo = fopen($caminhoArquivo, 'a');
 
         if ($arquivo) {
-            fwrite($arquivo, $dados . PHP_EOL);
+            fwrite($arquivo, $dados.\PHP_EOL);
             fclose($arquivo);
         } else {
             echo 'Erro ao abrir o arquivo.';

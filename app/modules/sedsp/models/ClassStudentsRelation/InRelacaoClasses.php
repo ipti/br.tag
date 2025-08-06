@@ -58,36 +58,42 @@ class InRelacaoClasses
     public function setInAnoLetivo(?string $inAnoLetivo): self
     {
         $this->inAnoLetivo = $inAnoLetivo;
+
         return $this;
     }
 
     public function setInCodEscola(?string $inCodEscola): self
     {
         $this->inCodEscola = $inCodEscola;
+
         return $this;
     }
 
     public function setInCodTipoEnsino(?string $inCodTipoEnsino): self
     {
         $this->inCodTipoEnsino = $inCodTipoEnsino;
+
         return $this;
     }
 
     public function setInCodSerieAno(?string $inCodSerieAno): self
     {
         $this->inCodSerieAno = $inCodSerieAno;
+
         return $this;
     }
 
     public function setInCodTurno(?string $inCodTurno): self
     {
         $this->inCodTurno = $inCodTurno;
+
         return $this;
     }
 
     public function setInSemestre(?string $inSemestre): self
     {
         $this->inSemestre = $inSemestre;
+
         return $this;
     }
 

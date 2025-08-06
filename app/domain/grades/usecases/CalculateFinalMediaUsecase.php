@@ -24,18 +24,18 @@ class CalculateFinalMediaUsecase
     public function exec()
     {
         $grades = [];
-        if ($this->gradeRule->gradeCalculationFk->name == 'Média Semestral') {
+        if ('Média Semestral' == $this->gradeRule->gradeCalculationFk->name) {
             $semRecPartial1 = is_numeric($this->gradesResult['sem_rec_partial_1']) ? $this->gradesResult['sem_rec_partial_1'] : 0;
             $semRecPartial2 = is_numeric($this->gradesResult['sem_rec_partial_2']) ? $this->gradesResult['sem_rec_partial_2'] : 0;
 
             $gradesSemAvarage1 = max($this->gradesResult['sem_avarage_1'], $semRecPartial1);
             $gradesSemAvarage2 = max($this->gradesResult['sem_avarage_2'], $semRecPartial2);
 
-            if ($gradesSemAvarage1 !== null) {
+            if (null !== $gradesSemAvarage1) {
                 $grades[] = $gradesSemAvarage1;
             }
 
-            if ($gradesSemAvarage2 !== null) {
+            if (null !== $gradesSemAvarage2) {
                 $grades[] = $gradesSemAvarage2;
             }
 
@@ -55,7 +55,7 @@ class CalculateFinalMediaUsecase
 
             $gradesFinalRecovery = [];
 
-            if ($gradeUnity->gradeCalculationFk->name == 'Média Semestral' && $gradeUnity->final_recovery_avarage_formula == 'Médias dos Semestres') {
+            if ('Média Semestral' == $gradeUnity->gradeCalculationFk->name && 'Médias dos Semestres' == $gradeUnity->final_recovery_avarage_formula) {
                 // Verifica se os valores são números antes de comparar
                 $semRecPartial1 = is_numeric($this->gradesResult['sem_rec_partial_1']) ? $this->gradesResult['sem_rec_partial_1'] : 0;
                 $semRecPartial2 = is_numeric($this->gradesResult['sem_rec_partial_2']) ? $this->gradesResult['sem_rec_partial_2'] : 0;
@@ -65,11 +65,11 @@ class CalculateFinalMediaUsecase
 
                 $gradesFinalRecovery = [];
 
-                if ($gradesSemAvarage1 !== null) {
+                if (null !== $gradesSemAvarage1) {
                     $gradesFinalRecovery[] = $gradesSemAvarage1;
                 }
 
-                if ($gradesSemAvarage2 !== null) {
+                if (null !== $gradesSemAvarage2) {
                     $gradesFinalRecovery[] = $gradesSemAvarage2;
                 }
             } else {
@@ -106,20 +106,20 @@ class CalculateFinalMediaUsecase
         $result = null;
         $finalRecovery = GradeUnity::model()->findByAttributes(['grade_rules_fk' => $this->gradeRule->id, 'type' => 'RF']);
         $finalRecoveryGrade = $this->getFinalRevoveryGrade($gradesResult->enrollment_fk, $gradesResult->discipline_fk, $finalRecovery->id);
-        array_push($gradesFinalRecovery, $finalRecoveryGrade);
-        if ($finalRecovery->gradeCalculationFk->name == 'Média Semestral') {
+        $gradesFinalRecovery[] = $finalRecoveryGrade;
+        if ('Média Semestral' == $finalRecovery->gradeCalculationFk->name) {
             $calculation = GradeCalculation::model()->findByAttributes(['name' => 'Média']);
             $result = $this->applyCalculation($calculation, $gradesFinalRecovery);
-        } elseif ($finalRecovery->gradeCalculationFk->name == 'Peso') {
+        } elseif ('Peso' == $finalRecovery->gradeCalculationFk->name) {
             $weights = [
                 $finalRecovery->weight_final_recovery,
-                $finalRecovery->weight_final_media
-
+                $finalRecovery->weight_final_media,
             ];
             $result = $this->applyCalculation($finalRecovery->gradeCalculationFk, $gradesFinalRecovery, $weights);
         } else {
             $result = $this->applyCalculation($finalRecovery->gradeCalculationFk, $gradesFinalRecovery);
         }
+
         return $result;
     }
 
@@ -134,9 +134,10 @@ class CalculateFinalMediaUsecase
         $criteria->params = [
             ':discipline_fk' => $discipline,
             ':enrollment_fk' => $enrollmentId,
-            ':finalRecoveryId' => $finalRecoveryId
+            ':finalRecoveryId' => $finalRecoveryId,
         ];
         $criteria->order = 'g.id';
+
         return Grade::model()->find($criteria)->grade;
     }
 
@@ -151,16 +152,17 @@ class CalculateFinalMediaUsecase
     private function extractGrades($gradesResult, $countUnities)
     {
         $grades = [];
-        for ($i = 0; $i < $countUnities; $i++) {
-            $grade = $gradesResult->attributes['grade_' . ($i + 1)];
+        for ($i = 0; $i < $countUnities; ++$i) {
+            $grade = $gradesResult->attributes['grade_'.($i + 1)];
 
-            if ($this->gradesStudent[$i]->parcialRecoveryFk !== null) {
-                $gradePartialRecovery = $gradesResult->attributes['rec_partial_' . $this->gradesStudent[$i]->parcialRecoveryFk->order_partial_recovery];
+            if (null !== $this->gradesStudent[$i]->parcialRecoveryFk) {
+                $gradePartialRecovery = $gradesResult->attributes['rec_partial_'.$this->gradesStudent[$i]->parcialRecoveryFk->order_partial_recovery];
 
                 $grade = $grade < $gradePartialRecovery ? $gradePartialRecovery : $grade;
             }
-            array_push($grades, $grade);
+            $grades[] = $grade;
         }
+
         return $grades;
     }
 }

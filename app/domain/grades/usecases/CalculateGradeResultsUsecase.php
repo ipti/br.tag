@@ -17,7 +17,7 @@ class CalculateGradeResultsUsecase
     public function exec()
     {
         $classroom = Classroom::model()->findByPk($this->classroomId);
-        if ($this->stage === '') {
+        if ('' === $this->stage) {
             $this->stage = $classroom->edcenso_stage_vs_modality_fk;
         }
         $criteria = new CDbCriteria();
@@ -30,23 +30,25 @@ class CalculateGradeResultsUsecase
 
         $gradeRules = GradeRules::model()->find($criteria);
 
-        if ($gradeRules->rule_type === 'N') {
+        if ('N' === $gradeRules->rule_type) {
             $usercase = new CalculateNumericGradeUsecase($this->classroomId, $this->discipline, $this->stage);
             $usercase->exec();
             TLog::info('Notas numéricas calculadas com sucesso.', [
                 'Classroom' => $classroom->id,
                 'GradeRules' => $gradeRules->id,
-                'Rule' => $gradeRules->id
+                'Rule' => $gradeRules->id,
             ]);
+
             return;
-        } elseif ($gradeRules->rule_type === 'C') {
+        } elseif ('C' === $gradeRules->rule_type) {
             $usercase = new CalculateConceptGradeUsecase($this->classroomId, $this->discipline, $this->stage);
             $usercase->exec();
             TLog::info('Notas por conceito calculadas com sucesso.', [
                 'Classroom' => $classroom->id,
                 'GradeRules' => $gradeRules->id,
-                'Rule' => $gradeRules->rule_type
+                'Rule' => $gradeRules->rule_type,
             ]);
+
             return;
         }
 

@@ -24,12 +24,14 @@ class InNivelEnsino implements JsonSerializable
     public function setInCodTipoEnsino(?string $inCodTipoEnsino): self
     {
         $this->inCodTipoEnsino = $inCodTipoEnsino;
+
         return $this;
     }
 
     public function setInCodSerieAno(?string $inCodSerieAno): self
     {
         $this->inCodSerieAno = $inCodSerieAno;
+
         return $this;
     }
 

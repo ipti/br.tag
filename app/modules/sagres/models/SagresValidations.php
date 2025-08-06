@@ -1,6 +1,5 @@
 <?php
 
-use Respect\Validation\Validator;
 use Yii;
 
 class SagresValidations
@@ -50,37 +49,37 @@ class SagresValidations
 
         if (empty($managementUnit->getCodigoUnidGestora())) {
             $inconsistencies[] = [
-                'enrollment' => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                'enrollment' => 'UNIDADE GESTORA: '.$managementUnit->getNomeUnidGestora(),
                 'school' => '',
                 'description' => 'CÓDIGO DA UNIDADE GESTORA NÃO INFORMADO',
-                'action' => 'POR FAVOR, INFORME O CÓDIGO DE IDENTIFICAÇÃO DA UNIDADE GESTORA'
+                'action' => 'POR FAVOR, INFORME O CÓDIGO DE IDENTIFICAÇÃO DA UNIDADE GESTORA',
             ];
         }
 
         if (empty($managementUnit->getNomeUnidGestora())) {
             $inconsistencies[] = [
-                'enrollment' => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                'enrollment' => 'UNIDADE GESTORA: '.$managementUnit->getNomeUnidGestora(),
                 'school' => '',
                 'description' => 'NOME DA UNIDADE GESTORA NÃO INFORMADO',
-                'action' => 'POR FAVOR, INFORME UM NOME PARA A UNIDADE GESTORA'
+                'action' => 'POR FAVOR, INFORME UM NOME PARA A UNIDADE GESTORA',
             ];
         }
 
         if (empty($managementUnit->getCpfResponsavel())) {
             $inconsistencies[] = [
-                'enrollment' => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                'enrollment' => 'UNIDADE GESTORA: '.$managementUnit->getNomeUnidGestora(),
                 'school' => '',
                 'description' => 'CPF DO RESPONSÁVEL NÃO INFORMADO',
-                'action' => 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O RESPONSÁVEL'
+                'action' => 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O RESPONSÁVEL',
             ];
         }
 
         if (empty($managementUnit->getCpfGestor())) {
             $inconsistencies[] = [
-                'enrollment' => 'UNIDADE GESTORA: ' . $managementUnit->getNomeUnidGestora(),
+                'enrollment' => 'UNIDADE GESTORA: '.$managementUnit->getNomeUnidGestora(),
                 'school' => '',
                 'description' => 'CPF DO GESTOR NÃO INFORMADO',
-                'action' => 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O GESTOR'
+                'action' => 'POR FAVOR, INFORME UM CPF VÁLIDO PARA O GESTOR',
             ];
         }
 
@@ -97,8 +96,8 @@ class SagresValidations
                 $inconsistencies[] = [
                     'enrollment' => 'PROFISSIONAL',
                     'school' => $professional->getIdEscola(),
-                    'description' => 'CPF INVÁLIDO: ' . $professional->getCpfProfissional(),
-                    'action' => 'INFORMAR UM CPF VÁLIDO'
+                    'description' => 'CPF INVÁLIDO: '.$professional->getCpfProfissional(),
+                    'action' => 'INFORMAR UM CPF VÁLIDO',
                 ];
             }
 
@@ -107,7 +106,7 @@ class SagresValidations
                     'enrollment' => 'PROFISSIONAL',
                     'school' => $professional->getIdEscola(),
                     'description' => 'ESPECIALIDADE COM MAIS DE 50 CARACTERES',
-                    'action' => 'INFORMAR UMA DESCRIÇÃO PARA A ESPECIALIDADE COM ATÉ 50 CARACTERES'
+                    'action' => 'INFORMAR UMA DESCRIÇÃO PARA A ESPECIALIDADE COM ATÉ 50 CARACTERES',
                 ];
             }
 
@@ -124,15 +123,15 @@ class SagresValidations
         $attendances = $professional->getAtendimento();
 
         foreach ($attendances as $attendance) {
-            $dateOfAttendance = intval($attendance->getData()->format('Y'));
+            $dateOfAttendance = (int) $attendance->getData()->format('Y');
             $currentDate = date('Y');
 
             if ($dateOfAttendance <= ($currentDate - 3)) {
                 $inconsistencies[] = [
                     'enrollment' => 'ATENDIMENTO',
                     'school' => $professional->getIdEscola(),
-                    'description' => 'ANO DO ATENDIMENTO: ' . $attendance->getData()->format('d/m/Y') . ' MENOR QUE: ' . ($currentDate - 3),
-                    'action' => 'INFORMAR UM ANO PARA O ATENDIMENTO MAIOR QUE: ' . ($currentDate - 3)
+                    'description' => 'ANO DO ATENDIMENTO: '.$attendance->getData()->format('d/m/Y').' MENOR QUE: '.($currentDate - 3),
+                    'action' => 'INFORMAR UM ANO PARA O ATENDIMENTO MAIOR QUE: '.($currentDate - 3),
                 ];
             }
 
@@ -141,7 +140,7 @@ class SagresValidations
                     'enrollment' => 'ATENDIMENTO',
                     'school' => $professional->getIdEscola(),
                     'description' => 'NOME DO LOCAL DO ATENDIMENTO COM MAIS DE 200 CARACTERES',
-                    'action' => 'INFORMAR UM NOME PARA O LOCAL DO ATENDIMENTO COM ATÉ 200 CARACTERES'
+                    'action' => 'INFORMAR UM NOME PARA O LOCAL DO ATENDIMENTO COM ATÉ 200 CARACTERES',
                 ];
             }
         }
@@ -154,12 +153,12 @@ class SagresValidations
         $strMaxLength = 100;
         $inconsistencies = [];
 
-        if ($school->getDiretor()->getNrAto() == null) {
+        if (null == $school->getDiretor()->getNrAto()) {
             $inconsistencies[] = [
                 'enrollment' => 'DIRETOR',
                 'school' => $school->getIdEscola(),
                 'description' => 'NÚMERO DO ATO DE NOMEAÇÃO NÃO PODE SER VAZIO',
-                'action' => 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO PARA O DIRETOR'
+                'action' => 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO PARA O DIRETOR',
             ];
         }
 
@@ -168,16 +167,16 @@ class SagresValidations
                 'enrollment' => 'DIRETOR',
                 'school' => $school->getIdEscola(),
                 'description' => 'NÚMERO DO ATO DE NOMEAÇÃO COM MAIS DE 100 CARACTERES',
-                'action' => 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO COM ATÉ 100 CARACTERES'
+                'action' => 'INFORMAR UM NÚMERO DO ATO DE NOMEAÇÃO COM ATÉ 100 CARACTERES',
             ];
         }
 
-        if ($school->getDiretor()->getCpfDiretor() == null || !preg_match('/^[0-9]{11}$/', $school->getDiretor()->getCpfDiretor())) {
+        if (null == $school->getDiretor()->getCpfDiretor() || !preg_match('/^[0-9]{11}$/', $school->getDiretor()->getCpfDiretor())) {
             $inconsistencies[] = [
                 'enrollment' => 'DIRETOR',
                 'school' => $school->getIdEscola(),
                 'description' => 'CPF NÃO CADASTRADO OU CPF NO FORMATO INVÁLIDO PARA O DIRETOR',
-                'action' => 'INFORMAR UM CPF VÁLIDO PARA O DIRETOR'
+                'action' => 'INFORMAR UM CPF VÁLIDO PARA O DIRETOR',
             ];
         }
 
@@ -186,16 +185,16 @@ class SagresValidations
                 'enrollment' => 'DIRETOR',
                 'school' => $school->getIdEscola(),
                 'description' => 'CPF DO DIRETOR INVÁLIDO',
-                'action' => 'INFORMAR UM CPF VÁLIDO PARA O DIRETOR'
+                'action' => 'INFORMAR UM CPF VÁLIDO PARA O DIRETOR',
             ];
         }
 
-        if (is_null($inconsistencies)) {
+        if (null === $inconsistencies) {
             $inconsistencies[] = [
                 'enrollment' => 'DIRETOR',
                 'school' => $school->getIdEscola(),
-                'description' => 'NÃO EXISTE DIRETOR CADASTRADO PARA A ESCOLA: ' . $school->getIdEscola(),
-                'action' => 'ADICIONE UM DIRETOR PARA A ESCOLA: ' . $school->getIdEscola()
+                'description' => 'NÃO EXISTE DIRETOR CADASTRADO PARA A ESCOLA: '.$school->getIdEscola(),
+                'action' => 'ADICIONE UM DIRETOR PARA A ESCOLA: '.$school->getIdEscola(),
             ];
         }
 
@@ -214,7 +213,7 @@ class SagresValidations
                     'enrollment' => 'CARDÁPIO',
                     'school' => $school->getIdEscola(),
                     'description' => 'TURNO INVÁLIDO',
-                    'action' => 'INFORMAR UM TURNO VÁLIDO PARA O TURNO'
+                    'action' => 'INFORMAR UM TURNO VÁLIDO PARA O TURNO',
                 ];
             }
 
@@ -223,7 +222,7 @@ class SagresValidations
                     'enrollment' => 'CARDÁPIO',
                     'school' => $school->getIdEscola(),
                     'description' => 'DESCRIÇÃO PARA MERENDA MENOR QUE 5 CARACTERES',
-                    'action' => 'INFORMAR UMA DESCRIÇÃO PARA MERENDA MAIOR QUE 4 CARACTERES'
+                    'action' => 'INFORMAR UMA DESCRIÇÃO PARA MERENDA MAIOR QUE 4 CARACTERES',
                 ];
             }
 
@@ -232,7 +231,7 @@ class SagresValidations
                     'enrollment' => 'CARDÁPIO',
                     'school' => $school->getIdEscola(),
                     'description' => 'VALOR INVÁLIDO PARA O CAMPO AJUSTADO',
-                    'action' => 'MARQUE OU DESMARQUE O CHECKBOX PARA O CAMPO AJUSTADO'
+                    'action' => 'MARQUE OU DESMARQUE O CHECKBOX PARA O CAMPO AJUSTADO',
                 ];
             }
 
@@ -241,7 +240,7 @@ class SagresValidations
                     'enrollment' => 'CARDÁPIO',
                     'school' => $school->getIdEscola(),
                     'description' => 'DATA NO FORMATO INVÁLIDO',
-                    'action' => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
+                    'action' => 'ADICIONE UMA DATA NO FORMATO VÁLIDA',
                 ];
             }
         }
@@ -266,16 +265,16 @@ class SagresValidations
                     'enrollment' => 'TURMA',
                     'school' => $school->getIdEscola(),
                     'description' => 'VALOR INVÁLIDO PARA O PERÍODO',
-                    'action' => 'ADICIONE UM VALOR VÁLIDO PARA O PERÍODO'
+                    'action' => 'ADICIONE UM VALOR VÁLIDO PARA O PERÍODO',
                 ];
             }
 
-            if (strlen($class->getDescricao()) <= $strlen && !is_null($class->getDescricao())) {
+            if (strlen($class->getDescricao()) <= $strlen && null !== $class->getDescricao()) {
                 $inconsistencies[] = [
                     'enrollment' => 'TURMA',
                     'school' => $school->getIdEscola(),
                     'description' => 'DESCRIÇÃO PARA A TURMA MENOR QUE 3 CARACTERES',
-                    'action' => 'ADICIONE UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES'
+                    'action' => 'ADICIONE UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES',
                 ];
             }
 
@@ -284,7 +283,7 @@ class SagresValidations
                     'enrollment' => 'TURMA',
                     'school' => $school->getIdEscola(),
                     'description' => 'DESCRIÇÃO PARA A TURMA COM MAIS DE 50 CARACTERES',
-                    'action' => 'ADICIONE UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES'
+                    'action' => 'ADICIONE UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES',
                 ];
             }
 
@@ -293,7 +292,7 @@ class SagresValidations
                     'enrollment' => 'TURMA',
                     'school' => $school->getIdEscola(),
                     'description' => 'VALOR INVÁLIDO PARA O TURNO DA TURMA',
-                    'action' => 'SELECIONE UM TURNO VÁLIDO PARA O HORÁRIO DE FUNCIONAMENTO'
+                    'action' => 'SELECIONE UM TURNO VÁLIDO PARA O HORÁRIO DE FUNCIONAMENTO',
                 ];
             }
 
@@ -302,7 +301,7 @@ class SagresValidations
                     'enrollment' => 'TURMA',
                     'school' => $school->getIdEscola(),
                     'description' => 'VALOR INVÁLIDO PARA O FINAL TURMA',
-                    'action' => 'SELECIONE UM VALOR VÁLIDO PARA O ENCERRAMENTO DO PERÍODO'
+                    'action' => 'SELECIONE UM VALOR VÁLIDO PARA O ENCERRAMENTO DO PERÍODO',
                 ];
             }
 
@@ -325,8 +324,8 @@ class SagresValidations
             $inconsistencies[] = [
                 'enrollment' => 'SÉRIE',
                 'school' => $schoolId,
-                'description' => 'NÃO HÁ SÉRIE PARA A ESCOLA: ' . $schoolId,
-                'action' => 'ADICIONE UMA SÉRIE PARA A TURMA: ' . $class->getDescricao() . ' DA ESCOLA: ' . $schoolId
+                'description' => 'NÃO HÁ SÉRIE PARA A ESCOLA: '.$schoolId,
+                'action' => 'ADICIONE UMA SÉRIE PARA A TURMA: '.$class->getDescricao().' DA ESCOLA: '.$schoolId,
             ];
         } else {
             foreach ($series as $serie) {
@@ -335,7 +334,7 @@ class SagresValidations
                         'enrollment' => 'SÉRIE',
                         'school' => $schoolId,
                         'description' => 'DESCRIÇÃO PARA A SÉRIE MENOR QUE 3 CARACTERES',
-                        'action' => 'FORNEÇA UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES'
+                        'action' => 'FORNEÇA UMA DESCRIÇÃO MAIS DETALHADA, CONTENDO MAIS DE 5 CARACTERES',
                     ];
                 }
 
@@ -343,8 +342,8 @@ class SagresValidations
                     $inconsistencies[] = [
                         'enrollment' => 'SÉRIE',
                         'school' => $schoolId,
-                        'description' => 'DESCRIÇÃO PARA A SÉRIE: ' . $class->getDescricao() . ' COM MAIS DE 50 CARACTERES',
-                        'action' => 'FORNEÇA UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES'
+                        'description' => 'DESCRIÇÃO PARA A SÉRIE: '.$class->getDescricao().' COM MAIS DE 50 CARACTERES',
+                        'action' => 'FORNEÇA UMA DESCRIÇÃO MENOS DETALHADA, CONTENDO ATÉ 50 CARACTERES',
                     ];
                 }
 
@@ -359,10 +358,10 @@ class SagresValidations
                         'enrollment' => 'SÉRIE',
                         'school' => $schoolId,
                         'description' => 'MODALIDADE INVÁLIDA',
-                        'action' => 'SELECIONE UMA MODALIDADE VÁLIDA PARA A SÉRIE'
+                        'action' => 'SELECIONE UMA MODALIDADE VÁLIDA PARA A SÉRIE',
                     ];
                 }
-            };
+            }
         }
 
         return $inconsistencies;
@@ -378,7 +377,7 @@ class SagresValidations
                 'enrollment' => 'MATRÍCULA',
                 'school' => $schoolId,
                 'description' => 'NÃO HÁ MATRÍCULA PARA A TURMA',
-                'action' => 'ADICIONE UMA MATRÍCULA PARA A TURMA: ' . $class->getDescricao() . ' DA ESCOLA: ' . $schoolId
+                'action' => 'ADICIONE UMA MATRÍCULA PARA A TURMA: '.$class->getDescricao().' DA ESCOLA: '.$schoolId,
             ];
         } else {
             foreach ($enrollments as $enrollment) {
@@ -387,7 +386,7 @@ class SagresValidations
                         'enrollment' => 'MATRÍCULA',
                         'school' => $schoolId,
                         'description' => 'DATA NO FORMATO INVÁLIDO',
-                        'action' => 'ADICIONE UMA DATA NO FORMATO VÁLIDO'
+                        'action' => 'ADICIONE UMA DATA NO FORMATO VÁLIDO',
                     ];
                 }
 
@@ -396,16 +395,16 @@ class SagresValidations
                         'enrollment' => 'MATRÍCULA',
                         'school' => $schoolId,
                         'description' => 'O VALOR PARA O NÚMERO DE FALTAS É INVÁLIDO',
-                        'action' => 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS'
+                        'action' => 'COLOQUE UM VALOR VÁLIDO PARA O NÚMERO DE FALTAS',
                     ];
                 }
-                if (filter_var($finalClass, FILTER_VALIDATE_BOOLEAN)) {
+                if (filter_var($finalClass, \FILTER_VALIDATE_BOOLEAN)) {
                     if (!is_bool($enrollment->getAprovado())) {
                         $inconsistencies[] = [
                             'enrollment' => 'MATRÍCULA',
                             'school' => $schoolId,
                             'description' => 'VALOR INVÁLIDO PARA O STATUS APROVADO',
-                            'action' => 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO ' . $enrollment->getAluno()->getNome() . ' NA TURMA: ' . $class->getDescricao()
+                            'action' => 'ADICIONE UM VALOR VÁLIDO PARA O CAMPO APROVADO DO ALUNO '.$enrollment->getAluno()->getNome().' NA TURMA: '.$class->getDescricao(),
                         ];
                     }
                 }
@@ -423,13 +422,13 @@ class SagresValidations
         $strlen = 5;
         $inconsistencies = [];
 
-        if (!is_null($student->getCpfAluno())) {
+        if (null !== $student->getCpfAluno()) {
             if (!$this->validaCPF($student->getCpfAluno())) {
                 $inconsistencies[] = [
                     'enrollment' => 'ESTUDANTE',
                     'school' => $schoolId,
                     'description' => 'CPF DO ESTUDANTE É INVÁLIDO',
-                    'action' => 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: ' . $student->getCpfAluno()
+                    'action' => 'INFORME UM CPF VÁLIDO PARA O ESTUDANTE: '.$student->getCpfAluno(),
                 ];
             }
         }
@@ -438,8 +437,8 @@ class SagresValidations
             $inconsistencies[] = [
                 'enrollment' => 'ESTUDANTE',
                 'school' => $schoolId,
-                'description' => 'DATA NO FORMATO INVÁLIDO: ' . $student->getDataNascimento()->format('d/m/Y'),
-                'action' => 'ADICIONE UMA DATA NO FORMATO VÁLIDA'
+                'description' => 'DATA NO FORMATO INVÁLIDO: '.$student->getDataNascimento()->format('d/m/Y'),
+                'action' => 'ADICIONE UMA DATA NO FORMATO VÁLIDA',
             ];
         }
 
@@ -448,7 +447,7 @@ class SagresValidations
                 'enrollment' => 'ESTUDANTE',
                 'school' => $schoolId,
                 'description' => 'NOME DO ESTUDANTE COM MENOS DE 5 CARACTERES',
-                'action' => 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES'
+                'action' => 'ADICIONE UM NOME PARA O ESTUDANTE COM PELO MENOS 5 CARACTERES',
             ];
         }
 
@@ -457,16 +456,16 @@ class SagresValidations
                 'enrollment' => 'ESTUDANTE',
                 'school' => $schoolId,
                 'description' => 'NOME DO ESTUDANTE COM MAIS DE 200 CARACTERES',
-                'action' => 'ADICIONE UM NOME PARA O ESTUDANTE COM ATÉ 200 CARACTERES'
+                'action' => 'ADICIONE UM NOME PARA O ESTUDANTE COM ATÉ 200 CARACTERES',
             ];
         }
 
-        if (!is_bool(boolval($student->getPcd()))) {
+        if (!is_bool((bool) $student->getPcd())) {
             $inconsistencies[] = [
                 'enrollment' => 'ESTUDANTE',
                 'school' => $schoolId,
                 'description' => 'CÓDIGO PCD É INVÁLIDO',
-                'action' => 'ADICIONE UM VALOR VÁLIDO PARA O PCD'
+                'action' => 'ADICIONE UM VALOR VÁLIDO PARA O PCD',
             ];
         }
 
@@ -475,16 +474,16 @@ class SagresValidations
                 'enrollment' => 'ESTUDANTE',
                 'school' => $schoolId,
                 'description' => 'SEXO NÃO É VÁLIDO',
-                'action' => 'ADICIONE UM SEXO VÁLIDO PARA O ESTUDANTE'
+                'action' => 'ADICIONE UM SEXO VÁLIDO PARA O ESTUDANTE',
             ];
         }
 
-        if (is_null($inconsistencies)) {
+        if (null === $inconsistencies) {
             $inconsistencies[] = [
                 'enrollment' => 'ESTUDANTE',
                 'school' => $schoolId,
-                'description' => 'ESTUDANTE NÃO EXISTE PARA A MATRÍCULA DA TURMA: ' . $class->getDescricao(),
-                'action' => 'ADICIONE UM ESTUDANTE À TURMA DA ESCOLA: ' . $schoolId
+                'description' => 'ESTUDANTE NÃO EXISTE PARA A MATRÍCULA DA TURMA: '.$class->getDescricao(),
+                'action' => 'ADICIONE UM ESTUDANTE À TURMA DA ESCOLA: '.$schoolId,
             ];
         }
 
@@ -502,8 +501,8 @@ class SagresValidations
             $inconsistencies[] = [
                 'enrollment' => 'HORÁRIO',
                 'school' => $schoolId,
-                'description' => 'NÃO HÁ UM PROFESSOR, HORÁRIOS OU COMPONETES CURRICULARES PARA A TURMA: ' . $class->getDescricao() . ' DA ESCOLA: ' . $schoolId,
-                'action' => 'ADICIONE UM PROFESSOR OU COMPONENTES CURRICULARES À TURMA'
+                'description' => 'NÃO HÁ UM PROFESSOR, HORÁRIOS OU COMPONETES CURRICULARES PARA A TURMA: '.$class->getDescricao().' DA ESCOLA: '.$schoolId,
+                'action' => 'ADICIONE UM PROFESSOR OU COMPONENTES CURRICULARES À TURMA',
             ];
         } else {
             foreach ($schedules as $schedule) {
@@ -511,8 +510,8 @@ class SagresValidations
                     $inconsistencies[] = [
                         'enrollment' => 'HORÁRIO',
                         'school' => $schoolId,
-                        'description' => 'DIA DA SEMANA INVÁLIDO: ' . $schedule->getDiaSemana(),
-                        'action' => 'ADICIONE UM DIA DA SEMANA VÁLIDO PARA A DISCIPLINA'
+                        'description' => 'DIA DA SEMANA INVÁLIDO: '.$schedule->getDiaSemana(),
+                        'action' => 'ADICIONE UM DIA DA SEMANA VÁLIDO PARA A DISCIPLINA',
                     ];
                 }
 
@@ -521,7 +520,7 @@ class SagresValidations
                         'enrollment' => 'HORÁRIO',
                         'school' => $schoolId,
                         'description' => 'DURAÇÃO INVÁLIDA',
-                        'action' => 'ADICIONE UMA DURAÇÃO VÁLIDA PARA DISCIPLINA'
+                        'action' => 'ADICIONE UMA DURAÇÃO VÁLIDA PARA DISCIPLINA',
                     ];
                 }
 
@@ -530,8 +529,8 @@ class SagresValidations
                     $inconsistencies[] = [
                         'enrollment' => 'HORÁRIO',
                         'school' => $schoolId,
-                        'description' => 'CPF DO PROFESSOR É INVÁLIDO, VINCULADO A TURMA: ' . $class->getDescricao(),
-                        'action' => 'INFORMAR UM CPF VÁLIDO PARA O PROFESSOR'
+                        'description' => 'CPF DO PROFESSOR É INVÁLIDO, VINCULADO A TURMA: '.$class->getDescricao(),
+                        'action' => 'INFORMAR UM CPF VÁLIDO PARA O PROFESSOR',
                     ];
                 }
 
@@ -540,7 +539,7 @@ class SagresValidations
                         'enrollment' => 'HORÁRIO',
                         'school' => $schoolId,
                         'description' => 'NOME DA DISCIPLINA MUITO CURTA',
-                        'action' => 'ADICIONE UM NOME PARA A DISCIPLINA COM PELO MENOS 5 CARACTERES'
+                        'action' => 'ADICIONE UM NOME PARA A DISCIPLINA COM PELO MENOS 5 CARACTERES',
                     ];
                 }
 
@@ -548,8 +547,8 @@ class SagresValidations
                     $inconsistencies[] = [
                         'enrollment' => 'HORÁRIO',
                         'school' => $schoolId,
-                        'description' => 'NOME DA DISCIPLINA COM MAIS DE 50 CARACTERES - ' . $schedule->getDisciplina(),
-                        'action' => 'ADICIONE UM NOME PARA A DISCIPLINA COM ATÉ 50 CARACTERES'
+                        'description' => 'NOME DA DISCIPLINA COM MAIS DE 50 CARACTERES - '.$schedule->getDisciplina(),
+                        'action' => 'ADICIONE UM NOME PARA A DISCIPLINA COM ATÉ 50 CARACTERES',
                     ];
                 }
             }
@@ -562,7 +561,7 @@ class SagresValidations
     {
         $cpf = preg_replace('/[^0-9]/is', '', $cpf);
 
-        if (strlen($cpf) != 11) {
+        if (11 != strlen($cpf)) {
             return false;
         }
 
@@ -570,8 +569,8 @@ class SagresValidations
             return false;
         }
 
-        for ($t = 9; $t < 11; $t++) {
-            for ($d = 0, $c = 0; $c < $t; $c++) {
+        for ($t = 9; $t < 11; ++$t) {
+            for ($d = 0, $c = 0; $c < $t; ++$c) {
                 $d += $cpf[$c] * (($t + 1) - $c);
             }
             $d = ((10 * $d) % 11) % 10;
@@ -579,13 +578,14 @@ class SagresValidations
                 return false;
             }
         }
+
         return true;
     }
 
     public function validateDate($date, $format = 'Y-m-d')
     {
         $d = DateTime::createFromFormat($format, $date);
-        if (intval($d->format('Y')) <= 1900) {
+        if ((int) $d->format('Y') <= 1900) {
             return false;
         }
 

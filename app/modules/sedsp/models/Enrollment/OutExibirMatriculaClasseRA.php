@@ -42,24 +42,28 @@ class OutExibirMatriculaClasseRA
     public function setOutAluno(?OutAluno $outAluno): self
     {
         $this->outAluno = $outAluno;
+
         return $this;
     }
 
     public function setOutMatricula(?OutMatricula $outMatricula): self
     {
         $this->outMatricula = $outMatricula;
+
         return $this;
     }
 
     public function setOutErro(?string $outErro): self
     {
         $this->outErro = $outErro;
+
         return $this;
     }
 
     public function setOutProcessoId(?string $outProcessoID): self
     {
         $this->outProcessoID = $outProcessoID;
+
         return $this;
     }
 

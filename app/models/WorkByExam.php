@@ -4,11 +4,11 @@
  * This is the model class for table "work_by_exam".
  *
  * The followings are the available columns in table 'work_by_exam':
- * @property integer $id
- * @property integer $classroom_fk
- * @property integer $exam
- * @property integer $school_days
- * @property integer $workload
+ * @property int $id
+ * @property int $classroom_fk
+ * @property int $exam
+ * @property int $school_days
+ * @property int $workload
  *
  * The followings are the available model relations:
  * @property Classroom $classroomFk
@@ -24,7 +24,7 @@ class WorkByExam extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -40,7 +40,7 @@ class WorkByExam extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -75,7 +75,7 @@ class WorkByExam extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -97,7 +97,7 @@ class WorkByExam extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return WorkByExam the static model class
      */
     public static function model($className = __CLASS__)

@@ -47,7 +47,7 @@ class EnrollmentonlinestudentidentificationRepository
         } catch (Exception $e) {
             $transaction->rollback();
 
-            Yii::log('Erro ao salvar pré-matrícula: ' . $e->getMessage(), CLogger::LEVEL_ERROR);
+            Yii::log('Erro ao salvar pré-matrícula: '.$e->getMessage(), CLogger::LEVEL_ERROR);
             throw $e;
         }
     }
@@ -58,6 +58,7 @@ class EnrollmentonlinestudentidentificationRepository
         $enrollmentSolicitation->status = 0;
         $enrollmentSolicitation->school_inep_id_fk = $inepId;
         $enrollmentSolicitation->enrollment_online_student_identification_fk = $this->studentIdentification->id;
+
         return $enrollmentSolicitation->save();
     }
 
@@ -70,7 +71,7 @@ class EnrollmentonlinestudentidentificationRepository
         $user->name = $this->studentIdentification->responsable_name;
         $user->active = 1;
         $cpf = preg_replace('/\D/', '', $this->studentIdentification->responsable_cpf);
-        $user->username = $this->studentIdentification->id . $cpf;
+        $user->username = $this->studentIdentification->id.$cpf;
         if ($user->save()) {
             $auth = new AuthAssignment();
             $auth->itemname = 'guardian';
@@ -79,6 +80,7 @@ class EnrollmentonlinestudentidentificationRepository
 
             $this->studentIdentification->user_fk = $user->id;
             $this->user = $user;
+
             return $this->studentIdentification->save();
         }
     }

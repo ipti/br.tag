@@ -3,7 +3,7 @@
 namespace SagresEdu;
 
 /**
- * Class representing Educacao
+ * Class representing Educacao.
  */
 class Educacao extends EducacaoTType
 {

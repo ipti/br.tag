@@ -7,11 +7,11 @@ class BasicDataSEDDataSource extends SedDataSource
     /**
      * ===========================
      * GET REQUEST METHODS
-     * ===========================
+     * ===========================.
      */
 
     /**
-     * Summary of getTipoEnsino
+     * Summary of getTipoEnsino.
      * @return OutTiposEnsino|OutErro
      * @throws Exception
      */
@@ -20,6 +20,7 @@ class BasicDataSEDDataSource extends SedDataSource
         try {
             $url = '/ncaapi/api/DadosBasicos/TipoEnsino';
             $response = $this->getApiResponse('GET', $url, null);
+
             return OutTiposEnsino::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -37,7 +38,7 @@ class BasicDataSEDDataSource extends SedDataSource
     private function getApiResponse($HTTPMethod, $url, $data)
     {
         $response = $this->client->request($HTTPMethod, $url, [
-            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
+            'body' => json_encode($data, \JSON_UNESCAPED_UNICODE),
         ]);
 
         return json_decode($response->getBody()->getContents(), true);

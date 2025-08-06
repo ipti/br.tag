@@ -4,11 +4,11 @@
  * This is the model class for table "lunch_item".
  *
  * The followings are the available columns in table 'lunch_item':
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $description
- * @property integer $unity_fk
- * @property double $measure
+ * @property int $unity_fk
+ * @property float $measure
  *
  * The followings are the available model relations:
  * @property Unity $unity
@@ -20,7 +20,7 @@ class Item extends TagModel
 {
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return Item the static model class
      */
     public static function model($className = __CLASS__)
@@ -37,7 +37,7 @@ class Item extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -56,7 +56,7 @@ class Item extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -80,9 +80,9 @@ class Item extends TagModel
         $criteria->params = [':schoolId' => $school->inep_id, ':itemId' => $this->id];
 
         $inventory = Inventory::model()->find($criteria);
-        $amount = isset($inventory->amount) ? floatval($inventory->amount) : 0;
+        $amount = isset($inventory->amount) ? (float) ($inventory->amount) : 0;
 
-        return $this->name . ' (' . $amount . ' x ' . $this->measure . $this->unity->acronym . ')';
+        return $this->name.' ('.$amount.' x '.$this->measure.$this->unity->acronym.')';
     }
 
     /**
@@ -101,7 +101,7 @@ class Item extends TagModel
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {

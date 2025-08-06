@@ -20,12 +20,14 @@ class ApplyFormulaOnGradesUsecase
     public function setGrades($grades)
     {
         $this->grades = $grades;
+
         return $this;
     }
 
     public function setWeights($weights)
     {
         $this->weights = $weights;
+
         return $this;
     }
 
@@ -41,7 +43,8 @@ class ApplyFormulaOnGradesUsecase
             case GradeCalculation::OP_SUM:
                 $result = array_reduce($this->grades, function ($acc, $grade) {
                     /** @var Grade $grade */
-                    $acc += floatval($grade);
+                    $acc += (float) $grade;
+
                     return $acc;
                 });
                 break;
@@ -54,10 +57,11 @@ class ApplyFormulaOnGradesUsecase
             case GradeCalculation::OP_MEDIA:
                 $finalGrade = array_reduce($this->grades, function ($acc, $grade) {
                     /** @var Grade $grade */
-                    $acc += floatval($grade);
+                    $acc += (float) $grade;
+
                     return $acc;
                 });
-                $result = $finalGrade / sizeof($this->grades);
+                $result = $finalGrade / count($this->grades);
                 break;
             case GradeCalculation::OP_MEDIA_BY_WEIGTH:
                 $acc = [0, 0];

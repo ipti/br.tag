@@ -66,42 +66,49 @@ class InCertidaoAntiga implements JsonSerializable
     public function setInNumCertidao(?string $inNumCertidao): self
     {
         $this->inNumCertidao = $inNumCertidao;
+
         return $this;
     }
 
     public function setInLivro(?string $inLivro): self
     {
         $this->inLivro = $inLivro;
+
         return $this;
     }
 
     public function setInFolha(?string $inFolha): self
     {
         $this->inFolha = $inFolha;
+
         return $this;
     }
 
     public function setInDistritoCertidao(?string $inDistritoCertidao): self
     {
         $this->inDistritoCertidao = $inDistritoCertidao;
+
         return $this;
     }
 
     public function setInMunicipioComarca(?string $inMunicipioComarca): self
     {
         $this->inMunicipioComarca = $inMunicipioComarca;
+
         return $this;
     }
 
     public function setInUfComarca(?string $inUFComarca): self
     {
         $this->inUFComarca = $inUFComarca;
+
         return $this;
     }
 
     public function setInDataEmissaoCertidao(?string $inDataEmissaoCertidao): self
     {
         $this->inDataEmissaoCertidao = $inDataEmissaoCertidao;
+
         return $this;
     }
 

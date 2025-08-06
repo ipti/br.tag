@@ -4,16 +4,16 @@
  * This is the model class for table "class_contents".
  *
  * The followings are the available columns in table 'class_contents':
- * @property integer $id
- * @property integer $schedule_fk
- * @property integer $course_class_fk
- * @property integer $created_at
- * @property integer $updated_at
- * @property integer $discipline_fk
- * @property integer $day
- * @property integer $month
- * @property integer $year
- * @property integer $classroom_fk
+ * @property int $id
+ * @property int $schedule_fk
+ * @property int $course_class_fk
+ * @property int $created_at
+ * @property int $updated_at
+ * @property int $discipline_fk
+ * @property int $day
+ * @property int $month
+ * @property int $year
+ * @property int $classroom_fk
  * @property string $fkid
  *
  * The followings are the available model relations:
@@ -39,12 +39,12 @@ class ClassContents extends TagModel
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true,
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
+            ],
         ];
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -62,7 +62,7 @@ class ClassContents extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -103,7 +103,7 @@ class ClassContents extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -129,7 +129,7 @@ class ClassContents extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return ClassContents the static model class
      */
     public static function model($className = __CLASS__)
@@ -150,6 +150,7 @@ class ClassContents extends TagModel
                 ->bindParam(':year', $year)
                 ->queryScalar();
         }
+
         return Yii::app()->db->createCommand(
             'select count(*) from schedule sc
             where sc.year = :year and sc.month = :month and sc.classroom_fk = :classroom
@@ -200,6 +201,7 @@ class ClassContents extends TagModel
                 ->bindParam(':year', $year)
                 ->queryScalar();
         }
+
         return Yii::app()->db->createCommand(
             'select count(*) from class_contents cc
             join schedule sc on sc.id = cc.schedule_fk
@@ -219,11 +221,11 @@ class ClassContents extends TagModel
         foreach ($schedules as $schedule) {
             $scheduleDate = date('Y-m-d', mktime(0, 0, 0, $schedule->month, $schedule->day, $schedule->year));
             $classContents[$schedule->day]['available'] = date('Y-m-d') >= $scheduleDate;
-            $classContents[$schedule->day]['diary'] = $schedule->diary !== null ? $schedule->diary : '';
+            $classContents[$schedule->day]['diary'] = null !== $schedule->diary ? $schedule->diary : '';
             $classContents[$schedule->day]['students'] = [];
 
             $studentArray = StudentEnrollment::model()->getStudentClassAnottations($schedule, $students);
-            array_push($classContents[$schedule->day]['students'], $studentArray);
+            $classContents[$schedule->day]['students'][] = $studentArray;
 
             $courseClasses = [];
             foreach ($schedule->classContents as $classContent) {
@@ -255,10 +257,10 @@ class ClassContents extends TagModel
                     $ability['code'] = $abilityData->code;
                     $ability['description'] = $abilityData->description;
 
-                    array_push($courseClasses['abilities'], $ability);
+                    $courseClasses['abilities'][] = $ability;
                 }
 
-                array_push($classContents[$schedule->day]['contents'], $courseClasses);
+                $classContents[$schedule->day]['contents'][] = $courseClasses;
             }
         }
 

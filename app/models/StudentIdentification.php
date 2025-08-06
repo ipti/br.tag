@@ -8,17 +8,17 @@
  * @property string $school_inep_id_fk
  * @property string $inep_id
  * @property string $gov_id
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $civil_name
  * @property string $birthday
- * @property integer $sex
- * @property integer $color_race
- * @property integer $filiation
- * @property integer $filiation_no_declared
- * @property integer $filiation_with_and_father
- * @property integer $id_email
- * @property integer $scholarity
+ * @property int $sex
+ * @property int $color_race
+ * @property int $filiation
+ * @property int $filiation_no_declared
+ * @property int $filiation_with_and_father
+ * @property int $id_email
+ * @property int $scholarity
  * @property string $filiation_1
  * @property string $filiation_1_cpf
  * @property string $filiation_1_birthday
@@ -31,58 +31,58 @@
  * @property string $filiation_2_rg
  * @property string $filiation_2_scholarity
  * @property string $filiation_2_job
- * @property integer $nationality
- * @property integer $state
- * @property integer $city
+ * @property int $nationality
+ * @property int $state
+ * @property int $city
  * @property string $uf
- * @property integer $edcenso_nation_fk
- * @property integer $edcenso_uf_fk
- * @property integer $edcenso_city_fk
- * @property integer $deficiency
- * @property integer $deficiency_type_blindness
- * @property integer $deficiency_type_low_vision
- * @property integer $deficiency_type_monocular_vision
- * @property integer $deficiency_type_deafness
- * @property integer $deficiency_type_disability_hearing
- * @property integer $deficiency_type_deafblindness
- * @property integer $deficiency_type_phisical_disability
- * @property integer $deficiency_type_intelectual_disability
- * @property integer $deficiency_type_multiple_disabilities
- * @property integer $deficiency_type_autism
- * @property integer $deficiency_type_aspenger_syndrome
- * @property integer $deficiency_type_rett_syndrome
- * @property integer $deficiency_type_childhood_disintegrative_disorder
- * @property integer $deficiency_type_gifted
- * @property integer $resource_aid_lector
- * @property integer $resource_aid_transcription
- * @property integer $resource_interpreter_guide
- * @property integer $resource_interpreter_libras
- * @property integer $resource_lip_reading
- * @property integer $resource_zoomed_test_16
- * @property integer $resource_zoomed_test_20
- * @property integer $resource_zoomed_test_24
- * @property integer $resource_zoomed_test_18
- * @property integer $resource_braille_test
- * @property integer $resource_proof_language
- * @property integer $resource_cd_audio
- * @property integer $resource_video_libras
- * @property integer $resource_additional_time
- * @property integer $resource_none
- * @property integer $send_year
+ * @property int $edcenso_nation_fk
+ * @property int $edcenso_uf_fk
+ * @property int $edcenso_city_fk
+ * @property int $deficiency
+ * @property int $deficiency_type_blindness
+ * @property int $deficiency_type_low_vision
+ * @property int $deficiency_type_monocular_vision
+ * @property int $deficiency_type_deafness
+ * @property int $deficiency_type_disability_hearing
+ * @property int $deficiency_type_deafblindness
+ * @property int $deficiency_type_phisical_disability
+ * @property int $deficiency_type_intelectual_disability
+ * @property int $deficiency_type_multiple_disabilities
+ * @property int $deficiency_type_autism
+ * @property int $deficiency_type_aspenger_syndrome
+ * @property int $deficiency_type_rett_syndrome
+ * @property int $deficiency_type_childhood_disintegrative_disorder
+ * @property int $deficiency_type_gifted
+ * @property int $resource_aid_lector
+ * @property int $resource_aid_transcription
+ * @property int $resource_interpreter_guide
+ * @property int $resource_interpreter_libras
+ * @property int $resource_lip_reading
+ * @property int $resource_zoomed_test_16
+ * @property int $resource_zoomed_test_20
+ * @property int $resource_zoomed_test_24
+ * @property int $resource_zoomed_test_18
+ * @property int $resource_braille_test
+ * @property int $resource_proof_language
+ * @property int $resource_cd_audio
+ * @property int $resource_video_libras
+ * @property int $resource_additional_time
+ * @property int $resource_none
+ * @property int $send_year
  * @property string $last_change
- * @property integer $responsable
+ * @property int $responsable
  * @property string $responsable_name
  * @property string $responsable_rg
  * @property string $responsable_cpf
- * @property integer $responsable_scholarity
+ * @property int $responsable_scholarity
  * @property string $responsable_job
- * @property integer $bf_participator
+ * @property int $bf_participator
  * @property string $responsable_telephone
  * @property string $responsable_email
  * @property string $tag_id
- * @property integer $no_documents_desc
+ * @property int $no_documents_desc
  * @property string $fkid
- * @property integer $sedsp_sync
+ * @property int $sedsp_sync
  * @property string $id_indigenous_people
  *
  * The followings are the available model relations:
@@ -101,7 +101,7 @@ class StudentIdentification extends AltActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return StudentIdentification the static model class
      */
     public static function model($className = __CLASS__)
@@ -127,7 +127,7 @@ class StudentIdentification extends AltActiveRecord
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true,
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
+            ],
         ];
 
         // Verifica se o usuário está associado a uma escola
@@ -143,7 +143,7 @@ class StudentIdentification extends AltActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -172,7 +172,7 @@ class StudentIdentification extends AltActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -191,7 +191,7 @@ class StudentIdentification extends AltActiveRecord
                 'student_fk',
                 'with' => 'classroomFk',
                 'together' => true,
-                'order' => 'classroomFk.school_year DESC, status, studentEnrollments.id DESC'
+                'order' => 'classroomFk.school_year DESC, status, studentEnrollments.id DESC',
             ],
             'lastEnrollment' => [
                 self::HAS_ONE,
@@ -199,8 +199,8 @@ class StudentIdentification extends AltActiveRecord
                 'student_fk',
                 'with' => 'classroomFk',
                 'together' => true,
-                'order' => 'classroomFk.school_year DESC, lastEnrollment.id DESC'
-            ]
+                'order' => 'classroomFk.school_year DESC, lastEnrollment.id DESC',
+            ],
         ];
     }
 
@@ -281,13 +281,13 @@ class StudentIdentification extends AltActiveRecord
             'filiation_2_scholarity' => Yii::t('default', 'Father Scholarity'),
             'filiation_2_job' => Yii::t('default', 'Father Job'),
             'no_document_desc' => Yii::t('default', 'No Documents Desc'),
-            'id_indigenous_people' => Yii::t('default', 'Id Indigenous People')
+            'id_indigenous_people' => Yii::t('default', 'Id Indigenous People'),
         ];
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {
@@ -308,22 +308,22 @@ class StudentIdentification extends AltActiveRecord
                 'criteria' => $criteria,
                 'sort' => [
                     'defaultOrder' => [
-                        'name' => CSort::SORT_ASC
+                        'name' => CSort::SORT_ASC,
                     ],
                 ],
-                'pagination' => false
+                'pagination' => false,
             ]
         );
     }
 
     public function getConcatened()
     {
-        return $this->name . ' (' . $this->filiation_1 . ')[' . $this->birthday . ']';
+        return $this->name.' ('.$this->filiation_1.')['.$this->birthday.']';
     }
 
     /**
      * This method is invoked before saving a record (after validation, if any).
-     * @return boolean whether the saving should be executed. Defaults to true.
+     * @return bool whether the saving should be executed. Defaults to true.
      */
     protected function beforeSave()
     {
@@ -343,6 +343,7 @@ class StudentIdentification extends AltActiveRecord
         if (isset($result)) {
             $stage = isset($result['enrollment_svm']) ? $result['enrollment_svm'] : $result['classroom_svm'];
         }
+
         return $stage;
     }
 
@@ -372,8 +373,8 @@ class StudentIdentification extends AltActiveRecord
             return false;
         }
 
-        if ($type == self::CREATE || ($type == self::UPDATE && $outListStudent->outListaAlunos === null)) {
-            if ($outListStudent->outErro !== null || !is_null($outListStudent)) {
+        if (self::CREATE == $type || (self::UPDATE == $type && null === $outListStudent->outListaAlunos)) {
+            if (null !== $outListStudent->outErro || null !== $outListStudent) {
                 $inConsult = $this->createInConsult($student);
                 $statusAdd = $dataSource->addStudentToSed($inConsult);
 
@@ -381,22 +382,22 @@ class StudentIdentification extends AltActiveRecord
                     return false;
                 }
 
-                if ($statusAdd->outErro === null) {
-                    $studentFromSed = StudentIdentification::model()->findByPk($id);
+                if (null === $statusAdd->outErro) {
+                    $studentFromSed = self::model()->findByPk($id);
                     $studentFromSed->gov_id = $statusAdd->outAluno->outNumRA;
                     $studentFromSed->sedsp_sync = 1;
 
                     $studentFromSed->save();
 
-                    if ($modelEnrollment->id !== null) {
+                    if (null !== $modelEnrollment->id) {
                         $enrollmentResult = $this->processEnrollment($studentFromSed, $modelEnrollment);
                     }
                 }
                 $result['identification'] = $statusAdd;
                 $result['enrollment'] = $enrollmentResult;
             }
-        } elseif ($type == self::UPDATE) {
-            $govId = $studentIdentification->gov_id === null ? $outListStudent->outListaAlunos[0]->getOutNumRa() : $studentIdentification->gov_id;
+        } elseif (self::UPDATE == $type) {
+            $govId = null === $studentIdentification->gov_id ? $outListStudent->outListaAlunos[0]->getOutNumRa() : $studentIdentification->gov_id;
 
             $response = $studentDatasource->exibirFichaAluno(new InAluno($govId, null, 'SP'));
             if (method_exists($response, 'getCode') && $this->handleUnauthorizedError($response->getCode())) {
@@ -411,7 +412,7 @@ class StudentIdentification extends AltActiveRecord
             $dataSource = new StudentSEDDataSource();
             $outListStudent = $dataSource->getListStudents($inListarAlunos);
 
-            if ($outListStudent->outErro === null) {
+            if (null === $outListStudent->outErro) {
                 $studentIdentification->gov_id = $govId;
                 $studentIdentification->save();
 
@@ -420,13 +421,13 @@ class StudentIdentification extends AltActiveRecord
                 $inManutencao = $this->createInManutencao($student);
                 $statusAdd = $dataSource->editStudent($inManutencao);
 
-                if ($statusAdd->outErro === null) {
+                if (null === $statusAdd->outErro) {
                     $studentIdentification->sedsp_sync = 1;
                     $studentIdentification->save();
                 }
             }
 
-            if ($modelEnrollment->id !== null) {
+            if (null !== $modelEnrollment->id) {
                 $enrollmentResult = $this->processEnrollment($studentIdentification, $modelEnrollment);
             }
 
@@ -459,6 +460,7 @@ class StudentIdentification extends AltActiveRecord
             $inNivelEnsino = new InNivelEnsino($ensino->tipoEnsino, $ensino->serieAno);
 
             $this->createEnrollStudent($inAluno, $inscricao, $inNivelEnsino);
+
             return $this->addEnrollmentToSedsp($modelStudentIdentification, $modelEnrollment);
         } else {
             $modelEnrollment->sedsp_sync = 1;
@@ -468,9 +470,10 @@ class StudentIdentification extends AltActiveRecord
 
     private function createEnrollStudent(InAluno $inAluno, InInscricao $inscricao, InNivelEnsino $inNivelEnsino)
     {
-        //InscreverStudent
+        // InscreverStudent
         $enrollStudent = new InscreverAluno($inAluno, $inscricao, $inNivelEnsino);
         $enrollStudentUseCase = new EnrollStudentUseCase();
+
         return $enrollStudentUseCase->exec($enrollStudent);
     }
 
@@ -485,16 +488,17 @@ class StudentIdentification extends AltActiveRecord
         $addEnrollmentToSed = new AddMatriculaToSEDUseCase();
         $statusAddEnrollmentToSed = $addEnrollmentToSed->exec($mapper->Enrollment);
 
-        if ($statusAddEnrollmentToSed->outErro === null) {
+        if (null === $statusAddEnrollmentToSed->outErro) {
             $modelEnrollment->sedsp_sync = 1;
             $modelEnrollment->save();
         }
+
         return $statusAddEnrollmentToSed;
     }
 
     public function handleUnauthorizedError($statusCode)
     {
-        if ($statusCode === 401) {
+        if (401 === $statusCode) {
             return true;
         }
     }
@@ -506,7 +510,7 @@ class StudentIdentification extends AltActiveRecord
 
     // Função para criar objeto InConsult em caso de aluno não cadastrado
     /**
-     * Summary of createInConsult
+     * Summary of createInConsult.
      * @param mixed $student
      * @return InFichaAluno
      */
@@ -526,7 +530,7 @@ class StudentIdentification extends AltActiveRecord
 
     // Função para criar objeto InManutencao em caso de aluno cadastrado
     /**
-     * Summary of createInManutencao
+     * Summary of createInManutencao.
      * @param mixed $student
      * @return InManutencao
      */
@@ -549,7 +553,7 @@ class StudentIdentification extends AltActiveRecord
     // Função para obter informações do aluno
     public function getStudentInformation($id)
     {
-        $studentIdentification = StudentIdentification::model()->findByPk($id);
+        $studentIdentification = self::model()->findByPk($id);
         $modelStudentDocumentsAndAddress = StudentDocumentsAndAddress::model()->findByPk($id);
 
         return [

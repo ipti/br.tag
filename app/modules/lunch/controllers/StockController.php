@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class StockController
+ * Class StockController.
  *
  * @property School $school
  */
@@ -18,7 +18,7 @@ class StockController extends Controller
     {
         $items = CHtml::listData(Item::model()->findAll(), 'id', 'concatName');
         $this->render('index', [
-            'items' => $items
+            'items' => $items,
         ]);
     }
 
@@ -62,7 +62,7 @@ class StockController extends Controller
 
             if ($received->validate()) {
                 $received->save();
-                Log::model()->saveAction('lunch_stock', $received->id, 'C', $received->inventory->item->name . '|' . $amount * $received->inventory->item->measure . ' ' . $received->inventory->item->unity->acronym);
+                Log::model()->saveAction('lunch_stock', $received->id, 'C', $received->inventory->item->name.'|'.$amount * $received->inventory->item->measure.' '.$received->inventory->item->unity->acronym);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Item added successfully.'));
                 $this->redirect(['stock/index']);
             } else {
@@ -101,7 +101,7 @@ class StockController extends Controller
 
             if ($spent->validate()) {
                 $spent->save();
-                Log::model()->saveAction('lunch_stock', $spent->id, 'D', $spent->inventory->item->name . '|' . $amount * $spent->inventory->item->measure . ' ' . $spent->inventory->item->unity->acronym);
+                Log::model()->saveAction('lunch_stock', $spent->id, 'D', $spent->inventory->item->name.'|'.$amount * $spent->inventory->item->measure.' '.$spent->inventory->item->unity->acronym);
                 Yii::app()->user->setFlash('success', Yii::t('lunchModule.stock', 'Item spent successfully.'));
                 $this->redirect(['stock/index']);
             } else {

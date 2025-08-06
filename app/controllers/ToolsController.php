@@ -8,8 +8,7 @@ class ToolsController extends Controller
     {
         $tools = [
             ['name' => 'Visualizar Logs', 'url' => Yii::app()->createUrl('tools/viewLogs')],
-            ['name' => 'OpCache', 'url' => Yii::app()->createUrl('tools/opcache')]
-
+            ['name' => 'OpCache', 'url' => Yii::app()->createUrl('tools/opcache')],
         ];
 
         $this->render('index', [
@@ -21,7 +20,7 @@ class ToolsController extends Controller
     {
         $this->layout = 'reportsclean';
         // Caminho completo para o OPcache GUI
-        $opcacheGuiPath = Yii::getPathOfAlias('application.extensions.opcache-gui') . '/index.php';
+        $opcacheGuiPath = Yii::getPathOfAlias('application.extensions.opcache-gui').'/index.php';
         // Verifica se o arquivo existe
         if (!file_exists($opcacheGuiPath)) {
             throw new CHttpException(404, 'OPcache GUI não encontrado.');
@@ -36,8 +35,8 @@ class ToolsController extends Controller
     public function actionViewLogs()
     {
         // Caminho do diretório onde os logs são armazenados
-        $logPath = '/app/app/runtime/' . INSTANCE . '/' . date('Y-m-d');
-        $logFiles = glob($logPath . '/application.log*'); // Encontra todos os arquivos de log
+        $logPath = '/app/app/runtime/'.INSTANCE.'/'.date('Y-m-d');
+        $logFiles = glob($logPath.'/application.log*'); // Encontra todos os arquivos de log
         $logs = [];
 
         // Ordena os arquivos para garantir que os mais recentes sejam processados primeiro

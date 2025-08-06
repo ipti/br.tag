@@ -8,83 +8,83 @@
  * @property string $school_inep_fk
  * @property string $inep_id
  * @property string $gov_id
- * @property integer $id
+ * @property int $id
  * @property string $name
- * @property integer $pedagogical_mediation_type
+ * @property int $pedagogical_mediation_type
  * @property string $initial_hour
  * @property string $initial_minute
  * @property string $final_hour
  * @property string $final_minute
- * @property integer $week_days_sunday
- * @property integer $week_days_monday
- * @property integer $week_days_tuesday
- * @property integer $week_days_wednesday
- * @property integer $week_days_thursday
- * @property integer $week_days_friday
- * @property integer $week_days_saturday
- * @property integer $assistance_type
- * @property integer $schooling
- * @property integer $mais_educacao_participator
- * @property integer $complementary_activity_type_1
- * @property integer $complementary_activity_type_2
- * @property integer $complementary_activity_type_3
- * @property integer $complementary_activity_type_4
- * @property integer $complementary_activity_type_5
- * @property integer $complementary_activity_type_6
- * @property integer $aee_braille
- * @property integer $aee_optical_nonoptical
- * @property integer $aee_cognitive_functions
- * @property integer $aee_mobility_techniques
- * @property integer $aee_libras
- * @property integer $aee_caa
- * @property integer $aee_curriculum_enrichment
- * @property integer $aee_soroban
- * @property integer $aee_accessible_teaching
- * @property integer $aee_portuguese
- * @property integer $aee_autonomous_life
- * @property integer $modality
+ * @property int $week_days_sunday
+ * @property int $week_days_monday
+ * @property int $week_days_tuesday
+ * @property int $week_days_wednesday
+ * @property int $week_days_thursday
+ * @property int $week_days_friday
+ * @property int $week_days_saturday
+ * @property int $assistance_type
+ * @property int $schooling
+ * @property int $mais_educacao_participator
+ * @property int $complementary_activity_type_1
+ * @property int $complementary_activity_type_2
+ * @property int $complementary_activity_type_3
+ * @property int $complementary_activity_type_4
+ * @property int $complementary_activity_type_5
+ * @property int $complementary_activity_type_6
+ * @property int $aee_braille
+ * @property int $aee_optical_nonoptical
+ * @property int $aee_cognitive_functions
+ * @property int $aee_mobility_techniques
+ * @property int $aee_libras
+ * @property int $aee_caa
+ * @property int $aee_curriculum_enrichment
+ * @property int $aee_soroban
+ * @property int $aee_accessible_teaching
+ * @property int $aee_portuguese
+ * @property int $aee_autonomous_life
+ * @property int $modality
  * @property string $edcenso_stage_vs_modality_fk
- * @property integer $edcenso_professional_education_course_fk
- * @property integer $discipline_chemistry
- * @property integer $discipline_physics
- * @property integer $discipline_mathematics
- * @property integer $discipline_biology
- * @property integer $discipline_science
- * @property integer $discipline_language_portuguese_literature
- * @property integer $discipline_foreign_language_english
- * @property integer $discipline_foreign_language_spanish
- * @property integer $discipline_foreign_language_franch
- * @property integer $discipline_foreign_language_other
- * @property integer $discipline_arts
- * @property integer $discipline_physical_education
- * @property integer $discipline_history
- * @property integer $discipline_geography
- * @property integer $discipline_philosophy
- * @property integer $discipline_social_study
- * @property integer $discipline_sociology
- * @property integer $discipline_informatics
- * @property integer $discipline_professional_disciplines
- * @property integer $discipline_special_education_and_inclusive_practices
- * @property integer $discipline_sociocultural_diversity
- * @property integer $discipline_libras
- * @property integer $discipline_pedagogical
- * @property integer $discipline_religious
- * @property integer $discipline_native_language
- * @property integer $discipline_others
- * @property integer $school_year
+ * @property int $edcenso_professional_education_course_fk
+ * @property int $discipline_chemistry
+ * @property int $discipline_physics
+ * @property int $discipline_mathematics
+ * @property int $discipline_biology
+ * @property int $discipline_science
+ * @property int $discipline_language_portuguese_literature
+ * @property int $discipline_foreign_language_english
+ * @property int $discipline_foreign_language_spanish
+ * @property int $discipline_foreign_language_franch
+ * @property int $discipline_foreign_language_other
+ * @property int $discipline_arts
+ * @property int $discipline_physical_education
+ * @property int $discipline_history
+ * @property int $discipline_geography
+ * @property int $discipline_philosophy
+ * @property int $discipline_social_study
+ * @property int $discipline_sociology
+ * @property int $discipline_informatics
+ * @property int $discipline_professional_disciplines
+ * @property int $discipline_special_education_and_inclusive_practices
+ * @property int $discipline_sociocultural_diversity
+ * @property int $discipline_libras
+ * @property int $discipline_pedagogical
+ * @property int $discipline_religious
+ * @property int $discipline_native_language
+ * @property int $discipline_others
+ * @property int $school_year
  * @property string $turn
  * @property string $create_date
  * @property string $fkid
- * @property integer $calendar_fk
- * @property integer $course
- * @property integer $sedsp_sync
+ * @property int $calendar_fk
+ * @property int $course
+ * @property int $sedsp_sync
  * @property string $sedsp_classnumber
  * @property string $sedsp_acronym
- * @property integer $sedsp_school_unity_fk
- * @property integer $sedsp_max_physical_capacity
- * @property integer $ignore_on_sagres
- * @property integer $period
- * @property integer $is_special_education
+ * @property int $sedsp_school_unity_fk
+ * @property int $sedsp_max_physical_capacity
+ * @property int $ignore_on_sagres
+ * @property int $period
+ * @property int $is_special_education
  *
  * The followings are the available model relations:
  * @property ClassBoard[] $classBoards
@@ -98,7 +98,6 @@
  * @property StudentEnrollment[] $studentEnrollments
  * @property StudentEnrollment[] $activeStudentEnrollments
  */
-
 enum PeriodOptions: int
 {
     case ANUALY = 0;
@@ -125,6 +124,7 @@ enum PeriodOptions: int
         foreach (self::cases() as $case) {
             $options[$case->value] = $case->label();
         }
+
         return $options;
     }
 }
@@ -149,7 +149,7 @@ class Classroom extends AltActiveRecord
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true,
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-            ]
+            ],
         ];
 
         // Verifica se o usuário está associado a uma escola
@@ -161,11 +161,11 @@ class Classroom extends AltActiveRecord
             ];
         }
 
-        return array_merge($behaviors, parent::behaviors()) ;
+        return array_merge($behaviors, parent::behaviors());
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -189,7 +189,7 @@ class Classroom extends AltActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -208,14 +208,14 @@ class Classroom extends AltActiveRecord
             'edcensoProfessionalEducationCourseFk' => [
                 self::BELONGS_TO,
                 'EdcensoProfessionalEducationCourse',
-                'edcenso_professional_education_course_fk'
+                'edcenso_professional_education_course_fk',
             ],
             'studentEnrollments' => [
                 self::HAS_MANY,
                 'StudentEnrollment',
                 'classroom_fk',
                 'order' => 'daily_order ASC, student_identification.name',
-                'join' => 'JOIN student_identification ON student_identification.id=studentEnrollments.student_fk'
+                'join' => 'JOIN student_identification ON student_identification.id=studentEnrollments.student_fk',
             ],
             'enrollmentsCount' => [self::STAT, 'StudentEnrollment', 'classroom_fk'],
             'activeStudentEnrollments' => [
@@ -224,13 +224,13 @@ class Classroom extends AltActiveRecord
                 'classroom_fk',
                 'join' => 'JOIN student_identification ON student_identification.id=student_fk',
                 'order' => 'daily_order ASC, student_identification.name',
-                'condition' => 'status IN (1, 2, 6, 7, 8, 9, 10) or status IS NULL'
+                'condition' => 'status IN (1, 2, 6, 7, 8, 9, 10) or status IS NULL',
             ],
             'activeEnrollmentsCount' => [
                 self::STAT,
                 'StudentEnrollment',
                 'classroom_fk',
-                'condition' => 'status IN (1, 2, 6, 7, 8, 9, 10) or status IS NULL'
+                'condition' => 'status IN (1, 2, 6, 7, 8, 9, 10) or status IS NULL',
             ],
         ];
     }
@@ -332,7 +332,7 @@ class Classroom extends AltActiveRecord
 
     public function getGradeRules($stageId = null)
     {
-        if ($stageId == null) {
+        if (null == $stageId) {
             $stageId = $this->edcenso_stage_vs_modality_fk;
         }
 
@@ -342,6 +342,7 @@ class Classroom extends AltActiveRecord
         $criteria->join .= ' join classroom_vs_grade_rules cvgr on cvgr.grade_rules_fk = gr.id';
         $criteria->condition = 'grvesvm.edcenso_stage_vs_modality_fk = :stage and cvgr.classroom_fk = :classroom';
         $criteria->params = [':classroom' => $this->id, ':stage' => $stageId];
+
         return GradeRules::model()->find($criteria);
     }
 
@@ -355,7 +356,7 @@ class Classroom extends AltActiveRecord
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search($isDefaultTheme = true)
     {
@@ -364,15 +365,15 @@ class Classroom extends AltActiveRecord
         $criteria = new CDbCriteria();
 
         $criteria->compare('register_type', $this->register_type, true);
-        //$criteria->with = array('edcensoStageVsModalityFk');
-        if ($isDefaultTheme == true) {
+        // $criteria->with = array('edcensoStageVsModalityFk');
+        if (true == $isDefaultTheme) {
             $criteria->compare('school_inep_fk', Yii::app()->user->school);
         }
         $criteria->compare('inep_id', $this->inep_id, true);
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('school_year', Yii::app()->user->year);
-        //$criteria->addCondition('edcensoStageVsModalityFk.name like "%' . $this->edcensoStageVsModalityFk . '%"');
+        // $criteria->addCondition('edcensoStageVsModalityFk.name like "%' . $this->edcensoStageVsModalityFk . '%"');
 
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
@@ -382,7 +383,7 @@ class Classroom extends AltActiveRecord
                     'name' => CSort::SORT_ASC,
                 ],
             ],
-            'pagination' => false
+            'pagination' => false,
         ]);
     }
 
@@ -394,10 +395,11 @@ class Classroom extends AltActiveRecord
     {
         $schedules = [];
         foreach ($this->schedules as $schedule) {
-            if ($schedule->discipline_fk == $disciplineId && $schedule->unavailable == 0) {
-                array_push($schedules, $schedule);
+            if ($schedule->discipline_fk == $disciplineId && 0 == $schedule->unavailable) {
+                $schedules[] = $schedule;
             }
         }
+
         return $schedules;
     }
 
@@ -428,7 +430,7 @@ class Classroom extends AltActiveRecord
                 'curricularMatrixes.teachingMatrixes.teachingDataFk' => [
                     'condition' => 'teachingDataFk.classroom_id_fk=:classroom_id',
                     'params' => [':classroom_id' => $this->id],
-                ]
+                ],
             ])
             ->findAll();
 
@@ -442,7 +444,7 @@ class Classroom extends AltActiveRecord
         $schoolDays = 0;
         switch ($exam) {
             case 1:
-                $initial = new DateTime('01/01/' . yii::app()->user->year);
+                $initial = new DateTime('01/01/'.yii::app()->user->year);
                 $final = new DateTime($schoolConfiguration->exam1);
                 break;
             case 2:
@@ -463,14 +465,15 @@ class Classroom extends AltActiveRecord
 
         $dates = [];
         foreach ($this->schedules as $schedule) {
-            $date = new DateTime($schedule->day . '-' . $schedule->month . '-' . yii::app()->user->year);
-            if ($date > $initial && $date <= $final && $schedule->unavailable == 0) {
+            $date = new DateTime($schedule->day.'-'.$schedule->month.'-'.yii::app()->user->year);
+            if ($date > $initial && $date <= $final && 0 == $schedule->unavailable) {
                 if (!in_array($date->format('Y-m-d'), $dates)) {
-                    array_push($dates, $date->format('Y-m-d'));
-                    $schoolDays++;
+                    $dates[] = $date->format('Y-m-d');
+                    ++$schoolDays;
                 }
             }
         }
+
         return $schoolDays;
     }
 
@@ -481,7 +484,7 @@ class Classroom extends AltActiveRecord
         $workingHours = 0;
         switch ($exam) {
             case 1:
-                $initial = new DateTime('01/01/' . yii::app()->user->year);
+                $initial = new DateTime('01/01/'.yii::app()->user->year);
                 $final = new DateTime($schoolConfiguration->exam1);
                 break;
             case 2:
@@ -501,11 +504,12 @@ class Classroom extends AltActiveRecord
         }
 
         foreach ($this->schedules as $schedule) {
-            $date = new DateTime($schedule->day . '-' . $schedule->month . '-' . yii::app()->user->year);
-            if ($date > $initial && $date <= $final && $schedule->unavailable == 0) {
-                $workingHours++;
+            $date = new DateTime($schedule->day.'-'.$schedule->month.'-'.yii::app()->user->year);
+            if ($date > $initial && $date <= $final && 0 == $schedule->unavailable) {
+                ++$workingHours;
             }
         }
+
         return $workingHours;
     }
 
@@ -513,6 +517,7 @@ class Classroom extends AltActiveRecord
     {
         /* @var $schoolConfiguration SchoolConfiguration */
         $model = WorkByDiscipline::model()->find('classroom_fk=:classroom_fk AND discipline_fk=:discipline_fk', [':classroom_fk' => $this->id, ':discipline_fk' => $discipline]);
+
         return $model->school_days;
     }
 
@@ -520,32 +525,32 @@ class Classroom extends AltActiveRecord
     {
         $inDiasDaSemana = new InDiasDaSemana(
             $this->week_days_monday,
-            ($this->week_days_monday ? $this->initial_hour . ':' . $this->initial_minute : null),
-            ($this->week_days_monday ? $this->final_hour . ':' . $this->final_minute : null),
+            $this->week_days_monday ? $this->initial_hour.':'.$this->initial_minute : null,
+            $this->week_days_monday ? $this->final_hour.':'.$this->final_minute : null,
             $this->week_days_tuesday,
-            ($this->week_days_tuesday ? $this->initial_hour . ':' . $this->initial_minute : null),
-            ($this->week_days_tuesday ? $this->final_hour . ':' . $this->final_minute : null),
+            $this->week_days_tuesday ? $this->initial_hour.':'.$this->initial_minute : null,
+            $this->week_days_tuesday ? $this->final_hour.':'.$this->final_minute : null,
             $this->week_days_wednesday,
-            ($this->week_days_wednesday ? $this->initial_hour . ':' . $this->initial_minute : null),
-            ($this->week_days_wednesday ? $this->final_hour . ':' . $this->final_minute : null),
+            $this->week_days_wednesday ? $this->initial_hour.':'.$this->initial_minute : null,
+            $this->week_days_wednesday ? $this->final_hour.':'.$this->final_minute : null,
             $this->week_days_thursday,
-            ($this->week_days_thursday ? $this->initial_hour . ':' . $this->initial_minute : null),
-            ($this->week_days_thursday ? $this->final_hour . ':' . $this->final_minute : null),
+            $this->week_days_thursday ? $this->initial_hour.':'.$this->initial_minute : null,
+            $this->week_days_thursday ? $this->final_hour.':'.$this->final_minute : null,
             $this->week_days_friday,
-            ($this->week_days_friday ? $this->initial_hour . ':' . $this->initial_minute : null),
-            ($this->week_days_friday ? $this->final_hour . ':' . $this->final_minute : null),
+            $this->week_days_friday ? $this->initial_hour.':'.$this->initial_minute : null,
+            $this->week_days_friday ? $this->final_hour.':'.$this->final_minute : null,
             $this->week_days_saturday,
-            ($this->week_days_saturday ? $this->initial_hour . ':' . $this->initial_minute : null),
-            ($this->week_days_saturday ? $this->final_hour . ':' . $this->final_minute : null)
+            $this->week_days_saturday ? $this->initial_hour.':'.$this->initial_minute : null,
+            $this->week_days_saturday ? $this->final_hour.':'.$this->final_minute : null
         );
 
         $calendarFirstDay = Yii::app()->db->createCommand('select DATE(ce.start_date) as start_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id  where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk = 1000;')->bindParam(':stage', $this->edcenso_stage_vs_modality_fk)->bindParam(':year', Yii::app()->user->year)->queryRow();
         $calendarLastDay = Yii::app()->db->createCommand('select DATE(ce.end_date) as end_date from calendar_event as ce inner join calendar as c on (ce.calendar_fk = c.id) join calendar_stages as cs on cs.calendar_fk = c.id where cs.stage_fk = :stage and YEAR(c.start_date) = :year and calendar_event_type_fk  = 1001;')->bindParam(':stage', $this->edcenso_stage_vs_modality_fk)->bindParam(':year', Yii::app()->user->year)->queryRow();
 
-        $firstDay = date('d/m/Y', $calendarFirstDay == null ? strtotime('first monday of January ' . Yii::app()->user->year) : strtotime($calendarFirstDay['start_date']));
-        $lastDay = date('d/m/Y', $calendarLastDay == null ? strtotime('last friday of December ' . Yii::app()->user->year) : strtotime($calendarLastDay['end_date']));
+        $firstDay = date('d/m/Y', null == $calendarFirstDay ? strtotime('first monday of January '.Yii::app()->user->year) : strtotime($calendarFirstDay['start_date']));
+        $lastDay = date('d/m/Y', null == $calendarLastDay ? strtotime('last friday of December '.Yii::app()->user->year) : strtotime($calendarLastDay['end_date']));
 
-        if ($sedspAction == 'create') {
+        if ('create' == $sedspAction) {
             $tipoEnsinoAndStage = ClassroomMapper::convertStageToTipoEnsino($this->edcenso_stage_vs_modality_fk);
 
             $inIncluirTurmaClasse = new InIncluirTurmaClasse(
@@ -562,8 +567,8 @@ class Classroom extends AltActiveRecord
                 $this->sedsp_max_physical_capacity,
                 $firstDay,
                 $lastDay,
-                $this->initial_hour . ':' . $this->initial_minute,
-                $this->final_hour . ':' . $this->final_minute,
+                $this->initial_hour.':'.$this->initial_minute,
+                $this->final_hour.':'.$this->final_minute,
                 null,
                 null,
                 $inDiasDaSemana
@@ -581,8 +586,8 @@ class Classroom extends AltActiveRecord
                 $this->sedsp_max_physical_capacity,
                 $firstDay,
                 $lastDay,
-                $this->initial_hour . ':' . $this->initial_minute,
-                $this->final_hour . ':' . $this->final_minute,
+                $this->initial_hour.':'.$this->initial_minute,
+                $this->final_hour.':'.$this->final_minute,
                 0,
                 null,
                 null,
@@ -595,14 +600,14 @@ class Classroom extends AltActiveRecord
         }
 
         $flash = 'success';
-        if ($result->outErro !== null) {
-            $message = 'Turma ' . ($tagAction == 'create' ? 'adicionada' : 'atualizada') . '  no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: ' . $result->outErro;
+        if (null !== $result->outErro) {
+            $message = 'Turma '.('create' == $tagAction ? 'adicionada' : 'atualizada').'  no TAG, mas não foi possível sincronizá-la com o SEDSP. Motivo: '.$result->outErro;
             $flash = 'error';
         } else {
             $this->sedsp_sync = 1;
-            $this->gov_id = $sedspAction == 'create' ? $result->outSucesso : $this->gov_id;
+            $this->gov_id = 'create' == $sedspAction ? $result->outSucesso : $this->gov_id;
             $this->save();
-            $message = 'Turma ' . ($tagAction == 'create' ? 'adicionada' : 'atualizada') . ' com sucesso!';
+            $message = 'Turma '.('create' == $tagAction ? 'adicionada' : 'atualizada').' com sucesso!';
         }
 
         return ['flash' => $flash, 'message' => $message];
@@ -611,7 +616,7 @@ class Classroom extends AltActiveRecord
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return Classroom the static model class
      */
     public static function model($className = __CLASS__)

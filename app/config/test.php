@@ -1,7 +1,7 @@
 <?php
 
 // require(dirname(__FILE__).'/main.php');
-defined('DBNAME') or define('DBNAME', 'demo.tag.ong.br');
+defined('DBNAME') || define('DBNAME', 'demo.tag.ong.br');
 $HOST = 'localhost:3306';
 $USER = 'root';
 $SECRET = 'root';
@@ -15,7 +15,7 @@ define('DBCONFIG', serialize([
 ]));
 
 return CMap::mergeArray(
-    require(dirname(__FILE__) . '/main.php'),
+    require (__DIR__.'/main.php'),
     [
         'components' => [
             'fixture' => [

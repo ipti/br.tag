@@ -6,7 +6,7 @@ class Register99
     {
         $registers = [];
 
-        array_push($registers, '99|');
+        $registers[] = '99|';
 
         return $registers;
     }

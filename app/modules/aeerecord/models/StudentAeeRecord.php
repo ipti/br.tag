@@ -4,14 +4,14 @@
  * This is the model class for table "student_aee_record".
  *
  * The followings are the available columns in table 'student_aee_record':
- * @property integer $id
+ * @property int $id
  * @property string $date
  * @property string $learning_needs
  * @property string $characterization
- * @property integer $student_fk
+ * @property int $student_fk
  * @property string $school_fk
- * @property integer $classroom_fk
- * @property integer $instructor_fk
+ * @property int $classroom_fk
+ * @property int $instructor_fk
  *
  * The followings are the available model relations:
  * @property Classroom $classroomFk
@@ -30,7 +30,7 @@ class StudentAeeRecord extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -49,7 +49,7 @@ class StudentAeeRecord extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -90,7 +90,7 @@ class StudentAeeRecord extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -109,7 +109,7 @@ class StudentAeeRecord extends TagModel
         $criteria->with = [
             'studentFk' => ['alias' => 'student'],
             'classroomFk' => ['alias' => 'classroom'],
-            'instructorFk' => ['alias' => 'instructor']
+            'instructorFk' => ['alias' => 'instructor'],
         ];
 
         $criteria->compare('student.name', $this->studentName, true);
@@ -123,7 +123,7 @@ class StudentAeeRecord extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return StudentAeeRecord the static model class
      */
     public static function model($className = __CLASS__)

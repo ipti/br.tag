@@ -7,27 +7,28 @@ Yii::import('application.modules.sedsp.models.Student.*');
 Yii::import('application.modules.sedsp.models.*');
 
 /**
- * Summary of StudentSEDDataSource
+ * Summary of StudentSEDDataSource.
  */
 class StudentSEDDataSource extends SedDataSource
 {
     /**
      * ===========================
      * GET REQUEST METHODS
-     * ===========================
+     * ===========================.
      */
 
     /**
-     * Summary of getStudentRA
+     * Summary of getStudentRA.
      * @param InConsultaRA $inConsultaRA
      * @return OutConsultaRA|OutErro
-     * @throws Exception Se ocorrer um erro desconhecido.
+     * @throws Exception se ocorrer um erro desconhecido
      */
     public function getStudentRA($inConsultaRA)
     {
         try {
             $url = '/ncaapi/api/Aluno/ConsultaRA';
             $response = $this->getApiResponse('GET', $url, $inConsultaRA);
+
             return OutConsultaRA::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro();
@@ -37,7 +38,7 @@ class StudentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of getAllStudentsRA
+     * Summary of getAllStudentsRA.
      * @param mixed $students
      * @return mixed
      */
@@ -53,6 +54,7 @@ class StudentSEDDataSource extends SedDataSource
             foreach ($responses as $response) {
                 $data[] = json_decode($response->getBody()->getContents(), true);
             }
+
             return $data;
         })->wait(true);
 
@@ -60,10 +62,9 @@ class StudentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of getListStudents
-     * @param InListarAlunos $inListarAlunos
+     * Summary of getListStudents.
      * @return OutListarAluno|OutErro
-     * @throws Exception Se ocorrer um erro desconhecido.
+     * @throws Exception se ocorrer um erro desconhecido
      */
     public function getListStudents(InListarAlunos $inListarAlunos)
     {
@@ -71,10 +72,11 @@ class StudentSEDDataSource extends SedDataSource
             $url = '/ncaapi/api/Aluno/ListarAlunos';
             $data = [
                 'inFiltrosNomes' => $inListarAlunos->getInFiltrosNomes(),
-                'inDocumentos' => $inListarAlunos->getInDocumentos()
+                'inDocumentos' => $inListarAlunos->getInDocumentos(),
             ];
 
             $response = $this->getApiResponse('GET', $url, $data);
+
             return OutListarAluno::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -84,9 +86,9 @@ class StudentSEDDataSource extends SedDataSource
     }
 
     /**
-     * @param InAluno $inAluno Objeto contendo informações do aluno.
-     * @return OutExibirFichaAluno|OutErro Retorna um objeto OutAluno em caso de sucesso ou OutErro em caso de erro.
-     * @throws Exception Se ocorrer um erro desconhecido.
+     * @param InAluno $inAluno objeto contendo informações do aluno
+     * @return OutExibirFichaAluno|OutErro retorna um objeto OutAluno em caso de sucesso ou OutErro em caso de erro
+     * @throws Exception se ocorrer um erro desconhecido
      */
     public function exibirFichaAluno(InAluno $inAluno)
     {
@@ -103,10 +105,10 @@ class StudentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of getConsultarResponsavelAluno
+     * Summary of getConsultarResponsavelAluno.
      * @param InResponsavelAluno
      * @return OutConsultarResponsavelAluno|OutErro
-     * @throws Exception Se ocorrer um erro desconhecido.
+     * @throws Exception se ocorrer um erro desconhecido
      */
     public function getConsultarResponsavelAluno(InResponsavelAluno $inConsultarResponsavelAluno)
     {
@@ -114,10 +116,11 @@ class StudentSEDDataSource extends SedDataSource
             $url = '/ncaapi/api/Aluno/ConsultarResponsavelAluno';
             $data = [
                 'InDocumentosAluno' => $inConsultarResponsavelAluno->getInDocumentosAluno(),
-                'inAluo' => $inConsultarResponsavelAluno->getInAluno()
+                'inAluo' => $inConsultarResponsavelAluno->getInAluno(),
             ];
 
             $response = $this->getApiResponse('GET', $url, $data);
+
             return OutConsultarResponsavelAluno::fromJson($response);
         } catch (ClientException $e) {
             return new OutErro($e);
@@ -129,12 +132,11 @@ class StudentSEDDataSource extends SedDataSource
     /**
      * ===========================
      * POST REQUEST METHODS
-     * ===========================
+     * ===========================.
      */
 
     /**
-     * Summary of addStudentToSed
-     * @param InFichaAluno $inFichaAluno
+     * Summary of addStudentToSed.
      * @return OutFichaAluno|RequestException
      * @throws Exception
      */
@@ -153,8 +155,7 @@ class StudentSEDDataSource extends SedDataSource
     }
 
     /**
-     * Summary of editStudent
-     * @param InManutencao $inManutencao
+     * Summary of editStudent.
      * @return OutHandleApiResult
      */
     public function editStudent(InManutencao $inManutencao)
@@ -165,7 +166,7 @@ class StudentSEDDataSource extends SedDataSource
 
             return OutHandleApiResult::fromJson($response);
         } catch (RequestException $clienteException) {
-            echo 'Erro durante a requisição: ' . $clienteException->getMessage();
+            echo 'Erro durante a requisição: '.$clienteException->getMessage();
         } catch (Exception $exception) {
             throw $exception;
         }
@@ -180,7 +181,7 @@ class StudentSEDDataSource extends SedDataSource
     private function getApiResponse($httpMethod, $url, $data)
     {
         $response = $this->client->request($httpMethod, $url, [
-            'body' => json_encode($data, JSON_UNESCAPED_UNICODE)
+            'body' => json_encode($data, \JSON_UNESCAPED_UNICODE),
         ]);
 
         return json_decode($response->getBody()->getContents(), true);

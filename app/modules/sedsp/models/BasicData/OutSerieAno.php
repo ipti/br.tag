@@ -17,6 +17,7 @@ class OutSerieAno
     public function setOutCodSerieAno(?string $outCodSerieAno): self
     {
         $this->outCodSerieAno = $outCodSerieAno;
+
         return $this;
     }
 

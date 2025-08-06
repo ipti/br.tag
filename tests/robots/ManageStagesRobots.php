@@ -1,6 +1,6 @@
 <?php
 
-class StagesRobots
+class ManageStagesRobots
 {
     public AcceptanceTester $tester;
 

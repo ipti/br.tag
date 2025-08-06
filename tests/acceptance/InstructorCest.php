@@ -1,9 +1,9 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__ . '/../robots/LoginRobots.php';
-require_once __DIR__ . '/../robots/InstructorRobots.php';
-require_once __DIR__ . '/../builders/InstructorBuilder.php';
+require_once __DIR__.'/../robots/LoginRobots.php';
+require_once __DIR__.'/../robots/InstructorRobots.php';
+require_once __DIR__.'/../builders/InstructorBuilder.php';
 
 class InstructorCest
 {

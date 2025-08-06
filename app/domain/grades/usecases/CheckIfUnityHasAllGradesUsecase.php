@@ -27,7 +27,7 @@ class CheckIfUnityHasAllGradesUsecase
         );
 
         $countGrades = count(array_filter(array_column($grades, 'grade'), function ($item) {
-            return isset($item) && $item != null && $item != '';
+            return isset($item) && null != $item && '' != $item;
         }));
 
         $countModalities = $this->unity->countGradeUnityModalities;
@@ -43,18 +43,18 @@ class CheckIfUnityHasAllGradesUsecase
                 FROM grade g
                 join grade_unity_modality gum on g.grade_unity_modality_fk = gum.id
                 join grade_unity gu on gu.id= gum.grade_unity_fk
-                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gu.id = :unity_id and gum.type = '" . GradeUnityModality::TYPE_COMMON . "'"
+                WHERE g.enrollment_fk = :enrollment_id and g.discipline_fk = :discipline_id and gu.id = :unity_id and gum.type = '".GradeUnityModality::TYPE_COMMON."'"
         )->bindParam(':enrollment_id', $enrollmentId)
             ->bindParam(':discipline_id', $discipline)
             ->bindParam(':unity_id', $unityId)->queryAll(), 'id');
 
-        if ($gradesIds == null) {
+        if (null == $gradesIds) {
             return [];
         }
 
         return Grade::model()->findAll(
             [
-                'condition' => 'id IN (' . implode(',', $gradesIds) . ')',
+                'condition' => 'id IN ('.implode(',', $gradesIds).')',
             ]
         );
     }
