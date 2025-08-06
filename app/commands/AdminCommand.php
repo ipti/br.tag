@@ -32,7 +32,7 @@ class AdminCommand extends CConsoleCommand
                 @$fileNameBak = $dbname . '.json.bak';
                 $fileImportBak = fopen($fileNameBak, 'r');
 
-                if ($fileImport == false && $fileImportBak == false) {
+                if (!$fileImport  && !$fileImportBak ) {
                     echo "Exportando..\n";
                     $loads = $this->prepareExport();
                     // var_dump($loads['classroom']);exit;
@@ -87,7 +87,7 @@ class AdminCommand extends CConsoleCommand
         ini_set('memory_limit', '-1');
         set_time_limit(0);
         // ignore_user_abort();
-        foreach ($loads['schools'] as $index => $scholl) {
+        foreach ($loads['schools'] as  $scholl) {
             echo 'Importando escola' . $scholl['name'] . "..\n";
             $saveschool = new SchoolIdentification();
             $saveschool->setDb2Connection(true);
@@ -107,7 +107,7 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-        foreach ($loads['schools_structure'] as $index => $structure) {
+        foreach ($loads['schools_structure'] as $structure) {
             $saveschool = new SchoolStructure();
             $saveschool->setDb2Connection(true);
             $saveschool->setScenario('search');
@@ -126,7 +126,7 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-        foreach ($loads['classrooms'] as $index => $class) {
+        foreach ($loads['classrooms'] as  $class) {
             echo 'Importando turma' . $class['name'] . "..\n";
             $saveclass = new Classroom();
             $saveclass->setScenario('search');
@@ -214,7 +214,7 @@ class AdminCommand extends CConsoleCommand
             }
         }
         */
-        foreach ($loads['instructors'] as $i => $instructor) {
+        foreach ($loads['instructors'] as $instructor) {
             echo 'Importando Professor' . $instructor['name'] . "..\n";
             $saveinstructor = new InstructorIdentification();
             $saveinstructor->setScenario('search');
@@ -267,7 +267,7 @@ class AdminCommand extends CConsoleCommand
                 exit;
             }
         }
-        foreach ($loads['instructorsteachingdata'] as $index => $teachingdata) {
+        foreach ($loads['instructorsteachingdata'] as  $teachingdata) {
             echo 'Importando Teaching Data' . $teachingdata['hash'] . "..\n";
             $saveteaching = new InstructorTeachingData();
             $saveteaching->setScenario('search');
@@ -361,7 +361,7 @@ class AdminCommand extends CConsoleCommand
                     $loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
                 }
             }*/
-            foreach ($teachAll as $index => $teach) {
+            foreach ($teachAll as  $teach) {
                 $hash_teach = hexdec(crc32($teach->name . $teach->birthday_date));
                 if (!isset($loads['instructors'][$hash_teach])) {
                     $loads['instructors'][$hash_teach] = $teach->attributes;
@@ -377,7 +377,7 @@ class AdminCommand extends CConsoleCommand
             }
         }
 
-        foreach ($schools as $index => $schll) {
+        foreach ($schools as $schll) {
             $year = 2019;
             // padronizar o ano no futuro
             $ischool = new SchoolIdentification();
