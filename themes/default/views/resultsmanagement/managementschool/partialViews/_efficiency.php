@@ -9,8 +9,8 @@
 
 
 <div class="separator bottom"></div>
-<h5><?=yii::t('resultsmanagementModule.managementSchool', 'Efficiency')?></h5>
-<p class="tab-description"><?= yii::t('resultsmanagementModule.managementSchool', 'Results obtained by the student during the school year about the tests and final exams when adopted')?></p>
+<h5><?=Yii::t('resultsmanagementModule.managementSchool', 'Efficiency')?></h5>
+<p class="tab-description"><?= Yii::t('resultsmanagementModule.managementSchool', 'Results obtained by the student during the school year about the tests and final exams when adopted')?></p>
 
 <div class="separator bottom"></div>
 <div class="container-fluid">
@@ -29,7 +29,7 @@
                 <?php $this->widget('resultsmanagement.components.boxWidget', [
                     'color' => $goodColor,
                     'percent' => $good,
-                    'label' => yii::t('resultsmanagementModule.managementSchool', 'Good'),
+                    'label' => Yii::t('resultsmanagementModule.managementSchool', 'Good'),
                     'sideLabel' => '',
                 ]); ?>
                 <div class="separator bottom"></div>
@@ -37,7 +37,7 @@
                 <?php $this->widget('resultsmanagement.components.boxWidget', [
                     'color' => $regularColor,
                     'percent' => $regular,
-                    'label' => yii::t('resultsmanagementModule.managementSchool', 'Regular'),
+                    'label' => Yii::t('resultsmanagementModule.managementSchool', 'Regular'),
                     'sideLabel' => ''
                 ]); ?>
                 <div class="separator bottom"></div>
@@ -45,7 +45,7 @@
                 <?php $this->widget('resultsmanagement.components.boxWidget', [
                     'color' => $badColor,
                     'percent' => $bad,
-                    'label' => yii::t('resultsmanagementModule.managementSchool', 'Bad'),
+                    'label' => Yii::t('resultsmanagementModule.managementSchool', 'Bad'),
                     'sideLabel' => ''
                 ]); ?>
             </div>

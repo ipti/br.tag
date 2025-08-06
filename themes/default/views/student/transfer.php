@@ -99,7 +99,7 @@
     var formIdentification = '#StudentIdentification_';
     var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
     var formEnrollment = '#StudentEnrollment_';
-    var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
+    var updateDependenciesURL = '<?php echo Yii::app()->createUrl('enrollment/updatedependencies') ?>';
     var filled = -1;
 </script>
 <style>

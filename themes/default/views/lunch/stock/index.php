@@ -132,7 +132,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
             <div id="is-add-amount" class="widget widget-scroll margin-bottom-none">
                 <div class="widget-head" style="background: none;">
                     <h4 class="heading">
-                        <?= yii::t('lunchModule.stock', 'Add Amount') ?>
+                        <?= Yii::t('lunchModule.stock', 'Add Amount') ?>
                     </h4>
                 </div>
                 <div class="widget-body">
@@ -169,7 +169,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
             <div id="is-new-item" class="widget widget-scroll margin-bottom-none">
                 <div class="widget-head" style="background: none;">
                     <h4 class="heading">
-                        <i></i><?= yii::t('lunchModule.stock', 'New Item') ?>
+                        <i></i><?= Yii::t('lunchModule.stock', 'New Item') ?>
                     </h4>
                 </div>
                 <div class="widget-body" style="overflow: hidden;">

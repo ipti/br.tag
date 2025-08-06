@@ -20,7 +20,7 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
             <span><?= Yii::t('lunchModule.lunch', 'Make a nutritious menu to manage the school lunch.'); ?></span>
             </h1>
             <div class="t-buttons-container">
-                <a href="<?= yii::app()->createUrl('/lunch/lunch/create')?>" class="t-button-primary">
+                <a href="<?= Yii::app()->createUrl('/lunch/lunch/create')?>" class="t-button-primary">
                     <?= Yii::t('lunchModule.lunch', 'New Menu'); ?>
                 </a>
             </div>
@@ -36,18 +36,18 @@ $cs->registerCssFile($baseUrl . '/css/lunch.css');
                         <table class="js-tag-table" aria-labelledby="Menu Table">
                             <thead>
                             <tr>
-                                <th><?= yii::t('lunchModule.labels', 'Menu') ?></th>
-                                <th class="span4"><?= yii::t('lunchModule.labels', 'Date') ?></th>
-                                <th class="center span2"><?= yii::t('lunchModule.labels', 'Actions') ?></th>
+                                <th><?= Yii::t('lunchModule.labels', 'Menu') ?></th>
+                                <th class="span4"><?= Yii::t('lunchModule.labels', 'Date') ?></th>
+                                <th class="center span2"><?= Yii::t('lunchModule.labels', 'Actions') ?></th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php foreach ($this->school->menus() as $menu): ?>
                                 <tr>
-                                    <td><a href="<?= yii::app()->createUrl('/lunch/lunch/update', ['id' => $menu->id])?>"><?= $menu->name; ?></a></td>
+                                    <td><a href="<?= Yii::app()->createUrl('/lunch/lunch/update', ['id' => $menu->id])?>"><?= $menu->name; ?></a></td>
                                     <td><?= date('d/m/Y', strtotime($menu->date)); ?></td>
                                     <td class="center">
-                                        <a href="<?= yii::app()->createUrl('/lunch/lunch/update', ['id' => $menu->id])?>"><span class="fa fa-cutlery"></span></a>
+                                        <a href="<?= Yii::app()->createUrl('/lunch/lunch/update', ['id' => $menu->id])?>"><span class="fa fa-cutlery"></span></a>
                                     </td>
                                 </tr>
                             <?php endforeach ?>

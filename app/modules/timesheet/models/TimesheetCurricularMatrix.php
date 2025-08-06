@@ -58,11 +58,11 @@
         public function attributeLabels()
         {
             return [
-                'id' => yii::t('curricularmatrixModule.labels', 'ID'),
-                'stage_fk' => yii::t('curricularmatrixModule.labels', 'Stage Fk'),
-                'discipline_fk' => yii::t('curricularmatrixModule.labels', 'Discipline Fk'),
-                'workload' => yii::t('curricularmatrixModule.labels', 'Workload'),
-                'credits' => yii::t('curricularmatrixModule.labels', 'Credits'),
+                'id' => Yii::t('curricularmatrixModule.labels', 'ID'),
+                'stage_fk' => Yii::t('curricularmatrixModule.labels', 'Stage Fk'),
+                'discipline_fk' => Yii::t('curricularmatrixModule.labels', 'Discipline Fk'),
+                'workload' => Yii::t('curricularmatrixModule.labels', 'Workload'),
+                'credits' => Yii::t('curricularmatrixModule.labels', 'Credits'),
             ];
         }
 

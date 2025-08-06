@@ -444,5 +444,5 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
 
 <script type="text/javascript">
     var formEnrollment = '#StudentEnrollment_';
-    var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
+    var updateDependenciesURL = '<?php echo Yii::app()->createUrl('enrollment/updatedependencies') ?>';
 </script>

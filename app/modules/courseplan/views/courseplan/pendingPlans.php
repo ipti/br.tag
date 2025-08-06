@@ -48,7 +48,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
         <div class="row">
             <div class="column clearleft">
                 <div class="t-field-select instructor-container">
-                    <?php echo CHtml::label(yii::t('default', 'Instructor'), 'instructor', ['class' => 't-field-select__label--required']); ?>
+                    <?php echo CHtml::label(Yii::t('default', 'Instructor'), 'instructor', ['class' => 't-field-select__label--required']); ?>
                     <select class="select-search-on t-field-select__input" id="instructor" style="min-width: 185px;">
                         <option value="">Selecione o Professor</option>
                         <?php
@@ -61,7 +61,7 @@ foreach ($instructors as $instructor) :
                 </div>
                 <div class="t-field-select row">
                     <div class="t-field-select">
-                        <?php echo CHtml::label(yii::t('default', 'Stage'), 'stage', ['class' => 't-field-select__label--required']); ?>
+                        <?php echo CHtml::label(Yii::t('default', 'Stage'), 'stage', ['class' => 't-field-select__label--required']); ?>
                         <select class="select-search-on t-field-select__input" id="stage" style="min-width: 185px;">
                             <option value="">Selecione a etapa</option>
                             <?php
@@ -75,7 +75,7 @@ foreach ($stages as $stage) :
                     <!-- diciplina -->
                     <div class="t-field-select discipline-container hide">
                         <?php echo CHtml::label(
-        yii::t('default', 'Discipline'),
+        Yii::t('default', 'Discipline'),
         'month',
         ['class' => 't-field-select__label--required']
     ); ?>

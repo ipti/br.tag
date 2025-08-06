@@ -69,7 +69,7 @@ $cs->registerScriptFile($baseScriptUrl . '/pagination.js?v=' . TAG_VERSION, CCli
         <div class="mobile-row">
             <div class="column clearleft">
                 <div class="t-field-select">
-                    <?php echo CHtml::label(yii::t('default', 'Stage'), 'stage', ['class' => 't-field-select__label--required']); ?>
+                    <?php echo CHtml::label(Yii::t('default', 'Stage'), 'stage', ['class' => 't-field-select__label--required']); ?>
                     <select class="select-search-on t-field-select__input" id="stage" style="min-width: 185px;">
                         <option value="">Selecione a etapa</option>
                         <?php
@@ -85,7 +85,7 @@ foreach ($stages as $stage):
             <div class="column discipline-container hide">
                 <div class="t-field-select">
                     <?php echo CHtml::label(
-        yii::t('default', 'Discipline'),
+        Yii::t('default', 'Discipline'),
         'month',
         ['class' => 't-field-select__label--required']
     ); ?>

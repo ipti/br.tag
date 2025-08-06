@@ -60,10 +60,10 @@
         public function attributeLabels()
         {
             return [
-                'id' => yii::t('timesheetModule.labels', 'ID'),
-                'stage_vs_modality_fk' => yii::t('timesheetModule.labels', 'Stage Vs Modality'),
-                'discipline_fk' => yii::t('timesheetModule.labels', 'Discipline'),
-                'instructor_fk' => yii::t('timesheetModule.labels', 'Instructor'),
+                'id' => Yii::t('timesheetModule.labels', 'ID'),
+                'stage_vs_modality_fk' => Yii::t('timesheetModule.labels', 'Stage Vs Modality'),
+                'discipline_fk' => Yii::t('timesheetModule.labels', 'Discipline'),
+                'instructor_fk' => Yii::t('timesheetModule.labels', 'Instructor'),
             ];
         }
 

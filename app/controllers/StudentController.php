@@ -881,7 +881,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                 $buttons = CHtml::tag(
                     'a',
                     [
-                        'href' => yii::app()->createUrl('student/update', ['id' => $sid]),
+                        'href' => Yii::app()->createUrl('student/update', ['id' => $sid]),
                         'class' => 'btn btn-primary btn-icon glyphicons eye_open',
                         'style' => 'margin-top: 5px; width: 110px',
                     ],
@@ -893,7 +893,7 @@ class StudentController extends Controller implements AuthenticateSEDTokenInterf
                     'a',
                     [
                         'target' => '_blank',
-                        'href' => yii::app()->createUrl(
+                        'href' => Yii::app()->createUrl(
                             '/forms/StudentFileForm',
                             ['type' => $type, 'enrollment_id' => $enrollmentId]
                         ),

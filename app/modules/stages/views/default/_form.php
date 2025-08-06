@@ -44,7 +44,7 @@ $form = $this->beginWidget('CActiveForm', [
                     <?php echo $form->dropDownList(
     $model,
     'edcenso_associated_stage_id',
-    Chtml::listData(EdcensoStageVsModality::model()->findAll('is_edcenso_stage = 1'), 'id', 'name'),
+    CHtml::listData(EdcensoStageVsModality::model()->findAll('is_edcenso_stage = 1'), 'id', 'name'),
     [
         'prompt' => 'Selecione...',
         'id' => 'edcenso_associated_stage_id',

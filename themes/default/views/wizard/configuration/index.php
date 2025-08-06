@@ -39,7 +39,7 @@ $this->breadcrumbs = [
                     <div class="tab-pane row active" id="student">
                         <div class="column">
                             <div class="row">
-                                <a href="<?php echo yii::app()->createUrl('wizard/Configuration/school') ?>" class="t-cards">
+                                <a href="<?php echo Yii::app()->createUrl('wizard/Configuration/school') ?>" class="t-cards">
                                     <div class="t-cards-content">
                                             <div class="t-cards-title"><img class="t-cards-icon"  alt="icone escola card" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/escola.svg" />Escola</div>
                                             <div class="t-cards-text">Edite as informações da sua escola</div>
@@ -47,7 +47,7 @@ $this->breadcrumbs = [
                                 </a>
                             </div>
                             <div class="row">
-                                <a href="<?php echo yii::app()->createUrl('wizard/Configuration/classroom') ?>" class="t-cards">
+                                <a href="<?php echo Yii::app()->createUrl('wizard/Configuration/classroom') ?>" class="t-cards">
                                     <div class="t-cards-content">
                                             <div class="t-cards-title"><img class="t-cards-icon" alt="icone turma card" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/turma.svg" />Turmas</div>
                                             <div class="t-cards-text">Faça o reaproveitamento de turmas</div>
@@ -55,7 +55,7 @@ $this->breadcrumbs = [
                                 </a>
                             </div>
                             <div class="row">
-                                <a  href="<?php echo yii::app()->createUrl('wizard/Configuration/student') ?>" class="t-cards">
+                                <a  href="<?php echo Yii::app()->createUrl('wizard/Configuration/student') ?>" class="t-cards">
                                     <div class="t-cards-content">
                                             <div class="t-cards-title"><img class="t-cards-icon" alt="icone turma card" src="<?php echo Yii::app()->theme->baseUrl; ?>/img/aluno.svg" />Aluno</div>
                                             <div class="t-cards-text">Realize o reaproveitamento de alunos</div>  

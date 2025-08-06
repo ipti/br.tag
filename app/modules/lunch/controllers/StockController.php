@@ -11,7 +11,7 @@ class StockController extends Controller
 
     public function init()
     {
-        $this->school = School::model()->findByPk(yii::app()->user->school);
+        $this->school = School::model()->findByPk(Yii::app()->user->school);
     }
 
     public function actionIndex()
@@ -29,7 +29,7 @@ class StockController extends Controller
         $postItem = $request->getPost('Item', false);
         $postInventory = $request->getPost('Inventory', false);
 
-        $school = yii::app()->user->school;
+        $school = Yii::app()->user->school;
 
         if (!$postItem) {
             $item_id = $postInventory['item'];
@@ -84,7 +84,7 @@ class StockController extends Controller
         $item = $request->getPost('Item');
         $amount = $request->getPost('Amount');
         $motivation = $request->getPost('Motivation');
-        $school = yii::app()->user->school;
+        $school = Yii::app()->user->school;
 
         $inventory = new Inventory();
         $inventory->school_fk = $school;

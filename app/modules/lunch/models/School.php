@@ -86,7 +86,7 @@ class School extends TagModel
               where $whereSchool $whereInitial $whereFinal
               order by date DESC";
 
-        $result = yii::app()->db->createCommand($sql)->queryAll();
+        $result = Yii::app()->db->createCommand($sql)->queryAll();
 
         return $result;
     }

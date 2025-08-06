@@ -227,7 +227,7 @@ for ($i = 1; $i <= count($unities); $i++) { ?>
                 <input type="checkbox" class="bring-date" checked> Local e Data
             </div>
             <div class="local-and-date pull-right" style="margin: 30px 25px 50px 0">
-                <span class="written-date" style=""><?=$enrollment->classroomFk->schoolInepFk->edcensoCityFk->name?>/<?=$enrollment->classroomFk->schoolInepFk->edcensoUfFk->acronym?>, <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?></span>
+                <span class="written-date" style=""><?=$enrollment->classroomFk->schoolInepFk->edcensoCityFk->name?>/<?=$enrollment->classroomFk->schoolInepFk->edcensoUfFk->acronym?>, <?php echo date('d') . ' de ' . Yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?></span>
                 <span class="line-date" style="display:none">__________________________,______________________________________________<p style="text-align: center;">Local e Data</p></span>
             </div>
             <div>

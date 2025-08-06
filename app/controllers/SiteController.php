@@ -45,7 +45,7 @@ class SiteController extends Controller
         // renders the view file 'protected/views/site/index.php'
         // using the default layout 'protected/views/layouts/main.php'
         if (Yii::app()->user->isGuest) {
-            $this->redirect(yii::app()->createUrl('site/login'));
+            $this->redirect(Yii::app()->createUrl('site/login'));
         }
 
         $this->loadLogsHtml(5);
@@ -225,9 +225,9 @@ class SiteController extends Controller
         $warns = [];
 
         // Verifica a existência de turmas na escola
-        $listSchoolClassrooms = Classroom::model()->findallByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $listSchoolClassrooms = Classroom::model()->findallByAttributes(['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
         if (count($listSchoolClassrooms) == 0) {
-            $schoolModel = SchoolIdentification::model()->findByAttributes(['inep_id' => yii::app()->user->school]);
+            $schoolModel = SchoolIdentification::model()->findByAttributes(['inep_id' => Yii::app()->user->school]);
             $warning = 'Escola <b>' . $schoolModel->name . '</b> está sem turmas cadastradas.';
 
             $htmlpart = '<li class="row justify-content--start  home-page-table-item blue" title=\'' . $warning . '\'>'

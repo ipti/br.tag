@@ -11,7 +11,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
         } else {
             $this->render('select');
         }
@@ -32,7 +32,7 @@ class DefaultController extends Controller
     public function actionGrades($eid)
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
         } else {
             /* @var $enrollment StudentEnrollment
              * @var $classroom Classroom
@@ -59,7 +59,7 @@ class DefaultController extends Controller
     public function actionGetGrades($eid)
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
         } else {
             /* @var $grade Grade */
             $grades = Grade::model()->findAll('enrollment_fk = :eid', [':eid' => $eid]);
@@ -87,24 +87,24 @@ class DefaultController extends Controller
             // display the login form
             $this->render('login', ['model' => $model]);
         } else {
-            $this->redirect(yii::app()->createUrl('schoolreport/default/select'));
+            $this->redirect(Yii::app()->createUrl('schoolreport/default/select'));
         }
     }
 
     public function actionLogout()
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
         } else {
             Yii::app()->user->logout(false);
-            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
         }
     }
 
     public function actionSelect()
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
         } else {
             $this->render('select');
         }
@@ -113,7 +113,7 @@ class DefaultController extends Controller
     public function actionFrequency($eid)
     {
         if (Yii::app()->user->isGuest) {
-            $this->redirect(yii::app()->createUrl('schoolreport/default/login'));
+            $this->redirect(Yii::app()->createUrl('schoolreport/default/login'));
         } else {
             /* @var $enrollment StudentEnrollment
              * @var $classroom Classroom

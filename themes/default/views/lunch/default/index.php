@@ -37,7 +37,7 @@ $this->pageTitle = 'TAG - ' . Yii::t('lunchModule.index', 'Lunch');
                                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/lunchIcon/stock.svg" alt="stock"/>
                                 </div>
                                 <div class="pull-left">
-                                    <span class="title"><?= yii::t('lunchModule.index', 'Stock')?></span><br>
+                                    <span class="title"><?= Yii::t('lunchModule.index', 'Stock')?></span><br>
                                     <span class="subtitle">Gerenciar Estoque de Alimentos</span>
                                 </div>
                             </button>

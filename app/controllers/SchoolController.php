@@ -105,8 +105,8 @@ class SchoolController extends Controller
 
     public function actionGetCities($Uf = null)
     {
+        $school = new SchoolIdentification();
         if (isset($_POST[$this->SCHOOL_IDENTIFICATION])) {
-            $school = new SchoolIdentification();
             $school->attributes = $_POST[$this->SCHOOL_IDENTIFICATION];
         }
         $uf = $Uf == null ? $school->edcenso_uf_fk : $Uf;

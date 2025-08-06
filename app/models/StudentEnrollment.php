@@ -412,11 +412,11 @@ class StudentEnrollment extends AltActiveRecord
     public function getFaultsByExam($exam)
     {
         /* @var $schoolConfiguration SchoolConfiguration */
-        $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
+        $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
         $faults = [];
         switch ($exam) {
             case 1:
-                $initial = new DateTime('01/01/' . yii::app()->user->year);
+                $initial = new DateTime('01/01/' . Yii::app()->user->year);
                 $final = new DateTime($schoolConfiguration->exam1);
                 break;
             case 2:
@@ -435,7 +435,7 @@ class StudentEnrollment extends AltActiveRecord
                 return [];
         }
         foreach ($this->classFaults as $fault) {
-            $date = new DateTime($fault->scheduleFk->day . '-' . $fault->scheduleFk->month . '-' . yii::app()->user->year);
+            $date = new DateTime($fault->scheduleFk->day . '-' . $fault->scheduleFk->month . '-' . Yii::app()->user->year);
             if ($date > $initial && $date <= $final) {
                 array_push($faults, $fault);
             }

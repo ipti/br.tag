@@ -39,7 +39,7 @@
 
             <div class="dependent-filters">
                 <div class="classroom-container">
-                    <?php echo CHtml::label(yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'control-label required electronic-diary-label']); ?>
+                    <?php echo CHtml::label(Yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'control-label required electronic-diary-label']); ?>
                     <select class="select-search-on electronic-diary-input" id="classroom">
                         <option value="">Selecione...</option>
                         <?php foreach ($classrooms as $classroom): ?>
@@ -76,7 +76,7 @@
                     </div>
             </div>
             <div class="disciplines-container" style="display:none;">
-                    <?php echo CHtml::label(yii::t('default', 'Discipline') . ' *', 'discipline', ['class' => 'control-label required electronic-diary-label']); ?>
+                    <?php echo CHtml::label(Yii::t('default', 'Discipline') . ' *', 'discipline', ['class' => 'control-label required electronic-diary-label']); ?>
                     <?php
     echo CHtml::dropDownList('discipline', '', [], [
         'key' => 'id',

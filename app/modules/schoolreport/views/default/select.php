@@ -1,7 +1,7 @@
 
 <div class="ui styled fluid accordion">
 <?php
-    foreach (array_reverse(yii::app()->user->enrollments, true) as $year => $enrolls) {
+    foreach (array_reverse(Yii::app()->user->enrollments, true) as $year => $enrolls) {
         $active = '';
         if ($year == date('Y')) {
             $active = 'active';

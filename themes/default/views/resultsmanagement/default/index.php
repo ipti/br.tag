@@ -3,7 +3,7 @@
 
 $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
 $cityName = 'Município';
-$this->headerDescription = CHtml::tag('span', [], yii::t('resultsmanagementModule.index', 'In this area it is possible to know some of the educational indicators of the schools in the city of {city}', ['{city}' => '']));
+$this->headerDescription = CHtml::tag('span', [], Yii::t('resultsmanagementModule.index', 'In this area it is possible to know some of the educational indicators of the schools in the city of {city}', ['{city}' => '']));
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a1337ca28094ecbbcfd7f206d7bcdfb",
+    "content-hash": "ca5b73419a2f6171ab5c5e886b461655",
     "packages": [
         {
             "name": "bensontrent/firestore-php",
@@ -5395,6 +5395,55 @@
             "time": "2025-08-06T14:12:02+00:00"
         },
         {
+            "name": "phpstan/phpstan-strict-rules",
+            "version": "2.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan-strict-rules.git",
+                "reference": "f9f77efa9de31992a832ff77ea52eb42d675b094"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan-strict-rules/zipball/f9f77efa9de31992a832ff77ea52eb42d675b094",
+                "reference": "f9f77efa9de31992a832ff77ea52eb42d675b094",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "phpstan/phpstan": "^2.0.4"
+            },
+            "require-dev": {
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^9.6"
+            },
+            "default-branch": true,
+            "type": "phpstan-extension",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "rules.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Extra strict and opinionated rules for PHPStan",
+            "support": {
+                "issues": "https://github.com/phpstan/phpstan-strict-rules/issues",
+                "source": "https://github.com/phpstan/phpstan-strict-rules/tree/2.0.6"
+            },
+            "time": "2025-07-21T12:19:29+00:00"
+        },
+        {
             "name": "phpunit/php-code-coverage",
             "version": "7.0.x-dev",
             "source": {
@@ -8157,7 +8206,8 @@
     "stability-flags": {
         "websupport/yii-sentry": 20,
         "rector/rector": 20,
-        "phpstan/phpstan": 20
+        "phpstan/phpstan": 20,
+        "phpstan/phpstan-strict-rules": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

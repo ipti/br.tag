@@ -89,7 +89,7 @@ class Register20
     {
         $registers = [];
 
-        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->findAllByAttributes(['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
 
         foreach ($classrooms as $iclass => $attributes) {
             $hasEnrolledStudent = false;

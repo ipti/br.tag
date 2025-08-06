@@ -6,6 +6,7 @@
  * @var $cs CClientScript
  * @var StudentIdentification $modelStudentIdentification StudentIdentification
  * @var StudentDocumentsAndAddress $modelStudentDocumentsAndAddress StudentDocumentsAndAddress
+ * @var StudentEnrollment $modelEnrollment StudentEnrollment
  *
  */
 /* @var $modelStudentIdentification /app/models/StudentIdentification */
@@ -2244,7 +2245,7 @@ if (!empty($error)):
             <div id="enrollment" class="widget widget-scroll margin-bottom-none">
               <div class="row">
                 <h3>
-                  <?php echo yii::t('default', 'Enrollments'); ?>
+                  <?php echo Yii::t('default', 'Enrollments'); ?>
                 </h3>
               </div>
               <div class="row">
@@ -2712,6 +2713,6 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
   var formIdentification = '#StudentIdentification_';
   var formDocumentsAndAddress = '#StudentDocumentsAndAddress_';
   var formEnrollment = '#StudentEnrollment_';
-  var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
+  var updateDependenciesURL = '<?php echo Yii::app()->createUrl('enrollment/updatedependencies') ?>';
   var filled = -1;
 </script>

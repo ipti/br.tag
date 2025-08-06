@@ -56,8 +56,8 @@
         public function attributeLabels()
         {
             return [
-                'id' => 'ID', 'school_fk' => yii::t('timesheetModule.labels', 'School'),
-                'instructor_fk' => yii::t('timesheetModule.labels', 'Instructor'),
+                'id' => 'ID', 'school_fk' => Yii::t('timesheetModule.labels', 'School'),
+                'instructor_fk' => Yii::t('timesheetModule.labels', 'Instructor'),
             ];
         }
 

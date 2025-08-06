@@ -47,7 +47,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
     <div class="js-grades-alert alert"></div>
     <div class="filter-bar margin-bottom-none">
         <div>
-            <?php echo CHtml::label(yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'small-label control-label required', 'style' => 'width: 53px;']); ?>
+            <?php echo CHtml::label(Yii::t('default', 'Classroom') . ' *', 'classroom', ['class' => 'small-label control-label required', 'style' => 'width: 53px;']); ?>
             <?php
         echo CHtml::dropDownList('classroom', '', $classrooms, [
             'key' => 'id',
@@ -57,7 +57,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Grades'));
 ?>
         </div>
         <div>
-            <?php echo CHtml::label(yii::t('default', 'Discipline') . ' *', 'discipline', ['class' => 'control-label required', 'style' => 'width: 100%;']); ?>
+            <?php echo CHtml::label(Yii::t('default', 'Discipline') . ' *', 'discipline', ['class' => 'control-label required', 'style' => 'width: 100%;']); ?>
             <?php
 echo CHtml::dropDownList('discipline', '', [], [
     'key' => 'id',

@@ -27,9 +27,9 @@ class ManagementschoolController extends CController
 					  ) b
 					group by b.grade
 					order by b.grade;";
-            $efficiency = yii::app()->db->createCommand($sql)->queryAll(true, [
+            $efficiency = Yii::app()->db->createCommand($sql)->queryAll(true, [
                 ':sid' => $sid,
-                ':year' => yii::app()->user->year,
+                ':year' => Yii::app()->user->year,
                 ':media' => $media,
             ]);
             $efficiencies[$unity . 'º Bimestre'] = [];
@@ -41,12 +41,12 @@ class ManagementschoolController extends CController
                 $efficiencies[$unity . 'º Bimestre'][$grade] = $e['count'];
             }
         }
-        $classrooms = Classroom::model()->findAll(['condition' => 'school_inep_fk = :sid and school_year = :year', 'order' => 'name', 'params' => [':sid' => $sid, ':year' => yii::app()->user->year]]);
+        $classrooms = Classroom::model()->findAll(['condition' => 'school_inep_fk = :sid and school_year = :year', 'order' => 'name', 'params' => [':sid' => $sid, ':year' => Yii::app()->user->year]]);
         $classroomOptions = [];
         foreach ($classrooms as $classroom) {
             $classroomOptions[$classroom->id] = CHtml::encode($classroom->name);
         }
-        $classroomOptions['all'] = yii::t('resultsmanagementModule.managementSchool', 'All Classrooms');
+        $classroomOptions['all'] = Yii::t('resultsmanagementModule.managementSchool', 'All Classrooms');
         $this->render('performance', ['school' => $school, 'efficiencies' => $efficiencies, 'classrooms' => $classroomOptions]);
     }
 
@@ -54,12 +54,12 @@ class ManagementschoolController extends CController
     {
         /* @var $classrooms Classroom[] */
         $school = SchoolIdentification::model()->findByPk($sid);
-        $classrooms = Classroom::model()->findAll(['condition' => 'school_inep_fk = :sid and school_year = :year', 'order' => 'name', 'params' => [':sid' => $sid, ':year' => yii::app()->user->year]]);
+        $classrooms = Classroom::model()->findAll(['condition' => 'school_inep_fk = :sid and school_year = :year', 'order' => 'name', 'params' => [':sid' => $sid, ':year' => Yii::app()->user->year]]);
         $classroomOptions = [];
         foreach ($classrooms as $classroom) {
             $classroomOptions[$classroom->id] = CHtml::encode($classroom->name);
         }
-        $classroomOptions['all'] = yii::t('resultsmanagementModule.managementSchool', 'All Classrooms');
+        $classroomOptions['all'] = Yii::t('resultsmanagementModule.managementSchool', 'All Classrooms');
         $this->render('frequency', ['school' => $school, 'classrooms' => $classroomOptions]);
     }
 
@@ -71,12 +71,12 @@ class ManagementschoolController extends CController
 					join schedule sc on (sc.classroom_fk = c.id)
 					left join edcenso_discipline d on (sc.discipline_fk = d.id)
 				where school_inep_fk = :sid and school_year = :year;";
-            $results = yii::app()->db->createCommand($sql)->queryAll(true, [':sid' => $sid, ':year' => yii::app()->user->year]);
+            $results = Yii::app()->db->createCommand($sql)->queryAll(true, [':sid' => $sid, ':year' => Yii::app()->user->year]);
         } elseif (!empty($cid)) {
             $sql = "SELECT distinct sc.month, IFNULL(d.id,'-1') did, IFNULL(d.name,'Disciplinas Fundamental Menor') discipline FROM classroom as c
 					join schedule sc on (sc.classroom_fk = :cid)
 					left join edcenso_discipline d on (sc.discipline_fk = d.id);";
-            $results = yii::app()->db->createCommand($sql)->queryAll(true, [':cid' => $cid]);
+            $results = Yii::app()->db->createCommand($sql)->queryAll(true, [':cid' => $cid]);
         } else {
             return false;
         }
@@ -101,18 +101,18 @@ class ManagementschoolController extends CController
 				group by sc.day, sc.month, sc.discipline_fk
 				order by sc.month, sc.day, sc.discipline_fk;";
         $i = 0;
-        $params = [':sid' => $sid, ':year' => yii::app()->user->year];
+        $params = [':sid' => $sid, ':year' => Yii::app()->user->year];
         $cid != 'all' ? $params[':cid'] = $cid : $i;
         $mid != 'all' ? $params[':mid'] = $mid : $i;
         $did != 'all' && $did != '-1' ? $params[':did'] = $did : $i;
-        $classes = yii::app()->db->createCommand($sql)->queryAll(true, $params);
+        $classes = Yii::app()->db->createCommand($sql)->queryAll(true, $params);
         $sql = "Select count(*) from student_enrollment e
 					join classroom cr on (cr.id = e.classroom_fk)
 					where cr.school_year = :year and cr.school_inep_fk = :sid
 					$cFilter;";
-        $params = [':sid' => $sid, ':year' => yii::app()->user->year];
+        $params = [':sid' => $sid, ':year' => Yii::app()->user->year];
         $cid != 'all' ? $params[':cid'] = $cid : $i;
-        $enrollments = yii::app()->db->createCommand($sql)->queryScalar($params);
+        $enrollments = Yii::app()->db->createCommand($sql)->queryScalar($params);
         echo json_encode(['classes' => $classes, 'enrollments' => $enrollments]);
     }
 
@@ -135,11 +135,11 @@ class ManagementschoolController extends CController
 				  JOIN classroom c on c.id =  se.classroom_fk
 				  LEFT JOIN edcenso_discipline d on d.id = g.discipline_fk
 				WHERE c.school_inep_fk = :sid && c.school_year = :year $cFilter;";
-        $params = [':sid' => $sid, ':year' => yii::app()->user->year];
+        $params = [':sid' => $sid, ':year' => Yii::app()->user->year];
         if ($cid != 'all') {
             $params[':cid'] = $cid;
         }
-        $results = yii::app()->db->createCommand($sql)->queryAll(true, $params);
+        $results = Yii::app()->db->createCommand($sql)->queryAll(true, $params);
         echo json_encode($results);
 
         return true;
@@ -169,8 +169,8 @@ class ManagementschoolController extends CController
 					$dFilter
 				  c.school_year = :year && c.school_inep_fk = :sid";
 
-        $params = [':sid' => $sid, ':year' => yii::app()->user->year];
-        $grades = yii::app()->db->createCommand($sql)->queryAll(true, $params);
+        $params = [':sid' => $sid, ':year' => Yii::app()->user->year];
+        $grades = Yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
         echo json_encode(['grades' => $grades]);
     }
@@ -187,7 +187,7 @@ class ManagementschoolController extends CController
 					c.school_inep_fk = :sid;";
 
         $params = [':sid' => $sid];
-        $disciplines = yii::app()->db->createCommand($sql)->queryAll(true, $params);
+        $disciplines = Yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
         echo json_encode(['disciplines' => $disciplines]);
     }
@@ -214,7 +214,7 @@ class ManagementschoolController extends CController
 				group by grade,did, bimester
 				order by bimester;";
         $params = [':sid' => $sid];
-        $grades = yii::app()->db->createCommand($sql)->queryAll(true, $params);
+        $grades = Yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
         $result = [];
         foreach ($grades as $g) {
@@ -253,7 +253,7 @@ class ManagementschoolController extends CController
 				group by grade, did, bimester
 				order by bimester;";
         $params = [':sid' => $sid];
-        $grades = yii::app()->db->createCommand($sql)->queryAll(true, $params);
+        $grades = Yii::app()->db->createCommand($sql)->queryAll(true, $params);
 
         $approveCount = ['g1' => 0, 'g2' => 0, 'g3' => 0, 'g4' => 0];
         $reproveCount = ['g1' => 0, 'g2' => 0, 'g3' => 0, 'g4' => 0];

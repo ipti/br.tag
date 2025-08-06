@@ -95,7 +95,7 @@ class TimesheetController extends Controller
                         'day' => $date->format('j'),
                         'month' => $date->format('n'),
                         'year' => $date->format('Y'),
-                        'name' => yii::t('timesheetModule.timesheet', $calendarEvent['name']),
+                        'name' => Yii::t('timesheetModule.timesheet', $calendarEvent['name']),
                         'icon' => $calendarEvent['icon'],
                         'color' => $calendarEvent['color'],
                     ]);

@@ -248,7 +248,7 @@ echo CHtml::hiddenField('events', '', ['id' => 'events']);
                                 <!-- Unidade Escolar -->
                                 <div class="t-field-select" id="sedsp_school_unity_fk">
                                     <?= $form->label($modelClassroom, 'Unidade Escolar', ['class' => 't-field-select__label--required']); ?>
-                                    <?= $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(['school_inep_id_fk' => yii::app()->user->school]), 'id', 'description'), ['prompt' => 'Selecione a unidade escolar', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%']); ?>
+                                    <?= $form->DropDownList($modelClassroom, 'sedsp_school_unity_fk', CHtml::listData(SedspSchoolUnities::model()->findAllByAttributes(['school_inep_id_fk' => Yii::app()->user->school]), 'id', 'description'), ['prompt' => 'Selecione a unidade escolar', 'class' => 'select-search-off t-field-select__input', 'disabled' => $disabledFields, 'style' => 'width: 80%']); ?>
                                     <?= $form->error($modelClassroom, 'sedsp_school_unity_fk'); ?>
                                 </div>
                                 <div class="t-field-text">
@@ -474,7 +474,7 @@ echo CHtml::hiddenField('events', '', ['id' => 'events']);
 ); ?>
                                     <?= $form->error($modelClassroom, 'is_special_education'); ?>
                                     <label for="Atividade Complementar">
-                                        <?= yii::t('default', Classroom::model()->attributeLabels()['is_special_education']); ?>
+                                        <?= Yii::t('default', Classroom::model()->attributeLabels()['is_special_education']); ?>
                                     </label>
 
                                 </div>
@@ -979,12 +979,12 @@ $columnCount = Yii::app()->features->isEnable('FEAT_SEDSP') ? 6 : 5;
                                     <?php
                                     echo "<tr><td>Total:</td><td colspan='" . ($columnCount - 1) . "'>" . count($modelEnrollments) . '</td></tr>';
 echo '<tr><td colspan="' . $columnCount . '">';
-echo chtml::dropDownList(
+echo CHtml::dropDownList(
     'toclassroom',
     '',
     CHtml::listData(Classroom::model()->findAll(
         'school_year = :sy AND school_inep_fk = :si order by name',
-        ['sy' => (Yii::app()->user->year), 'si' => yii::app()->user->school]
+        ['sy' => (Yii::app()->user->year), 'si' => Yii::app()->user->school]
     ), 'id', 'name'),
     [
         'class' => 'span5',

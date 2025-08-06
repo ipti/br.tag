@@ -41,7 +41,7 @@ $baseScriptUrl = Yii::app()->controller->module->baseScriptUrl;
                     <a href="<?=$homeUrl?>">
                         <img src="<?=$baseScriptUrl?>/common/img/logo.png" height="30">
                     </a>
-                    <h1><?= yii::t('schoolreportModule.layout', 'School Report') ?></h1>
+                    <h1><?= Yii::t('schoolreportModule.layout', 'School Report') ?></h1>
                 </div>
                 <div class="eight wide column"></div>
                 <div class="four wide column right aligned">

@@ -678,7 +678,7 @@ $this->breadcrumbs = [
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                            echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
@@ -719,7 +719,7 @@ foreach ($classrooms as $classroom) {
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                            echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
@@ -752,7 +752,7 @@ foreach ($classrooms as $classroom) {
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                            echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
@@ -849,7 +849,7 @@ for ($i = 0; $i < count($years); $i++) {
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                            echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
@@ -882,7 +882,7 @@ foreach ($classrooms as $classroom) {
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                            echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
@@ -967,7 +967,7 @@ foreach ($classrooms as $classroom) {
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                            echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
@@ -1000,7 +1000,7 @@ foreach ($classrooms as $classroom) {
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 't-field-select__label']);
+                            echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 't-field-select__label']);
 ?>
                             <select name="classroom" id="classroom" class="t-field-select__input select2-container" placeholder="Selecione a turma">
                                 <?php
@@ -1034,7 +1034,7 @@ foreach ($classrooms as $classroom) {
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                            echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
@@ -1066,7 +1066,7 @@ foreach ($classrooms as $classroom) {
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                            echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                             <select name="cns_classroom_id" id="cns_classroom_id" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
@@ -1098,7 +1098,7 @@ foreach ($classrooms as $classroom) {
                     <div class="row-fluid">
                         <div class=" span12">
                             <?php
-                            echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                            echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                             <select name="classroom" id="classroom" placeholder="Selecione a turma" style="width:100%" required>
                                 <?php
@@ -1200,7 +1200,7 @@ for ($i = 0; $i < count($years); $i++) {
                 <div class="row-fluid">
                     <div class=" span12">
                         <?php
-                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                        echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                         <select name="quartely_report_classroom_student" id="quartely_report_classroom_student" style="width: 100%;" required>
                             <option value="">Selecione a Turma</option>
@@ -1212,7 +1212,7 @@ for ($i = 0; $i < count($years); $i++) {
                         </select>
                         <div class="classroom-student-container" style="display: none;">
                             <?php
-echo CHtml::label(yii::t('default', 'Student Fk'), 'year', ['class' => 'control-label']);
+echo CHtml::label(Yii::t('default', 'Student Fk'), 'year', ['class' => 'control-label']);
 ?>
                             <select name="student" id="student" placeholder="Selecione o aluno" style="width:100%" required>
                                 <?php
@@ -1265,7 +1265,7 @@ echo CHtml::label(yii::t('default', 'Student Fk'), 'year', ['class' => 'control-
                 <div class="row-fluid">
                     <div class=" span12">
                         <?php
-                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                        echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                         <select name="quarterly_follow_up_classroom" id="quarterly_follow_up_classroom" style="width: 100%;" required>
                             <option value="">Selecione a Turma</option>
@@ -1277,7 +1277,7 @@ echo CHtml::label(yii::t('default', 'Student Fk'), 'year', ['class' => 'control-
                         </select>
                         <div class="quarterly-follow-up-disciplines-container">
                             <?php
-echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', ['class' => 'control-label']);
+echo CHtml::label(Yii::t('default', 'Discipline'), 'discipline', ['class' => 'control-label']);
 ?>
                             <select name="quarterly_follow_up_disciplines" id="quarterly_follow_up_disciplines" placeholder="Selecione a disciplina" style="width:100%" required>
                                 <option value="" selected>Selecione a disciplina</option>
@@ -1316,7 +1316,7 @@ echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', ['class' => 'co
                 <div class="row-fluid">
                     <div class=" span12">
                         <?php
-                        echo CHtml::label(yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
+                        echo CHtml::label(Yii::t('default', 'Classroom'), 'year', ['class' => 'control-label']);
 ?>
                         <select name="evaluation_follow_up_classroom" id="evaluation_follow_up_classroom" style="width: 100%;" required>
                             <option value="">Selecione a Turma</option>
@@ -1328,7 +1328,7 @@ echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', ['class' => 'co
                         </select>
                         <div class="evaluation-follow-up-disciplines-container">
                             <?php
-echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', ['class' => 'control-label']);
+echo CHtml::label(Yii::t('default', 'Discipline'), 'discipline', ['class' => 'control-label']);
 ?>
                             <select name="evaluation_follow_up_disciplines" id="evaluation_follow_up_disciplines" placeholder="Selecione a disciplina" style="width:100%" required>
                                 <option value="" selected>Selecione a disciplina</option>

@@ -53,7 +53,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
     <div class="row">
         <div class="column is-one-fifth clearleft ">
             <div class="t-field-select">
-                <?php echo CHtml::label(yii::t('default', 'Classroom'), 'classroom', ['class' => 't-field-select__label--required']); ?>
+                <?php echo CHtml::label(Yii::t('default', 'Classroom'), 'classroom', ['class' => 't-field-select__label--required']); ?>
                 <?php
             echo CHtml::dropDownList(
     'classroom',
@@ -70,7 +70,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Report Card'));
         </div>
         <div class="column is-one-fifth">
             <div class="t-field-select">
-                <?php echo CHtml::label(yii::t('default', 'Discipline'), 'discipline', ['class' => 't-field-select__label--required']); ?>
+                <?php echo CHtml::label(Yii::t('default', 'Discipline'), 'discipline', ['class' => 't-field-select__label--required']); ?>
                 <?php
 echo CHtml::dropDownList(
     'discipline',

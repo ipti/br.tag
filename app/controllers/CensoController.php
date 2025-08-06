@@ -1768,7 +1768,7 @@ class CensoController extends Controller
     {
         Yii::import('ext.Validator.*');
         $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
-        $managerIdentification = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
+        $managerIdentification = ManagerIdentification::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
         $schoolstructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
         $schoolcolumn = $school->attributes;
         $managerIdentificationColumn = $managerIdentification->attributes;
@@ -1776,7 +1776,7 @@ class CensoController extends Controller
         $log['school']['info'] = $school->attributes;
         $log['school']['validate']['identification'] = $this->validateSchool($schoolcolumn, $managerIdentificationColumn);
         $log['school']['validate']['structure'] = $this->validateSchoolStructure($schoolstructurecolumn, $schoolcolumn);
-        $classrooms = Classroom::model()->with('studentEnrollments.classroomFk')->with('instructorTeachingDatas.instructorFk')->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+        $classrooms = Classroom::model()->with('studentEnrollments.classroomFk')->with('instructorTeachingDatas.instructorFk')->findAllByAttributes(['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
 
         $processedInstructors = [];
         foreach ($classrooms as $iclass => $classroom) {
@@ -2323,7 +2323,7 @@ class CensoController extends Controller
                         'joinType' => 'INNER JOIN',
                         'condition' => 'edcensoStageVsModalityFk.stage IN (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 41, 56)',
                     ],
-                ])->findAllByAttributes(['school_inep_fk' => yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
+                ])->findAllByAttributes(['school_inep_fk' => Yii::app()->user->school, 'school_year' => Yii::app()->user->year]);
 
                 if (count($classrooms) == 0) {
                     $attributes['basic_education_cycle_organized'] = '';
@@ -2933,7 +2933,7 @@ class CensoController extends Controller
         //        $this->normalizeField2019($school->register_type, $school->attributes);
         //        $schoolStructure = SchoolStructure::model()->findByPk(Yii::app()->user->school);
         //        $this->normalizeField2019($schoolStructure->register_type, $schoolStructure->attributes);
-        //        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => yii::app()->user->school, "school_year" => Yii::app()->user->year]);
+        //        $classrooms = Classroom::model()->findAllByAttributes(["school_inep_fk" => Yii::app()->user->school, "school_year" => Yii::app()->user->year]);
         //        foreach ($classrooms as $iclass => $classroom) {
         //            $log['classrooms'][$iclass] = $classroom->attributes;
         //            foreach ($classroom->instructorTeachingDatas as $iteaching => $teachingData) {

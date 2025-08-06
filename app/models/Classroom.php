@@ -440,11 +440,11 @@ class Classroom extends AltActiveRecord
     public function getSchoolDaysByExam($exam)
     {
         /* @var $schoolConfiguration SchoolConfiguration */
-        $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
+        $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
         $schoolDays = 0;
         switch ($exam) {
             case 1:
-                $initial = new DateTime('01/01/' . yii::app()->user->year);
+                $initial = new DateTime('01/01/' . Yii::app()->user->year);
                 $final = new DateTime($schoolConfiguration->exam1);
                 break;
             case 2:
@@ -465,7 +465,7 @@ class Classroom extends AltActiveRecord
 
         $dates = [];
         foreach ($this->schedules as $schedule) {
-            $date = new DateTime($schedule->day . '-' . $schedule->month . '-' . yii::app()->user->year);
+            $date = new DateTime($schedule->day . '-' . $schedule->month . '-' . Yii::app()->user->year);
             if ($date > $initial && $date <= $final && $schedule->unavailable == 0) {
                 if (!in_array($date->format('Y-m-d'), $dates)) {
                     array_push($dates, $date->format('Y-m-d'));
@@ -480,11 +480,11 @@ class Classroom extends AltActiveRecord
     public function getWorkingHoursByExam($exam)
     {
         /* @var $schoolConfiguration SchoolConfiguration */
-        $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => yii::app()->user->school]);
+        $schoolConfiguration = SchoolConfiguration::model()->findByAttributes(['school_inep_id_fk' => Yii::app()->user->school]);
         $workingHours = 0;
         switch ($exam) {
             case 1:
-                $initial = new DateTime('01/01/' . yii::app()->user->year);
+                $initial = new DateTime('01/01/' . Yii::app()->user->year);
                 $final = new DateTime($schoolConfiguration->exam1);
                 break;
             case 2:
@@ -504,7 +504,7 @@ class Classroom extends AltActiveRecord
         }
 
         foreach ($this->schedules as $schedule) {
-            $date = new DateTime($schedule->day . '-' . $schedule->month . '-' . yii::app()->user->year);
+            $date = new DateTime($schedule->day . '-' . $schedule->month . '-' . Yii::app()->user->year);
             if ($date > $initial && $date <= $final && $schedule->unavailable == 0) {
                 $workingHours++;
             }

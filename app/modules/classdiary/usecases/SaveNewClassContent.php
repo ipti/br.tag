@@ -1,6 +1,6 @@
 <?php
 
-    yii::import('application.modules.classdiary.services.*');
+    Yii::import('application.modules.classdiary.services.*');
     /**
      * @property ClassesService $classesService
      */
