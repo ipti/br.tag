@@ -45,8 +45,7 @@ class TimesheetController extends Controller
                     'deleteSubstituteInstructorDay',
                     'getDisciplines',
                     'getFrequency',
-                    'fixBuggedUnavailableDaysFor2024'
-
+                    'fixBuggedUnavailableDaysFor2024',
                 ],
                 'users' => ['@'],
             ],
@@ -98,7 +97,7 @@ class TimesheetController extends Controller
                         'year' => $date->format('Y'),
                         'name' => yii::t('timesheetModule.timesheet', $calendarEvent['name']),
                         'icon' => $calendarEvent['icon'],
-                        'color' => $calendarEvent['color']
+                        'color' => $calendarEvent['color'],
                     ]);
                 }
             }
@@ -106,7 +105,7 @@ class TimesheetController extends Controller
 
             $curricularMatrixes = TimesheetCurricularMatrix::model()->findAll('stage_fk = :stage and school_year = :year', [
                 ':stage' => $classroom->edcenso_stage_vs_modality_fk,
-                ':year' => Yii::app()->user->year
+                ':year' => Yii::app()->user->year,
             ]);
             if (count($curricularMatrixes) !== 0) {
                 $response['disciplines'] = [];
@@ -131,14 +130,14 @@ class TimesheetController extends Controller
                         $response['softUnavailableDays'] = $this->getUnavailableDays($classroomId, false, 'soft');
 
                         $response['schedules'] = [];
-                        $vha = (object) \InstanceConfig::model()->findByAttributes(['parameter_key' => 'VHA']);
+                        $vha = (object) InstanceConfig::model()->findByAttributes(['parameter_key' => 'VHA']);
                         $hours = $vha['value'] / 60;
                         foreach ($schedules as $schedule) {
                             $instructorInfo = [
                                 'id' => null,
                                 'name' => 'Sem Instrutor',
                                 'unavailable' => false,
-                                'countConflicts' => 0
+                                'countConflicts' => 0,
                             ];
 
                             if (!$schedule->unavailable) {
@@ -159,9 +158,9 @@ class TimesheetController extends Controller
 
                     $calendar = $classroom->calendarFk;
 
-                    $begin = new Datetime($calendar->start_date);
+                    $begin = new DateTime($calendar->start_date);
                     $begin->modify('first day of this month');
-                    $end = new Datetime($calendar->end_date);
+                    $end = new DateTime($calendar->end_date);
                     $end->modify('first day of next month');
                     $interval = DateInterval::createFromDateString('1 month');
                     $period = new DatePeriod($begin, $interval, $end);
@@ -192,8 +191,8 @@ class TimesheetController extends Controller
         $classroom = Classroom::model()->findByPk($classroomId);
         $calendar = $classroom->calendarFk;
         if ($level == 'hard') {
-            $firstDay = new Datetime($calendar->start_date);
-            $lastDay = new Datetime($calendar->end_date);
+            $firstDay = new DateTime($calendar->start_date);
+            $lastDay = new DateTime($calendar->end_date);
             $unavailableEvents = Yii::app()->db->createCommand('select ce.start_date, ce.end_date from calendar_event as ce where ce.calendar_fk = :calendar_fk and ce.calendar_event_type_fk = 102')->bindParam(':calendar_fk', $calendar->id)->queryAll();
             $unavailableEventsArray = [];
             foreach ($unavailableEvents as $unavailableEvent) {
@@ -208,8 +207,8 @@ class TimesheetController extends Controller
                     }
                 }
             }
-            $begin = new Datetime($firstDay->format('Y-m') . '-01');
-            $end = new Datetime($lastDay->format('Y-m-d'));
+            $begin = new DateTime($firstDay->format('Y-m') . '-01');
+            $end = new DateTime($lastDay->format('Y-m-d'));
             $end->modify('last day of this month');
             $end->modify('+1 day');
             $interval = DateInterval::createFromDateString('1 day');
@@ -254,6 +253,7 @@ class TimesheetController extends Controller
                 }
             }
         }
+
         return $unavailableDays;
     }
 
@@ -284,7 +284,7 @@ class TimesheetController extends Controller
         if (!$hasFrequency && !$hasClassContent) {
             $curricularMatrix = TimesheetCurricularMatrix::model()->findAll('stage_fk = :stage and school_year = :year', [
                 ':stage' => $classroom->edcenso_stage_vs_modality_fk,
-                ':year' => Yii::app()->user->year
+                ':year' => Yii::app()->user->year,
             ]);
             if ($curricularMatrix != null) {
                 Schedule::model()->deleteAll('classroom_fk = :classroom', [':classroom' => $classroomId]);
@@ -321,7 +321,7 @@ class TimesheetController extends Controller
                     $disciplines[$i] = [
                         'discipline' => $cm->discipline_fk,
                         'instructor' => null,
-                        'credits' => $cm->credits
+                        'credits' => $cm->credits,
                     ];
                     $i++;
                 }
@@ -409,7 +409,7 @@ class TimesheetController extends Controller
         $schedule->save();
 
         $disciplines = [];
-        $vha = (object) \InstanceConfig::model()->findByAttributes(['parameter_key' => 'VHA']);
+        $vha = (object) InstanceConfig::model()->findByAttributes(['parameter_key' => 'VHA']);
         $hours = $vha['value'] / 60;
         array_push($disciplines, ['disciplineId' => $schedule->discipline_fk, 'workloadUsed' => $schedule->unavailable ? -$hours : $hours]);
         echo json_encode(['unavailable' => $schedule->unavailable, 'disciplines' => $disciplines]);
@@ -423,16 +423,16 @@ class TimesheetController extends Controller
         $calendar = $classroom->calendarFk;
         $finalDate = new DateTime($calendar->end_date);
 
-        $firstScheduleDate = new Datetime($_POST['firstSchedule']['year'] . '-' . str_pad($_POST['firstSchedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['firstSchedule']['day']);
-        $secondScheduleDate = new Datetime($_POST['secondSchedule']['year'] . '-' . str_pad($_POST['secondSchedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['secondSchedule']['day']);
+        $firstScheduleDate = new DateTime($_POST['firstSchedule']['year'] . '-' . str_pad($_POST['firstSchedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['firstSchedule']['day']);
+        $secondScheduleDate = new DateTime($_POST['secondSchedule']['year'] . '-' . str_pad($_POST['secondSchedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['secondSchedule']['day']);
         if (!$_POST['replicate']) {
-            $finalDate = new Datetime($_POST['firstSchedule']['year'] . '-' . str_pad($_POST['firstSchedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['firstSchedule']['day']);
+            $finalDate = new DateTime($_POST['firstSchedule']['year'] . '-' . str_pad($_POST['firstSchedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['firstSchedule']['day']);
         }
 
         $lastClassFaultDay = Yii::app()->db->createCommand('select s.* from class_faults as cf join schedule as s on cf.schedule_fk = s.id where s.classroom_fk = :id order by month DESC, day DESC limit 1')->bindParam(':id', $_POST['classroomId'])->queryRow();
         $lastClassContentDay = Yii::app()->db->createCommand('select s.* from class_contents as cc join schedule as s on cc.schedule_fk = s.id where s.classroom_fk = :id order by month DESC, day DESC limit 1')->bindParam(':id', $_POST['classroomId'])->queryRow();
-        $lastClassFaultDate = new Datetime($lastClassFaultDay['year'] . '-' . str_pad($lastClassFaultDay['month'], 2, '0', STR_PAD_LEFT) . '-' . str_pad($lastClassFaultDay['day'], 2, '0', STR_PAD_LEFT));
-        $lastClassContentDate = new Datetime($lastClassContentDay['year'] . '-' . str_pad($lastClassContentDay['month'], 2, '0', STR_PAD_LEFT) . '-' . str_pad($lastClassContentDay['day'], 2, '0', STR_PAD_LEFT));
+        $lastClassFaultDate = new DateTime($lastClassFaultDay['year'] . '-' . str_pad($lastClassFaultDay['month'], 2, '0', STR_PAD_LEFT) . '-' . str_pad($lastClassFaultDay['day'], 2, '0', STR_PAD_LEFT));
+        $lastClassContentDate = new DateTime($lastClassContentDay['year'] . '-' . str_pad($lastClassContentDay['month'], 2, '0', STR_PAD_LEFT) . '-' . str_pad($lastClassContentDay['day'], 2, '0', STR_PAD_LEFT));
 
         if (
             ($lastClassFaultDay == null || ($firstScheduleDate > $lastClassFaultDate && $secondScheduleDate > $lastClassFaultDate)) &&
@@ -446,7 +446,7 @@ class TimesheetController extends Controller
                 if ($firstSchedule != null && $secondSchedule != null) {
                     array_push($changes, [
                         'firstSchedule' => ['day' => $firstSchedule->day, 'month' => $firstSchedule->month, 'year' => $firstSchedule->year, 'schedule' => $firstSchedule->schedule],
-                        'secondSchedule' => ['day' => $secondSchedule->day, 'month' => $secondSchedule->month, 'year' => $secondSchedule->year, 'schedule' => $secondSchedule->schedule]
+                        'secondSchedule' => ['day' => $secondSchedule->day, 'month' => $secondSchedule->month, 'year' => $secondSchedule->year, 'schedule' => $secondSchedule->schedule],
                     ]);
 
                     $tmpDay = $secondSchedule->day;
@@ -481,7 +481,7 @@ class TimesheetController extends Controller
                     if ($secondSchedule != null) {
                         array_push($changes, [
                             'firstSchedule' => ['day' => $firstScheduleDate->format('j'), 'month' => $firstScheduleDate->format('n'), 'year' => $firstScheduleDate->format('Y'), 'schedule' => $_POST['firstSchedule']['schedule']],
-                            'secondSchedule' => ['day' => $secondSchedule->day, 'month' => $secondSchedule->month, 'year' => $secondSchedule->year, 'schedule' => $secondSchedule->schedule]
+                            'secondSchedule' => ['day' => $secondSchedule->day, 'month' => $secondSchedule->month, 'year' => $secondSchedule->year, 'schedule' => $secondSchedule->schedule],
                         ]);
 
                         $secondSchedule->day = $firstScheduleDate->format('j');
@@ -496,7 +496,7 @@ class TimesheetController extends Controller
                     } else {
                         array_push($changes, [
                             'firstSchedule' => ['day' => $firstSchedule->day, 'month' => $firstSchedule->month, 'year' => $firstSchedule->year, 'schedule' => $firstSchedule->schedule],
-                            'secondSchedule' => ['day' => $secondScheduleDate->format('j'), 'month' => $secondScheduleDate->format('n'), 'year' => $secondScheduleDate->format('Y'), 'schedule' => $_POST['secondSchedule']['schedule']]
+                            'secondSchedule' => ['day' => $secondScheduleDate->format('j'), 'month' => $secondScheduleDate->format('n'), 'year' => $secondScheduleDate->format('Y'), 'schedule' => $_POST['secondSchedule']['schedule']],
                         ]);
 
                         $firstSchedule->day = $secondScheduleDate->format('j');
@@ -570,7 +570,7 @@ class TimesheetController extends Controller
             echo CJSON::encode([
                 'valid' => false,
                 'lastClassFaultDate' => $lastClassFaultDay != null ? str_pad($lastClassFaultDay['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($lastClassFaultDay['month'], 2, '0', STR_PAD_LEFT) . '/' . $lastClassFaultDay['year'] : '',
-                'lastClassContentDate' => $lastClassContentDay != null ? str_pad($lastClassContentDay['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($lastClassContentDay['month'], 2, '0', STR_PAD_LEFT) . '/' . $lastClassContentDay['year'] : ''
+                'lastClassContentDate' => $lastClassContentDay != null ? str_pad($lastClassContentDay['day'], 2, '0', STR_PAD_LEFT) . '/' . str_pad($lastClassContentDay['month'], 2, '0', STR_PAD_LEFT) . '/' . $lastClassContentDay['year'] : '',
             ]);
         }
     }
@@ -584,11 +584,11 @@ class TimesheetController extends Controller
         $calendar = $classroom->calendarFk;
         $finalDate = new DateTime($calendar->end_date);
 
-        $selectedDate = new Datetime($_POST['schedule']['year'] . '-' . str_pad($_POST['schedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['schedule']['day']);
+        $selectedDate = new DateTime($_POST['schedule']['year'] . '-' . str_pad($_POST['schedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['schedule']['day']);
         if ($_POST['schedule']['hardUnavailableDaySelected'] || !$_POST['replicate']) {
-            $finalDate = new Datetime($_POST['schedule']['year'] . '-' . str_pad($_POST['schedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['schedule']['day']);
+            $finalDate = new DateTime($_POST['schedule']['year'] . '-' . str_pad($_POST['schedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['schedule']['day']);
         }
-        $vha = (object) \InstanceConfig::model()->findByAttributes(['parameter_key' => 'VHA']);
+        $vha = (object) InstanceConfig::model()->findByAttributes(['parameter_key' => 'VHA']);
         $hours = $vha['value'] / 60;
         for ($date = $selectedDate; $date <= $finalDate; $date->modify('+7 days')) {
             $schedule = Schedule::model()->findByAttributes(['classroom_fk' => $_POST['classroomId'], 'year' => $date->format('Y'), 'month' => $date->format('n'), 'day' => $date->format('j'), 'schedule' => $_POST['schedule']['schedule']]);
@@ -604,10 +604,10 @@ class TimesheetController extends Controller
                 }
 
                 if (!empty($schedule->classContents)) {
-                    //Verifica se o schedule a ser removido possui aula ministrada. Se possuir, vincula a aula ministrada ao próximo schedule
-                    //OBS1: Lembrando: a aula ministrada fica armazenada apenas no primeiro schedule do dia (ou da disciplina no fundamental maior)
-                    //OBS2: Para frequência não precisa, uma vez que o registro de frequência fica vinculado a todos os schedules do dia.
-                    //OBS3: No fundamental maior, a regra é a mesma, mas com filtro de disciplina
+                    // Verifica se o schedule a ser removido possui aula ministrada. Se possuir, vincula a aula ministrada ao próximo schedule
+                    // OBS1: Lembrando: a aula ministrada fica armazenada apenas no primeiro schedule do dia (ou da disciplina no fundamental maior)
+                    // OBS2: Para frequência não precisa, uma vez que o registro de frequência fica vinculado a todos os schedules do dia.
+                    // OBS3: No fundamental maior, a regra é a mesma, mas com filtro de disciplina
                     if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
                         $secondScheduleInTheDay = Schedule::model()->find(
                             'classroom_fk = :classroom_fk and year = :year and month = :month and day = :day and schedule != :schedule order by schedule',
@@ -616,7 +616,7 @@ class TimesheetController extends Controller
                                 'year' => $date->format('Y'),
                                 'month' => $date->format('n'),
                                 'day' => $date->format('j'),
-                                'schedule' => $_POST['schedule']['schedule']
+                                'schedule' => $_POST['schedule']['schedule'],
                             ]
                         );
                     } else {
@@ -628,7 +628,7 @@ class TimesheetController extends Controller
                                 'month' => $date->format('n'),
                                 'day' => $date->format('j'),
                                 'schedule' => $_POST['schedule']['schedule'],
-                                'discipline_fk' => $schedule->discipline_fk
+                                'discipline_fk' => $schedule->discipline_fk,
                             ]
                         );
                     }
@@ -659,11 +659,11 @@ class TimesheetController extends Controller
         $calendar = $classroom->calendarFk;
         $finalDate = new DateTime($calendar->end_date);
 
-        $selectedDate = new Datetime($_POST['schedule']['year'] . '-' . str_pad($_POST['schedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['schedule']['day']);
+        $selectedDate = new DateTime($_POST['schedule']['year'] . '-' . str_pad($_POST['schedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['schedule']['day']);
         if ($_POST['hardUnavailableDaySelected'] || !$_POST['replicate']) {
-            $finalDate = new Datetime($_POST['schedule']['year'] . '-' . str_pad($_POST['schedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['schedule']['day']);
+            $finalDate = new DateTime($_POST['schedule']['year'] . '-' . str_pad($_POST['schedule']['month'], 2, '0', STR_PAD_LEFT) . '-' . $_POST['schedule']['day']);
         }
-        $vha = (object) \InstanceConfig::model()->findByAttributes(['parameter_key' => 'VHA']);
+        $vha = (object) InstanceConfig::model()->findByAttributes(['parameter_key' => 'VHA']);
         $hours = $vha['value'] / 60;
         for ($date = $selectedDate; $date <= $finalDate; $date->modify('+7 days')) {
             if (!in_array($date->format('Y-m-d'), $hardUnavailableDays) || $_POST['hardUnavailableDaySelected']) {
@@ -694,8 +694,8 @@ class TimesheetController extends Controller
                     $schedule->save();
 
                     if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
-                        //Verifica quais alunos de fundamental menor tomou falta esse DIA. Nesse caso, para quem tomou, criar a falta também para esse schedule.
-                        //OBS: Para aulas ministradas não precisa, uma vez que o registro de aula ministrada fica vinculado apenas na primeira schedule do dia.
+                        // Verifica quais alunos de fundamental menor tomou falta esse DIA. Nesse caso, para quem tomou, criar a falta também para esse schedule.
+                        // OBS: Para aulas ministradas não precisa, uma vez que o registro de aula ministrada fica vinculado apenas na primeira schedule do dia.
                         $anyOtherScheduleInTheDay = Schedule::model()->findByAttributes(['classroom_fk' => $_POST['classroomId'], 'year' => $date->format('Y'), 'month' => $date->format('n'), 'day' => $date->format('j')], 'schedule != :schedule', [':schedule' => $_POST['schedule']['schedule']]);
                         if ($anyOtherScheduleInTheDay != null && !empty($anyOtherScheduleInTheDay->classFaults)) {
                             foreach ($anyOtherScheduleInTheDay->classFaults as $cf) {
@@ -715,7 +715,7 @@ class TimesheetController extends Controller
                         'schedule' => $schedule->schedule,
                         'disciplineId' => $schedule->discipline_fk,
                         'disciplineName' => $schedule->disciplineFk->name,
-                        'unavailable' => $schedule->unavailable
+                        'unavailable' => $schedule->unavailable,
                     ]);
                 }
             }
@@ -740,7 +740,7 @@ class TimesheetController extends Controller
             } catch (Exception $e) {
                 $transaction->rollback();
                 TLog::error('Erro durante a transação de AddSubstituteInstructorDay', [
-                    'ExceptionMessage' => $e->getMessage()
+                    'ExceptionMessage' => $e->getMessage(),
                 ]);
                 throw new Exception($e->getMessage(), 500, $e);
             }
@@ -764,7 +764,7 @@ class TimesheetController extends Controller
         $teachingData = InstructorTeachingData::model()->findByAttributes(
             [
                 'classroom_id_fk' => $schedule->classroom_fk,
-                'instructor_fk' => $instructor->id
+                'instructor_fk' => $instructor->id,
             ]
         );
 
@@ -772,7 +772,7 @@ class TimesheetController extends Controller
         $substituteInstructor = SubstituteInstructor::model()->findByAttributes(
             [
                 'instructor_fk' => $instructor->id,
-                'teaching_data_fk' => $teachingData->id
+                'teaching_data_fk' => $teachingData->id,
             ]
         );
 
@@ -791,8 +791,9 @@ class TimesheetController extends Controller
                 $schedule->substitute_instructor_fk = $substituteInstructor->id;
                 if ($schedule->save()) {
                     TLog::info('SubstituteInstructor atribuído a Schedule com sucesso', [
-                        'Schedule' => $schedule->id
+                        'Schedule' => $schedule->id,
                     ]);
+
                     return;
                 }
             }
@@ -803,7 +804,7 @@ class TimesheetController extends Controller
                         'classroom_fk' => $classroom->id,
                         'day' => $schedule->day,
                         'month' => $schedule->month,
-                        'year' => $schedule->year
+                        'year' => $schedule->year,
                     ]
                 );
 
@@ -811,21 +812,22 @@ class TimesheetController extends Controller
                     $scheduleUnique->substitute_instructor_fk = $substituteInstructor->id;
                     if ($scheduleUnique->save()) {
                         TLog::info('SubstituteInstructor atribuído a Schedule com sucesso', [
-                            'Schedule' => $schedule->id
+                            'Schedule' => $schedule->id,
                         ]);
                     }
                 }
+
                 return;
             }
 
             TLog::error('Erro: Falha na Atualização do schedule.', [
                 'Schedule' => $schedule->id,
-                'ErrorMessage' => $schedule->getErrors()
+                'ErrorMessage' => $schedule->getErrors(),
             ]);
         }
         TLog::error('Erro: Falha na atualização de substituteInstructor', [
             'SubstituteInstructor' => $substituteInstructor->id,
-            'ErrorMessage' => $substituteInstructor->getErrors()
+            'ErrorMessage' => $substituteInstructor->getErrors(),
         ]);
     }
 
@@ -839,14 +841,14 @@ class TimesheetController extends Controller
         $teachingData = InstructorTeachingData::model()->findByAttributes(
             [
                 'instructor_fk' => $instructor->id,
-                'classroom_id_fk' => $schedule->classroom_fk
+                'classroom_id_fk' => $schedule->classroom_fk,
             ]
         );
 
         $substituteInstructor = SubstituteInstructor::model()->findByAttributes(
             [
                 'instructor_fk' => $instructor->id,
-                'teaching_data_fk' => $teachingData->id
+                'teaching_data_fk' => $teachingData->id,
             ]
         );
 
@@ -866,7 +868,7 @@ class TimesheetController extends Controller
                         'classroom_fk' => $classroom->id,
                         'day' => $schedule->day,
                         'month' => $schedule->month,
-                        'year' => $schedule->year
+                        'year' => $schedule->year,
                     ]
                 );
 
@@ -890,7 +892,7 @@ class TimesheetController extends Controller
             // Verificar se ainda existe algum schedule com a chave do registro de professor substituto para aquela turma
             $allSchedules = Schedule::model()->findAllByAttributes(
                 [
-                    'substitute_instructor_fk' => $substituteInstructor->id
+                    'substitute_instructor_fk' => $substituteInstructor->id,
                 ]
             );
 
@@ -907,7 +909,7 @@ class TimesheetController extends Controller
         } catch (Exception $e) {
             $transaction->rollback();
             TLog::error('Erro durante a transação de DeleteSubstituteInstructorDay', [
-                'ExceptionMessage' => $e->getMessage()
+                'ExceptionMessage' => $e->getMessage(),
             ]);
             throw new Exception($e->getMessage(), 500, $e);
         }
@@ -932,7 +934,7 @@ class TimesheetController extends Controller
                     'classroom' => $classroom->id,
                     'year' => Yii::app()->request->getPost('year'),
                     'month' => Yii::app()->request->getPost('month'),
-                    'discipline_fk' => Yii::app()->request->getPost('discipline')
+                    'discipline_fk' => Yii::app()->request->getPost('discipline'),
                 ]
             );
         }
@@ -943,7 +945,7 @@ class TimesheetController extends Controller
                 [
                     'classroom_fk' => Yii::app()->request->getPost('classroom'),
                     'year' => Yii::app()->request->getPost('year'),
-                    'month' => Yii::app()->request->getPost('month')
+                    'month' => Yii::app()->request->getPost('month'),
                 ]
             );
         }
@@ -1000,8 +1002,8 @@ class TimesheetController extends Controller
                         [
                             'option',
                             [
-                                'value' => $discipline['id']
-                            ]
+                                'value' => $discipline['id'],
+                            ],
                         ],
                         CHtml::encode($disciplinesLabels[$discipline['id']]),
                         true
@@ -1036,7 +1038,7 @@ class TimesheetController extends Controller
 
         $response = [
             'isMinor' => $isMinor,
-            'disciplines' => $htmlOptions
+            'disciplines' => $htmlOptions,
         ];
 
         echo json_encode($response);
@@ -1050,7 +1052,7 @@ class TimesheetController extends Controller
         $teachingData = InstructorTeachingData::model()->findAllByAttributes(
             [
                 'classroom_id_fk' => $classroom->id,
-                'role' => 9
+                'role' => 9,
             ]
         );
 
@@ -1078,10 +1080,12 @@ class TimesheetController extends Controller
             case 0:
                 $day = ($day < 10) ? '0' . $day : $day;
                 $month = ($month < 10) ? '0' . $month : $month;
+
                 return $day . '/' . $month . '/' . $year;
             case 1:
                 $day = ($day < 10) ? '0' . $day : $day;
                 $month = ($month < 10) ? '0' . $month : $month;
+
                 return $day . '-' . $month . '-' . $year;
             default:
                 break;
@@ -1090,13 +1094,13 @@ class TimesheetController extends Controller
 
     public function actionFixBuggedUnavailableDaysFor2024()
     {
-        //Nessa função, precisa-se passar em cada schedule de 2024 e verificar se o dia está indisponível (coluna unavailable = 1) quando, na verdade, ele está disponível
-        //O erro surgiu quando o usuário chamava o método chanceEvent no calendário e trocava um evento de feriado/férias por um evento útil. Naquele algoritmo, ele não trocava a flag de unavailable de 1 para 0.
-        //Isso foi resolvido a nível de código, mas os problemas que já existiam no banco continuaram.
-        //Esse algoritmo, em resumo, considerará o dia disponível quando estiver:
-        //(I) entre a data de início e fim do calendário; e
-        //(II) fora de um intervalo marcado como feriado, férias ou ponto facultativo.
-        //OBS: ESSE ERRO FOI DESCOBERTO PORQUE TINHA DIAS DE AULA NO QUADRO DE HORÁRIO QUE NÃO CONSTAVAM EM AULAS MINISTRADAS. VERIFICOU-SE QUE AS AULAS DAQUELE DIA, APESAR DE ÚTIL, ESTAVAM MARCADAS COMO UNAVAILABLE
+        // Nessa função, precisa-se passar em cada schedule de 2024 e verificar se o dia está indisponível (coluna unavailable = 1) quando, na verdade, ele está disponível
+        // O erro surgiu quando o usuário chamava o método chanceEvent no calendário e trocava um evento de feriado/férias por um evento útil. Naquele algoritmo, ele não trocava a flag de unavailable de 1 para 0.
+        // Isso foi resolvido a nível de código, mas os problemas que já existiam no banco continuaram.
+        // Esse algoritmo, em resumo, considerará o dia disponível quando estiver:
+        // (I) entre a data de início e fim do calendário; e
+        // (II) fora de um intervalo marcado como feriado, férias ou ponto facultativo.
+        // OBS: ESSE ERRO FOI DESCOBERTO PORQUE TINHA DIAS DE AULA NO QUADRO DE HORÁRIO QUE NÃO CONSTAVAM EM AULAS MINISTRADAS. VERIFICOU-SE QUE AS AULAS DAQUELE DIA, APESAR DE ÚTIL, ESTAVAM MARCADAS COMO UNAVAILABLE
         $classrooms = Classroom::model()->findAll('school_year = 2024');
         foreach ($classrooms as $classroom) {
             $calendar = $classroom->calendarFk;
@@ -1110,7 +1114,7 @@ class TimesheetController extends Controller
                         foreach ($calendar->calendarEvents as $calendarEvent) {
                             if ($calendarEvent->calendar_event_type_fk == 101 || $calendarEvent->calendar_event_type_fk == 102 || $calendarEvent->calendar_event_type_fk == 104) {
                                 if (str_replace(' 00:00:00', '', $calendarEvent->start_date) >= $scheduleDate && str_replace(' 00:00:00', '', $calendarEvent->end_date) <= $scheduleDate) {
-                                    //Ao entrar aqui, a schedule está dentro do calendário letivo e não está em nenhum dia de feriado, férias ou ponto facultativo. Deve-se mudar a flag de unavailable de 1 para 0.
+                                    // Ao entrar aqui, a schedule está dentro do calendário letivo e não está em nenhum dia de feriado, férias ou ponto facultativo. Deve-se mudar a flag de unavailable de 1 para 0.
                                     $mustRemoveUnavailable = true;
                                     break;
                                 }
@@ -1122,7 +1126,6 @@ class TimesheetController extends Controller
                     }
                 }
             }
-            ;
         }
         var_dump('Fim de código');
     }

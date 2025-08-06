@@ -48,7 +48,7 @@ class ReportsController extends Controller
                 'schoolCity' => $schoolCity,
                 'nutritionalValue' => $nutritionalValue,
                 'include_saturday' => $includeSatruday,
-                'stagesNames' => $stagesNames
+                'stagesNames' => $stagesNames,
             ]
         );
     }

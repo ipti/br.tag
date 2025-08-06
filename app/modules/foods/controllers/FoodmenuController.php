@@ -96,7 +96,7 @@ class FoodmenuController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -153,7 +153,7 @@ class FoodmenuController extends Controller
             $modelFoodMenu->include_saturday = intval($request['include_saturday']);
             $modelFoodMenu->save();
 
-            //atualiza FoodMenuvVsPublicTarget
+            // atualiza FoodMenuvVsPublicTarget
             $foodMenuVsPublicTarget = FoodMenuVsFoodPublicTarget::model()
                 ->findByAttributes(['food_menu_fk' => $modelFoodMenu->id]);
             $publicTarget = FoodPublicTarget::model()->findByPk($request['food_public_target']);
@@ -204,13 +204,14 @@ class FoodmenuController extends Controller
     {
         $foods = Food::model()->findAll(
             [
-                'select' => 'id, description'
+                'select' => 'id, description',
             ]
         );
         $resultArray = [];
         foreach ($foods as $food) {
             $resultArray[$food->id] = $food->description;
         }
+
         return $resultArray;
     }
 
@@ -233,7 +234,7 @@ class FoodmenuController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -272,7 +273,7 @@ class FoodmenuController extends Controller
 
     /**
      * Essa função deve retornar um objeto com todas as refeições em todos os cardápios
-     * cadastrados para cada um dos dias da semana, onde a semana será baseada no dia atual
+     * cadastrados para cada um dos dias da semana, onde a semana será baseada no dia atual.
      */
     public function actionViewLunch()
     {
@@ -308,7 +309,7 @@ class FoodmenuController extends Controller
         $this->render(
             'viewlunch',
             [
-                'studentsByTurn' => $result
+                'studentsByTurn' => $result,
             ]
         );
         Yii::app()->end();
@@ -331,7 +332,7 @@ class FoodmenuController extends Controller
         $dataProvider = new CActiveDataProvider(
             'FoodMenu',
             [
-                'pagination' => false
+                'pagination' => false,
             ]
         );
 
@@ -365,7 +366,7 @@ class FoodmenuController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return FoodMenu the loaded model
      * @throws CHttpException
      */
@@ -375,6 +376,7 @@ class FoodmenuController extends Controller
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -391,13 +393,13 @@ class FoodmenuController extends Controller
     }
 
     /**
-     * Método que retorna os públicos alvos que podem estar relacionados a um cardápio
+     * Método que retorna os públicos alvos que podem estar relacionados a um cardápio.
      */
     public function actionGetPublicTarget()
     {
         $publicsTarget = FoodPublicTarget::model()->findAll(
             [
-                'select' => 'id, name'
+                'select' => 'id, name',
             ]
         );
         $resultArray = [];
@@ -408,7 +410,7 @@ class FoodmenuController extends Controller
     }
 
     /**
-     * Método que retorna os tipos de refeição
+     * Método que retorna os tipos de refeição.
      */
     public function actionGetMealType()
     {
@@ -426,11 +428,12 @@ class FoodmenuController extends Controller
                 )
             );
         }
+
         return $options;
     }
 
     /**
-     * Método que retorna os tipos de medidas que podem ser utilizadas ao cadastrar um ingrediente a um prato
+     * Método que retorna os tipos de medidas que podem ser utilizadas ao cadastrar um ingrediente a um prato.
      */
     public function actionGetFoodMeasurement()
     {
@@ -443,10 +446,11 @@ class FoodmenuController extends Controller
                     'id' => $foodMeasurement->id,
                     'unit' => $foodMeasurement->unit,
                     'value' => $foodMeasurement->value,
-                    'measure' => $foodMeasurement->measure
+                    'measure' => $foodMeasurement->measure,
                 ]
             );
         }
+
         return $options;
     }
 }

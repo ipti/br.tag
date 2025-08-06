@@ -74,48 +74,56 @@ class InDocumentos implements JsonSerializable
     public function setInNumRg(?string $inNumRG): self
     {
         $this->inNumRG = $inNumRG;
+
         return $this;
     }
 
     public function setInDigitoRg(?string $inDigitoRG): self
     {
         $this->inDigitoRG = $inDigitoRG;
+
         return $this;
     }
 
     public function setInUfrg(?string $inUFRG): self
     {
         $this->inUFRG = $inUFRG;
+
         return $this;
     }
 
     public function setInCpf(?string $inCPF): self
     {
         $this->inCPF = $inCPF;
+
         return $this;
     }
 
     public function setInNumNis(?string $inNumNIS): self
     {
         $this->inNumNIS = $inNumNIS;
+
         return $this;
     }
 
     public function setInNumInep(?string $inNumINEP): self
     {
         $this->inNumINEP = $inNumINEP;
+
         return $this;
     }
 
     public function setInNumCertidaoNova(?string $inNumCertidaoNova): self
     {
         $this->inNumCertidaoNova = $inNumCertidaoNova;
+
         return $this;
     }
 
     public function setCertidaoNasc(?CertidaoNasc $CertidaoNasc): self
     {
         $this->CertidaoNasc = $CertidaoNasc;
+
         return $this;
     }
 

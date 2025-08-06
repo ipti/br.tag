@@ -10,7 +10,7 @@ class DashboardService
         $clientId = getenv('CLIENT_ID_POWER_BI');
 
         $headers = [
-            'Content-Type: application/x-www-form-urlencoded'
+            'Content-Type: application/x-www-form-urlencoded',
         ];
 
         $formData = [
@@ -19,7 +19,7 @@ class DashboardService
             'resource' => 'https://analysis.windows.net/powerbi/api',
             'scope' => 'openid',
             'username' => $username,
-            'password' => $pss
+            'password' => $pss,
         ];
 
         $ch = curl_init($url);
@@ -34,10 +34,11 @@ class DashboardService
         curl_close($ch);
 
         if ($error) {
-            die('Erro ao obter o token de acesso: ' . $error);
+            exit('Erro ao obter o token de acesso: ' . $error);
         }
 
         $bodyObj = json_decode($response, true);
+
         // echo 'Access Token: ' . $bodyObj['access_token'];
         return $bodyObj['access_token'];
     }
@@ -48,11 +49,11 @@ class DashboardService
 
         $headers = [
             'Content-Type: application/x-www-form-urlencoded',
-            'Authorization: Bearer ' . $accessToken
+            'Authorization: Bearer ' . $accessToken,
         ];
 
         $formData = [
-            'accessLevel' => 'view'
+            'accessLevel' => 'view',
         ];
 
         $ch = curl_init($url);
@@ -67,10 +68,11 @@ class DashboardService
         curl_close($ch);
 
         if ($error) {
-            die('Erro ao obter o token de inserção do relatório: ' . $error);
+            exit('Erro ao obter o token de inserção do relatório: ' . $error);
         }
 
         $bodyObj = json_decode($response, true);
+
         // echo 'Embed Token: ' . $bodyObj['token'];
         return $bodyObj['token'];
     }
@@ -79,6 +81,7 @@ class DashboardService
     {
         $accessToken = $this->getAccessToken();
         $embedToken = $this->getReportEmbedToken($accessToken, $groupId, $reportId);
+
         return $embedToken;
         // echo "Renderizar página com os parâmetros necessários.";
         // Lógica para renderizar a página com os parâmetros necessários

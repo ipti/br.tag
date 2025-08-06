@@ -64,7 +64,7 @@ class CurricularmatrixController extends Controller
                         [
                             ':stage' => $stage,
                             ':discipline' => $discipline,
-                            ':year' => Yii::app()->user->year
+                            ':year' => Yii::app()->user->year,
                         ]
                     );
                     $logSituation = 'U';
@@ -74,7 +74,7 @@ class CurricularmatrixController extends Controller
                             [
                                 'stage_fk' => $stage,
                                 'discipline_fk' => $discipline,
-                                'school_year' => Yii::app()->user->year
+                                'school_year' => Yii::app()->user->year,
                             ]
                         );
                         $logSituation = 'C';
@@ -136,15 +136,16 @@ class CurricularmatrixController extends Controller
         if ($return === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $return;
     }
 
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
-    //@done s1 - excluir Matrix Curricular
+    // @done s1 - excluir Matrix Curricular
     public function actionDelete($id, $confirm = 0)
     {
         $curricularMatrix = $this->loadModel($id, $this->MODEL_CURRICULAR_MATRIX);

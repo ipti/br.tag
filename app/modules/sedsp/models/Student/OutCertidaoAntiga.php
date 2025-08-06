@@ -58,43 +58,47 @@ class OutCertidaoAntiga
     public function setOutNumCertidao(?string $outNumCertidao): self
     {
         $this->outNumCertidao = $outNumCertidao;
+
         return $this;
     }
 
     public function setOutNumLivroReg(?string $outNumLivroReg): self
     {
         $this->outNumLivroReg = $outNumLivroReg;
+
         return $this;
     }
 
     public function setOutFolhaRegNum(?string $outFolhaRegNum): self
     {
         $this->outFolhaRegNum = $outFolhaRegNum;
+
         return $this;
     }
 
     public function setOutNomeMunComarca(?string $outNomeMunComarca): self
     {
         $this->outNomeMunComarca = $outNomeMunComarca;
+
         return $this;
     }
 
     public function setOutUfComarca(?string $outUFComarca): self
     {
         $this->outUFComarca = $outUFComarca;
+
         return $this;
     }
 
     public function setOutDistritoNasc(?string $outDistritoNasc): self
     {
         $this->outDistritoNasc = $outDistritoNasc;
+
         return $this;
     }
 
     /**
-     * Summary of fromJson
-     * @param array $data
-     * @return self
+     * Summary of fromJson.
      */
     public static function fromJson(array $data): self
     {

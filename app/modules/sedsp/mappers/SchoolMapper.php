@@ -6,8 +6,7 @@ class SchoolMapper
     private const CODIGO_UF = '35';
 
     /**
-     * Summary of parseToTAGSchool
-     * @param OutEscola $outEscola
+     * Summary of parseToTAGSchool.
      * @return array<SchoolIdentification>
      */
     public static function parseToTAGSchool(OutEscola $outEscola)
@@ -72,6 +71,7 @@ class SchoolMapper
         if (strlen($sedInepId) < 6) {
             return self::CODIGO_UF . '0' . $sedInepId;
         }
+
         return self::CODIGO_UF . $sedInepId;
     }
 

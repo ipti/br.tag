@@ -5,8 +5,7 @@ namespace SagresEdu;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * Class representing CardapioTType
- *
+ * Class representing CardapioTType.
  *
  * XSD Type: cardapio_t
  */
@@ -37,6 +36,7 @@ class CardapioTType
     public function setData(\DateTime $data): self
     {
         $this->data = $data;
+
         return $this;
     }
 
@@ -48,6 +48,7 @@ class CardapioTType
     public function setTurno(int $turno): self
     {
         $this->turno = $turno;
+
         return $this;
     }
 
@@ -59,6 +60,7 @@ class CardapioTType
     public function setDescricaoMerenda(string $descricaoMerenda): self
     {
         $this->descricaoMerenda = $descricaoMerenda;
+
         return $this;
     }
 
@@ -70,6 +72,7 @@ class CardapioTType
     public function setAjustado(bool $ajustado): self
     {
         $this->ajustado = $ajustado;
+
         return $this;
     }
 }

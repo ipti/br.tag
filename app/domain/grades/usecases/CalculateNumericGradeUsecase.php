@@ -75,7 +75,7 @@ class CalculateNumericGradeUsecase
                 foreach ($gradesRecoveries as $key => $gradeRecoveryAndUnities) {
                     if ($gradeRecoveryAndUnities['partialRecovery']->id == $gradeUnity->parcialRecoveryFk->id) {
                         $exist = true;
-                        array_push($gradesRecoveries[$key]['unities'], ($index + 1));
+                        array_push($gradesRecoveries[$key]['unities'], $index + 1);
                     }
                 }
                 if (!$exist) {
@@ -85,11 +85,11 @@ class CalculateNumericGradeUsecase
         }
 
         if ($unitiesSem1 != 0) {
-            $gradeResult['sem_avarage_1'] = is_nan(($semAvarage1 / $unitiesSem1) ?? NAN) ? null : round(($semAvarage1 / $unitiesSem1), 1);
+            $gradeResult['sem_avarage_1'] = is_nan(($semAvarage1 / $unitiesSem1) ?? NAN) ? null : round($semAvarage1 / $unitiesSem1, 1);
         }
 
         if ($unitiesSem2 != 0) {
-            $gradeResult['sem_avarage_2'] = is_nan(($semAvarage2 / $unitiesSem2) ?? NAN) ? null : round(($semAvarage2 / $unitiesSem2), 1);
+            $gradeResult['sem_avarage_2'] = is_nan(($semAvarage2 / $unitiesSem2) ?? NAN) ? null : round($semAvarage2 / $unitiesSem2, 1);
         }
         $gradeResult = $this->calculatePartialRecovery($gradeResult, $studentEnrollment, $discipline, $gradesRecoveries);
 
@@ -97,7 +97,7 @@ class CalculateNumericGradeUsecase
         $gradeResult->setAttribute('situation', null);
         if ($gradeResult->save()) {
             TLog::info('GradeResult para nota numérica salvo com sucesso.', [
-                'GradeResult' => $gradeResult->id
+                'GradeResult' => $gradeResult->id,
             ]);
         }
 
@@ -138,6 +138,7 @@ class CalculateNumericGradeUsecase
     {
         $unityMedia = $this->calculateUnityMedia($studentEnrollment, $discipline, $unity);
         $gradeResult['grade_' . ($index + 1)] = is_nan($unityMedia ?? NAN) ? '' : round($unityMedia, 1);
+
         return $gradeResult;
     }
 
@@ -148,6 +149,7 @@ class CalculateNumericGradeUsecase
         $gradeWithRecovery = [(float) $unityMedia, (float) $recoveryGrade->grade];
         $finalUnityMedia = max($gradeWithRecovery);
         $gradeResult['grade_' . ($index + 1)] = is_nan($finalUnityMedia ?? NAN) ? '' : $finalUnityMedia;
+
         return $gradeResult;
     }
 
@@ -174,7 +176,7 @@ class CalculateNumericGradeUsecase
         return Grade::model()->find(
             [
                 'condition' => 'id =  :id',
-                'params' => [':id' => $gradesIds[0]]
+                'params' => [':id' => $gradesIds[0]],
             ]
         );
     }
@@ -217,7 +219,7 @@ class CalculateNumericGradeUsecase
             'enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk',
             [
                 'enrollment_fk' => $studentEnrollmentId,
-                'discipline_fk' => $disciplineId
+                'discipline_fk' => $disciplineId,
             ]
         );
 
@@ -247,7 +249,7 @@ class CalculateNumericGradeUsecase
         $gradePartialRecovery = Grade::model()->findByAttributes([
             'enrollment_fk' => $enrollment->id,
             'discipline_fk' => $disciplineId,
-            'grade_partial_recovery_fk' => $partialRecovery->id
+            'grade_partial_recovery_fk' => $partialRecovery->id,
         ]);
         if ($calculationName == 'Média Semestral') {
             $semester = GradeUnity::model()->findByAttributes(['parcial_recovery_fk' => $partialRecovery->id])->semester;
@@ -287,6 +289,7 @@ class CalculateNumericGradeUsecase
             $unity->id
         );
         $isRecovery = false;
+
         return $this->applyStrategyComputeGradesByFormula($unity->gradeCalculationFk->name, $unity, array_column($grades, 'grade'), $isRecovery);
     }
 
@@ -298,6 +301,7 @@ class CalculateNumericGradeUsecase
             $unity->id
         );
         $isRecovery = false;
+
         return $this->applyStrategyComputeGradesByFormula($unity->gradeCalculationFk->name, $unity, [$grades->grade], $isRecovery);
     }
 
@@ -319,6 +323,7 @@ class CalculateNumericGradeUsecase
                 $result = array_reduce($grades, function ($acc, $grade) {
                     /** @var Grade $grade */
                     $acc += floatval($grade);
+
                     return $acc;
                 });
                 break;
@@ -326,6 +331,7 @@ class CalculateNumericGradeUsecase
                 $finalGrade = array_reduce($grades, function ($acc, $grade) {
                     /** @var Grade $grade */
                     $acc += floatval($grade);
+
                     return $acc;
                 });
                 $result = round($finalGrade / sizeof($grades), 2);

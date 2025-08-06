@@ -35,7 +35,7 @@ class DefaultController extends Controller
                     'getAeeRecord',
                     'checkStudentAeeRecord',
                     'delete',
-                    'admin'
+                    'admin',
                 ],
                 'users' => ['@'],
             ],
@@ -63,7 +63,7 @@ class DefaultController extends Controller
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -216,7 +216,7 @@ class DefaultController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -246,12 +246,12 @@ class DefaultController extends Controller
                             'condition' => 'classroomFk.school_inep_fk=:schoolId and classroomFk.school_year = :schoolYear',
                             'params' => [
                                 ':schoolId' => Yii::app()->user->school,
-                                ':schoolYear' => Yii::app()->user->year
+                                ':schoolYear' => Yii::app()->user->year,
                             ],
                         ],
                     ],
                 ],
-                'pagination' => false
+                'pagination' => false,
             ]);
         } else {
             $dataProvider = new CActiveDataProvider('StudentAeeRecord', [
@@ -262,12 +262,12 @@ class DefaultController extends Controller
                             'condition' => 'classroomFk.school_inep_fk=:schoolId and classroomFk.school_year = :schoolYear',
                             'params' => [
                                 ':schoolId' => Yii::app()->user->school,
-                                ':schoolYear' => Yii::app()->user->year
+                                ':schoolYear' => Yii::app()->user->year,
                             ],
                         ],
                     ],
                 ],
-                'pagination' => false
+                'pagination' => false,
             ]);
         }
 
@@ -291,7 +291,7 @@ class DefaultController extends Controller
                     ],
                 ],
             ],
-            'pagination' => false
+            'pagination' => false,
         ]);
 
         $this->render('admin', [
@@ -302,7 +302,7 @@ class DefaultController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return StudentAeeRecord the loaded model
      * @throws CHttpException
      */
@@ -312,6 +312,7 @@ class DefaultController extends Controller
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 

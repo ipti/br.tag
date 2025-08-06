@@ -154,108 +154,126 @@ class InDiasDaSemana implements JsonSerializable
     public function setInFlagSegunda(?string $inFlagSegunda): self
     {
         $this->inFlagSegunda = $inFlagSegunda;
+
         return $this;
     }
 
     public function setInHoraIniAulaSegunda(?string $inHoraIniAulaSegunda): self
     {
         $this->inHoraIniAulaSegunda = $inHoraIniAulaSegunda;
+
         return $this;
     }
 
     public function setInHoraFimAulaSegunda(?string $inHoraFimAulaSegunda): self
     {
         $this->inHoraFimAulaSegunda = $inHoraFimAulaSegunda;
+
         return $this;
     }
 
     public function setInFlagTerca(?string $inFlagTerca): self
     {
         $this->inFlagTerca = $inFlagTerca;
+
         return $this;
     }
 
     public function setInHoraIniAulaTerca(?string $inHoraIniAulaTerca): self
     {
         $this->inHoraIniAulaTerca = $inHoraIniAulaTerca;
+
         return $this;
     }
 
     public function setInHoraFimAulaTerca(?string $inHoraFimAulaTerca): self
     {
         $this->inHoraFimAulaTerca = $inHoraFimAulaTerca;
+
         return $this;
     }
 
     public function setInFlagQuarta(?string $inFlagQuarta): self
     {
         $this->inFlagQuarta = $inFlagQuarta;
+
         return $this;
     }
 
     public function setInHoraIniAulaQuarta(?string $inHoraIniAulaQuarta): self
     {
         $this->inHoraIniAulaQuarta = $inHoraIniAulaQuarta;
+
         return $this;
     }
 
     public function setInHoraFimAulaQuarta(?string $inHoraFimAulaQuarta): self
     {
         $this->inHoraFimAulaQuarta = $inHoraFimAulaQuarta;
+
         return $this;
     }
 
     public function setInFlagQuinta(?string $inFlagQuinta): self
     {
         $this->inFlagQuinta = $inFlagQuinta;
+
         return $this;
     }
 
     public function setInHoraIniAulaQuinta(?string $inHoraIniAulaQuinta): self
     {
         $this->inHoraIniAulaQuinta = $inHoraIniAulaQuinta;
+
         return $this;
     }
 
     public function setInHoraFimAulaQuinta(?string $inHoraFimAulaQuinta): self
     {
         $this->inHoraFimAulaQuinta = $inHoraFimAulaQuinta;
+
         return $this;
     }
 
     public function setInFlagSexta(?string $inFlagSexta): self
     {
         $this->inFlagSexta = $inFlagSexta;
+
         return $this;
     }
 
     public function setInHoraIniAulaSexta(?string $inHoraIniAulaSexta): self
     {
         $this->inHoraIniAulaSexta = $inHoraIniAulaSexta;
+
         return $this;
     }
 
     public function setInHoraFimAulaSexta(?string $inHoraFimAulaSexta): self
     {
         $this->inHoraFimAulaSexta = $inHoraFimAulaSexta;
+
         return $this;
     }
 
     public function setInFlagSabado(?string $inFlagSabado): self
     {
         $this->inFlagSabado = $inFlagSabado;
+
         return $this;
     }
 
     public function setInHoraIniAulaSabado(?string $inHoraIniAulaSabado): self
     {
         $this->inHoraIniAulaSabado = $inHoraIniAulaSabado;
+
         return $this;
     }
 
     public function setInHoraFimAulaSabado(?string $inHoraFimAulaSabado): self
     {
         $this->inHoraFimAulaSabado = $inHoraFimAulaSabado;
+
         return $this;
     }
 

@@ -3,9 +3,9 @@
 /**
  * @property GradeResults $gradeResult
  * @property GradeRules $gradeRule
- * @property integer $numUnities
- * @property integer $frequency
- * @property integer $stage
+ * @property int $numUnities
+ * @property int $frequency
+ * @property int $stage
  */
 class ChageStudentStatusByGradeUsecase
 {
@@ -37,12 +37,14 @@ class ChageStudentStatusByGradeUsecase
         if (!$this->isEnrollmentStatusAllowed($enrollment)) {
             $this->gradeResult->situation = $enrollment->getCurrentStatus();
             $this->gradeResult->save();
+
             return;
         }
 
         if (!$this->hasAllGrades()) {
             $this->gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
             $this->gradeResult->save();
+
             return;
         }
 
@@ -63,8 +65,9 @@ class ChageStudentStatusByGradeUsecase
             null,
             StudentEnrollment::STATUS_ACTIVE,
             StudentEnrollment::STATUS_APPROVED,
-            StudentEnrollment::STATUS_DISAPPROVED
+            StudentEnrollment::STATUS_DISAPPROVED,
         ];
+
         return in_array($enrollment->getCurrentStatus(), $allowedStatus);
     }
 
@@ -78,6 +81,7 @@ class ChageStudentStatusByGradeUsecase
                 return false;
             }
         }
+
         return true;
     }
 

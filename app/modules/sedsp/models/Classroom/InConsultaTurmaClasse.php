@@ -12,7 +12,7 @@ class InConsultaTurmaClasse implements JsonSerializable
     }
 
     /**
-     * Get the value of inAnoLetivo
+     * Get the value of inAnoLetivo.
      */
     public function getInAnoLetivo()
     {
@@ -20,7 +20,7 @@ class InConsultaTurmaClasse implements JsonSerializable
     }
 
     /**
-     * Set the value of inAnoLetivo
+     * Set the value of inAnoLetivo.
      */
     public function setInAnoLetivo($inAnoLetivo): self
     {
@@ -30,7 +30,7 @@ class InConsultaTurmaClasse implements JsonSerializable
     }
 
     /**
-     * Get the value of inNumClasse
+     * Get the value of inNumClasse.
      */
     public function getInNumClasse()
     {
@@ -38,7 +38,7 @@ class InConsultaTurmaClasse implements JsonSerializable
     }
 
     /**
-     * Set the value of inNumClasse
+     * Set the value of inNumClasse.
      */
     public function setInNumClasse($inNumClasse): self
     {

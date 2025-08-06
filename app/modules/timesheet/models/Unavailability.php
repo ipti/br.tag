@@ -4,16 +4,15 @@
      * This is the model class for table "unavailability".
      *
      * The followings are the available columns in table 'unavailability':
-     * @property integer $id
-     * @property integer $instructor_school_fk
-     * @property integer $week_day
+     * @property int $id
+     * @property int $instructor_school_fk
+     * @property int $week_day
      * @property string $schedule
      * @property string $turn
      *
      * The followings are the available model relations:
      * @property InstructorIdentification $instructorSchoolFk
      */
-
     class Unavailability extends TagModel
     {
         /**
@@ -25,7 +24,7 @@
         }
 
         /**
-         * @return array validation rules for model attributes.
+         * @return array validation rules for model attributes
          */
         public function rules()
         {
@@ -41,7 +40,7 @@
         }
 
         /**
-         * @return array relational rules.
+         * @return array relational rules
          */
         public function relations()
         {
@@ -76,7 +75,7 @@
          * - Pass data provider to CGridView, CListView or any similar widget.
          *
          * @return CActiveDataProvider the data provider that can return the models
-         * based on the search/filter conditions.
+         * based on the search/filter conditions
          */
         public function search()
         {
@@ -98,7 +97,7 @@
         /**
          * Returns the static model of the specified AR class.
          * Please note that you should have this exact method in all your CActiveRecord descendants!
-         * @param string $className active record class name.
+         * @param string $className active record class name
          * @return Unavailability the static model class
          */
         public static function model($className = __CLASS__)

@@ -5,8 +5,7 @@ namespace SagresEdu;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * Class representing MatriculaTType
- *
+ * Class representing MatriculaTType.
  *
  * XSD Type: matricula_t
  */
@@ -48,6 +47,7 @@ class MatriculaTType
     public function setEnrollmentStage(?int $enrollment_stage): self
     {
         $this->enrollment_stage = $enrollment_stage;
+
         return $this;
     }
 
@@ -59,6 +59,7 @@ class MatriculaTType
     public function setNumero(string $numero): self
     {
         $this->numero = $numero;
+
         return $this;
     }
 
@@ -70,6 +71,7 @@ class MatriculaTType
     public function setDataMatricula(\DateTime $dataMatricula): self
     {
         $this->dataMatricula = $dataMatricula;
+
         return $this;
     }
 
@@ -81,6 +83,7 @@ class MatriculaTType
     public function setDataCancelamento(?\DateTime $dataCancelamento): self
     {
         $this->dataCancelamento = $dataCancelamento;
+
         return $this;
     }
 
@@ -92,6 +95,7 @@ class MatriculaTType
     public function setNumeroFaltas(int $numeroFaltas): self
     {
         $this->numeroFaltas = $numeroFaltas;
+
         return $this;
     }
 
@@ -103,6 +107,7 @@ class MatriculaTType
     public function setAprovado(bool $aprovado): self
     {
         $this->aprovado = $aprovado;
+
         return $this;
     }
 
@@ -114,6 +119,7 @@ class MatriculaTType
     public function setAluno(AlunoTType $aluno): self
     {
         $this->aluno = $aluno;
+
         return $this;
     }
 }

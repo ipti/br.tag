@@ -10,7 +10,7 @@ class studentIdentificationValidation extends Register
     {
     }
 
-    //campo 08
+    // campo 08
     public function validateBirthday($date, $currentyear, $classroomStage)
     {
         $result = $this->validateDateformart($date);
@@ -56,6 +56,7 @@ class studentIdentificationValidation extends Register
         } elseif ($classroomStage == 29 && ($interval->y < 12 || $interval->y > 58)) {
             return ['status' => false, 'erro' => 'O aluno não pode ter menos de 12 anos ou mais de 58 anos e estar matriculado em uma turma do do Ensino Médio não seriada.'];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
@@ -133,6 +134,7 @@ class studentIdentificationValidation extends Register
                 return ['status' => false, 'erro' => 'Quando for selecionado um tipo de deficiência (exceto superdotação) ou um Transtorno que impacta o desenvolvimento da aprendizagem, é preciso selecionar pelo menos um recurso, ou vice-versa.'];
             }
         }
+
         return ['status' => true, 'erro' => ''];
     }
 }

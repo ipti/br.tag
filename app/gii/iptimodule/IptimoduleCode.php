@@ -68,7 +68,7 @@ EOD;
         $files = CFileHelper::findFiles($templatePath, [
             'exclude' => [
                 '.svn',
-                '.gitignore'
+                '.gitignore',
             ],
         ]);
 

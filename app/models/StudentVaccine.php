@@ -4,8 +4,8 @@
  * This is the model class for table "student_vaccine".
  *
  * The followings are the available columns in table 'student_vaccine':
- * @property integer $vaccine_id
- * @property integer $student_id
+ * @property int $vaccine_id
+ * @property int $student_id
  */
 class StudentVaccine extends AltActiveRecord
 {
@@ -14,7 +14,7 @@ class StudentVaccine extends AltActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return StudentVaccine the static model class
      */
     public static function model($className = __CLASS__)
@@ -31,7 +31,7 @@ class StudentVaccine extends AltActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -39,12 +39,12 @@ class StudentVaccine extends AltActiveRecord
         // will receive user inputs.
         return [
             ['vaccine_id', 'required'],
-            ['student_id', 'required']
+            ['student_id', 'required'],
         ];
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -58,14 +58,14 @@ class StudentVaccine extends AltActiveRecord
     }
 
     /**
-    * @return array customized attribute labels (name=>label)
-    */
+     * @return array customized attribute labels (name=>label)
+     */
     public function attributeLabels()
     {
         return [
             'id' => Yii::t('default', 'ID'),
             'student_id' => Yii::t('default', 'Student ID'),
-            'vaccine_id' => Yii::t('default', 'Vaccine ID')
+            'vaccine_id' => Yii::t('default', 'Vaccine ID'),
         ];
     }
 }

@@ -25,7 +25,6 @@ class GradesController extends Controller
             [
                 'allow', // allow authenticated user to perform 'create' and 'update' actions
                 'actions' => [
-
                     'getmodalities',
                     'grades',
                     'getGrades',
@@ -35,7 +34,7 @@ class GradesController extends Controller
                     'calculateFinalMedia',
                     'reportCard',
                     'getReportCardGrades',
-                    'saveGradesReportCard'
+                    'saveGradesReportCard',
                 ],
                 'users' => ['@'],
             ],
@@ -64,7 +63,7 @@ class GradesController extends Controller
     }
 
     /**
-     * Show the view
+     * Show the view.
      */
     public function actionGrades()
     {
@@ -177,7 +176,7 @@ class GradesController extends Controller
 
             $gradeResult->final_media = number_format($mediaFinal / 4, 1);
             if (!$gradeResult->validate()) {
-                die(print_r($gradeResult->getErrors()));
+                exit(print_r($gradeResult->getErrors()));
             }
             $gradeResult->save();
         }
@@ -217,7 +216,7 @@ class GradesController extends Controller
                         [
                             'value' => $gradeResult['grade_' . $index],
                             'faults' => $gradeResult['grade_faults_' . $index],
-                            'givenClasses' => $gradeResult['given_classes_' . $index]
+                            'givenClasses' => $gradeResult['given_classes_' . $index],
                         ]
                     );
                 }
@@ -367,7 +366,7 @@ class GradesController extends Controller
                 'enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk',
                 [
                     'enrollment_fk' => $studentEnrollment->id,
-                    'discipline_fk' => $discipline
+                    'discipline_fk' => $discipline,
                 ]
             );
             if ($gradeResult == null) {
@@ -377,7 +376,7 @@ class GradesController extends Controller
             }
 
             if ($gradeUnitiesByClassroom[0]->type != 'UC') {
-                //notas sem ser conceito
+                // notas sem ser conceito
 
                 $arr['grades'] = [];
                 foreach ($gradeUnitiesByClassroom as $gradeUnity) {
@@ -399,7 +398,7 @@ class GradesController extends Controller
                     $arr['grades'][$key] = self::getUnidadeValues($gradeUnity, $studentEnrollment->id, $discipline);
                 }
 
-                //Cálculo da média final
+                // Cálculo da média final
                 $arr['finalMedia'] = '';
                 $sums = 0;
                 $sumsCount = 0;
@@ -486,7 +485,7 @@ class GradesController extends Controller
                     $finalMedia = number_format(array_sum($arr['semesterMedias']) / count($arr['semesterMedias']), 1);
                 }
 
-                //traz a situação do aluno (se null, aprovado, recuperação ou reprovado)
+                // traz a situação do aluno (se null, aprovado, recuperação ou reprovado)
                 $gradeRules = GradeRules::model()->find('edcenso_stage_vs_modality_fk = :stage', [':stage' => $gradeUnitiesByClassroom[0]->edcenso_stage_vs_modality_fk]);
                 $situation = null;
                 if ($allNormalUnitiesFilled) {
@@ -519,7 +518,7 @@ class GradesController extends Controller
                 $gradeResult->final_media = $finalMedia;
                 $gradeResult->save();
             } else {
-                //notas por conceito
+                // notas por conceito
                 $index = 0;
                 foreach ($gradeUnitiesByClassroom as $gradeUnity) {
                     foreach ($gradeUnity->gradeUnityModalities as $gradeUnityModality) {
@@ -541,8 +540,8 @@ class GradesController extends Controller
                 $gradeResult->save();
             }
 
-            //Mudar status da matrícula
-            //1 = Matriculado; 6 = Aprovado; 8 = Reprovado
+            // Mudar status da matrícula
+            // 1 = Matriculado; 6 = Aprovado; 8 = Reprovado
             if ($studentEnrollment->status == '1' || $studentEnrollment->status == '6' || $studentEnrollment->status == '8') {
                 $allGradesFilled = true;
                 $situation = 'Aprovado';
@@ -611,6 +610,7 @@ class GradesController extends Controller
                 $unityGrade = number_format($unityGrade / $weightsSum, 2);
             }
         }
+
         return $gradeUnity->type == 'UR'
             ? ['unityId' => $gradeUnity->id, 'unityGrade' => $unityGrade, 'unityRecoverGrade' => $unityRecoverGrade, 'gradeUnityType' => $gradeUnity->type]
             : ['unityId' => $gradeUnity->id, 'unityGrade' => $unityGrade, 'gradeUnityType' => $gradeUnity->type];

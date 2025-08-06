@@ -44,7 +44,7 @@ class StudentsEditCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilName($dataStudent->student['civil_name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);
@@ -167,7 +167,7 @@ class StudentsEditCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilName($dataStudent->student['civil_name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);
@@ -281,7 +281,7 @@ class StudentsEditCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilName($dataStudent->student['civil_name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);
@@ -417,7 +417,7 @@ class StudentsEditCest
         $builder = new StudentBuilder();
         $dataStudent = $builder->buildCompleted();
 
-        //Data Students
+        // Data Students
         $robots->name($dataStudent->student['name']);
         $robots->civilName($dataStudent->student['civil_name']);
         $robots->dateOfBirth($dataStudent->student['birthday']);

@@ -7,51 +7,49 @@
  * @property string $register_type
  * @property string $school_inep_id_fk
  * @property string $inep_id
- * @property integer $id
- * @property integer $scholarity
- * @property integer $high_education_situation_1
- * @property integer $high_education_formation_1
+ * @property int $id
+ * @property int $scholarity
+ * @property int $high_education_situation_1
+ * @property int $high_education_formation_1
  * @property string $high_education_course_code_1_fk
  * @property string $high_education_initial_year_1
  * @property string $high_education_final_year_1
- * @property integer $high_education_institution_code_1_fk
- * @property integer $high_education_situation_2
- * @property integer $high_education_formation_2
+ * @property int $high_education_institution_code_1_fk
+ * @property int $high_education_situation_2
+ * @property int $high_education_formation_2
  * @property string $high_education_course_code_2_fk
  * @property string $high_education_initial_year_2
  * @property string $high_education_final_year_2
- * @property integer $high_education_institution_code_2_fk
- * @property integer $high_education_situation_3
- * @property integer $high_education_formation_3
+ * @property int $high_education_institution_code_2_fk
+ * @property int $high_education_situation_3
+ * @property int $high_education_formation_3
  * @property string $high_education_course_code_3_fk
  * @property string $high_education_initial_year_3
  * @property string $high_education_final_year_3
- * @property integer $high_education_institution_code_3_fk
- * @property integer $post_graduation_specialization
- * @property integer $post_graduation_master
- * @property integer $post_graduation_doctorate
- * @property integer $post_graduation_none
- * @property integer $other_courses_nursery
- * @property integer $other_courses_pre_school
- * @property integer $other_courses_basic_education_initial_years
- * @property integer $other_courses_basic_education_final_years
- * @property integer $other_courses_high_school
- * @property integer $other_courses_education_of_youth_and_adults
- * @property integer $other_courses_special_education
- * @property integer $other_courses_native_education
- * @property integer $other_courses_field_education
- * @property integer $other_courses_environment_education
- * @property integer $other_courses_human_rights_education
- * @property integer $other_courses_bilingual_education_for_the_deaf
- * @property integer $other_courses_education_and_tic
- * @property integer $other_courses_sexual_education
- * @property integer $other_courses_child_and_teenage_rights
- * @property integer $other_courses_ethnic_education
- * @property integer $other_courses_other
- * @property integer $other_courses_none
- * @property integer $hash
- *
- *
+ * @property int $high_education_institution_code_3_fk
+ * @property int $post_graduation_specialization
+ * @property int $post_graduation_master
+ * @property int $post_graduation_doctorate
+ * @property int $post_graduation_none
+ * @property int $other_courses_nursery
+ * @property int $other_courses_pre_school
+ * @property int $other_courses_basic_education_initial_years
+ * @property int $other_courses_basic_education_final_years
+ * @property int $other_courses_high_school
+ * @property int $other_courses_education_of_youth_and_adults
+ * @property int $other_courses_special_education
+ * @property int $other_courses_native_education
+ * @property int $other_courses_field_education
+ * @property int $other_courses_environment_education
+ * @property int $other_courses_human_rights_education
+ * @property int $other_courses_bilingual_education_for_the_deaf
+ * @property int $other_courses_education_and_tic
+ * @property int $other_courses_sexual_education
+ * @property int $other_courses_child_and_teenage_rights
+ * @property int $other_courses_ethnic_education
+ * @property int $other_courses_other
+ * @property int $other_courses_none
+ * @property int $hash
  *
  * The followings are the available model relations:
  * @property EdcensoCourseOfHigherEducation $highEducationCourseCode1Fk
@@ -65,7 +63,7 @@ class InstructorVariableData extends AltActiveRecord
 {
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return InstructorVariableData the static model class
      */
     public static function model($className = __CLASS__)
@@ -82,7 +80,7 @@ class InstructorVariableData extends AltActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -104,7 +102,7 @@ class InstructorVariableData extends AltActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -176,7 +174,7 @@ class InstructorVariableData extends AltActiveRecord
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {

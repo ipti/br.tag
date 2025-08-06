@@ -11,43 +11,43 @@ class Exportation
 
     public function getTables()
     {
-        //Registro 00
+        // Registro 00
         $sql = "SELECT * FROM school_identification where inep_id='$id' ORDER BY inep_id";
         $school_identification = self::$db->select($sql);
 
-        //Registro 10
+        // Registro 10
         $sql = "SELECT * FROM school_structure where school_inep_fk='$id' ORDER BY school_inep_id_fk";
         $school_structure = self::$db->select($sql);
 
-        //Registro 20
+        // Registro 20
         $sql = "SELECT * FROM classroom where school_inep_fk='$id'";
         $classroom = self::$db->select($sql);
 
-        //Registro 30
+        // Registro 30
         $sql = 'SELECT * FROM instructor_identification';
         $instructor_identification = self::$db->select($sql);
 
-        //Registro 40
+        // Registro 40
         $sql = 'SELECT * FROM instructor_documents_and_address';
         $instructor_documents_and_address = self::$db->select($sql);
 
-        //Registro 50
+        // Registro 50
         $sql = 'SELECT * FROM instructor_variable_data';
         $instructor_variable_data = self::$db->select($sql);
 
-        //Registro 51
+        // Registro 51
         $sql = 'SELECT * FROM instructor_teaching_data';
         $instructor_teaching_data = self::$db->select($sql);
 
-        //Registro 60
+        // Registro 60
         $sql = 'SELECT * FROM student_identification';
         $student_identification = self::$db->select($sql);
 
-        //Registro 70
+        // Registro 70
         $sql = 'SELECT * FROM student_documents_and_address';
         $student_documents_and_address = self::$db->select($sql);
 
-        //Registro 80
+        // Registro 80
         $sql = 'SELECT * FROM student_enrollment';
         $student_enrollment = self::$db->select($sql);
 
@@ -63,7 +63,7 @@ class Exportation
             $student_enrollment];
     }
 
-    //Inep ids permitidos
+    // Inep ids permitidos
     public function getAllowedInepIds($table)
     {
         $sql = "SELECT inep_id FROM $table;";
@@ -112,6 +112,7 @@ class Exportation
                     break;
             }
         }
+
         return ['modalities_regular' => $modalities_regular,
             'modalities_especial' => $modalities_especial,
             'modalities_eja' => $modalities_eja,

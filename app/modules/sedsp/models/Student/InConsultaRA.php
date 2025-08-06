@@ -42,24 +42,28 @@ class InConsultaRA
     public function setInCodEscola(?string $inCodEscola): self
     {
         $this->inCodEscola = $inCodEscola;
+
         return $this;
     }
 
     public function setInNomeAluno(?string $inNomeAluno): self
     {
         $this->inNomeAluno = $inNomeAluno;
+
         return $this;
     }
 
     public function setInNomeMae(?string $inNomeMae): self
     {
         $this->inNomeMae = $inNomeMae;
+
         return $this;
     }
 
     public function setInDataNascimento(?string $inDataNascimento): self
     {
         $this->inDataNascimento = $inDataNascimento;
+
         return $this;
     }
 

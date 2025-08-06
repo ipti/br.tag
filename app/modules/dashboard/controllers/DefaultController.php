@@ -10,7 +10,7 @@ class DefaultController extends Controller
         $this->render('index', [
             'token' => $token,
             'embedUrl' => 'https://app.powerbi.com/reportEmbed',
-            'reportId' => 'd89e1bae-dbc9-45fe-afb6-ab0d067603cc'
+            'reportId' => 'd89e1bae-dbc9-45fe-afb6-ab0d067603cc',
         ]);
     }
 }

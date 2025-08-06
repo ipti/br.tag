@@ -69,8 +69,8 @@ class DefaultController extends Controller
                 $eventStart = new DateTime($event->start_date);
                 $eventEnd = new DateTime($event->end_date);
 
-                $startYearDifference = (int)$eventStart->format('Y') - $yearBase;
-                $endYearDifference = (int)$eventEnd->format('Y') - $yearBase;
+                $startYearDifference = (int) $eventStart->format('Y') - $yearBase;
+                $endYearDifference = (int) $eventEnd->format('Y') - $yearBase;
 
                 $newStart = new DateTime(date('d-m-Y', mktime(0, 0, 0, $eventStart->format('m'), $eventStart->format('d'), $calendar->school_year + $startYearDifference)));
                 $newEnd = new DateTime(date('d-m-Y', mktime(0, 0, 0, $eventEnd->format('m'), $eventEnd->format('d'), $calendar->school_year + $endYearDifference)));
@@ -118,7 +118,7 @@ class DefaultController extends Controller
                 $isPreviousDate = !$isPreviousDate ? strtotime($event->start_date) < strtotime('now') : $isPreviousDate;
                 $oldColor = $event->calendarEventTypeFk->color;
 
-                //re-disponibilizar as aulas do evento. Isso serve pra garantir que, caso o evento mude de intervalo, o intervalo antigo não continue indisponível erroneamente.
+                // re-disponibilizar as aulas do evento. Isso serve pra garantir que, caso o evento mude de intervalo, o intervalo antigo não continue indisponível erroneamente.
                 $start = new DateTime($event->start_date);
                 $end = new DateTime($event->end_date);
                 $end->modify('+1 day');
@@ -135,9 +135,9 @@ class DefaultController extends Controller
                     }
                 }
             }
-            if (!$_POST['confirm'] && (int)$result['qtd'] > 0 && $isHardUnavailableEvent) {
+            if (!$_POST['confirm'] && (int) $result['qtd'] > 0 && $isHardUnavailableEvent) {
                 echo json_encode(['valid' => false, 'alert' => 'primary', 'error' => "ATENÇÃO: adicionar ou modificar eventos de <b>férias</b> poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-save-event'>aqui</span> para confirmar."]);
-            } elseif (!$_POST['confirm'] && (int)$result['qtd'] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
+            } elseif (!$_POST['confirm'] && (int) $result['qtd'] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
                 echo json_encode(['valid' => false, 'alert' => 'primary', 'error' => "ATENÇÃO: adicionar ou modificar eventos de <b>feriados</b> com <b>datas anteriores à atual</b> poderá refletir nas aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-save-event'>aqui</span> para confirmar."]);
             } else {
                 $event->calendar_fk = $_POST['calendarFk'];
@@ -201,7 +201,7 @@ class DefaultController extends Controller
                     'icon' => $calendarEventType->icon,
                     'eventId' => $event->id,
                     'eventName' => $event->name,
-                    'uniqueDayToDelete' => $uniqueDayToDelete
+                    'uniqueDayToDelete' => $uniqueDayToDelete,
                 ]);
             }
         } else {
@@ -221,9 +221,9 @@ class DefaultController extends Controller
             $isHardUnavailableEvent = $event->calendar_event_type_fk == 102;
             $isSoftUnavailableEvent = $event->calendar_event_type_fk == 101 || $event->calendar_event_type_fk == 104;
             $isPreviousDate = strtotime($event->start_date) < strtotime('now');
-            if (!$_POST['confirm'] && (int)$result['qtd'] > 0 && $isHardUnavailableEvent) {
+            if (!$_POST['confirm'] && (int) $result['qtd'] > 0 && $isHardUnavailableEvent) {
                 echo json_encode(['valid' => false, 'alert' => 'primary', 'error' => "ATENÇÃO: remover eventos de <b>férias</b> poderá refletir no quadro de horário, aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-delete-event'>aqui</span> para confirmar."]);
-            } elseif (!$_POST['confirm'] && (int)$result['qtd'] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
+            } elseif (!$_POST['confirm'] && (int) $result['qtd'] > 0 && $isSoftUnavailableEvent && $isPreviousDate) {
                 echo json_encode(['valid' => false, 'alert' => 'primary', 'error' => "ATENÇÃO: remover eventos de <b>feriado</b> ou <b>ponto facultativo</b> com <b>datas anteriores à atual</b> poderá refletir nas aulas ministradas e frequência das escolas que a utilizam.<br><br>TEM CERTEZA que deseja continuar? Clique <span class='confirm-delete-event'>aqui</span> para confirmar."]);
             } else {
                 $start = new DateTime($event->start_date);
@@ -262,7 +262,7 @@ class DefaultController extends Controller
             select count(cr.id) as qtd from classroom cr
             join calendar c on cr.calendar_fk = c.id
             where c.id = :id')->bindParam(':id', $_POST['calendar_removal_id'])->queryRow();
-            if ((int)$result['qtd'] > 0) {
+            if ((int) $result['qtd'] > 0) {
                 echo json_encode(['valid' => false, 'error' => 'Permissão negada. O calendário está sendo utilizando por alguma turma.']);
             } else {
                 $calendar = Calendar::model()->findByPk($_POST['calendar_removal_id']);
@@ -281,6 +281,7 @@ class DefaultController extends Controller
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 
@@ -295,7 +296,7 @@ class DefaultController extends Controller
                     join classroom cr on s.classroom_fk = cr.id
                     join calendar c on cr.calendar_fk = c.id
                     where c.id = :id')->bindParam(':id', $calendar->id)->queryRow();
-                if ((int)$result['qtd'] > 0) {
+                if ((int) $result['qtd'] > 0) {
                     $alertUser = true;
                 }
             }
@@ -355,7 +356,7 @@ class DefaultController extends Controller
             inner join grade_unity on grade_unity_periods.grade_unity_fk = grade_unity.id
             where grade_unity.edcenso_stage_vs_modality_fk = :stage and grade_unity_periods.calendar_fk = :calendar_fk'
             )->bindParam(':stage', $stage['id'])->bindParam(':calendar_fk', $_POST['id'])->queryRow();
-            $stage['hasPeriod'] = (int)$periods['qtd'] > 0;
+            $stage['hasPeriod'] = (int) $periods['qtd'] > 0;
         }
 
         echo json_encode($result);

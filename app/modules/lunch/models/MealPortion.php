@@ -4,10 +4,10 @@
  * This is the model class for table "lunch_meal_portion".
  *
  * The followings are the available columns in table 'lunch_meal_portion':
- * @property integer $id
- * @property integer $meal_fk
- * @property integer $portion_fk
- * @property double $amount
+ * @property int $id
+ * @property int $meal_fk
+ * @property int $portion_fk
+ * @property float $amount
  *
  * The followings are the available model relations:
  * @property Portion $portion
@@ -17,7 +17,7 @@ class MealPortion extends TagModel
 {
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return MealPortion the static model class
      */
     public static function model($className = __CLASS__)
@@ -34,7 +34,7 @@ class MealPortion extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -51,7 +51,7 @@ class MealPortion extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -78,7 +78,7 @@ class MealPortion extends TagModel
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {

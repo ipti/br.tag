@@ -3,7 +3,6 @@
 /**
  * @property StudentEnrollment $enrollment
  */
-
 class ChangeEnrollmentStatusUsecase
 {
     private $enrollment;
@@ -47,6 +46,7 @@ class ChangeEnrollmentStatusUsecase
                 'Status da matrícula',
                 ['enrollmentSituation' => $this->gradeResult->status]
             );
+
             return;
         }
     }
@@ -62,9 +62,10 @@ class ChangeEnrollmentStatusUsecase
         // retornar uma disciplina significa retornar um gradeResult
         $gradesResults = GradeResults::model()->findAllByAttributes(
             [
-                'enrollment_fk' => $enrollmentFk
+                'enrollment_fk' => $enrollmentFk,
             ]
         );
+
         return $gradesResults;
     }
 }

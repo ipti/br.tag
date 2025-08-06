@@ -4,7 +4,7 @@
  * This is the model class for table "student_enrollment".
  *
  * The followings are the available columns in table 'student_enrollment':
- * @property integer $id
+ * @property int $id
  * @property string $name
  * @property string $code
  */
@@ -14,7 +14,7 @@ class Vaccine extends AltActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return Vaccine the static model class
      */
     public static function model($className = __CLASS__)
@@ -31,7 +31,7 @@ class Vaccine extends AltActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -52,7 +52,7 @@ class Vaccine extends AltActiveRecord
         return [
             'id' => Yii::t('default', 'ID'),
             'name' => Yii::t('default', 'Name'),
-            'code' => Yii::t('default', 'Code')
+            'code' => Yii::t('default', 'Code'),
         ];
     }
 }

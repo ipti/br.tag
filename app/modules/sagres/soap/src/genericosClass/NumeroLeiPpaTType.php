@@ -3,8 +3,7 @@
 namespace Genericos;
 
 /**
- * Class representing NumeroLeiPpaTType
- *
+ * Class representing NumeroLeiPpaTType.
  *
  * XSD Type: numeroLeiPpa_t
  */
@@ -21,7 +20,7 @@ class NumeroLeiPpaTType
     private $ano = null;
 
     /**
-     * Gets as numero
+     * Gets as numero.
      *
      * @return string
      */
@@ -31,7 +30,7 @@ class NumeroLeiPpaTType
     }
 
     /**
-     * Sets a new numero
+     * Sets a new numero.
      *
      * @param string $numero
      * @return self
@@ -39,11 +38,12 @@ class NumeroLeiPpaTType
     public function setNumero($numero)
     {
         $this->numero = $numero;
+
         return $this;
     }
 
     /**
-     * Gets as ano
+     * Gets as ano.
      *
      * @return string
      */
@@ -53,7 +53,7 @@ class NumeroLeiPpaTType
     }
 
     /**
-     * Sets a new ano
+     * Sets a new ano.
      *
      * @param string $ano
      * @return self
@@ -61,6 +61,7 @@ class NumeroLeiPpaTType
     public function setAno($ano)
     {
         $this->ano = $ano;
+
         return $this;
     }
 }

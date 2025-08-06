@@ -106,79 +106,87 @@ class OutRecursoAvaliacao
     public function setOutGuiaInterprete(?string $outGuiaInterprete): self
     {
         $this->outGuiaInterprete = $outGuiaInterprete;
+
         return $this;
     }
 
     public function setOutInterpreteLibras(?string $outInterpreteLibras): self
     {
         $this->outInterpreteLibras = $outInterpreteLibras;
+
         return $this;
     }
 
     public function setOutLeituraLabial(?string $outLeituraLabial): self
     {
         $this->outLeituraLabial = $outLeituraLabial;
+
         return $this;
     }
 
     public function setOutNenhum(?string $outNenhum): self
     {
         $this->outNenhum = $outNenhum;
+
         return $this;
     }
 
     public function setOutProvaAmpliada(?string $outProvaAmpliada): self
     {
         $this->outProvaAmpliada = $outProvaAmpliada;
+
         return $this;
     }
 
     public function setOutTamanhoFonte(?string $outTamanhoFonte): self
     {
         $this->outTamanhoFonte = $outTamanhoFonte;
+
         return $this;
     }
 
     public function setOutProvaBraile(?string $outProvaBraile): self
     {
         $this->outProvaBraile = $outProvaBraile;
+
         return $this;
     }
 
     public function setOutAuxilioTranscricao(?string $outAuxilioTranscricao): self
     {
         $this->outAuxilioTranscricao = $outAuxilioTranscricao;
+
         return $this;
     }
 
     public function setOutAuxilioLeitor(?string $outAuxilioLeitor): self
     {
         $this->outAuxilioLeitor = $outAuxilioLeitor;
+
         return $this;
     }
 
     public function setOutProvaVideoLibras(?string $outProvaVideoLibras): self
     {
         $this->outProvaVideoLibras = $outProvaVideoLibras;
+
         return $this;
     }
 
     public function setOutCdAudioDefVisual(?string $outCdAudioDefVisual): self
     {
         $this->outCdAudioDefVisual = $outCdAudioDefVisual;
+
         return $this;
     }
 
     public function setOutProvaLinguaPortuguesa(?string $outProvaLinguaPortuguesa): self
     {
         $this->outProvaLinguaPortuguesa = $outProvaLinguaPortuguesa;
+
         return $this;
     }
 
-    /**
-     * @param array $data
-     * @return self
-     */
     public static function fromJson(array $data): self
     {
         return new self(

@@ -17,6 +17,7 @@ class TagUtils extends CApplicationComponent
         if ($authAssignment->itemname == 'manager') {
             return true;
         }
+
         return false;
     }
 
@@ -35,9 +36,10 @@ class TagUtils extends CApplicationComponent
             '15',
             '16',
             '17',
-            '18'
+            '18',
         ];
         $stages = new CList($refMinorStages, true);
+
         return $stages->contains(strval($stage));
     }
 
@@ -46,9 +48,10 @@ class TagUtils extends CApplicationComponent
         $refMinorStages = [
             '1',
             '2',
-            '3'
+            '3',
         ];
         $stages = new CList($refMinorStages, true);
+
         return $stages->contains(strval($stage));
     }
 
@@ -56,6 +59,7 @@ class TagUtils extends CApplicationComponent
     {
         $refMinorStages = ['43', '44', '45', '46', '47', '48', '51', '58', '60', '61', '62', '63', '65', '66', '69', '70', '71', '72', '73', '74'];
         $stages = new CList($refMinorStages, true);
+
         return $stages->contains(strval($stage));
     }
 
@@ -69,9 +73,10 @@ class TagUtils extends CApplicationComponent
             '24',
             '56',
             '83',
-            '84'
+            '84',
         ];
         $stages = new CList($refMinorStages, true);
+
         return $stages->contains(strval($stage));
     }
 
@@ -96,6 +101,7 @@ class TagUtils extends CApplicationComponent
             $dia = $dateParts[2];
             $mes = $dateParts[1];
             $ano = $dateParts[0];
+
             return "$dia/$mes/$ano";
         }
 
@@ -109,13 +115,14 @@ class TagUtils extends CApplicationComponent
         $teachingData = InstructorTeachingData::model()->findByAttributes(
             [
                 'instructor_fk' => $instructor->id,
-                'classroom_id_fk' => $classroom->id
+                'classroom_id_fk' => $classroom->id,
             ]
         );
 
         $refTeachingData = ['9'];
 
         $roles = new CList($refTeachingData, true);
+
         return $roles->contains(strval($teachingData->role));
     }
 
@@ -153,6 +160,7 @@ class TagUtils extends CApplicationComponent
             foreach ($messages as $value) {
                 $message .= '- ' . $value . "\n";
             }
+
             return $message;
         }, array_keys($errors), array_values($errors));
 

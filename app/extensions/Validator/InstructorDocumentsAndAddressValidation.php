@@ -4,10 +4,10 @@ $DS = DIRECTORY_SEPARATOR;
 
 require_once dirname(__FILE__) . $DS . 'register.php';
 
-//registro 40
+// registro 40
 class InstructorDocumentsAndAddressValidation extends Register
 {
-    //campo 5
+    // campo 5
     public function isCPFValid($cpfStr)
     {
         if ($cpfStr !== '' && $cpfStr !== null) {
@@ -60,10 +60,11 @@ class InstructorDocumentsAndAddressValidation extends Register
         } else {
             return ['status' => false, 'erro' => 'O campo CPF é obrigatório.'];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 
-    //campo 7
+    // campo 7
     public function isCEPValid($cep)
     {
         // retira espacos em branco
@@ -84,7 +85,7 @@ class InstructorDocumentsAndAddressValidation extends Register
         return ['status' => true, 'erro' => ''];
     }
 
-    //campo 8, 9, 10, 11, 12, 13
+    // campo 8, 9, 10, 11, 12, 13
     public function isAdressValid($field, $cep, $allowed_lenght)
     {
         $regex = '/^[0-9 a-z.,-ºª ]+$/';
@@ -99,6 +100,7 @@ class InstructorDocumentsAndAddressValidation extends Register
         } elseif ($field == null) {
             return ['status' => false, 'erro' => 'O campo não pode ser nulo.'];
         }
+
         return ['status' => true, 'erro' => ''];
     }
 }

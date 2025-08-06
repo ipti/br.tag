@@ -6,8 +6,7 @@
 class CreateClassroomUsecase
 {
     /**
-     * Summary of __construct
-     * @param ClassroomSEDDataSource $classroomSEDDatasource
+     * Summary of __construct.
      */
     public function __construct(ClassroomSEDDataSource $classroomSEDDatasource = null)
     {
@@ -15,7 +14,7 @@ class CreateClassroomUsecase
     }
 
     /**
-     * Summary of exec
+     * Summary of exec.
      * @param int $RA RA Number
      * @return Classroom
      */

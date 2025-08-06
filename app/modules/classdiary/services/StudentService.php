@@ -42,10 +42,11 @@ class StudentService
                         'schedule' => $schedule->schedule,
                         'fault' => $classFault != null,
                         'justification' => $classFault->justification,
-                        'valid' => $valid
+                        'valid' => $valid,
                     ];
                     array_push($students, $array);
                 }
+
                 return ['valid' => true, 'students' => $students, 'isMinorEducation' => true];
             } elseif ($enrollments != null && !$is_minor_schooling) {
                 $students = [];
@@ -65,14 +66,15 @@ class StudentService
                             'schedule' => $s->schedule,
                             'fault' => $classFault != null,
                             'justification' => $classFault->justification,
-                            'valid' => $valid
+                            'valid' => $valid,
                         ];
                     }
                     array_push($students, $array);
                 }
+
                 return ['valid' => true, 'students' => $students, 'isMinorEducation' => false];
             } elseif ($enrollments == null) {
-                return  ['valid' => false, 'error' => 'Matricule alunos nesta turma para trazer o quadro de frequência.'];
+                return ['valid' => false, 'error' => 'Matricule alunos nesta turma para trazer o quadro de frequência.'];
             }
         } else {
             return ['valid' => false, 'error' => 'No quadro de horário da turma, não existe dia letivo para este componente curricular/eixo na data selecionada.'];
@@ -116,10 +118,12 @@ class StudentService
             case 0:
                 $day = ($day < 10) ? '0' . $day : $day;
                 $month = ($month < 10) ? '0' . $month : $month;
+
                 return $day . '/' . $month . '/' . $year;
             case 1:
                 $day = ($day < 10) ? '0' . $day : $day;
                 $month = ($month < 10) ? '0' . $month : $month;
+
                 return $day . '-' . $month . '-' . $year;
             default:
                 break;
@@ -187,6 +191,7 @@ class StudentService
     public function getStudent($student_id)
     {
         $student = StudentIdentification::model()->findByPk($student_id);
+
         return $student;
     }
 
@@ -208,7 +213,8 @@ class StudentService
         }
 
         $classFault = ClassFaults::model()->find('schedule_fk = :schedule_fk and student_fk = :student_fk', ['schedule_fk' => $schedule->id, 'student_fk' => $student_fk]);
-        return  $classFault;
+
+        return $classFault;
     }
 
     public function getStudentDiary($stage_fk, $classroom_fk, $discipline_fk, $date, $student_fk)
@@ -233,7 +239,7 @@ class StudentService
                     'classroom_fk' => $classroom_fk,
                     'day' => DateTime::createFromFormat('d/m/Y', $date)->format('d'),
                     'month' => DateTime::createFromFormat('d/m/Y', $date)->format('m'),
-                    'discipline_fk' => $discipline_fk
+                    'discipline_fk' => $discipline_fk,
                 ]
             );
         }
@@ -277,7 +283,7 @@ class StudentService
                 // Erro ao atualizar
                 $errors = $classDiary->getErrors();
                 var_dump($errors);
-                exit();
+                exit;
             }
         } else {
             ClassDiaries::model()->deleteAll('schedule_fk = :schedule_fk and student_fk = :student_fk', [':schedule_fk' => $schedule->id, ':student_fk' => $student_fk]);

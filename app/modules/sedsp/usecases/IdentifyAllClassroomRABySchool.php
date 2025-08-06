@@ -30,18 +30,20 @@ class IdentifyAllClassroomRABySchool
             null,
             null
         ));
-        return  new OutRelacaoClasses($response);
+
+        return new OutRelacaoClasses($response);
     }
 
     /**
      * Adapt School inep Id to SED API. This method remove the first
-     * two characters from inepId
+     * two characters from inepId.
      * @param string $schoolId
      * @return string
      */
     private function adaptSchoolID($schoolId)
     {
         $schoolIdText = strval($schoolId);
+
         return substr($schoolIdText, 2);
     }
 }

@@ -2,12 +2,12 @@
 
     Yii::import('application.modules.foods.services.*');
     /**
-    * @property CreateFarmerRegister $CreateFarmerRegister
-    */
+     * @property CreateFarmerRegister $CreateFarmerRegister
+     */
     class CreateFarmerRegister
     {
         /**
-         * Summary of firebaseservice
+         * Summary of firebaseservice.
          * @var FireBaseService $firebaseservice
          */
         private $firebaseservice;

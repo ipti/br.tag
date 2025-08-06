@@ -82,6 +82,7 @@ class InitialDbMigrationCommand extends CConsoleCommand
         } elseif ($col->allowNull) {
             $result .= ' DEFAULT NULL';
         }
+
         return addslashes($result);
     }
 }

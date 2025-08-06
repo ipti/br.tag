@@ -10,7 +10,7 @@ Yii::import('application.modules.sedsp.models.*');
 class CreateSchool
 {
     /**
-     * Summary of exec
+     * Summary of exec.
      * @param int $RA RA Number
      * @return SchoolIdentification
      */

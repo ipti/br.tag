@@ -7,31 +7,31 @@
  * @property string $register_type
  * @property string $school_inep_id_fk
  * @property string $instructor_inep_id
- * @property integer $instructor_fk
+ * @property int $instructor_fk
  * @property string $classroom_inep_id
- * @property integer $classroom_id_fk
- * @property integer $role
- * @property integer $contract_type
- * @property integer $discipline_1_fk
- * @property integer $discipline_2_fk
- * @property integer $discipline_3_fk
- * @property integer $discipline_4_fk
- * @property integer $discipline_5_fk
- * @property integer $discipline_6_fk
- * @property integer $discipline_7_fk
- * @property integer $discipline_8_fk
- * @property integer $discipline_9_fk
- * @property integer $discipline_10_fk
- * @property integer $discipline_11_fk
- * @property integer $discipline_12_fk
- * @property integer $discipline_13_fk
- * @property integer $discipline_14_fk
- * @property integer $discipline_15_fk
- * @property integer $id
- * @property integer $hash
- * @property integer $hash_instructor
- * @property integer $hash_classroom
- * @property integer $regent
+ * @property int $classroom_id_fk
+ * @property int $role
+ * @property int $contract_type
+ * @property int $discipline_1_fk
+ * @property int $discipline_2_fk
+ * @property int $discipline_3_fk
+ * @property int $discipline_4_fk
+ * @property int $discipline_5_fk
+ * @property int $discipline_6_fk
+ * @property int $discipline_7_fk
+ * @property int $discipline_8_fk
+ * @property int $discipline_9_fk
+ * @property int $discipline_10_fk
+ * @property int $discipline_11_fk
+ * @property int $discipline_12_fk
+ * @property int $discipline_13_fk
+ * @property int $discipline_14_fk
+ * @property int $discipline_15_fk
+ * @property int $id
+ * @property int $hash
+ * @property int $hash_instructor
+ * @property int $hash_classroom
+ * @property int $regent
  *
  * The followings are the available model relations:
  * @property InstructorIdentification $instructorFk
@@ -59,7 +59,7 @@ class InstructorTeachingData extends AltActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return InstructorTeachingData the static model class
      */
     public static function model($className = __CLASS__)
@@ -76,7 +76,7 @@ class InstructorTeachingData extends AltActiveRecord
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -96,14 +96,14 @@ class InstructorTeachingData extends AltActiveRecord
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
         return [
             'instructorFk' => [self::BELONGS_TO, 'InstructorIdentification', 'instructor_fk'],
             'classroomIdFk' => [self::BELONGS_TO, 'Classroom', 'classroom_id_fk'],
-            'teachingMatrixes' => [self::HAS_MANY, 'TeachingMatrixes', 'teaching_data_fk']
+            'teachingMatrixes' => [self::HAS_MANY, 'TeachingMatrixes', 'teaching_data_fk'],
         ];
     }
 
@@ -140,7 +140,7 @@ class InstructorTeachingData extends AltActiveRecord
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
      */
     public function search()
     {

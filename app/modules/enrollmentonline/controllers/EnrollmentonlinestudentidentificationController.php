@@ -2,8 +2,6 @@
 
 use Sentry\Tracing\TransactionContext;
 use Sentry\SentrySdk;
-use Sentry\State\Hub;
-use Sentry\Event;
 
 Yii::import('application.modules.enrollmentonline.repository.*');
 class EnrollmentOnlineStudentIdentificationController extends Controller
@@ -64,7 +62,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
             Yii::app()->sentry->setUserContext([
                 'id' => Yii::app()->user->loginInfos->id,
                 'username' => Yii::app()->user->loginInfos->username,
-                'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id)
+                'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id),
             ]);
         }
     }
@@ -94,20 +92,23 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
 
                 if ($lastActivity !== null && (time() - $lastActivity > $timeout)) {
                     Yii::app()->user->logout();
+
                     return false;
                 }
             }
 
             // Atualiza a última atividade
             Yii::app()->user->setState('last_activity', time());
+
             return true;
         }
+
         return false;
     }
 
     /**
      * Displays a particular model.
-     * @param integer $id the ID of the model to be displayed
+     * @param int $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
@@ -148,7 +149,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -172,7 +173,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     /**
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
-     * @param integer $id the ID of the model to be deleted
+     * @param int $id the ID of the model to be deleted
      */
     public function actionDelete($id)
     {
@@ -213,7 +214,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return EnrollmentOnlineStudentIdentification the loaded model
      * @throws CHttpException
      */
@@ -223,6 +224,7 @@ class EnrollmentOnlineStudentIdentificationController extends Controller
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 

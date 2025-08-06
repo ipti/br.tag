@@ -4,25 +4,24 @@
      * This is the model class for table "edcenso_stage_vs_modality".
      *
      * The followings are the available columns in table 'edcenso_stage_vs_modality':
-     * @property integer $id
+     * @property int $id
      * @property string $name
      * @property string $alias
-     * @property integer $stage
-     * @property integer $edcenso_associated_stage_id
-     * @property integer $is_edcenso_stage
-     * @property integer $unified_frequency
-     * @property integer $aggregated_stage
+     * @property int $stage
+     * @property int $edcenso_associated_stage_id
+     * @property int $is_edcenso_stage
+     * @property int $unified_frequency
+     * @property int $aggregated_stage
      *
      * The followings are the available model relations:
      * @property SchoolStages[] $schoolStages
      * @property StudentEnrollment[] $studentEnrollments
      */
-
     class EdcensoStageVsModality extends TagModel
     {
         /**
          * Returns the static model of the specified AR class.
-         * @param string $className active record class name.
+         * @param string $className active record class name
          * @return EdcensoStageVsModality the static model class
          */
         public static function model($className = __CLASS__)
@@ -31,7 +30,7 @@
         }
 
         /**
-         *  Gets all stages possibles
+         *  Gets all stages possibles.
          *
          * @return EdcensoStageVsModality[]
          */
@@ -39,6 +38,7 @@
         {
             $criteria = new CDbCriteria();
             $criteria->addInCondition('id', EdcensoStageVsModality::getNextStages(-1));
+
             return EdcensoStageVsModality::model()->findAll($criteria);
         }
 
@@ -121,12 +121,12 @@
                     'updateAttribute' => 'updated_at',
                     'setUpdateOnCreate' => true,
                     'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
-                ]
+                ],
             ];
         }
 
         /**
-         * @return array validation rules for model attributes.
+         * @return array validation rules for model attributes
          */
         public function rules()
         {
@@ -143,7 +143,7 @@
         }
 
         /**
-         * @return array relational rules.
+         * @return array relational rules
          */
         public function relations()
         {
@@ -168,13 +168,13 @@
                 'edcenso_associated_stage_id' => 'Etapa Associada ao Educacenso',
                 'is_edcenso_stage' => 'É uma Etapa do Educacenso',
                 'alias' => 'Abreviação',
-                'unified_frequency' => 'Unificar Frequência'
+                'unified_frequency' => 'Unificar Frequência',
             ];
         }
 
         /**
          * Retrieves a list of models based on the current search/filter conditions.
-         * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+         * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions
          */
         public function search()
         {

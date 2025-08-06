@@ -41,6 +41,7 @@ class UpdateFichaAlunoInTAGUseCase
             }
         } catch (Exception $e) {
             $this->handleException($mapperStudentIdentification, $e);
+
             return $e->getCode();
         }
     }
@@ -54,6 +55,7 @@ class UpdateFichaAlunoInTAGUseCase
 
             if ($existingStudent->validate() && $existingStudent->save()) {
                 $existingStudent->sedsp_sync = 1;
+
                 return $existingStudent->save();
             }
 
@@ -111,6 +113,7 @@ class UpdateFichaAlunoInTAGUseCase
                 if ($enrollment->validate() && $enrollment->save()) {
                     $enrollment->sedsp_sync = 1;
                 }
+
                 return $enrollment->save();
             }
         }

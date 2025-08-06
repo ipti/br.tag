@@ -49,6 +49,7 @@ class OutListaMatriculaRA
     public function setOutAluno(?OutAluno $outAluno): self
     {
         $this->outAluno = $outAluno;
+
         return $this;
     }
 
@@ -58,18 +59,21 @@ class OutListaMatriculaRA
     public function setOutListaMatriculas(?array $outListaMatriculas): self
     {
         $this->outListaMatriculas = $outListaMatriculas;
+
         return $this;
     }
 
     public function setOutErro(?string $outErro): self
     {
         $this->outErro = $outErro;
+
         return $this;
     }
 
     public function setOutProcessoId(?string $outProcessoID): self
     {
         $this->outProcessoID = $outProcessoID;
+
         return $this;
     }
 

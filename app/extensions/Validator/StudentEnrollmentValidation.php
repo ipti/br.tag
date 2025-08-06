@@ -46,7 +46,7 @@ class studentEnrollmentValidation extends Register
                     '19',
                     '20',
                     '21',
-                    '41'
+                    '41',
                 ]);
                 if (!$result['status']) {
                     return ['status' => false, 'erro' => $result['erro'], 'type' => 'normal'];
@@ -80,7 +80,7 @@ class studentEnrollmentValidation extends Register
                     '19',
                     '20',
                     '21',
-                    '41'
+                    '41',
                 ]);
                 if (!$result['status']) {
                     return ['status' => false, 'erro' => $result['erro'], 'type' => 'normal'];
@@ -191,6 +191,7 @@ class studentEnrollmentValidation extends Register
                 }
                 break;
         }
+
         return ['status' => true, 'erro' => '', 'type' => 'normal'];
     }
 
@@ -202,6 +203,7 @@ class studentEnrollmentValidation extends Register
                 return ['status' => false, 'erro' => 'Quando o tipo de atendimento da turma for AEE, deve-se selecionar ao menos uma opção.', 'type' => 'normal'];
             }
         }
+
         return ['status' => true, 'erro' => '', 'type' => 'normal'];
     }
 }

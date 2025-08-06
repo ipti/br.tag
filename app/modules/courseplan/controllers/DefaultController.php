@@ -62,7 +62,7 @@ class DefaultController extends Controller
     /**
      * Updates a particular model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
+     * @param int $id the ID of the model to be updated
      */
     public function actionUpdate($id)
     {
@@ -94,6 +94,7 @@ class DefaultController extends Controller
         } else {
             $stages = Yii::app()->db->createCommand('select esvm.id, esvm.name from edcenso_stage_vs_modality esvm join curricular_matrix cm on cm.stage_fk = esvm.id where school_year = :year order by esvm.name')->bindParam(':year', Yii::app()->user->year)->queryAll();
         }
+
         return $stages;
     }
 
@@ -367,11 +368,11 @@ class DefaultController extends Controller
                 'criteria' => [
                     'condition' => 'users_fk=' . Yii::app()->user->loginInfos->id,
                 ],
-                'pagination' => false
+                'pagination' => false,
             ]);
         } else {
             $dataProvider = new CActiveDataProvider('CoursePlan', [
-                'pagination' => false
+                'pagination' => false,
             ]);
         }
 
@@ -388,11 +389,11 @@ class DefaultController extends Controller
         if (Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)) {
             $dataProvider = new CActiveDataProvider('CoursePlan', [
                 'criteria' => $criteria,
-                'pagination' => false
+                'pagination' => false,
             ]);
         } else {
             $dataProvider = new CActiveDataProvider('CoursePlan', [
-                'pagination' => false
+                'pagination' => false,
             ]);
         }
 
@@ -404,7 +405,7 @@ class DefaultController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer $id the ID of the model to be loaded
+     * @param int $id the ID of the model to be loaded
      * @return CoursePlan the loaded model
      * @throws CHttpException
      */
@@ -414,6 +415,7 @@ class DefaultController extends Controller
         if ($model === null) {
             throw new CHttpException(404, 'The requested page does not exist.');
         }
+
         return $model;
     }
 

@@ -4,10 +4,10 @@
  * This is the model class for table "question".
  *
  * The followings are the available columns in table 'question':
- * @property integer $id
- * @property integer $type
+ * @property int $id
+ * @property int $type
  * @property string $description
- * @property integer $status
+ * @property int $status
  *
  * The followings are the available model relations:
  * @property QuestionGroup[] $questionGroups
@@ -25,7 +25,7 @@ class Question extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -41,7 +41,7 @@ class Question extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -77,7 +77,7 @@ class Question extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -98,7 +98,7 @@ class Question extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return Question the static model class
      */
     public static function model($className = __CLASS__)
@@ -112,13 +112,14 @@ class Question extends TagModel
             '1' => 'Subjetiva',
             '2' => 'Objetiva',
             '3' => 'Múltipla Escolha',
-            '4' => 'Subjetiva Longa'
+            '4' => 'Subjetiva Longa',
         ];
     }
 
     public function getEnableOption()
     {
         $types = array_keys($this->getTypes());
+
         return array_diff($types, [1, 4]);
     }
 }

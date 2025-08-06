@@ -32,7 +32,7 @@ class Register50
         }
 
         foreach ($instructors as $instructor) {
-            $id = (string)'II' . $instructor['identification']['id'];
+            $id = (string) 'II' . $instructor['identification']['id'];
 
             foreach ($instructor['teaching'] as $teaching) {
                 $register = [];
@@ -88,7 +88,7 @@ class Register50
                 $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 50 order by corder', [':year' => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
                     $register[$edcensoAlias->corder] = $edcensoAlias->default;
-                    //códigos
+                    // códigos
                     if ($edcensoAlias->corder >= 9 && $edcensoAlias->corder <= 33) {
                         $register[$edcensoAlias->corder] = $codigos[$edcensoAlias->corder];
                     } elseif ($edcensoAlias['attr'] != null && $teaching[$edcensoAlias['attr']] !== $edcensoAlias->default) {

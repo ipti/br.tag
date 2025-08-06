@@ -4,12 +4,12 @@
  * This is the model class for table "grade_unity".
  *
  * The followings are the available columns in table 'grade_unity':
- * @property integer $id
- * @property integer $edcenso_stage_vs_modality_fk
+ * @property int $id
+ * @property int $edcenso_stage_vs_modality_fk
  * @property string $name
  * @property string $type
- * @property integer $grade_calculation_fk
- * @property integer $parcial_recovery_fk
+ * @property int $grade_calculation_fk
+ * @property int $parcial_recovery_fk
  *
  * The followings are the available model relations:
  * @property GradePartialRecovery $parcialRecoveryFk
@@ -36,7 +36,7 @@ class GradeUnity extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -53,7 +53,7 @@ class GradeUnity extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -80,7 +80,7 @@ class GradeUnity extends TagModel
             'name' => 'Unity Name',
             'type' => 'Type',
             'grade_calculation_fk' => 'Grade Calculation Fk',
-            'parcial_recovery_fk' => 'Parcial Recovery Fk'
+            'parcial_recovery_fk' => 'Parcial Recovery Fk',
         ];
     }
 
@@ -94,7 +94,7 @@ class GradeUnity extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -118,7 +118,7 @@ class GradeUnity extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return GradeUnity the static model class
      */
     public static function model($className = __CLASS__)

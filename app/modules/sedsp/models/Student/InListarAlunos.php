@@ -34,18 +34,21 @@ class InListarAlunos implements JsonSerializable
     public function setInFiltrosNomes(?InFiltrosNomes $inFiltrosNomes): self
     {
         $this->inFiltrosNomes = $inFiltrosNomes;
+
         return $this;
     }
 
     public function setInDataNascimento(?string $inDataNascimento): self
     {
         $this->inDataNascimento = $inDataNascimento;
+
         return $this;
     }
 
     public function setInDocumentos(?InDocumentos $inDocumentos): self
     {
         $this->inDocumentos = $inDocumentos;
+
         return $this;
     }
 

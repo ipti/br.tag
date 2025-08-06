@@ -4,10 +4,10 @@
  * This is the model class for table "grade_partial_recovery_weights".
  *
  * The followings are the available columns in table 'grade_partial_recovery_weights':
- * @property integer $id
- * @property integer $weight
- * @property integer $unity_fk
- * @property integer $partial_recovery_fk
+ * @property int $id
+ * @property int $weight
+ * @property int $unity_fk
+ * @property int $partial_recovery_fk
  *
  * The followings are the available model relations:
  * @property GradeUnity $unityFk
@@ -24,7 +24,7 @@ class GradePartialRecoveryWeights extends TagModel
     }
 
     /**
-     * @return array validation rules for model attributes.
+     * @return array validation rules for model attributes
      */
     public function rules()
     {
@@ -40,7 +40,7 @@ class GradePartialRecoveryWeights extends TagModel
     }
 
     /**
-     * @return array relational rules.
+     * @return array relational rules
      */
     public function relations()
     {
@@ -75,7 +75,7 @@ class GradePartialRecoveryWeights extends TagModel
      * - Pass data provider to CGridView, CListView or any similar widget.
      *
      * @return CActiveDataProvider the data provider that can return the models
-     * based on the search/filter conditions.
+     * based on the search/filter conditions
      */
     public function search()
     {
@@ -96,7 +96,7 @@ class GradePartialRecoveryWeights extends TagModel
     /**
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
-     * @param string $className active record class name.
+     * @param string $className active record class name
      * @return GradePartialRecoveryWeights the static model class
      */
     public static function model($className = __CLASS__)

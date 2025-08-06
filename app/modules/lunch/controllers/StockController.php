@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class StockController
+ * Class StockController.
  *
  * @property School $school
  */
@@ -18,7 +18,7 @@ class StockController extends Controller
     {
         $items = CHtml::listData(Item::model()->findAll(), 'id', 'concatName');
         $this->render('index', [
-            'items' => $items
+            'items' => $items,
         ]);
     }
 

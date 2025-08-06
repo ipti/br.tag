@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @property CDbCriteria $criteria;
  */
@@ -31,7 +32,7 @@ class GetGradeUnitiesByDisciplineUsecase
             [
                 GradeUnity::TYPE_UNITY,
                 GradeUnity::TYPE_UNITY_BY_CONCEPT,
-                GradeUnity::TYPE_UNITY_WITH_RECOVERY
+                GradeUnity::TYPE_UNITY_WITH_RECOVERY,
             ]
         );
 

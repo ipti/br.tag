@@ -34,18 +34,21 @@ class InTrocarAlunoEntreClasses implements JsonSerializable
     public function setInAluno(?InAluno $inAluno): self
     {
         $this->inAluno = $inAluno;
+
         return $this;
     }
 
     public function setInMatricula(?InMatriculaTrocar $inMatriculaTrocar): self
     {
         $this->inMatriculaTrocar = $inMatriculaTrocar;
+
         return $this;
     }
 
     public function setInNivelEnsino(?InNivelEnsino $inNivelEnsino): self
     {
         $this->inNivelEnsino = $inNivelEnsino;
+
         return $this;
     }
 

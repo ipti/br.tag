@@ -5,8 +5,7 @@ namespace SagresEdu;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * Class representing ProfissionalTType
- *
+ * Class representing ProfissionalTType.
  *
  * XSD Type: profissional_t
  */
@@ -39,6 +38,7 @@ class ProfissionalTType
     public function setCpfProfissional(string $cpfProfissional): self
     {
         $this->cpfProfissional = $cpfProfissional;
+
         return $this;
     }
 
@@ -50,6 +50,7 @@ class ProfissionalTType
     public function setEspecialidade(string $especialidade): self
     {
         $this->especialidade = $especialidade;
+
         return $this;
     }
 
@@ -61,6 +62,7 @@ class ProfissionalTType
     public function setIdEscola(int $idEscola): self
     {
         $this->idEscola = $idEscola;
+
         return $this;
     }
 
@@ -72,12 +74,14 @@ class ProfissionalTType
     public function setFundeb(bool $fundeb): self
     {
         $this->fundeb = $fundeb;
+
         return $this;
     }
 
     public function addToAtendimento(AtendimentoTType $atendimento): self
     {
         $this->atendimento[] = $atendimento;
+
         return $this;
     }
 
@@ -99,6 +103,7 @@ class ProfissionalTType
     public function setAtendimento(?array $atendimento): self
     {
         $this->atendimento = $atendimento;
+
         return $this;
     }
 }

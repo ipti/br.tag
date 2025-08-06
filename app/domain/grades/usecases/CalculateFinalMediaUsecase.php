@@ -113,13 +113,13 @@ class CalculateFinalMediaUsecase
         } elseif ($finalRecovery->gradeCalculationFk->name == 'Peso') {
             $weights = [
                 $finalRecovery->weight_final_recovery,
-                $finalRecovery->weight_final_media
-
+                $finalRecovery->weight_final_media,
             ];
             $result = $this->applyCalculation($finalRecovery->gradeCalculationFk, $gradesFinalRecovery, $weights);
         } else {
             $result = $this->applyCalculation($finalRecovery->gradeCalculationFk, $gradesFinalRecovery);
         }
+
         return $result;
     }
 
@@ -134,9 +134,10 @@ class CalculateFinalMediaUsecase
         $criteria->params = [
             ':discipline_fk' => $discipline,
             ':enrollment_fk' => $enrollmentId,
-            ':finalRecoveryId' => $finalRecoveryId
+            ':finalRecoveryId' => $finalRecoveryId,
         ];
         $criteria->order = 'g.id';
+
         return Grade::model()->find($criteria)->grade;
     }
 
@@ -161,6 +162,7 @@ class CalculateFinalMediaUsecase
             }
             array_push($grades, $grade);
         }
+
         return $grades;
     }
 }

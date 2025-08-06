@@ -49,18 +49,21 @@ class OutConsultarResponsavelAluno
     public function setOutSucesso(?string $outSucesso): self
     {
         $this->outSucesso = $outSucesso;
+
         return $this;
     }
 
     public function setOutErro(?string $outErro): self
     {
         $this->outErro = $outErro;
+
         return $this;
     }
 
     public function setOutRequestId(?string $outRequestID): self
     {
         $this->outRequestID = $outRequestID;
+
         return $this;
     }
 
@@ -70,6 +73,7 @@ class OutConsultarResponsavelAluno
     public function setOutResponsaveis(?array $outResponsaveis): self
     {
         $this->outResponsaveis = $outResponsaveis;
+
         return $this;
     }
 

@@ -13,6 +13,7 @@ class FoodMenuService
             $publicTarget = FoodMenuVsFoodPublicTarget::model()->findByAttributes(['food_menu_fk' => $modelFoodMenu->id]);
             $foodMenu->setDayMeals($day, $modelMenuMeals, $publicTarget->food_public_target_fk);
         }
+
         return $foodMenu;
     }
 
@@ -51,6 +52,7 @@ class FoodMenuService
         if ($students != null && $foods != null) {
             $result['processFood'] = $this->processFood($foods, $studentsTurn);
         }
+
         return $result;
     }
 
@@ -93,6 +95,7 @@ class FoodMenuService
             $result[$idFood]['total'] +=
                 ($value * $studentsTurn[$turn]) + ($value * $studentsTurn['Integral']);
         }
+
         return $result;
     }
 
@@ -106,7 +109,8 @@ class FoodMenuService
 
             $studentsTurn[$turn] = $totalStudents;
         }
-        return  $studentsTurn;
+
+        return $studentsTurn;
     }
 
     private function getStudents()
@@ -264,6 +268,7 @@ class FoodMenuService
                 $foodMenu->setDayMeals($day, $modelMeals, $publicTarget, $stages);
             }
         }
+
         return $foodMenu;
     }
 
@@ -281,7 +286,7 @@ class FoodMenuService
     }
 
     /**
-     * Método que salva no banco as alterações referentes às refeições
+     * Método que salva no banco as alterações referentes às refeições.
      */
     private function createMeals($modelFoodMenu, $meals, $day, $transaction)
     {
@@ -309,7 +314,7 @@ class FoodMenuService
     }
 
     /**
-     * Método que salva no banco as alterações referentes aos pratos
+     * Método que salva no banco as alterações referentes aos pratos.
      */
     private function createComponents($foodMenuMeal, $meal, $transaction)
     {
@@ -329,7 +334,7 @@ class FoodMenuService
     }
 
     /**
-     * Método que salva no banco as alterações relacionadas aos ingredientes de um prato
+     * Método que salva no banco as alterações relacionadas aos ingredientes de um prato.
      */
     private function createIngredients($modelComponent, $component, $transaction)
     {
@@ -358,7 +363,7 @@ class FoodMenuService
     }
 }
 /**
- * Classes that represents a foodMenu which will be manipulated and send as response to client request
+ * Classes that represents a foodMenu which will be manipulated and send as response to client request.
  */
 class FoodMenuObject
 {
@@ -412,7 +417,7 @@ class FoodMenuObject
     }
 }
 /**
- * Classe that represents a meal from a foodMenu to be loaded in JSON response
+ * Classe that represents a meal from a foodMenu to be loaded in JSON response.
  */
 class MealObject
 {
@@ -450,7 +455,7 @@ class MealObject
     }
 }
 /**
- * Classe that represents a Component from a meal to be loaded in JSON response
+ * Classe that represents a Component from a meal to be loaded in JSON response.
  */
 class MealComponentObject
 {
@@ -472,7 +477,7 @@ class MealComponentObject
     }
 }
 /**
- * Classe that represents an ingredient from a component to be loaded in JSON response
+ * Classe that represents an ingredient from a component to be loaded in JSON response.
  */
 class IngredientObject
 {

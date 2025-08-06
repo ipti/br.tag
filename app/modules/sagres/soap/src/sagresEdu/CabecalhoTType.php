@@ -5,8 +5,7 @@ namespace SagresEdu;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * Class representing CabecalhoTType
- *
+ * Class representing CabecalhoTType.
  *
  * XSD Type: cabecalho_t
  */
@@ -58,6 +57,7 @@ class CabecalhoTType
     public function setCodigoUnidGestora(string $codigoUnidGestora): self
     {
         $this->codigoUnidGestora = $codigoUnidGestora;
+
         return $this;
     }
 
@@ -69,6 +69,7 @@ class CabecalhoTType
     public function setNomeUnidGestora(string $nomeUnidGestora): self
     {
         $this->nomeUnidGestora = $nomeUnidGestora;
+
         return $this;
     }
 
@@ -80,6 +81,7 @@ class CabecalhoTType
     public function setCpfResponsavel(string $cpfResponsavel): self
     {
         $this->cpfResponsavel = $cpfResponsavel;
+
         return $this;
     }
 
@@ -91,6 +93,7 @@ class CabecalhoTType
     public function setCpfGestor(string $cpfGestor): self
     {
         $this->cpfGestor = $cpfGestor;
+
         return $this;
     }
 
@@ -102,6 +105,7 @@ class CabecalhoTType
     public function setAnoReferencia(int $anoReferencia): self
     {
         $this->anoReferencia = $anoReferencia;
+
         return $this;
     }
 
@@ -113,6 +117,7 @@ class CabecalhoTType
     public function setMesReferencia(int $mesReferencia): self
     {
         $this->mesReferencia = $mesReferencia;
+
         return $this;
     }
 
@@ -124,6 +129,7 @@ class CabecalhoTType
     public function setVersaoXml(int $versaoXml): self
     {
         $this->versaoXml = $versaoXml;
+
         return $this;
     }
 
@@ -135,6 +141,7 @@ class CabecalhoTType
     public function setDiaInicPresContas(int $diaInicPresContas): self
     {
         $this->diaInicPresContas = $diaInicPresContas;
+
         return $this;
     }
 
@@ -146,6 +153,7 @@ class CabecalhoTType
     public function setDiaFinaPresContas(int $diaFinaPresContas): self
     {
         $this->diaFinaPresContas = $diaFinaPresContas;
+
         return $this;
     }
 }

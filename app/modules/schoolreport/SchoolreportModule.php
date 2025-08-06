@@ -19,7 +19,7 @@ class SchoolreportModule extends CWebModule
             'user' => [
                 'class' => 'CWebUser',
                 'loginUrl' => Yii::app()->createUrl('schoolreport/default/login'),
-            ]
+            ],
         ]);
 
         Yii::app()->user->setStateKeyPrefix('_schoolreport');

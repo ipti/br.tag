@@ -138,96 +138,112 @@ class OutDiasSemana
     public function setOutFlagSegunda(?bool $outFlagSegunda): self
     {
         $this->outFlagSegunda = $outFlagSegunda;
+
         return $this;
     }
 
     public function setOutHoraIniAulaSegunda(?string $outHoraIniAulaSegunda): self
     {
         $this->outHoraIniAulaSegunda = $outHoraIniAulaSegunda;
+
         return $this;
     }
 
     public function setOutHoraFimAulaSegunda(?string $outHoraFimAulaSegunda): self
     {
         $this->outHoraFimAulaSegunda = $outHoraFimAulaSegunda;
+
         return $this;
     }
 
     public function setOutFlagTerca(?bool $outFlagTerca): self
     {
         $this->outFlagTerca = $outFlagTerca;
+
         return $this;
     }
 
     public function setOutHoraIniAulaTerca(?string $outHoraIniAulaTerca): self
     {
         $this->outHoraIniAulaTerca = $outHoraIniAulaTerca;
+
         return $this;
     }
 
     public function setOutHoraFimAulaTerca(?string $outHoraFimAulaTerca): self
     {
         $this->outHoraFimAulaTerca = $outHoraFimAulaTerca;
+
         return $this;
     }
 
     public function setOutFlagQuarta(?bool $outFlagQuarta): self
     {
         $this->outFlagQuarta = $outFlagQuarta;
+
         return $this;
     }
 
     public function setOutHoraIniAulaQuarta(?string $outHoraIniAulaQuarta): self
     {
         $this->outHoraIniAulaQuarta = $outHoraIniAulaQuarta;
+
         return $this;
     }
 
     public function setOutHoraFimAulaQuarta(?string $outHoraFimAulaQuarta): self
     {
         $this->outHoraFimAulaQuarta = $outHoraFimAulaQuarta;
+
         return $this;
     }
 
     public function setOutFlagQuinta(?bool $outFlagQuinta): self
     {
         $this->outFlagQuinta = $outFlagQuinta;
+
         return $this;
     }
 
     public function setOutHoraIniAulaQuinta(?string $outHoraIniAulaQuinta): self
     {
         $this->outHoraIniAulaQuinta = $outHoraIniAulaQuinta;
+
         return $this;
     }
 
     public function setOutHoraFimAulaQuinta(?string $outHoraFimAulaQuinta): self
     {
         $this->outHoraFimAulaQuinta = $outHoraFimAulaQuinta;
+
         return $this;
     }
 
     public function setOutFlagSexta(?bool $outFlagSexta): self
     {
         $this->outFlagSexta = $outFlagSexta;
+
         return $this;
     }
 
     public function setOutHoraIniAulaSexta(?string $outHoraIniAulaSexta): self
     {
         $this->outHoraIniAulaSexta = $outHoraIniAulaSexta;
+
         return $this;
     }
 
     public function setOutHoraFimAulaSexta(?string $outHoraFimAulaSexta): self
     {
         $this->outHoraFimAulaSexta = $outHoraFimAulaSexta;
+
         return $this;
     }
 
     public function setOutFlagSabado(?bool $outFlagSabado): self
     {
         $this->outFlagSabado = $outFlagSabado;
+
         return $this;
     }
 

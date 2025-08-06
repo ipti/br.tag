@@ -2,12 +2,12 @@
 
 Yii::import('application.modules.foods.services.*');
 /**
-  * @property GetFoodMenu $GetFoodMenu
-  */
+ * @property GetFoodMenu $GetFoodMenu
+ */
 class GetFoodMenu
 {
     /**
-     * Summary of foodmenuService
+     * Summary of foodmenuService.
      * @var FoodMenuService $foodmenuService
      */
     private $foodmenuService;
