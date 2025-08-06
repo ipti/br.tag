@@ -1,7 +1,7 @@
 <?php
-/* @var $this FoodRequestController */
-/* @var $model FoodRequest */
-/* @var $form CActiveForm */
+/** @var $this FoodRequestController */
+/** @var $model FoodRequest */
+/** @var $form CActiveForm */
 
 $baseUrl = Yii::app()->baseUrl;
 $themeUrl = Yii::app()->theme->baseUrl;
@@ -49,7 +49,7 @@ $form = $this->beginWidget('CActiveForm', [
             <?php echo $form->dropDownList(
     $requestSchoolModel,
     'school_fk',
-    Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
+    CHtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
     [
         'id' => 'requestSchools',
         'multiple' => true,
@@ -62,7 +62,7 @@ $form = $this->beginWidget('CActiveForm', [
             <?php echo $form->dropDownList(
                 $requestFarmerModel,
                 'farmer_fk',
-                Chtml::listData(FarmerRegister::model()->findAll('status="Ativo"'), 'id', 'name'),
+                CHtml::listData(FarmerRegister::model()->findAll('status="Ativo"'), 'id', 'name'),
                 [
                     'id' => 'requestFarmers',
                     'multiple' => true,

@@ -275,7 +275,7 @@ SELECT
 
         $classrooms = Classroom::model()->findAllByAttributes(['school_year' => Yii::app()->user->year]);
         foreach ($classrooms as $classroom) {
-            if ($classroom->calendar_fk != null) {
+            if ($classroom->calendar_fk !== null) {
                 $dates = Yii::app()->db->createCommand('select start_date, end_date from calendar join classroom on calendar.id = classroom.calendar_fk where classroom.id = ' . $classroom->id)->queryRow();
                 $start = (new DateTime($dates['start_date']))->modify('first day of this month');
                 $end = (new DateTime($dates['end_date']))->modify('first day of next month');
@@ -300,7 +300,7 @@ SELECT
                             $schedule = $classFault->scheduleFk;
                             if ($month == str_pad($schedule->month, 2, '0', STR_PAD_LEFT) . '/' . $schedule->year) {
                                 if (TagUtils::isStageMinorEducation($classroom->edcenso_stage_vs_modality_fk)) {
-                                    if (!in_array($schedule->day . $schedule->month . $schedule->year, $usedDaysForMinorEducation)) {
+                                    if (!in_array($schedule->day . $schedule->month . $schedule->year, $usedDaysForMinorEducation, false)) {
                                         $row['total_faltas']++;
                                         array_push($usedDaysForMinorEducation, $schedule->day . $schedule->month . $schedule->year);
                                     }
@@ -704,7 +704,7 @@ SELECT
                 $recoveryUnity->save();
 
                 $modalityModel = GradeUnityModality::model()->findByAttributes(['grade_unity_fk' => $recoveryUnity->id]);
-                if ($modalityModel == null) {
+                if ($modalityModel === null) {
                     $modalityModel = new GradeUnityModality();
                 }
                 $modalityModel->name = 'Avaliação/Prova';
@@ -1071,9 +1071,11 @@ SELECT
         $logs = Log::model()->findAll($criteria);
         $logsCount = Log::model()->count($countCriteria);
 
+        $result = [];
         $result['recordsTotal'] = $result['recordsFiltered'] = $logsCount;
 
         $result['data'] = [];
+        $array = [];
         foreach ($logs as $log) {
             $array['school'] = $log->schoolFk->name;
             $array['user'] = $log->userFk->name;

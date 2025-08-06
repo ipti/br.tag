@@ -70,7 +70,7 @@ echo($ad == 1 ? 'FEDERAL' : ($ad == 2 ? 'ESTADUAL' : ($ad == 3 ? 'MUNICIPAL' :
                 <div class="column clearleft">
                     <div class="t-field-select">
                         <?php echo CHtml::label(
-    yii::t('default', 'Classroom'),
+    Yii::t('default', 'Classroom'),
     'classroom',
     ['class' => 't-field-select__label--required']
 ); ?>
@@ -79,8 +79,8 @@ echo($ad == 1 ? 'FEDERAL' : ($ad == 2 ? 'ESTADUAL' : ($ad == 3 ? 'MUNICIPAL' :
                             <?php foreach ($classrooms as $classroom) : ?>
                                 <option value="<?= $classroom->id ?>"
                                         fundamentalMaior="<?= (int)(!TagUtils::isStageMinorEducation(
-                                $classroom->edcenso_stage_vs_modality_fk
-                            )) . '' ?>">
+                            $classroom->edcenso_stage_vs_modality_fk
+                        )) . '' ?>">
                                     <?= $classroom->name ?>
                                 </option>
                             <?php endforeach; ?>
@@ -91,10 +91,10 @@ echo($ad == 1 ? 'FEDERAL' : ($ad == 2 ? 'ESTADUAL' : ($ad == 3 ? 'MUNICIPAL' :
                 <div class="column month-container">
                     <div class="t-field-select">
                         <?php echo CHtml::label(
-                                                yii::t('default', 'Month') . '/Ano',
-                                                'month',
-                                                ['class' => 't-field-select__label--required']
-                                            ); ?>
+                                            Yii::t('default', 'Month') . '/Ano',
+                                            'month',
+                                            ['class' => 't-field-select__label--required']
+                                        ); ?>
                         <select class="select-search-on t-field-select__input js-load-frequency" id="month"
                                 style="min-width: 185px;"></select>
                     </div>
@@ -104,10 +104,10 @@ echo($ad == 1 ? 'FEDERAL' : ($ad == 2 ? 'ESTADUAL' : ($ad == 3 ? 'MUNICIPAL' :
                 <div class="column  clearleft on-tablet disciplines-container">
                     <div class="t-field-select js-load-frequency">
                         <?php echo CHtml::label(
-                                yii::t('default', 'Discipline'),
-                                'disciplines',
-                                ['class' => 't-field-select__label--required']
-                            ); ?>
+                            Yii::t('default', 'Discipline'),
+                            'disciplines',
+                            ['class' => 't-field-select__label--required']
+                        ); ?>
                         <?php
                         echo CHtml::dropDownList('disciplines', '', [], [
                             'key' => 'id',
@@ -148,7 +148,7 @@ echo($ad == 1 ? 'FEDERAL' : ($ad == 2 ? 'ESTADUAL' : ($ad == 3 ? 'MUNICIPAL' :
             <div class="t-modal__body">
                 <div class="row-fluid">
                     <div class="span12">
-                        <?= chtml::label('Justificativa', 'title', ['class' => 'control-label']); ?>
+                        <?= CHtml::label('Justificativa', 'title', ['class' => 'control-label']); ?>
                         <div class="form-control">
                             <input type="hidden" id="justification-classroomid">
                             <input type="hidden" id="justification-studentid">

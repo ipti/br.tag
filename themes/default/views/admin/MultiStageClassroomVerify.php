@@ -1,6 +1,6 @@
 <?php
-/* @var $this AdminController */
-/* @var $student mixed */
+/** @var $this AdminController */
+/** @var $student mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/admin/MultiStageClassroomVerify/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);

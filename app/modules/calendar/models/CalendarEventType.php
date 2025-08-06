@@ -58,11 +58,11 @@ class CalendarEventType extends TagModel
     public function attributeLabels()
     {
         return [
-            'id' => yii::t('calendarModule.labels', 'ID'),
-            'name' => yii::t('calendarModule.labels', 'Name'),
-            'icon' => yii::t('calendarModule.labels', 'Icon'),
-            'color' => yii::t('calendarModule.labels', 'Color'),
-            'unique_day' => yii::t('calendarModule.labels', 'Unique Day'),
+            'id' => Yii::t('calendarModule.labels', 'ID'),
+            'name' => Yii::t('calendarModule.labels', 'Name'),
+            'icon' => Yii::t('calendarModule.labels', 'Icon'),
+            'color' => Yii::t('calendarModule.labels', 'Color'),
+            'unique_day' => Yii::t('calendarModule.labels', 'Unique Day'),
         ];
     }
 
@@ -108,6 +108,6 @@ class CalendarEventType extends TagModel
 
     public function getNameTranslated()
     {
-        return yii::t('calendarModule.labels', $this->name);
+        return Yii::t('calendarModule.labels', $this->name);
     }
 }

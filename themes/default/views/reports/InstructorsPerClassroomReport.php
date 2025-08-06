@@ -1,6 +1,6 @@
 <?php
-/* @var $this ReportsController */
-/* @var $report mixed */
+/** @var $this ReportsController */
+/** @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/InstructorsPerClassroomReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);

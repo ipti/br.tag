@@ -1,5 +1,5 @@
 <?php
-/* @var $this AdminController */
+/** @var $this AdminController */
 
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();

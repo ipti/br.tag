@@ -1,9 +1,11 @@
 <?php
 
     Yii::import('application.modules.classdiary.services.*');
+
     /**
      * @property GetCoursePlans $GetCoursePlans
      */
+
     class GetCoursePlans
     {
         private $courseClassService;

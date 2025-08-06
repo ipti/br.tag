@@ -179,7 +179,7 @@ class RegisterIdentification
     public static function validarMatriculaRegistroCivil($matricula): bool
     {
         // Remove caracteres não numéricos
-        if ($matricula == null) {
+        if ($matricula === null) {
             return false;
         }
 

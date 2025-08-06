@@ -107,9 +107,9 @@ echo $form->error($model, 'classroom_fk');
                             </div>
 
                             <?php //@done s1 - criar campo de selecionar o Stage
-                            //@done s1 - alterar banco para suprir a necessidade do filtro por Stage
-                            //@done s1 - criar requisição ajax para filtrar a modalidade por Stage
-                            ?>
+                                                            //@done s1 - alterar banco para suprir a necessidade do filtro por Stage
+                                                            //@done s1 - criar requisição ajax para filtrar a modalidade por Stage
+                                                            ?>
                             <div class="t-field-select">
                                 <?php echo CHtml::label('Etapa', 'Stage', ['class' => 't-field-select__label']); ?>
 
@@ -189,16 +189,16 @@ echo $form->error($model, 'classroom_fk');
                             <div class="t-field-select">
                                 <?php echo $form->labelEx($model, 'current_stage_situation', ['class' => 't-field-select__label']); ?>
                                 <?php echo $form->DropDownList(
-                                    $model,
-                                    'current_stage_situation',
-                                    [
-                                        null => 'Selecione',
-                                        '0' => 'Primeira matrícula no curso',
-                                        '1' => 'Promovido na série anterior do mesmo curso',
-                                        '2' => 'Repetente'
-                                    ],
-                                    ['class' => 't-field-select__input select-search-off']
-                                ); ?>
+                                                                    $model,
+                                                                    'current_stage_situation',
+                                                                    [
+                                                                        null => 'Selecione',
+                                                                        '0' => 'Primeira matrícula no curso',
+                                                                        '1' => 'Promovido na série anterior do mesmo curso',
+                                                                        '2' => 'Repetente'
+                                                                    ],
+                                                                    ['class' => 't-field-select__input select-search-off']
+                                                                ); ?>
                                 <?php echo $form->error($model, 'current_stage_situation'); ?>
                             </div>
 
@@ -444,5 +444,5 @@ if (isset($_GET['censo']) && isset($_GET['id'])) {
 
 <script type="text/javascript">
     var formEnrollment = '#StudentEnrollment_';
-    var updateDependenciesURL = '<?php echo yii::app()->createUrl('enrollment/updatedependencies') ?>';
+    var updateDependenciesURL = '<?php echo Yii::app()->createUrl('enrollment/updatedependencies') ?>';
 </script>

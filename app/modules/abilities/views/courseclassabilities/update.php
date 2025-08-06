@@ -1,6 +1,6 @@
 <?php
-/* @var $this CourseClassAbilitiesController */
-/* @var $model CourseClassAbilities */
+/** @var $this CourseClassAbilitiesController */
+/** @var $model CourseClassAbilities */
 
 $this->breadcrumbs = [
     'Course Class Abilities' => ['index'],

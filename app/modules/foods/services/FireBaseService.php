@@ -95,7 +95,7 @@ class FireBaseService
             $userField = '';
         }
 
-        if ($userField == '') {
+        if ($userField === '') {
             $this->firestoreClient->deleteDocument($documentPath);
             $this->deleteFarmerFoods($farmerId);
         }
@@ -111,7 +111,7 @@ class FireBaseService
             $userField = '';
         }
 
-        if ($userField == '') {
+        if ($userField === '') {
             return false;
         }
 

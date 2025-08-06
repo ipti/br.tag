@@ -1,6 +1,6 @@
 <?php
-    /* @var $this SiteController */
-    /* @var $error array */
+    /** @var $this SiteController */
+    /** @var $error array */
 
     $this->pageTitle = Yii::app()->name . ' - Error';
     ?>
@@ -8,8 +8,8 @@
 
 
 <?php
-        /* @var $this ReportsController */
-        /* @var $report mixed */
+        /** @var $this ReportsController */
+        /** @var $report mixed */
         $baseUrl = Yii::app()->baseUrl;
     $themeUrl = Yii::app()->theme->baseUrl;
     $cs = Yii::app()->getClientScript();

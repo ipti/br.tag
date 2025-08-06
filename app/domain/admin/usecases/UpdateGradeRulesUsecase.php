@@ -48,7 +48,7 @@ class UpdateGradeRulesUsecase
          * @var GradeRules $gradeRules
          * */
         $gradeRules = GradeRules::model()->findByPk($this->gradeRulesId);
-        if ($gradeRules == null) {
+        if ($gradeRules === null) {
             $gradeRules = new GradeRules();
         }
 

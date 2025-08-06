@@ -1,6 +1,6 @@
 <?php
-/* @var $this ReportsController */
-/* @var $report mixed */
+/** @var $this ReportsController */
+/** @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/EnrollmentNotification/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -60,7 +60,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
                 </div>
                 <br><br>
                 <span class="pull-right">
-                    <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
+                    <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . Yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
                 </span>
 
             <br><br>

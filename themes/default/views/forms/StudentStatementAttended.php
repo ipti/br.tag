@@ -1,7 +1,7 @@
 <?php
-/* @var $this ReportsController */
-/* @var $report Mixed */
-/* @var $school SchoolIdentification*/
+/** @var $this ReportsController */
+/** @var $report Mixed */
+/** @var $school SchoolIdentification*/
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/StudentsDeclarationReport/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -28,7 +28,7 @@ $school = SchoolIdentification::model()->findByPk(Yii::app()->user->school);
             <p class="text-center">Este documento não contém rasuras e terá validade de 30 (trinta) dias, a contar da data de expedição.</p>
             <br><br><br><br>
             <span class="pull-right">
-                <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
+                <?=$school->edcensoCityFk->name?>(<?=$school->edcensoUfFk->acronym?>), <?php echo date('d') . ' de ' . Yii::t('default', date('F')) . ' de ' . date('Y') . '.' ?>
             </span>
             <br/><br/><br><br><br>
             <div style="text-align: center">

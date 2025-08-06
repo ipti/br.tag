@@ -1,8 +1,8 @@
 <?php
 
-/* @var $this ReportsController */
-/* @var $students mixed */
-/* @var $classrooms mixed */
+/** @var $this ReportsController */
+/** @var $students mixed */
+/** @var $classrooms mixed */
 
 use Symfony\Component\Validator\Constraints\Length;
 
@@ -26,7 +26,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
     </div>
     <?php
 
-if (count($classrooms) == 0) {
+if (count($classrooms) === 0) {
     echo "<br><span class='alert alert-primary'>N&atilde;o h&aacute; turmas para esta escola.</span>";
 } else {
     foreach ($classrooms as $c) {
@@ -96,7 +96,7 @@ if (count($classrooms) == 0) {
 
                 if ($s['resource_none'] == 1) {
                     $student_aid[0] = 'N&atilde;o h&aacute; aux&iacute;lio';
-                } elseif ($s['resource_none'] == null) {
+                } elseif ($s['resource_none'] === null) {
                     $student_aid[0] = 'N&atilde;o informado';
                 } else {
                     if ($s['resource_aid_lector'] == 1) {

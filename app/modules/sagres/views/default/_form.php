@@ -1,7 +1,7 @@
 <?php
-/* @var $this ProvisionAcountsController */
-/* @var $model ProvisionAcounts */
-/* @var $form CActiveForm */
+/** @var $this ProvisionAcountsController */
+/** @var $model ProvisionAcounts */
+/** @var $form CActiveForm */
 
 $modulePath = Yii::app()->getModule('sagres')->getBasePath();
 $baseUrl = Yii::app()->getAssetManager()->publish($modulePath . '/resources/form/validations.js');

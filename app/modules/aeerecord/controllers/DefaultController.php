@@ -196,7 +196,7 @@ class DefaultController extends Controller
         $model = $this->loadModel($id);
         $recordId = Yii::app()->request->getPost('recordId');
 
-        if ($recordId != null) {
+        if ($recordId !== null) {
             $learningNeeds = Yii::app()->request->getPost('learningNeeds');
             $characterization = Yii::app()->request->getPost('characterization');
 

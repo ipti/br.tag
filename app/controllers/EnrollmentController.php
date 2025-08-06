@@ -218,7 +218,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         $oldClass = $class->gov_id === null ? $class->inep_id : $class->gov_id;
 
         $modelStudentIdentification = StudentIdentification::model()->find('inep_id="' . $model->student_inep_id . '"');
-        if ($model->student_fk == null && $model->classroom_fk == null) {
+        if ($model->student_fk === null && $model->classroom_fk === null) {
             $model->student_fk = $modelStudentIdentification->id;
             $model->classroom_fk = Classroom::model()->find('inep_id="' . $model->classroom_inep_id . '"')->id;
         }
@@ -638,7 +638,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
         $criteria->order = 'si.name';
         $studentEnrollments = StudentEnrollment::model()->findAll($criteria);
 
-        if ($studentEnrollments != null) {
+        if ($studentEnrollments !== null) {
             $criteria = new CDbCriteria();
             $criteria->alias = 'gum';
             $criteria->join = 'join grade_unity gu on gu.id = gum.grade_unity_fk';
@@ -646,7 +646,7 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
             $criteria->params = [':stage' => $studentEnrollments[0]->classroomFk->edcenso_stage_vs_modality_fk];
             $gradeModalities = GradeUnityModality::model()->findAll($criteria);
 
-            if ($gradeModalities != null) {
+            if ($gradeModalities !== null) {
                 $conceptOptions = GradeConcept::model()->findAll();
                 foreach ($conceptOptions as $conceptOption) {
                     $result['conceptOptions'][$conceptOption->id] = $conceptOption->name;
@@ -690,9 +690,9 @@ class EnrollmentController extends Controller implements AuthenticateSEDTokenInt
                     }
                     $gradeResult = GradeResults::model()->find('enrollment_fk = :enrollment_fk and discipline_fk = :discipline_fk', ['enrollment_fk' => $studentEnrollment->id, 'discipline_fk' => $_POST['discipline']]);
                     if (!$result['isUnityConcept']) {
-                        $arr['finalMedia'] = $gradeResult != null ? $gradeResult->final_media : '';
+                        $arr['finalMedia'] = $gradeResult !== null ? $gradeResult->final_media : '';
                     }
-                    $arr['situation'] = $gradeResult != null ? ($gradeResult->situation != null ? $gradeResult->situation : '') : '';
+                    $arr['situation'] = $gradeResult !== null ? ($gradeResult->situation !== null ? $gradeResult->situation : '') : '';
                     array_push($result['students'], $arr);
                 }
 

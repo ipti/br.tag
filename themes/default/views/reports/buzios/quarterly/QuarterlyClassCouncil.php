@@ -1,6 +1,6 @@
 <?php
-/* @var $this ReportsController */
-/* @var $report mixed */
+/** @var $this ReportsController */
+/** @var $report mixed */
 $baseUrl = Yii::app()->baseUrl;
 $cs = Yii::app()->getClientScript();
 $cs->registerScriptFile($baseUrl . '/js/reports/QuartelyClassCouncil/_initialization.js?v=' . TAG_VERSION, CClientScript::POS_END);
@@ -21,7 +21,7 @@ switch ($turno) {
     case 'I':
         $turno = 'Integral';
         break;
-    case $turno == '' || $turno == null:
+    case $turno === '' || $turno === null:
         $turno = '___________';
         break;
     default:
@@ -32,7 +32,7 @@ switch ($turno) {
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
-    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report') . ' - '; ?> <?php echo $title == '' ? mb_strtoupper($classroom[0]['class_stage'], 'UTF-8') : $title?></h3>
+    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report') . ' - '; ?> <?php echo $title === '' ? mb_strtoupper($classroom[0]['class_stage'], 'UTF-8') : $title?></h3>
     <div class="row-fluid hidden-print">
         <div class="span12">
             <div class="buttons">
@@ -134,19 +134,19 @@ switch ($turno) {
             if ($c['status'] == 1) {
                 echo '';
             } elseif ($c['status'] == 2) {
-                if ($c['date_cancellation'] != null) {
+                if ($c['date_cancellation'] !== null) {
                     echo 'Trans. ' . $date_cancellation;
                 } else {
                     echo 'Trans. ____/____/______';
                 }
             } elseif ($c['status'] == 3) {
-                if ($c['date_cancellation'] != null) {
+                if ($c['date_cancellation'] !== null) {
                     echo 'Cancel. ' . $date_cancellation;
                 } else {
                     echo 'Cancel. ____/____/______';
                 }
             } elseif ($c['status'] == 4) {
-                if ($c['date_cancellation'] != null) {
+                if ($c['date_cancellation'] !== null) {
                     echo 'Evad. ' . $date_cancellation;
                 } else {
                     echo 'Evad. ____/____/______';
@@ -287,7 +287,7 @@ switch ($turno) {
     <div class="cabecalho" style="margin: 30px 0;">
         <?php $this->renderPartial('buzios/headers/headBuziosI'); ?>
     </div>
-    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report') . ' - '; ?> <?php echo $title == '' ? mb_strtoupper($classroom[0]['class_stage'], 'UTF-8') : $title?></h3>
+    <h3><?php echo Yii::t('default', 'Quarterly Class Council Report') . ' - '; ?> <?php echo $title === '' ? mb_strtoupper($classroom[0]['class_stage'], 'UTF-8') : $title?></h3>
     <div class='no-enrollments'>Não há alunos matriculados na turma.</div>
 </div>
 <?php }?>

@@ -29,7 +29,7 @@ class GetStudentGradesByDisciplineUsecase
         /** @var Classroom $classroom */
         $classroom = Classroom::model()->with('activeStudentEnrollments.studentFk')->findByPk($this->classroomId);
 
-        if ($classroom == null) {
+        if ($classroom === null) {
             throw new NoActiveStudentsException();
         }
         $rules = $classroom->getGradeRules($this->stageId);
@@ -67,7 +67,7 @@ class GetStudentGradesByDisciplineUsecase
                 'colspan' => $unity->countGradeUnityModalities + ($unity->type === GradeUnity::TYPE_UNITY_WITH_RECOVERY ? 1 : 0),
                 'modalities' => array_column($unity->gradeUnityModalities, 'name'),
                 'calculationName' => $unity->gradeCalculationFk->name,
-                'recoveryPartialFk' => $unity->parcial_recovery_fk == null ? '' : $unity->parcial_recovery_fk,
+                'recoveryPartialFk' => $unity->parcial_recovery_fk === null ? '' : $unity->parcial_recovery_fk,
                 'type' => $unity->type,
             ];
         }
@@ -94,7 +94,7 @@ class GetStudentGradesByDisciplineUsecase
         $partialRecoveryColumns = null;
         $partialRecovery = $this->getpartialRecoveriesByUnity();
 
-        if ($partialRecovery != null) {
+        if ($partialRecovery !== null) {
             $partialRecoveryColumns = [
                 'id' => $partialRecovery->id,
                 'name' => $partialRecovery->name,
@@ -225,7 +225,7 @@ class GetStudentGradesByDisciplineUsecase
             ]
         );
 
-        if ($gradeResult == null) {
+        if ($gradeResult === null) {
             $gradeResult = new GradeResults();
             $gradeResult->enrollment_fk = $studentEnrollment->id;
             $gradeResult->discipline_fk = $discipline;
@@ -291,7 +291,7 @@ class GetStudentGradesByDisciplineUsecase
                     ]
                 );
 
-                if ($gradePartialRecovery == null) {
+                if ($gradePartialRecovery === null) {
                     $gradePartialRecovery = new Grade();
                     $gradePartialRecovery->enrollment_fk = $studentEnrollment->id;
                     $gradePartialRecovery->discipline_fk = $discipline;
@@ -331,7 +331,7 @@ class GetStudentGradesByDisciplineUsecase
             ->bindParam(':discipline_id', $discipline)
             ->bindParam(':unity_id', $unityId)->queryAll(), 'id');
 
-        if ($gradesIds == null) {
+        if ($gradesIds === null) {
             return [];
         }
 

@@ -22,7 +22,7 @@ $this->setPageTitle('TAG - ' . Yii::t('default', 'Reports'));
 
     function isNotEmpty($var)
     {
-        return $var != null;
+        return $var !== null;
     }
 
     $ordem = 1;

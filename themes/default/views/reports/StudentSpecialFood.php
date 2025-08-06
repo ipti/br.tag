@@ -76,7 +76,7 @@ foreach ($report as $key => $r) {
     } else {
         $obesity = '';
     };
-    if ($r['others'] != null && $r['others'] != '') {
+    if ($r['others'] !== null && $r['others'] != '') {
         $others = $r['others'];
     } else {
         $others = 'Não possui';

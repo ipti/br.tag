@@ -3,12 +3,12 @@
 $baseUrl = Yii::app()->theme->baseUrl;
 
 if (Yii::app()->user->isGuest) {
-    $this->redirect(yii::app()->createUrl('site/login'));
+    $this->redirect(Yii::app()->createUrl('site/login'));
 }
 
 $school_logo = $baseUrl . '/img/emblema-escola.svg';
 $url_school_logo = '/?r=school/displayLogo&id=' . Yii::app()->user->school;
-$schoolurl = yii::app()->createUrl('school');
+$schoolurl = Yii::app()->createUrl('school');
 
 $select_school = '';
 
@@ -20,7 +20,7 @@ if (
     $select_school = CHtml::activeDropDownList(
         SchoolIdentification::model(),
         'inep_id',
-        Chtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
+        CHtml::listData(Yii::app()->user->usersSchools, 'inep_id', 'name'),
         ['empty' => 'Selecione a escola', 'class' => 'select-school', 'id2' => 'school', 'options' => [Yii::app()->user->school => ['selected' => true]]]
     );
 } else {
@@ -41,7 +41,7 @@ if (
         $select_school = CHtml::activeDropDownList(
             UsersSchool::model(),
             'school_fk',
-            Chtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
+            CHtml::listData(Yii::app()->user->usersSchools, 'school_fk', 'schoolFk.name'),
             [
                 'empty' => 'Selecione a escola',
                 'class' => 'select-school',
@@ -171,7 +171,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                         </div>
                         <div class="column">
                             <form class="school" id2="school"
-                                action="<?php echo yii::app()->createUrl('site/changeschool') ?>" method="Post">
+                                action="<?php echo Yii::app()->createUrl('site/changeschool') ?>" method="Post">
                                 <?php echo $select_school; ?>
                             </form>
                             <div class="tag-topbar__username"><?= Yii::app()->user->loginInfos->username ?></div>
@@ -190,7 +190,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
 ?>
                 </li>
                 <li id="menu-logout" class="hide-responsive" style="margin-left: auto">
-                    <a class="t-button-tertiary" href="<?php echo yii::app()->createUrl('site/logout') ?>">
+                    <a class="t-button-tertiary" href="<?php echo Yii::app()->createUrl('site/logout') ?>">
                         <img src="<?php echo Yii::app()->theme->baseUrl; ?>/img/sair_branco.svg" />
                         Sair
                     </a>
@@ -223,7 +223,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                             <?php if (Yii::app()->getAuthManager()->checkAccess('guardian', Yii::app()->user->loginInfos->id)):?>
                             <li
                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=enrollmentonline') || $_SERVER['REQUEST_URI'] == '/' ? 'active' : '' ?> hide-responsive">
-                                <a href="<?php echo yii::app()->createUrl('enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus') ?>" class="t-menu-item__link">
+                                <a href="<?php echo Yii::app()->createUrl('enrollmentonline/Enrollmentonlinestudentidentification/StudentStatus') ?>" class="t-menu-item__link">
                                     <span class="t-icon-backpack t-menu-item__icon"></span>
                                     <span class="t-menu-item__text">Matrícula Online</span>
                                 </a>
@@ -244,7 +244,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=school') ? 'active' : '' ?>">
                                     <?php
                     if (count(Yii::app()->user->usersSchools) == 1) {
-                        $schoolurl = yii::app()->createUrl('school/update', ['id' => yii::app()->user->school]);
+                        $schoolurl = Yii::app()->createUrl('school/update', ['id' => Yii::app()->user->school]);
                     }
                                 ?>
                                     <a class="t-menu-item__link" href="<?php echo $schoolurl ?>">
@@ -253,26 +253,26 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                     </a>
                                 </li>
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=classroom') ? 'active' : '' ?>">
-                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('classroom') ?>">
+                                    <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('classroom') ?>">
                                         <span class="t-icon-people t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Turmas</span>
                                     </a>
                                 </li>
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=student') ? 'active' : '' ?>">
-                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('student') ?>">
+                                    <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('student') ?>">
                                         <span class="t-icon-pencil t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Alunos</span>
                                     </a>
                                 </li>
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=instructor') ? 'active' : '' ?>">
-                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('instructor') ?>">
+                                    <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('instructor') ?>">
                                         <span class="t-icon-book t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Professores</span>
                                     </a>
                                 </li>
                                 <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=calendar') ? 'active' : '' ?> hide-responsive">
-                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('calendar') ?> ">
+                                    <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('calendar') ?> ">
                                         <span class="t-icon-calendar t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Calendário Escolar</span>
                                     </a>
@@ -280,14 +280,14 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                 <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=curricularmatrix') ? 'active' : '' ?> hide-responsive">
                                     <a class="t-menu-item__link"
-                                        href="<?php echo yii::app()->createUrl('curricularmatrix') ?> ">
+                                        href="<?php echo Yii::app()->createUrl('curricularmatrix') ?> ">
                                         <span class="t-icon-line_graph t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Matriz Curricular</span>
                                     </a>
                                 </li>
                                 <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=timesheet') ? 'active' : '' ?> hide-responsive">
-                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('timesheet') ?> ">
+                                    <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('timesheet') ?> ">
                                         <span class="t-icon-blackboard t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Quadro de Horário</span>
                                     </a>
@@ -298,7 +298,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                             <?php if ($i = Yii::app()->getAuthManager()->checkAccess('instructor', Yii::app()->user->loginInfos->id)): ?>
                                 <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=calendar') ? 'active' : '' ?> hide-responsive">
-                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('calendar') ?> ">
+                                    <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('calendar') ?> ">
                                         <span class="t-icon-calendar t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Calendário Escolar</span>
                                     </a>
@@ -337,7 +337,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                         <li
                                             class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=courseplan') ? 'active' : '' ?>">
                                             <a class="t-menu-item__link"
-                                                href="<?php echo yii::app()->createUrl('courseplan/courseplan') ?>">
+                                                href="<?php echo Yii::app()->createUrl('courseplan/courseplan') ?>">
                                                 <span class="t-icon-diary t-menu-item__icon"></span>
                                                 <span class="t-menu-item__text">Plano de Aula</span>
                                             </a>
@@ -347,7 +347,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=classes/classContents') ? 'active' : '' ?>">
                                                 <a class="t-menu-item__link"
-                                                    href="<?php echo yii::app()->createUrl('classes/classContents') ?>">
+                                                    href="<?php echo Yii::app()->createUrl('classes/classContents') ?>">
                                                     <span class="t-icon-topics t-menu-item__icon"></span>
                                                     <span class="t-menu-item__text">Aulas Ministradas</span>
                                                 </a>
@@ -355,7 +355,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=classes/frequency') ? 'active' : '' ?>">
                                                 <a class="t-menu-item__link"
-                                                    href="<?php echo yii::app()->createUrl('classes/frequency') ?>">
+                                                    href="<?php echo Yii::app()->createUrl('classes/frequency') ?>">
                                                     <span class="t-icon-checklist t-menu-item__icon"></span>
                                                     <span class="t-menu-item__text">Frequência</span>
                                                 </a>
@@ -365,7 +365,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=classes/classContents') ? 'active' : '' ?>">
                                                 <a class="t-menu-item__link"
-                                                    href="<?php echo yii::app()->createUrl('classes/classContents') ?>">
+                                                    href="<?php echo Yii::app()->createUrl('classes/classContents') ?>">
                                                     <span class="t-icon-topics t-menu-item__icon"></span>
                                                     <span class="t-menu-item__text">Aulas Ministradas</span>
                                                 </a>
@@ -373,7 +373,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=classes/frequency') ? 'active' : '' ?>">
                                                 <a class="t-menu-item__link"
-                                                    href="<?php echo yii::app()->createUrl('classes/frequency') ?>">
+                                                    href="<?php echo Yii::app()->createUrl('classes/frequency') ?>">
                                                     <span class="t-icon-checklist t-menu-item__icon"></span>
                                                     <span class="t-menu-item__text">Frequência</span>
                                                 </a>
@@ -383,7 +383,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=grades/grades') ? 'active' : '' ?>">
                                                 <a class="t-menu-item__link"
-                                                    href="<?php echo yii::app()->createUrl('grades/grades') ?> ">
+                                                    href="<?php echo Yii::app()->createUrl('grades/grades') ?> ">
                                                     <span class="t-icon-edition t-menu-item__icon"></span>
                                                     <span class="t-menu-item__text">Notas</span>
                                                 </a>
@@ -393,7 +393,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=enrollment/reportCard') ? 'active' : '' ?>">
                                                 <a class="t-menu-item__link"
-                                                    href="<?php echo yii::app()->createUrl('enrollment/reportCard') ?> ">
+                                                    href="<?php echo Yii::app()->createUrl('enrollment/reportCard') ?> ">
                                                     <span class="t-report_card t-menu-item__icon"></span>
                                                     <span class="t-menu-item__text">Lançamento de Notas</span>
                                                 </a>
@@ -403,7 +403,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=enrollment/gradesRelease') ? 'active' : '' ?>">
                                                 <a class="t-menu-item__link"
-                                                    href="<?php echo yii::app()->createUrl('enrollment/gradesRelease') ?> ">
+                                                    href="<?php echo Yii::app()->createUrl('enrollment/gradesRelease') ?> ">
                                                     <span class="t-report_card t-menu-item__icon"></span>
                                                     <span class="t-menu-item__text">Lançamento de Notas</span>
                                                 </a>
@@ -413,7 +413,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=aeerecord') ? 'active' : '' ?>">
                                                 <a class="t-menu-item__link"
-                                                    href="<?php echo yii::app()->createUrl('aeerecord/default/') ?> ">
+                                                    href="<?php echo Yii::app()->createUrl('aeerecord/default/') ?> ">
                                                     <span class="t-icon-copy t-menu-item__icon"></span>
                                                     <span class="t-menu-item__text">Ficha AEE</span>
                                                 </a>
@@ -427,7 +427,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=aeerecord') ? 'active' : '' ?>">
                                                 <a class="t-menu-item__link"
-                                                    href="<?php echo yii::app()->createUrl('aeerecord/default/admin') ?> ">
+                                                    href="<?php echo Yii::app()->createUrl('aeerecord/default/admin') ?> ">
                                                     <span class="t-icon-copy t-menu-item__icon"></span>
                                                     <span class="t-menu-item__text">Ficha AEE</span>
                                                 </a>
@@ -440,7 +440,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                 <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=classes/validateClassContents') ? 'active' : '' ?>">
                                     <a class="t-menu-item__link"
-                                        href="<?php echo yii::app()->createUrl('classes/validateClassContents') ?>">
+                                        href="<?php echo Yii::app()->createUrl('classes/validateClassContents') ?>">
                                         <span class="t-icon-topics t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Aulas Ministradas</span>
                                     </a>
@@ -449,7 +449,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                             <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)): ?>
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=courseplan') ? 'active' : '' ?>">
                                     <a class="t-menu-item__link"
-                                        href="<?php echo yii::app()->createUrl('courseplan/courseplan') ?>">
+                                        href="<?php echo Yii::app()->createUrl('courseplan/courseplan') ?>">
                                         <span class="t-icon-diary t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Plano de Aula</span>
                                     </a>
@@ -458,7 +458,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                             <?php if (Yii::app()->getAuthManager()->checkAccess('coordinator', Yii::app()->user->loginInfos->id)): ?>
                                 <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=aeerecord') ? 'active' : '' ?>">
                                     <a class="t-menu-item__link"
-                                        href="<?php echo yii::app()->createUrl('aeerecord/default/admin') ?> ">
+                                        href="<?php echo Yii::app()->createUrl('aeerecord/default/admin') ?> ">
                                         <span class="t-icon-copy t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Ficha AEE</span>
                                     </a>
@@ -468,7 +468,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                 <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=classdiary/default/') ? 'active' : '' ?>">
                                     <a class="t-menu-item__link"
-                                        href="<?php echo yii::app()->createUrl('classdiary/default/') ?> ">
+                                        href="<?php echo Yii::app()->createUrl('classdiary/default/') ?> ">
                                         <span class="t-classdiary t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Diario de Classe</span>
                                     </a>
@@ -478,7 +478,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                             || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)): ?>
                                 <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=reports') ? 'active' : '' ?> hide-responsive">
-                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('reports') ?>">
+                                    <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('reports') ?>">
                                         <span class="t-icon-column_graphi t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Relatórios</span>
                                     </a>
@@ -487,21 +487,21 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                             <?php if (Yii::app()->getAuthManager()->checkAccess('admin', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('manager', Yii::app()->user->loginInfos->id) || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)): ?>
                                 <li id="menu-quiz"
                                     class="t-menu-item  <?= strpos($_SERVER['REQUEST_URI'], '?r=quiz') ? 'active' : '' ?> hide-responsive">
-                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('quiz') ?>">
+                                    <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('quiz') ?>">
                                         <span class="t-icon-question-group t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Questionário</span>
                                     </a>
                                 </li>
                                 <?php if (Yii::app()->features->isEnable('FEAT_FOOD')): ?>
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=foods') ? 'active' : '' ?>">
-                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('foods') ?> ">
+                                        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('foods') ?> ">
                                             <span class="t-icon-apple t-menu-item__icon"></span>
                                             <span class="t-menu-item__text">Merenda Escolar</span>
                                         </a>
                                     </li>
                                 <?php else: ?>
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=lunch') ? 'active' : '' ?>">
-                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('lunch') ?> ">
+                                        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('lunch') ?> ">
                                             <span class="t-icon-apple t-menu-item__icon"></span>
                                             <span class="t-menu-item__text">Merenda Escolar</span>
                                         </a>
@@ -529,7 +529,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                         <li
                                             class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=censo/index') ? 'active' : '' ?>">
                                             <a class="t-menu-item__link"
-                                                href="<?php echo yii::app()->createUrl('censo/index') ?> ">
+                                                href="<?php echo Yii::app()->createUrl('censo/index') ?> ">
                                                 <span class="t-icon-educacenso t-menu-item__icon"></span>
                                                 <span class="t-menu-item__text">Educacenso</span>
                                             </a>
@@ -537,7 +537,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                         <?php if (INSTANCE != 'BUZIOS') { ?>
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=sagres') ? 'active' : '' ?>">
-                                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sagres') ?> ">
+                                                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('sagres') ?> ">
                                                     <span class="t-icon-sagres t-menu-item__icon"></span>
                                                     <span class="t-menu-item__text">Sagres</span>
                                                 </a>
@@ -546,7 +546,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                                         <?php if (Yii::app()->features->isEnable('FEAT_SEDSP')) { ?>
                                             <li
                                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=sedsp') ? 'active' : '' ?>">
-                                                <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('sedsp') ?>">
+                                                <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('sedsp') ?>">
                                                     <span class="t-icon-sp  t-menu-item__icon"></span>
                                                     <span class="t-menu-item__text">SEDSP</span>
                                                 </a>
@@ -558,7 +558,7 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                             <li
                                 class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=admin/editPassword') ? 'active' : '' ?> hide-responsive">
                                 <a class="t-menu-item__link"
-                                    href="<?php echo yii::app()->createUrl('admin/editPassword', ['id' => Yii::app()->user->loginInfos->id]) ?>">
+                                    href="<?php echo Yii::app()->createUrl('admin/editPassword', ['id' => Yii::app()->user->loginInfos->id]) ?>">
                                     <span class="t-icon-lock t-menu-item__icon"></span>
                                     <span class="t-menu-item__text">Alterar senha</span>
                                 </a>
@@ -566,14 +566,14 @@ $cs->registerCssFile(Yii::app()->baseUrl . '/sass/css/main.css?v=' . TAG_VERSION
                             <?php if (Yii::app()->getAuthManager()->checkAccess('nutritionist', Yii::app()->user->loginInfos->id)): ?>
                                 <?php if (Yii::app()->features->isEnable('FEAT_FOOD')): ?>
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=foods') ? 'active' : '' ?>">
-                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('foods') ?> ">
+                                        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('foods') ?> ">
                                             <span class="t-icon-apple t-menu-item__icon"></span>
                                             <span class="t-menu-item__text">Merenda Escolar</span>
                                         </a>
                                     </li>
                                 <?php else: ?>
                                     <li class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=lunch') ? 'active' : '' ?>">
-                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('lunch') ?> ">
+                                        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('lunch') ?> ">
                                             <span class="t-icon-apple t-menu-item__icon"></span>
                                             <span class="t-menu-item__text">Merenda Escolar</span>
                                         </a>
@@ -585,14 +585,14 @@ endif;
 || Yii::app()->getAuthManager()->checkAccess('reader', Yii::app()->user->loginInfos->id)) { ?>
                                 <li
                                     class="t-menu-item <?= strpos($_SERVER['REQUEST_URI'], '?r=admin') ? 'active' : '' ?> hide-responsive">
-                                    <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('admin') ?>">
+                                    <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('admin') ?>">
                                         <span class="t-icon-configuration-adm t-menu-item__icon"></span>
                                         <span class="t-menu-item__text">Administração</span>
                                     </a>
                                 </li>
                                 <?php if (Yii::app()->features->isEnable('FEAT_DASHBOARD_POWER')): ?>
                                     <li class="t-menu-item hide-responsive">
-                                        <a class="t-menu-item__link" href="<?php echo yii::app()->createUrl('dashboard') ?>">
+                                        <a class="t-menu-item__link" href="<?php echo Yii::app()->createUrl('dashboard') ?>">
                                             <span class="t-icon-bar_graph t-menu-item__icon"></span>
                                             <span class="t-menu-item__text">Gestão de Resultados</span>
                                         </a>
@@ -600,7 +600,7 @@ endif;
                                 <?php else: ?>
                                     <li class="t-menu-item hide-responsive">
                                         <a class="t-menu-item__link"
-                                            href="<?php echo yii::app()->createUrl('resultsmanagement') ?>">
+                                            href="<?php echo Yii::app()->createUrl('resultsmanagement') ?>">
                                             <span class="t-icon-bar_graph t-menu-item__icon"></span>
                                             <span class="t-menu-item__text">Gestão de Resultados</span>
                                         </a>
@@ -634,12 +634,12 @@ endif;
             </button>
             <h4 class="modal-title" id="myModalLabel">Selecione o ano</h4>
         </div>
-        <form class="form-vertical" id="createCalendar" action="<?php echo yii::app()->createUrl('site/changeYear') ?>"
+        <form class="form-vertical" id="createCalendar" action="<?php echo Yii::app()->createUrl('site/changeYear') ?>"
             method="post">
             <div class="modal-body">
                 <div class="row-fluid">
                     <div class=" span12">
-                        <?php echo CHtml::label(yii::t('default', 'Year'), 'years', ['class' => 'control-label']); ?>
+                        <?php echo CHtml::label(Yii::t('default', 'Year'), 'years', ['class' => 'control-label']); ?>
                         <select name="years" id="years" placeholder="Selecione o ano" style="width:100%">
                             <?php
 $years = range(date('Y'), 2014);

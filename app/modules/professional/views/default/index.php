@@ -1,6 +1,6 @@
 <?php
-/* @var $this ProfessionalController */
-/* @var $dataProvider CActiveDataProvider */
+/** @var $this ProfessionalController */
+/** @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs = [
     'Professionals',
