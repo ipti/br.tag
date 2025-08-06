@@ -1,14 +1,15 @@
 <?php
 
-
 final class CantSaveGradeUnityModalityException extends Exception
 {
-    public function __construct($modalityModel, $code = 0, Throwable $previous = null) {
+    public function __construct($modalityModel, $code = 0, ?Throwable $previous = null)
+    {
         $messages = Yii::app()->utils->stringfyValidationErrors($modalityModel);
-        parent::__construct("Não foi possivel salvar a modalidade de avaliação em uma unidade dessa estrutura de avaliação \n". $messages, $code, $previous);
+        parent::__construct("Não foi possivel salvar a modalidade de avaliação em uma unidade dessa estrutura de avaliação \n".$messages, $code, $previous);
     }
 
-    public function __toString(): string {
-        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
+    public function __toString(): string
+    {
+        return __CLASS__.": [{$this->code}]: {$this->message}\n";
     }
 }

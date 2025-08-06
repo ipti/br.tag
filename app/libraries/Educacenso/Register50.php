@@ -24,15 +24,15 @@ class Register50
                 $teachingData->instructor_inep_id = $teachingData->instructorFk->inep_id;
                 $teachingData->school_inep_id_fk = $school->inep_id;
                 $instructors[$teachingData->instructor_fk]['teaching'][$classroom->id] = $teachingData->attributes;
-                $instructors[$teachingData->instructor_fk]['teaching'][$classroom->id]["disciplines"] = [];
+                $instructors[$teachingData->instructor_fk]['teaching'][$classroom->id]['disciplines'] = [];
                 foreach ($teachingData->teachingMatrixes as $teachingMatrix) {
-                    array_push($instructors[$teachingData->instructor_fk]['teaching'][$classroom->id]["disciplines"], $teachingMatrix->curricularMatrixFk->discipline_fk);
+                    array_push($instructors[$teachingData->instructor_fk]['teaching'][$classroom->id]['disciplines'], $teachingMatrix->curricularMatrixFk->discipline_fk);
                 }
             }
         }
 
         foreach ($instructors as $instructor) {
-            $id = (String)'II' . $instructor['identification']['id'];
+            $id = (string) 'II'.$instructor['identification']['id'];
 
             foreach ($instructor['teaching'] as $teaching) {
                 $register = [];
@@ -55,16 +55,16 @@ class Register50
                 $n = 0;
                 for ($i = 9; $i <= 33; $i++) {
                     if ($associatedStage == 1 || $associatedStage == 2 || $associatedStage == 3
-                        || ($teaching["role"] != '1' && $teaching["role"] != '5') || ($classroom->complementary_activity == '1' && $classroom->schooling == '0')) {
-                        $codigos[$i] = "";
+                        || ($teaching['role'] != '1' && $teaching['role'] != '5') || ($classroom->complementary_activity == '1' && $classroom->schooling == '0')) {
+                        $codigos[$i] = '';
                     } else {
-                        $value = $teaching["disciplines"][$n] != null ? $teaching["disciplines"][$n] : "";
+                        $value = $teaching['disciplines'][$n] != null ? $teaching['disciplines'][$n] : '';
                         if ($value >= 99 || $value == 20 || $value == 21) {
                             if (!$alreadyHave99) {
                                 $codigos[$i] = 99;
                                 $alreadyHave99 = true;
                             } else {
-                                $codigos[$i] = "";
+                                $codigos[$i] = '';
                             }
                         } else {
                             $codigos[$i] = $value;
@@ -73,30 +73,29 @@ class Register50
                     }
                 }
 
-                if ($classroom->pedagogical_mediation_type == "1" && ($teaching['role'] != '1' && $teaching['role'] != '2' && $teaching['role'] != '3' && $teaching['role'] != '4' && $teaching['role'] != '7' && $teaching['role'] != '8' && $teaching['role'] != '9')) {
-                    $teaching['role'] = "1";
-                } else if ($classroom->pedagogical_mediation_type == "3" && ($teaching['role'] != '4' && $teaching['role'] != '5')) {
-                    $teaching['role'] = "4";
+                if ($classroom->pedagogical_mediation_type == '1' && ($teaching['role'] != '1' && $teaching['role'] != '2' && $teaching['role'] != '3' && $teaching['role'] != '4' && $teaching['role'] != '7' && $teaching['role'] != '8' && $teaching['role'] != '9')) {
+                    $teaching['role'] = '1';
+                } elseif ($classroom->pedagogical_mediation_type == '3' && ($teaching['role'] != '4' && $teaching['role'] != '5')) {
+                    $teaching['role'] = '4';
                 }
 
                 if ($teaching['role'] != '1' && $teaching['role'] != '5' && $teaching['role'] != '6') {
                     $teaching['contract_type'] = '';
-                } else if ($teaching['contract_type'] == '') {
+                } elseif ($teaching['contract_type'] == '') {
                     $teaching['contract_type'] = '1';
                 }
 
-                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 50 order by corder', [":year" => $year]);
+                $edcensoAliases = EdcensoAlias::model()->findAll('year = :year and register = 50 order by corder', [':year' => $year]);
                 foreach ($edcensoAliases as $edcensoAlias) {
                     $register[$edcensoAlias->corder] = $edcensoAlias->default;
                     //códigos
                     if ($edcensoAlias->corder >= 9 && $edcensoAlias->corder <= 33) {
                         $register[$edcensoAlias->corder] = $codigos[$edcensoAlias->corder];
-                    }
-                    else if ($edcensoAlias["attr"] != null && $teaching[$edcensoAlias["attr"]] !== $edcensoAlias->default) {
-                        $register[$edcensoAlias->corder] = $teaching[$edcensoAlias["attr"]];
+                    } elseif ($edcensoAlias['attr'] != null && $teaching[$edcensoAlias['attr']] !== $edcensoAlias->default) {
+                        $register[$edcensoAlias->corder] = $teaching[$edcensoAlias['attr']];
                     }
 
-                    if ($classroom->aee == 1 && $edcensoAlias->corder >= 9 && $edcensoAlias->corder <= 41   ){
+                    if ($classroom->aee == 1 && $edcensoAlias->corder >= 9 && $edcensoAlias->corder <= 41) {
                         $register[$edcensoAlias->corder] = '';
                     }
                 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * The BSD-3-Clause
   Copyright (c) 2011, Instituto de Pesquisas em Tecnologia e Inovação(IPTI).
@@ -30,20 +31,19 @@ STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
  */
-return array(
+return [
     //Meses
     'Can not delete' => 'Não é possível excluir, é provavel que existam registros associados a este item',
-    'February' => 'Fevereiro',
-    'March' => 'Março',
-    'April' => 'Abril',
-    'May' => 'Maio',
-    'June' => 'Junho',
-    'July' => 'Julho',
-    'August' => 'Agosto',
-    'September' => 'Setembro',
-    'October' => 'Outubro',
-    'November' => 'Novembro',
-    'December' => 'Dezembro',
+    'February'       => 'Fevereiro',
+    'March'          => 'Março',
+    'April'          => 'Abril',
+    'May'            => 'Maio',
+    'June'           => 'Junho',
+    'July'           => 'Julho',
+    'August'         => 'Agosto',
+    'September'      => 'Setembro',
+    'October'        => 'Outubro',
+    'November'       => 'Novembro',
+    'December'       => 'Dezembro',
 
-        )
-?>
+];

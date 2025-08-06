@@ -2,24 +2,22 @@
 
 /**
  * @property GradeResults $gradeResult
- * @property GradeRules $gradeRule
- * @property integer $numUnities
- * @property integer $frequency
- * @property integer $stage
+ * @property GradeRules   $gradeRule
+ * @property int          $numUnities
+ * @property int          $frequency
+ * @property int          $stage
  */
 class ChageStudentStatusByGradeUsecase
 {
-
     private $gradeResult;
     private $gradeRule;
     private $numUnities;
     private $frequency;
     private $stage;
 
-    private const SITUATION_APPROVED = "APROVADO";
-    private const SITUATION_DISPPROVED = "REPROVADO";
-    private const SITUATION_RECOVERY = "RECUPERAÇÃO";
-
+    private const SITUATION_APPROVED = 'APROVADO';
+    private const SITUATION_DISPPROVED = 'REPROVADO';
+    private const SITUATION_RECOVERY = 'RECUPERAÇÃO';
 
     public function __construct($gradeResult, $gradeRule, $numUnities, $stage, $frequency = null)
     {
@@ -32,24 +30,25 @@ class ChageStudentStatusByGradeUsecase
 
     public function exec()
     {
+        $enrollment = $this->getStudentEnrollment($this->gradeResult->enrollment_fk);
 
-            $enrollment = $this->getStudentEnrollment($this->gradeResult->enrollment_fk);
+        TLog::info('Começando o processo de atualizar o status da matricula do aluno', ['enrollment' => $enrollment->id]);
 
-            TLog::info("Começando o processo de atualizar o status da matricula do aluno", ["enrollment" => $enrollment->id]);
+        if (!$this->isEnrollmentStatusAllowed($enrollment)) {
+            $this->gradeResult->situation = $enrollment->getCurrentStatus();
+            $this->gradeResult->save();
 
-            if (!$this->isEnrollmentStatusAllowed($enrollment)) {
-                $this->gradeResult->situation = $enrollment->getCurrentStatus();
-                $this->gradeResult->save();
-                return;
-            }
+            return;
+        }
 
-            if (!$this->hasAllGrades()) {
-                $this->gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
-                $this->gradeResult->save();
-                return;
-            }
+        if (!$this->hasAllGrades()) {
+            $this->gradeResult->situation = StudentEnrollment::STATUS_ACTIVE;
+            $this->gradeResult->save();
 
-            $this->updateStudentSituation();
+            return;
+        }
+
+        $this->updateStudentSituation();
     }
 
     private function getStudentEnrollment($enrollmentId)
@@ -66,8 +65,9 @@ class ChageStudentStatusByGradeUsecase
             null,
             StudentEnrollment::STATUS_ACTIVE,
             StudentEnrollment::STATUS_APPROVED,
-            StudentEnrollment::STATUS_DISAPPROVED
+            StudentEnrollment::STATUS_DISAPPROVED,
         ];
+
         return in_array($enrollment->getCurrentStatus(), $allowedStatus);
     }
 
@@ -77,10 +77,11 @@ class ChageStudentStatusByGradeUsecase
     private function hasAllGrades()
     {
         for ($i = 1; $i <= $this->numUnities; $i++) {
-            if (!isset($this->gradeResult["grade_" . $i]) || $this->gradeResult["grade_" . $i] === "") {
+            if (!isset($this->gradeResult['grade_'.$i]) || $this->gradeResult['grade_'.$i] === '') {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -89,8 +90,8 @@ class ChageStudentStatusByGradeUsecase
      */
     private function updateStudentSituation()
     {
-        if ($this->gradeResult->final_media === null || $this->gradeResult->final_media === "") {
-            throw new Exception("Aluno não tem média final", 1);
+        if ($this->gradeResult->final_media === null || $this->gradeResult->final_media === '') {
+            throw new Exception('Aluno não tem média final', 1);
         }
 
         $approvedSituation = self::SITUATION_APPROVED;
@@ -109,20 +110,18 @@ class ChageStudentStatusByGradeUsecase
             $recoveryMedia = $this->gradeResult->rec_final;
             $finalRecoveryMedia = $this->gradeRule->final_recover_media;
 
-            $hasRecoveryGrade = isset($recoveryMedia) && $recoveryMedia !== "";
+            $hasRecoveryGrade = isset($recoveryMedia) && $recoveryMedia !== '';
             if (!$hasRecoveryGrade) {
                 $this->gradeResult->situation = $recoverySituation;
             } elseif ($recoveryMedia >= $finalRecoveryMedia) {
                 $this->gradeResult->situation = $approvedSituation;
             }
-
         }
 
-        if($this->gradeResult->save()){
+        if ($this->gradeResult->save()) {
             $updateEnrollment = new ChangeEnrollmentStatusUsecase($this->gradeResult->enrollment_fk);
             $updateEnrollment->exec();
         }
-        TLog::info("Status da matrícula", ["gradeResult" => $this->gradeResult->situation]);
+        TLog::info('Status da matrícula', ['gradeResult' => $this->gradeResult->situation]);
     }
-
 }

@@ -3,6 +3,7 @@
 class ClassroomRobots
 {
     public AcceptanceTester $tester;
+
     public function __construct(AcceptanceTester $tester)
     {
         $this->tester = $tester;
@@ -10,6 +11,7 @@ class ClassroomRobots
 
     /**
      * Url do módulo de turma.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function pageClassroom()
@@ -19,6 +21,7 @@ class ClassroomRobots
 
     /**
      * Url da página de adicionar turma.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function pageAddClassroom()
@@ -28,6 +31,7 @@ class ClassroomRobots
 
     /**
      * Botão para adicionar professor / componentes curriculares.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function btnInstructor()
@@ -37,6 +41,7 @@ class ClassroomRobots
 
     /**
      * Botão de criar na tela de cadastros de turmas.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function btnCriar()
@@ -47,6 +52,7 @@ class ClassroomRobots
 
     /**
      * Botão 1: Dados da turma.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function btn1Classroom()
@@ -57,6 +63,7 @@ class ClassroomRobots
 
     /**
      * Botão 2: Dados dos professores.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function btn2Instructors()
@@ -67,6 +74,7 @@ class ClassroomRobots
 
     /**
      * Botão 3: Dados dos alunos.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function btn3Students()
@@ -77,6 +85,7 @@ class ClassroomRobots
 
     /**
      * Botão 3: Ordem no diário.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function btn4Order()
@@ -87,6 +96,7 @@ class ClassroomRobots
 
     /**
      * Pesquisa a turma.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function search($search)
@@ -97,6 +107,7 @@ class ClassroomRobots
 
     /**
      * Preenche o nome da turma.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function name($name)
@@ -106,6 +117,7 @@ class ClassroomRobots
 
     /**
      * Seleciona o estágio vs modalidade.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function stageVsModalaty($stage)
@@ -115,6 +127,7 @@ class ClassroomRobots
 
     /**
      * Selecione o tipo de Mediação Didático-Pedagógica.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function typeMediation($type)
@@ -124,6 +137,7 @@ class ClassroomRobots
 
     /**
      * Selecione a Modalidade.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function modality($modality)
@@ -133,6 +147,7 @@ class ClassroomRobots
 
     /**
      * Seleciona a localização, caso a turma seja presencial.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function location($location)
@@ -142,6 +157,7 @@ class ClassroomRobots
 
     /**
      * Selecione o curso.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function educationCourse($educationCourse)
@@ -151,6 +167,7 @@ class ClassroomRobots
 
     /**
      * Preenche o horário inicial.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function initialTime($initialTime)
@@ -160,6 +177,7 @@ class ClassroomRobots
 
     /**
      * Preenche o horário final.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function finalTime($finalTime)
@@ -170,6 +188,7 @@ class ClassroomRobots
 
     /**
      * Seleciona o turno.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function turn($turn)
@@ -179,6 +198,7 @@ class ClassroomRobots
 
     /**
      * Checkbox para marcar os dias da semana.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function days()
@@ -189,6 +209,7 @@ class ClassroomRobots
 
     /**
      * Checkbox para marcar o tipo de atendimento.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function typeService()
@@ -199,6 +220,7 @@ class ClassroomRobots
 
     /**
      * Checkbox para marcar que o tipo de atividade é atividade complementar.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function typeServiceActivitiesComplementary()
@@ -209,6 +231,7 @@ class ClassroomRobots
 
     /**
      * Selecione o tipo de atividade complementar.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function activitiesComplementary($complementary)
@@ -218,6 +241,7 @@ class ClassroomRobots
 
     /**
      * Checkbox para atividades do atendimento educacional especializado.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function activitiesEducation($activitiesEducation)
@@ -227,6 +251,7 @@ class ClassroomRobots
 
     /**
      * Selecionar professor para turma.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function instructorsToClassroom($instructors)
@@ -236,6 +261,7 @@ class ClassroomRobots
 
     /**
      * Selecionar um cargo para turma.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function role($role)
@@ -245,6 +271,7 @@ class ClassroomRobots
 
     /**
      * Selecionar o tipo de contrato.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function contractType($contractType)
@@ -254,6 +281,7 @@ class ClassroomRobots
 
     /**
      * Botão de criar novo componente.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function createNewComponent()

@@ -4,21 +4,24 @@
  * This is the model class for table "class_faults".
  *
  * The followings are the available columns in table 'class_faults':
- * @property integer $id
- * @property integer $schedule_fk
- * @property integer $student_fk
+ *
+ * @property int    $id
+ * @property int    $schedule_fk
+ * @property int    $student_fk
  * @property string $fkid
  * @property string $justification
  *
  * The followings are the available model relations:
- * @property Schedule $scheduleFk
+ * @property Schedule          $scheduleFk
  * @property StudentEnrollment $studentFk
  */
 class ClassFaults extends TagModel
 {
     /**
      * Returns the static model of the specified AR class.
+     *
      * @param string $className active record class name.
+     *
      * @return ClassFaults the static model class
      */
     public static function model($className = __CLASS__)
@@ -38,14 +41,14 @@ class ClassFaults extends TagModel
     {
         return [
             'CTimestampBehavior' => [
-                'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
-                'updateAttribute' => 'updated_at',
-                'setUpdateOnCreate' => true,
+                'class'               => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute'     => 'created_at',
+                'updateAttribute'     => 'updated_at',
+                'setUpdateOnCreate'   => true,
                 'timestampExpression' => new CDbExpression('CONVERT_TZ(NOW(), "+00:00", "-03:00")'),
             ],
             'afterSave' => [
-                'class' => 'application.behaviors.CAfterSaveBehavior',
+                'class'        => 'application.behaviors.CAfterSaveBehavior',
                 'schoolInepId' => Yii::app()->user->school,
             ],
         ];
@@ -58,14 +61,14 @@ class ClassFaults extends TagModel
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array('schedule_fk, student_fk', 'required'),
-            array('schedule_fk, student_fk', 'numerical', 'integerOnly' => true),
-            array('justification', 'length', 'max' => 200),
+        return [
+            ['schedule_fk, student_fk', 'required'],
+            ['schedule_fk, student_fk', 'numerical', 'integerOnly' => true],
+            ['justification', 'length', 'max' => 200],
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, schedule_fk, student_fk', 'safe', 'on' => 'search'),
-        );
+            ['id, schedule_fk, student_fk', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -75,10 +78,10 @@ class ClassFaults extends TagModel
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array(
-            'scheduleFk' => array(self::BELONGS_TO, 'Schedule', 'schedule_fk'),
-            'studentFk' => array(self::BELONGS_TO, 'StudentEnrollment', 'student_fk'),
-        );
+        return [
+            'scheduleFk' => [self::BELONGS_TO, 'Schedule', 'schedule_fk'],
+            'studentFk'  => [self::BELONGS_TO, 'StudentEnrollment', 'student_fk'],
+        ];
     }
 
     /**
@@ -86,16 +89,17 @@ class ClassFaults extends TagModel
      */
     public function attributeLabels()
     {
-        return array(
-            'id' => Yii::t('default', 'ID'),
-            'schedule_fk' => Yii::t('default', 'Schedule Fk'),
-            'student_fk' => Yii::t('default', 'Student Fk'),
-            'justification' => Yii::t('default', "Justification")
-        );
+        return [
+            'id'            => Yii::t('default', 'ID'),
+            'schedule_fk'   => Yii::t('default', 'Schedule Fk'),
+            'student_fk'    => Yii::t('default', 'Student Fk'),
+            'justification' => Yii::t('default', 'Justification'),
+        ];
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
+     *
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
     public function search()
@@ -103,16 +107,14 @@ class ClassFaults extends TagModel
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('id', $this->id);
         $criteria->compare('schedule_fk', $this->schedule_fk);
         $criteria->compare('student_fk', $this->student_fk);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
-
-
 }

@@ -4,131 +4,135 @@
  * This is the model class for table "school_structure".
  *
  * The followings are the available columns in table 'school_structure':
+ *
  * @property string $register_type
  * @property string $school_inep_id_fk
- * @property integer $operation_location_building
- * @property integer $operation_location_temple
- * @property integer $operation_location_businness_room
- * @property integer $operation_location_instructor_house
- * @property integer $operation_location_other_school_room
- * @property integer $operation_location_barracks
- * @property integer $operation_location_socioeducative_unity
- * @property integer $operation_location_prison_unity
- * @property integer $operation_location_other
- * @property integer $building_occupation_situation
- * @property integer $shared_building_with_school
+ * @property int    $operation_location_building
+ * @property int    $operation_location_temple
+ * @property int    $operation_location_businness_room
+ * @property int    $operation_location_instructor_house
+ * @property int    $operation_location_other_school_room
+ * @property int    $operation_location_barracks
+ * @property int    $operation_location_socioeducative_unity
+ * @property int    $operation_location_prison_unity
+ * @property int    $operation_location_other
+ * @property int    $building_occupation_situation
+ * @property int    $shared_building_with_school
  * @property string $shared_school_inep_id_1
  * @property string $shared_school_inep_id_2
  * @property string $shared_school_inep_id_3
  * @property string $shared_school_inep_id_4
  * @property string $shared_school_inep_id_5
  * @property string $shared_school_inep_id_6
- * @property integer $consumed_water_type
- * @property integer $water_supply_public
- * @property integer $water_supply_artesian_well
- * @property integer $water_supply_well
- * @property integer $water_supply_river
- * @property integer $water_supply_car
- * @property integer $water_supply_inexistent
- * @property integer $energy_supply_public
- * @property integer $energy_supply_generator
- * @property integer $energy_supply_generator_alternative
- * @property integer $energy_supply_other
- * @property integer $energy_supply_inexistent
- * @property integer $sewage_public
- * @property integer $sewage_fossa
- * @property integer $sewage_inexistent
- * @property integer $garbage_destination_collect
- * @property integer $garbage_destination_burn
- * @property integer $garbage_destination_throw_away
- * @property integer $garbage_destination_recycle
- * @property integer $garbage_destination_bury
- * @property integer $garbage_destination_other
- * @property integer $dependencies_principal_room
- * @property integer $dependencies_instructors_room
- * @property integer $dependencies_secretary_room
- * @property integer $dependencies_info_lab
- * @property integer $dependencies_science_lab
- * @property integer $dependencies_aee_room
- * @property integer $dependencies_indoor_sports_court
- * @property integer $dependencies_outdoor_sports_court
- * @property integer $dependencies_kitchen
- * @property integer $dependencies_library
- * @property integer $dependencies_reading_room
- * @property integer $dependencies_playground
- * @property integer $dependencies_nursery
- * @property integer $dependencies_outside_bathroom
- * @property integer $dependencies_inside_bathroom
- * @property integer $dependencies_child_bathroom
- * @property integer $dependencies_prysical_disability_bathroom
- * @property integer $dependencies_physical_disability_support
- * @property integer $dependencies_bathroom_with_shower
- * @property integer $dependencies_bathroom_workes
- * @property integer $dependencies_refectory
- * @property integer $dependencies_storeroom
- * @property integer $dependencies_warehouse
- * @property integer $dependencies_auditorium
- * @property integer $dependencies_covered_patio
- * @property integer $dependencies_uncovered_patio
- * @property integer $dependencies_student_accomodation
- * @property integer $dependencies_instructor_accomodation
- * @property integer $dependencies_green_area
- * @property integer $dependencies_laundry
- * @property integer $dependencies_professional_specific_lab
- * @property integer $dependencies_vocational_education_workshop
- * @property integer $dependencies_recording_and_editing_studio
- * @property integer $dependencies_garden_planting_agricultural
- * @property integer $dependencies_none
- * @property integer $classroom_count
- * @property integer $used_classroom_count
- * @property integer $equipments_tv
- * @property integer $equipments_vcr
- * @property integer $equipments_dvd
- * @property integer $equipments_satellite_dish
- * @property integer $equipments_copier
- * @property integer $equipments_overhead_projector
- * @property integer $equipments_printer
- * @property integer $equipments_stereo_system
- * @property integer $equipments_data_show
- * @property integer $equipments_fax
- * @property integer $equipments_camera
- * @property integer $equipments_computer
- * @property integer $equipments_multifunctional_printer
- * @property integer $equipments_inexistent
- * @property integer $equipments_qtd_desktop
- * @property integer $equipments_material_professional_education
- * @property integer $instruments_inexistent
- * @property integer $administrative_computers_count
- * @property integer $student_computers_count
- * @property integer $internet_access
- * @property integer $bandwidth
- * @property integer $employees_count
- * @property integer $feeding
- * @property integer $aee
- * @property integer $complementary_activities
- * @property integer $modalities_regular
- * @property integer $modalities_especial
- * @property integer $modalities_eja
- * @property integer $modalities_professional
- * @property integer $basic_education_cycle_organized
- * @property integer $different_location
- * @property integer $sociocultural_didactic_material_none
- * @property integer $sociocultural_didactic_material_quilombola
- * @property integer $sociocultural_didactic_material_native
- * @property integer $native_education
- * @property integer $native_education_language_native
- * @property integer $native_education_language_portuguese
- * @property integer $edcenso_native_languages_fk
- * @property integer $brazil_literate
- * @property integer $open_weekend
- * @property integer $pedagogical_formation_by_alternance
+ * @property int    $consumed_water_type
+ * @property int    $water_supply_public
+ * @property int    $water_supply_artesian_well
+ * @property int    $water_supply_well
+ * @property int    $water_supply_river
+ * @property int    $water_supply_car
+ * @property int    $water_supply_inexistent
+ * @property int    $energy_supply_public
+ * @property int    $energy_supply_generator
+ * @property int    $energy_supply_generator_alternative
+ * @property int    $energy_supply_other
+ * @property int    $energy_supply_inexistent
+ * @property int    $sewage_public
+ * @property int    $sewage_fossa
+ * @property int    $sewage_inexistent
+ * @property int    $garbage_destination_collect
+ * @property int    $garbage_destination_burn
+ * @property int    $garbage_destination_throw_away
+ * @property int    $garbage_destination_recycle
+ * @property int    $garbage_destination_bury
+ * @property int    $garbage_destination_other
+ * @property int    $dependencies_principal_room
+ * @property int    $dependencies_instructors_room
+ * @property int    $dependencies_secretary_room
+ * @property int    $dependencies_info_lab
+ * @property int    $dependencies_science_lab
+ * @property int    $dependencies_aee_room
+ * @property int    $dependencies_indoor_sports_court
+ * @property int    $dependencies_outdoor_sports_court
+ * @property int    $dependencies_kitchen
+ * @property int    $dependencies_library
+ * @property int    $dependencies_reading_room
+ * @property int    $dependencies_playground
+ * @property int    $dependencies_nursery
+ * @property int    $dependencies_outside_bathroom
+ * @property int    $dependencies_inside_bathroom
+ * @property int    $dependencies_child_bathroom
+ * @property int    $dependencies_prysical_disability_bathroom
+ * @property int    $dependencies_physical_disability_support
+ * @property int    $dependencies_bathroom_with_shower
+ * @property int    $dependencies_bathroom_workes
+ * @property int    $dependencies_refectory
+ * @property int    $dependencies_storeroom
+ * @property int    $dependencies_warehouse
+ * @property int    $dependencies_auditorium
+ * @property int    $dependencies_covered_patio
+ * @property int    $dependencies_uncovered_patio
+ * @property int    $dependencies_student_accomodation
+ * @property int    $dependencies_instructor_accomodation
+ * @property int    $dependencies_green_area
+ * @property int    $dependencies_laundry
+ * @property int    $dependencies_professional_specific_lab
+ * @property int    $dependencies_vocational_education_workshop
+ * @property int    $dependencies_recording_and_editing_studio
+ * @property int    $dependencies_garden_planting_agricultural
+ * @property int    $dependencies_none
+ * @property int    $classroom_count
+ * @property int    $used_classroom_count
+ * @property int    $equipments_tv
+ * @property int    $equipments_vcr
+ * @property int    $equipments_dvd
+ * @property int    $equipments_satellite_dish
+ * @property int    $equipments_copier
+ * @property int    $equipments_overhead_projector
+ * @property int    $equipments_printer
+ * @property int    $equipments_stereo_system
+ * @property int    $equipments_data_show
+ * @property int    $equipments_fax
+ * @property int    $equipments_camera
+ * @property int    $equipments_computer
+ * @property int    $equipments_multifunctional_printer
+ * @property int    $equipments_inexistent
+ * @property int    $equipments_qtd_desktop
+ * @property int    $equipments_material_professional_education
+ * @property int    $instruments_inexistent
+ * @property int    $administrative_computers_count
+ * @property int    $student_computers_count
+ * @property int    $internet_access
+ * @property int    $bandwidth
+ * @property int    $employees_count
+ * @property int    $feeding
+ * @property int    $aee
+ * @property int    $complementary_activities
+ * @property int    $modalities_regular
+ * @property int    $modalities_especial
+ * @property int    $modalities_eja
+ * @property int    $modalities_professional
+ * @property int    $basic_education_cycle_organized
+ * @property int    $different_location
+ * @property int    $sociocultural_didactic_material_none
+ * @property int    $sociocultural_didactic_material_quilombola
+ * @property int    $sociocultural_didactic_material_native
+ * @property int    $native_education
+ * @property int    $native_education_language_native
+ * @property int    $native_education_language_portuguese
+ * @property int    $edcenso_native_languages_fk
+ * @property int    $brazil_literate
+ * @property int    $open_weekend
+ * @property int    $pedagogical_formation_by_alternance
  */
 class SchoolStructure extends AltActiveRecord
 {
     public $stages;
+
     /**
      * Returns the static model of the specified AR class.
+     *
      * @param string $className active record class name.
+     *
      * @return SchoolStructure the static model class
      */
     public static function model($className = __CLASS__)
@@ -144,7 +148,6 @@ class SchoolStructure extends AltActiveRecord
         return 'school_structure';
     }
 
-
     /**
      * @return array validation rules for model attributes.
      */
@@ -152,12 +155,12 @@ class SchoolStructure extends AltActiveRecord
     {
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
-        return array(
-            array(
+        return [
+            [
                 'school_inep_id_fk',
-                'required'
-            ),
-            array(
+                'required',
+            ],
+            [
                 'operation_location_building,
                 operation_location_temple,
                 operation_location_businness_room,
@@ -369,10 +372,10 @@ class SchoolStructure extends AltActiveRecord
                 provide_potable_water,
                 dependencies_student_repose_room',
                 'numerical',
-                'integerOnly' => true
-            ),
-            array('register_type', 'length', 'max' => 2),
-            array(
+                'integerOnly' => true,
+            ],
+            ['register_type', 'length', 'max' => 2],
+            [
                 'school_inep_id_fk,
             shared_school_inep_id_1,
             shared_school_inep_id_2,
@@ -381,12 +384,12 @@ class SchoolStructure extends AltActiveRecord
             shared_school_inep_id_5,
             shared_school_inep_id_6',
                 'length',
-                'max' => 8
-            ),
+                'max' => 8,
+            ],
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('register_type, school_inep_id_fk, operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, shared_school_inep_id_1, shared_school_inep_id_2, shared_school_inep_id_3, shared_school_inep_id_4, shared_school_inep_id_5, shared_school_inep_id_6, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_car, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_professional_specific_lab, dependencies_vocational_education_workshop, dependencies_recording_and_editing_studio, dependencies_garden_planting_agricultural, dependencies_none, classroom_count, used_classroom_count, instruments_inexistent, equipments_material_professional_education, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, equipments_multifunctional_printer, equipments_inexistent, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, modalities_professional, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'safe', 'on' => 'search'),
-        );
+            ['register_type, school_inep_id_fk, operation_location_building, operation_location_temple, operation_location_businness_room, operation_location_instructor_house, operation_location_other_school_room, operation_location_barracks, operation_location_socioeducative_unity, operation_location_prison_unity, operation_location_other, building_occupation_situation, shared_building_with_school, shared_school_inep_id_1, shared_school_inep_id_2, shared_school_inep_id_3, shared_school_inep_id_4, shared_school_inep_id_5, shared_school_inep_id_6, consumed_water_type, water_supply_public, water_supply_artesian_well, water_supply_well, water_supply_river, water_supply_car, water_supply_inexistent, energy_supply_public, energy_supply_generator, energy_supply_other, energy_supply_inexistent, sewage_public, sewage_fossa, sewage_inexistent, garbage_destination_collect, garbage_destination_burn, garbage_destination_throw_away, garbage_destination_recycle, garbage_destination_bury, garbage_destination_other, dependencies_principal_room, dependencies_instructors_room, dependencies_secretary_room, dependencies_info_lab, dependencies_science_lab, dependencies_aee_room, dependencies_indoor_sports_court, dependencies_outdoor_sports_court, dependencies_kitchen, dependencies_library, dependencies_reading_room, dependencies_playground, dependencies_nursery, dependencies_outside_bathroom, dependencies_inside_bathroom, dependencies_child_bathroom, dependencies_prysical_disability_bathroom, dependencies_physical_disability_support, dependencies_bathroom_with_shower, dependencies_refectory, dependencies_storeroom, dependencies_warehouse, dependencies_auditorium, dependencies_covered_patio, dependencies_uncovered_patio, dependencies_student_accomodation, dependencies_instructor_accomodation, dependencies_green_area, dependencies_laundry, dependencies_professional_specific_lab, dependencies_vocational_education_workshop, dependencies_recording_and_editing_studio, dependencies_garden_planting_agricultural, dependencies_none, classroom_count, used_classroom_count, instruments_inexistent, equipments_material_professional_education, equipments_tv, equipments_vcr, equipments_dvd, equipments_satellite_dish, equipments_copier, equipments_overhead_projector, equipments_printer, equipments_stereo_system, equipments_data_show, equipments_fax, equipments_camera, equipments_computer, equipments_multifunctional_printer, equipments_inexistent, administrative_computers_count, student_computers_count, internet_access, bandwidth, employees_count, feeding, aee, complementary_activities, modalities_regular, modalities_especial, modalities_eja, modalities_professional, basic_education_cycle_organized, different_location, sociocultural_didactic_material_none, sociocultural_didactic_material_quilombola, sociocultural_didactic_material_native, native_education, native_education_language_native, native_education_language_portuguese, edcenso_native_languages_fk, brazil_literate, open_weekend, pedagogical_formation_by_alternance', 'safe', 'on' => 'search'],
+        ];
     }
 
     /**
@@ -396,7 +399,7 @@ class SchoolStructure extends AltActiveRecord
     {
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
-        return array();
+        return [];
     }
 
     /**
@@ -404,232 +407,233 @@ class SchoolStructure extends AltActiveRecord
      */
     public function attributeLabels()
     {
-        return array(
-            'register_type' => Yii::t('default', 'Register Type'),
-            'school_inep_id_fk' => Yii::t('default', 'School Inep Id Fk'),
-            'operation_location_building' => Yii::t('default', 'Operation Location Building'),
-            'operation_location_temple' => Yii::t('default', 'Operation Location Temple'),
-            'operation_location_businness_room' => Yii::t('default', 'Operation Location Businness Room'),
-            'operation_location_instructor_house' => Yii::t('default', 'Operation Location Instructor House'),
-            'operation_location_other_school_room' => Yii::t('default', 'Operation Location Other School Room'),
-            'operation_location_barracks' => Yii::t('default', 'Operation Location Barracks'),
-            'operation_location_socioeducative_unity' => Yii::t('default', 'Operation Location Socioeducative Unity'),
-            'operation_location_prison_unity' => Yii::t('default', 'Operation Location Prison Unity'),
-            'operation_location_other' => Yii::t('default', 'Operation Location Other'),
-            'building_occupation_situation' => Yii::t('default', 'Building Occupation Situation'),
-            'shared_building_with_school' => Yii::t('default', 'Shared Building With School'),
-            'shared_school_inep_id_1' => Yii::t('default', 'Shared School Inep Id 1'),
-            'shared_school_inep_id_2' => Yii::t('default', 'Shared School Inep Id 2'),
-            'shared_school_inep_id_3' => Yii::t('default', 'Shared School Inep Id 3'),
-            'shared_school_inep_id_4' => Yii::t('default', 'Shared School Inep Id 4'),
-            'shared_school_inep_id_5' => Yii::t('default', 'Shared School Inep Id 5'),
-            'shared_school_inep_id_6' => Yii::t('default', 'Shared School Inep Id 6'),
-            'consumed_water_type' => Yii::t('default', 'Consumed Water Type'),
-            'water_supply_public' => Yii::t('default', 'Water Supply Public'),
-            'water_supply_artesian_well' => Yii::t('default', 'Water Supply Artesian Well'),
-            'water_supply_well' => Yii::t('default', 'Water Supply Well'),
-            'water_supply_river' => Yii::t('default', 'Water Supply River'),
-            'water_supply_car' => Yii::t('default', 'Water Supply Car'),
-            'water_supply_inexistent' => Yii::t('default', 'Water Supply Inexistent'),
-            'energy_supply_public' => Yii::t('default', 'Energy Supply Public'),
-            'energy_supply_generator' => Yii::t('default', 'Energy Supply Generator'),
-            'energy_supply_other' => Yii::t('default', 'Energy Supply Other'),
-            'energy_supply_inexistent' => Yii::t('default', 'Energy Supply Inexistent'),
-            'sewage_public' => Yii::t('default', 'Sewage Public'),
-            'sewage_fossa' => Yii::t('default', 'Sewage Fossa'),
-            'sewage_inexistent' => Yii::t('default', 'Sewage Inexistent'),
-            'garbage_destination_collect' => Yii::t('default', 'Garbage Destination Collect'),
-            'garbage_destination_burn' => Yii::t('default', 'Garbage Destination Burn'),
-            'garbage_destination_throw_away' => Yii::t('default', 'Garbage Destination Throw Away'),
-            'garbage_destination_recycle' => Yii::t('default', 'Garbage Destination Recycle'),
-            'garbage_destination_bury' => Yii::t('default', 'Garbage Destination Bury'),
-            'garbage_destination_other' => Yii::t('default', 'Garbage Destination Other'),
-            'dependencies_principal_room' => Yii::t('default', 'Dependencies Principal Room'),
-            'dependencies_instructors_room' => Yii::t('default', 'Dependencies Instructors Room'),
-            'dependencies_secretary_room' => Yii::t('default', 'Dependencies Secretary Room'),
-            'dependencies_info_lab' => Yii::t('default', 'Dependencies Info Lab'),
-            'dependencies_science_lab' => Yii::t('default', 'Dependencies Science Lab'),
-            'dependencies_aee_room' => Yii::t('default', 'Dependencies Aee Room'),
-            'dependencies_indoor_sports_court' => Yii::t('default', 'Dependencies Indoor Sports Court'),
-            'dependencies_outdoor_sports_court' => Yii::t('default', 'Dependencies Outdoor Sports Court'),
-            'dependencies_kitchen' => Yii::t('default', 'Dependencies Kitchen'),
-            'dependencies_library' => Yii::t('default', 'Dependencies Library'),
-            'dependencies_reading_room' => Yii::t('default', 'Dependencies Reading Room'),
-            'dependencies_playground' => Yii::t('default', 'Dependencies Playground'),
-            'dependencies_nursery' => Yii::t('default', 'Dependencies Nursery'),
-            'dependencies_outside_bathroom' => Yii::t('default', 'Dependencies Outside Bathroom'),
-            'dependencies_inside_bathroom' => Yii::t('default', 'Dependencies Inside Bathroom'),
-            'dependencies_child_bathroom' => Yii::t('default', 'Dependencies Child Bathroom'),
-            'dependencies_prysical_disability_bathroom' => Yii::t('default', 'Dependencies Prysical Disability Bathroom'),
-            'dependencies_physical_disability_support' => Yii::t('default', 'Dependencies Physical Disability Support'),
-            'dependencies_bathroom_with_shower' => Yii::t('default', 'Dependencies Bathroom With Shower'),
-            'dependencies_refectory' => Yii::t('default', 'Dependencies Refectory'),
-            'dependencies_storeroom' => Yii::t('default', 'Dependencies Storeroom'),
-            'dependencies_warehouse' => Yii::t('default', 'Dependencies Warehouse'),
-            'dependencies_auditorium' => Yii::t('default', 'Dependencies Auditorium'),
-            'dependencies_covered_patio' => Yii::t('default', 'Dependencies Covered Patio'),
-            'dependencies_uncovered_patio' => Yii::t('default', 'Dependencies Uncovered Patio'),
-            'dependencies_student_accomodation' => Yii::t('default', 'Dependencies Student Accomodation'),
-            'dependencies_instructor_accomodation' => Yii::t('default', 'Dependencies Instructor Accomodation'),
-            'dependencies_green_area' => Yii::t('default', 'Dependencies Green Area'),
-            'dependencies_laundry' => Yii::t('default', 'Dependencies Laundry'),
-            'dependencies_professional_specific_lab' => Yii::t('default', 'Dependencies Professional Specific Lab'),
+        return [
+            'register_type'                              => Yii::t('default', 'Register Type'),
+            'school_inep_id_fk'                          => Yii::t('default', 'School Inep Id Fk'),
+            'operation_location_building'                => Yii::t('default', 'Operation Location Building'),
+            'operation_location_temple'                  => Yii::t('default', 'Operation Location Temple'),
+            'operation_location_businness_room'          => Yii::t('default', 'Operation Location Businness Room'),
+            'operation_location_instructor_house'        => Yii::t('default', 'Operation Location Instructor House'),
+            'operation_location_other_school_room'       => Yii::t('default', 'Operation Location Other School Room'),
+            'operation_location_barracks'                => Yii::t('default', 'Operation Location Barracks'),
+            'operation_location_socioeducative_unity'    => Yii::t('default', 'Operation Location Socioeducative Unity'),
+            'operation_location_prison_unity'            => Yii::t('default', 'Operation Location Prison Unity'),
+            'operation_location_other'                   => Yii::t('default', 'Operation Location Other'),
+            'building_occupation_situation'              => Yii::t('default', 'Building Occupation Situation'),
+            'shared_building_with_school'                => Yii::t('default', 'Shared Building With School'),
+            'shared_school_inep_id_1'                    => Yii::t('default', 'Shared School Inep Id 1'),
+            'shared_school_inep_id_2'                    => Yii::t('default', 'Shared School Inep Id 2'),
+            'shared_school_inep_id_3'                    => Yii::t('default', 'Shared School Inep Id 3'),
+            'shared_school_inep_id_4'                    => Yii::t('default', 'Shared School Inep Id 4'),
+            'shared_school_inep_id_5'                    => Yii::t('default', 'Shared School Inep Id 5'),
+            'shared_school_inep_id_6'                    => Yii::t('default', 'Shared School Inep Id 6'),
+            'consumed_water_type'                        => Yii::t('default', 'Consumed Water Type'),
+            'water_supply_public'                        => Yii::t('default', 'Water Supply Public'),
+            'water_supply_artesian_well'                 => Yii::t('default', 'Water Supply Artesian Well'),
+            'water_supply_well'                          => Yii::t('default', 'Water Supply Well'),
+            'water_supply_river'                         => Yii::t('default', 'Water Supply River'),
+            'water_supply_car'                           => Yii::t('default', 'Water Supply Car'),
+            'water_supply_inexistent'                    => Yii::t('default', 'Water Supply Inexistent'),
+            'energy_supply_public'                       => Yii::t('default', 'Energy Supply Public'),
+            'energy_supply_generator'                    => Yii::t('default', 'Energy Supply Generator'),
+            'energy_supply_other'                        => Yii::t('default', 'Energy Supply Other'),
+            'energy_supply_inexistent'                   => Yii::t('default', 'Energy Supply Inexistent'),
+            'sewage_public'                              => Yii::t('default', 'Sewage Public'),
+            'sewage_fossa'                               => Yii::t('default', 'Sewage Fossa'),
+            'sewage_inexistent'                          => Yii::t('default', 'Sewage Inexistent'),
+            'garbage_destination_collect'                => Yii::t('default', 'Garbage Destination Collect'),
+            'garbage_destination_burn'                   => Yii::t('default', 'Garbage Destination Burn'),
+            'garbage_destination_throw_away'             => Yii::t('default', 'Garbage Destination Throw Away'),
+            'garbage_destination_recycle'                => Yii::t('default', 'Garbage Destination Recycle'),
+            'garbage_destination_bury'                   => Yii::t('default', 'Garbage Destination Bury'),
+            'garbage_destination_other'                  => Yii::t('default', 'Garbage Destination Other'),
+            'dependencies_principal_room'                => Yii::t('default', 'Dependencies Principal Room'),
+            'dependencies_instructors_room'              => Yii::t('default', 'Dependencies Instructors Room'),
+            'dependencies_secretary_room'                => Yii::t('default', 'Dependencies Secretary Room'),
+            'dependencies_info_lab'                      => Yii::t('default', 'Dependencies Info Lab'),
+            'dependencies_science_lab'                   => Yii::t('default', 'Dependencies Science Lab'),
+            'dependencies_aee_room'                      => Yii::t('default', 'Dependencies Aee Room'),
+            'dependencies_indoor_sports_court'           => Yii::t('default', 'Dependencies Indoor Sports Court'),
+            'dependencies_outdoor_sports_court'          => Yii::t('default', 'Dependencies Outdoor Sports Court'),
+            'dependencies_kitchen'                       => Yii::t('default', 'Dependencies Kitchen'),
+            'dependencies_library'                       => Yii::t('default', 'Dependencies Library'),
+            'dependencies_reading_room'                  => Yii::t('default', 'Dependencies Reading Room'),
+            'dependencies_playground'                    => Yii::t('default', 'Dependencies Playground'),
+            'dependencies_nursery'                       => Yii::t('default', 'Dependencies Nursery'),
+            'dependencies_outside_bathroom'              => Yii::t('default', 'Dependencies Outside Bathroom'),
+            'dependencies_inside_bathroom'               => Yii::t('default', 'Dependencies Inside Bathroom'),
+            'dependencies_child_bathroom'                => Yii::t('default', 'Dependencies Child Bathroom'),
+            'dependencies_prysical_disability_bathroom'  => Yii::t('default', 'Dependencies Prysical Disability Bathroom'),
+            'dependencies_physical_disability_support'   => Yii::t('default', 'Dependencies Physical Disability Support'),
+            'dependencies_bathroom_with_shower'          => Yii::t('default', 'Dependencies Bathroom With Shower'),
+            'dependencies_refectory'                     => Yii::t('default', 'Dependencies Refectory'),
+            'dependencies_storeroom'                     => Yii::t('default', 'Dependencies Storeroom'),
+            'dependencies_warehouse'                     => Yii::t('default', 'Dependencies Warehouse'),
+            'dependencies_auditorium'                    => Yii::t('default', 'Dependencies Auditorium'),
+            'dependencies_covered_patio'                 => Yii::t('default', 'Dependencies Covered Patio'),
+            'dependencies_uncovered_patio'               => Yii::t('default', 'Dependencies Uncovered Patio'),
+            'dependencies_student_accomodation'          => Yii::t('default', 'Dependencies Student Accomodation'),
+            'dependencies_instructor_accomodation'       => Yii::t('default', 'Dependencies Instructor Accomodation'),
+            'dependencies_green_area'                    => Yii::t('default', 'Dependencies Green Area'),
+            'dependencies_laundry'                       => Yii::t('default', 'Dependencies Laundry'),
+            'dependencies_professional_specific_lab'     => Yii::t('default', 'Dependencies Professional Specific Lab'),
             'dependencies_vocational_education_workshop' => Yii::t('default', 'Dependencies Vocational Education Workshop'),
-            'dependencies_recording_and_editing_studio' => Yii::t('default', 'Dependencies Recording And Editing Studio'),
-            'dependencies_garden_planting_agricultural' => Yii::t('default', 'Dependencies Garden Planting Agricultural'),
-            'dependencies_none' => Yii::t('default', 'Dependencies None'),
-            'classroom_count' => Yii::t('default', 'Classroom Count'),
-            'used_classroom_count' => Yii::t('default', 'Used Classroom Count'),
-            'equipments_tv' => Yii::t('default', 'Equipments Tv'),
-            'equipments_vcr' => Yii::t('default', 'Equipments Vcr'),
-            'equipments_dvd' => Yii::t('default', 'Equipments Dvd'),
+            'dependencies_recording_and_editing_studio'  => Yii::t('default', 'Dependencies Recording And Editing Studio'),
+            'dependencies_garden_planting_agricultural'  => Yii::t('default', 'Dependencies Garden Planting Agricultural'),
+            'dependencies_none'                          => Yii::t('default', 'Dependencies None'),
+            'classroom_count'                            => Yii::t('default', 'Classroom Count'),
+            'used_classroom_count'                       => Yii::t('default', 'Used Classroom Count'),
+            'equipments_tv'                              => Yii::t('default', 'Equipments Tv'),
+            'equipments_vcr'                             => Yii::t('default', 'Equipments Vcr'),
+            'equipments_dvd'                             => Yii::t('default', 'Equipments Dvd'),
             'equipments_material_professional_education' => Yii::t('default', 'Equipments Material Professional Education'),
-            'instruments_inexistent' => Yii::t('default', 'Instruments Inexistent'),
-            'equipments_satellite_dish' => Yii::t('default', 'Equipments Satellite Dish'),
-            'equipments_copier' => Yii::t('default', 'Equipments Copier'),
-            'equipments_overhead_projector' => Yii::t('default', 'Equipments Overhead Projector'),
-            'equipments_printer' => Yii::t('default', 'Equipments Printer'),
-            'equipments_stereo_system' => Yii::t('default', 'Equipments Stereo System'),
-            'equipments_data_show' => Yii::t('default', 'Equipments Data Show'),
-            'equipments_fax' => Yii::t('default', 'Equipments Fax'),
-            'equipments_camera' => Yii::t('default', 'Equipments Camera'),
-            'equipments_computer' => Yii::t('default', 'Equipments Computer'),
-            'equipments_multifunctional_printer' => Yii::t('default', 'Equipments Multifunctional Printer'),
-            'equipments_inexistent' => Yii::t('default', 'Equipments Inexistent'),
-            'administrative_computers_count' => Yii::t('default', 'Administrative Computers Count'),
-            'student_computers_count' => Yii::t('default', 'Student Computers Count'),
-            'internet_access' => Yii::t('default', 'Have Internet Access'),
-            'bandwidth' => Yii::t('default', 'Bandwidth'),
-            'employees_count' => Yii::t('default', 'Employees Count'),
-            'feeding' => Yii::t('default', 'Feeding') . " *",
-            'aee' => Yii::t('default', 'Aee'),
-            'complementary_activities' => Yii::t('default', 'Complementary Activities'),
-            'modalities_regular' => Yii::t('default', 'Modalities Regular'),
-            'modalities_especial' => Yii::t('default', 'Modalities Especial'),
-            'modalities_eja' => Yii::t('default', 'Modalities Eja'),
-            'modalities_professional' => Yii::t('default', 'Modalities Professional'),
-            'basic_education_cycle_organized' => Yii::t('default', 'Basic Education Cycle Organized'),
-            'different_location' => Yii::t('default', 'Different Location'),
-            'sociocultural_didactic_material_none' => Yii::t('default', 'Sociocultural Didactic Material None'),
+            'instruments_inexistent'                     => Yii::t('default', 'Instruments Inexistent'),
+            'equipments_satellite_dish'                  => Yii::t('default', 'Equipments Satellite Dish'),
+            'equipments_copier'                          => Yii::t('default', 'Equipments Copier'),
+            'equipments_overhead_projector'              => Yii::t('default', 'Equipments Overhead Projector'),
+            'equipments_printer'                         => Yii::t('default', 'Equipments Printer'),
+            'equipments_stereo_system'                   => Yii::t('default', 'Equipments Stereo System'),
+            'equipments_data_show'                       => Yii::t('default', 'Equipments Data Show'),
+            'equipments_fax'                             => Yii::t('default', 'Equipments Fax'),
+            'equipments_camera'                          => Yii::t('default', 'Equipments Camera'),
+            'equipments_computer'                        => Yii::t('default', 'Equipments Computer'),
+            'equipments_multifunctional_printer'         => Yii::t('default', 'Equipments Multifunctional Printer'),
+            'equipments_inexistent'                      => Yii::t('default', 'Equipments Inexistent'),
+            'administrative_computers_count'             => Yii::t('default', 'Administrative Computers Count'),
+            'student_computers_count'                    => Yii::t('default', 'Student Computers Count'),
+            'internet_access'                            => Yii::t('default', 'Have Internet Access'),
+            'bandwidth'                                  => Yii::t('default', 'Bandwidth'),
+            'employees_count'                            => Yii::t('default', 'Employees Count'),
+            'feeding'                                    => Yii::t('default', 'Feeding').' *',
+            'aee'                                        => Yii::t('default', 'Aee'),
+            'complementary_activities'                   => Yii::t('default', 'Complementary Activities'),
+            'modalities_regular'                         => Yii::t('default', 'Modalities Regular'),
+            'modalities_especial'                        => Yii::t('default', 'Modalities Especial'),
+            'modalities_eja'                             => Yii::t('default', 'Modalities Eja'),
+            'modalities_professional'                    => Yii::t('default', 'Modalities Professional'),
+            'basic_education_cycle_organized'            => Yii::t('default', 'Basic Education Cycle Organized'),
+            'different_location'                         => Yii::t('default', 'Different Location'),
+            'sociocultural_didactic_material_none'       => Yii::t('default', 'Sociocultural Didactic Material None'),
             'sociocultural_didactic_material_quilombola' => Yii::t('default', 'Sociocultural Didactic Material Quilombola'),
-            'sociocultural_didactic_material_native' => Yii::t('default', 'Sociocultural Didactic Material Native'),
-            'native_education' => Yii::t('default', 'Native Education'),
-            'native_education_language_native' => Yii::t('default', 'Native Education Language Native'),
-            'native_education_language_portuguese' => Yii::t('default', 'Native Education Language Portuguese'),
-            'edcenso_native_languages_fk' => Yii::t('default', 'Edcenso Native Languages Fk'),
-            'edcenso_native_languages_fk2' => (Yii::t('default', 'Edcenso Native Languages Fk') . ' 2'),
-            'edcenso_native_languages_fk3' => (Yii::t('default', 'Edcenso Native Languages Fk') . ' 3'),
-            'brazil_literate' => Yii::t('default', 'Brazil Literate'),
-            'open_weekend' => Yii::t('default', 'Open Weekend'),
-            'pedagogical_formation_by_alternance' => Yii::t('default', 'Pedagogical Formation By Alternance'),
-            'building_otherschool' => Yii::t('default', 'Building Others School'),
-            'energy_supply_generator_alternative' => Yii::t('default', 'Generator Alternative'),
-            'sewage_fossa_common' => Yii::t('default', 'Fossa Common'),
-            'garbage_destination_public' => Yii::t('default', 'Destination Public'),
-            'supply_food' => Yii::t('default', 'Food') . " *",
-            'treatment_garbage_parting_garbage' => Yii::t('default', 'Garbage Parting'),
-            'treatment_garbage_resuse' => Yii::t('default', 'Garbage Resuse'),
-            'traetment_garbage_inexistent' => Yii::t('default', 'Garbage Inexistent'),
-            'dependencies_bathroom_workes' => Yii::t('default', 'Bathroom Workes'),
-            'dependencies_pool' => Yii::t('default', 'Pool'),
-            'dependencies_arts_room' => Yii::t('default', 'Arts Room'),
-            'dependencies_music_room' => Yii::t('default', 'Music Room'),
-            'dependencies_dance_room' => Yii::t('default', 'Dance Room'),
-            'dependencies_multiuse_room' => Yii::t('default', 'Multiuse Room'),
-            'dependencies_yardzao' => Yii::t('default', 'Yardzao'),
-            'dependencies_vivarium' => Yii::t('default', 'Vivarium'),
-            'dependencies_outside_roomspublic' => Yii::t('default', 'Outside Rooms Public'),
-            'dependencies_indoor_roomspublic' => Yii::t('default', 'Indoor Rooms Public'),
-            'dependencies_climate_roomspublic' => Yii::t('default', 'Climate Rooms Public'),
-            'dependencies_acessibility_roomspublic' => Yii::t('default', 'Acessibility Rooms Public'),
-            'dependencies_reading_corners' => Yii::t('default', "Reading Room Count"),
-            'acessability_handrails_guardrails' => Yii::t('default', 'Handrails Guardrails'),
-            'acessability_elevator' => Yii::t('default', 'Elevator'),
-            'acessability_tactile_floor' => Yii::t('default', 'Tactile Floor'),
-            'acessability_doors_80cm' => Yii::t('default', 'Doors 80'),
-            'acessability_ramps' => Yii::t('default', 'Ramps'),
-            'acessability_light_signaling' => Yii::t('default', 'Light Signaling'),
-            'acessability_sound_signaling' => Yii::t('default', 'Sound Signaling'),
-            'acessability_tactile_singnaling' => Yii::t('default', 'Tactile Signaling'),
-            'acessability_visual_signaling' => Yii::t('default', 'Visual Signaling'),
-            'acessabilty_inexistent' => Yii::t('default', 'Acessability Inexistent'),
-            'equipments_scanner' => Yii::t('default', 'Scanner'),
-            'equipments_qtd_blackboard' => Yii::t('default', 'Black Board'),
-            'equipments_qtd_notebookstudent' => Yii::t('default', 'Notebook Student'),
-            'equipments_qtd_desktop' => Yii::t('default', 'Desktop'),
-            'equipments_qtd_tabletstudent' => Yii::t('default', 'Tablet Student'),
-            'equipments_multimedia_collection' => Yii::t('default', 'Multimedia Collection'),
-            'equipments_toys_early' => Yii::t('default', 'Toys Early'),
-            'equipments_scientific_materials' => Yii::t('default', 'Scientific Materials'),
-            'equipments_equipment_amplification' => Yii::t('default', 'Equipment Amplification'),
-            'equipments_garden_planting_agricultural' => Yii::t('default', 'Garden Planting Agricultural Activities'),
-            'equipments_musical_instruments' => Yii::t('default', 'Musical Instruments'),
-            'equipments_educational_games' => Yii::t('default', 'Educational Games'),
-            'equipments_material_cultural' => Yii::t('default', 'Equipments Material Cultural'),
-            'equipments_material_sports' => Yii::t('default', 'Equipments Material Sports'),
-            'equipments_material_teachingdeafs' => Yii::t('default', 'Material Teaching Deafs'),
-            'equipments_material_teachingindian' => Yii::t('default', 'Material Teaching Indian'),
-            'equipments_material_teachingethnic' => Yii::t('default', 'Material Teaching Ethinic'),
-            'equipments_material_teachingrural' => Yii::t('default', 'Material Teaching Rural'),
-            'equipments_material_teachingquilombola' => Yii::t('default', 'Material Teaching Quilombola'),
-            'equipments_material_teachingspecial' => Yii::t('default', 'Material Teaching Special'),
-            'internet_access_administrative' => Yii::t('default', 'Internet Access Administrative'),
-            'internet_access_educative_process' => Yii::t('default', 'Internet Access Educative'),
-            'internet_access_student' => Yii::t('default', 'Internet Access Student'),
-            'internet_access_community' => Yii::t('default', 'Internet Access Community'),
-            'internet_access_inexistent' => Yii::t('default', 'Internet Access Inexistent'),
-            'internet_access_connected_personaldevice' => Yii::t('default', 'Internet Access Personal Devices'),
-            'internet_access_connected_desktop' => Yii::t('default', 'Internet Access Desktop'),
-            'internet_access_broadband' => Yii::t('default', 'Internet Access Broadband'),
-            'internet_access_local_cable' => Yii::t('default', 'Internet Access Cable'),
-            'internet_access_local_wireless' => Yii::t('default', 'Internet Access Wireless'),
-            'internet_access_local_inexistet' => Yii::t('default', 'Internet Access Inexistent'),
-            'workers_garden_planting_agricultural' => Yii::t('default', 'Garden Planting Agricultural'),
-            'workers_administrative_assistant' => Yii::t('default', 'Administrative Assistant'),
-            'workers_service_assistant' => Yii::t('default', 'Service Assistant'),
-            'workers_librarian' => Yii::t('default', 'Librarian'),
-            'workers_firefighter' => Yii::t('default', 'Firefighter'),
-            'workers_coordinator_shift' => Yii::t('default', 'Coordinator Shift'),
-            'workers_speech_therapist' => Yii::t('default', 'Speech Terapist'),
-            'workers_nutritionist' => Yii::t('default', 'Nutritionist'),
-            'workers_psychologist' => Yii::t('default', 'Psychologist'),
-            'workers_cooker' => Yii::t('default', 'Cooker'),
-            'workers_support_professionals' => Yii::t('default', 'Suport Professional'),
-            'workers_school_secretary' => Yii::t('default', 'School Secretary'),
-            'workers_security_guards' => Yii::t('default', 'Security Gaurds'),
-            'workers_monitors' => Yii::t('default', 'Monitors'),
-            'workers_braille' => Yii::t('default', 'Braille'),
-            'org_teaching_series_year' => Yii::t('default', 'Series Year'),
-            'org_teaching_semester_periods' => Yii::t('default', 'Semester Periods'),
-            'org_teaching_elementary_cycle' => Yii::t('default', 'Elementary Cycle'),
-            'org_teaching_non_serialgroups' => Yii::t('default', 'Non Serial Groups'),
-            'org_teaching_modules' => Yii::t('default', 'Teaching Modules'),
-            'org_teaching_regular_alternation' => Yii::t('default', 'Regular Alternation'),
-            'select_adimission' => Yii::t('default', 'Select Adimission'),
-            'booking_enrollment_self_declaredskin' => Yii::t('default', 'Self Declared Skin'),
-            'booking_enrollment_income' => Yii::t('default', 'Enrollment Icome'),
-            'booking_enrollment_public_school' => Yii::t('default', 'Enrollment Public School'),
-            'booking_enrollment_disabled_person' => Yii::t('default', 'Disable Person'),
-            'booking_enrollment_others' => Yii::t('default', 'Enrollment Other'),
-            'booking_enrollment_inexistent' => Yii::t('default', 'Enrollment Inexistent'),
-            'website' => Yii::t('default', 'Website or Blog'),
-            'community_integration' => Yii::t('default', 'Community Integration'),
-            'space_schoolenviroment' => Yii::t('default', 'Space School Enviroment'),
-            'ppp_updated' => Yii::t('default', 'PPP Updated'),
-            'board_organ_association_parent' => Yii::t('default', 'Association Parent'),
-            'board_organ_association_parentinstructors' => Yii::t('default', 'Association Parent Instructors'),
-            'board_organ_board_school' => Yii::t('default', 'Borad School'),
-            'board_organ_student_guild' => Yii::t('default', 'Student Guild'),
-            'board_organ_others' => Yii::t('default', 'Organ Others'),
-            'board_organ_inexistent' => Yii::t('default', 'Organ Inexistent'),
-            'provide_potable_water' => Yii::t('default', 'Provide Potable Water'),
-            'dependencies_student_repose_room' => Yii::t('default', 'Student Repose Room'),
-            'stages' => Yii::t('default', 'School Stages')
-        );
+            'sociocultural_didactic_material_native'     => Yii::t('default', 'Sociocultural Didactic Material Native'),
+            'native_education'                           => Yii::t('default', 'Native Education'),
+            'native_education_language_native'           => Yii::t('default', 'Native Education Language Native'),
+            'native_education_language_portuguese'       => Yii::t('default', 'Native Education Language Portuguese'),
+            'edcenso_native_languages_fk'                => Yii::t('default', 'Edcenso Native Languages Fk'),
+            'edcenso_native_languages_fk2'               => (Yii::t('default', 'Edcenso Native Languages Fk').' 2'),
+            'edcenso_native_languages_fk3'               => (Yii::t('default', 'Edcenso Native Languages Fk').' 3'),
+            'brazil_literate'                            => Yii::t('default', 'Brazil Literate'),
+            'open_weekend'                               => Yii::t('default', 'Open Weekend'),
+            'pedagogical_formation_by_alternance'        => Yii::t('default', 'Pedagogical Formation By Alternance'),
+            'building_otherschool'                       => Yii::t('default', 'Building Others School'),
+            'energy_supply_generator_alternative'        => Yii::t('default', 'Generator Alternative'),
+            'sewage_fossa_common'                        => Yii::t('default', 'Fossa Common'),
+            'garbage_destination_public'                 => Yii::t('default', 'Destination Public'),
+            'supply_food'                                => Yii::t('default', 'Food').' *',
+            'treatment_garbage_parting_garbage'          => Yii::t('default', 'Garbage Parting'),
+            'treatment_garbage_resuse'                   => Yii::t('default', 'Garbage Resuse'),
+            'traetment_garbage_inexistent'               => Yii::t('default', 'Garbage Inexistent'),
+            'dependencies_bathroom_workes'               => Yii::t('default', 'Bathroom Workes'),
+            'dependencies_pool'                          => Yii::t('default', 'Pool'),
+            'dependencies_arts_room'                     => Yii::t('default', 'Arts Room'),
+            'dependencies_music_room'                    => Yii::t('default', 'Music Room'),
+            'dependencies_dance_room'                    => Yii::t('default', 'Dance Room'),
+            'dependencies_multiuse_room'                 => Yii::t('default', 'Multiuse Room'),
+            'dependencies_yardzao'                       => Yii::t('default', 'Yardzao'),
+            'dependencies_vivarium'                      => Yii::t('default', 'Vivarium'),
+            'dependencies_outside_roomspublic'           => Yii::t('default', 'Outside Rooms Public'),
+            'dependencies_indoor_roomspublic'            => Yii::t('default', 'Indoor Rooms Public'),
+            'dependencies_climate_roomspublic'           => Yii::t('default', 'Climate Rooms Public'),
+            'dependencies_acessibility_roomspublic'      => Yii::t('default', 'Acessibility Rooms Public'),
+            'dependencies_reading_corners'               => Yii::t('default', 'Reading Room Count'),
+            'acessability_handrails_guardrails'          => Yii::t('default', 'Handrails Guardrails'),
+            'acessability_elevator'                      => Yii::t('default', 'Elevator'),
+            'acessability_tactile_floor'                 => Yii::t('default', 'Tactile Floor'),
+            'acessability_doors_80cm'                    => Yii::t('default', 'Doors 80'),
+            'acessability_ramps'                         => Yii::t('default', 'Ramps'),
+            'acessability_light_signaling'               => Yii::t('default', 'Light Signaling'),
+            'acessability_sound_signaling'               => Yii::t('default', 'Sound Signaling'),
+            'acessability_tactile_singnaling'            => Yii::t('default', 'Tactile Signaling'),
+            'acessability_visual_signaling'              => Yii::t('default', 'Visual Signaling'),
+            'acessabilty_inexistent'                     => Yii::t('default', 'Acessability Inexistent'),
+            'equipments_scanner'                         => Yii::t('default', 'Scanner'),
+            'equipments_qtd_blackboard'                  => Yii::t('default', 'Black Board'),
+            'equipments_qtd_notebookstudent'             => Yii::t('default', 'Notebook Student'),
+            'equipments_qtd_desktop'                     => Yii::t('default', 'Desktop'),
+            'equipments_qtd_tabletstudent'               => Yii::t('default', 'Tablet Student'),
+            'equipments_multimedia_collection'           => Yii::t('default', 'Multimedia Collection'),
+            'equipments_toys_early'                      => Yii::t('default', 'Toys Early'),
+            'equipments_scientific_materials'            => Yii::t('default', 'Scientific Materials'),
+            'equipments_equipment_amplification'         => Yii::t('default', 'Equipment Amplification'),
+            'equipments_garden_planting_agricultural'    => Yii::t('default', 'Garden Planting Agricultural Activities'),
+            'equipments_musical_instruments'             => Yii::t('default', 'Musical Instruments'),
+            'equipments_educational_games'               => Yii::t('default', 'Educational Games'),
+            'equipments_material_cultural'               => Yii::t('default', 'Equipments Material Cultural'),
+            'equipments_material_sports'                 => Yii::t('default', 'Equipments Material Sports'),
+            'equipments_material_teachingdeafs'          => Yii::t('default', 'Material Teaching Deafs'),
+            'equipments_material_teachingindian'         => Yii::t('default', 'Material Teaching Indian'),
+            'equipments_material_teachingethnic'         => Yii::t('default', 'Material Teaching Ethinic'),
+            'equipments_material_teachingrural'          => Yii::t('default', 'Material Teaching Rural'),
+            'equipments_material_teachingquilombola'     => Yii::t('default', 'Material Teaching Quilombola'),
+            'equipments_material_teachingspecial'        => Yii::t('default', 'Material Teaching Special'),
+            'internet_access_administrative'             => Yii::t('default', 'Internet Access Administrative'),
+            'internet_access_educative_process'          => Yii::t('default', 'Internet Access Educative'),
+            'internet_access_student'                    => Yii::t('default', 'Internet Access Student'),
+            'internet_access_community'                  => Yii::t('default', 'Internet Access Community'),
+            'internet_access_inexistent'                 => Yii::t('default', 'Internet Access Inexistent'),
+            'internet_access_connected_personaldevice'   => Yii::t('default', 'Internet Access Personal Devices'),
+            'internet_access_connected_desktop'          => Yii::t('default', 'Internet Access Desktop'),
+            'internet_access_broadband'                  => Yii::t('default', 'Internet Access Broadband'),
+            'internet_access_local_cable'                => Yii::t('default', 'Internet Access Cable'),
+            'internet_access_local_wireless'             => Yii::t('default', 'Internet Access Wireless'),
+            'internet_access_local_inexistet'            => Yii::t('default', 'Internet Access Inexistent'),
+            'workers_garden_planting_agricultural'       => Yii::t('default', 'Garden Planting Agricultural'),
+            'workers_administrative_assistant'           => Yii::t('default', 'Administrative Assistant'),
+            'workers_service_assistant'                  => Yii::t('default', 'Service Assistant'),
+            'workers_librarian'                          => Yii::t('default', 'Librarian'),
+            'workers_firefighter'                        => Yii::t('default', 'Firefighter'),
+            'workers_coordinator_shift'                  => Yii::t('default', 'Coordinator Shift'),
+            'workers_speech_therapist'                   => Yii::t('default', 'Speech Terapist'),
+            'workers_nutritionist'                       => Yii::t('default', 'Nutritionist'),
+            'workers_psychologist'                       => Yii::t('default', 'Psychologist'),
+            'workers_cooker'                             => Yii::t('default', 'Cooker'),
+            'workers_support_professionals'              => Yii::t('default', 'Suport Professional'),
+            'workers_school_secretary'                   => Yii::t('default', 'School Secretary'),
+            'workers_security_guards'                    => Yii::t('default', 'Security Gaurds'),
+            'workers_monitors'                           => Yii::t('default', 'Monitors'),
+            'workers_braille'                            => Yii::t('default', 'Braille'),
+            'org_teaching_series_year'                   => Yii::t('default', 'Series Year'),
+            'org_teaching_semester_periods'              => Yii::t('default', 'Semester Periods'),
+            'org_teaching_elementary_cycle'              => Yii::t('default', 'Elementary Cycle'),
+            'org_teaching_non_serialgroups'              => Yii::t('default', 'Non Serial Groups'),
+            'org_teaching_modules'                       => Yii::t('default', 'Teaching Modules'),
+            'org_teaching_regular_alternation'           => Yii::t('default', 'Regular Alternation'),
+            'select_adimission'                          => Yii::t('default', 'Select Adimission'),
+            'booking_enrollment_self_declaredskin'       => Yii::t('default', 'Self Declared Skin'),
+            'booking_enrollment_income'                  => Yii::t('default', 'Enrollment Icome'),
+            'booking_enrollment_public_school'           => Yii::t('default', 'Enrollment Public School'),
+            'booking_enrollment_disabled_person'         => Yii::t('default', 'Disable Person'),
+            'booking_enrollment_others'                  => Yii::t('default', 'Enrollment Other'),
+            'booking_enrollment_inexistent'              => Yii::t('default', 'Enrollment Inexistent'),
+            'website'                                    => Yii::t('default', 'Website or Blog'),
+            'community_integration'                      => Yii::t('default', 'Community Integration'),
+            'space_schoolenviroment'                     => Yii::t('default', 'Space School Enviroment'),
+            'ppp_updated'                                => Yii::t('default', 'PPP Updated'),
+            'board_organ_association_parent'             => Yii::t('default', 'Association Parent'),
+            'board_organ_association_parentinstructors'  => Yii::t('default', 'Association Parent Instructors'),
+            'board_organ_board_school'                   => Yii::t('default', 'Borad School'),
+            'board_organ_student_guild'                  => Yii::t('default', 'Student Guild'),
+            'board_organ_others'                         => Yii::t('default', 'Organ Others'),
+            'board_organ_inexistent'                     => Yii::t('default', 'Organ Inexistent'),
+            'provide_potable_water'                      => Yii::t('default', 'Provide Potable Water'),
+            'dependencies_student_repose_room'           => Yii::t('default', 'Student Repose Room'),
+            'stages'                                     => Yii::t('default', 'School Stages'),
+        ];
     }
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
+     *
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
     public function search()
@@ -637,7 +641,7 @@ class SchoolStructure extends AltActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria = new CDbCriteria;
+        $criteria = new CDbCriteria();
 
         $criteria->compare('register_type', $this->register_type, true);
         $criteria->compare('school_inep_id_fk', $this->school_inep_id_fk, true);
@@ -776,8 +780,8 @@ class SchoolStructure extends AltActiveRecord
         $criteria->compare('open_weekend', $this->open_weekend);
         $criteria->compare('pedagogical_formation_by_alternance', $this->pedagogical_formation_by_alternance);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, [
             'criteria' => $criteria,
-        ));
+        ]);
     }
 }

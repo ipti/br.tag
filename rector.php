@@ -6,19 +6,18 @@ use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
-
 return static function (RectorConfig $rectorConfig): void {
     // Define os caminhos onde o Rector irá atuar
     $rectorConfig->paths([
-        __DIR__ . '/app',
-        __DIR__ . '/tests',
-        __DIR__ . '/themes',
+        __DIR__.'/app',
+        __DIR__.'/tests',
+        __DIR__.'/themes',
     ]);
 
     $rectorConfig->skip([
-        __DIR__ . '/vendor',      // Diretório de pacotes do Composer
-        __DIR__ . '/app/vendor',      // Diretório de pacotes do Composer
-        __DIR__ . '/runtime',     // Diretório de cache ou arquivos temporários
+        __DIR__.'/vendor',      // Diretório de pacotes do Composer
+        __DIR__.'/app/vendor',      // Diretório de pacotes do Composer
+        __DIR__.'/runtime',     // Diretório de cache ou arquivos temporários
     ]);
 
     // Converte as anotações para atributos

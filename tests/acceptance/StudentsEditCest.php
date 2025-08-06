@@ -1,14 +1,14 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__ . "/../acceptance/StudentsCest.php";
-require_once __DIR__ . "/../robots/LoginRobots.php";
+require_once __DIR__.'/../acceptance/StudentsCest.php';
+require_once __DIR__.'/../robots/LoginRobots.php';
 class StudentsEditCest
 {
     public function _before(AcceptanceTester $tester)
     {
-        $user = "";
-        $secret = "";
+        $user = '';
+        $secret = '';
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
@@ -24,6 +24,7 @@ class StudentsEditCest
      * Editar estudantes, todos os campos.
      * Filiação - Pai e/ou mãe.
      * Dados Sociais - Modelo Novo.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function editWithMotherAndFather(AcceptanceTester $teste)
@@ -147,9 +148,9 @@ class StudentsEditCest
      * Editar estudantes, todos os campos.
      * Filiação - Não declarado/Ignorado.
      * Dados Sociais - Modelo Novo.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-
     public function editNewCivil(AcceptanceTester $teste)
     {
         sleep(5);
@@ -262,6 +263,7 @@ class StudentsEditCest
      * Editar estudantes, todos os campos.
      * Filiação - Pai e/ou mãe.
      * Dados Sociais - Modelo Antigo.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function editOldCivilWithMotherAndFather(AcceptanceTester $teste)
@@ -398,6 +400,7 @@ class StudentsEditCest
      * Editar estudantes, todos os campos.
      * Filiação - Não declarado/Ignorado.
      * Dados Sociais - Modelo Antigo.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function editOldCivil(AcceptanceTester $teste)
@@ -472,7 +475,6 @@ class StudentsEditCest
         $robots->postCensus();
         $robots->btn4Address();
         sleep(2);
-
 
         // residence
         $robots->stateAddress($dataStudent->studentDocument['edcenso_uf_fk']);

@@ -1,50 +1,43 @@
 <?php
 
-use Sentry\Tracing\TransactionContext;
+use Sentry\SentrySdk;
 /**
  * Controller is the customized base controller class.
  * All controller classes for this application should extend from this base class.
  */
 
-
- use Sentry\SentrySdk;
-
-use Sentry\State\Hub;
-use Sentry\Event;
+use Sentry\Tracing\TransactionContext;
 
 class Controller extends CController
 {
     /**
      * @var string the default layout for the controller view. Defaults to '//layouts/column1',
-     * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
+     *             meaning using a single column layout. See 'protected/views/layouts/column1.php'.
      */
     public $layout = '//layouts/column1';
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
      */
-    public $menu = array();
+    public $menu = [];
     /**
      * @var array the breadcrumbs of the current page. The value of this property will
-     * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
-     * for more details on how to specify this property.
+     *            be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
+     *            for more details on how to specify this property.
      */
-    public $breadcrumbs = array();
-
+    public $breadcrumbs = [];
 
     public function init()
     {
         parent::init();
 
-
         if (!Yii::app()->user->isGuest) {
-
-            $authTimeout = Yii::app()->user->getState("authTimeout", SESSION_MAX_LIFETIME);
+            $authTimeout = Yii::app()->user->getState('authTimeout', SESSION_MAX_LIFETIME);
             Yii::app()->user->authTimeout = $authTimeout;
 
             Yii::app()->sentry->setUserContext([
-                'id' => Yii::app()->user->loginInfos->id,
+                'id'       => Yii::app()->user->loginInfos->id,
                 'username' => Yii::app()->user->loginInfos->username,
-                'role' => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id)
+                'role'     => Yii::app()->authManager->getRoles(Yii::app()->user->loginInfos->id),
             ]);
         }
 
@@ -59,7 +52,7 @@ class Controller extends CController
     public function beforeAction($action)
     {
         $transaction = SentrySdk::getCurrentHub()->startTransaction(new TransactionContext(
-            Yii::app()->controller->id . '/' . $action->id,
+            Yii::app()->controller->id.'/'.$action->id,
         ));
 
         SentrySdk::getCurrentHub()->setSpan($transaction);
@@ -72,14 +65,17 @@ class Controller extends CController
 
                 if ($lastActivity !== null && (time() - $lastActivity > $timeout)) {
                     Yii::app()->user->logout();
+
                     return false;
                 }
             }
 
             // Atualiza a última atividade
             Yii::app()->user->setState('last_activity', time());
+
             return true;
         }
+
         return false;
     }
 
@@ -93,6 +89,4 @@ class Controller extends CController
 
         return parent::afterAction($action);
     }
-
-
 }

@@ -1,7 +1,7 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__."/../robots/LoginRobots.php";
+require_once __DIR__.'/../robots/LoginRobots.php';
 require_once __DIR__.'/../robots/StudentsRobots.php';
 require_once __DIR__.'/../providers/CustomProvider.php';
 require_once __DIR__.'/../builders/StudentBuilder.php';
@@ -10,8 +10,8 @@ class StudentsCest
 {
     public function _before(AcceptanceTester $tester)
     {
-        $user = "";
-        $secret = "";
+        $user = '';
+        $secret = '';
 
         $robots = new LoginRobots($tester);
         $robots->pageLogin();
@@ -25,7 +25,8 @@ class StudentsCest
 
     /**
      * Adicionar (rápido) estudantes, preenchendo apenas campos obrigatórios.
-     * Filiado - Não declarado/Ignorado
+     * Filiado - Não declarado/Ignorado.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function addStudentsRapidFieldsRequired(AcceptanceTester $teste)
@@ -46,28 +47,28 @@ class StudentsCest
         $robots->state($dataStudent->student['state']);
         sleep(2);
         $robots->city($dataStudent->student['city']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
         sleep(2);
 
         // filiation
         $robots->filiation($dataStudent->student['filiation_no_declared']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
         sleep(2);
 
         // address
         $robots->zone($dataStudent->studentDocument['residence_zone']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
         sleep(2);
 
         // matriculation
         $robots->btnAddMatriculation();
         sleep(2);
-        $robots ->btnProximo();
+        $robots->btnProximo();
 
         // health
         $robots->btnCriar();
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -75,7 +76,8 @@ class StudentsCest
 
     /**
      * Adicionar (rápido) estudantes, preenchendo apenas campos obrigatórios.
-     * Filiado - Pai e/ou Mãe
+     * Filiado - Pai e/ou Mãe.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function addStudentsRapidFieldsRequiredWithMotherAndFather(AcceptanceTester $teste)
@@ -96,7 +98,7 @@ class StudentsCest
         $robots->state($dataStudent->student['state']);
         sleep(2);
         $robots->city($dataStudent->student['city']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
         sleep(2);
 
         // filiation
@@ -118,30 +120,30 @@ class StudentsCest
 
         // address
         $robots->zone($dataStudent->studentDocument['residence_zone']);
-        $robots ->btnProximo();
+        $robots->btnProximo();
         sleep(2);
 
         // matriculation
         $robots->btnAddMatriculation();
         sleep(2);
-        $robots ->btnProximo();
+        $robots->btnProximo();
 
         // health
         $robots->btnCriar();
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
     }
 
-
     /**
      * Adicionar (rápido) estudantes, preenchendo todos os campos.
      * Filiação - Não declarado/Ignorado.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function addStudentsRapidAllFilledIn (AcceptanceTester $teste)
+    public function addStudentsRapidAllFilledIn(AcceptanceTester $teste)
     {
         sleep(5);
         $robots = new StudentsRobots($teste);
@@ -194,7 +196,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -203,9 +205,10 @@ class StudentsCest
     /**
      * Adicionar (normal) estudantes, preenchidos apenas campos obrigatórios.
      * Filiação - Pai e/ou mãe.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function addStudentsFieldsRequiredWithMotherAndFather (AcceptanceTester $teste)
+    public function addStudentsFieldsRequiredWithMotherAndFather(AcceptanceTester $teste)
     {
         sleep(5);
         $robots = new StudentsRobots($teste);
@@ -258,7 +261,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(12);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -267,6 +270,7 @@ class StudentsCest
     /**
      * Adicionar (normal) estudantes, preenchidos apenas campos obrigatórios.
      * Filiação - Não declarado/Ignorado.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function addStudentsFieldsRequired(AcceptanceTester $teste)
@@ -317,7 +321,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(12);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -325,9 +329,10 @@ class StudentsCest
 
     /**
      * Adicionar (normal) estudantes, não preenchido nenhum campo.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function fieldsNotFilledIn (AcceptanceTester $teste)
+    public function fieldsNotFilledIn(AcceptanceTester $teste)
     {
         //Data Students
         sleep(5);
@@ -343,7 +348,6 @@ class StudentsCest
         // social data
         $robots->btnProximo();
         sleep(2);
-
 
         // residence
         $robots->btnProximo();
@@ -370,9 +374,10 @@ class StudentsCest
      * Adicionar (normal) estudantes, preenchidos todos os campos.
      * Filiação - Pai e/ou mãe.
      * Dados Sociais - Modelo Novo.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function allFilledInNewCivilWithMotherAndFather (AcceptanceTester $teste)
+    public function allFilledInNewCivilWithMotherAndFather(AcceptanceTester $teste)
     {
         sleep(5);
         $robots = new StudentsRobots($teste);
@@ -471,7 +476,7 @@ class StudentsCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btnProximo();
         sleep(2);
 
@@ -484,7 +489,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -494,9 +499,10 @@ class StudentsCest
      * Adicionar (normal) estudantes, preenchidos todos os campos.
      * Filiação - Não declarado/Ignorado.
      * Dados Sociais - Modelo Novo.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function allFilledInNewCivil (AcceptanceTester $teste)
+    public function allFilledInNewCivil(AcceptanceTester $teste)
     {
         sleep(5);
         $robots = new StudentsRobots($teste);
@@ -582,7 +588,7 @@ class StudentsCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btnProximo();
         sleep(2);
 
@@ -595,7 +601,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -605,9 +611,10 @@ class StudentsCest
      * Adicionar (normal) estudantes, preenchidos todos os campos.
      * Filiação - Pai e/ou mãe.
      * Dados Sociais - Modelo Antigo.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function  allFilledInOldCivilWithMotherAndFather(AcceptanceTester $teste)
+    public function allFilledInOldCivilWithMotherAndFather(AcceptanceTester $teste)
     {
         sleep(5);
         $robots = new StudentsRobots($teste);
@@ -715,7 +722,7 @@ class StudentsCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btnProximo();
         sleep(2);
 
@@ -728,7 +735,7 @@ class StudentsCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
@@ -738,9 +745,10 @@ class StudentsCest
      * Adicionar (normal) estudantes, preenchidos todos os campos.
      * Filiação - Não declarado/Ignorado.
      * Dados Sociais - Modelo Antigo.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
-    public function  allFilledInOldCivil(AcceptanceTester $teste)
+    public function allFilledInOldCivil(AcceptanceTester $teste)
     {
         sleep(5);
         $robots = new StudentsRobots($teste);
@@ -805,7 +813,6 @@ class StudentsCest
         $robots->btnProximo();
         sleep(2);
 
-
         // residence
         $robots->stateAddress($dataStudent->studentDocument['edcenso_uf_fk']);
         $robots->cep($dataStudent->studentDocument['cep']);
@@ -837,7 +844,7 @@ class StudentsCest
         sleep(2);
         $robots->transportResponsable($dataStudent->studentEnrollment['transport_responsable_government']);
         $robots->typeTransport();
-	    $robots->typeOfService();
+        $robots->typeOfService();
         $robots->btnProximo();
         sleep(2);
 
@@ -850,10 +857,9 @@ class StudentsCest
         $robots->btnCriar();
         sleep(2);
 
-        $teste->see('O Cadastro de ' . $dataStudent->student['name'] . ' foi criado com sucesso!');
+        $teste->see('O Cadastro de '.$dataStudent->student['name'].' foi criado com sucesso!');
         $teste->canSeeInCurrentUrl('?r=student/index&');
 
         return $dataStudent;
     }
-
 }

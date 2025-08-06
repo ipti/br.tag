@@ -1,19 +1,20 @@
 <?php
+
 class Educacenso
 {
     private $registers = [];
 
     public function __construct()
     {
-        include __DIR__ . '/Register00.php';
-        include __DIR__ . '/Register10.php';
-        include __DIR__ . '/Register20.php';
-        include __DIR__ . '/Register30.php';
-        include __DIR__ . '/Register40.php';
-        include __DIR__ . '/Register50.php';
-        include __DIR__ . '/Register60.php';
-        include __DIR__ . '/Register99.php';
-        include __DIR__ . '/RegisterIdentification.php';
+        include __DIR__.'/Register00.php';
+        include __DIR__.'/Register10.php';
+        include __DIR__.'/Register20.php';
+        include __DIR__.'/Register30.php';
+        include __DIR__.'/Register40.php';
+        include __DIR__.'/Register50.php';
+        include __DIR__.'/Register60.php';
+        include __DIR__.'/Register99.php';
+        include __DIR__.'/RegisterIdentification.php';
     }
 
     private function register00($year)
@@ -31,9 +32,9 @@ class Educacenso
         $this->registers['20'] = Register20::export($year);
     }
 
-    private function register30($year,  $withoutCertificates)
+    private function register30($year, $withoutCertificates)
     {
-        $this->registers['30'] = Register30::export($year,  $withoutCertificates);
+        $this->registers['30'] = Register30::export($year, $withoutCertificates);
     }
 
     private function register40()
@@ -66,7 +67,7 @@ class Educacenso
         $this->register00($year);
         $this->register10($year);
         $this->register20($year);
-        $this->register30($year,  $withoutCertificates);
+        $this->register30($year, $withoutCertificates);
         $this->register40();
         $this->register50($year);
         $this->register60($year);
@@ -85,9 +86,7 @@ class Educacenso
 
     public function exportarIdentification()
     {
-
         $registerForIdentification = $this->registerIdentification();
-
 
         $lines = [];
         foreach ($registerForIdentification as $register) {

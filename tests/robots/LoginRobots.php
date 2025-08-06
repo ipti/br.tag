@@ -2,7 +2,6 @@
 
 class LoginRobots
 {
-
     public AcceptanceTester $tester;
 
     public function __construct(AcceptanceTester $tester)
@@ -12,6 +11,7 @@ class LoginRobots
 
     /**
      * Url da página de login.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function pageLogin()
@@ -21,24 +21,27 @@ class LoginRobots
 
     /**
      * Preencher campo de usuário da tela de login.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function fieldUser($user)
     {
-        $this->tester->fillField("#LoginForm_username", $user);
+        $this->tester->fillField('#LoginForm_username', $user);
     }
 
     /**
      * Preencher campo de senha da tela de login.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function fieldPassword($secret)
     {
-        $this->tester->fillField("#LoginForm_password", $secret);
+        $this->tester->fillField('#LoginForm_password', $secret);
     }
 
     /**
      * Botão de submeter o login (entrar).
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function submit()
@@ -48,11 +51,11 @@ class LoginRobots
 
     /**
      * Checkbox par relembrar as informações de login.
+     *
      * @author Evellyn Jade de Cerqueira Reis- <ti.jade@ipti.org.br>
      */
     public function rememberMe()
     {
         $this->tester->click('#remember');
     }
-
 }

@@ -1,11 +1,11 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once __DIR__ . '/../providers/CustomProvider.php';
+require_once __DIR__.'/../providers/CustomProvider.php';
 
-$yiit = __DIR__ . '\..\..\app\vendor\yiisoft\yii\framework\yiit.php';
-require_once($yiit);
-$config = __DIR__ . '/../../app/config/test.php';
+$yiit = __DIR__.'\..\..\app\vendor\yiisoft\yii\framework\yiit.php';
+require_once $yiit;
+$config = __DIR__.'/../../app/config/test.php';
 Yii::createWebApplication($config);
 
 /**
@@ -14,22 +14,20 @@ Yii::createWebApplication($config);
  * @property [] $instructorVariable
  * @property [] $instructorDocumentsAddress
  * @property Faker\Generator $faker
- * @property CustomProvider $fakerCustom
+ * @property CustomProvider  $fakerCustom
  */
 class InstructorBuilder
 {
-
     private $faker = null;
     private $fakerCustom = null;
 
-
     /**
-     * Summary of instructor
-     * @var $instructor
-     * @var $instructorVariable
-     * @var $instructorDocumentsAddress
+     * Summary of instructor.
+     *
+     * @var
+     * @var
+     * @var
      */
-
     public function __construct()
     {
         $this->faker = Faker\Factory::create('pt_BR');
@@ -49,15 +47,15 @@ class InstructorBuilder
         $this->instructor['edcenso_city_fk'] = '2800308';
         $this->instructor['nis'] = $this->fakerCustom->nisNumber();
         $this->instructor['birthday_date'] = $this->faker->date('d/m/Y');
-        $this->instructor['sex'] = $this->faker->randomElement(array(1, 2));
-        $this->instructor['color_race'] = $this->faker->randomElement(array(0, 1, 2, 3, 4, 5));
+        $this->instructor['sex'] = $this->faker->randomElement([1, 2]);
+        $this->instructor['color_race'] = $this->faker->randomElement([0, 1, 2, 3, 4, 5]);
         $this->instructor['filiation'] = '1';
         $this->instructor['filiation_1'] = $this->faker->name();
-        $this->instructorDocumentsAddress['address'] = "RUA " . $this->faker->name();
+        $this->instructorDocumentsAddress['address'] = 'RUA '.$this->faker->name();
         $this->instructorDocumentsAddress['address_number'] = $this->faker->buildingNumber();
-        $this->instructorDocumentsAddress['neighborhood'] = "Centro";
-        $this->instructorDocumentsAddress['diff_location'] = "7";
-        $this->instructorDocumentsAddress['area_of_residence'] = "1";
+        $this->instructorDocumentsAddress['neighborhood'] = 'Centro';
+        $this->instructorDocumentsAddress['diff_location'] = '7';
+        $this->instructorDocumentsAddress['area_of_residence'] = '1';
 
         return $this;
     }
