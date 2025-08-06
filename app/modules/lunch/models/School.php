@@ -9,7 +9,7 @@
  * @property Item[] $items
  * @property Menu[] $menus
  * @property array itemsAmount
-*/
+ */
 class School extends TagModel
 {
     public static function model($className = __CLASS__)
