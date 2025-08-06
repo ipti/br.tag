@@ -79,7 +79,6 @@ class FeaturesComponent extends CApplicationComponent
      */
     public function listAll()
     {
-
         return  InstanceConfig::model()->findAll("parameter_key LIKE '%FEAT_%'");
     }
 }

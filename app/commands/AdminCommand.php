@@ -32,7 +32,7 @@ class AdminCommand extends CConsoleCommand
                 @$fileNameBak = $dbname . '.json.bak';
                 $fileImportBak = fopen($fileNameBak, 'r');
 
-                if (!$fileImport  && !$fileImportBak ) {
+                if (!$fileImport && !$fileImportBak) {
                     echo "Exportando..\n";
                     $loads = $this->prepareExport();
                     // var_dump($loads['classroom']);exit;
