@@ -148,72 +148,7 @@ class AdminCommand extends CConsoleCommand
             }
         }
 
-        /*foreach ($loads['students'] as $i => $student) {
-            echo "Importando aluno". $student['name']."..\n";
-            $savestudent = new StudentIdentification();
-            $savestudent->setScenario('search');
-            $savestudent->setDb2Connection(true);
-            $savestudent->refreshMetaData();
-            $savestudent = $savestudent->findByAttributes(array('hash'=>$student['hash']));
-            if (!isset($savestudent)){
-                $savestudent = new StudentIdentification();
-                $savestudent->setScenario('search');
-                $savestudent->setDb2Connection(true);
-                $savestudent->refreshMetaData();
-            }
-            $savestudent->attributes = $student;
-            $savestudent->hash = $student['hash'];
-            $savestudent->save();
-            if(!empty($savestudent->errors)){
-                var_dump($savestudent->errors);exit;
-            }
 
-        }
-
-        foreach ($loads['documentsaddress'] as $i => $documentsaddress) {
-            echo "Importando aluno". $documentsaddress['hash']."..\n";
-            $savedocument = new StudentDocumentsAndAddress();
-            $savedocument->setScenario('search');
-            $savedocument->setDb2Connection(true);
-            $savedocument->refreshMetaData();
-            $savedocument = $savedocument->findByAttributes(array('hash'=>$documentsaddress['hash']));
-            if (!isset($exist)){
-                $savedocument = new StudentDocumentsAndAddress();
-                $savedocument->setScenario('search');
-                $savedocument->setDb2Connection(true);
-                $savedocument->refreshMetaData();
-            }
-            $savedocument->attributes = $documentsaddress;
-            $savedocument->hash = $documentsaddress['hash'];
-            $savedocument->save();
-            if(!empty($savedocument->errors)){
-                var_dump($savedocument->errors);exit;
-            }
-        }
-
-        foreach ($loads['enrollments'] as $index => $enrollment) {
-            echo "Importando matrícula". $enrollment['hash']."..\n";
-            $saveenrollment = new StudentEnrollment();
-            $saveenrollment->setScenario('search');
-            $saveenrollment->setDb2Connection(true);
-            $saveenrollment->refreshMetaData();
-            $saveenrollment = $saveenrollment->findByAttributes(array('hash'=>$enrollment['hash']));
-            if (!isset($saveenrollment)){
-                $saveenrollment = new StudentEnrollment();
-                $saveenrollment->setScenario('search');
-                $saveenrollment->setDb2Connection(true);
-                $saveenrollment->refreshMetaData();
-            }
-            $saveenrollment->attributes = $enrollment;
-            $saveenrollment->hash = $enrollment['hash'];
-            $saveenrollment->hash_classroom = $enrollment['hash_classroom'];
-            $saveenrollment->hash_student = $enrollment['hash_student'];
-            $saveenrollment->save();
-            if(!empty($saveenrollment->errors)){
-                    var_dump($saveenrollment->errors);exit;
-            }
-        }
-        */
         foreach ($loads['instructors'] as $instructor) {
             echo 'Importando Professor' . $instructor['name'] . "..\n";
             $saveinstructor = new InstructorIdentification();
@@ -360,7 +295,7 @@ class AdminCommand extends CConsoleCommand
                     $loads['documentsaddress'][$hash_student] = $idocs->findByPk($student->id)->attributes;
                     $loads['documentsaddress'][$hash_student]['hash'] = $hash_student;
                 }
-            }*/
+            }
             foreach ($teachAll as $teach) {
                 $hash_teach = hexdec(crc32($teach->name . $teach->birthday_date));
                 if (!isset($loads['instructors'][$hash_teach])) {
